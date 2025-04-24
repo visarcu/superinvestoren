@@ -1,35 +1,62 @@
 // src/app/page.tsx
+
 import Link from 'next/link'
 import Image from 'next/image'
-import { investors } from '../data/investors'
+import { investors, Investor } from '../data/investors'
+import { stocks, Stock } from '../data/stocks'
 import { aggregateBuysByTicker } from '../lib/aggregations'
 import { BuyDetails } from '../components/BuyDetails'
 
 export default function Home() {
-  const highlighted = ['buffett', 'ackman', 'burry', 'marks']
-  const others      = investors.filter(inv => !highlighted.includes(inv.slug))
-  const aggregated  = aggregateBuysByTicker(investors)
+  // 1. Hervorgehobene Investoren
+  const highlighted = ['buffett', 'ackman', 'burry']
+  const others = investors.filter(inv => !highlighted.includes(inv.slug))
+
+  // 2. Käufe aggregieren
+  const aggregated = aggregateBuysByTicker(investors)
+
+  // 3. Lookup für Ticker → Firmenname
+  const nameMap: Record<string, string> = {}
+  stocks.forEach((s: Stock) => {
+    nameMap[s.ticker] = s.name
+  })
+
+  // 4. Top 10 meistgehaltene Aktien berechnen
+  const ownershipCount: Record<string, number> = {}
+  investors.forEach((inv: Investor) =>
+    inv.holdings.forEach(h => {
+      ownershipCount[h.ticker] = (ownershipCount[h.ticker] || 0) + 1
+    })
+  )
+  const topOwned = Object.entries(ownershipCount)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 10)
+    .map(([ticker, count]) => ({ ticker, count }))
 
   return (
-    <main className="flex-grow max-w-5xl mx-auto p-4 sm:p-8">
+    <main className="flex-grow max-w-5xl mx-auto p-4 sm:p-8 space-y-12">
       {/* Titel & Tagline */}
-      <h1 className="text-4xl font-bold mb-2 text-center">SUPERINVESTOR</h1>
-      <p className="text-lg text-center text-gray-600 dark:text-gray-400 mb-8">
+      <h1 className="text-4xl font-bold text-center">SUPERINVESTOR</h1>
+      <p className="text-lg text-center text-gray-600 dark:text-gray-400">
         Superinvestoren bewegen Märkte und beeinflussen Regierungen.  
         Verschaffe dir einen Vorsprung, indem du siehst, was sie kaufen –  
         und finde deine nächste Millionen-Aktie.
       </p>
 
       {/* Highlight-Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {investors
           .filter(inv => highlighted.includes(inv.slug))
           .map(inv => (
             <Link
               key={inv.slug}
               href={`/investor/${inv.slug}`}
-              className={`relative block bg-white dark:bg-surface-dark rounded-2xl shadow hover:shadow-lg transition p-6 flex flex-col items-center
-                ${inv.slug === 'buffett' ? 'ring-4 ring-yellow-400' : ''}`}
+              className={`
+                relative block bg-white dark:bg-surface-dark
+                rounded-2xl shadow hover:shadow-lg transition
+                p-6 flex flex-col items-center
+                ${inv.slug === 'buffett' ? 'ring-4 ring-yellow-400' : ''}
+              `}
             >
               {inv.slug === 'buffett' && (
                 <span className="absolute top-3 right-3 text-yellow-400 text-2xl">
@@ -51,65 +78,84 @@ export default function Home() {
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                 {inv.holdings.length} Position
-                {investors.length !== 1 && 'en'}
+                {inv.holdings.length !== 1 && 'en'}
               </div>
             </Link>
           ))}
       </div>
 
-      {/* Zwei-Spalten: Liste links, Top-10 rechts */}
+      {/* Zweispaltiges Layout: Links Liste, rechts Tabellen */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Links: Weitere Investoren */}
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Weitere Investoren</h2>
-          <ul className="space-y-2 list-disc list-inside text-on-surface dark:text-white">
+        {/* Links: Weitere Investoren mit Datum */}
+        <section className="text-sm">
+          <h2 className="text-xl font-semibold mb-2">Weitere Investoren</h2>
+          <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
             {others.map(inv => (
-              <li key={inv.slug}>
-                <Link
-                  href={`/investor/${inv.slug}`}
-                  className="hover:underline text-lg text-gray-800 dark:text-gray-200"
-                >
+              <li key={inv.slug} className="flex justify-between">
+                <Link href={`/investor/${inv.slug}`} className="hover:underline">
                   {inv.name}
                 </Link>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  Aktualisiert am {inv.updatedAt}
+                </span>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* Rechts: Top-10-Käufe & Drill-Down */}
-        <section>
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl shadow p-4">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-base font-semibold">
-                Top 10 Käufe letztes Quartal
-              </span>
-              <div className="flex items-center space-x-1 text-sm text-green-600">
-                <span>(Q1 2025)</span>
-                <span className="text-gray-400 hover:text-gray-600 cursor-pointer">
-                  ℹ️
-                </span>
+        {/* Rechts: Zwei Tabellen nebeneinander */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Top 10 Käufe letztes Quartal */}
+          <section>
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col h-full">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold">Top 10 Käufe letztes Quartal</span>
+                <span className="text-xs text-green-600">(Q1 2025)</span>
               </div>
+              <ul className="space-y-1 flex-grow text-sm">
+                {aggregated.slice(0, 10).map(item => (
+                  <li key={item.ticker} className="text-gray-800 dark:text-gray-200">
+                    <Link
+                      href={`/aktie/${item.ticker.toLowerCase()}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {item.ticker} – {nameMap[item.ticker]}
+                    </Link>
+                    <span className="ml-1 text-gray-600">({item.count})</span>
+                  </li>
+                ))}
+              </ul>
+              <BuyDetails data={aggregated} />
             </div>
-            <ul className="space-y-1">
-              {aggregated.slice(0, 10).map(item => (
-                <li
-                  key={item.ticker}
-                  className="text-gray-800 dark:text-gray-200"
-                >
-                  <Link
-                    href={`/aktie/${item.ticker.toLowerCase()}`}
-                    className="font-medium text-blue-600 hover:underline"
+          </section>
+
+          {/* Top 10 Meistgehalten */}
+          <section>
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col h-full">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold">Top 10 Meistgehalten</span>
+                <span className="text-xs text-gray-400">ℹ️</span>
+              </div>
+              <ul className="space-y-1 text-sm">
+                {topOwned.map(o => (
+                  <li
+                    key={o.ticker}
+                    className="flex justify-between text-gray-800 dark:text-gray-200"
                   >
-                    {item.ticker}
-                  </Link>{' '}
-                  – {item.count} Superinvestoren
-                </li>
-              ))}
-            </ul>
-            {/* Collapse für alle Käufe */}
-            <BuyDetails data={aggregated} />
-          </div>
-        </section>
+                    <Link
+                      href={`/aktie/${o.ticker.toLowerCase()}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {o.ticker} – {nameMap[o.ticker]}
+                    </Link>
+                    <span className="text-gray-500">{o.count}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto text-center text-gray-400 select-none text-xs">▼</div>
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   )
