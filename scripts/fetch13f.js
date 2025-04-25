@@ -26,7 +26,6 @@ async function fetchTxt(url) {
 }
 
 async function run() {
-  // 0) Ausgabeverzeichnis anlegen
   const outDir = path.resolve('src/data/holdings')
   await fs.mkdir(outDir, { recursive: true })
 
@@ -35,7 +34,7 @@ async function run() {
       console.log(`→ Fetching submissions for ${slug} (CIK ${cik})`)
       const data = await fetchSubmissions(cik)
 
-      // 1) Erst die aktuellen filings aus „recent“
+      // 1) Filings sammeln (recent, ansonsten historisch)
       const forms   = data.filings?.recent?.form         || []
       const dates   = data.filings?.recent?.filingDate   || []
       const accNums = data.filings?.recent?.accessionNumber || []
@@ -49,7 +48,6 @@ async function run() {
         }))
         .filter(f => f.form === '13F-HR' || f.form === '13F-NT')
 
-      // 2) Fallback: wenn kein aktuelles Filing, dann alle historischen filings durchsuchen
       if (filings.length === 0 && Array.isArray(data.filings?.files)) {
         filings = data.filings.files
           .filter(f => f.form === '13F-HR' || f.form === '13F-NT')
@@ -59,6 +57,7 @@ async function run() {
             accession: f.accessionNumber,
             href: `https://www.sec.gov/Archives/edgar/data/${cik}/${f.accessionNumber.replace(/-/g,'')}/${f.accessionNumber}.txt`
           }))
+          // nach Datum absteigend
           .sort((a, b) => new Date(b.date) - new Date(a.date))
       }
 
@@ -67,41 +66,51 @@ async function run() {
         continue
       }
 
-      // 3) Aktuellstes Filing nehmen
+      // 2) Aktuellstes Filing
       const latest = filings[0]
       console.log(`  • Latest ${latest.form} vom ${latest.date}`)
       console.log(`  • URL: ${latest.href}`)
 
-      // 4) TXT laden und <informationTable> auslesen
+      // 3) TXT holen und <informationTable> extrahieren
       const raw = await fetchTxt(latest.href)
       const infoMatch = raw.match(/<informationTable\b[\s\S]*?<\/informationTable>/i)
       if (!infoMatch) {
         console.warn(` ⚠ Keine <informationTable> im TXT für ${slug}`)
         continue
       }
-      const xmlSnippet = `<root>${infoMatch[0]}</root>`
-      const parsed = await parseStringPromise(xmlSnippet, { explicitArray: false })
+      const xml = `<root>${infoMatch[0]}</root>`
+      const parsed = await parseStringPromise(xml, { explicitArray: false })
 
-      // 5) Einträge extrahieren
+      // 4) infoTable-Einträge holen
       const info = parsed.root.informationTable.infoTable
-      const positions = Array.isArray(info) ? info : [info]
-      const clean = positions.map(pos => ({
-        name:  pos.nameOfIssuer,
-        cusip: pos.cusip,
+      const items = Array.isArray(info) ? info : [info]
+
+      // 5) Einfaches Mapping (ohne *1000!)
+      const clean = items.map(pos => ({
+        name:   pos.nameOfIssuer,
+        cusip:  pos.cusip,
         shares: Number(pos.shrsOrPrnAmt.sshPrnamt.replace(/,/g, '')),
-        // value steht in Tsd. USD, wir multiplizieren, um auf USD zu kommen:
-        value: Number(pos.value.replace(/,/g, '')) * 1000,
+        value:  Number(pos.value.replace(/,/g, '')),
       }))
 
-      // 6) In JSON schreiben
-      const out = {
-        date: latest.date,
-        positions: clean,
-      }
+      // 6) Deduplizieren & aufsummieren je CUSIP
+      const grouped = Object.values(
+        clean.reduce((acc, p) => {
+          if (acc[p.cusip]) {
+            acc[p.cusip].shares += p.shares
+            acc[p.cusip].value  += p.value
+          } else {
+            acc[p.cusip] = { ...p }
+          }
+          return acc
+        }, /** @type {Record<string, typeof clean[0]>} */ ({}))
+      )
+
+      // 7) Ergebnis schreiben
+      const out = { date: latest.date, positions: grouped }
       const outPath = path.join(outDir, `${slug}.json`)
       await fs.writeFile(outPath, JSON.stringify(out, null, 2), 'utf-8')
-      console.log(`  → Written ${clean.length} Positions to ${outPath}\n`)
-
+      console.log(`  → Written ${grouped.length} unique Positions to ${outPath}\n`)
     } catch (err) {
       console.error(`✗ Fehler bei ${slug}:`, err.message)
     }

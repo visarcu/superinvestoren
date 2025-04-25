@@ -2,700 +2,244 @@
   "date": "2024-02-14",
   "positions": [
     {
+      "name": "DANIMER SCIENTIFIC INC",
+      "cusip": "236272100",
+      "shares": 2734580,
+      "value": 2789272
+    },
+    {
+      "name": "FIRST HORIZON CORPORATION",
+      "cusip": "320517105",
+      "shares": 1377090,
+      "value": 19499594
+    },
+    {
+      "name": "GRAPHIC PACKAGING HLDG CO",
+      "cusip": "388689101",
+      "shares": 2536100,
+      "value": 62514865
+    },
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 11404883,
+      "value": 592369623
+    },
+    {
+      "name": "GULFPORT ENERGY CORP",
+      "cusip": "402635502",
+      "shares": 222970,
+      "value": 29699604
+    },
+    {
+      "name": "KATAPULT HOLDINGS INC",
+      "cusip": "485859110",
+      "shares": 262227,
+      "value": 1940
+    },
+    {
+      "name": "NEW YORK CMNTY BANCORP INC",
+      "cusip": "649445103",
+      "shares": 1828730,
+      "value": 18707908
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 1552063,
+      "value": 65605702
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 268470,
+      "value": 2802826
+    },
+    {
       "name": "AERCAP HOLDINGS NV",
       "cusip": "N00985106",
-      "shares": 105090,
-      "value": 7810289000
-    },
-    {
-      "name": "AERCAP HOLDINGS NV",
-      "cusip": "N00985106",
-      "shares": 144910,
-      "value": 10769711000
+      "shares": 250000,
+      "value": 18580000
     },
     {
       "name": "ALIGHT INC",
       "cusip": "01626W101",
-      "shares": 3591990,
-      "value": 30639675000
-    },
-    {
-      "name": "ALIGHT INC",
-      "cusip": "01626W101",
-      "shares": 371270,
-      "value": 3166933000
-    },
-    {
-      "name": "ALIGHT INC",
-      "cusip": "01626W101",
-      "shares": 5224520,
-      "value": 44565156000
-    },
-    {
-      "name": "ALIGHT INC",
-      "cusip": "01626W101",
-      "shares": 53890,
-      "value": 459682000
+      "shares": 9241670,
+      "value": 78831446
     },
     {
       "name": "BRIGHTHOUSE FINL INC",
       "cusip": "10922N103",
-      "shares": 1639198,
-      "value": 86746358000
-    },
-    {
-      "name": "BRIGHTHOUSE FINL INC",
-      "cusip": "10922N103",
-      "shares": 181752,
-      "value": 9618316000
-    },
-    {
-      "name": "BRIGHTHOUSE FINL INC",
-      "cusip": "10922N103",
-      "shares": 769267,
-      "value": 40709610000
-    },
-    {
-      "name": "BRIGHTHOUSE FINL INC",
-      "cusip": "10922N103",
-      "shares": 453406,
-      "value": 23994246000
+      "shares": 3043623,
+      "value": 161068530
     },
     {
       "name": "CONSOL ENERGY INC NEW",
       "cusip": "20854L108",
-      "shares": 17427,
-      "value": 1751936000
-    },
-    {
-      "name": "CONSOL ENERGY INC NEW",
-      "cusip": "20854L108",
-      "shares": 343633,
-      "value": 34545425000
-    },
-    {
-      "name": "CONSOL ENERGY INC NEW",
-      "cusip": "20854L108",
-      "shares": 1067793,
-      "value": 107345230000
-    },
-    {
-      "name": "CONSOL ENERGY INC NEW",
-      "cusip": "20854L108",
-      "shares": 676724,
-      "value": 68031064000
+      "shares": 2105577,
+      "value": 211673655
     },
     {
       "name": "COYA THERAPEUTICS INC",
       "cusip": "22407B108",
-      "shares": 595163,
-      "value": 4410158000
-    },
-    {
-      "name": "COYA THERAPEUTICS INC",
-      "cusip": "22407B108",
-      "shares": 239101,
-      "value": 1771738000
-    },
-    {
-      "name": "COYA THERAPEUTICS INC",
-      "cusip": "22407B108",
-      "shares": 439762,
-      "value": 3258637000
-    },
-    {
-      "name": "DANIMER SCIENTIFIC INC",
-      "cusip": "236272100",
-      "shares": 365196,
-      "value": 372500000
-    },
-    {
-      "name": "DANIMER SCIENTIFIC INC",
-      "cusip": "236272100",
-      "shares": 1357936,
-      "value": 1385095000
-    },
-    {
-      "name": "DANIMER SCIENTIFIC INC",
-      "cusip": "236272100",
-      "shares": 977548,
-      "value": 997099000
-    },
-    {
-      "name": "DANIMER SCIENTIFIC INC",
-      "cusip": "236272100",
-      "shares": 33900,
-      "value": 34578000
+      "shares": 1274026,
+      "value": 9440533
     },
     {
       "name": "DHT HOLDINGS INC",
       "cusip": "Y2065G121",
-      "shares": 2084000,
-      "value": 20444040000
-    },
-    {
-      "name": "DHT HOLDINGS INC",
-      "cusip": "Y2065G121",
-      "shares": 1316730,
-      "value": 12917121000
-    },
-    {
-      "name": "DHT HOLDINGS INC",
-      "cusip": "Y2065G121",
-      "shares": 379150,
-      "value": 3719462000
+      "shares": 3779880,
+      "value": 37080623
     },
     {
       "name": "FIRST CTZNS BANCSHARES INC N",
       "cusip": "31946M103",
-      "shares": 12910,
-      "value": 18318903000
-    },
-    {
-      "name": "FIRST CTZNS BANCSHARES INC N",
-      "cusip": "31946M103",
-      "shares": 8430,
-      "value": 11961917000
-    },
-    {
-      "name": "FIRST CTZNS BANCSHARES INC N",
-      "cusip": "31946M103",
-      "shares": 3480,
-      "value": 4938016000
-    },
-    {
-      "name": "FIRST HORIZON CORPORATION",
-      "cusip": "320517105",
-      "shares": 474740,
-      "value": 6722318000
-    },
-    {
-      "name": "FIRST HORIZON CORPORATION",
-      "cusip": "320517105",
-      "shares": 659480,
-      "value": 9338237000
-    },
-    {
-      "name": "FIRST HORIZON CORPORATION",
-      "cusip": "320517105",
-      "shares": 242870,
-      "value": 3439039000
+      "shares": 24820,
+      "value": 35218836
     },
     {
       "name": "FIRST TR EXCHANGE-TRADED FD",
       "cusip": "33733E807",
-      "shares": 23070,
-      "value": 560370000
-    },
-    {
-      "name": "FIRST TR EXCHANGE-TRADED FD",
-      "cusip": "33733E807",
-      "shares": 26380,
-      "value": 640770000
-    },
-    {
-      "name": "FIRST TR EXCHANGE-TRADED FD",
-      "cusip": "33733E807",
-      "shares": 9090,
-      "value": 220796000
+      "shares": 58540,
+      "value": 1421936
     },
     {
       "name": "GAIN THERAPEUTICS INC",
       "cusip": "36269B105",
-      "shares": 253646,
-      "value": 828154000
-    },
-    {
-      "name": "GAIN THERAPEUTICS INC",
-      "cusip": "36269B105",
-      "shares": 260764,
-      "value": 851394000
-    },
-    {
-      "name": "GAIN THERAPEUTICS INC",
-      "cusip": "36269B105",
-      "shares": 74000,
-      "value": 241610000
+      "shares": 588410,
+      "value": 1921158
     },
     {
       "name": "GALAPAGOS NV",
       "cusip": "36315X101",
-      "shares": 56583,
-      "value": 2300099000
-    },
-    {
-      "name": "GALAPAGOS NV",
-      "cusip": "36315X101",
-      "shares": 20610,
-      "value": 837797000
-    },
-    {
-      "name": "GALAPAGOS NV",
-      "cusip": "36315X101",
-      "shares": 85385,
-      "value": 3470900000
+      "shares": 162578,
+      "value": 6608796
     },
     {
       "name": "GOPRO INC",
       "cusip": "38268T103",
-      "shares": 1029220,
-      "value": 3571393000
-    },
-    {
-      "name": "GOPRO INC",
-      "cusip": "38268T103",
-      "shares": 1429720,
-      "value": 4961128000
-    },
-    {
-      "name": "GOPRO INC",
-      "cusip": "38268T103",
-      "shares": 364160,
-      "value": 1263635000
-    },
-    {
-      "name": "GRAPHIC PACKAGING HLDG CO",
-      "cusip": "388689101",
-      "shares": 822616,
-      "value": 20277484000
-    },
-    {
-      "name": "GRAPHIC PACKAGING HLDG CO",
-      "cusip": "388689101",
-      "shares": 428590,
-      "value": 10564744000
-    },
-    {
-      "name": "GRAPHIC PACKAGING HLDG CO",
-      "cusip": "388689101",
-      "shares": 1284894,
-      "value": 31672637000
-    },
-    {
-      "name": "GREEN BRICK PARTNERS INC",
-      "cusip": "392709101",
-      "shares": 834545,
-      "value": 43346267000
-    },
-    {
-      "name": "GREEN BRICK PARTNERS INC",
-      "cusip": "392709101",
-      "shares": 7830148,
-      "value": 406697887000
-    },
-    {
-      "name": "GREEN BRICK PARTNERS INC",
-      "cusip": "392709101",
-      "shares": 2740190,
-      "value": 142325469000
-    },
-    {
-      "name": "GULFPORT ENERGY CORP",
-      "cusip": "402635502",
-      "shares": 72520,
-      "value": 9659664000
-    },
-    {
-      "name": "GULFPORT ENERGY CORP",
-      "cusip": "402635502",
-      "shares": 39320,
-      "value": 5237424000
-    },
-    {
-      "name": "GULFPORT ENERGY CORP",
-      "cusip": "402635502",
-      "shares": 111130,
-      "value": 14802516000
+      "shares": 2823100,
+      "value": 9796156
     },
     {
       "name": "HERC HLDGS INC",
       "cusip": "42704L104",
-      "shares": 64898,
-      "value": 9662663000
-    },
-    {
-      "name": "HERC HLDGS INC",
-      "cusip": "42704L104",
-      "shares": 23920,
-      "value": 3561449000
-    },
-    {
-      "name": "HERC HLDGS INC",
-      "cusip": "42704L104",
-      "shares": 46792,
-      "value": 6966861000
+      "shares": 135610,
+      "value": 20190973
     },
     {
       "name": "INVESCO ACTVELY MNGD ETC FD",
       "cusip": "46090F100",
-      "shares": 15070,
-      "value": 200431000
-    },
-    {
-      "name": "INVESCO ACTVELY MNGD ETC FD",
-      "cusip": "46090F100",
-      "shares": 38230,
-      "value": 508459000
-    },
-    {
-      "name": "INVESCO ACTVELY MNGD ETC FD",
-      "cusip": "46090F100",
-      "shares": 43690,
-      "value": 581077000
+      "shares": 96990,
+      "value": 1289967
     },
     {
       "name": "INVESCO EXCHANGE TRADED FD T",
       "cusip": "46137V100",
-      "shares": 31260,
-      "value": 2880922000
-    },
-    {
-      "name": "INVESCO EXCHANGE TRADED FD T",
-      "cusip": "46137V100",
-      "shares": 94121,
-      "value": 8674191000
-    },
-    {
-      "name": "INVESCO EXCHANGE TRADED FD T",
-      "cusip": "46137V100",
-      "shares": 60140,
-      "value": 5542502000
-    },
-    {
-      "name": "KATAPULT HOLDINGS INC",
-      "cusip": "485859110",
-      "shares": 102880,
-      "value": 761000
-    },
-    {
-      "name": "KATAPULT HOLDINGS INC",
-      "cusip": "485859110",
-      "shares": 35600,
-      "value": 263000
-    },
-    {
-      "name": "KATAPULT HOLDINGS INC",
-      "cusip": "485859110",
-      "shares": 123747,
-      "value": 916000
+      "shares": 185521,
+      "value": 17097615
     },
     {
       "name": "KENVUE INC",
       "cusip": "49177J102",
-      "shares": 231650,
-      "value": 4987425000
-    },
-    {
-      "name": "KENVUE INC",
-      "cusip": "49177J102",
-      "shares": 322840,
-      "value": 6950745000
+      "shares": 554490,
+      "value": 11938170
     },
     {
       "name": "KYNDRYL HLDGS INC",
       "cusip": "50155Q100",
-      "shares": 3354975,
-      "value": 69716381000
-    },
-    {
-      "name": "KYNDRYL HLDGS INC",
-      "cusip": "50155Q100",
-      "shares": 921284,
-      "value": 19144282000
-    },
-    {
-      "name": "KYNDRYL HLDGS INC",
-      "cusip": "50155Q100",
-      "shares": 2079810,
-      "value": 43218452000
+      "shares": 6356069,
+      "value": 132079115
     },
     {
       "name": "LIVANOVA PLC",
       "cusip": "G5509L101",
-      "shares": 209390,
-      "value": 10833839000
-    },
-    {
-      "name": "LIVANOVA PLC",
-      "cusip": "G5509L101",
-      "shares": 622294,
-      "value": 32197492000
-    },
-    {
-      "name": "LIVANOVA PLC",
-      "cusip": "G5509L101",
-      "shares": 397632,
-      "value": 20573480000
+      "shares": 1229316,
+      "value": 63604811
     },
     {
       "name": "NET POWER INC",
       "cusip": "64107A105",
-      "shares": 973171,
-      "value": 9829027000
-    },
-    {
-      "name": "NET POWER INC",
-      "cusip": "64107A105",
-      "shares": 1491235,
-      "value": 15061474000
-    },
-    {
-      "name": "NET POWER INC",
-      "cusip": "64107A105",
-      "shares": 527704,
-      "value": 5329810000
+      "shares": 2992110,
+      "value": 30220311
     },
     {
       "name": "NEUBASE THERAPEUTICS INC",
       "cusip": "64132K201",
-      "shares": 63579,
-      "value": 47055000
-    },
-    {
-      "name": "NEUBASE THERAPEUTICS INC",
-      "cusip": "64132K201",
-      "shares": 54731,
-      "value": 40506000
-    },
-    {
-      "name": "NEUBASE THERAPEUTICS INC",
-      "cusip": "64132K201",
-      "shares": 18040,
-      "value": 13351000
-    },
-    {
-      "name": "NEW YORK CMNTY BANCORP INC",
-      "cusip": "649445103",
-      "shares": 350980,
-      "value": 3590525000
-    },
-    {
-      "name": "NEW YORK CMNTY BANCORP INC",
-      "cusip": "649445103",
-      "shares": 859220,
-      "value": 8789821000
-    },
-    {
-      "name": "NEW YORK CMNTY BANCORP INC",
-      "cusip": "649445103",
-      "shares": 618530,
-      "value": 6327562000
+      "shares": 136350,
+      "value": 100912
     },
     {
       "name": "NUVATION BIO INC",
       "cusip": "67080N101",
       "shares": 34995,
-      "value": 52842000
+      "value": 52842
     },
     {
       "name": "NUVATION BIO INC",
       "cusip": "67080N119",
       "shares": 100000,
-      "value": 6000000
+      "value": 6000
     },
     {
       "name": "SEADRILL 2021 LTD",
       "cusip": "G7997W102",
-      "shares": 184125,
-      "value": 8705430000
-    },
-    {
-      "name": "SEADRILL 2021 LTD",
-      "cusip": "G7997W102",
-      "shares": 73280,
-      "value": 3464678000
-    },
-    {
-      "name": "SEADRILL 2021 LTD",
-      "cusip": "G7997W102",
-      "shares": 286530,
-      "value": 13547138000
+      "shares": 543935,
+      "value": 25717246
     },
     {
       "name": "SOTERA HEALTH CO",
       "cusip": "83601L102",
-      "shares": 133531,
-      "value": 2249997000
-    },
-    {
-      "name": "SOTERA HEALTH CO",
-      "cusip": "83601L102",
-      "shares": 131500,
-      "value": 2215775000
-    },
-    {
-      "name": "SOTERA HEALTH CO",
-      "cusip": "83601L102",
-      "shares": 71939,
-      "value": 1212172000
+      "shares": 336970,
+      "value": 5677944
     },
     {
       "name": "SPDR GOLD TR",
       "cusip": "78463V107",
-      "shares": 218161,
-      "value": 41705838000
-    },
-    {
-      "name": "SPDR GOLD TR",
-      "cusip": "78463V107",
-      "shares": 137523,
-      "value": 26290272000
-    },
-    {
-      "name": "SPDR GOLD TR",
-      "cusip": "78463V107",
-      "shares": 31260,
-      "value": 5975974000
+      "shares": 386944,
+      "value": 73972084
     },
     {
       "name": "SPDR SER TR",
       "cusip": "78464A631",
-      "shares": 65787,
-      "value": 8908876000
-    },
-    {
-      "name": "SPDR SER TR",
-      "cusip": "78464A631",
-      "shares": 21850,
-      "value": 2958927000
-    },
-    {
-      "name": "SPDR SER TR",
-      "cusip": "78464A631",
-      "shares": 42030,
-      "value": 5691703000
+      "shares": 129667,
+      "value": 17559506
     },
     {
       "name": "TALIS BIOMEDICAL CORP",
       "cusip": "87424L207",
-      "shares": 19436,
-      "value": 144798000
-    },
-    {
-      "name": "TALIS BIOMEDICAL CORP",
-      "cusip": "87424L207",
-      "shares": 59500,
-      "value": 443275000
-    },
-    {
-      "name": "TALIS BIOMEDICAL CORP",
-      "cusip": "87424L207",
-      "shares": 70116,
-      "value": 522364000
-    },
-    {
-      "name": "TECK RESOURCES LTD",
-      "cusip": "878742204",
-      "shares": 273730,
-      "value": 11570567000
-    },
-    {
-      "name": "TECK RESOURCES LTD",
-      "cusip": "878742204",
-      "shares": 504798,
-      "value": 21337811000
-    },
-    {
-      "name": "TECK RESOURCES LTD",
-      "cusip": "878742204",
-      "shares": 773535,
-      "value": 32697324000
+      "shares": 149052,
+      "value": 1110437
     },
     {
       "name": "TENET HEALTHCARE CORP",
       "cusip": "88033G407",
-      "shares": 204097,
-      "value": 15423610000
-    },
-    {
-      "name": "TENET HEALTHCARE CORP",
-      "cusip": "88033G407",
-      "shares": 425642,
-      "value": 32165766000
-    },
-    {
-      "name": "TENET HEALTHCARE CORP",
-      "cusip": "88033G407",
-      "shares": 686231,
-      "value": 51858477000
-    },
-    {
-      "name": "TEVA PHARMACEUTICAL INDS LTD",
-      "cusip": "881624209",
-      "shares": 110960,
-      "value": 1158422000
-    },
-    {
-      "name": "TEVA PHARMACEUTICAL INDS LTD",
-      "cusip": "881624209",
-      "shares": 157510,
-      "value": 1644404000
+      "shares": 1315970,
+      "value": 99447853
     },
     {
       "name": "THE ODP CORP",
       "cusip": "88337F105",
-      "shares": 880483,
-      "value": 49571193000
-    },
-    {
-      "name": "THE ODP CORP",
-      "cusip": "88337F105",
-      "shares": 298601,
-      "value": 16811236000
-    },
-    {
-      "name": "THE ODP CORP",
-      "cusip": "88337F105",
-      "shares": 569016,
-      "value": 32035601000
+      "shares": 1748100,
+      "value": 98418030
     },
     {
       "name": "VANECK ETF TRUST",
       "cusip": "92189H607",
-      "shares": 1080,
-      "value": 334282000
-    },
-    {
-      "name": "VANECK ETF TRUST",
-      "cusip": "92189H607",
-      "shares": 3240,
-      "value": 1002845000
-    },
-    {
-      "name": "VANECK ETF TRUST",
-      "cusip": "92189H607",
-      "shares": 4950,
-      "value": 1532124000
+      "shares": 9270,
+      "value": 2869251
     },
     {
       "name": "VIATRIS INC",
       "cusip": "92556V106",
-      "shares": 1968520,
-      "value": 21319072000
-    },
-    {
-      "name": "VIATRIS INC",
-      "cusip": "92556V106",
-      "shares": 1387250,
-      "value": 15023918000
+      "shares": 3355770,
+      "value": 36342990
     },
     {
       "name": "WEATHERFORD INTL PLC",
       "cusip": "G48833118",
-      "shares": 227562,
-      "value": 22262390000
-    },
-    {
-      "name": "WEATHERFORD INTL PLC",
-      "cusip": "G48833118",
-      "shares": 80530,
-      "value": 7878250000
-    },
-    {
-      "name": "WEATHERFORD INTL PLC",
-      "cusip": "G48833118",
-      "shares": 148513,
-      "value": 14529027000
+      "shares": 456605,
+      "value": 44669667
     }
   ]
 }
