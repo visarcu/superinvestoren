@@ -1,0 +1,794 @@
+[
+  {
+    "form": "13F-HR",
+    "date": "2025-02-12",
+    "accession": "0000860643-25-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064325000001/0000860643-25-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2024-11-13",
+    "accession": "0000860643-24-000007",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064324000007/0000860643-24-000007.txt"
+  },
+  {
+    "form": "N-PX",
+    "date": "2024-08-14",
+    "accession": "0000860643-24-000006",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064324000006/0000860643-24-000006.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2024-08-13",
+    "accession": "0000860643-24-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064324000004/0000860643-24-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2024-05-14",
+    "accession": "0000860643-24-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064324000003/0000860643-24-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2024-02-13",
+    "accession": "0000860643-24-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064324000001/0000860643-24-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2023-11-14",
+    "accession": "0000860643-23-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064323000005/0000860643-23-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2023-08-11",
+    "accession": "0000860643-23-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064323000004/0000860643-23-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2023-05-11",
+    "accession": "0000860643-23-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064323000003/0000860643-23-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2023-02-13",
+    "accession": "0000860643-23-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064323000001/0000860643-23-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2022-11-10",
+    "accession": "0000860643-22-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064322000004/0000860643-22-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2022-08-04",
+    "accession": "0000860643-22-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064322000003/0000860643-22-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2022-05-12",
+    "accession": "0000860643-22-000002",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064322000002/0000860643-22-000002.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2022-02-10",
+    "accession": "0000860643-22-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064322000001/0000860643-22-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2021-11-15",
+    "accession": "0000860643-21-000006",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064321000006/0000860643-21-000006.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2021-08-12",
+    "accession": "0000860643-21-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064321000005/0000860643-21-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2021-05-12",
+    "accession": "0000860643-21-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064321000004/0000860643-21-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2021-02-11",
+    "accession": "0000860643-21-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064321000001/0000860643-21-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2020-11-12",
+    "accession": "0000860643-20-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064320000005/0000860643-20-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2020-08-14",
+    "accession": "0000860643-20-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064320000004/0000860643-20-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2020-05-13",
+    "accession": "0000860643-20-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064320000003/0000860643-20-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2020-02-11",
+    "accession": "0000860643-20-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064320000001/0000860643-20-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2019-11-13",
+    "accession": "0000860643-19-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064319000005/0000860643-19-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2019-08-13",
+    "accession": "0000860643-19-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064319000004/0000860643-19-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2019-05-15",
+    "accession": "0000860643-19-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064319000003/0000860643-19-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2019-02-13",
+    "accession": "0000860643-19-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064319000001/0000860643-19-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2018-11-13",
+    "accession": "0000860643-18-000006",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064318000006/0000860643-18-000006.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2018-08-13",
+    "accession": "0000860643-18-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064318000004/0000860643-18-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2018-05-11",
+    "accession": "0000860643-18-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064318000003/0000860643-18-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2018-02-14",
+    "accession": "0000860643-18-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064318000001/0000860643-18-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2017-11-14",
+    "accession": "0000860643-17-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064317000005/0000860643-17-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2017-08-14",
+    "accession": "0000860643-17-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064317000004/0000860643-17-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2017-05-11",
+    "accession": "0000860643-17-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064317000003/0000860643-17-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2017-02-13",
+    "accession": "0000860643-17-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064317000001/0000860643-17-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2016-11-14",
+    "accession": "0000860643-16-000010",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064316000010/0000860643-16-000010.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2016-08-12",
+    "accession": "0000860643-16-000009",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064316000009/0000860643-16-000009.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2016-05-12",
+    "accession": "0000860643-16-000008",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064316000008/0000860643-16-000008.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2016-02-11",
+    "accession": "0000860643-16-000006",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064316000006/0000860643-16-000006.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2015-11-12",
+    "accession": "0000860643-15-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064315000005/0000860643-15-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2015-08-11",
+    "accession": "0000860643-15-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064315000004/0000860643-15-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2015-05-14",
+    "accession": "0000860643-15-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064315000003/0000860643-15-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2015-02-12",
+    "accession": "0000860643-15-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064315000001/0000860643-15-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2014-11-13",
+    "accession": "0000860643-14-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064314000005/0000860643-14-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2014-08-13",
+    "accession": "0000860643-14-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064314000004/0000860643-14-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2014-05-13",
+    "accession": "0000860643-14-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064314000003/0000860643-14-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2014-02-12",
+    "accession": "0000860643-14-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064314000001/0000860643-14-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2013-11-14",
+    "accession": "0000860643-13-000008",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064313000008/0000860643-13-000008.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2013-08-13",
+    "accession": "0000860643-13-000007",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064313000007/0000860643-13-000007.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2013-04-17",
+    "accession": "0000860643-13-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064313000003/0000860643-13-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2013-01-30",
+    "accession": "0000860643-13-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064313000001/0000860643-13-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2012-11-08",
+    "accession": "0000860643-12-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064312000004/0000860643-12-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2012-07-30",
+    "accession": "0000860643-12-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064312000003/0000860643-12-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2012-05-10",
+    "accession": "0000860643-12-000002",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064312000002/0000860643-12-000002.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2012-02-03",
+    "accession": "0000860643-12-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064312000001/0000860643-12-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2011-11-10",
+    "accession": "0000860643-11-000006",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064311000006/0000860643-11-000006.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2011-07-29",
+    "accession": "0000860643-11-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064311000005/0000860643-11-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2011-05-05",
+    "accession": "0000860643-11-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064311000004/0000860643-11-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2011-02-10",
+    "accession": "0000860643-11-000001",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064311000001/0000860643-11-000001.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2010-10-26",
+    "accession": "0000860643-10-000006",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064310000006/0000860643-10-000006.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2010-07-30",
+    "accession": "0000860643-10-000005",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064310000005/0000860643-10-000005.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2010-05-05",
+    "accession": "0000860643-10-000004",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064310000004/0000860643-10-000004.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2010-02-05",
+    "accession": "0000860643-10-000003",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000086064310000003/0000860643-10-000003.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2009-11-16",
+    "accession": "0000919574-09-016200",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957409016200/0000919574-09-016200.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2009-08-14",
+    "accession": "0000919574-09-014706",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957409014706/0000919574-09-014706.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2009-05-15",
+    "accession": "0000919574-09-010507",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957409010507/0000919574-09-010507.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2009-03-27",
+    "accession": "0000919574-09-007895",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957409007895/0000919574-09-007895.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2009-02-17",
+    "accession": "0000919574-09-003351",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957409003351/0000919574-09-003351.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2009-02-17",
+    "accession": "0000919574-09-003344",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957409003344/0000919574-09-003344.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2009-02-17",
+    "accession": "0000919574-09-003241",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957409003241/0000919574-09-003241.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2008-11-14",
+    "accession": "0000919574-08-008154",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957408008154/0000919574-08-008154.txt"
+  },
+  {
+    "form": "13F-HR/A",
+    "date": "2008-08-25",
+    "accession": "0000919574-08-004851",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957408004851/0000919574-08-004851.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2008-08-14",
+    "accession": "0000919574-08-004521",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957408004521/0000919574-08-004521.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2008-05-15",
+    "accession": "0000919574-08-003132",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957408003132/0000919574-08-003132.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2008-02-14",
+    "accession": "0000919574-08-001313",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957408001313/0000919574-08-001313.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2008-02-11",
+    "accession": "0000919574-08-000695",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957408000695/0000919574-08-000695.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2008-02-11",
+    "accession": "0000919574-08-000693",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957408000693/0000919574-08-000693.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2007-11-14",
+    "accession": "0000919574-07-005241",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957407005241/0000919574-07-005241.txt"
+  },
+  {
+    "form": "13F-HR/A",
+    "date": "2007-08-15",
+    "accession": "0000919574-07-004125",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957407004125/0000919574-07-004125.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2007-08-14",
+    "accession": "0000919574-07-003850",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957407003850/0000919574-07-003850.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2007-05-15",
+    "accession": "0000919574-07-002619",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957407002619/0000919574-07-002619.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2007-02-14",
+    "accession": "0000919574-07-000894",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957407000894/0000919574-07-000894.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2007-02-12",
+    "accession": "0000919574-07-000571",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957407000571/0000919574-07-000571.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2007-02-12",
+    "accession": "0000919574-07-000561",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957407000561/0000919574-07-000561.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2006-11-14",
+    "accession": "0000919574-06-004548",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406004548/0000919574-06-004548.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2006-08-14",
+    "accession": "0000919574-06-003259",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406003259/0000919574-06-003259.txt"
+  },
+  {
+    "form": "13F-HR/A",
+    "date": "2006-05-25",
+    "accession": "0000919574-06-002553",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406002553/0000919574-06-002553.txt"
+  },
+  {
+    "form": "13F-HR/A",
+    "date": "2006-05-25",
+    "accession": "0000919574-06-002551",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406002551/0000919574-06-002551.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2006-05-12",
+    "accession": "0000919574-06-002204",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406002204/0000919574-06-002204.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2006-05-12",
+    "accession": "0000919574-06-002198",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406002198/0000919574-06-002198.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2006-02-23",
+    "accession": "0000919574-06-001474",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406001474/0000919574-06-001474.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2006-02-14",
+    "accession": "0000919574-06-001213",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406001213/0000919574-06-001213.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2006-02-14",
+    "accession": "0000919574-06-001191",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406001191/0000919574-06-001191.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2006-02-07",
+    "accession": "0000919574-06-000360",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957406000360/0000919574-06-000360.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2005-11-14",
+    "accession": "0000919574-05-003806",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957405003806/0000919574-05-003806.txt"
+  },
+  {
+    "form": "13F-HR/A",
+    "date": "2005-09-01",
+    "accession": "0000919574-05-003180",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957405003180/0000919574-05-003180.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2005-08-11",
+    "accession": "0000919574-05-002604",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957405002604/0000919574-05-002604.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2005-05-16",
+    "accession": "0000919574-05-001938",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957405001938/0000919574-05-001938.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2005-02-14",
+    "accession": "0000919574-05-000749",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957405000749/0000919574-05-000749.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2005-02-14",
+    "accession": "0000919574-05-000747",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957405000747/0000919574-05-000747.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2005-02-14",
+    "accession": "0000919574-05-000724",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957405000724/0000919574-05-000724.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2004-11-15",
+    "accession": "0000919574-04-003367",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957404003367/0000919574-04-003367.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2004-08-16",
+    "accession": "0000919574-04-002380",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957404002380/0000919574-04-002380.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2004-05-14",
+    "accession": "0000919574-04-001568",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957404001568/0000919574-04-001568.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2004-02-17",
+    "accession": "0000919574-04-000818",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957404000818/0000919574-04-000818.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2004-02-17",
+    "accession": "0000919574-04-000638",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957404000638/0000919574-04-000638.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2003-11-13",
+    "accession": "0000919574-03-002243",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957403002243/0000919574-03-002243.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2003-08-14",
+    "accession": "0000919574-03-001606",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957403001606/0000919574-03-001606.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2003-05-14",
+    "accession": "0000919574-03-001096",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957403001096/0000919574-03-001096.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2003-02-14",
+    "accession": "0000919574-03-000487",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957403000487/0000919574-03-000487.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2003-02-12",
+    "accession": "0000919574-03-000268",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957403000268/0000919574-03-000268.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2002-10-30",
+    "accession": "0000919574-02-001732",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957402001732/0000919574-02-001732.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2002-08-09",
+    "accession": "0000919574-02-001325",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957402001325/0000919574-02-001325.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2002-05-13",
+    "accession": "0000919574-02-000971",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957402000971/0000919574-02-000971.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2002-02-08",
+    "accession": "0000919574-02-000242",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957402000242/0000919574-02-000242.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2002-02-06",
+    "accession": "0000919574-02-000178",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957402000178/0000919574-02-000178.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2001-11-01",
+    "accession": "0000919574-01-501070",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957401501070/0000919574-01-501070.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2001-07-24",
+    "accession": "0000919574-01-500608",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957401500608/0000919574-01-500608.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2001-04-20",
+    "accession": "0000919574-01-500132",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957401500132/0000919574-01-500132.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2001-03-14",
+    "accession": "0000919574-01-000391",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957401000391/0000919574-01-000391.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2001-02-13",
+    "accession": "0000919574-01-000143",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957401000143/0000919574-01-000143.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2000-11-14",
+    "accession": "0000919574-00-000996",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957400000996/0000919574-00-000996.txt"
+  },
+  {
+    "form": "13F-HR/A",
+    "date": "2000-10-19",
+    "accession": "0000919574-00-000835",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957400000835/0000919574-00-000835.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2000-08-14",
+    "accession": "0000919574-00-000722",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957400000722/0000919574-00-000722.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2000-05-08",
+    "accession": "0000919574-00-000543",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957400000543/0000919574-00-000543.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2000-02-24",
+    "accession": "0000919574-00-000362",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957400000362/0000919574-00-000362.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "2000-02-11",
+    "accession": "0000919574-00-000195",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957400000195/0000919574-00-000195.txt"
+  },
+  {
+    "form": "SC 13G/A",
+    "date": "2000-01-25",
+    "accession": "0000919574-00-000054",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957400000054/0000919574-00-000054.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "1999-11-04",
+    "accession": "0000919574-99-001243",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957499001243/0000919574-99-001243.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "1999-08-16",
+    "accession": "0000919574-99-000954",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957499000954/0000919574-99-000954.txt"
+  },
+  {
+    "form": "13F-HR/A",
+    "date": "1999-06-10",
+    "accession": "0000919574-99-000805",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957499000805/0000919574-99-000805.txt"
+  },
+  {
+    "form": "13F-HR",
+    "date": "1999-06-08",
+    "accession": "0000919574-99-000800",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957499000800/0000919574-99-000800.txt"
+  },
+  {
+    "form": "SC 13G",
+    "date": "1999-05-17",
+    "accession": "0000919574-99-000749",
+    "href": "https://www.sec.gov/Archives/edgar/data/0000860643/000091957499000749/0000919574-99-000749.txt"
+  }
+]

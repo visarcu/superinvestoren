@@ -1,35 +1,56 @@
 // src/app/page.tsx
+'use client'
 
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+
 import { investors, Investor } from '../data/investors'
+import holdingsData from '../data/holdings'
 import { stocks, Stock } from '../data/stocks'
 import { aggregateBuysByTicker } from '../lib/aggregations'
 import { BuyDetails } from '../components/BuyDetails'
 
-export default function Home() {
-  // 1. Hervorgehobene Investoren
-  const highlighted = ['buffett', 'ackman', 'burry']
-  const others = investors.filter(inv => !highlighted.includes(inv.slug))
+interface TopOwnedItem {
+  ticker: string
+  count:  number
+}
 
-  // 2. Käufe aggregieren
+export default function HomePage() {
+  // 1) Hervorgehobene Investoren
+  const highlighted = ['buffett', 'ackman', 'burry']
+  const others      = investors.filter(inv => !highlighted.includes(inv.slug))
+
+  // 2) Käufe im letzten Quartal aggregieren
   const aggregated = aggregateBuysByTicker(investors)
 
-  // 3. Lookup für Ticker → Firmenname
-  const nameMap: Record<string, string> = {}
+  // 3) Lookup Ticker → Name
+  const nameMap: Record<string,string> = {}
   stocks.forEach((s: Stock) => {
     nameMap[s.ticker] = s.name
   })
 
-  // 4. Top 10 meistgehaltene Aktien berechnen
-  const ownershipCount: Record<string, number> = {}
-  investors.forEach((inv: Investor) =>
-    inv.holdings.forEach(h => {
-      ownershipCount[h.ticker] = (ownershipCount[h.ticker] || 0) + 1
-    })
+  // 4) Top 10 Meistgehalten (über alle aktuellen Holdings)
+  //    Wir zählen je Investor **einmal** pro Ticker
+  const cusipToTicker = new Map<string,string>(
+    stocks.map(s => [s.cusip, s.ticker])
   )
-  const topOwned = Object.entries(ownershipCount)
-    .sort(([, a], [, b]) => b - a)
+
+  const ownershipCount = new Map<string,number>()
+  Object.entries(holdingsData).forEach(([slug, file]) => {
+    if (slug.endsWith('-previous')) return
+    const seen = new Set<string>()
+    file.positions.forEach(p => {
+      const t = cusipToTicker.get(p.cusip)
+      if (t && !seen.has(t)) {
+        seen.add(t)
+        ownershipCount.set(t, (ownershipCount.get(t) ?? 0) + 1)
+      }
+    })
+  })
+
+  const topOwned: TopOwnedItem[] = Array.from(ownershipCount.entries())
+    .sort(([,a], [,b]) => b - a)
     .slice(0, 10)
     .map(([ticker, count]) => ({ ticker, count }))
 
@@ -37,7 +58,7 @@ export default function Home() {
     <main className="flex-grow max-w-5xl mx-auto p-4 sm:p-8 space-y-12">
       {/* Titel & Tagline */}
       <h1 className="text-4xl font-bold text-center">SUPERINVESTOR</h1>
-      <p className="text-lg text-center text-gray-600 dark:text-gray-400">
+      <p className="text-lg text-center text-gray-600">
         Superinvestoren bewegen Märkte und beeinflussen Regierungen.  
         Verschaffe dir einen Vorsprung, indem du siehst, was sie kaufen –  
         und finde deine nächste Millionen-Aktie.
@@ -47,7 +68,7 @@ export default function Home() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {investors
           .filter(inv => highlighted.includes(inv.slug))
-          .map(inv => (
+          .map((inv: Investor) => (
             <Link
               key={inv.slug}
               href={`/investor/${inv.slug}`}
@@ -75,10 +96,6 @@ export default function Home() {
               )}
               <div className="text-2xl font-semibold text-center text-on-surface dark:text-white">
                 {inv.name}
-              </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                {inv.holdings.length} Position
-                {inv.holdings.length !== 1 && 'en'}
               </div>
             </Link>
           ))}

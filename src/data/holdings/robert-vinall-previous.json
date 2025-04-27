@@ -1,0 +1,71 @@
+{
+  "date": "2025-04-14",
+  "positions": [
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 547514,
+      "value": 114474227000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 128929,
+      "value": 66572489000
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 5001,
+      "value": 2347219000
+    },
+    {
+      "name": "H WORLD GROUP LTD",
+      "cusip": "44332N106",
+      "shares": 659652,
+      "value": 24413721000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 212480,
+      "value": 35184563000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 142988,
+      "value": 82412564000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 11500,
+      "value": 4316985000
+    },
+    {
+      "name": "PAYCOM SOFTWARE INC",
+      "cusip": "70432V102",
+      "shares": 12395,
+      "value": 2708060000
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 335569,
+      "value": 39714591000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 338000,
+      "value": 55222440000
+    },
+    {
+      "name": "YUM CHINA HLDGS INC",
+      "cusip": "98850P109",
+      "shares": 492265,
+      "value": 25627316000
+    }
+  ]
+}

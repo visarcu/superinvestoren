@@ -1,0 +1,83 @@
+{
+  "date": "2024-12-31",
+  "positions": [
+    {
+      "name": "Alibaba Group Holdings",
+      "cusip": "01609W102",
+      "shares": 150000,
+      "value": 12719000
+    },
+    {
+      "name": "Baidu Inc.",
+      "cusip": "056752108",
+      "shares": 125000,
+      "value": 10539000
+    },
+    {
+      "name": "JD.com Inc.",
+      "cusip": "47215P106",
+      "shares": 300000,
+      "value": 10401000
+    },
+    {
+      "name": "Estee Lauder Cos.",
+      "cusip": "518439104",
+      "shares": 100000,
+      "value": 7498000
+    },
+    {
+      "name": "Molina Healthcare Inc.",
+      "cusip": "60855R100",
+      "shares": 25000,
+      "value": 7276000
+    },
+    {
+      "name": "Pinduoduo Inc.",
+      "cusip": "G7237M104",
+      "shares": 75000,
+      "value": 7274000
+    },
+    {
+      "name": "HCA Healthcare Inc.",
+      "cusip": "404119105",
+      "shares": 15000,
+      "value": 4502000
+    },
+    {
+      "name": "Bruker Corp.",
+      "cusip": "116794107",
+      "shares": 75000,
+      "value": 4397000
+    },
+    {
+      "name": "V.F. Corp.",
+      "cusip": "918204108",
+      "shares": 200000,
+      "value": 4292000
+    },
+    {
+      "name": "Magna International",
+      "cusip": "559222401",
+      "shares": 200000,
+      "value": 3634000
+    },
+    {
+      "name": "Oscar Health Inc.",
+      "cusip": "68860N105",
+      "shares": 200000,
+      "value": 2688000
+    },
+    {
+      "name": "American Coastal Insurance C",
+      "cusip": "028918109",
+      "shares": 146100,
+      "value": 1967000
+    },
+    {
+      "name": "Canada Goose Holdings Inc.",
+      "cusip": "36202P108",
+      "shares": 24838,
+      "value": 249000
+    }
+  ]
+}

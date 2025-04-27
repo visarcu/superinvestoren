@@ -65,6 +65,7 @@ export default function RootLayout({
               <li><Link href="/activity">Activity</Link></li>
               <li><Link href="/watchlist">Watchlist</Link></li>
               <li><Link href="/scoreboard">Scoreboard</Link></li>
+              <li><Link href="/realtime">Echtzeit Filings</Link></li>     
               <li><Link href="/insider">Insider</Link></li>
             </ul>
 

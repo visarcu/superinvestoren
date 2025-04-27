@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { stocks, Stock } from '@/data/stocks'
 
 interface Position {
   name:        string
@@ -14,6 +15,12 @@ interface Position {
 }
 
 type Tab = 'holdings' | 'buys' | 'sells'
+
+// 1) Baue ein Lookup von CUSIP → Ticker
+const cusipToTicker: Record<string, string> = {}
+;(stocks as Stock[]).forEach(s => {
+  if (s.cusip) cusipToTicker[s.cusip] = s.ticker
+})
 
 export default function InvestorTabs({
   holdings,
@@ -42,9 +49,9 @@ export default function InvestorTabs({
 
   // Welche Daten gerade angezeigt werden
   let data: Position[]
-  if (tab === 'buys')  data = buys
+  if (tab === 'buys')      data = buys
   else if (tab === 'sells') data = sells
-  else data = holdings
+  else                      data = holdings
 
   return (
     <div>
@@ -95,15 +102,7 @@ export default function InvestorTabs({
                 <th className="text-right px-4 py-2">Letzte Aktivität</th>
               </>
             )}
-            {tab === 'buys' && (
-              <>
-                <th className="text-left px-4 py-2">Name &amp; Ticker</th>
-                <th className="text-right px-4 py-2">Shares</th>
-                <th className="text-right px-4 py-2">Δ Shares</th>
-                <th className="text-right px-4 py-2">%Δ</th>
-              </>
-            )}
-            {tab === 'sells' && (
+            {tab !== 'holdings' && (
               <>
                 <th className="text-left px-4 py-2">Name &amp; Ticker</th>
                 <th className="text-right px-4 py-2">Shares</th>
@@ -114,59 +113,81 @@ export default function InvestorTabs({
           </tr>
         </thead>
         <tbody>
-          {data.map((p, i) => (
-            <tr key={p.cusip + i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-              {/* Name & Ticker */}
-              <td className="px-4 py-2">
-                <div className="font-semibold">{p.name}</div>
-                <div className="text-sm text-gray-500">({p.cusip})</div>
-              </td>
+          {data.map((p, i) => {
+            const ticker = cusipToTicker[p.cusip]
+            return (
+              <tr key={p.cusip + i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                {/* Name & Ticker */}
+                <td className="px-4 py-2">
+                  {ticker ? (
+                    <Link
+                      href={`/aktie/${ticker.toLowerCase()}`}
+                      className="font-semibold text-on-surface hover:underline flex items-baseline space-x-1"
+                    >
+                      <span>{ticker}</span>
+                      <span className="text-sm text-gray-500 normal-case">– {p.name}</span>
+                    </Link>
+                  ) : (
+                    <div>
+                      <div className="font-semibold">{p.name}</div>
+                      <div className="text-sm text-gray-500">({p.cusip})</div>
+                    </div>
+                  )}
+                </td>
 
-              {/* Shares */}
-              <td className="px-4 py-2 text-right">
-                {fmtShares.format(p.shares)}
-              </td>
+                {/* Shares */}
+                <td className="px-4 py-2 text-right">
+                  {fmtShares.format(p.shares)}
+                </td>
 
-              {/* Je nach Tab weitere Spalten */}
-              {tab === 'holdings' && (
-                <>
-                  <td className="px-4 py-2 text-right">
-                    {fmtValue.format(p.value)}
-                  </td>
-                  <td className="px-4 py-2 text-right">
-                    {fmtPercent.format(p.value / holdings.reduce((s, x) => s + x.value, 0))}
-                  </td>
-                  <td className="px-4 py-2 text-right">
-                    {p.deltaShares > 0 && (
-                      <span className="text-green-600">
-                        Hinzugefügt {fmtPercent.format(p.pctDelta)}
-                      </span>
-                    )}
-                    {p.deltaShares < 0 && (
-                      <span className="text-red-600">
-                        Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}
-                      </span>
-                    )}
-                    {p.deltaShares === 0 && '—'}
-                  </td>
-                </>
-              )}
+                {/* Weitere Spalten */}
+                {tab === 'holdings' ? (
+                  <>
+                    <td className="px-4 py-2 text-right">
+                      {fmtValue.format(p.value)}
+                    </td>
+                    <td className="px-4 py-2 text-right">
+                      {fmtPercent.format(
+                        p.value /
+                          holdings.reduce((sum, x) => sum + x.value, 0)
+                      )}
+                    </td>
+                    <td className="px-4 py-2 text-right">
+                      {p.deltaShares > 0 && (
+                        <span className="text-green-600">
+                          Hinzugefügt{' '}
+                          {fmtPercent.format(p.pctDelta)}
+                        </span>
+                      )}
+                      {p.deltaShares < 0 && (
+                        <span className="text-red-600">
+                          Verkauft{' '}
+                          {fmtPercent.format(Math.abs(p.pctDelta))}
+                        </span>
+                      )}
+                      {p.deltaShares === 0 && '—'}
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td className="px-4 py-2 text-right">
+                      {fmtShares.format(p.deltaShares)}
+                    </td>
+                    <td className="px-4 py-2 text-right">
+                      {fmtPercent.format(p.pctDelta)}
+                    </td>
+                  </>
+                )}
+              </tr>
+            )
+          })}
 
-              {(tab === 'buys' || tab === 'sells') && (
-                <>
-                  <td className="px-4 py-2 text-right">
-                    {fmtShares.format(p.deltaShares)}
-                  </td>
-                  <td className="px-4 py-2 text-right">
-                    {fmtPercent.format(p.pctDelta)}
-                  </td>
-                </>
-              )}
-            </tr>
-          ))}
           {data.length === 0 && (
             <tr>
-              <td colSpan={ tab === 'holdings' ? 5 : 4 } className="px-4 py-2 text-center text-gray-500">
+              <td
+                colSpan={tab === 'holdings' ? 5 : 4}
+                className="px-4 py-2 text-center text-gray-500"
+              >
                 Keine Daten für diesen Tab.
               </td>
             </tr>
