@@ -1,0 +1,857 @@
+{
+  "date": "2017-05-15",
+  "positions": [
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 22742000,
+      "value": 961987000
+    },
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 24777054,
+      "value": 1048069000
+    },
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 1759800,
+      "value": 74440000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1952142,
+      "value": 154434000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 17225400,
+      "value": 1362701000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 839832,
+      "value": 66439000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 2057100,
+      "value": 162737000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 7994634,
+      "value": 632455000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 120141879,
+      "value": 9504424000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1399713,
+      "value": 110731000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 710000,
+      "value": 101999000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 960000,
+      "value": 137914000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 13951000,
+      "value": 2004201000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 681000,
+      "value": 97832000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 15385747,
+      "value": 2210316000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3038000,
+      "value": 436439000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 11958000,
+      "value": 1717886000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 81051359,
+      "value": 11643838000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 678000,
+      "value": 97401000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 944000,
+      "value": 135615000
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 7511249,
+      "value": 354756000
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 1793915,
+      "value": 84727000
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 243000,
+      "value": 11477000
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 6160384,
+      "value": 290955000
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 5228111,
+      "value": 246924000
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 12075400,
+      "value": 570321000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 2654437,
+      "value": 868850000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 6789054,
+      "value": 2222193000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 800000,
+      "value": 33952000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 80283200,
+      "value": 3407219000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 1824000,
+      "value": 77411000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 14411200,
+      "value": 611611000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 14990400,
+      "value": 636193000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 283179200,
+      "value": 12018125000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 3552000,
+      "value": 150747000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 960000,
+      "value": 40742000
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 4333363,
+      "value": 726662000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 20052088,
+      "value": 1362940000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 18513482,
+      "value": 1258361000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 91277,
+      "value": 4195000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 7908723,
+      "value": 363485000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 47025995,
+      "value": 2161315000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 588900,
+      "value": 17549000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 535532,
+      "value": 15959000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 4998302,
+      "value": 148949000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 35702,
+      "value": 1064000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 4248556,
+      "value": 126607000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 178510,
+      "value": 5320000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 15472853,
+      "value": 547120000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 24887209,
+      "value": 880012000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 8402338,
+      "value": 297107000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 1237600,
+      "value": 43762000
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 4375968,
+      "value": 1005247000
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 6583551,
+      "value": 1512373000
+    },
+    {
+      "name": "GRAHAM HLDGS CO",
+      "cusip": "384637104",
+      "shares": 48165,
+      "value": 28877000
+    },
+    {
+      "name": "GRAHAM HLDGS CO",
+      "cusip": "384637104",
+      "shares": 59410,
+      "value": 35619000
+    },
+    {
+      "name": "INTERNATIONAL BUSINESS MACHS",
+      "cusip": "459200101",
+      "shares": 64561955,
+      "value": 11242819000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 327100,
+      "value": 40740000
+    },
+    {
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 325634818,
+      "value": 29570898000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 2154000,
+      "value": 83834000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 7039780,
+      "value": 273988000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 933391,
+      "value": 36328000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 120629,
+      "value": 4695000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 4020206,
+      "value": 155904000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 17567720,
+      "value": 681276000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 508654,
+      "value": 19726000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 210529,
+      "value": 8164000
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 546000,
+      "value": 84483000
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 164795,
+      "value": 25499000
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 4671245,
+      "value": 722782000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 4934756,
+      "value": 555012000
+    },
+    {
+      "name": "MONDELEZ INTL INC",
+      "cusip": "609207105",
+      "shares": 578000,
+      "value": 24900000
+    },
+    {
+      "name": "MOSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 3285000,
+      "value": 371862000
+    },
+    {
+      "name": "MOSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 4756784,
+      "value": 538468000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 11973928,
+      "value": 1341559000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 12695850,
+      "value": 1422443000
+    },
+    {
+      "name": "PHILLIPS 66",
+      "cusip": "718546104",
+      "shares": 6102000,
+      "value": 483400000
+    },
+    {
+      "name": "PHILLIPS 66",
+      "cusip": "718546104",
+      "shares": 782000,
+      "value": 61950000
+    },
+    {
+      "name": "PHILLIPS 66",
+      "cusip": "718546104",
+      "shares": 5213000,
+      "value": 412974000
+    },
+    {
+      "name": "PHILLIPS 66",
+      "cusip": "718546104",
+      "shares": 1163000,
+      "value": 92133000
+    },
+    {
+      "name": "PHILLIPS 66",
+      "cusip": "718546104",
+      "shares": 66163892,
+      "value": 5241504000
+    },
+    {
+      "name": "PHILLIPS 66",
+      "cusip": "718546104",
+      "shares": 1266000,
+      "value": 100293000
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 315400,
+      "value": 28339000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 8438225,
+      "value": 470347000
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 421400,
+      "value": 19068000
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 509742,
+      "value": 23066000
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 169300,
+      "value": 7661000
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 2805433,
+      "value": 126946000
+    },
+    {
+      "name": "SIRIUS XM HLDGS INC",
+      "cusip": "82968B103",
+      "shares": 127957412,
+      "value": 658981000
+    },
+    {
+      "name": "SIRIUS XM HLDGS INC",
+      "cusip": "82968B103",
+      "shares": 44367941,
+      "value": 228495000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 8722,
+      "value": 469000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 47650734,
+      "value": 2561703000
+    },
+    {
+      "name": "TORCHMARK CORP",
+      "cusip": "891027104",
+      "shares": 174489,
+      "value": 13443000
+    },
+    {
+      "name": "TORCHMARK CORP",
+      "cusip": "891027104",
+      "shares": 1011888,
+      "value": 77956000
+    },
+    {
+      "name": "TORCHMARK CORP",
+      "cusip": "891027104",
+      "shares": 1439325,
+      "value": 110886000
+    },
+    {
+      "name": "TORCHMARK CORP",
+      "cusip": "891027104",
+      "shares": 3728025,
+      "value": 287207000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 590275,
+      "value": 30399000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 3070000,
+      "value": 158105000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 23831300,
+      "value": 1227312000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 1175000,
+      "value": 60513000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 12679300,
+      "value": 652984000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 4204800,
+      "value": 216547000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 37767492,
+      "value": 1945026000
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 1745000,
+      "value": 89868000
+    },
+    {
+      "name": "U S G CORP",
+      "cusip": "903293405",
+      "shares": 14035088,
+      "value": 446316000
+    },
+    {
+      "name": "U S G CORP",
+      "cusip": "903293405",
+      "shares": 24966928,
+      "value": 793948000
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 2331169,
+      "value": 164674000
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 5668831,
+      "value": 400446000
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 20951353,
+      "value": 1480004000
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 59400,
+      "value": 6374000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 5047264,
+      "value": 439667000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 7905481,
+      "value": 688646000
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC",
+      "cusip": "92343V104",
+      "shares": 928,
+      "value": 45000
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 1563434,
+      "value": 126857000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 323300,
+      "value": 28732000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 10239160,
+      "value": 909954000
+    },
+    {
+      "name": "WABCO HLDGS INC",
+      "cusip": "92927K102",
+      "shares": 1265861,
+      "value": 148637000
+    },
+    {
+      "name": "WABCO HLDGS INC",
+      "cusip": "92927K102",
+      "shares": 1642693,
+      "value": 192885000
+    },
+    {
+      "name": "WAL MART STORES INC",
+      "cusip": "931142103",
+      "shares": 946000,
+      "value": 68188000
+    },
+    {
+      "name": "WAL MART STORES INC",
+      "cusip": "931142103",
+      "shares": 447513,
+      "value": 32257000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 7285470,
+      "value": 405509000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 16450000,
+      "value": 915607000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 5303500,
+      "value": 295193000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 6812857,
+      "value": 379204000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 75047819,
+      "value": 4177162000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 820000,
+      "value": 45641000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 1700000,
+      "value": 94622000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 36255200,
+      "value": 2017964000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 10514000,
+      "value": 585209000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 55776330,
+      "value": 3104511000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 256265774,
+      "value": 14263753000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 2788000,
+      "value": 155180000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 1609720,
+      "value": 89597000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 3075600,
+      "value": 171188000
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 3324000,
+      "value": 107033000
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 20000000,
+      "value": 644000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 8379000,
+      "value": 300555000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 11801897,
+      "value": 423334000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 7346968,
+      "value": 257438000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U138",
+      "shares": 1089669,
+      "value": 24234000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U138",
+      "shares": 1625185,
+      "value": 36144000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U153",
+      "shares": 1284020,
+      "value": 29584000
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "date": "2020-05-08",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 11400,
+      "value": 13246000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 94642,
+      "value": 5214000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 127400,
+      "value": 32575000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 238000,
+      "value": 39698000
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 770317,
+      "value": 20051000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 300100,
+      "value": 30256000
+    }
+  ]
+}

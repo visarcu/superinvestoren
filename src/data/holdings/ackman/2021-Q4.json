@@ -1,0 +1,41 @@
+{
+  "date": "2021-11-15",
+  "positions": [
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 1114725,
+      "value": 2026035000
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2092202,
+      "value": 997897000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 12885354,
+      "value": 1702284000
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 13620164,
+      "value": 1195987000
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 10236471,
+      "value": 2076571000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 23937248,
+      "value": 1464720000
+    }
+  ]
+}

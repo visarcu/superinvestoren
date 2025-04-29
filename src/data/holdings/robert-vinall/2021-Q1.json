@@ -1,0 +1,35 @@
+{
+  "date": "2021-02-04",
+  "positions": [
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 197300,
+      "value": 68293000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 253000,
+      "value": 69109000
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 1016800,
+      "value": 42950000
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 316298,
+      "value": 37864000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 263800,
+      "value": 65939000
+    }
+  ]
+}

@@ -1,0 +1,389 @@
+{
+  "date": "2016-02-16",
+  "positions": [
+    {
+      "name": "AFLAC INC",
+      "cusip": "001055102",
+      "shares": 1063197,
+      "value": 63686000
+    },
+    {
+      "name": "AETNA INC NEW",
+      "cusip": "00817Y108",
+      "shares": 1247101,
+      "value": 134837000
+    },
+    {
+      "name": "BANK NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 8805531,
+      "value": 362964000
+    },
+    {
+      "name": "BIOGEN INC",
+      "cusip": "09062X103",
+      "shares": 368864,
+      "value": 113001000
+    },
+    {
+      "name": "BROADCOM CORP",
+      "cusip": "111320107",
+      "shares": 33747218,
+      "value": 1951264000
+    },
+    {
+      "name": "CABOT OIL & GAS CORP",
+      "cusip": "127097103",
+      "shares": 13410258,
+      "value": 237227000
+    },
+    {
+      "name": "CALPINE CORP",
+      "cusip": "131347304",
+      "shares": 4881477,
+      "value": 70635000
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 4001587,
+      "value": 510603000
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 15920523,
+      "value": 593039000
+    },
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 689383,
+      "value": 330800000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 4271971,
+      "value": 221074000
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 2995866,
+      "value": 258993000
+    },
+    {
+      "name": "AIR PRODS & CHEMS INC",
+      "cusip": "009158106",
+      "shares": 5385451,
+      "value": 700701000
+    },
+    {
+      "name": "CTRIP COM INTL LTD",
+      "cusip": "22943F100",
+      "shares": 3767142,
+      "value": 174532000
+    },
+    {
+      "name": "DENTSPLY INTL INC NEW",
+      "cusip": "249030107",
+      "shares": 1035264,
+      "value": 62996000
+    },
+    {
+      "name": "DOVER CORP",
+      "cusip": "260003108",
+      "shares": 526369,
+      "value": 32272000
+    },
+    {
+      "name": "ENCANA CORP",
+      "cusip": "292505104",
+      "shares": 3998444,
+      "value": 20352000
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY L P",
+      "cusip": "29273V100",
+      "shares": 1707427,
+      "value": 23460000
+    },
+    {
+      "name": "ENVISION HEALTHCARE HLDGS IN",
+      "cusip": "29413U103",
+      "shares": 7808316,
+      "value": 202782000
+    },
+    {
+      "name": "58 COM INC",
+      "cusip": "31680Q104",
+      "shares": 1867746,
+      "value": 123197000
+    },
+    {
+      "name": "GULFPORT ENERGY CORP",
+      "cusip": "402635304",
+      "shares": 670667,
+      "value": 16478000
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 6667076,
+      "value": 226947000
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 4331936,
+      "value": 773294000
+    },
+    {
+      "name": "AKORN INC",
+      "cusip": "009728106",
+      "shares": 1841346,
+      "value": 68701000
+    },
+    {
+      "name": "KANSAS CITY SOUTHERN",
+      "cusip": "485170302",
+      "shares": 375639,
+      "value": 28049000
+    },
+    {
+      "name": "KITE PHARMA INC",
+      "cusip": "49803L109",
+      "shares": 2207203,
+      "value": 136008000
+    },
+    {
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 2082693,
+      "value": 151537000
+    },
+    {
+      "name": "LABORATORY CORP AMER HLDGS",
+      "cusip": "50540R409",
+      "shares": 3208708,
+      "value": 396725000
+    },
+    {
+      "name": "LEGG MASON INC",
+      "cusip": "524901105",
+      "shares": 2469033,
+      "value": 96860000
+    },
+    {
+      "name": "MARSH & MCLENNAN COS INC",
+      "cusip": "571748102",
+      "shares": 1592022,
+      "value": 88278000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 162264,
+      "value": 15798000
+    },
+    {
+      "name": "MCDONALDS CORP",
+      "cusip": "580135101",
+      "shares": 524043,
+      "value": 61910000
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 2761995,
+      "value": 544748000
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 895800,
+      "value": 88254000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1629041,
+      "value": 132392000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 7842269,
+      "value": 896999000
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 5262662,
+      "value": 328916000
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 7424690,
+      "value": 239669000
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 9371105,
+      "value": 1174949000
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 393214,
+      "value": 501328000
+    },
+    {
+      "name": "PRUDENTIAL FINL INC",
+      "cusip": "744320102",
+      "shares": 1213808,
+      "value": 98816000
+    },
+    {
+      "name": "QUNAR CAYMAN IS LTD",
+      "cusip": "74906P104",
+      "shares": 8522747,
+      "value": 449490000
+    },
+    {
+      "name": "RANGE RES CORP",
+      "cusip": "75281A109",
+      "shares": 1593510,
+      "value": 39216000
+    },
+    {
+      "name": "SHIRE PLC",
+      "cusip": "82481R106",
+      "shares": 137198,
+      "value": 28126000
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 34671,
+      "value": 3799000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1146435,
+      "value": 870007000
+    },
+    {
+      "name": "SOUTHWESTERN ENERGY CO",
+      "cusip": "845467109",
+      "shares": 11673609,
+      "value": 82999000
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 25043775,
+      "value": 1643873000
+    },
+    {
+      "name": "TEXTRON INC",
+      "cusip": "883203101",
+      "shares": 5817245,
+      "value": 244382000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1600128,
+      "value": 365549000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 7793397,
+      "value": 792199000
+    },
+    {
+      "name": "VERTEX PHARMACEUTICALS INC",
+      "cusip": "92532F100",
+      "shares": 1421673,
+      "value": 178889000
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 12771497,
+      "value": 1087557000
+    },
+    {
+      "name": "WELLCARE HEALTH PLANS INC",
+      "cusip": "94946T106",
+      "shares": 247191,
+      "value": 19333000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 5978075,
+      "value": 1868148000
+    },
+    {
+      "name": "ENDO INTL PLC",
+      "cusip": "G30401106",
+      "shares": 4520954,
+      "value": 276773000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 1853460,
+      "value": 1442010000
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 9328028,
+      "value": 810606000
+    },
+    {
+      "name": "PROQR THRAPEUTICS N V",
+      "cusip": "N71542109",
+      "shares": 581668,
+      "value": 5049000
+    },
+    {
+      "name": "AVAGO TECHNOLOGIES LTD",
+      "cusip": "Y0486S104",
+      "shares": 7364891,
+      "value": 1069014000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 2567446,
+      "value": 1735311000
+    },
+    {
+      "name": "ANADARKO PETE CORP",
+      "cusip": "032511107",
+      "shares": 4590975,
+      "value": 223030000
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 6686965,
+      "value": 932430000
+    },
+    {
+      "name": "ACE LTD",
+      "cusip": "H0023R105",
+      "shares": 831759,
+      "value": 97191000
+    }
+  ]
+}

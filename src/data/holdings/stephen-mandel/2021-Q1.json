@@ -1,0 +1,251 @@
+{
+  "date": "2021-02-16",
+  "positions": [
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 2020738,
+      "value": 1010611000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 257126,
+      "value": 837441000
+    },
+    {
+      "name": "AMICUS THERAPEUTICS INC",
+      "cusip": "03152W109",
+      "shares": 6678788,
+      "value": 154213000
+    },
+    {
+      "name": "ARGENX SE",
+      "cusip": "04016X101",
+      "shares": 536259,
+      "value": 157708000
+    },
+    {
+      "name": "ASCENDIS PHARMA A/S",
+      "cusip": "04351P101",
+      "shares": 894533,
+      "value": 149190000
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 3423119,
+      "value": 800565000
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 2212480,
+      "value": 675559000
+    },
+    {
+      "name": "BILIBILI INC",
+      "cusip": "090040106",
+      "shares": 6004127,
+      "value": 514674000
+    },
+    {
+      "name": "BILL COM HLDGS INC",
+      "cusip": "090043100",
+      "shares": 2768707,
+      "value": 377929000
+    },
+    {
+      "name": "BLUEPRINT MEDICINES CORP",
+      "cusip": "09627Y109",
+      "shares": 2709138,
+      "value": 303830000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 2448265,
+      "value": 586457000
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266L106",
+      "shares": 4220706,
+      "value": 1430439000
+    },
+    {
+      "name": "DATADOG INC",
+      "cusip": "23804L103",
+      "shares": 7090101,
+      "value": 697950000
+    },
+    {
+      "name": "DEXCOM INC",
+      "cusip": "252131107",
+      "shares": 2267809,
+      "value": 838454000
+    },
+    {
+      "name": "DOCUSIGN INC",
+      "cusip": "256163106",
+      "shares": 4056072,
+      "value": 901665000
+    },
+    {
+      "name": "DOORDASH INC",
+      "cusip": "25809K105",
+      "shares": 2256931,
+      "value": 322177000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 3575546,
+      "value": 976696000
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 8064560,
+      "value": 514600000
+    },
+    {
+      "name": "FATE THERAPEUTICS INC",
+      "cusip": "31189P102",
+      "shares": 883666,
+      "value": 80352000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2799907,
+      "value": 396075000
+    },
+    {
+      "name": "FORMA THERAPEUTICS HLDGS INC",
+      "cusip": "34633R104",
+      "shares": 800000,
+      "value": 27920000
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 6331020,
+      "value": 1363828000
+    },
+    {
+      "name": "HOWMET AEROSPACE INC",
+      "cusip": "443201108",
+      "shares": 7527593,
+      "value": 214838000
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 1508296,
+      "value": 618809000
+    },
+    {
+      "name": "L BRANDS INC",
+      "cusip": "501797104",
+      "shares": 26265094,
+      "value": 976799000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 2719397,
+      "value": 970662000
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 5267083,
+      "value": 796330000
+    },
+    {
+      "name": "MERCADOLIBRE INC",
+      "cusip": "58733R102",
+      "shares": 597111,
+      "value": 1000292000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 6312495,
+      "value": 1404025000
+    },
+    {
+      "name": "MONGODB INC",
+      "cusip": "60937P106",
+      "shares": 879832,
+      "value": 315895000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 2452120,
+      "value": 1325935000
+    },
+    {
+      "name": "NUANCE COMMUNICATIONS INC",
+      "cusip": "67020Y100",
+      "shares": 9009792,
+      "value": 397242000
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 1210586,
+      "value": 666343000
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 1795290,
+      "value": 2032179000
+    },
+    {
+      "name": "SNAP INC",
+      "cusip": "83304A106",
+      "shares": 19510587,
+      "value": 976895000
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 302060,
+      "value": 85000000
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 4199424,
+      "value": 913963000
+    },
+    {
+      "name": "STONECO LTD",
+      "cusip": "G85158106",
+      "shares": 6368457,
+      "value": 534441000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 3180020,
+      "value": 1115169000
+    },
+    {
+      "name": "XP INC",
+      "cusip": "G98239109",
+      "shares": 80569,
+      "value": 3196000
+    },
+    {
+      "name": "ZYMEWORKS INC",
+      "cusip": "98985W102",
+      "shares": 976735,
+      "value": 46160000
+    }
+  ]
+}

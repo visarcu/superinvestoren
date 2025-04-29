@@ -1,0 +1,89 @@
+{
+  "date": "2021-05-17",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1484845,
+      "value": 336659000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 4696981,
+      "value": 217799000
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "226406106",
+      "shares": 719237,
+      "value": 3754000
+    },
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 9000000,
+      "value": 293580000
+    },
+    {
+      "name": "EVI INDS INC",
+      "cusip": "26929N102",
+      "shares": 164242,
+      "value": 4725000
+    },
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 655134,
+      "value": 39308000
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 4815037,
+      "value": 8812000
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "362409104",
+      "shares": 5956349,
+      "value": 38061000
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 2594241,
+      "value": 38940000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 1115397,
+      "value": 94061000
+    },
+    {
+      "name": "LIBERTY MEDIA ACQUISITION CO",
+      "cusip": "53073L203",
+      "shares": 944749,
+      "value": 10118000
+    },
+    {
+      "name": "SINCLAIR BROADCAST GROUP INC",
+      "cusip": "829226109",
+      "shares": 2884561,
+      "value": 84402000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 18000000,
+      "value": 320220000
+    },
+    {
+      "name": "YANDEX N V",
+      "cusip": "N97284108",
+      "shares": 2136000,
+      "value": 136832000
+    }
+  ]
+}

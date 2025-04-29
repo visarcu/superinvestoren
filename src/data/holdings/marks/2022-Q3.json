@@ -1,0 +1,2297 @@
+{
+  "date": "2022-08-15",
+  "positions": [
+    {
+      "name": "8I ACQUISITION 2 CORP",
+      "cusip": "G2956R103",
+      "shares": 100000,
+      "value": 987000
+    },
+    {
+      "name": "A SPAC I ACQUISITION CORP",
+      "cusip": "G0542S106",
+      "shares": 290000,
+      "value": 2876000
+    },
+    {
+      "name": "A SPAC I ACQUISITION CORP",
+      "cusip": "G0542S114",
+      "shares": 145000,
+      "value": 18000
+    },
+    {
+      "name": "A SPAC II ACQUISITION CORP",
+      "cusip": "G0543H109",
+      "shares": 675000,
+      "value": 6642000
+    },
+    {
+      "name": "A SPAC II ACQUISITION CORP",
+      "cusip": "G0543H133",
+      "shares": 675000,
+      "value": 77000
+    },
+    {
+      "name": "ACCRETION ACQUISITION CORP",
+      "cusip": "00438Y107",
+      "shares": 200000,
+      "value": 1969000
+    },
+    {
+      "name": "ACHARI VENTURES HOLDINGS CORP I",
+      "cusip": "00444X101",
+      "shares": 200000,
+      "value": 1998000
+    },
+    {
+      "name": "ACRES COMMERCIAL REALTY CORP",
+      "cusip": "76120WAC8",
+      "shares": 29021000,
+      "value": 29018000
+    },
+    {
+      "name": "AETHERIUM ACQUISITION CORP",
+      "cusip": "00809J101",
+      "shares": 200000,
+      "value": 1982000
+    },
+    {
+      "name": "AFYA LTD",
+      "cusip": "G01125106",
+      "shares": 1515590,
+      "value": 15080000
+    },
+    {
+      "name": "AGRICO ACQUISITION CORP",
+      "cusip": "G41089106",
+      "shares": 200000,
+      "value": 2042000
+    },
+    {
+      "name": "AIB ACQUISITION CORP",
+      "cusip": "G0R45S109",
+      "shares": 200000,
+      "value": 1987000
+    },
+    {
+      "name": "AIRBNB INC",
+      "cusip": "009066AB7",
+      "shares": 3974000,
+      "value": 3322000
+    },
+    {
+      "name": "AKAMAI TECHNOLOGIES INC",
+      "cusip": "00971TAL5",
+      "shares": 5729000,
+      "value": 5720000
+    },
+    {
+      "name": "ALARM.COM HOLDINGS INC",
+      "cusip": "011642AB1",
+      "shares": 7889000,
+      "value": 6480000
+    },
+    {
+      "name": "ALLY FINANCIAL INC",
+      "cusip": "02005N100",
+      "shares": 6124687,
+      "value": 205238000
+    },
+    {
+      "name": "ALPHA HEALTHCARE ACQUISITION CORP III",
+      "cusip": "02073F104",
+      "shares": 200000,
+      "value": 1936000
+    },
+    {
+      "name": "ALPHA STAR ACQUISITION CORP",
+      "cusip": "G0230C108",
+      "shares": 400000,
+      "value": 3972000
+    },
+    {
+      "name": "ALPHA STAR ACQUISITION CORP",
+      "cusip": "G0230C132",
+      "shares": 400000,
+      "value": 38000
+    },
+    {
+      "name": "ALPHA STAR ACQUISITION CORP",
+      "cusip": "G0230C116",
+      "shares": 400000,
+      "value": 15000
+    },
+    {
+      "name": "ALPINE ACQUISITION CORP",
+      "cusip": "02083L109",
+      "shares": 350000,
+      "value": 3554000
+    },
+    {
+      "name": "ALSET CAPITAL ACQUISITION CORP",
+      "cusip": "02115M109",
+      "shares": 735000,
+      "value": 7261000
+    },
+    {
+      "name": "ALSET CAPITAL ACQUISITION CORP",
+      "cusip": "02115M125",
+      "shares": 367500,
+      "value": 33000
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156BAD5",
+      "shares": 6699000,
+      "value": 5911000
+    },
+    {
+      "name": "ALVOTECH SA",
+      "cusip": "L01800108",
+      "shares": 6338660,
+      "value": 52039000
+    },
+    {
+      "name": "ALVOTECH SA",
+      "cusip": "L01800116",
+      "shares": 4666667,
+      "value": 3920000
+    },
+    {
+      "name": "ANDRETTI ACQUISITION CORP",
+      "cusip": "G26735103",
+      "shares": 100000,
+      "value": 998000
+    },
+    {
+      "name": "ANGLOGOLD ASHANTI LTD",
+      "cusip": "035128206",
+      "shares": 5230821,
+      "value": 77363000
+    },
+    {
+      "name": "APOLLO COMMERCIAL REAL ESTATE FINANCE INC",
+      "cusip": "03762UAB1",
+      "shares": 17081000,
+      "value": 17081000
+    },
+    {
+      "name": "APOLLO COMMERCIAL REAL ESTATE FINANCE INC",
+      "cusip": "03762UAC9",
+      "shares": 18218000,
+      "value": 17796000
+    },
+    {
+      "name": "APOLLO SENIOR FLOATING RATE FUND INC",
+      "cusip": "037636107",
+      "shares": 176606,
+      "value": 2265000
+    },
+    {
+      "name": "ARBOR RAPHA CAPITAL BIOHOLDINGS CORP I",
+      "cusip": "03881F104",
+      "shares": 100000,
+      "value": 1004000
+    },
+    {
+      "name": "ARBOR REALTY TRUST INC",
+      "cusip": "038923AP3",
+      "shares": 1407000,
+      "value": 1392000
+    },
+    {
+      "name": "ARENA FORTIFY ACQUISITION CORP",
+      "cusip": "04005A104",
+      "shares": 50000,
+      "value": 499000
+    },
+    {
+      "name": "ARGUS CAPITAL CORP",
+      "cusip": "04026L105",
+      "shares": 100000,
+      "value": 1000000
+    },
+    {
+      "name": "ARISZ ACQUISITION CORP",
+      "cusip": "040450108",
+      "shares": 200000,
+      "value": 1975000
+    },
+    {
+      "name": "ARMADA ACQUISITION CORP I",
+      "cusip": "04208V103",
+      "shares": 250000,
+      "value": 2467000
+    },
+    {
+      "name": "AROGO CAPITAL ACQUISITION CORP",
+      "cusip": "042644104",
+      "shares": 300000,
+      "value": 2991000
+    },
+    {
+      "name": "ASCENDANT DIGITAL ACQUISITION CORP III",
+      "cusip": "G05157105",
+      "shares": 300000,
+      "value": 3003000
+    },
+    {
+      "name": "ATHENA CONSUMER ACQUISITION CORP",
+      "cusip": "04684M106",
+      "shares": 100000,
+      "value": 1002000
+    },
+    {
+      "name": "ATLANTIC COASTAL ACQUISITION CORP II",
+      "cusip": "04845A108",
+      "shares": 250000,
+      "value": 2495000
+    },
+    {
+      "name": "AURORA TECHNOLOGY ACQUISITION CORP",
+      "cusip": "G06984119",
+      "shares": 950000,
+      "value": 9419000
+    },
+    {
+      "name": "AURORA TECHNOLOGY ACQUISITION CORP",
+      "cusip": "G06984127",
+      "shares": 950000,
+      "value": 35000
+    },
+    {
+      "name": "AVALON ACQUISITION INC",
+      "cusip": "05338E101",
+      "shares": 375000,
+      "value": 3746000
+    },
+    {
+      "name": "AXIOS SUSTAINABLE GROWTH ACQUISITION CORP",
+      "cusip": "G0703K108",
+      "shares": 600000,
+      "value": 5988000
+    },
+    {
+      "name": "AZUL SA",
+      "cusip": "05501U106",
+      "shares": 4444924,
+      "value": 31558000
+    },
+    {
+      "name": "BANCO BRADESCO SA",
+      "cusip": "059460303",
+      "shares": 11977104,
+      "value": 39045000
+    },
+    {
+      "name": "BANDWIDTH INC",
+      "cusip": "05988JAB9",
+      "shares": 7367000,
+      "value": 5105000
+    },
+    {
+      "name": "BANYAN ACQUISITION CORP",
+      "cusip": "06690B107",
+      "shares": 200000,
+      "value": 1992000
+    },
+    {
+      "name": "BATTALION OIL CORP",
+      "cusip": "07134L107",
+      "shares": 3009912,
+      "value": 25674000
+    },
+    {
+      "name": "BEARD ENERGY TRANSITION ACQUISITION CORP",
+      "cusip": "07402Q101",
+      "shares": 300000,
+      "value": 2983000
+    },
+    {
+      "name": "BEL FUSE INC",
+      "cusip": "077347201",
+      "shares": 71613,
+      "value": 1539000
+    },
+    {
+      "name": "BEL FUSE INC",
+      "cusip": "077347300",
+      "shares": 462679,
+      "value": 7199000
+    },
+    {
+      "name": "BELONG ACQUISITION CORP",
+      "cusip": "08069M102",
+      "shares": 200000,
+      "value": 1966000
+    },
+    {
+      "name": "BERRY CORP",
+      "cusip": "08579X101",
+      "shares": 11622000,
+      "value": 88559000
+    },
+    {
+      "name": "BIOMARIN PHARMACEUTICAL INC",
+      "cusip": "09061GAH4",
+      "shares": 1700000,
+      "value": 1687000
+    },
+    {
+      "name": "BIOPLUS ACQUISITION CORP",
+      "cusip": "G11217117",
+      "shares": 100000,
+      "value": 1001000
+    },
+    {
+      "name": "BLACK MOUNTAIN ACQUISITION CORP",
+      "cusip": "09216A108",
+      "shares": 200000,
+      "value": 1990000
+    },
+    {
+      "name": "BLACKROCK FLOATING RATE INCOME STRATEGIES FUND INC",
+      "cusip": "09255X100",
+      "shares": 487470,
+      "value": 5552000
+    },
+    {
+      "name": "BLACKROCK FLOATING RATE INCOME TRUST",
+      "cusip": "091941104",
+      "shares": 235032,
+      "value": 2590000
+    },
+    {
+      "name": "BLACKSTONE MORTGAGE TRUST INC",
+      "cusip": "09257WAC4",
+      "shares": 21239000,
+      "value": 21266000
+    },
+    {
+      "name": "BLACKSTONE SENIOR FLOATING RATE TERM FUND",
+      "cusip": "09256U105",
+      "shares": 36467,
+      "value": 485000
+    },
+    {
+      "name": "BLACKSTONE STRATEGIC CREDIT FUND",
+      "cusip": "09257R101",
+      "shares": 350000,
+      "value": 3909000
+    },
+    {
+      "name": "BLOCK INC",
+      "cusip": "852234AJ2",
+      "shares": 1400000,
+      "value": 1114000
+    },
+    {
+      "name": "BLOCKCHAIN COINVESTORS ACQUISITION CORP I",
+      "cusip": "G11765107",
+      "shares": 100000,
+      "value": 992000
+    },
+    {
+      "name": "BLOCKCHAIN MOON ACQUISITION CORP",
+      "cusip": "09370F109",
+      "shares": 275000,
+      "value": 2719000
+    },
+    {
+      "name": "BLUE WORLD ACQUISITION CORP",
+      "cusip": "G1263E102",
+      "shares": 550000,
+      "value": 5453000
+    },
+    {
+      "name": "BLUE WORLD ACQUISITION CORP",
+      "cusip": "G1263E110",
+      "shares": 550000,
+      "value": 71000
+    },
+    {
+      "name": "BOX INC",
+      "cusip": "10316TAB0",
+      "shares": 1500000,
+      "value": 1710000
+    },
+    {
+      "name": "BROAD CAPITAL ACQUISITION CORP",
+      "cusip": "11125B102",
+      "shares": 550000,
+      "value": 5445000
+    },
+    {
+      "name": "BULLPEN PARLAY ACQUISITION CO",
+      "cusip": "G1792A100",
+      "shares": 200000,
+      "value": 1996000
+    },
+    {
+      "name": "BURTECH ACQUISITION CORP",
+      "cusip": "123013104",
+      "shares": 600000,
+      "value": 5946000
+    },
+    {
+      "name": "CABLE ONE INC",
+      "cusip": "12685JAE5",
+      "shares": 3500000,
+      "value": 2901000
+    },
+    {
+      "name": "CANNA-GLOBAL ACQUISITION CORP",
+      "cusip": "13767K101",
+      "shares": 1100000,
+      "value": 11044000
+    },
+    {
+      "name": "CASCADIA ACQUISITION CORP",
+      "cusip": "14739D100",
+      "shares": 150000,
+      "value": 1467000
+    },
+    {
+      "name": "CBL & ASSOCIATES PROPERTIES INC",
+      "cusip": "124830878",
+      "shares": 3983966,
+      "value": 93583000
+    },
+    {
+      "name": "CEMEX SAB DE CV",
+      "cusip": "151290889",
+      "shares": 15421776,
+      "value": 60453000
+    },
+    {
+      "name": "CENAQ ENERGY CORP",
+      "cusip": "15130M102",
+      "shares": 550000,
+      "value": 5530000
+    },
+    {
+      "name": "CHARDAN NEXTECH ACQUISITION 2 CORP",
+      "cusip": "159561109",
+      "shares": 225000,
+      "value": 2277000
+    },
+    {
+      "name": "CHAVANT CAPITAL ACQUISITION CORP",
+      "cusip": "G2058L103",
+      "shares": 75000,
+      "value": 748000
+    },
+    {
+      "name": "CHEGG INC",
+      "cusip": "163092AF6",
+      "shares": 7800000,
+      "value": 5838000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 10501153,
+      "value": 851643000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167164",
+      "shares": 75810,
+      "value": 4620000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167172",
+      "shares": 150000,
+      "value": 8493000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167180",
+      "shares": 808001,
+      "value": 42395000
+    },
+    {
+      "name": "CIVITAS RESOURCES INC",
+      "cusip": "17888H103",
+      "shares": 1188000,
+      "value": 62120000
+    },
+    {
+      "name": "CLEAN EARTH ACQUISITIONS CORP",
+      "cusip": "184493104",
+      "shares": 300000,
+      "value": 2949000
+    },
+    {
+      "name": "CLIMATEROCK",
+      "cusip": "G2311X100",
+      "shares": 140000,
+      "value": 1386000
+    },
+    {
+      "name": "CLIMATEROCK",
+      "cusip": "G2311X134",
+      "shares": 140000,
+      "value": 15000
+    },
+    {
+      "name": "CLOVER LEAF CAPITAL CORP",
+      "cusip": "18915E105",
+      "shares": 200000,
+      "value": 2026000
+    },
+    {
+      "name": "COLOMBIER ACQUISITION CORP",
+      "cusip": "19533H108",
+      "shares": 50000,
+      "value": 486000
+    },
+    {
+      "name": "CONCORD ACQUISITION CORP III",
+      "cusip": "20607V106",
+      "shares": 25000,
+      "value": 248000
+    },
+    {
+      "name": "CONSILIUM ACQUISITION CORP I LTD",
+      "cusip": "G2365L101",
+      "shares": 400000,
+      "value": 3912000
+    },
+    {
+      "name": "COUNTER PRESS ACQUISITION CORP",
+      "cusip": "G2542B117",
+      "shares": 100000,
+      "value": 996000
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266LAF3",
+      "shares": 9667000,
+      "value": 7298000
+    },
+    {
+      "name": "CREDICORP LTD",
+      "cusip": "G2519Y108",
+      "shares": 398985,
+      "value": 47842000
+    },
+    {
+      "name": "CRYPTO 1 ACQUISITION CORP",
+      "cusip": "G3168A102",
+      "shares": 200000,
+      "value": 1982000
+    },
+    {
+      "name": "CUMULUS MEDIA INC",
+      "cusip": "231082801",
+      "shares": 28937,
+      "value": 223000
+    },
+    {
+      "name": "CVENT HOLDING CORP",
+      "cusip": "126677103",
+      "shares": 5000000,
+      "value": 23100000
+    },
+    {
+      "name": "DEEP MEDICINE ACQUISITION CORP",
+      "cusip": "243733102",
+      "shares": 425000,
+      "value": 4241000
+    },
+    {
+      "name": "DENALI CAPITAL ACQUISITION CORP",
+      "cusip": "G6256B106",
+      "shares": 225000,
+      "value": 2232000
+    },
+    {
+      "name": "DIGITAL HEALTH ACQUISITION CORP",
+      "cusip": "253893101",
+      "shares": 500000,
+      "value": 5015000
+    },
+    {
+      "name": "DIGITALBRIDGE GROUP INC",
+      "cusip": "19624RAA4",
+      "shares": 21096000,
+      "value": 20806000
+    },
+    {
+      "name": "DIRECT SELLING ACQUISITION CORP",
+      "cusip": "25460L103",
+      "shares": 350000,
+      "value": 3507000
+    },
+    {
+      "name": "DISH NETWORK CORP",
+      "cusip": "25470MAB5",
+      "shares": 18260000,
+      "value": 12380000
+    },
+    {
+      "name": "DOCUSIGN INC",
+      "cusip": "256163AD8",
+      "shares": 13489000,
+      "value": 12490000
+    },
+    {
+      "name": "DROPBOX INC",
+      "cusip": "26210CAC8",
+      "shares": 6253000,
+      "value": 5662000
+    },
+    {
+      "name": "DTRT HEALTH ACQUISITION CORP",
+      "cusip": "23344T103",
+      "shares": 150000,
+      "value": 1509000
+    },
+    {
+      "name": "DUET ACQUISITION CORP",
+      "cusip": "26431Q106",
+      "shares": 500000,
+      "value": 4942000
+    },
+    {
+      "name": "EAGLE BULK SHIPPING INC",
+      "cusip": "Y2187A150",
+      "shares": 3781561,
+      "value": 196187000
+    },
+    {
+      "name": "EAGLE BULK SHIPPING INC",
+      "cusip": "269442AB5",
+      "shares": 40495000,
+      "value": 66134000
+    },
+    {
+      "name": "EATON VANCE FLOATING-RATE INCOME TRUST",
+      "cusip": "278279104",
+      "shares": 253979,
+      "value": 2991000
+    },
+    {
+      "name": "EATON VANCE SENIOR FLOATING-RATE TRUST",
+      "cusip": "27828Q105",
+      "shares": 224450,
+      "value": 2754000
+    },
+    {
+      "name": "ENERGEM CORP",
+      "cusip": "G30449105",
+      "shares": 400000,
+      "value": 4016000
+    },
+    {
+      "name": "ENPHASE ENERGY INC",
+      "cusip": "29355AAK3",
+      "shares": 3578000,
+      "value": 3569000
+    },
+    {
+      "name": "ENVESTNET INC",
+      "cusip": "29404KAE6",
+      "shares": 2748000,
+      "value": 2357000
+    },
+    {
+      "name": "ESGEN ACQUISITION CORP",
+      "cusip": "G3R95N103",
+      "shares": 75000,
+      "value": 753000
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786AAN6",
+      "shares": 4294000,
+      "value": 3166000
+    },
+    {
+      "name": "EVEREST CONSOLIDATOR ACQUISITION CORP",
+      "cusip": "29978K102",
+      "shares": 200000,
+      "value": 1996000
+    },
+    {
+      "name": "EVERGREEN CORP",
+      "cusip": "G3312W109",
+      "shares": 450000,
+      "value": 4491000
+    },
+    {
+      "name": "EVERGREEN CORP",
+      "cusip": "G3312W117",
+      "shares": 450000,
+      "value": 35000
+    },
+    {
+      "name": "EZCORP INC",
+      "cusip": "302301AE6",
+      "shares": 12534000,
+      "value": 11161000
+    },
+    {
+      "name": "FASTLY INC",
+      "cusip": "31188VAB6",
+      "shares": 14485000,
+      "value": 10595000
+    },
+    {
+      "name": "FAT PROJECTS ACQUISITION CORP",
+      "cusip": "G3400W102",
+      "shares": 210000,
+      "value": 2083000
+    },
+    {
+      "name": "FEUTUNE LIGHT ACQUISITION CORP",
+      "cusip": "31561T201",
+      "shares": 735000,
+      "value": 7320000
+    },
+    {
+      "name": "FINANCIAL STRATEGIES ACQUISITION CORP",
+      "cusip": "31772T107",
+      "shares": 400000,
+      "value": 3980000
+    },
+    {
+      "name": "FINNOVATE ACQUISITION CORP",
+      "cusip": "G3R34K103",
+      "shares": 220000,
+      "value": 2186000
+    },
+    {
+      "name": "FINTECH ECOSYSTEM DEVELOPMENT CORP",
+      "cusip": "318136108",
+      "shares": 450000,
+      "value": 4509000
+    },
+    {
+      "name": "FINTECH EVOLUTION ACQUISITION GROUP",
+      "cusip": "G3R19A104",
+      "shares": 150000,
+      "value": 1470000
+    },
+    {
+      "name": "FIRST LIGHT ACQUISITION GROUP INC",
+      "cusip": "320703101",
+      "shares": 300000,
+      "value": 2982000
+    },
+    {
+      "name": "FIRST TRUST SENIOR FLOATING RATE INCOME FUND II",
+      "cusip": "33733U108",
+      "shares": 221205,
+      "value": 2209000
+    },
+    {
+      "name": "FORD MOTOR CO",
+      "cusip": "345370CZ1",
+      "shares": 6577000,
+      "value": 6031000
+    },
+    {
+      "name": "FORTRESS TRANSPORTATION AND INFRASTRUCTURE INVESTORS LLC",
+      "cusip": "34960P101",
+      "shares": 2033110,
+      "value": 39320000
+    },
+    {
+      "name": "FORTUNE RISE ACQUISITION CORP",
+      "cusip": "34969G102",
+      "shares": 275000,
+      "value": 2773000
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 2411158,
+      "value": 70550000
+    },
+    {
+      "name": "FRONTIER COMMUNICATIONS PARENT INC",
+      "cusip": "35909D109",
+      "shares": 3982849,
+      "value": 93756000
+    },
+    {
+      "name": "FUTURE HEALTH ESG CORP",
+      "cusip": "36118W102",
+      "shares": 250000,
+      "value": 2472000
+    },
+    {
+      "name": "FUTURETECH II ACQUISITION CORP",
+      "cusip": "36119D103",
+      "shares": 410000,
+      "value": 4102000
+    },
+    {
+      "name": "FUTURETECH II ACQUISITION CORP",
+      "cusip": "36119D111",
+      "shares": 410000,
+      "value": 33000
+    },
+    {
+      "name": "GARDINER HEALTHCARE ACQUISITIONS CORP",
+      "cusip": "365506104",
+      "shares": 400000,
+      "value": 3978000
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505105",
+      "shares": 3593111,
+      "value": 27774000
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505204",
+      "shares": 68834814,
+      "value": 565822000
+    },
+    {
+      "name": "GENESIS GROWTH TECH ACQUISITION CORP",
+      "cusip": "G3R23D102",
+      "shares": 201400,
+      "value": 2020000
+    },
+    {
+      "name": "GENESIS UNICORN CAPITAL CORP",
+      "cusip": "37187C100",
+      "shares": 320000,
+      "value": 3184000
+    },
+    {
+      "name": "GLADSTONE ACQUISITION CORP",
+      "cusip": "37653T108",
+      "shares": 250000,
+      "value": 2522000
+    },
+    {
+      "name": "GLOBAL CONSUMER ACQUISITION CORP",
+      "cusip": "37892B108",
+      "shares": 700000,
+      "value": 7063000
+    },
+    {
+      "name": "GLOBAL TECHNOLOGY ACQUISITION CORP I",
+      "cusip": "G3934N107",
+      "shares": 200000,
+      "value": 2001000
+    },
+    {
+      "name": "GLOBALINK INVESTMENT INC",
+      "cusip": "37892F109",
+      "shares": 350000,
+      "value": 3468000
+    },
+    {
+      "name": "GOGREEN INVESTMENTS CORP",
+      "cusip": "G9461B101",
+      "shares": 300000,
+      "value": 3006000
+    },
+    {
+      "name": "GOLDENSTONE ACQUISITION LTD",
+      "cusip": "38136Y102",
+      "shares": 350000,
+      "value": 3461000
+    },
+    {
+      "name": "GOLDENSTONE ACQUISITION LTD",
+      "cusip": "38136Y110",
+      "shares": 350000,
+      "value": 28000
+    },
+    {
+      "name": "GOOD WORKS II ACQUISITION CORP",
+      "cusip": "38216G104",
+      "shares": 100000,
+      "value": 991000
+    },
+    {
+      "name": "GOSSAMER BIO INC",
+      "cusip": "38341PAA0",
+      "shares": 828000,
+      "value": 618000
+    },
+    {
+      "name": "GRAF ACQUISITION CORP IV",
+      "cusip": "384272100",
+      "shares": 100000,
+      "value": 971000
+    },
+    {
+      "name": "GREEN VISOR FINANCIAL TECHNOLOGY ACQUISITION CORP I",
+      "cusip": "G4166K100",
+      "shares": 50000,
+      "value": 503000
+    },
+    {
+      "name": "GREENLIGHT CAPITAL RE LTD",
+      "cusip": "395366AB3",
+      "shares": 3209000,
+      "value": 2956000
+    },
+    {
+      "name": "GRUPO TELEVISA SAB",
+      "cusip": "40049J206",
+      "shares": 2364174,
+      "value": 19338000
+    },
+    {
+      "name": "GUARDANT HEALTH INC",
+      "cusip": "40131MAB5",
+      "shares": 1700000,
+      "value": 1058000
+    },
+    {
+      "name": "HAEMONETICS CORP",
+      "cusip": "405024AB6",
+      "shares": 16490000,
+      "value": 12986000
+    },
+    {
+      "name": "HALOZYME THERAPEUTICS INC",
+      "cusip": "40637HAD1",
+      "shares": 3300000,
+      "value": 2927000
+    },
+    {
+      "name": "HCM ACQUISITION CORP",
+      "cusip": "G4365A101",
+      "shares": 200000,
+      "value": 2008000
+    },
+    {
+      "name": "HEALTHWELL ACQUISITION CORP I",
+      "cusip": "42227R109",
+      "shares": 100000,
+      "value": 968000
+    },
+    {
+      "name": "HEARTLAND MEDIA ACQUISITION CORP",
+      "cusip": "42237V108",
+      "shares": 100000,
+      "value": 995000
+    },
+    {
+      "name": "HELIX ENERGY SOLUTIONS GROUP INC",
+      "cusip": "42330PAJ6",
+      "shares": 2844000,
+      "value": 2696000
+    },
+    {
+      "name": "HELLO GROUP INC",
+      "cusip": "60879BAB3",
+      "shares": 8848000,
+      "value": 8184000
+    },
+    {
+      "name": "HERBALIFE NUTRITION LTD",
+      "cusip": "42703MAD5",
+      "shares": 8861000,
+      "value": 7881000
+    },
+    {
+      "name": "HERTZ GLOBAL HOLDINGS INC",
+      "cusip": "42806J700",
+      "shares": 11598279,
+      "value": 183716000
+    },
+    {
+      "name": "HIMS & HERS HEALTH INC",
+      "cusip": "433000106",
+      "shares": 3271279,
+      "value": 14818000
+    },
+    {
+      "name": "HNR ACQUISITION CORP",
+      "cusip": "40472A102",
+      "shares": 425000,
+      "value": 4233000
+    },
+    {
+      "name": "HNR ACQUISITION CORP",
+      "cusip": "40472A128",
+      "shares": 425000,
+      "value": 48000
+    },
+    {
+      "name": "HOPE BANCORP INC",
+      "cusip": "43940TAB5",
+      "shares": 19622000,
+      "value": 19192000
+    },
+    {
+      "name": "HUAZHU GROUP LTD",
+      "cusip": "16949NAC3",
+      "shares": 7864000,
+      "value": 8014000
+    },
+    {
+      "name": "ICICI BANK LTD",
+      "cusip": "45104G104",
+      "shares": 5116196,
+      "value": 90761000
+    },
+    {
+      "name": "ICONIC SPORTS ACQUISITION CORP",
+      "cusip": "G4712C107",
+      "shares": 400000,
+      "value": 4000000
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327AK5",
+      "shares": 11437000,
+      "value": 10928000
+    },
+    {
+      "name": "INCEPTION GROWTH ACQUISITION LTD",
+      "cusip": "45333D104",
+      "shares": 400000,
+      "value": 3956000
+    },
+    {
+      "name": "INDUSTRIAL HUMAN CAPITAL INC",
+      "cusip": "45617P104",
+      "shares": 500000,
+      "value": 5015000
+    },
+    {
+      "name": "INDUSTRIAL TECH ACQUISITIONS II INC",
+      "cusip": "45635R108",
+      "shares": 200000,
+      "value": 1998000
+    },
+    {
+      "name": "INFINERA CORP",
+      "cusip": "45667G103",
+      "shares": 25175384,
+      "value": 134940000
+    },
+    {
+      "name": "INFINT ACQUISITION CORP",
+      "cusip": "G47862100",
+      "shares": 900000,
+      "value": 9027000
+    },
+    {
+      "name": "INNOVATIVE INTERNATIONAL ACQUISITION CORP",
+      "cusip": "G4809M109",
+      "shares": 100000,
+      "value": 1002000
+    },
+    {
+      "name": "INSIGHT ACQUISITION CORP/DE",
+      "cusip": "45784L100",
+      "shares": 150000,
+      "value": 1473000
+    },
+    {
+      "name": "INTEGRA LIFESCIENCES HOLDINGS CORP",
+      "cusip": "457985AM1",
+      "shares": 2053000,
+      "value": 1932000
+    },
+    {
+      "name": "INTEGRATED RAIL AND RESOURCES ACQUISITION CORP",
+      "cusip": "45827R106",
+      "shares": 100000,
+      "value": 997000
+    },
+    {
+      "name": "INTEGRATED WELLNESS ACQUISITION CORP",
+      "cusip": "G4828B100",
+      "shares": 100000,
+      "value": 997000
+    },
+    {
+      "name": "INTELLIGENT MEDICINE ACQUISITION CORP",
+      "cusip": "45828D106",
+      "shares": 100000,
+      "value": 1002000
+    },
+    {
+      "name": "INTERCEPT PHARMACEUTICALS INC",
+      "cusip": "45845PAA6",
+      "shares": 6970000,
+      "value": 6760000
+    },
+    {
+      "name": "INTERDIGITAL INC",
+      "cusip": "45867GAB7",
+      "shares": 2000000,
+      "value": 1966000
+    },
+    {
+      "name": "INVACARE CORP",
+      "cusip": "461203AJ0",
+      "shares": 3893000,
+      "value": 3356000
+    },
+    {
+      "name": "INVESCO SENIOR INCOME TRUST",
+      "cusip": "46131H107",
+      "shares": 3551598,
+      "value": 13815000
+    },
+    {
+      "name": "IONIS PHARMACEUTICALS INC",
+      "cusip": "462222AB6",
+      "shares": 24313000,
+      "value": 21480000
+    },
+    {
+      "name": "IONIS PHARMACEUTICALS INC",
+      "cusip": "462222AD2",
+      "shares": 1496000,
+      "value": 1367000
+    },
+    {
+      "name": "ITAU UNIBANCO HOLDING SA",
+      "cusip": "465562106",
+      "shares": 26649428,
+      "value": 114059000
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "472145AD3",
+      "shares": 2071000,
+      "value": 2056000
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "472145AF8",
+      "shares": 2200000,
+      "value": 2590000
+    },
+    {
+      "name": "JETBLUE AIRWAYS CORP",
+      "cusip": "477143AP6",
+      "shares": 2970000,
+      "value": 2199000
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "98426TAD8",
+      "shares": 7699000,
+      "value": 6909000
+    },
+    {
+      "name": "JUNIPER II CORP",
+      "cusip": "48203N103",
+      "shares": 250000,
+      "value": 2482000
+    },
+    {
+      "name": "JUPITER WELLNESS ACQUISITION CORP",
+      "cusip": "48208E108",
+      "shares": 500000,
+      "value": 4980000
+    },
+    {
+      "name": "KAIROUS ACQUISITION CORP LTD",
+      "cusip": "G52131110",
+      "shares": 150000,
+      "value": 1492000
+    },
+    {
+      "name": "KAMAN CORP",
+      "cusip": "483548AF0",
+      "shares": 14755000,
+      "value": 13869000
+    },
+    {
+      "name": "KB HOME",
+      "cusip": "48666K109",
+      "shares": 605000,
+      "value": 17218000
+    },
+    {
+      "name": "KEYARCH ACQUISITION CORP",
+      "cusip": "G5260A104",
+      "shares": 290000,
+      "value": 2844000
+    },
+    {
+      "name": "KILROY REALTY CORP",
+      "cusip": "49427F108",
+      "shares": 1615011,
+      "value": 84513000
+    },
+    {
+      "name": "KIMBELL TIGER ACQUISITION CORP",
+      "cusip": "49436K106",
+      "shares": 300000,
+      "value": 3006000
+    },
+    {
+      "name": "KKR REAL ESTATE FINANCE TRUST INC",
+      "cusip": "48251KAB6",
+      "shares": 14196000,
+      "value": 14098000
+    },
+    {
+      "name": "KNIGHTSWAN ACQUISITION CORP",
+      "cusip": "499103109",
+      "shares": 150000,
+      "value": 1503000
+    },
+    {
+      "name": "LAKESHORE ACQUISITION II CORP",
+      "cusip": "G5352N105",
+      "shares": 175000,
+      "value": 1734000
+    },
+    {
+      "name": "LAKESHORE ACQUISITION II CORP",
+      "cusip": "G5352N113",
+      "shares": 175000,
+      "value": 19000
+    },
+    {
+      "name": "LAMF GLOBAL VENTURES CORP I",
+      "cusip": "G5338L108",
+      "shares": 50000,
+      "value": 498000
+    },
+    {
+      "name": "LARKSPUR HEALTH ACQUISITION CORP",
+      "cusip": "51724W107",
+      "shares": 200000,
+      "value": 1986000
+    },
+    {
+      "name": "LENDINGTREE INC",
+      "cusip": "52603BAD9",
+      "shares": 7595000,
+      "value": 5157000
+    },
+    {
+      "name": "LF CAPITAL ACQUISITION CORP II",
+      "cusip": "50202D102",
+      "shares": 50000,
+      "value": 501000
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 86999,
+      "value": 10060000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1875000,
+      "value": 41418000
+    },
+    {
+      "name": "LIBERTY RESOURCES ACQUISITION CORP",
+      "cusip": "53118A105",
+      "shares": 325000,
+      "value": 3248000
+    },
+    {
+      "name": "LIGAND PHARMACEUTICALS INC",
+      "cusip": "53220KAF5",
+      "shares": 20472000,
+      "value": 19704000
+    },
+    {
+      "name": "LIONHEART III CORP",
+      "cusip": "536262108",
+      "shares": 250000,
+      "value": 2497000
+    },
+    {
+      "name": "LIV CAPITAL ACQUISITION CORP II",
+      "cusip": "G5510R105",
+      "shares": 60000,
+      "value": 597000
+    },
+    {
+      "name": "LIVEPERSON INC",
+      "cusip": "538146AD3",
+      "shares": 3361000,
+      "value": 2432000
+    },
+    {
+      "name": "LOMA NEGRA CIA INDUSTRIAL ARGENTINA SA",
+      "cusip": "54150E104",
+      "shares": 250924,
+      "value": 1274000
+    },
+    {
+      "name": "M/I HOMES INC",
+      "cusip": "55305B101",
+      "shares": 210000,
+      "value": 8328000
+    },
+    {
+      "name": "MACOM TECHNOLOGY SOLUTIONS HOLDINGS INC",
+      "cusip": "55405YAB6",
+      "shares": 1980000,
+      "value": 1732000
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 2300000,
+      "value": 33419000
+    },
+    {
+      "name": "MARBLEGATE ACQUISITION CORP",
+      "cusip": "56608A105",
+      "shares": 100000,
+      "value": 988000
+    },
+    {
+      "name": "MAXPRO CAPITAL ACQUISITION CORP",
+      "cusip": "57778T106",
+      "shares": 300000,
+      "value": 3019000
+    },
+    {
+      "name": "MERCATO PARTNERS ACQUISITION CORP",
+      "cusip": "58759A108",
+      "shares": 250000,
+      "value": 2490000
+    },
+    {
+      "name": "MERCURY ECOMMERCE ACQUISITION CORP",
+      "cusip": "589381102",
+      "shares": 200000,
+      "value": 1978000
+    },
+    {
+      "name": "METAL SKY STAR ACQUISITION CORP",
+      "cusip": "G6053N105",
+      "shares": 496000,
+      "value": 4883000
+    },
+    {
+      "name": "METAL SKY STAR ACQUISITION CORP",
+      "cusip": "G6053N113",
+      "shares": 496000,
+      "value": 59000
+    },
+    {
+      "name": "METAL SKY STAR ACQUISITION CORP",
+      "cusip": "G6053N121",
+      "shares": 496000,
+      "value": 32000
+    },
+    {
+      "name": "MFA FINANCIAL INC",
+      "cusip": "55272XAA0",
+      "shares": 15138000,
+      "value": 13770000
+    },
+    {
+      "name": "MGIC INVESTMENT CORP",
+      "cusip": "552848103",
+      "shares": 1200000,
+      "value": 15120000
+    },
+    {
+      "name": "MINORITY EQUALITY OPPORTUNITIES ACQUISITION INC",
+      "cusip": "60436Q100",
+      "shares": 275000,
+      "value": 2773000
+    },
+    {
+      "name": "MONTEREY BIO ACQUISITION CORP",
+      "cusip": "61240F108",
+      "shares": 150000,
+      "value": 1503000
+    },
+    {
+      "name": "MONTEREY CAPITAL ACQUISITION CORP",
+      "cusip": "61244M208",
+      "shares": 792000,
+      "value": 7888000
+    },
+    {
+      "name": "MOTIVE CAPITAL CORP II",
+      "cusip": "G6293R106",
+      "shares": 100000,
+      "value": 989000
+    },
+    {
+      "name": "MOUNT RAINIER ACQUISITION CORP",
+      "cusip": "623006103",
+      "shares": 150000,
+      "value": 1509000
+    },
+    {
+      "name": "MOUNTAIN & CO I ACQUISITION CORP",
+      "cusip": "G6301J104",
+      "shares": 300000,
+      "value": 3036000
+    },
+    {
+      "name": "MOUNTAIN CREST ACQUISITION CORP V",
+      "cusip": "62404B107",
+      "shares": 75000,
+      "value": 740000
+    },
+    {
+      "name": "MR COOPER GROUP INC",
+      "cusip": "62482R107",
+      "shares": 957286,
+      "value": 35170000
+    },
+    {
+      "name": "MURPHY CANYON ACQUISITION CORP",
+      "cusip": "626642102",
+      "shares": 600000,
+      "value": 6018000
+    },
+    {
+      "name": "NABORS ENERGY TRANSITION CORP",
+      "cusip": "629567108",
+      "shares": 200000,
+      "value": 2000000
+    },
+    {
+      "name": "NABORS INDUSTRIES LTD",
+      "cusip": "62957HAB1",
+      "shares": 10222000,
+      "value": 9404000
+    },
+    {
+      "name": "NEW MOUNTAIN FINANCE CORP",
+      "cusip": "647551AC4",
+      "shares": 15751000,
+      "value": 15766000
+    },
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829BAB6",
+      "shares": 17409000,
+      "value": 16869000
+    },
+    {
+      "name": "NICE LTD",
+      "cusip": "653656AB4",
+      "shares": 7000000,
+      "value": 6912000
+    },
+    {
+      "name": "NMI HOLDINGS INC",
+      "cusip": "629209305",
+      "shares": 5320000,
+      "value": 88578000
+    },
+    {
+      "name": "NOBLE CORP",
+      "cusip": "G6610J209",
+      "shares": 19979,
+      "value": 506000
+    },
+    {
+      "name": "NORTHERN LIGHTS ACQUISITION CORP",
+      "cusip": "66538L105",
+      "shares": 150000,
+      "value": 1591000
+    },
+    {
+      "name": "NORTHVIEW ACQUISITION CORP",
+      "cusip": "66718N103",
+      "shares": 750000,
+      "value": 7402000
+    },
+    {
+      "name": "NORTHVIEW ACQUISITION CORP",
+      "cusip": "66718N129",
+      "shares": 750000,
+      "value": 78000
+    },
+    {
+      "name": "NOVAVAX INC",
+      "cusip": "670002AB0",
+      "shares": 13242000,
+      "value": 13291000
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377CG5",
+      "shares": 1630000,
+      "value": 1757000
+    },
+    {
+      "name": "NUBIA BRAND INTERNATIONAL CORP",
+      "cusip": "67022R103",
+      "shares": 255000,
+      "value": 2544000
+    },
+    {
+      "name": "NUBIA BRAND INTERNATIONAL CORP",
+      "cusip": "67022R111",
+      "shares": 127500,
+      "value": 10000
+    },
+    {
+      "name": "NUTANIX INC",
+      "cusip": "67059NAB4",
+      "shares": 16468000,
+      "value": 16148000
+    },
+    {
+      "name": "NUVASIVE INC",
+      "cusip": "670704AJ4",
+      "shares": 2500000,
+      "value": 2229000
+    },
+    {
+      "name": "NUVASIVE INC",
+      "cusip": "670704AL9",
+      "shares": 9910000,
+      "value": 9600000
+    },
+    {
+      "name": "NUVEEN CREDIT STRATEGIES INCOME FUND",
+      "cusip": "67073D102",
+      "shares": 2830381,
+      "value": 14717000
+    },
+    {
+      "name": "NUVEEN FLOATING RATE INCOME FUND/CLOSED-END FUND",
+      "cusip": "67072T108",
+      "shares": 725061,
+      "value": 6047000
+    },
+    {
+      "name": "NUVEEN FLOATING RATE INCOME OPPORTUNITY FUND",
+      "cusip": "6706EN100",
+      "shares": 640508,
+      "value": 5232000
+    },
+    {
+      "name": "NUVEEN SENIOR INCOME FUND",
+      "cusip": "67067Y104",
+      "shares": 1019697,
+      "value": 4884000
+    },
+    {
+      "name": "NUVEEN SHORT DURATION CREDIT OPPORTUNITIES FUND",
+      "cusip": "67074X107",
+      "shares": 480438,
+      "value": 5779000
+    },
+    {
+      "name": "OAKTREE SPECIALTY LENDING CORP",
+      "cusip": "67401P108",
+      "shares": 5014511,
+      "value": 32845000
+    },
+    {
+      "name": "OCWEN FINANCIAL CORP",
+      "cusip": "675746606",
+      "shares": 756870,
+      "value": 20738000
+    },
+    {
+      "name": "OKTA INC",
+      "cusip": "679295AF2",
+      "shares": 4703000,
+      "value": 3936000
+    },
+    {
+      "name": "OMNILIT ACQUISITION CORP",
+      "cusip": "68218C108",
+      "shares": 140000,
+      "value": 1398000
+    },
+    {
+      "name": "ONYX ACQUISITION CO I",
+      "cusip": "G6755Q109",
+      "shares": 300000,
+      "value": 3000000
+    },
+    {
+      "name": "OSI SYSTEMS INC",
+      "cusip": "671044AD7",
+      "shares": 18923000,
+      "value": 18989000
+    },
+    {
+      "name": "OSIRIS ACQUISITION CORP",
+      "cusip": "68829A103",
+      "shares": 150000,
+      "value": 1464000
+    },
+    {
+      "name": "OXBRIDGE ACQUISITION CORP",
+      "cusip": "G6855L109",
+      "shares": 250000,
+      "value": 2505000
+    },
+    {
+      "name": "PACIFICO ACQUISITION CORP",
+      "cusip": "69512X103",
+      "shares": 225000,
+      "value": 2259000
+    },
+    {
+      "name": "PAMPA ENERGIA SA",
+      "cusip": "697660207",
+      "shares": 829000,
+      "value": 16977000
+    },
+    {
+      "name": "PAPAYA GROWTH OPPORTUNITY CORP I",
+      "cusip": "69882P102",
+      "shares": 250000,
+      "value": 2497000
+    },
+    {
+      "name": "PAR PACIFIC HOLDINGS INC",
+      "cusip": "69888T207",
+      "shares": 2210000,
+      "value": 34453000
+    },
+    {
+      "name": "PARABELLUM ACQUISITION CORP",
+      "cusip": "69901P109",
+      "shares": 200000,
+      "value": 1968000
+    },
+    {
+      "name": "PARSEC CAPITAL ACQUISITIONS CORP",
+      "cusip": "70184A108",
+      "shares": 75000,
+      "value": 753000
+    },
+    {
+      "name": "PATRIA LATIN AMERICAN OPPORTUNITY ACQUISITION CORP",
+      "cusip": "G69454109",
+      "shares": 50000,
+      "value": 501000
+    },
+    {
+      "name": "PATRIA LATIN AMERICAN OPPORTUNITY ACQUISITION CORP",
+      "cusip": "G69454117",
+      "shares": 25000,
+      "value": 3000
+    },
+    {
+      "name": "PATRICK INDUSTRIES INC",
+      "cusip": "703343AB9",
+      "shares": 9267000,
+      "value": 9165000
+    },
+    {
+      "name": "PEBBLEBROOK HOTEL TRUST",
+      "cusip": "70509VAA8",
+      "shares": 2620000,
+      "value": 2346000
+    },
+    {
+      "name": "PELOTON INTERACTIVE INC",
+      "cusip": "70614WAB6",
+      "shares": 7050000,
+      "value": 4476000
+    },
+    {
+      "name": "PENNYMAC MORTGAGE INVESTMENT TRUST",
+      "cusip": "70932AAD5",
+      "shares": 17919000,
+      "value": 17403000
+    },
+    {
+      "name": "PERCEPTION CAPITAL CORP II",
+      "cusip": "G7007D102",
+      "shares": 150000,
+      "value": 1507000
+    },
+    {
+      "name": "PERSHING SQUARE TONTINE HOLDINGS LTD",
+      "cusip": "71531R109",
+      "shares": 100000,
+      "value": 1997000
+    },
+    {
+      "name": "PETROLEO BRASILEIRO SA",
+      "cusip": "71654V408",
+      "shares": 11097068,
+      "value": 129613000
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 29000000,
+      "value": 289419000
+    },
+    {
+      "name": "PINDUODUO INC",
+      "cusip": "722304AC6",
+      "shares": 9091000,
+      "value": 8031000
+    },
+    {
+      "name": "PONO CAPITAL CORP",
+      "cusip": "732450101",
+      "shares": 250000,
+      "value": 2527000
+    },
+    {
+      "name": "POWERUP ACQUISITION CORP",
+      "cusip": "G7207P103",
+      "shares": 100000,
+      "value": 998000
+    },
+    {
+      "name": "PRECIGEN INC",
+      "cusip": "46122TAA0",
+      "shares": 34429000,
+      "value": 27440000
+    },
+    {
+      "name": "PROGRESS SOFTWARE CORP",
+      "cusip": "743312AB6",
+      "shares": 3230000,
+      "value": 3134000
+    },
+    {
+      "name": "PROOF ACQUISITION CORP I",
+      "cusip": "74349W104",
+      "shares": 75000,
+      "value": 741000
+    },
+    {
+      "name": "PTC THERAPEUTICS INC",
+      "cusip": "69366JAB7",
+      "shares": 12663000,
+      "value": 12829000
+    },
+    {
+      "name": "PULTEGROUP INC",
+      "cusip": "745867101",
+      "shares": 619000,
+      "value": 24530000
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119AB9",
+      "shares": 6146000,
+      "value": 5715000
+    },
+    {
+      "name": "RADIUS HEALTH INC",
+      "cusip": "750469AA6",
+      "shares": 3799000,
+      "value": 3730000
+    },
+    {
+      "name": "REDWOOD TRUST INC",
+      "cusip": "749772AD1",
+      "shares": 13677000,
+      "value": 12232000
+    },
+    {
+      "name": "REDWOOD TRUST INC",
+      "cusip": "758075AC9",
+      "shares": 7587000,
+      "value": 7443000
+    },
+    {
+      "name": "REDWOODS ACQUISITION CORP",
+      "cusip": "758083109",
+      "shares": 450000,
+      "value": 4446000
+    },
+    {
+      "name": "REDWOODS ACQUISITION CORP",
+      "cusip": "758083125",
+      "shares": 450000,
+      "value": 56000
+    },
+    {
+      "name": "RELATIVITY ACQUISITION CORP",
+      "cusip": "75944B106",
+      "shares": 645000,
+      "value": 6495000
+    },
+    {
+      "name": "RESERVOIR MEDIA INC",
+      "cusip": "76119X105",
+      "shares": 931889,
+      "value": 6075000
+    },
+    {
+      "name": "RF ACQUISITION CORP",
+      "cusip": "74954L104",
+      "shares": 400000,
+      "value": 3944000
+    },
+    {
+      "name": "RF ACQUISITION CORP",
+      "cusip": "74954L120",
+      "shares": 400000,
+      "value": 46000
+    },
+    {
+      "name": "RIGEL RESOURCE ACQUISITION CORP",
+      "cusip": "G7573M106",
+      "shares": 350000,
+      "value": 3479000
+    },
+    {
+      "name": "RINGCENTRAL INC",
+      "cusip": "76680RAF4",
+      "shares": 5972000,
+      "value": 4911000
+    },
+    {
+      "name": "ROC ENERGY ACQUISITION CORP",
+      "cusip": "77118V108",
+      "shares": 400000,
+      "value": 3984000
+    },
+    {
+      "name": "ROTH CH ACQUISITION IV CO",
+      "cusip": "77867P104",
+      "shares": 200000,
+      "value": 1995000
+    },
+    {
+      "name": "RUNWAY GROWTH FINANCE CORP",
+      "cusip": "78163D100",
+      "shares": 21054667,
+      "value": 238128000
+    },
+    {
+      "name": "SAGALIAM ACQUISITION CORP",
+      "cusip": "78661R106",
+      "shares": 475000,
+      "value": 4709000
+    },
+    {
+      "name": "SAGALIAM ACQUISITION CORP",
+      "cusip": "78661R114",
+      "shares": 698577,
+      "value": 94000
+    },
+    {
+      "name": "SANABY HEALTH ACQUISITION CORP I",
+      "cusip": "79956P102",
+      "shares": 350000,
+      "value": 3514000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141RAG5",
+      "shares": 20415000,
+      "value": 15005000
+    },
+    {
+      "name": "SEAPORT GLOBAL ACQUISITION II CORP",
+      "cusip": "81221H105",
+      "shares": 50000,
+      "value": 497000
+    },
+    {
+      "name": "SFL CORP LTD",
+      "cusip": "824689AG8",
+      "shares": 11223000,
+      "value": 11265000
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047AB7",
+      "shares": 3459000,
+      "value": 2371000
+    },
+    {
+      "name": "SHELTER ACQUISITION CORP I",
+      "cusip": "822821104",
+      "shares": 50000,
+      "value": 491000
+    },
+    {
+      "name": "SHIFT4 PAYMENTS INC",
+      "cusip": "82452JAB5",
+      "shares": 3263000,
+      "value": 2631000
+    },
+    {
+      "name": "SHOALS TECHNOLOGIES GROUP INC",
+      "cusip": "82489W107",
+      "shares": 11980,
+      "value": 197000
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509LAA5",
+      "shares": 11748000,
+      "value": 9838000
+    },
+    {
+      "name": "SHOULDERUP TECHNOLOGY ACQUISITION CORP",
+      "cusip": "82537G104",
+      "shares": 175000,
+      "value": 1736000
+    },
+    {
+      "name": "SIERRA LAKE ACQUISITION CORP",
+      "cusip": "826332108",
+      "shares": 250000,
+      "value": 2480000
+    },
+    {
+      "name": "SIZZLE ACQUISITION CORP",
+      "cusip": "83014E109",
+      "shares": 25000,
+      "value": 249000
+    },
+    {
+      "name": "SMARTRENT INC",
+      "cusip": "83193G107",
+      "shares": 3006807,
+      "value": 13590000
+    },
+    {
+      "name": "SOAR TECHNOLOGY ACQUISITION CORP",
+      "cusip": "G82472112",
+      "shares": 250000,
+      "value": 2542000
+    },
+    {
+      "name": "SORRENTO THERAPEUTICS INC",
+      "cusip": "83587F202",
+      "shares": 134000,
+      "value": 269000
+    },
+    {
+      "name": "SPLUNK INC",
+      "cusip": "848637AD6",
+      "shares": 3288000,
+      "value": 3090000
+    },
+    {
+      "name": "SPLUNK INC",
+      "cusip": "848637AF1",
+      "shares": 5703000,
+      "value": 4733000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY SA",
+      "cusip": "84921RAB6",
+      "shares": 17973000,
+      "value": 14270000
+    },
+    {
+      "name": "SPREE ACQUISITION CORP 1 LTD",
+      "cusip": "G83745102",
+      "shares": 350000,
+      "value": 3493000
+    },
+    {
+      "name": "SPRINGWATER SPECIAL SITUATIONS CORP",
+      "cusip": "85205U107",
+      "shares": 250000,
+      "value": 2470000
+    },
+    {
+      "name": "STAR BULK CARRIERS CORP",
+      "cusip": "Y8162K204",
+      "shares": 26021457,
+      "value": 650276000
+    },
+    {
+      "name": "STARWOOD PROPERTY TRUST INC",
+      "cusip": "85571BAH8",
+      "shares": 13280000,
+      "value": 13180000
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 20726126,
+      "value": 161249000
+    },
+    {
+      "name": "SUPER MICRO COMPUTER INC",
+      "cusip": "86800U104",
+      "shares": 650000,
+      "value": 26227000
+    },
+    {
+      "name": "SUPERNUS PHARMACEUTICALS INC",
+      "cusip": "868459AD0",
+      "shares": 24447000,
+      "value": 23851000
+    },
+    {
+      "name": "TASTEMAKER ACQUISITION CORP",
+      "cusip": "876545104",
+      "shares": 150000,
+      "value": 1488000
+    },
+    {
+      "name": "TECHNOLOGY & TELECOMMUNICATION ACQUISITION CORP",
+      "cusip": "G87119106",
+      "shares": 450000,
+      "value": 4500000
+    },
+    {
+      "name": "TELADOC HEALTH INC",
+      "cusip": "539183AA1",
+      "shares": 4635000,
+      "value": 3921000
+    },
+    {
+      "name": "TELECOM ARGENTINA SA",
+      "cusip": "879273209",
+      "shares": 2220500,
+      "value": 10103000
+    },
+    {
+      "name": "TERNIUM SA",
+      "cusip": "880890108",
+      "shares": 460249,
+      "value": 16610000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "88339KAA0",
+      "shares": 6206000,
+      "value": 5715000
+    },
+    {
+      "name": "THRIVE ACQUISITION CORP",
+      "cusip": "G7158C101",
+      "shares": 100000,
+      "value": 1003000
+    },
+    {
+      "name": "TKB CRITICAL TECHNOLOGIES 1",
+      "cusip": "G88935112",
+      "shares": 25000,
+      "value": 251000
+    },
+    {
+      "name": "TLGY ACQUISITION CORP",
+      "cusip": "G8656T109",
+      "shares": 100000,
+      "value": 998000
+    },
+    {
+      "name": "TOLL BROTHERS INC",
+      "cusip": "889478103",
+      "shares": 597000,
+      "value": 26626000
+    },
+    {
+      "name": "TORM PLC",
+      "cusip": "G89479102",
+      "shares": 53812988,
+      "value": 727003000
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "893830BJ7",
+      "shares": 13208000,
+      "value": 12720000
+    },
+    {
+      "name": "TRANSPORTADORA DE GAS DEL SUR SA",
+      "cusip": "893870204",
+      "shares": 1963576,
+      "value": 10092000
+    },
+    {
+      "name": "TRAVERE THERAPEUTICS INC",
+      "cusip": "761299AB2",
+      "shares": 2812000,
+      "value": 2786000
+    },
+    {
+      "name": "TRINE II ACQUISITION CORP",
+      "cusip": "G9059F100",
+      "shares": 100000,
+      "value": 994000
+    },
+    {
+      "name": "TRIP.COM GROUP LTD",
+      "cusip": "22943FAM2",
+      "shares": 4427000,
+      "value": 4393000
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184LAF9",
+      "shares": 3180000,
+      "value": 3127000
+    },
+    {
+      "name": "UNITI GROUP INC",
+      "cusip": "91325V108",
+      "shares": 3397592,
+      "value": 32005000
+    },
+    {
+      "name": "UWM HOLDINGS CORP",
+      "cusip": "91823B109",
+      "shares": 1000000,
+      "value": 3540000
+    },
+    {
+      "name": "VAHANNA TECH EDGE ACQUISITION I CORP",
+      "cusip": "G9320Z109",
+      "shares": 50000,
+      "value": 499000
+    },
+    {
+      "name": "VAIL RESORTS INC",
+      "cusip": "91879QAN9",
+      "shares": 4568000,
+      "value": 3996000
+    },
+    {
+      "name": "VALARIS LTD",
+      "cusip": "G9460G101",
+      "shares": 50000,
+      "value": 2112000
+    },
+    {
+      "name": "VALE SA",
+      "cusip": "91912E105",
+      "shares": 7743766,
+      "value": 113291000
+    },
+    {
+      "name": "VEECO INSTRUMENTS INC",
+      "cusip": "922417AD2",
+      "shares": 7595000,
+      "value": 7547000
+    },
+    {
+      "name": "VERINT SYSTEMS INC",
+      "cusip": "92343XAC4",
+      "shares": 2150000,
+      "value": 1972000
+    },
+    {
+      "name": "VISHAY INTERTECHNOLOGY INC",
+      "cusip": "928298AP3",
+      "shares": 2883000,
+      "value": 2735000
+    },
+    {
+      "name": "VISION SENSING ACQUISITION CORP",
+      "cusip": "92838J103",
+      "shares": 150000,
+      "value": 1503000
+    },
+    {
+      "name": "VISTA ENERGY SAB DE CV",
+      "cusip": "92837L109",
+      "shares": 3374806,
+      "value": 24939000
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 25399812,
+      "value": 580385000
+    },
+    {
+      "name": "WEATHERFORD INTERNATIONAL PLC",
+      "cusip": "G48833118",
+      "shares": 5828716,
+      "value": 123393000
+    },
+    {
+      "name": "WEIBO CORP",
+      "cusip": "948596AC5",
+      "shares": 8575000,
+      "value": 8457000
+    },
+    {
+      "name": "WELSBACH TECHNOLOGY METALS ACQUISITION CORP",
+      "cusip": "950415109",
+      "shares": 450000,
+      "value": 4457000
+    },
+    {
+      "name": "WESTERN ACQUISITION VENTURES CORP",
+      "cusip": "95758L107",
+      "shares": 500000,
+      "value": 4970000
+    },
+    {
+      "name": "WESTERN ACQUISITION VENTURES CORP",
+      "cusip": "95758L115",
+      "shares": 500000,
+      "value": 50000
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102AP0",
+      "shares": 25155000,
+      "value": 24023000
+    },
+    {
+      "name": "WILLIAMS ROWLAND ACQUISITION CORP",
+      "cusip": "96951B102",
+      "shares": 150000,
+      "value": 1502000
+    },
+    {
+      "name": "WINVEST ACQUISITION CORP",
+      "cusip": "97655B109",
+      "shares": 300000,
+      "value": 2985000
+    },
+    {
+      "name": "WISDOMTREE INVESTMENTS INC",
+      "cusip": "97717PAD6",
+      "shares": 9766000,
+      "value": 8906000
+    },
+    {
+      "name": "WIX.COM LTD",
+      "cusip": "92940WAB5",
+      "shares": 5153000,
+      "value": 4943000
+    },
+    {
+      "name": "XP INC",
+      "cusip": "G98239109",
+      "shares": 130161,
+      "value": 2337000
+    },
+    {
+      "name": "YOTTA ACQUISITION CORP",
+      "cusip": "98741Y202",
+      "shares": 398000,
+      "value": 3966000
+    },
+    {
+      "name": "ZENDESK INC",
+      "cusip": "98936JAD3",
+      "shares": 1000000,
+      "value": 973000
+    },
+    {
+      "name": "STATE STREET CORP",
+      "cusip": "78462F103",
+      "shares": 500000,
+      "value": 18370000
+    },
+    {
+      "name": "MR COOPER GROUP INC",
+      "cusip": "62482R107",
+      "shares": 520000,
+      "value": 196170000
+    }
+  ]
+}

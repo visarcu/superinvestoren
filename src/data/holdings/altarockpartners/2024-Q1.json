@@ -1,0 +1,53 @@
+{
+  "date": "2024-02-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC CAP STK CL A",
+      "cusip": "02079K305",
+      "shares": 4859830,
+      "value": 678869653000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4434634,
+      "value": 673798290000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC NEW CL A",
+      "cusip": "16119P108",
+      "shares": 573760,
+      "value": 223009037000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED CL A",
+      "cusip": "57636Q104",
+      "shares": 268994,
+      "value": 114728631000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1990714,
+      "value": 748588093000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 810635,
+      "value": 316601606000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1237622,
+      "value": 1251978415000
+    },
+    {
+      "name": "VISA INC COM CL A",
+      "cusip": "92826C839",
+      "shares": 1827153,
+      "value": 475699284000
+    }
+  ]
+}

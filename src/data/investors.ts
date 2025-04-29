@@ -32,12 +32,7 @@ export const investors: Investor[] = [
     imageUrl: '/images/buffett-cartoon.png',
     updatedAt: '31.12.2024',    
     holdings: [
-      { ticker: 'AAPL', name: 'Apple Inc.', weight: 28.12, marketValue: 175320000000,lastUpdated: '2024-12-31', action: 'sell',
-        changePercent: 3.5,   },
-      { ticker: 'AXP', name: 'American Express',  weight: 16.84,marketValue: 175320000000, lastUpdated: '2024-12-31', action: 'buy',
-        changePercent: 3.5,   },
-      { ticker: 'BAC',name: 'Bank of America',   weight: 11.19, marketValue: 175320000000,lastUpdated: '2024-12-31', action: 'buy',
-        changePercent: 3.5,   },
+
 
       // ... weitere Positionen nach Bedarf
     ],
@@ -113,7 +108,7 @@ export const investors: Investor[] = [
     holdings: [],
   },  
   {
-    name: 'Bill Gates',
+    name: 'Bill & Melinda Gates Foundation',
     slug: 'gates',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
@@ -212,7 +207,7 @@ export const investors: Investor[] = [
   },  
   {
     name: 'Greg Alexander – Conifer Management',
-    slug: 'greg-alexander',
+    slug: 'gregalexander',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
@@ -244,6 +239,14 @@ export const investors: Investor[] = [
   {
     name: 'Glenn Greenberg (Brave Warrior Advisors)',
     slug: 'greenberg',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Thomas Gayner (Markel Group)',
+    slug: 'gayner',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],

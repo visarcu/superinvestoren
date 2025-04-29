@@ -1,0 +1,53 @@
+{
+  "date": "2021-11-15",
+  "positions": [
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1326182,
+      "value": 828293000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16119P108",
+      "shares": 1189663,
+      "value": 865551000
+    },
+    {
+      "name": "ALPHABET INC - CL A",
+      "cusip": "02079K305",
+      "shares": 285876,
+      "value": 764295000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1936038,
+      "value": 657072000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 123310,
+      "value": 43789000
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 176249,
+      "value": 61278000
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 8514,
+      "value": 1896000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1720176,
+      "value": 484952000
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "date": "2015-06-01",
+  "positions": [
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "25816109",
+      "shares": 272430,
+      "value": 21282000
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "60505104",
+      "shares": 590000,
+      "value": 9060000
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "60505146",
+      "shares": 320000,
+      "value": 1878000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC. DEL",
+      "cusip": "84670108",
+      "shares": 30,
+      "value": 6525000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC. DEL",
+      "cusip": "84670702",
+      "shares": 140600,
+      "value": 20291000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 106000,
+      "value": 5461000
+    },
+    {
+      "name": "CRESUD SA COMERCIAL",
+      "cusip": "P3311R192",
+      "shares": 271944,
+      "value": 6000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES",
+      "cusip": "N31738102",
+      "shares": 2000000,
+      "value": 32542000
+    },
+    {
+      "name": "GENERAL MOTORS CO",
+      "cusip": "37045V126",
+      "shares": 1000000,
+      "value": 19650000
+    },
+    {
+      "name": "HORSEHEAD HOLDING CORP",
+      "cusip": "440694305",
+      "shares": 1320000,
+      "value": 16711000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 65750,
+      "value": 5680000
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 70000,
+      "value": 3826000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 115000,
+      "value": 6256000
+    },
+    {
+      "name": "WELLS FARGO & CO",
+      "cusip": "949746119",
+      "shares": 110000,
+      "value": 2254000
+    }
+  ]
+}

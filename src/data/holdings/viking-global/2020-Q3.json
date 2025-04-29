@@ -1,0 +1,437 @@
+{
+  "date": "2020-08-07",
+  "positions": [
+    {
+      "name": "ADAPTIVE BIOTECHNOLOGIES COR",
+      "cusip": "00650F109",
+      "shares": 33493708,
+      "value": 1620426000
+    },
+    {
+      "name": "AGORA INC",
+      "cusip": "00851L103",
+      "shares": 400000,
+      "value": 17668000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 695536,
+      "value": 150027000
+    },
+    {
+      "name": "ALIGN TECHNOLOGY INC",
+      "cusip": "016255101",
+      "shares": 539343,
+      "value": 148017000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 1769570,
+      "value": 171631000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 612886,
+      "value": 1690842000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 10497498,
+      "value": 999362000
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 1959943,
+      "value": 240367000
+    },
+    {
+      "name": "ANAPLAN INC",
+      "cusip": "03272L108",
+      "shares": 5746829,
+      "value": 260389000
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 2956029,
+      "value": 569331000
+    },
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 33333333,
+      "value": 405000000
+    },
+    {
+      "name": "ASSURANT INC",
+      "cusip": "04621X108",
+      "shares": 2826277,
+      "value": 291926000
+    },
+    {
+      "name": "ATYR PHARMA INC",
+      "cusip": "002120202",
+      "shares": 587444,
+      "value": 2608000
+    },
+    {
+      "name": "AVANTOR INC",
+      "cusip": "05352A100",
+      "shares": 5475379,
+      "value": 93081000
+    },
+    {
+      "name": "BLUEPRINT MEDICINES CORP",
+      "cusip": "09627Y109",
+      "shares": 1629716,
+      "value": 127118000
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 202747,
+      "value": 322842000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 18457273,
+      "value": 648035000
+    },
+    {
+      "name": "BRIDGEBIO PHARMA INC",
+      "cusip": "10806X102",
+      "shares": 26620991,
+      "value": 868111000
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122157",
+      "shares": 18968019,
+      "value": 67906000
+    },
+    {
+      "name": "CATALENT INC",
+      "cusip": "148806102",
+      "shares": 1493703,
+      "value": 109488000
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 16106578,
+      "value": 1023573000
+    },
+    {
+      "name": "CHANGE HEALTHCARE INC",
+      "cusip": "15912K100",
+      "shares": 4326999,
+      "value": 48462000
+    },
+    {
+      "name": "CHUBB LIMITED",
+      "cusip": "H1467J104",
+      "shares": 2202033,
+      "value": 278821000
+    },
+    {
+      "name": "CIGNA CORP NEW",
+      "cusip": "125523100",
+      "shares": 2949644,
+      "value": 553501000
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 482679,
+      "value": 78455000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 28523676,
+      "value": 1111853000
+    },
+    {
+      "name": "COOPER COS INC",
+      "cusip": "216648402",
+      "shares": 345523,
+      "value": 98004000
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 903929,
+      "value": 159842000
+    },
+    {
+      "name": "DARDEN RESTAURANTS INC",
+      "cusip": "237194105",
+      "shares": 2991636,
+      "value": 226676000
+    },
+    {
+      "name": "EDITAS MEDICINE INC",
+      "cusip": "28106W103",
+      "shares": 413000,
+      "value": 12217000
+    },
+    {
+      "name": "ENCOMPASS HEALTH CORP",
+      "cusip": "29261A100",
+      "shares": 2677612,
+      "value": 165825000
+    },
+    {
+      "name": "ENVISTA HOLDINGS CORPORATION",
+      "cusip": "29415F104",
+      "shares": 4524346,
+      "value": 95418000
+    },
+    {
+      "name": "EVEREST RE GROUP LTD",
+      "cusip": "G3223R108",
+      "shares": 418223,
+      "value": 86238000
+    },
+    {
+      "name": "EXACT SCIENCES CORP",
+      "cusip": "30063P105",
+      "shares": 2182534,
+      "value": 189750000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 6714021,
+      "value": 900283000
+    },
+    {
+      "name": "FORTIVE CORP",
+      "cusip": "34959J108",
+      "shares": 8760046,
+      "value": 592705000
+    },
+    {
+      "name": "GENMAB A/S",
+      "cusip": "372303206",
+      "shares": 575086,
+      "value": 19490000
+    },
+    {
+      "name": "GUARDANT HEALTH INC",
+      "cusip": "40131M109",
+      "shares": 3068173,
+      "value": 248921000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 7272455,
+      "value": 534162000
+    },
+    {
+      "name": "HORIZON THERAPEUTICS PUB LTD",
+      "cusip": "G46188101",
+      "shares": 1471419,
+      "value": 81781000
+    },
+    {
+      "name": "INGERSOLL RAND INC",
+      "cusip": "45687V106",
+      "shares": 10196427,
+      "value": 286724000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 8266459,
+      "value": 497476000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 6411486,
+      "value": 603064000
+    },
+    {
+      "name": "LAS VEGAS SANDS CORP",
+      "cusip": "517834107",
+      "shares": 11125343,
+      "value": 506648000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229854",
+      "shares": 1923501,
+      "value": 60994000
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 803694,
+      "value": 170472000
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 1710360,
+      "value": 231104000
+    },
+    {
+      "name": "MERCADOLIBRE INC",
+      "cusip": "58733R102",
+      "shares": 69344,
+      "value": 68357000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 3392745,
+      "value": 174794000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3710674,
+      "value": 755159000
+    },
+    {
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 1013668,
+      "value": 180413000
+    },
+    {
+      "name": "MOMENTA PHARMACEUTICALS INC",
+      "cusip": "60877T100",
+      "shares": 946220,
+      "value": 31481000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 977348,
+      "value": 268507000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 356549,
+      "value": 162244000
+    },
+    {
+      "name": "NUANCE COMMUNICATIONS INC",
+      "cusip": "67020Y100",
+      "shares": 12799556,
+      "value": 323893000
+    },
+    {
+      "name": "PARKER HANNIFIN CORP",
+      "cusip": "701094104",
+      "shares": 1442793,
+      "value": 264421000
+    },
+    {
+      "name": "PVH CORPORATION",
+      "cusip": "693656100",
+      "shares": 1522984,
+      "value": 73179000
+    },
+    {
+      "name": "ROYALTY PHARMA PLC",
+      "cusip": "G7709Q104",
+      "shares": 2514985,
+      "value": 122103000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2145463,
+      "value": 401910000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1727380,
+      "value": 185244000
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 397835,
+      "value": 229889000
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 3799550,
+      "value": 395723000
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590112",
+      "shares": 1799550,
+      "value": 302000
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 1734144,
+      "value": 628350000
+    },
+    {
+      "name": "TJX COS INC NEW",
+      "cusip": "872540109",
+      "shares": 1519986,
+      "value": 76850000
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 16470839,
+      "value": 511914000
+    },
+    {
+      "name": "UNIQURE NV",
+      "cusip": "N90064101",
+      "shares": 62396,
+      "value": 2812000
+    },
+    {
+      "name": "VARIAN MED SYS INC",
+      "cusip": "92220P105",
+      "shares": 365827,
+      "value": 44821000
+    },
+    {
+      "name": "VIELA BIO INC",
+      "cusip": "926613100",
+      "shares": 1049000,
+      "value": 45443000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 164889,
+      "value": 31852000
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 1490882,
+      "value": 279332000
+    },
+    {
+      "name": "ZENTALIS PHARMACEUTICALS INC",
+      "cusip": "98943L107",
+      "shares": 4443284,
+      "value": 213366000
+    }
+  ]
+}

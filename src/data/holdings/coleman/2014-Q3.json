@@ -1,0 +1,353 @@
+{
+  "date": "2014-08-14",
+  "positions": [
+    {
+      "name": "3-D SYS CORP DEL",
+      "cusip": "88554D205",
+      "shares": 2200000,
+      "value": 131560000
+    },
+    {
+      "name": "58 COM INC",
+      "cusip": "31680Q104",
+      "shares": 1262300,
+      "value": 68240000
+    },
+    {
+      "name": "ABIOMED INC",
+      "cusip": "003654100",
+      "shares": 1690000,
+      "value": 42487000
+    },
+    {
+      "name": "AMBARELLA INC",
+      "cusip": "G037AX101",
+      "shares": 250000,
+      "value": 7795000
+    },
+    {
+      "name": "AUTOHOME INC",
+      "cusip": "05278C107",
+      "shares": 290873,
+      "value": 10015000
+    },
+    {
+      "name": "AVIS BUDGET GROUP",
+      "cusip": "053774105",
+      "shares": 4169800,
+      "value": 248895000
+    },
+    {
+      "name": "BIO-REFERENCE LABS INC",
+      "cusip": "09057G602",
+      "shares": 720000,
+      "value": 21758000
+    },
+    {
+      "name": "BURGER KING WORLDWIDE INC",
+      "cusip": "121220107",
+      "shares": 7200000,
+      "value": 195984000
+    },
+    {
+      "name": "BURLINGTON STORES INC",
+      "cusip": "122017106",
+      "shares": 100000,
+      "value": 3186000
+    },
+    {
+      "name": "CASTLIGHT HEALTH INC",
+      "cusip": "14862Q100",
+      "shares": 115000,
+      "value": 1748000
+    },
+    {
+      "name": "CBS CORP NEW",
+      "cusip": "124857202",
+      "shares": 367526,
+      "value": 22838000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 2318248,
+      "value": 367164000
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 3941937,
+      "value": 293832000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 3643831,
+      "value": 195601000
+    },
+    {
+      "name": "CRITEO S A",
+      "cusip": "226718104",
+      "shares": 40000,
+      "value": 1351000
+    },
+    {
+      "name": "DELIA'S INC NEW",
+      "cusip": "246911101",
+      "shares": 3400000,
+      "value": 2619000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 7893663,
+      "value": 452781000
+    },
+    {
+      "name": "ENDURANCE INTL GROUP HLDGS I",
+      "cusip": "29272B105",
+      "shares": 700000,
+      "value": 10703000
+    },
+    {
+      "name": "EXACT SCIENCES CORP",
+      "cusip": "30063P105",
+      "shares": 2000000,
+      "value": 34060000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3802114,
+      "value": 208128000
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 8110000
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 2611383,
+      "value": 344180000
+    },
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 55000,
+      "value": 1948000
+    },
+    {
+      "name": "HERTZ GLOBAL HOLDINGS INC",
+      "cusip": "42805T105",
+      "shares": 3042800,
+      "value": 85290000
+    },
+    {
+      "name": "IROBOT CORP",
+      "cusip": "462726100",
+      "shares": 602681,
+      "value": 24680000
+    },
+    {
+      "name": "KING DIGITAL ENTMT PLC",
+      "cusip": "G5258J109",
+      "shares": 1325000,
+      "value": 27229000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 8936990,
+      "value": 378124000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229102",
+      "shares": 1750000,
+      "value": 239190000
+    },
+    {
+      "name": "MAKEMYTRIP LIMITED MAURITIUS",
+      "cusip": "V5633W109",
+      "shares": 7184866,
+      "value": 252404000
+    },
+    {
+      "name": "MALLINCKRODT PUB LTD CO",
+      "cusip": "G5785G107",
+      "shares": 729373,
+      "value": 58364000
+    },
+    {
+      "name": "MASONITE INTL CORP NEW",
+      "cusip": "575385109",
+      "shares": 290000,
+      "value": 16315000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 3440000,
+      "value": 252737000
+    },
+    {
+      "name": "MYRIAD GENETICS INC",
+      "cusip": "62855J104",
+      "shares": 1900000,
+      "value": 73948000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 400300,
+      "value": 176372000
+    },
+    {
+      "name": "NIMBLE STORAGE INC",
+      "cusip": "65440R101",
+      "shares": 250000,
+      "value": 7680000
+    },
+    {
+      "name": "POTBELLY CORP",
+      "cusip": "73754Y100",
+      "shares": 50000,
+      "value": 798000
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 111849,
+      "value": 134554000
+    },
+    {
+      "name": "QIHOO 360 TECHNOLOGY CO LTD",
+      "cusip": "74734M109",
+      "shares": 960000,
+      "value": 88358000
+    },
+    {
+      "name": "QIWI PLC",
+      "cusip": "74735M108",
+      "shares": 850000,
+      "value": 34281000
+    },
+    {
+      "name": "QUNAR CAYMAN IS LTD",
+      "cusip": "74906P104",
+      "shares": 150000,
+      "value": 4283000
+    },
+    {
+      "name": "RESMED INC",
+      "cusip": "761152107",
+      "shares": 1000000,
+      "value": 50630000
+    },
+    {
+      "name": "RESTORATION HARDWARE HLDGS I",
+      "cusip": "761283100",
+      "shares": 3193410,
+      "value": 297147000
+    },
+    {
+      "name": "SOUFUN HLDGS LTD",
+      "cusip": "836034108",
+      "shares": 863648,
+      "value": 8455000
+    },
+    {
+      "name": "SPDR SERIES TRUST",
+      "cusip": "78464A888",
+      "shares": 23500000,
+      "value": 769625000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 2548688,
+      "value": 426294000
+    },
+    {
+      "name": "TRULIA INC",
+      "cusip": "897888103",
+      "shares": 1433808,
+      "value": 67934000
+    },
+    {
+      "name": "TUNIU CORP",
+      "cusip": "89977P106",
+      "shares": 667550,
+      "value": 11769000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 18517616,
+      "value": 650894000
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 500000,
+      "value": 20485000
+    },
+    {
+      "name": "UTI WORLDWIDE INC",
+      "cusip": "G87210103",
+      "shares": 5129000,
+      "value": 53034000
+    },
+    {
+      "name": "VEEVA SYS INC",
+      "cusip": "922475108",
+      "shares": 75000,
+      "value": 1909000
+    },
+    {
+      "name": "VINCE HLDG CORP",
+      "cusip": "92719W108",
+      "shares": 25000,
+      "value": 916000
+    },
+    {
+      "name": "VIPSHOP HLDGS LTD",
+      "cusip": "92763W103",
+      "shares": 2429296,
+      "value": 456076000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 284479,
+      "value": 59943000
+    },
+    {
+      "name": "ZHAOPIN LTD",
+      "cusip": "98954L103",
+      "shares": 1248370,
+      "value": 19162000
+    },
+    {
+      "name": "ZILLOW INC",
+      "cusip": "98954A107",
+      "shares": 3136081,
+      "value": 448240000
+    },
+    {
+      "name": "ZULILY INC",
+      "cusip": "989774104",
+      "shares": 10000,
+      "value": 410000
+    },
+    {
+      "name": "ZYNGA INC",
+      "cusip": "98986T108",
+      "shares": 5640000,
+      "value": 18104000
+    }
+  ]
+}

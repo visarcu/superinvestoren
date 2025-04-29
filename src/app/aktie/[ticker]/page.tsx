@@ -1,69 +1,118 @@
-// src/app/aktie/[ticker]/page.tsx
-import { stocks, Stock } from '../../../data/stocks'
-import { notFound }      from 'next/navigation'
-import Link              from 'next/link'
+// src/app/analyse/[ticker]/page.tsx
+import React from 'react'
+import { stocks } from '../../../data/stocks'
+import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
-interface PageProps {
-  params: { ticker: string }
+// Tooltips
+const metricInfo: Record<string, string> = {
+  revenue:
+    'Umsatz: Gesamte Erlöse eines Unternehmens pro Jahr (in Millionen USD).',
+  ebitda:
+    'EBITDA: Operativer Gewinn vor Zinsen, Steuern und Abschreibungen (in Mio. USD).',
+  eps:
+    'EPS (Earnings Per Share): Gewinn je Aktie – Nettogewinn geteilt durch ausstehende Aktien.',
 }
+function InfoIcon({ infoKey }: { infoKey: keyof typeof metricInfo }) {
+  return (
+    <span
+      className="ml-2 cursor-help text-gray-400"
+      title={metricInfo[infoKey]}
+      aria-label={metricInfo[infoKey]}
+    >
+      ℹ️
+    </span>
+  )
+}
+
+// Chart nur im Client
+const AnalysisChart = dynamic(
+  () => import('../../../components/AnalysisChart'),
+  { ssr: false }
+)
 
 export async function generateStaticParams() {
-  return stocks.map(stock => ({
-    ticker: stock.ticker.toLowerCase(),
-  }))
+  return stocks.map((s) => ({ ticker: s.ticker.toLowerCase() }))
 }
 
-// Live-Preis abrufen
-async function fetchLivePrice(symbol: string): Promise<number> {
-  const res = await fetch(
-    `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY}`,
-    { next: { revalidate: 60 } }
-  )
-  if (!res.ok) throw new Error('Failed to fetch live price')
-  const data = await res.json()
-  return data.c
-}
-
-export default async function StockPage({ params }: PageProps) {
+export default async function AnalysisPage({
+  params,
+}: {
+  params: { ticker: string }
+}) {
   const ticker = params.ticker.toUpperCase()
-  const stock = stocks.find(s => s.ticker === ticker) ?? notFound()
+  const stock = stocks.find((s) => s.ticker === ticker)
+  if (!stock) notFound()
 
-  let livePrice: number | null = null
-  try {
-    livePrice = await fetchLivePrice(ticker)
-  } catch {
-    console.warn(`Live price for ${ticker} could not be fetched.`)
+  // Baue die absolute API-URL
+  const base = process.env.NEXT_PUBLIC_BASE_URL!
+  const apiUrl = `${base}/api/financials/${ticker}`
+  const res = await fetch(apiUrl, { next: { revalidate: 3600 } })
+  if (!res.ok) notFound()
+
+  const { data: raw } = (await res.json()) as {
+    data: Array<Record<'year' | 'revenue' | 'ebitda' | 'eps', number>>
   }
 
-  return (
-    <main className="max-w-3xl mx-auto p-8">
-      <Link href="/" className="text-blue-600 hover:underline mb-4 inline-block">
-        ← Zurück
-      </Link>
-      <h1 className="text-4xl font-bold mb-2">{stock.name}</h1>
-      <h2 className="text-lg text-gray-500 uppercase tracking-wide mb-6">
-        {stock.ticker}
-      </h2>
+  // nach Jahr aufsteigend sortieren
+  const data = raw.sort((a, b) => a.year - b.year)
 
-      <div className="space-y-4">
-        {/* Live-Kurs */}
-        <div className="flex justify-between bg-white dark:bg-surface-dark rounded-lg shadow p-4">
-          <span className="font-medium">Aktueller Kurs</span>
-          <span className="font-semibold">
-            {livePrice !== null ? `${livePrice.toFixed(2)} €` : '–'}
-          </span>
+  return (
+    <main className="max-w-5xl mx-auto p-8 space-y-6">
+      <Link href={`/aktie/${ticker.toLowerCase()}`} className="text-blue-600 hover:underline">
+        ← Zurück zur Aktie
+      </Link>
+
+      <h1 className="text-3xl font-bold">
+        Kennzahlen‐Analyse: {stock.name} ({ticker})
+      </h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Umsatz */}
+        <div className="bg-white rounded-xl shadow p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Umsatz (Mio. USD)</h2>
+            <InfoIcon infoKey="revenue" />
+          </div>
+          <AnalysisChart
+            data={data}
+            dataKey="revenue"
+            name="Umsatz"
+            stroke="#3b82f6"
+            fill="rgba(59,130,246,0.3)"
+          />
         </div>
 
-        {/* Statische Kennzahlen */}
-        {stock.metrics.map(m => (
-          <div
-            key={m.label}
-            className="flex justify-between bg-white dark:bg-surface-dark rounded-lg shadow p-4"
-          >
-            <span className="font-medium">{m.label}</span>
-            <span className="font-semibold">{m.value}</span>
+        {/* EBITDA */}
+        <div className="bg-white rounded-xl shadow p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">EBITDA (Mio. USD)</h2>
+            <InfoIcon infoKey="ebitda" />
           </div>
-        ))}
+          <AnalysisChart
+            data={data}
+            dataKey="ebitda"
+            name="EBITDA"
+            stroke="#10b981"
+            fill="rgba(16,185,129,0.3)"
+          />
+        </div>
+
+        {/* EPS */}
+        <div className="bg-white rounded-xl shadow p-6 md:col-span-2 lg:col-span-1">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">EPS (in $)</h2>
+            <InfoIcon infoKey="eps" />
+          </div>
+          <AnalysisChart
+            data={data}
+            dataKey="eps"
+            name="EPS"
+            stroke="#f59e0b"
+            fill="rgba(245,158,11,0.3)"
+          />
+        </div>
       </div>
     </main>
   )

@@ -1,0 +1,101 @@
+{
+  "date": "2015-02-27",
+  "positions": [
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 272430,
+      "value": 25347000
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 590000,
+      "value": 10555000
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "060505146",
+      "shares": 320000,
+      "value": 2240000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC. DEL",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 6780000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC. DEL",
+      "cusip": "084670702",
+      "shares": 140600,
+      "value": 21111000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 106000,
+      "value": 5736000
+    },
+    {
+      "name": "CRESUD SA  COMERCIAL",
+      "cusip": "P3311R192",
+      "shares": 271944,
+      "value": 3000
+    },
+    {
+      "name": "DIRECTV",
+      "cusip": "25490A309",
+      "shares": 50000,
+      "value": 4335000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES",
+      "cusip": "N31738102",
+      "shares": 2000000,
+      "value": 23228000
+    },
+    {
+      "name": "GENERAL MOTORS CO",
+      "cusip": "37045V126",
+      "shares": 700000,
+      "value": 7650000
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 30502,
+      "value": 5912000
+    },
+    {
+      "name": "HORSEHEAD  HOLDING CORP",
+      "cusip": "440694305",
+      "shares": 1220000,
+      "value": 19313000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 65750,
+      "value": 5665000
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 70000,
+      "value": 4467000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 115000,
+      "value": 6304000
+    },
+    {
+      "name": "WELLS FARGO &   CO",
+      "cusip": "949746119",
+      "shares": 110000,
+      "value": 2343000
+    }
+  ]
+}

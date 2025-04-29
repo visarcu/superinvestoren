@@ -1,0 +1,263 @@
+{
+  "date": "2015-05-15",
+  "positions": [
+    {
+      "name": "ACTAVIS PLC",
+      "cusip": "G0083B108",
+      "shares": 3575000,
+      "value": 1063992000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 26000000,
+      "value": 545480000
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 3500000,
+      "value": 191765000
+    },
+    {
+      "name": "AMGEN INC",
+      "cusip": "031162100",
+      "shares": 10000000,
+      "value": 1598500000
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 2000000,
+      "value": 243820000
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 750000,
+      "value": 91432000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967226",
+      "shares": 20000000,
+      "value": 14600000
+    },
+    {
+      "name": "COBALT INTL ENERGY INC",
+      "cusip": "19075FAA4",
+      "shares": 80000000,
+      "value": 58089000
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 2000000,
+      "value": 232420000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 5250000,
+      "value": 236040000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 4000000,
+      "value": 301520000
+    },
+    {
+      "name": "DOW CHEM CO",
+      "cusip": "260543103",
+      "shares": 22000000,
+      "value": 1055560000
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 9000000,
+      "value": 519120000
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 2500000,
+      "value": 144200000
+    },
+    {
+      "name": "ENERGIZER HLDGS INC",
+      "cusip": "29266R108",
+      "shares": 1000000,
+      "value": 138050000
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY L P",
+      "cusip": "29273V100",
+      "shares": 270000,
+      "value": 17107000
+    },
+    {
+      "name": "ENPHASE ENERGY INC",
+      "cusip": "29355A107",
+      "shares": 6248987,
+      "value": 82424000
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 900000,
+      "value": 148905000
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 700000,
+      "value": 105644000
+    },
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 5242124,
+      "value": 43379000
+    },
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44919P508",
+      "shares": 2385000,
+      "value": 160916000
+    },
+    {
+      "name": "INTREXON CORP",
+      "cusip": "46122T102",
+      "shares": 2700000,
+      "value": 122499000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 4000000,
+      "value": 497480000
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 89626,
+      "value": 2633000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 5800000,
+      "value": 288898000
+    },
+    {
+      "name": "MASCO CORP",
+      "cusip": "574599106",
+      "shares": 10000000,
+      "value": 267000000
+    },
+    {
+      "name": "MAXIM INTEGRATED PRODS INC",
+      "cusip": "57772K101",
+      "shares": 3500000,
+      "value": 121835000
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 625600,
+      "value": 141511000
+    },
+    {
+      "name": "MOELIS & CO",
+      "cusip": "60786M105",
+      "shares": 170523,
+      "value": 5114000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1825000,
+      "value": 338994000
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 1593200,
+      "value": 159894000
+    },
+    {
+      "name": "PHILLIPS 66",
+      "cusip": "718546104",
+      "shares": 4000000,
+      "value": 314400000
+    },
+    {
+      "name": "PRECISION CASTPARTS CORP",
+      "cusip": "740189105",
+      "shares": 500000,
+      "value": 105000000
+    },
+    {
+      "name": "ROPER INDS INC NEW",
+      "cusip": "776696106",
+      "shares": 1600000,
+      "value": 275200000
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 4000000,
+      "value": 229800000
+    },
+    {
+      "name": "SMUCKER J M CO",
+      "cusip": "832696405",
+      "shares": 1150000,
+      "value": 133090000
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 6650000,
+      "value": 281029000
+    },
+    {
+      "name": "SUNEDISON INC",
+      "cusip": "86732Y109",
+      "shares": 10000000,
+      "value": 240000000
+    },
+    {
+      "name": "SUNEDISON INC",
+      "cusip": "86732Y109",
+      "shares": 140000,
+      "value": 3360000
+    },
+    {
+      "name": "THIRD PT REINS LTD",
+      "cusip": "G8827U100",
+      "shares": 9179511,
+      "value": 129890000
+    },
+    {
+      "name": "WILLIAMS CLAYTON ENERGY INC",
+      "cusip": "969490101",
+      "shares": 800000,
+      "value": 40504000
+    },
+    {
+      "name": "YUM BRANDS INC",
+      "cusip": "988498101",
+      "shares": 15000,
+      "value": 1181000
+    },
+    {
+      "name": "YUM BRANDS INC",
+      "cusip": "988498101",
+      "shares": 3300000,
+      "value": 259776000
+    }
+  ]
+}

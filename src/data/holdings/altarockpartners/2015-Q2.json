@@ -1,0 +1,41 @@
+{
+  "date": "2015-05-14",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16117M305",
+      "shares": 77850,
+      "value": 15034000
+    },
+    {
+      "name": "LIBERTY GLOBAL INC-SERIES C",
+      "cusip": "G5480U120",
+      "shares": 803394,
+      "value": 40017000
+    },
+    {
+      "name": "MASTERCARD INC - CLASS A",
+      "cusip": "57636Q104",
+      "shares": 311690,
+      "value": 26927000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 432216,
+      "value": 44864000
+    },
+    {
+      "name": "TRANSDIGM",
+      "cusip": "893641100",
+      "shares": 231750,
+      "value": 50688000
+    },
+    {
+      "name": "VISA INC - CLASS A",
+      "cusip": "92826C839",
+      "shares": 345076,
+      "value": 22571000
+    }
+  ]
+}

@@ -44,6 +44,9 @@ export default function RootLayout({
             }
           `}
         </Script>
+
+        {/* TradingView Charting Library */}
+        <Script src="https://s3.tradingview.com/tv.js" strategy="beforeInteractive" />
       </head>
       <body className="min-h-screen flex flex-col bg-surface dark:bg-surface-dark text-on-surface dark:text-white">
         <header className="bg-surface dark:bg-surface-dark shadow-sm sticky top-0 z-10">
@@ -65,7 +68,7 @@ export default function RootLayout({
               <li><Link href="/activity">Activity</Link></li>
               <li><Link href="/watchlist">Watchlist</Link></li>
               <li><Link href="/scoreboard">Scoreboard</Link></li>
-              <li><Link href="/realtime">Echtzeit Filings</Link></li>     
+              <li><Link href="/realtime">Echtzeit Filings</Link></li>
               <li><Link href="/insider">Insider</Link></li>
             </ul>
 

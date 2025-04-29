@@ -1,0 +1,269 @@
+{
+  "date": "2018-02-14",
+  "positions": [
+    {
+      "name": "AETNA INC NEW",
+      "cusip": "00817Y108",
+      "shares": 1850000,
+      "value": 333722000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 6000000,
+      "value": 1034580000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 690000,
+      "value": 726846000
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 750000,
+      "value": 52388000
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 375000,
+      "value": 84379000
+    },
+    {
+      "name": "BAXTER INTL INC",
+      "cusip": "071813109",
+      "shares": 36000000,
+      "value": 2327040000
+    },
+    {
+      "name": "BLACKROCK INC",
+      "cusip": "09247X101",
+      "shares": 1550000,
+      "value": 796250000
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 2500000,
+      "value": 571425000
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 3310000,
+      "value": 307234000
+    },
+    {
+      "name": "DELL TECHNOLOGIES INC",
+      "cusip": "24703L103",
+      "shares": 2500000,
+      "value": 203200000
+    },
+    {
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 2000000,
+      "value": 131660000
+    },
+    {
+      "name": "DOVER CORP",
+      "cusip": "260003108",
+      "shares": 1650000,
+      "value": 166634000
+    },
+    {
+      "name": "DOWDUPONT INC",
+      "cusip": "26078J100",
+      "shares": 14975000,
+      "value": 1066520000
+    },
+    {
+      "name": "F M C CORP",
+      "cusip": "302491303",
+      "shares": 2200000,
+      "value": 208252000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 3400000,
+      "value": 599964000
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 550000,
+      "value": 111898000
+    },
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 8083022,
+      "value": 91338000
+    },
+    {
+      "name": "GRUPO FINANCIERO GALICIA S A",
+      "cusip": "399909100",
+      "shares": 1825000,
+      "value": 120176000
+    },
+    {
+      "name": "GRUPO SUPERVIELLE S A",
+      "cusip": "40054A108",
+      "shares": 1500000,
+      "value": 43980000
+    },
+    {
+      "name": "HONEYWELL INTL INC",
+      "cusip": "438516106",
+      "shares": 1275000,
+      "value": 195534000
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 5500000,
+      "value": 388080000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287457",
+      "shares": 9995,
+      "value": 838000
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 9407745,
+      "value": 34056000
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 5300000,
+      "value": 335172000
+    },
+    {
+      "name": "MACERICH CO",
+      "cusip": "554382101",
+      "shares": 1425000,
+      "value": 93594000
+    },
+    {
+      "name": "MGM RESORTS INTERNATIONAL",
+      "cusip": "552953101",
+      "shares": 3000000,
+      "value": 100170000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1000000,
+      "value": 275900000
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 200000,
+      "value": 23356000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 2000000,
+      "value": 383920000
+    },
+    {
+      "name": "NEXA RES S A",
+      "cusip": "L67359106",
+      "shares": 3000000,
+      "value": 58830000
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 2150000,
+      "value": 251744000
+    },
+    {
+      "name": "PAMPA ENERGIA S A",
+      "cusip": "697660207",
+      "shares": 1625000,
+      "value": 109330000
+    },
+    {
+      "name": "PARSLEY ENERGY INC",
+      "cusip": "701877102",
+      "shares": 5750000,
+      "value": 169280000
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 1250000,
+      "value": 56038000
+    },
+    {
+      "name": "PINNACLE FOODS INC DEL",
+      "cusip": "72348P104",
+      "shares": 1000000,
+      "value": 59470000
+    },
+    {
+      "name": "RSP PERMIAN INC",
+      "cusip": "74978Q105",
+      "shares": 4600000,
+      "value": 187128000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1800000,
+      "value": 304920000
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 600000,
+      "value": 246024000
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 6661604,
+      "value": 343739000
+    },
+    {
+      "name": "SOUTHWESTERN ENERGY CO",
+      "cusip": "845467109",
+      "shares": 15000000,
+      "value": 83700000
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 2000000,
+      "value": 182940000
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 4000000,
+      "value": 365880000
+    },
+    {
+      "name": "VANTIV INC",
+      "cusip": "92210H105",
+      "shares": 4000000,
+      "value": 294200000
+    },
+    {
+      "name": "VULCAN MATLS CO",
+      "cusip": "929160109",
+      "shares": 2600000,
+      "value": 333762000
+    }
+  ]
+}

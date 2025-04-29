@@ -6,7 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import { investors, Investor } from '../data/investors'
-import holdingsData from '../data/holdings'
+// auf holdingsHistory umstellen
+import holdingsHistory from '../data/holdings'
 import { stocks, Stock } from '../data/stocks'
 import { aggregateBuysByTicker } from '../lib/aggregations'
 import { BuyDetails } from '../components/BuyDetails'
@@ -37,10 +38,17 @@ export default function HomePage() {
   )
 
   const ownershipCount = new Map<string,number>()
-  Object.entries(holdingsData).forEach(([slug, file]) => {
+  Object.entries(holdingsHistory).forEach(([slug, snapshots]) => {
+    // nur aktuelle Snapshots, überspringe "-previous"
     if (slug.endsWith('-previous')) return
+
+    // nimm das letzte Quartal
+    const latest = snapshots[snapshots.length - 1]
+    const positions = latest?.data?.positions
+    if (!positions) return
+
     const seen = new Set<string>()
-    file.positions.forEach(p => {
+    positions.forEach(p => {
       const t = cusipToTicker.get(p.cusip)
       if (t && !seen.has(t)) {
         seen.add(t)

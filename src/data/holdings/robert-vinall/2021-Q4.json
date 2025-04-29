@@ -1,0 +1,29 @@
+{
+  "date": "2021-10-27",
+  "positions": [
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 213995,
+      "value": 125251000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 214600,
+      "value": 72833000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 297308,
+      "value": 80636000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 333700,
+      "value": 65395000
+    }
+  ]
+}

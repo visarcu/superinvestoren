@@ -1,0 +1,47 @@
+{
+  "date": "2020-02-13",
+  "positions": [
+    {
+      "name": "ALPHABET INC - CL A",
+      "cusip": "02079K305",
+      "shares": 230000,
+      "value": 308060000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16119P108",
+      "shares": 1081554,
+      "value": 524640000
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 396940,
+      "value": 118522000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1050261,
+      "value": 249342000
+    },
+    {
+      "name": "O'REILLY AUTO PARTS",
+      "cusip": "67103H107",
+      "shares": 93918,
+      "value": 41161000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 584924,
+      "value": 327557000
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 251516,
+      "value": 47260000
+    }
+  ]
+}

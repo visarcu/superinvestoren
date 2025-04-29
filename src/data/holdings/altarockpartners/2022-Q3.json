@@ -1,0 +1,53 @@
+{
+  "date": "2022-08-12",
+  "positions": [
+    {
+      "name": "ALPHABET INC - CL A",
+      "cusip": "02079K305",
+      "shares": 338130,
+      "value": 736873000
+    },
+    {
+      "name": "AMAZON",
+      "cusip": "023135106",
+      "shares": 3064420,
+      "value": 325472000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16119P108",
+      "shares": 582551,
+      "value": 272943000
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 248449,
+      "value": 78381000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2732009,
+      "value": 701662000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 123310,
+      "value": 33537000
+    },
+    {
+      "name": "TRANSDIGM GROUP",
+      "cusip": "893641100",
+      "shares": 1458679,
+      "value": 782829000
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 1568402,
+      "value": 308803000
+    }
+  ]
+}

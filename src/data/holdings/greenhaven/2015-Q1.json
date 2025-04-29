@@ -1,0 +1,167 @@
+{
+  "date": "2015-02-04",
+  "positions": [
+    {
+      "name": "Agilent Technologies, Inc. (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 437000
+    },
+    {
+      "name": "Airgas, Inc. (ARG)",
+      "cusip": "009363102",
+      "shares": 1198560,
+      "value": 138050000
+    },
+    {
+      "name": "Air Products & Chemicals (APD)",
+      "cusip": "009158106",
+      "shares": 2810,
+      "value": 405000
+    },
+    {
+      "name": "American Independence Corp (AMIC)",
+      "cusip": "026760405",
+      "shares": 99992,
+      "value": 1026000
+    },
+    {
+      "name": "Baker Hughes Inc. (BHI)",
+      "cusip": "057224107",
+      "shares": 171248,
+      "value": 9602000
+    },
+    {
+      "name": "Boeing Company (BA)",
+      "cusip": "097023105",
+      "shares": 1297031,
+      "value": 168588000
+    },
+    {
+      "name": "Citigroup [C]",
+      "cusip": "172967424",
+      "shares": 4110649,
+      "value": 222427000
+    },
+    {
+      "name": "D R Horton, Inc. (DHI)",
+      "cusip": "23331A109",
+      "shares": 2034200,
+      "value": 51445000
+    },
+    {
+      "name": "Devon Energy Corp (DVN)",
+      "cusip": "25179M103",
+      "shares": 2325448,
+      "value": 142341000
+    },
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 4554329,
+      "value": 790905000
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2822918,
+      "value": 547166000
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 7423775,
+      "value": 464580000
+    },
+    {
+      "name": "Lowe's Companies, Inc. (LOW)",
+      "cusip": "548661107",
+      "shares": 11251633,
+      "value": 774112000
+    },
+    {
+      "name": "Masco Corp (MAS)",
+      "cusip": "574599106",
+      "shares": 2406200,
+      "value": 60636000
+    },
+    {
+      "name": "Microsoft",
+      "cusip": "594918104",
+      "shares": 7170,
+      "value": 333000
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 2997214,
+      "value": 107330000
+    },
+    {
+      "name": "Pall Corporation (PLL)",
+      "cusip": "696429307",
+      "shares": 3500,
+      "value": 354000
+    },
+    {
+      "name": "Praxair Inc. (PX)",
+      "cusip": "74005P104",
+      "shares": 1344236,
+      "value": 174159000
+    },
+    {
+      "name": "Schlumberger Ltd (SLB)",
+      "cusip": "806857108",
+      "shares": 4178993,
+      "value": 356928000
+    },
+    {
+      "name": "Superior Energy Services Inc. (SPN)",
+      "cusip": "868157108",
+      "shares": 4493283,
+      "value": 90540000
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 6940,
+      "value": 248000
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2216554,
+      "value": 364224000
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 242000
+    },
+    {
+      "name": "United Parcel Service (UPS)",
+      "cusip": "911312106",
+      "shares": 5183231,
+      "value": 576220000
+    },
+    {
+      "name": "USG Corp (USG)",
+      "cusip": "903293405",
+      "shares": 403200,
+      "value": 11286000
+    },
+    {
+      "name": "Wells Fargo & Co (WFC)",
+      "cusip": "949746101",
+      "shares": 455500,
+      "value": 24971000
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2463994,
+      "value": 477374000
+    }
+  ]
+}

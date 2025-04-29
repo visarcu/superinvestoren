@@ -1,0 +1,107 @@
+{
+  "date": "2017-08-14",
+  "positions": [
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 938698,
+      "value": 240954000
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674x106",
+      "shares": 11459921,
+      "value": 247649000
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "g0750c108",
+      "shares": 3859691,
+      "value": 123664000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 353000
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 4690948,
+      "value": 183932000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030n101",
+      "shares": 32194,
+      "value": 1253000
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412c101",
+      "shares": 3080347,
+      "value": 268606000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625h100",
+      "shares": 1677185,
+      "value": 153295000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 1083231,
+      "value": 54476000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "g5480u104",
+      "shares": 266868,
+      "value": 8572000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "g5480u120",
+      "shares": 6738614,
+      "value": 210110000
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164m108",
+      "shares": 1518440,
+      "value": 115022000
+    },
+    {
+      "name": "QUINTILES IMS HOLDINGS INC",
+      "cusip": "74876y101",
+      "shares": 1581553,
+      "value": 141549000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 7302503,
+      "value": 313716000
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "n7902x106",
+      "shares": 2910230,
+      "value": 124325000
+    },
+    {
+      "name": "SERVICEMASTER GLOBAL HLDGS I",
+      "cusip": "81761r109",
+      "shares": 1923916,
+      "value": 75398000
+    },
+    {
+      "name": "TIDEWATER INC",
+      "cusip": "886423102",
+      "shares": 19625,
+      "value": 14000
+    }
+  ]
+}

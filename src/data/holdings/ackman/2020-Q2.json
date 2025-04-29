@@ -1,0 +1,65 @@
+{
+  "date": "2020-05-15",
+  "positions": [
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 12626593,
+      "value": 904317000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 5453360,
+      "value": 997038000
+    },
+    {
+      "name": "BLACKSTONE GROUP INC",
+      "cusip": "09260D107",
+      "shares": 548526,
+      "value": 24996000
+    },
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 1161232,
+      "value": 759910000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 13789589,
+      "value": 941002000
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 12197389,
+      "value": 616212000
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 12252414,
+      "value": 1054320000
+    },
+    {
+      "name": "PARK HOTELS RESORTS INC",
+      "cusip": "700517105",
+      "shares": 677888,
+      "value": 5362000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 15084304,
+      "value": 603825000
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 10131008,
+      "value": 666012000
+    }
+  ]
+}

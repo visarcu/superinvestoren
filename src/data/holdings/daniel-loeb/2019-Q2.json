@@ -1,0 +1,191 @@
+{
+  "date": "2019-05-15",
+  "positions": [
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 900000,
+      "value": 239841000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1500000,
+      "value": 163950000
+    },
+    {
+      "name": "BAXTER INTL INC",
+      "cusip": "071813109",
+      "shares": 28000000,
+      "value": 2276680000
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 1750000,
+      "value": 95375000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 5000000,
+      "value": 191900000
+    },
+    {
+      "name": "CAMPBELL SOUP CO",
+      "cusip": "134429109",
+      "shares": 21000000,
+      "value": 800730000
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 1750000,
+      "value": 165095000
+    },
+    {
+      "name": "CHEMOURS CO",
+      "cusip": "163851108",
+      "shares": 2000000,
+      "value": 74320000
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 2000000,
+      "value": 59360000
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 1050000,
+      "value": 184096000
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 3710000,
+      "value": 489794000
+    },
+    {
+      "name": "DOWDUPONT INC",
+      "cusip": "26078J100",
+      "shares": 8745000,
+      "value": 466196000
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W109",
+      "shares": 15692500,
+      "value": 156140000
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W208",
+      "shares": 4000000,
+      "value": 41600000
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L105",
+      "shares": 9755000,
+      "value": 358106000
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS&FRAGRA",
+      "cusip": "459506101",
+      "shares": 500000,
+      "value": 64395000
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 1630000,
+      "value": 234476000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287457",
+      "shares": 38260,
+      "value": 3218000
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 9407745,
+      "value": 24836000
+    },
+    {
+      "name": "MARATHON PETE CORP",
+      "cusip": "56585A102",
+      "shares": 3500000,
+      "value": 209475000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 500000,
+      "value": 58970000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 400000,
+      "value": 142624000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 3500000,
+      "value": 363440000
+    },
+    {
+      "name": "ROSS STORES INC",
+      "cusip": "778296103",
+      "shares": 1600000,
+      "value": 148960000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 760000,
+      "value": 160018000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 1175000,
+      "value": 186085000
+    },
+    {
+      "name": "SONY CORP",
+      "cusip": "835699307",
+      "shares": 1500000,
+      "value": 63360000
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 6661604,
+      "value": 251476000
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 6480000,
+      "value": 835207000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1500000,
+      "value": 234285000
+    },
+    {
+      "name": "WORLDPAY INC",
+      "cusip": "981558109",
+      "shares": 2200000,
+      "value": 249700000
+    }
+  ]
+}

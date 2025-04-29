@@ -1,0 +1,65 @@
+{
+  "date": "2025-02-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 7547582,
+      "value": 1437361516000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 3986488,
+      "value": 754642178000
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 34893064,
+      "value": 2004606527000
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 14877651,
+      "value": 1076695603000
+    },
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 24653533,
+      "value": 1486608040000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 5440546,
+      "value": 1344685349000
+    },
+    {
+      "name": "HOWARD HUGHES HOLDINGS INC",
+      "cusip": "44267T102",
+      "shares": 18852064,
+      "value": 1450100763000
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 18768946,
+      "value": 1420246144000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 23000914,
+      "value": 1499199575000
+    },
+    {
+      "name": "SEAPORT ENTMT GROUP INC",
+      "cusip": "812215200",
+      "shares": 5023780,
+      "value": 140414651000
+    }
+  ]
+}

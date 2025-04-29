@@ -1,149 +1,193 @@
 // src/data/holdings/index.ts
 
-// 1) Alle JSONs, die fetch13f.js erzeugt hat:
-import buffett        from './buffett.json'
-import buffettPrev    from './buffett-previous.json'
+// 1) Statische JSON-Imports aus jeweiligen Unterordnern:
 
-import ackman         from './ackman.json'
-import ackmanPrev     from './ackman-previous.json'
+//Bill Gates
+import gates_2013_Q3 from './gates/gates-2013-Q3.json'
+import gates_2013_Q4 from './gates/gates-2013-Q4.json'
+import gates_2014_Q1 from './gates/gates-2014-Q1.json'
+import gates_2014_Q2 from './gates/gates-2014-Q2.json'
+import gates_2024_Q2 from './gates/gates-2024-Q2.json'
+import gates_2024_Q3 from './gates/gates-2024-Q3.json'
+import gates_2024_Q4 from './gates/gates-2024-Q4.json'
+import gates_2025_Q1 from './gates/gates-2025-Q1.json'
 
-import burry          from './burry.json'
-import burryPrev      from './burry-previous.json'
+//Warren Buffett
+//import gates_2013_Q3 from './gates/gates-2013-Q3.json'
+//import gates_2013_Q4 from './gates/gates-2013-Q4.json'
+//import gates_2014_Q1 from './gates/gates-2014-Q1.json'
+//import gates_2014_Q2 from './gates/gates-2014-Q2.json'
+//import gates_2024_Q2 from './gates/gates-2024-Q2.json'
+//import gates_2024_Q3 from './gates/gates-2024-Q3.json'
+import buffett_2024_Q4 from './buffett/2024-Q4.json'
+import buffett_2025_Q1 from './buffett/2025-Q1.json'
 
-import marks          from './marks.json'
-import marksPrev      from './marks-previous.json'
+//Bill Ackman
 
-import spier          from './spier.json'
-import spierPrev      from './spier-previous.json'
+import ackman_2024_Q1 from './ackman/2024-Q1.json'
+import ackman_2024_Q2 from './ackman/2024-Q2.json'
+import ackman_2024_Q3 from './ackman/2024-Q3.json'
+import ackman_2024_Q4 from './ackman/2024-Q4.json'
+import ackman_2025_Q1 from './ackman/2025-Q1.json'
+//import ackman_2025_Q2 from './ackman/2025-Q2.json'
 
-import pabrai         from './pabrai.json'
-import pabraiPrev     from './pabrai-previous.json'
+//Marks
+import marks_2024_Q1 from './marks/2024-Q1.json'
+import marks_2024_Q2 from './marks/2024-Q2.json'
+import marks_2024_Q3 from './marks/2024-Q3.json'
+import marks_2024_Q4 from './marks/2024-Q4.json'
+import marks_2025_Q1 from './marks/2025-Q1.json'
+//import marks_2025_Q2 from './marks/2025-Q2.json'
 
-import einhorn        from './einhorn.json'
-import einhornPrev    from './einhorn-previous.json'
+//akre
+import akre_2024_Q1 from './akre/2024-Q1.json'
+import akre_2024_Q2 from './akre/2024-Q2.json'
+import akre_2024_Q3 from './akre/2024-Q3.json'
+import akre_2024_Q4 from './akre/2024-Q4.json'
+import akre_2025_Q1 from './akre/2025-Q1.json'
+import akre_2025_Q2 from './akre/2025-Q2.json'
 
-import klarman        from './klarman.json'
-import klarmanPrev    from './klarman-previous.json'
+//olstein
+import olstein_2024_Q1 from './olstein/2024-Q1.json'
+import olstein_2024_Q2 from './olstein/2024-Q2.json'
+import olstein_2024_Q3 from './olstein/2024-Q3.json'
+import olstein_2024_Q4 from './olstein/2024-Q4.json'
+import olstein_2025_Q1 from './olstein/2025-Q1.json'
 
-import druckenmiller  from './druckenmiller.json'
-import druckenmillerPrev from './druckenmiller-previous.json'
+//greenberg
+import greenberg_2024_Q1 from './greenberg/2024-Q1.json'
+import greenberg_2024_Q2 from './greenberg/2024-Q2.json'
+import greenberg_2024_Q3 from './greenberg/2024-Q3.json'
+import greenberg_2024_Q4 from './greenberg/2024-Q4.json'
+import greenberg_2025_Q1 from './greenberg/2025-Q1.json'
 
-import lilu  from './lilu.json'
-import liluPrev from './lilu-previous.json'
+//greenhaven
+import greenhaven_2024_Q1 from './greenhaven/2024-Q1.json'
+import greenhaven_2024_Q2 from './greenhaven/2024-Q2.json'
+import greenhaven_2024_Q3 from './greenhaven/2024-Q3.json'
+import greenhaven_2024_Q4 from './greenhaven/2024-Q4.json'
+import greenhaven_2025_Q1 from './greenhaven/2025-Q1.json'
 
-import altarockpartners from './altarockpartners.json'
-import altarockpartnersPrev from './altarockpartners-previous.json'
-
-import dogecox from './dogecox.json'
-import dogecoxPrev from './dogecox.json'
-
-import gates  from './gates.json'
-import gatesPrev from './gates-previous.json'
-
-import coleman  from './coleman.json'
-import colemanPrev from './coleman-previous.json'
-
-import akre  from './akre.json'
-import akrePrev from './akre-previous.json'
-
-import greenberg  from './greenberg.json'
-import greenbergPrev from './greenberg-previous.json'
-
-import greenhaven  from './greenhaven.json'
-import greenhavenPrev from './greenhaven-previous.json'
-
-//import terry-smith  from './terry-smith.json'
-//import terry-smithPrev from './terry-smith-previous.json'
-
-//import smith      from './smith.json'
-//import smithPrev  from './smith-previous.json'
+//greenhaven
+import gregalexander_2024_Q1 from './gregalexander/2024-Q1.json'
+import gregalexander_2024_Q2 from './gregalexander/2024-Q2.json'
+import gregalexander_2024_Q3 from './gregalexander/2024-Q3.json'
+import gregalexander_2024_Q4 from './gregalexander/2024-Q4.json'
+import gregalexander_2025_Q1 from './gregalexander/2025-Q1.json'
 
 
+// … für jeden weiteren Slug analog …
 
-
-// … nur echte Dateien importieren …
-
-// 2) Typ für den Inhalt
+// 2) Typen
 export interface HoldingsFile {
-  date: string | null
+  date: string
   positions: Array<{
-    cusip: string
-    name:  string
+    cusip:  string
+    name:   string
     shares: number
-    value: number
+    value:  number
   }>
 }
 
-// 3) Zusammensetzen in ein Record
-const holdingsData: Record<string, HoldingsFile> = {
-  buffett:             buffett,
-  'buffett-previous':  buffettPrev,
-
-  ackman:              ackman,
- 'ackman-previous':   ackmanPrev,
-
-  burry:               burry,
-  'burry-previous':    burryPrev,
-
-  marks:               marks,
-  'marks-previous':    marksPrev,
-
-  spier:               spier,
-  'spier-previous':    spierPrev,
-
-  pabrai:              pabrai,
-  'pabrai-previous':   pabraiPrev,
-
-  einhorn:             einhorn,
-  'einhorn-previous':  einhornPrev,
-
-  klarman:             klarman,
-  'klarman-previous':  klarmanPrev,
-
-  druckenmiller:       druckenmiller,
-  'druckenmiller-previous': druckenmillerPrev,
-
-
-  lilu:       lilu,
-  'lilu-previous': liluPrev,
-
-  altarockpartners:       altarockpartners,
-  'altarockpartners-previous': altarockpartnersPrev,
-
-  gates:       gates,
-  'gates-previous': gatesPrev,
-
-  coleman:       coleman,
-  'coleman-previous': colemanPrev,
-
-
-  akre:       akre,
-  'akre-previous': akrePrev,
-
-  greenberg:       greenberg,
-  'greenberg-previous': greenbergPrev,
-
-  greenhaven:       greenhaven,
-  'greenhaven-previous': greenhavenPrev,
-
-
-  //dogecox:       dogecox,
-  //'dogecox-previous': dogecoxPrev,
-
-
-
-
-
- // smith:            smith,
-  //'smith-previous': smithPrev,
-
-
-
-
-
-
-
-  // … bei Bedarf hier weitere Paare ergänzen …
+export interface Snapshot {
+  quarter: string
+  data: HoldingsFile
 }
 
-export default holdingsData
+// 3) Historie pro Investor
+const holdingsHistory: Record<string, Snapshot[]> = {
+  gates: [
+    { quarter: '2013-Q3', data: gates_2013_Q3 },
+    { quarter: '2013-Q4', data: gates_2013_Q4 },
+    { quarter: '2014-Q1', data: gates_2014_Q1 },
+    { quarter: '2014-Q2', data: gates_2014_Q2 },
+    { quarter: '2024-Q2', data: gates_2024_Q2 },
+    { quarter: '2024-Q3', data: gates_2024_Q3 },
+    { quarter: '2024-Q4', data: gates_2024_Q4 },
+    { quarter: '2025-Q1', data: gates_2025_Q1 },
+  ],
+
+  buffett: [
+   { quarter: '2024-Q4', data: buffett_2024_Q4 },
+   { quarter: '2025-Q1', data: buffett_2025_Q1 },
+   // …
+  ],
+  ackman: [
+   
+    { quarter: '2024-Q1', data: ackman_2024_Q1 },
+    { quarter: '2024-Q2', data: ackman_2024_Q2 },
+    { quarter: '2024-Q3', data: ackman_2024_Q3 },
+    { quarter: '2024-Q4', data: ackman_2024_Q4 },
+    { quarter: '2025-Q1', data: ackman_2025_Q1 },
+    //{ quarter: '2025-Q2', data: ackman_2025_Q2 },
+    // …
+   ],
+
+   marks: [
+   
+    { quarter: '2024-Q1', data: marks_2024_Q1 },
+    { quarter: '2024-Q2', data: marks_2024_Q2 },
+    { quarter: '2024-Q3', data: marks_2024_Q3 },
+    { quarter: '2024-Q4', data: marks_2024_Q4 },
+    { quarter: '2025-Q1', data: marks_2025_Q1 },
+    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+    // …
+   ],
+
+   akre: [
+   
+    { quarter: '2024-Q1', data: akre_2024_Q1 },
+    { quarter: '2024-Q2', data: akre_2024_Q2 },
+    { quarter: '2024-Q3', data: akre_2024_Q3 },
+    { quarter: '2024-Q4', data: akre_2024_Q4 },
+    { quarter: '2025-Q1', data: akre_2025_Q1 },
+    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+    // …
+   ],
+   olstein: [
+   
+    { quarter: '2024-Q1', data: olstein_2024_Q1 },
+    { quarter: '2024-Q2', data: olstein_2024_Q2 },
+    { quarter: '2024-Q3', data: olstein_2024_Q3 },
+    { quarter: '2024-Q4', data: olstein_2024_Q4 },
+    { quarter: '2025-Q1', data: olstein_2025_Q1 },
+    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+    // …
+   ],
+
+   greenberg: [
+   
+    { quarter: '2024-Q1', data: greenberg_2024_Q1 },
+    { quarter: '2024-Q2', data: greenberg_2024_Q2 },
+    { quarter: '2024-Q3', data: greenberg_2024_Q3 },
+    { quarter: '2024-Q4', data: greenberg_2024_Q4 },
+    { quarter: '2025-Q1', data: greenberg_2025_Q1},
+    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+    // …
+   ],
+
+
+   greenhaven: [
+   
+    { quarter: '2024-Q1', data: greenhaven_2024_Q1 },
+    { quarter: '2024-Q2', data: greenhaven_2024_Q2 },
+    { quarter: '2024-Q3', data: greenhaven_2024_Q3 },
+    { quarter: '2024-Q4', data: greenhaven_2024_Q4 },
+    { quarter: '2025-Q1', data: greenhaven_2025_Q1},
+    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+    // …
+   ],
+   gregalexander: [
+   
+    { quarter: '2024-Q1', data: gregalexander_2024_Q1 },
+    { quarter: '2024-Q2', data: gregalexander_2024_Q2 },
+    { quarter: '2024-Q3', data: gregalexander_2024_Q3},
+    { quarter: '2024-Q4', data: gregalexander_2024_Q4},
+    { quarter: '2025-Q1', data: gregalexander_2025_Q1},
+    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+    // …
+   ],
+  // … alle weiteren Investoren analog …
+}
+
+export default holdingsHistory

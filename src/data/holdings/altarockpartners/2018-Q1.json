@@ -1,0 +1,47 @@
+{
+  "date": "2018-02-13",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16119P108",
+      "shares": 438103,
+      "value": 147185000
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 398290,
+      "value": 60285000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 966907,
+      "value": 142725000
+    },
+    {
+      "name": "PRICELINE GROUP INC",
+      "cusip": "741503403",
+      "shares": 94263,
+      "value": 163805000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 579531,
+      "value": 159151000
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 282516,
+      "value": 32212000
+    },
+    {
+      "name": "WABTEC",
+      "cusip": "929740108",
+      "shares": 686426,
+      "value": 55896000
+    }
+  ]
+}

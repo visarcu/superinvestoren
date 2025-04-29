@@ -1,0 +1,131 @@
+{
+  "date": "2022-01-18",
+  "positions": [
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1708000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 2501,
+      "value": 748000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 4527140,
+      "value": 273394000
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 737285,
+      "value": 79959000
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 13146934,
+      "value": 770805000
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 2025165,
+      "value": 774727000
+    },
+    {
+      "name": "INTERNATIONAL PAPER CO",
+      "cusip": "460146103",
+      "shares": 1687700,
+      "value": 79288000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 5000,
+      "value": 792000
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 150810,
+      "value": 27591000
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 7195302,
+      "value": 835806000
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057302",
+      "shares": 451048,
+      "value": 43129000
+    },
+    {
+      "name": "M D C HLDGS INC",
+      "cusip": "552676108",
+      "shares": 25000,
+      "value": 1396000
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 2500,
+      "value": 444000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 10000,
+      "value": 982000
+    },
+    {
+      "name": "PERKINELMER INC",
+      "cusip": "714046109",
+      "shares": 1000,
+      "value": 201000
+    },
+    {
+      "name": "PROSHARES TR",
+      "cusip": "74347B714",
+      "shares": 1005000,
+      "value": 10884000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 22500,
+      "value": 1892000
+    },
+    {
+      "name": "PROSHARES TR",
+      "cusip": "74347B425",
+      "shares": 695000,
+      "value": 9466000
+    },
+    {
+      "name": "TOLL BROTHERS INC",
+      "cusip": "889478103",
+      "shares": 5192796,
+      "value": 375907000
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 512000
+    },
+    {
+      "name": "WHIRLPOOL CORP",
+      "cusip": "963320106",
+      "shares": 2834525,
+      "value": 665150000
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "date": "2021-08-16",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 21554,
+      "value": 52630000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 21491,
+      "value": 53863000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 43686679,
+      "value": 12141402000
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 13907283,
+      "value": 1467747000
+    },
+    {
+      "name": "CATERPILLAR INC",
+      "cusip": "149123101",
+      "shares": 10156756,
+      "value": 2210415000
+    },
+    {
+      "name": "COCA-COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 328945000
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 5714285,
+      "value": 238971000
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 5086680,
+      "value": 992411000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366427,
+      "value": 899353000
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 1493712,
+      "value": 445619000
+    },
+    {
+      "name": "GRUPO TELEVISA S A B",
+      "cusip": "40049J206",
+      "shares": 16879104,
+      "value": 241034000
+    },
+    {
+      "name": "SCHRODINGER INC",
+      "cusip": "80810D103",
+      "shares": 6981664,
+      "value": 527884000
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 2801790,
+      "value": 582688000
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 7600706,
+      "value": 1071852000
+    },
+    {
+      "name": "WASTE MGMT INC DEL",
+      "cusip": "94106L109",
+      "shares": 18633672,
+      "value": 2610764000
+    }
+  ]
+}

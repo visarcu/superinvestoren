@@ -1,0 +1,41 @@
+{
+  "date": "2023-02-13",
+  "positions": [
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 15237044,
+      "value": 1136531112000
+    },
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 1105208,
+      "value": 1533465048000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 10031580,
+      "value": 1267590449000
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 15895135,
+      "value": 1214706217000
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 10374801,
+      "value": 2067075351000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 24194166,
+      "value": 1564636715000
+    }
+  ]
+}

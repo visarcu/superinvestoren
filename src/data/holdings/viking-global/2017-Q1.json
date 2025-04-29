@@ -1,0 +1,377 @@
+{
+  "date": "2017-02-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 973930,
+      "value": 85521000
+    },
+    {
+      "name": "BIOGEN INC",
+      "cusip": "09062X103",
+      "shares": 1918812,
+      "value": 544137000
+    },
+    {
+      "name": "CABOT OIL & GAS CORP",
+      "cusip": "127097103",
+      "shares": 27013169,
+      "value": 631028000
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 2301553,
+      "value": 328593000
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 1653652,
+      "value": 93448000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 22863982,
+      "value": 160505000
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 3937015,
+      "value": 603584000
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 9311050,
+      "value": 959411000
+    },
+    {
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 1680154,
+      "value": 96995000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 2403665,
+      "value": 250510000
+    },
+    {
+      "name": "DOW CHEM CO",
+      "cusip": "260543103",
+      "shares": 19651893,
+      "value": 1124481000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 1207455,
+      "value": 89497000
+    },
+    {
+      "name": "EDITAS MEDICINE INC",
+      "cusip": "28106W103",
+      "shares": 1709401,
+      "value": 27744000
+    },
+    {
+      "name": "EMERSON ELEC CO",
+      "cusip": "291011104",
+      "shares": 295425,
+      "value": 16470000
+    },
+    {
+      "name": "ENCANA CORP",
+      "cusip": "292505104",
+      "shares": 88788457,
+      "value": 1042376000
+    },
+    {
+      "name": "ENVISION HEALTHCARE CORP",
+      "cusip": "29414D100",
+      "shares": 1804445,
+      "value": 114203000
+    },
+    {
+      "name": "EXTRACTION OIL AND GAS INC",
+      "cusip": "30227M105",
+      "shares": 2706555,
+      "value": 54239000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 18978163,
+      "value": 2183438000
+    },
+    {
+      "name": "58 COM INC",
+      "cusip": "31680Q104",
+      "shares": 389117,
+      "value": 10895000
+    },
+    {
+      "name": "GW PHARMACEUTICALS PLC",
+      "cusip": "36197T103",
+      "shares": 910831,
+      "value": 101785000
+    },
+    {
+      "name": "GULFPORT ENERGY CORP",
+      "cusip": "402635304",
+      "shares": 6299375,
+      "value": 136318000
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 737962,
+      "value": 150566000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1079052,
+      "value": 832834000
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 349965,
+      "value": 44810000
+    },
+    {
+      "name": "INCYTE CORP",
+      "cusip": "45337C102",
+      "shares": 730452,
+      "value": 73242000
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 1857390,
+      "value": 104794000
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 37681432,
+      "value": 958616000
+    },
+    {
+      "name": "MANULIFE FINL CORP",
+      "cusip": "56501R106",
+      "shares": 5355525,
+      "value": 95361000
+    },
+    {
+      "name": "MARSH & MCLENNAN COS INC",
+      "cusip": "571748102",
+      "shares": 1696801,
+      "value": 114687000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 4304695,
+      "value": 444460000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 21950056,
+      "value": 1363976000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 6469312,
+      "value": 800901000
+    },
+    {
+      "name": "NUVASIVE INC",
+      "cusip": "670704105",
+      "shares": 695707,
+      "value": 46863000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 1807781,
+      "value": 1432576000
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1724942,
+      "value": 61235000
+    },
+    {
+      "name": "RANGE RES CORP",
+      "cusip": "75281A109",
+      "shares": 3103533,
+      "value": 106637000
+    },
+    {
+      "name": "RICE ENERGY INC",
+      "cusip": "762760106",
+      "shares": 11206758,
+      "value": 239264000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 8057576,
+      "value": 318033000
+    },
+    {
+      "name": "SHIRE PLC",
+      "cusip": "82481R106",
+      "shares": 919604,
+      "value": 156682000
+    },
+    {
+      "name": "TJX COS INC NEW",
+      "cusip": "872540109",
+      "shares": 1311908,
+      "value": 98564000
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 8408861,
+      "value": 483594000
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 1309544,
+      "value": 26230000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 12287292,
+      "value": 344536000
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 2099301,
+      "value": 217656000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1626269,
+      "value": 1219490000
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 541446,
+      "value": 59353000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 2213236,
+      "value": 354206000
+    },
+    {
+      "name": "UNIVERSAL HLTH SVCS INC",
+      "cusip": "913903100",
+      "shares": 350693,
+      "value": 37307000
+    },
+    {
+      "name": "VCA INC",
+      "cusip": "918194101",
+      "shares": 545862,
+      "value": 37473000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 4846485,
+      "value": 378123000
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 7899951,
+      "value": 653800000
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 1405015,
+      "value": 95471000
+    },
+    {
+      "name": "WYNN RESORTS LTD",
+      "cusip": "983134107",
+      "shares": 1418557,
+      "value": 122719000
+    },
+    {
+      "name": "EATON CORP PLC",
+      "cusip": "G29183103",
+      "shares": 2495999,
+      "value": 167457000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 4923750,
+      "value": 150618000
+    },
+    {
+      "name": "ARCH COAL INC",
+      "cusip": "039380407",
+      "shares": 425101,
+      "value": 33179000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 4923750,
+      "value": 146235000
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 2285070,
+      "value": 196013000
+    },
+    {
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 4418919,
+      "value": 781132000
+    },
+    {
+      "name": "ASTRAZENECA PLC",
+      "cusip": "046353108",
+      "shares": 2859129,
+      "value": 78111000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 9431935,
+      "value": 208446000
+    },
+    {
+      "name": "BIOMARIN PHARMACEUTICAL INC",
+      "cusip": "09061G101",
+      "shares": 1398457,
+      "value": 115848000
+    }
+  ]
+}

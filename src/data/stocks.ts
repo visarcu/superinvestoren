@@ -19,11 +19,7 @@ export const stocks: Stock[] = [
     cusip:  '037833100',
     name:   'Apple Inc.',
     sector: 'Technologie',
-    metrics: [
-      { label: 'Marktkapitalisierung', value: '2,8 Bio. €' },
-      { label: 'KGV',                  value: '28,5'       },
-      { label: 'YTD Performance',      value: '+12,3 %'   },
-    ],
+    metrics: [],
   },
   {
     ticker: 'BRK.B',
@@ -31,9 +27,7 @@ export const stocks: Stock[] = [
     name:   'Berkshire Hathaway B',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '640 Mrd. €' },
-      { label: 'KGV',                  value: '18,2'      },
-      { label: 'YTD Performance',      value: '+7,8 %'   },
+     
     ],
   },
   {
@@ -42,9 +36,7 @@ export const stocks: Stock[] = [
     name:   'Amazon.com Inc.',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '1,7 Bio. €' },
-      { label: 'KGV',                  value: '65,4'      },
-      { label: 'YTD Performance',      value: '+3,1 %'   },
+    
     ],
   },
   {
@@ -53,9 +45,7 @@ export const stocks: Stock[] = [
     name:   'Alphabet Inc.',
     sector: 'Kommunikationsdienste',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '1,6 Bio. €' },
-      { label: 'KGV',                  value: '27,8'      },
-      { label: 'YTD Performance',      value: '+8,2 %'   },
+      
     ],
   },
   {
@@ -64,9 +54,7 @@ export const stocks: Stock[] = [
     name:   'American Express Co.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '180 Mrd. €' },
-      { label: 'KGV',                  value: '12,3'      },
-      { label: 'YTD Performance',      value: '+5,0 %'   },
+
     ],
   },
   {
@@ -75,9 +63,7 @@ export const stocks: Stock[] = [
     name:   'Bank of America Corp.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '250 Mrd. €' },
-      { label: 'KGV',                  value: '9,1'       },
-      { label: 'YTD Performance',      value: '+6,7 %'   },
+ 
     ],
   },
   {
@@ -86,9 +72,7 @@ export const stocks: Stock[] = [
     name:   'The Coca-Cola Company',
     sector: 'Basiskonsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '260 Mrd. €' },
-      { label: 'KGV',                  value: '23,4'      },
-      { label: 'YTD Performance',      value: '+2,2 %'   },
+     
     ],
   },
   {
@@ -97,9 +81,7 @@ export const stocks: Stock[] = [
     name:   'Chevron Corp.',
     sector: 'Energie',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '300 Mrd. €' },
-      { label: 'KGV',                  value: '15,6'      },
-      { label: 'YTD Performance',      value: '+4,5 %'   },
+
     ],
   },
   {
@@ -108,9 +90,7 @@ export const stocks: Stock[] = [
     name:   'Moody’s Corp.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '120 Mrd. €' },
-      { label: 'KGV',                  value: '14,0'      },
-      { label: 'YTD Performance',      value: '+7,1 %'   },
+    
     ],
   },
   {
@@ -119,9 +99,7 @@ export const stocks: Stock[] = [
     name:   'Kraft Heinz Co.',
     sector: 'Basiskonsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '45 Mrd. €'  },
-      { label: 'KGV',                  value: '18,9'      },
-      { label: 'YTD Performance',      value: '-1,2 %'   },
+     
     ],
   },
   {
@@ -130,9 +108,7 @@ export const stocks: Stock[] = [
     name:   'Chubb Ltd.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '95 Mrd. €'  },
-      { label: 'KGV',                  value: '10,7'      },
-      { label: 'YTD Performance',      value: '+4,6 %'   },
+  
     ],
   },
   {
@@ -141,9 +117,7 @@ export const stocks: Stock[] = [
     name:   'DaVita Inc.',
     sector: 'Gesundheitswesen',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+     
     ],
   },
   {
@@ -152,9 +126,7 @@ export const stocks: Stock[] = [
     name:   'Occidental Petroleum',
     sector: 'Energie',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+     
     ],
   },
   {
@@ -163,9 +135,7 @@ export const stocks: Stock[] = [
     name:   'Kroger Co.',
     sector: 'Basiskonsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+      
     ],
   },
   {
@@ -174,9 +144,7 @@ export const stocks: Stock[] = [
     name:   'Verisign Inc.',
     sector: 'Technologie',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+
     ],
   },
   {
@@ -185,9 +153,7 @@ export const stocks: Stock[] = [
     name:   'Sirius XM Holdings Inc.',
     sector: 'Kommunikationsdienste',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+      
     ],
   },
   {
@@ -196,9 +162,7 @@ export const stocks: Stock[] = [
     name:   'Visa Inc.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+    
     ],
   },
   {
@@ -229,9 +193,7 @@ export const stocks: Stock[] = [
     name:   'Capital One Financial Corp.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+ 
     ],
   },
   {
@@ -240,9 +202,7 @@ export const stocks: Stock[] = [
     name:   'Constellation Brands Inc.',
     sector: 'Basiskonsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+     
     ],
   },
   {
@@ -251,9 +211,7 @@ export const stocks: Stock[] = [
     name:   'Ally Financial Inc.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+   
     ],
   },
   {
@@ -262,9 +220,7 @@ export const stocks: Stock[] = [
     name:   'Citigroup Inc.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+      
     ],
   },
   {
@@ -273,9 +229,7 @@ export const stocks: Stock[] = [
     name:   'Domino’s Pizza Inc.',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+    
     ],
   },
   {
@@ -284,9 +238,7 @@ export const stocks: Stock[] = [
     name:   'T-Mobile US Inc.',
     sector: 'Kommunikationsdienste',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+
     ],
   },
   {
@@ -295,9 +247,7 @@ export const stocks: Stock[] = [
     name:   'Charter Communications Inc.',
     sector: 'Kommunikationsdienste',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+ 
     ],
   },
   {
@@ -306,9 +256,7 @@ export const stocks: Stock[] = [
     name:   'Louisiana-Pacific Corp.',
     sector: 'Industrie',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+  
     ],
   },
   {
@@ -317,9 +265,7 @@ export const stocks: Stock[] = [
     name:   'Nu Holdings Ltd.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+    
     ],
   },
   {
@@ -328,9 +274,7 @@ export const stocks: Stock[] = [
     name:   'Pool Corp.',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+
     ],
   },
   {
@@ -339,9 +283,7 @@ export const stocks: Stock[] = [
     name:   'Heico Corp.',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+
     ],
   },
   {
@@ -350,9 +292,7 @@ export const stocks: Stock[] = [
     name:   'NVR Inc.',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+
     ],
   },
   {
@@ -361,9 +301,7 @@ export const stocks: Stock[] = [
     name:   'Diageo PLC',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+     
     ],
   },
   {
@@ -372,9 +310,7 @@ export const stocks: Stock[] = [
     name:   'Lennar Corp.',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+   
     ],
   },
   {
@@ -383,9 +319,7 @@ export const stocks: Stock[] = [
     name:   'Jefferies Financial Group Inc.',
     sector: 'Finanzwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+
     ],
   },
   {
@@ -394,9 +328,7 @@ export const stocks: Stock[] = [
     name:   'Liberty Latin America Ltd.',
     sector: 'Kommunikationsdienste',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
+
     ],
   },
   {
@@ -405,9 +337,6 @@ export const stocks: Stock[] = [
     name:   'Liberty Latin America Cl. C',
     sector: 'Kommunikationsdienste',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
     ],
   },
   {
@@ -416,9 +345,6 @@ export const stocks: Stock[] = [
     name:   'Atlanta Braves Holdings Inc.',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   },
     ],
   },
   {
@@ -427,9 +353,7 @@ export const stocks: Stock[] = [
     name:   'Liberty Media Corp Cl. A',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
+ 
     ]
   },
   {
@@ -438,9 +362,7 @@ export const stocks: Stock[] = [
     name:   'Liberty Media Corp Cl. B',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
+  
     ]
   },
   {
@@ -449,32 +371,26 @@ export const stocks: Stock[] = [
     name:   'Liberty Media Corp Cl. C',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
+
     ]
   },
 
   {
     ticker: 'BN',
-    cusip:  '11261Q109',
+    cusip:  '11271J107',
     name:   'Brookfield Corporation',
     sector: 'Finanzen',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
+   
     ]
   },
   {
     ticker: 'QSR',
-    cusip:  '761763109',
+    cusip:  '76131D103',
     name:   'Restaurant Brands International',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
+   
     ]
   },
   {
@@ -483,21 +399,16 @@ export const stocks: Stock[] = [
     name:   'Chipotle Mexican Grill',
     sector: 'Konsumwerte',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
+ 
     ]
   },
 
   {
     ticker: 'HHH',
-    cusip:  '44106V108',
+    cusip:  '44267T102',
     name:   'Howard Hughes Holdings Inc.',
     sector: 'Finanzen',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
     ]
   },
 
@@ -507,10 +418,171 @@ export const stocks: Stock[] = [
     name:   'Alphabet Inc.',
     sector: 'Finanzen',
     metrics: [
-      { label: 'Marktkapitalisierung', value: '20 Mrd. €'  },
-      { label: 'KGV',                  value: '12,8'      },
-      { label: 'YTD Performance',      value: '+3,9 %'   }
+
+    ]
+  },
+
+  {
+    ticker: 'NKE',
+    cusip:  '654106103',
+    name:   'Nike',
+    sector: 'Finanzen',
+    metrics: [
+
+  
+    ]
+  },
+  {
+    ticker: 'HLT',
+    cusip:  '43300A203',
+    name:   'Hilton Worldwilde Holdings',
+    sector: 'Finanzen',
+    metrics: [
+     
+    ]
+  },
+
+  {
+    ticker: 'CP',
+    cusip:  '13646K108',
+    name:   'Canadian Pacific Kansas City Limited',
+    sector: 'Finanzen',
+    metrics: [
+   
+    ]
+  },
+
+  {
+    ticker: 'SEG',
+    cusip:  '812215200',
+    name:   'Seaport Entertainment Group',
+    sector: 'Finanzen',
+    metrics: [
+
+    ]
+  },
+
+  {
+    ticker: 'HTZ',
+    cusip:  '428046109',
+    name:   'Hertz Global Holdings',
+    sector: 'Finanzen',
+    metrics: [
+  
     ]
   }
+,
+  {
+    ticker: 'MSFT',
+    cusip:  '594918104',
+    name:   'Microsoft',
+    sector: 'Technologie',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'WM',
+    cusip:  '94106L109',
+    name:   'Waste Management',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'CAT',
+    cusip:  '149123101',
+    name:   'Caterpillar Inc.',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'DE',
+    cusip:  '244199105',
+    name:   'Deere & Company',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'ECL',
+    cusip:  '278865100',
+    name:   'Ecolab Inc.',
+    sector: 'Materialien',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'WMT',
+    cusip:  '931142103',
+    name:   'Walmart Inc.',
+    sector: 'Basiskonsumwerte',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'FDX',
+    cusip:  '31428X106',
+    name:   'FedEx Corporation',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+
+  {
+    ticker: 'ABNB',
+    cusip:  '009066101',
+    name:   'Airbnb',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+
+  {
+    ticker: 'DHR',
+    cusip:  '235851102',
+    name:   'Danaher Corporation',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'KKR',
+    cusip:  '48251w104',
+    name:   'KKR & Co. Inc.',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'WCN',
+    cusip:  '94106B101',
+    name:   'Waste Connections',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  },
+  {
+    ticker: 'CPNG',
+    cusip:  '22266T109',
+    name:   'Coupang',
+    sector: 'Industrie',
+    metrics: [
+  
+    ]
+  }
+
+
 
 ]

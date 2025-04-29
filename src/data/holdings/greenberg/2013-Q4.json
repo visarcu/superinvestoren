@@ -1,0 +1,71 @@
+{
+  "date": "2013-11-14",
+  "positions": [
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030n200",
+      "shares": 2707515,
+      "value": 117371000
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219g108",
+      "shares": 3377491,
+      "value": 208729000
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 4724009,
+      "value": 227461000
+    },
+    {
+      "name": "HIGHER ONE HLDGS INC",
+      "cusip": "42983d104",
+      "shares": 4636534,
+      "value": 35562000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3936900,
+      "value": 131020000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS INC",
+      "cusip": "620076307",
+      "shares": 668470,
+      "value": 39694000
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389x105",
+      "shares": 7025771,
+      "value": 233045000
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164m108",
+      "shares": 3377527,
+      "value": 136249000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 9209792,
+      "value": 194695000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911k102",
+      "shares": 6573589,
+      "value": 685823000
+    },
+    {
+      "name": "VISTAPRINT N V",
+      "cusip": "n93540107",
+      "shares": 3871683,
+      "value": 219130000
+    }
+  ]
+}

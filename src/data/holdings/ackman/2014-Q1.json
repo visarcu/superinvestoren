@@ -1,0 +1,47 @@
+{
+  "date": "2014-02-14",
+  "positions": [
+    {
+      "name": "AIR PRODS & CHEMS INC",
+      "cusip": "009158106",
+      "shares": 20549076,
+      "value": 2296976000
+    },
+    {
+      "name": "BEAM INC",
+      "cusip": "073730103",
+      "shares": 20818545,
+      "value": 1416910000
+    },
+    {
+      "name": "BURGER KING WORLDWIDE INC",
+      "cusip": "121220107",
+      "shares": 38387865,
+      "value": 877547000
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 17159888,
+      "value": 2596634000
+    },
+    {
+      "name": "GENERAL GROWTH PPTYS INC NEW",
+      "cusip": "370023103",
+      "shares": 27624282,
+      "value": 554419000
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 3568017,
+      "value": 428519000
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 739605,
+      "value": 60211000
+    }
+  ]
+}

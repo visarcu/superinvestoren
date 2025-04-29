@@ -1,0 +1,107 @@
+{
+  "date": "2020-05-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 300000,
+      "value": 348585000
+    },
+    {
+      "name": "BMC STOCK HOLDINGS INC.",
+      "cusip": "05591B109",
+      "shares": 4919200,
+      "value": 87217000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 10000000,
+      "value": 122300000
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 272447,
+      "value": 14666000
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "226406106",
+      "shares": 660492,
+      "value": 2299000
+    },
+    {
+      "name": "EQUITABLE HOLDINGS INC",
+      "cusip": "29452E101",
+      "shares": 1800000,
+      "value": 26010000
+    },
+    {
+      "name": "EVI INDUSTRIES INC",
+      "cusip": "26929N102",
+      "shares": 220310,
+      "value": 3476000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES NV S",
+      "cusip": "N31738102",
+      "shares": 28000000,
+      "value": 201320000
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 3709971,
+      "value": 29494000
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "362409104",
+      "shares": 4324130,
+      "value": 19545000
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 2594241,
+      "value": 23685000
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 3000000,
+      "value": 121500000
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 30328,
+      "value": 2683000
+    },
+    {
+      "name": "SAILPOINT TECHNOLOGIES HOLDING",
+      "cusip": "78781P105",
+      "shares": 4000000,
+      "value": 60880000
+    },
+    {
+      "name": "SINCLAIR BROADCAST GROUP INC",
+      "cusip": "829226109",
+      "shares": 4154967,
+      "value": 66812000
+    },
+    {
+      "name": "WAITR HLDGS INC",
+      "cusip": "930752100",
+      "shares": 2514175,
+      "value": 3092000
+    },
+    {
+      "name": "YANDEX NV SHS",
+      "cusip": "N97284108",
+      "shares": 4000000,
+      "value": 136200000
+    }
+  ]
+}
