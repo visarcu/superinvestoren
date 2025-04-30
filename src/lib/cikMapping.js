@@ -8,12 +8,19 @@ export const investorCiks = {
   // bereits vorhandene
   buffett: '0001067983',  
   ackman:  '0001336528',   
-  burry:   '0001768023',
- // marks: [ "0000949509", "0001749177", "0001403525", "0001403527", "0001403528", "0001790787", "0001403530", "0001403378", "0001995474", "0001995345", "0001821249", "0001831013", "0000943457" /* …weitere Oakmark-Fonds-CIKs… */ ],
   pabrai:  '0001571785',
   akre:    '0001112520', 
   olstein: '0000947996',
   gregalexander:'0001773994',
+  altarockpartners:     '0001631014', 
+  miller:   '0001135778',
+
+
+  //Manuell folgende Investoren updaten
+ //burry:   '0001768023', MANUELL!!!
+ // marks:  0000949509, MANUELL!!
+ // smith:    '0001569205', MANUELL
+// lilu:                  '0001709323', MANUELL
 
   // neu hinzuzufügende Investoren:
   // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
@@ -36,8 +43,7 @@ export const investorCiks = {
   'tom-bancroft':          '0001540866',    // Tom Bancroft – Makaira Partners
   // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
-  'altarockpartners':     '0001631014',    // AltaRock Partners
-  'lilu':                  '0001473143', // Li Lu – Himalaya Capital (bereits bekannt)
+
   'daniel-loeb':           '0001040273',    // Daniel Loeb – Third Point
   'stephen-mandel':        '0001061165',    // Stephen Mandel – Lone Pine Capital
   'carl-icahn':            '0000853610', // Carl Icahn – Icahn Capital (Beispiel)
@@ -57,14 +63,14 @@ export const investorCiks = {
   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
   'coleman':         '0001167483',    // Chase Coleman – Tiger Global Management
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
-  'bill-miller':           '0001135778',    // Bill Miller – Miller Value Partners
+
   // 'pat-dorsey':            'XXX',    // Pat Dorsey – Dorsey Asset Management
   // 'leon-cooperman':        'XXX',    // Leon Cooperman
   // 'josh-tarasoff':         'XXX',    // Josh Tarasoff – Greenlea Lane Capital
    //'clifford-sosin':        'XXX',    // Clifford Sosin – CAS Investment Partners
    //'chris-hohn':            'XXX',    // Chris Hohn – TCI Fund Management
    //'bryan-lawrence':        'XXX',    // Bryan Lawrence – Oakcliff Capital
-  'terry-smith':           '0001520023', // Terry Smith – Fundsmith
+
   //'prem-watsa':            'XXX',    // Prem Watsa – Fairfax Financial Holdings
   //'dennis-hong':           'XXX',    // Dennis Hong – ShawSpring Partners
   'seth-klarman':          '0000875415', // Seth Klarman – Baupost Group

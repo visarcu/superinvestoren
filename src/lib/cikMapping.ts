@@ -8,12 +8,17 @@ export const investorCiks: Record<string,string> = {
   // bereits vorhandene
   buffett: '0001067983',
   ackman:  '0001336528',   
-  burry:   '0001768023',   
- // marks: ['0000949509', '0001749177', '0001403525', '0001403527', '0001403528', '0001790787', '0001403530', '0001403378', '0001995474', '0001995345', '0001821249', '0001831013', '0000943457'],
+  // burry:   '0001768023',  MANUELL
+ // marks:  0000949509, MANUELL!
   pabrai: '0001571785',
   greenhaven: '0000846222',
   greenberg: '0001553733',
-  gregalexander:'0001773994'
+  gregalexander:'0001773994',
+  // smith:    '0001569205', MANUELL!!
+  // lilu:                  '0001709323', MANUELL
+altarockpartners:     '0001631014',
+miller:           '0001135778'  // Bill Miller – Miller Value Partners
+
 
   // neu hinzuzufügende Investoren:
   // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
@@ -36,8 +41,7 @@ export const investorCiks: Record<string,string> = {
   // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
 
-             //  'altarockpartners':     '0001631014',    // AltaRock Partners
-             //  'lilu':                  '0001473143', // Li Lu – Himalaya Capital (bereits bekannt)
+
             //   'daniel-loeb':           '0001040273',    // Daniel Loeb – Third Point
              //   'stephen-mandel':        '0001061165',    // Stephen Mandel – Lone Pine Capital
              //   'carl-icahn':            '0000853610', // Carl Icahn – Icahn Capital (Beispiel)
@@ -64,7 +68,7 @@ export const investorCiks: Record<string,string> = {
    //'clifford-sosin':        'XXX',    // Clifford Sosin – CAS Investment Partners
    //'chris-hohn':            'XXX',    // Chris Hohn – TCI Fund Management
    //'bryan-lawrence':        'XXX',    // Bryan Lawrence – Oakcliff Capital
-             //   'terry-smith':           '0001520023', // Terry Smith – Fundsmith
+   
   //'prem-watsa':            'XXX',    // Prem Watsa – Fairfax Financial Holdings
   //'dennis-hong':           'XXX',    // Dennis Hong – ShawSpring Partners
              //   'seth-klarman':          '0000875415', // Seth Klarman – Baupost Group

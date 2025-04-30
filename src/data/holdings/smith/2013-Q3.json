@@ -1,0 +1,107 @@
+{
+  "date": "2013-07-12",
+  "positions": [
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 835096,
+      "value": 92065000
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING INC",
+      "cusip": "053015103",
+      "shares": 1408541,
+      "value": 97718000
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 1098017,
+      "value": 108435000
+    },
+    {
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 1422535,
+      "value": 57463000
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 784868,
+      "value": 45055000
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 261549,
+      "value": 28396000
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 2229652,
+      "value": 131115000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 2831057,
+      "value": 130214000
+    },
+    {
+      "name": "MCDONALDS CORP",
+      "cusip": "580135101",
+      "shares": 1038629,
+      "value": 90054000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 427999,
+      "value": 42648000
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 3525044,
+      "value": 122019000
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 978146,
+      "value": 79949000
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 846738,
+      "value": 74322000
+    },
+    {
+      "name": "SIGMA ALDRICH CORP",
+      "cusip": "826552101",
+      "shares": 1301833,
+      "value": 101107000
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 2021417,
+      "value": 130806000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 133894,
+      "value": 24682000
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 744352,
+      "value": 74696000
+    }
+  ]
+}

@@ -1,40 +1,66 @@
+// src/components/AnalysisChart.tsx
 'use client'
 import React from 'react'
 import {
-  ResponsiveContainer, BarChart, CartesianGrid,
-  XAxis, YAxis, Tooltip, Bar
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts'
 
-interface Props {
+interface AnalysisChartProps {
   data: any[]
   dataKey: string
   name?: string
   stroke?: string
   fill?: string
+  /** Pixel-Höhe */
   height?: number
-  xAxisKey?: string
+  /** Feld für X-Achse */
+  xDataKey?: string
 }
 
 export default function AnalysisChart({
-  data, dataKey, name,
-  stroke='#8884d8', fill='rgba(136,132,216,0.3)',
-  height=240, xAxisKey='label'
-}: Props) {
+  data,
+  dataKey,
+  name,
+  stroke = '#8884d8',
+  fill   = 'rgba(136,132,216,0.3)',
+  height = 240,
+  xDataKey = 'label',
+}: AnalysisChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <BarChart data={data} margin={{ top:8, right:16, bottom:8, left:0 }}>
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-        <XAxis
-          dataKey={xAxisKey}
-          axisLine={false}
-          tickLine={false}
-          interval={0}
-          angle={-30}
-          textAnchor="end"
+      <BarChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 19 }}>
+      <CartesianGrid stroke="#E5E7EB" strokeDasharray="2 2" vertical={false} />
+      <XAxis
+        dataKey={xDataKey}
+         axisLine={false}
+         tickLine={false}
+         interval={0}
+         tick={{ angle: -45, textAnchor: 'end', fill: '#4B5563', fontSize: 12 }}
+         height={60}
+       />
+        <YAxis axisLine={false} tickLine={false} width={40} tick={{ fill: '#4B5563', fontSize: 12 }} />
+        <Tooltip
+        
+        contentStyle={{
+          backgroundColor: '#fff',
+          borderRadius: 8,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          border: '1px solid #e5e7eb',
+        }}
+        itemStyle={{ fontSize: 12, padding: '4px 8px' }}
+        labelStyle={{ fontWeight: 600, color: '#374151' }}
+        
+        
+        
         />
-        <YAxis axisLine={false} tickLine={false} width={40} />
-        <Tooltip />
-        <Bar dataKey={dataKey} name={name} stroke={stroke} fill={fill} barSize={20}/>
+        <Bar
+         dataKey={dataKey}
+         name={name ?? dataKey}         stroke={stroke}
+        fill={fill}
+         barSize={20}
+         opacity={0.8}
+         strokeWidth={1}
+       />
       </BarChart>
     </ResponsiveContainer>
   )

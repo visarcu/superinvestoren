@@ -251,4 +251,12 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
+  {
+    name: 'Bill Miller',
+    slug: 'miller',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
 ]

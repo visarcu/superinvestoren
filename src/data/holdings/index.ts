@@ -32,12 +32,10 @@ import ackman_2025_Q1 from './ackman/2025-Q1.json'
 //import ackman_2025_Q2 from './ackman/2025-Q2.json'
 
 //Marks
-import marks_2024_Q1 from './marks/2024-Q1.json'
-import marks_2024_Q2 from './marks/2024-Q2.json'
-import marks_2024_Q3 from './marks/2024-Q3.json'
-import marks_2024_Q4 from './marks/2024-Q4.json'
+
+//import marks_2024_Q4 from './marks/2024-Q4.json'
 import marks_2025_Q1 from './marks/2025-Q1.json'
-//import marks_2025_Q2 from './marks/2025-Q2.json'
+
 
 //akre
 import akre_2024_Q1 from './akre/2024-Q1.json'
@@ -74,6 +72,27 @@ import gregalexander_2024_Q2 from './gregalexander/2024-Q2.json'
 import gregalexander_2024_Q3 from './gregalexander/2024-Q3.json'
 import gregalexander_2024_Q4 from './gregalexander/2024-Q4.json'
 import gregalexander_2025_Q1 from './gregalexander/2025-Q1.json'
+
+//Terry Smith
+import smith_2024_Q4 from './smith/2024-Q4.json'
+import smith_2025_Q1 from './smith/2025-Q1.json'
+
+//Michael Burry
+import burry_2024_Q3 from './burry/2024-Q3.json'
+import burry_2024_Q4 from './burry/2024-Q4.json'
+import burry_2025_Q1 from './burry/2025-Q1.json'
+
+//Li Lu
+import lilu_2024_Q4 from './lilu/2024-Q4.json'
+import lilu_2025_Q1 from './lilu/2025-Q1.json'
+
+//Altarock Partners
+import   altarockpartners_2024_Q4 from './altarockpartners/2024-Q4.json'
+import   altarockpartners_2025_Q1 from './altarockpartners/2025-Q1.json'
+
+//Bill Miller
+import   miller_2024_Q4 from './miller/2024-Q4.json'
+import   miller_2025_Q1 from './miller/2025-Q1.json'
 
 
 // … für jeden weiteren Slug analog …
@@ -125,12 +144,12 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
    marks: [
    
-    { quarter: '2024-Q1', data: marks_2024_Q1 },
-    { quarter: '2024-Q2', data: marks_2024_Q2 },
-    { quarter: '2024-Q3', data: marks_2024_Q3 },
-    { quarter: '2024-Q4', data: marks_2024_Q4 },
+    //{ quarter: '2024-Q1', data: marks_2024_Q1 },
+    //{ quarter: '2024-Q2', data: marks_2024_Q2 },
+    //{ quarter: '2024-Q3', data: marks_2024_Q3 },
+   // { quarter: '2024-Q4', data: marks_2024_Q4 },
     { quarter: '2025-Q1', data: marks_2025_Q1 },
-    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+   
     // …
    ],
 
@@ -162,8 +181,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: greenberg_2024_Q3 },
     { quarter: '2024-Q4', data: greenberg_2024_Q4 },
     { quarter: '2025-Q1', data: greenberg_2025_Q1},
-    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
-    // …
+    
    ],
 
 
@@ -174,8 +192,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: greenhaven_2024_Q3 },
     { quarter: '2024-Q4', data: greenhaven_2024_Q4 },
     { quarter: '2025-Q1', data: greenhaven_2025_Q1},
-    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
-    // …
+  
    ],
    gregalexander: [
    
@@ -184,9 +201,43 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: gregalexander_2024_Q3},
     { quarter: '2024-Q4', data: gregalexander_2024_Q4},
     { quarter: '2025-Q1', data: gregalexander_2025_Q1},
-    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
-    // …
+  
+   
    ],
+   
+   smith: [
+    { quarter: '2024-Q4', data: smith_2024_Q4 },
+    { quarter: '2025-Q1', data: smith_2025_Q1 },
+   ],
+
+   burry: [
+    { quarter: '2024-Q3', data: burry_2024_Q3 },
+    { quarter: '2024-Q4', data: burry_2024_Q4 },
+    { quarter: '2025-Q1', data: burry_2025_Q1 },
+   ],
+
+    lilu: [
+    { quarter: '2024-Q4', data: lilu_2024_Q4 },
+    { quarter: '2025-Q1', data: lilu_2025_Q1 },
+   ],
+
+   altarockpartners: [
+    { quarter: '2024-Q4', data: altarockpartners_2024_Q4 },
+    { quarter: '2025-Q1', data: altarockpartners_2025_Q1 },
+   ],
+
+   miller: [
+    { quarter: '2024-Q4', data: miller_2024_Q4 },
+    { quarter: '2025-Q1', data: miller_2025_Q1 },
+   ],
+
+
+
+
+
+
+
+
   // … alle weiteren Investoren analog …
 }
 

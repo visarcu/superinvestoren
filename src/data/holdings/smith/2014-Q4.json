@@ -1,0 +1,101 @@
+{
+  "date": "2014-11-05",
+  "positions": [
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 846655,
+      "value": 119954000
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING INC",
+      "cusip": "053015103",
+      "shares": 1592266,
+      "value": 116049000
+    },
+    {
+      "name": "BARD CR INC",
+      "cusip": "826552101",
+      "shares": 800523,
+      "value": 114067000
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 1525906,
+      "value": 173663000
+    },
+    {
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 1224737,
+      "value": 63460000
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 972598,
+      "value": 63078000
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2134570,
+      "value": 164277000
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 3375072,
+      "value": 217051000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 1434318,
+      "value": 152884000
+    },
+    {
+      "name": "MICROSOFT",
+      "cusip": "580135101",
+      "shares": 5488976,
+      "value": 254469000
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 1886556,
+      "value": 175619000
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 1942923,
+      "value": 162040000
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1433679,
+      "value": 120056000
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 2539116,
+      "value": 205034000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 597748,
+      "value": 127541000
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 1938349,
+      "value": 109769000
+    }
+  ]
+}
