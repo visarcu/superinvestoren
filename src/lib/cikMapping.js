@@ -14,6 +14,8 @@ export const investorCiks = {
   gregalexander:'0001773994',
   altarockpartners:     '0001631014', 
   miller:   '0001135778',
+  tepper:          '0001377071',
+  spier:             '0001404599', 
 
 
   //Manuell folgende Investoren updaten
@@ -33,7 +35,7 @@ export const investorCiks = {
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
   'olstein':        '0000947996',    // Robert Olstein – Olstein Capital Management
   'robert-vinall':         '0001766596',    // Robert Vinall – RV Capital GmbH
-  'guy-spier':             '0001404599',    // Guy Spier – Aquamarine Capital
+
   // 'hillman-value':         'XXX',    // Hillman Value Fund
   'greenhaven': '0000846222',    // Greenhaven Associates
   // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund

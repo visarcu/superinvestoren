@@ -17,8 +17,9 @@ export const investorCiks: Record<string,string> = {
   // smith:    '0001569205', MANUELL!!
   // lilu:                  '0001709323', MANUELL
 altarockpartners:     '0001631014',
-miller:           '0001135778'  // Bill Miller – Miller Value Partners
-
+miller:           '0001135778',  // Bill Miller – Miller Value Partners
+tepper:          '0001377071', // David Tepper – Appaloosa Management
+spier:  '0001404599'
 
   // neu hinzuzufügende Investoren:
   // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
@@ -31,7 +32,6 @@ miller:           '0001135778'  // Bill Miller – Miller Value Partners
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
             //'olstein':        '0000947996',    // Robert Olstein – Olstein Capital Management
             //'robert-vinall':         '0001766596',    // Robert Vinall – RV Capital GmbH
-     //         'guy-spier':             '0001404599',    // Guy Spier – Aquamarine Capital
   // 'hillman-value':         'XXX',    // Hillman Value Fund
   // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
  //             'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
@@ -85,7 +85,7 @@ miller:           '0001135778'  // Bill Miller – Miller Value Partners
   //'polen-capital':         'XXX',    // Polen Capital Management
   //'jensen-investment':     'XXX',    // Jensen Investment Management
   //'first-eagle':           'XXX',    // First Eagle Investment Management
-              //  'david-tepper':          '0001377071', // David Tepper – Appaloosa Management
+              
   //'john-armitage':         'XXX',    // John Armitage – Egerton Capital
               //  'gayner':         '0001096343',    // Thomas Gayner – Markel Group
   //'david-abrams':          'XXX',    // David Abrams – Abrams Capital Management

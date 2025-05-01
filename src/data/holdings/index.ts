@@ -33,7 +33,8 @@ import ackman_2025_Q1 from './ackman/2025-Q1.json'
 
 //Marks
 
-//import marks_2024_Q4 from './marks/2024-Q4.json'
+import marks_2024_Q3 from './marks/2024-Q3.json'
+import marks_2024_Q4 from './marks/2024-Q4.json'
 import marks_2025_Q1 from './marks/2025-Q1.json'
 
 
@@ -146,8 +147,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    
     //{ quarter: '2024-Q1', data: marks_2024_Q1 },
     //{ quarter: '2024-Q2', data: marks_2024_Q2 },
-    //{ quarter: '2024-Q3', data: marks_2024_Q3 },
-   // { quarter: '2024-Q4', data: marks_2024_Q4 },
+    { quarter: '2024-Q3', data: marks_2024_Q3 },
+    { quarter: '2024-Q4', data: marks_2024_Q4 },
     { quarter: '2025-Q1', data: marks_2025_Q1 },
    
     // …
@@ -160,7 +161,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: akre_2024_Q3 },
     { quarter: '2024-Q4', data: akre_2024_Q4 },
     { quarter: '2025-Q1', data: akre_2025_Q1 },
-    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+   
     // …
    ],
    olstein: [
@@ -170,7 +171,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: olstein_2024_Q3 },
     { quarter: '2024-Q4', data: olstein_2024_Q4 },
     { quarter: '2025-Q1', data: olstein_2025_Q1 },
-    //{ quarter: '2025-Q2', data: marks_2025_Q2 },
+   
     // …
    ],
 

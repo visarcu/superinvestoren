@@ -1,17 +1,15 @@
-// src/app/investor/[slug]/page.tsx
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
-import holdingsHistory from '@/data/holdings'      // statt des flachen holdingsData
+import holdingsHistory from '@/data/holdings'
 import InvestorTabs from '@/components/InvestorTabs'
 import type { SectorDatum } from '@/components/SectorPieChart'
 import { stocks } from '@/data/stocks'
 
-// die Charts bleiben unverändert
 const SectorPieChart = dynamic(
   () => import('@/components/SectorPieChart'),
   { ssr: false }
@@ -36,103 +34,186 @@ interface Position {
   pctDelta:    number
 }
 
+const investorNames: Record<string,string> = {
+  buffett: 'Warren Buffett – Berkshire Hathaway',
+  ackman:  'Bill Ackman – Pershing Square Capital Management',
+  gates:   'Bill Gates – Cascade Investment',
+  marks:   'Howard Marks – Oaktree Capital Management',
+  burry:   'Michael Burry – Scion Asset Management',
+  smith: 'Terry Smith'
+}
+
+function getPeriodFromDate(dateStr: string) {
+  const [year, month] = dateStr.split('-').map(Number)
+  const filingQ = Math.ceil(month/3)
+  let reportQ = filingQ - 1
+  let reportY = year
+  if (reportQ === 0) {
+    reportQ = 4
+    reportY = year - 1
+  }
+  return `Q${reportQ} ${reportY}`
+}
+
+function formatCurrency(amount: number, currency: 'EUR' | 'USD' = 'EUR') {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0,
+  }).format(amount)
+}
+
 export default function InvestorPage({
   params: { slug },
 }: {
   params: { slug: string }
 }) {
-  // ─── 1) History-Snapshots holen ───────────────────────────────
+  const [tab, setTab] = useState<'holdings' | 'buys' | 'sells'>('holdings')
+
   const snapshots = holdingsHistory[slug]
   if (!Array.isArray(snapshots) || snapshots.length === 0) {
     return notFound()
   }
 
-  // ─── 2) Aktuellster und vorletzter Snapshot ───────────────────
   const latestSnapshot   = snapshots[snapshots.length - 1]
-  const previousSnapshot = snapshots[snapshots.length - 2]  // kann undefined sein
-
-  // ─── 3) Daten-Objekte extrahieren ─────────────────────────────
+  const previousSnapshot = snapshots[snapshots.length - 2]
   const current  = latestSnapshot.data
   const previous = previousSnapshot?.data
 
-  // ─── 4) Prev-Map aufbauen (falls Prev da) ──────────────────────
-  const prevMap = new Map<string, number>()
+  const prevMap = new Map<string,number>()
   previous?.positions.forEach(p => {
-    prevMap.set(p.cusip, (prevMap.get(p.cusip) ?? 0) + p.shares)
+    prevMap.set(p.cusip, (prevMap.get(p.cusip)||0) + p.shares)
   })
 
-  // ─── 5) Doppelte CUSIPs im aktuellen Depot zusammenführen ──────
   const merged = Array.from(
-    current.positions.reduce(
-      (map, p) => {
-        if (!map.has(p.cusip)) {
-          map.set(p.cusip, { ...p })
-        } else {
-          const e = map.get(p.cusip)!
-          e.shares += p.shares
-          e.value   += p.value
-        }
-        return map
-      },
-      new Map<string, { cusip: string; name: string; shares: number; value: number }>()
-    ).values()
+    current.positions.reduce((m,p) => {
+      if (!m.has(p.cusip)) m.set(p.cusip,{...p})
+      else {
+        const e = m.get(p.cusip)!
+        e.shares += p.shares
+        e.value   += p.value
+      }
+      return m
+    }, new Map<string,{cusip:string;name:string;shares:number;value:number}>()).values()
   )
 
-  // ─── 6) Delta berechnen ────────────────────────────────────────
   const full: Position[] = merged.map(p => {
-    const prev  = prevMap.get(p.cusip) ?? 0
-    const delta = p.shares - prev
-    const pct   = prev > 0 ? delta / prev : 0
+    const prev   = prevMap.get(p.cusip)||0
+    const delta  = p.shares - prev
+    const pct    = prev>0 ? delta/prev : 0
     return { ...p, deltaShares: delta, pctDelta: pct }
   })
 
-  // ─── 7) Sortieren & filtern ───────────────────────────────────
-  const holdings = full.slice().sort((a, b) => b.value - a.value)
-  const buys     = holdings.filter(p => p.deltaShares > 0)
-  const sells    = holdings.filter(p => p.deltaShares < 0)
-
-  // ─── 8) Top-10 als Prozent des Gesamtwerts ────────────────────
-  const totalValue = holdings.reduce((sum, p) => sum + p.value, 0)
-  const top10 = holdings.slice(0, 10).map(p => ({
-    name:    p.name,
-    percent: (p.value / totalValue) * 100,
+  const holdings = full.slice().sort((a,b)=>b.value - a.value)
+  const scaledHoldings = holdings.map(p => ({
+    ...p,
+    value: p.value / 1_000
   }))
 
-  // ─── 9) Sektor-Summen berechnen ───────────────────────────────
-  const cusipToTicker  = new Map(stocks.map(s => [s.cusip, s.ticker]))
-  const tickerToSector = new Map(stocks.map(s => [s.ticker, s.sector]))
-  const sectorTotals: Record<string, number> = {}
-  holdings.forEach(p => {
-    const ticker = cusipToTicker.get(p.cusip)
-    const sector = ticker ? tickerToSector.get(ticker) ?? 'Sonstige' : 'Sonstige'
-    sectorTotals[sector] = (sectorTotals[sector] ?? 0) + p.value
+  const totalValue = scaledHoldings.reduce((sum,p)=>sum+p.value,0)
+  const top10 = scaledHoldings.slice(0,10).map(p=>({
+    name:    p.name,
+    percent: (p.value/totalValue)*100
+  }))
+
+  const cusipToTicker  = new Map(stocks.map(s=>[s.cusip,s.ticker]))
+  const tickerToSector = new Map(stocks.map(s=>[s.ticker,s.sector]))
+  const sectorTotals: Record<string,number> = {}
+  scaledHoldings.forEach(p=>{
+    const t = cusipToTicker.get(p.cusip)
+    const sec = t ? tickerToSector.get(t) ?? 'Sonstige' : 'Sonstige'
+    sectorTotals[sec] = (sectorTotals[sec]||0) + p.value
   })
   const sectorData: SectorDatum[] = Object.entries(sectorTotals).map(
-    ([sector, value]) => ({ sector, value })
+    ([sector,value]) => ({ sector, value })
   )
 
-  // ─── 10) Datum formatieren ────────────────────────────────────
-  let formattedDate = '–'
-  if (current.date) {
-    const [year, month, day] = current.date.split('-')
-    formattedDate = `${day}.${month}.${year}`
-  }
+  const formattedDate = current.date
+    ? current.date.split('-').reverse().join('.')
+    : '–'
+  const period = current.date
+    ? getPeriodFromDate(current.date)
+    : '–'
 
-  // ─── 11) Articles auswählen ────────────────────────────────────
   let articles: Article[] = []
-  switch (slug) {
+  switch(slug) {
     case 'buffett': articles = articlesBuffett; break
     case 'ackman':  articles = articlesAckman;  break
     case 'gates':   articles = articlesGates;   break
-    default:        articles = []
   }
 
-  // ─── Render ────────────────────────────────────────────────────
+  type HistoryGroup = { period: string; items: Position[] }
+
+  const buysHistory: HistoryGroup[] = snapshots
+    .map((snap, idx) => {
+      const prevSnap = snapshots[idx - 1]?.data
+      const pm = new Map<string,number>()
+      prevSnap?.positions.forEach(p=>{
+        pm.set(p.cusip,(pm.get(p.cusip)||0)+p.shares)
+      })
+      const mergedSnap = Array.from(
+        snap.data.positions.reduce((m,p)=>{
+          if (!m.has(p.cusip)) m.set(p.cusip,{...p})
+          else {
+            const e = m.get(p.cusip)!
+            e.shares += p.shares
+            e.value  += p.value
+          }
+          return m
+        }, new Map<string,{cusip:string;name:string;shares:number;value:number}>()).values()
+      )
+      const fullSnap = mergedSnap.map(p=>{
+        const prevS = pm.get(p.cusip)||0
+        const d     = p.shares - prevS
+        const pct   = prevS>0 ? d/prevS : 0
+        return {...p, deltaShares:d, pctDelta:pct}
+      })
+      return {
+        period: getPeriodFromDate(snap.data.date),
+        items: fullSnap
+          .filter(p=>p.deltaShares>0)
+          .map(p=>({...p, value:p.value/1_000}))
+      }
+    })
+    .reverse()
+
+  const sellsHistory: HistoryGroup[] = snapshots
+    .map((snap, idx) => {
+      const prevSnap = snapshots[idx - 1]?.data
+      const pm = new Map<string,number>()
+      prevSnap?.positions.forEach(p=>{
+        pm.set(p.cusip,(pm.get(p.cusip)||0)+p.shares)
+      })
+      const mergedSnap = Array.from(
+        snap.data.positions.reduce((m,p)=>{
+          if (!m.has(p.cusip)) m.set(p.cusip,{...p})
+          else {
+            const e = m.get(p.cusip)!
+            e.shares += p.shares
+            e.value  += p.value
+          }
+          return m
+        }, new Map<string,{cusip:string;name:string;shares:number;value:number}>()).values()
+      )
+      const fullSnap = mergedSnap.map(p=>{
+        const prevS = pm.get(p.cusip)||0
+        const d     = p.shares - prevS
+        const pct   = prevS>0 ? d/prevS : 0
+        return {...p, deltaShares:d, pctDelta:pct}
+      })
+      return {
+        period: getPeriodFromDate(snap.data.date),
+        items: fullSnap
+          .filter(p=>p.deltaShares<0)
+          .map(p=>({...p, value:p.value/1_000}))
+      }
+    })
+    .reverse()
+
   return (
     <main className="max-w-4xl mx-auto p-4">
-      {/* Header */}
-      <div className="flex items-center mb-6">
-        <div className="w-20 h-20 relative">
+      <div className="bg-white shadow rounded-lg p-6 mb-8 flex flex-col sm:flex-row items-center">
+        <div className="w-20 h-20 relative mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
           <Image
             src={`/images/${slug}.png`}
             alt={slug}
@@ -140,34 +221,51 @@ export default function InvestorPage({
             className="rounded-full object-cover"
           />
         </div>
-        <div className="ml-4">
-          <h1 className="text-3xl font-bold capitalize">{slug}</h1>
-          <p className="text-gray-600">
-            Aktualisiert am {formattedDate}
+        <div className="text-center sm:text-left flex flex-col gap-1">
+          <h1 className="text-3xl font-bold text-gray-900">
+            {investorNames[slug] ?? slug}
+          </h1>
+          <p className="text-sm text-gray-500">
+            Periode: <span className="font-medium text-gray-700">{period}</span>
+          </p>
+          <p className="text-sm text-gray-500">
+            Aktualisiert am{' '}
+            <span className="font-medium text-gray-700">{formattedDate}</span>
+          </p>
+          <p className="text-2xl font-semibold text-gray-800">
+            Gesamtwert{' '}
+            <span className="ml-2 inline-block bg-green-100 text-green-800 px-2 py-1 rounded">
+              {formatCurrency(totalValue,'EUR')}
+            </span>
           </p>
         </div>
       </div>
 
-      {/* Tabs */}
-      <InvestorTabs holdings={holdings} buys={buys} sells={sells} />
+      <InvestorTabs
+        tab={tab}
+        onTabChange={setTab}
+        holdings={scaledHoldings}
+        buys={buysHistory}
+        sells={sellsHistory}
+      />
 
-      {/* Charts */}
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-xl font-semibold text-center mb-2">
-            Sektor-Verteilung
-          </h2>
-          <SectorPieChart data={sectorData} />
+      {tab === 'holdings' && (
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <h2 className="text-xl font-semibold text-center mb-2">
+              Sektor-Verteilung
+            </h2>
+            <SectorPieChart data={sectorData} />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold text-center mb-2">
+              Top 10 Positionen
+            </h2>
+            <TopPositionsBarChart data={top10} />
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl font-semibold text-center mb-2">
-            Top 10 Positionen
-          </h2>
-          <TopPositionsBarChart data={top10} />
-        </div>
-      </div>
+      )}
 
-      {/* Articles */}
       {articles.length > 0 && (
         <>
           <h2 className="mt-8 text-xl font-semibold text-center">

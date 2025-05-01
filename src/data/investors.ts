@@ -95,7 +95,7 @@ export const investors: Investor[] = [
   },
   {
     name: 'Guy Spier',
-    slug: 'guy-spier',    
+    slug: 'spier',    
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
