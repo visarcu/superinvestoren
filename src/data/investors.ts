@@ -259,4 +259,12 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
+  {
+    name: 'Lee Ainslie (Maverick Capital)',
+    slug: 'ainslie',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
 ]

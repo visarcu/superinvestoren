@@ -95,6 +95,27 @@ import   altarockpartners_2025_Q1 from './altarockpartners/2025-Q1.json'
 import   miller_2024_Q4 from './miller/2024-Q4.json'
 import   miller_2025_Q1 from './miller/2025-Q1.json'
 
+// Chase Coleman
+import coleman_2024_Q1 from './coleman/2024-Q1.json'
+import coleman_2024_Q2 from './coleman/2024-Q2.json'
+import coleman_2024_Q3 from './coleman/2024-Q3.json'
+import coleman_2024_Q4 from './coleman/2024-Q4.json'
+import coleman_2025_Q1 from './coleman/2025-Q1.json'
+
+//gayner
+import gayner_2024_Q1 from './gayner/2024-Q1.json'
+import gayner_2024_Q2 from './gayner/2024-Q2.json'
+import gayner_2024_Q3 from './gayner/2024-Q3.json'
+import gayner_2024_Q4 from './gayner/2024-Q4.json'
+import gayner_2025_Q1 from './gayner/2025-Q1.json'
+
+//ainslie
+import ainslie_2024_Q1 from './ainslie/2024-Q1.json'
+import ainslie_2024_Q2 from './ainslie/2024-Q2.json'
+import ainslie_2024_Q3 from './ainslie/2024-Q3.json'
+import ainslie_2024_Q4 from './ainslie/2024-Q4.json'
+import ainslie_2025_Q1 from './ainslie/2025-Q1.json'
+
 
 // … für jeden weiteren Slug analog …
 
@@ -230,6 +251,30 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    miller: [
     { quarter: '2024-Q4', data: miller_2024_Q4 },
     { quarter: '2025-Q1', data: miller_2025_Q1 },
+   ],
+
+   coleman: [
+    { quarter: '2024-Q1', data: coleman_2024_Q1 },
+    { quarter: '2024-Q2', data: coleman_2024_Q2 },
+    { quarter: '2024-Q3', data: coleman_2024_Q3},
+    { quarter: '2024-Q4', data: coleman_2024_Q4},
+    { quarter: '2025-Q1', data: coleman_2025_Q1},
+   ],
+
+   gayner: [
+    { quarter: '2024-Q1', data: gayner_2024_Q1 },
+    { quarter: '2024-Q2', data: gayner_2024_Q2 },
+    { quarter: '2024-Q3', data: gayner_2024_Q3},
+    { quarter: '2024-Q4', data: gayner_2024_Q4},
+    { quarter: '2025-Q1', data: gayner_2025_Q1},
+   ],
+
+   ainslie: [
+    { quarter: '2024-Q1', data: ainslie_2024_Q1},
+    { quarter: '2024-Q2', data: ainslie_2024_Q2 },
+    { quarter: '2024-Q3', data: ainslie_2024_Q3},
+    { quarter: '2024-Q4', data: ainslie_2024_Q4},
+    { quarter: '2025-Q1', data: ainslie_2025_Q1},
    ],
 
 

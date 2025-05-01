@@ -15,7 +15,11 @@ export const investorCiks = {
   altarockpartners:     '0001631014', 
   miller:   '0001135778',
   tepper:          '0001377071',
-  spier:             '0001404599', 
+  spier:             '0001404599',
+  coleman:         '0001167483',    // Chase Coleman – Tiger Global Management 
+  gayner:         '0001096343',    // Thomas Gayner – Markel Group
+  ainslie:           '0000934639',    // Lee Ainslie – Maverick Capital
+
 
 
   //Manuell folgende Investoren updaten
@@ -49,7 +53,7 @@ export const investorCiks = {
   'daniel-loeb':           '0001040273',    // Daniel Loeb – Third Point
   'stephen-mandel':        '0001061165',    // Stephen Mandel – Lone Pine Capital
   'carl-icahn':            '0000853610', // Carl Icahn – Icahn Capital (Beispiel)
-  'lee-ainslie':           '0000934639',    // Lee Ainslie – Maverick Capital
+
   // 'nelson-peltz':          'XXX',    // Nelson Peltz – Trian Fund Management
   'david-einhorn':         '0001342577', // David Einhorn – Greenlight
   // 'valueact-capital':      'XXX',    // ValueAct Capital
@@ -63,7 +67,7 @@ export const investorCiks = {
   'greenberg':       '0001553733',    // Glenn Greenberg – Brave Warrior Advisors
   'viking-global':         '0001103804',    // Viking Global Investors
   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
-  'coleman':         '0001167483',    // Chase Coleman – Tiger Global Management
+
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
 
   // 'pat-dorsey':            'XXX',    // Pat Dorsey – Dorsey Asset Management
@@ -91,7 +95,7 @@ export const investorCiks = {
   //'first-eagle':           'XXX',    // First Eagle Investment Management
   'david-tepper':          '0001377071', // David Tepper – Appaloosa Management
   //'john-armitage':         'XXX',    // John Armitage – Egerton Capital
-  'gayner':         '0001096343',    // Thomas Gayner – Markel Group
+  
   //'david-abrams':          'XXX',    // David Abrams – Abrams Capital Management
   //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
   //'torray-funds':          'XXX',    // Torray Funds

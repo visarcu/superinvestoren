@@ -4,11 +4,14 @@ import Link from 'next/link'
 import Script from 'next/script'
 import type { ReactNode } from 'react'
 import SearchBar from '@/components/SearchBar'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 export const metadata = {
   title: 'SUPERINVESTOR',
   description: 'Portfolios der bekanntesten Investoren im Überblick',
 }
+
+
 
 export default function RootLayout({
   children,
@@ -80,7 +83,11 @@ export default function RootLayout({
           </nav>
         </header>
 
-        <main className="flex-grow max-w-5xl mx-auto p-4 sm:p-8">{children}</main>
+        <main className="flex-grow max-w-5xl mx-auto p-4 sm:p-8">
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
+        </main>
 
         <footer className="bg-surface dark:bg-surface-dark border-t text-center p-4 text-sm text-gray-500 dark:text-gray-400">
           © {new Date().getFullYear()} SUPERINVESTOR

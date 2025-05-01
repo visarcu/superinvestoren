@@ -40,7 +40,12 @@ const investorNames: Record<string,string> = {
   gates:   'Bill Gates – Cascade Investment',
   marks:   'Howard Marks – Oaktree Capital Management',
   burry:   'Michael Burry – Scion Asset Management',
-  smith: 'Terry Smith'
+  smith: 'Terry Smith',
+  coleman: 'Chase Coleman - Tiger Global Management',
+  gayner: 'Thomas Gayner - Markel Group',
+  greenberg: 'Glenn Greenberg - Brave Warrior Advisors',
+  gregalexander: 'Greg Alexander - Conifer Management',
+  ainslie: 'Lee Ainslie - Maverick Capital'
 }
 
 function getPeriodFromDate(dateStr: string) {
