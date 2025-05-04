@@ -1,0 +1,119 @@
+{
+  "date": "2019-05-10",
+  "positions": [
+    {
+      "name": "AKEBIA THERAPEUTICS INC",
+      "cusip": "00972D105",
+      "shares": 5656462,
+      "value": 46326000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 124117,
+      "value": 146072000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 561258,
+      "value": 208513000
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 1902528,
+      "value": 131959000
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 4260401,
+      "value": 17894000
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 3945362,
+      "value": 54880000
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 6752869,
+      "value": 637066000
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 17946000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1024723,
+      "value": 170811000
+    },
+    {
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 9772486,
+      "value": 323860000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 8529816,
+      "value": 170682000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2300000,
+      "value": 213325000
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 748124,
+      "value": 290497000
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U204",
+      "shares": 2223860,
+      "value": 36494000
+    },
+    {
+      "name": "PACIFIC DRILLING SA LUXEMBOU",
+      "cusip": "L7257P205",
+      "shares": 7414537,
+      "value": 104508000
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 25000000,
+      "value": 445000000
+    },
+    {
+      "name": "SUBURBAN PROPANE PARTNERS L",
+      "cusip": "864482104",
+      "shares": 2988346,
+      "value": 66969000
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 18046356,
+      "value": 282967000
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PUB LTD",
+      "cusip": "G96629103",
+      "shares": 1109811,
+      "value": 194938000
+    }
+  ]
+}

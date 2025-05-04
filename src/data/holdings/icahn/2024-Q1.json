@@ -1,0 +1,125 @@
+{
+  "date": "2024-02-14",
+  "positions": [
+    {
+      "name": "American Electric Power Company",
+      "cusip": "025537101",
+      "shares": 1205300,
+      "value": 97894000
+    },
+    {
+      "name": "Bausch Plus Lomb Corp.",
+      "cusip": "071705107",
+      "shares": 3500000,
+      "value": 59710000
+    },
+    {
+      "name": "Bausch Health Companies Inc.",
+      "cusip": "071734107",
+      "shares": 34721118,
+      "value": 278463000
+    },
+    {
+      "name": "Conduent Inc",
+      "cusip": "206787103",
+      "shares": 38149336,
+      "value": 139245000
+    },
+    {
+      "name": "CVR Energy Inc",
+      "cusip": "12662P108",
+      "shares": 51192381,
+      "value": 1551129000
+    },
+    {
+      "name": "CVR Energy Inc",
+      "cusip": "12662P108",
+      "shares": 15500000,
+      "value": 469650000
+    },
+    {
+      "name": "Dana Inc.",
+      "cusip": "235825205",
+      "shares": 14286505,
+      "value": 208726000
+    },
+    {
+      "name": "FirstEnergy Corp",
+      "cusip": "337932107",
+      "shares": 5887171,
+      "value": 215824000
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 184410605,
+      "value": 3170018000
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 40515103,
+      "value": 696455000
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 78629135,
+      "value": 1351635000
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 50587426,
+      "value": 869598000
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 13737633,
+      "value": 236150000
+    },
+    {
+      "name": "Illumina Inc.",
+      "cusip": "452327109",
+      "shares": 430000,
+      "value": 59873000
+    },
+    {
+      "name": "International Flavors and Fragrances Inc.",
+      "cusip": "459506101",
+      "shares": 644510,
+      "value": 52186000
+    },
+    {
+      "name": "Newell Brands, Inc",
+      "cusip": "651229106",
+      "shares": 5940744,
+      "value": 51566000
+    },
+    {
+      "name": "Occidental Petroleum Corp Wts",
+      "cusip": "674599162",
+      "shares": 5689408,
+      "value": 221489000
+    },
+    {
+      "name": "Occidental Petroleum Corp Wts",
+      "cusip": "674599162",
+      "shares": 10796024,
+      "value": 420289000
+    },
+    {
+      "name": "SandRidge Energy, Inc.",
+      "cusip": "80007P869",
+      "shares": 4818832,
+      "value": 65873000
+    },
+    {
+      "name": "Southwest Gas Holdings Inc.",
+      "cusip": "844895102",
+      "shares": 11022604,
+      "value": 698282000
+    }
+  ]
+}

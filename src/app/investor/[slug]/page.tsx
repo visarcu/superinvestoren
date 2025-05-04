@@ -39,7 +39,16 @@ const investorNames: Record<string,string> = {
   buffett: 'Warren Buffett – Berkshire Hathaway',
   ackman:  'Bill Ackman – Pershing Square Capital Management',
   gates:   'Bill & Melinda Gates Foundation Trust',
-  // … alle anderen
+
+  cantillon: 'William von Mueffling - Cantillon Capital Management',
+  duan:'Duan Yongping - H&H International Investment',
+  mandel:'Stephen Mandel - Lone Pine Capital',
+  ellenbogen:'Henry Ellenbogen - Durable Capital Partners',
+  jensen: 'Eric Schoenstein - Jensen Investment Management',
+  russo:'Thomas Russo - Gardner Russe & Quinn',
+  icahn: 'Carl Icahn - Icahn Capital Management',
+  greenhaven:'Edgar Wachenheim - Greenhaven Associates',
+  abrams: 'David Abrams - Abrams Capital Management'
 }
 
 function getPeriodFromDate(dateStr: string) {

@@ -1,0 +1,245 @@
+{
+  "date": "2019-11-14",
+  "positions": [
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 825000,
+      "value": 227906000
+    },
+    {
+      "name": "AFYA LTD",
+      "cusip": "G01125106",
+      "shares": 400000,
+      "value": 10256000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 3600000,
+      "value": 605844000
+    },
+    {
+      "name": "AMERICOLD RLTY TR",
+      "cusip": "03064D108",
+      "shares": 1280000,
+      "value": 47450000
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 157300,
+      "value": 34820000
+    },
+    {
+      "name": "BAXTER INTL INC",
+      "cusip": "071813109",
+      "shares": 16850000,
+      "value": 1473870000
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 1750000,
+      "value": 106855000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 5000000,
+      "value": 203450000
+    },
+    {
+      "name": "BURLINGTON STORES INC",
+      "cusip": "122017106",
+      "shares": 1500000,
+      "value": 299730000
+    },
+    {
+      "name": "CAMPBELL SOUP CO",
+      "cusip": "134429109",
+      "shares": 17000000,
+      "value": 797640000
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 2400000,
+      "value": 103824000
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18453H106",
+      "shares": 5250000,
+      "value": 13230000
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 2000000,
+      "value": 58120000
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 3710000,
+      "value": 535835000
+    },
+    {
+      "name": "ENVISTA HLDGS CORP",
+      "cusip": "29415F104",
+      "shares": 800000,
+      "value": 22304000
+    },
+    {
+      "name": "ESSENTIAL PPTYS RLTY TR INC",
+      "cusip": "29670E107",
+      "shares": 10000,
+      "value": 204000
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W109",
+      "shares": 15692500,
+      "value": 160377000
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W208",
+      "shares": 4000000,
+      "value": 42760000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2499989,
+      "value": 331899000
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 850000,
+      "value": 107185000
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L105",
+      "shares": 8000000,
+      "value": 252280000
+    },
+    {
+      "name": "GODADDY INC",
+      "cusip": "380237107",
+      "shares": 500000,
+      "value": 32990000
+    },
+    {
+      "name": "GROCERY OUTLET HLDG CORP",
+      "cusip": "39874R101",
+      "shares": 180000,
+      "value": 6242000
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 3065078,
+      "value": 28873000
+    },
+    {
+      "name": "HD SUPPLY HLDGS INC",
+      "cusip": "40416M105",
+      "shares": 1000000,
+      "value": 39175000
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 2000000,
+      "value": 298760000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287457",
+      "shares": 39364,
+      "value": 3339000
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 9407745,
+      "value": 23708000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 600000,
+      "value": 83418000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 2700000,
+      "value": 279693000
+    },
+    {
+      "name": "REPLAY ACQUISITION CORP",
+      "cusip": "G75130123",
+      "shares": 1000000,
+      "value": 10258000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 800000,
+      "value": 195984000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2500000,
+      "value": 371100000
+    },
+    {
+      "name": "SMILEDIRECTCLUB INC",
+      "cusip": "83192H106",
+      "shares": 750000,
+      "value": 10410000
+    },
+    {
+      "name": "SONY CORP",
+      "cusip": "835699307",
+      "shares": 1500000,
+      "value": 88695000
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 6661604,
+      "value": 379578000
+    },
+    {
+      "name": "TRADEWEB MKTS INC",
+      "cusip": "892672106",
+      "shares": 425000,
+      "value": 15716000
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 6000000,
+      "value": 819120000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1500000,
+      "value": 258015000
+    },
+    {
+      "name": "ZENDESK INC",
+      "cusip": "98936J101",
+      "shares": 500000,
+      "value": 36440000
+    }
+  ]
+}

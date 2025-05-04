@@ -1,0 +1,263 @@
+{
+  "date": "2020-08-14",
+  "positions": [
+    {
+      "name": "ANGI HOMESERVICES INC",
+      "cusip": "00183L102",
+      "shares": 5088370,
+      "value": 61824000
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 933559,
+      "value": 168293000
+    },
+    {
+      "name": "BILL COM HLDGS INC",
+      "cusip": "090043100",
+      "shares": 250816,
+      "value": 22626000
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 3851355,
+      "value": 279454000
+    },
+    {
+      "name": "BOSTON BEER INC",
+      "cusip": "100557107",
+      "shares": 367086,
+      "value": 196997000
+    },
+    {
+      "name": "BRIGHT HORIZONS FAM SOL IN D",
+      "cusip": "109194100",
+      "shares": 4260161,
+      "value": 499291000
+    },
+    {
+      "name": "BURLINGTON STORES INC",
+      "cusip": "122017106",
+      "shares": 419651,
+      "value": 82642000
+    },
+    {
+      "name": "CABLE ONE INC",
+      "cusip": "12685J105",
+      "shares": 21643,
+      "value": 38413000
+    },
+    {
+      "name": "CANNAE HLDGS INC",
+      "cusip": "13765N107",
+      "shares": 1076773,
+      "value": 44255000
+    },
+    {
+      "name": "CARGURUS INC",
+      "cusip": "141788109",
+      "shares": 6644147,
+      "value": 168429000
+    },
+    {
+      "name": "CERIDIAN HCM HLDG INC",
+      "cusip": "15677J108",
+      "shares": 1638147,
+      "value": 129856000
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266L106",
+      "shares": 998531,
+      "value": 276633000
+    },
+    {
+      "name": "DATADOG INC",
+      "cusip": "23804L103",
+      "shares": 2250133,
+      "value": 195649000
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 1437194,
+      "value": 76028000
+    },
+    {
+      "name": "EXACT SCIENCES CORP",
+      "cusip": "30063P105",
+      "shares": 1166192,
+      "value": 101389000
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 5725351,
+      "value": 98877000
+    },
+    {
+      "name": "FIRSTSERVICE CORP NEW",
+      "cusip": "33767E202",
+      "shares": 2905843,
+      "value": 292764000
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 3492185,
+      "value": 65548000
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 512612,
+      "value": 38528000
+    },
+    {
+      "name": "HUNT J B TRANS SVCS INC",
+      "cusip": "445658107",
+      "shares": 985129,
+      "value": 118550000
+    },
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44919P508",
+      "shares": 1483303,
+      "value": 479700000
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 455834,
+      "value": 150498000
+    },
+    {
+      "name": "INGERSOLL RAND INC",
+      "cusip": "45687V106",
+      "shares": 5364757,
+      "value": 150857000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 897225,
+      "value": 265749000
+    },
+    {
+      "name": "LENNOX INTL INC",
+      "cusip": "526107107",
+      "shares": 880365,
+      "value": 205116000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 676982,
+      "value": 225990000
+    },
+    {
+      "name": "NATIONAL VISION HLDGS INC",
+      "cusip": "63845R107",
+      "shares": 2816700,
+      "value": 85966000
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE IN",
+      "cusip": "679580100",
+      "shares": 307646,
+      "value": 52174000
+    },
+    {
+      "name": "QUAKER CHEM CORP",
+      "cusip": "747316107",
+      "shares": 1508330,
+      "value": 280021000
+    },
+    {
+      "name": "RBC BEARINGS INC",
+      "cusip": "75524B104",
+      "shares": 1042279,
+      "value": 139707000
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 9093415,
+      "value": 381105000
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 824329,
+      "value": 205175000
+    },
+    {
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 653309,
+      "value": 253654000
+    },
+    {
+      "name": "SHIFT4 PMTS INC",
+      "cusip": "82452J109",
+      "shares": 1329148,
+      "value": 47185000
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 232915,
+      "value": 221083000
+    },
+    {
+      "name": "TORO CO",
+      "cusip": "891092108",
+      "shares": 1394157,
+      "value": 92488000
+    },
+    {
+      "name": "TWILIO INC",
+      "cusip": "90138F102",
+      "shares": 1257186,
+      "value": 275852000
+    },
+    {
+      "name": "VAIL RESORTS INC",
+      "cusip": "91879Q109",
+      "shares": 652618,
+      "value": 118874000
+    },
+    {
+      "name": "VROOM INC",
+      "cusip": "92918V109",
+      "shares": 5425934,
+      "value": 273644000
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 1908390,
+      "value": 178988000
+    },
+    {
+      "name": "WEST PHARMACEUTICAL SVSC INC",
+      "cusip": "955306105",
+      "shares": 1241191,
+      "value": 281961000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 1777925,
+      "value": 455540000
+    },
+    {
+      "name": "XP INC",
+      "cusip": "G98239109",
+      "shares": 6010358,
+      "value": 252495000
+    }
+  ]
+}

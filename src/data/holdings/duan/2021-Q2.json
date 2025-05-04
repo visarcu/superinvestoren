@@ -1,4 +1,59 @@
 {
   "date": "2021-05-10",
-  "positions": []
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 280000,
+      "value": 579216000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 35288200,
+      "value": 4310454000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 7711176,
+      "value": 1969974000
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 1553100,
+      "value": 60089000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 837000,
+      "value": 154443000
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 899700,
+      "value": 50230000
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 72500,
+      "value": 6795000
+    },
+    {
+      "name": "TOYOTA MOTOR CORP",
+      "cusip": "892331307",
+      "shares": 335900,
+      "value": 52421000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 136000,
+      "value": 5314000
+    }
+  ]
 }

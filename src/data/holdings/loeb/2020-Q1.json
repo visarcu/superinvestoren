@@ -1,0 +1,227 @@
+{
+  "date": "2020-02-13",
+  "positions": [
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 950000,
+      "value": 313320000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 3600000,
+      "value": 688212000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 70000,
+      "value": 129349000
+    },
+    {
+      "name": "AVANTOR INC",
+      "cusip": "05352A100",
+      "shares": 7000000,
+      "value": 127050000
+    },
+    {
+      "name": "BAXTER INTL INC",
+      "cusip": "071813109",
+      "shares": 17500000,
+      "value": 1463350000
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 1900000,
+      "value": 122512000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 5000000,
+      "value": 226100000
+    },
+    {
+      "name": "BRISTOL MYERS SQUIBB CO",
+      "cusip": "110122157",
+      "shares": 7000000,
+      "value": 21070000
+    },
+    {
+      "name": "BURLINGTON STORES INC",
+      "cusip": "122017106",
+      "shares": 1400000,
+      "value": 319242000
+    },
+    {
+      "name": "CAMPBELL SOUP CO",
+      "cusip": "134429109",
+      "shares": 14400000,
+      "value": 711648000
+    },
+    {
+      "name": "CANNAE HLDGS INC",
+      "cusip": "13765N107",
+      "shares": 175000,
+      "value": 6508000
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 2400000,
+      "value": 150888000
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18453H106",
+      "shares": 250000,
+      "value": 715000
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 3710000,
+      "value": 569411000
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W109",
+      "shares": 15692500,
+      "value": 162104000
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W208",
+      "shares": 4000000,
+      "value": 43200000
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 150000,
+      "value": 24831000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2500000,
+      "value": 347725000
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 1200000,
+      "value": 153432000
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L105",
+      "shares": 5000000,
+      "value": 185350000
+    },
+    {
+      "name": "GROCERY OUTLET HLDG CORP",
+      "cusip": "39874R101",
+      "shares": 1150000,
+      "value": 37318000
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 1520000,
+      "value": 17252000
+    },
+    {
+      "name": "IAA INC",
+      "cusip": "449253103",
+      "shares": 6500000,
+      "value": 305890000
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 2000000,
+      "value": 309020000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287457",
+      "shares": 42309,
+      "value": 3581000
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 9407745,
+      "value": 42617000
+    },
+    {
+      "name": "RAYTHEON CO",
+      "cusip": "755111507",
+      "shares": 555200,
+      "value": 122000000
+    },
+    {
+      "name": "REPLAY ACQUISITION CORP",
+      "cusip": "G75130123",
+      "shares": 1000000,
+      "value": 10370000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 800000,
+      "value": 218440000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2200000,
+      "value": 357808000
+    },
+    {
+      "name": "SONY CORP",
+      "cusip": "835699307",
+      "shares": 1500000,
+      "value": 102000000
+    },
+    {
+      "name": "TD AMERITRADE HLDG CORP",
+      "cusip": "87236Y108",
+      "shares": 3000000,
+      "value": 149100000
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATI",
+      "cusip": "808513105",
+      "shares": 1000000,
+      "value": 47560000
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 5207000,
+      "value": 779800000
+    },
+    {
+      "name": "VIACOMCBS INC",
+      "cusip": "92556H206",
+      "shares": 2750000,
+      "value": 115418000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1500000,
+      "value": 281850000
+    },
+    {
+      "name": "XP INC",
+      "cusip": "G98239109",
+      "shares": 800000,
+      "value": 30816000
+    }
+  ]
+}

@@ -1,4 +1,53 @@
 {
   "date": "2023-02-14",
-  "positions": []
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3104400,
+      "value": 273466600000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 5975200,
+      "value": 530179500000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 61232700,
+      "value": 7955965000000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 6294465,
+      "value": 1944360000000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 926800,
+      "value": 80520380000
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 302500,
+      "value": 9555975000
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 160000,
+      "value": 28739200000
+    },
+    {
+      "name": "ZOOM VIDEO COMMUNICATIONS IN",
+      "cusip": "98980L101",
+      "shares": 179800,
+      "value": 12179650000
+    }
+  ]
 }

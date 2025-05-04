@@ -1,5 +1,149 @@
 {
-  "form": "13F-HR",
   "date": "2018-10-17",
-  "positions": []
+  "positions": [
+    {
+      "name": "Agilent Technologies, Inc. (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 755000
+    },
+    {
+      "name": "AECOM (ACM)",
+      "cusip": "00766T100",
+      "shares": 1636089,
+      "value": 53435000
+    },
+    {
+      "name": "Adient PLC (ADNT)",
+      "cusip": "G0084W101",
+      "shares": 1883548,
+      "value": 74042000
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 7170,
+      "value": 379000
+    },
+    {
+      "name": "Citigroup (C)",
+      "cusip": "172967424",
+      "shares": 12349821,
+      "value": 885976000
+    },
+    {
+      "name": "D R Horton, Inc. (DHI)",
+      "cusip": "23331A109",
+      "shares": 8729321,
+      "value": 368203000
+    },
+    {
+      "name": "Airbus Group NV (EADSY)",
+      "cusip": "009279100",
+      "shares": 24035484,
+      "value": 751710000
+    },
+    {
+      "name": "Ford Motor Co (F)",
+      "cusip": "345370860",
+      "shares": 33038548,
+      "value": 305607000
+    },
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 2772727,
+      "value": 667645000
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 20264137,
+      "value": 682293000
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 3369449,
+      "value": 755565000
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 5212384,
+      "value": 588165000
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 9284459,
+      "value": 433491000
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 570189,
+      "value": 21952000
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 50000,
+      "value": 10536000
+    },
+    {
+      "name": "Meritage Homes Corp (MTH)",
+      "cusip": "59001A102",
+      "shares": 73825,
+      "value": 2946000
+    },
+    {
+      "name": "PulteGroup (PHM)",
+      "cusip": "745867101",
+      "shares": 6985895,
+      "value": 173041000
+    },
+    {
+      "name": "Quanta Services Inc (PWR)",
+      "cusip": "74762E102",
+      "shares": 2578300,
+      "value": 86064000
+    },
+    {
+      "name": "Praxair Inc. (PX)",
+      "cusip": "74005P104",
+      "shares": 20000,
+      "value": 3215000
+    },
+    {
+      "name": "Taylor Morrison Home Corp (TMHC)",
+      "cusip": "87724P106",
+      "shares": 2846138,
+      "value": 51344000
+    },
+    {
+      "name": "Toll Brothers, Inc. (TOL)",
+      "cusip": "889478103",
+      "shares": 4106475,
+      "value": 135637000
+    },
+    {
+      "name": "Tri Pointe Group, Inc. (TPH)",
+      "cusip": "87265H109",
+      "shares": 5047999,
+      "value": 62595000
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 331000
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2878932,
+      "value": 341873000
+    }
+  ]
 }

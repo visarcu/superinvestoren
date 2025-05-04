@@ -1,5 +1,119 @@
 {
-  "form": "13F-HR",
   "date": "2021-10-12",
-  "positions": []
+  "positions": [
+    {
+      "name": "Agilent Technologies, Inc. (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1686000
+    },
+    {
+      "name": "Berkshire Hathaway Inc. Class B (BRK/B)",
+      "cusip": "084670702",
+      "shares": 2501,
+      "value": 683000
+    },
+    {
+      "name": "CF Industries Holdings, Inc. (CF)",
+      "cusip": "125269100",
+      "shares": 30000,
+      "value": 1675000
+    },
+    {
+      "name": "D R Horton, Inc. (DHI)",
+      "cusip": "23331A109",
+      "shares": 761945,
+      "value": 63981000
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 10392979,
+      "value": 547814000
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2015314,
+      "value": 761849000
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 5000,
+      "value": 818000
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 152210,
+      "value": 23818000
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 7002894,
+      "value": 656031000
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 452834,
+      "value": 35135000
+    },
+    {
+      "name": "M.D.C. Holdings, Inc. (MDC)",
+      "cusip": "552676108",
+      "shares": 25000,
+      "value": 1168000
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2500,
+      "value": 439000
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 267090,
+      "value": 25991000
+    },
+    {
+      "name": "Proshares Short QQQ (PSQ)",
+      "cusip": "74347B714",
+      "shares": 1005000,
+      "value": 12251000
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 41987,
+      "value": 3058000
+    },
+    {
+      "name": "Proshares Short S&P500 (SH)",
+      "cusip": "74347B425",
+      "shares": 695000,
+      "value": 10585000
+    },
+    {
+      "name": "Toll Brothers, Inc. (TOL)",
+      "cusip": "889478103",
+      "shares": 5203596,
+      "value": 287707000
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 398000
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2768920,
+      "value": 564472000
+    }
+  ]
 }

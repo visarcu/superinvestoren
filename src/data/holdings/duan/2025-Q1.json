@@ -1,4 +1,53 @@
 {
   "date": "2025-02-14",
-  "positions": []
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 5450830,
+      "value": 462175876000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3766500,
+      "value": 717292260000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 40864577,
+      "value": 10233307372000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 3621100,
+      "value": 1641372208000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 746000,
+      "value": 83067100000
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 163000,
+      "value": 6777540000
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 13577000,
+      "value": 670839570000
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 7228700,
+      "value": 701111613000
+    }
+  ]
 }

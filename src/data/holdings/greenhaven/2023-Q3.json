@@ -1,5 +1,179 @@
 {
-  "form": "13F-HR",
   "date": "2023-07-13",
-  "positions": []
+  "positions": [
+    {
+      "name": "Agilent Technologies, Inc. (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1286675000
+    },
+    {
+      "name": "Autoliv Inc. (ALV)",
+      "cusip": "052800109",
+      "shares": 78040,
+      "value": 6636522000
+    },
+    {
+      "name": "Arrow Electronics Inc (ARW)",
+      "cusip": "042735100",
+      "shares": 1498038,
+      "value": 214563983000
+    },
+    {
+      "name": "Avnet Inc (AVT)",
+      "cusip": "053807103",
+      "shares": 3642489,
+      "value": 183763570000
+    },
+    {
+      "name": "Bank of America Corp (BAC)",
+      "cusip": "060505104",
+      "shares": 1244500,
+      "value": 35704705000
+    },
+    {
+      "name": "Berkshire Hathaway Inc. Class B (BRK/B)",
+      "cusip": "084670702",
+      "shares": 1001,
+      "value": 341341000
+    },
+    {
+      "name": "Citigroup Inc (C)",
+      "cusip": "172967424",
+      "shares": 10970910,
+      "value": 505100696000
+    },
+    {
+      "name": "CRH PLC - Sponsored ADR (CRH)",
+      "cusip": "12626K203",
+      "shares": 2090525,
+      "value": 116504958000
+    },
+    {
+      "name": "D R Horton, Inc. (DHI)",
+      "cusip": "23331A109",
+      "shares": 3594442,
+      "value": 437407647000
+    },
+    {
+      "name": "Technipfmc PLC (FTI)",
+      "cusip": "G87110105",
+      "shares": 15500,
+      "value": 257610000
+    },
+    {
+      "name": "Gildan Activewear Inc (GIL)",
+      "cusip": "375916103",
+      "shares": 1045840,
+      "value": 33717882000
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 22036218,
+      "value": 849716566000
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2275566,
+      "value": 733961058000
+    },
+    {
+      "name": "International Paper Co (IP)",
+      "cusip": "460146103",
+      "shares": 9123905,
+      "value": 290231418000
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 4806904,
+      "value": 699116118000
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 1809030,
+      "value": 259686257000
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 9066250,
+      "value": 1136091788000
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 573294,
+      "value": 64770756000
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2368,
+      "value": 237013000
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 10000,
+      "value": 854000000
+    },
+    {
+      "name": "Meritage Homes Corp (MTH)",
+      "cusip": "59001A102",
+      "shares": 810891,
+      "value": 115365463000
+    },
+    {
+      "name": "Oshkosh Corp (OSK)",
+      "cusip": "688239201",
+      "shares": 2357828,
+      "value": 204164327000
+    },
+    {
+      "name": "PulteGroup Inc. (PHM)",
+      "cusip": "745867101",
+      "shares": 5783350,
+      "value": 449250628000
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 20000,
+      "value": 1133600000
+    },
+    {
+      "name": "Terex Corp (TEX)",
+      "cusip": "880779103",
+      "shares": 739010,
+      "value": 44214968000
+    },
+    {
+      "name": "Toll Brothers, Inc. (TOL)",
+      "cusip": "889478103",
+      "shares": 5537947,
+      "value": 437885469000
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 415788000
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2111930,
+      "value": 314234065000
+    },
+    {
+      "name": "Westrock CO (WRK)",
+      "cusip": "96145D105",
+      "shares": 13561470,
+      "value": 394231933000
+    }
+  ]
 }

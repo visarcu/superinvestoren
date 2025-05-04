@@ -157,7 +157,7 @@ export const investors: Investor[] = [
     holdings: [],
   },  
   {
-    name: 'Greenhaven Associates',
+    name: 'Edgar Wachenheim - Greenhaven Associates',
     slug: 'greenhaven',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
@@ -290,6 +290,62 @@ export const investors: Investor[] = [
   {
     name: 'Duan Yongping - H&H International Investment',
     slug: 'duan',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Stephen Mandel - Lone Pine Capital',
+    slug: 'mandel',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Jensen Investment Management',
+    slug: 'jensen',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Henry Ellenbogen - Durable Capital Partners',
+    slug: 'ellenbogen',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Thomas Russo - Gardner Russe & Quinn',
+    slug: 'russo',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'John Armitage - Egerton Capital',
+    slug: 'armitage',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Carl Icahn - Icahn Capital Management',
+    slug: 'icahn',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'David Abrams - Abrams Capital Management',
+    slug: 'abrams',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],

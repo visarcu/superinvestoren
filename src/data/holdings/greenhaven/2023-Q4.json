@@ -1,5 +1,179 @@
 {
-  "form": "13F-HR",
   "date": "2023-10-03",
-  "positions": []
+  "positions": [
+    {
+      "name": "Agilent Technologies, Inc. (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1196474000
+    },
+    {
+      "name": "Autoliv Inc. (ALV)",
+      "cusip": "052800109",
+      "shares": 40285,
+      "value": 3886697000
+    },
+    {
+      "name": "Arrow Electronics Inc (ARW)",
+      "cusip": "042735100",
+      "shares": 1757128,
+      "value": 220062711000
+    },
+    {
+      "name": "Avnet Inc (AVT)",
+      "cusip": "053807103",
+      "shares": 3772089,
+      "value": 181776969000
+    },
+    {
+      "name": "Berkshire Hathaway Inc. Class B (BRK/B)",
+      "cusip": "084670702",
+      "shares": 1001,
+      "value": 350650000
+    },
+    {
+      "name": "Citigroup Inc (C)",
+      "cusip": "172967424",
+      "shares": 13164793,
+      "value": 541467936000
+    },
+    {
+      "name": "CRH PLC (CRH)",
+      "cusip": "G25508105",
+      "shares": 11038427,
+      "value": 604133110000
+    },
+    {
+      "name": "D R Horton, Inc. (DHI)",
+      "cusip": "23331A109",
+      "shares": 3513582,
+      "value": 377604658000
+    },
+    {
+      "name": "Technipfmc PLC (FTI)",
+      "cusip": "G87110105",
+      "shares": 15500,
+      "value": 315270000
+    },
+    {
+      "name": "Gildan Activewear Inc (GIL)",
+      "cusip": "375916103",
+      "shares": 561734,
+      "value": 15734169000
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 22219988,
+      "value": 732593004000
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2333937,
+      "value": 755191995000
+    },
+    {
+      "name": "International Paper Co (IP)",
+      "cusip": "460146103",
+      "shares": 9809755,
+      "value": 347952010000
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 4719004,
+      "value": 684349960000
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 1789830,
+      "value": 240195186000
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 8982250,
+      "value": 1008077918000
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 569024,
+      "value": 58171324000
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2368,
+      "value": 221692000
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 10000,
+      "value": 816700000
+    },
+    {
+      "name": "Meritage Homes Corp (MTH)",
+      "cusip": "59001A102",
+      "shares": 813950,
+      "value": 99619341000
+    },
+    {
+      "name": "NOV INC (NOV)",
+      "cusip": "62955J103",
+      "shares": 1561900,
+      "value": 32643710000
+    },
+    {
+      "name": "Oshkosh Corp (OSK)",
+      "cusip": "688239201",
+      "shares": 2458689,
+      "value": 234632691000
+    },
+    {
+      "name": "PulteGroup Inc. (PHM)",
+      "cusip": "745867101",
+      "shares": 5702018,
+      "value": 422234433000
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 20000,
+      "value": 1098000000
+    },
+    {
+      "name": "Terex Corp (TEX)",
+      "cusip": "880779103",
+      "shares": 723010,
+      "value": 41659836000
+    },
+    {
+      "name": "Toll Brothers, Inc. (TOL)",
+      "cusip": "889478103",
+      "shares": 5553907,
+      "value": 410766962000
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 413776000
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 1585070,
+      "value": 211923859000
+    },
+    {
+      "name": "Westrock CO (WRK)",
+      "cusip": "96145D105",
+      "shares": 13519770,
+      "value": 484007766000
+    }
+  ]
 }

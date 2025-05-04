@@ -1,5 +1,149 @@
 {
-  "form": "13F-HR",
   "date": "2017-01-23",
-  "positions": []
+  "positions": [
+    {
+      "name": "Agilent Technologies, Inc. (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 487000
+    },
+    {
+      "name": "AECOM (ACM)",
+      "cusip": "00766T100",
+      "shares": 1694347,
+      "value": 61606000
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 6840,
+      "value": 298000
+    },
+    {
+      "name": "Boeing Company (BA)",
+      "cusip": "097023105",
+      "shares": 2839900,
+      "value": 442116000
+    },
+    {
+      "name": "Citigroup (C)",
+      "cusip": "172967424",
+      "shares": 11354747,
+      "value": 674813000
+    },
+    {
+      "name": "Calatlantic Group (CAA)",
+      "cusip": "128195104",
+      "shares": 2138620,
+      "value": 72734000
+    },
+    {
+      "name": "Canam Group, Inc. (CNMGF)",
+      "cusip": "13710C107",
+      "shares": 204100,
+      "value": 1344000
+    },
+    {
+      "name": "D R Horton, Inc. (DHI)",
+      "cusip": "23331A109",
+      "shares": 7399792,
+      "value": 202236000
+    },
+    {
+      "name": "Airbus Group NV (EADSY)",
+      "cusip": "009279100",
+      "shares": 35550421,
+      "value": 583738000
+    },
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 3049497,
+      "value": 567816000
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 3740329,
+      "value": 895622000
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 7551944,
+      "value": 651657000
+    },
+    {
+      "name": "Lennar Corporation (LEN)",
+      "cusip": "526057104",
+      "shares": 5394007,
+      "value": 231565000
+    },
+    {
+      "name": "Lowe's Companies, Inc. (LOW)",
+      "cusip": "548661107",
+      "shares": 7271286,
+      "value": 517134000
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 50000,
+      "value": 8929000
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 2757349,
+      "value": 142169000
+    },
+    {
+      "name": "PulteGroup (PHM)",
+      "cusip": "745867101",
+      "shares": 5718265,
+      "value": 105102000
+    },
+    {
+      "name": "Praxair Inc. (PX)",
+      "cusip": "74005P104",
+      "shares": 66441,
+      "value": 7786000
+    },
+    {
+      "name": "Sterling Construction Company  (STRL)",
+      "cusip": "859241101",
+      "shares": 84623,
+      "value": 716000
+    },
+    {
+      "name": "Toll Brothers, Inc. (TOL)",
+      "cusip": "889478103",
+      "shares": 3900701,
+      "value": 120922000
+    },
+    {
+      "name": "Tri Pointe Group, Inc. (TPH)",
+      "cusip": "87265H109",
+      "shares": 5157807,
+      "value": 59212000
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 211000
+    },
+    {
+      "name": "USG Corp (USG)",
+      "cusip": "903293405",
+      "shares": 3292065,
+      "value": 95075000
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2668615,
+      "value": 485074000
+    }
+  ]
 }

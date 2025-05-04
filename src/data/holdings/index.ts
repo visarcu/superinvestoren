@@ -12,15 +12,67 @@ import gates_2024_Q3 from './gates/gates-2024-Q3.json'
 import gates_2024_Q4 from './gates/gates-2024-Q4.json'
 import gates_2025_Q1 from './gates/gates-2025-Q1.json'
 
-//Warren Buffett
-//import gates_2013_Q3 from './gates/gates-2013-Q3.json'
-//import gates_2013_Q4 from './gates/gates-2013-Q4.json'
-//import gates_2014_Q1 from './gates/gates-2014-Q1.json'
-//import gates_2014_Q2 from './gates/gates-2014-Q2.json'
-//import gates_2024_Q2 from './gates/gates-2024-Q2.json'
-//import gates_2024_Q3 from './gates/gates-2024-Q3.json'
+//Warren Buffet
+import buffett_2016_Q4 from './buffett/2016-Q4.json'
+import buffett_2016_Q3 from './buffett/2016-Q3.json'
+import buffett_2016_Q2 from './buffett/2016-Q2.json'
+import buffett_2016_Q1 from './buffett/2016-Q1.json'
+
+import buffett_2017_Q4 from './buffett/2017-Q4.json'
+import buffett_2017_Q3 from './buffett/2017-Q3.json'
+import buffett_2017_Q2 from './buffett/2017-Q2.json'
+import buffett_2017_Q1 from './buffett/2017-Q1.json'
+
+import buffett_2018_Q4 from './buffett/2018-Q4.json'
+import buffett_2018_Q3 from './buffett/2018-Q3.json'
+import buffett_2018_Q2 from './buffett/2018-Q2.json'
+import buffett_2018_Q1 from './buffett/2018-Q1.json'
+
+import buffett_2019_Q4 from './buffett/2019-Q4.json'
+import buffett_2019_Q3 from './buffett/2019-Q3.json'
+import buffett_2019_Q2 from './buffett/2019-Q2.json'
+import buffett_2019_Q1 from './buffett/2019-Q1.json'
+
+import buffett_2020_Q4 from './buffett/2020-Q4.json'
+import buffett_2020_Q3 from './buffett/2020-Q3.json'
+import buffett_2020_Q2 from './buffett/2020-Q2.json'
+import buffett_2020_Q1 from './buffett/2020-Q1.json'
+
+import buffett_2021_Q4 from './buffett/2021-Q4.json'
+import buffett_2021_Q3 from './buffett/2021-Q3.json'
+import buffett_2021_Q2 from './buffett/2021-Q2.json'
+import buffett_2021_Q1 from './buffett/2021-Q1.json'
+
+import buffett_2022_Q4 from './buffett/2022-Q4.json'
+import buffett_2022_Q3 from './buffett/2022-Q3.json'
+import buffett_2022_Q2 from './buffett/2022-Q2.json'
+import buffett_2022_Q1 from './buffett/2022-Q1.json'
+
+import buffett_2023_Q1 from './buffett/2023-Q1.json'
+import buffett_2023_Q2 from './buffett/2023-Q2.json'
+import buffett_2023_Q3 from './buffett/2023-Q3.json'
+import buffett_2023_Q4 from './buffett/2023-Q4.json'
+
+import buffett_2024_Q1 from './buffett/2024-Q1.json'
+import buffett_2024_Q2 from './buffett/2024-Q2.json'
+import buffett_2024_Q3 from './buffett/2024-Q3.json'
 import buffett_2024_Q4 from './buffett/2024-Q4.json'
+
 import buffett_2025_Q1 from './buffett/2025-Q1.json'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Bill Ackman
 
@@ -177,6 +229,61 @@ import vinall_2024_Q3 from './vinall/2024-Q3.json'
 import vinall_2024_Q4 from './vinall/2024-Q4.json'
 import vinall_2025_Q1 from './vinall/2025-Q1.json'
 
+//Cantillion Capital Mgmt
+import cantillon_2024_Q2 from './cantillon/2024-Q2.json'
+import cantillon_2024_Q3 from './cantillon/2024-Q3.json'
+import cantillon_2024_Q4 from './cantillon/2024-Q4.json'
+import cantillon_2025_Q1 from './cantillon/2025-Q1.json'
+
+//Cantillion Capital Mgmt
+import duan_2024_Q2 from './duan/2024-Q2.json'
+import duan_2024_Q3 from './duan/2024-Q3.json'
+import duan_2024_Q4 from './duan/2024-Q4.json'
+import duan_2025_Q1 from './duan/2025-Q1.json'
+
+//Cantillion Capital Mgmt
+import mandel_2024_Q2 from './mandel/2024-Q2.json'
+import mandel_2024_Q3 from './mandel/2024-Q3.json'
+import mandel_2024_Q4 from './mandel/2024-Q4.json'
+import mandel_2025_Q1 from './mandel/2025-Q1.json'
+
+//ellenbogen
+import ellenbogen_2024_Q2 from './ellenbogen/2024-Q2.json'
+import ellenbogen_2024_Q3 from './ellenbogen/2024-Q3.json'
+import ellenbogen_2024_Q4 from './ellenbogen/2024-Q4.json'
+import ellenbogen_2025_Q1 from './ellenbogen/2025-Q1.json'
+
+//ellenbogen
+import jensen_2024_Q2 from './jensen/2024-Q2.json'
+import jensen_2024_Q3 from './jensen/2024-Q3.json'
+import jensen_2024_Q4 from './jensen/2024-Q4.json'
+import jensen_2025_Q1 from './jensen/2025-Q1.json'
+
+//russo
+import russo_2024_Q2 from './russo/2024-Q2.json'
+import russo_2024_Q3 from './russo/2024-Q3.json'
+import russo_2024_Q4 from './russo/2024-Q4.json'
+import russo_2025_Q1 from './russo/2025-Q1.json'
+
+//armitage
+import armitage_2024_Q2 from './armitage/2024-Q2.json'
+import armitage_2024_Q3 from './armitage/2024-Q3.json'
+import armitage_2024_Q4 from './armitage/2024-Q4.json'
+import armitage_2025_Q1 from './armitage/2025-Q1.json'
+
+//icahn
+import icahn_2024_Q2 from './icahn/2024-Q2.json'
+import icahn_2024_Q3 from './icahn/2024-Q3.json'
+import icahn_2024_Q4 from './icahn/2024-Q4.json'
+import icahn_2025_Q1 from './icahn/2025-Q1.json'
+
+//icahn
+import abrams_2024_Q2 from './abrams/2024-Q2.json'
+import abrams_2024_Q3 from './abrams/2024-Q3.json'
+import abrams_2024_Q4 from './abrams/2024-Q4.json'
+import abrams_2025_Q1 from './abrams/2025-Q1.json'
+
+
 // … für jeden weiteren Slug analog …
 
 // 2) Typen
@@ -209,8 +316,44 @@ const holdingsHistory: Record<string, Snapshot[]> = {
   ],
 
   buffett: [
-   { quarter: '2024-Q4', data: buffett_2024_Q4 },
-   { quarter: '2025-Q1', data: buffett_2025_Q1 },
+    { quarter: '2016-Q1', data: buffett_2016_Q1 },
+    { quarter: '2016-Q2', data: buffett_2016_Q2 },
+    { quarter: '2016-Q3', data: buffett_2016_Q3 },
+    { quarter: '2016-Q4', data: buffett_2016_Q4 },
+    { quarter: '2017-Q1', data: buffett_2017_Q1 },
+    { quarter: '2017-Q2', data: buffett_2017_Q2 },
+    { quarter: '2017-Q3', data: buffett_2017_Q3 },
+    { quarter: '2017-Q4', data: buffett_2017_Q4 },
+    { quarter: '2018-Q1', data: buffett_2018_Q1 },
+    { quarter: '2018-Q2', data: buffett_2018_Q2 },
+    { quarter: '2018-Q3', data: buffett_2018_Q3 },
+    { quarter: '2018-Q4', data: buffett_2018_Q4 },
+    { quarter: '2019-Q1', data: buffett_2019_Q1 },
+    { quarter: '2019-Q2', data: buffett_2019_Q2 },
+    { quarter: '2019-Q3', data: buffett_2019_Q3 },
+    { quarter: '2019-Q4', data: buffett_2019_Q4 },
+    { quarter: '2020-Q1', data: buffett_2020_Q1 },
+    { quarter: '2020-Q2', data: buffett_2020_Q2 },
+    { quarter: '2020-Q3', data: buffett_2020_Q3 },
+    { quarter: '2020-Q4', data: buffett_2020_Q4 },
+    { quarter: '2021-Q1', data: buffett_2021_Q1 },
+    { quarter: '2021-Q2', data: buffett_2021_Q2 },
+    { quarter: '2021-Q3', data: buffett_2021_Q3 },
+    { quarter: '2021-Q4', data: buffett_2021_Q4 },
+    { quarter: '2022-Q1', data: buffett_2022_Q1 },
+    { quarter: '2022-Q2', data: buffett_2022_Q2 },
+    { quarter: '2022-Q3', data: buffett_2022_Q3 },
+    { quarter: '2022-Q4', data: buffett_2022_Q4 },
+    { quarter: '2023-Q1', data: buffett_2023_Q1 },
+    { quarter: '2023-Q2', data: buffett_2023_Q2 },
+    { quarter: '2023-Q3', data: buffett_2023_Q2 },
+    { quarter: '2023-Q4', data: buffett_2023_Q3 },
+    { quarter: '2024-Q1', data: buffett_2024_Q1 },
+    { quarter: '2024-Q2', data: buffett_2024_Q2 },
+    { quarter: '2024-Q3', data: buffett_2024_Q3 },
+    { quarter: '2024-Q4', data: buffett_2024_Q4 },
+    { quarter: '2025-Q1', data: buffett_2025_Q1 },
+   // { quarter: '2025-Q2', data: buffett_2025_Q2 },
    // …
   ],
   ackman: [
@@ -404,6 +547,71 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: vinall_2024_Q3},
     { quarter: '2024-Q4', data: vinall_2024_Q4},
     { quarter: '2025-Q1', data: vinall_2025_Q1},
+   ],
+
+   cantillon: [
+    { quarter: '2024-Q2', data: cantillon_2024_Q2 },
+    { quarter: '2024-Q3', data: cantillon_2024_Q3},
+    { quarter: '2024-Q4', data: cantillon_2024_Q4},
+    { quarter: '2025-Q1', data: cantillon_2025_Q1},
+   ],
+
+   duan: [
+    { quarter: '2024-Q2', data: duan_2024_Q2 },
+    { quarter: '2024-Q3', data: duan_2024_Q3},
+    { quarter: '2024-Q4', data: duan_2024_Q4},
+    { quarter: '2025-Q1', data: duan_2025_Q1},
+   ],
+
+   mandel: [
+    { quarter: '2024-Q2', data: mandel_2024_Q2 },
+    { quarter: '2024-Q3', data: mandel_2024_Q3},
+    { quarter: '2024-Q4', data: mandel_2024_Q4},
+    { quarter: '2025-Q1', data: mandel_2025_Q1},
+   ],
+
+
+   ellenbogen: [
+    { quarter: '2024-Q2', data: ellenbogen_2024_Q2 },
+    { quarter: '2024-Q3', data: ellenbogen_2024_Q3},
+    { quarter: '2024-Q4', data: ellenbogen_2024_Q4},
+    { quarter: '2025-Q1', data: ellenbogen_2025_Q1},
+   ],
+
+   jensen: [
+    { quarter: '2024-Q2', data: jensen_2024_Q2 },
+    { quarter: '2024-Q3', data: jensen_2024_Q3},
+    { quarter: '2024-Q4', data: jensen_2024_Q4},
+    { quarter: '2025-Q1', data: jensen_2025_Q1},
+   ],
+
+   russo: [
+    { quarter: '2024-Q2', data: russo_2024_Q2 },
+    { quarter: '2024-Q3', data: russo_2024_Q3},
+    { quarter: '2024-Q4', data: russo_2024_Q4},
+    { quarter: '2025-Q1', data: russo_2025_Q1},
+   ],
+
+   armitage: [
+    { quarter: '2024-Q2', data: armitage_2024_Q2 },
+    { quarter: '2024-Q3', data: armitage_2024_Q3},
+    { quarter: '2024-Q4', data: armitage_2024_Q4},
+    { quarter: '2025-Q1', data: armitage_2025_Q1},
+   ],
+
+
+   icahn: [
+    { quarter: '2024-Q2', data: icahn_2024_Q2 },
+    { quarter: '2024-Q3', data: icahn_2024_Q3},
+    { quarter: '2024-Q4', data: icahn_2024_Q4},
+    { quarter: '2025-Q1', data: icahn_2025_Q1},
+   ],
+
+   abrams: [
+    { quarter: '2024-Q2', data: abrams_2024_Q2 },
+    { quarter: '2024-Q3', data: abrams_2024_Q3},
+    { quarter: '2024-Q4', data: abrams_2024_Q4},
+    { quarter: '2025-Q1', data: abrams_2025_Q1},
    ],
 
 

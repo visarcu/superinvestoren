@@ -1,0 +1,281 @@
+{
+  "date": "2025-02-14",
+  "positions": [
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 1088477,
+      "value": 317976786000
+    },
+    {
+      "name": "AFFIRM HLDGS INC",
+      "cusip": "00827B106",
+      "shares": 5858283,
+      "value": 356769435000
+    },
+    {
+      "name": "ALIGNMENT HEALTHCARE INC",
+      "cusip": "01625V104",
+      "shares": 4586110,
+      "value": 51593738000
+    },
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 5007539,
+      "value": 180121178000
+    },
+    {
+      "name": "ATLASSIAN CORPORATION",
+      "cusip": "049468101",
+      "shares": 1575546,
+      "value": 383456385000
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774107",
+      "shares": 12757155,
+      "value": 80370077000
+    },
+    {
+      "name": "AVANTOR INC",
+      "cusip": "05352A100",
+      "shares": 4809948,
+      "value": 101345604000
+    },
+    {
+      "name": "BIRKENSTOCK HOLDING PLC",
+      "cusip": "M2029K104",
+      "shares": 1962084,
+      "value": 111171679000
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 94296,
+      "value": 468502132000
+    },
+    {
+      "name": "BRIGHT HORIZONS FAM SOL IN D",
+      "cusip": "109194100",
+      "shares": 1306714,
+      "value": 144849247000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 2168232,
+      "value": 440931660000
+    },
+    {
+      "name": "CHEWY INC",
+      "cusip": "16679L109",
+      "shares": 2360417,
+      "value": 79050365000
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 2644327,
+      "value": 359549142000
+    },
+    {
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 2143957,
+      "value": 123041692000
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 28636287,
+      "value": 629425588000
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 2915564,
+      "value": 331208070000
+    },
+    {
+      "name": "DOORDASH INC",
+      "cusip": "25809K105",
+      "shares": 227553,
+      "value": 38172016000
+    },
+    {
+      "name": "DOXIMITY INC",
+      "cusip": "26622P107",
+      "shares": 2889675,
+      "value": 154279748000
+    },
+    {
+      "name": "DUOLINGO INC",
+      "cusip": "26603R106",
+      "shares": 2319294,
+      "value": 751984694000
+    },
+    {
+      "name": "ENTEGRIS INC",
+      "cusip": "29362U104",
+      "shares": 2033219,
+      "value": 201410674000
+    },
+    {
+      "name": "FIRSTSERVICE CORP NEW",
+      "cusip": "33767E202",
+      "shares": 2574268,
+      "value": 465993993000
+    },
+    {
+      "name": "HUBSPOT INC",
+      "cusip": "443573100",
+      "shares": 965324,
+      "value": 672608803000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 840533,
+      "value": 528274991000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 860027,
+      "value": 190031566000
+    },
+    {
+      "name": "LIFESTANCE HEALTH GROUP INC",
+      "cusip": "53228F101",
+      "shares": 9508826,
+      "value": 70080048000
+    },
+    {
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 478706,
+      "value": 139327381000
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 467602,
+      "value": 110092215000
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE IN",
+      "cusip": "679580100",
+      "shares": 996514,
+      "value": 175785070000
+    },
+    {
+      "name": "ON HLDG AG",
+      "cusip": "H5919C104",
+      "shares": 5481302,
+      "value": 300210911000
+    },
+    {
+      "name": "PRIVIA HEALTH GROUP INC",
+      "cusip": "74276R102",
+      "shares": 11487843,
+      "value": 224587331000
+    },
+    {
+      "name": "PROCORE TECHNOLOGIES INC",
+      "cusip": "74275K108",
+      "shares": 450100,
+      "value": 33725993000
+    },
+    {
+      "name": "PTC INC",
+      "cusip": "69370C100",
+      "shares": 440842,
+      "value": 81057619000
+    },
+    {
+      "name": "RBC BEARINGS INC",
+      "cusip": "75524B104",
+      "shares": 2631346,
+      "value": 787140842000
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 616931,
+      "value": 242817872000
+    },
+    {
+      "name": "ROBLOX CORP",
+      "cusip": "771049103",
+      "shares": 4261329,
+      "value": 246560496000
+    },
+    {
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 641644,
+      "value": 333558633000
+    },
+    {
+      "name": "SERVICETITAN INC",
+      "cusip": "81764X103",
+      "shares": 741403,
+      "value": 76268127000
+    },
+    {
+      "name": "SHIFT4 PMTS INC",
+      "cusip": "82452J109",
+      "shares": 5130841,
+      "value": 532478679000
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 3950348,
+      "value": 420040503000
+    },
+    {
+      "name": "SWEETGREEN INC",
+      "cusip": "87043Q108",
+      "shares": 3494933,
+      "value": 112047552000
+    },
+    {
+      "name": "TOAST INC",
+      "cusip": "888787108",
+      "shares": 15444158,
+      "value": 562939559000
+    },
+    {
+      "name": "VSE CORP",
+      "cusip": "918284100",
+      "shares": 609583,
+      "value": 57971343000
+    },
+    {
+      "name": "WARBY PARKER INC",
+      "cusip": "93403J106",
+      "shares": 9017825,
+      "value": 218321543000
+    },
+    {
+      "name": "WEST PHARMACEUTICAL SVSC INC",
+      "cusip": "955306105",
+      "shares": 637398,
+      "value": 208786089000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 418733,
+      "value": 89839165000
+    },
+    {
+      "name": "XPO INC",
+      "cusip": "983793100",
+      "shares": 578903,
+      "value": 75923128000
+    }
+  ]
+}

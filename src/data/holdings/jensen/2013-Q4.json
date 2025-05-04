@@ -1,0 +1,509 @@
+{
+  "date": "2013-11-05",
+  "positions": [
+    {
+      "name": "3M Co",
+      "cusip": "88579Y101",
+      "shares": 3080859,
+      "value": 367885000
+    },
+    {
+      "name": "Abbott Labs Com",
+      "cusip": "002824100",
+      "shares": 5652243,
+      "value": 187598000
+    },
+    {
+      "name": "AbbVie Inc",
+      "cusip": "00287Y109",
+      "shares": 42080,
+      "value": 1882000
+    },
+    {
+      "name": "Accenture PLC",
+      "cusip": "G1151C101",
+      "shares": 3423852,
+      "value": 252132000
+    },
+    {
+      "name": "Adobe Systems Inc",
+      "cusip": "00724F101",
+      "shares": 1794761,
+      "value": 93220000
+    },
+    {
+      "name": "Advance Auto Parts Inc.",
+      "cusip": "00751Y106",
+      "shares": 5390,
+      "value": 446000
+    },
+    {
+      "name": "Alliant Techsystems Inc",
+      "cusip": "018804104",
+      "shares": 4670,
+      "value": 456000
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209S103",
+      "shares": 12800,
+      "value": 440000
+    },
+    {
+      "name": "Amphenol Corp",
+      "cusip": "032095101",
+      "shares": 2095863,
+      "value": 162178000
+    },
+    {
+      "name": "Automatic Data Processing",
+      "cusip": "053015103",
+      "shares": 3839230,
+      "value": 277883000
+    },
+    {
+      "name": "Ball Corporation",
+      "cusip": "058498106",
+      "shares": 9950,
+      "value": 447000
+    },
+    {
+      "name": "Becton Dickinson",
+      "cusip": "075887109",
+      "shares": 2454453,
+      "value": 245494000
+    },
+    {
+      "name": "Bed Bath & Beyond Inc",
+      "cusip": "075896100",
+      "shares": 5820,
+      "value": 450000
+    },
+    {
+      "name": "Best Buy Company Inc",
+      "cusip": "086516101",
+      "shares": 14830,
+      "value": 556000
+    },
+    {
+      "name": "Campbell Soup Company",
+      "cusip": "134429109",
+      "shares": 6140,
+      "value": 250000
+    },
+    {
+      "name": "Caterpillar Inc",
+      "cusip": "149123101",
+      "shares": 5360,
+      "value": 447000
+    },
+    {
+      "name": "CH Robinson Worldwide",
+      "cusip": "12541W209",
+      "shares": 1988710,
+      "value": 118448000
+    },
+    {
+      "name": "Cigna Corp",
+      "cusip": "125509109",
+      "shares": 5960,
+      "value": 458000
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 17550,
+      "value": 411000
+    },
+    {
+      "name": "Clorox Co",
+      "cusip": "189054109",
+      "shares": 57345,
+      "value": 4686000
+    },
+    {
+      "name": "Coach Inc",
+      "cusip": "189754104",
+      "shares": 8410,
+      "value": 459000
+    },
+    {
+      "name": "Coca-Cola Co",
+      "cusip": "191216100",
+      "shares": 5393610,
+      "value": 204310000
+    },
+    {
+      "name": "Cognizant Tech Solutions Corp",
+      "cusip": "192446102",
+      "shares": 2716393,
+      "value": 223070000
+    },
+    {
+      "name": "Colgate-Palmolive Co",
+      "cusip": "194162103",
+      "shares": 4997923,
+      "value": 296377000
+    },
+    {
+      "name": "Deere & Company",
+      "cusip": "244199105",
+      "shares": 5420,
+      "value": 441000
+    },
+    {
+      "name": "Dell Inc",
+      "cusip": "24702R101",
+      "shares": 35340,
+      "value": 487000
+    },
+    {
+      "name": "Deluxe Corp",
+      "cusip": "248019101",
+      "shares": 10600,
+      "value": 442000
+    },
+    {
+      "name": "Dolby Laboratories Inc.",
+      "cusip": "25659T107",
+      "shares": 13590,
+      "value": 469000
+    },
+    {
+      "name": "DU Pont E I DE Nemours & Co",
+      "cusip": "263534109",
+      "shares": 7660,
+      "value": 449000
+    },
+    {
+      "name": "Ecolab Inc",
+      "cusip": "278865100",
+      "shares": 1934293,
+      "value": 191031000
+    },
+    {
+      "name": "Eli Lilly & Co",
+      "cusip": "532457108",
+      "shares": 8400,
+      "value": 423000
+    },
+    {
+      "name": "Emerson Electric Co",
+      "cusip": "291011104",
+      "shares": 3423554,
+      "value": 221504000
+    },
+    {
+      "name": "Endo Pharmaceuticals",
+      "cusip": "29264F205",
+      "shares": 11540,
+      "value": 524000
+    },
+    {
+      "name": "Energizer Hldgs Inc",
+      "cusip": "29266R108",
+      "shares": 4280,
+      "value": 390000
+    },
+    {
+      "name": "Equifax Inc",
+      "cusip": "294429105",
+      "shares": 3407924,
+      "value": 203964000
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 4840,
+      "value": 416000
+    },
+    {
+      "name": "Family Dollar Stores, Inc.",
+      "cusip": "307000109",
+      "shares": 6440,
+      "value": 464000
+    },
+    {
+      "name": "Federated Investors Inc.",
+      "cusip": "314211103",
+      "shares": 15190,
+      "value": 413000
+    },
+    {
+      "name": "General Dynamics Corp",
+      "cusip": "369550108",
+      "shares": 5180,
+      "value": 453000
+    },
+    {
+      "name": "Global Payments Inc.",
+      "cusip": "37940X102",
+      "shares": 9440,
+      "value": 482000
+    },
+    {
+      "name": "International Business Machines Corp",
+      "cusip": "459200101",
+      "shares": 1760,
+      "value": 326000
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 15400,
+      "value": 1335000
+    },
+    {
+      "name": "Kroger Co",
+      "cusip": "501044101",
+      "shares": 11330,
+      "value": 457000
+    },
+    {
+      "name": "Laboratory Corp of America Holdings",
+      "cusip": "50540R409",
+      "shares": 4580,
+      "value": 454000
+    },
+    {
+      "name": "Landstar System Inc.",
+      "cusip": "515098101",
+      "shares": 5600,
+      "value": 313000
+    },
+    {
+      "name": "Lexmark Intl Inc",
+      "cusip": "529771107",
+      "shares": 11930,
+      "value": 394000
+    },
+    {
+      "name": "Lockheed Martin Corp",
+      "cusip": "539830109",
+      "shares": 3690,
+      "value": 471000
+    },
+    {
+      "name": "McGraw-Hill Financial, Inc.",
+      "cusip": "580645109",
+      "shares": 7370,
+      "value": 483000
+    },
+    {
+      "name": "Medtronic Inc",
+      "cusip": "585055106",
+      "shares": 4150647,
+      "value": 221022000
+    },
+    {
+      "name": "Microsoft Corp Com",
+      "cusip": "594918104",
+      "shares": 6853261,
+      "value": 228282000
+    },
+    {
+      "name": "Moody`s Corp.",
+      "cusip": "615369105",
+      "shares": 6430,
+      "value": 452000
+    },
+    {
+      "name": "Nike Inc Cl B",
+      "cusip": "654106103",
+      "shares": 2926792,
+      "value": 212602000
+    },
+    {
+      "name": "Nordstrom, Inc.",
+      "cusip": "655664100",
+      "shares": 7250,
+      "value": 407000
+    },
+    {
+      "name": "Nu Skin Enterprises Inc.",
+      "cusip": "67018T105",
+      "shares": 5100,
+      "value": 488000
+    },
+    {
+      "name": "Omnicom Group Inc",
+      "cusip": "681919106",
+      "shares": 4380263,
+      "value": 277884000
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 8109098,
+      "value": 268979000
+    },
+    {
+      "name": "Paychex Inc",
+      "cusip": "704326107",
+      "shares": 12585,
+      "value": 511000
+    },
+    {
+      "name": "Pepsico Inc",
+      "cusip": "713448108",
+      "shares": 3855835,
+      "value": 306539000
+    },
+    {
+      "name": "Petsmart Inc",
+      "cusip": "716768106",
+      "shares": 5340,
+      "value": 407000
+    },
+    {
+      "name": "Pfizer Inc Com",
+      "cusip": "717081103",
+      "shares": 15370,
+      "value": 441000
+    },
+    {
+      "name": "Pitney Bowes Inc",
+      "cusip": "724479100",
+      "shares": 27040,
+      "value": 492000
+    },
+    {
+      "name": "Praxair Inc",
+      "cusip": "74005P104",
+      "shares": 1949977,
+      "value": 234407000
+    },
+    {
+      "name": "Procter & Gamble Co",
+      "cusip": "742718109",
+      "shares": 3259651,
+      "value": 246397000
+    },
+    {
+      "name": "Quest Diagnostics Inc",
+      "cusip": "74834L100",
+      "shares": 7650,
+      "value": 473000
+    },
+    {
+      "name": "Rockwell Collins Inc.",
+      "cusip": "774341101",
+      "shares": 6230,
+      "value": 423000
+    },
+    {
+      "name": "Ross Stores Inc.",
+      "cusip": "778296103",
+      "shares": 6530,
+      "value": 475000
+    },
+    {
+      "name": "St. Jude Medical Inc.",
+      "cusip": "790849103",
+      "shares": 8510,
+      "value": 456000
+    },
+    {
+      "name": "Stryker Corp",
+      "cusip": "863667101",
+      "shares": 102056,
+      "value": 6898000
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 12970,
+      "value": 413000
+    },
+    {
+      "name": "T Rowe Price Group Inc",
+      "cusip": "74144T108",
+      "shares": 3041407,
+      "value": 218768000
+    },
+    {
+      "name": "Tempur Sealy International Inc",
+      "cusip": "88023U101",
+      "shares": 11110,
+      "value": 488000
+    },
+    {
+      "name": "TJX Companies Inc.",
+      "cusip": "872540109",
+      "shares": 3882740,
+      "value": 218948000
+    },
+    {
+      "name": "Toro Company",
+      "cusip": "891092108",
+      "shares": 9000,
+      "value": 489000
+    },
+    {
+      "name": "Ultra Petroleum Corp",
+      "cusip": "903914109",
+      "shares": 20650,
+      "value": 425000
+    },
+    {
+      "name": "United Parcel Svc Cl B",
+      "cusip": "911312106",
+      "shares": 2600365,
+      "value": 237595000
+    },
+    {
+      "name": "United Technologies Corp",
+      "cusip": "913017109",
+      "shares": 3034503,
+      "value": 327180000
+    },
+    {
+      "name": "Unitedhealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 6110,
+      "value": 438000
+    },
+    {
+      "name": "Varian Medical Systems",
+      "cusip": "92220P105",
+      "shares": 2097235,
+      "value": 156726000
+    },
+    {
+      "name": "Waddell & Reed Financial Inc",
+      "cusip": "930059100",
+      "shares": 8590,
+      "value": 442000
+    },
+    {
+      "name": "Wal Mart Stores Inc",
+      "cusip": "931142103",
+      "shares": 5680,
+      "value": 420000
+    },
+    {
+      "name": "Waters Corp",
+      "cusip": "941848103",
+      "shares": 2124170,
+      "value": 225608000
+    },
+    {
+      "name": "Western Digital Corp",
+      "cusip": "958102105",
+      "shares": 6870,
+      "value": 436000
+    },
+    {
+      "name": "World Acceptance Corp",
+      "cusip": "981419104",
+      "shares": 5340,
+      "value": 480000
+    },
+    {
+      "name": "Zimmer Holdings Inc",
+      "cusip": "98956P102",
+      "shares": 5320,
+      "value": 437000
+    }
+  ]
+}

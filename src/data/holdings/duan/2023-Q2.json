@@ -1,4 +1,59 @@
 {
   "date": "2023-05-15",
-  "positions": []
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3117100,
+      "value": 318505278000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 6085400,
+      "value": 632881600000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 63262874,
+      "value": 10432047923000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 5686465,
+      "value": 1755809798000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 926800,
+      "value": 92800484000
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 302500,
+      "value": 9431950000
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 150000,
+      "value": 23037000000
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 100000,
+      "value": 8844000000
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 399600,
+      "value": 24947028000
+    }
+  ]
 }

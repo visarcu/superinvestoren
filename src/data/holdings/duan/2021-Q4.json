@@ -1,4 +1,71 @@
 {
   "date": "2021-11-15",
-  "positions": []
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2437100,
+      "value": 360813000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 10000,
+      "value": 26653000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 35312400,
+      "value": 4996705000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 7498661,
+      "value": 2046685000
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 1552500,
+      "value": 65904000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 837000,
+      "value": 141595000
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 899700,
+      "value": 52920000
+    },
+    {
+      "name": "GAOTU TECHEDU INC",
+      "cusip": "36257Y109",
+      "shares": 152400,
+      "value": 468000
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 302500,
+      "value": 16586000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 136000,
+      "value": 6312000
+    },
+    {
+      "name": "ZOOM VIDEO COMMUNICATIONS IN",
+      "cusip": "98980L101",
+      "shares": 209800,
+      "value": 54863000
+    }
+  ]
 }

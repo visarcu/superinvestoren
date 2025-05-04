@@ -32,7 +32,19 @@ cantillon: '0001279936',
 duan:'0001759760', //nicht geklappt die letzten quartale leer
 bloomstran: '0001115373', //OK
 klarman: '0001061768', // 0 positionen letzte 2 Quartale.
-vinall:         '0001766596',    // Robert Vinall – RV Capital GmbH
+vinall:         '0001766596',    // Robert Vinall – RV Capital GmbH,
+mandel:        '0001061165',    // Stephen Mandel – Lone Pine Capital
+ellenbogen: '0001798849',
+jensen:'0001106129',
+russo: '0000860643',    // Thomas Russo – Gardner Russo & Quinn
+armitage:'0001581811', // John Armitage – Egerton Capital
+loeb:'0001040273',
+icahn: '0000921669',// Carl Icahn – Icahn Capital (Beispiel)
+tangen: '0001376879',    // AKO Capital
+abrams: '0001358706',    // David Abrams – Abrams Capital Management
+marks:  '0000949509',// MANUELL!!,
+
+
 
 
   // neu hinzuzufügende Investoren:
@@ -56,9 +68,9 @@ vinall:         '0001766596',    // Robert Vinall – RV Capital GmbH
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
 
 
-            //   'daniel-loeb':           '0001040273',    // Daniel Loeb – Third Point
-             //   'stephen-mandel':        '0001061165',    // Stephen Mandel – Lone Pine Capital
-             //   'carl-icahn':            '0000853610', // Carl Icahn – Icahn Capital (Beispiel)
+
+          
+
     
   // 'nelson-peltz':          'XXX',    // Nelson Peltz – Trian Fund Management
          
@@ -89,18 +101,18 @@ vinall:         '0001766596',    // Robert Vinall – RV Capital GmbH
    //'third-avenue':          'XXX',    // Third Avenue Management
    //'francis-chou':          'XXX',    // Francis Chou – Chou Associates
 
-            //    'howard-marks':          '0000976518', // Howard Marks – Oaktree Capital
-            //    'thomas-russo':          '0000860643',    // Thomas Russo – Gardner Russo & Quinn
-   // 'ako-capital':           'XXX',    // AKO Capital
+         
+
+
    // 'triple-frond':          'XXX',    // Triple Frond Partners
    // 'harry-burn':            'XXX',    // Harry Burn – Sound Shore
   //'polen-capital':         'XXX',    // Polen Capital Management
   //'jensen-investment':     'XXX',    // Jensen Investment Management
   //'first-eagle':           'XXX',    // First Eagle Investment Management
               
-  //'john-armitage':         'XXX',    // John Armitage – Egerton Capital
+
              
-  //'david-abrams':          'XXX',    // David Abrams – Abrams Capital Management
+
   //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
   //'torray-funds':          'XXX',    // Torray Funds
   //'william-von-mueffling': 'XXX',    // William Von Mueffling – Cantillon Capital Management

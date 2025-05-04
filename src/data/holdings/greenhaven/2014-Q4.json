@@ -1,5 +1,161 @@
 {
-  "form": "13F-HR",
   "date": "2014-10-30",
-  "positions": []
+  "positions": [
+    {
+      "name": "Agilent  Technologies, Inc. (A)",
+      "cusip": "00846U101",
+      "shares": 19300,
+      "value": 1100000
+    },
+    {
+      "name": "Air Products & Chemicals (APD)",
+      "cusip": "009158106",
+      "shares": 7490,
+      "value": 975000
+    },
+    {
+      "name": "American Independence Corp (AMIC)",
+      "cusip": "026760405",
+      "shares": 99992,
+      "value": 1100000
+    },
+    {
+      "name": "Baker Hughes Inc. (BHI)",
+      "cusip": "057224107",
+      "shares": 9172957,
+      "value": 596793000
+    },
+    {
+      "name": "Boeing Company (BA)",
+      "cusip": "097023105",
+      "shares": 1159378,
+      "value": 147682000
+    },
+    {
+      "name": "Citigroup [C]",
+      "cusip": "172967424",
+      "shares": 4002320,
+      "value": 207400000
+    },
+    {
+      "name": "Devon Energy Corp (DVN)",
+      "cusip": "25179M103",
+      "shares": 2370023,
+      "value": 161588000
+    },
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 4554394,
+      "value": 735307000
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2653627,
+      "value": 487126000
+    },
+    {
+      "name": "Lowe's Companies, Inc. (LOW)",
+      "cusip": "548661107",
+      "shares": 11295132,
+      "value": 597738000
+    },
+    {
+      "name": "Masco Corp (MAS)",
+      "cusip": "574599106",
+      "shares": 560400,
+      "value": 13405000
+    },
+    {
+      "name": "Microsoft Corp (MSFT)",
+      "cusip": "594918104",
+      "shares": 1632090,
+      "value": 75664000
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 1736919,
+      "value": 55147000
+    },
+    {
+      "name": "Pall Corporation (PLL)",
+      "cusip": "696429307",
+      "shares": 3500,
+      "value": 293000
+    },
+    {
+      "name": "Plains All American (PAA)",
+      "cusip": "726503105",
+      "shares": 7200,
+      "value": 424000
+    },
+    {
+      "name": "Praxair Inc. (PX)",
+      "cusip": "74005P104",
+      "shares": 1623346,
+      "value": 209412000
+    },
+    {
+      "name": "RHJ International (RHJI)",
+      "cusip": "749561205",
+      "shares": 209454,
+      "value": 1037000
+    },
+    {
+      "name": "Schlumberger Ltd (SLB)",
+      "cusip": "806857108",
+      "shares": 3683780,
+      "value": 374604000
+    },
+    {
+      "name": "Southwest Airlines (LUV)",
+      "cusip": "844741108",
+      "shares": 4102965,
+      "value": 138557000
+    },
+    {
+      "name": "Superior Energy Services Inc. (SPN)",
+      "cusip": "868157108",
+      "shares": 4473775,
+      "value": 147053000
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 6940,
+      "value": 232000
+    },
+    {
+      "name": "TE Connectivity Ltd (TEL)",
+      "cusip": "H84989104",
+      "shares": 9790,
+      "value": 541000
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2744842,
+      "value": 388889000
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2000,
+      "value": 217000
+    },
+    {
+      "name": "United Parcel Service (UPS)",
+      "cusip": "911312106",
+      "shares": 5124239,
+      "value": 503661000
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2449758,
+      "value": 356807000
+    }
+  ]
 }

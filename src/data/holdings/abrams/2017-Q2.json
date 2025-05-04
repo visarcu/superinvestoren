@@ -1,0 +1,107 @@
+{
+  "date": "2017-05-12",
+  "positions": [
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 269692,
+      "value": 102804000
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 8771492,
+      "value": 84119000
+    },
+    {
+      "name": "BARNES & NOBLE INC",
+      "cusip": "067774109",
+      "shares": 10418775,
+      "value": 96374000
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 20294000
+    },
+    {
+      "name": "COLONY NORTHSTAR INC",
+      "cusip": "19625W104",
+      "shares": 10908145,
+      "value": 140824000
+    },
+    {
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 7945023,
+      "value": 334803000
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 5884041,
+      "value": 18770000
+    },
+    {
+      "name": "KERYX BIOPHARMACEUTICALS INC",
+      "cusip": "492515101",
+      "shares": 5719176,
+      "value": 35230000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 4980000,
+      "value": 327983000
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U105",
+      "shares": 22238592,
+      "value": 50259000
+    },
+    {
+      "name": "QUALITY CARE PPTYS INC",
+      "cusip": "747545101",
+      "shares": 5000000,
+      "value": 94300000
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 3050000,
+      "value": 298016000
+    },
+    {
+      "name": "VEON LTD",
+      "cusip": "91822M106",
+      "shares": 18770950,
+      "value": 76585000
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 7541066,
+      "value": 148031000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 3342343,
+      "value": 186035000
+    },
+    {
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 21608707,
+      "value": 439737000
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PUB LTD",
+      "cusip": "G96629103",
+      "shares": 1183287,
+      "value": 154880000
+    }
+  ]
+}

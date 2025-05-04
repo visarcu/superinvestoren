@@ -1,0 +1,83 @@
+{
+  "date": "2014-02-13",
+  "positions": [
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 4745040,
+      "value": 242234000
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 34014000
+    },
+    {
+      "name": "CST BRANDS INC",
+      "cusip": "12646R105",
+      "shares": 3000000,
+      "value": 110160000
+    },
+    {
+      "name": "ENGILITY HLDGS INC",
+      "cusip": "29285W104",
+      "shares": 102430,
+      "value": 3421000
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 3000000,
+      "value": 44610000
+    },
+    {
+      "name": "PENNEY J C INC",
+      "cusip": "708160106",
+      "shares": 1000000,
+      "value": 9150000
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097747",
+      "shares": 115305,
+      "value": 2300000
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097762",
+      "shares": 57380,
+      "value": 1161000
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N113",
+      "shares": 11658873,
+      "value": 3964000
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 10165910,
+      "value": 267160000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 2770000,
+      "value": 125758000
+    },
+    {
+      "name": "WESCO AIRCRAFT HLDGS INC",
+      "cusip": "950814103",
+      "shares": 5765539,
+      "value": 126381000
+    },
+    {
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 17362477,
+      "value": 299503000
+    }
+  ]
+}
