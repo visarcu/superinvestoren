@@ -1,0 +1,71 @@
+{
+  "date": "2017-11-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 487477,
+      "value": 467544000
+    },
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 34275000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 11741217,
+      "value": 4266993000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 91942165,
+      "value": 3537935000
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 50000,
+      "value": 5300000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1660123,
+      "value": 231106000
+    },
+    {
+      "name": "NORFOLK SOUTHERN CORP",
+      "cusip": "655844108",
+      "shares": 508500,
+      "value": 67244000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 416619,
+      "value": 65122000
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 204500,
+      "value": 20951000
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 578500,
+      "value": 67089000
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 85923952,
+      "value": 5691603000
+    }
+  ]
+}

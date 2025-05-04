@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "fetch13f": "node --experimental-json-modules scripts/fetch13f.js",
+    "fetchNportP": "node --experimental-json-modules scripts/fetchNportP.js",
     "update-stocks": "ts-node scripts/update-stocks.ts"
   },
   "dependencies": {

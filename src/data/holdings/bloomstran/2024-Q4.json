@@ -1,0 +1,227 @@
+{
+  "date": "2024-11-14",
+  "positions": [
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 347864,
+      "value": 15726931000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1272,
+      "value": 237012000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 4454,
+      "value": 1207925000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4140,
+      "value": 964620000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 237820,
+      "value": 109459033000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 127,
+      "value": 87779860000
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 6163,
+      "value": 907625000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 22000,
+      "value": 1580920000
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 4330,
+      "value": 3838632000
+    },
+    {
+      "name": "CUMMINS INC",
+      "cusip": "231021106",
+      "shares": 40844,
+      "value": 13224879000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 139424,
+      "value": 13411225000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 861192,
+      "value": 72830975000
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 483438,
+      "value": 33995360000
+    },
+    {
+      "name": "EQUINOR ASA",
+      "cusip": "29446M102",
+      "shares": 479192,
+      "value": 12137933000
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 56431,
+      "value": 6614842000
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 74143,
+      "value": 6550534000
+    },
+    {
+      "name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "shares": 9842,
+      "value": 1856004000
+    },
+    {
+      "name": "GE HEALTHCARE TECHNOLOGIES I",
+      "cusip": "36266G107",
+      "shares": 4581,
+      "value": 429927000
+    },
+    {
+      "name": "GE VERNOVA INC",
+      "cusip": "36828A101",
+      "shares": 4138,
+      "value": 1055107000
+    },
+    {
+      "name": "HF SINCLAIR CORP",
+      "cusip": "403949100",
+      "shares": 530949,
+      "value": 23664397000
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 4618634,
+      "value": 43230414000
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 44443,
+      "value": 5046947000
+    },
+    {
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 59525,
+      "value": 3748878000
+    },
+    {
+      "name": "NEWMONT CORP",
+      "cusip": "651639106",
+      "shares": 651314,
+      "value": 34812747000
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 34874,
+      "value": 3082873000
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 13876,
+      "value": 3330379000
+    },
+    {
+      "name": "OLIN CORP",
+      "cusip": "680665205",
+      "shares": 527442,
+      "value": 25306650000
+    },
+    {
+      "name": "OVINTIV INC",
+      "cusip": "69047Q102",
+      "shares": 16487,
+      "value": 631617000
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 1691177,
+      "value": 17960295000
+    },
+    {
+      "name": "SEACOR MARINE HLDGS INC",
+      "cusip": "78413P101",
+      "shares": 211480,
+      "value": 2040782000
+    },
+    {
+      "name": "SHELL PLC",
+      "cusip": "780259305",
+      "shares": 4968,
+      "value": 327640000
+    },
+    {
+      "name": "SPROTT PHYSICAL GOLD TR",
+      "cusip": "85207H104",
+      "shares": 23869,
+      "value": 486450000
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 233517,
+      "value": 22765544000
+    },
+    {
+      "name": "SYNCHRONY FINANCIAL",
+      "cusip": "87165B103",
+      "shares": 4437,
+      "value": 221318000
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20155,
+      "value": 4718689000
+    },
+    {
+      "name": "VALERO ENERGY CORP",
+      "cusip": "91913Y100",
+      "shares": 117046,
+      "value": 15804719000
+    },
+    {
+      "name": "WORLD GOLD TR",
+      "cusip": "98149E303",
+      "shares": 12460,
+      "value": 649540000
+    }
+  ]
+}

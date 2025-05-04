@@ -1,0 +1,359 @@
+{
+  "date": "2021-05-14",
+  "positions": [
+    {
+      "name": "ADVANTAGE SOLUTIONS INC",
+      "cusip": "00791N102",
+      "shares": 12500000,
+      "value": 143610000
+    },
+    {
+      "name": "AJAX I",
+      "cusip": "G0190X100",
+      "shares": 5000000,
+      "value": 51300000
+    },
+    {
+      "name": "AJAX I",
+      "cusip": "G0190X126",
+      "shares": 1250000,
+      "value": 2113000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 290930,
+      "value": 601827000
+    },
+    {
+      "name": "ALTIMETER GROWTH CORP 2",
+      "cusip": "G0371B109",
+      "shares": 2500000,
+      "value": 25950000
+    },
+    {
+      "name": "ATARA BIOTHERAPEUTICS INC",
+      "cusip": "046513107",
+      "shares": 8477488,
+      "value": 121737000
+    },
+    {
+      "name": "AVANTI ACQUISITION CORP",
+      "cusip": "G0682V125",
+      "shares": 2000000,
+      "value": 2100000
+    },
+    {
+      "name": "AVANTI ACQUISITION CORP",
+      "cusip": "G0682V109",
+      "shares": 4000000,
+      "value": 39080000
+    },
+    {
+      "name": "BROADSTONE ACQUISITION CORP",
+      "cusip": "G1739V126",
+      "shares": 1485000,
+      "value": 1025000
+    },
+    {
+      "name": "BROADSTONE ACQUISITION CORP",
+      "cusip": "G1739V100",
+      "shares": 2970000,
+      "value": 29076000
+    },
+    {
+      "name": "COLONY CAP INC NEW",
+      "cusip": "19626G108",
+      "shares": 24212959,
+      "value": 156900000
+    },
+    {
+      "name": "CULLINAN ONCOLOGY INC",
+      "cusip": "230031106",
+      "shares": 1835560,
+      "value": 71699000
+    },
+    {
+      "name": "DRAGONEER GROWTH OPPTY CORP",
+      "cusip": "G28314105",
+      "shares": 1000000,
+      "value": 10280000
+    },
+    {
+      "name": "DRAGONEER GROWTH OPT CORP II",
+      "cusip": "G28315102",
+      "shares": 2000000,
+      "value": 20220000
+    },
+    {
+      "name": "EBAY INC.",
+      "cusip": "278642103",
+      "shares": 18324423,
+      "value": 1122188000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1297000,
+      "value": 382005000
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620R303",
+      "shares": 3036935,
+      "value": 123482000
+    },
+    {
+      "name": "FINCH THERAPEUTICS GROUP INC",
+      "cusip": "31773D101",
+      "shares": 1208159,
+      "value": 18870000
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L105",
+      "shares": 7610818,
+      "value": 274827000
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L204",
+      "shares": 5680307,
+      "value": 198413000
+    },
+    {
+      "name": "HEALTHPEAK PROPERTIES INC",
+      "cusip": "42250P103",
+      "shares": 4966911,
+      "value": 157650000
+    },
+    {
+      "name": "HORIZON ACQUISITION CORPORAT",
+      "cusip": "G46044114",
+      "shares": 1166666,
+      "value": 2392000
+    },
+    {
+      "name": "HORIZON ACQUISITION CORPORAT",
+      "cusip": "G46044106",
+      "shares": 3499998,
+      "value": 35700000
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 23305334,
+      "value": 1491541000
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS&FRAGRA",
+      "cusip": "459506101",
+      "shares": 2100000,
+      "value": 293181000
+    },
+    {
+      "name": "INVESTINDUSTRIAL ACQUISITION",
+      "cusip": "G4771L113",
+      "shares": 700000,
+      "value": 574000
+    },
+    {
+      "name": "INVESTINDUSTRIAL ACQUISITION",
+      "cusip": "G4771L105",
+      "shares": 2100000,
+      "value": 20475000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 7657205,
+      "value": 196484000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 54555407,
+      "value": 1393345000
+    },
+    {
+      "name": "LIBERTY MEDIA ACQUISITION CO",
+      "cusip": "53073L112",
+      "shares": 640000,
+      "value": 1933000
+    },
+    {
+      "name": "LIBERTY MEDIA ACQUISITION CO",
+      "cusip": "53073L104",
+      "shares": 3200000,
+      "value": 32352000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229409",
+      "shares": 3500000,
+      "value": 154280000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229607",
+      "shares": 6484867,
+      "value": 286047000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 5423416,
+      "value": 478400000
+    },
+    {
+      "name": "NEXSTAR MEDIA GROUP INC",
+      "cusip": "65336K103",
+      "shares": 2085000,
+      "value": 292797000
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 8623021,
+      "value": 82384000
+    },
+    {
+      "name": "PERSHING SQUARE TONTINE HLDG",
+      "cusip": "71531R117",
+      "shares": 1944444,
+      "value": 15847000
+    },
+    {
+      "name": "PERSHING SQUARE TONTINE HLDG",
+      "cusip": "71531R109",
+      "shares": 12707924,
+      "value": 305117000
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 30657601,
+      "value": 359001000
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 5224466,
+      "value": 954510000
+    },
+    {
+      "name": "REDBALL ACQUISITION CORP",
+      "cusip": "G7417R113",
+      "shares": 1650000,
+      "value": 2244000
+    },
+    {
+      "name": "REINVENT TECHNOLOGY PARTNERS",
+      "cusip": "G7483N103",
+      "shares": 875000,
+      "value": 1768000
+    },
+    {
+      "name": "REINVENT TECHNOLOGY PARTNERS",
+      "cusip": "G74847115",
+      "shares": 200000,
+      "value": 316000
+    },
+    {
+      "name": "REINVENT TECHNOLOGY PARTNERS",
+      "cusip": "G7483N129",
+      "shares": 3500000,
+      "value": 35525000
+    },
+    {
+      "name": "REINVENT TECHNOLOGY PARTNERS",
+      "cusip": "G74847107",
+      "shares": 1000000,
+      "value": 10010000
+    },
+    {
+      "name": "REINVENT TECHNOLOGY PARTNERS",
+      "cusip": "G7484L114",
+      "shares": 6000000,
+      "value": 60240000
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 3806892,
+      "value": 265988000
+    },
+    {
+      "name": "SVF INVESTMENT CORP",
+      "cusip": "G8601L128",
+      "shares": 200000,
+      "value": 414000
+    },
+    {
+      "name": "SVF INVESTMENT CORP",
+      "cusip": "G8601L102",
+      "shares": 1000000,
+      "value": 10210000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "G8807B106",
+      "shares": 8735168,
+      "value": 178285000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "88339KAA0",
+      "shares": 30000000,
+      "value": 30580000
+    },
+    {
+      "name": "THOMA BRAVO ADVANTAGE",
+      "cusip": "G88272102",
+      "shares": 4000000,
+      "value": 41800000
+    },
+    {
+      "name": "TRANSLATE BIO INC",
+      "cusip": "89374L104",
+      "shares": 18044239,
+      "value": 295810000
+    },
+    {
+      "name": "TRILOGY METALS INC NEW",
+      "cusip": "89621C105",
+      "shares": 12182568,
+      "value": 26071000
+    },
+    {
+      "name": "VERINT SYS INC",
+      "cusip": "92343X100",
+      "shares": 3039798,
+      "value": 138280000
+    },
+    {
+      "name": "VERITIV CORP",
+      "cusip": "923454102",
+      "shares": 3564439,
+      "value": 151631000
+    },
+    {
+      "name": "VESPER HEALTHCARE ACQSTN COR",
+      "cusip": "92538T112",
+      "shares": 1320000,
+      "value": 2746000
+    },
+    {
+      "name": "VIASAT INC",
+      "cusip": "92552V100",
+      "shares": 16288959,
+      "value": 783010000
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 2500000,
+      "value": 572200000
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "date": "2022-08-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2475787,
+      "value": 5415660000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 768021,
+      "value": 1673717000
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 1897488,
+      "value": 172633000
+    },
+    {
+      "name": "BOSTON PROPERTIES INC",
+      "cusip": "101121101",
+      "shares": 10564496,
+      "value": 940029000
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 36699825,
+      "value": 4127697000
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 55860385,
+      "value": 3901375000
+    },
+    {
+      "name": "KLA CORP",
+      "cusip": "482480100",
+      "shares": 155441,
+      "value": 49598000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 89545,
+      "value": 38160000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 19629035,
+      "value": 5041325000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 8246207,
+      "value": 2242721000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 8768321,
+      "value": 2955450000
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 5252148,
+      "value": 1120178000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 19924121,
+      "value": 3922860000
+    }
+  ]
+}

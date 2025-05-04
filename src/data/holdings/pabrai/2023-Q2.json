@@ -1,0 +1,24 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-12",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1592134,
+      "value": 96069366000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 3375,
+      "value": 26561000
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 772579,
+      "value": 25178350000
+    }
+  ]
+}

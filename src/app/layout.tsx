@@ -1,4 +1,3 @@
-// src/app/layout.tsx
 import './globals.css'
 import Link from 'next/link'
 import Script from 'next/script'
@@ -11,85 +10,69 @@ export const metadata = {
   description: 'Portfolios der bekanntesten Investoren im Überblick',
 }
 
-
-
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="de">
       <head>
-        {/* Google Font Poppins */}
+        {/* Google Fonts: Poppins + Orbitron */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Orbitron:wght@400;500;700&display=swap"
           rel="stylesheet"
         />
 
-        {/* Tailwind-CDN (Dark-Mode via class) */}
+        {/* Tailwind über CDN + eigene Farben */}
         <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
-        <Script id="tailwind-config" strategy="beforeInteractive">
+        <Script id="tw-config" strategy="beforeInteractive">
           {`
             tailwind.config = {
               darkMode: 'class',
               theme: {
                 extend: {
                   colors: {
-                    primary: '#2563eb',
-                    surface: '#ffffff',
-                    'surface-dark': '#1f2937',
-                  }
+                    heroFrom: '#000000',
+                    heroTo:   '#1a1a1a',
+                    accent:   '#00ff88',
+                  },
+                  fontFamily: {
+                    sans:    ['Poppins','system-ui','sans-serif'],
+                    orbitron: ['Orbitron','sans-serif'],
+                  },
                 }
               }
             }
           `}
         </Script>
-
-        {/* TradingView Charting Library */}
-        <Script src="https://s3.tradingview.com/tv.js" strategy="beforeInteractive" />
       </head>
-      <body className="min-h-screen flex flex-col bg-surface dark:bg-surface-dark text-on-surface dark:text-white">
-        <header className="bg-surface dark:bg-surface-dark shadow-sm sticky top-0 z-10">
-          <nav className="max-w-5xl mx-auto px-4 py-3 flex items-center">
-            <Link
-              href="/"
-              className="
-                text-2xl sm:text-3xl
-                font-semibold
-                tracking-tight
-                text-gray-900 dark:text-white
-              "
-            >
+      <body className="min-h-screen flex flex-col bg-white dark:bg-surface-dark text-gray-900 dark:text-white">
+        {/* Navbar: schwarz mit weißem Text */}
+        <header className="bg-heroFrom text-white">
+          <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center">
+            <Link href="/" className="text-2xl font-semibold text-white">
               SuperInvestor
             </Link>
-
-            <ul className="hidden md:flex space-x-6 ml-8 text-gray-700 dark:text-gray-300">
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/activity">Activity</Link></li>
-              <li><Link href="/watchlist">Watchlist</Link></li>
-              <li><Link href="/scoreboard">Scoreboard</Link></li>
-              <li><Link href="/realtime">Echtzeit Filings</Link></li>
-              <li><Link href="/insider">Insider</Link></li>
+            <ul className="hidden md:flex ml-8 space-x-6">
+              <li><Link href="/" className="hover:text-gray-200">Home</Link></li>
+              <li><Link href="/activity" className="hover:text-gray-200">Activity</Link></li>
+              <li><Link href="/watchlist" className="hover:text-gray-200">Watchlist</Link></li>
+              <li><Link href="/scoreboard" className="hover:text-gray-200">Scoreboard</Link></li>
+              <li><Link href="/realtime" className="hover:text-gray-200">Echtzeit Filings</Link></li>
             </ul>
-
-            <div className="ml-auto hidden lg:block w-48">
+            <div className="ml-auto hidden lg:block w-64">
               <SearchBar />
             </div>
-
-            <div className="md:hidden ml-auto text-2xl">☰</div>
+            <div className="md:hidden ml-auto text-2xl text-white">☰</div>
           </nav>
         </header>
 
-        <main className="flex-grow max-w-5xl mx-auto p-4 sm:p-8">
+        <main className="flex-grow">
           <ErrorBoundary>
             {children}
           </ErrorBoundary>
         </main>
 
-        <footer className="bg-surface dark:bg-surface-dark border-t text-center p-4 text-sm text-gray-500 dark:text-gray-400">
+        <footer className="bg-white dark:bg-surface-dark border-t text-center p-4 text-sm text-gray-500 dark:text-gray-400">
           © {new Date().getFullYear()} SUPERINVESTOR
         </footer>
       </body>

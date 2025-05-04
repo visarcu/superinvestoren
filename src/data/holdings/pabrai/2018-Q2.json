@@ -1,0 +1,18 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-14",
+  "positions": [
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 398138,
+      "value": 47760000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 13109310,
+      "value": 269003000
+    }
+  ]
+}

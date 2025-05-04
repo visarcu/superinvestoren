@@ -1,0 +1,42 @@
+{
+  "form": "13F-HR",
+  "date": "2013-08-12",
+  "positions": [
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505104",
+      "shares": 7502000,
+      "value": 96476000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 3268145,
+      "value": 66605000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1560000,
+      "value": 74833000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 5928876,
+      "value": 96937000
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 141863,
+      "value": 21457000
+    },
+    {
+      "name": "HORSEHEAD HLDG CORP",
+      "cusip": "440694305",
+      "shares": 5070000,
+      "value": 64947000
+    }
+  ]
+}

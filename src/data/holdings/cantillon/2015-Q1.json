@@ -1,0 +1,245 @@
+{
+  "date": "2015-02-09",
+  "positions": [
+    {
+      "name": "ALTERA CORP",
+      "cusip": "021441100",
+      "shares": 3306219,
+      "value": 122132000
+    },
+    {
+      "name": "ALTERA CORP",
+      "cusip": "021441100",
+      "shares": 2283434,
+      "value": 84350000
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 17378628,
+      "value": 108095000
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 12001950,
+      "value": 74652000
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 3170139,
+      "value": 176006000
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 4583434,
+      "value": 254472000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1355403,
+      "value": 308991000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 939183,
+      "value": 214106000
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 340530,
+      "value": 23977000
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 572379,
+      "value": 40301000
+    },
+    {
+      "name": "BLOCK H & R INC",
+      "cusip": "093671105",
+      "shares": 974577,
+      "value": 32824000
+    },
+    {
+      "name": "BLOCK H & R INC",
+      "cusip": "093671105",
+      "shares": 1405212,
+      "value": 47328000
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 581935,
+      "value": 43552000
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 405628,
+      "value": 30357000
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 887600,
+      "value": 78686000
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 615400,
+      "value": 54555000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 185018,
+      "value": 25238000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 269660,
+      "value": 36784000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1799292,
+      "value": 188062000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1244373,
+      "value": 130062000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3410576,
+      "value": 212138000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 4944036,
+      "value": 307519000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 304243,
+      "value": 161450000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 209927,
+      "value": 111400000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 165883,
+      "value": 87321000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 238783,
+      "value": 125695000
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 813420,
+      "value": 207333000
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 560839,
+      "value": 142952000
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 2561991,
+      "value": 168861000
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 3722342,
+      "value": 245340000
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 335810,
+      "value": 73640000
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 232400,
+      "value": 50963000
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 1382525,
+      "value": 112330000
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 955319,
+      "value": 77620000
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 1120720,
+      "value": 58737000
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 1615900,
+      "value": 84689000
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 1465032,
+      "value": 128000000
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 1014458,
+      "value": 88633000
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PUBLIC",
+      "cusip": "G96666105",
+      "shares": 4398582,
+      "value": 197100000
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PUBLIC",
+      "cusip": "G96666105",
+      "shares": 3033403,
+      "value": 135927000
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "form": "13F-HR",
+  "date": "2016-05-13",
+  "positions": [
+    {
+      "name": "ABENGOA YIELD PLC",
+      "cusip": "G00349103",
+      "shares": 6365156,
+      "value": 113172000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 279109,
+      "value": 74810000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 3193515,
+      "value": 215147000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 600550,
+      "value": 447380000
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 13877659,
+      "value": 151266000
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674X106",
+      "shares": 381000,
+      "value": 9475000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 6986100,
+      "value": 94452000
+    },
+    {
+      "name": "CABOT OIL & GAS CORP",
+      "cusip": "127097103",
+      "shares": 1263000,
+      "value": 28683000
+    },
+    {
+      "name": "CLEARBRIDGE ENERGY MLP FD IN",
+      "cusip": "184692101",
+      "shares": 18197,
+      "value": 247000
+    },
+    {
+      "name": "COMMUNITY HEALTH SYS INC NEW",
+      "cusip": "203668108",
+      "shares": 7150000,
+      "value": 132347000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 8594855,
+      "value": 418398000
+    },
+    {
+      "name": "ENERGY TRANSFER PRTNRS L P",
+      "cusip": "29273R109",
+      "shares": 16165914,
+      "value": 522806000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1627950,
+      "value": 185749000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V118",
+      "shares": 190011,
+      "value": 4114000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 190011,
+      "value": 2596000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 2384934,
+      "value": 74958000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 952890,
+      "value": 31426000
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 1419277,
+      "value": 58063000
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 3173423,
+      "value": 247686000
+    },
+    {
+      "name": "HD SUPPLY HLDGS INC",
+      "cusip": "40416M105",
+      "shares": 3317171,
+      "value": 109699000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 8037950,
+      "value": 106905000
+    },
+    {
+      "name": "INGERSOLL-RAND PLC",
+      "cusip": "G47791101",
+      "shares": 731829,
+      "value": 45381000
+    },
+    {
+      "name": "KAYNE ANDERSON MLP INVT CO",
+      "cusip": "486606106",
+      "shares": 1014940,
+      "value": 16818000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B119",
+      "shares": 1012760,
+      "value": 37000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 4500000,
+      "value": 80370000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 553895,
+      "value": 105739000
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 1446159,
+      "value": 117240000
+    },
+    {
+      "name": "OWENS CORNING NEW",
+      "cusip": "690742101",
+      "shares": 3345606,
+      "value": 158180000
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 2512250,
+      "value": 74463000
+    },
+    {
+      "name": "POWERSHARES QQQ TRUST",
+      "cusip": "73935A104",
+      "shares": 1000000,
+      "value": 109200000
+    },
+    {
+      "name": "PPG INDS INC",
+      "cusip": "693506107",
+      "shares": 630462,
+      "value": 70290000
+    },
+    {
+      "name": "RANGE RES CORP",
+      "cusip": "75281A109",
+      "shares": 1438000,
+      "value": 46562000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 4360961,
+      "value": 195371000
+    },
+    {
+      "name": "SOUTHWESTERN ENERGY CO",
+      "cusip": "845467109",
+      "shares": 4433000,
+      "value": 35774000
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 22854,
+      "value": 4698000
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 2700000,
+      "value": 555012000
+    },
+    {
+      "name": "SYNCHRONY FINL",
+      "cusip": "87165B103",
+      "shares": 5020453,
+      "value": 143886000
+    },
+    {
+      "name": "TEEKAY OFFSHORE PARTNERS L P",
+      "cusip": "Y8565J101",
+      "shares": 313990,
+      "value": 1780000
+    },
+    {
+      "name": "TENET HEALTHCARE CORP",
+      "cusip": "88033G407",
+      "shares": 348405,
+      "value": 10079000
+    },
+    {
+      "name": "TERRAFORM GLOBAL INC",
+      "cusip": "88104M101",
+      "shares": 3652380,
+      "value": 8693000
+    },
+    {
+      "name": "TERRAFORM PWR INC",
+      "cusip": "88104R100",
+      "shares": 8708708,
+      "value": 75330000
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 1200652,
+      "value": 37797000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 2965354,
+      "value": 82674000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 956983,
+      "value": 26987000
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 578512,
+      "value": 35978000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 945000,
+      "value": 24854000
+    },
+    {
+      "name": "WHIRLPOOL CORP",
+      "cusip": "963320106",
+      "shares": 1410796,
+      "value": 254423000
+    },
+    {
+      "name": "WILLIAMS PARTNERS L P NEW",
+      "cusip": "96949L105",
+      "shares": 13237383,
+      "value": 270704000
+    },
+    {
+      "name": "WMIH CORP",
+      "cusip": "92936P100",
+      "shares": 16902465,
+      "value": 39552000
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "form": "13F-HR",
+  "date": "2021-05-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 168843,
+      "value": 38282000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1552000,
+      "value": 136902000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 4733118,
+      "value": 86853000
+    }
+  ]
+}

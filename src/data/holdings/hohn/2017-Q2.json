@@ -1,0 +1,47 @@
+{
+  "date": "2017-05-15",
+  "positions": [
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 37452000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC",
+      "cusip": "16119P108",
+      "shares": 12679234,
+      "value": 4150167000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 90848233,
+      "value": 3414985000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 666569,
+      "value": 74682000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 182929,
+      "value": 23916000
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 52000,
+      "value": 5081000
+    },
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 86224273,
+      "value": 4001669000
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "date": "2015-05-04",
+  "positions": [
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 12079950,
+      "value": 69581000
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 17158628,
+      "value": 98834000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 899800,
+      "value": 70292000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1277650,
+      "value": 99810000
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 3202139,
+      "value": 201735000
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 4533434,
+      "value": 285606000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 947624,
+      "value": 197485000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1338903,
+      "value": 279027000
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 596630,
+      "value": 30357000
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 882379,
+      "value": 44895000
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 577235,
+      "value": 48707000
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 412328,
+      "value": 34792000
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 880600,
+      "value": 83402000
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 617700,
+      "value": 58502000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 187568,
+      "value": 36576000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 265660,
+      "value": 51804000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1969892,
+      "value": 225316000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1389005,
+      "value": 158874000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3439576,
+      "value": 234098000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 4872536,
+      "value": 331625000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 301243,
+      "value": 167099000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 211927,
+      "value": 117556000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 166343,
+      "value": 91156000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 235783,
+      "value": 129209000
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 803420,
+      "value": 189454000
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 566208,
+      "value": 133518000
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 2586491,
+      "value": 157103000
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 3672342,
+      "value": 223058000
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 348600,
+      "value": 81318000
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 495440,
+      "value": 115571000
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 344561,
+      "value": 35628000
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 483238,
+      "value": 49967000
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 1365525,
+      "value": 98591000
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 963519,
+      "value": 69566000
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 1463370,
+      "value": 84071000
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 2075700,
+      "value": 119249000
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 1023258,
+      "value": 92083000
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 1450032,
+      "value": 130488000
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PUBLIC",
+      "cusip": "G96666105",
+      "shares": 4700582,
+      "value": 226474000
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PUBLIC",
+      "cusip": "G96666105",
+      "shares": 3317903,
+      "value": 159857000
+    }
+  ]
+}

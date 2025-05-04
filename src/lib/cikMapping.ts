@@ -10,7 +10,7 @@ export const investorCiks: Record<string,string> = {
   ackman:  '0001336528',   
   // burry:   '0001768023',  MANUELL
  // marks:  0000949509, MANUELL!
-  pabrai: '0001571785',
+  pabrai: '0001549575',
   greenhaven: '0000846222',
   greenberg: '0001553733',
   gregalexander:'0001773994',
@@ -18,11 +18,22 @@ export const investorCiks: Record<string,string> = {
   // lilu:                  '0001709323', MANUELL
 altarockpartners:     '0001631014',
 miller:           '0001135778',  // Bill Miller – Miller Value Partners
-tepper:          '0001377071', // David Tepper – Appaloosa Management
-spier:  '0001404599',
+tepper:          ' 0001656456', // David Tepper – Appaloosa Management
+spier:  '0001953324',
 coleman:         '0001167483',    // Chase Coleman – Tiger Global Management
  gayner:         '0001096343',    // Thomas Gayner – Markel Group
-ainslie:           '0000934639'   // Lee Ainslie – Maverick Capital
+ainslie:           '0000934639',  // Lee Ainslie – Maverick Capital
+einhorn:         '0001489933', // David Einhorn – Greenlight
+hohn: '0001647251',
+yacktman: '0000905567',
+polen:'0001034524', //NICHT GEKLAPPT NOCHMAL VERSUCHEN MIT CIK
+viking:'0001103804',
+cantillon: '0001279936',
+duan:'0001759760', //nicht geklappt die letzten quartale leer
+bloomstran: '0001115373', //OK
+klarman: '0001061768', // 0 positionen letzte 2 Quartale.
+vinall:         '0001766596',    // Robert Vinall – RV Capital GmbH
+
 
   // neu hinzuzufügende Investoren:
   // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
@@ -30,11 +41,11 @@ ainslie:           '0000934639'   // Lee Ainslie – Maverick Capital
   // 'tweedy-browne':         'XXX',    // Tweedy Browne Co. – Tweedy Browne Value Fund
  // 'mairs-power':           '0000061628',    // Mairs & Power Growth Fund
   // 'richard-pzena':         'XXX',    // Richard Pzena – Hancock Classic Value
-           //'dodgecox':             '0000020017',    // Dodge & Cox
+           'dodgecox':             '0000029440',    // Dodge & Cox
   // 'romick':                'XXX',    // Steven Romick – FPA Crescent Fund
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
             //'olstein':        '0000947996',    // Robert Olstein – Olstein Capital Management
-            //'robert-vinall':         '0001766596',    // Robert Vinall – RV Capital GmbH
+        
   // 'hillman-value':         'XXX',    // Hillman Value Fund
   // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
  //             'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
@@ -50,7 +61,7 @@ ainslie:           '0000934639'   // Lee Ainslie – Maverick Capital
              //   'carl-icahn':            '0000853610', // Carl Icahn – Icahn Capital (Beispiel)
     
   // 'nelson-peltz':          'XXX',    // Nelson Peltz – Trian Fund Management
-             //   'david-einhorn':         '0001342577', // David Einhorn – Greenlight
+         
   // 'valueact-capital':      'XXX',    // ValueAct Capital
   // 'norbert-lou':           'XXX',    // Norbert Lou – Punch Card Management
             //    'gates':      '0001166559',    // Bill & Melinda Gates Foundation Trust
@@ -60,7 +71,6 @@ ainslie:           '0000934639'   // Lee Ainslie – Maverick Capital
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
   // 'david-rolfe':           'XXX',    // David Rolfe – Wedgewood Partners
              //   'greenberg':       '0001553733',    // Glenn Greenberg – Brave Warrior Advisors
-             //   'viking-global':         '0001103804',    // Viking Global Investors
              //   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
              //   'bill-miller':           '0001135778',    // Bill Miller – Miller Value Partners
@@ -73,7 +83,7 @@ ainslie:           '0000934639'   // Lee Ainslie – Maverick Capital
    
   //'prem-watsa':            'XXX',    // Prem Watsa – Fairfax Financial Holdings
   //'dennis-hong':           'XXX',    // Dennis Hong – ShawSpring Partners
-             //   'seth-klarman':          '0000875415', // Seth Klarman – Baupost Group
+             //   'seth-klarman':          ' 0001061768', // Seth Klarman – Baupost Group
              //   'akre':            '0001112520',    // Chuck Akre – Akre Capital Management
   // 'francois-rochon':       'XXX',    // Francois Rochon – Giverny Capital
    //'third-avenue':          'XXX',    // Third Avenue Management
@@ -94,6 +104,6 @@ ainslie:           '0000934639'   // Lee Ainslie – Maverick Capital
   //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
   //'torray-funds':          'XXX',    // Torray Funds
   //'william-von-mueffling': 'XXX',    // William Von Mueffling – Cantillon Capital Management
-  //'yacktman-asset':        'XXX',    // Yacktman Asset Management
+ 
   //'lindsell-train':        'XXX',    // Lindsell Train
 }

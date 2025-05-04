@@ -1,0 +1,48 @@
+{
+  "form": "13F-HR",
+  "date": "2015-11-12",
+  "positions": [
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 13794920,
+      "value": 182231000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 5990747,
+      "value": 79198000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 69188,
+      "value": 42095000
+    },
+    {
+      "name": "HORSEHEAD HLDG CORP",
+      "cusip": "440694305",
+      "shares": 6333296,
+      "value": 19253000
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 982280,
+      "value": 34399000
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D104",
+      "shares": 310386,
+      "value": 3222000
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D203",
+      "shares": 1485288,
+      "value": 16680000
+    }
+  ]
+}

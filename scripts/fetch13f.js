@@ -1,5 +1,4 @@
-// scripts/fetch13f.js
-
+// scripts/fetchNportP.js
 import fetch from 'node-fetch'
 import { parseStringPromise } from 'xml2js'
 import fs from 'fs/promises'
@@ -19,13 +18,15 @@ async function run() {
   await fs.mkdir(baseDir, { recursive: true })
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
-    if (slug !== 'spier') continue // wieder rausnehmen nach dem Test!
+    // Teste nur einen Investor, bis alles klappt:
+    if (slug !== 'vinall') continue
+
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })
 
     try {
       console.log(`→ Fetching submissions for ${slug} (CIK ${cik})`)
-      const secMeta = await fetch(
+      const secMetaRes = await fetch(
         `https://data.sec.gov/submissions/CIK${cik}.json`,
         {
           headers: {
@@ -34,32 +35,28 @@ async function run() {
           },
         }
       )
-      if (!secMeta.ok) throw new Error(`HTTP ${secMeta.status}`)
-      const data = await secMeta.json()
+      if (!secMetaRes.ok) throw new Error(`HTTP ${secMetaRes.status}`)
+      const meta = await secMetaRes.json()
 
-      // 1) both historical files + recent filings
-      const histFiles = Array.isArray(data.filings?.files)
-        ? data.filings.files
+      // kombiniere historische und jüngste Einreichungen
+      const histFiles = Array.isArray(meta.filings?.files)
+        ? meta.filings.files
         : []
       let recent = []
-      if (data.filings?.recent) {
-        const {
-          form: forms = [],
-          filingDate: dates = [],
-          accessionNumber: accs = [],
-          periodOfReport: periods = []
-        } = data.filings.recent
-        recent = forms.map((form, i) => ({
-          form,
-          filingDate: dates[i],
-          accessionNumber: accs[i],
-          periodOfReport: periods[i],
+      if (meta.filings?.recent) {
+        const { form = [], filingDate = [], accessionNumber = [], periodOfReport = [] } =
+          meta.filings.recent
+        recent = form.map((formType, i) => ({
+          form: formType,
+          filingDate: filingDate[i],
+          accessionNumber: accessionNumber[i],
+          periodOfReport: periodOfReport[i],
         }))
       }
-      const hist = histFiles.concat(recent)
+      const allFilings = histFiles.concat(recent)
 
-      // 2) Nur echte Quarterly-Reports (13F-HR), keine Amendments (13F-HR/A)
-      let filings = hist
+      // filter nur echte 13F-HR Reports (kein Amendment)
+      const filings = allFilings
         .filter(f => f.form === '13F-HR')
         .map(f => ({
           date: f.filingDate,
@@ -72,35 +69,32 @@ async function run() {
 
       console.log(`   • Gefundene Quarterly-Reports: ${filings.length}`)
 
-      // 3) Pro Quartal genau ein Snapshot
+      // pro Quartal nur ein Snapshot
       const seen = new Set()
       for (const { date, period, xmlHref, txtHref, accession } of filings) {
-        const src = period ?? date
+        const src = period || date
         const [year, month] = src.split('-')
         const quarter = `Q${Math.ceil(Number(month) / 3)}`
         const key = `${year}-${quarter}`
         if (seen.has(key)) continue
         seen.add(key)
 
-        // 4) Haupt-XML oder TXT laden
+        // lade XML, sonst TXT
         let raw = ''
         try {
           raw = await fetchUrl(xmlHref)
         } catch {
           console.warn(`  ↪ Haupt-XML fehlgeschlagen, versuche TXT für ${slug} ${key}`)
-          try {
-            raw = await fetchUrl(txtHref)
-          } catch {
+          raw = await fetchUrl(txtHref).catch(() => {
             console.warn(`  ⚠ TXT fehlgeschlagen für ${slug} ${key}`)
-          }
+            return ''
+          })
         }
 
-        // 4b) Falls keine <informationTable> gefunden wurde,
-        //     versuche das separate INFORMATION TABLE-Dokument
+        // falls kein <informationTable> direkt, suche es im Index
         if (!/<informationTable\b/i.test(raw)) {
           console.log(`   • Suche INFORMATION-TABLE-XML für ${slug} ${key}`)
           try {
-            // Index-HTML des Einreichungs-Verzeichnisses
             const dirHtmlUrl = xmlHref.replace(/\/[^/]+\.xml$/, '/')
             const idxHtml = await fetchUrl(dirHtmlUrl)
             const m = idxHtml.match(/href="([^"]+\.xml)"[^>]*>\s*INFORMATION TABLE/i)
@@ -116,7 +110,7 @@ async function run() {
           }
         }
 
-        // 5) <informationTable> parsen
+        // <informationTable> extrahieren und parsen
         const infoMatch = raw.match(/<informationTable\b[\s\S]*?<\/informationTable>/i)
         let positions = []
         if (infoMatch) {
@@ -134,7 +128,7 @@ async function run() {
           console.warn(`  ⚠ Keine <informationTable> für ${slug} ${key}`)
         }
 
-        // 6) schreiben
+        // schreibe JSON-Datei
         const filename = `${year}-${quarter}.json`
         const outPath = path.join(invDir, filename)
         await fs.writeFile(

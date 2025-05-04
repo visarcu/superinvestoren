@@ -1,0 +1,54 @@
+{
+  "form": "13F-HR",
+  "date": "2016-11-10",
+  "positions": [
+    {
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 624160,
+      "value": 24024000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 69188,
+      "value": 53779000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "84670702",
+      "shares": 47400,
+      "value": 6848000
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 675138,
+      "value": 35075000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 13771930,
+      "value": 88140000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 5984447,
+      "value": 83543000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 529113,
+      "value": 26815000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 512220,
+      "value": 19920000
+    }
+  ]
+}

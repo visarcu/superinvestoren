@@ -1,5 +1,6 @@
 {
-  "date": "2015-11-16",
+  "form": "13F-HR/A",
+  "date": "2015-11-17",
   "positions": [
     {
       "name": "ALIBABA GROUP HLDG LTD",
@@ -23,7 +24,7 @@
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 930200,
-      "value": 212597000
+      "value": 476160000
     },
     {
       "name": "AMERICAN AIRLS GROUP INC",
@@ -65,7 +66,7 @@
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 3042900,
-      "value": 64783000
+      "value": 335632000
     },
     {
       "name": "BGC PARTNERS INC",
@@ -443,7 +444,7 @@
       "name": "TWITTER INC",
       "cusip": "90184L102",
       "shares": 11959500,
-      "value": 40662000
+      "value": 322189000
     },
     {
       "name": "UNITED CONTL HLDGS INC",

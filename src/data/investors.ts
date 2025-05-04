@@ -1,7 +1,6 @@
 // src/data/investors.ts
 
 export interface Holding {
-  /** Aktienticker */
   ticker: string
   name: string
   /** Gewichtung im Portfolio (in Prozent) */
@@ -52,7 +51,7 @@ export const investors: Investor[] = [
     holdings: [],
   },
   {
-    name: 'Howard Marks',
+    name: 'Howard Marks – Oaktree Capital Management',
     slug: 'marks',
     imageUrl: '/images/marks-cartoon.png',
     updatedAt: '31.12.2024',    
@@ -75,7 +74,7 @@ export const investors: Investor[] = [
   {
     name: 'Li Lu – Himalaya Capital',
     slug: 'lilu', 
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/lilu.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },
@@ -89,7 +88,7 @@ export const investors: Investor[] = [
   {
     name: 'Chris Bloomstran',
     slug: 'bloomstran', 
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/bloomstran.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },
@@ -101,54 +100,34 @@ export const investors: Investor[] = [
     holdings: [],
   },  
   {
-    name: 'David Tepper',
+    name: 'David Tepper - Appaloosa Management',
     slug: 'tepper', 
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/tepper.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
   {
     name: 'Bill & Melinda Gates Foundation',
     slug: 'gates',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/gates.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+  //{
+    //name: 'Steven Romick',
+    //slug: 'romick',
+    //imageUrl: '/images/neuer-investor.png',
+    //updatedAt: '31.12.2024',    
+    //holdings: [],
+  //},  
   {
-    name: 'Steven Romick',
-    slug: 'romick',
-    imageUrl: '/images/neuer-investor.png',
-    updatedAt: '31.12.2024',    
-    holdings: [],
-  },  
-  {
-    name: 'Seth Klarman',
+    name: 'Seth Klarman - Baupost Group',
     slug: 'klarman',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
-  {
-    name: 'Jeremy Grantham',
-    slug: 'grantham',
-    imageUrl: '/images/neuer-investor.png',
-    updatedAt: '31.12.2024',    
-    holdings: [],
-  },  
-  {
-    name: 'John Paulson',
-    slug: 'paulson', 
-    imageUrl: '/images/neuer-investor.png',
-    updatedAt: '31.12.2024',    
-    holdings: [],
-  },  
-  {
-    name: 'Joel Greenblatt',
-    slug: 'greenblatt', 
-    imageUrl: '/images/neuer-investor.png',
-    updatedAt: '31.12.2024',    
-    holdings: [],
-  },  
+ 
   {
     name: 'Mairs & Power Growth Fund',
     slug: 'mairs-power', 
@@ -158,21 +137,21 @@ export const investors: Investor[] = [
   },  
   {
     name: 'Robert Vinall – RV Capital GmbH',
-    slug: 'robert-vinall',
-    imageUrl: '/images/neuer-investor.png',
+    slug: 'vinall',
+    imageUrl: '/images/vinall.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
   {
-    name: 'Olstein Capital Management',
+    name: 'Robert Olstein - Olstein Capital Management',
     slug: 'olstein', 
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/olstein.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
   {
     name: 'Dodge & Cox',
-    slug: 'dogecox',  
+    slug: 'dodgecox',  
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
@@ -208,14 +187,14 @@ export const investors: Investor[] = [
   {
     name: 'Greg Alexander – Conifer Management',
     slug: 'gregalexander',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/gregalexander.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
   {
-    name: 'AltaRock Partners',
+    name: 'Mark Massey - Altarock Partners',
     slug: 'altarockpartners',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/altarockpartners.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -223,7 +202,7 @@ export const investors: Investor[] = [
   {
     name: 'Chase Coleman (Tiger Global Management)',
     slug: 'coleman',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/coleman.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -231,7 +210,7 @@ export const investors: Investor[] = [
   {
     name: 'Chuck Akre (Akre Capital Management)',
     slug: 'akre',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/akre.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -267,4 +246,54 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
+  {
+    name: 'Chris Hohn - TCI Fund Management',
+    slug: 'hohn',
+    imageUrl: '/images/hohn.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Donald Yacktman - Yacktman Asset Management',
+    slug: 'yacktman',
+    imageUrl: '/images/yacktman.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Polen Capital Management',
+    slug: 'polen',
+    imageUrl: '/images/polen.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Ole Andreas Halvorsen - Viking Global',
+    slug: 'viking',
+    imageUrl: '/images/viking.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'William Von Mueffling - Cantillon Capital Management',
+    slug: 'cantillon',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Duan Yongping - H&H International Investment',
+    slug: 'duan',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+
 ]

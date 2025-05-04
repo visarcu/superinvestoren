@@ -1,0 +1,354 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-14",
+  "positions": [
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 525000,
+      "value": 30224000
+    },
+    {
+      "name": "AERIE PHARMACEUTICALS INC",
+      "cusip": "00771V108",
+      "shares": 189799,
+      "value": 9974000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3693918,
+      "value": 520473000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 2509619,
+      "value": 610063000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 1700300,
+      "value": 150375000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 1097824,
+      "value": 22945000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 585000,
+      "value": 531607000
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 5129051,
+      "value": 279431000
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674X106",
+      "shares": 500000,
+      "value": 10805000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 625000,
+      "value": 90013000
+    },
+    {
+      "name": "ATLANTICA YIELD PLC",
+      "cusip": "G0751N103",
+      "shares": 4700000,
+      "value": 100392000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 8782641,
+      "value": 213067000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 2264900,
+      "value": 62783000
+    },
+    {
+      "name": "CBS CORP NEW",
+      "cusip": "124857202",
+      "shares": 1032836,
+      "value": 65874000
+    },
+    {
+      "name": "CEMEX SAB DE CV",
+      "cusip": "151290889",
+      "shares": 3990309,
+      "value": 37589000
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 964397,
+      "value": 77036000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 3566000,
+      "value": 17723000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 832438,
+      "value": 44735000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 935178,
+      "value": 67417000
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY L P",
+      "cusip": "29273V100",
+      "shares": 2845000,
+      "value": 51096000
+    },
+    {
+      "name": "ENERGY TRANSFER PARTNERS LP",
+      "cusip": "29278N103",
+      "shares": 14841247,
+      "value": 302613000
+    },
+    {
+      "name": "EXPEDIA INC DEL",
+      "cusip": "30212P303",
+      "shares": 200000,
+      "value": 29790000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2356218,
+      "value": 355742000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 1900000,
+      "value": 66367000
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 117300,
+      "value": 4554000
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 922228,
+      "value": 35801000
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 167711,
+      "value": 14624000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 5359579,
+      "value": 138492000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287556",
+      "shares": 235000,
+      "value": 72869000
+    },
+    {
+      "name": "KAYNE ANDERSON MLP INVT CO",
+      "cusip": "486606106",
+      "shares": 150000,
+      "value": 2827000
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 1328824,
+      "value": 49725000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 3942996,
+      "value": 75548000
+    },
+    {
+      "name": "L BRANDS INC",
+      "cusip": "501797104",
+      "shares": 835592,
+      "value": 45030000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 12900000,
+      "value": 385194000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 463719,
+      "value": 112076000
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377508",
+      "shares": 1250000,
+      "value": 21525000
+    },
+    {
+      "name": "NUCOR CORP",
+      "cusip": "670346105",
+      "shares": 143254,
+      "value": 8290000
+    },
+    {
+      "name": "OWENS CORNING NEW",
+      "cusip": "690742101",
+      "shares": 2498972,
+      "value": 167231000
+    },
+    {
+      "name": "PEABODY ENERGY CORP NEW",
+      "cusip": "704551100",
+      "shares": 1009279,
+      "value": 24677000
+    },
+    {
+      "name": "PNC FINL SVCS GROUP INC",
+      "cusip": "693475105",
+      "shares": 1782033,
+      "value": 222522000
+    },
+    {
+      "name": "POWERSHARES QQQ TRUST",
+      "cusip": "73935A104",
+      "shares": 1815500,
+      "value": 249885000
+    },
+    {
+      "name": "RANGE RES CORP",
+      "cusip": "75281A109",
+      "shares": 400000,
+      "value": 9268000
+    },
+    {
+      "name": "RIO TINTO PLC",
+      "cusip": "767204100",
+      "shares": 238276,
+      "value": 10081000
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y209",
+      "shares": 425000,
+      "value": 33677000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 621604,
+      "value": 38626000
+    },
+    {
+      "name": "SOUTHWESTERN ENERGY CO",
+      "cusip": "845467109",
+      "shares": 2540948,
+      "value": 15449000
+    },
+    {
+      "name": "SPDR SERIES TRUST",
+      "cusip": "78464A870",
+      "shares": 330000,
+      "value": 25469000
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 445000,
+      "value": 61757000
+    },
+    {
+      "name": "SUMMIT MATLS INC",
+      "cusip": "86614U100",
+      "shares": 2216110,
+      "value": 63979000
+    },
+    {
+      "name": "TERRAFORM PWR INC",
+      "cusip": "88104R100",
+      "shares": 8708708,
+      "value": 104504000
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 375000,
+      "value": 65426000
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 1154763,
+      "value": 130153000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 467000,
+      "value": 86591000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 681463,
+      "value": 37760000
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 2570000,
+      "value": 227702000
+    },
+    {
+      "name": "WHIRLPOOL CORP",
+      "cusip": "963320106",
+      "shares": 390318,
+      "value": 74793000
+    },
+    {
+      "name": "WILLIAMS PARTNERS L P NEW",
+      "cusip": "96949L105",
+      "shares": 9182449,
+      "value": 368308000
+    },
+    {
+      "name": "WMIH CORP",
+      "cusip": "92936P100",
+      "shares": 7600000,
+      "value": 9500000
+    }
+  ]
+}

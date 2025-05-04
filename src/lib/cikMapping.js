@@ -8,18 +8,28 @@ export const investorCiks = {
   // bereits vorhandene
   buffett: '0001067983',  
   ackman:  '0001336528',   
-  pabrai:  '0001571785',
+  pabrai:  '0001549575',
   akre:    '0001112520', 
   olstein: '0000947996',
   gregalexander:'0001773994',
   altarockpartners:     '0001631014', 
   miller:   '0001135778',
-  tepper:          '0001377071',
-  spier:             '0001404599',
+  tepper:          '0001656456',
+  spier:             '0001953324',
   coleman:         '0001167483',    // Chase Coleman – Tiger Global Management 
   gayner:         '0001096343',    // Thomas Gayner – Markel Group
   ainslie:           '0000934639',    // Lee Ainslie – Maverick Capital
-
+  einhorn: '0001489933',
+  dodgecox:             '0000029440',    // Dodge & Cox
+  hohn: '0001647251',
+  yacktman: '0000905567',
+  polen: '0001034524',
+  viking:'0001103804',
+  cantillon: '0001279936',
+  duan:'0001759760',
+  bloomstran: '0001115373',
+  klarman: '0001061768', //
+  vinall:         '0001766596',    // Robert Vinall – RV Capital GmbH
 
 
   //Manuell folgende Investoren updaten
@@ -34,7 +44,7 @@ export const investorCiks = {
   // 'tweedy-browne':         'XXX',    // Tweedy Browne Co. – Tweedy Browne Value Fund
   'mairs-power':           '0000061628',    // Mairs & Power Growth Fund
   // 'richard-pzena':         'XXX',    // Richard Pzena – Hancock Classic Value
-  'dodgecox':             '0000020017',    // Dodge & Cox
+ 
   // 'romick':                'XXX',    // Steven Romick – FPA Crescent Fund
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
   'olstein':        '0000947996',    // Robert Olstein – Olstein Capital Management
@@ -55,7 +65,7 @@ export const investorCiks = {
   'carl-icahn':            '0000853610', // Carl Icahn – Icahn Capital (Beispiel)
 
   // 'nelson-peltz':          'XXX',    // Nelson Peltz – Trian Fund Management
-  'david-einhorn':         '0001342577', // David Einhorn – Greenlight
+
   // 'valueact-capital':      'XXX',    // ValueAct Capital
   // 'norbert-lou':           'XXX',    // Norbert Lou – Punch Card Management
   'gates':      '0001166559',    // Bill & Melinda Gates Foundation Trust
@@ -65,7 +75,6 @@ export const investorCiks = {
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
   // 'david-rolfe':           'XXX',    // David Rolfe – Wedgewood Partners
   'greenberg':       '0001553733',    // Glenn Greenberg – Brave Warrior Advisors
-  'viking-global':         '0001103804',    // Viking Global Investors
   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
 
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
@@ -100,6 +109,6 @@ export const investorCiks = {
   //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
   //'torray-funds':          'XXX',    // Torray Funds
   //'william-von-mueffling': 'XXX',    // William Von Mueffling – Cantillon Capital Management
-  //'yacktman-asset':        'XXX',    // Yacktman Asset Management
+
   //'lindsell-train':        'XXX',    // Lindsell Train
 }

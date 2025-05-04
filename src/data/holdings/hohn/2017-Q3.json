@@ -1,0 +1,59 @@
+{
+  "date": "2017-08-14",
+  "positions": [
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 34453000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 13849812,
+      "value": 4665309000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 91565333,
+      "value": 3563723000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1507939,
+      "value": 183486000
+    },
+    {
+      "name": "NORFOLK SOUTHERN CORP",
+      "cusip": "655844108",
+      "shares": 283000,
+      "value": 34441000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 490729,
+      "value": 71642000
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 204500,
+      "value": 20534000
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 200000,
+      "value": 21782000
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 85923952,
+      "value": 4681137000
+    }
+  ]
+}

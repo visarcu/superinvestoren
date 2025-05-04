@@ -1,0 +1,41 @@
+{
+  "date": "2015-11-12",
+  "positions": [
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 28734000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 4029792,
+      "value": 298728000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1466226,
+      "value": 201474000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 20880160,
+      "value": 1187664000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 3894104,
+      "value": 382401000
+    },
+    {
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 16599787,
+      "value": 2977504000
+    }
+  ]
+}

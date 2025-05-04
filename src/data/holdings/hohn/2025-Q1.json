@@ -1,0 +1,65 @@
+{
+  "date": "2025-02-14",
+  "positions": [
+    {
+      "name": "FERROVIAL SE",
+      "cusip": "N3168P101",
+      "shares": 19333428,
+      "value": 812723953000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 16507056,
+      "value": 3143603745000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 6027410,
+      "value": 1140988713000
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 29693764,
+      "value": 3013663064000
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 54913285,
+      "value": 3973526128000
+    },
+    {
+      "name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "shares": 45999876,
+      "value": 7672319318000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 13993637,
+      "value": 5898317996000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 13246769,
+      "value": 6270623042000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 10400077,
+      "value": 5179550348000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 16797187,
+      "value": 5308582979000
+    }
+  ]
+}

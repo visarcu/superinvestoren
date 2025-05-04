@@ -1,0 +1,72 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-12",
+  "positions": [
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 3146000,
+      "value": 56282000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 7025,
+      "value": 1055000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1269000,
+      "value": 68666000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 13908569,
+      "value": 161061000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 23762,
+      "value": 830000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 5935175,
+      "value": 100898000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 69000,
+      "value": 36322000
+    },
+    {
+      "name": "HORSEHEAD HLDG CORP",
+      "cusip": "440694305",
+      "shares": 6333296,
+      "value": 100256000
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 301770,
+      "value": 19256000
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D104",
+      "shares": 245670,
+      "value": 2521000
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D203",
+      "shares": 453538,
+      "value": 5261000
+    }
+  ]
+}

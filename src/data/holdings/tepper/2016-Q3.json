@@ -1,0 +1,228 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-12",
+  "positions": [
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 1260809,
+      "value": 291360000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 3336569,
+      "value": 233393000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 630000,
+      "value": 436023000
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 4764435,
+      "value": 60604000
+    },
+    {
+      "name": "ATLANTICA YIELD PLC",
+      "cusip": "G0751N103",
+      "shares": 6295065,
+      "value": 116962000
+    },
+    {
+      "name": "COMMUNITY HEALTH SYS INC NEW",
+      "cusip": "203668108",
+      "shares": 6270130,
+      "value": 75555000
+    },
+    {
+      "name": "ENERGY TRANSFER PRTNRS L P",
+      "cusip": "29273R109",
+      "shares": 11414857,
+      "value": 434564000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V118",
+      "shares": 190011,
+      "value": 3500000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 190011,
+      "value": 1984000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 1391036,
+      "value": 39366000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 709076,
+      "value": 18195000
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 1281528,
+      "value": 63756000
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 1216940,
+      "value": 93717000
+    },
+    {
+      "name": "HD SUPPLY HLDGS INC",
+      "cusip": "40416M105",
+      "shares": 2756896,
+      "value": 95995000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 6727231,
+      "value": 90481000
+    },
+    {
+      "name": "INGERSOLL-RAND PLC",
+      "cusip": "G47791101",
+      "shares": 474102,
+      "value": 30191000
+    },
+    {
+      "name": "KAYNE ANDERSON MLP INVT CO",
+      "cusip": "486606106",
+      "shares": 781173,
+      "value": 15897000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B119",
+      "shares": 793836,
+      "value": 13000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 1500000,
+      "value": 28080000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 760568,
+      "value": 144325000
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 1400000,
+      "value": 109676000
+    },
+    {
+      "name": "OWENS CORNING NEW",
+      "cusip": "690742101",
+      "shares": 3335787,
+      "value": 171860000
+    },
+    {
+      "name": "PPG INDS INC",
+      "cusip": "693506107",
+      "shares": 217419,
+      "value": 22644000
+    },
+    {
+      "name": "QUORUM HEALTH CORP",
+      "cusip": "74909E106",
+      "shares": 771436,
+      "value": 8262000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 3478953,
+      "value": 136410000
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 22854,
+      "value": 4789000
+    },
+    {
+      "name": "SYNCHRONY FINL",
+      "cusip": "87165B103",
+      "shares": 6068117,
+      "value": 153402000
+    },
+    {
+      "name": "TERRAFORM GLOBAL INC",
+      "cusip": "88104M101",
+      "shares": 3701067,
+      "value": 12065000
+    },
+    {
+      "name": "TERRAFORM PWR INC",
+      "cusip": "88104R100",
+      "shares": 8708708,
+      "value": 94925000
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 1004155,
+      "value": 35648000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 3275900,
+      "value": 88613000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 1084414,
+      "value": 29550000
+    },
+    {
+      "name": "US FOODS HLDG CORP",
+      "cusip": "912008109",
+      "shares": 739675,
+      "value": 17930000
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 1450000,
+      "value": 68527000
+    },
+    {
+      "name": "WHIRLPOOL CORP",
+      "cusip": "963320106",
+      "shares": 1305387,
+      "value": 217530000
+    },
+    {
+      "name": "WILLIAMS PARTNERS L P NEW",
+      "cusip": "96949L105",
+      "shares": 9266864,
+      "value": 321004000
+    },
+    {
+      "name": "WMIH CORP",
+      "cusip": "92936P100",
+      "shares": 16388287,
+      "value": 36382000
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+// src/app/investor/[slug]/page.tsx
 'use client'
 
 import React, { useState } from 'react'
@@ -37,15 +38,8 @@ interface Position {
 const investorNames: Record<string,string> = {
   buffett: 'Warren Buffett – Berkshire Hathaway',
   ackman:  'Bill Ackman – Pershing Square Capital Management',
-  gates:   'Bill Gates – Cascade Investment',
-  marks:   'Howard Marks – Oaktree Capital Management',
-  burry:   'Michael Burry – Scion Asset Management',
-  smith: 'Terry Smith',
-  coleman: 'Chase Coleman - Tiger Global Management',
-  gayner: 'Thomas Gayner - Markel Group',
-  greenberg: 'Glenn Greenberg - Brave Warrior Advisors',
-  gregalexander: 'Greg Alexander - Conifer Management',
-  ainslie: 'Lee Ainslie - Maverick Capital'
+  gates:   'Bill & Melinda Gates Foundation Trust',
+  // … alle anderen
 }
 
 function getPeriodFromDate(dateStr: string) {
@@ -80,16 +74,19 @@ export default function InvestorPage({
     return notFound()
   }
 
+  // ——— aktuelle & vorherige Daten
   const latestSnapshot   = snapshots[snapshots.length - 1]
   const previousSnapshot = snapshots[snapshots.length - 2]
   const current  = latestSnapshot.data
   const previous = previousSnapshot?.data
 
+  // Map der vorherigen Shares
   const prevMap = new Map<string,number>()
   previous?.positions.forEach(p => {
     prevMap.set(p.cusip, (prevMap.get(p.cusip)||0) + p.shares)
   })
 
+  // Zusammenführen doppelter CUSIPs
   const merged = Array.from(
     current.positions.reduce((m,p) => {
       if (!m.has(p.cusip)) m.set(p.cusip,{...p})
@@ -102,6 +99,7 @@ export default function InvestorPage({
     }, new Map<string,{cusip:string;name:string;shares:number;value:number}>()).values()
   )
 
+  // Vollständige Positionen inkl. Delta und Prozente
   const full: Position[] = merged.map(p => {
     const prev   = prevMap.get(p.cusip)||0
     const delta  = p.shares - prev
@@ -109,18 +107,23 @@ export default function InvestorPage({
     return { ...p, deltaShares: delta, pctDelta: pct }
   })
 
+  // Sortiert nach Wert
   const holdings = full.slice().sort((a,b)=>b.value - a.value)
   const scaledHoldings = holdings.map(p => ({
     ...p,
     value: p.value / 1_000
   }))
 
+  // Gesamtwert in Tsd.
   const totalValue = scaledHoldings.reduce((sum,p)=>sum+p.value,0)
+
+  // Top-10 fürs Bar-Chart
   const top10 = scaledHoldings.slice(0,10).map(p=>({
     name:    p.name,
     percent: (p.value/totalValue)*100
   }))
 
+  // Sektor-Aggregation
   const cusipToTicker  = new Map(stocks.map(s=>[s.cusip,s.ticker]))
   const tickerToSector = new Map(stocks.map(s=>[s.ticker,s.sector]))
   const sectorTotals: Record<string,number> = {}
@@ -147,8 +150,8 @@ export default function InvestorPage({
     case 'gates':   articles = articlesGates;   break
   }
 
+  // Kunde: alle Käufe / Verkäufe per Quartal
   type HistoryGroup = { period: string; items: Position[] }
-
   const buysHistory: HistoryGroup[] = snapshots
     .map((snap, idx) => {
       const prevSnap = snapshots[idx - 1]?.data
@@ -217,6 +220,8 @@ export default function InvestorPage({
 
   return (
     <main className="max-w-4xl mx-auto p-4">
+
+      {/* ——— Investor Header ——— */}
       <div className="bg-white shadow rounded-lg p-6 mb-8 flex flex-col sm:flex-row items-center">
         <div className="w-20 h-20 relative mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
           <Image
@@ -227,7 +232,8 @@ export default function InvestorPage({
           />
         </div>
         <div className="text-center sm:text-left flex flex-col gap-1">
-          <h1 className="text-3xl font-bold text-gray-900">
+          {/* Name in Orbitron */}
+          <h1 className="text-3xl font-bold font-orbitron">
             {investorNames[slug] ?? slug}
           </h1>
           <p className="text-sm text-gray-500">
@@ -239,13 +245,15 @@ export default function InvestorPage({
           </p>
           <p className="text-2xl font-semibold text-gray-800">
             Gesamtwert{' '}
-            <span className="ml-2 inline-block bg-green-100 text-green-800 px-2 py-1 rounded">
+            {/* Zahl in Tabular-Orbitron */}
+            <span className="ml-2 inline-block bg-green-100 text-green-800 px-2 py-1 rounded numeric">
               {formatCurrency(totalValue,'EUR')}
             </span>
           </p>
         </div>
       </div>
 
+      {/* ——— Tabs mit Holdings / Buys / Sells ——— */}
       <InvestorTabs
         tab={tab}
         onTabChange={setTab}
@@ -254,16 +262,17 @@ export default function InvestorPage({
         sells={sellsHistory}
       />
 
+      {/* ——— Holdings View ——— */}
       {tab === 'holdings' && (
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-xl font-semibold text-center mb-2">
+            <h2 className="text-xl font-semibold text-center mb-2 font-orbitron">
               Sektor-Verteilung
             </h2>
             <SectorPieChart data={sectorData} />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-center mb-2">
+            <h2 className="text-xl font-semibold text-center mb-2 font-orbitron">
               Top 10 Positionen
             </h2>
             <TopPositionsBarChart data={top10} />
@@ -271,11 +280,10 @@ export default function InvestorPage({
         </div>
       )}
 
+      {/* ——— Articles & Commentaries ——— */}
       {articles.length > 0 && (
         <>
-          <h2 className="mt-8 text-xl font-semibold text-center">
-            Articles &amp; Commentaries
-          </h2>
+          <h2 className="mt-8 text-xl font-semibold text-center">Articles &amp; Commentaries</h2>
           <ArticleList articles={articles} />
         </>
       )}

@@ -1,0 +1,294 @@
+{
+  "form": "13F-HR",
+  "date": "2017-11-14",
+  "positions": [
+    {
+      "name": "AERIE PHARMACEUTICALS INC",
+      "cusip": "00771V108",
+      "shares": 169799,
+      "value": 8252000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3562500,
+      "value": 615279000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 1888188,
+      "value": 386984000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 1468871,
+      "value": 135004000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 6810600,
+      "value": 165225000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 568000,
+      "value": 544774000
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 4682500,
+      "value": 310169000
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674X106",
+      "shares": 150000,
+      "value": 2985000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1361000,
+      "value": 209757000
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 250000,
+      "value": 13023000
+    },
+    {
+      "name": "ATLANTICA YIELD PLC",
+      "cusip": "G0751N103",
+      "shares": 4675000,
+      "value": 92098000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 6329404,
+      "value": 160387000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 3752866,
+      "value": 109471000
+    },
+    {
+      "name": "CBS CORP NEW",
+      "cusip": "124857202",
+      "shares": 898317,
+      "value": 52102000
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 1086164,
+      "value": 105108000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 766000,
+      "value": 3294000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 599264,
+      "value": 48570000
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY L P",
+      "cusip": "29273V100",
+      "shares": 4672707,
+      "value": 81212000
+    },
+    {
+      "name": "ENERGY TRANSFER PARTNERS LP",
+      "cusip": "29278N103",
+      "shares": 11950000,
+      "value": 218566000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 3300000,
+      "value": 563871000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 250000,
+      "value": 10095000
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 757547,
+      "value": 31173000
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 183711,
+      "value": 14622000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 5135744,
+      "value": 140822000
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 1800463,
+      "value": 72631000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 3407996,
+      "value": 65365000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 17053999,
+      "value": 670734000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 317682,
+      "value": 78629000
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377508",
+      "shares": 8441193,
+      "value": 216010000
+    },
+    {
+      "name": "OWENS CORNING NEW",
+      "cusip": "690742101",
+      "shares": 2130353,
+      "value": 164783000
+    },
+    {
+      "name": "PEABODY ENERGY CORP NEW",
+      "cusip": "704551407",
+      "shares": 301316,
+      "value": 18641000
+    },
+    {
+      "name": "PEABODY ENERGY CORP NEW",
+      "cusip": "704551100",
+      "shares": 216536,
+      "value": 6282000
+    },
+    {
+      "name": "PNC FINL SVCS GROUP INC",
+      "cusip": "693475105",
+      "shares": 922510,
+      "value": 124327000
+    },
+    {
+      "name": "POWERSHARES QQQ TRUST",
+      "cusip": "73935A104",
+      "shares": 1430000,
+      "value": 207994000
+    },
+    {
+      "name": "RANGE RES CORP",
+      "cusip": "75281A109",
+      "shares": 150000,
+      "value": 2936000
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y605",
+      "shares": 8104100,
+      "value": 209572000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 772202,
+      "value": 43228000
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 533000,
+      "value": 75697000
+    },
+    {
+      "name": "SUMMIT MATLS INC",
+      "cusip": "86614U100",
+      "shares": 1963585,
+      "value": 62894000
+    },
+    {
+      "name": "TERRAFORM PWR INC",
+      "cusip": "88104R100",
+      "shares": 8552482,
+      "value": 113064000
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 592000,
+      "value": 112006000
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 931880,
+      "value": 129289000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 669000,
+      "value": 131024000
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 2575138,
+      "value": 222492000
+    },
+    {
+      "name": "WHIRLPOOL CORP",
+      "cusip": "963320106",
+      "shares": 365976,
+      "value": 67501000
+    },
+    {
+      "name": "WILLIAMS PARTNERS L P NEW",
+      "cusip": "96949L105",
+      "shares": 7436701,
+      "value": 289288000
+    },
+    {
+      "name": "WMIH CORP",
+      "cusip": "92936P100",
+      "shares": 7600000,
+      "value": 7220000
+    },
+    {
+      "name": "XPO LOGISTICS INC",
+      "cusip": "983793100",
+      "shares": 64311,
+      "value": 4359000
+    }
+  ]
+}

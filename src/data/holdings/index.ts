@@ -116,6 +116,66 @@ import ainslie_2024_Q3 from './ainslie/2024-Q3.json'
 import ainslie_2024_Q4 from './ainslie/2024-Q4.json'
 import ainslie_2025_Q1 from './ainslie/2025-Q1.json'
 
+//ainslie
+import tepper_2024_Q1 from './tepper/2024-Q1.json'
+import tepper_2024_Q2 from './tepper/2024-Q2.json'
+import tepper_2024_Q3 from './tepper/2024-Q3.json'
+import tepper_2024_Q4 from './tepper/2024-Q4.json'
+import tepper_2025_Q1 from './tepper/2025-Q1.json'
+
+//pabrai
+import pabrai_2024_Q1 from './pabrai/2024-Q1.json'
+import pabrai_2024_Q2 from './pabrai/2024-Q2.json'
+import pabrai_2024_Q3 from './pabrai/2024-Q3.json'
+import pabrai_2024_Q4 from './pabrai/2024-Q4.json'
+import pabrai_2025_Q1 from './pabrai/2025-Q1.json'
+
+//einhorn
+import einhorn_2024_Q2 from './einhorn/2024-Q2.json'
+import einhorn_2024_Q3 from './einhorn/2024-Q3.json'
+import einhorn_2024_Q4 from './einhorn/2024-Q4.json'
+import einhorn_2025_Q1 from './einhorn/2025-Q1.json'
+
+//hohn
+import hohn_2024_Q2 from './hohn/2024-Q2.json'
+import hohn_2024_Q3 from './hohn/2024-Q3.json'
+import hohn_2024_Q4 from './hohn/2024-Q4.json'
+import hohn_2025_Q1 from './hohn/2025-Q1.json'
+
+//yacktman
+import yacktman_2024_Q2 from './yacktman/2024-Q2.json'
+import yacktman_2024_Q3 from './yacktman/2024-Q3.json'
+import yacktman_2024_Q4 from './yacktman/2024-Q4.json'
+import yacktman_2025_Q1 from './yacktman/2025-Q1.json'
+import yacktman_2025_Q2 from './yacktman/2025-Q2.json'
+
+//polen
+import polen_2024_Q2 from './polen/2024-Q2.json'
+import polen_2024_Q3 from './polen/2024-Q3.json'
+import polen_2024_Q4 from './polen/2024-Q4.json'
+import polen_2025_Q1 from './polen/2025-Q1.json'
+//import yacktman_2025_Q2 from './yacktman/2025-Q2.json'
+
+//viking
+import viking_2023_Q4 from './viking/2023-Q4.json'
+import viking_2024_Q1 from './viking/2024-Q1.json'
+//import viking_2024_Q1 from './viking/2024-Q1.json'
+import viking_2024_Q3 from './viking/2024-Q3.json'
+//import viking_2024_Q4 from './viking/2024-Q4.json'
+//import viking_2025_Q1 from './viking/2025-Q1.json'
+
+//bloomstran
+//hohn
+import bloomstran_2024_Q2 from './bloomstran/2024-Q2.json'
+import bloomstran_2024_Q3 from './bloomstran/2024-Q3.json'
+import bloomstran_2024_Q4 from './bloomstran/2024-Q4.json'
+import bloomstran_2025_Q1 from './bloomstran/2025-Q1.json'
+
+//vinall
+import vinall_2024_Q2 from './vinall/2024-Q2.json'
+import vinall_2024_Q3 from './vinall/2024-Q3.json'
+import vinall_2024_Q4 from './vinall/2024-Q4.json'
+import vinall_2025_Q1 from './vinall/2025-Q1.json'
 
 // … für jeden weiteren Slug analog …
 
@@ -172,7 +232,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q4', data: marks_2024_Q4 },
     { quarter: '2025-Q1', data: marks_2025_Q1 },
    
-    // …
+  
    ],
 
    akre: [
@@ -277,6 +337,74 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: ainslie_2025_Q1},
    ],
 
+   tepper: [
+    { quarter: '2024-Q1', data: tepper_2024_Q1},
+    { quarter: '2024-Q2', data: tepper_2024_Q2 },
+    { quarter: '2024-Q3', data: tepper_2024_Q3},
+    { quarter: '2024-Q4', data: tepper_2024_Q4},
+    { quarter: '2025-Q1', data: tepper_2025_Q1},
+   ],
+
+   pabrai: [
+    { quarter: '2024-Q1', data: pabrai_2024_Q1},
+    { quarter: '2024-Q2', data: pabrai_2024_Q2 },
+    { quarter: '2024-Q3', data: pabrai_2024_Q3},
+    { quarter: '2024-Q4', data: pabrai_2024_Q4},
+    { quarter: '2025-Q1', data: pabrai_2025_Q1},
+   ],
+
+   einhorn: [
+    { quarter: '2024-Q2', data: einhorn_2024_Q2 },
+    { quarter: '2024-Q3', data: einhorn_2024_Q3},
+    { quarter: '2024-Q4', data: einhorn_2024_Q4},
+    { quarter: '2025-Q1', data: einhorn_2025_Q1},
+   ],
+
+   hohn: [
+    { quarter: '2024-Q2', data: hohn_2024_Q2 },
+    { quarter: '2024-Q3', data: hohn_2024_Q3},
+    { quarter: '2024-Q4', data: hohn_2024_Q4},
+    { quarter: '2025-Q1', data: hohn_2025_Q1},
+   ],
+
+   yacktman: [
+    { quarter: '2024-Q2', data: yacktman_2024_Q2 },
+    { quarter: '2024-Q3', data: yacktman_2024_Q3},
+    { quarter: '2024-Q4', data: yacktman_2024_Q4},
+    { quarter: '2025-Q1', data: yacktman_2025_Q1},
+    { quarter: '2025-Q1', data: yacktman_2025_Q2},
+   ],
+
+   polen: [
+    { quarter: '2024-Q2', data: polen_2024_Q2 },
+    { quarter: '2024-Q3', data: polen_2024_Q3},
+    { quarter: '2024-Q4', data: polen_2024_Q4},
+    { quarter: '2025-Q1', data: polen_2025_Q1},
+   // { quarter: '2025-Q1', data: polen_2025_Q2},
+   ],
+
+   viking: [
+    { quarter: '2023-Q4', data: viking_2023_Q4 },
+    { quarter: '2024-Q1', data: viking_2024_Q1 },
+    { quarter: '2024-Q3', data: viking_2024_Q3},
+    //{ quarter: '2024-Q4', data: polen_2024_Q4},
+   // { quarter: '2025-Q1', data: polen_2025_Q1},
+   // { quarter: '2025-Q1', data: polen_2025_Q2},
+   ],
+
+   bloomstran: [
+    { quarter: '2024-Q2', data: bloomstran_2024_Q2 },
+    { quarter: '2024-Q3', data: bloomstran_2024_Q3},
+    { quarter: '2024-Q4', data: bloomstran_2024_Q4},
+    { quarter: '2025-Q1', data: bloomstran_2025_Q1},
+   ],
+
+   vinall: [
+    { quarter: '2024-Q2', data: vinall_2024_Q2 },
+    { quarter: '2024-Q3', data: vinall_2024_Q3},
+    { quarter: '2024-Q4', data: vinall_2024_Q4},
+    { quarter: '2025-Q1', data: vinall_2025_Q1},
+   ],
 
 
 

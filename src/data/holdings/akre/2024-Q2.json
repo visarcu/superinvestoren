@@ -1,5 +1,6 @@
 {
-  "date": "2024-05-13",
+  "form": "13F-HR/A",
+  "date": "2024-05-23",
   "positions": [
     {
       "name": "AMERICAN TOWER CORP NEW",
@@ -102,6 +103,12 @@
       "cusip": "78410G104",
       "shares": 180629,
       "value": 39142304000
+    },
+    {
+      "name": "SOPHIA GENETICS SA",
+      "cusip": "H82027105",
+      "shares": 287699,
+      "value": 1418356000
     },
     {
       "name": "UBER TECHNOLOGIES INC",

@@ -1,0 +1,59 @@
+{
+  "date": "2019-05-03",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 80000,
+      "value": 93865000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 20000,
+      "value": 35615000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3327600,
+      "value": 632078000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 950000,
+      "value": 190846000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 908400,
+      "value": 151421000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 200000,
+      "value": 1998000
+    },
+    {
+      "name": "PINDUODUO INC",
+      "cusip": "722304102",
+      "shares": 370000,
+      "value": 9176000
+    },
+    {
+      "name": "SOGOU INC",
+      "cusip": "83409V104",
+      "shares": 110000,
+      "value": 653000
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 10000,
+      "value": 743000
+    }
+  ]
+}

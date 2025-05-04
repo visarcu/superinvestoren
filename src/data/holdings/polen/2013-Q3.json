@@ -1,0 +1,161 @@
+{
+  "date": "2013-08-12",
+  "positions": [
+    {
+      "name": "Abbott Labs",
+      "cusip": "2824100",
+      "shares": 6610245,
+      "value": 230565000
+    },
+    {
+      "name": "Accenture Ltd",
+      "cusip": "G1151C101",
+      "shares": 3174669,
+      "value": 228449000
+    },
+    {
+      "name": "Allergan",
+      "cusip": "018490102",
+      "shares": 2958238,
+      "value": 249202000
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 358468,
+      "value": 141982000
+    },
+    {
+      "name": "CH Robinson Inc",
+      "cusip": "12541W209",
+      "shares": 1872736,
+      "value": 105454000
+    },
+    {
+      "name": "Core Laboratories Nv",
+      "cusip": "N22717107",
+      "shares": 3306,
+      "value": 501000
+    },
+    {
+      "name": "Ebay Inc",
+      "cusip": "278642103",
+      "shares": 3124211,
+      "value": 161584000
+    },
+    {
+      "name": "Factset Res",
+      "cusip": "303075105",
+      "shares": 1521372,
+      "value": 155089000
+    },
+    {
+      "name": "Fastenal",
+      "cusip": "311900104",
+      "shares": 1789404,
+      "value": 82044000
+    },
+    {
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 1697884,
+      "value": 96762000
+    },
+    {
+      "name": "Google",
+      "cusip": "38259P508",
+      "shares": 414322,
+      "value": 364757000
+    },
+    {
+      "name": "Intuit Inc",
+      "cusip": "461202103",
+      "shares": 3736618,
+      "value": 228046000
+    },
+    {
+      "name": "Intuitive Surgical",
+      "cusip": "46120E602",
+      "shares": 311340,
+      "value": 157719000
+    },
+    {
+      "name": "Ishares Tr Russell 1",
+      "cusip": "464287614",
+      "shares": 70367,
+      "value": 5118000
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 573,
+      "value": 329000
+    },
+    {
+      "name": "Nike Inc Cl B",
+      "cusip": "654106103",
+      "shares": 5342002,
+      "value": 340179000
+    },
+    {
+      "name": "Novo Nordisk",
+      "cusip": "670100205",
+      "shares": 2258,
+      "value": 350000
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 6460886,
+      "value": 198478000
+    },
+    {
+      "name": "Qualcomm Inc",
+      "cusip": "747525103",
+      "shares": 4597182,
+      "value": 280796000
+    },
+    {
+      "name": "Regeneron Pharma Inc",
+      "cusip": "75886F107",
+      "shares": 1751,
+      "value": 394000
+    },
+    {
+      "name": "Sap Ag Adr",
+      "cusip": "803054204",
+      "shares": 5485,
+      "value": 399000
+    },
+    {
+      "name": "Starbucks Corp",
+      "cusip": "855244109",
+      "shares": 3777260,
+      "value": 247373000
+    },
+    {
+      "name": "T Rowe Price Grp Inc",
+      "cusip": "74144T108",
+      "shares": 4020795,
+      "value": 294121000
+    },
+    {
+      "name": "Varian Medical Sys",
+      "cusip": "92220P105",
+      "shares": 2016184,
+      "value": 135992000
+    },
+    {
+      "name": "Visa Inc Cl A",
+      "cusip": "92826C839",
+      "shares": 1738324,
+      "value": 317679000
+    },
+    {
+      "name": "W.W. Granger Inc",
+      "cusip": "384802104",
+      "shares": 719389,
+      "value": 181416000
+    }
+  ]
+}

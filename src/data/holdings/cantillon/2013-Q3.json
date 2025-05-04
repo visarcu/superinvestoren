@@ -1,0 +1,245 @@
+{
+  "date": "2013-07-11",
+  "positions": [
+    {
+      "name": "ALTERA CORP",
+      "cusip": "021441100",
+      "shares": 2749600,
+      "value": 90709000
+    },
+    {
+      "name": "ALTERA CORP",
+      "cusip": "021441100",
+      "shares": 1775650,
+      "value": 58579000
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 2635239,
+      "value": 118744000
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 4081838,
+      "value": 183928000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1430750,
+      "value": 135249000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 929568,
+      "value": 87872000
+    },
+    {
+      "name": "BANCO BRADESCO S A",
+      "cusip": "059460303",
+      "shares": 1979518,
+      "value": 25754000
+    },
+    {
+      "name": "BANCO BRADESCO S A",
+      "cusip": "059460303",
+      "shares": 3053545,
+      "value": 39727000
+    },
+    {
+      "name": "BRINKS CO",
+      "cusip": "109696104",
+      "shares": 1595695,
+      "value": 40706000
+    },
+    {
+      "name": "BRINKS CO",
+      "cusip": "109696104",
+      "shares": 1030524,
+      "value": 26289000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 2845152,
+      "value": 114119000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 4394372,
+      "value": 176258000
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 718280,
+      "value": 41150000
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 1115072,
+      "value": 63882000
+    },
+    {
+      "name": "COMPANHIA DE BEBIDAS DAS AME",
+      "cusip": "20441W203",
+      "shares": 1150610,
+      "value": 42975000
+    },
+    {
+      "name": "COMPANHIA DE BEBIDAS DAS AME",
+      "cusip": "20441W203",
+      "shares": 1774660,
+      "value": 66284000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 182096,
+      "value": 19129000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 282404,
+      "value": 29667000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1570813,
+      "value": 133818000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1011320,
+      "value": 86154000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2840146,
+      "value": 121672000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 1826033,
+      "value": 78227000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 162069,
+      "value": 142681000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 251266,
+      "value": 221207000
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 2151367,
+      "value": 117938000
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 1383825,
+      "value": 75861000
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 2854703,
+      "value": 73509000
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 4419383,
+      "value": 113799000
+    },
+    {
+      "name": "OPENTABLE INC",
+      "cusip": "68372A104",
+      "shares": 163871,
+      "value": 10480000
+    },
+    {
+      "name": "OPENTABLE INC",
+      "cusip": "68372A104",
+      "shares": 255077,
+      "value": 16312000
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 2066382,
+      "value": 63479000
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 3218724,
+      "value": 98879000
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 715369,
+      "value": 61965000
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 457872,
+      "value": 39661000
+    },
+    {
+      "name": "PRICELINE COM INC",
+      "cusip": "741503403",
+      "shares": 119561,
+      "value": 98892000
+    },
+    {
+      "name": "PRICELINE COM INC",
+      "cusip": "741503403",
+      "shares": 185456,
+      "value": 153396000
+    },
+    {
+      "name": "SOLERA HOLDINGS INC",
+      "cusip": "83421A104",
+      "shares": 1062214,
+      "value": 59112000
+    },
+    {
+      "name": "SOLERA HOLDINGS INC",
+      "cusip": "83421A104",
+      "shares": 688242,
+      "value": 38301000
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 420330,
+      "value": 42054000
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 654885,
+      "value": 65521000
+    }
+  ]
+}

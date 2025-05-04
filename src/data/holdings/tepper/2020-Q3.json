@@ -1,0 +1,228 @@
+{
+  "form": "13F-HR",
+  "date": "2020-08-14",
+  "positions": [
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 206500,
+      "value": 89892000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3375000,
+      "value": 727988000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 334000,
+      "value": 472146000
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 1118000,
+      "value": 27592000
+    },
+    {
+      "name": "ALTRIA GROUP INC",
+      "cusip": "02209S103",
+      "shares": 1550000,
+      "value": 60838000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 225000,
+      "value": 620735000
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 9077200,
+      "value": 274404000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 950000,
+      "value": 33355000
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 200000,
+      "value": 63122000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 1200000,
+      "value": 133812000
+    },
+    {
+      "name": "EMERSON ELEC CO",
+      "cusip": "291011104",
+      "shares": 1400000,
+      "value": 86842000
+    },
+    {
+      "name": "ENABLE MIDSTREAM PARTNERS LP",
+      "cusip": "292480100",
+      "shares": 463670,
+      "value": 2170000
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 15120103,
+      "value": 107655000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2233000,
+      "value": 507047000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 5000000,
+      "value": 44725000
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 1050000,
+      "value": 101913000
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 14000,
+      "value": 5429000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 545000,
+      "value": 161157000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 9350000,
+      "value": 481712000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 277500,
+      "value": 56474000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 230000,
+      "value": 104659000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 870000,
+      "value": 151580000
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 8943659,
+      "value": 79330000
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 515500,
+      "value": 47019000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 500000,
+      "value": 93665000
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 403793,
+      "value": 42374000
+    },
+    {
+      "name": "SYSCO CORP",
+      "cusip": "871829107",
+      "shares": 1875000,
+      "value": 102488000
+    },
+    {
+      "name": "TENNECO INC",
+      "cusip": "880349105",
+      "shares": 1100000,
+      "value": 8316000
+    },
+    {
+      "name": "TESLA INC",
+      "cusip": "88160R101",
+      "shares": 7000,
+      "value": 7559000
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 5900000,
+      "value": 614485000
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590112",
+      "shares": 1550000,
+      "value": 260000
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 5550000,
+      "value": 165335000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 135000,
+      "value": 39818000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 840000,
+      "value": 162263000
+    },
+    {
+      "name": "VISTRA ENERGY CORP",
+      "cusip": "92840M102",
+      "shares": 1120000,
+      "value": 20854000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 1900000,
+      "value": 48640000
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 1075428,
+      "value": 10797000
+    }
+  ]
+}

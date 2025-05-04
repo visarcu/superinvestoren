@@ -1,0 +1,47 @@
+{
+  "date": "2016-05-16",
+  "positions": [
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 31375000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1194094,
+      "value": 227929000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 19997460,
+      "value": 1221445000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 102239,
+      "value": 9872000
+    },
+    {
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 16126180,
+      "value": 3299739000
+    },
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 14403985,
+      "value": 530211000
+    },
+    {
+      "name": "ABENGOA YIELD PLC",
+      "cusip": "G00349103",
+      "shares": 4422584,
+      "value": 78634000
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "date": "2021-11-15",
+  "positions": [
+    {
+      "name": "ALEXANDRIA REAL ESTATE EQ IN",
+      "cusip": "015271109",
+      "shares": 1044359,
+      "value": 199546000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2952307,
+      "value": 7868813000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 618021,
+      "value": 1652292000
+    },
+    {
+      "name": "BOSTON PROPERTIES INC",
+      "cusip": "101121101",
+      "shares": 12988749,
+      "value": 1407331000
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 36699825,
+      "value": 4246357000
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 55860385,
+      "value": 3640850000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 10359092,
+      "value": 7536861000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 16683044,
+      "value": 4703284000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 6562790,
+      "value": 2330512000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 4813438,
+      "value": 2045182000
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 5721210,
+      "value": 1121414000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 19939311,
+      "value": 4441482000
+    },
+    {
+      "name": "IHS MARKIT LTD",
+      "cusip": "G47567105",
+      "shares": 3839242,
+      "value": 447732000
+    }
+  ]
+}
