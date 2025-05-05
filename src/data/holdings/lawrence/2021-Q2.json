@@ -1,0 +1,65 @@
+{
+  "date": "2021-05-17",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 9135,
+      "value": 18897000
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 148347,
+      "value": 12306000
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 236447,
+      "value": 25938000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 91428,
+      "value": 23991000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 73874,
+      "value": 45582000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 144425,
+      "value": 14678000
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 527140,
+      "value": 986000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 261847,
+      "value": 19125000
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1565167,
+      "value": 16575000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 55698,
+      "value": 32746000
+    }
+  ]
+}

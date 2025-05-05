@@ -1,0 +1,137 @@
+{
+  "date": "2019-11-14",
+  "positions": [
+    {
+      "name": "ANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 93376,
+      "value": 2724000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 150,
+      "value": 46775000
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 529040,
+      "value": 2771000
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 950000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 67695,
+      "value": 4676000
+    },
+    {
+      "name": "COMPUCREDIT HLDGS CORP",
+      "cusip": "20478NAD2",
+      "shares": 3150000,
+      "value": 1606000
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 20000,
+      "value": 4145000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 44275,
+      "value": 5211000
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 652531,
+      "value": 6023000
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 21000,
+      "value": 990000
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 4571960,
+      "value": 21488000
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 304000
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 20000,
+      "value": 927000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 1648992,
+      "value": 36030000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 339542,
+      "value": 17126000
+    },
+    {
+      "name": "ENDO INTL PLC",
+      "cusip": "G30401106",
+      "shares": 380000,
+      "value": 1220000
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 15000,
+      "value": 103000
+    },
+    {
+      "name": "ALLEGIANT TRAVEL CO",
+      "cusip": "01748X102",
+      "shares": 4317,
+      "value": 646000
+    },
+    {
+      "name": "SPIRIT AIRLS INC",
+      "cusip": "848577102",
+      "shares": 50000,
+      "value": 1815000
+    },
+    {
+      "name": "DAVITA INC",
+      "cusip": "23918K108",
+      "shares": 120743,
+      "value": 6891000
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 20000,
+      "value": 1067000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 30000,
+      "value": 388000
+    }
+  ]
+}

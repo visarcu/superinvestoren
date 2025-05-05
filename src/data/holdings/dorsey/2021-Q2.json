@@ -1,0 +1,53 @@
+{
+  "date": "2021-05-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 32271,
+      "value": 66757000
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 4639434,
+      "value": 63235000
+    },
+    {
+      "name": "EBAY INC.",
+      "cusip": "278642103",
+      "shares": 1935576,
+      "value": 118535000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 746378,
+      "value": 219831000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 465266,
+      "value": 112985000
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 2720798,
+      "value": 173913000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 1829472,
+      "value": 81905000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 426002,
+      "value": 118948000
+    }
+  ]
+}

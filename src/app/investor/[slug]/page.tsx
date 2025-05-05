@@ -8,15 +8,14 @@ import dynamic from 'next/dynamic'
 
 import holdingsHistory from '@/data/holdings'
 import InvestorTabs from '@/components/InvestorTabs'
-import type { SectorDatum } from '@/components/SectorPieChart'
 import { stocks } from '@/data/stocks'
 
-const SectorPieChart = dynamic(
-  () => import('@/components/SectorPieChart'),
-  { ssr: false }
-)
 const TopPositionsBarChart = dynamic(
   () => import('@/components/TopPositionsBarChart'),
+  { ssr: false }
+)
+const CashFlowBarChart = dynamic(
+  () => import('@/components/CashFlowBarChart'),
   { ssr: false }
 )
 
@@ -30,32 +29,33 @@ interface Position {
   cusip:       string
   name:        string
   shares:      number
-  value:       number
+  value:       number  // Marktwert dieser Position
   deltaShares: number
   pctDelta:    number
+}
+
+interface HistoryGroup {
+  period: string
+  items: Position[]
+}
+
+interface CashFlowPoint {
+  period: string
+  buy:    number  // USD
+  sell:   number  // USD
 }
 
 const investorNames: Record<string,string> = {
   buffett: 'Warren Buffett – Berkshire Hathaway',
   ackman:  'Bill Ackman – Pershing Square Capital Management',
   gates:   'Bill & Melinda Gates Foundation Trust',
-
-  cantillon: 'William von Mueffling - Cantillon Capital Management',
-  duan:'Duan Yongping - H&H International Investment',
-  mandel:'Stephen Mandel - Lone Pine Capital',
-  ellenbogen:'Henry Ellenbogen - Durable Capital Partners',
-  jensen: 'Eric Schoenstein - Jensen Investment Management',
-  russo:'Thomas Russo - Gardner Russe & Quinn',
-  icahn: 'Carl Icahn - Icahn Capital Management',
-  greenhaven:'Edgar Wachenheim - Greenhaven Associates',
-  abrams: 'David Abrams - Abrams Capital Management'
 }
 
 function getPeriodFromDate(dateStr: string) {
   const [year, month] = dateStr.split('-').map(Number)
-  const filingQ = Math.ceil(month/3)
-  let reportQ = filingQ - 1
-  let reportY = year
+  const filingQ = Math.ceil(month / 3)
+  let reportQ = filingQ - 1,
+      reportY = year
   if (reportQ === 0) {
     reportQ = 4
     reportY = year - 1
@@ -63,7 +63,7 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
-function formatCurrency(amount: number, currency: 'EUR' | 'USD' = 'EUR') {
+function formatCurrency(amount: number, currency: 'EUR'|'USD' = 'EUR') {
   return new Intl.NumberFormat('de-DE', {
     style: 'currency',
     currency,
@@ -71,166 +71,141 @@ function formatCurrency(amount: number, currency: 'EUR' | 'USD' = 'EUR') {
   }).format(amount)
 }
 
-export default function InvestorPage({
-  params: { slug },
-}: {
-  params: { slug: string }
-}) {
-  const [tab, setTab] = useState<'holdings' | 'buys' | 'sells'>('holdings')
+// Helper: doppelte CUSIPs zusammenfassen
+function mergePositions(raw: { cusip:string; shares:number; value:number }[]) {
+  const map = new Map<string,{shares:number;value:number}>()
+  raw.forEach(p => {
+    const prev = map.get(p.cusip)
+    if (prev) {
+      prev.shares += p.shares
+      prev.value   += p.value
+    } else {
+      map.set(p.cusip, { shares:p.shares, value:p.value })
+    }
+  })
+  return map
+}
 
+export default function InvestorPage({
+  params:{ slug }
+}:{
+  params:{ slug:string }
+}) {
+  const [tab,setTab] = useState<'holdings'|'buys'|'sells'>('holdings')
   const snapshots = holdingsHistory[slug]
-  if (!Array.isArray(snapshots) || snapshots.length === 0) {
+  if (!Array.isArray(snapshots) || snapshots.length < 2) {
     return notFound()
   }
 
-  // ——— aktuelle & vorherige Daten
-  const latestSnapshot   = snapshots[snapshots.length - 1]
-  const previousSnapshot = snapshots[snapshots.length - 2]
-  const current  = latestSnapshot.data
-  const previous = previousSnapshot?.data
+  // — Header —
+  const latest = snapshots[snapshots.length-1].data
+  const previous = snapshots[snapshots.length-2].data
+  const formattedDate = latest.date?.split('-').reverse().join('.') || '–'
+  const period = latest.date ? getPeriodFromDate(latest.date) : '–'
 
-  // Map der vorherigen Shares
-  const prevMap = new Map<string,number>()
-  previous?.positions.forEach(p => {
-    prevMap.set(p.cusip, (prevMap.get(p.cusip)||0) + p.shares)
-  })
+  // — Buys/Sells History (inkl. deltaShares & pctDelta) —
+  const buildHistory = (isBuy:boolean): HistoryGroup[] =>
+    snapshots.map((snap, idx) => {
+      const prevRaw = idx>0 ? snapshots[idx-1].data.positions : []
+      const prevMap = new Map<string,number>()
+      prevRaw.forEach(p => {
+        prevMap.set(p.cusip, (prevMap.get(p.cusip)||0) + p.shares)
+      })
 
-  // Zusammenführen doppelter CUSIPs
-  const merged = Array.from(
-    current.positions.reduce((m,p) => {
-      if (!m.has(p.cusip)) m.set(p.cusip,{...p})
-      else {
-        const e = m.get(p.cusip)!
-        e.shares += p.shares
-        e.value   += p.value
+      // merge duplicates
+      const merged = Array.from(mergePositions(snap.data.positions).entries())
+        .map(([cusip,{shares,value}]) => ({
+          cusip,
+          shares,
+          value, // Aktueller Marktwert in USD
+          name: stocks.find(s=>s.cusip===cusip)?.name || cusip
+        }))
+
+      // Berechnung deltaShares + pctDelta
+      const full = merged.map(p => {
+        const prevShares = prevMap.get(p.cusip)||0
+        const delta = p.shares - prevShares
+        return {
+          ...p,
+          deltaShares: delta,
+          pctDelta: prevShares>0 ? delta / prevShares : 0
+        }
+      })
+
+      return {
+        period: getPeriodFromDate(snap.data.date),
+        items: full
+          .filter(p => isBuy ? p.deltaShares>0 : p.deltaShares<0)
       }
-      return m
-    }, new Map<string,{cusip:string;name:string;shares:number;value:number}>()).values()
-  )
+    }).reverse()
 
-  // Vollständige Positionen inkl. Delta und Prozente
-  const full: Position[] = merged.map(p => {
-    const prev   = prevMap.get(p.cusip)||0
-    const delta  = p.shares - prev
-    const pct    = prev>0 ? delta/prev : 0
-    return { ...p, deltaShares: delta, pctDelta: pct }
+  const buysHistory  = buildHistory(true)
+  const sellsHistory = buildHistory(false)
+
+  // — Top 10 Positionen —
+  const prevShareMap = new Map<string,number>()
+  previous.positions.forEach(p => {
+    prevShareMap.set(p.cusip, (prevShareMap.get(p.cusip)||0) + p.shares)
   })
 
-  // Sortiert nach Wert
-  const holdings = full.slice().sort((a,b)=>b.value - a.value)
-  const scaledHoldings = holdings.map(p => ({
+  const mergedHoldings = Array.from(mergePositions(latest.positions).entries())
+    .map(([cusip,{shares,value}]) => {
+      const prevShares = prevShareMap.get(cusip)||0
+      const delta = shares - prevShares
+      return {
+        cusip,
+        name: stocks.find(s=>s.cusip===cusip)?.name || cusip,
+        shares,
+        value,
+        deltaShares: delta,
+        pctDelta: prevShares>0 ? delta / prevShares : 0
+      }
+    })
+
+  const sortedHold = mergedHoldings.sort((a,b)=>b.value - a.value)
+  const scaledHold = sortedHold.map(p => ({
     ...p,
-    value: p.value / 1_000
+    value: p.value / 1000   // in Tausend USD
+  }))
+  const totalVal = scaledHold.reduce((s,p)=>s + p.value, 0)
+  const top10 = scaledHold.slice(0,10).map(p => ({
+    name: p.name,
+    percent: (p.value / totalVal) * 100
   }))
 
-  // Gesamtwert in Tsd.
-  const totalValue = scaledHoldings.reduce((sum,p)=>sum+p.value,0)
+  // — Cashflow: aus deltaShares * Preis pro Aktie —
+  // Wir nehmen die 8 aktuellsten Quartale (buysHistory[0] = neuestes)
+  const recentBuys  = buysHistory.slice(0,8)
+  const recentSells = sellsHistory.slice(0,8)
+  const cashflowPoints: CashFlowPoint[] = recentBuys
+    .map((grp, idx) => {
+      // summe Flow per Quartal
+      const buyFlow  = grp.items.reduce((sum,p) => {
+        const pricePerShare = p.value / p.shares
+        return sum + p.deltaShares * pricePerShare
+      }, 0)
+      const sellFlow = recentSells[idx].items.reduce((sum,p) => {
+        const pricePerShare = p.value / p.shares
+        return sum + (-p.deltaShares) * pricePerShare
+      }, 0)
+      return {
+        period: grp.period,
+        buy:    buyFlow,
+        sell:   sellFlow
+      }
+    })
+    // jetzt in chronologischer Reihenfolge: ältestes links, neuestes rechts
+    .reverse()
 
-  // Top-10 fürs Bar-Chart
-  const top10 = scaledHoldings.slice(0,10).map(p=>({
-    name:    p.name,
-    percent: (p.value/totalValue)*100
-  }))
-
-  // Sektor-Aggregation
-  const cusipToTicker  = new Map(stocks.map(s=>[s.cusip,s.ticker]))
-  const tickerToSector = new Map(stocks.map(s=>[s.ticker,s.sector]))
-  const sectorTotals: Record<string,number> = {}
-  scaledHoldings.forEach(p=>{
-    const t = cusipToTicker.get(p.cusip)
-    const sec = t ? tickerToSector.get(t) ?? 'Sonstige' : 'Sonstige'
-    sectorTotals[sec] = (sectorTotals[sec]||0) + p.value
-  })
-  const sectorData: SectorDatum[] = Object.entries(sectorTotals).map(
-    ([sector,value]) => ({ sector, value })
-  )
-
-  const formattedDate = current.date
-    ? current.date.split('-').reverse().join('.')
-    : '–'
-  const period = current.date
-    ? getPeriodFromDate(current.date)
-    : '–'
-
+  // — Articles & Commentaries —
   let articles: Article[] = []
-  switch(slug) {
-    case 'buffett': articles = articlesBuffett; break
-    case 'ackman':  articles = articlesAckman;  break
-    case 'gates':   articles = articlesGates;   break
-  }
-
-  // Kunde: alle Käufe / Verkäufe per Quartal
-  type HistoryGroup = { period: string; items: Position[] }
-  const buysHistory: HistoryGroup[] = snapshots
-    .map((snap, idx) => {
-      const prevSnap = snapshots[idx - 1]?.data
-      const pm = new Map<string,number>()
-      prevSnap?.positions.forEach(p=>{
-        pm.set(p.cusip,(pm.get(p.cusip)||0)+p.shares)
-      })
-      const mergedSnap = Array.from(
-        snap.data.positions.reduce((m,p)=>{
-          if (!m.has(p.cusip)) m.set(p.cusip,{...p})
-          else {
-            const e = m.get(p.cusip)!
-            e.shares += p.shares
-            e.value  += p.value
-          }
-          return m
-        }, new Map<string,{cusip:string;name:string;shares:number;value:number}>()).values()
-      )
-      const fullSnap = mergedSnap.map(p=>{
-        const prevS = pm.get(p.cusip)||0
-        const d     = p.shares - prevS
-        const pct   = prevS>0 ? d/prevS : 0
-        return {...p, deltaShares:d, pctDelta:pct}
-      })
-      return {
-        period: getPeriodFromDate(snap.data.date),
-        items: fullSnap
-          .filter(p=>p.deltaShares>0)
-          .map(p=>({...p, value:p.value/1_000}))
-      }
-    })
-    .reverse()
-
-  const sellsHistory: HistoryGroup[] = snapshots
-    .map((snap, idx) => {
-      const prevSnap = snapshots[idx - 1]?.data
-      const pm = new Map<string,number>()
-      prevSnap?.positions.forEach(p=>{
-        pm.set(p.cusip,(pm.get(p.cusip)||0)+p.shares)
-      })
-      const mergedSnap = Array.from(
-        snap.data.positions.reduce((m,p)=>{
-          if (!m.has(p.cusip)) m.set(p.cusip,{...p})
-          else {
-            const e = m.get(p.cusip)!
-            e.shares += p.shares
-            e.value  += p.value
-          }
-          return m
-        }, new Map<string,{cusip:string;name:string;shares:number;value:number}>()).values()
-      )
-      const fullSnap = mergedSnap.map(p=>{
-        const prevS = pm.get(p.cusip)||0
-        const d     = p.shares - prevS
-        const pct   = prevS>0 ? d/prevS : 0
-        return {...p, deltaShares:d, pctDelta:pct}
-      })
-      return {
-        period: getPeriodFromDate(snap.data.date),
-        items: fullSnap
-          .filter(p=>p.deltaShares<0)
-          .map(p=>({...p, value:p.value/1_000}))
-      }
-    })
-    .reverse()
+  if (slug === 'buffett') articles = articlesBuffett
+  if (slug === 'ackman')  articles = articlesAckman
+  if (slug === 'gates')   articles = articlesGates
 
   return (
-    <main className="max-w-4xl mx-auto p-4">
-
-      {/* ——— Investor Header ——— */}
+    <main className="max-w-screen-xl mx-auto p-4">
+      {/* — Investor Header — */}
       <div className="bg-white shadow rounded-lg p-6 mb-8 flex flex-col sm:flex-row items-center">
         <div className="w-20 h-20 relative mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
           <Image
@@ -240,59 +215,58 @@ export default function InvestorPage({
             className="rounded-full object-cover"
           />
         </div>
-        <div className="text-center sm:text-left flex flex-col gap-1">
-          {/* Name in Orbitron */}
-          <h1 className="text-3xl font-bold font-orbitron">
+        <div className="text-center sm:text-left space-y-1">
+          <h1 className="text-3xl font-orbitron font-bold">
             {investorNames[slug] ?? slug}
           </h1>
           <p className="text-sm text-gray-500">
-            Periode: <span className="font-medium text-gray-700">{period}</span>
+            Periode: <span className="font-medium">{period}</span>
           </p>
           <p className="text-sm text-gray-500">
-            Aktualisiert am{' '}
-            <span className="font-medium text-gray-700">{formattedDate}</span>
+            Aktualisiert am <span className="font-medium">{formattedDate}</span>
           </p>
           <p className="text-2xl font-semibold text-gray-800">
             Gesamtwert{' '}
-            {/* Zahl in Tabular-Orbitron */}
-            <span className="ml-2 inline-block bg-green-100 text-green-800 px-2 py-1 rounded numeric">
-              {formatCurrency(totalValue,'EUR')}
+            <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded numeric">
+              {formatCurrency(totalVal,'EUR')}
             </span>
           </p>
         </div>
       </div>
 
-      {/* ——— Tabs mit Holdings / Buys / Sells ——— */}
+      {/* — Tabs — */}
       <InvestorTabs
         tab={tab}
         onTabChange={setTab}
-        holdings={scaledHoldings}
+        holdings={scaledHold}
         buys={buysHistory}
         sells={sellsHistory}
       />
 
-      {/* ——— Holdings View ——— */}
+      {/* — Holdings View — */}
       {tab === 'holdings' && (
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div>
-            <h2 className="text-xl font-semibold text-center mb-2 font-orbitron">
-              Sektor-Verteilung
-            </h2>
-            <SectorPieChart data={sectorData} />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold text-center mb-2 font-orbitron">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="w-full h-[500px]">
+            <h2 className="text-xl font-orbitron font-semibold text-center mb-2">
               Top 10 Positionen
             </h2>
             <TopPositionsBarChart data={top10} />
           </div>
+          <div className="w-full h-[500px]">
+            <h2 className="text-xl font-orbitron font-semibold text-center mb-2">
+              Cashflow pro Quartal (letzte 8)
+            </h2>
+            <CashFlowBarChart data={cashflowPoints} />
+          </div>
         </div>
       )}
 
-      {/* ——— Articles & Commentaries ——— */}
+      {/* — Articles & Commentaries — */}
       {articles.length > 0 && (
         <>
-          <h2 className="mt-8 text-xl font-semibold text-center">Articles &amp; Commentaries</h2>
+          <h2 className="mt-12 text-xl font-orbitron font-semibold text-center">
+            Articles &amp; Commentaries
+          </h2>
           <ArticleList articles={articles} />
         </>
       )}

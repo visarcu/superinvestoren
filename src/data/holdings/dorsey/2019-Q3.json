@@ -1,0 +1,65 @@
+{
+  "date": "2019-08-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 36458,
+      "value": 39408000
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 90565,
+      "value": 18550000
+    },
+    {
+      "name": "AVALARA INC",
+      "cusip": "05338G106",
+      "shares": 1093272,
+      "value": 78934000
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 281853,
+      "value": 25618000
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 3107036,
+      "value": 43157000
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 862208,
+      "value": 34057000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 491351,
+      "value": 94831000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 314249,
+      "value": 35969000
+    },
+    {
+      "name": "THE TRADE DESK INC",
+      "cusip": "88339J105",
+      "shares": 74957,
+      "value": 17074000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 420761,
+      "value": 59790000
+    }
+  ]
+}

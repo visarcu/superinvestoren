@@ -1,0 +1,227 @@
+{
+  "date": "2020-05-05",
+  "positions": [
+    {
+      "name": "Alleghany Corporation",
+      "cusip": "017175100",
+      "shares": 127452,
+      "value": 70398000
+    },
+    {
+      "name": "Alphabet Inc.  Cl A             ",
+      "cusip": "02079K305",
+      "shares": 72835,
+      "value": 84631000
+    },
+    {
+      "name": "Analog Devices, Inc.",
+      "cusip": "032654105",
+      "shares": 664102,
+      "value": 59537000
+    },
+    {
+      "name": "Applied Materials         ",
+      "cusip": "038222105",
+      "shares": 1269788,
+      "value": 58182000
+    },
+    {
+      "name": "Bank of America Corporation",
+      "cusip": "060505104",
+      "shares": 3427833,
+      "value": 72773000
+    },
+    {
+      "name": "Berkshire Hathaway, Inc. Cl B",
+      "cusip": "084670702",
+      "shares": 736180,
+      "value": 134596000
+    },
+    {
+      "name": "BP PLC Sponsored ADR",
+      "cusip": "055622104",
+      "shares": 23100,
+      "value": 563000
+    },
+    {
+      "name": "CIGNA Corporation",
+      "cusip": "125523100",
+      "shares": 414653,
+      "value": 73468000
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 1202699,
+      "value": 60640000
+    },
+    {
+      "name": "Chevron Corporation",
+      "cusip": "166764100",
+      "shares": 1158755,
+      "value": 83963000
+    },
+    {
+      "name": "Cisco Systems, Inc.",
+      "cusip": "17275R102",
+      "shares": 1906144,
+      "value": 74931000
+    },
+    {
+      "name": "CitiGroup, Inc.           ",
+      "cusip": "172967424",
+      "shares": 1639191,
+      "value": 69043000
+    },
+    {
+      "name": "Comcast Corporation Class A",
+      "cusip": "20030N101",
+      "shares": 3379149,
+      "value": 116175000
+    },
+    {
+      "name": "Elanco Animal Health Inc. ",
+      "cusip": "28414H103",
+      "shares": 3809871,
+      "value": 85303000
+    },
+    {
+      "name": "Lam Research Corporation",
+      "cusip": "512807108",
+      "shares": 204771,
+      "value": 49145000
+    },
+    {
+      "name": "Lennar Corporation        ",
+      "cusip": "526057104",
+      "shares": 2516837,
+      "value": 96143000
+    },
+    {
+      "name": "Merck & Co. Inc.          ",
+      "cusip": "58933Y105",
+      "shares": 1674297,
+      "value": 128820000
+    },
+    {
+      "name": "Microsoft Corporation     ",
+      "cusip": "594918104",
+      "shares": 507016,
+      "value": 79961000
+    },
+    {
+      "name": "Mondelez International Inc",
+      "cusip": "609207105",
+      "shares": 2029614,
+      "value": 101643000
+    },
+    {
+      "name": "Morgan Stanley            ",
+      "cusip": "617446448",
+      "shares": 3369641,
+      "value": 114568000
+    },
+    {
+      "name": "Oracle Corporation        ",
+      "cusip": "68389X105",
+      "shares": 2394476,
+      "value": 115725000
+    },
+    {
+      "name": "Packaging Corporation of America",
+      "cusip": "695156109",
+      "shares": 5400,
+      "value": 469000
+    },
+    {
+      "name": "Pfizer Inc.               ",
+      "cusip": "717081103",
+      "shares": 3361494,
+      "value": 109719000
+    },
+    {
+      "name": "SVB Financial Group",
+      "cusip": "78486Q101",
+      "shares": 587267,
+      "value": 88724000
+    },
+    {
+      "name": "Henry Schein Inc.",
+      "cusip": "806407102",
+      "shares": 1086788,
+      "value": 54905000
+    },
+    {
+      "name": "Thermo Fisher Scientific, Inc.",
+      "cusip": "883556102",
+      "shares": 316933,
+      "value": 89882000
+    },
+    {
+      "name": "TOTAL S.A. -  ADR         ",
+      "cusip": "89151E109",
+      "shares": 1580463,
+      "value": 58856000
+    },
+    {
+      "name": "UnitedHealth Group Inc.   ",
+      "cusip": "91324P102",
+      "shares": 355683,
+      "value": 88700000
+    },
+    {
+      "name": "Verizon Communications Inc.",
+      "cusip": "92343V104",
+      "shares": 1388950,
+      "value": 74628000
+    },
+    {
+      "name": "Walmart Inc.     ",
+      "cusip": "931142103",
+      "shares": 805547,
+      "value": 91526000
+    },
+    {
+      "name": "Wells Fargo & Company",
+      "cusip": "949746101",
+      "shares": 1526032,
+      "value": 43797000
+    },
+    {
+      "name": "Aon PLC                   ",
+      "cusip": "G0403H108",
+      "shares": 369894,
+      "value": 61047000
+    },
+    {
+      "name": "Eaton Corporation PLC",
+      "cusip": "G29183103",
+      "shares": 793550,
+      "value": 61651000
+    },
+    {
+      "name": "Aptiv PLC",
+      "cusip": "G6095L109",
+      "shares": 872185,
+      "value": 42946000
+    },
+    {
+      "name": "Sensata Technologies Holdings plc",
+      "cusip": "G8060N102",
+      "shares": 3327728,
+      "value": 96271000
+    },
+    {
+      "name": "Perrigo Company plc       ",
+      "cusip": "G97822103",
+      "shares": 2481522,
+      "value": 119336000
+    },
+    {
+      "name": "NXP Semiconductors NV     ",
+      "cusip": "N6596X109",
+      "shares": 704576,
+      "value": 58430000
+    }
+  ]
+}

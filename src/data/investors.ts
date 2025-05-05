@@ -130,7 +130,7 @@ export const investors: Investor[] = [
  
   {
     name: 'Mairs & Power Growth Fund',
-    slug: 'mairs-power', 
+    slug: 'mairspower', 
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
@@ -350,6 +350,63 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
+  {
+    name: 'Fred Martin - Disciplined Growth Investors',
+    slug: 'martin',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+  
+  {
+    name: 'Lindsell Train ',
+    slug: 'train',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Andrew Brenton - Turtle Creek Asset Management',
+    slug: 'brenton',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Harry Burn - Sound Shore Management',
+    slug: 'burn',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Pat Dorsey - Dorsey Asset Management',
+    slug: 'dorsey',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+
+  {
+    name: 'Francis Chou - Chou Associates Management',
+    slug: 'chou',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Bryan R. Lawrence',
+    slug: 'lawrence',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
 
 
 ]

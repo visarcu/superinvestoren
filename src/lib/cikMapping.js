@@ -2,7 +2,6 @@
 
 /**
  * Mapping von Investor-Slug → SEC CIK
- * Bitte alle 'XXX' durch die korrekten CIK-Nummern ersetzen.
  */
 export const investorCiks = {
   // bereits vorhandene
@@ -20,7 +19,6 @@ export const investorCiks = {
   gayner:         '0001096343',    // Thomas Gayner – Markel Group
   ainslie:           '0000934639',    // Lee Ainslie – Maverick Capital
   einhorn: '0001489933',
-  dodgecox:             '0000029440',    // Dodge & Cox
   hohn: '0001647251',
   yacktman: '0000905567',
   polen: '0001034524',
@@ -28,7 +26,6 @@ export const investorCiks = {
   cantillon: '0001279936',
   duan:'0001759760',
   bloomstran: '0001115373',
-  klarman: '0001061768', //
   vinall:         '0001766596',    // Robert Vinall – RV Capital GmbH
   mandel:        '0001061165',    // Stephen Mandel – Lone Pine Capital
   ellenbogen: '0001798849',
@@ -40,7 +37,28 @@ export const investorCiks = {
   tangen: '0001376879',    // AKO Capital
   greenhaven: '0000846222',    // Greenhaven Associates
   abrams: '0001358706',    // David Abrams – Abrams Capital Management
+  martin: '0001050442', // Fred Martin 
+  kantesaria: '0001697868', // Valley Forge Capital MGMT
+  ubben: '0001418814',
+  train: '0001484150',    // Lindsell Train
+  brenton: '0001484148',
+  peltz: '0001345471',
+  burn:  '0000820124',    // Harry Burn – Sound Shore
+  dorsey: '0001671657',
+  chou:  '0001389403',    // Francis Chou – Chou Associates
+  lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
 
+  
+  //NPORT P TYPES: EVTL NOCH CODE ANPASSEN
+  //mairspower: '0001141819',    // Mairs & Power Growth Fund NPORT P -> O FILES
+ // davis:     'XXX',    // Christopher Davis – Davis Advisors NPORT P
+   // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
+  // dodgecox:  '0000029440',    // Dodge & Cox
+    // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
+
+ // 0 Einträge:
+ klarman: '0001061768',
+ triplefrond: '0001454502',    // Triple Frond Partners
 
 
   //Manuell folgende Investoren updaten
@@ -50,29 +68,28 @@ export const investorCiks = {
 // lilu:                  '0001709323', MANUELL
 
   // neu hinzuzufügende Investoren:
-  // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
-  // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors
+  // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund NPORT P TYPE
+  // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors NPORT P TYPE
   // 'tweedy-browne':         'XXX',    // Tweedy Browne Co. – Tweedy Browne Value Fund
-  'mairs-power':           '0000061628',    // Mairs & Power Growth Fund
+
   // 'richard-pzena':         'XXX',    // Richard Pzena – Hancock Classic Value
  
   // 'romick':                'XXX',    // Steven Romick – FPA Crescent Fund
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
-  'olstein':        '0000947996',    // Robert Olstein – Olstein Capital Management
-  'robert-vinall':         '0001766596',    // Robert Vinall – RV Capital GmbH
+
+
 
   // 'hillman-value':         'XXX',    // Hillman Value Fund
 
-  // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
+
   'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
   // 'meridian-contrarian':   'XXX',    // Meridian Contrarian Fund
   'ruane-cunniff':         '0002049493',    // Ruane Cunniff – Sequoia Fund
   'tom-bancroft':          '0001540866',    // Tom Bancroft – Makaira Partners
-  // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
+
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
 
 
-  // 'nelson-peltz':          'XXX',    // Nelson Peltz – Trian Fund Management
 
   // 'valueact-capital':      'XXX',    // ValueAct Capital
   // 'norbert-lou':           'XXX',    // Norbert Lou – Punch Card Management
@@ -87,35 +104,32 @@ export const investorCiks = {
 
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
 
-  // 'pat-dorsey':            'XXX',    // Pat Dorsey – Dorsey Asset Management
+ 
   // 'leon-cooperman':        'XXX',    // Leon Cooperman
   // 'josh-tarasoff':         'XXX',    // Josh Tarasoff – Greenlea Lane Capital
    //'clifford-sosin':        'XXX',    // Clifford Sosin – CAS Investment Partners
-   //'chris-hohn':            'XXX',    // Chris Hohn – TCI Fund Management
-   //'bryan-lawrence':        'XXX',    // Bryan Lawrence – Oakcliff Capital
+
+
 
   //'prem-watsa':            'XXX',    // Prem Watsa – Fairfax Financial Holdings
   //'dennis-hong':           'XXX',    // Dennis Hong – ShawSpring Partners
-  'seth-klarman':          '0000875415', // Seth Klarman – Baupost Group
+  
 
   // 'francois-rochon':       'XXX',    // Francois Rochon – Giverny Capital
    //'third-avenue':          'XXX',    // Third Avenue Management
-   //'francis-chou':          'XXX',    // Francis Chou – Chou Associates
 
-  'thomas-russo':          '0000860643',    // Thomas Russo – Gardner Russo & Quinn
+
+  
 
    // 'triple-frond':          'XXX',    // Triple Frond Partners
-   // 'harry-burn':            'XXX',    // Harry Burn – Sound Shore
-  //'polen-capital':         'XXX',    // Polen Capital Management
 
-  //'first-eagle':           'XXX',    // First Eagle Investment Management
 
 
   
 
   //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
   //'torray-funds':          'XXX',    // Torray Funds
-  //'william-von-mueffling': 'XXX',    // William Von Mueffling – Cantillon Capital Management
 
-  //'lindsell-train':        'XXX',    // Lindsell Train
+
+
 }

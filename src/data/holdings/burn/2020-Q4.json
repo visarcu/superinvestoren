@@ -1,0 +1,245 @@
+{
+  "date": "2020-11-06",
+  "positions": [
+    {
+      "name": "Analog Devices, Inc.      ",
+      "cusip": "032654105",
+      "shares": 4600,
+      "value": 537000
+    },
+    {
+      "name": "Alleghany Corporation",
+      "cusip": "017175100",
+      "shares": 181876,
+      "value": 94657000
+    },
+    {
+      "name": "Alphabet Inc.  Cl A             ",
+      "cusip": "02079K305",
+      "shares": 41274,
+      "value": 60491000
+    },
+    {
+      "name": "Applied Materials         ",
+      "cusip": "038222105",
+      "shares": 1430964,
+      "value": 85071000
+    },
+    {
+      "name": "Bank of America Corporation",
+      "cusip": "060505104",
+      "shares": 4584116,
+      "value": 110431000
+    },
+    {
+      "name": "Berkshire Hathaway, Inc. Cl B",
+      "cusip": "084670702",
+      "shares": 438632,
+      "value": 93402000
+    },
+    {
+      "name": "The Blackstone Group Inc. ",
+      "cusip": "09260D107",
+      "shares": 1568401,
+      "value": 81871000
+    },
+    {
+      "name": "Booking Holdings Inc.     ",
+      "cusip": "09857L108",
+      "shares": 47477,
+      "value": 81218000
+    },
+    {
+      "name": "CIGNA Corporation",
+      "cusip": "125523100",
+      "shares": 653776,
+      "value": 110756000
+    },
+    {
+      "name": "Cabot Oil & Gas Corporatio",
+      "cusip": "127097103",
+      "shares": 3949616,
+      "value": 68565000
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 1495189,
+      "value": 107444000
+    },
+    {
+      "name": "CitiGroup, Inc.           ",
+      "cusip": "172967424",
+      "shares": 2219884,
+      "value": 95699000
+    },
+    {
+      "name": "Comcast Corporation Class A",
+      "cusip": "20030N101",
+      "shares": 2397771,
+      "value": 110921000
+    },
+    {
+      "name": "Dentsply Sirona Inc.      ",
+      "cusip": "24906P109",
+      "shares": 1713800,
+      "value": 74944000
+    },
+    {
+      "name": "Elanco Animal Health Inc. ",
+      "cusip": "28414H103",
+      "shares": 2971851,
+      "value": 83004000
+    },
+    {
+      "name": "EOG Resources, Inc.       ",
+      "cusip": "26875P101",
+      "shares": 1722158,
+      "value": 61894000
+    },
+    {
+      "name": "Fiserv, Inc.              ",
+      "cusip": "337738108",
+      "shares": 692822,
+      "value": 71395000
+    },
+    {
+      "name": "International Paper Company",
+      "cusip": "460146103",
+      "shares": 1741597,
+      "value": 70604000
+    },
+    {
+      "name": "Lam Research Corporation",
+      "cusip": "512807108",
+      "shares": 180179,
+      "value": 59774000
+    },
+    {
+      "name": "Lennar Corporation        ",
+      "cusip": "526057104",
+      "shares": 922412,
+      "value": 75343000
+    },
+    {
+      "name": "Magna International Inc.  ",
+      "cusip": "559222401",
+      "shares": 1600259,
+      "value": 73212000
+    },
+    {
+      "name": "Merck & Co. Inc.          ",
+      "cusip": "58933Y105",
+      "shares": 1048956,
+      "value": 87011000
+    },
+    {
+      "name": "Morgan Stanley            ",
+      "cusip": "617446448",
+      "shares": 2235887,
+      "value": 108105000
+    },
+    {
+      "name": "Oracle Corporation        ",
+      "cusip": "68389X105",
+      "shares": 2318626,
+      "value": 138422000
+    },
+    {
+      "name": "Pfizer Inc.               ",
+      "cusip": "717081103",
+      "shares": 2693226,
+      "value": 98841000
+    },
+    {
+      "name": "SVB Financial Group",
+      "cusip": "78486Q101",
+      "shares": 335011,
+      "value": 80610000
+    },
+    {
+      "name": "Henry Schein Inc.",
+      "cusip": "806407102",
+      "shares": 1098380,
+      "value": 64563000
+    },
+    {
+      "name": "Thermo Fisher Scientific, Inc.",
+      "cusip": "883556102",
+      "shares": 160052,
+      "value": 70666000
+    },
+    {
+      "name": "UnitedHealth Group Inc.   ",
+      "cusip": "91324P102",
+      "shares": 235833,
+      "value": 73526000
+    },
+    {
+      "name": "Verizon Communications Inc.",
+      "cusip": "92343V104",
+      "shares": 16200,
+      "value": 964000
+    },
+    {
+      "name": "Wabtec Corporation        ",
+      "cusip": "929740108",
+      "shares": 1136967,
+      "value": 70356000
+    },
+    {
+      "name": "Walmart Inc.     ",
+      "cusip": "931142103",
+      "shares": 501402,
+      "value": 70151000
+    },
+    {
+      "name": "Whirlpool Corporation     ",
+      "cusip": "963320106",
+      "shares": 378045,
+      "value": 69519000
+    },
+    {
+      "name": "Eaton Corporation PLC",
+      "cusip": "G29183103",
+      "shares": 841051,
+      "value": 85812000
+    },
+    {
+      "name": "Aptiv PLC",
+      "cusip": "G6095L109",
+      "shares": 788878,
+      "value": 72324000
+    },
+    {
+      "name": "Sensata Technologies Holdings plc",
+      "cusip": "G8060N102",
+      "shares": 2119726,
+      "value": 91445000
+    },
+    {
+      "name": "Perrigo Company plc       ",
+      "cusip": "G97822103",
+      "shares": 2189810,
+      "value": 100534000
+    },
+    {
+      "name": "Chubb Limited             ",
+      "cusip": "H1467J104",
+      "shares": 813857,
+      "value": 94505000
+    },
+    {
+      "name": "NXP Semiconductors NV     ",
+      "cusip": "N6596X109",
+      "shares": 682375,
+      "value": 85167000
+    },
+    {
+      "name": "Flex Ltd.                 ",
+      "cusip": "Y2573F102",
+      "shares": 6115145,
+      "value": 68123000
+    }
+  ]
+}

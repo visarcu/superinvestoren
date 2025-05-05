@@ -1,0 +1,233 @@
+{
+  "date": "2019-02-06",
+  "positions": [
+    {
+      "name": "Alexion Pharmaceuticals, Inc.",
+      "cusip": "015351109",
+      "shares": 1041306,
+      "value": 101382000
+    },
+    {
+      "name": "Alphabet Inc. Cl A",
+      "cusip": "02079K305",
+      "shares": 108805,
+      "value": 113697000
+    },
+    {
+      "name": "American Intl Group, Inc.",
+      "cusip": "026874784",
+      "shares": 3905236,
+      "value": 153905000
+    },
+    {
+      "name": "Antero Resources Corporation",
+      "cusip": "03674X106",
+      "shares": 8456228,
+      "value": 79404000
+    },
+    {
+      "name": "Applied Materials",
+      "cusip": "038222105",
+      "shares": 3746950,
+      "value": 122675000
+    },
+    {
+      "name": "Bank of America Corporation",
+      "cusip": "060505104",
+      "shares": 7084502,
+      "value": 174562000
+    },
+    {
+      "name": "Berkshire Hathaway, Inc. Cl B",
+      "cusip": "084670702",
+      "shares": 1032523,
+      "value": 210821000
+    },
+    {
+      "name": "BP PLC Sponsored ADR",
+      "cusip": "055622104",
+      "shares": 6000,
+      "value": 228000
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 2095661,
+      "value": 158411000
+    },
+    {
+      "name": "CBS Corporation",
+      "cusip": "124857202",
+      "shares": 2893079,
+      "value": 126485000
+    },
+    {
+      "name": "CitiGroup, Inc.",
+      "cusip": "172967424",
+      "shares": 3207321,
+      "value": 166973000
+    },
+    {
+      "name": "Comcast Corporation Class A",
+      "cusip": "20030N101",
+      "shares": 4437610,
+      "value": 151101000
+    },
+    {
+      "name": "Delta Air Lines, Inc.",
+      "cusip": "247361702",
+      "shares": 3167306,
+      "value": 158049000
+    },
+    {
+      "name": "EQT Corporation",
+      "cusip": "26884L109",
+      "shares": 5652090,
+      "value": 106768000
+    },
+    {
+      "name": "Equitrans Midstream Corporation",
+      "cusip": "294600101",
+      "shares": 5134524,
+      "value": 102793000
+    },
+    {
+      "name": "Exelon Corporation",
+      "cusip": "30161N101",
+      "shares": 2923940,
+      "value": 131870000
+    },
+    {
+      "name": "First Data Corporation",
+      "cusip": "32008D106",
+      "shares": 9765897,
+      "value": 165141000
+    },
+    {
+      "name": "Fluor Corporation",
+      "cusip": "343412102",
+      "shares": 3153230,
+      "value": 101534000
+    },
+    {
+      "name": "The Goodyear Tire & Rubber Co.",
+      "cusip": "382550101",
+      "shares": 6286626,
+      "value": 128310000
+    },
+    {
+      "name": "JetBlue Airways Corporation",
+      "cusip": "477143101",
+      "shares": 11700,
+      "value": 188000
+    },
+    {
+      "name": "Lennar Corporation",
+      "cusip": "526057104",
+      "shares": 2690108,
+      "value": 105318000
+    },
+    {
+      "name": "Marsh & McLennan Companies Inc.",
+      "cusip": "571748102",
+      "shares": 1754309,
+      "value": 139906000
+    },
+    {
+      "name": "Merck & Co. Inc.",
+      "cusip": "58933Y105",
+      "shares": 3324191,
+      "value": 254001000
+    },
+    {
+      "name": "Microsoft Corporation",
+      "cusip": "594918104",
+      "shares": 1266404,
+      "value": 128629000
+    },
+    {
+      "name": "Mondelez International Inc",
+      "cusip": "609207105",
+      "shares": 3525082,
+      "value": 141109000
+    },
+    {
+      "name": "Pfizer Inc.",
+      "cusip": "717081103",
+      "shares": 3296208,
+      "value": 143879000
+    },
+    {
+      "name": "Sabre Corporation",
+      "cusip": "78573M104",
+      "shares": 7962786,
+      "value": 172315000
+    },
+    {
+      "name": "Schlumberger Ltd.",
+      "cusip": "806857108",
+      "shares": 1680124,
+      "value": 60619000
+    },
+    {
+      "name": "Thermo Fisher Scientific,",
+      "cusip": "883556102",
+      "shares": 520666,
+      "value": 116520000
+    },
+    {
+      "name": "TOTAL S.A. - ADR",
+      "cusip": "89151E109",
+      "shares": 2482661,
+      "value": 129545000
+    },
+    {
+      "name": "Vodafone Group Plc ADR",
+      "cusip": "92857W308",
+      "shares": 4721066,
+      "value": 91022000
+    },
+    {
+      "name": "Walmart Inc.",
+      "cusip": "931142103",
+      "shares": 1690132,
+      "value": 157436000
+    },
+    {
+      "name": "Allergan plc",
+      "cusip": "G0177J108",
+      "shares": 1014813,
+      "value": 135640000
+    },
+    {
+      "name": "Aon PLC",
+      "cusip": "G0408V102",
+      "shares": 949810,
+      "value": 138064000
+    },
+    {
+      "name": "Eaton Corporation PLC",
+      "cusip": "G29183103",
+      "shares": 1935366,
+      "value": 132882000
+    },
+    {
+      "name": "nVent Electric PLC",
+      "cusip": "G6700G107",
+      "shares": 4638285,
+      "value": 104176000
+    },
+    {
+      "name": "Chubb Ltd",
+      "cusip": "H1467J104",
+      "shares": 1172190,
+      "value": 151424000
+    },
+    {
+      "name": "NXP Semiconductors NV",
+      "cusip": "N6596X109",
+      "shares": 1384819,
+      "value": 101480000
+    }
+  ]
+}

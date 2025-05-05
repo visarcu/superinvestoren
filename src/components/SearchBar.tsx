@@ -34,7 +34,10 @@ export default function SearchBar() {
         slug: inv.slug,
       }))
     const stockMatches = stocks
-      .filter(s => s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q))
+      .filter(s =>
+        s.ticker.toLowerCase().includes(q) ||
+        s.name.toLowerCase().includes(q)
+      )
       .slice(0, 5)
       .map<Suggestion>(s => ({
         type: 'stock',
@@ -47,7 +50,10 @@ export default function SearchBar() {
   // Klick außerhalb schließt Dropdown
   useEffect(() => {
     function onClick(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setResults([])
       }
     }
@@ -70,23 +76,35 @@ export default function SearchBar() {
     <div ref={containerRef} className="relative">
       <input
         type="text"
-        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-primary"
+        className={`
+          w-full px-3 py-2 border border-gray-300 rounded-md
+          bg-white text-gray-900 placeholder-gray-500
+          focus:outline-none focus:ring-2 focus:ring-accent
+          dark:bg-white dark:text-gray-900
+        `}
         placeholder="Suche Aktie oder Investor…"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        onFocus={() => {
-          /* Beim Fokussieren sofort Ergebnisse neu berechnen */
-          setQuery(q => q)
-        }}
+        onFocus={() => setQuery(q => q)} // um beim Fokussieren neu zu filtern
       />
 
       {results.length > 0 && (
-        <ul className="absolute z-20 mt-1 w-full bg-surface dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
+        <ul className="
+          absolute z-20 mt-1 w-full
+          bg-white dark:bg-gray-800
+          border border-gray-200 dark:border-gray-700
+          rounded-md shadow-lg
+          max-h-60 overflow-auto
+        ">
           {results.map((item, i) => (
             <li
               key={`${item.type}-${i}`}
               onClick={() => onSelect(item)}
-              className="px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+              className={`
+                px-3 py-2 cursor-pointer
+                text-gray-900 dark:text-gray-100
+                hover:bg-gray-100 dark:hover:bg-gray-700
+              `}
             >
               {item.label}
             </li>

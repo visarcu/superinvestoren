@@ -60,20 +60,6 @@ import buffett_2024_Q4 from './buffett/2024-Q4.json'
 
 import buffett_2025_Q1 from './buffett/2025-Q1.json'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Bill Ackman
 
 import ackman_2024_Q1 from './ackman/2024-Q1.json'
@@ -283,6 +269,48 @@ import abrams_2024_Q3 from './abrams/2024-Q3.json'
 import abrams_2024_Q4 from './abrams/2024-Q4.json'
 import abrams_2025_Q1 from './abrams/2025-Q1.json'
 
+//fred martin
+import martin_2024_Q2 from './martin/2024-Q2.json'
+import martin_2024_Q3 from './martin/2024-Q3.json'
+import martin_2024_Q4 from './martin/2024-Q4.json'
+import martin_2025_Q1 from './martin/2025-Q1.json'
+
+//lindsell train
+import train_2024_Q2 from './train/2024-Q2.json'
+import train_2024_Q3 from './train/2024-Q3.json'
+import train_2024_Q4 from './train/2024-Q4.json'
+import train_2025_Q1 from './train/2025-Q1.json'
+
+//andrew brenton
+import brenton_2024_Q2 from './brenton/2024-Q2.json'
+import brenton_2024_Q3 from './brenton/2024-Q3.json'
+import brenton_2024_Q4 from './brenton/2024-Q4.json'
+import brenton_2025_Q1 from './brenton/2025-Q1.json'
+
+//andrew brenton
+import burn_2024_Q2 from './burn/2024-Q2.json'
+import burn_2024_Q3 from './burn/2024-Q3.json'
+import burn_2024_Q4 from './burn/2024-Q4.json'
+import burn_2025_Q1 from './burn/2025-Q1.json'
+
+//dorsey
+import dorsey_2024_Q2 from './dorsey/2024-Q2.json'
+import dorsey_2024_Q3 from './dorsey/2024-Q3.json'
+import dorsey_2024_Q4 from './dorsey/2024-Q4.json'
+import dorsey_2025_Q1 from './dorsey/2025-Q1.json'
+
+//chou
+import chou_2024_Q2 from './chou/2024-Q2.json'
+import chou_2024_Q3 from './chou/2024-Q3.json'
+import chou_2024_Q4 from './chou/2024-Q4.json'
+import chou_2025_Q1 from './chou/2025-Q1.json'
+
+//lawrence
+import lawrence_2024_Q2 from './lawrence/2024-Q2.json'
+import lawrence_2024_Q3 from './lawrence/2024-Q3.json'
+import lawrence_2024_Q4 from './lawrence/2024-Q4.json'
+import lawrence_2025_Q1 from './lawrence/2025-Q1.json'
+
 
 // … für jeden weiteren Slug analog …
 
@@ -346,8 +374,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2022-Q4', data: buffett_2022_Q4 },
     { quarter: '2023-Q1', data: buffett_2023_Q1 },
     { quarter: '2023-Q2', data: buffett_2023_Q2 },
-    { quarter: '2023-Q3', data: buffett_2023_Q2 },
-    { quarter: '2023-Q4', data: buffett_2023_Q3 },
+    { quarter: '2023-Q3', data: buffett_2023_Q3 },
+    { quarter: '2023-Q4', data: buffett_2023_Q4 },
     { quarter: '2024-Q1', data: buffett_2024_Q1 },
     { quarter: '2024-Q2', data: buffett_2024_Q2 },
     { quarter: '2024-Q3', data: buffett_2024_Q3 },
@@ -612,6 +640,56 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: abrams_2024_Q3},
     { quarter: '2024-Q4', data: abrams_2024_Q4},
     { quarter: '2025-Q1', data: abrams_2025_Q1},
+   ],
+
+   martin: [
+    { quarter: '2024-Q2', data: martin_2024_Q2 },
+    { quarter: '2024-Q3', data: martin_2024_Q3},
+    { quarter: '2024-Q4', data: martin_2024_Q4},
+    { quarter: '2025-Q1', data: martin_2025_Q1},
+   ],
+
+   train: [
+    { quarter: '2024-Q2', data: train_2024_Q2 },
+    { quarter: '2024-Q3', data: train_2024_Q3},
+    { quarter: '2024-Q4', data: train_2024_Q4},
+    { quarter: '2025-Q1', data: train_2025_Q1},
+   ],
+
+   brenton: [
+    { quarter: '2024-Q2', data: brenton_2024_Q2 },
+    { quarter: '2024-Q3', data: brenton_2024_Q3},
+    { quarter: '2024-Q4', data: brenton_2024_Q4},
+    { quarter: '2025-Q1', data: brenton_2025_Q1},
+   ],
+
+   burn: [
+    { quarter: '2024-Q2', data: burn_2024_Q2 },
+    { quarter: '2024-Q3', data: burn_2024_Q3},
+    { quarter: '2024-Q4', data: burn_2024_Q4},
+    { quarter: '2025-Q1', data: burn_2025_Q1},
+   ],
+
+   dorsey: [
+    { quarter: '2024-Q2', data: dorsey_2024_Q2 },
+    { quarter: '2024-Q3', data: dorsey_2024_Q3},
+    { quarter: '2024-Q4', data: dorsey_2024_Q4},
+    { quarter: '2025-Q1', data: dorsey_2025_Q1},
+   ],
+
+
+   chou: [
+    { quarter: '2024-Q2', data: chou_2024_Q2 },
+    { quarter: '2024-Q3', data: chou_2024_Q3},
+    { quarter: '2024-Q4', data: chou_2024_Q4},
+    { quarter: '2025-Q1', data: chou_2025_Q1},
+   ],
+
+   lawrence: [
+    { quarter: '2024-Q2', data: lawrence_2024_Q2 },
+    { quarter: '2024-Q3', data: lawrence_2024_Q3},
+    { quarter: '2024-Q4', data: lawrence_2024_Q4},
+    { quarter: '2025-Q1', data: lawrence_2025_Q1},
    ],
 
 

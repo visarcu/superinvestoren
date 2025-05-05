@@ -1,0 +1,59 @@
+{
+  "date": "2023-02-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 570922,
+      "value": 50657909000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 746469,
+      "value": 64853227000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 992042,
+      "value": 119382334000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 745950,
+      "value": 53126559000
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 1677711,
+      "value": 68282838000
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 3548943,
+      "value": 28888396000
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 3846551,
+      "value": 151400247000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 2688611,
+      "value": 28069099000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 1603578,
+      "value": 123202898000
+    }
+  ]
+}

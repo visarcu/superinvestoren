@@ -1,0 +1,71 @@
+{
+  "date": "2016-11-09",
+  "positions": [
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 1166700,
+      "value": 41045000
+    },
+    {
+      "name": "CLEAN HARBORS INC",
+      "cusip": "184496107",
+      "shares": 549640,
+      "value": 26372000
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 300,
+      "value": 6000
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 2335963,
+      "value": 65290000
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 310405,
+      "value": 18783000
+    },
+    {
+      "name": "MITEL NETWORKS CORP",
+      "cusip": "60671Q104",
+      "shares": 7023227,
+      "value": 51691000
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 612368,
+      "value": 39718000
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 1025524,
+      "value": 35422000
+    },
+    {
+      "name": "SS&C TECHNOLOGIES  HOLDINGS INC.",
+      "cusip": "78467J100",
+      "shares": 725200,
+      "value": 23315000
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 102400,
+      "value": 7657000
+    },
+    {
+      "name": "TRACTOR SUPPLY CO",
+      "cusip": "892356106",
+      "shares": 333800,
+      "value": 22481000
+    }
+  ]
+}

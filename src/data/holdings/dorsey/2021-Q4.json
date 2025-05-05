@@ -1,0 +1,59 @@
+{
+  "date": "2021-11-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 24909,
+      "value": 66390000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 777753,
+      "value": 131572000
+    },
+    {
+      "name": "EBAY INC.",
+      "cusip": "278642103",
+      "shares": 1658432,
+      "value": 115543000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 575491,
+      "value": 195316000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 568745,
+      "value": 147993000
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 2550725,
+      "value": 58820000
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 2773894,
+      "value": 190899000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 1619966,
+      "value": 72947000
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 847847,
+      "value": 166153000
+    }
+  ]
+}

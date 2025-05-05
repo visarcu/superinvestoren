@@ -1,0 +1,107 @@
+{
+  "date": "2023-05-15",
+  "positions": [
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 155686,
+      "value": 3968438000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 715000,
+      "value": 5791503000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 80,
+      "value": 37248020000
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 312900,
+      "value": 1435428000
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 578842000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 2705320000
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 741583,
+      "value": 6585261000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 96823,
+      "value": 1888049000
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 535700000
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 199530,
+      "value": 1847649000
+    },
+    {
+      "name": "METHANEX CORP",
+      "cusip": "59151K108",
+      "shares": 4000,
+      "value": 186134000
+    },
+    {
+      "name": "NAVIENT CORPORATION",
+      "cusip": "63938C108",
+      "shares": 183338,
+      "value": 2931576000
+    },
+    {
+      "name": "OVERSTOCK COM INC",
+      "cusip": "690370101",
+      "shares": 38405,
+      "value": 778470000
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 431377000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 30000,
+      "value": 545700000
+    },
+    {
+      "name": "SYNCHRONY FINANCIAL",
+      "cusip": "87165B103",
+      "shares": 120000,
+      "value": 3489602000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 19542,
+      "value": 730480000
+    }
+  ]
+}

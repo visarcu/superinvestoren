@@ -1,0 +1,245 @@
+{
+  "date": "2024-11-12",
+  "positions": [
+    {
+      "name": "Elevance Health, Inc. ",
+      "cusip": "036752103",
+      "shares": 119497,
+      "value": 62138440000
+    },
+    {
+      "name": "Avantor, Inc. ",
+      "cusip": "05352A100",
+      "shares": 3522109,
+      "value": 91116959000
+    },
+    {
+      "name": "Baker Hughes Company  ",
+      "cusip": "05722G100",
+      "shares": 1957826,
+      "value": 70775410000
+    },
+    {
+      "name": "Barrick Gold Corporation  ",
+      "cusip": "067901108",
+      "shares": 4353844,
+      "value": 86597957000
+    },
+    {
+      "name": "Bath & Body Works, Inc.   ",
+      "cusip": "070830104",
+      "shares": 2450592,
+      "value": 78222897000
+    },
+    {
+      "name": "Berkshire Hathaway, Inc. C",
+      "cusip": "084670702",
+      "shares": 131114,
+      "value": 60346530000
+    },
+    {
+      "name": "CF Industries Holdings, In",
+      "cusip": "125269100",
+      "shares": 867140,
+      "value": 74400612000
+    },
+    {
+      "name": "CVS Health Corporation",
+      "cusip": "126650100",
+      "shares": 1140812,
+      "value": 71734258000
+    },
+    {
+      "name": "Coterra Energy, Inc.  ",
+      "cusip": "127097103",
+      "shares": 4016396,
+      "value": 96192684000
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 732387,
+      "value": 109660306000
+    },
+    {
+      "name": "Cardinal Health, Inc. ",
+      "cusip": "14149Y108",
+      "shares": 553413,
+      "value": 61163205000
+    },
+    {
+      "name": "Centene Corporation   ",
+      "cusip": "15135B101",
+      "shares": 836674,
+      "value": 62984819000
+    },
+    {
+      "name": "The Walt Disney Company   ",
+      "cusip": "254687106",
+      "shares": 951291,
+      "value": 91504681000
+    },
+    {
+      "name": "FedEx Corporation ",
+      "cusip": "31428X106",
+      "shares": 214031,
+      "value": 58576004000
+    },
+    {
+      "name": "Fidelity National Informat",
+      "cusip": "31620M106",
+      "shares": 1120007,
+      "value": 93800587000
+    },
+    {
+      "name": "GE HealthCare Technologies",
+      "cusip": "36266G107",
+      "shares": 756133,
+      "value": 70963083000
+    },
+    {
+      "name": "General Motors Company",
+      "cusip": "37045V100",
+      "shares": 2141339,
+      "value": 96017641000
+    },
+    {
+      "name": "Hologic, Inc. ",
+      "cusip": "436440101",
+      "shares": 1016964,
+      "value": 82841887000
+    },
+    {
+      "name": "Huntington Ingalls Industr",
+      "cusip": "446413106",
+      "shares": 234904,
+      "value": 62103920000
+    },
+    {
+      "name": "Incyte Corporation",
+      "cusip": "45337C102",
+      "shares": 605348,
+      "value": 40013503000
+    },
+    {
+      "name": "Kinder Morgan, Inc.   ",
+      "cusip": "49456B101",
+      "shares": 3604126,
+      "value": 79615143000
+    },
+    {
+      "name": "The Kraft Heinz Company   ",
+      "cusip": "500754106",
+      "shares": 1937267,
+      "value": 68017444000
+    },
+    {
+      "name": "The Kroger Co.",
+      "cusip": "501044101",
+      "shares": 1483434,
+      "value": 85000768000
+    },
+    {
+      "name": "Lennar Corporation",
+      "cusip": "526057104",
+      "shares": 353340,
+      "value": 66244183000
+    },
+    {
+      "name": "Merck & Co. Inc.  ",
+      "cusip": "58933Y105",
+      "shares": 547423,
+      "value": 62165356000
+    },
+    {
+      "name": "Newmont Corporation   ",
+      "cusip": "651639106",
+      "shares": 167030,
+      "value": 8927754000
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 424316,
+      "value": 72303446000
+    },
+    {
+      "name": "Organon & Company ",
+      "cusip": "68622V106",
+      "shares": 5141084,
+      "value": 98348936000
+    },
+    {
+      "name": "PVH Corp. ",
+      "cusip": "693656100",
+      "shares": 987973,
+      "value": 99617318000
+    },
+    {
+      "name": "PayPal Holdings, Inc. ",
+      "cusip": "70450Y103",
+      "shares": 1077563,
+      "value": 84082241000
+    },
+    {
+      "name": "Pfizer Inc.   ",
+      "cusip": "717081103",
+      "shares": 2748790,
+      "value": 79549983000
+    },
+    {
+      "name": "Public Service Enterprise ",
+      "cusip": "744573106",
+      "shares": 831998,
+      "value": 74222541000
+    },
+    {
+      "name": "Teva Pharmaceutical Indust",
+      "cusip": "881624209",
+      "shares": 5976844,
+      "value": 107702728000
+    },
+    {
+      "name": "Vistra Corp.  ",
+      "cusip": "92840M102",
+      "shares": 785100,
+      "value": 93065754000
+    },
+    {
+      "name": "Wells Fargo & Company ",
+      "cusip": "949746101",
+      "shares": 1772495,
+      "value": 100128242000
+    },
+    {
+      "name": "Willis Towers Watson PLC  ",
+      "cusip": "G96629103",
+      "shares": 339926,
+      "value": 100118405000
+    },
+    {
+      "name": "Perrigo Company PLC   ",
+      "cusip": "G97822103",
+      "shares": 2658912,
+      "value": 69743262000
+    },
+    {
+      "name": "Check Point Software  ",
+      "cusip": "M22465104",
+      "shares": 336560,
+      "value": 64892134000
+    },
+    {
+      "name": "NXP Semiconductors NV ",
+      "cusip": "N6596X109",
+      "shares": 259968,
+      "value": 62394920000
+    },
+    {
+      "name": "Flex Ltd. ",
+      "cusip": "Y2573F102",
+      "shares": 2317798,
+      "value": 77483988000
+    }
+  ]
+}

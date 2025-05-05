@@ -43,36 +43,53 @@ icahn: '0000921669',// Carl Icahn – Icahn Capital (Beispiel)
 tangen: '0001376879',    // AKO Capital
 abrams: '0001358706',    // David Abrams – Abrams Capital Management
 marks:  '0000949509',// MANUELL!!,
+martin: '0001050442',
+kantesaria: '0001697868', // Valley Forge Capital MGMT 000
+ubben: '0001418814', // 0000
+train: '0001484150',    // Lindsell Train
+brenton: '0001484148',
+peltz: '0001345471',
+mairspower: '0001141819',    // Mairs & Power Growth Fund
+burn:  '0000820124',    // Harry Burn – Sound Shore
+dorsey: '0001671657', 
+chou:  '0001389403',    // Francis Chou – Chou Associates
+lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
 
 
+//NportP
+  // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
+ // 'dodgecox':             '0000029440',    // Dodge & Cox
+   // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
 
+ // 0 einträge
+ //triplefrond: '0001454502',    // Triple Frond Partners
 
   // neu hinzuzufügende Investoren:
   // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
   // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors
   // 'tweedy-browne':         'XXX',    // Tweedy Browne Co. – Tweedy Browne Value Fund
- // 'mairs-power':           '0000061628',    // Mairs & Power Growth Fund
+
   // 'richard-pzena':         'XXX',    // Richard Pzena – Hancock Classic Value
-           'dodgecox':             '0000029440',    // Dodge & Cox
+
   // 'romick':                'XXX',    // Steven Romick – FPA Crescent Fund
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
-            //'olstein':        '0000947996',    // Robert Olstein – Olstein Capital Management
+       
         
   // 'hillman-value':         'XXX',    // Hillman Value Fund
-  // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
+
  //             'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
   // 'meridian-contrarian':   'XXX',    // Meridian Contrarian Fund
             //'ruane-cunniff':         '0002049493',    // Ruane Cunniff – Sequoia Fund
           //'tom-bancroft':          '0001540866',    // Tom Bancroft – Makaira Partners
-  // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
+
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
 
 
 
           
 
-    
-  // 'nelson-peltz':          'XXX',    // Nelson Peltz – Trian Fund Management
+ 
+
          
   // 'valueact-capital':      'XXX',    // ValueAct Capital
   // 'norbert-lou':           'XXX',    // Norbert Lou – Punch Card Management
@@ -86,36 +103,36 @@ marks:  '0000949509',// MANUELL!!,
              //   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
              //   'bill-miller':           '0001135778',    // Bill Miller – Miller Value Partners
-  // 'pat-dorsey':            'XXX',    // Pat Dorsey – Dorsey Asset Management
+
   // 'leon-cooperman':        'XXX',    // Leon Cooperman
   // 'josh-tarasoff':         'XXX',    // Josh Tarasoff – Greenlea Lane Capital
    //'clifford-sosin':        'XXX',    // Clifford Sosin – CAS Investment Partners
-   //'chris-hohn':            'XXX',    // Chris Hohn – TCI Fund Management
-   //'bryan-lawrence':        'XXX',    // Bryan Lawrence – Oakcliff Capital
+ 
+
    
   //'prem-watsa':            'XXX',    // Prem Watsa – Fairfax Financial Holdings
   //'dennis-hong':           'XXX',    // Dennis Hong – ShawSpring Partners
-             //   'seth-klarman':          ' 0001061768', // Seth Klarman – Baupost Group
+     
              //   'akre':            '0001112520',    // Chuck Akre – Akre Capital Management
   // 'francois-rochon':       'XXX',    // Francois Rochon – Giverny Capital
    //'third-avenue':          'XXX',    // Third Avenue Management
-   //'francis-chou':          'XXX',    // Francis Chou – Chou Associates
+
 
          
 
 
-   // 'triple-frond':          'XXX',    // Triple Frond Partners
-   // 'harry-burn':            'XXX',    // Harry Burn – Sound Shore
-  //'polen-capital':         'XXX',    // Polen Capital Management
-  //'jensen-investment':     'XXX',    // Jensen Investment Management
+
+
+
+
   //'first-eagle':           'XXX',    // First Eagle Investment Management
               
 
              
 
   //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
-  //'torray-funds':          'XXX',    // Torray Funds
-  //'william-von-mueffling': 'XXX',    // William Von Mueffling – Cantillon Capital Management
+  //'torray-funds':          'XXX',    // Torray Funds // NPPORT
+
  
-  //'lindsell-train':        'XXX',    // Lindsell Train
+
 }

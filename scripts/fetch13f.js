@@ -1,4 +1,4 @@
-// scripts/fetchNportP.js
+// scripts/fetch13f.js
 import fetch from 'node-fetch'
 import { parseStringPromise } from 'xml2js'
 import fs from 'fs/promises'
@@ -19,7 +19,7 @@ async function run() {
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
     // Teste nur einen Investor, bis alles klappt:
-    if (slug !== 'buffett') continue
+    if (slug !== 'lawrence') continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })

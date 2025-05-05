@@ -1,0 +1,125 @@
+{
+  "date": "2022-11-15",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 100,
+      "value": 40647000
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 312900,
+      "value": 1475000
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 535000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 2404000
+    },
+    {
+      "name": "GENIUS BRANDS INTL INC",
+      "cusip": "37229T301",
+      "shares": 341303,
+      "value": 205000
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 7100,
+      "value": 2081000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 24275,
+      "value": 2537000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 12000,
+      "value": 187000
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 474000
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 199530,
+      "value": 1836000
+    },
+    {
+      "name": "OVERSTOCK COM INC",
+      "cusip": "690370101",
+      "shares": 38405,
+      "value": 935000
+    },
+    {
+      "name": "POSCO HOLDINGS INC",
+      "cusip": "693483109",
+      "shares": 21000,
+      "value": 769000
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 1986460,
+      "value": 39729000
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W909",
+      "shares": 1725000,
+      "value": 34500000
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 267000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 715000,
+      "value": 4926000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734907",
+      "shares": 600000,
+      "value": 4134000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 30000,
+      "value": 355000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 19542,
+      "value": 786000
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 97309,
+      "value": 856000
+    }
+  ]
+}

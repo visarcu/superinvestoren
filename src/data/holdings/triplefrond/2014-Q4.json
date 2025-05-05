@@ -1,0 +1,35 @@
+{
+  "date": "2014-10-20",
+  "positions": [
+    {
+      "name": "CARNIVAL CORPORATION",
+      "cusip": "143658300",
+      "shares": 1000000,
+      "value": 40170000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS, INC",
+      "cusip": "23918k108",
+      "shares": 550000,
+      "value": 40227000
+    },
+    {
+      "name": "MCDONALDS CORP",
+      "cusip": "580135101",
+      "shares": 300000,
+      "value": 28443000
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1610000,
+      "value": 40701000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 2250000,
+      "value": 66128000
+    }
+  ]
+}

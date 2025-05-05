@@ -9,66 +9,46 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Cell,
 } from 'recharts'
 
-interface Datum {
-  name: string
+export interface TopPosition {
+  name:    string
   percent: number
 }
 
-interface Props {
-  data: Datum[]
-  colors?: string[]
-}
-
 export default function TopPositionsBarChart({
-  data,
-  colors = [
-    '#4F46E5',
-    '#10B981',
-    '#EF4444',
-    '#8B5CF6',
-    '#F59E0B',
-    '#3B82F6',
-    '#EC4899',
-    '#14B8A6',
-    '#F43F5E',
-    '#22D3EE',
-  ],
-}: Props) {
+  data
+}: {
+  data: TopPosition[]
+}) {
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={400}>
       <BarChart
-        data={data}
         layout="vertical"
-        margin={{ top: 20, right: 20, bottom: 20, left: 80 }}
+        data={data}
+        margin={{ top: 20, right: 20, bottom: 20, left: 140 }}
       >
-        {/* X-Achse als Prozent */}
+        {/* Prozent-Skala von 0 bis Max */}
         <XAxis
           type="number"
-          domain={[0, 100]}
-          tickFormatter={(v) => v.toFixed(0) + '%'}
+          domain={[0, 'dataMax']}
+          tickFormatter={v => `${Math.round(v)}%`}
         />
-
-        {/* Y-Achse: intervall=0 sorgt dafür, dass jede Zeile beschriftet wird */}
+        {/* ausreichend Breite (150px) plus left-margin */}
         <YAxis
-          type="category"
           dataKey="name"
-          interval={0}
-          width={120}
-          tick={{ fontSize: 12, fill: '#4A4A4A' }}
+          type="category"
+          width={150}
+          tick={{ textAnchor: 'end' }}
         />
-
         <Tooltip
-          formatter={(value: any) => [(value as number).toFixed(1) + '%', 'Anteil']}
+          formatter={(v:number) => `${v.toFixed(2)} %`}
         />
-
-        <Bar dataKey="percent" barSize={20}>
-          {data.map((entry, idx) => (
-            <Cell key={entry.name} fill={colors[idx % colors.length]} />
-          ))}
-        </Bar>
+        <Bar
+          dataKey="percent"
+          fill="#4f46e5"
+          barSize={20}
+        />
       </BarChart>
     </ResponsiveContainer>
   )

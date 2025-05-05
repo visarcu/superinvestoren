@@ -3075,7 +3075,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CE',
-    cusip:  '',
+    cusip:  '150870103',
     name:   'Celanese Corporation',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],

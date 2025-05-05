@@ -1,0 +1,65 @@
+{
+  "date": "2024-08-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 118880,
+      "value": 21804970000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 38474,
+      "value": 11502187000
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620R303",
+      "shares": 270000,
+      "value": 13343400000
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 615399,
+      "value": 23335930000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 124435,
+      "value": 17158342000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 302647,
+      "value": 37104522000
+    },
+    {
+      "name": "LGI HOMES INC",
+      "cusip": "50187T106",
+      "shares": 108590,
+      "value": 9717719000
+    },
+    {
+      "name": "NATURAL RESOURCE PARTNERS L",
+      "cusip": "63900P608",
+      "shares": 154866,
+      "value": 13882188000
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1105928,
+      "value": 11767074000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 21424,
+      "value": 27371517000
+    }
+  ]
+}
