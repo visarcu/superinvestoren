@@ -165,9 +165,10 @@ export default function HomePage() {
                 href={`/investor/${inv.slug}`}
                 className="
                   relative group
-                  bg-white dark:bg-surface-dark rounded-xl shadow-lg
-                  hover:shadow-2xl transform hover:-translate-y-1 transition
-                  p-6 flex flex-col items-center
+                bg-card-dark
+                rounded-xl shadow-lg
+                hover:shadow-2xl transform hover:-translate-y-1 transition
+                p-6 flex flex-col items-center
                 "
               >
                 {inv.slug === 'buffett' && (
@@ -191,12 +192,12 @@ export default function HomePage() {
 
                 {peek.length > 0 && (
                   <div className="
-                    absolute inset-0
-                    bg-white/90 dark:bg-gray-800/90
-                    opacity-0 pointer-events-none
-                    group-hover:opacity-100 group-hover:pointer-events-auto
-                    transition-opacity
-                    rounded-xl p-4 flex flex-col
+                     absolute inset-0
+                  bg-white/90 dark:bg-gray-800/90
+                  opacity-0 pointer-events-none
+                  group-hover:opacity-100 group-hover:pointer-events-auto
+                  transition-opacity
+                  rounded-xl p-4 flex flex-col
                   ">
                     <h4 className="font-semibold mb-2">Top 3 Positionen</h4>
                     <ul className="flex-1 overflow-auto space-y-1 text-sm">
@@ -219,21 +220,15 @@ export default function HomePage() {
       </section>
 
       {/* 2. Weitere Investoren */}
-      <section className="bg-white dark:bg-surface-dark rounded-xl shadow-md p-6 max-h-80 overflow-y-auto">
-        <h2 className="text-xl font-semibold mb-4">Weitere Investoren</h2>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+      <section className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 max-h-80 overflow-y-auto">
+      <h2 className="text-xl font-semibold mb-4 text-gray-100">Weitere Investoren</h2>
+      <ul className="divide-y divide-gray-700">
           {visibleOthers.map(inv => (
-            <li
-              key={inv.slug}
-              className="flex justify-between items-center py-2 text-sm"
-            >
-              <Link
-                href={`/investor/${inv.slug}`}
-                className="font-medium hover:underline"
-              >
+            <li key={inv.slug} className="flex justify-between items-center py-2 text-sm">
+              <Link href={`/investor/${inv.slug}`} className="font-medium text-gray-100 hover:underline">
                 {inv.name}
               </Link>
-              <span className="font-orbitron text-gray-600 dark:text-gray-400">
+              <span className="numeric text-accent">
                 {formatCurrency(portfolioValue[inv.slug] || 0, 'USD', 1)}
               </span>
             </li>
@@ -249,62 +244,51 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* 3. Kompakte Top-Tabellen unterhalb */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-        {/* Top-10 Käufe */}
-        <div className="bg-gray-50 dark:bg-surface-dark rounded-xl shadow-md p-4 text-sm">
+      {/* 3. Top-Tabellen */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/** Top-Käufe **/}
+        <div className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-sm">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="font-semibold">Top 10 Käufe</h3>
+            <h3 className="font-semibold text-gray-100">Top 10 Käufe</h3>
             <span className="text-accent text-sm">({periodLabel})</span>
           </div>
-          <ul className="divide-y divide-gray-100 dark:divide-gray-700">
+          <ul className="divide-y divide-gray-700">
             {aggregated.map(item => (
               <li key={item.ticker} className="flex justify-between py-2">
-                <Link
-                  href={`/aktie/${item.ticker.toLowerCase()}`}
-                  className="text-accent hover:underline"
-                >
-                  {item.ticker} – <span className="text-gray-700 dark:text-gray-300">{nameMap[item.ticker]}</span>
+                <Link href={`/aktie/${item.ticker.toLowerCase()}`} className="text-accent hover:underline">
+                  {item.ticker} – <span className="text-gray-300">{nameMap[item.ticker]}</span>
                 </Link>
-                <span className="font-orbitron text-gray-600 dark:text-gray-400">
-                  ({item.count})
-                </span>
+                <span className="numeric text-gray-400">({item.count})</span>
               </li>
             ))}
           </ul>
         </div>
-        {/* Top-10 Meistgehalten */}
-        <div className="bg-gray-50 dark:bg-surface-dark rounded-xl shadow-md p-4 text-sm">
-          <h3 className="font-semibold mb-2">Top 10 Meistgehalten</h3>
-          <ul className="divide-y divide-gray-100 dark:divide-gray-700">
+
+        {/** Top-Meistgehalten **/}
+        <div className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-sm">
+          <h3 className="font-semibold text-gray-100 mb-2">Top 10 Meistgehalten</h3>
+          <ul className="divide-y divide-gray-700">
             {topOwned.map(o => (
               <li key={o.ticker} className="flex justify-between py-2">
-                <Link
-                  href={`/aktie/${o.ticker.toLowerCase()}`}
-                  className="text-accent hover:underline"
-                >
-                  {o.ticker} – <span className="text-gray-700 dark:text-gray-300">{nameMap[o.ticker]}</span>
+                <Link href={`/aktie/${o.ticker.toLowerCase()}`} className="text-accent hover:underline">
+                  {o.ticker} – <span className="text-gray-300">{nameMap[o.ticker]}</span>
                 </Link>
-                <span className="font-orbitron text-gray-600 dark:text-gray-400">
-                  {o.count}
-                </span>
+                <span className="numeric text-gray-400">{o.count}</span>
               </li>
             ))}
           </ul>
         </div>
-        {/* Top-10 Biggest Investments */}
-        <div className="bg-gray-50 dark:bg-surface-dark rounded-xl shadow-md p-4 text-sm">
-          <h3 className="font-semibold mb-2">Top 10 Biggest Investments</h3>
-          <ul className="divide-y divide-gray-100 dark:divide-gray-700">
+
+        {/** Top-Biggest **/}
+        <div className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-sm">
+          <h3 className="font-semibold text-gray-100 mb-2">Top 10 Biggest Investments</h3>
+          <ul className="divide-y divide-gray-700">
             {biggest.map(inv => (
               <li key={inv.ticker} className="flex justify-between py-2">
-                <Link
-                  href={`/aktie/${inv.ticker.toLowerCase()}`}
-                  className="text-accent hover:underline"
-                >
-                  {inv.ticker} – <span className="text-gray-700 dark:text-gray-300">{inv.name}</span>
+                <Link href={`/aktie/${inv.ticker.toLowerCase()}`} className="text-accent hover:underline">
+                  {inv.ticker} – <span className="text-gray-300">{inv.name}</span>
                 </Link>
-                <span className="font-orbitron text-gray-600 dark:text-gray-400">
+                <span className="numeric text-gray-400">
                   {formatCurrency(inv.value, 'USD', 0)}
                 </span>
               </li>
@@ -313,38 +297,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Erklärung zu 13F-Filings */}
-      <section className="grid md:grid-cols-2 gap-8 items-center">
+      {/* 4. Was sind 13F-Filings? */}
+      <section className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 grid md:grid-cols-2 gap-8 items-center">
         <div className="space-y-4">
-          <h2 className="text-3xl font-bold">Was sind 13F-Filings?</h2>
-          <p className="text-lg leading-relaxed">
-            13F-Filings sind quartalsweise Berichte, die institutionelle
-            Investoren (ab 100 Mio USD AUM) bei der SEC einreichen müssen.
-            Sie legen ihre Wertpapierbestände offen – 45 Tage verzögert, daher
-            „Delayed portfolios“.
+          <h2 className="text-3xl font-bold text-gray-100">Was sind 13F-Filings?</h2>
+          <p className="text-lg leading-relaxed text-gray-300">
+            13F-Filings sind quartalsweise Berichte, …
           </p>
           <Link href="/about-13f" className="inline-block text-accent hover:underline">
             Mehr erfahren →
           </Link>
         </div>
         <div className="flex justify-center">
-          <Image
-            src="/images/13f.png"
-            alt="Illustration zu 13F-Filings"
-            width={320}
-            height={200}
-          />
+          <Image src="/images/13f.png" alt="13F-Filings" width={320} height={200} />
         </div>
       </section>
 
-      {/* 5. Newsletter-Signup */}
-      <section className="bg-gray-50 dark:bg-surface-dark p-8 rounded-lg text-center">
-        <h3 className="text-2xl font-semibold mb-2">
+      {/* 5. Newsletter */}
+      <section className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-center">
+        <h3 className="text-2xl font-semibold text-gray-100 mb-2">
           Nie wieder ein Quartals-Update verpassen
         </h3>
-        <p className="mb-4 text-gray-700 dark:text-gray-300">
-          Melde Dich zu unserem Newsletter an und erhalte jeden Quartals-Release
-          direkt in Dein Postfach – kostenlos und ohne Spam.
+        <p className="mb-4 text-gray-300">
+          Melde Dich zu unserem Newsletter an …
         </p>
         <NewsletterSignup />
       </section>

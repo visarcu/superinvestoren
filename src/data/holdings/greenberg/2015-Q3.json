@@ -1,5 +1,107 @@
 {
-  "form": "13F-HR",
   "date": "2015-08-14",
-  "positions": []
+  "positions": [
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674x106",
+      "shares": 1894714,
+      "value": 65064000
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 218044,
+      "value": 13453000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 247000
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 5440686,
+      "value": 190043000
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "n20146101",
+      "shares": 2269248,
+      "value": 190980000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030n101",
+      "shares": 15547,
+      "value": 935000
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444u700",
+      "shares": 877887,
+      "value": 222983000
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219g108",
+      "shares": 1739482,
+      "value": 154710000
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 5747957,
+      "value": 247565000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625h100",
+      "shares": 4873910,
+      "value": 330256000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634e114",
+      "shares": 3864103,
+      "value": 95637000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 6228032,
+      "value": 274968000
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164m108",
+      "shares": 2695109,
+      "value": 123140000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 8760395,
+      "value": 286027000
+    },
+    {
+      "name": "TIDEWATER INC",
+      "cusip": "886423102",
+      "shares": 19625,
+      "value": 446000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911k102",
+      "shares": 2500,
+      "value": 555000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911k102",
+      "shares": 5701010,
+      "value": 1266479000
+    }
+  ]
 }

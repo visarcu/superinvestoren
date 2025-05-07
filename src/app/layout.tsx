@@ -1,3 +1,4 @@
+// src/app/layout.tsx
 import './globals.css'
 import Link from 'next/link'
 import Script from 'next/script'
@@ -5,6 +6,7 @@ import type { ReactNode } from 'react'
 import SearchBar from '@/components/SearchBar'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import ConditionalHero from '@/components/ConditionalHero'
+import TickerBar from '@/components/TickerBar'
 
 export const metadata = {
   title: 'SUPERINVESTOR',
@@ -13,7 +15,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="de">
+    <html lang="de" className="dark">
       <head>
         {/* Google Fonts: Poppins + Orbitron */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -36,10 +38,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               theme: {
                 extend: {
                   colors: {
-                    heroFrom: '#000000',        // Header-Schwarz
-                    heroTo:   '#1f1f1f',        // etwas helleres Dunkel
+                    heroFrom: '#000000',
+                    heroTo:   '#1f1f1f',
                     accent:   '#00ff88',
-                    'surface-dark': '#1f1f1f',
+              
+                    'surface-dark':'#1f1f1f',
+                     'card-dark':   '#37383A', //SC GRAU
                   },
                   fontFamily: {
                     sans:    ['Poppins','system-ui','sans-serif'],
@@ -51,7 +55,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
         </Script>
       </head>
-      <body className="min-h-screen flex flex-col bg-white dark:bg-surface-dark text-gray-900 dark:text-white">
+      {/* Standard-Hintergrund jetzt dunkel, Text hell */}
+      <body className="min-h-screen flex flex-col bg-black text-gray-100">
+        {/* 1. Live-Ticker oben */}
+        <TickerBar />
 
         {/* ——— Navbar ——— */}
         <header className="bg-heroFrom text-white">
@@ -81,7 +88,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   >
                     Scalable Capital Depot
                   </a>
-                  {/* später ggf. weitere Links */}
                 </div>
               </li>
               <li><Link href="/realtime" className="hover:text-gray-200">Echtzeit Filings</Link></li>
@@ -94,10 +100,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </nav>
         </header>
 
-        {/* ——— Hero nur auf der Homepage, full-width direkt unter dem Header ——— */}
+        {/* ——— Hero nur auf der Homepage ——— */}
         <ConditionalHero />
 
-        {/* ——— Seiteninhalt in zentriertem Container ——— */}
+        {/* ——— Seiteninhalt ——— */}
         <main className="flex-grow max-w-screen-xl mx-auto px-6">
           <ErrorBoundary>{children}</ErrorBoundary>
         </main>

@@ -49,7 +49,7 @@ export default function InvestorTabs({
     maximumFractionDigits: 0,
   })
   const fmtPercent = new Intl.NumberFormat('de-DE', {
-    style:                'percent',
+    style: 'percent',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })
@@ -66,10 +66,7 @@ export default function InvestorTabs({
     const sGroup = sells[idx] || { period: bGroup.period, items: [] }
     return {
       period: bGroup.period,
-      items: [
-        ...bGroup.items,
-        ...sGroup.items,
-      ],
+      items: [ ...bGroup.items, ...sGroup.items ],
     }
   })
 
@@ -80,41 +77,42 @@ export default function InvestorTabs({
         {(['holdings','buys','sells','activity'] as Tab[]).map(t => (
           <button
             key={t}
+            onClick={() => onTabChange(t)}
             className={`px-4 py-2 rounded ${
               tab === t
                 ? t === 'holdings'
-                  ? 'bg-gray-200'
+                  ? 'bg-gray-700 text-white'
                   : t === 'buys'
-                    ? 'bg-green-200 text-green-800'
+                    ? 'bg-green-700 text-white'
                     : t === 'sells'
-                      ? 'bg-red-200 text-red-800'
-                      : 'bg-blue-200 text-blue-800'
-                : 'bg-gray-100 hover:bg-gray-200'
+                      ? 'bg-red-700 text-white'
+                      : 'bg-blue-700 text-white'
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
             }`}
-            onClick={() => onTabChange(t)}
           >
             {labels[t]}
           </button>
         ))}
       </div>
 
+      {/* Tabelle */}
       <table className="w-full border-collapse">
-        <thead className="bg-gray-200">
-          <tr>
+        <thead>
+          <tr className="bg-gray-800">
             {tab === 'holdings' ? (
               <>
-                <th className="text-left px-4 py-2">Name &amp; Ticker</th>
-                <th className="text-right px-4 py-2">Shares</th>
-                <th className="text-right px-4 py-2">Wert (USD)</th>
-                <th className="text-right px-4 py-2">Anteil</th>
-                <th className="text-right px-4 py-2">Letzte Aktivität</th>
+                <th className="text-left px-4 py-2 text-gray-300">Name &amp; Ticker</th>
+                <th className="text-right px-4 py-2 text-gray-300">Shares</th>
+                <th className="text-right px-4 py-2 text-gray-300">Wert (USD)</th>
+                <th className="text-right px-4 py-2 text-gray-300">Anteil</th>
+                <th className="text-right px-4 py-2 text-gray-300">Letzte Aktivität</th>
               </>
             ) : (
               <>
-                <th className="text-left px-4 py-2">Name &amp; Ticker</th>
-                <th className="text-right px-4 py-2">Shares</th>
-                <th className="text-right px-4 py-2">Δ Shares</th>
-                <th className="text-right px-4 py-2">%Δ</th>
+                <th className="text-left px-4 py-2 text-gray-300">Name &amp; Ticker</th>
+                <th className="text-right px-4 py-2 text-gray-300">Shares</th>
+                <th className="text-right px-4 py-2 text-gray-300">Δ Shares</th>
+                <th className="text-right px-4 py-2 text-gray-300">%Δ</th>
               </>
             )}
           </tr>
@@ -124,29 +122,36 @@ export default function InvestorTabs({
           {tab === 'holdings' && holdings.map((p,i) => {
             const ticker = cusipToTicker[p.cusip]
             return (
-              <tr key={i} className={`${i%2===0?'bg-white':'bg-gray-50'} hover:bg-gray-100`}>
+              <tr
+                key={i}
+                className={`border-b border-gray-700 ${i%2===0?'bg-gray-900':'bg-gray-800'}`}
+              >
                 <td className="px-4 py-2">
-                  {ticker ? (
-                    <Link href={`/aktie/${ticker.toLowerCase()}`} className="font-semibold hover:underline">
-                      {ticker} <span className="text-sm text-gray-500">– {p.name}</span>
-                    </Link>
-                  ) : (
-                    <span>{p.name} <span className="text-gray-500">({p.cusip})</span></span>
-                  )}
+                  {ticker
+                    ? <Link
+                        href={`/aktie/${ticker.toLowerCase()}`}
+                        className="font-semibold text-accent hover:underline"
+                      >
+                        {ticker}
+                        <span className="text-sm text-gray-400"> – {p.name}</span>
+                      </Link>
+                    : <span className="text-white">{p.name}</span>
+                  }
                 </td>
-                <td className="px-4 py-2 text-right">{fmtShares.format(p.shares)}</td>
-                <td className="px-4 py-2 text-right">{fmtValue.format(p.value)}</td>
-                <td className="px-4 py-2 text-right">
+                <td className="px-4 py-2 text-right text-white">{fmtShares.format(p.shares)}</td>
+                <td className="px-4 py-2 text-right text-white">{fmtValue.format(p.value)}</td>
+                <td className="px-4 py-2 text-right text-white">
                   {fmtPercent.format(p.value / holdings.reduce((s,x)=>s+x.value,0))}
                 </td>
                 <td className="px-4 py-2 text-right">
                   {p.deltaShares > 0
-                    ? p.pctDelta === 0
-                      ? <span className="text-green-600">Neueinkauf</span>
-                      : <span className="text-green-600">Hinzugefügt {fmtPercent.format(p.pctDelta)}</span>
+                    ? (p.pctDelta === 0
+                        ? <span className="text-green-400">Neueinkauf</span>
+                        : <span className="text-green-400">Hinzugefügt {fmtPercent.format(p.pctDelta)}</span>
+                      )
                     : p.deltaShares < 0
-                      ? <span className="text-red-600">Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}</span>
-                      : '—'
+                      ? <span className="text-red-400">Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}</span>
+                      : <span className="text-gray-500">–</span>
                   }
                 </td>
               </tr>
@@ -164,43 +169,52 @@ export default function InvestorTabs({
               <React.Fragment key={g.period}>
                 {/* Quartals-Header */}
                 <tr>
-                  <td colSpan={4} className={`px-4 py-2 font-semibold ${
-                    tab==='buys'
-                      ? 'bg-green-50 text-green-700 border-l-4 border-green-300'
-                      : tab==='sells'
-                        ? 'bg-red-50 text-red-700 border-l-4 border-red-300'
-                        : 'bg-blue-50 text-blue-700 border-l-4 border-blue-300'
-                  }`}>
+                  <td
+                    colSpan={4}
+                    className={`px-4 py-2 font-semibold ${
+                      tab === 'buys'
+                        ? 'bg-green-900 text-green-400 border-l-4 border-green-600'
+                        : tab === 'sells'
+                          ? 'bg-red-900 text-red-400 border-l-4 border-red-600'
+                          : 'bg-blue-900 text-blue-400 border-l-4 border-blue-600'
+                    }`}
+                  >
                     {g.period}
                   </td>
                 </tr>
 
-                {/* Entweder Einträge oder Hinweis */}
+                {/* Einträge oder Hinweis */}
                 {g.items.length > 0
                   ? g.items.map((p,i) => {
                       const ticker = cusipToTicker[p.cusip]
                       return (
-                        <tr key={i} className={`${i%2===0?'bg-white':'bg-gray-50'} hover:bg-gray-100`}>
+                        <tr
+                          key={i}
+                          className={`${i%2===0?'bg-gray-900':'bg-gray-800'} border-b border-gray-700`}
+                        >
                           <td className="px-4 py-2">
-                            {ticker ? (
-                              <Link href={`/aktie/${ticker.toLowerCase()}`} className="font-semibold hover:underline">
-                                {ticker} <span className="text-sm text-gray-500">– {p.name}</span>
-                              </Link>
-                            ) : (
-                              <span>{p.name} <span className="text-gray-500">({p.cusip})</span></span>
-                            )}
+                            {ticker
+                              ? <Link
+                                  href={`/aktie/${ticker.toLowerCase()}`}
+                                  className="font-semibold text-accent hover:underline"
+                                >
+                                  {ticker}
+                                  <span className="text-sm text-gray-400"> – {p.name}</span>
+                                </Link>
+                              : <span className="text-white">{p.name}</span>
+                            }
                           </td>
-                          <td className="px-4 py-2 text-right">{fmtShares.format(p.shares)}</td>
+                          <td className="px-4 py-2 text-right text-white">{fmtShares.format(p.shares)}</td>
                           <td className="px-4 py-2 text-right">
                             <span className={`inline-block px-2 py-1 text-sm rounded ${
                               p.deltaShares > 0
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-red-100 text-red-800'
+                                ? 'bg-green-800 text-green-300'
+                                : 'bg-red-800 text-red-300'
                             }`}>
-                              {fmtShares.format(p.deltaShares)}
+                              {fmtShares.format(Math.abs(p.deltaShares))}
                             </span>
                           </td>
-                          <td className="px-4 py-2 text-right">{fmtPercent.format(p.pctDelta)}</td>
+                          <td className="px-4 py-2 text-right text-white">{fmtPercent.format(Math.abs(p.pctDelta))}</td>
                         </tr>
                       )
                     })

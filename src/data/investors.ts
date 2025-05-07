@@ -172,7 +172,7 @@ export const investors: Investor[] = [
   },  
   {
     name: 'Ruane Cunniff – Sequoia Fund',
-    slug: 'ruane-cuniff',
+    slug: 'cuniff',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
@@ -240,7 +240,7 @@ export const investors: Investor[] = [
   },  
 
   {
-    name: 'Lee Ainslie (Maverick Capital)',
+    name: 'Lee Ainslie - Maverick Capital',
     slug: 'ainslie',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    

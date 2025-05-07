@@ -1,5 +1,77 @@
 {
-  "form": "13F-HR",
   "date": "2014-05-15",
-  "positions": []
+  "positions": [
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 250000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030n101",
+      "shares": 15547,
+      "value": 778000
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219g108",
+      "shares": 3546006,
+      "value": 266270000
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 4074491,
+      "value": 239947000
+    },
+    {
+      "name": "KINDER MORGAN MANAGEMENT LLC",
+      "cusip": "49455u100",
+      "shares": 3260123,
+      "value": 233653000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3984111,
+      "value": 163309000
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389x105",
+      "shares": 7801188,
+      "value": 319147000
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164m108",
+      "shares": 3376231,
+      "value": 159054000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 7208932,
+      "value": 197020000
+    },
+    {
+      "name": "TIDEWATER INC",
+      "cusip": "886423102",
+      "shares": 19625,
+      "value": 954000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911k102",
+      "shares": 5592558,
+      "value": 737267000
+    },
+    {
+      "name": "VISTAPRINT N V",
+      "cusip": "n93540107",
+      "shares": 3177660,
+      "value": 156404000
+    }
+  ]
 }

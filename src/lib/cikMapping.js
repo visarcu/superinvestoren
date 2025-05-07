@@ -12,9 +12,8 @@ export const investorCiks = {
   olstein: '0000947996',
   gregalexander:'0001773994',
   altarockpartners:     '0001631014', 
-  miller:   '0001135778',
+  miller:   '0001135778', // 0 positionen
   tepper:          '0001656456',
-  spier:             '0001953324',
   coleman:         '0001167483',    // Chase Coleman – Tiger Global Management 
   gayner:         '0001096343',    // Thomas Gayner – Markel Group
   ainslie:           '0000934639',    // Lee Ainslie – Maverick Capital
@@ -47,6 +46,8 @@ export const investorCiks = {
   dorsey: '0001671657',
   chou:  '0001389403',    // Francis Chou – Chou Associates
   lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
+  greenberg:       '0001553733',    // Glenn Greenberg – Brave Warrior Advisors
+
 
   
   //NPORT P TYPES: EVTL NOCH CODE ANPASSEN
@@ -55,10 +56,13 @@ export const investorCiks = {
    // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
   // dodgecox:  '0000029440',    // Dodge & Cox
     // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
+   // cunniff:         '0002049493',    // Ruane Cunniff – Sequoia Fund //NPORT
+   //'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
 
  // 0 Einträge:
  klarman: '0001061768',
  triplefrond: '0001454502',    // Triple Frond Partners
+ spier:             '0001953324',
 
 
   //Manuell folgende Investoren updaten
@@ -82,9 +86,9 @@ export const investorCiks = {
   // 'hillman-value':         'XXX',    // Hillman Value Fund
 
 
-  'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
+  
   // 'meridian-contrarian':   'XXX',    // Meridian Contrarian Fund
-  'ruane-cunniff':         '0002049493',    // Ruane Cunniff – Sequoia Fund
+
   'tom-bancroft':          '0001540866',    // Tom Bancroft – Makaira Partners
 
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
@@ -99,7 +103,7 @@ export const investorCiks = {
   'kahn-brothers':         '0001039565',    // Kahn Brothers Group
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
   // 'david-rolfe':           'XXX',    // David Rolfe – Wedgewood Partners
-  'greenberg':       '0001553733',    // Glenn Greenberg – Brave Warrior Advisors
+
   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
 
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital

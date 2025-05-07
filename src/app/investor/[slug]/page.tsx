@@ -204,9 +204,9 @@ export default function InvestorPage({
   if (slug === 'gates')   articles = articlesGates
 
   return (
-    <main className="max-w-screen-xl mx-auto p-4">
+    <main className="bg-surface-dark min-h-screen px-4 py-8 space-y-12">
       {/* — Investor Header — */}
-      <div className="bg-white shadow rounded-lg p-6 mb-8 flex flex-col sm:flex-row items-center">
+      <div className="bg-card-dark border border-gray-700 shadow-lg rounded-lg p-6 mb-8 flex flex-col sm:flex-row items-center">
         <div className="w-20 h-20 relative mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
           <Image
             src={`/images/${slug}.png`}
@@ -216,16 +216,16 @@ export default function InvestorPage({
           />
         </div>
         <div className="text-center sm:text-left space-y-1">
-          <h1 className="text-3xl font-orbitron font-bold">
+        <h1 className="text-3xl font-orbitron font-bold text-gray-100">
             {investorNames[slug] ?? slug}
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             Periode: <span className="font-medium">{period}</span>
           </p>
           <p className="text-sm text-gray-500">
             Aktualisiert am <span className="font-medium">{formattedDate}</span>
           </p>
-          <p className="text-2xl font-semibold text-gray-800">
+          <p className="text-2xl font-semibold text-gray-100">
             Gesamtwert{' '}
             <span className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded numeric">
               {formatCurrency(totalVal,'EUR')}
@@ -245,21 +245,17 @@ export default function InvestorPage({
 
       {/* — Holdings View — */}
       {tab === 'holdings' && (
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="w-full h-[500px]">
-            <h2 className="text-xl font-orbitron font-semibold text-center mb-2">
-              Top 10 Positionen
-            </h2>
-            <TopPositionsBarChart data={top10} />
-          </div>
-          <div className="w-full h-[500px]">
-            <h2 className="text-xl font-orbitron font-semibold text-center mb-2">
-              Cashflow pro Quartal (letzte 8)
-            </h2>
-            <CashFlowBarChart data={cashflowPoints} />
-          </div>
-        </div>
-      )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="bg-card-dark border border-gray-700 rounded-lg p-4">
+        <h2 className="text-xl font-orbitron text-gray-100 text-center mb-2">Top 10 Positionen</h2>
+        <TopPositionsBarChart data={top10} />
+      </div>
+      <div className="bg-card-dark border border-gray-700 rounded-lg p-4">
+        <h2 className="text-xl font-orbitron text-gray-100 text-center mb-2">Cashflow (letzte 8 Q)</h2>
+        <CashFlowBarChart data={cashflowPoints} />
+      </div>
+    </div>
+)}
 
       {/* — Articles & Commentaries — */}
       {articles.length > 0 && (

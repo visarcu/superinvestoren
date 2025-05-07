@@ -1,5 +1,275 @@
 {
-  "form": "13F-HR",
   "date": "2015-02-17",
-  "positions": []
+  "positions": [
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 2829372,
+      "value": 205695000
+    },
+    {
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 5179574,
+      "value": 201071000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 250000,
+      "value": 25985000
+    },
+    {
+      "name": "ALLISON TRANSMISSION HLDGS I",
+      "cusip": "01973R101",
+      "shares": 3662788,
+      "value": 124169000
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 356954,
+      "value": 40093000
+    },
+    {
+      "name": "AVAGO TECHNOLOGIES LTD",
+      "cusip": "Y0486S104",
+      "shares": 923250,
+      "value": 92870000
+    },
+    {
+      "name": "CALPINE CORP",
+      "cusip": "131347304",
+      "shares": 8691707,
+      "value": 192347000
+    },
+    {
+      "name": "CASTLIGHT HEALTH INC",
+      "cusip": "14862Q100",
+      "shares": 1144324,
+      "value": 13389000
+    },
+    {
+      "name": "CBS CORP NEW",
+      "cusip": "124857202",
+      "shares": 4409143,
+      "value": 244002000
+    },
+    {
+      "name": "COLUMBIA PPTY TR INC",
+      "cusip": "198287203",
+      "shares": 1511277,
+      "value": 38311000
+    },
+    {
+      "name": "COMMSCOPE HLDG CO INC",
+      "cusip": "20337X109",
+      "shares": 7059452,
+      "value": 161167000
+    },
+    {
+      "name": "COMMUNITY HEALTH SYS INC NEW",
+      "cusip": "203668108",
+      "shares": 927073,
+      "value": 49988000
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 1579520,
+      "value": 124308000
+    },
+    {
+      "name": "DELPHI AUTOMOTIVE PLC",
+      "cusip": "G27823106",
+      "shares": 644043,
+      "value": 46835000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 4862281,
+      "value": 343763000
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 914693,
+      "value": 136024000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 659237,
+      "value": 347022000
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 2900873,
+      "value": 114091000
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 3285443,
+      "value": 241119000
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 135563,
+      "value": 29728000
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 2668114,
+      "value": 61740000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 961668,
+      "value": 48281000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 6574225,
+      "value": 317601000
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1307419,
+      "value": 271394000
+    },
+    {
+      "name": "MGIC INVT CORP WIS",
+      "cusip": "552848103",
+      "shares": 9840768,
+      "value": 91716000
+    },
+    {
+      "name": "NORTHSTAR RLTY FIN CORP",
+      "cusip": "66704R704",
+      "shares": 3848002,
+      "value": 67648000
+    },
+    {
+      "name": "NOVARTIS A G",
+      "cusip": "66987V109",
+      "shares": 519369,
+      "value": 48125000
+    },
+    {
+      "name": "PACIFIC BIOSCIENCES CALIF IN",
+      "cusip": "69404D108",
+      "shares": 6459784,
+      "value": 50645000
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 111000,
+      "value": 126563000
+    },
+    {
+      "name": "PTC INC",
+      "cusip": "69370C100",
+      "shares": 2374064,
+      "value": 87009000
+    },
+    {
+      "name": "QIHOO 360 TECHNOLOGY CO LTD",
+      "cusip": "74734M109",
+      "shares": 3300510,
+      "value": 188987000
+    },
+    {
+      "name": "QLIK TECHNOLOGIES INC",
+      "cusip": "74733T105",
+      "shares": 1843788,
+      "value": 56955000
+    },
+    {
+      "name": "RADIAN GROUP INC",
+      "cusip": "750236101",
+      "shares": 14927246,
+      "value": 249584000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 957261,
+      "value": 37371000
+    },
+    {
+      "name": "SABRE CORP",
+      "cusip": "78573M104",
+      "shares": 6629096,
+      "value": 134372000
+    },
+    {
+      "name": "SANTANDER CONSUMER USA HDG I",
+      "cusip": "80283M101",
+      "shares": 14452986,
+      "value": 283423000
+    },
+    {
+      "name": "SOLARWINDS INC",
+      "cusip": "83416B109",
+      "shares": 3719246,
+      "value": 185330000
+    },
+    {
+      "name": "TEAM HEALTH HOLDINGS INC",
+      "cusip": "87817A107",
+      "shares": 1570042,
+      "value": 90325000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1432382,
+      "value": 281248000
+    },
+    {
+      "name": "UNIVERSAL HLTH SVCS INC",
+      "cusip": "913903100",
+      "shares": 834757,
+      "value": 92875000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 2423766,
+      "value": 346865000
+    },
+    {
+      "name": "VULCAN MATLS CO",
+      "cusip": "929160109",
+      "shares": 2826752,
+      "value": 185802000
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 1261752,
+      "value": 96146000
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "941053100",
+      "shares": 2934225,
+      "value": 129077000
+    },
+    {
+      "name": "ZULILY INC",
+      "cusip": "989774104",
+      "shares": 3399491,
+      "value": 79548000
+    }
+  ]
 }

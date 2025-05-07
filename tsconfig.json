@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "next.config.js",
+    "next.config.cjs",
     // unser globales Declaration-File
     "src/global.d.ts"
   ],

@@ -32,7 +32,10 @@ module.exports = {
       colors: {
         primary: '#2563eb',
         surface: '#ffffff',
-        'surface-dark': '#1f2937',
+        'surface-dark': '#000000',
+        accent:         '#00ff88',
+        'card-dark':    '#37383A',
+
       },
     },
   },

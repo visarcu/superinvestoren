@@ -1,5 +1,119 @@
 {
-  "form": "13F-HR",
   "date": "2020-02-14",
-  "positions": []
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079k107",
+      "shares": 1100,
+      "value": 1471000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079k305",
+      "shares": 233391,
+      "value": 312602000
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676b102",
+      "shares": 1713314,
+      "value": 13004000
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674x106",
+      "shares": 7116543,
+      "value": 20282000
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 627652,
+      "value": 189570000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 512000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1473687,
+      "value": 333790000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030n101",
+      "shares": 31094,
+      "value": 1398000
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331a109",
+      "shares": 1143906,
+      "value": 60341000
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 7799,
+      "value": 733000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625h100",
+      "shares": 1840008,
+      "value": 256497000
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 2369627,
+      "value": 132201000
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057302",
+      "shares": 13308,
+      "value": 595000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 5347,
+      "value": 1269000
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164m108",
+      "shares": 714118,
+      "value": 93235000
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1724376,
+      "value": 124828000
+    },
+    {
+      "name": "RAYMOND JAMES FINANCIAL INC",
+      "cusip": "754730109",
+      "shares": 2396170,
+      "value": 214361000
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATI",
+      "cusip": "808513105",
+      "shares": 1858698,
+      "value": 88400000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324p102",
+      "shares": 159089,
+      "value": 46769000
+    }
+  ]
 }

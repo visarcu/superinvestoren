@@ -56,10 +56,14 @@ chou:  '0001389403',    // Francis Chou – Chou Associates
 lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
 
 
+
+
 //NportP
   // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
  // 'dodgecox':             '0000029440',    // Dodge & Cox
    // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
+      // cunniff:         '0002049493',    // Ruane Cunniff – Sequoia Fund //NPORT
+     // 'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
 
  // 0 einträge
  //triplefrond: '0001454502',    // Triple Frond Partners
@@ -77,9 +81,9 @@ lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
         
   // 'hillman-value':         'XXX',    // Hillman Value Fund
 
- //             'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
+ //         
   // 'meridian-contrarian':   'XXX',    // Meridian Contrarian Fund
-            //'ruane-cunniff':         '0002049493',    // Ruane Cunniff – Sequoia Fund
+
           //'tom-bancroft':          '0001540866',    // Tom Bancroft – Makaira Partners
 
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
@@ -99,7 +103,7 @@ lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
              //   'kahn-brothers':         '0001039565',    // Kahn Brothers Group
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
   // 'david-rolfe':           'XXX',    // David Rolfe – Wedgewood Partners
-             //   'greenberg':       '0001553733',    // Glenn Greenberg – Brave Warrior Advisors
+
              //   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
   // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
              //   'bill-miller':           '0001135778',    // Bill Miller – Miller Value Partners
