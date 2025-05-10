@@ -37,8 +37,9 @@ export default function StockLineChart({
     tension: 0.2,
     pointRadius: 0,
     // optional für lila Farbstich:
-    borderColor: 'rgba(155, 93, 229, 1)',
-    backgroundColor: 'rgba(155, 93, 229, 0.1)',
+   borderColor: 'rgba(155, 93, 229, 1)',
+    backgroundColor: 'rgba(155, 93, 229, 0.2)', // statt 0.1
+    borderWidth: 2,   
   }
 
   return (

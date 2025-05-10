@@ -1,0 +1,65 @@
+{
+  "date": "2023-08-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 194925,
+      "value": 23332523000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 548165,
+      "value": 71458789000
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 1309230,
+      "value": 44055590000
+    },
+    {
+      "name": "BURFORD CAP LTD",
+      "cusip": "G17977110",
+      "shares": 785758,
+      "value": 9570532000
+    },
+    {
+      "name": "MARKEL GROUP INC",
+      "cusip": "570535104",
+      "shares": 24125,
+      "value": 33369218000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 89640,
+      "value": 30526006000
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 112940,
+      "value": 19337587000
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 262880,
+      "value": 16982048000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 122045,
+      "value": 19594325000
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 301470,
+      "value": 5932930000
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "date": "2024-08-14",
+  "positions": [
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 367857,
+      "value": 36038950000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 200000,
+      "value": 4554000000
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 40000,
+      "value": 3205200000
+    },
+    {
+      "name": "FLOWSERVE CORP",
+      "cusip": "34354P105",
+      "shares": 269882,
+      "value": 12981324000
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 167500,
+      "value": 26552100000
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 530538,
+      "value": 29094704000
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 243101,
+      "value": 29767717000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 1350000,
+      "value": 15322500000
+    },
+    {
+      "name": "ASHLAND INC",
+      "cusip": "044186104",
+      "shares": 60000,
+      "value": 5669400000
+    },
+    {
+      "name": "PATTERSON-UTI ENERGY INC",
+      "cusip": "703481101",
+      "shares": 2130000,
+      "value": 22066800000
+    },
+    {
+      "name": "CHART INDS INC",
+      "cusip": "16115Q308",
+      "shares": 70000,
+      "value": 10103800000
+    },
+    {
+      "name": "APTIV PLC",
+      "cusip": "G6095L109",
+      "shares": 377275,
+      "value": 26567706000
+    }
+  ]
+}

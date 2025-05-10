@@ -1,0 +1,365 @@
+{
+  "date": "2022-11-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC. CLASS A",
+      "cusip": "02079k305",
+      "shares": 302503,
+      "value": 28934000
+    },
+    {
+      "name": "ALPHABET INC. CLASS A",
+      "cusip": "02079k305",
+      "shares": 18645,
+      "value": 1783000
+    },
+    {
+      "name": "ALPHABET INC. CLASS C",
+      "cusip": "02079k107",
+      "shares": 80530,
+      "value": 7742000
+    },
+    {
+      "name": "AMEREN CORP COM",
+      "cusip": "023608102",
+      "shares": 6900,
+      "value": 555000
+    },
+    {
+      "name": "ANNALY CAPITAL MANAGEMENT INC ",
+      "cusip": "035710839",
+      "shares": 21561,
+      "value": 369000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 346117,
+      "value": 47833000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 14430,
+      "value": 1994000
+    },
+    {
+      "name": "AT&T INC COM",
+      "cusip": "00206R102",
+      "shares": 77500,
+      "value": 1188000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 19375,
+      "value": 5173000
+    },
+    {
+      "name": "BLACKSTONE INC COM",
+      "cusip": "09260D107",
+      "shares": 14000,
+      "value": 1171000
+    },
+    {
+      "name": "BOEING CO COM",
+      "cusip": "097023105",
+      "shares": 3725,
+      "value": 451000
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857l108",
+      "shares": 8802,
+      "value": 14463000
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857l108",
+      "shares": 469,
+      "value": 770000
+    },
+    {
+      "name": "BP PLC SPONSORED ADR",
+      "cusip": "055622104",
+      "shares": 12750,
+      "value": 364000
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO COM",
+      "cusip": "110122108",
+      "shares": 5425,
+      "value": 385000
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514g108",
+      "shares": 169597,
+      "value": 26470000
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514g108",
+      "shares": 10766,
+      "value": 1680000
+    },
+    {
+      "name": "CONSOLIDATED EDISON INC COM",
+      "cusip": "209115104",
+      "shares": 5250,
+      "value": 450000
+    },
+    {
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 181088,
+      "value": 19267000
+    },
+    {
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 10913,
+      "value": 1161000
+    },
+    {
+      "name": "DISNEY WALT CO COM",
+      "cusip": "254687106",
+      "shares": 3300,
+      "value": 311000
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES",
+      "cusip": "28176e108",
+      "shares": 316437,
+      "value": 26147000
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES",
+      "cusip": "28176e108",
+      "shares": 15190,
+      "value": 1255000
+    },
+    {
+      "name": "EXXON MOBIL CORP COM",
+      "cusip": "30231G102",
+      "shares": 2375,
+      "value": 207000
+    },
+    {
+      "name": "FIRST REPUBLIC BANK",
+      "cusip": "33616c100",
+      "shares": 142845,
+      "value": 18648000
+    },
+    {
+      "name": "FIRST REPUBLIC BANK",
+      "cusip": "33616c100",
+      "shares": 8001,
+      "value": 1044000
+    },
+    {
+      "name": "JOHNSON & JOHNSON COM",
+      "cusip": "478160104",
+      "shares": 6400,
+      "value": 1045000
+    },
+    {
+      "name": "KRAFT HEINZ CO COM",
+      "cusip": "500754106",
+      "shares": 11750,
+      "value": 391000
+    },
+    {
+      "name": "META PLATFORMS INC CLASS A",
+      "cusip": "30303m102",
+      "shares": 189144,
+      "value": 25663000
+    },
+    {
+      "name": "META PLATFORMS INC CLASS A",
+      "cusip": "30303m102",
+      "shares": 11974,
+      "value": 1624000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 131169,
+      "value": 30549000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 6817,
+      "value": 1587000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS",
+      "cusip": "620076307",
+      "shares": 153051,
+      "value": 34278000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS",
+      "cusip": "620076307",
+      "shares": 8299,
+      "value": 1858000
+    },
+    {
+      "name": "OLD DOMINION FREIGHT",
+      "cusip": "679580100",
+      "shares": 52308,
+      "value": 13012000
+    },
+    {
+      "name": "OLD DOMINION FREIGHT",
+      "cusip": "679580100",
+      "shares": 3852,
+      "value": 958000
+    },
+    {
+      "name": "PAYCHEX INC COM",
+      "cusip": "704326107",
+      "shares": 2000,
+      "value": 224000
+    },
+    {
+      "name": "PAYPAL HOLDINGS INCORPOR",
+      "cusip": "70450y103",
+      "shares": 294436,
+      "value": 25342000
+    },
+    {
+      "name": "PAYPAL HOLDINGS INCORPOR",
+      "cusip": "70450y103",
+      "shares": 17615,
+      "value": 1516000
+    },
+    {
+      "name": "PEPSICO INC COM",
+      "cusip": "713448108",
+      "shares": 1250,
+      "value": 204000
+    },
+    {
+      "name": "POOL CORP",
+      "cusip": "73278l105",
+      "shares": 28212,
+      "value": 8977000
+    },
+    {
+      "name": "POOL CORP",
+      "cusip": "73278l105",
+      "shares": 2011,
+      "value": 639000
+    },
+    {
+      "name": "PROGRESSIVE CO OHIO",
+      "cusip": "743315103",
+      "shares": 169298,
+      "value": 19674000
+    },
+    {
+      "name": "PROGRESSIVE CO OHIO",
+      "cusip": "743315103",
+      "shares": 9232,
+      "value": 1072000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409v104",
+      "shares": 37212,
+      "value": 11362000
+    },
+    {
+      "name": "S&amp;P GLOBAL INC",
+      "cusip": "78409v104",
+      "shares": 2085,
+      "value": 636000
+    },
+    {
+      "name": "STARBUCKS CORP COM",
+      "cusip": "855244109",
+      "shares": 25390,
+      "value": 2139000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTR F SPONSORE",
+      "cusip": "874039100",
+      "shares": 279837,
+      "value": 19185000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTR F SPONSORE",
+      "cusip": "874039100",
+      "shares": 16679,
+      "value": 1143000
+    },
+    {
+      "name": "TEXAS PACIFIC LAND CORP",
+      "cusip": "88262p102",
+      "shares": 9893,
+      "value": 17583000
+    },
+    {
+      "name": "TEXAS PACIFIC LAND CORP",
+      "cusip": "88262p102",
+      "shares": 581,
+      "value": 1032000
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 167912,
+      "value": 31211000
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 8344,
+      "value": 1550000
+    },
+    {
+      "name": "UNITEDHEALTH GRP INC",
+      "cusip": "91324p102",
+      "shares": 57635,
+      "value": 29108000
+    },
+    {
+      "name": "UNITEDHEALTH GRP INC",
+      "cusip": "91324p102",
+      "shares": 3232,
+      "value": 1632000
+    },
+    {
+      "name": "US BANCORP DEL COM NEW",
+      "cusip": "902973304",
+      "shares": 36805,
+      "value": 1483000
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC COM",
+      "cusip": "92343V104",
+      "shares": 23250,
+      "value": 882000
+    },
+    {
+      "name": "VISA INC CLASS A",
+      "cusip": "92826c839",
+      "shares": 181968,
+      "value": 32326000
+    },
+    {
+      "name": "VISA INC CLASS A",
+      "cusip": "92826c839",
+      "shares": 9261,
+      "value": 1645000
+    },
+    {
+      "name": "WARNER BROS DISCOVERY INC COM ",
+      "cusip": "934423104",
+      "shares": 16584,
+      "value": 190000
+    }
+  ]
+}

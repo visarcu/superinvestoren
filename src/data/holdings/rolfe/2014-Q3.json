@@ -1,0 +1,137 @@
+{
+  "date": "2014-08-14",
+  "positions": [
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 6026684,
+      "value": 560060000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 4048166,
+      "value": 512336000
+    },
+    {
+      "name": "COACH",
+      "cusip": "189754104",
+      "shares": 7846843,
+      "value": 268284000
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 7094047,
+      "value": 346970000
+    },
+    {
+      "name": "CUMMINS",
+      "cusip": "231021106",
+      "shares": 1202145,
+      "value": 185479000
+    },
+    {
+      "name": "EMC CORP",
+      "cusip": "268648102",
+      "shares": 13965839,
+      "value": 367860000
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219g108",
+      "shares": 5526574,
+      "value": 383157000
+    },
+    {
+      "name": "GOOGLE",
+      "cusip": "38259p706",
+      "shares": 198487,
+      "value": 114186000
+    },
+    {
+      "name": "GOOGLE INC CLASS A VTG VOTING ",
+      "cusip": "38259p508",
+      "shares": 220754,
+      "value": 129068000
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 5408348,
+      "value": 144349000
+    },
+    {
+      "name": "M&T BANK",
+      "cusip": "55261f104",
+      "shares": 2435410,
+      "value": 302113000
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 2381845,
+      "value": 221916000
+    },
+    {
+      "name": "NATIONAL-OILWELL VARCO",
+      "cusip": "637071101",
+      "shares": 2196060,
+      "value": 180846000
+    },
+    {
+      "name": "NOW INC",
+      "cusip": "67011p100",
+      "shares": 478947,
+      "value": 17343000
+    },
+    {
+      "name": "PERRIGO",
+      "cusip": "g97822103",
+      "shares": 1742399,
+      "value": 253972000
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 175192,
+      "value": 210756000
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 4897789,
+      "value": 387905000
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 2159911,
+      "value": 254761000
+    },
+    {
+      "name": "STERICYCLE",
+      "cusip": "858912108",
+      "shares": 2393147,
+      "value": 283396000
+    },
+    {
+      "name": "VARIAN MEDICAL SYSTEMS",
+      "cusip": "92220p105",
+      "shares": 2601412,
+      "value": 216281000
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345y106",
+      "shares": 3216655,
+      "value": 193064000
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826c839",
+      "shares": 947703,
+      "value": 199690000
+    }
+  ]
+}

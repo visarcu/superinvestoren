@@ -1,0 +1,209 @@
+{
+  "date": "2019-11-27",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 36322,
+      "value": 7556000
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 25689,
+      "value": 923000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 110728,
+      "value": 15395000
+    },
+    {
+      "name": "LOCKHEED MARTIN CORP",
+      "cusip": "539830109",
+      "shares": 18888,
+      "value": 7367000
+    },
+    {
+      "name": "WABTEC CORP",
+      "cusip": "929740108",
+      "shares": 52547,
+      "value": 3776000
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 70035,
+      "value": 4417000
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 70538,
+      "value": 9640000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 10805,
+      "value": 461000
+    },
+    {
+      "name": "GILEAD SCIENCES INC",
+      "cusip": "375558103",
+      "shares": 132609,
+      "value": 8405000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 10322,
+      "value": 2243000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 62923,
+      "value": 14093000
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 70655,
+      "value": 7016000
+    },
+    {
+      "name": "ANNALY CAP MGMT INC",
+      "cusip": "035710409",
+      "shares": 758735,
+      "value": 6677000
+    },
+    {
+      "name": "CIGNA CORP NEW",
+      "cusip": "125523100",
+      "shares": 30522,
+      "value": 4633000
+    },
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332102",
+      "shares": 3829,
+      "value": 4153000
+    },
+    {
+      "name": "BIOGEN INC",
+      "cusip": "09062X103",
+      "shares": 17774,
+      "value": 4138000
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 92225,
+      "value": 5558000
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 24855,
+      "value": 710000
+    },
+    {
+      "name": "MERITAGE HOMES CORP",
+      "cusip": "59001A102",
+      "shares": 117765,
+      "value": 8285000
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 68640,
+      "value": 8795000
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "595017104",
+      "shares": 95119,
+      "value": 8838000
+    },
+    {
+      "name": "SPDR GOLD TRUST",
+      "cusip": "78463V107",
+      "shares": 82960,
+      "value": 11521000
+    },
+    {
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 49263,
+      "value": 6024000
+    },
+    {
+      "name": "CAMECO CORP",
+      "cusip": "13321L108",
+      "shares": 844996,
+      "value": 8027000
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 42970,
+      "value": 5792000
+    },
+    {
+      "name": "INVESCO EXCHANGE TRADED FD T",
+      "cusip": "46137V308",
+      "shares": 31400,
+      "value": 1965000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 114330,
+      "value": 6585000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 249899,
+      "value": 9641000
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 36242,
+      "value": 4644000
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 20173,
+      "value": 5569000
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 781601,
+      "value": 7144000
+    },
+    {
+      "name": "GOLAR LNG PARTNERS LP",
+      "cusip": "Y2745C102",
+      "shares": 237620,
+      "value": 2276000
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 37648,
+      "value": 1794000
+    },
+    {
+      "name": "CORTEVA INC",
+      "cusip": "22052L104",
+      "shares": 37648,
+      "value": 1054000
+    }
+  ]
+}

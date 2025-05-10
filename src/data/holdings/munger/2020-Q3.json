@@ -1,0 +1,29 @@
+{
+  "date": "2020-07-02",
+  "positions": [
+    {
+      "name": "Bank of\n  America Corp",
+      "cusip": "060505104",
+      "shares": 2300000,
+      "value": 54625000
+    },
+    {
+      "name": "Posco ADR",
+      "cusip": "693483109",
+      "shares": 9745,
+      "value": 361000
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 140000,
+      "value": 5155000
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1591800,
+      "value": 40750000
+    }
+  ]
+}

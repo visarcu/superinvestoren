@@ -1,0 +1,227 @@
+{
+  "date": "2020-02-20",
+  "positions": [
+    {
+      "name": "BRISTOL MYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 123223,
+      "value": 7910000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 36318,
+      "value": 8226000
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 25014,
+      "value": 980000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 101622,
+      "value": 16026000
+    },
+    {
+      "name": "LOCKHEED MARTIN CORP",
+      "cusip": "539830109",
+      "shares": 18889,
+      "value": 7355000
+    },
+    {
+      "name": "WABTEC CORP",
+      "cusip": "929740108",
+      "shares": 52567,
+      "value": 4090000
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 106514,
+      "value": 7913000
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 70541,
+      "value": 9757000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 10805,
+      "value": 552000
+    },
+    {
+      "name": "GILEAD SCIENCES INC",
+      "cusip": "375558103",
+      "shares": 39475,
+      "value": 2565000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 10369,
+      "value": 3048000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 58874,
+      "value": 17288000
+    },
+    {
+      "name": "ANNALY CAP MGMT INC",
+      "cusip": "035710409",
+      "shares": 758883,
+      "value": 7149000
+    },
+    {
+      "name": "CIGNA CORP NEW",
+      "cusip": "125523100",
+      "shares": 31131,
+      "value": 6366000
+    },
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332102",
+      "shares": 3835,
+      "value": 4569000
+    },
+    {
+      "name": "BIOGEN INC",
+      "cusip": "09062X103",
+      "shares": 17768,
+      "value": 5272000
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 92060,
+      "value": 5136000
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 6467,
+      "value": 401000
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 24855,
+      "value": 700000
+    },
+    {
+      "name": "MERITAGE HOMES CORP",
+      "cusip": "59001A102",
+      "shares": 117759,
+      "value": 7196000
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 67647,
+      "value": 7590000
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "595017104",
+      "shares": 95065,
+      "value": 9955000
+    },
+    {
+      "name": "SPDR GOLD TRUST",
+      "cusip": "78463V107",
+      "shares": 83028,
+      "value": 11865000
+    },
+    {
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 49326,
+      "value": 6073000
+    },
+    {
+      "name": "CAMECO CORP",
+      "cusip": "13321L108",
+      "shares": 380132,
+      "value": 3383000
+    },
+    {
+      "name": "TENNECO INC",
+      "cusip": "880349105",
+      "shares": 373957,
+      "value": 4899000
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 42970,
+      "value": 5930000
+    },
+    {
+      "name": "INVESCO EXCHANGE TRADED FD T",
+      "cusip": "46137V308",
+      "shares": 64195,
+      "value": 4428000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 114371,
+      "value": 6688000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 249989,
+      "value": 11624000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 4430,
+      "value": 202000
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 49626,
+      "value": 7408000
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 24118,
+      "value": 7622000
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 941429,
+      "value": 8002000
+    },
+    {
+      "name": "GOLAR LNG PARTNERS LP",
+      "cusip": "Y2745C102",
+      "shares": 259350,
+      "value": 2293000
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 148841,
+      "value": 8146000
+    },
+    {
+      "name": "BRISTOL MYERS SQUIBB CO",
+      "cusip": "110122157",
+      "shares": 70665,
+      "value": 213000
+    }
+  ]
+}

@@ -47,6 +47,16 @@ export const investorCiks = {
   chou:  '0001389403',    // Francis Chou – Chou Associates
   lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
   greenberg:       '0001553733',    // Glenn Greenberg – Brave Warrior Advisors
+  roepers: '0001063296',    // Alex Roepers – Atlantic Investment Management
+  munger: '0000783412',
+  lountzis: '0001821168',
+  haley:'0001858353',
+  lou: '0001631664',    // Norbert Lou – Punch Card Management
+  wyden:  '0001745214',
+  muhlenkamp:  '0001133219',
+  tarasoff: '0001766504',    // Josh Tarasoff – Greenlea Lane Capital
+  welling: '0001559771',    // Glenn Welling – Engaged Capital
+  rolfe: '0000859804',    // David Rolfe – Wedgewood Partners
 
 
   
@@ -58,11 +68,14 @@ export const investorCiks = {
     // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
    // cunniff:         '0002049493',    // Ruane Cunniff – Sequoia Fund //NPORT
    //'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
+  // torray:          'XXX',    // Torray Funds
 
  // 0 Einträge:
  klarman: '0001061768',
  triplefrond: '0001454502',    // Triple Frond Partners
  spier:             '0001953324',
+ lee: '0001426749',
+ whitman:  '0001099281',    // Third Avenue Management
 
 
   //Manuell folgende Investoren updaten
@@ -96,21 +109,21 @@ export const investorCiks = {
 
 
   // 'valueact-capital':      'XXX',    // ValueAct Capital
-  // 'norbert-lou':           'XXX',    // Norbert Lou – Punch Card Management
+
   'gates':      '0001166559',    // Bill & Melinda Gates Foundation Trust
   // 'bruce-berkowitz':       'XXX',    // Bruce Berkowitz – Fairholme Capital
-  // 'alex-roepers':          'XXX',    // Alex Roepers – Atlantic Investment Management
+
   'kahn-brothers':         '0001039565',    // Kahn Brothers Group
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
-  // 'david-rolfe':           'XXX',    // David Rolfe – Wedgewood Partners
+ 
 
   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
 
-  // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
+
 
  
   // 'leon-cooperman':        'XXX',    // Leon Cooperman
-  // 'josh-tarasoff':         'XXX',    // Josh Tarasoff – Greenlea Lane Capital
+
    //'clifford-sosin':        'XXX',    // Clifford Sosin – CAS Investment Partners
 
 
@@ -120,7 +133,7 @@ export const investorCiks = {
   
 
   // 'francois-rochon':       'XXX',    // Francois Rochon – Giverny Capital
-   //'third-avenue':          'XXX',    // Third Avenue Management
+
 
 
   
@@ -132,7 +145,7 @@ export const investorCiks = {
   
 
   //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
-  //'torray-funds':          'XXX',    // Torray Funds
+
 
 
 

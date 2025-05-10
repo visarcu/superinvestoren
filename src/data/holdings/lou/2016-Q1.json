@@ -1,0 +1,35 @@
+{
+  "date": "2016-02-16",
+  "positions": [
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 351759,
+      "value": 66497000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 373,
+      "value": 73779000
+    },
+    {
+      "name": "CARE COM INC",
+      "cusip": "141633107",
+      "shares": 322178,
+      "value": 2307000
+    },
+    {
+      "name": "PRICE T ROWE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 232800,
+      "value": 16643000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 1459516,
+      "value": 29905000
+    }
+  ]
+}

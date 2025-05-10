@@ -1,0 +1,125 @@
+{
+  "date": "2024-02-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 271299,
+      "value": 39376337000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1552,
+      "value": 227166000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 180484,
+      "value": 33396828000
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 6414,
+      "value": 24037171000
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514G108",
+      "shares": 100556,
+      "value": 23878920000
+    },
+    {
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 539163,
+      "value": 26542994000
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 250652,
+      "value": 21621198000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 102120,
+      "value": 46987454000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 71706,
+      "value": 29135441000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS INC",
+      "cusip": "620076307",
+      "shares": 82252,
+      "value": 26256364000
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE IN",
+      "cusip": "679580100",
+      "shares": 31627,
+      "value": 13407804000
+    },
+    {
+      "name": "OREILLY AUTOMOTIVE INC",
+      "cusip": "67103H107",
+      "shares": 9278,
+      "value": 9642254000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 521119,
+      "value": 30360393000
+    },
+    {
+      "name": "POOL CORP",
+      "cusip": "73278L105",
+      "shares": 34915,
+      "value": 13123736000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 25605,
+      "value": 10817633000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 258459,
+      "value": 32966454000
+    },
+    {
+      "name": "TEXAS PACIFIC LAND CORPORATI",
+      "cusip": "88262P102",
+      "shares": 4710,
+      "value": 6709713000
+    },
+    {
+      "name": "TRACTOR SUPPLY CO",
+      "cusip": "892356106",
+      "shares": 105305,
+      "value": 24569669000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 49224,
+      "value": 25441461000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 133223,
+      "value": 36744187000
+    }
+  ]
+}

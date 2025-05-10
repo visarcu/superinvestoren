@@ -21,33 +21,52 @@ export default function TopPositionsBarChart({
 }: {
   data: TopPosition[]
 }) {
+  // Tooltip-Formatter: Wert mit "%" und deutsches Label
+  const tooltipFormatter = (value: number) => [
+    `${value.toFixed(2)} %`,
+    'Prozent'
+  ]
+
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="130%" height={400}>
       <BarChart
         layout="vertical"
         data={data}
-        margin={{ top: 20, right: 20, bottom: 20, left: 140 }}
+        margin={{ top: 20, right: 50, bottom: 20, left: 0 }}
       >
         {/* Prozent-Skala von 0 bis Max */}
         <XAxis
           type="number"
           domain={[0, 'dataMax']}
           tickFormatter={v => `${Math.round(v)}%`}
+          tick={{ fill: '#aaa' }}
         />
-        {/* ausreichend Breite (150px) plus left-margin */}
+        {/* Kategorien (Namen) links, mehr Platz */}
         <YAxis
           dataKey="name"
           type="category"
           width={150}
-          tick={{ textAnchor: 'end' }}
+          tick={{ fill: '#aaa', fontSize: 12, textAnchor: 'end' }}
         />
+
         <Tooltip
-          formatter={(v:number) => `${v.toFixed(2)} %`}
+          cursor={false}             // kein Hover-Cursor
+          contentStyle={{
+            backgroundColor: 'rgba(55,56,58,0.9)',
+            border: 'none',
+            borderRadius: 4,
+            padding: '8px 12px'
+          }}
+          labelStyle={{ display: 'none' }}  // X-Achse ausblenden
+          itemStyle={{ color: '#fff' }}     // Textfarbe weiß
+          formatter={tooltipFormatter}
         />
+
         <Bar
           dataKey="percent"
           fill="#4f46e5"
           barSize={20}
+          radius={[4, 4, 4, 4]}
         />
       </BarChart>
     </ResponsiveContainer>

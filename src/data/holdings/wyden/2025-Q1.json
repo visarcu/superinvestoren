@@ -1,0 +1,35 @@
+{
+  "date": "2025-02-14",
+  "positions": [
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 1066922,
+      "value": 38377184000
+    },
+    {
+      "name": "FAT BRANDS INC",
+      "cusip": "30258N105",
+      "shares": 587400,
+      "value": 3124968000
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 990000,
+      "value": 44094600000
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 2597229,
+      "value": 188740631000
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 888468,
+      "value": 51060256000
+    }
+  ]
+}

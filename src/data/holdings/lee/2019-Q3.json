@@ -1,0 +1,101 @@
+{
+  "date": "2019-08-14",
+  "positions": [
+    {
+      "name": "ALLEGIANT TRAVEL CO",
+      "cusip": "01748X102",
+      "shares": 98724,
+      "value": 14167000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 89460,
+      "value": 96698000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 903916,
+      "value": 15240000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 119817,
+      "value": 47349000
+    },
+    {
+      "name": "EVENTBRITE INC",
+      "cusip": "29975E109",
+      "shares": 329144,
+      "value": 5332000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 725000,
+      "value": 10020000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1619273,
+      "value": 87765000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1100095,
+      "value": 29186000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229854",
+      "shares": 604000,
+      "value": 22596000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229870",
+      "shares": 2593428,
+      "value": 93000000
+    },
+    {
+      "name": "PURPLE INNOVATION INC",
+      "cusip": "74640Y106",
+      "shares": 22964,
+      "value": 155000
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 2995443,
+      "value": 53858000
+    },
+    {
+      "name": "THOR INDS INC",
+      "cusip": "885160101",
+      "shares": 331962,
+      "value": 19403000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 1934923,
+      "value": 31114000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M101",
+      "shares": 1837748,
+      "value": 84095000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M200",
+      "shares": 444651,
+      "value": 20627000
+    }
+  ]
+}

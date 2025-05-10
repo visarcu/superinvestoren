@@ -1,79 +1,44 @@
 /* src/app/globals.css */
 
-/* src/app/globals.css */
+/* 1) Einfaches CSS-Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2) Orbitron-Zahlen */
 .numeric {
-  /* setzt die Orbitron-Schrift nur für diese Klasse */
   font-family: 'Orbitron', sans-serif;
-  /* optional: Zahlen einheitlich breit (tabular) rendern */
   font-variant-numeric: tabular-nums;
 }
 
-/* 1) Gradient-Text Utility */
+/* 3) System-Font als Fallback */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* 4) Dein Gradient-Text Utility */
 .gradient-text {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
-/* 2) Max-Width Container und zentriert */
-main {
-  max-width: 64rem; /* entspricht Tailwind’s max-w-5xl */
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-/* 3) System-Font und Inter-Fallback */
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-}
-
-/* 4) Card Hover-Effekt (falls ihr eigene Card-Klasse verwendet) */
+/* 5) Card-Hover-Effekt */
 .card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 15px rgba(0,0,0,0.1);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: system-ui, sans-serif;
-}
-
-
+/* 6) Recharts-Hover */
 .recharts-bar-rectangle {
-  transition: opacity 0.2s ease, stroke-width 0.2s ease;
+  transition: opacity .2s ease, stroke-width .2s ease;
 }
-
-/* example hover/focus for your buttons, too */
-button:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* when you hover any single bar */
 .recharts-bar-rectangle:hover {
-  opacity: 0.8;            /* slightly fade others */
-  stroke-width: 2px;       /* highlight its border */
+  opacity: 0.8;
+  stroke-width: 2px;
 }
-
-/* when you keyboard‐focus a button or chart control */
-button:focus,
-[aria-label*="Aufklappen"]:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-button:hover:not([disabled]) {
-  background-color: #e2e8f0; /* tailwind’s gray-200 equivalent */
-}
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-

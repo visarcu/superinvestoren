@@ -1,0 +1,59 @@
+{
+  "date": "2020-08-14",
+  "positions": [
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 5128570,
+      "value": 46055000
+    },
+    {
+      "name": "DXC TECHNOLOGY CO",
+      "cusip": "23355L106",
+      "shares": 2010060,
+      "value": 33166000
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 1167399,
+      "value": 32991000
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 1183161,
+      "value": 26680000
+    },
+    {
+      "name": "UNIVAR SOLUTIONS INC",
+      "cusip": "91336L107",
+      "shares": 1560000,
+      "value": 26302000
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 343559,
+      "value": 17456000
+    },
+    {
+      "name": "EDGEWELL PERS CARE CO",
+      "cusip": "28035Q102",
+      "shares": 430000,
+      "value": 13399000
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 100000,
+      "value": 6964000
+    },
+    {
+      "name": "NOMAD FOODS LTD",
+      "cusip": "G6564A105",
+      "shares": 30000,
+      "value": 644000
+    }
+  ]
+}

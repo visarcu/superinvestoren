@@ -1,0 +1,35 @@
+{
+  "date": "2018-08-14",
+  "positions": [
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 165577,
+      "value": 40235000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 373,
+      "value": 105201000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 75112,
+      "value": 3125000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 38,
+      "value": 2000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746119",
+      "shares": 277905,
+      "value": 6119000
+    }
+  ]
+}

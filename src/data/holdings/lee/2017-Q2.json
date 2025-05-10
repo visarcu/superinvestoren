@@ -1,0 +1,71 @@
+{
+  "date": "2017-05-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 178920,
+      "value": 148425000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 93141,
+      "value": 35504000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 2127595,
+      "value": 31701000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 136685,
+      "value": 44740000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 486198,
+      "value": 96953000
+    },
+    {
+      "name": "FOSSIL GROUP INC",
+      "cusip": "34988V106",
+      "shares": 406210,
+      "value": 7088000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3309195,
+      "value": 114895000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1102395,
+      "value": 38628000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 718786,
+      "value": 22412000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 288657,
+      "value": 12456000
+    },
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 565000,
+      "value": 26222000
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "date": "2020-11-16",
+  "positions": [
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 3331400,
+      "value": 47406000
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 1495000,
+      "value": 31784000
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 1825000,
+      "value": 73931000
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 912400,
+      "value": 18613000
+    }
+  ]
+}

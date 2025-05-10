@@ -1,0 +1,35 @@
+{
+  "date": "2022-07-08",
+  "positions": [
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "01609W102",
+      "shares": 300000,
+      "value": 34104000
+    },
+    {
+      "name": "Bank of\n  America Corp",
+      "cusip": "060505104",
+      "shares": 2300000,
+      "value": 71599000
+    },
+    {
+      "name": "Posco ADR",
+      "cusip": "693483109",
+      "shares": 9745,
+      "value": 434000
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 140000,
+      "value": 6442000
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1591800,
+      "value": 62351000
+    }
+  ]
+}

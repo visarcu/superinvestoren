@@ -1,0 +1,53 @@
+{
+  "date": "2023-08-14",
+  "positions": [
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 13351450,
+      "value": 68893482000
+    },
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 1747252,
+      "value": 52941736000
+    },
+    {
+      "name": "KRATOS DEFENSE & SEC SOLUTIO",
+      "cusip": "50077B207",
+      "shares": 855173,
+      "value": 12263181000
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 5252456,
+      "value": 132361891000
+    },
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 1999703,
+      "value": 130860564000
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 7505432,
+      "value": 28820859000
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 1866063,
+      "value": 145030416000
+    },
+    {
+      "name": "UPBOUND GROUP INC",
+      "cusip": "76009N100",
+      "shares": 3857916,
+      "value": 120096925000
+    }
+  ]
+}

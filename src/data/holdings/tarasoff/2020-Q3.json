@@ -1,0 +1,113 @@
+{
+  "date": "2020-08-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC CAP STK",
+      "cusip": "02079KAB3",
+      "shares": 7990,
+      "value": 11330000
+    },
+    {
+      "name": "ALPHABET INC CAP STK",
+      "cusip": "02079KAB3",
+      "shares": 7777,
+      "value": 11028000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 5155,
+      "value": 14222000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 5037,
+      "value": 13896000
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 391730,
+      "value": 12888000
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 380147,
+      "value": 12507000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 35160,
+      "value": 7984000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 34205,
+      "value": 7767000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 24210,
+      "value": 11017000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 23798,
+      "value": 10829000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 85538,
+      "value": 16024000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 82791,
+      "value": 15509000
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 159395,
+      "value": 4956000
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 154450,
+      "value": 4802000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 40405,
+      "value": 10432000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 39300,
+      "value": 10147000
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 403200,
+      "value": 17213000
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 393172,
+      "value": 16785000
+    }
+  ]
+}

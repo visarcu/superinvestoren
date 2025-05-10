@@ -1,0 +1,29 @@
+{
+  "date": "2024-04-04",
+  "positions": [
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "01609W102",
+      "shares": 195000,
+      "value": 14110200000
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 2000000,
+      "value": 75840000000
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 119500,
+      "value": 5341650000
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1413000,
+      "value": 81897480000
+    }
+  ]
+}

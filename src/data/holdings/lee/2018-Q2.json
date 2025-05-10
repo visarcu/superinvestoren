@@ -1,0 +1,89 @@
+{
+  "date": "2018-05-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 156315,
+      "value": 161284000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 37454,
+      "value": 12925000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 96685,
+      "value": 30090000
+    },
+    {
+      "name": "FOSSIL GROUP INC",
+      "cusip": "34988V106",
+      "shares": 1296200,
+      "value": 16462000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1986613,
+      "value": 133580000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1102395,
+      "value": 33546000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229870",
+      "shares": 908071,
+      "value": 26597000
+    },
+    {
+      "name": "PURPLE INNOVATION INC",
+      "cusip": "74640Y106",
+      "shares": 211240,
+      "value": 1736000
+    },
+    {
+      "name": "PURPLE INNOVATION INC",
+      "cusip": "74640Y114",
+      "shares": 100000,
+      "value": 89000
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 82358,
+      "value": 1880000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 160922,
+      "value": 6498000
+    },
+    {
+      "name": "VISTA OUTDOOR INC",
+      "cusip": "928377100",
+      "shares": 524501,
+      "value": 8560000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M101",
+      "shares": 626953,
+      "value": 33855000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M200",
+      "shares": 615522,
+      "value": 33115000
+    }
+  ]
+}

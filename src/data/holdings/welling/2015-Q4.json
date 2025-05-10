@@ -1,0 +1,77 @@
+{
+  "date": "2015-11-13",
+  "positions": [
+    {
+      "name": "ABM INDS INC",
+      "cusip": "000957100",
+      "shares": 129135,
+      "value": 3527000
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 626301,
+      "value": 13628000
+    },
+    {
+      "name": "BOULDER BRANDS INC",
+      "cusip": "101405108",
+      "shares": 5836087,
+      "value": 47798000
+    },
+    {
+      "name": "HEARTWARE INTL INC",
+      "cusip": "422368100",
+      "shares": 206469,
+      "value": 10800000
+    },
+    {
+      "name": "HORIZON GLOBAL CORP",
+      "cusip": "44052W104",
+      "shares": 330531,
+      "value": 2915000
+    },
+    {
+      "name": "JAMBA INC",
+      "cusip": "47023A309",
+      "shares": 1681212,
+      "value": 23957000
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 2438792,
+      "value": 16072000
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 737465,
+      "value": 19808000
+    },
+    {
+      "name": "RENTECH INC",
+      "cusip": "760112201",
+      "shares": 1036888,
+      "value": 5807000
+    },
+    {
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 1000000,
+      "value": 10490000
+    },
+    {
+      "name": "TRIMAS CORP",
+      "cusip": "896215209",
+      "shares": 990959,
+      "value": 16202000
+    },
+    {
+      "name": "ZIX CORP",
+      "cusip": "98974P100",
+      "shares": 800817,
+      "value": 3371000
+    }
+  ]
+}

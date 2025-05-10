@@ -1,0 +1,35 @@
+{
+  "date": "2024-05-15",
+  "positions": [
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 2160534,
+      "value": 87696075000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 349,
+      "value": 221419560000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "46436E718",
+      "shares": 25100,
+      "value": 2527821000
+    },
+    {
+      "name": "SMITH & WESSON BRANDS INC",
+      "cusip": "831754106",
+      "shares": 840038,
+      "value": 14583060000
+    },
+    {
+      "name": "WINNEBAGO INDS INC",
+      "cusip": "974637100",
+      "shares": 996573,
+      "value": 73746402000
+    }
+  ]
+}

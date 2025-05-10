@@ -6,6 +6,8 @@ const nextConfig = {
     domains: [
       // hier die eigentliche Host-Domain, nicht "images.financialmodelingprep.com"
       'financialmodelingprep.com',
+      
+
     ],
     // optional statt domains:
     // remotePatterns: [
@@ -20,3 +22,7 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+module.exports = {
+  images: { domains: ['logo.clearbit.com'] },
+}

@@ -54,6 +54,19 @@ burn:  '0000820124',    // Harry Burn – Sound Shore
 dorsey: '0001671657', 
 chou:  '0001389403',    // Francis Chou – Chou Associates
 lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
+roepers: '0001063296',    // Alex Roepers – Atlantic Investment Management
+munger:  '0000783412',
+lountzis: '0001821168',
+haley:'0001858353',
+lou: '0001631664',    // Norbert Lou – Punch Card Management
+wyden:  '0001745214',
+muhlenkamp:  '0001133219',
+tarasoff: '0001766504',    // Josh Tarasoff – Greenlea Lane Capital
+welling: '0001559771',    // Glenn Welling – Engaged Capital
+rolfe: '0000859804',    // David Rolfe – Wedgewood Partners
+whitman:  '0001099281',    // Third Avenue Management
+
+
 
 
 
@@ -67,6 +80,7 @@ lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
 
  // 0 einträge
  //triplefrond: '0001454502',    // Triple Frond Partners
+// lee: '0001426749',
 
   // neu hinzuzufügende Investoren:
   // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
@@ -99,13 +113,13 @@ lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
   // 'norbert-lou':           'XXX',    // Norbert Lou – Punch Card Management
             //    'gates':      '0001166559',    // Bill & Melinda Gates Foundation Trust
   // 'bruce-berkowitz':       'XXX',    // Bruce Berkowitz – Fairholme Capital
-  // 'alex-roepers':          'XXX',    // Alex Roepers – Atlantic Investment Management
+
              //   'kahn-brothers':         '0001039565',    // Kahn Brothers Group
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
-  // 'david-rolfe':           'XXX',    // David Rolfe – Wedgewood Partners
+
 
              //   'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
-  // 'glenn-welling':         'XXX',    // Glenn Welling – Engaged Capital
+
              //   'bill-miller':           '0001135778',    // Bill Miller – Miller Value Partners
 
   // 'leon-cooperman':        'XXX',    // Leon Cooperman
@@ -119,7 +133,7 @@ lawrence: '0001657335',    // Bryan Lawrence – Oakcliff Capital
      
              //   'akre':            '0001112520',    // Chuck Akre – Akre Capital Management
   // 'francois-rochon':       'XXX',    // Francois Rochon – Giverny Capital
-   //'third-avenue':          'XXX',    // Third Avenue Management
+
 
 
          

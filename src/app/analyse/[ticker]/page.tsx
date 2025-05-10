@@ -8,25 +8,35 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import Tooltip from '@/components/Tooltip'
 import { irLinks } from '../../../data/irLinks'
 import Image from 'next/image'
+import Card from '@/components/Card'
+import CompanyLogo from '@/components/CompanyLogo'
+
+import LoadingSpinner from '@/components/LoadingSpinner'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorFallback from '@/components/ErrorFallback'
 
 // Chart-Komponenten (nur client-side)
 const StockLineChart = dynamic(
   () => import('../../../components/StockLineChart'),
-  { ssr: false }
+  { ssr: false,
+    loading: () => <LoadingSpinner /> }
 )
 const FinancialAnalysisClient = dynamic(
   () => import('../../../components/FinancialAnalysisClient'),
-  { ssr: false }
+  { ssr: false,
+    loading: () => <LoadingSpinner />}
 )
 
 const DividendSection = dynamic(
   () => import('../../../components/DividendSection'),
-  { ssr: false }
+  { ssr: false,
+    loading: () => <LoadingSpinner />}
 )
 
 const RevenueBySegmentChart = dynamic(
   () => import('@/components/RevenueBySegmentChart'),
-  { ssr: false }
+  { ssr: false,
+    loading: () => <LoadingSpinner /> }
 )
 
 // Hilfs-Formatter
@@ -372,6 +382,7 @@ try {
       </Link>
 
       {/* Titel */}
+      
       <h1 className="text-3xl font-bold">
         Kennzahlen-Analyse: {stock.name} ({ticker})
       </h1>
@@ -396,7 +407,7 @@ try {
      
 
       {/* Live-Quote in der Kopfzeile */}
-      <div className="flex items-baseline gap-6">
+      <div className="flex items-baseline gap-4">
         <div className="text-2xl font-semibold">{fmtPrice(livePrice)}</div>
         {liveChangePct != null && (
           <div
@@ -417,7 +428,7 @@ try {
 
       {/* Key Metrics / Balance / Dividend / Bewertung / Margins */}
       {hasKeyMetrics ? (
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 bg-white rounded-xl shadow p-6">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 bg-card-dark border border-gray-700 rounded-xl shadow- p-6 text-gray-100">
 {/* Value */}
 <div>
   <h3 className="font-semibold mb-2">Value</h3>
@@ -502,26 +513,28 @@ try {
       )}
 
       {/* Historischer Kursverlauf */}
-      <section className="bg-white rounded-xl shadow p-6">
+      <Card>
         <h2 className="text-2xl font-semibold mb-4">Historischer Kursverlauf</h2>
+        
         {history.length > 0 ? (
           <StockLineChart data={history} />
         ) : (
           <p className="text-gray-500">Keine historischen Kursdaten.</p>
         )}
-      </section>
+      </Card>
 
       {/* Kennzahlen-Charts */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">
           Kennzahlen-Charts auswählen
         </h2>
+        
         <FinancialAnalysisClient ticker={ticker} />
       </section>
 
        {/* ─── Earnings & Revenue Estimates ─── */}
 {estimates.length > 0 && (
-  <section className="bg-white rounded-xl shadow p-6">
+  <Card>
     <h2 className="text-2xl font-semibold mb-4">Estimates (ab {new Date().getFullYear()})</h2>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -529,7 +542,7 @@ try {
       <div className="overflow-x-auto">
         <h3 className="font-semibold mb-2">Revenue Estimates</h3>
         <table className="min-w-full text-sm divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-dark">
             <tr>
               <th className="px-3 py-2 text-left font-medium">FY</th>
               <th className="px-3 py-2 text-right font-medium">Avg</th>
@@ -538,7 +551,7 @@ try {
               <th className="px-3 py-2 text-right font-medium">YoY</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
+          <tbody className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100">
             {estimates
               .slice()           // make a copy
               .reverse()         // earliest year first
@@ -560,7 +573,7 @@ try {
                   yoy >= 0 ? 'text-green-600' : 'text-red-600'
 
                 return (
-                  <tr key={e.date} className="odd:bg-white even:bg-gray-50">
+                  <tr key={e.date} className="odd:bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100">
                     <td className="px-3 py-1">{fy}</td>
                     <td className="px-3 py-1 text-right">{fmtB(e.estimatedRevenueAvg)}</td>
                     <td className="px-3 py-1 text-right">{fmtB(e.estimatedRevenueLow)}</td>
@@ -579,7 +592,7 @@ try {
       <div className="overflow-x-auto">
         <h3 className="font-semibold mb-2">Earnings Estimates</h3>
         <table className="min-w-full text-sm divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-dark">
             <tr>
               <th className="px-3 py-2 text-left font-medium">FY</th>
               <th className="px-3 py-2 text-right font-medium">EPS Avg</th>
@@ -588,7 +601,7 @@ try {
               <th className="px-3 py-2 text-right font-medium">YoY</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
+          <tbody className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100.">
             {estimates
               .slice()
               .reverse()
@@ -609,7 +622,7 @@ try {
                   yoy >= 0 ? 'text-green-600' : 'text-red-600'
 
                 return (
-                  <tr key={e.date} className="odd:bg-white even:bg-gray-50">
+                  <tr key={e.date} className="odd:bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100.">
                     <td className="px-3 py-1">{fy}</td>
                     <td className="px-3 py-1 text-right">{e.estimatedEpsAvg.toFixed(2)}</td>
                     <td className="px-3 py-1 text-right">{e.estimatedEpsLow.toFixed(2)}</td>
@@ -624,12 +637,12 @@ try {
         </table>
       </div>
     </div>
-  </section>
+    </Card>
 )}
 
       {/* Wall Street Rating */}
       {recs && (
-        <section className="bg-white rounded-xl shadow p-6">
+        <section className="bg-card-dark border border-gray-700 rounded-xl shadow p-6 text-gray-100 rounded-xl shadow">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-semibold">Wall Street Rating</h2>
             <Tooltip text="Aggregierte Analysten‐Empfehlungen von über 20 Research‐Häusern via FMP API.">
@@ -675,9 +688,9 @@ try {
 
        {/* Company Profile */}
        {profileData && (
-        <section className="bg-white rounded-xl shadow p-6">
+        <Card>
           <h2 className="text-2xl font-semibold mb-4">Company Profile</h2>
-          <p className="text-sm text-gray-700 mb-4">{profileData.description}</p>
+          <p className="text-sm text-white-700 mb-4">{profileData.description}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <ul className="text-sm space-y-1">
@@ -718,7 +731,7 @@ try {
               </ul>
             </div>
           </div>
-        </section>
+          </Card>
       )}
 
 

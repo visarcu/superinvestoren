@@ -1,0 +1,101 @@
+{
+  "date": "2016-02-16",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 212489,
+      "value": 161254000
+    },
+    {
+      "name": "AMAYA INC",
+      "cusip": "02314M108",
+      "shares": 1863600,
+      "value": 23463000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 98910,
+      "value": 38525000
+    },
+    {
+      "name": "CALPINE CORP",
+      "cusip": "131347304",
+      "shares": 2117581,
+      "value": 30641000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 198865,
+      "value": 36412000
+    },
+    {
+      "name": "GAMING & LEISURE PPTYS INC",
+      "cusip": "36467J108",
+      "shares": 79275,
+      "value": 2204000
+    },
+    {
+      "name": "HORIZON GLOBAL CORP",
+      "cusip": "44052W104",
+      "shares": 868219,
+      "value": 9003000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3218013,
+      "value": 140305000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U153",
+      "shares": 16369,
+      "value": 704000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 327395,
+      "value": 13348000
+    },
+    {
+      "name": "MARKET VECTORS ETF TR",
+      "cusip": "57061R544",
+      "shares": 58095,
+      "value": 1116000
+    },
+    {
+      "name": "NEXSTAR BROADCASTING GROUP I",
+      "cusip": "65336K103",
+      "shares": 352305,
+      "value": 20680000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 388824,
+      "value": 8511000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 1139721,
+      "value": 24960000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 33665,
+      "value": 914000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 1315000,
+      "value": 35807000
+    }
+  ]
+}

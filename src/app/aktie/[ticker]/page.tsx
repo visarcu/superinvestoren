@@ -169,7 +169,7 @@ export default async function StockPage({
         </div>
         <Link
           href={`/analyse/${ticker.toLowerCase()}`}
-          className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="inline-block bg-blue-600 text-dark px-4 py-2 rounded hover:bg-blue-700"
         >
           Zur Aktien-Analyse →
         </Link>
@@ -194,7 +194,7 @@ export default async function StockPage({
               <Link
                 key={inv.slug}
                 href={`/investor/${inv.slug}`}
-                className="flex items-center bg-white rounded-lg shadow p-4 space-x-4 hover:bg-gray-50"
+                className="flex items-center bg-gray-900 rounded-lg shadow p-4 space-x-4 hover:bg-gray-50"
               >
                 {inv.imageUrl && (
                   <img

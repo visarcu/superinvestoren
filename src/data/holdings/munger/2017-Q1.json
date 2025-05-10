@@ -1,0 +1,29 @@
+{
+  "date": "2017-02-01",
+  "positions": [
+    {
+      "name": "Bank of\n  America Corp",
+      "cusip": "060505104",
+      "shares": 2300000,
+      "value": 50830000
+    },
+    {
+      "name": "Posco ADR",
+      "cusip": "693483109",
+      "shares": 9745,
+      "value": 512000
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 140000,
+      "value": 7192000
+    },
+    {
+      "name": "Wells Fargo &amp; Co",
+      "cusip": "949746101",
+      "shares": 1591800,
+      "value": 87724000
+    }
+  ]
+}

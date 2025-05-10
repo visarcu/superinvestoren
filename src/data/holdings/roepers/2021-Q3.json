@@ -1,0 +1,59 @@
+{
+  "date": "2021-08-16",
+  "positions": [
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 1117924,
+      "value": 59496000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 2015035,
+      "value": 53439000
+    },
+    {
+      "name": "UNIVAR SOLUTIONS USA INC",
+      "cusip": "91336L107",
+      "shares": 2024601,
+      "value": 49360000
+    },
+    {
+      "name": "BERRY GLOBAL GROUP INC",
+      "cusip": "08579W103",
+      "shares": 650109,
+      "value": 42400000
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 793945,
+      "value": 31821000
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 180611,
+      "value": 31657000
+    },
+    {
+      "name": "EDGEWELL PERS CARE CO",
+      "cusip": "28035Q102",
+      "shares": 636650,
+      "value": 27949000
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 100000,
+      "value": 11675000
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 655000,
+      "value": 10696000
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "date": "2016-02-16",
+  "positions": [
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 11643238,
+      "value": 202825000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 5013328,
+      "value": 163785000
+    },
+    {
+      "name": "INGRAM MICRO INC",
+      "cusip": "457153104",
+      "shares": 4516941,
+      "value": 137225000
+    },
+    {
+      "name": "F M C CORP",
+      "cusip": "302491303",
+      "shares": 3452427,
+      "value": 135093000
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 2967903,
+      "value": 117974000
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 1710713,
+      "value": 115490000
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 332431,
+      "value": 12978000
+    },
+    {
+      "name": "HEWLETT PACKARD CO",
+      "cusip": "42824C109",
+      "shares": 773250,
+      "value": 11753000
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 586477,
+      "value": 11108000
+    },
+    {
+      "name": "KLX INC",
+      "cusip": "482539103",
+      "shares": 303922,
+      "value": 9358000
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 72953,
+      "value": 8961000
+    },
+    {
+      "name": "SPX FLOW INC",
+      "cusip": "78469X107",
+      "shares": 285241,
+      "value": 7961000
+    },
+    {
+      "name": "CRANE CO",
+      "cusip": "224399105",
+      "shares": 164839,
+      "value": 7886000
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 302463,
+      "value": 7849000
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 186174,
+      "value": 7551000
+    },
+    {
+      "name": "KIRBY CORP",
+      "cusip": "497266106",
+      "shares": 105301,
+      "value": 5541000
+    },
+    {
+      "name": "UNIFIRST CORP MASS",
+      "cusip": "904708104",
+      "shares": 41464,
+      "value": 4321000
+    }
+  ]
+}

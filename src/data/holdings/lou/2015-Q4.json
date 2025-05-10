@@ -1,0 +1,47 @@
+{
+  "date": "2015-11-16",
+  "positions": [
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 351759,
+      "value": 48335000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 373,
+      "value": 72825000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 500,
+      "value": 65000
+    },
+    {
+      "name": "CARE COM INC",
+      "cusip": "141633107",
+      "shares": 322178,
+      "value": 1656000
+    },
+    {
+      "name": "CTC MEDIA INC",
+      "cusip": "12642X106",
+      "shares": 776580,
+      "value": 1359000
+    },
+    {
+      "name": "PRICE T ROWE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 232800,
+      "value": 16180000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 1459516,
+      "value": 26403000
+    }
+  ]
+}

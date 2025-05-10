@@ -408,5 +408,73 @@ export const investors: Investor[] = [
     holdings: [],
   }, 
 
+  {
+    name: 'Alex Roepers - Atlantic Investment Management',
+    slug: 'roepers',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+
+  {
+    name: 'Charlie Munger',
+    slug: 'munger',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+
+
+  {
+    name: 'Norbert Lou - Punch Card Management',
+    slug: 'lou',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Adam Wyden - ADW Capital Management',
+    slug: 'wyden',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Ronald Muhlenkamp - Muhlenkamp & Co',
+    slug: 'muhlenkamp',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Josh Tarasoff - Greenlea Lane Capital Management',
+    slug: 'tarasoff',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Glenn Welling - Engaged Capital',
+    slug: 'welling',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'David Rolfe - Wedgewood Partners',
+    slug: 'rolfe',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+
 
 ]

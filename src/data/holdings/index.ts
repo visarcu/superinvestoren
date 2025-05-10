@@ -311,6 +311,53 @@ import lawrence_2024_Q3 from './lawrence/2024-Q3.json'
 import lawrence_2024_Q4 from './lawrence/2024-Q4.json'
 import lawrence_2025_Q1 from './lawrence/2025-Q1.json'
 
+//roepers
+import roepers_2024_Q2 from './roepers/2024-Q2.json'
+import roepers_2024_Q3 from './roepers/2024-Q3.json'
+import roepers_2024_Q4 from './roepers/2024-Q4.json'
+import roepers_2025_Q1 from './roepers/2025-Q1.json'
+
+//munger
+import munger_2024_Q2 from './munger/2024-Q2.json'
+//import munger_2024_Q3 from './munger/2024-Q3.json'
+import munger_2024_Q4 from './munger/2024-Q4.json'
+import munger_2025_Q1 from './munger/2025-Q1.json'
+
+//lou
+import lou_2024_Q2 from './lou/2024-Q2.json'
+import lou_2024_Q3 from './lou/2024-Q3.json'
+import lou_2024_Q4 from './lou/2024-Q4.json'
+import lou_2025_Q1 from './lou/2025-Q1.json'
+
+//wyden
+import wyden_2024_Q2 from './wyden/2024-Q2.json'
+import wyden_2024_Q3 from './wyden/2024-Q3.json'
+import wyden_2024_Q4 from './wyden/2024-Q4.json'
+import wyden_2025_Q1 from './wyden/2025-Q1.json'
+
+//muhlenkamp
+import muhlenkamp_2024_Q2 from './muhlenkamp/2024-Q2.json'
+import muhlenkamp_2024_Q3 from './muhlenkamp/2024-Q3.json'
+import muhlenkamp_2024_Q4 from './muhlenkamp/2024-Q4.json'
+import muhlenkamp_2025_Q1 from './muhlenkamp/2025-Q1.json'
+
+//tarasoff
+import tarasoff_2024_Q2 from './tarasoff/2024-Q2.json'
+import tarasoff_2024_Q3 from './tarasoff/2024-Q3.json'
+import tarasoff_2024_Q4 from './tarasoff/2024-Q4.json'
+import tarasoff_2025_Q1 from './tarasoff/2025-Q1.json'
+
+//welling
+import welling_2024_Q2 from './welling/2024-Q2.json'
+import welling_2024_Q3 from './welling/2024-Q3.json'
+import welling_2024_Q4 from './welling/2024-Q4.json'
+import welling_2025_Q1 from './welling/2025-Q1.json'
+
+//rolfe
+import rolfe_2024_Q2 from './rolfe/2024-Q2.json'
+import rolfe_2024_Q3 from './rolfe/2024-Q3.json'
+import rolfe_2024_Q4 from './rolfe/2024-Q4.json'
+import rolfe_2025_Q1 from './rolfe/2025-Q1.json'
 
 // … für jeden weiteren Slug analog …
 
@@ -692,7 +739,62 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: lawrence_2025_Q1},
    ],
 
+   roepers: [
+    { quarter: '2024-Q2', data: roepers_2024_Q2 },
+    { quarter: '2024-Q3', data: roepers_2024_Q3},
+    { quarter: '2024-Q4', data: roepers_2024_Q4},
+    { quarter: '2025-Q1', data: roepers_2025_Q1},
+   ],
 
+   munger: [
+    { quarter: '2024-Q2', data: munger_2024_Q2 },
+   // { quarter: '2024-Q3', data: munger_2024_Q3},
+    { quarter: '2024-Q4', data: munger_2024_Q4},
+    { quarter: '2025-Q1', data: munger_2025_Q1},
+   ],
+
+   lou: [
+    { quarter: '2024-Q2', data: lou_2024_Q2 },
+    { quarter: '2024-Q3', data: lou_2024_Q3},
+    { quarter: '2024-Q4', data: lou_2024_Q4},
+    { quarter: '2025-Q1', data: lou_2025_Q1},
+   ],
+
+   wyden: [
+    { quarter: '2024-Q2', data: wyden_2024_Q2 },
+    { quarter: '2024-Q3', data: wyden_2024_Q3},
+    { quarter: '2024-Q4', data: wyden_2024_Q4},
+    { quarter: '2025-Q1', data: wyden_2025_Q1},
+   ],
+
+
+   muhlenkamp: [
+    { quarter: '2024-Q2', data: muhlenkamp_2024_Q2 },
+    { quarter: '2024-Q3', data: muhlenkamp_2024_Q3},
+    { quarter: '2024-Q4', data: muhlenkamp_2024_Q4},
+    { quarter: '2025-Q1', data: muhlenkamp_2025_Q1},
+   ],
+
+   tarasoff: [
+    { quarter: '2024-Q2', data: tarasoff_2024_Q2 },
+    { quarter: '2024-Q3', data: tarasoff_2024_Q3},
+    { quarter: '2024-Q4', data: tarasoff_2024_Q4},
+    { quarter: '2025-Q1', data: tarasoff_2025_Q1},
+   ],
+
+   welling: [
+    { quarter: '2024-Q2', data: welling_2024_Q2 },
+    { quarter: '2024-Q3', data: welling_2024_Q3},
+    { quarter: '2024-Q4', data: welling_2024_Q4},
+    { quarter: '2025-Q1', data: welling_2025_Q1},
+   ],
+
+   rolfe: [
+    { quarter: '2024-Q2', data: rolfe_2024_Q2 },
+    { quarter: '2024-Q3', data: rolfe_2024_Q3},
+    { quarter: '2024-Q4', data: rolfe_2024_Q4},
+    { quarter: '2025-Q1', data: rolfe_2025_Q1},
+   ],
 
 
 

@@ -1,0 +1,71 @@
+{
+  "date": "2022-05-16",
+  "positions": [
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 313917,
+      "value": 35178000
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 957808,
+      "value": 45046000
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 655000,
+      "value": 8633000
+    },
+    {
+      "name": "UNIVAR SOLUTIONS INC",
+      "cusip": "91336L107",
+      "shares": 1076245,
+      "value": 34591000
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 758523,
+      "value": 30788000
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 181766,
+      "value": 25918000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 1111621,
+      "value": 41697000
+    },
+    {
+      "name": "NOMAD FOODS LTD",
+      "cusip": "G6564A105",
+      "shares": 180000,
+      "value": 4064000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 1897391,
+      "value": 27114000
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 513218,
+      "value": 31152000
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 224731,
+      "value": 25493000
+    }
+  ]
+}

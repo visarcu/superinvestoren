@@ -1,0 +1,41 @@
+{
+  "date": "2021-02-16",
+  "positions": [
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 3305100,
+      "value": 59988000
+    },
+    {
+      "name": "FAT BRANDS INC",
+      "cusip": "30258N105",
+      "shares": 739323,
+      "value": 4399000
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 1517000,
+      "value": 44266000
+    },
+    {
+      "name": "MOUNTAIN CREST ACQUISITION C",
+      "cusip": "62401M106",
+      "shares": 500000,
+      "value": 5255000
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 2100200,
+      "value": 131872000
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 912400,
+      "value": 35985000
+    }
+  ]
+}

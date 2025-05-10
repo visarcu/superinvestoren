@@ -1,0 +1,65 @@
+{
+  "date": "2020-11-16",
+  "positions": [
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 8553155,
+      "value": 106145000
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 15996598,
+      "value": 548683000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 43000,
+      "value": 6441000
+    },
+    {
+      "name": "JACK IN THE BOX INC",
+      "cusip": "466367109",
+      "shares": 353378,
+      "value": 28026000
+    },
+    {
+      "name": "MAGELLAN HEALTH INC",
+      "cusip": "559079207",
+      "shares": 196100,
+      "value": 14860000
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 910877,
+      "value": 12479000
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 267543,
+      "value": 43997000
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 2085367,
+      "value": 46170000
+    },
+    {
+      "name": "RENT A CTR INC NEW",
+      "cusip": "76009N100",
+      "shares": 2918609,
+      "value": 87237000
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 9824467,
+      "value": 72898000
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "date": "2019-08-14",
+  "positions": [
+    {
+      "name": "OWENS ILL IN",
+      "cusip": "690768403",
+      "shares": 5050000,
+      "value": 87214000
+    },
+    {
+      "name": "EASTMAN CHEMICAL CO",
+      "cusip": "277432100",
+      "shares": 768820,
+      "value": 59837000
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 915981,
+      "value": 47026000
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 914980,
+      "value": 41421000
+    },
+    {
+      "name": "DXC TECHNOLOGY CO",
+      "cusip": "23355L106",
+      "shares": 717027,
+      "value": 39544000
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 468173,
+      "value": 39088000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 1844717,
+      "value": 37706000
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 61591,
+      "value": 2278000
+    },
+    {
+      "name": "CONAGRA BRANDS INC",
+      "cusip": "205887102",
+      "shares": 85000,
+      "value": 2254000
+    },
+    {
+      "name": "MUELLER WTR PRODS INC",
+      "cusip": "624758108",
+      "shares": 209486,
+      "value": 2057000
+    },
+    {
+      "name": "ANIXTER INTL INC",
+      "cusip": "035290105",
+      "shares": 30395,
+      "value": 1815000
+    },
+    {
+      "name": "CABOT CORP",
+      "cusip": "127055101",
+      "shares": 36520,
+      "value": 1742000
+    },
+    {
+      "name": "KORN FERRY",
+      "cusip": "500643200",
+      "shares": 42000,
+      "value": 1683000
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 65431,
+      "value": 1638000
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 11830,
+      "value": 1631000
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 11162,
+      "value": 1555000
+    },
+    {
+      "name": "TIFFANY & CO NEW",
+      "cusip": "886547108",
+      "shares": 16329,
+      "value": 1529000
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 37567,
+      "value": 1370000
+    }
+  ]
+}

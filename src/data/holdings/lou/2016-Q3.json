@@ -1,0 +1,23 @@
+{
+  "date": "2016-08-15",
+  "positions": [
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 546179,
+      "value": 90201000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 373,
+      "value": 80932000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 1459516,
+      "value": 19879000
+    }
+  ]
+}

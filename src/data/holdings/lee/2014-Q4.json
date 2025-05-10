@@ -1,0 +1,119 @@
+{
+  "date": "2014-11-14",
+  "positions": [
+    {
+      "name": "ALERE INC",
+      "cusip": "01449J105",
+      "shares": 575068,
+      "value": 22301000
+    },
+    {
+      "name": "ALTISOURCE ASSET MGMT CORP",
+      "cusip": "02153X108",
+      "shares": 5408,
+      "value": 3650000
+    },
+    {
+      "name": "ALTISOURCE PORTFOLIO SOLNS S",
+      "cusip": "L0175J104",
+      "shares": 379838,
+      "value": 38288000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 239288,
+      "value": 36221000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 74869,
+      "value": 9439000
+    },
+    {
+      "name": "GAMING & LEISURE PPTYS INC",
+      "cusip": "36467J108",
+      "shares": 316247,
+      "value": 9772000
+    },
+    {
+      "name": "HEMISPHERE MEDIA GROUP INC",
+      "cusip": "42365Q103",
+      "shares": 750635,
+      "value": 8002000
+    },
+    {
+      "name": "HIGHER ONE HLDGS INC",
+      "cusip": "42983D104",
+      "shares": 3172993,
+      "value": 7837000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3313426,
+      "value": 82670000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 295395,
+      "value": 12566000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 327395,
+      "value": 13428000
+    },
+    {
+      "name": "NEXSTAR BROADCASTING GROUP I",
+      "cusip": "65336K103",
+      "shares": 573570,
+      "value": 23184000
+    },
+    {
+      "name": "OCWEN FINL CORP",
+      "cusip": "675746309",
+      "shares": 27604,
+      "value": 723000
+    },
+    {
+      "name": "POST HLDGS INC",
+      "cusip": "737446104",
+      "shares": 604545,
+      "value": 20059000
+    },
+    {
+      "name": "PRESTIGE BRANDS HLDGS INC",
+      "cusip": "74112D101",
+      "shares": 527964,
+      "value": 17090000
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 396548,
+      "value": 44056000
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 4000,
+      "value": 5000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 243863,
+      "value": 31995000
+    },
+    {
+      "name": "XOOM CORP",
+      "cusip": "98419Q101",
+      "shares": 479972,
+      "value": 10535000
+    }
+  ]
+}

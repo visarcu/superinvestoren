@@ -1,0 +1,77 @@
+{
+  "date": "2014-05-15",
+  "positions": [
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 8073856,
+      "value": 273139000
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 4515195,
+      "value": 293578000
+    },
+    {
+      "name": "CAMERON INTERNATIONAL CORP",
+      "cusip": "13342B105",
+      "shares": 2793683,
+      "value": 172566000
+    },
+    {
+      "name": "HARMAN INTL INDS INC",
+      "cusip": "413086109",
+      "shares": 2597675,
+      "value": 276393000
+    },
+    {
+      "name": "OIL STS INTL INC",
+      "cusip": "678026105",
+      "shares": 2474596,
+      "value": 243995000
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 2180000,
+      "value": 140784000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 797363,
+      "value": 20835000
+    },
+    {
+      "name": "HARSCO CORP",
+      "cusip": "415864107",
+      "shares": 616742,
+      "value": 14450000
+    },
+    {
+      "name": "TAMINCO CORP",
+      "cusip": "87509U106",
+      "shares": 587283,
+      "value": 12339000
+    },
+    {
+      "name": "AMERICAN AXLE AND MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 565000,
+      "value": 10464000
+    },
+    {
+      "name": "GENERAL CABLE CORP DEL NEW",
+      "cusip": "369300108",
+      "shares": 559257,
+      "value": 14323000
+    },
+    {
+      "name": "CYTEC INDS INC",
+      "cusip": "232820100",
+      "shares": 184867,
+      "value": 18045000
+    }
+  ]
+}

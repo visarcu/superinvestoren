@@ -1,0 +1,47 @@
+{
+  "date": "2019-11-14",
+  "positions": [
+    {
+      "name": "APOGEE ENTERPRISES INC",
+      "cusip": "037598109",
+      "shares": 1689332,
+      "value": 65867000
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 21068777,
+      "value": 452452000
+    },
+    {
+      "name": "INNERWORKINGS INC",
+      "cusip": "45773Y105",
+      "shares": 2582346,
+      "value": 11440000
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 1076463,
+      "value": 33973000
+    },
+    {
+      "name": "RENT A CTR INC NEW",
+      "cusip": "76009N100",
+      "shares": 5333609,
+      "value": 137554000
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 8731907,
+      "value": 15717000
+    },
+    {
+      "name": "TIVO CORP",
+      "cusip": "88870P106",
+      "shares": 2525000,
+      "value": 19228000
+    }
+  ]
+}

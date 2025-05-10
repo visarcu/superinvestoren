@@ -1,0 +1,95 @@
+{
+  "date": "2016-08-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 178920,
+      "value": 123831000
+    },
+    {
+      "name": "AMAYA INC",
+      "cusip": "02314M108",
+      "shares": 1713600,
+      "value": 26269000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 148687,
+      "value": 55691000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 1084470,
+      "value": 12200000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 157208,
+      "value": 35944000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 139576,
+      "value": 25833000
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 536385,
+      "value": 21954000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3318373,
+      "value": 117470000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1102395,
+      "value": 31584000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U153",
+      "shares": 107125,
+      "value": 3480000
+    },
+    {
+      "name": "NEXSTAR BROADCASTING GROUP I",
+      "cusip": "65336K103",
+      "shares": 148897,
+      "value": 7085000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 1818179,
+      "value": 39182000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 1139721,
+      "value": 23695000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 33665,
+      "value": 911000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 1315000,
+      "value": 35834000
+    }
+  ]
+}

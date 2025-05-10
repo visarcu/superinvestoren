@@ -1,0 +1,83 @@
+{
+  "date": "2016-05-16",
+  "positions": [
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 12163737,
+      "value": 194133000
+    },
+    {
+      "name": "INGRAM MICRO INC",
+      "cusip": "457153104",
+      "shares": 3708295,
+      "value": 133165000
+    },
+    {
+      "name": "GOODYEAR TIRE AND RUBBER CO",
+      "cusip": "382550101",
+      "shares": 3952273,
+      "value": 130346000
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 3911427,
+      "value": 123132000
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 1508988,
+      "value": 108994000
+    },
+    {
+      "name": "FMC CORP",
+      "cusip": "302491303",
+      "shares": 2697700,
+      "value": 108906000
+    },
+    {
+      "name": "HARMAN INTL INDS INC",
+      "cusip": "413086109",
+      "shares": 701599,
+      "value": 62470000
+    },
+    {
+      "name": "ASHLAND INC NEW",
+      "cusip": "044209104",
+      "shares": 104757,
+      "value": 11519000
+    },
+    {
+      "name": "HEWLETT PACKARD ENTERPRISE C",
+      "cusip": "42824C109",
+      "shares": 562373,
+      "value": 9971000
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 224947,
+      "value": 9664000
+    },
+    {
+      "name": "AMERICAN AXLE AND MFG HLDGS INC",
+      "cusip": "024061103",
+      "shares": 579275,
+      "value": 8915000
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 75132,
+      "value": 8352000
+    },
+    {
+      "name": "KLX INC.",
+      "cusip": "482539103",
+      "shares": 212511,
+      "value": 6830000
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "date": "2017-02-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 203920,
+      "value": 157390000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 148687,
+      "value": 54953000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 2214395,
+      "value": 24292000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 146685,
+      "value": 42234000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 457070,
+      "value": 99417000
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 548766,
+      "value": 31905000
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 300000,
+      "value": 6267000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3301252,
+      "value": 120529000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1102395,
+      "value": 32741000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 1138939,
+      "value": 36332000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 732490,
+      "value": 22612000
+    },
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 565000,
+      "value": 21849000
+    }
+  ]
+}
