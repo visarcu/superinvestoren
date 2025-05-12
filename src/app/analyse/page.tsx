@@ -8,6 +8,9 @@ import Image from 'next/image'
 import { domainForTicker } from '@/lib/clearbit'
 
 // Hilfsfunktionen
+
+
+
 async function fetchQuote(ticker: string) {
   const res = await fetch(
     `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`

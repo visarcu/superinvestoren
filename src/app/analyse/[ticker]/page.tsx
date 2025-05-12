@@ -1,7 +1,11 @@
+
+//'use client'
 // src/app/analyse/[ticker]/page.tsx
 import React from 'react'
 import { stocks } from '../../../data/stocks'
 import { notFound } from 'next/navigation'
+import { getServerSession } from 'next-auth/next'
+import { authOptions }      from '@/pages/api/auth/[...nextauth]'  // <- hier liegen Deine NextAuth-Optionen
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
@@ -14,6 +18,12 @@ import CompanyLogo from '@/components/CompanyLogo'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
+
+
+//import { useSession } from 'next-auth/react'
+import { LockClosedIcon } from '@heroicons/react/24/solid'
+
+
 
 // Chart-Komponenten (nur client-side)
 const StockLineChart = dynamic(
@@ -87,6 +97,11 @@ export default async function AnalysisPage({
 }) {
   const ticker = params.ticker.toUpperCase()
   const stock = stocks.find((s) => s.ticker === ticker) ?? notFound()
+
+
+  // ─── Hier holst Du die Session serverseitig ───
+  const session = await getServerSession(authOptions)
+  const isPremium = session?.user?.isPremium ?? false
 
   // ─── Live‐Quote Variablen ───
 let livePrice: number | null      = null
@@ -473,40 +488,73 @@ try {
             </ul>
           </div>
           {/* Dividend mit “Mehr zur Dividende” */}
-          <div>
-  <h3 className="font-semibold mb-2">Dividend</h3>
-  <ul className="text-sm space-y-1">
-    <li>Rendite: {fmtP(keyMetrics.dividendYield)}</li>
-    <li>Payout Ratio: {fmtP(keyMetrics.payoutRatio)}</li>
-  </ul>
+      {/* Dividend mit „Mehr zur Dividende“ (premium-Link) */}
+ <div>
+            <h3 className="font-semibold mb-2">Dividend</h3>
+            <ul className="text-sm space-y-1">
+              <li>Rendite: {fmtP(keyMetrics.dividendYield)}</li>
+              <li>Payout Ratio: {fmtP(keyMetrics.payoutRatio)}</li>
+            </ul>
 
+            {isPremium ? (
   <Link
     href={`/analyse/${ticker.toLowerCase()}/dividende`}
     className="mt-2 inline-block text-blue-600 hover:underline text-sm"
   >
     Mehr zur Dividende →
   </Link>
-</div>
+) : (
+  <Link
+    href="/pricing"
+    className="mt-2 inline-block text-yellow-500 text-sm flex items-center gap-1"
+  >
+    <LockClosedIcon className="w-4 h-4"/> Mehr zur Dividende
+  </Link>
+)}
+          </div>
           {/* Bewertung */}
-          <div>
+          <div className="relative">
             <h3 className="font-semibold mb-2">Bewertung</h3>
-            <ul className="text-sm space-y-1">
-              <li>KGV TTM: {peTTM?.toFixed(2) ?? '–'}</li>
-              <li>PEG TTM: {pegTTM?.toFixed(2) ?? '–'}</li>
-              <li>KBV TTM: {pbTTM?.toFixed(2) ?? '–'}</li>
-              <li>KUV TTM: {psTTM?.toFixed(2) ?? '–'}</li>
-              <li>EV/EBIT: {evEbit?.toFixed(2) ?? '–'}</li>
-            </ul>
+            <div className={ session?.user.isPremium ? '' : 'filter blur-sm' }>
+              <ul className="text-sm space-y-1">
+                <li>KGV TTM: {peTTM?.toFixed(2) ?? '–'}</li>
+                <li>PEG TTM: {pegTTM?.toFixed(2) ?? '–'}</li>
+                <li>KBV TTM: {pbTTM?.toFixed(2) ?? '–'}</li>
+                <li>KUV TTM: {psTTM?.toFixed(2) ?? '–'}</li>
+                <li>EV/EBIT: {evEbit?.toFixed(2) ?? '–'}</li>
+              </ul>
+            </div>
+            {!session?.user.isPremium && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <LockClosedIcon className="w-8 h-8 text-yellow-500" />
+              </div>
+            )}
           </div>
           {/* Margins */}
-          <div>
+          <div className="relative">
             <h3 className="font-semibold mb-2">Margins</h3>
-            <ul className="text-sm space-y-1">
-              <li>Gross Margin: {fmtP(grossMargin)}</li>
-              <li>Operating Margin: {fmtP(operatingMargin)}</li>
-              <li>Profit Margin: {fmtP(profitMargin)}</li>
-            </ul>
+            <div className={ session?.user.isPremium ? '' : 'filter blur-sm' }>
+              <ul className="text-sm space-y-1">
+                <li>Gross Margin: {fmtP(grossMargin)}</li>
+                <li>Operating Margin: {fmtP(operatingMargin)}</li>
+                <li>Profit Margin: {fmtP(profitMargin)}</li>
+              </ul>
+            </div>
+            {!session?.user.isPremium && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <LockClosedIcon className="w-8 h-8 text-yellow-500" />
+              </div>
+            )}
           </div>
+
+ 
+
+
+
+
+
+
+
         </section>
       ) : (
         <p className="text-gray-500">Key Metrics nicht verfügbar.</p>
@@ -529,7 +577,17 @@ try {
           Kennzahlen-Charts auswählen
         </h2>
         
-        <FinancialAnalysisClient ticker={ticker} />
+       {/* Statt FinancialAnalysisClient direkt einzubinden: */}
+{isPremium ? (
+  <FinancialAnalysisClient ticker={ticker} />
+) : (
+  <div className="bg-card-dark p-6 rounded text-center">
+    <p className="mb-4">Interaktive Kennzahlen-Charts sind ein Premium-Feature.</p>
+    <Link href="/pricing" className="inline-block bg-accent text-black bold px-4 py-2 rounded">
+      Jetzt upgraden
+    </Link>
+  </div>
+)}
       </section>
 
        {/* ─── Earnings & Revenue Estimates ─── */}
