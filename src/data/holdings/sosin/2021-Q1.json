@@ -1,0 +1,41 @@
+{
+  "date": "2021-02-16",
+  "positions": [
+    {
+      "name": "AT HOME GROUP INC",
+      "cusip": "04650Y100",
+      "shares": 10433735,
+      "value": 161306000
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 4488972,
+      "value": 640891000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 3205028,
+      "value": 767732000
+    },
+    {
+      "name": "HERBALIFE NUTRITION LTD",
+      "cusip": "G4412G101",
+      "shares": 1425462,
+      "value": 68493000
+    },
+    {
+      "name": "PARTY CITY HOLDCO INC",
+      "cusip": "702149105",
+      "shares": 15263623,
+      "value": 93871000
+    },
+    {
+      "name": "WORLD ACCEP CORP DEL",
+      "cusip": "981419104",
+      "shares": 707768,
+      "value": 72348000
+    }
+  ]
+}

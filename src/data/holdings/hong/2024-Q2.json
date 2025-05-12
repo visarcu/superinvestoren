@@ -1,0 +1,53 @@
+{
+  "date": "2024-05-14",
+  "positions": [
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 4230861,
+      "value": 13750298000
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 4936033,
+      "value": 87812027000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 570709,
+      "value": 121737937000
+    },
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 3086866,
+      "value": 164653432000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 131169,
+      "value": 85259850000
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 435896,
+      "value": 98455830000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1890307,
+      "value": 101528389000
+    },
+    {
+      "name": "SHIFT4 PMTS INC",
+      "cusip": "82452J109",
+      "shares": 1596421,
+      "value": 105475535000
+    }
+  ]
+}

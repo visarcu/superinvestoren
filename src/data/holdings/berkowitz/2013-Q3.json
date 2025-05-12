@@ -1,0 +1,119 @@
+{
+  "date": "2013-08-14",
+  "positions": [
+    {
+      "name": "AMERICAN INTL GROUP COM",
+      "cusip": "026874784",
+      "shares": 86148865,
+      "value": 3850854000
+    },
+    {
+      "name": "BANK OF AMERICA CORP.",
+      "cusip": "060505104",
+      "shares": 100948615,
+      "value": 1298199000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL CL",
+      "cusip": "084670108",
+      "shares": 6,
+      "value": 1012000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL CL",
+      "cusip": "084670702",
+      "shares": 726525,
+      "value": 81313000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 803800,
+      "value": 16381000
+    },
+    {
+      "name": "CITIGROUP INC COM",
+      "cusip": "172967424",
+      "shares": 57360,
+      "value": 2752000
+    },
+    {
+      "name": "GENWORTH FINANCIAL, INC.",
+      "cusip": "37247d106",
+      "shares": 1075200,
+      "value": 12268000
+    },
+    {
+      "name": "LEUCADIA NATL CORP COM",
+      "cusip": "527288104",
+      "shares": 18664999,
+      "value": 489396000
+    },
+    {
+      "name": "LINCOLN NATIONAL CORP.",
+      "cusip": "534187109",
+      "shares": 45600,
+      "value": 1663000
+    },
+    {
+      "name": "SEARS HLDGS CORP COM",
+      "cusip": "812350106",
+      "shares": 20392973,
+      "value": 858136000
+    },
+    {
+      "name": "ST JOE CO COM",
+      "cusip": "790148100",
+      "shares": 25017933,
+      "value": 526627000
+    },
+    {
+      "name": "THE HARTFORD FINANCIAL SERVICE",
+      "cusip": "416515104",
+      "shares": 53300,
+      "value": 1648000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW COM",
+      "cusip": "949746101",
+      "shares": 151400,
+      "value": 6248000
+    },
+    {
+      "name": "AIG WARRANTS, 45.00 STRIKE, 1",
+      "cusip": "026874156",
+      "shares": 24279115,
+      "value": 442851000
+    },
+    {
+      "name": "BAC WARRANTS, 13.30 STRIKE, 1",
+      "cusip": "060505146",
+      "shares": 9904428,
+      "value": 54078000
+    },
+    {
+      "name": "HARTFORD WARRANTS, 9.563 STRIK",
+      "cusip": "416515120",
+      "shares": 553900,
+      "value": 12130000
+    },
+    {
+      "name": "JP MORGAN WARRANTS, 42.42 STRI",
+      "cusip": "46634E114",
+      "shares": 753300,
+      "value": 11751000
+    },
+    {
+      "name": "LINCOLN NATIONAL CORP., 10.636",
+      "cusip": "534187117",
+      "shares": 205810,
+      "value": 5547000
+    },
+    {
+      "name": "WELLS FARGO WARRANTS, 34.01 ST",
+      "cusip": "949746119",
+      "shares": 1346665,
+      "value": 18409000
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "date": "2021-08-13",
+  "positions": [
+    {
+      "name": "Alarm.com Holdings, Inc.",
+      "cusip": "011642105",
+      "shares": 354100,
+      "value": 29992000
+    },
+    {
+      "name": "Align Technology Inc.",
+      "cusip": "016255101",
+      "shares": 620041,
+      "value": 378845000
+    },
+    {
+      "name": "Alteryx Inc",
+      "cusip": "02156B103",
+      "shares": 4386339,
+      "value": 377313000
+    },
+    {
+      "name": "Astronics Corporation",
+      "cusip": "046433108",
+      "shares": 564616,
+      "value": 9886000
+    },
+    {
+      "name": "Cimpress NV",
+      "cusip": "G2143T103",
+      "shares": 155133,
+      "value": 16818000
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 3186570,
+      "value": 263912000
+    },
+    {
+      "name": "Despegar.com Corp",
+      "cusip": "G27358103",
+      "shares": 862137,
+      "value": 11389000
+    },
+    {
+      "name": "Element Solutions Inc.",
+      "cusip": "28618M106",
+      "shares": 962953,
+      "value": 22514000
+    },
+    {
+      "name": "Etsy Inc",
+      "cusip": "29786A106",
+      "shares": 407053,
+      "value": 83788000
+    },
+    {
+      "name": "Farfetch Ltd",
+      "cusip": "30744W107",
+      "shares": 582296,
+      "value": 29324000
+    },
+    {
+      "name": "Guidewire Software, Inc.",
+      "cusip": "40171V100",
+      "shares": 330715,
+      "value": 37278000
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 5097799,
+      "value": 335078000
+    },
+    {
+      "name": "Mimecast Limited",
+      "cusip": "G14838109",
+      "shares": 537726,
+      "value": 28526000
+    },
+    {
+      "name": "National Instruments Corp.",
+      "cusip": "636518102",
+      "shares": 831102,
+      "value": 35139000
+    },
+    {
+      "name": "Pagerduty Inc",
+      "cusip": "69553P100",
+      "shares": 686834,
+      "value": 29245000
+    },
+    {
+      "name": "Papa John's International Inc.",
+      "cusip": "698813102",
+      "shares": 57933,
+      "value": 6051000
+    },
+    {
+      "name": "Pegasystems Inc",
+      "cusip": "705573103",
+      "shares": 5042593,
+      "value": 701879000
+    },
+    {
+      "name": "Planet Fitness Inc",
+      "cusip": "72703H101",
+      "shares": 553818,
+      "value": 41675000
+    },
+    {
+      "name": "Redfin Corp",
+      "cusip": "75737F108",
+      "shares": 7994900,
+      "value": 506957000
+    },
+    {
+      "name": "Square Inc",
+      "cusip": "852234103",
+      "shares": 4812304,
+      "value": 1173240000
+    },
+    {
+      "name": "Stitch Fix",
+      "cusip": "860897107",
+      "shares": 552293,
+      "value": 33303000
+    },
+    {
+      "name": "Twilio Inc.",
+      "cusip": "90138F102",
+      "shares": 92822,
+      "value": 36587000
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 2520622,
+      "value": 795786000
+    },
+    {
+      "name": "Workday, Inc.",
+      "cusip": "98138H101",
+      "shares": 2620172,
+      "value": 625540000
+    },
+    {
+      "name": "Zuora Inc",
+      "cusip": "98983V106",
+      "shares": 723838,
+      "value": 12486000
+    }
+  ]
+}

@@ -19,7 +19,7 @@ async function run() {
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
     // Teste nur einen Investor, bis alles klappt:
-    if (slug !== 'olstein') continue
+    if (slug !== 'tepper') continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })

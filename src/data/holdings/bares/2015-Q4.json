@@ -1,0 +1,113 @@
+{
+  "date": "2015-11-16",
+  "positions": [
+    {
+      "name": "America's Car-Mart Inc.",
+      "cusip": "03062T105",
+      "shares": 1272414,
+      "value": 42104000
+    },
+    {
+      "name": "Ansys, Inc.",
+      "cusip": "03662Q105",
+      "shares": 418891,
+      "value": 36921000
+    },
+    {
+      "name": "Colfax Corporation",
+      "cusip": "194014106",
+      "shares": 5329338,
+      "value": 159400000
+    },
+    {
+      "name": "FactSet Research Systems inc.",
+      "cusip": "303075105",
+      "shares": 304934,
+      "value": 48732000
+    },
+    {
+      "name": "Fastenal Company",
+      "cusip": "311900104",
+      "shares": 1533010,
+      "value": 56123000
+    },
+    {
+      "name": "Gartner Inc.",
+      "cusip": "366651107",
+      "shares": 582069,
+      "value": 48853000
+    },
+    {
+      "name": "Heico CP CL A",
+      "cusip": "422806208",
+      "shares": 1894305,
+      "value": 86020000
+    },
+    {
+      "name": "HomeAway, Inc.",
+      "cusip": "43739Q100",
+      "shares": 2322208,
+      "value": 61631000
+    },
+    {
+      "name": "Interactive Brokers Group, Inc.",
+      "cusip": "45841N107",
+      "shares": 924715,
+      "value": 36499000
+    },
+    {
+      "name": "Interactive Intelligence Group",
+      "cusip": "45841V109",
+      "shares": 3038898,
+      "value": 90286000
+    },
+    {
+      "name": "Markel Corp.",
+      "cusip": "570535104",
+      "shares": 48601,
+      "value": 38971000
+    },
+    {
+      "name": "National Instruments Corp.",
+      "cusip": "636518102",
+      "shares": 1422938,
+      "value": 39543000
+    },
+    {
+      "name": "Platform Specialty Products Corpora",
+      "cusip": "72766Q105",
+      "shares": 2921051,
+      "value": 36951000
+    },
+    {
+      "name": "Polaris Industries Inc.",
+      "cusip": "731068102",
+      "shares": 157024,
+      "value": 18822000
+    },
+    {
+      "name": "RealD Inc.",
+      "cusip": "75604L105",
+      "shares": 6766875,
+      "value": 65030000
+    },
+    {
+      "name": "US Ecology, Inc.",
+      "cusip": "91732J102",
+      "shares": 1383355,
+      "value": 60383000
+    },
+    {
+      "name": "Verisk Analytics, Inc.",
+      "cusip": "92345Y106",
+      "shares": 526646,
+      "value": 38924000
+    },
+    {
+      "name": "Waters Corporation",
+      "cusip": "941848103",
+      "shares": 347085,
+      "value": 41029000
+    }
+  ]
+}

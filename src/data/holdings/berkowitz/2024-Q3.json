@@ -1,0 +1,47 @@
+{
+  "date": "2024-08-14",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2400,
+      "value": 505488000
+    },
+    {
+      "name": "BANK OZK",
+      "cusip": "06417N103",
+      "shares": 548550,
+      "value": 22490550000
+    },
+    {
+      "name": "WR BERKLEY CORP",
+      "cusip": "084423102",
+      "shares": 124900,
+      "value": 9814642000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 49952,
+      "value": 20320474000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 612241000
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 5438300,
+      "value": 157601934000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 21520167,
+      "value": 1177153135000
+    }
+  ]
+}

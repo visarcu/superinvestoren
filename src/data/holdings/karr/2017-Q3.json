@@ -1,0 +1,53 @@
+{
+  "date": "2017-08-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1203137,
+      "value": 169522000
+    },
+    {
+      "name": "BRIGHT SCHOLAR ED HLDGS LTD",
+      "cusip": "109199109",
+      "shares": 350000,
+      "value": 4165000
+    },
+    {
+      "name": "CAESARSTONE LTD",
+      "cusip": "M20598104",
+      "shares": 2322130,
+      "value": 81391000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 1403701,
+      "value": 119174000
+    },
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 866799,
+      "value": 37792000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 715966,
+      "value": 37796000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 146277,
+      "value": 35354000
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 10150,
+      "value": 592000
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+{
+  "date": "2022-02-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HOLDING LTD",
+      "cusip": "01609W102",
+      "shares": 143800,
+      "value": 17088000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 16731,
+      "value": 48470000
+    },
+    {
+      "name": "ARGAN INC",
+      "cusip": "04010E109",
+      "shares": 27500,
+      "value": 1065000
+    },
+    {
+      "name": "ATLAS CORP",
+      "cusip": "Y0436Q109",
+      "shares": 99988690,
+      "value": 1416840000
+    },
+    {
+      "name": "BANK OF NOVA SCOTIA B C",
+      "cusip": "064149107",
+      "shares": 247100,
+      "value": 17535000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 451000
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 46724700,
+      "value": 436876000
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 50000,
+      "value": 3019000
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT REINS",
+      "cusip": "G16169107",
+      "shares": 343,
+      "value": 21000
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 15000,
+      "value": 1079000
+    },
+    {
+      "name": "CANNAE HLDGS INC",
+      "cusip": "13765N107",
+      "shares": 40000,
+      "value": 1406000
+    },
+    {
+      "name": "CASPER SLEEP INC",
+      "cusip": "147626105",
+      "shares": 219000,
+      "value": 1461000
+    },
+    {
+      "name": "CHANGE HEALTHCARE INC",
+      "cusip": "15912K100",
+      "shares": 33700,
+      "value": 721000
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 155800,
+      "value": 18282000
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 25000,
+      "value": 3710000
+    },
+    {
+      "name": "CRESCENT CAPITAL BDC INC",
+      "cusip": "225655109",
+      "shares": 3338999,
+      "value": 58766000
+    },
+    {
+      "name": "CVS HEALTH CORPORATION",
+      "cusip": "126650100",
+      "shares": 26500,
+      "value": 2733000
+    },
+    {
+      "name": "DARLING INGREDIENTS INC",
+      "cusip": "237266101",
+      "shares": 16200,
+      "value": 1122000
+    },
+    {
+      "name": "DENNY'S CORP",
+      "cusip": "24869P104",
+      "shares": 125000,
+      "value": 1999000
+    },
+    {
+      "name": "DEVON ENERGY CORP NEW",
+      "cusip": "25179M103",
+      "shares": 11600,
+      "value": 511000
+    },
+    {
+      "name": "DINE BRANDS GLOBAL INC",
+      "cusip": "254423106",
+      "shares": 25500,
+      "value": 1931000
+    },
+    {
+      "name": "EOG RES INC",
+      "cusip": "26875P101",
+      "shares": 4000,
+      "value": 355000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1400,
+      "value": 471000
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620R303",
+      "shares": 40000,
+      "value": 2088000
+    },
+    {
+      "name": "FRANKLIN RESOURCES INC",
+      "cusip": "354613101",
+      "shares": 1000000,
+      "value": 33470000
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505105",
+      "shares": 109900,
+      "value": 882000
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505204",
+      "shares": 159239,
+      "value": 1333000
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 173862,
+      "value": 16423000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 375965,
+      "value": 22035000
+    },
+    {
+      "name": "GRANITE REAL ESTATE INVT TR",
+      "cusip": "387437114",
+      "shares": 20000,
+      "value": 1667000
+    },
+    {
+      "name": "BLOCK H & R INC",
+      "cusip": "093671105",
+      "shares": 1120894,
+      "value": 26408000
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 555105,
+      "value": 13150000
+    },
+    {
+      "name": "IMAX CORP",
+      "cusip": "45245E109",
+      "shares": 125000,
+      "value": 2230000
+    },
+    {
+      "name": "INDEPENDENCE CONTRACT DRILLING",
+      "cusip": "453415606",
+      "shares": 390294,
+      "value": 1167000
+    },
+    {
+      "name": "INTERNATIONAL SEAWAYS INC",
+      "cusip": "Y41053102",
+      "shares": 572954,
+      "value": 8411000
+    },
+    {
+      "name": "IROBOT CORP",
+      "cusip": "462726100",
+      "shares": 15000,
+      "value": 987000
+    },
+    {
+      "name": "JACOBS ENGR GROUP INC",
+      "cusip": "469814107",
+      "shares": 11000,
+      "value": 1532000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 73400,
+      "value": 12554000
+    },
+    {
+      "name": "KENNEDY-WILSON HOLDINGS INC",
+      "cusip": "489398107",
+      "shares": 13322009,
+      "value": 318130000
+    },
+    {
+      "name": "KKR & CO INC INC",
+      "cusip": "48251W104",
+      "shares": 40000,
+      "value": 2981000
+    },
+    {
+      "name": "LHC GROUP INC",
+      "cusip": "50187A107",
+      "shares": 7400,
+      "value": 1016000
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 6380,
+      "value": 1028000
+    },
+    {
+      "name": "LIBERTY TRIPADVISOR HLGDS INC",
+      "cusip": "531465102",
+      "shares": 1650000,
+      "value": 3564000
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 100000,
+      "value": 2096000
+    },
+    {
+      "name": "MASTERCRAFT BOAT HOLDINGS INC",
+      "cusip": "57637H103",
+      "shares": 339199,
+      "value": 9610000
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 172900,
+      "value": 13251000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 690200,
+      "value": 64271000
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 14500,
+      "value": 2853000
+    },
+    {
+      "name": "NUANCE COMMUNICATIONS INC",
+      "cusip": "67020Y100",
+      "shares": 77000,
+      "value": 4260000
+    },
+    {
+      "name": "OSISKO GOLD ROYALTIES LTD",
+      "cusip": "68827L101",
+      "shares": 160000,
+      "value": 1954000
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 400900,
+      "value": 23669000
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 2000,
+      "value": 364000
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 30548190,
+      "value": 465249000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 43500,
+      "value": 2637000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 93700,
+      "value": 11273000
+    },
+    {
+      "name": "TELESAT CORP",
+      "cusip": "879512309",
+      "shares": 66000,
+      "value": 1868000
+    },
+    {
+      "name": "TENCENT MUSIC ENTMT GROUP",
+      "cusip": "88034P109",
+      "shares": 409000,
+      "value": 2802000
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311206",
+      "shares": 119000,
+      "value": 2146000
+    },
+    {
+      "name": "U S SILICA HOLDINGS INC",
+      "cusip": "90346E103",
+      "shares": 130000,
+      "value": 1221000
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908363",
+      "shares": 4416,
+      "value": 1928000
+    },
+    {
+      "name": "VIEMED HEALTHCARE INC",
+      "cusip": "92663R105",
+      "shares": 150000,
+      "value": 784000
+    },
+    {
+      "name": "WW INTL INC",
+      "cusip": "98262P101",
+      "shares": 61000,
+      "value": 983000
+    },
+    {
+      "name": "XERIS BIOPHARMA HOLDINGS INC",
+      "cusip": "98422E103",
+      "shares": 151395,
+      "value": 441000
+    }
+  ]
+}

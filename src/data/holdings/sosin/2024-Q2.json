@@ -1,0 +1,35 @@
+{
+  "date": "2024-05-15",
+  "positions": [
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 645252,
+      "value": 96071570000
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 6373676,
+      "value": 92354565000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 6530894,
+      "value": 574130892000
+    },
+    {
+      "name": "HILTON GRAND VACATIONS INC",
+      "cusip": "43283X105",
+      "shares": 6446661,
+      "value": 304346866000
+    },
+    {
+      "name": "WORLD ACCEP CORPORATION",
+      "cusip": "981419104",
+      "shares": 338164,
+      "value": 49027017000
+    }
+  ]
+}

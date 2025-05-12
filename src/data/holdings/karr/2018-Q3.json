@@ -1,0 +1,53 @@
+{
+  "date": "2018-08-13",
+  "positions": [
+    {
+      "name": "ALBEMARLE CORP",
+      "cusip": "012653101",
+      "shares": 167000,
+      "value": 15753000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 890637,
+      "value": 165240000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 3069024,
+      "value": 136909000
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 1497681,
+      "value": 73881000
+    },
+    {
+      "name": "FOUR SEASONS ED CAYMAN INC",
+      "cusip": "35101A101",
+      "shares": 1900148,
+      "value": 10299000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 825966,
+      "value": 54828000
+    },
+    {
+      "name": "HUYA INC",
+      "cusip": "44852D108",
+      "shares": 10000,
+      "value": 329000
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 13800,
+      "value": 1969000
+    }
+  ]
+}

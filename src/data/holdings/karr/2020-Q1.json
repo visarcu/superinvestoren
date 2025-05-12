@@ -1,0 +1,71 @@
+{
+  "date": "2020-02-13",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 688471,
+      "value": 146025000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 108121,
+      "value": 6059000
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 430005,
+      "value": 4451000
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 3305034,
+      "value": 167929000
+    },
+    {
+      "name": "FOUR SEASONS ED CAYMAN INC",
+      "cusip": "35101A101",
+      "shares": 592602,
+      "value": 948000
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 700000,
+      "value": 127792000
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 16422,
+      "value": 3392000
+    },
+    {
+      "name": "LIVENT CORP",
+      "cusip": "53814L108",
+      "shares": 3917195,
+      "value": 33492000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 893000,
+      "value": 140826000
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 66000,
+      "value": 18633000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 143217,
+      "value": 21418000
+    }
+  ]
+}

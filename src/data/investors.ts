@@ -86,7 +86,7 @@ export const investors: Investor[] = [
     holdings: [],
   },
   {
-    name: 'Chris Bloomstran',
+    name: 'Chris Bloomstran - Semper Augustus Investments Group',
     slug: 'bloomstran', 
     imageUrl: '/images/bloomstran.png',
     updatedAt: '31.12.2024',    
@@ -177,13 +177,7 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
-  {
-    name: 'Tom Bancroft – Makaira Partners',
-    slug: 'tom-bancroft',
-    imageUrl: '/images/neuer-investor.png',
-    updatedAt: '31.12.2024',    
-    holdings: [],
-  },  
+
   {
     name: 'Greg Alexander – Conifer Management',
     slug: 'gregalexander',
@@ -474,7 +468,82 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
+
+  {
+    name: 'Robert Karr - Joho Capital',
+    slug: 'karr',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Dennis Hong - Shawspring Partners',
+    slug: 'hong',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Brian Bares - Bares Capital Management',
+    slug: 'bares',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Bruce Berkowitz - Fairholme Capital Management',
+    slug: 'berkowitz',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
  
 
+  {
+    name: 'Prem Watsa - Fairfax Financial Holdings',
+    slug: 'watsa',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Clifford Sosin - CAS Investment Parners',
+    slug: 'sosin',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Nathaniel Simons - Meritage Group',
+    slug: 'meritage',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Sarah Ketterer - Causeway Capital Management',
+    slug: 'ketterer',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+
+  {
+    name: 'C.T. Fitzpatrick - Vulcan Value Partners',
+    slug: 'vulcanvalue',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+
+  
 
 ]

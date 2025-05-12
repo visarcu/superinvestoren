@@ -42,13 +42,13 @@ loeb:'0001040273',
 icahn: '0000921669',// Carl Icahn – Icahn Capital (Beispiel)
 tangen: '0001376879',    // AKO Capital
 abrams: '0001358706',    // David Abrams – Abrams Capital Management
-marks:  '0000949509',// MANUELL!!,
+
 martin: '0001050442',
 kantesaria: '0001697868', // Valley Forge Capital MGMT 000
-ubben: '0001418814', // 0000
+ketterer: '0001165797',
 train: '0001484150',    // Lindsell Train
 brenton: '0001484148',
-peltz: '0001345471',
+
 mairspower: '0001141819',    // Mairs & Power Growth Fund
 burn:  '0000820124',    // Harry Burn – Sound Shore
 dorsey: '0001671657', 
@@ -64,10 +64,16 @@ muhlenkamp:  '0001133219',
 tarasoff: '0001766504',    // Josh Tarasoff – Greenlea Lane Capital
 welling: '0001559771',    // Glenn Welling – Engaged Capital
 rolfe: '0000859804',    // David Rolfe – Wedgewood Partners
-whitman:  '0001099281',    // Third Avenue Management
-
-
-
+karr: '0001106500',
+hong:  '0001766908',    // Dennis Hong – ShawSpring Partners
+bares: '0001340807',
+berkowitz: '0001056831',    // Bruce Berkowitz – Fairholme Capital
+watsa:  '0000915191',    // Prem Watsa – Fairfax Financial Holdings
+sosin:  '0001697591',    // Clifford Sosin – CAS Investment Partners
+rochon:  '0001641864',    // Francois Rochon – Giverny Capital
+donaldsmith: '0000814375',
+meritage: '0001427119',
+vulcanvalue: '0001556785',
 
 
 
@@ -77,23 +83,27 @@ whitman:  '0001099281',    // Third Avenue Management
    // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
       // cunniff:         '0002049493',    // Ruane Cunniff – Sequoia Fund //NPORT
      // 'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
+       // 'hillman-value':         'XXX',    // Hillman Value Fund
+         // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
 
  // 0 einträge
- //triplefrond: '0001454502',    // Triple Frond Partners
-// lee: '0001426749',
+triplefrond: '0001454502',    // Triple Frond Partners
+lee: '0001426749',
+whitman:  '0001099281'  ,  // Third Avenue Management
+greenbrier:'0001532262',
+lilu:  '0001709323', //MANUELL
+peltz: '0001345471',
+ubben: '0001418814', // 0000
+marks:  '0000949509',// MANUELL!!,
 
   // neu hinzuzufügende Investoren:
-  // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
+
   // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors
-  // 'tweedy-browne':         'XXX',    // Tweedy Browne Co. – Tweedy Browne Value Fund
 
-  // 'richard-pzena':         'XXX',    // Richard Pzena – Hancock Classic Value
 
-  // 'romick':                'XXX',    // Steven Romick – FPA Crescent Fund
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
        
         
-  // 'hillman-value':         'XXX',    // Hillman Value Fund
 
  //         
   // 'meridian-contrarian':   'XXX',    // Meridian Contrarian Fund
@@ -111,8 +121,8 @@ whitman:  '0001099281',    // Third Avenue Management
          
   // 'valueact-capital':      'XXX',    // ValueAct Capital
   // 'norbert-lou':           'XXX',    // Norbert Lou – Punch Card Management
-            //    'gates':      '0001166559',    // Bill & Melinda Gates Foundation Trust
-  // 'bruce-berkowitz':       'XXX',    // Bruce Berkowitz – Fairholme Capital
+  
+
 
              //   'kahn-brothers':         '0001039565',    // Kahn Brothers Group
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
@@ -124,15 +134,13 @@ whitman:  '0001099281',    // Third Avenue Management
 
   // 'leon-cooperman':        'XXX',    // Leon Cooperman
   // 'josh-tarasoff':         'XXX',    // Josh Tarasoff – Greenlea Lane Capital
-   //'clifford-sosin':        'XXX',    // Clifford Sosin – CAS Investment Partners
+
  
 
-   
-  //'prem-watsa':            'XXX',    // Prem Watsa – Fairfax Financial Holdings
-  //'dennis-hong':           'XXX',    // Dennis Hong – ShawSpring Partners
+
      
              //   'akre':            '0001112520',    // Chuck Akre – Akre Capital Management
-  // 'francois-rochon':       'XXX',    // Francois Rochon – Giverny Capital
+
 
 
 
@@ -148,7 +156,6 @@ whitman:  '0001099281',    // Third Avenue Management
 
              
 
-  //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
   //'torray-funds':          'XXX',    // Torray Funds // NPPORT
 
  

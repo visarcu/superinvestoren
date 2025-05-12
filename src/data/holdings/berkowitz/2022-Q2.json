@@ -1,0 +1,89 @@
+{
+  "date": "2022-05-16",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 8190,
+      "value": 891000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4260,
+      "value": 744000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 49155,
+      "value": 17347000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 529000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 146200,
+      "value": 7807000
+    },
+    {
+      "name": "COMMERCIAL METALS CO",
+      "cusip": "201723103",
+      "shares": 2074400,
+      "value": 86337000
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 844200,
+      "value": 9447000
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 3224800,
+      "value": 83232000
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 588400,
+      "value": 29161000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 798100,
+      "value": 15092000
+    },
+    {
+      "name": "OLD REP INTL CORP",
+      "cusip": "680223104",
+      "shares": 371100,
+      "value": 9600000
+    },
+    {
+      "name": "SANDERSON FARMS INC",
+      "cusip": "800013104",
+      "shares": 7000,
+      "value": 1312000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 24616590,
+      "value": 1458287000
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 69000,
+      "value": 3089000
+    }
+  ]
+}

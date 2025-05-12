@@ -1,0 +1,227 @@
+{
+  "date": "2022-11-14",
+  "positions": [
+    {
+      "name": "ABM Industries Inc",
+      "cusip": "000957100",
+      "shares": 1319538,
+      "value": 50446000
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 4354730,
+      "value": 418707000
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 5304241,
+      "value": 599379000
+    },
+    {
+      "name": "Applied Materials Inc",
+      "cusip": "038222105",
+      "shares": 3844676,
+      "value": 314994000
+    },
+    {
+      "name": "Ares Management Corp",
+      "cusip": "03990B101",
+      "shares": 2430825,
+      "value": 150589000
+    },
+    {
+      "name": "Carlyle Group Inc/The",
+      "cusip": "14316J108",
+      "shares": 14233909,
+      "value": 367804000
+    },
+    {
+      "name": "CBRE Group Inc",
+      "cusip": "12504L109",
+      "shares": 3815879,
+      "value": 257610000
+    },
+    {
+      "name": "Cerence Inc",
+      "cusip": "156727109",
+      "shares": 1278482,
+      "value": 20136000
+    },
+    {
+      "name": "Colliers International Group I",
+      "cusip": "194693107",
+      "shares": 710721,
+      "value": 65145000
+    },
+    {
+      "name": "CoStar Group Inc",
+      "cusip": "22160N109",
+      "shares": 3588199,
+      "value": 249919000
+    },
+    {
+      "name": "Cushman & Wakefield PLC",
+      "cusip": "G2717B108",
+      "shares": 10457810,
+      "value": 119742000
+    },
+    {
+      "name": "Elevance Health Inc",
+      "cusip": "036752103",
+      "shares": 391053,
+      "value": 177632000
+    },
+    {
+      "name": "EnerSys",
+      "cusip": "29275Y102",
+      "shares": 1007431,
+      "value": 58602000
+    },
+    {
+      "name": "General Electric Co",
+      "cusip": "369604301",
+      "shares": 7161998,
+      "value": 443400000
+    },
+    {
+      "name": "HEICO Corp",
+      "cusip": "422806208",
+      "shares": 2230008,
+      "value": 255604000
+    },
+    {
+      "name": "Ituran Location and Control Lt",
+      "cusip": "M6158M104",
+      "shares": 3152144,
+      "value": 73571000
+    },
+    {
+      "name": "Jones Lang LaSalle Inc",
+      "cusip": "48020Q107",
+      "shares": 1454632,
+      "value": 219751000
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 10814991,
+      "value": 465045000
+    },
+    {
+      "name": "Lam Research Corp",
+      "cusip": "512807108",
+      "shares": 586498,
+      "value": 214659000
+    },
+    {
+      "name": "Littelfuse Inc",
+      "cusip": "537008104",
+      "shares": 471233,
+      "value": 93629000
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 1685939,
+      "value": 479380000
+    },
+    {
+      "name": "Medpace Holdings Inc",
+      "cusip": "58506Q109",
+      "shares": 401203,
+      "value": 63057000
+    },
+    {
+      "name": "Meta Platforms Inc",
+      "cusip": "30303M102",
+      "shares": 1711315,
+      "value": 232191000
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 2466689,
+      "value": 574492000
+    },
+    {
+      "name": "MillerKnoll Inc",
+      "cusip": "600544100",
+      "shares": 1738267,
+      "value": 27117000
+    },
+    {
+      "name": "Park Hotels & Resorts Inc",
+      "cusip": "700517105",
+      "shares": 5504828,
+      "value": 61984000
+    },
+    {
+      "name": "PROG Holdings Inc",
+      "cusip": "74319R101",
+      "shares": 1483391,
+      "value": 22221000
+    },
+    {
+      "name": "Qorvo Inc",
+      "cusip": "74736K101",
+      "shares": 3440450,
+      "value": 273207000
+    },
+    {
+      "name": "Salesforce Inc",
+      "cusip": "79466L302",
+      "shares": 3200901,
+      "value": 460418000
+    },
+    {
+      "name": "Skyworks Solutions Inc",
+      "cusip": "83088M102",
+      "shares": 4650429,
+      "value": 396542000
+    },
+    {
+      "name": "Sleep Number Corp",
+      "cusip": "83125X103",
+      "shares": 954439,
+      "value": 32270000
+    },
+    {
+      "name": "SmartRent Inc",
+      "cusip": "83193G107",
+      "shares": 16686231,
+      "value": 37878000
+    },
+    {
+      "name": "Splunk Inc",
+      "cusip": "848637104",
+      "shares": 3453061,
+      "value": 259670000
+    },
+    {
+      "name": "Timken Co/The",
+      "cusip": "887389104",
+      "shares": 610375,
+      "value": 36037000
+    },
+    {
+      "name": "TransDigm Group Inc",
+      "cusip": "893641100",
+      "shares": 1019056,
+      "value": 534821000
+    },
+    {
+      "name": "Virtus Investment Partners Inc",
+      "cusip": "92828Q109",
+      "shares": 347334,
+      "value": 55407000
+    },
+    {
+      "name": "Visa Inc",
+      "cusip": "92826C839",
+      "shares": 2163877,
+      "value": 384412000
+    }
+  ]
+}

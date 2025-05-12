@@ -1,0 +1,35 @@
+{
+  "date": "2019-08-14",
+  "positions": [
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 2162020,
+      "value": 56169000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 2535331,
+      "value": 158686000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 65468,
+      "value": 31675000
+    },
+    {
+      "name": "HERBALIFE NUTRITION LTD",
+      "cusip": "G4412G101",
+      "shares": 1130482,
+      "value": 48339000
+    },
+    {
+      "name": "WORLD ACCEP CORP DEL",
+      "cusip": "981419104",
+      "shares": 581479,
+      "value": 95427000
+    }
+  ]
+}

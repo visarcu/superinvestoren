@@ -1,0 +1,47 @@
+{
+  "date": "2018-02-14",
+  "positions": [
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 268201,
+      "value": 32152000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 76986,
+      "value": 24903000
+    },
+    {
+      "name": "FOGO DE CHAO INC",
+      "cusip": "344177100",
+      "shares": 1155836,
+      "value": 13408000
+    },
+    {
+      "name": "HEALTH INS INNOVATIONS INC",
+      "cusip": "42225K106",
+      "shares": 750183,
+      "value": 18717000
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 565241,
+      "value": 38278000
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 32300,
+      "value": 5553000
+    },
+    {
+      "name": "WORLD ACCEP CORP DEL",
+      "cusip": "981419104",
+      "shares": 602791,
+      "value": 48657000
+    }
+  ]
+}

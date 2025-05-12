@@ -1,0 +1,209 @@
+{
+  "date": "2021-08-13",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 32,
+      "value": 78000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 243164,
+      "value": 609447000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 89050,
+      "value": 306346000
+    },
+    {
+      "name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "shares": 5916,
+      "value": 405000
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 841972,
+      "value": 201029000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 921,
+      "value": 256000
+    },
+    {
+      "name": "BIO RAD LABS INC",
+      "cusip": "090572207",
+      "shares": 871,
+      "value": 561000
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 2091910,
+      "value": 220601000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 986701,
+      "value": 711855000
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 145591,
+      "value": 34052000
+    },
+    {
+      "name": "DISCOVER FINL SVCS",
+      "cusip": "254709108",
+      "shares": 1970,
+      "value": 233000
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 4277,
+      "value": 271000
+    },
+    {
+      "name": "EVEREST RE GROUP LTD",
+      "cusip": "G3223R108",
+      "shares": 2193,
+      "value": 553000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 585,
+      "value": 203000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3810284,
+      "value": 539803000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 2197,
+      "value": 265000
+    },
+    {
+      "name": "HORMEL FOODS CORP",
+      "cusip": "440452100",
+      "shares": 6600,
+      "value": 315000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 908312,
+      "value": 246062000
+    },
+    {
+      "name": "MIMECAST LTD",
+      "cusip": "G14838109",
+      "shares": 2383328,
+      "value": 126436000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 957224,
+      "value": 346869000
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 6268,
+      "value": 200000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 324905,
+      "value": 171618000
+    },
+    {
+      "name": "NEWS CORP NEW",
+      "cusip": "65249B109",
+      "shares": 11408,
+      "value": 294000
+    },
+    {
+      "name": "NEWS CORP NEW",
+      "cusip": "65249B208",
+      "shares": 7839,
+      "value": 191000
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 7573,
+      "value": 237000
+    },
+    {
+      "name": "REGENCY CTRS CORP",
+      "cusip": "758849103",
+      "shares": 5774,
+      "value": 370000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 7890987,
+      "value": 508495000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2463082,
+      "value": 601657000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 666233,
+      "value": 431246000
+    },
+    {
+      "name": "TYLER TECHNOLOGIES INC",
+      "cusip": "902252105",
+      "shares": 722,
+      "value": 327000
+    },
+    {
+      "name": "VENTAS INC",
+      "cusip": "92276F100",
+      "shares": 9925,
+      "value": 567000
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2244,
+      "value": 392000
+    },
+    {
+      "name": "VORNADO RLTY TR",
+      "cusip": "929042109",
+      "shares": 4757,
+      "value": 222000
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 1137353,
+      "value": 271532000
+    }
+  ]
+}

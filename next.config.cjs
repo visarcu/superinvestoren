@@ -4,20 +4,9 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: [
-      // hier die eigentliche Host-Domain, nicht "images.financialmodelingprep.com"
       'financialmodelingprep.com',
+      'logo.clearbit.com'
       
-
-    ],
-    // optional statt domains:
-    // remotePatterns: [
-    //   {
-    //     protocol: 'https',
-    //     hostname: 'financialmodelingprep.com',
-    //     port: '',
-    //     pathname: '/image-stock/**',
-    //   },
-    // ],
   },
 }
 

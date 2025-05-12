@@ -1,0 +1,335 @@
+{
+  "date": "2016-05-18",
+  "positions": [
+    {
+      "name": "ACI WORLDWIDE INC",
+      "cusip": "004498101",
+      "shares": 8579551,
+      "value": 178369000
+    },
+    {
+      "name": "ACTUANT CORP",
+      "cusip": "00508X203",
+      "shares": 1626912,
+      "value": 40201000
+    },
+    {
+      "name": "AETNA INC NEW",
+      "cusip": "00817Y108",
+      "shares": 1503380,
+      "value": 168905000
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 2586585,
+      "value": 359509000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 731557,
+      "value": 79732000
+    },
+    {
+      "name": "ASPEN INSURANCE HOLDINGS LTD",
+      "cusip": "G05384105",
+      "shares": 2556995,
+      "value": 121969000
+    },
+    {
+      "name": "AXIS CAPITAL HOLDINGS LTD",
+      "cusip": "G0692U109",
+      "shares": 8120386,
+      "value": 450356000
+    },
+    {
+      "name": "BANK NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 9119839,
+      "value": 335884000
+    },
+    {
+      "name": "BOEING CO",
+      "cusip": "097023105",
+      "shares": 3885522,
+      "value": 493228000
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH LT",
+      "cusip": "M22465104",
+      "shares": 1041239,
+      "value": 91077000
+    },
+    {
+      "name": "CISCO SYS INC",
+      "cusip": "17275R102",
+      "shares": 15201066,
+      "value": 432774000
+    },
+    {
+      "name": "CRANE CO",
+      "cusip": "224399105",
+      "shares": 1036395,
+      "value": 55820000
+    },
+    {
+      "name": "CURTISS WRIGHT CORP",
+      "cusip": "231561101",
+      "shares": 265330,
+      "value": 20078000
+    },
+    {
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F302",
+      "shares": 18963010,
+      "value": 512001000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 1726293,
+      "value": 171438000
+    },
+    {
+      "name": "DONALDSON INC",
+      "cusip": "257651109",
+      "shares": 635607,
+      "value": 20282000
+    },
+    {
+      "name": "DOVER CORP",
+      "cusip": "260003108",
+      "shares": 4569135,
+      "value": 293932000
+    },
+    {
+      "name": "EATON VANCE CORP",
+      "cusip": "278265103",
+      "shares": 2035908,
+      "value": 68244000
+    },
+    {
+      "name": "ENERSYS",
+      "cusip": "29275Y102",
+      "shares": 1643668,
+      "value": 91585000
+    },
+    {
+      "name": "EVEREST RE GROUP LTD",
+      "cusip": "G3223R108",
+      "shares": 1897954,
+      "value": 374713000
+    },
+    {
+      "name": "FORWARD AIR CORP",
+      "cusip": "349853101",
+      "shares": 1054079,
+      "value": 47771000
+    },
+    {
+      "name": "FOSSIL GROUP INC",
+      "cusip": "34988V106",
+      "shares": 11151818,
+      "value": 495364000
+    },
+    {
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 14218015,
+      "value": 555253000
+    },
+    {
+      "name": "MILLER HERMAN INC",
+      "cusip": "600544100",
+      "shares": 646424,
+      "value": 19968000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A104",
+      "shares": 11167435,
+      "value": 251490000
+    },
+    {
+      "name": "INTERCONTINENTAL HOTELS GROU",
+      "cusip": "45857P509",
+      "shares": 3275273,
+      "value": 135170000
+    },
+    {
+      "name": "ITURAN LOCATION AND CONTROL",
+      "cusip": "M6158M104",
+      "shares": 2994368,
+      "value": 58839000
+    },
+    {
+      "name": "LA QUINTA HLDGS INC",
+      "cusip": "50420D108",
+      "shares": 6221289,
+      "value": 77766000
+    },
+    {
+      "name": "LINCOLN ELEC HLDGS INC",
+      "cusip": "533900106",
+      "shares": 322916,
+      "value": 18913000
+    },
+    {
+      "name": "LINDSAY CORP",
+      "cusip": "535555106",
+      "shares": 1026073,
+      "value": 73477000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 4039335,
+      "value": 381717000
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 387385,
+      "value": 29561000
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 19302165,
+      "value": 600297000
+    },
+    {
+      "name": "NAVIGANT CONSULTING INC",
+      "cusip": "63935N107",
+      "shares": 1550490,
+      "value": 24513000
+    },
+    {
+      "name": "NAVIGATORS GROUP INC",
+      "cusip": "638904102",
+      "shares": 1064199,
+      "value": 89254000
+    },
+    {
+      "name": "NU SKIN ENTERPRISES INC",
+      "cusip": "67018T105",
+      "shares": 2619928,
+      "value": 100212000
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 23631169,
+      "value": 966751000
+    },
+    {
+      "name": "PARKER HANNIFIN CORP",
+      "cusip": "701094104",
+      "shares": 7335977,
+      "value": 814880000
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 5417886,
+      "value": 277070000
+    },
+    {
+      "name": "SAFETY INS GROUP INC",
+      "cusip": "78648T100",
+      "shares": 670791,
+      "value": 38275000
+    },
+    {
+      "name": "STATE STR CORP",
+      "cusip": "857477103",
+      "shares": 7550610,
+      "value": 441862000
+    },
+    {
+      "name": "PRICE T ROWE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 2426864,
+      "value": 178278000
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 1200353,
+      "value": 40200000
+    },
+    {
+      "name": "THERMON GROUP HLDGS INC",
+      "cusip": "88362T103",
+      "shares": 2621033,
+      "value": 46025000
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 2445030,
+      "value": 177387000
+    },
+    {
+      "name": "TUPPERWARE BRANDS CORP",
+      "cusip": "899896104",
+      "shares": 651416,
+      "value": 37769000
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 2596972,
+      "value": 259957000
+    },
+    {
+      "name": "VIRTUS INVT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 825731,
+      "value": 64498000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 5022433,
+      "value": 384115000
+    },
+    {
+      "name": "WOODWARD INC",
+      "cusip": "980745103",
+      "shares": 1553990,
+      "value": 80839000
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 138,
+      "value": 123000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1300,
+      "value": 72000
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 320,
+      "value": 45000
+    },
+    {
+      "name": "POPEYES LA KITCHEN INC",
+      "cusip": "732872106",
+      "shares": 1090,
+      "value": 57000
+    },
+    {
+      "name": "ZAYO GROUP HLDGS INC",
+      "cusip": "98919V105",
+      "shares": 2015,
+      "value": 49000
+    }
+  ]
+}

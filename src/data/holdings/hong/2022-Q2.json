@@ -1,0 +1,29 @@
+{
+  "date": "2022-05-16",
+  "positions": [
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44891N208",
+      "shares": 3316227,
+      "value": 332551000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1894553,
+      "value": 226949000
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 7520104,
+      "value": 42865000
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 7040110,
+      "value": 124469000
+    }
+  ]
+}

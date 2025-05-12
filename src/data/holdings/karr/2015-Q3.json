@@ -1,0 +1,83 @@
+{
+  "date": "2015-08-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 349000,
+      "value": 28712000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 5540,
+      "value": 2405000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1640,
+      "value": 326000
+    },
+    {
+      "name": "CISCO SYS INC",
+      "cusip": "17275R102",
+      "shares": 12320,
+      "value": 338000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 2607,
+      "value": 1408000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 52956,
+      "value": 27564000
+    },
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 1902600,
+      "value": 64822000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 856960,
+      "value": 42625000
+    },
+    {
+      "name": "IKANG HEALTHCARE GROUP INC",
+      "cusip": "45174L108",
+      "shares": 2822655,
+      "value": 54590000
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION CO",
+      "cusip": "582839106",
+      "shares": 772300,
+      "value": 69677000
+    },
+    {
+      "name": "QUNAR CAYMAN IS LTD",
+      "cusip": "74906P104",
+      "shares": 1253617,
+      "value": 53717000
+    },
+    {
+      "name": "TABLEAU SOFTWARE INC",
+      "cusip": "87336U105",
+      "shares": 4250,
+      "value": 490000
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 2335303,
+      "value": 82436000
+    }
+  ]
+}

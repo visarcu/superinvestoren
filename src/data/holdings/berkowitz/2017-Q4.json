@@ -1,0 +1,35 @@
+{
+  "date": "2017-11-14",
+  "positions": [
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 66000,
+      "value": 1667000
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 28508998,
+      "value": 208116000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 3766650,
+      "value": 173530000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 27002485,
+      "value": 508997000
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350155",
+      "shares": 6640451,
+      "value": 14343000
+    }
+  ]
+}

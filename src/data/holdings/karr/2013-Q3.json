@@ -1,0 +1,101 @@
+{
+  "date": "2013-08-14",
+  "positions": [
+    {
+      "name": "21VIANET GROUP INC",
+      "cusip": "90138A103",
+      "shares": 2149782,
+      "value": 24357000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 2291350,
+      "value": 216601000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 287864,
+      "value": 253427000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 1375607,
+      "value": 46839000
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 1599054,
+      "value": 105170000
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION CO",
+      "cusip": "582839106",
+      "shares": 1766900,
+      "value": 139991000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 5386697,
+      "value": 77191000
+    },
+    {
+      "name": "MINDRAY MEDICAL INTL LTD",
+      "cusip": "602675100",
+      "shares": 2247881,
+      "value": 84183000
+    },
+    {
+      "name": "PACTERA TECHNOLOGY INTL LTD",
+      "cusip": "695255109",
+      "shares": 182916,
+      "value": 1235000
+    },
+    {
+      "name": "SOUFUN HLDGS LTD",
+      "cusip": "836034108",
+      "shares": 151459,
+      "value": 3759000
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 703700,
+      "value": 46085000
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 2723337,
+      "value": 28541000
+    },
+    {
+      "name": "TRIPADVISOR INC",
+      "cusip": "896945201",
+      "shares": 325000,
+      "value": 19783000
+    },
+    {
+      "name": "VEECO INSTRS INC DEL",
+      "cusip": "922417100",
+      "shares": 940957,
+      "value": 33329000
+    },
+    {
+      "name": "YELP INC",
+      "cusip": "985817105",
+      "shares": 1924008,
+      "value": 66898000
+    },
+    {
+      "name": "YOUKU TUDOU INC",
+      "cusip": "98742U100",
+      "shares": 1011383,
+      "value": 19408000
+    }
+  ]
+}

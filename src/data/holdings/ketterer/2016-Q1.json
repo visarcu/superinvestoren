@@ -1,0 +1,467 @@
+{
+  "date": "2016-02-16",
+  "positions": [
+    {
+      "name": "ADVANCE AUTO PARTS INC",
+      "cusip": "00751Y106",
+      "shares": 521530,
+      "value": 94270000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 1541690,
+      "value": 114901000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "02209S103",
+      "shares": 858848,
+      "value": 71677000
+    },
+    {
+      "name": "CABELA'S INC",
+      "cusip": "126804301",
+      "shares": 1920939,
+      "value": 107820000
+    },
+    {
+      "name": "CARNIVAL CORP",
+      "cusip": "143658300",
+      "shares": 2075951,
+      "value": 135678000
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 1576807,
+      "value": 170017000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 4193434,
+      "value": 259672000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 2828355,
+      "value": 172160000
+    },
+    {
+      "name": "E M C CORP MASS",
+      "cusip": "268648102",
+      "shares": 6461447,
+      "value": 198984000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 1497289,
+      "value": 184954000
+    },
+    {
+      "name": "LILLY ELI & CO",
+      "cusip": "532457108",
+      "shares": 1241347,
+      "value": 125795000
+    },
+    {
+      "name": "MATTEL INC",
+      "cusip": "577081102",
+      "shares": 4100563,
+      "value": 133696000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3875456,
+      "value": 257675000
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 1864466,
+      "value": 74328000
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 5250441,
+      "value": 229198000
+    },
+    {
+      "name": "PRUDENTIAL FINL INC",
+      "cusip": "744320102",
+      "shares": 1649877,
+      "value": 161022000
+    },
+    {
+      "name": "PVH CORP",
+      "cusip": "693656100",
+      "shares": 1711607,
+      "value": 151194000
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 2697714,
+      "value": 161550000
+    },
+    {
+      "name": "SM ENERGY CO",
+      "cusip": "78454L100",
+      "shares": 3835774,
+      "value": 90608000
+    },
+    {
+      "name": "SYNNEX CORP",
+      "cusip": "87162W100",
+      "shares": 642060,
+      "value": 69835000
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 2682996,
+      "value": 183369000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1117560,
+      "value": 157919000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 1972701,
+      "value": 128896000
+    },
+    {
+      "name": "AVIVA PLC",
+      "cusip": "05382A104",
+      "shares": 1821335,
+      "value": 27703000
+    },
+    {
+      "name": "BARCLAYS PLC",
+      "cusip": "06738E204",
+      "shares": 1674695,
+      "value": 21704000
+    },
+    {
+      "name": "BRITISH AMERN TOB PLC",
+      "cusip": "110448107",
+      "shares": 291783,
+      "value": 32227000
+    },
+    {
+      "name": "CARNIVAL PLC",
+      "cusip": "14365C103",
+      "shares": 368931,
+      "value": 21000000
+    },
+    {
+      "name": "CNOOC LTD",
+      "cusip": "126132109",
+      "shares": 170039,
+      "value": 17749000
+    },
+    {
+      "name": "DIAGEO PLC",
+      "cusip": "25243Q205",
+      "shares": 137702,
+      "value": 15019000
+    },
+    {
+      "name": "GLAXOSMITHKLINE PLC",
+      "cusip": "37733W105",
+      "shares": 518275,
+      "value": 20912000
+    },
+    {
+      "name": "HSBC HOLDINGS PLC",
+      "cusip": "404280406",
+      "shares": 642785,
+      "value": 25371000
+    },
+    {
+      "name": "IMPERIAL OIL LTD",
+      "cusip": "453038408",
+      "shares": 213163,
+      "value": 6932000
+    },
+    {
+      "name": "LLOYDS BANKING GROUP PLC",
+      "cusip": "539439109",
+      "shares": 4861106,
+      "value": 21194000
+    },
+    {
+      "name": "NOVARTIS A G",
+      "cusip": "66987V109",
+      "shares": 281710,
+      "value": 24238000
+    },
+    {
+      "name": "RELX NV",
+      "cusip": "75955B102",
+      "shares": 1821829,
+      "value": 30661000
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513104",
+      "shares": 1797665,
+      "value": 155426000
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 428923,
+      "value": 18294000
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "803054204",
+      "shares": 195592,
+      "value": 15471000
+    },
+    {
+      "name": "SUMITOMO MITSUI FINL GROUP I",
+      "cusip": "86562M209",
+      "shares": 2105850,
+      "value": 15983000
+    },
+    {
+      "name": "TOTAL S A",
+      "cusip": "89151E109",
+      "shares": 481953,
+      "value": 21664000
+    },
+    {
+      "name": "TOYOTA MOTOR CORP",
+      "cusip": "892331307",
+      "shares": 166507,
+      "value": 20487000
+    },
+    {
+      "name": "UBS GROUP AG",
+      "cusip": "H42097107",
+      "shares": 1401218,
+      "value": 27142000
+    },
+    {
+      "name": "VODAFONE GROUP PLC NEW",
+      "cusip": "92857W308",
+      "shares": 482025,
+      "value": 15550000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 393000,
+      "value": 31939000
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 1772700,
+      "value": 7906000
+    },
+    {
+      "name": "AMERICA MOVIL SAB DE CV",
+      "cusip": "02364W105",
+      "shares": 1221600,
+      "value": 17176000
+    },
+    {
+      "name": "AU OPTRONICS CORP",
+      "cusip": "002255107",
+      "shares": 708400,
+      "value": 2061000
+    },
+    {
+      "name": "BRF SA",
+      "cusip": "10552T107",
+      "shares": 58800,
+      "value": 813000
+    },
+    {
+      "name": "CHINA MOBILE LIMITED",
+      "cusip": "16941M109",
+      "shares": 2102209,
+      "value": 118417000
+    },
+    {
+      "name": "CHANGYOU COM LTD",
+      "cusip": "15911M107",
+      "shares": 93300,
+      "value": 2316000
+    },
+    {
+      "name": "CHINA PETE & CHEM CORP",
+      "cusip": "16941R108",
+      "shares": 28401810,
+      "value": 19633000
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 67000,
+      "value": 721000
+    },
+    {
+      "name": "CHUNGHWA TELECOM CO LTD",
+      "cusip": "17133Q502",
+      "shares": 31000,
+      "value": 931000
+    },
+    {
+      "name": "CREDICORP LTD",
+      "cusip": "G2519Y108",
+      "shares": 17266,
+      "value": 1680000
+    },
+    {
+      "name": "DR REDDYS LABS LTD",
+      "cusip": "256135203",
+      "shares": 374100,
+      "value": 17317000
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 14016,
+      "value": 863000
+    },
+    {
+      "name": "ICICI BK LTD",
+      "cusip": "45104G104",
+      "shares": 4076875,
+      "value": 31922000
+    },
+    {
+      "name": "INFOSYS LTD",
+      "cusip": "456788108",
+      "shares": 1416400,
+      "value": 23725000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "46429B598",
+      "shares": 1712700,
+      "value": 47168000
+    },
+    {
+      "name": "JA SOLAR HOLDINGS CO LTD",
+      "cusip": "466090206",
+      "shares": 1652800,
+      "value": 16032000
+    },
+    {
+      "name": "JINKOSOLAR HLDG CO LTD",
+      "cusip": "47759T100",
+      "shares": 155100,
+      "value": 4292000
+    },
+    {
+      "name": "KOREA ELECTRIC PWR",
+      "cusip": "500631106",
+      "shares": 241700,
+      "value": 5117000
+    },
+    {
+      "name": "KT CORP",
+      "cusip": "48268K101",
+      "shares": 75800,
+      "value": 903000
+    },
+    {
+      "name": "LG DISPLAY CO LTD",
+      "cusip": "50186V102",
+      "shares": 177100,
+      "value": 1849000
+    },
+    {
+      "name": "MARKET VECTORS ETF TR",
+      "cusip": "57061R551",
+      "shares": 4000,
+      "value": 173000
+    },
+    {
+      "name": "MOBILE TELESYSTEMS PJSC",
+      "cusip": "607409109",
+      "shares": 936122,
+      "value": 5785000
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 264400,
+      "value": 47920000
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP I",
+      "cusip": "647581107",
+      "shares": 424200,
+      "value": 13307000
+    },
+    {
+      "name": "PETROCHINA CO LTD",
+      "cusip": "71646E100",
+      "shares": 16807,
+      "value": 1102000
+    },
+    {
+      "name": "PETROLEO BRASILEIRO SA PETRO",
+      "cusip": "71654V101",
+      "shares": 3659800,
+      "value": 12443000
+    },
+    {
+      "name": "SK TELECOM LTD",
+      "cusip": "78440P108",
+      "shares": 3792267,
+      "value": 76414000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 4170533,
+      "value": 94880000
+    },
+    {
+      "name": "TATA MTRS LTD",
+      "cusip": "876568502",
+      "shares": 977203,
+      "value": 28798000
+    },
+    {
+      "name": "VALE S A",
+      "cusip": "91912E204",
+      "shares": 7800,
+      "value": 20000
+    },
+    {
+      "name": "VEDANTA LTD",
+      "cusip": "92242Y100",
+      "shares": 49075,
+      "value": 273000
+    },
+    {
+      "name": "WIPRO LTD",
+      "cusip": "97651M109",
+      "shares": 21100,
+      "value": 243000
+    },
+    {
+      "name": "WISDOMTREE TR",
+      "cusip": "97717W422",
+      "shares": 5030600,
+      "value": 99908000
+    }
+  ]
+}

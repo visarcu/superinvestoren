@@ -1,0 +1,95 @@
+{
+  "date": "2021-05-17",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4260,
+      "value": 520000
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 398800,
+      "value": 12072000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 49960,
+      "value": 12763000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 386000
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 147000,
+      "value": 11059000
+    },
+    {
+      "name": "ENBRIDGE INC",
+      "cusip": "29250N105",
+      "shares": 341800,
+      "value": 12442000
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 1029200,
+      "value": 7904000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 667200,
+      "value": 11109000
+    },
+    {
+      "name": "OLD REP INTL CORP",
+      "cusip": "680223104",
+      "shares": 241100,
+      "value": 5266000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 25745557,
+      "value": 1104484000
+    },
+    {
+      "name": "TC ENERGY CORP",
+      "cusip": "87807B107",
+      "shares": 60600,
+      "value": 2772000
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC",
+      "cusip": "92343V104",
+      "shares": 76900,
+      "value": 4472000
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 492900,
+      "value": 8714000
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 556600,
+      "value": 10347000
+    },
+    {
+      "name": "WILLIAMS COS INC",
+      "cusip": "969457100",
+      "shares": 304700,
+      "value": 7218000
+    }
+  ]
+}

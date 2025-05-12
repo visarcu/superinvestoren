@@ -1,0 +1,41 @@
+{
+  "date": "2017-11-13",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 973637,
+      "value": 168157000
+    },
+    {
+      "name": "CAESARSTONE LTD",
+      "cusip": "M20598104",
+      "shares": 2322130,
+      "value": 69199000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 1296201,
+      "value": 142945000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 715966,
+      "value": 41111000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 146277,
+      "value": 36205000
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 13850,
+      "value": 744000
+    }
+  ]
+}

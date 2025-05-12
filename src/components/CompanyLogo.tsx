@@ -1,27 +1,26 @@
-// components/CompanyLogo.tsx
+// src/components/CompanyLogo.tsx
 'use client'
+import React from 'react'
 import Image from 'next/image'
+import { domainForTicker } from '@/lib/clearbit'
 
 interface Props {
-  website?: string
-  size?: number
+  ticker: string
   className?: string
 }
 
-export default function CompanyLogo({ website, size = 32, className }: Props) {
-  const domain = website ? new URL(website).hostname.replace(/^www\./, '') : null
-  const src = domain
-    ? `https://logo.clearbit.com/${domain}?size=${size * 2}`
-    : '/placeholder-logo.svg'
+export default function CompanyLogo({ ticker, className = '' }: Props) {
+  const domain = domainForTicker(ticker) // z.B. 'apple.com'
+  const url = `https://logo.clearbit.com/${domain}`
 
   return (
     <Image
-      src={src}
-      alt={domain ? `${domain} logo` : 'Logo nicht verfügbar'}
-      width={size}
-      height={size}
+      src={url}
+      alt={`${ticker} Logo`}
+      width={64}
+      height={64}
+      unoptimized
       className={className}
-      onError={e => { e.currentTarget.src = '/placeholder-logo.svg' }}
     />
   )
 }

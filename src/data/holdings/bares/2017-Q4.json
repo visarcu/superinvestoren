@@ -1,0 +1,113 @@
+{
+  "date": "2017-11-15",
+  "positions": [
+    {
+      "name": "Alarm.com Holdings, Inc.",
+      "cusip": "011642105",
+      "shares": 2701886,
+      "value": 122071000
+    },
+    {
+      "name": "America's Car-Mart Inc.",
+      "cusip": "03062T105",
+      "shares": 294477,
+      "value": 12110000
+    },
+    {
+      "name": "Ansys, Inc.",
+      "cusip": "03662Q105",
+      "shares": 1050732,
+      "value": 128956000
+    },
+    {
+      "name": "Box, Inc",
+      "cusip": "10316T104",
+      "shares": 6391461,
+      "value": 123483000
+    },
+    {
+      "name": "Colfax Corporation",
+      "cusip": "194014106",
+      "shares": 3758826,
+      "value": 156518000
+    },
+    {
+      "name": "comScore, Inc.",
+      "cusip": "20564W105",
+      "shares": 2512205,
+      "value": 72226000
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 600005,
+      "value": 160951000
+    },
+    {
+      "name": "FactSet Research Systems inc.",
+      "cusip": "303075105",
+      "shares": 672267,
+      "value": 121082000
+    },
+    {
+      "name": "Fastenal Company",
+      "cusip": "311900104",
+      "shares": 3662915,
+      "value": 166956000
+    },
+    {
+      "name": "Gartner Inc.",
+      "cusip": "366651107",
+      "shares": 1138918,
+      "value": 141693000
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 4562008,
+      "value": 205473000
+    },
+    {
+      "name": "Markel Corp.",
+      "cusip": "570535104",
+      "shares": 125152,
+      "value": 133660000
+    },
+    {
+      "name": "National Instruments Corp.",
+      "cusip": "636518102",
+      "shares": 3474660,
+      "value": 146526000
+    },
+    {
+      "name": "Platform Specialty Products Co",
+      "cusip": "72766Q105",
+      "shares": 16501635,
+      "value": 183993000
+    },
+    {
+      "name": "Twilio Inc.",
+      "cusip": "90138F102",
+      "shares": 1878406,
+      "value": 56070000
+    },
+    {
+      "name": "UNDER ARMOUR INC CL C",
+      "cusip": "904311206",
+      "shares": 8091563,
+      "value": 121535000
+    },
+    {
+      "name": "US Ecology, Inc.",
+      "cusip": "91732J102",
+      "shares": 618123,
+      "value": 33255000
+    },
+    {
+      "name": "Waters Corporation",
+      "cusip": "941848103",
+      "shares": 728948,
+      "value": 130861000
+    }
+  ]
+}

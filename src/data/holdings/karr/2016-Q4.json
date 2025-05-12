@@ -1,0 +1,71 @@
+{
+  "date": "2016-11-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1211987,
+      "value": 128216000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3988,
+      "value": 3339000
+    },
+    {
+      "name": "AMERICAN EAGLE OUTFITTERS NE",
+      "cusip": "02553E106",
+      "shares": 60000,
+      "value": 1072000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 20736,
+      "value": 3775000
+    },
+    {
+      "name": "CAESARSTONE LTD",
+      "cusip": "M20598104",
+      "shares": 1374627,
+      "value": 51837000
+    },
+    {
+      "name": "CHINA ONLINE ED GROUP",
+      "cusip": "16954L105",
+      "shares": 263500,
+      "value": 5507000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 1690138,
+      "value": 89341000
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 2104162,
+      "value": 30047000
+    },
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 3435704,
+      "value": 147701000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 386283,
+      "value": 17112000
+    },
+    {
+      "name": "MULTI COLOR CORP",
+      "cusip": "625383104",
+      "shares": 458367,
+      "value": 30252000
+    }
+  ]
+}

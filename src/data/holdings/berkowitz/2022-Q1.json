@@ -1,0 +1,113 @@
+{
+  "date": "2022-02-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 8190,
+      "value": 973000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 14060,
+      "value": 2497000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 49155,
+      "value": 14697000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 451000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 20000,
+      "value": 1208000
+    },
+    {
+      "name": "COMMERCIAL METALS CO",
+      "cusip": "201723103",
+      "shares": 1771500,
+      "value": 64288000
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 31700,
+      "value": 1798000
+    },
+    {
+      "name": "ENBRIDGE INC",
+      "cusip": "29250N105",
+      "shares": 288400,
+      "value": 11271000
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 1507700,
+      "value": 12408000
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 2115900,
+      "value": 46465000
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 527400,
+      "value": 27161000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 1050600,
+      "value": 16663000
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 40500,
+      "value": 3735000
+    },
+    {
+      "name": "OLD REP INTL CORP",
+      "cusip": "680223104",
+      "shares": 376100,
+      "value": 9245000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 25087490,
+      "value": 1305804000
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 24000,
+      "value": 1252000
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 98800,
+      "value": 2200000
+    },
+    {
+      "name": "WILLIAMS COS INC",
+      "cusip": "969457100",
+      "shares": 263000,
+      "value": 6849000
+    }
+  ]
+}

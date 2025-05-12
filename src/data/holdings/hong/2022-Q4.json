@@ -1,0 +1,47 @@
+{
+  "date": "2022-11-10",
+  "positions": [
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44891N208",
+      "shares": 3501073,
+      "value": 193889000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 2411798,
+      "value": 135181000
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 9366675,
+      "value": 20700000
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 6185472,
+      "value": 103112000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 1165622,
+      "value": 140597000
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 274759,
+      "value": 46698000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 207319,
+      "value": 80299000
+    }
+  ]
+}

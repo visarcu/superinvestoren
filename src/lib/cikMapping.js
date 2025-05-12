@@ -38,10 +38,10 @@ export const investorCiks = {
   abrams: '0001358706',    // David Abrams – Abrams Capital Management
   martin: '0001050442', // Fred Martin 
   kantesaria: '0001697868', // Valley Forge Capital MGMT
-  ubben: '0001418814',
+
   train: '0001484150',    // Lindsell Train
   brenton: '0001484148',
-  peltz: '0001345471',
+
   burn:  '0000820124',    // Harry Burn – Sound Shore
   dorsey: '0001671657',
   chou:  '0001389403',    // Francis Chou – Chou Associates
@@ -57,9 +57,19 @@ export const investorCiks = {
   tarasoff: '0001766504',    // Josh Tarasoff – Greenlea Lane Capital
   welling: '0001559771',    // Glenn Welling – Engaged Capital
   rolfe: '0000859804',    // David Rolfe – Wedgewood Partners
+karr: '0001106500',
+hong:  '0001766908',    // Dennis Hong – ShawSpring Partners
+gates:      '0001166559',    // Bill & Melinda Gates Foundation Trust
+bares: '0001340807',
+berkowitz: '0001056831',    // Bruce Berkowitz – Fairholme Capital
+watsa:  '0000915191',    // Prem Watsa – Fairfax Financial Holdings
+sosin:  '0001697591',    // Clifford Sosin – CAS Investment Partners
+rochon:  '0001641864',    // Francois Rochon – Giverny Capital
 
+meritage: '0001427119',
+ketterer: '0001165797',
+vulcanvalue: '0001556785',
 
-  
   //NPORT P TYPES: EVTL NOCH CODE ANPASSEN
   //mairspower: '0001141819',    // Mairs & Power Growth Fund NPORT P -> O FILES
  // davis:     'XXX',    // Christopher Davis – Davis Advisors NPORT P
@@ -69,6 +79,9 @@ export const investorCiks = {
    // cunniff:         '0002049493',    // Ruane Cunniff – Sequoia Fund //NPORT
    //'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
   // torray:          'XXX',    // Torray Funds
+    // 'hillman-value':         'XXX',    // Hillman Value Fund
+      // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
+        // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors NPORT P TYPE
 
  // 0 Einträge:
  klarman: '0001061768',
@@ -76,33 +89,37 @@ export const investorCiks = {
  spier:             '0001953324',
  lee: '0001426749',
  whitman:  '0001099281',    // Third Avenue Management
+ greenbrier:'0001532262',
+ lilu:   '0001709323', //MANUELL
+ peltz: '0001345471',
+ donaldsmith: '0000814375',
+ ubben: '0001418814',
+ marks:  '0000949509',// MANUELL!!,
 
 
   //Manuell folgende Investoren updaten
  //burry:   '0001768023', MANUELL!!!
- marks:  '0000949509',// MANUELL!!,
+
  // smith:    '0001569205', MANUELL
-// lilu:                  '0001709323', MANUELL
+
 
   // neu hinzuzufügende Investoren:
-  // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund NPORT P TYPE
-  // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors NPORT P TYPE
-  // 'tweedy-browne':         'XXX',    // Tweedy Browne Co. – Tweedy Browne Value Fund
 
-  // 'richard-pzena':         'XXX',    // Richard Pzena – Hancock Classic Value
+
+
  
-  // 'romick':                'XXX',    // Steven Romick – FPA Crescent Fund
+
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
 
 
 
-  // 'hillman-value':         'XXX',    // Hillman Value Fund
+
 
 
   
   // 'meridian-contrarian':   'XXX',    // Meridian Contrarian Fund
 
-  'tom-bancroft':          '0001540866',    // Tom Bancroft – Makaira Partners
+
 
   // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
 
@@ -110,41 +127,37 @@ export const investorCiks = {
 
   // 'valueact-capital':      'XXX',    // ValueAct Capital
 
-  'gates':      '0001166559',    // Bill & Melinda Gates Foundation Trust
-  // 'bruce-berkowitz':       'XXX',    // Bruce Berkowitz – Fairholme Capital
 
-  'kahn-brothers':         '0001039565',    // Kahn Brothers Group
+
+
+ // 'kahn-brothers':         '0001039565',    // Kahn Brothers Group
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
  
 
-  'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
+  //'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
 
 
 
  
   // 'leon-cooperman':        'XXX',    // Leon Cooperman
 
-   //'clifford-sosin':        'XXX',    // Clifford Sosin – CAS Investment Partners
 
 
-
-  //'prem-watsa':            'XXX',    // Prem Watsa – Fairfax Financial Holdings
-  //'dennis-hong':           'XXX',    // Dennis Hong – ShawSpring Partners
-  
-
-  // 'francois-rochon':       'XXX',    // Francois Rochon – Giverny Capital
 
 
 
   
 
-   // 'triple-frond':          'XXX',    // Triple Frond Partners
+
 
 
 
   
 
-  //'christopher-davis':     'XXX',    // Christopher Davis – Davis Advisors
+
+  
+
+
 
 
 

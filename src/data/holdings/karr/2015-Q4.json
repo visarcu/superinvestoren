@@ -1,0 +1,71 @@
+{
+  "date": "2015-11-16",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 674450,
+      "value": 39772000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3990,
+      "value": 2042000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 352453,
+      "value": 12114000
+    },
+    {
+      "name": "CORNING INC",
+      "cusip": "219350105",
+      "shares": 157200,
+      "value": 2691000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 2607,
+      "value": 1664000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 52956,
+      "value": 32219000
+    },
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 3145907,
+      "value": 76571000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 1259260,
+      "value": 56490000
+    },
+    {
+      "name": "IKANG HEALTHCARE GROUP INC",
+      "cusip": "45174L108",
+      "shares": 1290268,
+      "value": 19096000
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION CO",
+      "cusip": "582839106",
+      "shares": 647300,
+      "value": 45570000
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 1897924,
+      "value": 61018000
+    }
+  ]
+}

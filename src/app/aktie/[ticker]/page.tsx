@@ -3,10 +3,13 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 
 import { stocks } from '../../../data/stocks'
 import { investors } from '../../../data/investors'
 import holdingsHistory from '../../../data/holdings'
+
+import { domainForTicker } from '@/lib/clearbit'
 
 // unser eigener Chart – client-only
 const StockLineChart = dynamic(
@@ -58,7 +61,7 @@ async function fetchHistorical(symbol: string): Promise<{ date: string; close: n
   )
   if (!res.ok) throw new Error('Historical fetch failed')
   const { historical = [] } = await res.json()
-  return historical.reverse()
+  return (historical as any[]).reverse()
 }
 
 export default async function StockPage({
@@ -154,129 +157,163 @@ export default async function StockPage({
     .filter(Boolean) as SellingInvestor[]
 
   return (
-    <main className="max-w-3xl mx-auto p-8 space-y-6">
-      <Link href="/" className="text-blue-600 hover:underline">
+    <main className="max-w-4xl mx-auto px-4 py-12 space-y-12">
+      {/* ← Back */}
+      <Link href="/" className="text-gray-400 hover:text-white">
         ← Zurück
       </Link>
 
-      <h1 className="text-4xl font-bold">{stock.name}</h1>
-      <h2 className="text-lg text-gray-500 uppercase">{stock.ticker}</h2>
-
-      {/* Aktueller Kurs & Analyse-Button */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
-        <div className="text-2xl font-semibold">
-          {livePrice !== null ? fmtPrice(livePrice) : '–'}
+      {/* Header Card */}
+      <div className="bg-card-dark rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-lg">
+        <div className="w-20 h-20 relative border-4 border-accent rounded-full overflow-hidden">
+        <Image
+      src={`https://logo.clearbit.com/${domainForTicker(ticker)}`}
+      alt={`${stock.name} Logo`}
+      fill
+      className="object-contain p-2"
+      unoptimized           // sonst weigert sich Next.js manchmal
+    />
+        </div>
+        <div>
+          <h1 className="text-3xl font-orbitron text-white font-bold">
+            {stock.name} ({ticker})
+          </h1>
+          <p className="mt-2 text-2xl text-accent font-semibold">
+            {livePrice != null ? fmtPrice(livePrice) : '–'}
+          </p>
         </div>
         <Link
           href={`/analyse/${ticker.toLowerCase()}`}
-          className="inline-block bg-blue-600 text-dark px-4 py-2 rounded hover:bg-blue-700"
+          className="ml-auto bg-accent text-black px-5 py-2 rounded-full font-medium hover:opacity-90 transition"
         >
-          Zur Aktien-Analyse →
+          Zur Analyse →
         </Link>
       </div>
 
-      {/* Historischer Chart */}
-      <section>
-        <h3 className="text-xl font-semibold mb-2">Historischer Kursverlauf</h3>
+      {/* Chart Card */}
+      <div className="bg-card-dark rounded-2xl p-6 shadow-md">
+        <h2 className="text-xl font-semibold text-white mb-4">Historischer Chart</h2>
         {history.length > 0 ? (
           <StockLineChart data={history} />
         ) : (
-          <p className="text-gray-500">Keine historischen Daten verfügbar.</p>
+          <p className="text-gray-400">Keine historischen Daten vorhanden.</p>
         )}
-      </section>
+      </div>
 
       {/* Investoren, die halten */}
       {owningInvestors.length > 0 && (
-        <div className="space-y-4">
-          <h3 className="text-2xl font-bold mt-8">Investoren, die halten:</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold text-white">Investoren, die halten</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {owningInvestors.map(inv => (
               <Link
                 key={inv.slug}
                 href={`/investor/${inv.slug}`}
-                className="flex items-center bg-gray-900 rounded-lg shadow p-4 space-x-4 hover:bg-gray-50"
+                className="
+                  flex items-center gap-4
+                  bg-card-dark rounded-2xl p-4
+                  hover:bg-gray-700 transition-shadow shadow
+                "
               >
                 {inv.imageUrl && (
-                  <img
-                    src={inv.imageUrl}
-                    alt={inv.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <Image
+                      src={inv.imageUrl}
+                      alt={inv.name}
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div>
-                  <div className="font-semibold text-on-surface">{inv.name}</div>
-                  <div className="text-gray-600">
-                    Anteil: {fmtPercent(inv.weight)}
-                  </div>
+                  <p className="text-white font-medium">{inv.name}</p>
+                  <p className="text-gray-400">
+                    Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Investoren, die gekauft haben */}
+      {/* Im letzten Quartal gekauft */}
       {buyingInvestors.length > 0 && (
-        <div className="space-y-4">
-          <h3 className="text-2xl font-bold mt-8">Gekauft im letzten Quartal:</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold text-white">Gekauft (letztes Q.)</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {buyingInvestors.map(inv => (
               <Link
                 key={inv.slug}
                 href={`/investor/${inv.slug}`}
-                className="flex items-center bg-green-50 rounded-lg shadow p-4 space-x-4 hover:bg-green-100"
+                className="
+                  flex items-center gap-4
+                  bg-green-50 bg-opacity-20 text-green-300
+                  rounded-2xl p-4 hover:bg-opacity-30 transition
+                "
               >
                 {inv.imageUrl && (
-                  <img
-                    src={inv.imageUrl}
-                    alt={inv.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <Image
+                      src={inv.imageUrl}
+                      alt={inv.name}
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div>
-                  <div className="font-semibold text-on-surface">
-                    {inv.name}
-                  </div>
-                  <div className="text-gray-700">
-                    +{inv.deltaShares.toLocaleString('de-DE')} Anteile ({fmtPercent(inv.pctDelta)})
-                  </div>
+                  <p className="font-medium text-white">{inv.name}</p>
+                  <p className="text-green-300">
+                    +{inv.deltaShares.toLocaleString('de-DE')} (
+                    {(inv.pctDelta * 100).toFixed(1).replace('.', ',')} %)
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Investoren, die verkauft haben */}
+      {/* Im letzten Quartal verkauft */}
       {sellingInvestors.length > 0 && (
-        <div className="space-y-4">
-          <h3 className="text-2xl font-bold mt-8">Verkauft im letzten Quartal:</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold text-white">Verkauft (letztes Q.)</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {sellingInvestors.map(inv => (
               <Link
                 key={inv.slug}
-                href={`/investor/{inv.slug}`}
-                className="flex items-center bg-red-50 rounded-lg shadow p-4 space-x-4 hover:bg-red-100"
+                href={`/investor/${inv.slug}`}
+                className="
+                  flex items-center gap-4
+                  bg-red-50 bg-opacity-20 text-red-300
+                  rounded-2xl p-4 hover:bg-opacity-30 transition
+                "
               >
                 {inv.imageUrl && (
-                  <img
-                    src={inv.imageUrl}
-                    alt={inv.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <Image
+                      src={inv.imageUrl}
+                      alt={inv.name}
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div>
-                  <div className="font-semibold text-on-surface">
-                    {inv.name}
-                  </div>
-                  <div className="text-gray-700">
-                    −{inv.deltaShares.toLocaleString('de-DE')} Anteile ({fmtPercent(inv.pctDelta)})
-                  </div>
+                  <p className="font-medium text-white">{inv.name}</p>
+                  <p className="text-red-300">
+                    −{inv.deltaShares.toLocaleString('de-DE')} (
+                    {(inv.pctDelta * 100).toFixed(1).replace('.', ',')} %)
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
-        </div>
+        </section>
       )}
     </main>
   )

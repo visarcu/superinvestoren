@@ -1,0 +1,71 @@
+{
+  "date": "2023-05-15",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4260,
+      "value": 702474000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 59565,
+      "value": 18391885000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 465600000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 82500,
+      "value": 3868425000
+    },
+    {
+      "name": "COMMERCIAL METALS CO",
+      "cusip": "201723103",
+      "shares": 1272900,
+      "value": 62244810000
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 268700,
+      "value": 3350689000
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 4182800,
+      "value": 108334520000
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 94500,
+      "value": 3087315000
+    },
+    {
+      "name": "MAGELLAN MIDSTREAM PRTNRS LP",
+      "cusip": "559080106",
+      "shares": 28600,
+      "value": 1551836000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 24141448,
+      "value": 1004525651000
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 74000,
+      "value": 2558920000
+    }
+  ]
+}

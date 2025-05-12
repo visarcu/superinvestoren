@@ -1,0 +1,41 @@
+{
+  "date": "2023-11-13",
+  "positions": [
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 4721154,
+      "value": 6467981000
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 7267631,
+      "value": 123549727000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 605066,
+      "value": 90868812000
+    },
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 3678597,
+      "value": 185364503000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 152003,
+      "value": 77664413000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 2580582,
+      "value": 113416579000
+    }
+  ]
+}

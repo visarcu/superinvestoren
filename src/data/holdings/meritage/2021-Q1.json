@@ -1,0 +1,227 @@
+{
+  "date": "2021-02-12",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 20881,
+      "value": 36597000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 265576,
+      "value": 465257000
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 836384,
+      "value": 176703000
+    },
+    {
+      "name": "APACHE CORP",
+      "cusip": "037411105",
+      "shares": 16185,
+      "value": 230000
+    },
+    {
+      "name": "BAXTER INTL INC",
+      "cusip": "071813109",
+      "shares": 2637,
+      "value": 212000
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 1007,
+      "value": 252000
+    },
+    {
+      "name": "BIO RAD LABS INC",
+      "cusip": "090572207",
+      "shares": 672,
+      "value": 392000
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 1898415,
+      "value": 208585000
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 3050,
+      "value": 301000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1097767,
+      "value": 726228000
+    },
+    {
+      "name": "CHURCH & DWIGHT INC",
+      "cusip": "171340102",
+      "shares": 3253,
+      "value": 284000
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 1935440,
+      "value": 423958000
+    },
+    {
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 6933,
+      "value": 363000
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 7390,
+      "value": 410000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 403700,
+      "value": 110275000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3365311,
+      "value": 476057000
+    },
+    {
+      "name": "HENRY SCHEIN INC",
+      "cusip": "806407102",
+      "shares": 3467,
+      "value": 232000
+    },
+    {
+      "name": "LEGGETT & PLATT INC",
+      "cusip": "524660107",
+      "shares": 4793,
+      "value": 212000
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 1504040,
+      "value": 198413000
+    },
+    {
+      "name": "MCCORMICK & CO INC",
+      "cusip": "579780206",
+      "shares": 3146,
+      "value": 301000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 902456,
+      "value": 200724000
+    },
+    {
+      "name": "MIMECAST LTD",
+      "cusip": "G14838109",
+      "shares": 2367833,
+      "value": 134588000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 656055,
+      "value": 190413000
+    },
+    {
+      "name": "PNC FINL SVCS GROUP INC",
+      "cusip": "693475105",
+      "shares": 3156,
+      "value": 470000
+    },
+    {
+      "name": "REGENCY CTRS CORP",
+      "cusip": "758849103",
+      "shares": 9963,
+      "value": 454000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 8799637,
+      "value": 537746000
+    },
+    {
+      "name": "ROLLINS INC",
+      "cusip": "775711104",
+      "shares": 5409,
+      "value": 211000
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 1307391,
+      "value": 290934000
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 192124,
+      "value": 141194000
+    },
+    {
+      "name": "SL GREEN RLTY CORP",
+      "cusip": "78440X101",
+      "shares": 10285,
+      "value": 613000
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "G87110105",
+      "shares": 16268,
+      "value": 153000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 661935,
+      "value": 409638000
+    },
+    {
+      "name": "TYLER TECHNOLOGIES INC",
+      "cusip": "902252105",
+      "shares": 468,
+      "value": 204000
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2244,
+      "value": 466000
+    },
+    {
+      "name": "WEYERHAEUSER CO MTN BE",
+      "cusip": "962166104",
+      "shares": 13455,
+      "value": 451000
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 1140133,
+      "value": 273187000
+    },
+    {
+      "name": "ZENDESK INC",
+      "cusip": "98936J101",
+      "shares": 699232,
+      "value": 100074000
+    }
+  ]
+}

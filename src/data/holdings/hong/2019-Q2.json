@@ -1,0 +1,29 @@
+{
+  "date": "2019-05-14",
+  "positions": [
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 876506,
+      "value": 50890000
+    },
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44919P508",
+      "shares": 252363,
+      "value": 53024000
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 864886,
+      "value": 26077000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1232375,
+      "value": 28986000
+    }
+  ]
+}

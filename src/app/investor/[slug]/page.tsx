@@ -71,7 +71,30 @@ const investorNames: Record<string,string> = {
   vinall: 'Robert Vinall - RV Capital GmbH',
   welling:'Glenn Welling - Engaged Capital',
   rolfe: 'David Rolfe - Wedgewood Partners',
-  bloomstran: 'Chris Bloomstran - Semper Augustus Investments Group'
+  bloomstran: 'Chris Bloomstran - Semper Augustus Investments Group',
+  karr: 'Robert Karr - Joho Capital',
+  hong: 'Dennis Hong - Shawspring Partners',
+  gregalexander: 'Greg Alexander - Conifer Management',
+  dorsey:'Pat Dorsey - Dorsey Asset Management',
+  bares: 'Brian Bares - Bares Capital Management',
+  berkowitz:'Bruce Berkowitz - Fairholme Capital Management',
+  watsa:'Prem Watsa - Fairfax Financial Holdings',
+  sosin: 'Clifford Sosin - CAS Investment Parners',
+  einhorn:'David Einhorn - Greenlight Capital',
+  burn:'Harry Burn - Sound Shore Management',
+  brenton:'Andrew Brenton - Turtle Creek Asset Management',
+  train: 'Lindsell Train',
+  greenberg:'Glenn Greenberg - Brave Warrior Advisors',
+  meritage:'Nathaniel Simons - Meritage Group',
+  ketterer:'Sarah Ketterer - Causeway Capital Management',
+  altarockpartners: 'Mark Massey - Altarock Partners',
+  martin:'Fred Martin - Disciplined Growth Investors',
+  vulcanvalue:'C.T. Fitzpatrick - Vulcan Value Partners',
+  abrams: 'David Abrams - Abrams Capital Management',
+  greenhaven: 'Edgar Wachenheim - Greenhaven Associates',
+  tepper: 'David Tepper - Appaloosa Management'
+
+
 }
 
 function getPeriodFromDate(dateStr: string) {

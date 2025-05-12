@@ -1,0 +1,113 @@
+{
+  "date": "2015-02-17",
+  "positions": [
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874156",
+      "shares": 24471763,
+      "value": 602495000
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 51283896,
+      "value": 2872411000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505146",
+      "shares": 12363428,
+      "value": 87039000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505153",
+      "shares": 1455701,
+      "value": 1038000
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 94304965,
+      "value": 1687116000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 3,
+      "value": 678000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 280450,
+      "value": 42110000
+    },
+    {
+      "name": "CANADIAN NAT RES LTD",
+      "cusip": "136385101",
+      "shares": 503600,
+      "value": 15551000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 54560,
+      "value": 2952000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 753300,
+      "value": 15669000
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 14480743,
+      "value": 324658000
+    },
+    {
+      "name": "LINCOLN NATL CORP IND",
+      "cusip": "534187117",
+      "shares": 181610,
+      "value": 8990000
+    },
+    {
+      "name": "SEARS CDA INC",
+      "cusip": "81234D109",
+      "shares": 14095696,
+      "value": 135460000
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 26545273,
+      "value": 875463000
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350155",
+      "shares": 6413656,
+      "value": 132442000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 24779398,
+      "value": 455693000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 149600,
+      "value": 8201000
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 1295465,
+      "value": 27671000
+    }
+  ]
+}

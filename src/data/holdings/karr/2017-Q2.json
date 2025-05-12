@@ -1,0 +1,41 @@
+{
+  "date": "2017-05-15",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1313137,
+      "value": 141596000
+    },
+    {
+      "name": "CAESARSTONE LTD",
+      "cusip": "M20598104",
+      "shares": 2322130,
+      "value": 84177000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 1403701,
+      "value": 117841000
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 1365949,
+      "value": 14520000
+    },
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 4370804,
+      "value": 143756000
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 386283,
+      "value": 21072000
+    }
+  ]
+}

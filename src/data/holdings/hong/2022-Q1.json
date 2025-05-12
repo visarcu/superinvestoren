@@ -1,0 +1,29 @@
+{
+  "date": "2022-01-31",
+  "positions": [
+    {
+      "name": "ANGI HOMESERVICES INC",
+      "cusip": "00183L102",
+      "shares": 4501823,
+      "value": 41462000
+    },
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44891N208",
+      "shares": 3747774,
+      "value": 489872000
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 929663,
+      "value": 208012000
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 443240,
+      "value": 71574000
+    }
+  ]
+}

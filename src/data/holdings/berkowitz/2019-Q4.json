@@ -1,0 +1,29 @@
+{
+  "date": "2019-11-14",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 16490,
+      "value": 3430000
+    },
+    {
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 647300,
+      "value": 18082000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 26340233,
+      "value": 451208000
+    },
+    {
+      "name": "VISTA OUTDOOR INC",
+      "cusip": "928377100",
+      "shares": 370500,
+      "value": 2293000
+    }
+  ]
+}

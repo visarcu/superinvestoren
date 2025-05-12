@@ -154,7 +154,7 @@ import ainslie_2024_Q3 from './ainslie/2024-Q3.json'
 import ainslie_2024_Q4 from './ainslie/2024-Q4.json'
 import ainslie_2025_Q1 from './ainslie/2025-Q1.json'
 
-//ainslie
+//tepper
 import tepper_2024_Q1 from './tepper/2024-Q1.json'
 import tepper_2024_Q2 from './tepper/2024-Q2.json'
 import tepper_2024_Q3 from './tepper/2024-Q3.json'
@@ -358,6 +358,61 @@ import rolfe_2024_Q2 from './rolfe/2024-Q2.json'
 import rolfe_2024_Q3 from './rolfe/2024-Q3.json'
 import rolfe_2024_Q4 from './rolfe/2024-Q4.json'
 import rolfe_2025_Q1 from './rolfe/2025-Q1.json'
+
+//karr
+import karr_2024_Q2 from './karr/2024-Q2.json'
+import karr_2024_Q3 from './karr/2024-Q3.json'
+import karr_2024_Q4 from './karr/2024-Q4.json'
+import karr_2025_Q1 from './karr/2025-Q1.json'
+
+//hong
+import hong_2024_Q2 from './hong/2024-Q2.json'
+import hong_2024_Q3 from './hong/2024-Q3.json'
+import hong_2024_Q4 from './hong/2024-Q4.json'
+import hong_2025_Q1 from './hong/2025-Q1.json'
+
+//bares
+import bares_2024_Q2 from './bares/2024-Q2.json'
+import bares_2024_Q3 from './bares/2024-Q3.json'
+import bares_2024_Q4 from './bares/2024-Q4.json'
+import bares_2025_Q1 from './bares/2025-Q1.json'
+
+//berkowitz
+import berkowitz_2024_Q2 from './berkowitz/2024-Q2.json'
+import berkowitz_2024_Q3 from './berkowitz/2024-Q3.json'
+import berkowitz_2024_Q4 from './berkowitz/2024-Q4.json'
+import berkowitz_2025_Q1 from './berkowitz/2025-Q1.json'
+
+//watsa
+import watsa_2024_Q2 from './watsa/2024-Q2.json'
+import watsa_2024_Q3 from './watsa/2024-Q3.json'
+import watsa_2024_Q4 from './watsa/2024-Q4.json'
+import watsa_2025_Q1 from './watsa/2025-Q1.json'
+
+//sosin
+import sosin_2024_Q2 from './sosin/2024-Q2.json'
+import sosin_2024_Q3 from './sosin/2024-Q3.json'
+import sosin_2024_Q4 from './sosin/2024-Q4.json'
+import sosin_2025_Q1 from './sosin/2025-Q1.json'
+
+//meritage
+import meritage_2024_Q2 from './meritage/2024-Q2.json'
+import meritage_2024_Q3 from './meritage/2024-Q3.json'
+import meritage_2024_Q4 from './meritage/2024-Q4.json'
+import meritage_2025_Q1 from './meritage/2025-Q1.json'
+
+//ketterer
+import ketterer_2024_Q2 from './ketterer/2024-Q2.json'
+import ketterer_2024_Q3 from './ketterer/2024-Q3.json'
+import ketterer_2024_Q4 from './ketterer/2024-Q4.json'
+import ketterer_2025_Q1 from './ketterer/2025-Q1.json'
+
+//vulcanvalue
+import vulcanvalue_2024_Q2 from './vulcanvalue/2024-Q2.json'
+import vulcanvalue_2024_Q3 from './vulcanvalue/2024-Q3.json'
+import vulcanvalue_2024_Q4 from './vulcanvalue/2024-Q4.json'
+import vulcanvalue_2025_Q1 from './vulcanvalue/2025-Q1.json'
+
 
 // … für jeden weiteren Slug analog …
 
@@ -794,6 +849,73 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: rolfe_2024_Q3},
     { quarter: '2024-Q4', data: rolfe_2024_Q4},
     { quarter: '2025-Q1', data: rolfe_2025_Q1},
+   ],
+
+
+   karr: [
+    { quarter: '2024-Q2', data: karr_2024_Q2},
+    { quarter: '2024-Q3', data: karr_2024_Q3},
+    { quarter: '2024-Q4', data: karr_2024_Q4},
+    { quarter: '2025-Q1', data: karr_2025_Q1},
+   ],
+
+
+   hong: [
+    { quarter: '2024-Q2', data: hong_2024_Q2},
+    { quarter: '2024-Q3', data: hong_2024_Q3},
+    { quarter: '2024-Q4', data: hong_2024_Q4},
+    { quarter: '2025-Q1', data: hong_2025_Q1},
+   ],
+
+   bares: [
+    { quarter: '2024-Q2', data: bares_2024_Q2},
+    { quarter: '2024-Q3', data: bares_2024_Q3},
+    { quarter: '2024-Q4', data: bares_2024_Q4},
+    { quarter: '2025-Q1', data: bares_2025_Q1},
+   ],
+
+
+   berkowitz: [
+    { quarter: '2024-Q2', data: berkowitz_2024_Q2},
+    { quarter: '2024-Q3', data: berkowitz_2024_Q3},
+    { quarter: '2024-Q4', data: berkowitz_2024_Q4},
+    { quarter: '2025-Q1', data: berkowitz_2025_Q1},
+   ],
+
+
+   watsa: [
+    { quarter: '2024-Q2', data: watsa_2024_Q2},
+    { quarter: '2024-Q3', data: watsa_2024_Q3},
+    { quarter: '2024-Q4', data: watsa_2024_Q4},
+    { quarter: '2025-Q1', data: watsa_2025_Q1},
+   ],
+
+   sosin: [
+    { quarter: '2024-Q2', data: sosin_2024_Q2},
+    { quarter: '2024-Q3', data: sosin_2024_Q3},
+    { quarter: '2024-Q4', data: sosin_2024_Q4},
+    { quarter: '2025-Q1', data: sosin_2025_Q1},
+   ],
+
+   meritage: [
+    { quarter: '2024-Q2', data: meritage_2024_Q2},
+    { quarter: '2024-Q3', data: meritage_2024_Q3},
+    { quarter: '2024-Q4', data: meritage_2024_Q4},
+    { quarter: '2025-Q1', data: meritage_2025_Q1},
+   ],
+
+   ketterer: [
+    { quarter: '2024-Q2', data: ketterer_2024_Q2},
+    { quarter: '2024-Q3', data: ketterer_2024_Q3},
+    { quarter: '2024-Q4', data: ketterer_2024_Q4},
+    { quarter: '2025-Q1', data: ketterer_2025_Q1},
+   ],
+
+   vulcanvalue: [
+    { quarter: '2024-Q2', data: vulcanvalue_2024_Q2},
+    { quarter: '2024-Q3', data: vulcanvalue_2024_Q3},
+    { quarter: '2024-Q4', data: vulcanvalue_2024_Q4},
+    { quarter: '2025-Q1', data: vulcanvalue_2025_Q1},
    ],
 
 

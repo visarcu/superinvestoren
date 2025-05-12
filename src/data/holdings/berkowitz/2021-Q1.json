@@ -1,0 +1,125 @@
+{
+  "date": "2021-02-16",
+  "positions": [
+    {
+      "name": "ALTRIA GROUP INC",
+      "cusip": "02209S103",
+      "shares": 54200,
+      "value": 2222000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4260,
+      "value": 565000
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 388700,
+      "value": 11179000
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 483500,
+      "value": 14655000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 348000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 59450,
+      "value": 13785000
+    },
+    {
+      "name": "CANADIAN NAT RES LTD",
+      "cusip": "136385101",
+      "shares": 475300,
+      "value": 11431000
+    },
+    {
+      "name": "CINCINNATI FINL CORP",
+      "cusip": "172062101",
+      "shares": 96700,
+      "value": 8449000
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 111100,
+      "value": 7588000
+    },
+    {
+      "name": "ENBRIDGE INC",
+      "cusip": "29250N105",
+      "shares": 256900,
+      "value": 8218000
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 783300,
+      "value": 4841000
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 95000,
+      "value": 1861000
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 632000,
+      "value": 8639000
+    },
+    {
+      "name": "MAGELLAN MIDSTREAM PRTNRS LP",
+      "cusip": "559080106",
+      "shares": 40900,
+      "value": 1736000
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599162",
+      "shares": 29102,
+      "value": 198000
+    },
+    {
+      "name": "OLD REP INTL CORP",
+      "cusip": "680223104",
+      "shares": 379100,
+      "value": 7472000
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 14100,
+      "value": 1167000
+    },
+    {
+      "name": "PLAINS ALL AMERN PIPELINE L",
+      "cusip": "726503105",
+      "shares": 213000,
+      "value": 1755000
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 26430357,
+      "value": 1121969000
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 556600,
+      "value": 7692000
+    }
+  ]
+}
