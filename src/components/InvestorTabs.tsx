@@ -174,21 +174,16 @@ export default function InvestorTabs({
                   <React.Fragment key={gi}>
                     {/* Quartals-Header */}
                     <tr>
-                      <td
-                        colSpan={5}
-                        className={`
-                          px-4 py-1 text-sm font-semibold
-                          border-t border-gray-600
-                          ${tab === 'buys'
-                            ? 'text-green-400'
-                            : tab === 'sells'
-                              ? 'text-red-400'
-                              : 'text-blue-400'}
-                        `}
-                      >
-                        {group.period}
-                      </td>
-                    </tr>
+  <td colSpan={5} className="
+    bg-gray-800
+    px-4 py-2
+    border-t border-gray-700
+    font-bold text-white uppercase tracking-wide
+  ">
+    {group.period}
+  </td>
+</tr>
+<tr className="h-1"><td colSpan={5} className="bg-gray-700 p-0"></td></tr>
 
                     {group.items.length > 0
                       ? group.items.map((p, i) => {

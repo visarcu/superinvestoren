@@ -1,40 +1,27 @@
 // src/hooks/useWatchlist.ts
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 
-const STORAGE_KEY = 'superinvestor_watchlist'
+export function useWatchlist(ticker: string) {
+  const [inWatchlist, setInWatchlist] = useState(false)
 
-export function useWatchlist() {
-  const [items, setItems] = useState<string[]>([])
-
-  // beim Mount aus localStorage laden
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY)
-      if (raw) setItems(JSON.parse(raw))
-    } catch { /* ignore */ }
-  }, [])
+    const list = JSON.parse(localStorage.getItem('watchlist') || '[]') as string[]
+    setInWatchlist(list.includes(ticker))
+  }, [ticker])
 
-  // speichert neuen Zustand in state + localStorage
-  const save = useCallback((newItems: string[]) => {
-    setItems(newItems)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems))
-  }, [])
+  async function toggle() {
+    const list = JSON.parse(localStorage.getItem('watchlist') || '[]') as string[]
+    let updated: string[]
+    if (list.includes(ticker)) {
+      updated = list.filter(t => t !== ticker)
+      setInWatchlist(false)
+    } else {
+      updated = [...list, ticker]
+      setInWatchlist(true)
+    }
+    localStorage.setItem('watchlist', JSON.stringify(updated))
+  }
 
-  // Funktionen
-  const add = useCallback((slug: string) => {
-    if (!items.includes(slug)) save([...items, slug])
-  }, [items, save])
-
-  const remove = useCallback((slug: string) => {
-    save(items.filter(i => i !== slug))
-  }, [items, save])
-
-  const toggle = useCallback((slug: string) => {
-    items.includes(slug) ? remove(slug) : add(slug)
-  }, [items, add, remove])
-
-  const isInList = useCallback((slug: string) => items.includes(slug), [items])
-
-  return { items, add, remove, toggle, isInList }
+  return { inWatchlist, toggle }
 }

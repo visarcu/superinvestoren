@@ -30,12 +30,18 @@ function formatCurrency(
   }).format(amount)
 }
 
-// Datum → Berichtsquartal
-function getQuarterFromDate(dateStr: string) {
-  const [y, m] = dateStr.split('-').map(Number)
-  const q = Math.ceil(m / 3) - 1
-  return q === 0 ? `Q4 ${y - 1}` : `Q${q} ${y}`
+// Datum → tatsächliches Reporting-Quartal (ein Filing-Quartal zurück)
+function getPeriodFromDate(dateStr: string) {
+  const [year, month] = dateStr.split('-').map(Number)
+  const filingQ = Math.ceil(month / 3)
+  let reportQ = filingQ - 1, reportY = year
+  if (reportQ === 0) {
+    reportQ = 4
+    reportY = year - 1
+  }
+  return `Q${reportQ} ${reportY}`
 }
+
 
 export default function HomePage() {
   const router = useRouter()
@@ -81,37 +87,50 @@ export default function HomePage() {
   const visibleOthers = showAll ? others : others.slice(0, 10)
 
   // 3. Top-10 Käufe
-  const buyCounts = new Map<string, number>()
-  let allDates: string[] = []
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (snaps.length < 2) return
-    const prev = snaps[snaps.length - 2].data
-    const cur  = snaps[snaps.length - 1].data
-    if (!prev?.positions || !cur?.positions) return
+   // 3. Top-10 Käufe aus **dem letzten** Snapshot-Datum
+ // 3. Top-10 Käufe aus **dem letzten** Reporting-Quartal
+// a) Finde das gemeinsame letzte Datum
+const allDates = Object.values(holdingsHistory)
+.map(snaps => snaps[snaps.length - 1]?.data.date)
+.filter(Boolean) as string[]
+const latestDate    = allDates.sort().pop() || ''
+// b) Ermittele das Reporting-Quartal dieses Datums
+const latestQuarter = latestDate ? getPeriodFromDate(latestDate) : ''
 
-    allDates.push(cur.date!)  
-    const prevMap = new Map<string, number>()
-    prev.positions.forEach(p => {
-      prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares)
-    })
-    const counted = new Set<string>()
-    cur.positions.forEach(p => {
-      const delta = p.shares - (prevMap.get(p.cusip) || 0)
-      if (delta > 0) {
-        const st = stocks.find(s => s.cusip === p.cusip)
-        if (st && !counted.has(st.ticker)) {
-          counted.add(st.ticker)
-          buyCounts.set(st.ticker, (buyCounts.get(st.ticker) || 0) + 1)
-        }
-      }
-    })
-  })
-  const aggregated = Array.from(buyCounts.entries())
-    .sort(([, a], [, b]) => b - a)
-    .map(([ticker, count]) => ({ ticker, count }))
-    .slice(0, 10)
-  const latestDate  = allDates.sort().pop() || ''
-  const periodLabel = latestDate ? getQuarterFromDate(latestDate) : ''
+// c) Zähle Käufe aus genau diesem Quartal
+const buyCounts = new Map<string, number>()
+Object.values(holdingsHistory).forEach(snaps => {
+if (snaps.length < 2) return
+const prev = snaps[snaps.length - 2].data
+const cur  = snaps[snaps.length - 1].data
+
+// ** statt auf Datum auf Quartal prüfen **
+if (getPeriodFromDate(cur.date) !== latestQuarter) return
+
+const prevMap = new Map<string, number>()
+prev.positions.forEach(p =>
+ prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares)
+)
+const seen = new Set<string>()
+cur.positions.forEach(p => {
+ const delta = p.shares - (prevMap.get(p.cusip) || 0)
+ if (delta > 0) {
+   const st = stocks.find(s => s.cusip === p.cusip)
+   if (st && !seen.has(st.ticker)) {
+     seen.add(st.ticker)
+     buyCounts.set(st.ticker, (buyCounts.get(st.ticker) || 0) + 1)
+   }
+ }
+})
+})
+
+// d) Baue die Top-10-Liste und setze das Label aufs Quartal
+const aggregated = Array.from(buyCounts.entries())
+.sort(([, a], [, b]) => b - a)
+.slice(0, 10)
+.map(([ticker, count]) => ({ ticker, count }))
+
+const periodLabel = latestQuarter
 
   // 4. Name-Lookup für Stocks
   const nameMap: Record<string, string> = {}

@@ -1,36 +1,30 @@
-
-//'use client'
 // src/app/analyse/[ticker]/page.tsx
 import React from 'react'
 import { stocks } from '../../../data/stocks'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
-import { authOptions }      from '@/pages/api/auth/[...nextauth]'  // <- hier liegen Deine NextAuth-Optionen
+import { authOptions }  from '@/pages/api/auth/[...nextauth]'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import { LockClosedIcon } from '@heroicons/react/24/solid'
 import Tooltip from '@/components/Tooltip'
 import { irLinks } from '../../../data/irLinks'
-import Image from 'next/image'
 import Card from '@/components/Card'
-import CompanyLogo from '@/components/CompanyLogo'
-
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
 
+const WatchlistButton = dynamic(
+  () => import('@/components/WatchlistButton'),
+  { ssr: false }
+)
 
-//import { useSession } from 'next-auth/react'
-import { LockClosedIcon } from '@heroicons/react/24/solid'
-
-
-
-// Chart-Komponenten (nur client-side)
 const StockLineChart = dynamic(
   () => import('../../../components/StockLineChart'),
-  { ssr: false,
-    loading: () => <LoadingSpinner /> }
+  { ssr: false, loading: () => <LoadingSpinner /> }
 )
+
 const FinancialAnalysisClient = dynamic(
   () => import('../../../components/FinancialAnalysisClient'),
   { ssr: false,
@@ -98,10 +92,10 @@ export default async function AnalysisPage({
   const ticker = params.ticker.toUpperCase()
   const stock = stocks.find((s) => s.ticker === ticker) ?? notFound()
 
-
-  // ─── Hier holst Du die Session serverseitig ───
+  // Session & Premium-Flag
   const session = await getServerSession(authOptions)
   const isPremium = session?.user?.isPremium ?? false
+
 
   // ─── Live‐Quote Variablen ───
 let livePrice: number | null      = null
@@ -388,36 +382,34 @@ try {
 
   return (
     <main className="max-w-7xl mx-auto p-8 space-y-8">
-      {/* ← Zurück */}
-      <Link
-        href={`/aktie/${ticker.toLowerCase()}`}
-        className="text-blue-600 hover:underline"
-      >
+      {/* ← Back */}
+      <Link href={`/aktie/${ticker.toLowerCase()}`} className="text-blue-600 hover:underline">
         ← Zurück zur Aktie
       </Link>
 
-      {/* Titel */}
-      
-      <h1 className="text-3xl font-bold">
-        Kennzahlen-Analyse: {stock.name} ({ticker})
-      </h1>
+      {/* **Header mit Watchlist-Button** */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">
+          Kennzahlen-Analyse: {stock.name} ({ticker})
+        </h1>
+        {/* ← Client-Only Watchlist Button */}
+        <WatchlistButton ticker={ticker} />
+      </div>
 
-      {/* Investor Relations */}
-      {irUrl && (
-        <div className="mt-2">
-          <Tooltip text="Zur Investor-Relations-Seite des Unternehmens">
-            <a
-              href={irUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-blue-600 hover:underline gap-1"
-            >
-              Investor Relations
-              <InformationCircleIcon className="w-4 h-4" />
-            </a>
-          </Tooltip>
-        </div>
+      {/* IR-Link */}
+      {irLinks[ticker] && (
+        <Tooltip text="Zur Investor-Relations-Seite">
+          <a
+            href={irLinks[ticker]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-blue-600 hover:underline gap-1"
+          >
+            Investor Relations <InformationCircleIcon className="w-4 h-4" />
+          </a>
+        </Tooltip>
       )}
+
 
      
 

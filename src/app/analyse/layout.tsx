@@ -5,6 +5,8 @@ import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+
+
 export default function AnalyseLayout({ children }: { children: ReactNode }) {
   const path = usePathname()
   const tabs = [

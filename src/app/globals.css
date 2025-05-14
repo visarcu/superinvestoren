@@ -1,5 +1,9 @@
 /* src/app/globals.css */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* 1) Einfaches CSS-Reset */
 * {
   margin: 0;

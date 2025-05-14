@@ -1,216 +1,173 @@
 {
-  "form": "13F-HR/A",
-  "date": "2017-08-29",
+  "date": "2017-08-14",
   "positions": [
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 400000,
+      "value": 15052000
+    },
     {
       "name": "AMERICAN TOWER CORP NEW",
       "cusip": "03027X100",
-      "shares": 4007606,
-      "value": 377316000
+      "shares": 6810903,
+      "value": 901219000
     },
     {
       "name": "AMERICAN TOWER CORP NEW",
-      "cusip": "03027X308",
-      "shares": 100000,
-      "value": 10319000
+      "cusip": "03027X407",
+      "shares": 514748,
+      "value": 62403000
     },
     {
-      "name": "ANNALY CAP MGMT INC",
-      "cusip": "035710409",
-      "shares": 20044,
-      "value": 208000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 100300,
-      "value": 8845000
-    },
-    {
-      "name": "ARLINGTON ASSET INVT CORP",
-      "cusip": "041356205",
-      "shares": 10000,
-      "value": 241000
-    },
-    {
-      "name": "BANK OF AMERICA CORPORATION",
+      "name": "BANK AMER CORP",
       "cusip": "060505146",
-      "shares": 715101,
-      "value": 4198000
+      "shares": 732890,
+      "value": 8824000
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
-      "shares": 297340,
-      "value": 42912000
+      "shares": 390974,
+      "value": 66219000
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
-      "shares": 52,
-      "value": 11310000
+      "shares": 42,
+      "value": 10697000
+    },
+    {
+      "name": "BOSTON OMAHA CORP",
+      "cusip": "101044105",
+      "shares": 350000,
+      "value": 4615000
     },
     {
       "name": "CARMAX INC",
       "cusip": "143130102",
-      "shares": 1700000,
-      "value": 117317000
-    },
-    {
-      "name": "COLFAX CORP",
-      "cusip": "194014106",
-      "shares": 5875560,
-      "value": 280440000
-    },
-    {
-      "name": "CROWN CASTLE INTL CORP",
-      "cusip": "22822V200",
-      "shares": 20000,
-      "value": 2097000
+      "shares": 5170601,
+      "value": 326058000
     },
     {
       "name": "CSX CORP",
       "cusip": "126408103",
-      "shares": 42899,
-      "value": 1421000
+      "shares": 4899,
+      "value": 267000
     },
     {
       "name": "DANAHER CORP DEL",
       "cusip": "235851102",
-      "shares": 1500000,
-      "value": 127350000
+      "shares": 1655300,
+      "value": 139691000
     },
     {
       "name": "DIAMOND HILL INVESTMENT GROU",
       "cusip": "25264R207",
       "shares": 145500,
-      "value": 23280000
-    },
-    {
-      "name": "DISCOVERY COMMUNICATNS NEW",
-      "cusip": "25470F302",
-      "shares": 6019258,
-      "value": 177418000
+      "value": 29013000
     },
     {
       "name": "DOLLAR TREE INC",
       "cusip": "256746108",
-      "shares": 3494004,
-      "value": 283521000
+      "shares": 4844272,
+      "value": 338711000
     },
     {
       "name": "ENSTAR GROUP LIMITED",
       "cusip": "G3075P101",
-      "shares": 519970,
-      "value": 73763000
+      "shares": 1457264,
+      "value": 289485000
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 3550000,
+      "value": 116972000
     },
     {
       "name": "LAMAR ADVERTISING CO",
       "cusip": "512816109",
-      "shares": 67100,
-      "value": 3977000
-    },
-    {
-      "name": "LIVE NATION ENTERTAINMENT IN",
-      "cusip": "538034109",
-      "shares": 6244313,
-      "value": 157544000
-    },
-    {
-      "name": "LPL FINL HLDGS INC",
-      "cusip": "50212V100",
-      "shares": 1465185,
-      "value": 64263000
+      "shares": 48530,
+      "value": 3570000
     },
     {
       "name": "MARKEL CORP",
       "cusip": "570535104",
-      "shares": 508963,
-      "value": 391372000
-    },
-    {
-      "name": "MARKWEST ENERGY PARTNERS L P",
-      "cusip": "570759100",
-      "shares": 3215,
-      "value": 213000
+      "shares": 516113,
+      "value": 503654000
     },
     {
       "name": "MASTERCARD INC",
       "cusip": "57636Q104",
-      "shares": 4261426,
-      "value": 368145000
+      "shares": 5345399,
+      "value": 649199000
     },
     {
       "name": "MONRO MUFFLER BRAKE INC",
       "cusip": "610236101",
-      "shares": 1505003,
-      "value": 97900000
+      "shares": 1622700,
+      "value": 67748000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
-      "shares": 3513336,
-      "value": 364684000
-    },
-    {
-      "name": "NUSTAR GP HOLDINGS LLC",
-      "cusip": "67059L102",
-      "shares": 19595,
-      "value": 694000
+      "shares": 5699676,
+      "value": 693537000
     },
     {
       "name": "O REILLY AUTOMOTIVE INC NEW",
       "cusip": "67103H107",
-      "shares": 810279,
-      "value": 175215000
+      "shares": 1193026,
+      "value": 260963000
     },
     {
       "name": "PRIMO WTR CORP",
       "cusip": "74165N105",
-      "shares": 1685330,
-      "value": 8814000
+      "shares": 1679313,
+      "value": 21327000
     },
     {
       "name": "ROPER INDS INC NEW",
       "cusip": "776696106",
-      "shares": 1251680,
-      "value": 215289000
+      "shares": 1567365,
+      "value": 362892000
     },
     {
       "name": "SBA COMMUNICATIONS CORP",
       "cusip": "78388J106",
-      "shares": 1200000,
-      "value": 140520000
+      "shares": 2465000,
+      "value": 332528000
     },
     {
       "name": "TD AMERITRADE HLDG CORP",
       "cusip": "87236Y108",
-      "shares": 3158900,
-      "value": 117701000
+      "shares": 2967500,
+      "value": 127573000
     },
     {
       "name": "UBIQUITI NETWORKS INC",
       "cusip": "90347A100",
-      "shares": 2523530,
-      "value": 74570000
+      "shares": 2680000,
+      "value": 139280000
     },
     {
       "name": "VERISK ANALYTICS INC",
       "cusip": "92345Y106",
-      "shares": 972200,
-      "value": 69415000
+      "shares": 2604982,
+      "value": 219782000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
-      "shares": 2283240,
-      "value": 149347000
+      "shares": 4889020,
+      "value": 458492000
     },
     {
-      "name": "WILLIAMS COS INC DEL",
-      "cusip": "969457100",
-      "shares": 18230,
-      "value": 922000
+      "name": "WMIH Corp",
+      "cusip": "92936P100",
+      "shares": 1460000,
+      "value": 1825000
     }
   ]
 }

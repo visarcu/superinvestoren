@@ -8,14 +8,16 @@ import Image from 'next/image'
 import { stocks } from '../../../data/stocks'
 import { investors } from '../../../data/investors'
 import holdingsHistory from '../../../data/holdings'
+//import { domainForTicker } from '@/lib/clearbit'
+import path from 'path'
 
-import { domainForTicker } from '@/lib/clearbit'
 
 // unser eigener Chart – client-only
-const StockLineChart = dynamic(
-  () => import('../../../components/StockLineChart'),
-  { ssr: false }
-)
+// Chart & WatchlistButton nur client-side
+const StockLineChart = dynamic(() => import('../../../components/StockLineChart'), { ssr: false })
+const WatchlistButton = dynamic(() => import('@/components/WatchlistButton'), { ssr: false })
+
+ 
 
 interface OwningInvestor {
   slug: string
@@ -53,7 +55,7 @@ async function fetchLivePrice(symbol: string): Promise<number> {
   return data.price
 }
 
-// Historische Kursdaten von FMP für unseren eigenen Chart
+// Historische Kursdaten von FMP
 async function fetchHistorical(symbol: string): Promise<{ date: string; close: number }[]> {
   const res = await fetch(
     `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?serietype=line&apikey=${process.env.FMP_API_KEY}`,
@@ -64,13 +66,14 @@ async function fetchHistorical(symbol: string): Promise<{ date: string; close: n
   return (historical as any[]).reverse()
 }
 
-export default async function StockPage({
-  params: { ticker: tickerParam },
-}: {
-  params: { ticker: string }
-}) {
-  const ticker = tickerParam.toUpperCase()
-  const stock = stocks.find(s => s.ticker === ticker) ?? notFound()
+export default async function StockPage({ params }: { params: { ticker: string } }) {
+ // 1️⃣ Hier holst Du Dir ticker aus den URL-Params
+ const ticker = params.ticker.toUpperCase()
+ const stock  = stocks.find(s => s.ticker === ticker) ?? notFound()
+
+ // 2️⃣ Jetzt, da ticker existiert, baust Du den Pfad zu Deinem Logo
+ //    (lege unter public/logos z.B. AAPL.svg, MSFT.svg, und eine default.svg als Fallback ab)
+ const logoSrc = `/logos/${ticker}.svg`
 
   // 1) Live-Preis
   let livePrice: number | null = null
@@ -88,7 +91,7 @@ export default async function StockPage({
     console.warn(`Historical data for ${ticker} could not be fetched.`)
   }
 
-  // Format-Hilfen
+  // Formatter
   const fmtPrice = (n: number) =>
     n.toLocaleString('de-DE', {
       style: 'currency',
@@ -156,39 +159,51 @@ export default async function StockPage({
     })
     .filter(Boolean) as SellingInvestor[]
 
-  return (
-    <main className="max-w-4xl mx-auto px-4 py-12 space-y-12">
-      {/* ← Back */}
-      <Link href="/" className="text-gray-400 hover:text-white">
-        ← Zurück
-      </Link>
-
+    return (
+      <main className="max-w-4xl mx-auto px-4 py-12 space-y-12">
+        {/* ← Back */}
+        <Link href="/" className="text-gray-400 hover:text-white">
+          ← Zurück
+        </Link>
+  
       {/* Header Card */}
       <div className="bg-card-dark rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-lg">
-        <div className="w-20 h-20 relative border-4 border-accent rounded-full overflow-hidden">
-        <Image
-      src={`https://logo.clearbit.com/${domainForTicker(ticker)}`}
-      alt={`${stock.name} Logo`}
-      fill
-      className="object-contain p-2"
-      unoptimized           // sonst weigert sich Next.js manchmal
-    />
+        {/* Logo + Titel */}
+        <div className="flex items-center space-x-6 flex-1">
+          <div className="w-20 h-20 relative rounded-full overflow-hidden bg-white shadow-lg">
+            <Image
+              src={logoSrc}
+              alt={`${stock.name} Logo`}
+              fill
+              className="object-contain p-3"
+              priority
+              // falls Du Fallback brauchst, kannst Du hier `onError` hooken
+            />
+          </div>
+          <div>
+            <h1 className="text-3xl font-orbitron text-white font-bold">
+              {stock.name} ({ticker})
+            </h1>
+            {livePrice != null && (
+              <p className="mt-1 text-2xl text-accent font-semibold">
+                {fmtPrice(livePrice)}
+              </p>
+            )}
+          </div>
         </div>
-        <div>
-          <h1 className="text-3xl font-orbitron text-white font-bold">
-            {stock.name} ({ticker})
-          </h1>
-          <p className="mt-2 text-2xl text-accent font-semibold">
-            {livePrice != null ? fmtPrice(livePrice) : '–'}
-          </p>
+
+  
+          {/* Buttons */}
+          <div className="flex items-center space-x-3">
+  <WatchlistButton ticker={ticker} />
+  <Link
+    href={`/analyse/${ticker.toLowerCase()}`}
+    className="px-4 py-2 bg-accent text-black rounded-full hover:bg-accent/90 transition"
+  >
+    Zur Analyse →
+  </Link>
+</div>
         </div>
-        <Link
-          href={`/analyse/${ticker.toLowerCase()}`}
-          className="ml-auto bg-accent text-black px-5 py-2 rounded-full font-medium hover:opacity-90 transition"
-        >
-          Zur Analyse →
-        </Link>
-      </div>
 
       {/* Chart Card */}
       <div className="bg-card-dark rounded-2xl p-6 shadow-md">
@@ -209,11 +224,7 @@ export default async function StockPage({
               <Link
                 key={inv.slug}
                 href={`/investor/${inv.slug}`}
-                className="
-                  flex items-center gap-4
-                  bg-card-dark rounded-2xl p-4
-                  hover:bg-gray-700 transition-shadow shadow
-                "
+                className="flex items-center gap-4 bg-card-dark rounded-2xl p-4 hover:bg-gray-700 transition-shadow shadow"
               >
                 {inv.imageUrl && (
                   <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -238,7 +249,7 @@ export default async function StockPage({
         </section>
       )}
 
-      {/* Im letzten Quartal gekauft */}
+      {/* Gekauft im letzten Q. */}
       {buyingInvestors.length > 0 && (
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold text-white">Gekauft (letztes Q.)</h2>
@@ -247,11 +258,7 @@ export default async function StockPage({
               <Link
                 key={inv.slug}
                 href={`/investor/${inv.slug}`}
-                className="
-                  flex items-center gap-4
-                  bg-green-50 bg-opacity-20 text-green-300
-                  rounded-2xl p-4 hover:bg-opacity-30 transition
-                "
+                className="flex items-center gap-4 bg-green-50 bg-opacity-20 text-green-300 rounded-2xl p-4 hover:bg-opacity-30 transition"
               >
                 {inv.imageUrl && (
                   <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -277,7 +284,7 @@ export default async function StockPage({
         </section>
       )}
 
-      {/* Im letzten Quartal verkauft */}
+      {/* Verkauft im letzten Q. */}
       {sellingInvestors.length > 0 && (
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold text-white">Verkauft (letztes Q.)</h2>
@@ -286,11 +293,7 @@ export default async function StockPage({
               <Link
                 key={inv.slug}
                 href={`/investor/${inv.slug}`}
-                className="
-                  flex items-center gap-4
-                  bg-red-50 bg-opacity-20 text-red-300
-                  rounded-2xl p-4 hover:bg-opacity-30 transition
-                "
+                className="flex items-center gap-4 bg-red-50 bg-opacity-20 text-red-300 rounded-2xl p-4 hover:bg-opacity-30 transition"
               >
                 {inv.imageUrl && (
                   <div className="w-12 h-12 rounded-full overflow-hidden">

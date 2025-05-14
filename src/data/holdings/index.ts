@@ -167,6 +167,7 @@ import pabrai_2024_Q2 from './pabrai/2024-Q2.json'
 import pabrai_2024_Q3 from './pabrai/2024-Q3.json'
 import pabrai_2024_Q4 from './pabrai/2024-Q4.json'
 import pabrai_2025_Q1 from './pabrai/2025-Q1.json'
+import pabrai_2025_Q2 from './pabrai/2025-Q2.json'
 
 //einhorn
 import einhorn_2024_Q2 from './einhorn/2024-Q2.json'
@@ -192,7 +193,8 @@ import polen_2024_Q2 from './polen/2024-Q2.json'
 import polen_2024_Q3 from './polen/2024-Q3.json'
 import polen_2024_Q4 from './polen/2024-Q4.json'
 import polen_2025_Q1 from './polen/2025-Q1.json'
-//import yacktman_2025_Q2 from './yacktman/2025-Q2.json'
+import polen_2025_Q2 from './polen/2025-Q2.json'
+
 
 //viking
 import viking_2023_Q4 from './viking/2023-Q4.json'
@@ -244,12 +246,14 @@ import jensen_2024_Q2 from './jensen/2024-Q2.json'
 import jensen_2024_Q3 from './jensen/2024-Q3.json'
 import jensen_2024_Q4 from './jensen/2024-Q4.json'
 import jensen_2025_Q1 from './jensen/2025-Q1.json'
+import jensen_2025_Q2 from './jensen/2025-Q2.json'
 
 //russo
 import russo_2024_Q2 from './russo/2024-Q2.json'
 import russo_2024_Q3 from './russo/2024-Q3.json'
 import russo_2024_Q4 from './russo/2024-Q4.json'
 import russo_2025_Q1 from './russo/2025-Q1.json'
+import russo_2025_Q2 from './russo/2025-Q2.json'
 
 //armitage
 import armitage_2024_Q2 from './armitage/2024-Q2.json'
@@ -268,6 +272,7 @@ import abrams_2024_Q2 from './abrams/2024-Q2.json'
 import abrams_2024_Q3 from './abrams/2024-Q3.json'
 import abrams_2024_Q4 from './abrams/2024-Q4.json'
 import abrams_2025_Q1 from './abrams/2025-Q1.json'
+import abrams_2025_Q2 from './abrams/2025-Q2.json'
 
 //fred martin
 import martin_2024_Q2 from './martin/2024-Q2.json'
@@ -346,6 +351,7 @@ import tarasoff_2024_Q2 from './tarasoff/2024-Q2.json'
 import tarasoff_2024_Q3 from './tarasoff/2024-Q3.json'
 import tarasoff_2024_Q4 from './tarasoff/2024-Q4.json'
 import tarasoff_2025_Q1 from './tarasoff/2025-Q1.json'
+import tarasoff_2025_Q2 from './tarasoff/2025-Q2.json'
 
 //welling
 import welling_2024_Q2 from './welling/2024-Q2.json'
@@ -515,6 +521,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: akre_2024_Q3 },
     { quarter: '2024-Q4', data: akre_2024_Q4 },
     { quarter: '2025-Q1', data: akre_2025_Q1 },
+    { quarter: '2025-Q2', data: akre_2025_Q2 },
    
     // …
    ],
@@ -624,6 +631,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: pabrai_2024_Q3},
     { quarter: '2024-Q4', data: pabrai_2024_Q4},
     { quarter: '2025-Q1', data: pabrai_2025_Q1},
+    { quarter: '2025-Q2', data: pabrai_2025_Q2},
    ],
 
    einhorn: [
@@ -653,7 +661,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: polen_2024_Q3},
     { quarter: '2024-Q4', data: polen_2024_Q4},
     { quarter: '2025-Q1', data: polen_2025_Q1},
-   // { quarter: '2025-Q1', data: polen_2025_Q2},
+    { quarter: '2025-Q1', data: polen_2025_Q2},
    ],
 
    viking: [
@@ -709,17 +717,19 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    jensen: [
-    { quarter: '2024-Q2', data: jensen_2024_Q2 },
+    { quarter: '2024-Q2', data: jensen_2024_Q2},
     { quarter: '2024-Q3', data: jensen_2024_Q3},
     { quarter: '2024-Q4', data: jensen_2024_Q4},
     { quarter: '2025-Q1', data: jensen_2025_Q1},
+    { quarter: '2025-Q2', data: jensen_2025_Q2},
    ],
 
    russo: [
-    { quarter: '2024-Q2', data: russo_2024_Q2 },
+    { quarter: '2024-Q2', data: russo_2024_Q2},
     { quarter: '2024-Q3', data: russo_2024_Q3},
     { quarter: '2024-Q4', data: russo_2024_Q4},
     { quarter: '2025-Q1', data: russo_2025_Q1},
+    { quarter: '2025-Q2', data: russo_2025_Q2},
    ],
 
    armitage: [
@@ -742,6 +752,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: abrams_2024_Q3},
     { quarter: '2024-Q4', data: abrams_2024_Q4},
     { quarter: '2025-Q1', data: abrams_2025_Q1},
+    { quarter: '2025-Q2', data: abrams_2025_Q2},
    ],
 
    martin: [
@@ -835,6 +846,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: tarasoff_2024_Q3},
     { quarter: '2024-Q4', data: tarasoff_2024_Q4},
     { quarter: '2025-Q1', data: tarasoff_2025_Q1},
+    { quarter: '2025-Q2', data: tarasoff_2025_Q2},
    ],
 
    welling: [

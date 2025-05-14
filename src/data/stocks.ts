@@ -13267,7 +13267,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'NE',
-    cusip:  '',
+    cusip:  'G65431127',
     name:   'Noble Corporation Plc',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -24157,6 +24157,15 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'ARCH',
+    cusip:  '03940R107',
+    name:   'Arch Ressources',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+  
   {
     ticker: 'FDBC',
     cusip:  '',
@@ -28924,13 +28933,7 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
-  {
-    ticker: 'AAPX',
-    cusip:  '',
-    name:   'T-Rex 2X Long Apple Daily Target ETF',
-    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
-    metrics: [],
-  },
+ 
   {
     ticker: 'NVDU',
     cusip:  '25461A833',
@@ -28938,13 +28941,7 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
-  {
-    ticker: 'JPLD',
-    cusip:  '',
-    name:   'J P Morgan Exchange-Traded Fund Trust - Limited Duration Bond ETF',
-    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
-    metrics: [],
-  },
+
   {
     ticker: 'CGIE',
     cusip:  '14021M107',

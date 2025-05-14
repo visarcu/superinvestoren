@@ -14,10 +14,16 @@ import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
 
+import InvestorSubscribeForm from '@/components/InvestorSubscribeForm'  // ← Import hinzugefügt
+import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
+
+import Link from 'next/link'      
+
+
 // dynamischer Import mit Spinner
 const TopPositionsBarChart = dynamic(
   () => import('@/components/TopPositionsBarChart'),
-  { 
+  {
     ssr: false,
     loading: () => <LoadingSpinner />
   }
@@ -25,8 +31,10 @@ const TopPositionsBarChart = dynamic(
 
 const CashFlowBarChart = dynamic(
   () => import('@/components/CashFlowBarChart'),
-  {  ssr: false,
-    loading: () => <LoadingSpinner />}
+  {
+    ssr: false,
+    loading: () => <LoadingSpinner />
+  }
 )
 
 import articlesBuffett from '@/data/articles/buffett.json'
@@ -92,9 +100,11 @@ const investorNames: Record<string,string> = {
   vulcanvalue:'C.T. Fitzpatrick - Vulcan Value Partners',
   abrams: 'David Abrams - Abrams Capital Management',
   greenhaven: 'Edgar Wachenheim - Greenhaven Associates',
-  tepper: 'David Tepper - Appaloosa Management'
-
-
+  tepper: 'David Tepper - Appaloosa Management',
+  akre: 'Chuck Akre - Akre Capital Management',
+  russo:'Thomas Russo - Gardner Russe & Quinn',
+  polen: 'Polen Capital Management',
+  jensen: 'Jensen Investment Management'
 }
 
 function getPeriodFromDate(dateStr: string) {
@@ -130,16 +140,12 @@ function mergePositions(raw: { cusip:string; shares:number; value:number }[]) {
   return map
 }
 
-export default function InvestorPage({
-  params:{ slug }
-}:{
-  params:{ slug:string }
-}) {
-  const [tab,setTab] = useState<'holdings'|'buys'|'sells'>('holdings')
+
+export default function InvestorPage({ params:{ slug } }) {
+  const [tab, setTab] = useState<'holdings'|'buys'|'sells'>('holdings')
+  const [showForm, setShowForm] = useState(false)        // neu
   const snapshots = holdingsHistory[slug]
-  if (!Array.isArray(snapshots) || snapshots.length < 2) {
-    return notFound()
-  }
+  if (!Array.isArray(snapshots) || snapshots.length < 2) return notFound()
 
   // — Header-Daten —
   const latest   = snapshots[snapshots.length-1].data
@@ -212,60 +218,76 @@ export default function InvestorPage({
 
   return (
     <main className="bg-black min-h-screen px-6 py-8 space-y-10">
-     {/* — Investor-Header in eigener Card (Design-Upgrade) — */}
-<div className="
-  relative
-  overflow-hidden
-  rounded-2xl
-  px-12 py-10
-  bg-gray-800/60
-  backdrop-blur-md
-  border border-gray-700
-  shadow-lg
-  flex flex-col sm:flex-row items-center space-y-8 sm:space-y-0 sm:space-x-8
-">
-  {/* sanfter Lichteffekt */}
-  <div className="absolute inset-0 bg-white/5 pointer-events-none" />
+      {/* Header-Card */}
+      <div className="relative overflow-hidden rounded-2xl px-12 py-10 bg-gray-800/60 backdrop-blur-md border border-gray-700 shadow-lg flex flex-col sm:flex-row items-center space-y-8 sm:space-y-0 sm:space-x-8">
+        {/* dezenter Lichteffekt */}
+        <div className="absolute inset-0 bg-white/5 pointer-events-none" />
 
-  {/* Profilbild mit Akzent‐Border */}
-  <div className="relative flex-shrink-0 w-28 h-28 rounded-full overflow-hidden border-4 border-accent">
-    <Image
-      src={`/images/${slug}.png`}
-      alt={investorNames[slug] || slug}
-      fill
-      className="object-cover"
-    />
-  </div>
+        {/* → Subscription-Link ganz oben rechts */}
+        <div className="absolute top-4 right-4">
+        <Link
+  href={`/investor/${slug}/subscribe`}
+  className="
+    absolute top-4 right-4
+    flex items-center space-x-2
+    bg-green-600 text-white
+    hover:bg-green-500
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400
+    px-4 py-2
+    rounded-full
+    shadow-lg
+    transform transition
+    hover:-translate-y-0.5
+  "
+  aria-label="Updates erhalten"
+>
+  <EnvelopeIcon className="w-7 h-7" />
+  <span className="font-semibold">Updates erhalten</span>
+</Link>
+        </div>
 
-  {/* Textbereich */}
-  <div className="relative text-center sm:text-left space-y-1">
-  <h1 className="text-4xl font-orbitron text-white font-bold leading-tight mt-2">
-      {investorNames[slug] ?? slug}
-    </h1>
-    <p className="text-sm text-gray-400 mt-1">
-      Periode: <span className="font-medium text-gray-200">{period}</span>
-    </p>
-    <p className="text-sm text-gray-400">
-      Aktualisiert am <span className="font-medium text-gray-200">{formattedDate}</span>
-    </p>
-    <p className="mt-2 text-3xl text-white font-semibold">
-      Gesamtwert{' '}
-      <span className="bg-accent text-black px-3 py-1 rounded-lg numeric">
-        {formatCurrency(totalVal, 'EUR')}
-      </span>
-    </p>
-  </div>
-</div>
+        {/* Profilbild */}
+        <div className="relative flex-shrink-0 w-28 h-28 rounded-full overflow-hidden border-4 border-accent">
+          <Image
+            src={`/images/${slug}.png`}
+            alt={investorNames[slug] ?? slug}
+            fill
+            className="object-cover"
+          />
+        </div>
+
+        {/* Textbereich */}
+        <div className="relative text-center sm:text-left space-y-1">
+          <h1 className="text-4xl font-orbitron text-white font-bold leading-tight">
+            {investorNames[slug] ?? slug}
+          </h1>
+          <p className="text-sm text-gray-400">
+            Periode: <span className="font-medium text-gray-200">{period}</span>
+          </p>
+          <p className="text-sm text-gray-400">
+            Aktualisiert am <span className="font-medium text-gray-200">{formattedDate}</span>
+          </p>
+          <p className="mt-2 text-3xl text-white font-semibold">
+            Gesamtwert{' '}
+            <span className="bg-accent text-black px-3 py-1 rounded-lg numeric">
+              {formatCurrency(totalVal, 'EUR')}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      {/* Optional: hier Deine Formular‐Komponente auf der eigenen /subscribe‐Seite */}
+      {/* <InvestorSubscribeForm investorId={slug} /> */}
+
 
       {/* — Tabs + Tabelle in eigener Card — */}
-     
       <InvestorTabs
-    tab={tab}
-    onTabChange={setTab}
-    holdings={scaledHold}
-    buys={buysHistory}
-    sells={sellsHistory}
-  />
+        tab={tab}
+        onTabChange={setTab}
+        holdings={scaledHold}
+        buys={buysHistory}
+        sells={sellsHistory}
+      />
 
       {/* — Charts (nur bei Bestände) in zwei Cards — */}
       {tab === 'holdings' && (
@@ -274,26 +296,20 @@ export default function InvestorPage({
             <h2 className="text-xl font-orbitron text-gray-100 text-center mb-2">
               Top 10 Positionen
             </h2>
-
             <ErrorBoundary
               fallbackRender={({ error }) => <ErrorFallback message={error.message} />}
             >
-
-            <TopPositionsBarChart data={top10} />
+              <TopPositionsBarChart data={top10} />
             </ErrorBoundary>
-
-
           </div>
           <div className="bg-dark rounded-lg shadow-lg p-4">
             <h2 className="text-xl font-orbitron text-gray-100 text-center mb-2">
               Cashflow (letzte 8 Q)
             </h2>
-
             <ErrorBoundary
               fallbackRender={({ error }) => <ErrorFallback message={error.message} />}
             >
-
-            <CashFlowBarChart data={cashflowPoints} />
+              <CashFlowBarChart data={cashflowPoints} />
             </ErrorBoundary>
           </div>
         </div>
