@@ -1,20 +1,24 @@
-// src/components/Card.tsx
-import React from 'react'
+// components/Card.tsx
+import React, { ReactNode } from 'react'
 
 interface CardProps {
-  children: React.ReactNode
-  className?: string
+  children: ReactNode
+  borderColor?: string
+  hoverBg?: string
 }
 
-export default function Card({ children, className = '' }: CardProps) {
+export default function Card({
+  children,
+  borderColor = 'border-gray-700',
+  hoverBg = 'hover:bg-gray-700/50',
+}: CardProps) {
   return (
     <div
       className={`
-        bg-card-dark 
-        rounded-xl 
-        shadow-lg 
-        p-6 
-        ${className}
+        bg-gray-800/60 backdrop-blur-md
+        border ${borderColor}
+        rounded-2xl p-5
+        transition ${hoverBg}
       `}
     >
       {children}

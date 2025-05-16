@@ -3,7 +3,7 @@ import React from 'react'
 import { stocks } from '../../../data/stocks'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
-import { authOptions }  from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
@@ -19,31 +19,28 @@ const WatchlistButton = dynamic(
   () => import('@/components/WatchlistButton'),
   { ssr: false }
 )
-
 const StockLineChart = dynamic(
   () => import('../../../components/StockLineChart'),
   { ssr: false, loading: () => <LoadingSpinner /> }
 )
-
 const FinancialAnalysisClient = dynamic(
   () => import('../../../components/FinancialAnalysisClient'),
-  { ssr: false,
-    loading: () => <LoadingSpinner />}
+  { ssr: false, loading: () => <LoadingSpinner /> }
 )
-
 const DividendSection = dynamic(
   () => import('../../../components/DividendSection'),
-  { ssr: false,
-    loading: () => <LoadingSpinner />}
+  { ssr: false, loading: () => <LoadingSpinner /> }
 )
-
 const RevenueBySegmentChart = dynamic(
   () => import('@/components/RevenueBySegmentChart'),
-  { ssr: false,
-    loading: () => <LoadingSpinner /> }
+  { ssr: false, loading: () => <LoadingSpinner /> }
+)
+const WallStreetRatingDonut = dynamic(
+  () => import('@/components/WallStreetRatingDonut'),
+  { ssr: false }
 )
 
-// Hilfs-Formatter
+// Formatter
 const fmtB = (n: number) =>
   `$${(n / 1e9).toLocaleString('de-DE', {
     minimumFractionDigits: 2,
@@ -62,7 +59,6 @@ const fmtPrice = (n?: number) =>
       })
     : '–'
 
-// Typ für Company Profile
 type Profile = {
   description?: string
   sector?: string
@@ -92,22 +88,21 @@ export default async function AnalysisPage({
   const ticker = params.ticker.toUpperCase()
   const stock = stocks.find((s) => s.ticker === ticker) ?? notFound()
 
-  // Session & Premium-Flag
+  // Session & Premium
   const session = await getServerSession(authOptions)
   const isPremium = session?.user?.isPremium ?? false
 
+  // Live-Quote
+  let livePrice: number | null = null
+  let liveMarketCap: number | null = null
+  let liveChangePct: number | null = null
+  let livePriceAvg200: number | null = null
+  let volume: number | null = null
+  let previousClose: number | null = null
+  let week52Low: number | null = null
+  let week52High: number | null = null
 
-  // ─── Live‐Quote Variablen ───
-let livePrice: number | null      = null
-let liveMarketCap: number | null  = null
-let liveChangePct: number | null  = null
-let livePriceAvg200: number | null= null
-let volume: number | null         = null
-let previousClose: number | null  = null
-let week52Low: number | null      = null
-let week52High: number | null     = null
-
-  // ─── Profil holen für IR-Link und Company Profile ───
+  // Profile / IR-Link
   let profileData: Profile | null = null
   let irWebsite: string | null = null
   try {
@@ -116,18 +111,14 @@ let week52High: number | null     = null
       { next: { revalidate: 60 * 60 * 24 } }
     )
     if (resProfile.ok) {
-      const [p] = (await resProfile.json()) as Array<Profile>
+      const [p] = (await resProfile.json()) as Profile[]
       profileData = p
       irWebsite = p.website ?? null
     }
-  } catch {
-    console.warn(`Profile for ${ticker} could not be fetched.`)
-  }
-  // Override mit manuellen IR-Links
+  } catch { console.warn(`Profile for ${ticker} failed.`) }
   const irUrl = irLinks[ticker] ?? irWebsite
 
-  // ─── 1) Historische Kurse ───
-
+  // 1) Historical Prices
   let history: { date: string; close: number }[] = []
   try {
     const resH = await fetch(
@@ -141,49 +132,38 @@ let week52High: number | null     = null
         .reverse()
         .map((h) => ({ date: h.date, close: h.close }))
     }
-  } catch {
-    console.warn(`Historical data for ${ticker} could not be fetched.`)
-  }
+  } catch { console.warn(`History for ${ticker} failed.`) }
 
+  // 2) Dividend History
+  let dividendHistory: { date: string; dividend: number }[] = []
+  try {
+    const resDiv = await fetch(
+      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.FMP_API_KEY}`,
+      { next: { revalidate: 60 * 60 * 6 } }
+    )
+    if (resDiv.ok) {
+      const { historical = [] } = await resDiv.json() as any
+      dividendHistory = (historical as any[])
+        .slice()
+        .reverse()
+        .map((d) => ({ date: d.date, dividend: d.dividend }))
+    }
+  } catch { console.warn(`Dividend history for ${ticker} failed.`) }
 
-  // ─── Dividend‐Historie ───
-let dividendHistory: { date: string; dividend: number }[] = []
-try {
-  const resDivHist = await fetch(
-    `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.FMP_API_KEY}`,
-    { next: { revalidate: 60 * 60 * 6 } }
-  )
-  if (resDivHist.ok) {
-    const { historical = [] } = await resDivHist.json() as any
-    dividendHistory = (historical as any[])
-      .slice()
-      .reverse()
-      .map((d) => ({ date: d.date, dividend: d.dividend }))
-  }
-} catch {
-  console.warn(`Dividend‐Historie für ${ticker} fehlgeschlagen.`)
-}
+  // 3) Segment Data
+  let segmentRaw: Record<string, Record<string, number>> = {}
+  try {
+    const resSeg = await fetch(
+      `https://financialmodelingprep.com/api/v4/revenue-product-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${process.env.FMP_API_KEY}`,
+      { next: { revalidate: 60 * 60 } }
+    )
+    if (resSeg.ok) segmentRaw = await resSeg.json()
+  } catch { console.warn(`Segmentation for ${ticker} failed.`) }
+  const segmentData = Object.entries(segmentRaw)
+    .map(([date, seg]) => ({ date, ...seg }))
+    .sort((a, b) => a.date.localeCompare(b.date))
 
-// ─── Seg­ment-Daten ───
-let segmentRaw: Record<string, Record<string, number>> = {}
-try {
-  const resSeg = await fetch(
-    `https://financialmodelingprep.com/api/v4/revenue-product-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${process.env.FMP_API_KEY}`,
-    { next: { revalidate: 60 * 60 } }
-  )
-  if (resSeg.ok) {
-    segmentRaw = await resSeg.json()
-  }
-} catch {
-  console.warn(`Revenue-Segmentation für ${ticker} fehlgeschlagen.`)
-}
-
-// In Array umwandeln und nach Datum sortieren:
-const segmentData = Object.entries(segmentRaw)
-  .map(([date, seg]) => ({ date, ...seg }))
-  .sort((a, b) => a.date.localeCompare(b.date))
-
-  // ─── 2) Key-Metrics via interne API ───
+  // 4) Key Metrics
   const base = process.env.NEXT_PUBLIC_BASE_URL!
   const resKM = await fetch(`${base}/api/financials/${ticker}`, {
     next: { revalidate: 3600 },
@@ -192,7 +172,7 @@ const segmentData = Object.entries(segmentRaw)
   const { keyMetrics = {} } = await resKM.json()
   const hasKeyMetrics = Object.keys(keyMetrics).length > 0
 
-  // ─── 3) Bilanz (Cash, Debt, Net Debt) ───
+  // 5) Balance Sheet
   let cashBS: number | null = null
   let debtBS: number | null = null
   let netDebtBS: number | null = null
@@ -202,20 +182,15 @@ const segmentData = Object.entries(segmentRaw)
       { next: { revalidate: 60 * 60 * 6 } }
     )
     if (resBS.ok) {
-      const bs = (await resBS.json()) as any
-      const fin = Array.isArray(bs.financials) ? bs.financials : bs
-      if (fin.length > 0) {
-        const L = fin[0]
-        cashBS = L.cashAndShortTermInvestments ?? null
-        debtBS = L.totalDebt ?? null
-        netDebtBS = L.netDebt ?? null
-      }
+      const fin = (await resBS.json()) as any
+      const L = Array.isArray(fin.financials) ? fin.financials[0] : fin[0]
+      cashBS = L.cashAndShortTermInvestments ?? null
+      debtBS = L.totalDebt ?? null
+      netDebtBS = L.netDebt ?? null
     }
-  } catch {
-    console.warn(`Balance sheet for ${ticker} failed.`)
-  }
+  } catch { console.warn(`BS for ${ticker} failed.`) }
 
-  // ─── 4) Dividend Dates ───
+  // 6) Dividend Dates
   let exDate: string | null = null
   let payDate: string | null = null
   try {
@@ -224,46 +199,36 @@ const segmentData = Object.entries(segmentRaw)
       { next: { revalidate: 60 * 60 * 6 } }
     )
     if (resD.ok) {
-      const djson = (await resD.json()) as any
-      const list: any[] = Array.isArray(djson.historical)
-        ? djson.historical
-        : djson
-      if (list.length > 0) {
-        const L = list
-          .slice()
-          .sort((a, b) => b.date.localeCompare(a.date))[0]
+      const djson = await resD.json() as any
+      const list = Array.isArray(djson.historical) ? djson.historical : djson
+      if (list.length) {
+        const L = list.sort((a,b)=>b.date.localeCompare(a.date))[0]
         exDate = L.date
         payDate = L.paymentDate
       }
     }
-  } catch {
-    console.warn(`Dividend dates for ${ticker} failed.`)
-  }
+  } catch { console.warn(`Dividend dates for ${ticker} failed.`) }
 
-// ─── 5) Live-Quote ───
-try {
-  const res = await fetch(
-    `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`,
-    { next: { revalidate: 60 } }
-  )
-  if (res.ok) {
-    const [q] = (await res.json()) as any[]
-    livePrice       = q.price
-    liveMarketCap   = q.marketCap
-    liveChangePct   = q.changesPercentage
-    livePriceAvg200 = q.priceAvg200
+  // 7) Live Quote extra fields
+  try {
+    const resQ = await fetch(
+      `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`,
+      { next: { revalidate: 60 } }
+    )
+    if (resQ.ok) {
+      const [q] = await resQ.json() as any[]
+      livePrice = q.price
+      liveMarketCap = q.marketCap
+      liveChangePct = q.changesPercentage
+      livePriceAvg200 = q.priceAvg200
+      volume = q.volume
+      previousClose = q.previousClose
+      week52Low = q.yearLow
+      week52High = q.yearHigh
+    }
+  } catch { console.warn(`Quote for ${ticker} failed.`) }
 
-    // neu:
-    volume          = q.volume
-    previousClose   = q.previousClose
-    week52Low       = q.yearLow
-    week52High      = q.yearHigh
-  }
-} catch {
-  console.warn(`Live quote for ${ticker} failed.`)
-}
-
-  // ─── 6) Company Outlook (Bewertungen) ───
+  // 8) Company Outlook
   let peTTM: number | null = null
   let pegTTM: number | null = null
   let pbTTM: number | null = null
@@ -274,18 +239,16 @@ try {
       { next: { revalidate: 60 * 60 * 6 } }
     )
     if (resO.ok) {
-      const { ratios = [] } = (await resO.json()) as any
+      const { ratios = [] } = await resO.json() as any
       const r = ratios[0] ?? {}
       peTTM = r.peRatioTTM ?? null
       pegTTM = r.pegRatioTTM ?? null
       pbTTM = r.priceToBookRatioTTM ?? null
       psTTM = r.priceSalesRatioTTM ?? null
     }
-  } catch {
-    console.warn(`Company-Outlook for ${ticker} failed.`)
-  }
+  } catch { console.warn(`Outlook for ${ticker} failed.`) }
 
-  // ─── 7) EV/EBIT ───
+  // 9) EV/EBIT
   let evEbit: number | null = null
   try {
     const [resEV, resInc] = await Promise.all([
@@ -299,17 +262,15 @@ try {
       ),
     ])
     if (resEV.ok && resInc.ok) {
-      const [e] = (await resEV.json()) as any[]
-      const [i] = (await resInc.json()) as any[]
+      const [e] = await resEV.json() as any[]
+      const [i] = await resInc.json() as any[]
       if (e.enterpriseValue && i.operatingIncome) {
         evEbit = e.enterpriseValue / i.operatingIncome
       }
     }
-  } catch {
-    console.warn(`EV/EBIT for ${ticker} failed.`)
-  }
+  } catch { console.warn(`EV/EBIT for ${ticker} failed.`) }
 
-  // ─── 8) Margins ───
+  // 10) Margins
   let grossMargin: number | null = null
   let operatingMargin: number | null = null
   let profitMargin: number | null = null
@@ -319,20 +280,14 @@ try {
       { next: { revalidate: 60 * 60 * 6 } }
     )
     if (resM.ok) {
-      const [inc] = (await resM.json()) as Array<{
-        grossProfitRatio?: number
-        operatingIncomeRatio?: number
-        netIncomeRatio?: number
-      }>
+      const [inc] = await resM.json() as any[]
       grossMargin = inc.grossProfitRatio ?? null
       operatingMargin = inc.operatingIncomeRatio ?? null
       profitMargin = inc.netIncomeRatio ?? null
     }
-  } catch {
-    console.warn(`Margins for ${ticker} failed.`)
-  }
+  } catch { console.warn(`Margins for ${ticker} failed.`) }
 
-  // ─── 9) Analyst Estimates ───
+  // 11) Analyst Estimates
   type Est = {
     date: string
     estimatedRevenueLow: number
@@ -353,33 +308,31 @@ try {
       const thisYear = new Date().getFullYear()
       estimates = all.filter(e => parseInt(e.date.slice(0,4),10) >= thisYear)
     }
-  } catch {
-    console.warn(`Analyst estimates for ${ticker} failed.`)
-  }
+  } catch { console.warn(`Estimates for ${ticker} failed.`) }
 
-  // ─── 10) Wall Street Rating ───
+  // 12) Wall Street Rating
   let recs:
     | { strongBuy: number; buy: number; hold: number; sell: number; strongSell: number }
     | null = null
   try {
     const resA = await fetch(
-      `https://financialmodelingprep.com/api/v3/analyst-stock-recommendations/${ticker}?apikey=${process.env.FMP_API_KEY}`,
-      { next: { revalidate: 60 * 60 * 6 } }
+      `https://financialmodelingprep.com/api/v3/analyst-stock-recommendations/${ticker}?apikey=${process.env.FMP_API_KEY}`
     )
     if (resA.ok) {
-      const [a] = (await resA.json()) as any[]
+      const [a] = await resA.json() as any[]
       recs = {
-        strongBuy: a.analystRatingsStrongBuy ?? 0,
-        buy: a.analystRatingsbuy ?? 0,
-        hold: a.analystRatingsHold ?? 0,
-        sell: a.analystRatingsSell ?? 0,
-        strongSell: a.analystRatingsStrongSell ?? 0,
+        strongBuy: a.analystRatingsStrongBuy   ?? 0,
+        buy:       a.analystRatingsbuy         ?? 0,
+        hold:      a.analystRatingsHold        ?? 0,
+        sell:      a.analystRatingsSell        ?? 0,
+        strongSell:a.analystRatingsStrongSell  ?? 0,
       }
     }
   } catch {
-    console.warn(`Analyst recommendations for ${ticker} failed.`)
+    console.warn(`Recommendations for ${ticker} failed.`)
   }
 
+  // ─── RENDER ─────────────────────────────
   return (
     <main className="max-w-7xl mx-auto p-8 space-y-8">
       {/* ← Back */}
@@ -387,18 +340,17 @@ try {
         ← Zurück zur Aktie
       </Link>
 
-      {/* **Header mit Watchlist-Button** */}
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">
           Kennzahlen-Analyse: {stock.name} ({ticker})
         </h1>
-        {/* ← Client-Only Watchlist Button */}
         <WatchlistButton ticker={ticker} />
       </div>
 
       {/* IR-Link */}
       {irLinks[ticker] && (
-        <Tooltip text="Zur Investor-Relations-Seite">
+        <Tooltip text="Zur IR-Seite">
           <a
             href={irLinks[ticker]}
             target="_blank"
@@ -410,10 +362,7 @@ try {
         </Tooltip>
       )}
 
-
-     
-
-      {/* Live-Quote in der Kopfzeile */}
+      {/* Live-Quote */}
       <div className="flex items-baseline gap-4">
         <div className="text-2xl font-semibold">{fmtPrice(livePrice)}</div>
         {liveChangePct != null && (
@@ -433,129 +382,100 @@ try {
         )}
       </div>
 
-      {/* Key Metrics / Balance / Dividend / Bewertung / Margins */}
-      {hasKeyMetrics ? (
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 bg-card-dark border border-gray-700 rounded-xl shadow- p-6 text-gray-100">
-{/* Value */}
-<div>
-  <h3 className="font-semibold mb-2">Value</h3>
-  <ul className="text-sm space-y-1">
-    <li>
-      Market Cap:{' '}
-      {liveMarketCap != null
-        ? fmtB(liveMarketCap)
-        : keyMetrics.marketCap != null
-        ? fmtB(keyMetrics.marketCap)
-        : '–'}
-    </li>
-    <li>
-      Volume:{' '}
-      {volume != null
-        ? volume.toLocaleString('de-DE')
-        : '–'}
-    </li>
-    <li>
-      Prev. Close:{' '}
-      {fmtPrice(previousClose)}
-    </li>
-    <li>
-      52 W-Range:{' '}
-      {fmtPrice(week52Low)} – {fmtPrice(week52High)}
-    </li>
-    <li>
-      Beta:{' '}
-      {profileData?.beta != null
-        ? profileData.beta.toFixed(2)
-        : '–'}
-    </li>
-  </ul>
-</div>
-          {/* Balance */}
-          <div>
-            <h3 className="font-semibold mb-2">Balance</h3>
-            <ul className="text-sm space-y-1">
-              <li>Cash: {cashBS != null ? fmtB(cashBS) : '–'}</li>
-              <li>Debt: {debtBS != null ? fmtB(debtBS) : '–'}</li>
-              <li>Net Debt: {netDebtBS != null ? fmtB(netDebtBS) : '–'}</li>
-            </ul>
-          </div>
-          {/* Dividend mit “Mehr zur Dividende” */}
-      {/* Dividend mit „Mehr zur Dividende“ (premium-Link) */}
- <div>
-            <h3 className="font-semibold mb-2">Dividend</h3>
-            <ul className="text-sm space-y-1">
-              <li>Rendite: {fmtP(keyMetrics.dividendYield)}</li>
-              <li>Payout Ratio: {fmtP(keyMetrics.payoutRatio)}</li>
-            </ul>
+     {/* ─── Key Metrics / Balance / Dividend / Bewertung / Margins ─── */}
+{hasKeyMetrics ? (
+  <Card className="bg-gray-800/80 border border-gray-700 rounded-2xl p-6">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
+      {/* Value */}
+      <div>
+        <h3 className="text-white font-semibold mb-2">Value</h3>
+        <ul className="text-sm text-gray-300 space-y-1">
+          <li>Market Cap: {liveMarketCap != null ? fmtB(liveMarketCap) : '–'}</li>
+          <li>Volume: {volume != null ? volume.toLocaleString('de-DE') : '–'}</li>
+          <li>Prev. Close: {fmtPrice(previousClose)}</li>
+          <li>52 W-Range: {fmtPrice(week52Low)} – {fmtPrice(week52High)}</li>
+          <li>Beta: {profileData?.beta?.toFixed(2) ?? '–'}</li>
+        </ul>
+      </div>
 
-            {isPremium ? (
-  <Link
-    href={`/analyse/${ticker.toLowerCase()}/dividende`}
-    className="mt-2 inline-block text-blue-600 hover:underline text-sm"
-  >
-    Mehr zur Dividende →
-  </Link>
+      {/* Balance */}
+      <div>
+        <h3 className="text-white font-semibold mb-2">Balance</h3>
+        <ul className="text-sm text-gray-300 space-y-1">
+          <li>Cash: {cashBS != null ? fmtB(cashBS) : '–'}</li>
+          <li>Debt: {debtBS != null ? fmtB(debtBS) : '–'}</li>
+          <li>Net Debt: {netDebtBS != null ? fmtB(netDebtBS) : '–'}</li>
+        </ul>
+      </div>
+
+      {/* Dividend */}
+      <div>
+        <h3 className="text-white font-semibold mb-2">Dividend</h3>
+        <ul className="text-sm text-gray-300 space-y-1">
+          <li>Rendite: {fmtP(keyMetrics.dividendYield)}</li>
+          <li>Payout Ratio: {fmtP(keyMetrics.payoutRatio)}</li>
+        </ul>
+        {isPremium ? (
+          <Link
+            href={`/analyse/${ticker.toLowerCase()}/dividende`}
+            className="mt-2 inline-block text-blue-400 hover:underline text-sm"
+          >
+            Mehr zur Dividende →
+          </Link>
+        ) : (
+          <Link
+            href="/pricing"
+            className="mt-2 inline-flex items-center text-yellow-400 hover:underline text-sm"
+          >
+            <LockClosedIcon className="w-4 h-4 mr-1" /> Mehr zur Dividende
+          </Link>
+        )}
+      </div>
+
+      {/* Bewertung */}
+      <div className="relative">
+        <h3 className="text-white font-semibold mb-2">Bewertung</h3>
+        <div className={isPremium ? '' : 'filter blur-sm'}>
+          <ul className="text-sm text-gray-300 space-y-1">
+            <li>KGV TTM: {peTTM?.toFixed(2) ?? '–'}</li>
+            <li>PEG TTM: {pegTTM?.toFixed(2) ?? '–'}</li>
+            <li>KBV TTM: {pbTTM?.toFixed(2) ?? '–'}</li>
+            <li>KUV TTM: {psTTM?.toFixed(2) ?? '–'}</li>
+            <li>EV/EBIT: {evEbit?.toFixed(2) ?? '–'}</li>
+          </ul>
+        </div>
+        {!isPremium && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <LockClosedIcon className="w-6 h-6 text-yellow-400" />
+          </div>
+        )}
+      </div>
+
+      {/* Margins */}
+      <div className="relative">
+        <h3 className="text-white font-semibold mb-2">Margins</h3>
+        <div className={isPremium ? '' : 'filter blur-sm'}>
+          <ul className="text-sm text-gray-300 space-y-1">
+            <li>Gross Margin: {fmtP(grossMargin)}</li>
+            <li>Operating: {fmtP(operatingMargin)}</li>
+            <li>Profit Margin: {fmtP(profitMargin)}</li>
+          </ul>
+        </div>
+        {!isPremium && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <LockClosedIcon className="w-6 h-6 text-yellow-400" />
+          </div>
+        )}
+      </div>
+    </div>
+  </Card>
 ) : (
-  <Link
-    href="/pricing"
-    className="mt-2 inline-block text-yellow-500 text-sm flex items-center gap-1"
-  >
-    <LockClosedIcon className="w-4 h-4"/> Mehr zur Dividende
-  </Link>
+  <p className="text-gray-500">Key Metrics nicht verfügbar.</p>
 )}
-          </div>
-          {/* Bewertung */}
-          <div className="relative">
-            <h3 className="font-semibold mb-2">Bewertung</h3>
-            <div className={ session?.user.isPremium ? '' : 'filter blur-sm' }>
-              <ul className="text-sm space-y-1">
-                <li>KGV TTM: {peTTM?.toFixed(2) ?? '–'}</li>
-                <li>PEG TTM: {pegTTM?.toFixed(2) ?? '–'}</li>
-                <li>KBV TTM: {pbTTM?.toFixed(2) ?? '–'}</li>
-                <li>KUV TTM: {psTTM?.toFixed(2) ?? '–'}</li>
-                <li>EV/EBIT: {evEbit?.toFixed(2) ?? '–'}</li>
-              </ul>
-            </div>
-            {!session?.user.isPremium && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <LockClosedIcon className="w-8 h-8 text-yellow-500" />
-              </div>
-            )}
-          </div>
-          {/* Margins */}
-          <div className="relative">
-            <h3 className="font-semibold mb-2">Margins</h3>
-            <div className={ session?.user.isPremium ? '' : 'filter blur-sm' }>
-              <ul className="text-sm space-y-1">
-                <li>Gross Margin: {fmtP(grossMargin)}</li>
-                <li>Operating Margin: {fmtP(operatingMargin)}</li>
-                <li>Profit Margin: {fmtP(profitMargin)}</li>
-              </ul>
-            </div>
-            {!session?.user.isPremium && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <LockClosedIcon className="w-8 h-8 text-yellow-500" />
-              </div>
-            )}
-          </div>
 
- 
-
-
-
-
-
-
-
-        </section>
-      ) : (
-        <p className="text-gray-500">Key Metrics nicht verfügbar.</p>
-      )}
-
-      {/* Historischer Kursverlauf */}
+      {/* Historical Chart */}
       <Card>
         <h2 className="text-2xl font-semibold mb-4">Historischer Kursverlauf</h2>
-        
         {history.length > 0 ? (
           <StockLineChart data={history} />
         ) : (
@@ -568,32 +488,37 @@ try {
         <h2 className="text-2xl font-semibold mb-4">
           Kennzahlen-Charts auswählen
         </h2>
-        
-       {/* Statt FinancialAnalysisClient direkt einzubinden: */}
-{isPremium ? (
-  <FinancialAnalysisClient ticker={ticker} />
-) : (
-  <div className="bg-card-dark p-6 rounded text-center">
-    <p className="mb-4">Interaktive Kennzahlen-Charts sind ein Premium-Feature.</p>
-    <Link href="/pricing" className="inline-block bg-accent text-black bold px-4 py-2 rounded">
-      Jetzt upgraden
-    </Link>
-  </div>
-)}
+        {isPremium ? (
+          <FinancialAnalysisClient ticker={ticker} />
+        ) : (
+          <div className="bg-card-dark p-6 rounded text-center">
+            <p className="mb-4">Interaktive Charts sind ein Premium-Feature.</p>
+            <Link
+              href="/pricing"
+              className="inline-block bg-accent text-black bold px-4 py-2 rounded"
+            >
+              Jetzt upgraden
+            </Link>
+          </div>
+        )}
       </section>
 
-       {/* ─── Earnings & Revenue Estimates ─── */}
-{estimates.length > 0 && (
+     {/* ─── Earnings & Revenue Estimates ─── */}
+     {estimates.length > 0 && (
   <Card>
-    <h2 className="text-2xl font-semibold mb-4">Estimates (ab {new Date().getFullYear()})</h2>
+    {/* Header */}
+    <h2 className="text-2xl font-semibold mb-4">
+      Estimates (ab {new Date().getFullYear()})
+    </h2>
 
+    {/* Zwei Spalten: Revenue & Earnings */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Revenue Estimates */}
-      <div className="overflow-x-auto">
+      <div>
         <h3 className="font-semibold mb-2">Revenue Estimates</h3>
-        <table className="min-w-full text-sm divide-y divide-gray-200">
-          <thead className="bg-dark">
-            <tr>
+        <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
+          <thead>
+            <tr className="border-b border-gray-700">
               <th className="px-3 py-2 text-left font-medium">FY</th>
               <th className="px-3 py-2 text-right font-medium">Avg</th>
               <th className="px-3 py-2 text-right font-medium">Low</th>
@@ -601,33 +526,47 @@ try {
               <th className="px-3 py-2 text-right font-medium">YoY</th>
             </tr>
           </thead>
-          <tbody className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100">
+          <tbody>
             {estimates
-              .slice()           // make a copy
-              .reverse()         // earliest year first
+              .slice()
+              .reverse()
               .map((e, idx, arr) => {
-                const fy = e.date.slice(0,4)
-                // YoY: compare with previous entry in the reversed array
+                const fy = e.date.slice(0, 4)
                 let yoy: number | null = null
                 if (idx > 0) {
                   const prev = arr[idx - 1].estimatedRevenueAvg
                   if (prev > 0) {
-                    yoy = (e.estimatedRevenueAvg - prev) / prev * 100
+                    yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
                   }
                 }
-                const formattedYoY = 
-                  yoy == null ? '–' :
-                  `${yoy >= 0 ? '+' : ''}${yoy.toFixed(2).replace('.', ',')} %`
+                const formattedYoY =
+                  yoy == null
+                    ? '–'
+                    : `${yoy >= 0 ? '+' : ''}${yoy
+                        .toFixed(2)
+                        .replace('.', ',')} %`
                 const yoyClass =
-                  yoy == null ? '' :
-                  yoy >= 0 ? 'text-green-600' : 'text-red-600'
+                  yoy == null
+                    ? ''
+                    : yoy >= 0
+                    ? 'text-green-500'
+                    : 'text-red-500'
 
                 return (
-                  <tr key={e.date} className="odd:bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100">
+                  <tr
+                    key={e.date}
+                    className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
+                  >
                     <td className="px-3 py-1">{fy}</td>
-                    <td className="px-3 py-1 text-right">{fmtB(e.estimatedRevenueAvg)}</td>
-                    <td className="px-3 py-1 text-right">{fmtB(e.estimatedRevenueLow)}</td>
-                    <td className="px-3 py-1 text-right">{fmtB(e.estimatedRevenueHigh)}</td>
+                    <td className="px-3 py-1 text-right">
+                      {fmtB(e.estimatedRevenueAvg)}
+                    </td>
+                    <td className="px-3 py-1 text-right">
+                      {fmtB(e.estimatedRevenueLow)}
+                    </td>
+                    <td className="px-3 py-1 text-right">
+                      {fmtB(e.estimatedRevenueHigh)}
+                    </td>
                     <td className={`px-3 py-1 text-right ${yoyClass}`}>
                       {formattedYoY}
                     </td>
@@ -639,11 +578,11 @@ try {
       </div>
 
       {/* Earnings Estimates */}
-      <div className="overflow-x-auto">
+      <div>
         <h3 className="font-semibold mb-2">Earnings Estimates</h3>
-        <table className="min-w-full text-sm divide-y divide-gray-200">
-          <thead className="bg-dark">
-            <tr>
+        <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
+          <thead>
+            <tr className="border-b border-gray-700">
               <th className="px-3 py-2 text-left font-medium">FY</th>
               <th className="px-3 py-2 text-right font-medium">EPS Avg</th>
               <th className="px-3 py-2 text-right font-medium">Low</th>
@@ -651,32 +590,47 @@ try {
               <th className="px-3 py-2 text-right font-medium">YoY</th>
             </tr>
           </thead>
-          <tbody className="bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100.">
+          <tbody>
             {estimates
               .slice()
               .reverse()
               .map((e, idx, arr) => {
-                const fy = e.date.slice(0,4)
+                const fy = e.date.slice(0, 4)
                 let yoy: number | null = null
                 if (idx > 0) {
                   const prev = arr[idx - 1].estimatedEpsAvg
                   if (prev !== 0) {
-                    yoy = (e.estimatedEpsAvg - prev) / prev * 100
+                    yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
                   }
                 }
-                const formattedYoY = 
-                  yoy == null ? '–' :
-                  `${yoy >= 0 ? '+' : ''}${yoy.toFixed(2).replace('.', ',')} %`
+                const formattedYoY =
+                  yoy == null
+                    ? '–'
+                    : `${yoy >= 0 ? '+' : ''}${yoy
+                        .toFixed(2)
+                        .replace('.', ',')} %`
                 const yoyClass =
-                  yoy == null ? '' :
-                  yoy >= 0 ? 'text-green-600' : 'text-red-600'
+                  yoy == null
+                    ? ''
+                    : yoy >= 0
+                    ? 'text-green-500'
+                    : 'text-red-500'
 
                 return (
-                  <tr key={e.date} className="odd:bg-card-dark border border-gray-700 rounded-xl shadow-md p-6 text-gray-100.">
+                  <tr
+                    key={e.date}
+                    className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
+                  >
                     <td className="px-3 py-1">{fy}</td>
-                    <td className="px-3 py-1 text-right">{e.estimatedEpsAvg.toFixed(2)}</td>
-                    <td className="px-3 py-1 text-right">{e.estimatedEpsLow.toFixed(2)}</td>
-                    <td className="px-3 py-1 text-right">{e.estimatedEpsHigh.toFixed(2)}</td>
+                    <td className="px-3 py-1 text-right">
+                      {e.estimatedEpsAvg.toFixed(2)}
+                    </td>
+                    <td className="px-3 py-1 text-right">
+                      {e.estimatedEpsLow.toFixed(2)}
+                    </td>
+                    <td className="px-3 py-1 text-right">
+                      {e.estimatedEpsHigh.toFixed(2)}
+                    </td>
                     <td className={`px-3 py-1 text-right ${yoyClass}`}>
                       {formattedYoY}
                     </td>
@@ -687,104 +641,59 @@ try {
         </table>
       </div>
     </div>
-    </Card>
+  </Card>
 )}
-
-      {/* Wall Street Rating */}
+      {/* ─── Wall Street Rating (Donut) ─── */}
       {recs && (
-        <section className="bg-card-dark border border-gray-700 rounded-xl shadow p-6 text-gray-100 rounded-xl shadow">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-semibold">Wall Street Rating</h2>
-            <Tooltip text="Aggregierte Analysten‐Empfehlungen von über 20 Research‐Häusern via FMP API.">
-              <InformationCircleIcon className="w-5 h-5 text-gray-500 cursor-pointer" />
-            </Tooltip>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
-            <div>
-              <span className="block text-xl font-bold text-green-800">
-                {recs.strongBuy}
-              </span>
-              <small className="text-gray-600">Strong Buy</small>
-            </div>
-            <div>
-              <span className="block text-xl font-bold text-green-600">
-                {recs.buy}
-              </span>
-              <small className="text-gray-600">Buy</small>
-            </div>
-            <div>
-              <span className="block text-xl font-bold text-yellow-600">
-                {recs.hold}
-              </span>
-              <small className="text-gray-600">Hold</small>
-            </div>
-            <div>
-              <span className="block text-xl font-bold text-red-600">
-                {recs.sell}
-              </span>
-              <small className="text-gray-600">Sell</small>
-            </div>
-            <div>
-              <span className="block text-xl font-bold text-red-800">
-                {recs.strongSell}
-              </span>
-              <small className="text-gray-600">Strong Sell</small>
-            </div>
-          </div>
-        </section>
-
-        
-      )}
-
-       {/* Company Profile */}
-       {profileData && (
-        <Card>
-          <h2 className="text-2xl font-semibold mb-4">Company Profile</h2>
-          <p className="text-sm text-white-700 mb-4">{profileData.description}</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <ul className="text-sm space-y-1">
-                <li>
-                  <strong>Sector</strong>: {profileData.sector ?? '–'}
-                </li>
-                <li>
-                  <strong>Industry</strong>: {profileData.industry ?? '–'}
-                </li>
-                <li>
-                  <strong>Employees</strong>: {profileData.fullTimeEmployees ?? '–'}
-                </li>
-                <li>
-                  <strong>Founded</strong>: {fmtDate(profileData.ipoDate)}
-                </li>
-              </ul>
-            </div>
-            <div>
-              <ul className="text-sm space-y-1">
-                <li>
-                  <strong>Address</strong>: {profileData.address}, {profileData.city}, {profileData.state}{' '}
-                  {profileData.zip}, {profileData.country}
-                </li>
-                <li>
-                  <strong>Phone</strong>: {profileData.phone ?? '–'}
-                </li>
-                <li>
-                  <strong>Website</strong>:{' '}
-                  <a
-                    href={profileData.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
-                  >
-                    {profileData.website}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          </Card>
+        <WallStreetRatingDonut recs={recs} />
       )}
 
 
+{/* ─── Company Profile ─── */}
+{profileData && (
+  <Card>
+    <h2 className="text-2xl font-semibold mb-4">Company Profile</h2>
+    <p className="text-sm text-gray-300 mb-4">
+      {profileData.description}
+    </p>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <ul className="text-sm space-y-1">
+        <li>
+          <strong>Sector:</strong> {profileData.sector ?? '–'}
+        </li>
+        <li>
+          <strong>Industry:</strong> {profileData.industry ?? '–'}
+        </li>
+        <li>
+          <strong>Employees:</strong> {profileData.fullTimeEmployees ?? '–'}
+        </li>
+        <li>
+          <strong>IPO Date:</strong> {fmtDate(profileData.ipoDate)}
+        </li>
+      </ul>
+      <ul className="text-sm space-y-1">
+        <li>
+          <strong>Address:</strong>{' '}
+          {`${profileData.address}, ${profileData.city}, ${profileData.state} ${profileData.zip}, ${profileData.country}`}
+        </li>
+        <li>
+          <strong>Phone:</strong> {profileData.phone ?? '–'}
+        </li>
+        <li>
+          <strong>Website:</strong>{' '}
+          <a
+            href={profileData.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            {profileData.website}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </Card>
+)}
     </main>
   )
 }

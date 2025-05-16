@@ -1,16 +1,15 @@
-// src/app/analyse/page.tsx
 'use client'
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { LockClosedIcon } from '@heroicons/react/24/outline'
+
 import SearchTickerInput from '@/components/SearchTickerInput'
-import Image from 'next/image'
-import { domainForTicker } from '@/lib/clearbit'
+import Logo from '@/components/Logo'
+import Card from '@/components/Card'
 
-// Hilfsfunktionen
-
-
-
+// — Hilfsfunktionen —
 async function fetchQuote(ticker: string) {
   const res = await fetch(
     `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -32,77 +31,77 @@ async function fetchHistorical(
   if (!res.ok) throw new Error('History fetch failed')
   const json = await res.json()
   return (json.historical as any[]).map(h => ({
-    date: h.date as string,
-    close: h.close as number
+    date:  h.date as string,
+    close: h.close as number,
   })).reverse()
 }
 
-// Prozent-Änderung zwischen zwei Werten
 function pctChange(newVal: number, oldVal: number) {
   return ((newVal - oldVal) / oldVal) * 100
 }
 
 type Quote = {
-  price: number
-  changePct: number      // Tages-Change
-  perf1M?: number        // 1-Monats-Change
-  perfYTD?: number       // YTD-Change
+  price:     number
+  changePct: number
+  perf1M?:   number
+  perfYTD?:  number
 }
 
 const ALL_SECTIONS = {
   Beliebt:  ['AAPL','MSFT','GOOGL','AMZN','TSLA','NVDA','META','NFLX'],
   Tech:     ['AAPL','MSFT','NVDA','GOOGL','META','ORCL','SAP','ADBE'],
   Finanzen: ['JPM','BAC','WFC','C'],
-  DAX: ['SAP','SIE','DTE','AIR', 'ALV', 'MUV2', 'SHL', 'MRK', 'MBG', 'PAH3'], 
+  DAX:      ['SAP','SIE','DTE','AIR','ALV','MUV2','SHL','MRK','MBG','PAH3'],
 }
+
+// Nur dieser Tab ist aktiv
+const ENABLED_TABS: Array<keyof typeof ALL_SECTIONS> = ['Beliebt']
 
 export default function AnalysisIndexPage() {
   const router = useRouter()
-
-  // Letzten Ticker aus localStorage
-  const [last, setLast] = useState<string|null>(null)
-  // Aktiver Tab
+  const [last, setLast]         = useState<string|null>(null)
   const [activeTab, setActiveTab] = useState<keyof typeof ALL_SECTIONS>('Beliebt')
-  // Quotes + Performance
-  const [quotes, setQuotes] = useState<Record<string, Quote>>({})
+  const [quotes, setQuotes]     = useState<Record<string, Quote>>({})
 
-  // Beim Mount: lastTicker aus localStorage lesen
+  // Last ticker aus localStorage
   useEffect(() => {
     const stored = localStorage.getItem('lastTicker')
     if (stored) setLast(stored.toUpperCase())
   }, [])
 
-  // Jedes Mal, wenn der Tab wechselt, holen wir Quote + History → berechnen die drei Performances
+  // Quotes + History laden, wenn Tab wechselt
   useEffect(() => {
     const syms = ALL_SECTIONS[activeTab]
     syms.forEach(async t => {
       try {
-        const q = await fetchQuote(t)
+        const q    = await fetchQuote(t)
         const hist = await fetchHistorical(t)
 
-        const now = new Date()
-        // 1 Monat zurück
+        const now         = new Date()
         const oneMonthAgo = new Date(now)
         oneMonthAgo.setMonth(now.getMonth() - 1)
-        const h1m = hist.find(h => new Date(h.date) >= oneMonthAgo)?.close
+        const h1m    = hist.find(h => new Date(h.date) >= oneMonthAgo)?.close
+        const startY = hist.find(h => h.date.startsWith(now.getFullYear().toString()))?.close
 
-        // YTD (erstes Datum dieses Jahres)
-        const yearStart = hist.find(h => h.date.startsWith(now.getFullYear().toString()))?.close
-
-        const perf1M = h1m != null ? pctChange(q.price, h1m) : undefined
-        const perfYTD = yearStart != null ? pctChange(q.price, yearStart) : undefined
+        const perf1M  = h1m    != null ? pctChange(q.price, h1m)    : undefined
+        const perfYTD = startY != null ? pctChange(q.price, startY) : undefined
 
         setQuotes(prev => ({
           ...prev,
           [t]: { ...q, perf1M, perfYTD }
         }))
       } catch {
-        // Silently fail
+        // silently ignore
       }
     })
   }, [activeTab])
 
-  // Klick auf Ticker: merken + navigieren
+  // Tab-Wechsel nur, wenn freigeschaltet
+  const handleTabClick = (tab: keyof typeof ALL_SECTIONS) => {
+    if (ENABLED_TABS.includes(tab)) setActiveTab(tab)
+  }
+
+  // Auswahl merken + navigieren
   const handleSelect = (t: string) => {
     localStorage.setItem('lastTicker', t.toUpperCase())
     router.push(`/analyse/${t.toLowerCase()}`)
@@ -111,128 +110,150 @@ export default function AnalysisIndexPage() {
   return (
     <main className="max-w-4xl mx-auto px-4 py-16 space-y-12">
 
-      {/* Hero */}
-      <div className="space-y-4 text-center">
-        <h1 className="text-4xl font-bold">Aktien-Analyse Hub</h1>
-        <p className="text-gray-300">
-          Live-Quote, historische Charts, Dividenden & Kennzahlen im Vergleich.
-        </p>
-        <div className="flex justify-center">
-          <div className="w-full sm:w-2/3">
+      {/* Hero als Card */}
+      <Card className="relative z-0 overflow-visible bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl p-8 space-y-6">
+        <div className="text-center space-y-3">
+          <h1 className="text-5xl font-orbitron text-white">Aktien-Analyse Hub</h1>
+          <p className="text-gray-300 text-lg">
+            Live-Quote, historische Charts, Dividenden &amp; Kennzahlen im Vergleich.
+          </p>
+        </div>
+        <div className="relative z-10 flex justify-center">
+          <div className="w-full sm:w-1/2">
             <SearchTickerInput
               placeholder="Ticker eingeben (AAPL, TSLA …)"
-              onSelect={t => handleSelect(t)}
+              onSelect={handleSelect}
             />
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Zuletzt analysiert */}
       {last && (
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold">Zuletzt analysiert</h2>
-          <button
-            onClick={() => handleSelect(last)}
-            className="flex items-center bg-card-dark hover:bg-gray-700 transition rounded-2xl p-4"
-          >
-            <div className="w-10 h-10 mr-4 relative">
-              <Image
-                src={`https://logo.clearbit.com/${domainForTicker(last)}`}
-                alt={`${last} Logo`}
-                fill
-                className="object-contain"
-                unoptimized
-              />
-            </div>
-            <span className="font-medium uppercase">{last}</span>
-          </button>
-        </section>
+        <Card className="max-w-md mx-auto p-6 flex items-center space-x-6 bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl">
+          <Logo
+            src={`/logos/${last.toLowerCase()}.svg`}
+            alt={`${last} Logo`}
+            className="w-14 h-14"
+          />
+          <div>
+            <p className="text-gray-400 uppercase text-sm">Zuletzt analysiert</p>
+            <button
+              onClick={() => handleSelect(last)}
+              className="mt-1 text-2xl font-semibold text-white hover:underline"
+            >
+              {last}
+            </button>
+          </div>
+        </Card>
       )}
 
       {/* Tab-Leiste */}
       <nav className="flex space-x-4 border-b border-gray-700 pb-2">
-        {Object.keys(ALL_SECTIONS).map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab as keyof typeof ALL_SECTIONS)}
-            className={`
-              px-3 py-1 rounded-full transition
-              ${activeTab === tab
-                ? 'bg-accent text-black'
-                : 'text-gray-400 hover:text-gray-200'}
-            `}
-          >
-            {tab}
-          </button>
-        ))}
+        {Object.keys(ALL_SECTIONS).map(rawTab => {
+          const tab     = rawTab as keyof typeof ALL_SECTIONS
+          const enabled = ENABLED_TABS.includes(tab)
+          const active  = tab === activeTab
+
+          return (
+            <button
+              key={tab}
+              onClick={() => handleTabClick(tab)}
+              disabled={!enabled}
+              className={`
+                flex items-center space-x-1
+                px-3 py-1 rounded-full transition
+                ${active
+                  ? 'bg-accent text-black'
+                  : enabled
+                    ? 'text-gray-400 hover:text-gray-200'
+                    : 'text-gray-600 cursor-not-allowed'}
+              `}
+            >
+              <span>{tab}</span>
+              {!enabled && <LockClosedIcon className="w-4 h-4 text-gray-600" />}
+            </button>
+          )
+        })}
       </nav>
 
       {/* Aktien-Grid */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">{activeTab}</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {ALL_SECTIONS[activeTab].map(t => {
-            const logoUrl = `https://logo.clearbit.com/${domainForTicker(t)}`
             const q = quotes[t]
             return (
-              <button
-                key={t}
-                onClick={() => handleSelect(t)}
-                className="
-                  flex flex-col items-center 
-                  bg-card-dark hover:bg-gray-700 transition
-                  rounded-2xl p-6 space-y-3 shadow-lg
-                "
-              >
-                <div className="w-12 h-12 relative">
-                  <Image
-                    src={logoUrl}
-                    alt={`${t} Logo`}
-                    fill
-                    className="object-contain"
-                    unoptimized
-                  />
-                </div>
-
-                <span className="mt-2 font-medium">{t}</span>
-
-                {q && (
-                  <div className="text-center space-y-1">
-                    {/* Preis */}
-                    <div className="text-lg font-semibold">
-                      {q.price.toLocaleString('de-DE', {
-                        style: 'currency',
-                        currency: 'USD',
-                      })}
-                    </div>
-                    {/* Tages-Performance */}
-                    <div
-                      className={`text-sm font-medium ${
-                        q.changePct >= 0 ? 'text-green-400' : 'text-red-400'
-                      }`}
-                    >
-                      {q.changePct >= 0 ? '↑' : '↓'}{' '}
-                      {Math.abs(q.changePct).toFixed(2).replace('.', ',')} %
-                    </div>
-                    {/* 1-Monat */}
-                    {typeof q.perf1M === 'number' && (
-                      <div className="text-xs text-gray-400">
-                        1M:{' '}
-                        {q.perf1M >= 0 ? '↑' : '↓'}{' '}
-                        {Math.abs(q.perf1M).toFixed(2).replace('.', ',')} %
-                      </div>
-                    )}
-                    {/* YTD */}
-                    {typeof q.perfYTD === 'number' && (
-                      <div className="text-xs text-gray-400">
-                        YTD:{' '}
-                        {q.perfYTD >= 0 ? '↑' : '↓'}{' '}
-                        {Math.abs(q.perfYTD).toFixed(2).replace('.', ',')} %
-                      </div>
-                    )}
+              <Link key={t} href={`/analyse/${t.toLowerCase()}`} passHref>
+                <Card
+                  as="a"
+                  className="
+                    h-60 w-full
+                    flex flex-col justify-between
+                    px-5 pt-6 pb-4
+                    bg-gray-800/60 backdrop-blur-md border border-gray-700
+                    rounded-2xl shadow-lg hover:shadow-2xl transition cursor-pointer
+                  "
+                >
+                  {/* Logo */}
+                  <div className="flex justify-center">
+                    <Logo
+                      src={`/logos/${t.toLowerCase()}.svg`}
+                      alt={`${t} Logo`}
+                      className="w-12 h-12"
+                    />
                   </div>
-                )}
-              </button>
+
+                  {/* Ticker & Preis */}
+                  <div className="text-center space-y-1 divide-y divide-gray-700">
+                    <div className="pb-2">
+                      <h3 className="text-base font-semibold text-white">{t}</h3>
+                    </div>
+                    <div className="pt-2">
+                      <p className="text-xl font-bold text-white">
+                        {q
+                          ? q.price.toLocaleString('de-DE', {
+                              style: 'currency',
+                              currency: 'USD',
+                            })
+                          : '–'}
+                      </p>
+                      {q && (
+                        <p
+                          className={`mt-1 text-sm font-mono ${
+                            q.changePct >= 0 ? 'text-green-400' : 'text-red-400'
+                          }`}
+                        >
+                          {q.changePct >= 0 ? '↑' : '↓'}{' '}
+                          {Math.abs(q.changePct).toFixed(2).replace('.', ',')} %
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 1M & YTD */}
+                  {q && (
+                    <div className="mt-2 text-xs text-gray-400 space-y-1">
+                      <p>
+                        1M:{' '}
+                        {q.perf1M != null
+                          ? `${q.perf1M >= 0 ? '↑' : '↓'} ${Math.abs(q.perf1M)
+                              .toFixed(1)
+                              .replace('.', ',')} %`
+                          : '–'}
+                      </p>
+                      <p>
+                        YTD:{' '}
+                        {q.perfYTD != null
+                          ? `${q.perfYTD >= 0 ? '↑' : '↓'} ${Math.abs(q.perfYTD)
+                              .toFixed(1)
+                              .replace('.', ',')} %`
+                          : '–'}
+                      </p>
+                    </div>
+                  )}
+                </Card>
+              </Link>
             )
           })}
         </div>

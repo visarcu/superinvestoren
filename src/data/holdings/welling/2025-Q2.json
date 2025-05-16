@@ -1,0 +1,59 @@
+{
+  "date": "2025-05-15",
+  "positions": [
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 13535560,
+      "value": 28289320000
+    },
+    {
+      "name": "CHART INDS INC",
+      "cusip": "16115Q308",
+      "shares": 368996,
+      "value": 53268263000
+    },
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 5179468,
+      "value": 49049562000
+    },
+    {
+      "name": "GXO LOGISTICS INCORPORATED",
+      "cusip": "36262G101",
+      "shares": 912000,
+      "value": 35640960000
+    },
+    {
+      "name": "NCR ATLEOS CORPORATION",
+      "cusip": "63001N106",
+      "shares": 774261,
+      "value": 20425005000
+    },
+    {
+      "name": "NCR VOYIX CORPORATION",
+      "cusip": "62886E108",
+      "shares": 431679,
+      "value": 4208870000
+    },
+    {
+      "name": "PORTILLOS INC",
+      "cusip": "73642K106",
+      "shares": 5479771,
+      "value": 65154477000
+    },
+    {
+      "name": "V F CORP",
+      "cusip": "918204108",
+      "shares": 5484368,
+      "value": 85117391000
+    },
+    {
+      "name": "YETI HLDGS INC",
+      "cusip": "98585X104",
+      "shares": 1543518,
+      "value": 51090446000
+    }
+  ]
+}

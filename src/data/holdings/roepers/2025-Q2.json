@@ -1,0 +1,59 @@
+{
+  "date": "2025-05-15",
+  "positions": [
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 32500,
+      "value": 5047250000
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 155000,
+      "value": 5855900000
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 572809,
+      "value": 30673922000
+    },
+    {
+      "name": "CHART INDS INC",
+      "cusip": "16115Q308",
+      "shares": 205399,
+      "value": 29651400000
+    },
+    {
+      "name": "APTIV PLC",
+      "cusip": "G3265R107",
+      "shares": 673971,
+      "value": 40101275000
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 235900,
+      "value": 22193472000
+    },
+    {
+      "name": "DARLING INGREDIENTS INC",
+      "cusip": "237266101",
+      "shares": 508550,
+      "value": 15887102000
+    },
+    {
+      "name": "ASHLAND INC",
+      "cusip": "044186104",
+      "shares": 125000,
+      "value": 7411250000
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 251583,
+      "value": 22166978000
+    }
+  ]
+}

@@ -1,9 +1,10 @@
 // src/app/analyse/watchlist/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { stocks, type Stock } from '../../../data/stocks'
+import Card from '@/components/Card'
 
 export default function WatchlistPage() {
   const [watchlist, setWatchlist] = useState<string[]>([])
@@ -23,26 +24,39 @@ export default function WatchlistPage() {
     .filter((s): s is Stock => Boolean(s))
 
   return (
-    <main className="max-w-4xl mx-auto p-8 space-y-6">
-      <h1 className="text-2xl font-bold">Watchlist</h1>
+    <main className="max-w-4xl mx-auto p-8 space-y-8">
+      <h1 className="text-3xl font-orbitron text-white">Watchlist</h1>
 
       {items.length === 0 ? (
-        <p className="text-gray-400">Deine Watchlist ist noch leer.</p>
+        <Card className="p-6 text-center text-gray-400">
+          Deine Watchlist ist noch leer.
+        </Card>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {items.map(({ ticker, name }) => (
             <Link
               key={ticker}
               href={`/aktie/${ticker.toLowerCase()}`}
-              className="block bg-card-dark p-4 rounded-lg shadow hover:bg-gray-700 transition"
+              passHref
             >
-              <div className="flex items-center justify-between">
+              <Card
+                as="a"
+                className="
+                  flex items-center justify-between
+                  px-6 py-4
+                  bg-gray-800/60 backdrop-blur-md border border-gray-700
+                  rounded-2xl shadow-lg hover:shadow-2xl
+                  transition
+                "
+              >
                 <div>
-                  <p className="font-medium text-white">{name}</p>
-                  <p className="text-accent font-semibold">{ticker}</p>
+                  <p className="text-lg font-semibold text-white">{name}</p>
+                  <p className="text-accent font-medium">{ticker}</p>
                 </div>
-                <span className="text-green-400 hover:underline">Anschauen →</span>
-              </div>
+                <span className="text-accent font-medium hover:underline">
+                  Anschauen &rarr;
+                </span>
+              </Card>
             </Link>
           ))}
         </div>

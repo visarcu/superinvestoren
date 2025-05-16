@@ -1,5 +1,125 @@
 {
-  "form": "13F-HR",
   "date": "2016-08-15",
-  "positions": []
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1464127,
+      "value": 1047759000
+    },
+    {
+      "name": "AMERICAN FARMLAND CO",
+      "cusip": "02589Y100",
+      "shares": 60000,
+      "value": 362000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1379797,
+      "value": 131909000
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 500000,
+      "value": 12950000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 4253394,
+      "value": 972496000
+    },
+    {
+      "name": "EHI CAR SVCS LTD",
+      "cusip": "26853A100",
+      "shares": 8334863,
+      "value": 84265000
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 11091426,
+      "value": 106367000
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 3294000
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 500000,
+      "value": 6110000
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 3259626,
+      "value": 466550000
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 44005044,
+      "value": 934227000
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 1183000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 1874271,
+      "value": 165048000
+    },
+    {
+      "name": "ON DECK CAP INC",
+      "cusip": "682163100",
+      "shares": 5473759,
+      "value": 28190000
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 750000,
+      "value": 936308000
+    },
+    {
+      "name": "PURE STORAGE INC",
+      "cusip": "74624M102",
+      "shares": 1000000,
+      "value": 10900000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2496213,
+      "value": 103842000
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 70000,
+      "value": 2153000
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 1182237,
+      "value": 10699000
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 602500,
+      "value": 37391000
+    }
+  ]
 }

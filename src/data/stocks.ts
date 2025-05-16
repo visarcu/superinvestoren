@@ -21940,7 +21940,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'HTZ',
-    cusip:  '',
+    cusip:  '42806J700',
     name:   'Hertz Global Holdings, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],

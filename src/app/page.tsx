@@ -251,23 +251,22 @@ const periodLabel = latestQuarter
           href={`/investor/${inv.slug}`}
           className={`
             relative group
-            bg-card-dark
-            rounded-3xl
-            shadow-[0_8px_16px_rgba(0,0,0,0.6)]
-            hover:shadow-[0_12px_24px_rgba(0,0,0,0.8)]
-            transform hover:-translate-y-2 hover:scale-[1.02]
+            bg-gradient-to-br from-gray-800 to-gray-900
+            rounded-2xl
+            ring-1 ring-accent/20
+            hover:shadow-lg hover:scale-105
             transition-all duration-300
             p-8 flex flex-col items-center
           `}
         >
           {inv.slug === 'buffett' && (
-            <span className="absolute top-4 right-4 text-yellow-400 text-3xl">
+            <span className="absolute top-2 right-2 text-yellow-400 text-2xl">
               👑
             </span>
           )}
 
           {inv.imageUrl && (
-            <div className="w-28 h-28 mb-6 relative border-4 border-accent rounded-full overflow-hidden">
+            <div className="w-24 h-24 mb-6 relative rounded-full overflow-hidden ring-2 ring-accent ring-offset-1 ring-offset-gray-800">
               <Image
                 src={inv.imageUrl}
                 alt={inv.name}
@@ -277,7 +276,7 @@ const periodLabel = latestQuarter
             </div>
           )}
 
-          <h3 className="text-2xl font-semibold text-white text-center">
+<h3 className="text-xl lg:text-2xl font-semibold text-gray-100 text-center">
             {inv.name}
           </h3>
 
@@ -345,7 +344,7 @@ const periodLabel = latestQuarter
   <div className="
     bg-gray-800/60 backdrop-blur-md
     border border-gray-700 rounded-2xl
-    shadow-md p-6 flex flex-col
+    shadow-2xl/10 p-8 flex flex-col space-y-4
   ">
     <div className="flex justify-between items-center mb-4">
       <h3 className="text-lg font-orbitron text-white">Top 10 Käufe</h3>
@@ -353,7 +352,7 @@ const periodLabel = latestQuarter
     </div>
     <ul className="space-y-3">
       {aggregated.map(item => (
-        <li key={item.ticker} className="flex justify-between items-center">
+        <li key={item.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
           <Link
             href={`/aktie/${item.ticker.toLowerCase()}`}
             className="text-accent font-semibold hover:underline"
@@ -370,12 +369,12 @@ const periodLabel = latestQuarter
   <div className="
     bg-gray-800/60 backdrop-blur-md
     border border-gray-700 rounded-2xl
-    shadow-md p-6 flex flex-col
+    shadow-2xl/10 p-8 flex flex-col space-y-4
   ">
     <h3 className="text-lg font-orbitron text-white mb-4">Top 10 Meistgehalten</h3>
     <ul className="space-y-3">
       {topOwned.map(o => (
-        <li key={o.ticker} className="flex justify-between items-center">
+        <li key={o.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
           <Link
             href={`/aktie/${o.ticker.toLowerCase()}`}
             className="text-accent font-semibold hover:underline"
@@ -397,7 +396,7 @@ const periodLabel = latestQuarter
     <h3 className="text-lg font-orbitron text-white mb-4">Top 10 Biggest Investments</h3>
     <ul className="space-y-3">
       {biggest.map(inv => (
-        <li key={inv.ticker} className="flex justify-between items-center">
+        <li key={inv.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
           <Link
             href={`/aktie/${inv.ticker.toLowerCase()}`}
             className="text-accent font-semibold hover:underline"
@@ -416,7 +415,7 @@ const periodLabel = latestQuarter
       <section className="grid md:grid-cols-2 gap-8">
   {/* 13F-Filings */}
   <div className="
-    relative p-6 bg-gray-800/60 backdrop-blur-md
+    bg-gray-900
     border border-gray-700 rounded-2xl shadow-md
     flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6
   ">
@@ -436,7 +435,7 @@ const periodLabel = latestQuarter
 
   {/* Newsletter */}
   <div className="
-    relative p-6 bg-gray-800/60 backdrop-blur-md
+    bg-gray-900
     border border-gray-700 rounded-2xl shadow-md
     text-center space-y-4
   ">

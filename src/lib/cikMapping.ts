@@ -74,7 +74,7 @@ rochon:  '0001641864',    // Francois Rochon – Giverny Capital
 donaldsmith: '0000814375',
 meritage: '0001427119',
 vulcanvalue: '0001556785',
-
+kahn: '0001039565',
 
 
 //NportP
@@ -124,7 +124,7 @@ marks:  '0000949509',// MANUELL!!,
   
 
 
-             //   'kahn-brothers':         '0001039565',    // Kahn Brothers Group
+
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
 
 

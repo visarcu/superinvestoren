@@ -1,0 +1,29 @@
+{
+  "date": "2025-05-15",
+  "positions": [
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 709295,
+      "value": 127176593000
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 5613922,
+      "value": 10217338000
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 5685029,
+      "value": 1188625863000
+    },
+    {
+      "name": "HILTON GRAND VACATIONS INC",
+      "cusip": "43283X105",
+      "shares": 5716641,
+      "value": 213859540000
+    }
+  ]
+}

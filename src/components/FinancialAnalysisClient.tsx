@@ -18,7 +18,7 @@ import {
   Legend,
 } from 'recharts'
 import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/solid'
-
+import Card from '@/components/Card'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
@@ -30,6 +30,7 @@ type MetricKey =
   | 'freeCashFlow'
   | 'dividendPS'
   | 'sharesOutstanding'
+  | 'netIncome'
   | 'cashDebt'
   | 'pe'
 
@@ -58,6 +59,7 @@ const METRICS: {
   { key: 'freeCashFlow', name: 'Free Cashflow (Mio.)', stroke: '#8b5cf6', fill: 'rgba(139,92,246,0.8)' },
   { key: 'dividendPS', name: 'Dividende je Aktie', stroke: '#22d3ee', fill: 'rgba(34,211,238,0.8)' },
   { key: 'sharesOutstanding', name: 'Shares Out. (Stück)', stroke: '#eab308', fill: 'rgba(234,179,8,0.8)' },
+  { key: 'netIncome',       name: 'Nettogewinn (Mio.)',       stroke: '#efb300', fill: 'rgba(239,179,0,0.8)' },
 ]
 
 const CASH_INFO = { dataKey: 'cash', name: 'Cash', stroke: '#6366f1', fill: 'rgba(99,102,241,0.8)' }
@@ -91,65 +93,96 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
   useEffect(() => {
     setLoading(true)
     const limit = period === 'annual' ? years : years * 4
-
+  
     Promise.all([
       fetch(`/api/financials/${ticker.toUpperCase()}?period=${period}&limit=${limit}`),
       fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`),
-      fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`)
+      fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`),
+      // Cash-Flow-Statement holen (liefert direkt ein Array)
+      fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${limit}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`)
     ])
-      .then(async ([rFin, rDiv, rPrice]) => {
+      .then(async ([rFin, rDiv, rPrice, rCash]) => {
         const jsonFin   = await rFin.json()
         const jsonDiv   = await rDiv.json()
         const jsonPrice = await rPrice.json()
-
+        const jsonCash  = await rCash.json()
+  
         const arr: any[] = jsonFin.data || []
-
-        const histDiv: any[] = Array.isArray(jsonDiv[0]?.historical)
+  
+        // Dividenden aufs Jahr aggregieren
+        const histDiv = Array.isArray(jsonDiv[0]?.historical)
           ? jsonDiv[0].historical
           : Array.isArray((jsonDiv as any).historical)
             ? (jsonDiv as any).historical
             : []
-        const annualDiv: Record<string,number> = {}
+        const annualDiv: Record<string, number> = {}
         histDiv.forEach(d => {
           const y = d.date.slice(0,4)
-          annualDiv[y] = (annualDiv[y]||0) + (d.adjDividend||0)
+          annualDiv[y] = (annualDiv[y] || 0) + (d.adjDividend || 0)
         })
-
-        const histPrice: { date:string; close:number }[] =
-          Array.isArray(jsonPrice.historical) ? jsonPrice.historical : []
-        const priceByPeriod: Record<string,number> = {}
+  
+        // Kurse pro Periode
+        const histPrice = Array.isArray(jsonPrice.historical)
+          ? jsonPrice.historical
+          : []
+        const priceByPeriod: Record<string, number> = {}
         histPrice.forEach(p => {
           const key = period === 'annual' ? p.date.slice(0,4) : p.date.slice(0,7)
           priceByPeriod[key] = p.close
         })
-
+  
+        // ─────────── NEU: Net Income Mapping ───────────
+        // jsonCash ist direkt ein Array von CF-Einträgen
+        const cfArr: any[] = Array.isArray(jsonCash)
+          ? jsonCash
+          : Array.isArray((jsonCash as any).financials)
+            ? (jsonCash as any).financials
+            : []
+        const netIncomeByPeriod: Record<string, number> = {}
+        cfArr.forEach(c => {
+          // immer über das Datum slice, nicht über calendarYear
+          const key = period === 'annual'
+            ? c.date.slice(0,4)
+            : c.date.slice(0,7)
+          netIncomeByPeriod[key] = c.netIncome ?? 0
+        })
+        // ───────── END NET INCOME ─────────
+  
+        // sortieren
         arr.sort((a,b) =>
           period === 'annual'
             ? (a.year||0) - (b.year||0)
             : new Date(a.quarter).getTime() - new Date(b.quarter).getTime()
         )
-
+  
+        // zusammenbauen
         const base = arr.map(row => {
           const label = period === 'annual' ? String(row.year) : row.quarter
-          const out: any = { label, cash: row.cash||0, debt: row.debt||0, ...row }
+          const out: any = {
+            label,
+            cash: row.cash||0,
+            debt: row.debt||0,
+            netIncome: netIncomeByPeriod[label]||0,
+            ...row
+          }
           out.dividendPS = annualDiv[label] ?? 0
           const price = priceByPeriod[label] ?? null
           out.pe = price != null && row.eps ? price / row.eps : null
           return out
         })
-
+  
+        // Wachstum berechnen
         const withGrowth = base.map((row, idx, all) => {
           const out: any = { ...row }
-          ;[...METRICS.map(m => m.key), 'dividendPS', 'pe'].forEach((k:any) => {
-            const prev = idx > 0 ? all[idx-1][k] : null
-            out[`${k}GrowthPct`] =
-              prev != null && typeof row[k] === 'number'
-                ? ((row[k] - prev) / prev) * 100
-                : null
+          ;[...METRICS.map(m => m.key), 'dividendPS','pe','netIncome'].forEach((k: any) => {
+            const prev = idx>0 ? all[idx-1][k] : null
+            out[`${k}GrowthPct`] = prev!=null && typeof row[k]==='number'
+              ? ((row[k]-prev)/prev)*100
+              : null
           })
           return out
         })
-
+  
         setData(withGrowth)
       })
       .finally(() => setLoading(false))
@@ -234,97 +267,137 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {visible.map(key => {
-          if (key === 'cashDebt') {
-            return (
-              <div key={key} className="bg-card-dark rounded-xl p-4 shadow">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold">Cash &amp; Debt</h3>
-                  <button onClick={() => setFullscreen('cashDebt')}>
-                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
-                  </button>
-                </div>
-                <ResponsiveContainer width="100%" height={240}>
-                  <BarChart data={data}>
-                    <XAxis dataKey="label"/>
-                    <YAxis tickFormatter={yFmt}/>
-                    {fullscreen==='cashDebt'
-                      ? <Tooltip content={<GrowthTooltip/>} {...TOOLTIP_STYLES}/>
-                      : <Tooltip formatter={(v:any,n:string)=>([`${(v/1e3).toFixed(2)} Mrd`,n])} {...TOOLTIP_STYLES}/>
-                    }
-                    <Legend verticalAlign="top" height={36}/>
-                    <Bar dataKey="cash" name="Cash" fill={CASH_INFO.fill}/>
-                    <Bar dataKey="debt" name="Debt" fill={DEBT_INFO.fill}/>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            )
-          }
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+  {visible.map(key => {
+    // → Cash & Debt Chart
+    if (key === 'cashDebt') {
+      return (
+        <Card key={key} className="p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-semibold">Cash &amp; Debt</h3>
+            <button onClick={() => setFullscreen('cashDebt')}>
+              <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
+            </button>
+          </div>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={data}>
+              <XAxis dataKey="label"/>
+              <YAxis tickFormatter={yFmt}/>
+              {fullscreen === 'cashDebt'
+                ? <Tooltip content={<GrowthTooltip/>} {...TOOLTIP_STYLES}/>
+                : <Tooltip formatter={(v:any,n:string)=>([`${(v/1e3).toFixed(2)} Mrd`, n])} {...TOOLTIP_STYLES}/>
+              }
+              <Legend verticalAlign="top" height={36}/>
+              <Bar dataKey="cash" name="Cash" fill={CASH_INFO.fill}/>
+              <Bar dataKey="debt" name="Debt" fill={DEBT_INFO.fill}/>
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
+      )
+    }
 
-          if (key === 'pe') {
-            const avg = data.reduce((sum,r) => sum + (r.pe||0), 0) / data.length
-            return (
-              <div key="pe" className="bg-card-dark rounded-xl p-4 shadow">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold">KGV TTM</h3>
-                  <button onClick={()=>setFullscreen('pe')}>
-                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
-                  </button>
-                </div>
-                <ResponsiveContainer width="100%" height={240}>
-                  <LineChart data={data}>
-                    <XAxis dataKey="label"/>
-                    <YAxis/>
-                    <ReferenceLine
-                      y={avg}
-                      stroke="#888"
-                      strokeDasharray="3 3"
-                      label={{ value: `Ø ${avg.toFixed(1)}`, position: 'insideTop', fill: '#888' }}
-                    />
-                    <Line type="monotone" dataKey="pe" stroke="#f87171" dot/>
-                    <Tooltip {...TOOLTIP_STYLES} formatter={(v:number)=>([v.toFixed(2),'KGV TTM'])}/>
-                    <Legend verticalAlign="top" height={36}/>
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            )
-          }
+    // → KGV TTM Chart
+    if (key === 'pe') {
+      const avg = data.reduce((sum,r) => sum + (r.pe||0), 0) / data.length
+      return (
+        <Card key="pe" className="p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-semibold">KGV TTM</h3>
+            <button onClick={()=>setFullscreen('pe')}>
+              <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
+            </button>
+          </div>
+          <ResponsiveContainer width="100%" height={240}>
+            <LineChart data={data}>
+              <XAxis dataKey="label"/>
+              <YAxis/>
+              <ReferenceLine
+                y={avg}
+                stroke="#888"
+                strokeDasharray="3 3"
+                label={{ value: `Ø ${avg.toFixed(1)}`, position: 'insideTop', fill: '#888' }}
+              />
+              <Line type="monotone" dataKey="pe" stroke="#f87171" dot/>
+              <Tooltip {...TOOLTIP_STYLES} formatter={(v:number)=>([v.toFixed(2),'KGV TTM'])}/>
+              <Legend verticalAlign="top" height={36}/>
+            </LineChart>
+          </ResponsiveContainer>
+        </Card>
+      )
+    }
 
-          const m = METRICS.find(m=>m.key===key)!
-          return (
-            <div key={key} className="bg-card-dark rounded-xl p-4 shadow">
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="font-semibold">{m.name}</h3>
-                <button onClick={()=>setFullscreen(key)}>
-                  <XMarkIcon className="w-5 h-5 text-gray-600"/>
-                </button>
-              </div>
-              <ResponsiveContainer width="100%" height={240}>
-                <BarChart data={data}>
-                  <XAxis dataKey="label"/>
-                  <YAxis
-                    tickFormatter={(v:number)=>(
-                      key==='eps'||key==='dividendPS'
-                        ? v.toLocaleString('de-DE',{style:'currency',currency:'USD',minimumFractionDigits:2})
-                        : yFmt(v)
-                    )}
-                    domain={key==='eps'||key==='dividendPS' ? ['dataMin','dataMax'] : undefined}
-                  />
-                  <Tooltip
-                    {...TOOLTIP_STYLES}
-                    formatter={(v:any,n:string)=>[
-                      key==='eps'||key==='dividendPS'
-                        ? (v as number).toLocaleString('de-DE',{style:'currency',currency:'USD',minimumFractionDigits:2})
-                        : `${((v as number)/1e3).toFixed(2)} Mrd`,
-                      n
-                    ]}
-                  />
-                  <Legend verticalAlign="top" height={36}/>
-                  <Bar dataKey={key} name={m.name} fill={m.fill}/>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+    if (key === 'netIncome') {
+      return (
+        <Card key="netIncome" className="p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-semibold">Reingewinn (Mio.)</h3>
+            <button onClick={() => setFullscreen('netIncome')}>
+              <XMarkIcon className="w-5 h-5 text-gray-600"/>
+            </button>
+          </div>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={data}>
+              <XAxis dataKey="label" />
+              <YAxis
+                // v ist in USD, wir wollen Mio. => v/1e6
+                tickFormatter={v => `${(v/1e6).toLocaleString('de-DE')} Mio.`}
+                domain={['dataMin','dataMax']}
+              />
+              <Tooltip
+                {...TOOLTIP_STYLES}
+                formatter={(v:number) => [
+                  `${(v/1e6).toLocaleString('de-DE')} Mio.`,
+                  'Reingewinn'
+                ]}
+              />
+              <Legend verticalAlign="top" height={36}/>
+              <Bar
+                dataKey="netIncome"
+                name="Reingewinn (Mio.)"
+                fill="#efb300"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
+      )
+    }
+
+
+        // → alle anderen Bar-Charts
+    const m = METRICS.find(m => m.key === key)!
+    return (
+      <Card key={key} className="p-4">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold">{m.name}</h3>
+          <button onClick={()=>setFullscreen(key)}>
+            <XMarkIcon className="w-5 h-5 text-gray-600"/>
+          </button>
+        </div>
+        <ResponsiveContainer width="100%" height={240}>
+          <BarChart data={data}>
+            <XAxis dataKey="label"/>
+            <YAxis
+              tickFormatter={(v:number)=>(
+                key === 'eps' || key === 'dividendPS'
+                  ? v.toLocaleString('de-DE',{ style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
+                  : yFmt(v)
+              )}
+              domain={key === 'eps' || key === 'dividendPS' ? ['dataMin','dataMax'] : undefined}
+            />
+            <Tooltip
+              {...TOOLTIP_STYLES}
+              formatter={(v:any,n:string)=>[
+                key === 'eps' || key === 'dividendPS'
+                  ? (v as number).toLocaleString('de-DE',{ style: 'currency', currency: 'USD', minimumFractionDigits: 2 })
+                  : `${((v as number)/1e3).toFixed(2)} Mrd`,
+                n
+              ]}
+            />
+            <Legend verticalAlign="top" height={36}/>
+            <Bar dataKey={key} name={m.name} fill={m.fill}/>
+          </BarChart>
+        </ResponsiveContainer>
+      </Card>
           )
         })}
       </div>

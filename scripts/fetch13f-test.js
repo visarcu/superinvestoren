@@ -19,7 +19,7 @@ async function run() {
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
     // Test nur für Spier
-    if (!['spier'].includes(slug)) continue
+    if (!['burry'].includes(slug)) continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })

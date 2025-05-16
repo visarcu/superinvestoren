@@ -1,0 +1,29 @@
+{
+  "date": "2025-05-15",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 145,
+      "value": 115774032000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "46436E718",
+      "shares": 581100,
+      "value": 58499337000
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 306751,
+      "value": 36303981000
+    },
+    {
+      "name": "SMITH & WESSON BRANDS INC",
+      "cusip": "831754106",
+      "shares": 648956,
+      "value": 6048270000
+    }
+  ]
+}

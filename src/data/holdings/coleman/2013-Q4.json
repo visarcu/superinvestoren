@@ -1,5 +1,221 @@
 {
-  "form": "13F-HR",
   "date": "2013-11-14",
-  "positions": []
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 760000,
+      "value": 237606000
+    },
+    {
+      "name": "BIO-REFERENCE LABS INC",
+      "cusip": "09057G602",
+      "shares": 720000,
+      "value": 21514000
+    },
+    {
+      "name": "BURGER KING WORLDWIDE INC",
+      "cusip": "121220107",
+      "shares": 7200000,
+      "value": 140544000
+    },
+    {
+      "name": "CARTER INC",
+      "cusip": "146229109",
+      "shares": 4110000,
+      "value": 311908000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 280000,
+      "value": 37733000
+    },
+    {
+      "name": "COCA COLA ENTERPRISES INC NE",
+      "cusip": "19122T109",
+      "shares": 6450000,
+      "value": 259355000
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 2520000,
+      "value": 142355000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 3000000,
+      "value": 135345000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 6000000,
+      "value": 338760000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 5175000,
+      "value": 240327000
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 2140000,
+      "value": 235742000
+    },
+    {
+      "name": "GROUPON INC",
+      "cusip": "399473107",
+      "shares": 18000000,
+      "value": 201798000
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 5250000,
+      "value": 120335000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 4000000,
+      "value": 301720000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229102",
+      "shares": 1320000,
+      "value": 194238000
+    },
+    {
+      "name": "LIBERTY INTERACTIVE CORP",
+      "cusip": "53071M880",
+      "shares": 696000,
+      "value": 61366000
+    },
+    {
+      "name": "MAKEMYTRIP LIMITED MAURITIUS",
+      "cusip": "V5633W109",
+      "shares": 7184866,
+      "value": 106623000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 350000,
+      "value": 235473000
+    },
+    {
+      "name": "MEDNAX INC",
+      "cusip": "58502B106",
+      "shares": 100000,
+      "value": 10040000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS INC",
+      "cusip": "620076307",
+      "shares": 3750000,
+      "value": 222675000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 440000,
+      "value": 136052000
+    },
+    {
+      "name": "PRICELINE COM INC",
+      "cusip": "741503403",
+      "shares": 571000,
+      "value": 577252000
+    },
+    {
+      "name": "ROYAL CARIBBEAN CRUISES LTD",
+      "cusip": "V7780T103",
+      "shares": 1400000,
+      "value": 53592000
+    },
+    {
+      "name": "SODASTREAM INTERNATIONAL LTD",
+      "cusip": "M9068E105",
+      "shares": 400000,
+      "value": 24946000
+    },
+    {
+      "name": "SOLARCITY CORP",
+      "cusip": "83416T100",
+      "shares": 500000,
+      "value": 17300000
+    },
+    {
+      "name": "STRATASYS LTD",
+      "cusip": "M85548101",
+      "shares": 1300000,
+      "value": 131638000
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 5050000,
+      "value": 73225000
+    },
+    {
+      "name": "3-D SYS CORP DEL",
+      "cusip": "88554D205",
+      "shares": 1274456,
+      "value": 68808000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1800000,
+      "value": 249660000
+    },
+    {
+      "name": "TRIPADVISOR INC",
+      "cusip": "896945201",
+      "shares": 270000,
+      "value": 20477000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 15925000,
+      "value": 533647000
+    },
+    {
+      "name": "UTI WORLDWIDE INC",
+      "cusip": "G87210103",
+      "shares": 2205000,
+      "value": 33318000
+    },
+    {
+      "name": "VERA BRADLEY INC",
+      "cusip": "92335C106",
+      "shares": 790884,
+      "value": 16241000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 615000,
+      "value": 117527000
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 1085000,
+      "value": 94829000
+    },
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 8000000,
+      "value": 265360000
+    }
+  ]
 }

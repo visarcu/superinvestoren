@@ -45,9 +45,9 @@ export default function InvestorSubscribePage({
 
           <ul className="space-y-4">
             {[
-              'Notifications on big Trades',
-              'Be the first to learn about new trades',
-              "Investment ideas from the world's best",
+              'Benachrichtigungen zu großen Trades',
+              'Sei der Erste, der über neue Trades informiert wird',
+              "Investmentideen von den Besten der Welt“",
             ].map((text) => (
               <li key={text} className="flex items-start gap-3">
                 <svg

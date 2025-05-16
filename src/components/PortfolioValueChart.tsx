@@ -1,72 +1,71 @@
-// components/PortfolioValueChart.tsx
 'use client'
 
-import { Chart, ChartProps } from 'react-chartjs-2'
 import {
-  CategoryScale,
-  Chart as ChartJS,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  ScriptableScaleContext
-} from 'chart.js'
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip
+} from 'recharts'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-)
-
-export interface PortfolioValueChartProps {
-  data: { period: string; value: number }[]
-  // hier kommt die neue Prop hinzu:
-  options?: ChartProps<'line'>['options']
+interface Props {
+  data: Array<{ period: string; value: number }>  // roher Wert in USD/EUR
 }
 
-export default function PortfolioValueChart({
-  data,
-  options
-}: PortfolioValueChartProps) {
-  // bereite labels & values vor
-  const labels = data.map(d => d.period)
-  const dataset = {
-    label: 'Portfolio‐Wert',
-    data: data.map(d => d.value),
-    fill: false,
-    tension: 0.3,
-    pointRadius: 5,
-    pointHoverRadius: 7
-  }
-
+export default function PortfolioValueChart({ data }: Props) {
   return (
-    <Chart<'line'>
-      type="line"
-      data={{ labels, datasets: [dataset] }}
-      options={{
-        // ein paar sinnvolle Defaults
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: { grid: { display: true } },
-          y: {
-            grid: { display: true },
-            beginAtZero: true
-          }
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: true }
-        },
-        // und dann deine overrides aus props.options:
-        ...options
-      }}
-    />
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart
+        data={data}
+        margin={{ top: 20, right: 30, left: 20, bottom: 0 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+        <XAxis dataKey="period" stroke="#888" />
+        <YAxis
+          stroke="#888"
+          // jede Achsen-Beschriftung durch 1e12 teilen
+          tickFormatter={(v) => `${(v / 1e12).toFixed(1)} Mrd.`}
+        />
+        <Tooltip
+          // der Tooltip zeigt Datum + formatierten Wert
+          labelFormatter={(label) => `${label}`}
+          formatter={(value: number) => {
+            const mrd = value / 1e12
+            return [
+              `${mrd.toLocaleString('de-DE', {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
+              })} Mrd.`,
+              'Depot-Volumen'
+            ]
+          }}
+          // dunkles Styling passend zur Card
+          contentStyle={{
+            backgroundColor: '#1f2937',
+            border: '1px solid #444',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+          }}
+          // Label (Quartal) hell und fett
+          labelStyle={{
+            color: '#fff',
+            fontWeight: 600
+          }}
+          // Item-Text (Volume) in grün
+          itemStyle={{
+            color: '#4ade80'
+          }}
+        />
+        <Line
+          type="monotone"
+          dataKey="value"
+          stroke="#4ade80"
+          strokeWidth={3}
+          dot={{ r: 4, fill: '#4ade80' }}
+          activeDot={{ r: 6 }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
   )
 }

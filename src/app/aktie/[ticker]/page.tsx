@@ -4,20 +4,19 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-
+import Card from '@/components/Card'
+import { InvestorAvatar } from '@/components/InvestorAvatar'
+import { InvestorDelta  } from '@/components/InvestorDelta'
 import { stocks } from '../../../data/stocks'
 import { investors } from '../../../data/investors'
 import holdingsHistory from '../../../data/holdings'
-//import { domainForTicker } from '@/lib/clearbit'
 import path from 'path'
-
-
-// unser eigener Chart – client-only
-// Chart & WatchlistButton nur client-side
-const StockLineChart = dynamic(() => import('../../../components/StockLineChart'), { ssr: false })
-const WatchlistButton = dynamic(() => import('@/components/WatchlistButton'), { ssr: false })
-
- 
+import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
+// großer Chart & WatchlistButton nur client-side
+const StockLineChart  = dynamic(() => import('../../../components/StockLineChart'), { ssr: false })
+const WatchlistButton = dynamic(() => import('@/components/WatchlistButton'),  { ssr: false })
+// Mini-Sparkline nur client-side
+const Sparkline       = dynamic(() => import('../../../components/Sparkline'),    { ssr: false })
 
 interface OwningInvestor {
   slug: string
@@ -67,13 +66,9 @@ async function fetchHistorical(symbol: string): Promise<{ date: string; close: n
 }
 
 export default async function StockPage({ params }: { params: { ticker: string } }) {
- // 1️⃣ Hier holst Du Dir ticker aus den URL-Params
- const ticker = params.ticker.toUpperCase()
- const stock  = stocks.find(s => s.ticker === ticker) ?? notFound()
-
- // 2️⃣ Jetzt, da ticker existiert, baust Du den Pfad zu Deinem Logo
- //    (lege unter public/logos z.B. AAPL.svg, MSFT.svg, und eine default.svg als Fallback ab)
- const logoSrc = `/logos/${ticker}.svg`
+  const ticker = params.ticker.toUpperCase()
+  const stock  = stocks.find(s => s.ticker === ticker) ?? notFound()
+  const logoSrc = `/logos/${ticker}.svg`
 
   // 1) Live-Preis
   let livePrice: number | null = null
@@ -92,14 +87,8 @@ export default async function StockPage({ params }: { params: { ticker: string }
   }
 
   // Formatter
-  const fmtPrice = (n: number) =>
-    n.toLocaleString('de-DE', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 2,
-    })
-  const fmtPercent = (n: number) =>
-    `${(n * 100).toFixed(1).replace('.', ',')} %`
+  const fmtPrice   = (n: number) => n.toLocaleString('de-DE', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 })
+  const fmtPercent = (n: number) => `${(n * 100).toFixed(1).replace('.', ',')} %`
 
   // 3) Aktuelle Halter
   const owningInvestors: OwningInvestor[] = Object.entries(holdingsHistory)
@@ -107,10 +96,10 @@ export default async function StockPage({ params }: { params: { ticker: string }
       const latest = snaps[snaps.length - 1]?.data
       if (!latest?.positions) return null
       const matches = latest.positions.filter(p => p.cusip === stock.cusip)
-      if (matches.length === 0) return null
-      const total = latest.positions.reduce((sum, p) => sum + p.value, 0)
+      if (!matches.length) return null
+      const total   = latest.positions.reduce((sum, p) => sum + p.value, 0)
       const matched = matches.reduce((sum, p) => sum + p.value, 0)
-      if (total === 0) return null
+      if (!total) return null
       const inv = investors.find(i => i.slug === slug)
       if (!inv) return null
       return { slug, name: inv.name, imageUrl: inv.imageUrl, weight: matched / total }
@@ -124,17 +113,13 @@ export default async function StockPage({ params }: { params: { ticker: string }
       const prev = snaps[snaps.length - 2].data
       const cur  = snaps[snaps.length - 1].data
       if (!prev?.positions || !cur?.positions) return null
-      const prevShares = prev.positions
-        .filter(p => p.cusip === stock.cusip)
-        .reduce((s, p) => s + p.shares, 0)
-      const curShares  = cur.positions
-        .filter(p => p.cusip === stock.cusip)
-        .reduce((s, p) => s + p.shares, 0)
+      const prevShares = prev.positions.filter(p => p.cusip === stock.cusip).reduce((s, p) => s + p.shares, 0)
+      const curShares  = cur.positions .filter(p => p.cusip === stock.cusip).reduce((s, p) => s + p.shares, 0)
       const delta = curShares - prevShares
       if (delta <= 0) return null
       const inv = investors.find(i => i.slug === slug)
       if (!inv) return null
-      return { slug, name: inv.name, imageUrl: inv.imageUrl, deltaShares: delta, pctDelta: prevShares > 0 ? delta/prevShares : 1 }
+      return { slug, name: inv.name, imageUrl: inv.imageUrl, deltaShares: delta, pctDelta: prevShares > 0 ? delta / prevShares : 1 }
     })
     .filter(Boolean) as BuyingInvestor[]
 
@@ -145,179 +130,156 @@ export default async function StockPage({ params }: { params: { ticker: string }
       const prev = snaps[snaps.length - 2].data
       const cur  = snaps[snaps.length - 1].data
       if (!prev?.positions || !cur?.positions) return null
-      const prevShares = prev.positions
-        .filter(p => p.cusip === stock.cusip)
-        .reduce((s, p) => s + p.shares, 0)
-      const curShares  = cur.positions
-        .filter(p => p.cusip === stock.cusip)
-        .reduce((s, p) => s + p.shares, 0)
+      const prevShares = prev.positions.filter(p => p.cusip === stock.cusip).reduce((s, p) => s + p.shares, 0)
+      const curShares  = cur.positions .filter(p => p.cusip === stock.cusip).reduce((s, p) => s + p.shares, 0)
       const delta = curShares - prevShares
       if (delta >= 0) return null
       const inv = investors.find(i => i.slug === slug)
       if (!inv) return null
-      return { slug, name: inv.name, imageUrl: inv.imageUrl, deltaShares: Math.abs(delta), pctDelta: prevShares > 0 ? Math.abs(delta)/prevShares : 1 }
+      return { slug, name: inv.name, imageUrl: inv.imageUrl, deltaShares: Math.abs(delta), pctDelta: prevShares > 0 ? Math.abs(delta) / prevShares : 1 }
     })
     .filter(Boolean) as SellingInvestor[]
 
-    return (
-      <main className="max-w-4xl mx-auto px-4 py-12 space-y-12">
-        {/* ← Back */}
-        <Link href="/" className="text-gray-400 hover:text-white">
-          ← Zurück
-        </Link>
-  
+  return (
+    <main className="max-w-4xl mx-auto px-4 py-12 space-y-12">
+      {/* ← Back */}
+      <Link href="/" className="text-gray-400 hover:text-white">← Zurück</Link>
+
       {/* Header Card */}
-      <div className="bg-card-dark rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-lg">
+      <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl p-6 flex flex-col lg:flex-row items-center lg:items-start gap-6 shadow-lg">
         {/* Logo + Titel */}
         <div className="flex items-center space-x-6 flex-1">
           <div className="w-20 h-20 relative rounded-full overflow-hidden bg-white shadow-lg">
-            <Image
-              src={logoSrc}
-              alt={`${stock.name} Logo`}
-              fill
-              className="object-contain p-3"
-              priority
-              // falls Du Fallback brauchst, kannst Du hier `onError` hooken
-            />
+            <Image src={logoSrc} alt={`${stock.name} Logo`} fill className="object-contain p-3" priority />
           </div>
-          <div>
-            <h1 className="text-3xl font-orbitron text-white font-bold">
-              {stock.name} ({ticker})
+          <div className="flex-1">
+            <h1 className="text-3xl font-orbitron text-white leading-tight">
+              {stock.name}{' '}
+              <span className="text-lg text-gray-500 font-normal">({ticker})</span>
             </h1>
             {livePrice != null && (
-              <p className="mt-1 text-2xl text-accent font-semibold">
-                {fmtPrice(livePrice)}
-              </p>
+              <p className="mt-1 text-2xl text-accent font-semibold">{fmtPrice(livePrice)}</p>
             )}
           </div>
         </div>
 
-  
-          {/* Buttons */}
-          <div className="flex items-center space-x-3">
-  <WatchlistButton ticker={ticker} />
-  <Link
-    href={`/analyse/${ticker.toLowerCase()}`}
-    className="px-4 py-2 bg-accent text-black rounded-full hover:bg-accent/90 transition"
-  >
-    Zur Analyse →
-  </Link>
-</div>
-        </div>
-
-      {/* Chart Card */}
-      <div className="bg-card-dark rounded-2xl p-6 shadow-md">
-        <h2 className="text-xl font-semibold text-white mb-4">Historischer Chart</h2>
-        {history.length > 0 ? (
-          <StockLineChart data={history} />
-        ) : (
-          <p className="text-gray-400">Keine historischen Daten vorhanden.</p>
+        {/* Mini-Sparkline (nur Desktop) */}
+        {history.length > 0 && (
+          <div className="hidden lg:block">
+            <Sparkline data={history.slice(-30)} width={160} height={48} />
+          </div>
         )}
+
+        {/* Buttons */}
+        <div className="flex flex-col items-center lg:items-end space-y-4">
+          <WatchlistButton ticker={ticker} />
+          <Link
+            href={`/analyse/${ticker.toLowerCase()}`}
+            className="px-4 py-2 border-2 border-accent text-accent rounded-full hover:bg-accent/20 transition"
+          >
+            Zur Analyse →
+          </Link>
+        </div>
       </div>
 
-      {/* Investoren, die halten */}
-      {owningInvestors.length > 0 && (
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Investoren, die halten</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {owningInvestors.map(inv => (
-              <Link
-                key={inv.slug}
-                href={`/investor/${inv.slug}`}
-                className="flex items-center gap-4 bg-card-dark rounded-2xl p-4 hover:bg-gray-700 transition-shadow shadow"
-              >
-                {inv.imageUrl && (
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <Image
-                      src={inv.imageUrl}
-                      alt={inv.name}
-                      width={48}
-                      height={48}
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <div>
-                  <p className="text-white font-medium">{inv.name}</p>
-                  <p className="text-gray-400">
-                    Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Chart Card */}
+      <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl p-6 shadow-md">
+        <h2 className="text-xl font-orbitron text-gray-100 mb-4">Historischer Chart</h2>
+        {history.length > 0
+          ? <StockLineChart data={history} />
+          : <p className="text-gray-400">Keine historischen Daten vorhanden.</p>
+        }
+      </div>
 
-      {/* Gekauft im letzten Q. */}
-      {buyingInvestors.length > 0 && (
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Gekauft (letztes Q.)</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {buyingInvestors.map(inv => (
-              <Link
-                key={inv.slug}
-                href={`/investor/${inv.slug}`}
-                className="flex items-center gap-4 bg-green-50 bg-opacity-20 text-green-300 rounded-2xl p-4 hover:bg-opacity-30 transition"
-              >
-                {inv.imageUrl && (
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <Image
-                      src={inv.imageUrl}
-                      alt={inv.name}
-                      width={48}
-                      height={48}
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <div>
-                  <p className="font-medium text-white">{inv.name}</p>
-                  <p className="text-green-300">
-                    +{inv.deltaShares.toLocaleString('de-DE')} (
-                    {(inv.pctDelta * 100).toFixed(1).replace('.', ',')} %)
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+{/* Investoren, die halten */}
+{owningInvestors.length > 0 && (
+  <section className="space-y-6">
+    <h2 className="text-2xl font-orbitron text-gray-100">Investoren, die halten</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {owningInvestors.map(inv => (
+        <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+          <Card
+            borderColor="border-gray-700"
+            hoverBg="hover:bg-gray-700/50"
+          >
+            <InvestorAvatar
+              name={inv.name}
+              imageUrl={inv.imageUrl}
+              borderColor="border-gray-700"
+            />
+            <div className="flex-1">
+              <p className="text-white font-medium">{inv.name}</p>
+              <p className="text-gray-400 text-sm">
+                Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
+              </p>
+            </div>
+          </Card>
+        </Link>
+      ))}
+    </div>
+  </section>
+)}
 
-      {/* Verkauft im letzten Q. */}
-      {sellingInvestors.length > 0 && (
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Verkauft (letztes Q.)</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {sellingInvestors.map(inv => (
-              <Link
-                key={inv.slug}
-                href={`/investor/${inv.slug}`}
-                className="flex items-center gap-4 bg-red-50 bg-opacity-20 text-red-300 rounded-2xl p-4 hover:bg-opacity-30 transition"
-              >
-                {inv.imageUrl && (
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <Image
-                      src={inv.imageUrl}
-                      alt={inv.name}
-                      width={48}
-                      height={48}
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <div>
-                  <p className="font-medium text-white">{inv.name}</p>
-                  <p className="text-red-300">
-                    −{inv.deltaShares.toLocaleString('de-DE')} (
-                    {(inv.pctDelta * 100).toFixed(1).replace('.', ',')} %)
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+
+{/* Gekauft (letztes Q.) */}
+{buyingInvestors.length > 0 && (
+  <section className="space-y-6">
+    <h2 className="text-2xl font-orbitron text-gray-100">Gekauft (letztes Q.)</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {buyingInvestors.map(inv => (
+        <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+          <Card
+            borderColor="border-green-500"
+            hoverBg="hover:bg-gray-700/50"
+          >
+            <InvestorAvatar
+              name={inv.name}
+              imageUrl={inv.imageUrl}
+              borderColor="border-green-500"
+            />
+            <InvestorDelta
+              name={inv.name}
+              delta={inv.deltaShares}
+              pct={inv.pctDelta}
+              positive
+            />
+            <ArrowUpRightIcon className="w-5 h-5 text-green-400" />
+          </Card>
+        </Link>
+      ))}
+    </div>
+  </section>
+)}
+
+
+{/* Verkauft (letztes Q.) */}
+{sellingInvestors.length > 0 && (
+  <section className="space-y-6">
+    <h2 className="text-2xl font-orbitron text-gray-100">Verkauft (letztes Q.)</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {sellingInvestors.map(inv => (
+        <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+          <Card
+            borderColor="border-red-500"
+            hoverBg="hover:bg-gray-700/50"
+          >
+            <InvestorAvatar
+              name={inv.name}
+              imageUrl={inv.imageUrl}
+              borderColor="border-red-500"
+            />
+            <InvestorDelta
+              name={inv.name}
+              delta={inv.deltaShares}
+              pct={inv.pctDelta}
+            />
+            <ArrowUpRightIcon className="w-5 h-5 text-red-400 transform rotate-45" />
+          </Card>
+        </Link>
+      ))}
+    </div>
+  </section>
+)}
     </main>
   )
 }

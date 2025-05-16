@@ -1,0 +1,233 @@
+{
+  "date": "2025-05-15",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 9230000,
+      "value": 1220482900000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2010000,
+      "value": 314022300000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 2510000,
+      "value": 477552600000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1250000,
+      "value": 277662500000
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 70000,
+      "value": 46384100000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 775000,
+      "value": 71323250000
+    },
+    {
+      "name": "BLOCK INC",
+      "cusip": "852234103",
+      "shares": 75000,
+      "value": 4074750000
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 130000,
+      "value": 21765900000
+    },
+    {
+      "name": "CAESARS ENTERTAINMENT INC NE",
+      "cusip": "12769G100",
+      "shares": 2200000,
+      "value": 55000000000
+    },
+    {
+      "name": "CORNING INC",
+      "cusip": "219350105",
+      "shares": 1743629,
+      "value": 79823336000
+    },
+    {
+      "name": "DEUTSCHE BANK A G",
+      "cusip": "D18190898",
+      "shares": 3750000,
+      "value": 89362500000
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 4957235,
+      "value": 92154999000
+    },
+    {
+      "name": "EXPAND ENERGY CORPORATION",
+      "cusip": "165167172",
+      "shares": 117321,
+      "value": 12348035000
+    },
+    {
+      "name": "EXPAND ENERGY CORPORATION",
+      "cusip": "165167180",
+      "shares": 65398,
+      "value": 6460014000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287184",
+      "shares": 5600000,
+      "value": 200704000000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 8050000,
+      "value": 331016000000
+    },
+    {
+      "name": "KE HLDGS INC",
+      "cusip": "482497104",
+      "shares": 1900000,
+      "value": 38171000000
+    },
+    {
+      "name": "KRANESHARES TRUST",
+      "cusip": "500767306",
+      "shares": 4000000,
+      "value": 139640000000
+    },
+    {
+      "name": "L3HARRIS TECHNOLOGIES INC",
+      "cusip": "502431109",
+      "shares": 300000,
+      "value": 62793000000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807306",
+      "shares": 500000,
+      "value": 36350000000
+    },
+    {
+      "name": "LAS VEGAS SANDS CORP",
+      "cusip": "517834107",
+      "shares": 590000,
+      "value": 22791700000
+    },
+    {
+      "name": "LYFT INC",
+      "cusip": "55087P104",
+      "shares": 9000000,
+      "value": 106830000000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 550000,
+      "value": 316998000000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 400000,
+      "value": 34756000000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 510000,
+      "value": 191448900000
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 578500,
+      "value": 30961320000
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377508",
+      "shares": 2050000,
+      "value": 195693000000
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 300000,
+      "value": 32514000000
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 700000,
+      "value": 97867000000
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 4370000,
+      "value": 517189500000
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 350000,
+      "value": 53763500000
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78468R796",
+      "shares": 4500000,
+      "value": 2517255000000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 270000,
+      "value": 44820000000
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 3200000,
+      "value": 233152000000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 175000,
+      "value": 91656250000
+    },
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189F676",
+      "shares": 100000,
+      "value": 21147000000
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 2300000,
+      "value": 270112000000
+    },
+    {
+      "name": "WYNN RESORTS LTD",
+      "cusip": "983134107",
+      "shares": 320000,
+      "value": 26720000000
+    }
+  ]
+}

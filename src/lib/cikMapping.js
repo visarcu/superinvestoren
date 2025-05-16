@@ -38,7 +38,7 @@ export const investorCiks = {
   abrams: '0001358706',    // David Abrams – Abrams Capital Management
   martin: '0001050442', // Fred Martin 
   kantesaria: '0001697868', // Valley Forge Capital MGMT
-
+  kahn: '0001039565',
   train: '0001484150',    // Lindsell Train
   brenton: '0001484148',
 
@@ -100,7 +100,7 @@ vulcanvalue: '0001556785',
   //Manuell folgende Investoren updaten
  //burry:   '0001768023', MANUELL!!!
 
- // smith:    '0001569205', MANUELL
+  smith:    '0001569205'
 
 
   // neu hinzuzufügende Investoren:
@@ -130,7 +130,7 @@ vulcanvalue: '0001556785',
 
 
 
- // 'kahn-brothers':         '0001039565',    // Kahn Brothers Group
+
   // 'valley-forge':          'XXX',    // Valley Forge Capital Management
  
 

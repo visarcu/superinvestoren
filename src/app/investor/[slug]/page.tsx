@@ -13,7 +13,7 @@ import { stocks } from '@/data/stocks'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
-
+import PortfolioValueChart from '@/components/PortfolioValueChart'
 import InvestorSubscribeForm from '@/components/InvestorSubscribeForm'  // ← Import hinzugefügt
 import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
 
@@ -104,7 +104,21 @@ const investorNames: Record<string,string> = {
   akre: 'Chuck Akre - Akre Capital Management',
   russo:'Thomas Russo - Gardner Russe & Quinn',
   polen: 'Polen Capital Management',
-  jensen: 'Jensen Investment Management'
+  jensen: 'Jensen Investment Management',
+  gayner: 'Thomas Gayner - Markel Group',
+  yacktman: 'Donald Yacktman - Yacktman Asset Management',
+  olstein:'Robert Olstein - Olstein Capital Management',
+  duan:'Duan Yongping - H&H International Investment',
+  hohn: 'Chris Hohn - TCI Fund Management',
+  coleman: 'Chase Coleman - Tiger Global Management',
+  icahn:'Carl Icahn - Icahn Capital Management',
+  ainslie:'Lee Ainslie - Maverick Capital',
+  mandel:'Stephen Mandel - Lone Pine Capital'
+}
+
+function splitInvestorName(full: string) {
+  const [name, subtitle] = full.split(' – ')
+  return { name, subtitle }
 }
 
 function getPeriodFromDate(dateStr: string) {
@@ -142,6 +156,8 @@ function mergePositions(raw: { cusip:string; shares:number; value:number }[]) {
 
 
 export default function InvestorPage({ params:{ slug } }) {
+  const titleFull = investorNames[slug] ?? slug
+  const { name: mainName, subtitle } = splitInvestorName(titleFull)
   const [tab, setTab] = useState<'holdings'|'buys'|'sells'>('holdings')
   const [showForm, setShowForm] = useState(false)        // neu
   const snapshots = holdingsHistory[slug]
@@ -210,6 +226,16 @@ export default function InvestorPage({ params:{ slug } }) {
     return { period: grp.period, buy: buySum, sell: sellSum }
   }).reverse()
 
+  const valueHistory = snapshots.map(snap => {
+    const total = snap.data.positions.reduce((sum, p) => sum + p.value, 0)
+    return { period: getPeriodFromDate(snap.data.date), value: total }
+  })
+
+  const valueHistoryScaled = valueHistory.map(p => ({
+    period: p.period,
+    value: p.value / 1_000_000_000_000_000_000  // jetzt in Mrd. $
+  }))
+
   // — Articles & Commentaries —
   let articles: Article[] = []
   if (slug==='buffett') articles = articlesBuffett
@@ -218,64 +244,69 @@ export default function InvestorPage({ params:{ slug } }) {
 
   return (
     <main className="bg-black min-h-screen px-6 py-8 space-y-10">
-      {/* Header-Card */}
-      <div className="relative overflow-hidden rounded-2xl px-12 py-10 bg-gray-800/60 backdrop-blur-md border border-gray-700 shadow-lg flex flex-col sm:flex-row items-center space-y-8 sm:space-y-0 sm:space-x-8">
-        {/* dezenter Lichteffekt */}
-        <div className="absolute inset-0 bg-white/5 pointer-events-none" />
+   {/* Header-Card */}
+<div className="relative overflow-hidden rounded-2xl px-8 py-6 bg-gray-800/60 backdrop-blur-md border border-gray-700 shadow-lg flex flex-col sm:flex-row items-center sm:justify-between space-y-4 sm:space-y-0">
+  <div className="absolute inset-0 bg-white/5 pointer-events-none" />
 
-        {/* → Subscription-Link ganz oben rechts */}
-        <div className="absolute top-4 right-4">
-        <Link
-  href={`/investor/${slug}/subscribe`}
-  className="
-    absolute top-4 right-4
-    flex items-center space-x-2
-    bg-green-600 text-white
-    hover:bg-green-500
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400
-    px-4 py-2
-    rounded-full
-    shadow-lg
-    transform transition
-    hover:-translate-y-0.5
-  "
-  aria-label="Updates erhalten"
->
-  <EnvelopeIcon className="w-7 h-7" />
-  <span className="font-semibold">Updates erhalten</span>
-</Link>
-        </div>
+  {/* Bild */}
+  <div className="relative flex-shrink-0 w-24 h-24 rounded-full overflow-hidden border-4 border-accent mr-6">
+    <Image
+      src={`/images/${slug}.png`}
+      alt={mainName}
+      fill
+      className="object-cover"
+    />
+  </div>
 
-        {/* Profilbild */}
-        <div className="relative flex-shrink-0 w-28 h-28 rounded-full overflow-hidden border-4 border-accent">
-          <Image
-            src={`/images/${slug}.png`}
-            alt={investorNames[slug] ?? slug}
-            fill
-            className="object-cover"
-          />
-        </div>
+  {/* Text + Button */}
+  <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    {/* Text */}
+    <div className="text-center sm:text-left">
+      <h1 className="leading-tight">
+        <span className="block text-4xl font-orbitron text-white font-bold">
+          {mainName}
+        </span>
+        {subtitle && (
+          <span className="block mt-[-0.25rem] text-lg text-gray-500 font-normal">
+            – {subtitle}
+          </span>
+        )}
+      </h1>
+      <p className="mt-2 text-sm text-gray-400">
+        Periode: <span className="font-medium text-gray-200">{period}</span>
+        {'  '}|{'  '}
+        Aktualisiert am <span className="font-medium text-gray-200">{formattedDate}</span>
+      </p>
+      <p className="mt-4 text-2xl text-white font-semibold">
+        Gesamtwert{' '}
+        <span className="bg-accent text-black px-2 py-1 rounded numeric">
+          {formatCurrency(totalVal, 'EUR')}
+        </span>
+      </p>
+    </div>
 
-        {/* Textbereich */}
-        <div className="relative text-center sm:text-left space-y-1">
-          <h1 className="text-4xl font-orbitron text-white font-bold leading-tight">
-            {investorNames[slug] ?? slug}
-          </h1>
-          <p className="text-sm text-gray-400">
-            Periode: <span className="font-medium text-gray-200">{period}</span>
-          </p>
-          <p className="text-sm text-gray-400">
-            Aktualisiert am <span className="font-medium text-gray-200">{formattedDate}</span>
-          </p>
-          <p className="mt-2 text-3xl text-white font-semibold">
-            Gesamtwert{' '}
-            <span className="bg-accent text-black px-3 py-1 rounded-lg numeric">
-              {formatCurrency(totalVal, 'EUR')}
-            </span>
-          </p>
-        </div>
-      </div>
-
+    {/* Button */}
+    <div className="mt-4 sm:mt-0 flex-shrink-0">
+      <Link
+        href={`/investor/${slug}/subscribe`}
+        className="
+          inline-flex items-center space-x-2
+          bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700
+          text-white
+          px-5 py-2
+          rounded-full
+          shadow-xl
+          transition-transform transform hover:-translate-y-0.5
+          ring-1 ring-green-500/40
+        "
+        aria-label="Updates erhalten"
+      >
+        <EnvelopeIcon className="w-5 h-5" />
+        <span className="font-medium">Updates erhalten</span>
+      </Link>
+    </div>
+  </div>
+</div>
       {/* Optional: hier Deine Formular‐Komponente auf der eigenen /subscribe‐Seite */}
       {/* <InvestorSubscribeForm investorId={slug} /> */}
 
@@ -290,36 +321,34 @@ export default function InvestorPage({ params:{ slug } }) {
       />
 
       {/* — Charts (nur bei Bestände) in zwei Cards — */}
-      {tab === 'holdings' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-dark rounded-lg shadow-lg p-4">
-            <h2 className="text-xl font-orbitron text-gray-100 text-center mb-2">
-              Top 10 Positionen
-            </h2>
-            <ErrorBoundary
-              fallbackRender={({ error }) => <ErrorFallback message={error.message} />}
-            >
-              <TopPositionsBarChart data={top10} />
-            </ErrorBoundary>
-          </div>
-          <div className="bg-dark rounded-lg shadow-lg p-4">
-            <h2 className="text-xl font-orbitron text-gray-100 text-center mb-2">
-              Cashflow (letzte 8 Q)
-            </h2>
-            <ErrorBoundary
-              fallbackRender={({ error }) => <ErrorFallback message={error.message} />}
-            >
-              <CashFlowBarChart data={cashflowPoints} />
-            </ErrorBoundary>
-          </div>
-        </div>
-      )}
+    {tab === 'holdings' && (
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    {/* Top 10Positionen */}
+    <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6">
+      <h2 className="text-xl font-orbitron text-gray-100 text-center mb-4">
+        Top 10 Positionen
+      </h2>
+      <ErrorBoundary fallbackRender={({error}) => <ErrorFallback message={error.message} />}>
+        <TopPositionsBarChart data={top10} />
+      </ErrorBoundary>
+    </div>
 
+    {/* Depot-Wert Verlauf */}
+    <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6">
+      <h2 className="text-xl font-orbitron text-gray-100 text-center mb-4">
+        Depot-Wert Verlauf
+      </h2>
+      <ErrorBoundary fallbackRender={({error}) => <ErrorFallback message={error.message} />}>
+      <PortfolioValueChart data={valueHistory} />
+      </ErrorBoundary>
+    </div>
+  </div>
+)}
       {/* — Articles & Commentaries — */}
       {articles.length > 0 && (
         <div>
           <h2 className="text-xl font-orbitron text-gray-100 font-semibold mb-4 text-center">
-            Articles &amp; Commentaries
+            Artikel &amp; Kommentare
           </h2>
           <ArticleList articles={articles} />
         </div>

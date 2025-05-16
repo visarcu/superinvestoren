@@ -28,7 +28,7 @@ export default function TopPositionsBarChart({
   ]
 
   return (
-    <ResponsiveContainer width="130%" height={400}>
+    <ResponsiveContainer width="110%" height={400}>
       <BarChart
         layout="vertical"
         data={data}
