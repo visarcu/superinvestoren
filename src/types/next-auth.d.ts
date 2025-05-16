@@ -1,17 +1,24 @@
 // src/types/next-auth.d.ts
-import NextAuth, { DefaultSession, DefaultJWT } from 'next-auth'
+import { DefaultSession, DefaultUser } from 'next-auth'
 
 declare module 'next-auth' {
+  // ① Session.user erweitern
   interface Session {
-    user: {
+    user: DefaultSession['user'] & {
       id: string
       isPremium: boolean
-    } & DefaultSession['user']
+    }
+  }
+  // ② User-Objekt erweitern (wird in `authorize` und co. verwendet)
+  interface User extends DefaultUser {
+    id: string
+    isPremium: boolean
   }
 }
 
+// ③ JWT erweitern – hier kommt der Token rein, den du in `jwt()` setzt
 declare module 'next-auth/jwt' {
-  interface JWT extends DefaultJWT {
-    isPremium?: boolean
+  interface JWT {
+    isPremium: boolean
   }
 }

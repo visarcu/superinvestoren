@@ -116,6 +116,7 @@ import gregalexander_2024_Q2 from './gregalexander/2024-Q2.json'
 import gregalexander_2024_Q3 from './gregalexander/2024-Q3.json'
 import gregalexander_2024_Q4 from './gregalexander/2024-Q4.json'
 import gregalexander_2025_Q1 from './gregalexander/2025-Q1.json'
+import gregalexander_2025_Q2 from './gregalexander/2025-Q2.json'
 
 //Terry Smith
 import smith_2024_Q4 from './smith/2024-Q4.json'
@@ -593,11 +594,12 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
    gregalexander: [
    
-    { quarter: '2024-Q1', data: gregalexander_2024_Q1 },
-    { quarter: '2024-Q2', data: gregalexander_2024_Q2 },
+    { quarter: '2024-Q1', data: gregalexander_2024_Q1},
+    { quarter: '2024-Q2', data: gregalexander_2024_Q2},
     { quarter: '2024-Q3', data: gregalexander_2024_Q3},
     { quarter: '2024-Q4', data: gregalexander_2024_Q4},
     { quarter: '2025-Q1', data: gregalexander_2025_Q1},
+    { quarter: '2025-Q2', data: gregalexander_2025_Q2}
   
    
    ],

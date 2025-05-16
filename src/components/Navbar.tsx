@@ -10,7 +10,7 @@ import {
   ChevronDownIcon,
 } from '@heroicons/react/24/outline'
 import SearchBar from './SearchBar'
-import AuthButton from './AuthButton'
+import UserMenu from './UserMenu'
 import TickerBar from './TickerBar'
 
 const hubLinks = [
@@ -87,8 +87,8 @@ export default function Navbar() {
                   <SearchBar />
                 </div>
                 <div className="hidden md:block">
-                  <AuthButton />
-                </div>
+                 <UserMenu />
+             </div>
                 <Disclosure.Button className="md:hidden inline-flex items-center justify-center p-2 text-gray-300 hover:text-white transition">
                   {open ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
                 </Disclosure.Button>
@@ -132,7 +132,7 @@ export default function Navbar() {
                 <SearchBar />
               </div>
               <div className="mt-2 px-3">
-                <AuthButton />
+              <UserMenu />
               </div>
             </div>
           </Disclosure.Panel>

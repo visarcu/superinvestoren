@@ -14,13 +14,18 @@ generator client {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  isPremium    Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  watchlist    WatchlistItem[]
+  id                      String                   @id @default(cuid())
+  email                   String                   @unique
+  passwordHash            String
+  isPremium               Boolean                  @default(true)
+  emailVerified           Boolean                  @default(false)
+  emailVerificationTokens EmailVerificationToken[]
+  firstName               String? // neu
+  lastName                String? // neu
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  watchlist               WatchlistItem[]
+  passwordResetTokens     PasswordResetToken[]
 }
 
 model WatchlistItem {
@@ -33,17 +38,39 @@ model WatchlistItem {
   @@unique([userId, ticker])
 }
 
-  //model InvestorSubscription {
-   // id         String   @id @default(cuid())
-   // investorId String
-    //email      String
-  //  confirmed  Boolean  @default(false)   // für Double-Opt-In
-  //createdAt  DateTime @default(now())
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 
- // @@unique([investorId, email])
+  @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
+}
+
+//model InvestorSubscription {
+// id         String   @id @default(cuid())
+// investorId String
+//email      String
+//  confirmed  Boolean  @default(false)   // für Double-Opt-In
+//createdAt  DateTime @default(now())
+
+// @@unique([investorId, email])
 //}
 
 //model InvestorLastFiling {
-  //investorId String  @id
-  //date       DateTime
+//investorId String  @id
+//date       DateTime
 //}

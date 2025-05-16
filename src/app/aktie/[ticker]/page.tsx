@@ -196,30 +196,37 @@ export default async function StockPage({ params }: { params: { ticker: string }
   <section className="space-y-6">
     <h2 className="text-2xl font-orbitron text-gray-100">Investoren, die halten</h2>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {owningInvestors.map(inv => (
-        <Link key={inv.slug} href={`/investor/${inv.slug}`}>
-          <Card
-            borderColor="border-gray-700"
-            hoverBg="hover:bg-gray-700/50"
-          >
-            <InvestorAvatar
-              name={inv.name}
-              imageUrl={inv.imageUrl}
+      {owningInvestors.map(inv => {
+        // Fallback-URL aus dem Slug, falls inv.imageUrl undefined ist
+        const avatarSrc =
+          inv.imageUrl
+            ? inv.imageUrl
+            : `/investoren/${inv.slug}.png`   // oder .jpg / .svg, je nachdem, wie Deine Dateien heißen
+
+        return (
+          <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+            <Card
               borderColor="border-gray-700"
-            />
-            <div className="flex-1">
-              <p className="text-white font-medium">{inv.name}</p>
-              <p className="text-gray-400 text-sm">
-                Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
-              </p>
-            </div>
-          </Card>
-        </Link>
-      ))}
+              hoverBg="hover:bg-gray-700/50"
+            >
+              <InvestorAvatar
+                name={inv.name}
+                imageUrl={avatarSrc}
+                borderColor="border-gray-700"
+              />
+              <div className="flex-1">
+                <p className="text-white font-medium">{inv.name}</p>
+                <p className="text-gray-400 text-sm">
+                  Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
+                </p>
+              </div>
+            </Card>
+          </Link>
+        )
+      })}
     </div>
   </section>
 )}
-
 
 {/* Gekauft (letztes Q.) */}
 {buyingInvestors.length > 0 && (

@@ -28,8 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "src/types/**/*.d.ts" ,
     "next.config.cjs",
-    // unser globales Declaration-File
     "src/global.d.ts"
 , "mailer.test.mts"  ],
   "exclude": ["node_modules"]

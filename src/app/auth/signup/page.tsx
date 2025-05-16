@@ -1,34 +1,54 @@
-// src/app/auth/signup/page.tsx
 'use client'
-
 import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { z } from 'zod'
+
+// 1) Schema
+const SignupSchema = z.object({
+  email: z.string().email({ message: 'Ungültige E-Mail' }),
+  password: z
+    .string()
+    .min(8, { message: 'Mindestens 8 Zeichen' })
+    .regex(/[A-Z]/, { message: 'Mindestens 1 Großbuchstabe' })
+    .regex(/[0-9]/, { message: 'Mindestens 1 Zahl' }),
+})
+
+type SignupData = z.infer<typeof SignupSchema>
 
 export default function SignupPage() {
-  const [email, setEmail]       = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError]       = useState<string | null>(null)
-  const router                  = useRouter()
+  const [email, setEmail]           = useState('')
+  const [password, setPassword]     = useState('')
+  const [error, setError]           = useState<string|null>(null)
+  const router                      = useRouter()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
 
+    // 2) Validierung
+    const result = SignupSchema.safeParse({ email, password })
+    if (!result.success) {
+      setError(result.error.issues[0].message)
+      return
+    }
+
+    // 3) API-Call
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(result.data as SignupData),
     })
 
     if (res.ok) {
-      router.push('/auth/signin')
+      router.push('/auth/signin?registered=1')
     } else {
       const body = await res.json()
       setError(body.error || 'Registrierung fehlgeschlagen')
     }
   }
+
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-black">

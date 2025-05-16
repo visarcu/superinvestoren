@@ -220,7 +220,7 @@ export const investors: Investor[] = [
   {
     name: 'Thomas Gayner (Markel Group)',
     slug: 'gayner',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/gayner.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -284,7 +284,7 @@ export const investors: Investor[] = [
   {
     name: 'Duan Yongping - H&H International Investment',
     slug: 'duan',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/duan.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -300,7 +300,7 @@ export const investors: Investor[] = [
   {
     name: 'Jensen Investment Management',
     slug: 'jensen',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/jensen.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -316,7 +316,7 @@ export const investors: Investor[] = [
   {
     name: 'Thomas Russo - Gardner Russe & Quinn',
     slug: 'russo',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/russo.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -348,7 +348,7 @@ export const investors: Investor[] = [
   {
     name: 'Fred Martin - Disciplined Growth Investors',
     slug: 'martin',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/martin.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -389,7 +389,7 @@ export const investors: Investor[] = [
   {
     name: 'Francis Chou - Chou Associates Management',
     slug: 'chou',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/chou.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -464,7 +464,7 @@ export const investors: Investor[] = [
   {
     name: 'David Rolfe - Wedgewood Partners',
     slug: 'rolfe',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/rolfe.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -472,7 +472,7 @@ export const investors: Investor[] = [
   {
     name: 'Robert Karr - Joho Capital',
     slug: 'karr',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/karr.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -496,7 +496,7 @@ export const investors: Investor[] = [
   {
     name: 'Bruce Berkowitz - Fairholme Capital Management',
     slug: 'berkowitz',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/berkowitz.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -505,7 +505,7 @@ export const investors: Investor[] = [
   {
     name: 'Prem Watsa - Fairfax Financial Holdings',
     slug: 'watsa',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/watsa.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -529,7 +529,7 @@ export const investors: Investor[] = [
   {
     name: 'Sarah Ketterer - Causeway Capital Management',
     slug: 'ketterer',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/ketterer.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 

@@ -1,0 +1,35 @@
+{
+  "date": "2025-05-15",
+  "positions": [
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 5000000,
+      "value": 260450000000
+    },
+    {
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 568424,
+      "value": 217109547000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 500000,
+      "value": 146770000000
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 700000,
+      "value": 14777000000
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 5913199,
+      "value": 20577933000
+    }
+  ]
+}
