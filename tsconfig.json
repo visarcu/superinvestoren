@@ -31,6 +31,7 @@
     "src/types/**/*.d.ts" ,
     "next.config.cjs",
     "src/global.d.ts"
-, "mailer.test.mts"  ],
+, "mailer.test.mts",
+"src/types" ],
   "exclude": ["node_modules"]
 }

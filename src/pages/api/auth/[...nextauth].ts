@@ -29,59 +29,47 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials.password) return null
     
-        // Cast hier rein:
+        // Rate-Limit per IP
         const request = req as NextApiRequest
-    
-        // IP-Extraktion:
         const forwarded = (request.headers['x-forwarded-for'] as string) ?? ''
-        const ip =
-          forwarded.split(',')[0].trim() ||
-          (request.socket?.remoteAddress ?? '')
-    
-        // Rate-Limit checken…
+        const ip = forwarded.split(',')[0].trim() || request.socket?.remoteAddress || ''
         const count = loginLimiter.get(ip) ?? 0
         if (count >= 5) throw new Error('Zu viele Login-Versuche…')
         loginLimiter.set(ip, count + 1)
 
-        // 2) User holen
+        // User & Passwort prüfen
         const user = await prisma.user.findUnique({ where: { email: credentials.email } })
         if (!user) return null
-
-        // 3) Passwort prüfen
         const valid = await bcrypt.compare(credentials.password, user.passwordHash)
         if (!valid) return null
 
-
-        // 4) Bei Erfolg: gebe das User-Objekt zurück
-        return {
-          id:        user.id,
-          email:     user.email,
-          isPremium: user.isPremium
-        }
+        // Gib im ersten Login schon `isPremium` mit zurück
+        return { id: user.id, email: user.email, isPremium: user.isPremium }
       }
     })
   ],
 
   callbacks: {
-    // Erstellt / aktualisiert das JWT-Token
+    // 1) JWT-Cookie: Zieh `isPremium` beim ersten Login aus `user`, später aus der DB
     async jwt({ token, user }) {
       if (user) {
-        // beim ersten Login kommt `user` hier rein
         token.isPremium = (user as any).isPremium
       } else {
-        // bei späteren Requests holen wir uns den aktuellen Wert nochmal aus der DB
         const dbUser = await prisma.user.findUnique({
-          where: { id: token.sub }
+          where: { id: token.sub! },
+          select: { isPremium: true },
         })
         token.isPremium = dbUser?.isPremium ?? false
       }
       return token
     },
 
-    // Baut die Session auf Basis des Tokens auf
+    // 2) Session-Objekt im Client: baue `session.user.isPremium` aus `token`
     async session({ session, token }) {
-      session.user.id        = token.sub
-      session.user.isPremium = token.isPremium as boolean
+      if (session.user) {
+        session.user.id = token.sub ?? ''
+        session.user.isPremium = token.isPremium as boolean
+      }
       return session
     }
   }

@@ -40,7 +40,6 @@ export default function ProfileForm({
         throw new Error(body.error || 'Update fehlgeschlagen')
       }
       setSuccess(true)
-      // Optional: Seite neu laden, damit session.email u.ä. aktualisiert werden
       router.refresh()
     } catch (e: any) {
       setError(e.message)
@@ -50,44 +49,93 @@ export default function ProfileForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-card-dark p-6 rounded-lg">
-      {error && <p className="text-red-400">{error}</p>}
-      {success && <p className="text-green-400">Profil aktualisiert!</p>}
+    <form
+      onSubmit={handleSubmit}
+      className="
+        space-y-6
+        bg-gray-800/60 backdrop-blur-xl
+        border border-gray-700 rounded-2xl shadow-lg
+        p-6
+      "
+    >
+      {/* Fehler / Erfolg */}
+      {error && (
+        <p className="bg-red-900 text-red-300 px-4 py-2 rounded text-center">
+          {error}
+        </p>
+      )}
+      {success && (
+        <p className="bg-green-800 text-green-200 px-4 py-2 rounded text-center">
+          Profil aktualisiert!
+        </p>
+      )}
 
-      <div>
-        <label className="block mb-1">E-Mail</label>
+      {/* E-Mail */}
+      <div className="flex flex-col">
+        <label className="mb-1 text-gray-300">E-Mail</label>
         <input
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="w-full p-2 bg-transparent border border-gray-600 rounded"
           required
+          className="
+            w-full px-4 py-3
+            bg-gray-900/50 backdrop-blur-md
+            border border-gray-600 rounded-lg
+            text-gray-100 placeholder-gray-500
+            focus:outline-none focus:ring-2 focus:ring-accent
+            transition
+          "
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block mb-1">Vorname</label>
+      {/* Vor- und Nachname */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col">
+          <label className="mb-1 text-gray-300">Vorname</label>
           <input
+            type="text"
             value={firstName}
             onChange={e => setFirstName(e.target.value)}
-            className="w-full p-2 bg-transparent border border-gray-600 rounded"
+            className="
+              w-full px-4 py-3
+              bg-gray-900/50 backdrop-blur-md
+              border border-gray-600 rounded-lg
+              text-gray-100 placeholder-gray-500
+              focus:outline-none focus:ring-2 focus:ring-accent
+              transition
+            "
           />
         </div>
-        <div>
-          <label className="block mb-1">Nachname</label>
+        <div className="flex flex-col">
+          <label className="mb-1 text-gray-300">Nachname</label>
           <input
+            type="text"
             value={lastName}
             onChange={e => setLastName(e.target.value)}
-            className="w-full p-2 bg-transparent border border-gray-600 rounded"
+            className="
+              w-full px-4 py-3
+              bg-gray-900/50 backdrop-blur-md
+              border border-gray-600 rounded-lg
+              text-gray-100 placeholder-gray-500
+              focus:outline-none focus:ring-2 focus:ring-accent
+              transition
+            "
           />
         </div>
       </div>
 
+      {/* Speichern-Button */}
       <button
         type="submit"
         disabled={loading}
-        className="px-4 py-2 bg-accent text-black rounded hover:bg-accent/90 disabled:opacity-50"
+        className="
+          w-full py-3
+          bg-accent text-black font-semibold
+          rounded-lg hover:bg-accent/90
+          disabled:opacity-50
+          transition
+        "
       >
         {loading ? 'Speichern…' : 'Speichern'}
       </button>

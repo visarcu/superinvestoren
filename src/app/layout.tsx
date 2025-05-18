@@ -5,11 +5,17 @@ import Script from 'next/script'
 import type { ReactNode } from 'react'
 import Providers from './providers'
 import Navbar from '@/components/Navbar'
+import Link from 'next/link'
+
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export const metadata = {
   title: 'SUPERINVESTOR',
   description: 'Portfolios der bekanntesten Investoren im Überblick',
 }
+
+
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -32,8 +38,27 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <main className="flex-grow max-w-screen-xl mx-auto px-6">
             {children}
           </main>
-          <footer className="bg-white dark:bg-surface-dark border-t text-center p-4 text-sm text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} SUPERINVESTOR
+          <footer className="bg-gray-900 border-t border-gray-700 py-6">
+            <div className="max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+              {/* Links linksbündig */}
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                <Link href="/privacy" className="hover:text-gray-200 transition">
+                  Datenschutzerklärung
+                </Link>
+                <span className="text-gray-600">|</span>
+                <Link href="/terms" className="hover:text-gray-200 transition">
+                  AGB
+                </Link>
+                <span className="text-gray-600">|</span>
+                <Link href="/impressum" className="hover:text-gray-200 transition">
+                  Impressum
+                </Link>
+              </div>
+              {/* Copyright rechtsbündig */}
+              <div className="text-sm text-gray-500">
+                © {new Date().getFullYear()} SUPERINVESTOR
+              </div>
+            </div>
           </footer>
         </Providers>
       </body>

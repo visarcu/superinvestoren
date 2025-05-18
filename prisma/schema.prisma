@@ -17,8 +17,10 @@ model User {
   id                      String                   @id @default(cuid())
   email                   String                   @unique
   passwordHash            String
+  stripeCustomerId  String?   @unique
   isPremium               Boolean                  @default(true)
   emailVerified           Boolean                  @default(false)
+  premiumSince DateTime?
   emailVerificationTokens EmailVerificationToken[]
   firstName               String? // neu
   lastName                String? // neu
