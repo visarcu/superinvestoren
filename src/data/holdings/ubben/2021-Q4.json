@@ -1,4 +1,85 @@
 {
+  "form": "13F-HR",
   "date": "2021-11-15",
-  "positions": []
+  "period": "2021-11-15",
+  "positions": [
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 17941603,
+      "value": 499674000
+    },
+    {
+      "name": "CBRE ACQUISITION HLDGS INC",
+      "cusip": "12510J114",
+      "shares": 18417,
+      "value": 30000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 9232609,
+      "value": 898887000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 13846107,
+      "value": 971720000
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 10935201,
+      "value": 1186469000
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 3324835,
+      "value": 299501000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 24055349,
+      "value": 1464490000
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 21550411,
+      "value": 1084417000
+    },
+    {
+      "name": "LUMENTUM HLDGS INC",
+      "cusip": "55024U109",
+      "shares": 1000000,
+      "value": 83540000
+    },
+    {
+      "name": "RACKSPACE TECHNOLOGY INC",
+      "cusip": "750102105",
+      "shares": 400000,
+      "value": 5688000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 17377070,
+      "value": 1433956000
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 16912667,
+      "value": 297663000
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 15005855,
+      "value": 407709000
+    }
+  ]
 }

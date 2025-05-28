@@ -1,0 +1,560 @@
+{
+  "form": "NPORT-P",
+  "date": "2020-02-20",
+  "period": "2020-02-20",
+  "positions": [
+    {
+      "name": "Glaxosmithkline plc",
+      "cusip": "G3910J112",
+      "shares": 2013273,
+      "value": 47442046980,
+      "pctOfPortfolio": 641.70822347
+    },
+    {
+      "name": "Kingfisher plc",
+      "cusip": "G5256E441",
+      "shares": 222498,
+      "value": 639544320,
+      "pctOfPortfolio": 8.65057213
+    },
+    {
+      "name": "Reckitt Benck Grp",
+      "cusip": "G74079107",
+      "shares": 164254,
+      "value": 13334918870,
+      "pctOfPortfolio": 180.37010716999998
+    },
+    {
+      "name": "Nestle SA/Ag",
+      "cusip": "H57312649",
+      "shares": 4147,
+      "value": 448976080,
+      "pctOfPortfolio": 6.072917609999999
+    },
+    {
+      "name": "Galapagos Nv",
+      "cusip": "B44170106",
+      "shares": 8702,
+      "value": 1820432870,
+      "pctOfPortfolio": 24.62344729
+    },
+    {
+      "name": "KONINKLIJKE AHOLD DELHAIZE NV",
+      "cusip": "N0074E105",
+      "shares": 1445577,
+      "value": 36151428190,
+      "pctOfPortfolio": 488.98962495999996
+    },
+    {
+      "name": "Suncor Energy Inc.",
+      "cusip": "867224107",
+      "shares": 198062,
+      "value": 6491485670,
+      "pctOfPortfolio": 87.80480612
+    },
+    {
+      "name": "Li & Fung LTD",
+      "cusip": "G5485F169",
+      "shares": 17125302,
+      "value": 1868062920,
+      "pctOfPortfolio": 25.26769847
+    },
+    {
+      "name": "Vodafone Group plc",
+      "cusip": "G93882192",
+      "shares": 188637,
+      "value": 366707160,
+      "pctOfPortfolio": 4.9601359
+    },
+    {
+      "name": "China Mobile Limited",
+      "cusip": "16941M109",
+      "shares": 133430,
+      "value": 5640086100,
+      "pctOfPortfolio": 76.28864819
+    },
+    {
+      "name": "EOG Resources, Inc.",
+      "cusip": "26875P101",
+      "shares": 68926,
+      "value": 5773241760,
+      "pctOfPortfolio": 78.08973156
+    },
+    {
+      "name": "Fluor Corporation",
+      "cusip": "343412102",
+      "shares": 88422,
+      "value": 1669407360,
+      "pctOfPortfolio": 22.58065365
+    },
+    {
+      "name": "Magna International Inc",
+      "cusip": "559222401",
+      "shares": 36799,
+      "value": 2017703440,
+      "pctOfPortfolio": 27.29175852
+    },
+    {
+      "name": "Fairfax Financial Holdings Limited",
+      "cusip": "303901102",
+      "shares": 2271,
+      "value": 1066358280,
+      "pctOfPortfolio": 14.42372159
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "66987V109",
+      "shares": 7508,
+      "value": 710932520,
+      "pctOfPortfolio": 9.616179599999999
+    },
+    {
+      "name": "Nokia Corp",
+      "cusip": "654902204",
+      "shares": 3505423,
+      "value": 13005119330,
+      "pctOfPortfolio": 175.90918926
+    },
+    {
+      "name": "Pioneer Natural Resources Company",
+      "cusip": "723787107",
+      "shares": 40057,
+      "value": 6063428090,
+      "pctOfPortfolio": 82.01483526999999
+    },
+    {
+      "name": "Tenaris SA",
+      "cusip": "88031M109",
+      "shares": 164372,
+      "value": 3721382080,
+      "pctOfPortfolio": 50.335970630000006
+    },
+    {
+      "name": "IGM Financial Inc",
+      "cusip": "449586106",
+      "shares": 170313,
+      "value": 4889506480,
+      "pctOfPortfolio": 66.13619598
+    },
+    {
+      "name": "Dubai Financial",
+      "cusip": "000000000",
+      "shares": 4048694,
+      "value": 1069173100.0000001,
+      "pctOfPortfolio": 14.46179527
+    },
+    {
+      "name": "Rocket Internet SE",
+      "cusip": "D6S914104",
+      "shares": 87431,
+      "value": 2161158630,
+      "pctOfPortfolio": 29.23215488
+    },
+    {
+      "name": "Thales",
+      "cusip": "F9156M108",
+      "shares": 18678,
+      "value": 1938397080,
+      "pctOfPortfolio": 26.219048830000002
+    },
+    {
+      "name": "Compagnie Generale des Etablissements Michelin",
+      "cusip": "F61824144",
+      "shares": 258625,
+      "value": 31649875560,
+      "pctOfPortfolio": 428.10095077000005
+    },
+    {
+      "name": "Total S.A.",
+      "cusip": "F92124100",
+      "shares": 6852,
+      "value": 378145740,
+      "pctOfPortfolio": 5.114855840000001
+    },
+    {
+      "name": "Safran",
+      "cusip": "F4035A557",
+      "shares": 38296,
+      "value": 5912979630,
+      "pctOfPortfolio": 79.97984688999999
+    },
+    {
+      "name": "Baidu, Inc.",
+      "cusip": "056752108",
+      "shares": 134457,
+      "value": 16995364800,
+      "pctOfPortfolio": 229.88184632
+    },
+    {
+      "name": "SGS Sa",
+      "cusip": "H7485A108",
+      "shares": 134,
+      "value": 366982270,
+      "pctOfPortfolio": 4.96385707
+    },
+    {
+      "name": "Telefonica Deutschland Holding AG",
+      "cusip": "D8T9CK101",
+      "shares": 6363376,
+      "value": 18459579520,
+      "pctOfPortfolio": 249.68703363000003
+    },
+    {
+      "name": "Italgas Spa",
+      "cusip": "T6R89Z103",
+      "shares": 120175,
+      "value": 734713760,
+      "pctOfPortfolio": 9.93784821
+    },
+    {
+      "name": "Endesa SA",
+      "cusip": "E41222113",
+      "shares": 491233,
+      "value": 13108672960,
+      "pctOfPortfolio": 177.30987115000002
+    },
+    {
+      "name": "Nokia Corp",
+      "cusip": "X61873133",
+      "shares": 837846,
+      "value": 3099082810,
+      "pctOfPortfolio": 41.91865763
+    },
+    {
+      "name": "Snam S.p.A.",
+      "cusip": "T8578N103",
+      "shares": 3802208,
+      "value": 19991254740,
+      "pctOfPortfolio": 270.40470175
+    },
+    {
+      "name": "Nokian Renkaat Oyj (Nokia Tyres)",
+      "cusip": "X5862L103",
+      "shares": 22818,
+      "value": 656289110,
+      "pctOfPortfolio": 8.87706466
+    },
+    {
+      "name": "Swisscom AG",
+      "cusip": "H8398N104",
+      "shares": 36927,
+      "value": 19548262570,
+      "pctOfPortfolio": 264.4127234
+    },
+    {
+      "name": "Kuehne&Nagel Intl",
+      "cusip": "H4673L145",
+      "shares": 25959,
+      "value": 4378417830,
+      "pctOfPortfolio": 59.223134460000004
+    },
+    {
+      "name": "Tecnicas Reunidas",
+      "cusip": "E9055J108",
+      "shares": 462574,
+      "value": 12349089220,
+      "pctOfPortfolio": 167.03562786999998
+    },
+    {
+      "name": "RTL Group",
+      "cusip": "L80326108",
+      "shares": 69953,
+      "value": 3446712940,
+      "pctOfPortfolio": 46.62075476
+    },
+    {
+      "name": "Singapore Exchange",
+      "cusip": "Y79946102",
+      "shares": 356200,
+      "value": 2346505070,
+      "pctOfPortfolio": 31.739178550000002
+    },
+    {
+      "name": "China Mobile Limited",
+      "cusip": "Y14965100",
+      "shares": 3950000,
+      "value": 33202648770,
+      "pctOfPortfolio": 449.10399345999997
+    },
+    {
+      "name": "CLP Holdings Ltd",
+      "cusip": "Y1660Q104",
+      "shares": 101000,
+      "value": 1062520050,
+      "pctOfPortfolio": 14.37180512
+    },
+    {
+      "name": "NTT Docomo Inc",
+      "cusip": "J59399121",
+      "shares": 1007300,
+      "value": 28059487730,
+      "pctOfPortfolio": 379.53682796
+    },
+    {
+      "name": "Bridgestone Corp",
+      "cusip": "J04578126",
+      "shares": 417200,
+      "value": 15499026710,
+      "pctOfPortfolio": 209.64215351
+    },
+    {
+      "name": "Daito Trust Construction Co",
+      "cusip": "J11151107",
+      "shares": 67500,
+      "value": 8341399280,
+      "pctOfPortfolio": 112.8270143
+    },
+    {
+      "name": "Subaru Corporation",
+      "cusip": "J7676H100",
+      "shares": 650100,
+      "value": 16102867090,
+      "pctOfPortfolio": 217.80978879999998
+    },
+    {
+      "name": "Japan Tobacco Inc",
+      "cusip": "J27869106",
+      "shares": 817600,
+      "value": 18229662560,
+      "pctOfPortfolio": 246.57714244000002
+    },
+    {
+      "name": "Mabuchi Motor Co",
+      "cusip": "J39186101",
+      "shares": 146400,
+      "value": 5527413750,
+      "pctOfPortfolio": 74.76462513
+    },
+    {
+      "name": "Nintendo Co Ltd",
+      "cusip": "J51699106",
+      "shares": 113800,
+      "value": 45515465340,
+      "pctOfPortfolio": 615.6489920500001
+    },
+    {
+      "name": "Nippon Telegraph and Telephone Corporation",
+      "cusip": "J59396101",
+      "shares": 937200,
+      "value": 23686503100,
+      "pctOfPortfolio": 320.38718378
+    },
+    {
+      "name": "ONO Pharmaceutical Co Ltd",
+      "cusip": "J61546115",
+      "shares": 73400,
+      "value": 1675745310,
+      "pctOfPortfolio": 22.66638171
+    },
+    {
+      "name": "Secom Co Ltd",
+      "cusip": "J69972107",
+      "shares": 60800,
+      "value": 5425958760,
+      "pctOfPortfolio": 73.39232976
+    },
+    {
+      "name": "Shizuoka Bank Ltd",
+      "cusip": "J74444100",
+      "shares": 87000,
+      "value": 647127820,
+      "pctOfPortfolio": 8.75314769
+    },
+    {
+      "name": "Deutsche Boerse AG",
+      "cusip": "D1882G119",
+      "shares": 372302,
+      "value": 58381664630,
+      "pctOfPortfolio": 789.6791280699999
+    },
+    {
+      "name": "Roche Holdings AG",
+      "cusip": "H69293217",
+      "shares": 164306,
+      "value": 53399912630,
+      "pctOfPortfolio": 722.29520539
+    },
+    {
+      "name": "Philip Morris International Inc.",
+      "cusip": "718172109",
+      "shares": 429037,
+      "value": 36506758330,
+      "pctOfPortfolio": 493.79587358
+    },
+    {
+      "name": "Northern Inst Fds",
+      "cusip": "665279873",
+      "shares": 21879538.15,
+      "value": 21879538150,
+      "pctOfPortfolio": 295.94590559
+    },
+    {
+      "name": "UBS Group AG",
+      "cusip": "H42097107",
+      "shares": 57153,
+      "value": 721235900,
+      "pctOfPortfolio": 9.75554466
+    },
+    {
+      "name": "National Grid plc",
+      "cusip": "G6S9A7120",
+      "shares": 469304,
+      "value": 5870147950,
+      "pctOfPortfolio": 79.40049918
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -5812106,
+      "value": 48672460,
+      "pctOfPortfolio": 0.65835097
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -2855857,
+      "value": 97516100,
+      "pctOfPortfolio": 1.31901735
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -3629600,
+      "value": 68106460,
+      "pctOfPortfolio": 0.9212181599999999
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -1301000,
+      "value": 6185780,
+      "pctOfPortfolio": 0.08366979000000001
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -34681386,
+      "value": 1183016480,
+      "pctOfPortfolio": 16.001657859999998
+    },
+    {
+      "name": "NORTHERN TRUST CHICAGO",
+      "cusip": "000000000",
+      "shares": -1771455.99,
+      "value": 12890490,
+      "pctOfPortfolio": 0.1743587
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -1496703,
+      "value": 5243440,
+      "pctOfPortfolio": 0.07092355
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -40869309,
+      "value": 1141035590,
+      "pctOfPortfolio": 15.433818060000002
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -6742348,
+      "value": -100312730,
+      "pctOfPortfolio": -1.35684499
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -5171558,
+      "value": 15134140,
+      "pctOfPortfolio": 0.20470664
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -66915731,
+      "value": -58156980,
+      "pctOfPortfolio": -0.7866400100000001
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -3019205,
+      "value": 134676480,
+      "pctOfPortfolio": 1.82165421
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -1021694,
+      "value": 30707290,
+      "pctOfPortfolio": 0.4153514
+    },
+    {
+      "name": "NORTHERN TRUST CHICAGO",
+      "cusip": "000000000",
+      "shares": -3641687,
+      "value": 79616930,
+      "pctOfPortfolio": 1.0769104999999999
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -2217036,
+      "value": 11057230,
+      "pctOfPortfolio": 0.14956175
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -11586224,
+      "value": 253836160,
+      "pctOfPortfolio": 3.43342587
+    },
+    {
+      "name": "NORTHERN TRUST CHICAGO",
+      "cusip": "000000000",
+      "shares": -5599518,
+      "value": 83194260,
+      "pctOfPortfolio": 1.125298
+    },
+    {
+      "name": "CHASE MANHATTAN BANK NEW YORK",
+      "cusip": "000000000",
+      "shares": -9503113,
+      "value": -161970080,
+      "pctOfPortfolio": -2.19083153
+    },
+    {
+      "name": "NORTHERN TRUST CHICAGO",
+      "cusip": "000000000",
+      "shares": -2056682,
+      "value": -34039300,
+      "pctOfPortfolio": -0.46042066
+    },
+    {
+      "name": "NORTHERN TRUST CHICAGO",
+      "cusip": "000000000",
+      "shares": -62894383,
+      "value": -88088410,
+      "pctOfPortfolio": -1.19149701
+    },
+    {
+      "name": "NORTHERN TRUST CHICAGO",
+      "cusip": "000000000",
+      "shares": -1983206,
+      "value": -32823230.000000004,
+      "pctOfPortfolio": -0.44397192
+    },
+    {
+      "name": "UBS SECURITIES NEW YORK",
+      "cusip": "000000000",
+      "shares": -200290946,
+      "value": -300240050,
+      "pctOfPortfolio": -4.06109182
+    }
+  ]
+}

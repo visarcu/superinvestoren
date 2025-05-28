@@ -1,4 +1,61 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-13",
-  "positions": []
+  "period": "2020-08-13",
+  "positions": [
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 766579,
+      "value": 95025000000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 572800,
+      "value": 63495000000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 90120,
+      "value": 127395000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 500029,
+      "value": 255035000000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 28100,
+      "value": 9258000000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 277500,
+      "value": 82057000000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 650228,
+      "value": 178637000000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 228074,
+      "value": 100820000000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 650000,
+      "value": 125560000000
+    }
+  ]
 }

@@ -1,4 +1,61 @@
 {
+  "form": "13F-HR",
   "date": "2022-08-15",
-  "positions": []
+  "period": "2022-08-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 46311,
+      "value": 101303000000
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 527960,
+      "value": 56075000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 315083,
+      "value": 147626000000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 373172,
+      "value": 26491000000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 258387,
+      "value": 66362000000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 181333,
+      "value": 49317000000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 146400,
+      "value": 78568000000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 197711,
+      "value": 33083000000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 483707,
+      "value": 95237000000
+    }
+  ]
 }

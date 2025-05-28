@@ -1,4 +1,511 @@
 {
+  "form": "13F-HR",
   "date": "2023-02-14",
-  "positions": []
+  "period": "2023-02-14",
+  "positions": [
+    {
+      "name": "ADT INC DEL",
+      "cusip": "00090Q103",
+      "shares": 3351027,
+      "value": 30393814000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 558507,
+      "value": 49198959000
+    },
+    {
+      "name": "ALLIANCE RESOURCE PARTNERS L",
+      "cusip": "01877R108",
+      "shares": 324000,
+      "value": 6583680000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 615772,
+      "value": 54329575000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 671540,
+      "value": 56409428000
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 339475,
+      "value": 2654694000
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M106",
+      "shares": 66000,
+      "value": 4210140000
+    },
+    {
+      "name": "ARTISAN PARTNERS ASSET MGMT",
+      "cusip": "04316A108",
+      "shares": 63000,
+      "value": 1871100000
+    },
+    {
+      "name": "ATKORE INC",
+      "cusip": "047649108",
+      "shares": 5000,
+      "value": 567100000
+    },
+    {
+      "name": "B. RILEY FINANCIAL INC",
+      "cusip": "05580M108",
+      "shares": 87500,
+      "value": 2992500000
+    },
+    {
+      "name": "BARCLAYS PLC",
+      "cusip": "06738E204",
+      "shares": 8000,
+      "value": 62400000
+    },
+    {
+      "name": "BARCLAYS PLC",
+      "cusip": "06738E204",
+      "shares": 36500,
+      "value": 284700000
+    },
+    {
+      "name": "BEAZER HOMES USA INC",
+      "cusip": "07556Q881",
+      "shares": 50000,
+      "value": 638000000
+    },
+    {
+      "name": "BLUEGREEN VACATIONS HLDG COR",
+      "cusip": "096308101",
+      "shares": 10000,
+      "value": 249600000
+    },
+    {
+      "name": "BUCKLE INC",
+      "cusip": "118440106",
+      "shares": 229200,
+      "value": 10394220000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 21500,
+      "value": 1394920000
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 67000,
+      "value": 1495440000
+    },
+    {
+      "name": "CANADA GOOSE HLDGS INC",
+      "cusip": "135086106",
+      "shares": 2234764,
+      "value": 39801146000
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 299263,
+      "value": 27819518000
+    },
+    {
+      "name": "CHEMOURS CO",
+      "cusip": "163851108",
+      "shares": 250000,
+      "value": 7655000000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 383200,
+      "value": 36162633000
+    },
+    {
+      "name": "CHICOS FAS INC",
+      "cusip": "168615102",
+      "shares": 1273032,
+      "value": 6263317000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1030868,
+      "value": 46626199000
+    },
+    {
+      "name": "CLEVELAND-CLIFFS INC NEW",
+      "cusip": "185899101",
+      "shares": 2002557,
+      "value": 32261193000
+    },
+    {
+      "name": "COINBASE GLOBAL INC",
+      "cusip": "19260Q107",
+      "shares": 716532,
+      "value": 25358077000
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 320825,
+      "value": 1299341000
+    },
+    {
+      "name": "CREDIT SUISSE GROUP",
+      "cusip": "225401108",
+      "shares": 50000,
+      "value": 152000000
+    },
+    {
+      "name": "CROCS INC",
+      "cusip": "227046109",
+      "shares": 15000,
+      "value": 1626450000
+    },
+    {
+      "name": "CTO RLTY GROWTH INC NEW",
+      "cusip": "22948Q101",
+      "shares": 381900,
+      "value": 6981132000
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 1677660,
+      "value": 55127935000
+    },
+    {
+      "name": "DESKTOP METAL INC",
+      "cusip": "25058X105",
+      "shares": 5000,
+      "value": 6800000
+    },
+    {
+      "name": "DESKTOP METAL INC",
+      "cusip": "25058X105",
+      "shares": 29900,
+      "value": 40664000
+    },
+    {
+      "name": "DEUTSCHE BANK A G",
+      "cusip": "D18190898",
+      "shares": 8000,
+      "value": 92160000
+    },
+    {
+      "name": "DEUTSCHE BANK A G",
+      "cusip": "D18190898",
+      "shares": 150000,
+      "value": 1728000000
+    },
+    {
+      "name": "DIAMOND OFFSHORE DRILLING IN",
+      "cusip": "25271C201",
+      "shares": 70000,
+      "value": 728000000
+    },
+    {
+      "name": "DXC TECHNOLOGY CO",
+      "cusip": "23355L106",
+      "shares": 558816,
+      "value": 14808623000
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 4996876,
+      "value": 59312918000
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 787300,
+      "value": 68967559000
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 6852427,
+      "value": 32411979000
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 382490,
+      "value": 38658325000
+    },
+    {
+      "name": "FOOT LOCKER INC",
+      "cusip": "344849104",
+      "shares": 21335,
+      "value": 806250000
+    },
+    {
+      "name": "GANNETT CO INC",
+      "cusip": "36472T109",
+      "shares": 1795725,
+      "value": 3645322000
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 1338820,
+      "value": 45037911000
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 383000,
+      "value": 4193850000
+    },
+    {
+      "name": "IHEARTMEDIA INC",
+      "cusip": "45174J509",
+      "shares": 30000,
+      "value": 183900000
+    },
+    {
+      "name": "JACKSON FINANCIAL INC",
+      "cusip": "46817M107",
+      "shares": 250440,
+      "value": 8712808000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 349181,
+      "value": 46825236000
+    },
+    {
+      "name": "KARUNA THERAPEUTICS INC",
+      "cusip": "48576A100",
+      "shares": 144966,
+      "value": 28485820000
+    },
+    {
+      "name": "LAZARD LTD",
+      "cusip": "G54050102",
+      "shares": 127200,
+      "value": 4410024000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 1000,
+      "value": 204740000
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 8000,
+      "value": 664240000
+    },
+    {
+      "name": "M/I HOMES INC",
+      "cusip": "55305B101",
+      "shares": 41915,
+      "value": 1935635000
+    },
+    {
+      "name": "MATTEL INC",
+      "cusip": "577081102",
+      "shares": 3358156,
+      "value": 59909503000
+    },
+    {
+      "name": "MEDICAL PPTYS TRUST INC",
+      "cusip": "58463J304",
+      "shares": 582000,
+      "value": 6483480000
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 31500,
+      "value": 3633525000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 275914,
+      "value": 33203554000
+    },
+    {
+      "name": "MICROSTRATEGY INC",
+      "cusip": "594972408",
+      "shares": 1900000,
+      "value": 878433000
+    },
+    {
+      "name": "NABORS INDUSTRIES LTD",
+      "cusip": "G6359F137",
+      "shares": 38726,
+      "value": 5997496000
+    },
+    {
+      "name": "NORWEGIAN CRUISE LINE HLDG L",
+      "cusip": "G66721104",
+      "shares": 3803983,
+      "value": 46560751000
+    },
+    {
+      "name": "ONEMAIN HLDGS INC",
+      "cusip": "68268W103",
+      "shares": 2099765,
+      "value": 69943172000
+    },
+    {
+      "name": "ORGANON & CO",
+      "cusip": "68622V106",
+      "shares": 230000,
+      "value": 6423900000
+    },
+    {
+      "name": "OVINTIV INC",
+      "cusip": "69047Q102",
+      "shares": 1459424,
+      "value": 74007409000
+    },
+    {
+      "name": "PERDOCEO ED CORP",
+      "cusip": "71363P106",
+      "shares": 35000,
+      "value": 486500000
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479100",
+      "shares": 383159,
+      "value": 1456004000
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479100",
+      "shares": 50000,
+      "value": 190000000
+    },
+    {
+      "name": "PRICE T ROWE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 19175,
+      "value": 2091225000
+    },
+    {
+      "name": "QUAD / GRAPHICS INC",
+      "cusip": "747301109",
+      "shares": 1450000,
+      "value": 5916000000
+    },
+    {
+      "name": "SCULPTOR CAP MGMT",
+      "cusip": "811246107",
+      "shares": 362400,
+      "value": 3138384000
+    },
+    {
+      "name": "SILVERGATE CAP CORP",
+      "cusip": "82837P408",
+      "shares": 1423984,
+      "value": 24777321000
+    },
+    {
+      "name": "SIMON PPTY GROUP INC NEW",
+      "cusip": "828806109",
+      "shares": 29000,
+      "value": 3406920000
+    },
+    {
+      "name": "SOFI TECHNOLOGIES INC",
+      "cusip": "83406F102",
+      "shares": 4908580,
+      "value": 22628553000
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 20062,
+      "value": 7672693000
+    },
+    {
+      "name": "SPLUNK INC",
+      "cusip": "848637104",
+      "shares": 388824,
+      "value": 33473918000
+    },
+    {
+      "name": "STITCH FIX INC",
+      "cusip": "860897107",
+      "shares": 4234914,
+      "value": 13170582000
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 2151320,
+      "value": 65292562000
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "G87110105",
+      "shares": 278200,
+      "value": 3391258000
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 5147027,
+      "value": 46940886000
+    },
+    {
+      "name": "TRAVEL PLUS LEISURE CO",
+      "cusip": "894164102",
+      "shares": 1001052,
+      "value": 36438294000
+    },
+    {
+      "name": "TUPPERWARE BRANDS CORP",
+      "cusip": "899896104",
+      "shares": 98426,
+      "value": 407484000
+    },
+    {
+      "name": "TUTOR PERINI CORP",
+      "cusip": "901109108",
+      "shares": 306700,
+      "value": 2315585000
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 1667945,
+      "value": 41248284000
+    },
+    {
+      "name": "UNITED AIRLS HLDGS INC",
+      "cusip": "910047109",
+      "shares": 1001950,
+      "value": 37773520000
+    },
+    {
+      "name": "VALE S A",
+      "cusip": "91912E105",
+      "shares": 494001,
+      "value": 8383197000
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 943500,
+      "value": 10501155000
+    }
+  ]
 }

@@ -1,4 +1,49 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-14",
-  "positions": []
+  "period": "2020-08-14",
+  "positions": [
+    {
+      "name": "Bank New York Mellon Corp. ",
+      "cusip": "064058100",
+      "shares": 4383286,
+      "value": 169414000
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 59332322,
+      "value": 405240000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 15848921,
+      "value": 810355000
+    },
+    {
+      "name": "nVent Electric Plc",
+      "cusip": "G6700G107",
+      "shares": 12391442,
+      "value": 232092000
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 10825852,
+      "value": 1294447000
+    },
+    {
+      "name": "Sysco Corp.",
+      "cusip": "871829107",
+      "shares": 24379843,
+      "value": 1332602000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 26630629,
+      "value": 580015000
+    }
+  ]
 }

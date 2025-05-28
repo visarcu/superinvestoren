@@ -1,4 +1,133 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
-  "positions": []
+  "period": "2019-02-14",
+  "positions": [
+    {
+      "name": "AES CORP",
+      "cusip": "00130H105",
+      "shares": 1564500,
+      "value": 22623000
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 5207646,
+      "value": 781564000
+    },
+    {
+      "name": "ARAMARK",
+      "cusip": "03852U106",
+      "shares": 229230,
+      "value": 9538000
+    },
+    {
+      "name": "ARCOSA INC",
+      "cusip": "039653100",
+      "shares": 7135963,
+      "value": 197595000
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 4614787,
+      "value": 54639000
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 2244910,
+      "value": 130676000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 18033149,
+      "value": 333072000
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 250000,
+      "value": 4491000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 19921376,
+      "value": 797652000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 31525500,
+      "value": 1641218000
+    },
+    {
+      "name": "DARLING INGREDIENTS INC",
+      "cusip": "237266101",
+      "shares": 180328,
+      "value": 13090000
+    },
+    {
+      "name": "ENVIVA PARTNERS LP",
+      "cusip": "29414J107",
+      "shares": 723650,
+      "value": 20081000
+    },
+    {
+      "name": "HAWAIIAN ELEC INDUSTRIES",
+      "cusip": "419870100",
+      "shares": 1507295,
+      "value": 55197000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 50700000,
+      "value": 995241000
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HLDGS I",
+      "cusip": "535219109",
+      "shares": 2300572,
+      "value": 30966000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 26228561,
+      "value": 1039962000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 27295160,
+      "value": 1053320000
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 39184254,
+      "value": 325621000
+    },
+    {
+      "name": "STRATEGIC ED INC",
+      "cusip": "86272C103",
+      "shares": 404741,
+      "value": 45906000
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 21900000,
+      "value": 450921000
+    },
+    {
+      "name": "UNIFI INC",
+      "cusip": "904677200",
+      "shares": 1127679,
+      "value": 25756000
+    }
+  ]
 }

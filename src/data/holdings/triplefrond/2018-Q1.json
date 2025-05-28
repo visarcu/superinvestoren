@@ -1,4 +1,55 @@
 {
+  "form": "13F-HR",
   "date": "2018-02-12",
-  "positions": []
+  "period": "2018-02-12",
+  "positions": [
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 2835333,
+      "value": 95948000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 606029,
+      "value": 203602000000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 186000,
+      "value": 28153000000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1034075,
+      "value": 152640000000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 674676,
+      "value": 110215000000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 2500000,
+      "value": 128425000000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 389998,
+      "value": 107101000000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 500000,
+      "value": 57010000000
+    }
+  ]
 }

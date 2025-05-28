@@ -1,4 +1,61 @@
 {
+  "form": "13F-HR",
   "date": "2019-05-10",
-  "positions": []
+  "period": "2019-05-10",
+  "positions": [
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 766579,
+      "value": 70326000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1668979,
+      "value": 40406000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 620029,
+      "value": 215094000000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 271300,
+      "value": 63878000000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 875628,
+      "value": 158567000000
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATION",
+      "cusip": "808513105",
+      "shares": 2627611,
+      "value": 112357000000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 212162,
+      "value": 96319000000
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 104718,
+      "value": 13928000000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 607300,
+      "value": 94854000000
+    }
+  ]
 }

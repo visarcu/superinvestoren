@@ -1,0 +1,266 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-02-20",
+  "period": "2025-02-20",
+  "positions": [
+    {
+      "name": "Janus Henderson Group PLC",
+      "cusip": "G4474Y214",
+      "shares": 1255223,
+      "value": 53384634190,
+      "pctOfPortfolio": 195.29196044
+    },
+    {
+      "name": "Manchester United PLC",
+      "cusip": "G5784H106",
+      "shares": 3459051,
+      "value": 60014534850,
+      "pctOfPortfolio": 219.54549926
+    },
+    {
+      "name": "Middleby Corp.",
+      "cusip": "596278101",
+      "shares": 264461,
+      "value": 35821242450,
+      "pctOfPortfolio": 131.04146483
+    },
+    {
+      "name": "ADT Inc",
+      "cusip": "00090Q103",
+      "shares": 10507416,
+      "value": 72606244560,
+      "pctOfPortfolio": 265.60856051
+    },
+    {
+      "name": "Generac Holdings Inc.",
+      "cusip": "368736104",
+      "shares": 496535,
+      "value": 76987751750,
+      "pctOfPortfolio": 281.63701405
+    },
+    {
+      "name": "First American Financial Corporation",
+      "cusip": "31847R102",
+      "shares": 1094181,
+      "value": 68320661640,
+      "pctOfPortfolio": 249.93101765999998
+    },
+    {
+      "name": "Northern Institutional Funds",
+      "cusip": "665279873",
+      "shares": 16853353.44,
+      "value": 16853353440.000002,
+      "pctOfPortfolio": 61.65302963
+    },
+    {
+      "name": "Jones Lang LaSalle Incorporated",
+      "cusip": "48020Q107",
+      "shares": 335895,
+      "value": 85028460300,
+      "pctOfPortfolio": 311.051578
+    },
+    {
+      "name": "Bio-Rad Laboratories, Inc.",
+      "cusip": "090572207",
+      "shares": 233122,
+      "value": 76582908220,
+      "pctOfPortfolio": 280.15601324
+    },
+    {
+      "name": "BOK Financial Corp",
+      "cusip": "05561Q201",
+      "shares": 504588,
+      "value": 53713392600,
+      "pctOfPortfolio": 196.49462626000002
+    },
+    {
+      "name": "Boyd Gaming Corporation",
+      "cusip": "103304101",
+      "shares": 1548230,
+      "value": 112308604200,
+      "pctOfPortfolio": 410.84794945
+    },
+    {
+      "name": "Affiliated Managers Group, Inc.",
+      "cusip": "008252108",
+      "shares": 546454,
+      "value": 101050273680,
+      "pctOfPortfolio": 369.66266323
+    },
+    {
+      "name": "Charles River Laboratories International, Inc.",
+      "cusip": "159864107",
+      "shares": 379540,
+      "value": 70063084000,
+      "pctOfPortfolio": 256.30515666
+    },
+    {
+      "name": "Gentex Corp",
+      "cusip": "371901109",
+      "shares": 2070821,
+      "value": 59494687330,
+      "pctOfPortfolio": 217.64379022
+    },
+    {
+      "name": "The Interpublic Group of Companies, Inc.",
+      "cusip": "460690100",
+      "shares": 2058141,
+      "value": 57669110820,
+      "pctOfPortfolio": 210.96545626
+    },
+    {
+      "name": "Kennametal Inc",
+      "cusip": "489170100",
+      "shares": 2125680,
+      "value": 51058833600,
+      "pctOfPortfolio": 186.78370402
+    },
+    {
+      "name": "Masco Corporation",
+      "cusip": "574599106",
+      "shares": 581567,
+      "value": 42204317190,
+      "pctOfPortfolio": 154.39206371
+    },
+    {
+      "name": "Mattel, Inc.",
+      "cusip": "577081102",
+      "shares": 4755930,
+      "value": 84322638900,
+      "pctOfPortfolio": 308.46953829
+    },
+    {
+      "name": "Mohawk Industries, Inc.",
+      "cusip": "608190104",
+      "shares": 765417,
+      "value": 91184127210,
+      "pctOfPortfolio": 333.57027231999996
+    },
+    {
+      "name": "Northern Trust Corporation",
+      "cusip": "665859104",
+      "shares": 1120469,
+      "value": 114848072500,
+      "pctOfPortfolio": 420.13784626
+    },
+    {
+      "name": "The J M Smucker Company",
+      "cusip": "832696405",
+      "shares": 906622,
+      "value": 99837214640,
+      "pctOfPortfolio": 365.22504403
+    },
+    {
+      "name": "Royal Caribbean Group",
+      "cusip": "V7780T103",
+      "shares": 244933,
+      "value": 56503593770,
+      "pctOfPortfolio": 206.70175542
+    },
+    {
+      "name": "Madison Square Garden Sports Corp",
+      "cusip": "55825T103",
+      "shares": 306553,
+      "value": 69182881040,
+      "pctOfPortfolio": 253.08519338000002
+    },
+    {
+      "name": "Adtalem Global Education Inc",
+      "cusip": "00737L103",
+      "shares": 1280535,
+      "value": 116336604750,
+      "pctOfPortfolio": 425.58320306999997
+    },
+    {
+      "name": "GCM Grosvenor Inc",
+      "cusip": "36831E108",
+      "shares": 2070647,
+      "value": 25406838690,
+      "pctOfPortfolio": 92.9434361
+    },
+    {
+      "name": "Core Laboratories Inc",
+      "cusip": "21867A105",
+      "shares": 3505349,
+      "value": 60677591190,
+      "pctOfPortfolio": 221.97109558
+    },
+    {
+      "name": "Leslie's Inc.",
+      "cusip": "527064109",
+      "shares": 32000780,
+      "value": 71361739400,
+      "pctOfPortfolio": 261.05590494
+    },
+    {
+      "name": "Lazard Inc",
+      "cusip": "52110M109",
+      "shares": 1877302,
+      "value": 96643506960,
+      "pctOfPortfolio": 353.54180514
+    },
+    {
+      "name": "Zebra Technologies Corporation",
+      "cusip": "989207105",
+      "shares": 143768,
+      "value": 55526076960,
+      "pctOfPortfolio": 203.12579808
+    },
+    {
+      "name": "Prestige Consumer Healthcare Inc",
+      "cusip": "74112D101",
+      "shares": 1140938,
+      "value": 89095848420,
+      "pctOfPortfolio": 325.93091944
+    },
+    {
+      "name": "Sphere Entertainment Co.",
+      "cusip": "55826T102",
+      "shares": 2119656,
+      "value": 85464529920,
+      "pctOfPortfolio": 312.64681026
+    },
+    {
+      "name": "Carlyle Group Inc",
+      "cusip": "14316J108",
+      "shares": 2182992,
+      "value": 110219266080,
+      "pctOfPortfolio": 403.20472132000003
+    },
+    {
+      "name": "Madison Square Garden Entertainment Corp New",
+      "cusip": "558256103",
+      "shares": 3056024,
+      "value": 108794454400,
+      "pctOfPortfolio": 397.99246745
+    },
+    {
+      "name": "Resideo Technologies Inc",
+      "cusip": "76118Y104",
+      "shares": 2227075,
+      "value": 51334078750,
+      "pctOfPortfolio": 187.79060733
+    },
+    {
+      "name": "Paramount Global",
+      "cusip": "92556H206",
+      "shares": 9177602,
+      "value": 95997716920,
+      "pctOfPortfolio": 351.17937249
+    },
+    {
+      "name": "Axalta Coating Systems Limited",
+      "cusip": "G0750C108",
+      "shares": 1815278,
+      "value": 62118813160,
+      "pctOfPortfolio": 227.24338167
+    },
+    {
+      "name": "Envista Holdings Corporation",
+      "cusip": "29415F104",
+      "shares": 4908366,
+      "value": 94682380140,
+      "pctOfPortfolio": 346.3676003
+    }
+  ]
+}

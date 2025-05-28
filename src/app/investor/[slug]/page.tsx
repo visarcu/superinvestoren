@@ -113,7 +113,26 @@ const investorNames: Record<string,string> = {
   coleman: 'Chase Coleman - Tiger Global Management',
   icahn:'Carl Icahn - Icahn Capital Management',
   ainslie:'Lee Ainslie - Maverick Capital',
-  mandel:'Stephen Mandel - Lone Pine Capital'
+  mandel:'Stephen Mandel - Lone Pine Capital',
+  mairspower: 'Andrew R. Adams - Mairs & Power Growth Fund',
+  cunniff:'Ruane Cunniff – Sequoia Fund',
+  hawkins:'Mason Hawkins – Longleaf Partners',
+  katz: 'David Katz',
+  klarman: 'Seth Klarman - Baupost Group',
+  spier: 'Guy Spier - Aquamarine Capital',
+  triplefrond:'Stuart McLaughlin - Triple Frond Partners',
+  lilu: 'Li Lu - Himalaya Capital Management',
+  marks: 'Howard Marks - Oaktree Capital Management',
+  ubben: 'Jeffrey Ubben - Valueact Holdings',
+  smith: 'Terry Smith - Fundsmith',
+  donaldsmith:'Donald Smith & Co.',
+  dodgecox:'Dodge & Cox Stock Fund',
+  miller: 'Bill Miller - Miller Value Partners',
+  cantillon: 'William von Mueffling - Cantillon Capital Management',
+  whitman: 'Marty Whitman - Third Avenue Management',
+  greenbrier:'Greenbrier Partners Capital Management',
+  peltz: 'Nelson Peltz - Trian Fund Management'
+
 }
 
 function splitInvestorName(full: string) {

@@ -1,4 +1,79 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-15",
-  "positions": []
+  "period": "2024-05-15",
+  "positions": [
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 2470748,
+      "value": 240255536000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5418631,
+      "value": 663023689000
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 3414568,
+      "value": 470356742000
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 3655641,
+      "value": 584244545000
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 495135,
+      "value": 78181817000
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 243777,
+      "value": 33475458000
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 4511739,
+      "value": 837017819000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 1904808,
+      "value": 191585588000
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 2094392,
+      "value": 90519622000
+    },
+    {
+      "name": "ROBLOX CORP",
+      "cusip": "771049103",
+      "shares": 2300000,
+      "value": 87814000000
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 3486309,
+      "value": 1050006545000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 820553,
+      "value": 216543937000
+    }
+  ]
 }

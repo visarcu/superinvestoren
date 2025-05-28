@@ -1,4 +1,49 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-12",
-  "positions": []
+  "period": "2016-02-12",
+  "positions": [
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 2050000,
+      "value": 83579000000
+    },
+    {
+      "name": "CHARTER COMMUNICATION INC D",
+      "cusip": "16117M305",
+      "shares": 450000,
+      "value": 82395000000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS INC",
+      "cusip": "23918K108",
+      "shares": 1000000,
+      "value": 69710000000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 725000,
+      "value": 72747000000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 500000,
+      "value": 52535000000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 3000000,
+      "value": 98790000000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 334243,
+      "value": 76358000000
+    }
+  ]
 }

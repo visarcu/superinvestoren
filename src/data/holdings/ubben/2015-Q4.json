@@ -1,4 +1,97 @@
 {
+  "form": "13F-HR",
   "date": "2015-11-16",
-  "positions": []
+  "period": "2015-11-16",
+  "positions": [
+    {
+      "name": "ADOBE SYSTEMS INC ",
+      "cusip": "00724F101",
+      "shares": 14010739,
+      "value": 1151963000
+    },
+    {
+      "name": "AGRIUM INC",
+      "cusip": "008916108",
+      "shares": 10003451,
+      "value": 895309000
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 19125204,
+      "value": 510452000
+    },
+    {
+      "name": "AMERICAN EXPRESS COMPANY",
+      "cusip": "025816109",
+      "shares": 11300000,
+      "value": 837669000
+    },
+    {
+      "name": "ARMSTRONG WORLD INDUSTRIES",
+      "cusip": "04247X102",
+      "shares": 9200000,
+      "value": 439208000
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 23246700,
+      "value": 1209758000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 31327405,
+      "value": 1002477000
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 37149560,
+      "value": 1313237000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 75273091,
+      "value": 3331587000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 17588576,
+      "value": 1202707000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 9309311,
+      "value": 553532000
+    },
+    {
+      "name": "TOWERS WATSON & CO",
+      "cusip": "891894107",
+      "shares": 330000,
+      "value": 38735000
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX INC",
+      "cusip": "90130A200",
+      "shares": 47326334,
+      "value": 1281124000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 14994261,
+      "value": 2674676000
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC ",
+      "cusip": "G96666105",
+      "shares": 18423835,
+      "value": 754825000
+    }
+  ]
 }

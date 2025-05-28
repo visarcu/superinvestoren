@@ -1,0 +1,203 @@
+{
+  "form": "NPORT-P",
+  "date": "2020-08-21",
+  "period": "2020-08-21",
+  "positions": [
+    {
+      "name": "Melrose Industries PLC",
+      "cusip": "000000000",
+      "shares": 34891021,
+      "value": 49285988230,
+      "pctOfPortfolio": 132.0263141122
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307107",
+      "shares": 422905,
+      "value": 51674761950,
+      "pctOfPortfolio": 138.4253131142
+    },
+    {
+      "name": "Arista Networks Inc",
+      "cusip": "040413106",
+      "shares": 712682,
+      "value": 149684600460,
+      "pctOfPortfolio": 400.972097503
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 139652,
+      "value": 197413463720,
+      "pctOfPortfolio": 528.8272165599001
+    },
+    {
+      "name": "Rolls-Royce Holdings PLC",
+      "cusip": "000000000",
+      "shares": 18291765,
+      "value": 64686629300,
+      "pctOfPortfolio": 173.2812416983
+    },
+    {
+      "name": "CREDIT ACCEPTANCE CORP",
+      "cusip": "225310101",
+      "shares": 426320,
+      "value": 178632343200,
+      "pctOfPortfolio": 478.5167286058
+    },
+    {
+      "name": "JACOBS ENGINEERING GROUP INC",
+      "cusip": "469814107",
+      "shares": 1503116,
+      "value": 127464236800,
+      "pctOfPortfolio": 341.4486341898
+    },
+    {
+      "name": "Hiscox Ltd",
+      "cusip": "000000000",
+      "shares": 6009153,
+      "value": 58718502870,
+      "pctOfPortfolio": 157.2939446387
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 128,
+      "value": 34214400000,
+      "pctOfPortfolio": 91.6528466565
+    },
+    {
+      "name": "Walt Disney Co/The",
+      "cusip": "254687106",
+      "shares": 999712,
+      "value": 111477885120,
+      "pctOfPortfolio": 298.6247168005
+    },
+    {
+      "name": "LIBERTY MEDIA CORP-LIBERTY FORMULA ONE",
+      "cusip": "531229870",
+      "shares": 43566,
+      "value": 1271255880,
+      "pctOfPortfolio": 3.4054146859
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 125816,
+      "value": 178413378800,
+      "pctOfPortfolio": 477.9301711745
+    },
+    {
+      "name": "TSMC",
+      "cusip": "874039100",
+      "shares": 2439715,
+      "value": 138502620550,
+      "pctOfPortfolio": 371.0180345936
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 484576,
+      "value": 143289123200,
+      "pctOfPortfolio": 383.8400216342
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 813837,
+      "value": 184797967590,
+      "pctOfPortfolio": 495.03307922889996
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 1043971,
+      "value": 206299109310,
+      "pctOfPortfolio": 552.629905273
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 498667,
+      "value": 89017046170,
+      "pctOfPortfolio": 238.45707311650003
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 504664,
+      "value": 148850646800,
+      "pctOfPortfolio": 398.7381192097
+    },
+    {
+      "name": "Eurofins Scientific SE",
+      "cusip": "000000000",
+      "shares": 233023,
+      "value": 146241515140,
+      "pctOfPortfolio": 391.7488297894
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 2384700,
+      "value": 213549885000,
+      "pctOfPortfolio": 572.0531373758
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 41371,
+      "value": 114135142220,
+      "pctOfPortfolio": 305.7429236816
+    },
+    {
+      "name": "Constellation Software Inc/Can",
+      "cusip": "21037X100",
+      "shares": 178488,
+      "value": 201533935120,
+      "pctOfPortfolio": 539.8650524820999
+    },
+    {
+      "name": "LIBERTY MEDIA CORP-LIBERTY FORMULA ONE",
+      "cusip": "531229854",
+      "shares": 3663288,
+      "value": 116162862480,
+      "pctOfPortfolio": 311.174739936
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "000000000",
+      "shares": 1502393,
+      "value": 139659352890,
+      "pctOfPortfolio": 374.1166659237
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 733129,
+      "value": 90878670840,
+      "pctOfPortfolio": 243.4439558446
+    },
+    {
+      "name": "CHARLES SCHWAB CORP/THE",
+      "cusip": "808513105",
+      "shares": 3499765,
+      "value": 118082071100,
+      "pctOfPortfolio": 316.3158773913
+    },
+    {
+      "name": "a2 Milk Co Ltd",
+      "cusip": "000000000",
+      "shares": 10429811,
+      "value": 134307019850,
+      "pctOfPortfolio": 359.77894381339996
+    },
+    {
+      "name": "Vivendi SA",
+      "cusip": "000000000",
+      "shares": 6308907,
+      "value": 161890432190,
+      "pctOfPortfolio": 433.6688340778
+    }
+  ]
+}

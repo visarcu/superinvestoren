@@ -1,4 +1,73 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-13",
-  "positions": []
+  "period": "2024-11-13",
+  "positions": [
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 1270810,
+      "value": 252344742000
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4030213,
+      "value": 760017568000
+    },
+    {
+      "name": "GE HealthCare Technologies Inc.",
+      "cusip": "36266G107",
+      "shares": 4029,
+      "value": 378122000
+    },
+    {
+      "name": "Invesco Ltd.",
+      "cusip": "G491BT108",
+      "shares": 23173442,
+      "value": 406925642000
+    },
+    {
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y214",
+      "shares": 31867800,
+      "value": 1213207146000
+    },
+    {
+      "name": "U-Haul Holding Company",
+      "cusip": "023586100",
+      "shares": 449595,
+      "value": 34834621000
+    },
+    {
+      "name": "U-Haul Holding Company - B",
+      "cusip": "023586506",
+      "shares": 1049055,
+      "value": 75531960000
+    },
+    {
+      "name": "Solventum Corporation",
+      "cusip": "83444M101",
+      "shares": 7126255,
+      "value": 496842499000
+    },
+    {
+      "name": "The Allstate Corporation",
+      "cusip": "200021014",
+      "shares": 613447,
+      "value": 116340224000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 14943466,
+      "value": 261809524000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 15569129,
+      "value": 272771140000
+    }
+  ]
 }

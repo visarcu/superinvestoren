@@ -57,50 +57,50 @@ export const investorCiks = {
   tarasoff: '0001766504',    // Josh Tarasoff – Greenlea Lane Capital
   welling: '0001559771',    // Glenn Welling – Engaged Capital
   rolfe: '0000859804',    // David Rolfe – Wedgewood Partners
-karr: '0001106500',
-hong:  '0001766908',    // Dennis Hong – ShawSpring Partners
-gates:      '0001166559',    // Bill & Melinda Gates Foundation Trust
-bares: '0001340807',
-berkowitz: '0001056831',    // Bruce Berkowitz – Fairholme Capital
-watsa:  '0000915191',    // Prem Watsa – Fairfax Financial Holdings
-sosin:  '0001697591',    // Clifford Sosin – CAS Investment Partners
-rochon:  '0001641864',    // Francois Rochon – Giverny Capital
+  karr: '0001106500',
+  hong:  '0001766908',    // Dennis Hong – ShawSpring Partners
+  gates:      '0001166559',    // Bill & Melinda Gates Foundation Trust
+  bares: '0001340807',
+  berkowitz: '0001056831',    // Bruce Berkowitz – Fairholme Capital
+  watsa:  '0000915191',    // Prem Watsa – Fairfax Financial Holdings
+  sosin:  '0001697591',    // Clifford Sosin – CAS Investment Partners
+  rochon:  '0001641864',    // Francois Rochon – Giverny Capital
 
-meritage: '0001427119',
-ketterer: '0001165797',
-vulcanvalue: '0001556785',
+  meritage: '0001427119',
+  ketterer: '0001165797',
+  vulcanvalue: '0001556785',
 
   //NPORT P TYPES: EVTL NOCH CODE ANPASSEN
-  //mairspower: '0001141819',    // Mairs & Power Growth Fund NPORT P -> O FILES
- // davis:     'XXX',    // Christopher Davis – Davis Advisors NPORT P
-   // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
-  // dodgecox:  '0000029440',    // Dodge & Cox
-    // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
-   // cunniff:         '0002049493',    // Ruane Cunniff – Sequoia Fund //NPORT
-   //'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
-  // torray:          'XXX',    // Torray Funds
+  mairspower: '0001141819',    // Mairs & Power Growth Fund NPORT P -> O FILES
+  davis:     '0001316506',    // Christopher Davis – Davis Advisors NPORT P
+  nygren:           '0000872323',    // Bill Nygren – Oakmark Select Fund
+  dodgecox:  '0000029440',    // Dodge & Cox
+  rogers:           '0000798365',    // John Rogers – Ariel Appreciation Fund
+  cunniff:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
+   hawkins:         '0000806636',    // Mason Hawkins – Longleaf Partners
+  torray:          '0001618627',    // Torray Funds
     // 'hillman-value':         'XXX',    // Hillman Value Fund
-      // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
-        // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors NPORT P TYPE
+  weitz:         '0001257927',    // Wallace Weitz – Weitz Large Cap Equity Fund
+        katz:            '0000720498',    // David Katz – Matrix Asset Advisors NPORT P TYPE
 
  // 0 Einträge:
- klarman: '0001061768',
- triplefrond: '0001454502',    // Triple Frond Partners
- spier:             '0001953324',
- lee: '0001426749',
- whitman:  '0001099281',    // Third Avenue Management
- greenbrier:'0001532262',
- lilu:   '0001709323', //MANUELL
- peltz: '0001345471',
- donaldsmith: '0000814375',
- ubben: '0001418814',
- marks:  '0000949509',// MANUELL!!,
+ klarman: '0001061768', //KRIEGE JETZT EINTRÄGE ABER MUSS NOCH MAL 100 GERECHNET WERDEN; MANUELL ANGEPASST OK JETZT
+ triplefrond: '0001454502',    // MANUELL ANGEPASST OK JETZT
+ spier:             '0001953324', //ANUELL ANGEPASST OK JETZT
+ //lee: '0001426749',
+ whitman:  '0001099281',    // Third Avenue Management PASST, nicht aufgenommen in spezialfall
+ greenbrier:'0001532262',//PASST, nicht aufgenommen in spezialfall
+ lilu:   '0001709323', //PASST, nicht aufgenommen in spezialfall
+ peltz: '0001345471', //PASST, nicht aufgenommen in spezialfall
+ donaldsmith: '0000814375', //PASST, nicht aufgenommen in spezialfall
+ ubben: '0001418814', //PASST, nicht aufgenommen in spezialfall
+ marks:  '0000949509', //PASST, nicht aufgenommen in spezialfall
 
 
   //Manuell folgende Investoren updaten
- //burry:   '0001768023', MANUELL!!!
+ burry:   '0001649339',// PORTFOLIO IST FALSCH?!?!?
 
-  smith:    '0001569205'
+  smith:    '0001569205' //PASST, nicht aufgenommen in spezialfall
 
 
   // neu hinzuzufügende Investoren:

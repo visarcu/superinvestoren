@@ -1,0 +1,61 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-14",
+  "period": "2023-02-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 50000,
+      "value": 4404500000
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 150000,
+      "value": 9262500000
+    },
+    {
+      "name": "COHERENT CORP",
+      "cusip": "19247G107",
+      "shares": 150000,
+      "value": 5265000000
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 1063127,
+      "value": 11641241000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 75000,
+      "value": 4209750000
+    },
+    {
+      "name": "MGM RESORTS INTERNATIONAL",
+      "cusip": "552953101",
+      "shares": 100000,
+      "value": 3353000000
+    },
+    {
+      "name": "QURATE RETAIL INC",
+      "cusip": "74915M100",
+      "shares": 1500000,
+      "value": 2445000000
+    },
+    {
+      "name": "SKYWEST INC",
+      "cusip": "830879102",
+      "shares": 125000,
+      "value": 2063750000
+    },
+    {
+      "name": "WOLVERINE WORLD WIDE INC",
+      "cusip": "978097103",
+      "shares": 356101,
+      "value": 3892184000
+    }
+  ]
+}

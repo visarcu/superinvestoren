@@ -1,4 +1,97 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-12",
-  "positions": []
+  "period": "2022-05-12",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25234,
+      "value": 70185000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25234,
+      "value": 70478000
+    },
+    {
+      "name": "AMAZON COM INC ",
+      "cusip": "023135106",
+      "shares": 33968,
+      "value": 110734000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1552848,
+      "value": 271143000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 97053,
+      "value": 34251000
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 242632,
+      "value": 139720000
+    },
+    {
+      "name": "DISNEY WALT CO ",
+      "cusip": "254687106",
+      "shares": 250000,
+      "value": 34290000
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 31333,
+      "value": 46224000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 436738,
+      "value": 97113000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 100000,
+      "value": 30831000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 8000,
+      "value": 2997000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 450000,
+      "value": 52043000
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 889764,
+      "value": 37281000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO ",
+      "cusip": "844741108",
+      "shares": 1222866,
+      "value": 56007000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A ",
+      "cusip": "L8681T102",
+      "shares": 38526,
+      "value": 5818000
+    }
+  ]
 }

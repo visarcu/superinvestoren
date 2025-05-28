@@ -1,4 +1,349 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-13",
-  "positions": []
+  "period": "2020-02-13",
+  "positions": [
+    {
+      "name": "Acadia Realty Trust",
+      "cusip": "004239109",
+      "shares": 872557,
+      "value": 22626000
+    },
+    {
+      "name": "Alamo Group, Inc.",
+      "cusip": "011311107",
+      "shares": 46706,
+      "value": 5864000
+    },
+    {
+      "name": "Alico, Inc.",
+      "cusip": "016230104",
+      "shares": 140451,
+      "value": 5033000
+    },
+    {
+      "name": "Amerco",
+      "cusip": "023586100",
+      "shares": 80245,
+      "value": 30158000
+    },
+    {
+      "name": "Argan Inc.",
+      "cusip": "04010E109",
+      "shares": 166754,
+      "value": 6694000
+    },
+    {
+      "name": "ATN International Inc.",
+      "cusip": "00215F107",
+      "shares": 136395,
+      "value": 7555000
+    },
+    {
+      "name": "Brookfield Asset Mgmt. CL A",
+      "cusip": "112585104",
+      "shares": 1075748,
+      "value": 62179000
+    },
+    {
+      "name": "Carter Bank & Trust",
+      "cusip": "146102108",
+      "shares": 268982,
+      "value": 6381000
+    },
+    {
+      "name": "Catchmark Timber Trust Inc.",
+      "cusip": "14912Y202",
+      "shares": 45961,
+      "value": 528000
+    },
+    {
+      "name": "Century Communities Inc.",
+      "cusip": "156504300",
+      "shares": 40000,
+      "value": 1094000
+    },
+    {
+      "name": "Colony Capital Inc.",
+      "cusip": "19626G108",
+      "shares": 1803433,
+      "value": 8567000
+    },
+    {
+      "name": "Comerica Inc.",
+      "cusip": "200340107",
+      "shares": 331514,
+      "value": 23787000
+    },
+    {
+      "name": "Comfort Systems USA Inc.",
+      "cusip": "199908104",
+      "shares": 134629,
+      "value": 6712000
+    },
+    {
+      "name": "Cooper Tire & Rubber Company",
+      "cusip": "216831107",
+      "shares": 147893,
+      "value": 4252000
+    },
+    {
+      "name": "Cullen Frost Bankers, Inc.",
+      "cusip": "229899109",
+      "shares": 42331,
+      "value": 4140000
+    },
+    {
+      "name": "Customers Bancorp Inc",
+      "cusip": "23204G100",
+      "shares": 561121,
+      "value": 13361000
+    },
+    {
+      "name": "Dorman Products, Inc.",
+      "cusip": "258278100",
+      "shares": 43600,
+      "value": 3302000
+    },
+    {
+      "name": "Eagle Materials Inc.",
+      "cusip": "26969P108",
+      "shares": 177351,
+      "value": 16079000
+    },
+    {
+      "name": "EMCOR Group, Inc.",
+      "cusip": "29084Q100",
+      "shares": 70044,
+      "value": 6045000
+    },
+    {
+      "name": "First Industrial Realty Trust, Inc.",
+      "cusip": "32054K103",
+      "shares": 562599,
+      "value": 23354000
+    },
+    {
+      "name": "Five Point Holdings LLC - CL A",
+      "cusip": "33833Q106",
+      "shares": 11713323,
+      "value": 81408000
+    },
+    {
+      "name": "FNF Group",
+      "cusip": "31620R303",
+      "shares": 260847,
+      "value": 11830000
+    },
+    {
+      "name": "Front Yard Residential Corporation",
+      "cusip": "35904G107",
+      "shares": 25728,
+      "value": 318000
+    },
+    {
+      "name": "FRP Holdings Inc.",
+      "cusip": "30292L107",
+      "shares": 131757,
+      "value": 6563000
+    },
+    {
+      "name": "FTI Consulting Inc.",
+      "cusip": "302941109",
+      "shares": 74064,
+      "value": 8196000
+    },
+    {
+      "name": "Genpact Ltd.",
+      "cusip": "G3922B107",
+      "shares": 120872,
+      "value": 5098000
+    },
+    {
+      "name": "Green Brick Partners",
+      "cusip": "392709101",
+      "shares": 60000,
+      "value": 689000
+    },
+    {
+      "name": "Hawaiian Holdings Inc.",
+      "cusip": "419879101",
+      "shares": 1096849,
+      "value": 32127000
+    },
+    {
+      "name": "Howard Hughes Corporation",
+      "cusip": "44267D107",
+      "shares": 112780,
+      "value": 14301000
+    },
+    {
+      "name": "ICF International, Inc.",
+      "cusip": "44925C103",
+      "shares": 93665,
+      "value": 8582000
+    },
+    {
+      "name": "JBG Smith Properties",
+      "cusip": "46590V100",
+      "shares": 1222026,
+      "value": 48747000
+    },
+    {
+      "name": "Jernigan Capital",
+      "cusip": "476405105",
+      "shares": 20000,
+      "value": 383000
+    },
+    {
+      "name": "Kaiser Aluminum Corp.",
+      "cusip": "483007704",
+      "shares": 34769,
+      "value": 3856000
+    },
+    {
+      "name": "Lennar Corp - Class B",
+      "cusip": "526057302",
+      "shares": 1130388,
+      "value": 50529000
+    },
+    {
+      "name": "Lennar Corp.",
+      "cusip": "526057104",
+      "shares": 881440,
+      "value": 49464000
+    },
+    {
+      "name": "Mohawk Industries Inc.",
+      "cusip": "608190104",
+      "shares": 146864,
+      "value": 20030000
+    },
+    {
+      "name": "MYR Group Inc.",
+      "cusip": "55405W104",
+      "shares": 383607,
+      "value": 12502000
+    },
+    {
+      "name": "PNC Financial Corp",
+      "cusip": "693475105",
+      "shares": 136135,
+      "value": 21732000
+    },
+    {
+      "name": "Prosperity Bancshares Inc.",
+      "cusip": "743606105",
+      "shares": 61148,
+      "value": 4396000
+    },
+    {
+      "name": "Rayonier Inc.",
+      "cusip": "754907103",
+      "shares": 1282284,
+      "value": 42008000
+    },
+    {
+      "name": "Seaboard Corp.",
+      "cusip": "811543107",
+      "shares": 1708,
+      "value": 7260000
+    },
+    {
+      "name": "Seacor Marine Holdings Inc.",
+      "cusip": "78413P101",
+      "shares": 358074,
+      "value": 4938000
+    },
+    {
+      "name": "Seritage Growth Properties",
+      "cusip": "81752R100",
+      "shares": 334849,
+      "value": 13421000
+    },
+    {
+      "name": "Southside Bancshares Inc.",
+      "cusip": "84470P109",
+      "shares": 183896,
+      "value": 6830000
+    },
+    {
+      "name": "SPDR TR UNIT SER 1",
+      "cusip": "78462F103",
+      "shares": 3365,
+      "value": 1084000
+    },
+    {
+      "name": "The Macerich Company",
+      "cusip": "554382101",
+      "shares": 1376950,
+      "value": 37068000
+    },
+    {
+      "name": "Tidewater Inc.",
+      "cusip": "88642R109",
+      "shares": 2754611,
+      "value": 53109000
+    },
+    {
+      "name": "Tri Pointe Group Inc.",
+      "cusip": "87265H109",
+      "shares": 502578,
+      "value": 7831000
+    },
+    {
+      "name": "Trinity Place Holdings",
+      "cusip": "89656D101",
+      "shares": 5842911,
+      "value": 17588000
+    },
+    {
+      "name": "UMB Financial Corporation",
+      "cusip": "902788108",
+      "shares": 132155,
+      "value": 9072000
+    },
+    {
+      "name": "UniFirst Corporation",
+      "cusip": "904708104",
+      "shares": 18954,
+      "value": 3829000
+    },
+    {
+      "name": "Viad Corp.",
+      "cusip": "92552R406",
+      "shares": 73261,
+      "value": 4946000
+    },
+    {
+      "name": "Visteon Corp.",
+      "cusip": "92839U206",
+      "shares": 71849,
+      "value": 6222000
+    },
+    {
+      "name": "Vornado Realty Trust",
+      "cusip": "929042109",
+      "shares": 580664,
+      "value": 38615000
+    },
+    {
+      "name": "Warrior Met Coal Inc.",
+      "cusip": "93627C101",
+      "shares": 1789403,
+      "value": 37811000
+    },
+    {
+      "name": "Weyerhaeuser Company",
+      "cusip": "962166104",
+      "shares": 2644843,
+      "value": 79875000
+    },
+    {
+      "name": "William Lyon Homes - Cl A",
+      "cusip": "552074700",
+      "shares": 40000,
+      "value": 800000
+    }
+  ]
 }

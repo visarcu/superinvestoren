@@ -1,131 +1,133 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-14",
+  "period": "2022-02-14",
   "positions": [
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 685000,
-      "value": 81371000
+      "value": 81371000000
     },
     {
       "name": "ARCHAEA ENERGY INC",
       "cusip": "03940F103",
       "shares": 1071616,
-      "value": 19589000
+      "value": 19589000000
     },
     {
       "name": "ARCONIC CORPORATION",
       "cusip": "03966V107",
       "shares": 719955,
-      "value": 23766000
+      "value": 23766000000
     },
     {
       "name": "DESPEGAR COM CORP",
       "cusip": "G27358103",
       "shares": 4206339,
-      "value": 41180000
+      "value": 41180000000
     },
     {
       "name": "ENERGY TRANSFER L P",
       "cusip": "29273V100",
       "shares": 3316511,
-      "value": 27295000
+      "value": 27295000000
     },
     {
       "name": "FRONTIER GROUP HLDGS INC",
       "cusip": "35909R108",
       "shares": 2547209,
-      "value": 34566000
+      "value": 34566000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 1136000,
-      "value": 90221000
+      "value": 90221000000
     },
     {
       "name": "INTERFACE INC",
       "cusip": "458665304",
       "shares": 20136,
-      "value": 321000
+      "value": 321000000
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229870",
       "shares": 2389703,
-      "value": 141805000
+      "value": 141805000000
     },
     {
       "name": "LIBERTY TRIPADVISOR HLDGS IN",
       "cusip": "531465102",
       "shares": 477892,
-      "value": 13027000
+      "value": 13027000000
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 335997,
-      "value": 113013000
+      "value": 113013000000
     },
     {
       "name": "OSCAR HEALTH INC",
       "cusip": "687793109",
       "shares": 879614,
-      "value": 6905000
+      "value": 6905000000
     },
     {
       "name": "SEMRUSH HLDGS INC",
       "cusip": "81686C104",
       "shares": 1649433,
-      "value": 34391000
+      "value": 34391000000
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 1950635,
-      "value": 36594000
+      "value": 36594000000
     },
     {
       "name": "TRIP COM GROUP LTD",
       "cusip": "89677Q107",
       "shares": 808957,
-      "value": 19917000
+      "value": 19917000000
     },
     {
       "name": "TWITTER INC",
       "cusip": "90184L102",
       "shares": 1018705,
-      "value": 44028000
+      "value": 44028000000
     },
     {
       "name": "UBER TECHNOLOGIES INC",
       "cusip": "90353T100",
       "shares": 1500375,
-      "value": 62911000
+      "value": 62911000000
     },
     {
       "name": "UPWORK INC",
       "cusip": "91688F104",
       "shares": 987384,
-      "value": 33729000
+      "value": 33729000000
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 370775,
-      "value": 17790000
+      "value": 17790000000
     },
     {
       "name": "WEWORK INC",
       "cusip": "96209A104",
       "shares": 4982087,
-      "value": 42846000
+      "value": 42846000000
     },
     {
       "name": "WEWORK INC",
       "cusip": "96209A112",
       "shares": 1099998,
-      "value": 2197000
+      "value": 2197000000
     }
   ]
 }

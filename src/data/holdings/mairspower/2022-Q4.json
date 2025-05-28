@@ -1,0 +1,336 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-12-20",
+  "period": "2022-12-20",
+  "positions": [
+    {
+      "name": "Danaher Corp",
+      "cusip": "235851102",
+      "shares": 15460,
+      "value": 4226918599.9999995,
+      "pctOfPortfolio": 459.05968121
+    },
+    {
+      "name": "Darling Ingredients Inc",
+      "cusip": "237266101",
+      "shares": 38015,
+      "value": 2730617450,
+      "pctOfPortfolio": 296.55559871
+    },
+    {
+      "name": "Stantec Inc",
+      "cusip": "85472N109",
+      "shares": 35540,
+      "value": 1758307250,
+      "pctOfPortfolio": 190.95895664
+    },
+    {
+      "name": "Ginkgo Bioworks Holdings Inc",
+      "cusip": "37611X100",
+      "shares": 29933,
+      "value": 59566670,
+      "pctOfPortfolio": 6.46917036
+    },
+    {
+      "name": "Hannon Armstrong Sustainable I",
+      "cusip": "41068X100",
+      "shares": 34167,
+      "value": 1108377480,
+      "pctOfPortfolio": 120.37407407
+    },
+    {
+      "name": "Iridium Communications Inc",
+      "cusip": "46269C102",
+      "shares": 46541,
+      "value": 2471327100,
+      "pctOfPortfolio": 268.39566550999996
+    },
+    {
+      "name": "Schneider Electric SE",
+      "cusip": "N/A",
+      "shares": 20347,
+      "value": 3004740670,
+      "pctOfPortfolio": 326.32643886
+    },
+    {
+      "name": "MasTec Inc",
+      "cusip": "576323109",
+      "shares": 30479,
+      "value": 2768407570,
+      "pctOfPortfolio": 300.65975166
+    },
+    {
+      "name": "Arcadis NV",
+      "cusip": "N/A",
+      "shares": 62523,
+      "value": 2552157400,
+      "pctOfPortfolio": 277.1741482
+    },
+    {
+      "name": "Maxar Technologies Inc",
+      "cusip": "57778K105",
+      "shares": 72979,
+      "value": 1766091800,
+      "pctOfPortfolio": 191.80438883
+    },
+    {
+      "name": "MSILF Treasury Portfolio",
+      "cusip": "61747C582",
+      "shares": 2828893.76,
+      "value": 2828893760,
+      "pctOfPortfolio": 307.22878543999997
+    },
+    {
+      "name": "Mueller Industries Inc",
+      "cusip": "624756102",
+      "shares": 46633,
+      "value": 3206951410,
+      "pctOfPortfolio": 348.28730601
+    },
+    {
+      "name": "Mueller Water Products Inc",
+      "cusip": "624758108",
+      "shares": 107811,
+      "value": 1257076260,
+      "pctOfPortfolio": 136.52333574
+    },
+    {
+      "name": "Hitachi Ltd",
+      "cusip": "N/A",
+      "shares": 28800,
+      "value": 1540208590,
+      "pctOfPortfolio": 167.27260003
+    },
+    {
+      "name": "Air Products and Chemicals Inc",
+      "cusip": "009158106",
+      "shares": 9041,
+      "value": 2804156560,
+      "pctOfPortfolio": 304.54223000999997
+    },
+    {
+      "name": "American Water Works Co Inc",
+      "cusip": "030420103",
+      "shares": 9134,
+      "value": 1386175840,
+      "pctOfPortfolio": 150.54404861999998
+    },
+    {
+      "name": "ANSYS Inc",
+      "cusip": "03662Q105",
+      "shares": 5566,
+      "value": 1415433800,
+      "pctOfPortfolio": 153.72157604
+    },
+    {
+      "name": "Halma PLC",
+      "cusip": "N/A",
+      "shares": 60604,
+      "value": 1607606600,
+      "pctOfPortfolio": 174.59228415
+    },
+    {
+      "name": "Array Technologies Inc",
+      "cusip": "04271T100",
+      "shares": 59781,
+      "value": 1251814140,
+      "pctOfPortfolio": 135.95184919000002
+    },
+    {
+      "name": "AZEK Co Inc/The",
+      "cusip": "05478C105",
+      "shares": 46061,
+      "value": 890819740,
+      "pctOfPortfolio": 96.74646345
+    },
+    {
+      "name": "Badger Meter Inc",
+      "cusip": "056525108",
+      "shares": 22829,
+      "value": 2644054780,
+      "pctOfPortfolio": 287.1545585
+    },
+    {
+      "name": "SSE PLC",
+      "cusip": "N/A",
+      "shares": 139347,
+      "value": 2890145960,
+      "pctOfPortfolio": 313.88101087
+    },
+    {
+      "name": "Brookfield Renewable Corp",
+      "cusip": "11284V105",
+      "shares": 42712,
+      "value": 1392838320,
+      "pctOfPortfolio": 151.26761967
+    },
+    {
+      "name": "Sweetgreen Inc",
+      "cusip": "87043Q108",
+      "shares": 83802,
+      "value": 1200882660,
+      "pctOfPortfolio": 130.4204938
+    },
+    {
+      "name": "Teledyne Technologies Inc",
+      "cusip": "879360105",
+      "shares": 4304,
+      "value": 1808110400,
+      "pctOfPortfolio": 196.36777103
+    },
+    {
+      "name": "Tetra Tech Inc",
+      "cusip": "88162G103",
+      "shares": 10006,
+      "value": 1546827540,
+      "pctOfPortfolio": 167.99144354999999
+    },
+    {
+      "name": "Thermo Fisher Scientific Inc",
+      "cusip": "883556102",
+      "shares": 7282,
+      "value": 4079522040,
+      "pctOfPortfolio": 443.05184565999997
+    },
+    {
+      "name": "Timken Co/The",
+      "cusip": "887389104",
+      "shares": 30426,
+      "value": 2311767480,
+      "pctOfPortfolio": 251.06687467
+    },
+    {
+      "name": "Trimble Inc",
+      "cusip": "896239100",
+      "shares": 42380,
+      "value": 2532205000,
+      "pctOfPortfolio": 275.00724051000003
+    },
+    {
+      "name": "Verisk Analytics Inc",
+      "cusip": "92345Y106",
+      "shares": 14015,
+      "value": 2574695650,
+      "pctOfPortfolio": 279.62188917000003
+    },
+    {
+      "name": "Xylem Inc/NY",
+      "cusip": "98419M100",
+      "shares": 16549,
+      "value": 1859280150,
+      "pctOfPortfolio": 201.92500346000003
+    },
+    {
+      "name": "Koninklijke DSM NV",
+      "cusip": "N/A",
+      "shares": 13138,
+      "value": 1704049140,
+      "pctOfPortfolio": 185.06631639
+    },
+    {
+      "name": "Geberit AG",
+      "cusip": "N/A",
+      "shares": 2382,
+      "value": 1141820670,
+      "pctOfPortfolio": 124.00613363
+    },
+    {
+      "name": "Bureau Veritas SA",
+      "cusip": "N/A",
+      "shares": 144323,
+      "value": 3784984140,
+      "pctOfPortfolio": 411.06389243
+    },
+    {
+      "name": "Bakkafrost P/F",
+      "cusip": "N/A",
+      "shares": 44888,
+      "value": 2468878020,
+      "pctOfPortfolio": 268.12968596
+    },
+    {
+      "name": "Vestas Wind Systems A/S",
+      "cusip": "N/A",
+      "shares": 47515,
+      "value": 1234545270,
+      "pctOfPortfolio": 134.07638323
+    },
+    {
+      "name": "ATS Corp",
+      "cusip": "00217Y104",
+      "shares": 26206,
+      "value": 873176170,
+      "pctOfPortfolio": 94.83030363
+    },
+    {
+      "name": "METAWATER Co Ltd",
+      "cusip": "N/A",
+      "shares": 117800,
+      "value": 1542819230,
+      "pctOfPortfolio": 167.55612560999998
+    },
+    {
+      "name": "Brookfield Renewable Partners",
+      "cusip": "N/A",
+      "shares": 30865,
+      "value": 873170850,
+      "pctOfPortfolio": 94.82972585
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "N/A",
+      "shares": 37682,
+      "value": 1724705140,
+      "pctOfPortfolio": 187.30963775
+    },
+    {
+      "name": "TE Connectivity Ltd",
+      "cusip": "N/A",
+      "shares": 14798,
+      "value": 1866323760,
+      "pctOfPortfolio": 202.68996671
+    },
+    {
+      "name": "Kubota Corp",
+      "cusip": "N/A",
+      "shares": 121100,
+      "value": 1800596320,
+      "pctOfPortfolio": 195.55171293
+    },
+    {
+      "name": "Enel SpA",
+      "cusip": "N/A",
+      "shares": 363786,
+      "value": 1962555780,
+      "pctOfPortfolio": 213.14113566
+    },
+    {
+      "name": "Cie de Saint-Gobain",
+      "cusip": "N/A",
+      "shares": 43764,
+      "value": 2018034600,
+      "pctOfPortfolio": 219.16634973
+    },
+    {
+      "name": "Roper Technologies Inc",
+      "cusip": "776696106",
+      "shares": 2798,
+      "value": 1228014220,
+      "pctOfPortfolio": 133.36708598
+    },
+    {
+      "name": "A O Smith Corp",
+      "cusip": "831865209",
+      "shares": 30942,
+      "value": 1879417080,
+      "pctOfPortfolio": 204.11195181
+    },
+    {
+      "name": "Sunnova Energy International I",
+      "cusip": "86745K104",
+      "shares": 42770,
+      "value": 976439100,
+      "pctOfPortfolio": 106.04505655
+    }
+  ]
+}

@@ -1,4 +1,139 @@
 {
+  "form": "13F-HR",
   "date": "2025-02-13",
-  "positions": []
+  "period": "2025-02-13",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1425988,
+      "value": 271565000000
+    },
+    {
+      "name": "CLARIVATE PLC",
+      "cusip": "G21810109",
+      "shares": 36279205,
+      "value": 184298000000
+    },
+    {
+      "name": "CRH PLC",
+      "cusip": "G25508105",
+      "shares": 2641402,
+      "value": 244383000000
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 2060800,
+      "value": 156250000000
+    },
+    {
+      "name": "EAGLE MATLS INC",
+      "cusip": "26969P108",
+      "shares": 638223,
+      "value": 157488000000
+    },
+    {
+      "name": "FERGUSON ENTERPRISES INC",
+      "cusip": "31488V107",
+      "shares": 1132000,
+      "value": 196481000000
+    },
+    {
+      "name": "GDS HLDGS LTD",
+      "cusip": "36165L108",
+      "shares": 4249952,
+      "value": 100979000000
+    },
+    {
+      "name": "GENUINE PARTS CO",
+      "cusip": "372460105",
+      "shares": 315337,
+      "value": 36819000000
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 7600526,
+      "value": 50848000000
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "42703MAF0",
+      "shares": 17129000,
+      "value": 13104000000
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 346000,
+      "value": 87784000000
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307107",
+      "shares": 7560,
+      "value": 562000000
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 170610,
+      "value": 12755000000
+    },
+    {
+      "name": "LIBERTY GLOBAL LTD",
+      "cusip": "G61188101",
+      "shares": 5201444,
+      "value": 66370000000
+    },
+    {
+      "name": "LIBERTY GLOBAL LTD",
+      "cusip": "G61188127",
+      "shares": 39453843,
+      "value": 518423000000
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2901700,
+      "value": 189133000000
+    },
+    {
+      "name": "SOLVENTUM CORP",
+      "cusip": "83444M101",
+      "shares": 1446300,
+      "value": 95543000000
+    },
+    {
+      "name": "SUNRISE COMMUNICATIONS AG",
+      "cusip": "867975104",
+      "shares": 2335263,
+      "value": 100603000000
+    },
+    {
+      "name": "TAMBORAN RES CORP",
+      "cusip": "87507T101",
+      "shares": 570833,
+      "value": 11982000000
+    },
+    {
+      "name": "VIASAT INC",
+      "cusip": "92552V100",
+      "shares": 12222590,
+      "value": 104014000000
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 1435671,
+      "value": 259799000000
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 1836748,
+      "value": 575343000000
+    }
+  ]
 }

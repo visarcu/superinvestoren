@@ -1,0 +1,231 @@
+{
+  "form": "NPORT-P",
+  "date": "2020-11-23",
+  "period": "2020-11-23",
+  "positions": [
+    {
+      "name": "Chevron Corp",
+      "cusip": "166764100",
+      "shares": 7600,
+      "value": 547200000,
+      "pctOfPortfolio": 115.67800734
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 41000,
+      "value": 1614990000,
+      "pctOfPortfolio": 341.40867156
+    },
+    {
+      "name": "Coca-Cola Co/The",
+      "cusip": "191216100",
+      "shares": 20000,
+      "value": 987400000,
+      "pctOfPortfolio": 208.73622889
+    },
+    {
+      "name": "Comcast Corp",
+      "cusip": "20030N101",
+      "shares": 39700,
+      "value": 1836522000,
+      "pctOfPortfolio": 388.24050694
+    },
+    {
+      "name": "eBay Inc",
+      "cusip": "278642103",
+      "shares": 33100,
+      "value": 1724510000,
+      "pctOfPortfolio": 364.56118501
+    },
+    {
+      "name": "Facebook Inc",
+      "cusip": "30303M102",
+      "shares": 7400,
+      "value": 1938060000,
+      "pctOfPortfolio": 409.70562666
+    },
+    {
+      "name": "AbbVie Inc",
+      "cusip": "00287Y109",
+      "shares": 20300,
+      "value": 1778077000,
+      "pctOfPortfolio": 375.8852417
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 1650,
+      "value": 2424840000,
+      "pctOfPortfolio": 512.6108540199999
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 18400,
+      "value": 2130904000,
+      "pctOfPortfolio": 450.47282265
+    },
+    {
+      "name": "CVS Health Corp",
+      "cusip": "126650100",
+      "shares": 29000,
+      "value": 1693600000,
+      "pctOfPortfolio": 358.02681512
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 6600,
+      "value": 474276000,
+      "pctOfPortfolio": 100.26188342
+    },
+    {
+      "name": "FedEx Corp",
+      "cusip": "31428X106",
+      "shares": 8500,
+      "value": 2137920000,
+      "pctOfPortfolio": 451.95600412
+    },
+    {
+      "name": "First American Government Obli",
+      "cusip": "31846V336",
+      "shares": 77071.93,
+      "value": 77071930,
+      "pctOfPortfolio": 16.292995769999997
+    },
+    {
+      "name": "Gilead Sciences Inc",
+      "cusip": "375558103",
+      "shares": 23500,
+      "value": 1484965000,
+      "pctOfPortfolio": 313.92140382
+    },
+    {
+      "name": "Goldman Sachs Group Inc/The",
+      "cusip": "38141G104",
+      "shares": 8075,
+      "value": 1622832750,
+      "pctOfPortfolio": 343.06662786
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 19950,
+      "value": 1920586500,
+      "pctOfPortfolio": 406.01173108
+    },
+    {
+      "name": "Kellogg Co",
+      "cusip": "487836108",
+      "shares": 27700,
+      "value": 1789143000,
+      "pctOfPortfolio": 378.22459262999996
+    },
+    {
+      "name": "MetLife Inc",
+      "cusip": "59156R108",
+      "shares": 41500,
+      "value": 1542555000,
+      "pctOfPortfolio": 326.09592217
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 15500,
+      "value": 3260115000,
+      "pctOfPortfolio": 689.18787811
+    },
+    {
+      "name": "Mondelez International Inc",
+      "cusip": "609207105",
+      "shares": 24500,
+      "value": 1407525000,
+      "pctOfPortfolio": 297.5505981
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "617446448",
+      "shares": 32400,
+      "value": 1566540000,
+      "pctOfPortfolio": 331.16634799
+    },
+    {
+      "name": "PepsiCo Inc",
+      "cusip": "713448108",
+      "shares": 1400,
+      "value": 194040000,
+      "pctOfPortfolio": 41.020030229999996
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 13000,
+      "value": 1529840000,
+      "pctOfPortfolio": 323.40797286
+    },
+    {
+      "name": "Schlumberger NV",
+      "cusip": "806857108",
+      "shares": 31500,
+      "value": 490140000,
+      "pctOfPortfolio": 103.61553092
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 22900,
+      "value": 1358657000,
+      "pctOfPortfolio": 287.21990939
+    },
+    {
+      "name": "Thermo Fisher Scientific Inc",
+      "cusip": "883556102",
+      "shares": 3735,
+      "value": 1649077200,
+      "pctOfPortfolio": 348.61470111
+    },
+    {
+      "name": "Truist Financial Corp",
+      "cusip": "89832Q109",
+      "shares": 37000,
+      "value": 1407850000,
+      "pctOfPortfolio": 297.61930306
+    },
+    {
+      "name": "ViacomCBS Inc",
+      "cusip": "92556H206",
+      "shares": 45000,
+      "value": 1260450000,
+      "pctOfPortfolio": 266.45896263000003
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 50000,
+      "value": 1175500000,
+      "pctOfPortfolio": 248.50054391
+    },
+    {
+      "name": "Zimmer Biomet Holdings Inc",
+      "cusip": "98956P102",
+      "shares": 11900,
+      "value": 1620066000,
+      "pctOfPortfolio": 342.48173728
+    },
+    {
+      "name": "Eaton Corp PLC",
+      "cusip": "G29183103",
+      "shares": 9400,
+      "value": 959082000,
+      "pctOfPortfolio": 202.74980745
+    },
+    {
+      "name": "TE Connectivity Ltd",
+      "cusip": "H84989104",
+      "shares": 17600,
+      "value": 1720224000,
+      "pctOfPortfolio": 363.65512517999997
+    }
+  ]
+}

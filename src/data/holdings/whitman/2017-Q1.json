@@ -1,4 +1,691 @@
 {
+  "form": "13F-HR",
   "date": "2017-02-13",
-  "positions": []
+  "period": "2017-02-13",
+  "positions": [
+    {
+      "name": "1-800-Flowers.com Inc.",
+      "cusip": "68243Q106",
+      "shares": 501564,
+      "value": 5367000
+    },
+    {
+      "name": "ABM Industries Inc",
+      "cusip": "000957100",
+      "shares": 89857,
+      "value": 3670000
+    },
+    {
+      "name": "AGCO Corp",
+      "cusip": "001084102",
+      "shares": 374671,
+      "value": 21678000
+    },
+    {
+      "name": "Alamo Group, Inc.",
+      "cusip": "011311107",
+      "shares": 86006,
+      "value": 6545000
+    },
+    {
+      "name": "Alico, Inc.",
+      "cusip": "016230104",
+      "shares": 129227,
+      "value": 3509000
+    },
+    {
+      "name": "Alleghany Corp.",
+      "cusip": "017175100",
+      "shares": 82354,
+      "value": 50081000
+    },
+    {
+      "name": "Allscripts Healthcare Solutions, Inc.",
+      "cusip": "01988P108",
+      "shares": 203687,
+      "value": 2080000
+    },
+    {
+      "name": "Amgen Inc.",
+      "cusip": "031162100",
+      "shares": 210262,
+      "value": 30742000
+    },
+    {
+      "name": "Ani Pharmaceuticals Inc.",
+      "cusip": "00182C103",
+      "shares": 49933,
+      "value": 3027000
+    },
+    {
+      "name": "Anixter International Inc.",
+      "cusip": "035290105",
+      "shares": 352400,
+      "value": 28562000
+    },
+    {
+      "name": "Apache Corp",
+      "cusip": "037411105",
+      "shares": 257260,
+      "value": 16328000
+    },
+    {
+      "name": "Arcos Dorados Holdings, Inc.",
+      "cusip": "G0457F107",
+      "shares": 1163100,
+      "value": 6281000
+    },
+    {
+      "name": "Bank of New York Mellon Corp.",
+      "cusip": "064058100",
+      "shares": 1759465,
+      "value": 83363000
+    },
+    {
+      "name": "Barnes Group Inc.",
+      "cusip": "067806109",
+      "shares": 104200,
+      "value": 4941000
+    },
+    {
+      "name": "BMC Stock Holdings, Inc.",
+      "cusip": "05591B109",
+      "shares": 141000,
+      "value": 2750000
+    },
+    {
+      "name": "Brookdale Senior Living Inc.",
+      "cusip": "112463104",
+      "shares": 2023941,
+      "value": 25137000
+    },
+    {
+      "name": "Brookfield Asset Mgmt. CL A",
+      "cusip": "112585104",
+      "shares": 4299141,
+      "value": 141915000
+    },
+    {
+      "name": "Cambrex Corp.",
+      "cusip": "132011107",
+      "shares": 83585,
+      "value": 4509000
+    },
+    {
+      "name": "Capital Southwest",
+      "cusip": "140501107",
+      "shares": 150348,
+      "value": 2428000
+    },
+    {
+      "name": "Carrizo Oil & Gas Inc.",
+      "cusip": "144577103",
+      "shares": 102753,
+      "value": 3838000
+    },
+    {
+      "name": "Catchmark Timber Trust Inc.",
+      "cusip": "14912Y202",
+      "shares": 80000,
+      "value": 901000
+    },
+    {
+      "name": "Cavco Industries, Inc. (COM & Restricted)",
+      "cusip": "149568107",
+      "shares": 472919,
+      "value": 47221000
+    },
+    {
+      "name": "CBS Corporation",
+      "cusip": "124857202",
+      "shares": 650481,
+      "value": 41384000
+    },
+    {
+      "name": "Century Communities Inc.",
+      "cusip": "156504300",
+      "shares": 94974,
+      "value": 1994000
+    },
+    {
+      "name": "Cerner Corp.",
+      "cusip": "156782104",
+      "shares": 408707,
+      "value": 19360000
+    },
+    {
+      "name": "Circor International Inc.",
+      "cusip": "17273K109",
+      "shares": 26267,
+      "value": 1704000
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "N20944109",
+      "shares": 490100,
+      "value": 4259000
+    },
+    {
+      "name": "Comerica Inc 2018 Warrants",
+      "cusip": "200340115",
+      "shares": 38300,
+      "value": 1484000
+    },
+    {
+      "name": "Comerica Inc.",
+      "cusip": "200340107",
+      "shares": 1037604,
+      "value": 70671000
+    },
+    {
+      "name": "Comfort Systems USA Inc.",
+      "cusip": "199908104",
+      "shares": 161375,
+      "value": 5374000
+    },
+    {
+      "name": "Commerce Bancshares, Inc",
+      "cusip": "200525103",
+      "shares": 185306,
+      "value": 10713000
+    },
+    {
+      "name": "Cosan Ltd.",
+      "cusip": "G25343107",
+      "shares": 511000,
+      "value": 3838000
+    },
+    {
+      "name": "Covanta Holding Corporation",
+      "cusip": "22282E102",
+      "shares": 1682990,
+      "value": 26255000
+    },
+    {
+      "name": "CSG Systems International, Inc.",
+      "cusip": "126349109",
+      "shares": 67198,
+      "value": 3252000
+    },
+    {
+      "name": "CSW Industrials Inc.",
+      "cusip": "126402106",
+      "shares": 150348,
+      "value": 5540000
+    },
+    {
+      "name": "Cubic, Corp.",
+      "cusip": "229669106",
+      "shares": 171518,
+      "value": 8224000
+    },
+    {
+      "name": "Cullen Frost Bankers, Inc.",
+      "cusip": "229899109",
+      "shares": 82000,
+      "value": 7235000
+    },
+    {
+      "name": "Devon Energy Corp.",
+      "cusip": "25179M103",
+      "shares": 764345,
+      "value": 34908000
+    },
+    {
+      "name": "Dorman Products, Inc.",
+      "cusip": "258278100",
+      "shares": 81500,
+      "value": 5954000
+    },
+    {
+      "name": "DST Systems",
+      "cusip": "233326107",
+      "shares": 48300,
+      "value": 5175000
+    },
+    {
+      "name": "DSW Inc.",
+      "cusip": "23334L102",
+      "shares": 164900,
+      "value": 3735000
+    },
+    {
+      "name": "EMCOR Group, Inc.",
+      "cusip": "29084Q100",
+      "shares": 87607,
+      "value": 6199000
+    },
+    {
+      "name": "Fiesta Restaurant Group, Inc.",
+      "cusip": "31660B101",
+      "shares": 104127,
+      "value": 3108000
+    },
+    {
+      "name": "First Industrial Realty Trust, Inc.",
+      "cusip": "32054K103",
+      "shares": 1802943,
+      "value": 50573000
+    },
+    {
+      "name": "First Potomac Realty Trust",
+      "cusip": "33610F109",
+      "shares": 80000,
+      "value": 878000
+    },
+    {
+      "name": "FNF Group",
+      "cusip": "31620R303",
+      "shares": 664500,
+      "value": 22566000
+    },
+    {
+      "name": "Forest City Enterprises Inc. CL A",
+      "cusip": "345605109",
+      "shares": 4867140,
+      "value": 101431000
+    },
+    {
+      "name": "Forest City Enterprises Inc. CL B",
+      "cusip": "345605208",
+      "shares": 702,
+      "value": 19000
+    },
+    {
+      "name": "FTI Consulting Inc.",
+      "cusip": "302941109",
+      "shares": 140392,
+      "value": 6329000
+    },
+    {
+      "name": "Genpact Ltd.",
+      "cusip": "G3922B107",
+      "shares": 221666,
+      "value": 5395000
+    },
+    {
+      "name": "G-III Apparel Group Ltd.",
+      "cusip": "36237H101",
+      "shares": 142601,
+      "value": 4215000
+    },
+    {
+      "name": "Harman International Industries, Inc.",
+      "cusip": "413086109",
+      "shares": 395177,
+      "value": 43928000
+    },
+    {
+      "name": "ICF International, Inc.",
+      "cusip": "44925C103",
+      "shares": 135422,
+      "value": 7475000
+    },
+    {
+      "name": "Insight Enterprises, Inc.",
+      "cusip": "45765U103",
+      "shares": 210950,
+      "value": 8531000
+    },
+    {
+      "name": "Interface Inc.",
+      "cusip": "458665304",
+      "shares": 202020,
+      "value": 3747000
+    },
+    {
+      "name": "Johnson Controls International plc",
+      "cusip": "G51502105",
+      "shares": 715724,
+      "value": 29481000
+    },
+    {
+      "name": "Kaiser Aluminum Corp.",
+      "cusip": "483007704",
+      "shares": 52778,
+      "value": 4100000
+    },
+    {
+      "name": "Kennedy-Wilson Holdings Inc.",
+      "cusip": "489398107",
+      "shares": 1245153,
+      "value": 25526000
+    },
+    {
+      "name": "Keycorp",
+      "cusip": "493267108",
+      "shares": 986968,
+      "value": 18032000
+    },
+    {
+      "name": "Kirby Corporation",
+      "cusip": "497266106",
+      "shares": 82600,
+      "value": 5493000
+    },
+    {
+      "name": "Korn/Ferry International",
+      "cusip": "500643200",
+      "shares": 125500,
+      "value": 3693000
+    },
+    {
+      "name": "Legg Mason Inc.",
+      "cusip": "524901105",
+      "shares": 104132,
+      "value": 3115000
+    },
+    {
+      "name": "Lennar Corp - Class B",
+      "cusip": "526057302",
+      "shares": 11356,
+      "value": 392000
+    },
+    {
+      "name": "Lennar Corp.",
+      "cusip": "526057104",
+      "shares": 2951947,
+      "value": 126727000
+    },
+    {
+      "name": "Leucadia National Corporation",
+      "cusip": "527288104",
+      "shares": 150733,
+      "value": 3505000
+    },
+    {
+      "name": "Livanova PLC",
+      "cusip": "G5509L101",
+      "shares": 515777,
+      "value": 23194000
+    },
+    {
+      "name": "Lowe's Companies Inc.",
+      "cusip": "548661107",
+      "shares": 560911,
+      "value": 39892000
+    },
+    {
+      "name": "Masco Corp.",
+      "cusip": "574599106",
+      "shares": 852594,
+      "value": 26959000
+    },
+    {
+      "name": "Multi-Color Corporation",
+      "cusip": "625383104",
+      "shares": 101346,
+      "value": 7864000
+    },
+    {
+      "name": "MYR Group Inc.",
+      "cusip": "55405W104",
+      "shares": 86000,
+      "value": 3240000
+    },
+    {
+      "name": "Netscout Systems Inc.",
+      "cusip": "64115T104",
+      "shares": 269400,
+      "value": 8486000
+    },
+    {
+      "name": "NEXPOINT RESIDNL TR",
+      "cusip": "65341D102",
+      "shares": 25000,
+      "value": 559000
+    },
+    {
+      "name": "Parkway Inc.",
+      "cusip": "70156Q107",
+      "shares": 1044662,
+      "value": 23244000
+    },
+    {
+      "name": "Patterson Companies Inc",
+      "cusip": "703395103",
+      "shares": 75400,
+      "value": 3094000
+    },
+    {
+      "name": "PNC Financial Corp",
+      "cusip": "693475105",
+      "shares": 632296,
+      "value": 73953000
+    },
+    {
+      "name": "PNC Financial Services Group 2018 Warrants",
+      "cusip": "693475121",
+      "shares": 1305349,
+      "value": 64615000
+    },
+    {
+      "name": "Progress Software Corporation",
+      "cusip": "743312100",
+      "shares": 112355,
+      "value": 3587000
+    },
+    {
+      "name": "Prosperity Bancshares Inc.",
+      "cusip": "743606105",
+      "shares": 101963,
+      "value": 7319000
+    },
+    {
+      "name": "Quanex Building Products",
+      "cusip": "747619104",
+      "shares": 78300,
+      "value": 1589000
+    },
+    {
+      "name": "Radio One Inc Cl D",
+      "cusip": "75040P405",
+      "shares": 1906369,
+      "value": 5528000
+    },
+    {
+      "name": "Ralph Lauren Corp.",
+      "cusip": "751212101",
+      "shares": 270116,
+      "value": 24397000
+    },
+    {
+      "name": "Rayonier Inc.",
+      "cusip": "754907103",
+      "shares": 3452270,
+      "value": 91830000
+    },
+    {
+      "name": "Seaboard Corp.",
+      "cusip": "811543107",
+      "shares": 937,
+      "value": 3703000
+    },
+    {
+      "name": "Shire Plc - ADR",
+      "cusip": "82481R106",
+      "shares": 67805,
+      "value": 11553000
+    },
+    {
+      "name": "Southside Bancshares Inc.",
+      "cusip": "84470P109",
+      "shares": 221678,
+      "value": 8351000
+    },
+    {
+      "name": "SP Plus Corp.",
+      "cusip": "78469C103",
+      "shares": 169423,
+      "value": 4769000
+    },
+    {
+      "name": "Spanish Broadcasting System, Inc",
+      "cusip": "846425833",
+      "shares": 639603,
+      "value": 1951000
+    },
+    {
+      "name": "Standard Motor Products, Inc.",
+      "cusip": "853666105",
+      "shares": 95747,
+      "value": 5096000
+    },
+    {
+      "name": "Synaptics Inc.",
+      "cusip": "87157D109",
+      "shares": 15800,
+      "value": 847000
+    },
+    {
+      "name": "Syntel, Inc.",
+      "cusip": "87162H103",
+      "shares": 278106,
+      "value": 5504000
+    },
+    {
+      "name": "Tanger Factory Outlet Centers, Inc",
+      "cusip": "875465106",
+      "shares": 37519,
+      "value": 1342000
+    },
+    {
+      "name": "Tejon Ranch Co.",
+      "cusip": "879080109",
+      "shares": 2164153,
+      "value": 55034000
+    },
+    {
+      "name": "Telefex Inc.",
+      "cusip": "879369106",
+      "shares": 23007,
+      "value": 3708000
+    },
+    {
+      "name": "Tetra Tech, Inc.",
+      "cusip": "88162G103",
+      "shares": 149244,
+      "value": 6440000
+    },
+    {
+      "name": "The Macerich Company",
+      "cusip": "554382101",
+      "shares": 267301,
+      "value": 18936000
+    },
+    {
+      "name": "Total Fina ELF S A ADR",
+      "cusip": "89151E109",
+      "shares": 1823,
+      "value": 93000
+    },
+    {
+      "name": "Trinet Group Services",
+      "cusip": "896288107",
+      "shares": 128600,
+      "value": 3295000
+    },
+    {
+      "name": "Trinity Place Holdings",
+      "cusip": "89656D101",
+      "shares": 4219014,
+      "value": 39110000
+    },
+    {
+      "name": "UCP Inc. - Class A",
+      "cusip": "90265Y106",
+      "shares": 169859,
+      "value": 2047000
+    },
+    {
+      "name": "UMB Financial Corporation",
+      "cusip": "902788108",
+      "shares": 127791,
+      "value": 9855000
+    },
+    {
+      "name": "UniFirst Corporation",
+      "cusip": "904708104",
+      "shares": 29910,
+      "value": 4297000
+    },
+    {
+      "name": "Vail Resorts Inc.",
+      "cusip": "91879Q109",
+      "shares": 26939,
+      "value": 4346000
+    },
+    {
+      "name": "Valley National Bancorp",
+      "cusip": "919794107",
+      "shares": 508775,
+      "value": 5922000
+    },
+    {
+      "name": "Valmont Industries",
+      "cusip": "920253101",
+      "shares": 1699,
+      "value": 239000
+    },
+    {
+      "name": "VCA Antech Inc.",
+      "cusip": "918194101",
+      "shares": 80458,
+      "value": 5523000
+    },
+    {
+      "name": "Viad Corp.",
+      "cusip": "92552R406",
+      "shares": 127533,
+      "value": 5624000
+    },
+    {
+      "name": "Visteon Corp.",
+      "cusip": "92839U206",
+      "shares": 110112,
+      "value": 8846000
+    },
+    {
+      "name": "Vodafone Group Plc - ADR",
+      "cusip": "92857W308",
+      "shares": 1877,
+      "value": 46000
+    },
+    {
+      "name": "Vornado Realty Trust",
+      "cusip": "929042109",
+      "shares": 599214,
+      "value": 62540000
+    },
+    {
+      "name": "WCI Communities Inc.",
+      "cusip": "92923C807",
+      "shares": 432988,
+      "value": 10154000
+    },
+    {
+      "name": "Weyerhaeuser Company",
+      "cusip": "962166104",
+      "shares": 6013322,
+      "value": 180941000
+    },
+    {
+      "name": "White Mountains Insurance Group",
+      "cusip": "G9618E107",
+      "shares": 64091,
+      "value": 53583000
+    },
+    {
+      "name": "World Fuel Services Corp",
+      "cusip": "981475106",
+      "shares": 151019,
+      "value": 6933000
+    },
+    {
+      "name": "Zions Bancorporation",
+      "cusip": "989701107",
+      "shares": 607058,
+      "value": 26128000
+    }
+  ]
 }

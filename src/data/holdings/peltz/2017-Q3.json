@@ -1,4 +1,55 @@
 {
+  "form": "13F-HR",
   "date": "2017-08-11",
-  "positions": []
+  "period": "2017-08-11",
+  "positions": [
+    {
+      "name": "Bank New York Mellon Corp. ",
+      "cusip": "064058100",
+      "shares": 32375489,
+      "value": 1651797000
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co. ",
+      "cusip": "263534109",
+      "shares": 9390689,
+      "value": 757923000
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 70851055,
+      "value": 1913687000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 42504623,
+      "value": 1835775000
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "G7S00T104",
+      "shares": 15200931,
+      "value": 1011470000
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 37612012,
+      "value": 3277887000
+    },
+    {
+      "name": "Sysco Corp.",
+      "cusip": "871829107",
+      "shares": 43974585,
+      "value": 2213241000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 39035921,
+      "value": 605447000
+    }
+  ]
 }

@@ -1,4 +1,91 @@
 {
+  "form": "13F-HR",
   "date": "2016-08-15",
-  "positions": []
+  "period": "2016-08-15",
+  "positions": [
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 3287910,
+      "value": 644167000
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 19125204,
+      "value": 539905000
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 4600000,
+      "value": 77970000
+    },
+    {
+      "name": "ARMSTRONG WORLD INDUSTRIES",
+      "cusip": "04247X102",
+      "shares": 9200000,
+      "value": 360180000
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 38886200,
+      "value": 1754934000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 32935794,
+      "value": 872140000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 56624678,
+      "value": 2897485000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 38000000,
+      "value": 987240000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 1300900,
+      "value": 100325000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 3000000,
+      "value": 73080000
+    },
+    {
+      "name": "TRINITY INDUSTRIES INC",
+      "cusip": "896522109",
+      "shares": 6000000,
+      "value": 111420000
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX INC",
+      "cusip": "90130A200",
+      "shares": 47326334,
+      "value": 1289643000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 14994261,
+      "value": 301984000
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC",
+      "cusip": "G96629103",
+      "shares": 8108015,
+      "value": 1007907000
+    }
+  ]
 }

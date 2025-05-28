@@ -165,14 +165,14 @@ export const investors: Investor[] = [
   },  
   {
     name: 'Mason Hawkins – Longleaf Partners',
-    slug: 'mason-hawkins',
+    slug: 'hawkins',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
   {
     name: 'Ruane Cunniff – Sequoia Fund',
-    slug: 'cuniff',
+    slug: 'cunniff',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
@@ -538,6 +538,94 @@ export const investors: Investor[] = [
   {
     name: 'C.T. Fitzpatrick - Vulcan Value Partners',
     slug: 'vulcanvalue',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Christopher Davis - Clipper Fund',
+    slug: 'davis',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Bill Nygren - Oakmark Select Fund',
+    slug: 'nygren',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Robert Torray - Torray Fund',
+    slug: 'torray',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'John Rogers - Ariel Appreciation Fund',
+    slug: 'rogers',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'David Katz - Matrix Advisors Value Fund',
+    slug: 'katz',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Stuart McLaughling - Triple Frond Partners',
+    slug: 'triplefrond',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Jeffrey Ubben - Valueact Holdings',
+    slug: 'ubben',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Donald Smith & Co.',
+    slug: 'donaldsmith',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Marty Whitman - Third Avenue Management',
+    slug: 'whitman',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Greenbrier Partners Capital Management',
+    slug: 'greenbrier',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Nelson Peltz - Trian Fund Management',
+    slug: 'peltz',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],

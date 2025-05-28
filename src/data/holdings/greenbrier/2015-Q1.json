@@ -1,4 +1,133 @@
 {
+  "form": "13F-HR",
   "date": "2015-02-06",
-  "positions": []
+  "period": "2015-02-06",
+  "positions": [
+    {
+      "name": "APPLE INC ",
+      "cusip": "037833100",
+      "shares": 419711,
+      "value": 46328000
+    },
+    {
+      "name": "BANK AMER CORP ",
+      "cusip": "060505104",
+      "shares": 737953,
+      "value": 13202000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 184488,
+      "value": 27701000
+    },
+    {
+      "name": "CARMAX INC ",
+      "cusip": "143130102",
+      "shares": 276732,
+      "value": 18425000
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW ",
+      "cusip": "22160K105",
+      "shares": 184488,
+      "value": 26151000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 138366,
+      "value": 13033000
+    },
+    {
+      "name": "EOG RES INC ",
+      "cusip": "26875P101",
+      "shares": 36897,
+      "value": 3397000
+    },
+    {
+      "name": "EBAY INC ",
+      "cusip": "278642103",
+      "shares": 368976,
+      "value": 20707000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 645709,
+      "value": 50378000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 25828,
+      "value": 13706000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 25828,
+      "value": 13596000
+    },
+    {
+      "name": "INFINERA CORPORATION ",
+      "cusip": "45667G103",
+      "shares": 474873,
+      "value": 6990000
+    },
+    {
+      "name": "MARKEL CORP ",
+      "cusip": "570535104",
+      "shares": 32285,
+      "value": 22045000
+    },
+    {
+      "name": "MONSANTO CO NEW ",
+      "cusip": "61166W101",
+      "shares": 92244,
+      "value": 11020000
+    },
+    {
+      "name": "PIONEER NAT RES CO ",
+      "cusip": "723787107",
+      "shares": 45473,
+      "value": 6769000
+    },
+    {
+      "name": "PULTE GROUP INC ",
+      "cusip": "745867101",
+      "shares": 922442,
+      "value": 19796000
+    },
+    {
+      "name": "QUALCOMM INC ",
+      "cusip": "747525103",
+      "shares": 75000,
+      "value": 5575000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO ",
+      "cusip": "844741108",
+      "shares": 1383663,
+      "value": 58557000
+    },
+    {
+      "name": "STARBUCKS CORP ",
+      "cusip": "855244109",
+      "shares": 184488,
+      "value": 15137000
+    },
+    {
+      "name": "VALHI INC NEW ",
+      "cusip": "918905100",
+      "shares": 344790,
+      "value": 2210000
+    },
+    {
+      "name": "WPP PLC NEW",
+      "cusip": "92937A102",
+      "shares": 170638,
+      "value": 17763000
+    }
+  ]
 }

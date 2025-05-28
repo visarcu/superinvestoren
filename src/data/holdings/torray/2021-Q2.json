@@ -1,0 +1,448 @@
+{
+  "form": "NPORT-P",
+  "date": "2021-05-28",
+  "period": "2021-05-28",
+  "positions": [
+    {
+      "name": "Floor & Decor Holdings Inc",
+      "cusip": "339750101",
+      "shares": 2493,
+      "value": 238031640,
+      "pctOfPortfolio": 125.85628377
+    },
+    {
+      "name": "Fox Corp",
+      "cusip": "35137L204",
+      "shares": 7353,
+      "value": 256840290,
+      "pctOfPortfolio": 135.80112469
+    },
+    {
+      "name": "GoDaddy Inc",
+      "cusip": "380237107",
+      "shares": 3915,
+      "value": 303882300,
+      "pctOfPortfolio": 160.67400528
+    },
+    {
+      "name": "W R Grace & Co",
+      "cusip": "38388F108",
+      "shares": 3854,
+      "value": 230700440,
+      "pctOfPortfolio": 121.98000251
+    },
+    {
+      "name": "Halozyme Therapeutics Inc",
+      "cusip": "40637H109",
+      "shares": 7090,
+      "value": 295582100,
+      "pctOfPortfolio": 156.28537726
+    },
+    {
+      "name": "Healthcare Trust of America In",
+      "cusip": "42225P501",
+      "shares": 9126,
+      "value": 251695080,
+      "pctOfPortfolio": 133.08065858
+    },
+    {
+      "name": "HollyFrontier Corp",
+      "cusip": "436106108",
+      "shares": 7847,
+      "value": 280765660,
+      "pctOfPortfolio": 148.45136797
+    },
+    {
+      "name": "IAC/InterActiveCorp",
+      "cusip": "44891N109",
+      "shares": 1760,
+      "value": 380705600,
+      "pctOfPortfolio": 201.29337439000003
+    },
+    {
+      "name": "IAA Inc",
+      "cusip": "449253103",
+      "shares": 3635,
+      "value": 200433900,
+      "pctOfPortfolio": 105.97694406
+    },
+    {
+      "name": "Kirby Corp",
+      "cusip": "497266106",
+      "shares": 5840,
+      "value": 352035200,
+      "pctOfPortfolio": 186.13425522
+    },
+    {
+      "name": "Lamb Weston Holdings Inc",
+      "cusip": "513272104",
+      "shares": 4235,
+      "value": 328127800,
+      "pctOfPortfolio": 173.49351335
+    },
+    {
+      "name": "Lennox International Inc",
+      "cusip": "526107107",
+      "shares": 695,
+      "value": 216555050,
+      "pctOfPortfolio": 114.50080261
+    },
+    {
+      "name": "Liberty Media Corp-Liberty Sir",
+      "cusip": "531229409",
+      "shares": 7710,
+      "value": 339856800,
+      "pctOfPortfolio": 179.69507694
+    },
+    {
+      "name": "Lincoln National Corp",
+      "cusip": "534187109",
+      "shares": 6155,
+      "value": 383271850,
+      "pctOfPortfolio": 202.65024731999998
+    },
+    {
+      "name": "M&T Bank Corp",
+      "cusip": "55261F104",
+      "shares": 2323,
+      "value": 352190030,
+      "pctOfPortfolio": 186.21611966
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 9062,
+      "value": 344265380,
+      "pctOfPortfolio": 182.02605905
+    },
+    {
+      "name": "MGM Growth Properties LLC",
+      "cusip": "55303A105",
+      "shares": 6393,
+      "value": 208539660,
+      "pctOfPortfolio": 110.26276433999999
+    },
+    {
+      "name": "Martin Marietta Materials Inc",
+      "cusip": "573284106",
+      "shares": 1114,
+      "value": 374103480,
+      "pctOfPortfolio": 197.80258515
+    },
+    {
+      "name": "Mercury Systems Inc",
+      "cusip": "589378108",
+      "shares": 4373,
+      "value": 308952450,
+      "pctOfPortfolio": 163.35478435
+    },
+    {
+      "name": "Nice Ltd",
+      "cusip": "653656108",
+      "shares": 840,
+      "value": 183094800,
+      "pctOfPortfolio": 96.80910952
+    },
+    {
+      "name": "PPD Inc",
+      "cusip": "69355F102",
+      "shares": 9325,
+      "value": 352858000,
+      "pctOfPortfolio": 186.56930054
+    },
+    {
+      "name": "PVH Corp",
+      "cusip": "693656100",
+      "shares": 3055,
+      "value": 322913500,
+      "pctOfPortfolio": 170.73651675
+    },
+    {
+      "name": "Pebblebrook Hotel Trust",
+      "cusip": "70509V100",
+      "shares": 9532,
+      "value": 231532280,
+      "pctOfPortfolio": 122.41982761000001
+    },
+    {
+      "name": "People's United Financial Inc",
+      "cusip": "712704105",
+      "shares": 21535,
+      "value": 385476500,
+      "pctOfPortfolio": 203.81592872000002
+    },
+    {
+      "name": "Pinnacle Financial Partners In",
+      "cusip": "72346Q104",
+      "shares": 5448,
+      "value": 483019680,
+      "pctOfPortfolio": 255.39067796
+    },
+    {
+      "name": "Planet Fitness Inc",
+      "cusip": "72703H101",
+      "shares": 3750,
+      "value": 289875000,
+      "pctOfPortfolio": 153.26781875999998
+    },
+    {
+      "name": "Primerica Inc",
+      "cusip": "74164M108",
+      "shares": 1922,
+      "value": 284110040,
+      "pctOfPortfolio": 150.21966751
+    },
+    {
+      "name": "Quest Diagnostics Inc",
+      "cusip": "74834L100",
+      "shares": 2117,
+      "value": 271695780,
+      "pctOfPortfolio": 143.65578116999998
+    },
+    {
+      "name": "Sabre Corp",
+      "cusip": "78573M104",
+      "shares": 26241,
+      "value": 388629210,
+      "pctOfPortfolio": 205.48288512
+    },
+    {
+      "name": "Six Flags Entertainment Corp",
+      "cusip": "83001A102",
+      "shares": 7366,
+      "value": 342298020,
+      "pctOfPortfolio": 180.9858418
+    },
+    {
+      "name": "Skyworks Solutions Inc",
+      "cusip": "83088M102",
+      "shares": 2604,
+      "value": 477781920,
+      "pctOfPortfolio": 252.62127718
+    },
+    {
+      "name": "Steel Dynamics Inc",
+      "cusip": "858119100",
+      "shares": 7549,
+      "value": 383187240,
+      "pctOfPortfolio": 202.60551083000001
+    },
+    {
+      "name": "Steelcase Inc",
+      "cusip": "858155203",
+      "shares": 14949,
+      "value": 215116110,
+      "pctOfPortfolio": 113.73998089
+    },
+    {
+      "name": "Technip Energies NV",
+      "cusip": "87854Y109",
+      "shares": 5373,
+      "value": 80433810,
+      "pctOfPortfolio": 42.528381589999995
+    },
+    {
+      "name": "Teradyne Inc",
+      "cusip": "880770102",
+      "shares": 3902,
+      "value": 474795360,
+      "pctOfPortfolio": 251.04217054000003
+    },
+    {
+      "name": "TransUnion",
+      "cusip": "89400J107",
+      "shares": 2855,
+      "value": 256950000,
+      "pctOfPortfolio": 135.85913248999998
+    },
+    {
+      "name": "TripAdvisor Inc",
+      "cusip": "896945201",
+      "shares": 7130,
+      "value": 383522700,
+      "pctOfPortfolio": 202.78288115
+    },
+    {
+      "name": "US BANK MMDA - USBFS 2",
+      "cusip": "N/A",
+      "shares": 204417.62,
+      "value": 204417620,
+      "pctOfPortfolio": 108.08328671000001
+    },
+    {
+      "name": "Tyler Technologies Inc",
+      "cusip": "902252105",
+      "shares": 865,
+      "value": 367218450,
+      "pctOfPortfolio": 194.16221074999999
+    },
+    {
+      "name": "United Rentals Inc",
+      "cusip": "911363109",
+      "shares": 1332,
+      "value": 438640920,
+      "pctOfPortfolio": 231.92595784
+    },
+    {
+      "name": "Vail Resorts Inc",
+      "cusip": "91879Q109",
+      "shares": 865,
+      "value": 252285900,
+      "pctOfPortfolio": 133.39304733999998
+    },
+    {
+      "name": "Voya Financial Inc",
+      "cusip": "929089100",
+      "shares": 4631,
+      "value": 294716840,
+      "pctOfPortfolio": 155.82788174
+    },
+    {
+      "name": "Western Alliance Bancorp",
+      "cusip": "957638109",
+      "shares": 3258,
+      "value": 307685520,
+      "pctOfPortfolio": 162.68491079
+    },
+    {
+      "name": "Western Digital Corp",
+      "cusip": "958102105",
+      "shares": 4911,
+      "value": 327809250,
+      "pctOfPortfolio": 173.32508398
+    },
+    {
+      "name": "XPO Logistics Inc",
+      "cusip": "983793100",
+      "shares": 2532,
+      "value": 312195600,
+      "pctOfPortfolio": 165.06955976999998
+    },
+    {
+      "name": "Arch Capital Group Ltd",
+      "cusip": "G0450A105",
+      "shares": 7693,
+      "value": 295180410,
+      "pctOfPortfolio": 156.07298864
+    },
+    {
+      "name": "Axalta Coating Systems Ltd",
+      "cusip": "G0750C108",
+      "shares": 10279,
+      "value": 304052820,
+      "pctOfPortfolio": 160.76416562
+    },
+    {
+      "name": "Norwegian Cruise Line Holdings",
+      "cusip": "G66721104",
+      "shares": 9958,
+      "value": 274741220,
+      "pctOfPortfolio": 145.26601988000002
+    },
+    {
+      "name": "nVent Electric PLC",
+      "cusip": "G6700G107",
+      "shares": 9260,
+      "value": 258446600,
+      "pctOfPortfolio": 136.65044122
+    },
+    {
+      "name": "TechnipFMC PLC",
+      "cusip": "G87110105",
+      "shares": 26658,
+      "value": 205799760,
+      "pctOfPortfolio": 108.81407613
+    },
+    {
+      "name": "Allegro MicroSystems Inc",
+      "cusip": "01749D105",
+      "shares": 9428,
+      "value": 238999800,
+      "pctOfPortfolio": 126.36818639
+    },
+    {
+      "name": "Allison Transmission Holdings",
+      "cusip": "01973R101",
+      "shares": 5369,
+      "value": 219216270,
+      "pctOfPortfolio": 115.90788975
+    },
+    {
+      "name": "Avantor Inc",
+      "cusip": "05352A100",
+      "shares": 12043,
+      "value": 348403990,
+      "pctOfPortfolio": 184.21429787
+    },
+    {
+      "name": "Bausch Health Cos Inc",
+      "cusip": "071734107",
+      "shares": 10956,
+      "value": 347743440,
+      "pctOfPortfolio": 183.86504023
+    },
+    {
+      "name": "Burlington Stores Inc",
+      "cusip": "122017106",
+      "shares": 1116,
+      "value": 333460800,
+      "pctOfPortfolio": 176.31327109
+    },
+    {
+      "name": "CF Industries Holdings Inc",
+      "cusip": "125269100",
+      "shares": 5324,
+      "value": 241603120,
+      "pctOfPortfolio": 127.74465962
+    },
+    {
+      "name": "Catalent Inc",
+      "cusip": "148806102",
+      "shares": 2803,
+      "value": 295183930,
+      "pctOfPortfolio": 156.07484979999998
+    },
+    {
+      "name": "CONMED Corp",
+      "cusip": "207410101",
+      "shares": 3041,
+      "value": 397124190,
+      "pctOfPortfolio": 209.97450066000002
+    },
+    {
+      "name": "Diamondback Energy Inc",
+      "cusip": "25278X109",
+      "shares": 3390,
+      "value": 249131100,
+      "pctOfPortfolio": 131.72498588
+    },
+    {
+      "name": "Exelixis Inc",
+      "cusip": "30161Q104",
+      "shares": 9764,
+      "value": 220568760,
+      "pctOfPortfolio": 116.62300209
+    },
+    {
+      "name": "Fidelity National Financial In",
+      "cusip": "31620R303",
+      "shares": 5217,
+      "value": 212123220,
+      "pctOfPortfolio": 112.15752734
+    },
+    {
+      "name": "Five Below Inc",
+      "cusip": "33829M101",
+      "shares": 1712,
+      "value": 326632480,
+      "pctOfPortfolio": 172.7028814
+    },
+    {
+      "name": "Five9 Inc",
+      "cusip": "338307101",
+      "shares": 1554,
+      "value": 242936820,
+      "pctOfPortfolio": 128.44983699000002
+    }
+  ]
+}

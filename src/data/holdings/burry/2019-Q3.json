@@ -1,0 +1,67 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-14",
+  "period": "2019-08-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 50000,
+      "value": 8473000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 9000,
+      "value": 9728000
+    },
+    {
+      "name": "CARDINAL HEALTH INC",
+      "cusip": "14149Y108",
+      "shares": 200000,
+      "value": 9420000
+    },
+    {
+      "name": "CLEVELAND CLIFFS INC",
+      "cusip": "185899101",
+      "shares": 1100000,
+      "value": 11737000
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 60000,
+      "value": 8378000
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 60000,
+      "value": 9851000
+    },
+    {
+      "name": "GREENSKY INC",
+      "cusip": "39572G100",
+      "shares": 600000,
+      "value": 7374000
+    },
+    {
+      "name": "SPORTSMANS WHSE HLDGS INC",
+      "cusip": "84920Y106",
+      "shares": 1597011,
+      "value": 6037000
+    },
+    {
+      "name": "TAILORED BRANDS INC",
+      "cusip": "87403A107",
+      "shares": 1850000,
+      "value": 10675000
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 250000,
+      "value": 11888000
+    }
+  ]
+}

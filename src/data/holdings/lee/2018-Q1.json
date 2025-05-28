@@ -1,83 +1,85 @@
 {
+  "form": "13F-HR",
   "date": "2018-02-14",
+  "period": "2018-02-14",
   "positions": [
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 156315,
-      "value": 163568000
+      "value": 163568000000
     },
     {
       "name": "AMERCO",
       "cusip": "023586100",
       "shares": 37454,
-      "value": 14154000
+      "value": 14154000000
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 96685,
-      "value": 32482000
+      "value": 32482000000
     },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 140410,
-      "value": 45420000
+      "value": 45420000000
     },
     {
       "name": "DISCOVERY COMMUNICATNS NEW",
       "cusip": "25470F302",
       "shares": 62896,
-      "value": 1332000
+      "value": 1332000000
     },
     {
       "name": "FOSSIL GROUP INC",
       "cusip": "34988V106",
       "shares": 1565938,
-      "value": 12167000
+      "value": 12167000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 2401797,
-      "value": 142210000
+      "value": 142210000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U120",
       "shares": 1102395,
-      "value": 37305000
+      "value": 37305000000
     },
     {
       "name": "LIBERTY MEDIA CORP DELAWARE",
       "cusip": "531229870",
       "shares": 203188,
-      "value": 6648000
+      "value": 6648000000
     },
     {
       "name": "RUSH ENTERPRISES INC",
       "cusip": "781846308",
       "shares": 163231,
-      "value": 7869000
+      "value": 7869000000
     },
     {
       "name": "VISTA OUTDOOR INC",
       "cusip": "928377100",
       "shares": 481501,
-      "value": 7015000
+      "value": 7015000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M101",
       "shares": 492292,
-      "value": 20056000
+      "value": 20056000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M200",
       "shares": 615522,
-      "value": 25187000
+      "value": 25187000000
     }
   ]
 }

@@ -1,0 +1,336 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-08-28",
+  "period": "2024-08-28",
+  "positions": [
+    {
+      "name": "St James's Place PLC",
+      "cusip": "000000000",
+      "shares": 3925300,
+      "value": 27117163690,
+      "pctOfPortfolio": 239.8297531048
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 369400,
+      "value": 17550194000,
+      "pctOfPortfolio": 155.2175124979
+    },
+    {
+      "name": "Warner Bros Discovery Inc",
+      "cusip": "934423104",
+      "shares": 910900,
+      "value": 6777096000,
+      "pctOfPortfolio": 59.938025931700004
+    },
+    {
+      "name": "General Motors Co",
+      "cusip": "37045V100",
+      "shares": 686893,
+      "value": 31913048780,
+      "pctOfPortfolio": 282.2455437163
+    },
+    {
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307305",
+      "shares": 152103,
+      "value": 8338286460,
+      "pctOfPortfolio": 73.74551431260001
+    },
+    {
+      "name": "Travis Perkins PLC",
+      "cusip": "000000000",
+      "shares": 396660,
+      "value": 3855902020,
+      "pctOfPortfolio": 34.1023876989
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "000000000",
+      "shares": 41600,
+      "value": 8443407760,
+      "pctOfPortfolio": 74.6752286335
+    },
+    {
+      "name": "Agilent Technologies Inc",
+      "cusip": "00846U101",
+      "shares": 91000,
+      "value": 11796330000,
+      "pctOfPortfolio": 104.3291600768
+    },
+    {
+      "name": "Samsung Electronics Co Ltd",
+      "cusip": "000000000",
+      "shares": 366900,
+      "value": 21723465310,
+      "pctOfPortfolio": 192.1267792398
+    },
+    {
+      "name": "Centene Corp",
+      "cusip": "15135B101",
+      "shares": 337300,
+      "value": 22362990000,
+      "pctOfPortfolio": 197.7828666632
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 220500,
+      "value": 40164075000,
+      "pctOfPortfolio": 355.21931058309997
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "000000000",
+      "shares": 3773156,
+      "value": 38222070280,
+      "pctOfPortfolio": 338.0438228422
+    },
+    {
+      "name": "Lloyds Banking Group PLC",
+      "cusip": "000000000",
+      "shares": 61270400,
+      "value": 42397158510,
+      "pctOfPortfolio": 374.9691587969
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "000000000",
+      "shares": 79300,
+      "value": 22021648390,
+      "pctOfPortfolio": 194.7639715093
+    },
+    {
+      "name": "Daimler Truck Holding AG",
+      "cusip": "000000000",
+      "shares": 466034,
+      "value": 18551522120,
+      "pctOfPortfolio": 164.0734636048
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 204500,
+      "value": 30478680000,
+      "pctOfPortfolio": 269.5596922644
+    },
+    {
+      "name": "Kering SA",
+      "cusip": "000000000",
+      "shares": 111800,
+      "value": 40529370820,
+      "pctOfPortfolio": 358.45006167950004
+    },
+    {
+      "name": "IQVIA Holdings Inc",
+      "cusip": "46266C105",
+      "shares": 150900,
+      "value": 31906296000,
+      "pctOfPortfolio": 282.18582074610003
+    },
+    {
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 180300,
+      "value": 24681267000,
+      "pctOfPortfolio": 218.2861835622
+    },
+    {
+      "name": "Willis Towers Watson PLC",
+      "cusip": "000000000",
+      "shares": 109800,
+      "value": 28782972000,
+      "pctOfPortfolio": 254.5625031916
+    },
+    {
+      "name": "Etsy Inc",
+      "cusip": "29786A106",
+      "shares": 176300,
+      "value": 10398174000,
+      "pctOfPortfolio": 91.96358187269999
+    },
+    {
+      "name": "Brunswick Corp/DE",
+      "cusip": "117043109",
+      "shares": 187400,
+      "value": 13637098000,
+      "pctOfPortfolio": 120.6092895184
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 711300,
+      "value": 28288401000,
+      "pctOfPortfolio": 250.18841590949998
+    },
+    {
+      "name": "Corebridge Financial Inc",
+      "cusip": "21871X109",
+      "shares": 994400,
+      "value": 28956928000,
+      "pctOfPortfolio": 256.1010057063
+    },
+    {
+      "name": "Anheuser-Busch InBev SA/NV",
+      "cusip": "000000000",
+      "shares": 315700,
+      "value": 18297921290,
+      "pctOfPortfolio": 161.830565891
+    },
+    {
+      "name": "Fixed Income Clearing Corp.",
+      "cusip": "000000000",
+      "shares": 42071429.39,
+      "value": 42071429390,
+      "pctOfPortfolio": 372.0883437042
+    },
+    {
+      "name": "Envista Holdings Corp",
+      "cusip": "29415F104",
+      "shares": 988400,
+      "value": 16437092000,
+      "pctOfPortfolio": 145.3730102892
+    },
+    {
+      "name": "Julius Baer Group Ltd",
+      "cusip": "000000000",
+      "shares": 691100,
+      "value": 38614525020,
+      "pctOfPortfolio": 341.514772993
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "000000000",
+      "shares": 890442,
+      "value": 31717377160,
+      "pctOfPortfolio": 280.5149838078
+    },
+    {
+      "name": "Deere & Co",
+      "cusip": "244199105",
+      "shares": 30400,
+      "value": 11358352000,
+      "pctOfPortfolio": 100.4555928849
+    },
+    {
+      "name": "Allianz SE",
+      "cusip": "000000000",
+      "shares": 93325,
+      "value": 25936104420,
+      "pctOfPortfolio": 229.38422287289998
+    },
+    {
+      "name": "TE Connectivity Ltd",
+      "cusip": "000000000",
+      "shares": 119096,
+      "value": 17915611280,
+      "pctOfPortfolio": 158.4493378114
+    },
+    {
+      "name": "Bayer AG",
+      "cusip": "000000000",
+      "shares": 1548225,
+      "value": 43739946990,
+      "pctOfPortfolio": 386.845055307
+    },
+    {
+      "name": "Capgemini SE",
+      "cusip": "000000000",
+      "shares": 63100,
+      "value": 12549044180,
+      "pctOfPortfolio": 110.98631854700001
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "000000000",
+      "shares": 2455800,
+      "value": 22170929880,
+      "pctOfPortfolio": 196.0842476009
+    },
+    {
+      "name": "Glencore PLC",
+      "cusip": "000000000",
+      "shares": 4113400,
+      "value": 23456057250,
+      "pctOfPortfolio": 207.45017743699998
+    },
+    {
+      "name": "Kroger Co/The",
+      "cusip": "501044101",
+      "shares": 359100,
+      "value": 17929863000,
+      "pctOfPortfolio": 158.5753829438
+    },
+    {
+      "name": "Prudential PLC",
+      "cusip": "000000000",
+      "shares": 3816260,
+      "value": 34656565470,
+      "pctOfPortfolio": 306.5097675829
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "000000000",
+      "shares": 102000,
+      "value": 10918070010,
+      "pctOfPortfolio": 96.5616487333
+    },
+    {
+      "name": "Interpublic Group of Cos Inc/The",
+      "cusip": "460690100",
+      "shares": 1021863,
+      "value": 29725994670,
+      "pctOfPortfolio": 262.9027889495
+    },
+    {
+      "name": "Charter Communications Inc",
+      "cusip": "16119P108",
+      "shares": 75600,
+      "value": 22601376000,
+      "pctOfPortfolio": 199.8912013024
+    },
+    {
+      "name": "Ryanair Holdings PLC",
+      "cusip": "783513203",
+      "shares": 144877,
+      "value": 16869477879.999998,
+      "pctOfPortfolio": 149.1971196257
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 61606,
+      "value": 11905359500,
+      "pctOfPortfolio": 105.29343931940001
+    },
+    {
+      "name": "Mercedes-Benz Group AG",
+      "cusip": "000000000",
+      "shares": 609800,
+      "value": 42168445520,
+      "pctOfPortfolio": 372.9463742406
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 239800,
+      "value": 33200310000,
+      "pctOfPortfolio": 293.6303457591
+    },
+    {
+      "name": "American International Group Inc",
+      "cusip": "026874784",
+      "shares": 336500,
+      "value": 24981760000,
+      "pctOfPortfolio": 220.94380523770002
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 193108,
+      "value": 22087693040,
+      "pctOfPortfolio": 195.3480839292
+    }
+  ]
+}

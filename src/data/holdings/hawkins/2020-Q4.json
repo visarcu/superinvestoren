@@ -1,0 +1,161 @@
+{
+  "form": "NPORT-P",
+  "date": "2020-11-24",
+  "period": "2020-11-24",
+  "positions": [
+    {
+      "name": "Accor S.A.",
+      "cusip": "585284200",
+      "shares": 168816,
+      "value": 4725194100,
+      "pctOfPortfolio": 161.1506886
+    },
+    {
+      "name": "CenturyLink, Inc.",
+      "cusip": "156700106",
+      "shares": 2351033,
+      "value": 23721922970,
+      "pctOfPortfolio": 809.02586024
+    },
+    {
+      "name": "CK Asset Holdings Limited",
+      "cusip": "BYZQ07700",
+      "shares": 2189029,
+      "value": 10756309000,
+      "pctOfPortfolio": 366.83923781
+    },
+    {
+      "name": "CK Hutchison Holdings Limited ",
+      "cusip": "BW9P81600",
+      "shares": 2275529,
+      "value": 13789147280,
+      "pctOfPortfolio": 470.27286760999993
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 1435491,
+      "value": 13551035040,
+      "pctOfPortfolio": 462.15215328
+    },
+    {
+      "name": "Comcast Corporation ",
+      "cusip": "20030N101",
+      "shares": 313453,
+      "value": 14500335780,
+      "pctOfPortfolio": 494.52764192
+    },
+    {
+      "name": "DuPont de Nemours, Inc.",
+      "cusip": "26614N102",
+      "shares": 203642,
+      "value": 11298058160,
+      "pctOfPortfolio": 385.31535717
+    },
+    {
+      "name": "EXOR N.V.",
+      "cusip": "BYSLCX900",
+      "shares": 428992,
+      "value": 23286998620,
+      "pctOfPortfolio": 794.19295455
+    },
+    {
+      "name": "Fairfax Financial Holdings Limited",
+      "cusip": "303901102",
+      "shares": 46348,
+      "value": 13648042360,
+      "pctOfPortfolio": 465.46054570999996
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 64327,
+      "value": 16179527040,
+      "pctOfPortfolio": 551.79572914
+    },
+    {
+      "name": "General Electric Company",
+      "cusip": "369604103",
+      "shares": 2080088,
+      "value": 12958948240,
+      "pctOfPortfolio": 441.95929061000004
+    },
+    {
+      "name": "Hyatt Hotels Corporation ",
+      "cusip": "448579102",
+      "shares": 109563,
+      "value": 5847377310,
+      "pctOfPortfolio": 199.42225866
+    },
+    {
+      "name": "LafargeHolcim Ltd ",
+      "cusip": "711075300",
+      "shares": 107042,
+      "value": 4872505000,
+      "pctOfPortfolio": 166.17466274
+    },
+    {
+      "name": "LafargeHolcim Ltd ",
+      "cusip": "BZ3DNX400",
+      "shares": 175293,
+      "value": 7998972410,
+      "pctOfPortfolio": 272.80147327000003
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 53390000,
+      "value": 53390000000,
+      "pctOfPortfolio": 1820.84271722
+    },
+    {
+      "name": "Melco International Development Limited",
+      "cusip": "B092QP300",
+      "shares": 8374388,
+      "value": 14756945530,
+      "pctOfPortfolio": 503.27920578
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 202560,
+      "value": 4405680000,
+      "pctOfPortfolio": 150.25379926
+    },
+    {
+      "name": "Millicom International Cellular S.A.",
+      "cusip": "B00L2M800",
+      "shares": 263844,
+      "value": 7970944290,
+      "pctOfPortfolio": 271.84558644000003
+    },
+    {
+      "name": "MinebeaMitsumi Inc.",
+      "cusip": "664240600",
+      "shares": 484000,
+      "value": 9219345780,
+      "pctOfPortfolio": 314.42177601000003
+    },
+    {
+      "name": "Prosus N.V.",
+      "cusip": "BJDS7L300",
+      "shares": 154624,
+      "value": 14272296290,
+      "pctOfPortfolio": 486.75045435
+    },
+    {
+      "name": "Hong Kong Dollar Put",
+      "cusip": "000000000",
+      "shares": 24000000,
+      "value": 69600000,
+      "pctOfPortfolio": 2.37367771
+    },
+    {
+      "name": "The Williams Companies, Inc.",
+      "cusip": "969457100",
+      "shares": 667504,
+      "value": 13116453600,
+      "pctOfPortfolio": 447.33094237
+    }
+  ]
+}

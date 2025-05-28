@@ -1,0 +1,266 @@
+{
+  "form": "NPORT-P",
+  "date": "2020-05-05",
+  "period": "2020-05-05",
+  "positions": [
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109HAA0",
+      "shares": 283357.98,
+      "value": 272430820,
+      "pctOfPortfolio": 37.6489382896
+    },
+    {
+      "name": "Drive Auto Receivables Trust",
+      "cusip": "26208JAF0",
+      "shares": 579067.27,
+      "value": 581401490,
+      "pctOfPortfolio": 80.3475495853
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74362DAA6",
+      "shares": 259006.84,
+      "value": 248938930,
+      "pctOfPortfolio": 34.4024454115
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "9128283G3",
+      "shares": 750000,
+      "value": 757719730,
+      "pctOfPortfolio": 104.71408248009999
+    },
+    {
+      "name": "ARI Fleet Lease Trust",
+      "cusip": "04033JAB7",
+      "shares": 690000,
+      "value": 683265950,
+      "pctOfPortfolio": 94.4248436611
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109FAA4",
+      "shares": 56186.47,
+      "value": 55829570,
+      "pctOfPortfolio": 7.7154414308
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "9128284J6",
+      "shares": 20000000,
+      "value": 20036714800,
+      "pctOfPortfolio": 2769.000361385
+    },
+    {
+      "name": "Exeter Automobile Receivables Trust",
+      "cusip": "30167HAA6",
+      "shares": 436938.07,
+      "value": 432655730,
+      "pctOfPortfolio": 59.7914321126
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36255GAA8",
+      "shares": 825573.33,
+      "value": 822322800,
+      "pctOfPortfolio": 113.6419893732
+    },
+    {
+      "name": "Upgrade Receivables Trust",
+      "cusip": "91532UAA7",
+      "shares": 59095.31,
+      "value": 58539050,
+      "pctOfPortfolio": 8.089881610900001
+    },
+    {
+      "name": "State Street Global Advisors",
+      "cusip": "857492706",
+      "shares": 915594.36,
+      "value": 915594360,
+      "pctOfPortfolio": 126.5317762432
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828VZ0",
+      "shares": 1000000,
+      "value": 1009316410,
+      "pctOfPortfolio": 139.4838191759
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02530DAA4",
+      "shares": 166136.5,
+      "value": 164899710,
+      "pctOfPortfolio": 22.7885340057
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "23341JAD0",
+      "shares": 549921.86,
+      "value": 549641510,
+      "pctOfPortfolio": 75.9584370499
+    },
+    {
+      "name": "Wm Wrigley Jr Co",
+      "cusip": "982526AQ8",
+      "shares": 700000,
+      "value": 695763900,
+      "pctOfPortfolio": 96.1520144279
+    },
+    {
+      "name": "CATERPILLAR FINL SERVICE",
+      "cusip": "14913Q2J7",
+      "shares": 650000,
+      "value": 650385130,
+      "pctOfPortfolio": 89.8808351561
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "23343JAA4",
+      "shares": 392939.98,
+      "value": 389787230,
+      "pctOfPortfolio": 53.8671629309
+    },
+    {
+      "name": "MMAF Equipment Finance LLC",
+      "cusip": "55315FAD2",
+      "shares": 230058.12,
+      "value": 228564310,
+      "pctOfPortfolio": 31.586747793100002
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02529VAA7",
+      "shares": 479592.31,
+      "value": 473651170,
+      "pctOfPortfolio": 65.4568512848
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "9128283Q1",
+      "shares": 4000000,
+      "value": 4060312480,
+      "pctOfPortfolio": 561.1202653071
+    },
+    {
+      "name": "ENTERPRISE PRODUCTS OPER",
+      "cusip": "29379VBP7",
+      "shares": 200000,
+      "value": 199783310,
+      "pctOfPortfolio": 27.6093193475
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828L32",
+      "shares": 12000000,
+      "value": 12063281280,
+      "pctOfPortfolio": 1667.101146931
+    },
+    {
+      "name": "CCG Receivables Trust",
+      "cusip": "12508UAC9",
+      "shares": 900000,
+      "value": 899662140,
+      "pctOfPortfolio": 124.3300019814
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828M98",
+      "shares": 7000000,
+      "value": 7070410130,
+      "pctOfPortfolio": 977.1047000736
+    },
+    {
+      "name": "Upgrade Receivables Trust",
+      "cusip": "91532HAA6",
+      "shares": 110316.02,
+      "value": 109479000,
+      "pctOfPortfolio": 15.129595524500001
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74361PAA0",
+      "shares": 171629.16,
+      "value": 167542600,
+      "pctOfPortfolio": 23.1537716925
+    },
+    {
+      "name": "Verizon Owner Trust 2018-1",
+      "cusip": "92349FAA1",
+      "shares": 650000,
+      "value": 651431110,
+      "pctOfPortfolio": 90.0253857487
+    },
+    {
+      "name": "Enterprise Fleet Financing LLC",
+      "cusip": "29372EBW7",
+      "shares": 760000,
+      "value": 758345780,
+      "pctOfPortfolio": 104.8006002897
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828XY1",
+      "shares": 2000000,
+      "value": 2011962160,
+      "pctOfPortfolio": 278.0457776508
+    },
+    {
+      "name": "ARI Fleet Lease Trust 2018-A",
+      "cusip": "00217EAB4",
+      "shares": 528279.09,
+      "value": 527078209.99999994,
+      "pctOfPortfolio": 72.84027189759999
+    },
+    {
+      "name": "Social Professional Loan Program LLC",
+      "cusip": "83406EAB1",
+      "shares": 317623.94,
+      "value": 317847200,
+      "pctOfPortfolio": 43.9253151252
+    },
+    {
+      "name": "GREAT AMERICA LEASING RECEIVABLES",
+      "cusip": "39154TBB3",
+      "shares": 737000,
+      "value": 731593960,
+      "pctOfPortfolio": 101.10359706409999
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "9128282Z2",
+      "shares": 11000000,
+      "value": 11088730510,
+      "pctOfPortfolio": 1532.421811458
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36258AAA8",
+      "shares": 170200.3,
+      "value": 168700290,
+      "pctOfPortfolio": 23.3137601966
+    },
+    {
+      "name": "DISCOVERY COMMUNICATIONS",
+      "cusip": "25470DAY5",
+      "shares": 1000000,
+      "value": 997697440,
+      "pctOfPortfolio": 137.8781202152
+    },
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cusip": "084670BQ0",
+      "shares": 500000,
+      "value": 503622840,
+      "pctOfPortfolio": 69.59882594930001
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324PCM2",
+      "shares": 700000,
+      "value": 700109290,
+      "pctOfPortfolio": 96.752531359
+    }
+  ]
+}

@@ -1,0 +1,889 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-02-28",
+  "period": "2025-02-28",
+  "positions": [
+    {
+      "name": "HPEFS Equipment Trust",
+      "cusip": "40444MAL5",
+      "shares": 1000000,
+      "value": 1010390600,
+      "pctOfPortfolio": 56.611188412699995
+    },
+    {
+      "name": "PHINIA INC",
+      "cusip": "71880KAA9",
+      "shares": 1000000,
+      "value": 1020004280,
+      "pctOfPortfolio": 57.1498334177
+    },
+    {
+      "name": "DAIMLER TRUCK FINAN NA",
+      "cusip": "233853AT7",
+      "shares": 500000,
+      "value": 506486070,
+      "pctOfPortfolio": 28.3779147759
+    },
+    {
+      "name": "AERCAP IRELAND CAP/GLOBA",
+      "cusip": "00774MBM6",
+      "shares": 850000,
+      "value": 809261250,
+      "pctOfPortfolio": 45.3421093771
+    },
+    {
+      "name": "ChampionX Corporation",
+      "cusip": "15872NAC6",
+      "shares": 980093.75,
+      "value": 981318870,
+      "pctOfPortfolio": 54.982328064499995
+    },
+    {
+      "name": "CarMax Auto Owner Trust",
+      "cusip": "14319BAG7",
+      "shares": 500000,
+      "value": 510144100,
+      "pctOfPortfolio": 28.582870587600002
+    },
+    {
+      "name": "Sierra Receivables Funding Co LLC",
+      "cusip": "82650TAD9",
+      "shares": 204707.79,
+      "value": 208610360,
+      "pctOfPortfolio": 11.6882326446
+    },
+    {
+      "name": "ROCKETMTGE CO-ISSUER INC",
+      "cusip": "77313LAB9",
+      "shares": 500000,
+      "value": 416432220,
+      "pctOfPortfolio": 23.3322864123
+    },
+    {
+      "name": "APACHE CORP",
+      "cusip": "037411BG9",
+      "shares": 750000,
+      "value": 623268020,
+      "pctOfPortfolio": 34.9210922111
+    },
+    {
+      "name": "Pactiv Evergreen Group Holdings Inc.",
+      "cusip": "69526MAC5",
+      "shares": 717302.64,
+      "value": 719770160,
+      "pctOfPortfolio": 40.328011901100005
+    },
+    {
+      "name": "M/I HOMES INC",
+      "cusip": "55305BAV3",
+      "shares": 850000,
+      "value": 766673060,
+      "pctOfPortfolio": 42.9559351112
+    },
+    {
+      "name": "FHLMC Multifamily Structured Pass Through Certs.",
+      "cusip": "3137HHUG4",
+      "shares": 6000000,
+      "value": 5897988000,
+      "pctOfPortfolio": 330.4584483703
+    },
+    {
+      "name": "CCO HLDGS LLC/CAP CORP",
+      "cusip": "1248EPCN1",
+      "shares": 1000000,
+      "value": 860162790,
+      "pctOfPortfolio": 48.1940724412
+    },
+    {
+      "name": "AKER BP ASA",
+      "cusip": "00973RAN3",
+      "shares": 410000,
+      "value": 385076420,
+      "pctOfPortfolio": 21.5754518756
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46647PEQ5",
+      "shares": 2500000,
+      "value": 2452432780,
+      "pctOfPortfolio": 137.4073889623
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377CT7",
+      "shares": 750000,
+      "value": 809568140,
+      "pctOfPortfolio": 45.359304121
+    },
+    {
+      "name": "MEDLINE BORROWER LP",
+      "cusip": "58503UAF0",
+      "shares": 1342470.15,
+      "value": 1346081390,
+      "pctOfPortfolio": 75.41961216589999
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132DUJW8",
+      "shares": 1970730,
+      "value": 1949284930,
+      "pctOfPortfolio": 109.2165113593
+    },
+    {
+      "name": "LPL HOLDINGS INC",
+      "cusip": "50212YAH7",
+      "shares": 500000,
+      "value": 525138530,
+      "pctOfPortfolio": 29.4229937062
+    },
+    {
+      "name": "TENET HEALTHCARE CORP",
+      "cusip": "88033GDU1",
+      "shares": 500000,
+      "value": 505120500,
+      "pctOfPortfolio": 28.301403236099997
+    },
+    {
+      "name": "Citadel Securities LP",
+      "cusip": "17288YAN2",
+      "shares": 1723341.62,
+      "value": 1727253610,
+      "pctOfPortfolio": 96.7763155677
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810UF3",
+      "shares": 750000,
+      "value": 727207410,
+      "pctOfPortfolio": 40.7447136806
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "91282CKF7",
+      "shares": 4000000,
+      "value": 3926471760,
+      "pctOfPortfolio": 219.9963386462
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650EH9",
+      "shares": 1500000,
+      "value": 1505032940,
+      "pctOfPortfolio": 84.3255106824
+    },
+    {
+      "name": "VITERRA FINANCE BV",
+      "cusip": "92852LAA7",
+      "shares": 1000000,
+      "value": 957704510,
+      "pctOfPortfolio": 53.6592387729
+    },
+    {
+      "name": "Bank",
+      "cusip": "06541LBG0",
+      "shares": 2400000,
+      "value": 2136840000,
+      "pctOfPortfolio": 119.72503687960001
+    },
+    {
+      "name": "Sierra Receivables Funding Co LLC",
+      "cusip": "82650BAD8",
+      "shares": 466238.29,
+      "value": 476416550,
+      "pctOfPortfolio": 26.693149238500002
+    },
+    {
+      "name": "ALEXANDRIA REAL ESTATE E",
+      "cusip": "015271BA6",
+      "shares": 1150000,
+      "value": 1078078400,
+      "pctOfPortfolio": 60.403669062300004
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QVCJ1",
+      "shares": 5961464.46,
+      "value": 5618702130,
+      "pctOfPortfolio": 314.8103366326
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418EHK9",
+      "shares": 6400699.73,
+      "value": 6032356420,
+      "pctOfPortfolio": 337.9869783679
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QQL94",
+      "shares": 6170585.82,
+      "value": 5813049120,
+      "pctOfPortfolio": 325.6994067292
+    },
+    {
+      "name": "CDW LLC/CDW FINANCE",
+      "cusip": "12513GBL2",
+      "shares": 1250000,
+      "value": 1232043330,
+      "pctOfPortfolio": 69.0301721802
+    },
+    {
+      "name": "Owens & Minor Inc",
+      "cusip": "69073LAD2",
+      "shares": 425833.33,
+      "value": 430755960,
+      "pctOfPortfolio": 24.1348314319
+    },
+    {
+      "name": "AMER SPORTS COMPANY",
+      "cusip": "02352NAA7",
+      "shares": 500000,
+      "value": 506563860,
+      "pctOfPortfolio": 28.382273272800003
+    },
+    {
+      "name": "DOLLAR GENERAL CORP",
+      "cusip": "256677AP0",
+      "shares": 1350000,
+      "value": 1325668210,
+      "pctOfPortfolio": 74.2758818313
+    },
+    {
+      "name": "KKR GROUP FINAN CO XII",
+      "cusip": "48255GAA3",
+      "shares": 1000000,
+      "value": 963813240,
+      "pctOfPortfolio": 54.00150488760001
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46658TBP8",
+      "shares": 1000000,
+      "value": 1003066700,
+      "pctOfPortfolio": 56.2008375218
+    },
+    {
+      "name": "TRUIST FINANCIAL CORP",
+      "cusip": "89788MAP7",
+      "shares": 1100000,
+      "value": 1119909730,
+      "pctOfPortfolio": 62.747437209199994
+    },
+    {
+      "name": "ALLY FINANCIAL INC",
+      "cusip": "02005NBN9",
+      "shares": 1000000,
+      "value": 873934200,
+      "pctOfPortfolio": 48.9656709558
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810TK4",
+      "shares": 500000,
+      "value": 412726060,
+      "pctOfPortfolio": 23.1246339242
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140XP3R8",
+      "shares": 3334513.14,
+      "value": 3309190180,
+      "pctOfPortfolio": 185.4106607618
+    },
+    {
+      "name": "CELANESE US HOLDINGS LLC",
+      "cusip": "15089QAY0",
+      "shares": 1500000,
+      "value": 1556664510,
+      "pctOfPortfolio": 87.21837660700001
+    },
+    {
+      "name": "AKER BP ASA",
+      "cusip": "00973RAM5",
+      "shares": 590000,
+      "value": 592561890,
+      "pctOfPortfolio": 33.2006580435
+    },
+    {
+      "name": "ENVISTA HOLDINGS CORP",
+      "cusip": "29415FAD6",
+      "shares": 850000,
+      "value": 760325000,
+      "pctOfPortfolio": 42.6002595727
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46657WBA5",
+      "shares": 1983357.53,
+      "value": 2065009780,
+      "pctOfPortfolio": 115.7004605245
+    },
+    {
+      "name": "HILTON DOMESTIC OPERATIN",
+      "cusip": "432833AN1",
+      "shares": 1000000,
+      "value": 868677000,
+      "pctOfPortfolio": 48.6711152269
+    },
+    {
+      "name": "ICON INVESTMENTS SIX DAC",
+      "cusip": "45115AAC8",
+      "shares": 1000000,
+      "value": 1009620070,
+      "pctOfPortfolio": 56.568016377
+    },
+    {
+      "name": "Fixed Income Clearing Corp.",
+      "cusip": "000000000",
+      "shares": 3844670.94,
+      "value": 3844670940,
+      "pctOfPortfolio": 215.41311941069998
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244BJ7",
+      "shares": 1000000,
+      "value": 979031110,
+      "pctOfPortfolio": 54.854147128899996
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810UA4",
+      "shares": 6250000,
+      "value": 6072485880,
+      "pctOfPortfolio": 340.2353924178
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267DAF4",
+      "shares": 500000,
+      "value": 450172290,
+      "pctOfPortfolio": 25.2227092447
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132DUKG1",
+      "shares": 3397732.63,
+      "value": 3371932930,
+      "pctOfPortfolio": 188.92607513890002
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810TR9",
+      "shares": 1500000,
+      "value": 1219353320,
+      "pctOfPortfolio": 68.31916344049999
+    },
+    {
+      "name": "LITHIA MOTORS INC",
+      "cusip": "536797AF0",
+      "shares": 1100000,
+      "value": 997383090,
+      "pctOfPortfolio": 55.882390461300005
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172DJ5",
+      "shares": 1000000,
+      "value": 988329100,
+      "pctOfPortfolio": 55.3751043347
+    },
+    {
+      "name": "Sierra Receivables Funding Co LLC",
+      "cusip": "82650DAD4",
+      "shares": 499656.6,
+      "value": 500929870,
+      "pctOfPortfolio": 28.0666063719
+    },
+    {
+      "name": "CHARLES SCHWAB CORP",
+      "cusip": "808513CE3",
+      "shares": 1350000,
+      "value": 1389636720,
+      "pctOfPortfolio": 77.8599743318
+    },
+    {
+      "name": "Chase Mortgage Finance Corporation",
+      "cusip": "16160DAY9",
+      "shares": 790322.81,
+      "value": 797965710,
+      "pctOfPortfolio": 44.7092314157
+    },
+    {
+      "name": "AUTONATION INC",
+      "cusip": "05329RAA1",
+      "shares": 1350000,
+      "value": 1209995660,
+      "pctOfPortfolio": 67.79486298350001
+    },
+    {
+      "name": "APOLLO CMMRL REAL EST FI",
+      "cusip": "03762UAD7",
+      "shares": 1000000,
+      "value": 867859530,
+      "pctOfPortfolio": 48.6253131893
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "91282CLF6",
+      "shares": 2900000,
+      "value": 2742060980,
+      "pctOfPortfolio": 153.6349712457
+    },
+    {
+      "name": "Carvana Auto Receivables Trust",
+      "cusip": "14076LAG8",
+      "shares": 1250000,
+      "value": 1236465880,
+      "pctOfPortfolio": 69.2779632931
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353TAN0",
+      "shares": 1500000,
+      "value": 1451534900,
+      "pctOfPortfolio": 81.32806828519999
+    },
+    {
+      "name": "WELLS FARGO & COMPANY",
+      "cusip": "95000U3J0",
+      "shares": 850000,
+      "value": 852419090,
+      "pctOfPortfolio": 47.7602005705
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QNC34",
+      "shares": 3530242.6,
+      "value": 2756450520,
+      "pctOfPortfolio": 154.4412029744
+    },
+    {
+      "name": "INDEPENDENT BANK GRP INC",
+      "cusip": "45384BAD8",
+      "shares": 500000,
+      "value": 511250000,
+      "pctOfPortfolio": 28.6448330734
+    },
+    {
+      "name": "CVS Health Corp",
+      "cusip": "126650CY4",
+      "shares": 1000000,
+      "value": 864671980,
+      "pctOfPortfolio": 48.4467179078
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810SZ2",
+      "shares": 500000,
+      "value": 285704890,
+      "pctOfPortfolio": 16.007763094999998
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140XMUS3",
+      "shares": 4629163.45,
+      "value": 3612497730,
+      "pctOfPortfolio": 202.4046835289
+    },
+    {
+      "name": "NOBLE FINANCE II LLC",
+      "cusip": "65505PAA5",
+      "shares": 500000,
+      "value": 504983100,
+      "pctOfPortfolio": 28.293704849700003
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810TU2",
+      "shares": 1500000,
+      "value": 1411383690,
+      "pctOfPortfolio": 79.07843560420001
+    },
+    {
+      "name": "GXO LOGISTICS INC",
+      "cusip": "36262GAG6",
+      "shares": 1500000,
+      "value": 1537407540,
+      "pctOfPortfolio": 86.1394275779
+    },
+    {
+      "name": "Carvana Auto Receivables Trust",
+      "cusip": "14688PAG9",
+      "shares": 1000000,
+      "value": 996706600,
+      "pctOfPortfolio": 55.844487394
+    },
+    {
+      "name": "SOUTHERN CO",
+      "cusip": "842587DJ3",
+      "shares": 1000000,
+      "value": 957618400,
+      "pctOfPortfolio": 53.65441411450001
+    },
+    {
+      "name": "Carvana Auto Receivables Trust",
+      "cusip": "146919AG0",
+      "shares": 1320000,
+      "value": 1272542300,
+      "pctOfPortfolio": 71.29928951080001
+    },
+    {
+      "name": "SELECT MEDICAL CORP",
+      "cusip": "816196AV1",
+      "shares": 1250000,
+      "value": 1203076350,
+      "pctOfPortfolio": 67.4071808711
+    },
+    {
+      "name": "WAND NEWCO 3 INC",
+      "cusip": "93369PAL8",
+      "shares": 1464977.06,
+      "value": 1469474540,
+      "pctOfPortfolio": 82.3332086142
+    },
+    {
+      "name": "Santander Drive Auto Receivables Trust",
+      "cusip": "802919AF7",
+      "shares": 500000,
+      "value": 495312850,
+      "pctOfPortfolio": 27.751890283399998
+    },
+    {
+      "name": "ROCKETMTGE CO-ISSUER INC",
+      "cusip": "74841CAB7",
+      "shares": 750000,
+      "value": 653472680,
+      "pctOfPortfolio": 36.6134295093
+    },
+    {
+      "name": "EXPAND ENERGY CORP",
+      "cusip": "165167DG9",
+      "shares": 1000000,
+      "value": 991866940,
+      "pctOfPortfolio": 55.5733260193
+    },
+    {
+      "name": "Raising Cane's Restaurants, LLC",
+      "cusip": "75101XAP2",
+      "shares": 1496250,
+      "value": 1499990630,
+      "pctOfPortfolio": 84.0429950281
+    },
+    {
+      "name": "OCCIDENTAL PETROLEUM COR",
+      "cusip": "674599EJ0",
+      "shares": 1250000,
+      "value": 1240191690,
+      "pctOfPortfolio": 69.4867167514
+    },
+    {
+      "name": "VITERRA FINANCE BV",
+      "cusip": "92852LAD1",
+      "shares": 250000,
+      "value": 243971390,
+      "pctOfPortfolio": 13.6694762665
+    },
+    {
+      "name": "JBS USA HOLD/FOOD/LUX CO",
+      "cusip": "47214BAC2",
+      "shares": 1254000,
+      "value": 1325808400,
+      "pctOfPortfolio": 74.2837365387
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411RAN9",
+      "shares": 1000000,
+      "value": 1005744000,
+      "pctOfPortfolio": 56.350843999300004
+    },
+    {
+      "name": "AERCAP IRELAND CAP/GLOBA",
+      "cusip": "00774MBL8",
+      "shares": 500000,
+      "value": 488994750,
+      "pctOfPortfolio": 27.3978933741
+    },
+    {
+      "name": "GENERAL MOTORS FINL CO",
+      "cusip": "37045XEV4",
+      "shares": 1250000,
+      "value": 1256530250,
+      "pctOfPortfolio": 70.4021501477
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810TJ7",
+      "shares": 2500000,
+      "value": 1793666000,
+      "pctOfPortfolio": 100.49733625340001
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141GB60",
+      "shares": 1000000,
+      "value": 979033170,
+      "pctOfPortfolio": 54.85426254869999
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810TC2",
+      "shares": 500000,
+      "value": 335709880,
+      "pctOfPortfolio": 18.809493347100002
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46657YAY0",
+      "shares": 1989069.47,
+      "value": 1985386310,
+      "pctOfPortfolio": 111.2392360612
+    },
+    {
+      "name": "Peer Holding III BV",
+      "cusip": "000000000",
+      "shares": 1488750,
+      "value": 1496193750,
+      "pctOfPortfolio": 83.8302595879
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "61747YFU4",
+      "shares": 1000000,
+      "value": 978568910,
+      "pctOfPortfolio": 54.828250519
+    },
+    {
+      "name": "Vestis Corporation",
+      "cusip": "92550HAE3",
+      "shares": 1246875,
+      "value": 1247660530,
+      "pctOfPortfolio": 69.90518848740001
+    },
+    {
+      "name": "EMBECTA CORP",
+      "cusip": "29082KAA3",
+      "shares": 830000,
+      "value": 764482370,
+      "pctOfPortfolio": 42.833192912
+    },
+    {
+      "name": "MASTEC INC",
+      "cusip": "576323AT6",
+      "shares": 1250000,
+      "value": 1272378080,
+      "pctOfPortfolio": 71.2900884263
+    },
+    {
+      "name": "BOEING CO",
+      "cusip": "097023CQ6",
+      "shares": 1500000,
+      "value": 1023057450,
+      "pctOfPortfolio": 57.320899520400005
+    },
+    {
+      "name": "ARTHUR J GALLAGHER & CO",
+      "cusip": "04316JAP4",
+      "shares": 750000,
+      "value": 720098820,
+      "pctOfPortfolio": 40.3464263966
+    },
+    {
+      "name": "APTIV SWISS HOLDINGS LTD",
+      "cusip": "03837AAB6",
+      "shares": 1000000,
+      "value": 945223520,
+      "pctOfPortfolio": 52.959941217600004
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QU7E0",
+      "shares": 2961255.33,
+      "value": 2938627190,
+      "pctOfPortfolio": 164.64838204929998
+    },
+    {
+      "name": "Belron Finance 2019 LLC",
+      "cusip": "08078UAM5",
+      "shares": 1500000,
+      "value": 1512195000,
+      "pctOfPortfolio": 84.7267938377
+    },
+    {
+      "name": "Blackstone Mortgage Trust, Inc.",
+      "cusip": "09259GAG8",
+      "shares": 1500000,
+      "value": 1505625000,
+      "pctOfPortfolio": 84.35868322
+    },
+    {
+      "name": "BOMBARDIER INC",
+      "cusip": "097751CC3",
+      "shares": 1000000,
+      "value": 1017261000,
+      "pctOfPortfolio": 56.996130146
+    },
+    {
+      "name": "AAR ESCROW ISSUER LLC",
+      "cusip": "00253PAA6",
+      "shares": 250000,
+      "value": 253526900,
+      "pctOfPortfolio": 14.2048620638
+    },
+    {
+      "name": "CPS Auto Trust",
+      "cusip": "223920AE9",
+      "shares": 1000000,
+      "value": 1021550200,
+      "pctOfPortfolio": 57.23644979
+    },
+    {
+      "name": "PARSLEY ENERGY LLC/FINAN",
+      "cusip": "701885AJ4",
+      "shares": 1500000,
+      "value": 1448475060,
+      "pctOfPortfolio": 81.156628469
+    },
+    {
+      "name": "BACARDI LTD / MARTINI BV",
+      "cusip": "05635JAB6",
+      "shares": 1250000,
+      "value": 1225262530,
+      "pctOfPortfolio": 68.6502506465
+    },
+    {
+      "name": "CarMax Auto Owner Trust",
+      "cusip": "142921AH8",
+      "shares": 500000,
+      "value": 510908700,
+      "pctOfPortfolio": 28.625710371200004
+    },
+    {
+      "name": "PATTERSON-UTI ENERGY INC",
+      "cusip": "703481AD3",
+      "shares": 900000,
+      "value": 943106680,
+      "pctOfPortfolio": 52.841336761
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810UD8",
+      "shares": 2000000,
+      "value": 1809939580,
+      "pctOfPortfolio": 101.40912888439999
+    },
+    {
+      "name": "WELLS FARGO & COMPANY",
+      "cusip": "95000U3K7",
+      "shares": 850000,
+      "value": 846387560,
+      "pctOfPortfolio": 47.4222598956
+    },
+    {
+      "name": "SkyMiles IP Ltd",
+      "cusip": "24736CBS2",
+      "shares": 367950.38,
+      "value": 374102510,
+      "pctOfPortfolio": 20.9605945258
+    },
+    {
+      "name": "HPEFS Equipment Trust",
+      "cusip": "44328UAF3",
+      "shares": 500000,
+      "value": 512245400,
+      "pctOfPortfolio": 28.7006043533
+    },
+    {
+      "name": "Boost Newco Borrower, LLC",
+      "cusip": "92943EAE6",
+      "shares": 1496250,
+      "value": 1502175150,
+      "pctOfPortfolio": 84.1653915283
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132DWBP7",
+      "shares": 3812536.4,
+      "value": 2988440680,
+      "pctOfPortfolio": 167.43938274529998
+    },
+    {
+      "name": "CPS Auto Trust",
+      "cusip": "223928AE2",
+      "shares": 500000,
+      "value": 534148900,
+      "pctOfPortfolio": 29.9278358471
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81749PCE8",
+      "shares": 1993932.65,
+      "value": 1948361920,
+      "pctOfPortfolio": 109.16479601969999
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810TT5",
+      "shares": 500000,
+      "value": 445321870,
+      "pctOfPortfolio": 24.9509449977
+    },
+    {
+      "name": "IMPERIAL BRANDS FIN PLC",
+      "cusip": "45262BAF0",
+      "shares": 750000,
+      "value": 770076320,
+      "pctOfPortfolio": 43.1466164112
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132DUJN8",
+      "shares": 5954129.52,
+      "value": 5893300110,
+      "pctOfPortfolio": 330.195790519
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912810TW8",
+      "shares": 2000000,
+      "value": 1974751900,
+      "pctOfPortfolio": 110.6434005614
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859CA8",
+      "shares": 1000000,
+      "value": 991633510,
+      "pctOfPortfolio": 55.56024716670001
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140XM5V4",
+      "shares": 1882480.12,
+      "value": 1774842260,
+      "pctOfPortfolio": 99.4426606737
+    },
+    {
+      "name": "Sierra Receivables Funding Co LLC",
+      "cusip": "82653BAC7",
+      "shares": 904130.05,
+      "value": 898645420,
+      "pctOfPortfolio": 50.350216231
+    },
+    {
+      "name": "CAPITAL ONE FINANCIAL CO",
+      "cusip": "14040HDC6",
+      "shares": 600000,
+      "value": 662462910,
+      "pctOfPortfolio": 37.117143225999996
+    },
+    {
+      "name": "CPS Auto Trust",
+      "cusip": "12664DAJ2",
+      "shares": 750000,
+      "value": 786734030,
+      "pctOfPortfolio": 44.079931467099996
+    }
+  ]
+}

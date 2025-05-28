@@ -1,167 +1,169 @@
 {
+  "form": "13F-HR",
   "date": "2014-02-14",
+  "period": "2014-02-14",
   "positions": [
     {
       "name": "ALASKA AIR GROUP INC",
       "cusip": "011659109",
       "shares": 199322,
-      "value": 14624000
+      "value": 14624000000
     },
     {
       "name": "ALERE INC",
       "cusip": "01449J105",
       "shares": 807106,
-      "value": 29217000
+      "value": 29217000000
     },
     {
       "name": "AMERICAN PUBLIC EDUCATION IN",
       "cusip": "02913V103",
       "shares": 6107,
-      "value": 265000
+      "value": 265000000
     },
     {
       "name": "ASBURY AUTOMOTIVE GROUP INC",
       "cusip": "043436104",
       "shares": 71853,
-      "value": 3861000
+      "value": 3861000000
     },
     {
       "name": "CHARTER COMMUNICATIONS INC D",
       "cusip": "16117M305",
       "shares": 114113,
-      "value": 15606000
+      "value": 15606000000
     },
     {
       "name": "DFC GLOBAL CORP",
       "cusip": "23324T107",
       "shares": 495239,
-      "value": 5670000
+      "value": 5670000000
     },
     {
       "name": "EXPRESS SCRIPTS HLDG CO",
       "cusip": "30219G108",
       "shares": 160000,
-      "value": 11238000
+      "value": 11238000000
     },
     {
       "name": "GAMING &amp; LEISURE PPTYS INC",
       "cusip": "36467J108",
       "shares": 222363,
-      "value": 11298000
+      "value": 11298000000
     },
     {
       "name": "GENCORP INC",
       "cusip": "368682100",
       "shares": 415500,
-      "value": 7487000
+      "value": 7487000000
     },
     {
       "name": "GENERAL MTRS CO",
       "cusip": "37045V100",
       "shares": 465305,
-      "value": 19017000
+      "value": 19017000000
     },
     {
       "name": "GOOGLE INC",
       "cusip": "38259P508",
       "shares": 8210,
-      "value": 9201000
+      "value": 9201000000
     },
     {
       "name": "HEMISPHERE MEDIA GROUP INC",
       "cusip": "42365Q103",
       "shares": 750635,
-      "value": 8910000
+      "value": 8910000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 2881002,
-      "value": 70124000
+      "value": 70124000000
     },
     {
       "name": "INTEROIL CORP",
       "cusip": "460951106",
       "shares": 10000,
-      "value": 91000
+      "value": 91000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U104",
       "shares": 295395,
-      "value": 26290000
+      "value": 26290000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U120",
       "shares": 16000,
-      "value": 1349000
+      "value": 1349000000
     },
     {
       "name": "MICRON TECHNOLOGY INC",
       "cusip": "595112103",
       "shares": 847391,
-      "value": 18431000
+      "value": 18431000000
     },
     {
       "name": "MICRON TECHNOLOGY INC",
       "cusip": "595112103",
       "shares": 171300,
-      "value": 1092000
+      "value": 1092000000
     },
     {
       "name": "ORACLE CORP",
       "cusip": "68389X105",
       "shares": 486600,
-      "value": 18617000
+      "value": 18617000000
     },
     {
       "name": "POST HLDGS INC",
       "cusip": "737446104",
       "shares": 819239,
-      "value": 40364000
+      "value": 40364000000
     },
     {
       "name": "PRESTIGE BRANDS HLDGS INC",
       "cusip": "74112D101",
       "shares": 945108,
-      "value": 33835000
+      "value": 33835000000
     },
     {
       "name": "QUALITY DISTR INC FLA",
       "cusip": "74756M102",
       "shares": 712252,
-      "value": 9138000
+      "value": 9138000000
     },
     {
       "name": "SEARS HLDGS CORP",
       "cusip": "812350106",
       "shares": 157137,
-      "value": 7706000
+      "value": 7706000000
     },
     {
       "name": "SESA STERLITE LTD",
       "cusip": "78413F103",
       "shares": 270998,
-      "value": 3566000
+      "value": 3566000000
     },
     {
       "name": "TEEKAY CORPORATION",
       "cusip": "Y8564W103",
       "shares": 368820,
-      "value": 17707000
+      "value": 17707000000
     },
     {
       "name": "UNITED RENTALS INC",
       "cusip": "911363109",
       "shares": 361548,
-      "value": 28183000
+      "value": 28183000000
     },
     {
       "name": "VALEANT PHARMACEUTICALS INTL",
       "cusip": "91911K102",
       "shares": 144295,
-      "value": 16940000
+      "value": 16940000000
     }
   ]
 }

@@ -1,0 +1,301 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-12-22",
+  "period": "2023-12-22",
+  "positions": [
+    {
+      "name": "Hannon Armstrong Sustainable I",
+      "cusip": "41068X100",
+      "shares": 42420,
+      "value": 1026988200,
+      "pctOfPortfolio": 166.589135
+    },
+    {
+      "name": "Onto Innovation Inc",
+      "cusip": "683344105",
+      "shares": 4388,
+      "value": 618751880,
+      "pctOfPortfolio": 100.36857334
+    },
+    {
+      "name": "TechTarget Inc",
+      "cusip": "87874R100",
+      "shares": 52335,
+      "value": 1549116000,
+      "pctOfPortfolio": 251.28418657
+    },
+    {
+      "name": "ATS Corp",
+      "cusip": "00217Y104",
+      "shares": 48272,
+      "value": 1895158720,
+      "pctOfPortfolio": 307.41624086
+    },
+    {
+      "name": "ArcBest Corp",
+      "cusip": "03937C105",
+      "shares": 9426,
+      "value": 1123484940,
+      "pctOfPortfolio": 182.24200077
+    },
+    {
+      "name": "Carter's Inc",
+      "cusip": "146229109",
+      "shares": 16415,
+      "value": 1119338850,
+      "pctOfPortfolio": 181.56945795
+    },
+    {
+      "name": "First Bancorp/Southern Pines N",
+      "cusip": "318910106",
+      "shares": 43233,
+      "value": 1354922220,
+      "pctOfPortfolio": 219.78375273999998
+    },
+    {
+      "name": "Gentherm Inc",
+      "cusip": "37253A103",
+      "shares": 35919,
+      "value": 1649400480,
+      "pctOfPortfolio": 267.55146673
+    },
+    {
+      "name": "Merit Medical Systems Inc",
+      "cusip": "589889104",
+      "shares": 34131,
+      "value": 2442414360,
+      "pctOfPortfolio": 396.1873131
+    },
+    {
+      "name": "Perficient Inc",
+      "cusip": "71375U101",
+      "shares": 25517,
+      "value": 1578991960,
+      "pctOfPortfolio": 256.13040616
+    },
+    {
+      "name": "Walker & Dunlop Inc",
+      "cusip": "93148P102",
+      "shares": 12943,
+      "value": 1087470860,
+      "pctOfPortfolio": 176.40010849
+    },
+    {
+      "name": "Badger Meter Inc",
+      "cusip": "056525108",
+      "shares": 8289,
+      "value": 1221549930,
+      "pctOfPortfolio": 198.14925449
+    },
+    {
+      "name": "StoneX Group Inc",
+      "cusip": "861896108",
+      "shares": 26817,
+      "value": 1639323210,
+      "pctOfPortfolio": 265.91681923
+    },
+    {
+      "name": "SunOpta Inc",
+      "cusip": "8676EP108",
+      "shares": 250299,
+      "value": 1236477060,
+      "pctOfPortfolio": 200.57060429
+    },
+    {
+      "name": "AAON Inc",
+      "cusip": "000360206",
+      "shares": 19341,
+      "value": 1210746600,
+      "pctOfPortfolio": 196.39683182000002
+    },
+    {
+      "name": "AZEK Co Inc/The",
+      "cusip": "05478C105",
+      "shares": 45346,
+      "value": 1563983540,
+      "pctOfPortfolio": 253.69587020000003
+    },
+    {
+      "name": "BRP Group Inc",
+      "cusip": "05589G102",
+      "shares": 43970,
+      "value": 769035300,
+      "pctOfPortfolio": 124.7462487
+    },
+    {
+      "name": "Huron Consulting Group Inc",
+      "cusip": "447462102",
+      "shares": 12189,
+      "value": 1269728130,
+      "pctOfPortfolio": 205.964305
+    },
+    {
+      "name": "PROS Holdings Inc",
+      "cusip": "74346Y103",
+      "shares": 79931,
+      "value": 2921478050,
+      "pctOfPortfolio": 473.89687755
+    },
+    {
+      "name": "Stewart Information Services C",
+      "cusip": "860372101",
+      "shares": 35106,
+      "value": 1658758500,
+      "pctOfPortfolio": 269.06944372
+    },
+    {
+      "name": "Applied Industrial Technologie",
+      "cusip": "03820C105",
+      "shares": 5689,
+      "value": 910638230,
+      "pctOfPortfolio": 147.71585012999998
+    },
+    {
+      "name": "AvidXchange Holdings Inc",
+      "cusip": "05368X102",
+      "shares": 18070,
+      "value": 192806900,
+      "pctOfPortfolio": 31.275466159999997
+    },
+    {
+      "name": "CTS Corp",
+      "cusip": "126501105",
+      "shares": 32018,
+      "value": 1240697500,
+      "pctOfPortfolio": 201.25520752999998
+    },
+    {
+      "name": "Atkore Inc",
+      "cusip": "047649108",
+      "shares": 15603,
+      "value": 2026829700,
+      "pctOfPortfolio": 328.77476733000003
+    },
+    {
+      "name": "Calix Inc",
+      "cusip": "13100M509",
+      "shares": 24542,
+      "value": 947075780,
+      "pctOfPortfolio": 153.62643404
+    },
+    {
+      "name": "Donnelley Financial Solutions",
+      "cusip": "25787G100",
+      "shares": 37446,
+      "value": 2210062920,
+      "pctOfPortfolio": 358.497274
+    },
+    {
+      "name": "Enpro Industries Inc",
+      "cusip": "29355X107",
+      "shares": 13165,
+      "value": 1690780950,
+      "pctOfPortfolio": 274.26384834
+    },
+    {
+      "name": "Mueller Industries Inc",
+      "cusip": "624756102",
+      "shares": 52604,
+      "value": 2184644120,
+      "pctOfPortfolio": 354.37405632
+    },
+    {
+      "name": "Omnicell Inc",
+      "cusip": "68213N109",
+      "shares": 30393,
+      "value": 1013910480,
+      "pctOfPortfolio": 164.46778048
+    },
+    {
+      "name": "ONE Gas Inc",
+      "cusip": "68235P108",
+      "shares": 19666,
+      "value": 1133351580,
+      "pctOfPortfolio": 183.8424817
+    },
+    {
+      "name": "PJT Partners Inc",
+      "cusip": "69343T107",
+      "shares": 21477,
+      "value": 1934218620,
+      "pctOfPortfolio": 313.75219969
+    },
+    {
+      "name": "Paycor HCM Inc",
+      "cusip": "70435P102",
+      "shares": 39820,
+      "value": 844582200,
+      "pctOfPortfolio": 137.0008128
+    },
+    {
+      "name": "Progyny Inc",
+      "cusip": "74340E103",
+      "shares": 66800,
+      "value": 2295248000,
+      "pctOfPortfolio": 372.31526021999997
+    },
+    {
+      "name": "RadNet Inc",
+      "cusip": "750491102",
+      "shares": 33644,
+      "value": 1117990120,
+      "pctOfPortfolio": 181.35067864
+    },
+    {
+      "name": "Invesco Government & Agency Po",
+      "cusip": "825252885",
+      "shares": 2104928.82,
+      "value": 2104928819.9999998,
+      "pctOfPortfolio": 341.44333046
+    },
+    {
+      "name": "FirstCash Holdings Inc",
+      "cusip": "33768G107",
+      "shares": 19125,
+      "value": 2142000000,
+      "pctOfPortfolio": 347.45669635
+    },
+    {
+      "name": "Insight Enterprises Inc",
+      "cusip": "45765U103",
+      "shares": 12514,
+      "value": 1894869880,
+      "pctOfPortfolio": 307.36938773
+    },
+    {
+      "name": "International Money Express In",
+      "cusip": "46005L101",
+      "shares": 53473,
+      "value": 1114912050,
+      "pctOfPortfolio": 180.85138077
+    },
+    {
+      "name": "Korn Ferry",
+      "cusip": "500643200",
+      "shares": 19016,
+      "value": 983887840,
+      "pctOfPortfolio": 159.59776773000002
+    },
+    {
+      "name": "Stride Inc",
+      "cusip": "86333M108",
+      "shares": 41906,
+      "value": 2538665480,
+      "pctOfPortfolio": 411.80033652
+    },
+    {
+      "name": "US Physical Therapy Inc",
+      "cusip": "90337L108",
+      "shares": 17390,
+      "value": 1478671700,
+      "pctOfPortfolio": 239.85732206999998
+    },
+    {
+      "name": "XPEL Inc",
+      "cusip": "98379L100",
+      "shares": 22754,
+      "value": 1039857800,
+      "pctOfPortfolio": 168.6767301
+    }
+  ]
+}

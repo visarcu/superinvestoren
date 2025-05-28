@@ -1,0 +1,504 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-07-28",
+  "period": "2022-07-28",
+  "positions": [
+    {
+      "name": "Acadia Healthcare Co Inc",
+      "cusip": "00404A109",
+      "shares": 3143,
+      "value": 223687310,
+      "pctOfPortfolio": 144.63169075
+    },
+    {
+      "name": "Alphatec Holdings Inc",
+      "cusip": "02081G201",
+      "shares": 23018,
+      "value": 176778240,
+      "pctOfPortfolio": 114.30123479000001
+    },
+    {
+      "name": "American Axle & Manufacturing",
+      "cusip": "024061103",
+      "shares": 38113,
+      "value": 309096430,
+      "pctOfPortfolio": 199.85550041
+    },
+    {
+      "name": "Ameris Bancorp",
+      "cusip": "03076K108",
+      "shares": 4668,
+      "value": 212814120,
+      "pctOfPortfolio": 137.601306
+    },
+    {
+      "name": "Avient Corp",
+      "cusip": "05368V106",
+      "shares": 4583,
+      "value": 225483600,
+      "pctOfPortfolio": 145.79313554
+    },
+    {
+      "name": "Bally's Corp",
+      "cusip": "05875B106",
+      "shares": 8796,
+      "value": 229927440,
+      "pctOfPortfolio": 148.66643261000002
+    },
+    {
+      "name": "Bloomin' Brands Inc",
+      "cusip": "094235108",
+      "shares": 9171,
+      "value": 193599810,
+      "pctOfPortfolio": 125.17772174999999
+    },
+    {
+      "name": "Boyd Gaming Corp",
+      "cusip": "103304101",
+      "shares": 3346,
+      "value": 196644420,
+      "pctOfPortfolio": 127.146305
+    },
+    {
+      "name": "Cadence Bank",
+      "cusip": "12740C103",
+      "shares": 6494,
+      "value": 173584620,
+      "pctOfPortfolio": 112.23630468
+    },
+    {
+      "name": "Caleres Inc",
+      "cusip": "129500104",
+      "shares": 7390,
+      "value": 210319400,
+      "pctOfPortfolio": 135.9882705
+    },
+    {
+      "name": "California Resources Corp",
+      "cusip": "13057Q305",
+      "shares": 5885,
+      "value": 256997950,
+      "pctOfPortfolio": 166.16967689
+    },
+    {
+      "name": "Carpenter Technology Corp",
+      "cusip": "144285103",
+      "shares": 5456,
+      "value": 192214880,
+      "pctOfPortfolio": 124.28225402
+    },
+    {
+      "name": "Century Aluminum Co",
+      "cusip": "156431108",
+      "shares": 8051,
+      "value": 95001800,
+      "pctOfPortfolio": 61.42624255
+    },
+    {
+      "name": "ChampionX Corp",
+      "cusip": "15872M104",
+      "shares": 6022,
+      "value": 140131940,
+      "pctOfPortfolio": 90.60647835
+    },
+    {
+      "name": "Chart Industries Inc",
+      "cusip": "16115Q308",
+      "shares": 1839,
+      "value": 323443320,
+      "pctOfPortfolio": 209.13190933
+    },
+    {
+      "name": "Clear Channel Outdoor Holdings",
+      "cusip": "18453H106",
+      "shares": 73271,
+      "value": 115768180,
+      "pctOfPortfolio": 74.85336387
+    },
+    {
+      "name": "Community Health Systems Inc",
+      "cusip": "203668108",
+      "shares": 31658,
+      "value": 165887920,
+      "pctOfPortfolio": 107.25977412
+    },
+    {
+      "name": "CONMED Corp",
+      "cusip": "207410101",
+      "shares": 1875,
+      "value": 218043750,
+      "pctOfPortfolio": 140.98267899
+    },
+    {
+      "name": "Artivion Inc",
+      "cusip": "228903100",
+      "shares": 8680,
+      "value": 169780800,
+      "pctOfPortfolio": 109.77683160000001
+    },
+    {
+      "name": "Digital Turbine Inc",
+      "cusip": "25400W102",
+      "shares": 3304,
+      "value": 84020720,
+      "pctOfPortfolio": 54.326098300000005
+    },
+    {
+      "name": "Essential Properties Realty Tr",
+      "cusip": "29670E107",
+      "shares": 7043,
+      "value": 161143840,
+      "pctOfPortfolio": 104.19234794
+    },
+    {
+      "name": "FB Financial Corp",
+      "cusip": "30257X104",
+      "shares": 5838,
+      "value": 245312760,
+      "pctOfPortfolio": 158.61426936
+    },
+    {
+      "name": "First BanCorp/Puerto Rico",
+      "cusip": "318672706",
+      "shares": 19075,
+      "value": 284789750,
+      "pctOfPortfolio": 184.13929271
+    },
+    {
+      "name": "Ouster Inc",
+      "cusip": "68989M103",
+      "shares": 41148,
+      "value": 90525600,
+      "pctOfPortfolio": 58.532022149999996
+    },
+    {
+      "name": "Five Below Inc",
+      "cusip": "33829M101",
+      "shares": 996,
+      "value": 130067640,
+      "pctOfPortfolio": 84.09910551
+    },
+    {
+      "name": "Focus Financial Partners Inc",
+      "cusip": "34417P100",
+      "shares": 3540,
+      "value": 133458000,
+      "pctOfPortfolio": 86.29124372
+    },
+    {
+      "name": "PDC Energy Inc",
+      "cusip": "69327R101",
+      "shares": 4314,
+      "value": 341409960,
+      "pctOfPortfolio": 220.74877539000002
+    },
+    {
+      "name": "Papa John's International Inc",
+      "cusip": "698813102",
+      "shares": 1600,
+      "value": 140816000,
+      "pctOfPortfolio": 91.04877771
+    },
+    {
+      "name": "Patterson-UTI Energy Inc",
+      "cusip": "703481101",
+      "shares": 17256,
+      "value": 329244480,
+      "pctOfPortfolio": 212.88282206
+    },
+    {
+      "name": "Pebblebrook Hotel Trust",
+      "cusip": "70509V100",
+      "shares": 7383,
+      "value": 166191330,
+      "pctOfPortfolio": 107.45595289
+    },
+    {
+      "name": "Gogo Inc",
+      "cusip": "38046C109",
+      "shares": 8388,
+      "value": 169940880,
+      "pctOfPortfolio": 109.88033609000001
+    },
+    {
+      "name": "Golden Entertainment Inc",
+      "cusip": "381013101",
+      "shares": 6906,
+      "value": 326515680,
+      "pctOfPortfolio": 211.11843517
+    },
+    {
+      "name": "Gray Television Inc",
+      "cusip": "389375106",
+      "shares": 16154,
+      "value": 318556880,
+      "pctOfPortfolio": 205.97243605000003
+    },
+    {
+      "name": "H&E Equipment Services Inc",
+      "cusip": "404030108",
+      "shares": 8514,
+      "value": 303524100,
+      "pctOfPortfolio": 196.25254453
+    },
+    {
+      "name": "Performance Food Group Co",
+      "cusip": "71377A103",
+      "shares": 5682,
+      "value": 246257880,
+      "pctOfPortfolio": 159.22536484
+    },
+    {
+      "name": "Pinnacle Financial Partners In",
+      "cusip": "72346Q104",
+      "shares": 2048,
+      "value": 166748160,
+      "pctOfPortfolio": 107.81598791
+    },
+    {
+      "name": "Halozyme Therapeutics Inc",
+      "cusip": "40637H109",
+      "shares": 4527,
+      "value": 208151460,
+      "pctOfPortfolio": 134.58652434
+    },
+    {
+      "name": "Hillman Solutions Corp",
+      "cusip": "431636109",
+      "shares": 18351,
+      "value": 209384910,
+      "pctOfPortfolio": 135.38404817
+    },
+    {
+      "name": "Kaiser Aluminum Corp",
+      "cusip": "483007704",
+      "shares": 2198,
+      "value": 224569660,
+      "pctOfPortfolio": 145.20220042
+    },
+    {
+      "name": "Kirby Corp",
+      "cusip": "497266106",
+      "shares": 1852,
+      "value": 125065560,
+      "pctOfPortfolio": 80.86486175
+    },
+    {
+      "name": "Kulicke & Soffa Industries Inc",
+      "cusip": "501242101",
+      "shares": 5470,
+      "value": 296309900,
+      "pctOfPortfolio": 191.58798871
+    },
+    {
+      "name": "Lantheus Holdings Inc",
+      "cusip": "516544103",
+      "shares": 3102,
+      "value": 212549040,
+      "pctOfPortfolio": 137.42991063
+    },
+    {
+      "name": "Livent Corp",
+      "cusip": "53814L108",
+      "shares": 7690,
+      "value": 244465100,
+      "pctOfPortfolio": 158.06618955
+    },
+    {
+      "name": "Metropolitan Bank Holding Corp",
+      "cusip": "591774104",
+      "shares": 2162,
+      "value": 166971260,
+      "pctOfPortfolio": 107.96023986
+    },
+    {
+      "name": "ModivCare Inc",
+      "cusip": "60783X104",
+      "shares": 1523,
+      "value": 145339890,
+      "pctOfPortfolio": 93.97383349
+    },
+    {
+      "name": "Newmark Group Inc",
+      "cusip": "65158N102",
+      "shares": 6786,
+      "value": 75121020,
+      "pctOfPortfolio": 48.57173227
+    },
+    {
+      "name": "Nexstar Media Group Inc",
+      "cusip": "65336K103",
+      "shares": 1868,
+      "value": 327310960,
+      "pctOfPortfolio": 211.63264714
+    },
+    {
+      "name": "Northern Oil and Gas Inc",
+      "cusip": "665531307",
+      "shares": 8573,
+      "value": 280251370,
+      "pctOfPortfolio": 181.20486798
+    },
+    {
+      "name": "NOW Inc",
+      "cusip": "67011P100",
+      "shares": 24944,
+      "value": 275381760,
+      "pctOfPortfolio": 178.05627664000002
+    },
+    {
+      "name": "O-I Glass Inc",
+      "cusip": "67098H104",
+      "shares": 13198,
+      "value": 217107100,
+      "pctOfPortfolio": 140.37706004
+    },
+    {
+      "name": "Option Care Health Inc",
+      "cusip": "68404L201",
+      "shares": 7479,
+      "value": 227062440,
+      "pctOfPortfolio": 146.81398155
+    },
+    {
+      "name": "Planet Fitness Inc",
+      "cusip": "72703H101",
+      "shares": 3347,
+      "value": 235528390,
+      "pctOfPortfolio": 152.2878936
+    },
+    {
+      "name": "Pure Storage Inc",
+      "cusip": "74624M102",
+      "shares": 8414,
+      "value": 199664220,
+      "pctOfPortfolio": 129.0988466
+    },
+    {
+      "name": "R1 RCM Inc",
+      "cusip": "749397105",
+      "shares": 10019,
+      "value": 215107930,
+      "pctOfPortfolio": 139.08443715
+    },
+    {
+      "name": "Rambus Inc",
+      "cusip": "750917106",
+      "shares": 9505,
+      "value": 238575500,
+      "pctOfPortfolio": 154.25809329999998
+    },
+    {
+      "name": "Rapid7 Inc",
+      "cusip": "753422104",
+      "shares": 2457,
+      "value": 174127590,
+      "pctOfPortfolio": 112.5873781
+    },
+    {
+      "name": "Ryman Hospitality Properties I",
+      "cusip": "78377T107",
+      "shares": 2922,
+      "value": 260905380,
+      "pctOfPortfolio": 168.69614210999998
+    },
+    {
+      "name": "Sabre Corp",
+      "cusip": "78573M104",
+      "shares": 29126,
+      "value": 218736260,
+      "pctOfPortfolio": 141.43044195000002
+    },
+    {
+      "name": "EW Scripps Co/The",
+      "cusip": "811054402",
+      "shares": 16134,
+      "value": 256046580,
+      "pctOfPortfolio": 165.55454029
+    },
+    {
+      "name": "SeaWorld Entertainment Inc",
+      "cusip": "81282V100",
+      "shares": 4324,
+      "value": 234274320,
+      "pctOfPortfolio": 151.4770373
+    },
+    {
+      "name": "SI-BONE Inc",
+      "cusip": "825704109",
+      "shares": 8995,
+      "value": 134475250,
+      "pctOfPortfolio": 86.948977
+    },
+    {
+      "name": "Silicon Motion Technology Corp",
+      "cusip": "82706C108",
+      "shares": 3504,
+      "value": 316446240,
+      "pctOfPortfolio": 204.60773891000002
+    },
+    {
+      "name": "SouthState Corp",
+      "cusip": "840441109",
+      "shares": 3068,
+      "value": 247955760,
+      "pctOfPortfolio": 160.32317971
+    },
+    {
+      "name": "Spirit AeroSystems Holdings In",
+      "cusip": "848574109",
+      "shares": 8216,
+      "value": 258146720,
+      "pctOfPortfolio": 166.91244834
+    },
+    {
+      "name": "Steelcase Inc",
+      "cusip": "858155203",
+      "shares": 21765,
+      "value": 266838900.00000003,
+      "pctOfPortfolio": 172.53263614
+    },
+    {
+      "name": "Talos Energy Inc",
+      "cusip": "87484T108",
+      "shares": 10616,
+      "value": 229305600,
+      "pctOfPortfolio": 148.26436344
+    },
+    {
+      "name": "Triumph Group Inc",
+      "cusip": "896818101",
+      "shares": 12542,
+      "value": 191892600,
+      "pctOfPortfolio": 124.07387429
+    },
+    {
+      "name": "US BANK MMDA - USBFS 2",
+      "cusip": "N/A",
+      "shares": 328702.89,
+      "value": 328702890,
+      "pctOfPortfolio": 212.53264092
+    },
+    {
+      "name": "Upwork Inc",
+      "cusip": "91688F104",
+      "shares": 4944,
+      "value": 90228000,
+      "pctOfPortfolio": 58.339600010000005
+    },
+    {
+      "name": "Viad Corp",
+      "cusip": "92552R406",
+      "shares": 5475,
+      "value": 164907000,
+      "pctOfPortfolio": 106.62553109
+    },
+    {
+      "name": "Weatherford International PLC",
+      "cusip": "G48833118",
+      "shares": 14560,
+      "value": 492710400,
+      "pctOfPortfolio": 318.57657997
+    }
+  ]
+}

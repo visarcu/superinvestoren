@@ -1,4 +1,43 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-15",
-  "positions": []
+  "period": "2022-02-15",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 85900,
+      "value": 248559000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 759600,
+      "value": 134882000
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 14586987,
+      "value": 648975000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 897749,
+      "value": 268427000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 876200,
+      "value": 294710000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 11476523,
+      "value": 1069038000
+    }
+  ]
 }

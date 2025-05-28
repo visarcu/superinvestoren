@@ -1,131 +1,133 @@
 {
+  "form": "13F-HR",
   "date": "2023-02-14",
+  "period": "2023-02-14",
   "positions": [
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 11662,
-      "value": 1027306000
+      "value": 1027306000000
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 375000,
-      "value": 31500000000
+      "value": 31500000000000
     },
     {
       "name": "ARCONIC CORPORATION",
       "cusip": "03966V107",
       "shares": 642504,
-      "value": 13595385000
+      "value": 13595385000000
     },
     {
       "name": "DESPEGAR COM CORP",
       "cusip": "G27358103",
       "shares": 3712783,
-      "value": 19046577000
+      "value": 19046577000000
     },
     {
       "name": "ENERGY TRANSFER L P",
       "cusip": "29273V100",
       "shares": 1166511,
-      "value": 13846486000
+      "value": 13846486000000
     },
     {
       "name": "FRONTIER GROUP HLDGS INC",
       "cusip": "35909R108",
       "shares": 4408535,
-      "value": 45275654000
+      "value": 45275654000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 1010349,
-      "value": 73098750000
+      "value": 73098750000000
     },
     {
       "name": "LAREDO PETROLEUM INC",
       "cusip": "516806205",
       "shares": 177067,
-      "value": 9104785000
+      "value": 9104785000000
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229870",
       "shares": 464103,
-      "value": 24797023000
+      "value": 24797023000000
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 415112,
-      "value": 49954578000
+      "value": 49954578000000
     },
     {
       "name": "OSCAR HEALTH INC",
       "cusip": "687793109",
       "shares": 1455154,
-      "value": 3579679000
+      "value": 3579679000000
     },
     {
       "name": "SEMRUSH HLDGS INC",
       "cusip": "81686C104",
       "shares": 3298329,
-      "value": 26848398000
+      "value": 26848398000000
     },
     {
       "name": "SPOTIFY TECHNOLOGY S A",
       "cusip": "L8681T102",
       "shares": 481304,
-      "value": 37998951000
+      "value": 37998951000000
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 3133135,
-      "value": 44490517000
+      "value": 44490517000000
     },
     {
       "name": "U HAUL HOLDING COMPANY",
       "cusip": "023586100",
       "shares": 32653,
-      "value": 1965384000
+      "value": 1965384000000
     },
     {
       "name": "U HAUL HOLDING COMPANY",
       "cusip": "023586506",
       "shares": 293877,
-      "value": 16157357000
+      "value": 16157357000000
     },
     {
       "name": "UBER TECHNOLOGIES INC",
       "cusip": "90353T100",
       "shares": 1075375,
-      "value": 26594024000
+      "value": 26594024000000
     },
     {
       "name": "UPWORK INC",
       "cusip": "91688F104",
       "shares": 2487629,
-      "value": 25970847000
+      "value": 25970847000000
     },
     {
       "name": "WEWORK INC",
       "cusip": "96209A112",
       "shares": 2169453,
-      "value": 238640000
+      "value": 238640000000
     },
     {
       "name": "WEWORK INC",
       "cusip": "96209A104",
       "shares": 4903808,
-      "value": 7012445000
+      "value": 7012445000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M101",
       "shares": 14075,
-      "value": 439281000
+      "value": 439281000000
     }
   ]
 }

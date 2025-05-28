@@ -1,113 +1,115 @@
 {
+  "form": "13F-HR",
   "date": "2019-11-14",
+  "period": "2019-11-14",
   "positions": [
     {
       "name": "ALLEGIANT TRAVEL CO",
       "cusip": "01748X102",
       "shares": 89752,
-      "value": 13432000
+      "value": 13432000000
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 79460,
-      "value": 96862000
+      "value": 96862000000
     },
     {
       "name": "BUILDERS FIRSTSOURCE INC",
       "cusip": "12008R107",
       "shares": 726716,
-      "value": 14952000
+      "value": 14952000000
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 94817,
-      "value": 39076000
+      "value": 39076000000
     },
     {
       "name": "DESPEGAR COM CORP",
       "cusip": "G27358103",
       "shares": 73653,
-      "value": 834000
+      "value": 834000000
     },
     {
       "name": "EVENTBRITE INC",
       "cusip": "29975E109",
       "shares": 329144,
-      "value": 5829000
+      "value": 5829000000
     },
     {
       "name": "FIAT CHRYSLER AUTOMOBILES N",
       "cusip": "N31738102",
       "shares": 725000,
-      "value": 9389000
+      "value": 9389000000
     },
     {
       "name": "FOSSIL GROUP INC",
       "cusip": "34988V106",
       "shares": 375677,
-      "value": 4700000
+      "value": 4700000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 1619273,
-      "value": 87085000
+      "value": 87085000000
     },
     {
       "name": "LIBERTY MEDIA CORP DELAWARE",
       "cusip": "531229854",
       "shares": 604000,
-      "value": 25120000
+      "value": 25120000000
     },
     {
       "name": "LIBERTY MEDIA CORP DELAWARE",
       "cusip": "531229870",
       "shares": 2593428,
-      "value": 102674000
+      "value": 102674000000
     },
     {
       "name": "PURPLE INNOVATION INC",
       "cusip": "74640Y106",
       "shares": 16208,
-      "value": 122000
+      "value": 122000000
     },
     {
       "name": "REDFIN CORP",
       "cusip": "75737F108",
       "shares": 3017006,
-      "value": 50806000
+      "value": 50806000000
     },
     {
       "name": "SPIRIT AIRLS INC",
       "cusip": "848577102",
       "shares": 348304,
-      "value": 12643000
+      "value": 12643000000
     },
     {
       "name": "THOR INDS INC",
       "cusip": "885160101",
       "shares": 356962,
-      "value": 20218000
+      "value": 20218000000
     },
     {
       "name": "UPWORK INC",
       "cusip": "91688F104",
       "shares": 2729526,
-      "value": 36316000
+      "value": 36316000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M101",
       "shares": 2533462,
-      "value": 74851000
+      "value": 74851000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M200",
       "shares": 277682,
-      "value": 8280000
+      "value": 8280000000
     }
   ]
 }

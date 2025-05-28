@@ -1,275 +1,277 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
   "positions": [
     {
       "name": "ADVANTAGE SOLUTIONS INC",
       "cusip": "00791N102",
       "shares": 11841327,
-      "value": 24665000
+      "value": 24665000000
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 1376280,
-      "value": 132329000
+      "value": 132329000000
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 248000,
-      "value": 28024000
+      "value": 28024000000
     },
     {
       "name": "ARCHAEA ENERGY INC",
       "cusip": "03940F103",
       "shares": 2930297,
-      "value": 51241000
+      "value": 51241000000
     },
     {
       "name": "ATARA BIOTHERAPEUTICS INC",
       "cusip": "046513107",
       "shares": 8123616,
-      "value": 30707000
+      "value": 30707000000
     },
     {
       "name": "AURORA INNOVATION INC",
       "cusip": "051774115",
       "shares": 736550,
-      "value": 346000
+      "value": 346000000
     },
     {
       "name": "AVANTI ACQUISITION CORP",
       "cusip": "G0682V125",
       "shares": 2000000,
-      "value": 46000
+      "value": 46000000
     },
     {
       "name": "CAZOO GROUP LTD",
       "cusip": "G2007L113",
       "shares": 1250000,
-      "value": 67000
+      "value": 67000000
     },
     {
       "name": "CULLINAN ONCOLOGY INC",
       "cusip": "230031106",
       "shares": 429646,
-      "value": 5508000
+      "value": 5508000000
     },
     {
       "name": "DIGITALBRIDGE GROUP INC",
       "cusip": "25401T603",
       "shares": 3289713,
-      "value": 41154000
+      "value": 41154000000
     },
     {
       "name": "DROPBOX INC",
       "cusip": "26210C104",
       "shares": 7819924,
-      "value": 162029000
+      "value": 162029000000
     },
     {
       "name": "ENCOMPASS HEALTH CORP",
       "cusip": "29261A100",
       "shares": 2950000,
-      "value": 133429000
+      "value": 133429000000
     },
     {
       "name": "ENHABIT INC",
       "cusip": "29332G102",
       "shares": 437287,
-      "value": 6140000
+      "value": 6140000000
     },
     {
       "name": "ERMENEGILDO ZEGNA N V",
       "cusip": "N30577113",
       "shares": 698199,
-      "value": 1306000
+      "value": 1306000000
     },
     {
       "name": "FIDELITY NATL INFORMATION SV",
       "cusip": "31620M106",
       "shares": 615000,
-      "value": 46476000
+      "value": 46476000000
     },
     {
       "name": "FINCH THERAPEUTICS GROUP INC",
       "cusip": "31773D101",
       "shares": 1123108,
-      "value": 1876000
+      "value": 1876000000
     },
     {
       "name": "FISERV INC",
       "cusip": "337738108",
       "shares": 3532391,
-      "value": 330526000
+      "value": 330526000000
     },
     {
       "name": "GARRETT MOTION INC",
       "cusip": "366505105",
       "shares": 3575000,
-      "value": 20199000
+      "value": 20199000000
     },
     {
       "name": "GARRETT MOTION INC",
       "cusip": "366505204",
       "shares": 25480292,
-      "value": 181165000
+      "value": 181165000000
     },
     {
       "name": "GRAY TELEVISION INC",
       "cusip": "389375106",
       "shares": 3260000,
-      "value": 46683000
+      "value": 46683000000
     },
     {
       "name": "HIPPO HLDGS INC",
       "cusip": "433539111",
       "shares": 199485,
-      "value": 34000
+      "value": 34000000
     },
     {
       "name": "HORIZON ACQUISITION CORPORAT",
       "cusip": "G46044114",
       "shares": 1166666,
-      "value": 163000
+      "value": 163000000
     },
     {
       "name": "JOBY AVIATION INC",
       "cusip": "G65163118",
       "shares": 861419,
-      "value": 724000
+      "value": 724000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U104",
       "shares": 7194276,
-      "value": 112159000
+      "value": 112159000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U120",
       "shares": 47850310,
-      "value": 789530000
+      "value": 789530000000
     },
     {
       "name": "LIBERTY MEDIA ACQUISITION CO",
       "cusip": "53073L112",
       "shares": 631320,
-      "value": 2000
+      "value": 2000000
     },
     {
       "name": "LIBERTY MEDIA ACQUISITION CO",
       "cusip": "53073L104",
       "shares": 3156598,
-      "value": 31377000
+      "value": 31377000000
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229409",
       "shares": 7677656,
-      "value": 292288000
+      "value": 292288000000
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229607",
       "shares": 13778048,
-      "value": 519570000
+      "value": 519570000000
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 250000,
-      "value": 53638000
+      "value": 53638000000
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 688851,
-      "value": 93463000
+      "value": 93463000000
     },
     {
       "name": "MICRON TECHNOLOGY INC",
       "cusip": "595112103",
       "shares": 3285974,
-      "value": 164627000
+      "value": 164627000000
     },
     {
       "name": "NEW ORIENTAL ED & TECHNOLOGY",
       "cusip": "647581206",
       "shares": 7685706,
-      "value": 184226000
+      "value": 184226000000
     },
     {
       "name": "NUVATION BIO INC",
       "cusip": "67080N101",
       "shares": 10418194,
-      "value": 23337000
+      "value": 23337000000
     },
     {
       "name": "OUTBRAIN INC",
       "cusip": "69002R103",
       "shares": 792000,
-      "value": 2891000
+      "value": 2891000000
     },
     {
       "name": "QORVO INC",
       "cusip": "74736K101",
       "shares": 6775916,
-      "value": 538075000
+      "value": 538075000000
     },
     {
       "name": "SS&C TECHNOLOGIES HLDGS INC",
       "cusip": "78467J100",
       "shares": 3772749,
-      "value": 180149000
+      "value": 180149000000
     },
     {
       "name": "SVF INVESTMENT CORP",
       "cusip": "G8601L128",
       "shares": 197853,
-      "value": 34000
+      "value": 34000000
     },
     {
       "name": "THERAVANCE BIOPHARMA INC",
       "cusip": "G8807B106",
       "shares": 13419226,
-      "value": 136071000
+      "value": 136071000000
     },
     {
       "name": "TRILOGY METALS INC NEW",
       "cusip": "89621C105",
       "shares": 9892451,
-      "value": 6003000
+      "value": 6003000000
     },
     {
       "name": "VERITIV CORP",
       "cusip": "923454102",
       "shares": 3436660,
-      "value": 336002000
+      "value": 336002000000
     },
     {
       "name": "VERTICAL AEROSPACE LTD",
       "cusip": "G9471C115",
       "shares": 1462477,
-      "value": 1082000
+      "value": 1082000000
     },
     {
       "name": "VIASAT INC",
       "cusip": "92552V100",
       "shares": 16288959,
-      "value": 492415000
+      "value": 492415000000
     },
     {
       "name": "WARNER BROS DISCOVERY INC",
       "cusip": "934423104",
       "shares": 29000000,
-      "value": 333500000
+      "value": 333500000000
     },
     {
       "name": "WILLIS TOWERS WATSON PLC LTD",
       "cusip": "G96629103",
       "shares": 1285428,
-      "value": 258294000
+      "value": 258294000000
     }
   ]
 }

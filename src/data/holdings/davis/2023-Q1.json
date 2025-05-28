@@ -1,0 +1,217 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-02-24",
+  "period": "2023-02-24",
+  "positions": [
+    {
+      "name": "TRUIST REPO",
+      "cusip": "ARP0VCU83",
+      "shares": 2817000,
+      "value": 2817000,
+      "pctOfPortfolio": 32.00400718
+    },
+    {
+      "name": "STONEX REPO",
+      "cusip": "ARP0VCU91",
+      "shares": 3191000,
+      "value": 3191000,
+      "pctOfPortfolio": 36.25303049
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079K107",
+      "shares": 269150,
+      "value": 23881679.5,
+      "pctOfPortfolio": 271.32035573
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079K305",
+      "shares": 557680,
+      "value": 49204106.4,
+      "pctOfPortfolio": 559.00907856
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 411700,
+      "value": 34582800,
+      "pctOfPortfolio": 392.89605231
+    },
+    {
+      "name": "APPLIED MATERIALS INC",
+      "cusip": "038222105",
+      "shares": 280200,
+      "value": 27285876,
+      "pctOfPortfolio": 309.99551697
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 449530,
+      "value": 14888433.6,
+      "pctOfPortfolio": 169.14786502
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 1113673,
+      "value": 50694394.96,
+      "pctOfPortfolio": 575.94028402
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC CL A",
+      "cusip": "084670108",
+      "shares": 219,
+      "value": 102647700.24,
+      "pctOfPortfolio": 1166.18307955
+    },
+    {
+      "name": "CIGNA CORP",
+      "cusip": "125523100",
+      "shares": 124860,
+      "value": 41371112.4,
+      "pctOfPortfolio": 470.01823859999996
+    },
+    {
+      "name": "CAPITAL ONE FINANCIAL CORP",
+      "cusip": "14040H105",
+      "shares": 568873,
+      "value": 52882434.08,
+      "pctOfPortfolio": 600.79865097
+    },
+    {
+      "name": "DIDI GLOBAL INC",
+      "cusip": "23292E108",
+      "shares": 2308722,
+      "value": 7341735.96,
+      "pctOfPortfolio": 83.40964514
+    },
+    {
+      "name": "META PLATFORMS INC CLASS A",
+      "cusip": "30303M102",
+      "shares": 399720,
+      "value": 48102304.8,
+      "pctOfPortfolio": 546.49148314
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 705880,
+      "value": 18656408.4,
+      "pctOfPortfolio": 211.95592059
+    },
+    {
+      "name": "DANSKE BANK A/S",
+      "cusip": "458882909",
+      "shares": 709690,
+      "value": 14026665.08,
+      "pctOfPortfolio": 159.35729139999998
+    },
+    {
+      "name": "JPMORGAN CHASE + CO",
+      "cusip": "46625H100",
+      "shares": 176002,
+      "value": 23601868.2,
+      "pctOfPortfolio": 268.14141258
+    },
+    {
+      "name": "JD.COM INC ADR",
+      "cusip": "47215P106",
+      "shares": 250870,
+      "value": 14081333.1,
+      "pctOfPortfolio": 159.97837614
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 43547,
+      "value": 57372737.03,
+      "pctOfPortfolio": 651.81309464
+    },
+    {
+      "name": "DBS GROUP HOLDINGS LTD",
+      "cusip": "617520903",
+      "shares": 1203200,
+      "value": 30470766.01,
+      "pctOfPortfolio": 346.17913172
+    },
+    {
+      "name": "NASPERS LTD N SHS",
+      "cusip": "662269901",
+      "shares": 95910,
+      "value": 15942467.41,
+      "pctOfPortfolio": 181.1227694
+    },
+    {
+      "name": "SAMSUNG ELECTRONICS CO LTD",
+      "cusip": "677172009",
+      "shares": 201490,
+      "value": 8811701.86,
+      "pctOfPortfolio": 100.10996434999998
+    },
+    {
+      "name": "OWENS CORNING",
+      "cusip": "690742101",
+      "shares": 149120,
+      "value": 12719936,
+      "pctOfPortfolio": 144.51150977
+    },
+    {
+      "name": "QUEST DIAGNOSTICS INC",
+      "cusip": "74834L100",
+      "shares": 122940,
+      "value": 19232733.6,
+      "pctOfPortfolio": 218.50356555000002
+    },
+    {
+      "name": "TECK RESOURCES LTD CLS B",
+      "cusip": "878742204",
+      "shares": 549270,
+      "value": 20773391.4,
+      "pctOfPortfolio": 236.00701719
+    },
+    {
+      "name": "US BANCORP",
+      "cusip": "902973304",
+      "shares": 945620,
+      "value": 41238488.2,
+      "pctOfPortfolio": 468.51149176
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 3029340,
+      "value": 33716554.2,
+      "pctOfPortfolio": 383.0546122
+    },
+    {
+      "name": "WELLS FARGO + CO",
+      "cusip": "949746101",
+      "shares": 1793222,
+      "value": 74042136.38,
+      "pctOfPortfolio": 841.19455592
+    },
+    {
+      "name": "ASAC II LP UNIT SEALED",
+      "cusip": "ACI06TW75",
+      "shares": 407313.049,
+      "value": 396356.33,
+      "pctOfPortfolio": 4.50301414
+    },
+    {
+      "name": "PING AN INSURANCE GROUP CO H",
+      "cusip": "B01FLR903",
+      "shares": 3326500,
+      "value": 22012020.45,
+      "pctOfPortfolio": 250.07911269
+    },
+    {
+      "name": "AIA GROUP LTD",
+      "cusip": "B4TX8S909",
+      "shares": 1297270,
+      "value": 14426206.82,
+      "pctOfPortfolio": 163.89649505999998
+    }
+  ]
+}

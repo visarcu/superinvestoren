@@ -76,6 +76,8 @@ type Profile = {
   volAvg?: number
 }
 
+// nach deinem Profile-Typ
+
 export async function generateStaticParams() {
   return stocks.map((s) => ({ ticker: s.ticker.toLowerCase() }))
 }

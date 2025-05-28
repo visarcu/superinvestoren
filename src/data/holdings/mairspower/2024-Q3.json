@@ -1,0 +1,350 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-09-16",
+  "period": "2024-09-16",
+  "positions": [
+    {
+      "name": "Abbott Laboratories",
+      "cusip": "002824100",
+      "shares": 72500,
+      "value": 8212075000,
+      "pctOfPortfolio": 135.68830183
+    },
+    {
+      "name": "AbbVie Inc",
+      "cusip": "00287Y109",
+      "shares": 65100,
+      "value": 12779781000,
+      "pctOfPortfolio": 211.16061186000002
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 156888,
+      "value": 35927352000,
+      "pctOfPortfolio": 593.6284534900001
+    },
+    {
+      "name": "Becton Dickinson & Co",
+      "cusip": "075887109",
+      "shares": 26708,
+      "value": 6474286280,
+      "pctOfPortfolio": 106.97477932
+    },
+    {
+      "name": "Broadridge Financial Solutions",
+      "cusip": "11133T103",
+      "shares": 48000,
+      "value": 10217280000,
+      "pctOfPortfolio": 168.82034961000002
+    },
+    {
+      "name": "Motorola Solutions Inc",
+      "cusip": "620076307",
+      "shares": 30600,
+      "value": 13526424000,
+      "pctOfPortfolio": 223.49741112
+    },
+    {
+      "name": "Snap-on Inc",
+      "cusip": "833034101",
+      "shares": 43510,
+      "value": 12345527400,
+      "pctOfPortfolio": 203.98542976
+    },
+    {
+      "name": "STERIS PLC",
+      "cusip": "N/A",
+      "shares": 48327,
+      "value": 11651639700,
+      "pctOfPortfolio": 192.52030753
+    },
+    {
+      "name": "Elevance Health Inc",
+      "cusip": "036752103",
+      "shares": 21785,
+      "value": 12131848650,
+      "pctOfPortfolio": 200.45481092
+    },
+    {
+      "name": "Costco Wholesale Corp",
+      "cusip": "22160K105",
+      "shares": 13650,
+      "value": 12180987000,
+      "pctOfPortfolio": 201.26672499999998
+    },
+    {
+      "name": "EOG Resources Inc",
+      "cusip": "26875P101",
+      "shares": 77230,
+      "value": 9948768600,
+      "pctOfPortfolio": 164.38372965000002
+    },
+    {
+      "name": "Equinix Inc",
+      "cusip": "29444U700",
+      "shares": 11460,
+      "value": 9561765600,
+      "pctOfPortfolio": 157.98927029
+    },
+    {
+      "name": "Fidelity Government Portfolio",
+      "cusip": "316175108",
+      "shares": 17844266.44,
+      "value": 17844266440,
+      "pctOfPortfolio": 294.84121987
+    },
+    {
+      "name": "Merck & Co Inc",
+      "cusip": "58933Y105",
+      "shares": 77920,
+      "value": 9229624000,
+      "pctOfPortfolio": 152.50128708
+    },
+    {
+      "name": "Nasdaq Inc",
+      "cusip": "631103108",
+      "shares": 137490,
+      "value": 9910279200,
+      "pctOfPortfolio": 163.74776842
+    },
+    {
+      "name": "Walmart Inc",
+      "cusip": "931142103",
+      "shares": 169170,
+      "value": 13064999100,
+      "pctOfPortfolio": 215.87327700999998
+    },
+    {
+      "name": "BlackRock Inc",
+      "cusip": "09247X101",
+      "shares": 13800,
+      "value": 12444978000,
+      "pctOfPortfolio": 205.62865429000001
+    },
+    {
+      "name": "Intuit Inc",
+      "cusip": "461202103",
+      "shares": 21500,
+      "value": 13550590000,
+      "pctOfPortfolio": 223.89670649
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 34700,
+      "value": 14474758000,
+      "pctOfPortfolio": 239.16675535000002
+    },
+    {
+      "name": "Accenture PLC",
+      "cusip": "N/A",
+      "shares": 30454,
+      "value": 10413745300,
+      "pctOfPortfolio": 172.06655023
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 123356,
+      "value": 14548606640,
+      "pctOfPortfolio": 240.38695811
+    },
+    {
+      "name": "Arthur J Gallagher & Co",
+      "cusip": "363576109",
+      "shares": 54470,
+      "value": 15936287900,
+      "pctOfPortfolio": 263.3156471
+    },
+    {
+      "name": "Home Depot Inc/The",
+      "cusip": "437076102",
+      "shares": 30000,
+      "value": 11055000000,
+      "pctOfPortfolio": 182.66201621
+    },
+    {
+      "name": "Atmos Energy Corp",
+      "cusip": "049560105",
+      "shares": 102300,
+      "value": 13374702000,
+      "pctOfPortfolio": 220.99050507
+    },
+    {
+      "name": "Casey's General Stores Inc",
+      "cusip": "147528103",
+      "shares": 45500,
+      "value": 16485105000,
+      "pctOfPortfolio": 272.38376451
+    },
+    {
+      "name": "Gilead Sciences Inc",
+      "cusip": "375558103",
+      "shares": 92000,
+      "value": 7268000000,
+      "pctOfPortfolio": 120.08932915
+    },
+    {
+      "name": "Jack Henry & Associates Inc",
+      "cusip": "426281101",
+      "shares": 50195,
+      "value": 8685240850,
+      "pctOfPortfolio": 143.50643192
+    },
+    {
+      "name": "McCormick & Co Inc/MD",
+      "cusip": "579780206",
+      "shares": 140939,
+      "value": 11279348170,
+      "pctOfPortfolio": 186.36892612
+    },
+    {
+      "name": "S&P Global Inc",
+      "cusip": "78409V104",
+      "shares": 24688,
+      "value": 12670869120,
+      "pctOfPortfolio": 209.3610584
+    },
+    {
+      "name": "Stryker Corp",
+      "cusip": "863667101",
+      "shares": 36200,
+      "value": 13047204000,
+      "pctOfPortfolio": 215.57924816999997
+    },
+    {
+      "name": "WEC Energy Group Inc",
+      "cusip": "92939U106",
+      "shares": 120457,
+      "value": 11206114710,
+      "pctOfPortfolio": 185.158888
+    },
+    {
+      "name": "Automatic Data Processing Inc",
+      "cusip": "053015103",
+      "shares": 48500,
+      "value": 13381635000,
+      "pctOfPortfolio": 221.10505917999998
+    },
+    {
+      "name": "Cintas Corp",
+      "cusip": "172908105",
+      "shares": 17965,
+      "value": 14463980800,
+      "pctOfPortfolio": 238.98868342999998
+    },
+    {
+      "name": "Fastenal Co",
+      "cusip": "311900104",
+      "shares": 188270,
+      "value": 12855075600,
+      "pctOfPortfolio": 212.40470624999998
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 26510,
+      "value": 12813343400,
+      "pctOfPortfolio": 211.71516416
+    },
+    {
+      "name": "American Water Works Co Inc",
+      "cusip": "030420103",
+      "shares": 71460,
+      "value": 10227355200,
+      "pctOfPortfolio": 168.98682237
+    },
+    {
+      "name": "McDonald's Corp",
+      "cusip": "580135101",
+      "shares": 39643,
+      "value": 11443348380,
+      "pctOfPortfolio": 189.07870531999998
+    },
+    {
+      "name": "Sherwin-Williams Co/The",
+      "cusip": "824348106",
+      "shares": 37500,
+      "value": 13851375000,
+      "pctOfPortfolio": 228.86658388
+    },
+    {
+      "name": "Zoetis Inc",
+      "cusip": "98978V103",
+      "shares": 55019,
+      "value": 10095436310,
+      "pctOfPortfolio": 166.80712355
+    },
+    {
+      "name": "Pool Corp",
+      "cusip": "73278L105",
+      "shares": 22800,
+      "value": 8016936000,
+      "pctOfPortfolio": 132.4640157
+    },
+    {
+      "name": "Republic Services Inc",
+      "cusip": "760759100",
+      "shares": 61730,
+      "value": 12852803300,
+      "pctOfPortfolio": 212.36716099
+    },
+    {
+      "name": "T-Mobile US Inc",
+      "cusip": "872590104",
+      "shares": 63000,
+      "value": 12519360000,
+      "pctOfPortfolio": 206.85766976000002
+    },
+    {
+      "name": "Tractor Supply Co",
+      "cusip": "892356106",
+      "shares": 53000,
+      "value": 14180150000,
+      "pctOfPortfolio": 234.29894067
+    },
+    {
+      "name": "Mondelez International Inc",
+      "cusip": "609207105",
+      "shares": 141000,
+      "value": 10125210000,
+      "pctOfPortfolio": 167.29907491
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 79909,
+      "value": 14008047700,
+      "pctOfPortfolio": 231.45529046000001
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 55380,
+      "value": 11870149200,
+      "pctOfPortfolio": 196.13074496000002
+    },
+    {
+      "name": "Watsco Inc",
+      "cusip": "942622200",
+      "shares": 25200,
+      "value": 11980584000,
+      "pctOfPortfolio": 197.95546167
+    },
+    {
+      "name": "Illinois Tool Works Inc",
+      "cusip": "452308109",
+      "shares": 37598,
+      "value": 9519061640,
+      "pctOfPortfolio": 157.28367178
+    },
+    {
+      "name": "Verizon Communications Inc",
+      "cusip": "92343V104",
+      "shares": 217100,
+      "value": 9070438000,
+      "pctOfPortfolio": 149.87105319
+    }
+  ]
+}

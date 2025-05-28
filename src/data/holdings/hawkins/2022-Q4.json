@@ -1,0 +1,168 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-11-22",
+  "period": "2022-11-22",
+  "positions": [
+    {
+      "name": "CNH Industrial N.V. ",
+      "cusip": "N20944109",
+      "shares": 1992702,
+      "value": 22258481340,
+      "pctOfPortfolio": 186.93084582999998
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 4106095,
+      "value": 63767655350,
+      "pctOfPortfolio": 535.5325715700001
+    },
+    {
+      "name": "Douglas Emmett, Inc.",
+      "cusip": "25960P109",
+      "shares": 2299613,
+      "value": 41232061090,
+      "pctOfPortfolio": 346.27448015
+    },
+    {
+      "name": "Fairfax Financial Holdings Limited",
+      "cusip": "303901102",
+      "shares": 113459,
+      "value": 51818980350,
+      "pctOfPortfolio": 435.1853875
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 419531,
+      "value": 62287767570,
+      "pctOfPortfolio": 523.1042001
+    },
+    {
+      "name": "Fiserv, Inc.",
+      "cusip": "337738108",
+      "shares": 653112,
+      "value": 61111689840,
+      "pctOfPortfolio": 513.2272816599999
+    },
+    {
+      "name": "General Electric Company",
+      "cusip": "369604301",
+      "shares": 1176110,
+      "value": 72812970100,
+      "pctOfPortfolio": 611.4967989300001
+    },
+    {
+      "name": "Hyatt Hotels Corporation ",
+      "cusip": "448579102",
+      "shares": 881374,
+      "value": 71356039040,
+      "pctOfPortfolio": 599.26122224
+    },
+    {
+      "name": "IAC, Inc.",
+      "cusip": "44891N208",
+      "shares": 1011453,
+      "value": 56014267140,
+      "pctOfPortfolio": 470.41818241
+    },
+    {
+      "name": "Liberty Broadband Corporation",
+      "cusip": "530307107",
+      "shares": 14118,
+      "value": 1053202800,
+      "pctOfPortfolio": 8.844992040000001
+    },
+    {
+      "name": "Liberty Broadband Corporation",
+      "cusip": "530307305",
+      "shares": 657972,
+      "value": 48558333600,
+      "pctOfPortfolio": 407.80187262
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 21884000,
+      "value": 21884000000,
+      "pctOfPortfolio": 183.78588223
+    },
+    {
+      "name": "Lumen Technologies, Inc.",
+      "cusip": "550241103",
+      "shares": 15615282,
+      "value": 113679252960,
+      "pctOfPortfolio": 954.6994058099999
+    },
+    {
+      "name": "Mattel, Inc.",
+      "cusip": "577081102",
+      "shares": 3838348,
+      "value": 72698311120,
+      "pctOfPortfolio": 610.53387159
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 2286705,
+      "value": 67960872599.99999,
+      "pctOfPortfolio": 570.74798611
+    },
+    {
+      "name": "PVH Corp.",
+      "cusip": "693656100",
+      "shares": 1140300,
+      "value": 51085440000,
+      "pctOfPortfolio": 429.02497987
+    },
+    {
+      "name": "Stanley Black & Decker, Inc.",
+      "cusip": "854502101",
+      "shares": 344739,
+      "value": 25927820190,
+      "pctOfPortfolio": 217.74663260999998
+    },
+    {
+      "name": "Warner Bros., Discovery, Inc.",
+      "cusip": "934423104",
+      "shares": 5090188,
+      "value": 58537162000,
+      "pctOfPortfolio": 491.60592038
+    },
+    {
+      "name": "Warner Music Group Corp.",
+      "cusip": "934550203",
+      "shares": 1211591,
+      "value": 28121027110,
+      "pctOfPortfolio": 236.16559023
+    },
+    {
+      "name": "Affiliated Managers Group, Inc.",
+      "cusip": "008252108",
+      "shares": 619026,
+      "value": 69238058100,
+      "pctOfPortfolio": 581.47402632
+    },
+    {
+      "name": "Alphabet Inc. ",
+      "cusip": "02079K107",
+      "shares": 556900,
+      "value": 53545935000,
+      "pctOfPortfolio": 449.68867227000004
+    },
+    {
+      "name": "CK Hutchison Holdings Limited ",
+      "cusip": "BW9P81600",
+      "shares": 8754000,
+      "value": 48201701000,
+      "pctOfPortfolio": 404.80680604
+    },
+    {
+      "name": "CNH Industrial N.V. ",
+      "cusip": "BDSV2V000",
+      "shares": 2430335,
+      "value": 27200932130,
+      "pctOfPortfolio": 228.43846229999997
+    }
+  ]
+}

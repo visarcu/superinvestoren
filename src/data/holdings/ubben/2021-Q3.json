@@ -1,4 +1,79 @@
 {
+  "form": "13F-HR",
   "date": "2021-08-16",
-  "positions": []
+  "period": "2021-08-16",
+  "positions": [
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 17941603,
+      "value": 526048000
+    },
+    {
+      "name": "CBRE ACQUISITION HLDGS INC",
+      "cusip": "12510J114",
+      "shares": 18417,
+      "value": 20000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 10232609,
+      "value": 877242000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 20745704,
+      "value": 1467759000
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 2843690,
+      "value": 284397000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 27221126,
+      "value": 1612580000
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 21550411,
+      "value": 1060711000
+    },
+    {
+      "name": "LUMENTUM HOLDINGS INC",
+      "cusip": "55024U109",
+      "shares": 967049,
+      "value": 79327000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 17377070,
+      "value": 1527966000
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 20579254,
+      "value": 430930000
+    },
+    {
+      "name": "TOPBUILD CORP",
+      "cusip": "89055F103",
+      "shares": 480000,
+      "value": 94934000
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 15005855,
+      "value": 403507000
+    }
+  ]
 }

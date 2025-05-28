@@ -1,0 +1,518 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-05-23",
+  "period": "2022-05-23",
+  "positions": [
+    {
+      "name": "GlaxoSmithKline PLC",
+      "cusip": "G3910J112",
+      "shares": 2157793,
+      "value": 46688072480,
+      "pctOfPortfolio": 623.06660199
+    },
+    {
+      "name": "Reckitt Benckiser Group PLC",
+      "cusip": "G74079107",
+      "shares": 15386,
+      "value": 1173735900,
+      "pctOfPortfolio": 15.66386445
+    },
+    {
+      "name": "Close Brothers Group PLC",
+      "cusip": "G22120102",
+      "shares": 155403,
+      "value": 2419002070,
+      "pctOfPortfolio": 32.28232223
+    },
+    {
+      "name": "St James's Place PLC",
+      "cusip": "G5005D124",
+      "shares": 37042,
+      "value": 698367870,
+      "pctOfPortfolio": 9.31993275
+    },
+    {
+      "name": "Nestle SA",
+      "cusip": "H57312649",
+      "shares": 23346,
+      "value": 3035415720,
+      "pctOfPortfolio": 40.508550850000006
+    },
+    {
+      "name": "Novo Nordisk A/S",
+      "cusip": "K72807132",
+      "shares": 6785,
+      "value": 752566030,
+      "pctOfPortfolio": 10.043223769999999
+    },
+    {
+      "name": "BB Seguridade Participacoes SA",
+      "cusip": "05541J103",
+      "shares": 836511,
+      "value": 4458603630,
+      "pctOfPortfolio": 59.50142865
+    },
+    {
+      "name": "Koninklijke Ahold Delhaize NV",
+      "cusip": "N0074E105",
+      "shares": 1250306,
+      "value": 40216737160,
+      "pctOfPortfolio": 536.70465355
+    },
+    {
+      "name": "Trip.com Group Ltd",
+      "cusip": "89677Q107",
+      "shares": 75862,
+      "value": 1753929440,
+      "pctOfPortfolio": 23.40672464
+    },
+    {
+      "name": "Vodafone Group PLC",
+      "cusip": "G93882192",
+      "shares": 2837917,
+      "value": 4653577000,
+      "pctOfPortfolio": 62.10340787999999
+    },
+    {
+      "name": "Credicorp Ltd.",
+      "cusip": "G2519Y108",
+      "shares": 102037,
+      "value": 17537099190,
+      "pctOfPortfolio": 234.03795061000002
+    },
+    {
+      "name": "Check Point Software Technologies Ltd.",
+      "cusip": "M22465104",
+      "shares": 51474,
+      "value": 7116795240,
+      "pctOfPortfolio": 94.97580841999999
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "66987V109",
+      "shares": 517,
+      "value": 45366750,
+      "pctOfPortfolio": 0.60543315
+    },
+    {
+      "name": "Nokia Corp",
+      "cusip": "654902204",
+      "shares": 516740,
+      "value": 2821400400,
+      "pctOfPortfolio": 37.652450970000004
+    },
+    {
+      "name": "AstraZeneca PLC",
+      "cusip": "046353108",
+      "shares": 7815,
+      "value": 518447100,
+      "pctOfPortfolio": 6.91883506
+    },
+    {
+      "name": "Element Fleet Management Corp",
+      "cusip": "286181201",
+      "shares": 265126,
+      "value": 2566111750,
+      "pctOfPortfolio": 34.24554589
+    },
+    {
+      "name": "KBC Groupe SA",
+      "cusip": "B5337G162",
+      "shares": 37429,
+      "value": 2685501830,
+      "pctOfPortfolio": 35.83884301
+    },
+    {
+      "name": "Thales SA",
+      "cusip": "F9156M108",
+      "shares": 54318,
+      "value": 6802549240,
+      "pctOfPortfolio": 90.78209947
+    },
+    {
+      "name": "Compagnie Generale des Etablissements Michelin",
+      "cusip": "F61824144",
+      "shares": 256046,
+      "value": 34698224200,
+      "pctOfPortfolio": 463.05841083
+    },
+    {
+      "name": "Safran SA",
+      "cusip": "F4035A557",
+      "shares": 14569,
+      "value": 1715288770,
+      "pctOfPortfolio": 22.891053080000002
+    },
+    {
+      "name": "Baidu, Inc.",
+      "cusip": "056752108",
+      "shares": 209095,
+      "value": 27663268500,
+      "pctOfPortfolio": 369.1747761
+    },
+    {
+      "name": "Telefonica Deutschland Holding AG",
+      "cusip": "D8T9CK101",
+      "shares": 9940659,
+      "value": 27036564810,
+      "pctOfPortfolio": 360.81122374
+    },
+    {
+      "name": "Italgas SpA",
+      "cusip": "T6R89Z103",
+      "shares": 785424,
+      "value": 5038858780,
+      "pctOfPortfolio": 67.24511104000001
+    },
+    {
+      "name": "Endesa SA",
+      "cusip": "E41222113",
+      "shares": 1520891,
+      "value": 33160956790,
+      "pctOfPortfolio": 442.54310723000003
+    },
+    {
+      "name": "Bic (Societe Bic SA)",
+      "cusip": "F10080103",
+      "shares": 18525,
+      "value": 935940540,
+      "pctOfPortfolio": 12.490412670000001
+    },
+    {
+      "name": "Munich Reinsurance",
+      "cusip": "D55535104",
+      "shares": 25335,
+      "value": 6773051550,
+      "pctOfPortfolio": 90.38844378
+    },
+    {
+      "name": "Sanofi",
+      "cusip": "F5548N101",
+      "shares": 79450,
+      "value": 8122940410,
+      "pctOfPortfolio": 108.40312334
+    },
+    {
+      "name": "Fresenius Medical Care AG & Co. KGaA",
+      "cusip": "D2734Z107",
+      "shares": 24921,
+      "value": 1669976880,
+      "pctOfPortfolio": 22.286352049999998
+    },
+    {
+      "name": "Nokia Corp",
+      "cusip": "X61873133",
+      "shares": 2530165,
+      "value": 13933674460,
+      "pctOfPortfolio": 185.94914585
+    },
+    {
+      "name": "Snam S.p.A.",
+      "cusip": "T8578N103",
+      "shares": 5552969,
+      "value": 32021484060,
+      "pctOfPortfolio": 427.33649526
+    },
+    {
+      "name": "Tecnicas Reunidas SA",
+      "cusip": "E9055J108",
+      "shares": 446708,
+      "value": 3805446810,
+      "pctOfPortfolio": 50.784851180000004
+    },
+    {
+      "name": "RTL Group",
+      "cusip": "L80326108",
+      "shares": 45195,
+      "value": 2505768600,
+      "pctOfPortfolio": 33.4402481
+    },
+    {
+      "name": "Telefonica Brasil S.A",
+      "cusip": "87936R205",
+      "shares": 780942,
+      "value": 8785597500,
+      "pctOfPortfolio": 117.24648481
+    },
+    {
+      "name": "Singapore Exchange Limited",
+      "cusip": "Y79946102",
+      "shares": 141300,
+      "value": 1035509860,
+      "pctOfPortfolio": 13.819195689999999
+    },
+    {
+      "name": "Travelsky Technology Limited",
+      "cusip": "Y8972V101",
+      "shares": 1130353,
+      "value": 1621541320,
+      "pctOfPortfolio": 21.6399647
+    },
+    {
+      "name": "CLP Holdings Ltd",
+      "cusip": "Y1660Q104",
+      "shares": 969000,
+      "value": 9428270470,
+      "pctOfPortfolio": 125.82315209
+    },
+    {
+      "name": "Bridgestone Corp",
+      "cusip": "J04578126",
+      "shares": 664500,
+      "value": 25793087650,
+      "pctOfPortfolio": 344.21664085
+    },
+    {
+      "name": "Daito Trust Construction Co",
+      "cusip": "J11151107",
+      "shares": 6700,
+      "value": 711167850,
+      "pctOfPortfolio": 9.4907524
+    },
+    {
+      "name": "Subaru Corporation",
+      "cusip": "J7676H100",
+      "shares": 1559400,
+      "value": 24767938600,
+      "pctOfPortfolio": 330.53571334
+    },
+    {
+      "name": "Japan Tobacco Inc",
+      "cusip": "J27869106",
+      "shares": 204700,
+      "value": 3495781250,
+      "pctOfPortfolio": 46.652269610000005
+    },
+    {
+      "name": "Mabuchi Motor Co., Ltd.",
+      "cusip": "J39186101",
+      "shares": 39900,
+      "value": 1242086440,
+      "pctOfPortfolio": 16.57602331
+    },
+    {
+      "name": "Nintendo Co Ltd",
+      "cusip": "J51699106",
+      "shares": 78800,
+      "value": 39775250380,
+      "pctOfPortfolio": 530.81287749
+    },
+    {
+      "name": "ONO Pharmaceutical Co Ltd",
+      "cusip": "J61546115",
+      "shares": 69100,
+      "value": 1732019230,
+      "pctOfPortfolio": 23.11432618
+    },
+    {
+      "name": "Jeronimo Martins - S.G.P.S., S.A.",
+      "cusip": "X40338109",
+      "shares": 33192,
+      "value": 796274230,
+      "pctOfPortfolio": 10.62652306
+    },
+    {
+      "name": "Sankyo Co Ltd",
+      "cusip": "J67844100",
+      "shares": 102100,
+      "value": 2831452500,
+      "pctOfPortfolio": 37.78659932
+    },
+    {
+      "name": "Secom Co Ltd",
+      "cusip": "J69972107",
+      "shares": 148000,
+      "value": 10706603510,
+      "pctOfPortfolio": 142.88289735
+    },
+    {
+      "name": "Direct Line Insurance Group PLC",
+      "cusip": "G2871V114",
+      "shares": 6287185,
+      "value": 22655073470,
+      "pctOfPortfolio": 302.33888218
+    },
+    {
+      "name": "Deutsche Boerse AG",
+      "cusip": "D1882G119",
+      "shares": 337667,
+      "value": 60783731860,
+      "pctOfPortfolio": 811.17748612
+    },
+    {
+      "name": "H. Lundbeck A/S",
+      "cusip": "K4406L129",
+      "shares": 274285,
+      "value": 6319809820,
+      "pctOfPortfolio": 84.33979431
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "H5820Q150",
+      "shares": 82054,
+      "value": 7203648240,
+      "pctOfPortfolio": 96.13488826
+    },
+    {
+      "name": "Roche Holdings AG",
+      "cusip": "H69293217",
+      "shares": 152792,
+      "value": 60453967050,
+      "pctOfPortfolio": 806.77667391
+    },
+    {
+      "name": "BNP Paribas",
+      "cusip": "F1058Q238",
+      "shares": 167221,
+      "value": 9555788920,
+      "pctOfPortfolio": 127.52492479
+    },
+    {
+      "name": "Philip Morris International Inc.",
+      "cusip": "718172109",
+      "shares": 466874,
+      "value": 43858143560,
+      "pctOfPortfolio": 585.30033531
+    },
+    {
+      "name": "Northern Inst Fds",
+      "cusip": "665279873",
+      "shares": 27352573.24,
+      "value": 27352573240,
+      "pctOfPortfolio": 365.02845285999996
+    },
+    {
+      "name": "Tim S A",
+      "cusip": "88706T108",
+      "shares": 215005,
+      "value": 3117572500,
+      "pctOfPortfolio": 41.6049582
+    },
+    {
+      "name": "CURRENCY CONTRACT - AUD",
+      "cusip": "000000000",
+      "shares": -36717070,
+      "value": 619420960,
+      "pctOfPortfolio": 8.2663621
+    },
+    {
+      "name": "CURRENCY CONTRACT - AUD",
+      "cusip": "000000000",
+      "shares": -8291143,
+      "value": 36150800,
+      "pctOfPortfolio": 0.48244348000000004
+    },
+    {
+      "name": "CURRENCY CONTRACT - GBP",
+      "cusip": "000000000",
+      "shares": -2202560,
+      "value": -14321310,
+      "pctOfPortfolio": -0.19112226
+    },
+    {
+      "name": "CURRENCY CONTRACT - GBP",
+      "cusip": "000000000",
+      "shares": -29585309,
+      "value": -178730260,
+      "pctOfPortfolio": -2.38520997
+    },
+    {
+      "name": "CURRENCY CONTRACT - JPY",
+      "cusip": "000000000",
+      "shares": -31576973,
+      "value": -1816697380,
+      "pctOfPortfolio": -24.24438199
+    },
+    {
+      "name": "CURRENCY CONTRACT - JPY",
+      "cusip": "000000000",
+      "shares": -66915731,
+      "value": -582610780,
+      "pctOfPortfolio": -7.77511899
+    },
+    {
+      "name": "CURRENCY CONTRACT - NOK",
+      "cusip": "000000000",
+      "shares": -3019205,
+      "value": 62306730,
+      "pctOfPortfolio": 0.8315023600000001
+    },
+    {
+      "name": "CURRENCY CONTRACT - NOK",
+      "cusip": "000000000",
+      "shares": -1021694,
+      "value": 8484680,
+      "pctOfPortfolio": 0.11323065
+    },
+    {
+      "name": "CURRENCY CONTRACT - SEK",
+      "cusip": "000000000",
+      "shares": -5140437,
+      "value": 246701520,
+      "pctOfPortfolio": 3.2923072099999997
+    },
+    {
+      "name": "CURRENCY CONTRACT - SEK",
+      "cusip": "000000000",
+      "shares": -11586224,
+      "value": 573160480,
+      "pctOfPortfolio": 7.64900185
+    },
+    {
+      "name": "CURRENCY CONTRACT - SEK",
+      "cusip": "000000000",
+      "shares": -2217036,
+      "value": 88489780,
+      "pctOfPortfolio": 1.18092317
+    },
+    {
+      "name": "CURRENCY CONTRACT - SGD",
+      "cusip": "000000000",
+      "shares": -1085288,
+      "value": -9537830,
+      "pctOfPortfolio": -0.12728526
+    },
+    {
+      "name": "CURRENCY CONTRACT - SGD",
+      "cusip": "000000000",
+      "shares": -5599518,
+      "value": 22165370,
+      "pctOfPortfolio": 0.29580364
+    },
+    {
+      "name": "CURRENCY CONTRACT - SGD",
+      "cusip": "000000000",
+      "shares": -2015000,
+      "value": 7455930,
+      "pctOfPortfolio": 0.09950167
+    },
+    {
+      "name": "CURRENCY CONTRACT - USD",
+      "cusip": "000000000",
+      "shares": -1853591.9,
+      "value": -30606980,
+      "pctOfPortfolio": -0.40845951
+    },
+    {
+      "name": "CURRENCY CONTRACT - USD",
+      "cusip": "000000000",
+      "shares": -22223385.69,
+      "value": -306474080,
+      "pctOfPortfolio": -4.0899903
+    },
+    {
+      "name": "CURRENCY CONTRACT - USD",
+      "cusip": "000000000",
+      "shares": -6604062.77,
+      "value": 2113680,
+      "pctOfPortfolio": 0.028207710000000004
+    },
+    {
+      "name": "CURRENCY CONTRACT - USD",
+      "cusip": "000000000",
+      "shares": -124926346,
+      "value": 44851150,
+      "pctOfPortfolio": 0.59855231
+    }
+  ]
+}

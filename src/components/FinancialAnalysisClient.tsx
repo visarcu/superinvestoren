@@ -23,6 +23,7 @@ import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
 
+
 type MetricKey =
   | 'revenue'
   | 'ebitda'
@@ -33,6 +34,7 @@ type MetricKey =
   | 'netIncome'
   | 'cashDebt'
   | 'pe'
+    | 'returnOnEquity'
 
 type ChartKey = MetricKey
 
@@ -45,6 +47,21 @@ const TOOLTIP_STYLES = {
   contentStyle: { backgroundColor: 'rgba(55,65,81,0.95)' },
   labelStyle: { color: '#F3F4F6' },
   itemStyle: { color: '#FFFFFF' },
+}
+
+const DARK_TOOLTIP = {
+  wrapperStyle: { backgroundColor: 'rgba(55,65,81,0.95)', borderColor: '#4B5563' },
+  contentStyle: { backgroundColor: 'rgba(55,65,81,0.95)' },
+  labelStyle: { color: '#F3F4F6' },
+  itemStyle: { color: '#FFFFFF' },
+}
+
+const LIGHT_TOOLTIP = {
+  wrapperStyle: { backgroundColor: '#fff', border: '1px solid rgba(0,0,0,0.1)' },
+  contentStyle: { backgroundColor: '#fff' },
+  labelStyle: { color: '#000' },
+  itemStyle: { color: '#000' },
+  separator: '',             // falls Du den Doppelpunkt entfernen willst
 }
 
 const METRICS: {
@@ -60,6 +77,8 @@ const METRICS: {
   { key: 'dividendPS', name: 'Dividende je Aktie', stroke: '#22d3ee', fill: 'rgba(34,211,238,0.8)' },
   { key: 'sharesOutstanding', name: 'Shares Out. (Stück)', stroke: '#eab308', fill: 'rgba(234,179,8,0.8)' },
   { key: 'netIncome',       name: 'Nettogewinn (Mio.)',       stroke: '#efb300', fill: 'rgba(239,179,0,0.8)' },
+  { key: 'returnOnEquity', name: 'ROE', stroke: '#f472b6', fill: 'rgba(244,114,182,0.8)' },
+
 ]
 
 const CASH_INFO = { dataKey: 'cash', name: 'Cash', stroke: '#6366f1', fill: 'rgba(99,102,241,0.8)' }
@@ -212,59 +231,64 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
   return (
     <div className="space-y-6">
       {/* Zeitraum / Periode */}
-      <div className="flex flex-wrap items-center gap-4">
-        <span>Zeitraum:</span>
-        {[5,10,15,20].map(y => (
-          <button
-            key={y}
-            onClick={() => requirePremium(() => setYears(y))}
-            className={`px-2 py-1 rounded ${
-              years === y ? 'bg-blue-600 text-white' : 'bg-gray-700'
-            }`}
-          >
-            {y} J
-          </button>
-        ))}
+      <Card className="p-6">
+        <div className="flex flex-wrap items-center gap-4 mb-4">
+         <span>Zeitraum:</span>
+         {[5,10,15,20].map(y => (
+           <button
+             key={y}
+             onClick={() => requirePremium(() => setYears(y))}
+             className={`px-2 py-1 rounded ${
+               years === y ? 'bg-blue-600 text-white' : 'bg-gray-700'
+             }`}
+           >
+             {y} J
+           </button>
+         ))}
+ 
+         <span className="ml-6">Periode:</span>
+         {(['annual','quarterly'] as const).map(p => (
+           <button
+             key={p}
+             onClick={() => requirePremium(() => setPeriod(p))}
+             className={`px-3 py-1 rounded ${
+               period === p ? 'bg-blue-600 text-white' : 'bg-gray-500'
+             }`}
+           >
+             {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
+           </button>
+         ))}
 
-        <span className="ml-6">Periode:</span>
-        {(['annual','quarterly'] as const).map(p => (
-          <button
-            key={p}
-            onClick={() => requirePremium(() => setPeriod(p))}
-            className={`px-3 py-1 rounded ${
-              period === p ? 'bg-blue-600 text-white' : 'bg-gray-500'
-            }`}
-          >
-            {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
-          </button>
-        ))}
-      </div>
+        </div>
 
       {/* Checkbox-Filter */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-card-dark p-4 rounded-lg shadow">
-        {ALL_KEYS.map(key => (
-          <label key={key} className="inline-flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={visible.includes(key)}
-              onChange={() =>
-                requirePremium(() =>
-                  setVisible(v =>
-                    v.includes(key) ? v.filter(x => x !== key) : [...v, key]
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {ALL_KEYS.map(key => (
+            <label key={key} className="inline-flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={visible.includes(key)}
+                onChange={() =>
+                  requirePremium(() =>
+                    setVisible(v =>
+                      v.includes(key) ? v.filter(x => x !== key) : [...v, key]
+                    )
                   )
-                )
-              }
-              className="form-checkbox h-5 w-5 text-green-500"
-            />
-            <span>
-              { key === 'cashDebt' ? 'Cash & Debt'
-                : key === 'pe'       ? 'KGV TTM'
-                : METRICS.find(m => m.key === key)!.name
-              }
-            </span>
-          </label>
-        ))}
-      </div>
+                }
+                className="form-checkbox h-5 w-5 text-green-500"
+              />
+              <span className="text-sm">
+                { key === 'cashDebt'
+                  ? 'Cash & Debt'
+                  : key === 'pe'
+                  ? 'KGV TTM'
+                  : METRICS.find(m => m.key === key)!.name
+                }
+              </span>
+            </label>
+          ))}
+        </div>
+      </Card>
 
       {/* Charts Grid */}
 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -332,7 +356,7 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
           <div className="flex justify-between items-center mb-2">
             <h3 className="font-semibold">Reingewinn (Mio.)</h3>
             <button onClick={() => setFullscreen('netIncome')}>
-              <XMarkIcon className="w-5 h-5 text-gray-600"/>
+            <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
             </button>
           </div>
           <ResponsiveContainer width="100%" height={240}>
@@ -370,7 +394,7 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
         <div className="flex justify-between items-center mb-2">
           <h3 className="font-semibold">{m.name}</h3>
           <button onClick={()=>setFullscreen(key)}>
-            <XMarkIcon className="w-5 h-5 text-gray-600"/>
+          <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
           </button>
         </div>
         <ResponsiveContainer width="100%" height={240}>

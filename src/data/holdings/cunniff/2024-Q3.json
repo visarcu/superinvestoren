@@ -1,0 +1,182 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-08-20",
+  "period": "2024-08-20",
+  "positions": [
+    {
+      "name": "Charter Communications Inc",
+      "cusip": "16119P108",
+      "shares": 169617,
+      "value": 50708698320,
+      "pctOfPortfolio": 146.9217563198
+    },
+    {
+      "name": "Ashtead Group PLC",
+      "cusip": "000000000",
+      "shares": 1490595,
+      "value": 99526673390,
+      "pctOfPortfolio": 288.3653917294
+    },
+    {
+      "name": "CONSTELLATION SOFTWARE INC",
+      "cusip": "21037X134",
+      "shares": 99486,
+      "value": 0,
+      "pctOfPortfolio": 0
+    },
+    {
+      "name": "TSMC",
+      "cusip": "874039100",
+      "shares": 1120404,
+      "value": 194737419240,
+      "pctOfPortfolio": 564.2259534131
+    },
+    {
+      "name": "Eurofins Scientific SE",
+      "cusip": "000000000",
+      "shares": 2485155,
+      "value": 123891742580,
+      "pctOfPortfolio": 358.9599618297
+    },
+    {
+      "name": "Constellation Software Inc/Can",
+      "cusip": "21037X100",
+      "shares": 83187,
+      "value": 239693850050,
+      "pctOfPortfolio": 694.4812743207
+    },
+    {
+      "name": "Elevance Health Inc",
+      "cusip": "036752103",
+      "shares": 333699,
+      "value": 180818140140,
+      "pctOfPortfolio": 523.8966805302999
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 149463,
+      "value": 60801548400,
+      "pctOfPortfolio": 176.164456471
+    },
+    {
+      "name": "Rolls-Royce Holdings PLC",
+      "cusip": "000000000",
+      "shares": 49351100,
+      "value": 284973426130,
+      "pctOfPortfolio": 825.6728659706001
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "000000000",
+      "shares": 713889,
+      "value": 144895511740,
+      "pctOfPortfolio": 419.8156090177
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 375441,
+      "value": 191197083660,
+      "pctOfPortfolio": 553.9682986396999
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 1454452,
+      "value": 106669509680,
+      "pctOfPortfolio": 309.0608165302
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 876573,
+      "value": 48053731860,
+      "pctOfPortfolio": 139.2293416416
+    },
+    {
+      "name": "Liberty Media Corp-Liberty For",
+      "cusip": "531229771",
+      "shares": 42305,
+      "value": 2717250150,
+      "pctOfPortfolio": 7.8728734442
+    },
+    {
+      "name": "CHARLES SCHWAB CORP/THE",
+      "cusip": "808513105",
+      "shares": 2982798,
+      "value": 219802384620,
+      "pctOfPortfolio": 636.8483802892
+    },
+    {
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 1758666,
+      "value": 240743788740,
+      "pctOfPortfolio": 697.5233330104
+    },
+    {
+      "name": "Liberty Media Corp-Liberty For",
+      "cusip": "531229755",
+      "shares": 2746244,
+      "value": 197290168960,
+      "pctOfPortfolio": 571.622208587
+    },
+    {
+      "name": "CREDIT ACCEPTANCE CORP",
+      "cusip": "225310101",
+      "shares": 290181,
+      "value": 149350357080,
+      "pctOfPortfolio": 432.72293504209995
+    },
+    {
+      "name": "Jacobs Solutions Inc",
+      "cusip": "46982L108",
+      "shares": 992737,
+      "value": 138695286270,
+      "pctOfPortfolio": 401.85127457789997
+    },
+    {
+      "name": "Universal Music Group NV",
+      "cusip": "000000000",
+      "shares": 6114266,
+      "value": 181905472740,
+      "pctOfPortfolio": 527.0470831355999
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 223757,
+      "value": 112822754540,
+      "pctOfPortfolio": 326.8890308573
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307107",
+      "shares": 341062,
+      "value": 18621985200,
+      "pctOfPortfolio": 53.95474272439999
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 1033339,
+      "value": 143065784550,
+      "pctOfPortfolio": 414.5142161355
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 1390208,
+      "value": 253226387200,
+      "pctOfPortfolio": 733.6900134801999
+    },
+    {
+      "name": "Lumine Group Inc",
+      "cusip": "55027C106",
+      "shares": 298252,
+      "value": 8051201610,
+      "pctOfPortfolio": 23.327293348399998
+    }
+  ]
+}

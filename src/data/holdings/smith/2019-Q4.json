@@ -1,4 +1,193 @@
 {
+  "form": "13F-HR",
   "date": "2019-11-12",
-  "positions": []
+  "period": "2019-11-12",
+  "positions": [
+    {
+      "name": "AUTOMATIC DATA PROCESSING ",
+      "cusip": "053015103",
+      "shares": 6480485,
+      "value": 1046080000
+    },
+    {
+      "name": "BECTON DICKINSON AND CO",
+      "cusip": "075887109",
+      "shares": 3817935,
+      "value": 965785000
+    },
+    {
+      "name": "BROWN FORMAN CORP CLASS B",
+      "cusip": "115637209",
+      "shares": 9243186,
+      "value": 580287000
+    },
+    {
+      "name": "CHURCH AND DWIGHT CO INC",
+      "cusip": "171340102",
+      "shares": 202952,
+      "value": 15270000
+    },
+    {
+      "name": "ESTEE LAUDER ",
+      "cusip": "518439104",
+      "shares": 6766747,
+      "value": 1346244000
+    },
+    {
+      "name": "FACEBOOK",
+      "cusip": "30303M102",
+      "shares": 6482183,
+      "value": 1154347000
+    },
+    {
+      "name": "IDEXX LABORATORIES",
+      "cusip": "45168D104",
+      "shares": 4556016,
+      "value": 1238917000
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 4660635,
+      "value": 1239449000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 5956821,
+      "value": 770694000
+    },
+    {
+      "name": "MARRIOTT INTERNATIONAL  CL A",
+      "cusip": "571903202",
+      "shares": 211302,
+      "value": 26280000
+    },
+    {
+      "name": "MCCORMICK & CO NON VTG SHRS",
+      "cusip": "579780206",
+      "shares": 7291672,
+      "value": 1139688000
+    },
+    {
+      "name": "MICROSOFT ",
+      "cusip": "594918104",
+      "shares": 12189646,
+      "value": 1694726000
+    },
+    {
+      "name": "PAYPAL HOLDINGS INC",
+      "cusip": "70450Y103",
+      "shares": 15402344,
+      "value": 1595529000
+    },
+    {
+      "name": "PEPSICO INC ",
+      "cusip": "713448108",
+      "shares": 8289105,
+      "value": 1136436000
+    },
+    {
+      "name": "PHILIP MORRIS INTERNATIONAL",
+      "cusip": "718172109",
+      "shares": 16928583,
+      "value": 1285387000
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 5945105,
+      "value": 1285926000
+    },
+    {
+      "name": "VISA INC CLASS A SHARES ",
+      "cusip": "92826C839",
+      "shares": 6445632,
+      "value": 1108713000
+    },
+    {
+      "name": "WATERS CORP ",
+      "cusip": "941848103",
+      "shares": 5122867,
+      "value": 1143578000
+    },
+    {
+      "name": "ANSYS",
+      "cusip": "03662Q105",
+      "shares": 347128,
+      "value": 76840000
+    },
+    {
+      "name": "AO SMITH",
+      "cusip": "831865209",
+      "shares": 848563,
+      "value": 40485000
+    },
+    {
+      "name": "COGNEX",
+      "cusip": "192422103",
+      "shares": 1167817,
+      "value": 57375000
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH",
+      "cusip": "M22465104",
+      "shares": 727785,
+      "value": 79692000
+    },
+    {
+      "name": "EQUIFAX",
+      "cusip": "294429105",
+      "shares": 620821,
+      "value": 87331000
+    },
+    {
+      "name": "IPG PHOTONICS",
+      "cusip": "44980X109",
+      "shares": 392900,
+      "value": 53277000
+    },
+    {
+      "name": "MASIMO",
+      "cusip": "574795100",
+      "shares": 574963,
+      "value": 85549000
+    },
+    {
+      "name": "MSCI",
+      "cusip": "55354G100",
+      "shares": 200070,
+      "value": 43565000
+    },
+    {
+      "name": "PAYCOM SOFTWARE",
+      "cusip": "70432V102",
+      "shares": 170928,
+      "value": 35808000
+    },
+    {
+      "name": "SABRE",
+      "cusip": "78573M104",
+      "shares": 3630918,
+      "value": 81314000
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345Y106",
+      "shares": 534530,
+      "value": 84531000
+    },
+    {
+      "name": "VERISIGN",
+      "cusip": "92343E102",
+      "shares": 272873,
+      "value": 51472000
+    },
+    {
+      "name": "MERCADOLIBRE",
+      "cusip": "58733R102",
+      "shares": 23644,
+      "value": 13033000
+    }
+  ]
 }

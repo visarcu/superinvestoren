@@ -1,0 +1,145 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-16",
+  "period": "2021-02-16",
+  "positions": [
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 75000,
+      "value": 8245000
+    },
+    {
+      "name": "ARES CAPITAL CORP",
+      "cusip": "04010L103",
+      "shares": 125000,
+      "value": 2111000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 539600,
+      "value": 33272000
+    },
+    {
+      "name": "CORECIVIC INC",
+      "cusip": "21871N101",
+      "shares": 1000000,
+      "value": 6550000
+    },
+    {
+      "name": "DESIGNER BRANDS INC",
+      "cusip": "250565108",
+      "shares": 900000,
+      "value": 6885000
+    },
+    {
+      "name": "DISCOVERY INC",
+      "cusip": "25470F104",
+      "shares": 250000,
+      "value": 7523000
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 845152,
+      "value": 7488000
+    },
+    {
+      "name": "HOLLYFRONTIER CORP",
+      "cusip": "436106108",
+      "shares": 250000,
+      "value": 6463000
+    },
+    {
+      "name": "INGLES MKTS INC",
+      "cusip": "457030104",
+      "shares": 111415,
+      "value": 4753000
+    },
+    {
+      "name": "KIMBALL INTL INC",
+      "cusip": "494274103",
+      "shares": 500000,
+      "value": 5975000
+    },
+    {
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 589700,
+      "value": 20439000
+    },
+    {
+      "name": "LUMEN TECHNOLOGIES INC",
+      "cusip": "156700106",
+      "shares": 1150000,
+      "value": 11213000
+    },
+    {
+      "name": "MOLSON COORS BEVERAGE CO",
+      "cusip": "60871R209",
+      "shares": 150000,
+      "value": 6779000
+    },
+    {
+      "name": "MSG NETWORK INC",
+      "cusip": "553573106",
+      "shares": 345000,
+      "value": 5085000
+    },
+    {
+      "name": "NOW INC",
+      "cusip": "67011P100",
+      "shares": 1500000,
+      "value": 10770000
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 844300,
+      "value": 31079000
+    },
+    {
+      "name": "QURATE RETAIL INC",
+      "cusip": "74915M100",
+      "shares": 700000,
+      "value": 7679000
+    },
+    {
+      "name": "RPT REALTY",
+      "cusip": "74971D101",
+      "shares": 1000000,
+      "value": 8650000
+    },
+    {
+      "name": "SUNCOKE ENERGY INC",
+      "cusip": "86722A103",
+      "shares": 776177,
+      "value": 3376000
+    },
+    {
+      "name": "UNITI GROUP INC",
+      "cusip": "91325V108",
+      "shares": 725000,
+      "value": 8504000
+    },
+    {
+      "name": "URSTADT BIDDLE PPTYS INC",
+      "cusip": "917286205",
+      "shares": 425000,
+      "value": 6005000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 250000,
+      "value": 7545000
+    },
+    {
+      "name": "WESTERN DIGITAL CORP.",
+      "cusip": "958102105",
+      "shares": 150000,
+      "value": 8309000
+    }
+  ]
+}

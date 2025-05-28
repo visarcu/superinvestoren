@@ -1,83 +1,85 @@
 {
+  "form": "13F-HR",
   "date": "2017-08-14",
+  "period": "2017-08-14",
   "positions": [
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 156315,
-      "value": 142048000
+      "value": 142048000000
     },
     {
       "name": "ALTABA INC",
       "cusip": "021346101",
       "shares": 565000,
-      "value": 30781000
+      "value": 30781000000
     },
     {
       "name": "AMERCO",
       "cusip": "023586100",
       "shares": 92910,
-      "value": 34011000
+      "value": 34011000000
     },
     {
       "name": "BUILDERS FIRSTSOURCE INC",
       "cusip": "12008R107",
       "shares": 1651640,
-      "value": 25303000
+      "value": 25303000000
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 136685,
-      "value": 46042000
+      "value": 46042000000
     },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 395349,
-      "value": 101660000
+      "value": 101660000000
     },
     {
       "name": "FOSSIL GROUP INC",
       "cusip": "34988V106",
       "shares": 1228436,
-      "value": 12714000
+      "value": 12714000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 3410316,
-      "value": 127614000
+      "value": 127614000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U120",
       "shares": 1102395,
-      "value": 34373000
+      "value": 34373000000
     },
     {
       "name": "RUSH ENTERPRISES INC",
       "cusip": "781846308",
       "shares": 294451,
-      "value": 10721000
+      "value": 10721000000
     },
     {
       "name": "TEEKAY CORPORATION",
       "cusip": "Y8564W103",
       "shares": 51743,
-      "value": 345000
+      "value": 345000000
     },
     {
       "name": "TEEKAY LNG PARTNERS L P",
       "cusip": "Y8564M105",
       "shares": 226168,
-      "value": 3472000
+      "value": 3472000000
     },
     {
       "name": "TEMPUR SEALY INTL INC",
       "cusip": "88023U101",
       "shares": 230580,
-      "value": 12311000
+      "value": 12311000000
     }
   ]
 }

@@ -1,4 +1,61 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-11",
-  "positions": []
+  "period": "2020-02-11",
+  "positions": [
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 766579,
+      "value": 96397000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1668979,
+      "value": 36375000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 620029,
+      "value": 300764000000
+    },
+    {
+      "name": "FOX CORP ",
+      "cusip": "35137L105",
+      "shares": 1962000,
+      "value": 72731000000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 235000,
+      "value": 70169000000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 875628,
+      "value": 207883000000
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATION",
+      "cusip": "808513105",
+      "shares": 2650000,
+      "value": 126034000000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 265000,
+      "value": 148400000000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 550000,
+      "value": 103345000000
+    }
+  ]
 }

@@ -1,0 +1,259 @@
+{
+  "form": "NPORT-P",
+  "date": "2021-12-28",
+  "period": "2021-12-28",
+  "positions": [
+    {
+      "name": "Copart Inc",
+      "cusip": "217204106",
+      "shares": 41000,
+      "value": 5951560000,
+      "pctOfPortfolio": 622.0031113900001
+    },
+    {
+      "name": "Dollar General Corp",
+      "cusip": "256677105",
+      "shares": 5000,
+      "value": 1106500000,
+      "pctOfPortfolio": 115.64135164
+    },
+    {
+      "name": "Edwards Lifesciences Corp",
+      "cusip": "28176E108",
+      "shares": 25000,
+      "value": 2682750000,
+      "pctOfPortfolio": 280.37671587
+    },
+    {
+      "name": "FactSet Research Systems Inc",
+      "cusip": "303075105",
+      "shares": 6000,
+      "value": 2811420000,
+      "pctOfPortfolio": 293.82413811000004
+    },
+    {
+      "name": "Fastenal Co",
+      "cusip": "311900104",
+      "shares": 50800,
+      "value": 3005836000,
+      "pctOfPortfolio": 314.14273641
+    },
+    {
+      "name": "FleetCor Technologies Inc",
+      "cusip": "339041105",
+      "shares": 3550,
+      "value": 735311500,
+      "pctOfPortfolio": 76.84809375
+    },
+    {
+      "name": "Floor & Decor Holdings Inc",
+      "cusip": "339750101",
+      "shares": 31000,
+      "value": 3996210000,
+      "pctOfPortfolio": 417.64765099999994
+    },
+    {
+      "name": "Gentex Corp",
+      "cusip": "371901109",
+      "shares": 60000,
+      "value": 2065800000,
+      "pctOfPortfolio": 215.89869337000002
+    },
+    {
+      "name": "Jack Henry & Associates Inc",
+      "cusip": "426281101",
+      "shares": 19600,
+      "value": 2971948000,
+      "pctOfPortfolio": 310.60106979
+    },
+    {
+      "name": "Hershey Co/The",
+      "cusip": "427866108",
+      "shares": 20000,
+      "value": 3549800000,
+      "pctOfPortfolio": 370.99292367
+    },
+    {
+      "name": "JB Hunt Transport Services Inc",
+      "cusip": "445658107",
+      "shares": 10500,
+      "value": 2007180000,
+      "pctOfPortfolio": 209.77226225
+    },
+    {
+      "name": "IPG Photonics Corp",
+      "cusip": "44980X109",
+      "shares": 13500,
+      "value": 2216565000,
+      "pctOfPortfolio": 231.65528477
+    },
+    {
+      "name": "IDEXX Laboratories Inc",
+      "cusip": "45168D104",
+      "shares": 7000,
+      "value": 4256490000,
+      "pctOfPortfolio": 444.84975765
+    },
+    {
+      "name": "IFF",
+      "cusip": "459506101",
+      "shares": 12500,
+      "value": 1777125000,
+      "pctOfPortfolio": 185.72899866999998
+    },
+    {
+      "name": "Monster Beverage Corp",
+      "cusip": "61174X109",
+      "shares": 26500,
+      "value": 2220170000,
+      "pctOfPortfolio": 232.03204669000002
+    },
+    {
+      "name": "MSILF Government Portfolio",
+      "cusip": "61747C707",
+      "shares": 4199612.88,
+      "value": 4199612880,
+      "pctOfPortfolio": 438.90547655
+    },
+    {
+      "name": "Morningstar Inc",
+      "cusip": "617700109",
+      "shares": 10000,
+      "value": 3103300000,
+      "pctOfPortfolio": 324.32879036
+    },
+    {
+      "name": "ONEOK Inc",
+      "cusip": "682680103",
+      "shares": 74850,
+      "value": 4479024000,
+      "pctOfPortfolio": 468.10699447
+    },
+    {
+      "name": "ResMed Inc",
+      "cusip": "761152107",
+      "shares": 15500,
+      "value": 3950175000,
+      "pctOfPortfolio": 412.83649002000004
+    },
+    {
+      "name": "Rollins Inc",
+      "cusip": "775711104",
+      "shares": 50250,
+      "value": 1672320000,
+      "pctOfPortfolio": 174.77572992999998
+    },
+    {
+      "name": "SEI Investments Co",
+      "cusip": "784117103",
+      "shares": 27600,
+      "value": 1645788000,
+      "pctOfPortfolio": 172.00284576
+    },
+    {
+      "name": "SolarEdge Technologies Inc",
+      "cusip": "83417M104",
+      "shares": 7000,
+      "value": 2294320000,
+      "pctOfPortfolio": 239.78153265999998
+    },
+    {
+      "name": "Tractor Supply Co",
+      "cusip": "892356106",
+      "shares": 19500,
+      "value": 4393935000,
+      "pctOfPortfolio": 459.21426336
+    },
+    {
+      "name": "Trex Co Inc",
+      "cusip": "89531P105",
+      "shares": 10000,
+      "value": 1327700000,
+      "pctOfPortfolio": 138.75917087
+    },
+    {
+      "name": "Tyler Technologies Inc",
+      "cusip": "902252105",
+      "shares": 6250,
+      "value": 3243625000,
+      "pctOfPortfolio": 338.99428758
+    },
+    {
+      "name": "West Pharmaceutical Services I",
+      "cusip": "955306105",
+      "shares": 5000,
+      "value": 2213300000,
+      "pctOfPortfolio": 231.31405655999998
+    },
+    {
+      "name": "Yum! Brands Inc",
+      "cusip": "988498101",
+      "shares": 15000,
+      "value": 1842600000,
+      "pctOfPortfolio": 192.57185226
+    },
+    {
+      "name": "AMETEK Inc",
+      "cusip": "031100100",
+      "shares": 20000,
+      "value": 2730000000,
+      "pctOfPortfolio": 285.31485763
+    },
+    {
+      "name": "Amphenol Corp",
+      "cusip": "032095101",
+      "shares": 34000,
+      "value": 2739720000,
+      "pctOfPortfolio": 286.33070394
+    },
+    {
+      "name": "Analog Devices Inc",
+      "cusip": "032654105",
+      "shares": 5800,
+      "value": 1045450000,
+      "pctOfPortfolio": 109.26095894000001
+    },
+    {
+      "name": "ANSYS Inc",
+      "cusip": "03662Q105",
+      "shares": 6000,
+      "value": 2348880000,
+      "pctOfPortfolio": 245.48364937999997
+    },
+    {
+      "name": "AptarGroup Inc",
+      "cusip": "038336103",
+      "shares": 7500,
+      "value": 896925000,
+      "pctOfPortfolio": 93.73847205
+    },
+    {
+      "name": "Brown-Forman Corp",
+      "cusip": "115637209",
+      "shares": 29500,
+      "value": 2075620000,
+      "pctOfPortfolio": 216.92499077
+    },
+    {
+      "name": "Cactus Inc",
+      "cusip": "127203107",
+      "shares": 20000,
+      "value": 730000000,
+      "pctOfPortfolio": 76.29298391
+    },
+    {
+      "name": "Cheniere Energy Inc",
+      "cusip": "16411R208",
+      "shares": 50000,
+      "value": 5240500000,
+      "pctOfPortfolio": 547.68956463
+    },
+    {
+      "name": "Church & Dwight Co Inc",
+      "cusip": "171340102",
+      "shares": 24000,
+      "value": 2145120000,
+      "pctOfPortfolio": 224.18850088000002
+    }
+  ]
+}

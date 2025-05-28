@@ -1,4 +1,19 @@
 {
+  "form": "13F-HR",
   "date": "2018-08-14",
-  "positions": []
+  "period": "2018-08-14",
+  "positions": [
+    {
+      "name": "Baidu Inc",
+      "cusip": "056752108",
+      "shares": 5800,
+      "value": 1409000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 53000,
+      "value": 9833000
+    }
+  ]
 }

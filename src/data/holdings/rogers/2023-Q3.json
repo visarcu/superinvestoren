@@ -1,0 +1,217 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-08-24",
+  "period": "2023-08-24",
+  "positions": [
+    {
+      "name": "Generac Holdings Inc.",
+      "cusip": "368736104",
+      "shares": 11681,
+      "value": 1741987530,
+      "pctOfPortfolio": 263.24687890999996
+    },
+    {
+      "name": "First American Financial Corporation",
+      "cusip": "31847R102",
+      "shares": 33504,
+      "value": 1910398080,
+      "pctOfPortfolio": 288.69686113
+    },
+    {
+      "name": "Leslie's Inc.",
+      "cusip": "527064109",
+      "shares": 101471,
+      "value": 952812690,
+      "pctOfPortfolio": 143.98780846999998
+    },
+    {
+      "name": "APA Corp.",
+      "cusip": "03743Q108",
+      "shares": 97865,
+      "value": 3344047050,
+      "pctOfPortfolio": 505.34801982
+    },
+    {
+      "name": "Northern Inst Fds",
+      "cusip": "665279873",
+      "shares": 1119551.41,
+      "value": 1119551410,
+      "pctOfPortfolio": 169.18514593
+    },
+    {
+      "name": "Barrick Gold Corporation",
+      "cusip": "067901108",
+      "shares": 130161,
+      "value": 2203625730,
+      "pctOfPortfolio": 333.00904038
+    },
+    {
+      "name": "Goldman Sachs Group, Inc.",
+      "cusip": "38141G104",
+      "shares": 11454,
+      "value": 3694373160,
+      "pctOfPortfolio": 558.28884372
+    },
+    {
+      "name": "BOK Financial Corp",
+      "cusip": "05561Q201",
+      "shares": 41536,
+      "value": 3355278080,
+      "pctOfPortfolio": 507.0452384
+    },
+    {
+      "name": "BorgWarner Inc.",
+      "cusip": "099724106",
+      "shares": 85448,
+      "value": 4179261680,
+      "pctOfPortfolio": 631.56456316
+    },
+    {
+      "name": "Boyd Gaming Corporation",
+      "cusip": "103304101",
+      "shares": 26016,
+      "value": 1804729920,
+      "pctOfPortfolio": 272.72842689000004
+    },
+    {
+      "name": "Laboratory Corp of America Holdings",
+      "cusip": "50540R409",
+      "shares": 10111,
+      "value": 2440087630,
+      "pctOfPortfolio": 368.74285367
+    },
+    {
+      "name": "Bank of America Corporation",
+      "cusip": "060505104",
+      "shares": 77324,
+      "value": 2218425560,
+      "pctOfPortfolio": 335.24557133999997
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 15297,
+      "value": 2531959440,
+      "pctOfPortfolio": 382.62640153
+    },
+    {
+      "name": "Zimmer Biomet Holdings Inc",
+      "cusip": "98956P102",
+      "shares": 2873,
+      "value": 418308800,
+      "pctOfPortfolio": 63.21427916
+    },
+    {
+      "name": "Lockheed Martin Corporation",
+      "cusip": "539830109",
+      "shares": 7019,
+      "value": 3231407220,
+      "pctOfPortfolio": 488.32603593000005
+    },
+    {
+      "name": "Mohawk Industries, Inc.",
+      "cusip": "608190104",
+      "shares": 26986,
+      "value": 2783875760,
+      "pctOfPortfolio": 420.69566657
+    },
+    {
+      "name": "Northern Trust Corporation",
+      "cusip": "665859104",
+      "shares": 28875,
+      "value": 2140792500,
+      "pctOfPortfolio": 323.51376478
+    },
+    {
+      "name": "Oracle Corp.",
+      "cusip": "68389X105",
+      "shares": 30956,
+      "value": 3686550040,
+      "pctOfPortfolio": 557.10662405
+    },
+    {
+      "name": "Snap-On Incorporated",
+      "cusip": "833034101",
+      "shares": 15357,
+      "value": 4425733830,
+      "pctOfPortfolio": 668.8111123499999
+    },
+    {
+      "name": "Zebra Technologies Corporation",
+      "cusip": "989207105",
+      "shares": 4307,
+      "value": 1274139810,
+      "pctOfPortfolio": 192.54634289999998
+    },
+    {
+      "name": "KKR & Co Inc.",
+      "cusip": "48251W104",
+      "shares": 19732,
+      "value": 1104992000,
+      "pctOfPortfolio": 166.98494691000002
+    },
+    {
+      "name": "Lazard Ltd.",
+      "cusip": "G54050102",
+      "shares": 43975,
+      "value": 1407200000,
+      "pctOfPortfolio": 212.65422492
+    },
+    {
+      "name": "Madison Square Garden Sports Corp",
+      "cusip": "55825T103",
+      "shares": 12324,
+      "value": 2317528200,
+      "pctOfPortfolio": 350.22183278
+    },
+    {
+      "name": "The Western Union Company",
+      "cusip": "959802109",
+      "shares": 161166,
+      "value": 1890477180,
+      "pctOfPortfolio": 285.68644076
+    },
+    {
+      "name": "Sphere Entertainment Co",
+      "cusip": "55826T102",
+      "shares": 6449,
+      "value": 176638110,
+      "pctOfPortfolio": 26.69332033
+    },
+    {
+      "name": "The Bank of New York Mellon Corporation",
+      "cusip": "064058100",
+      "shares": 40643,
+      "value": 1809426360,
+      "pctOfPortfolio": 273.43814676
+    },
+    {
+      "name": "The Mosaic Company",
+      "cusip": "61945C103",
+      "shares": 70819,
+      "value": 2478665000,
+      "pctOfPortfolio": 374.57261541
+    },
+    {
+      "name": "Madison Square Garden Entertainment Corp New",
+      "cusip": "558256103",
+      "shares": 34487,
+      "value": 1159452940,
+      "pctOfPortfolio": 175.21501299
+    },
+    {
+      "name": "Resideo Technologies Inc",
+      "cusip": "76118Y104",
+      "shares": 141670,
+      "value": 2501892200,
+      "pctOfPortfolio": 378.08267951
+    },
+    {
+      "name": "Zimvie Inc",
+      "cusip": "98888T107",
+      "shares": 165187,
+      "value": 1855050010,
+      "pctOfPortfolio": 280.33273312999995
+    }
+  ]
+}

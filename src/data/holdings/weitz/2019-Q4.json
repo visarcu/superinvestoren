@@ -1,0 +1,266 @@
+{
+  "form": "NPORT-P",
+  "date": "2019-11-07",
+  "period": "2019-11-07",
+  "positions": [
+    {
+      "name": "Qurate Retail Inc",
+      "cusip": "74915M100",
+      "shares": 550000,
+      "value": 5673250000,
+      "pctOfPortfolio": 246.51433356719997
+    },
+    {
+      "name": "Gardner Denver Holdings Inc",
+      "cusip": "36555P107",
+      "shares": 230000,
+      "value": 6506700000,
+      "pctOfPortfolio": 282.72944330350003
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912796VZ9",
+      "shares": 3000000,
+      "value": 2997969030,
+      "pctOfPortfolio": 130.2678953836
+    },
+    {
+      "name": "State Street Global Advisors",
+      "cusip": "857492706",
+      "shares": 3149078.67,
+      "value": 3149078670,
+      "pctOfPortfolio": 136.8339187742
+    },
+    {
+      "name": "LKQ Corp",
+      "cusip": "501889208",
+      "shares": 225000,
+      "value": 7076250000,
+      "pctOfPortfolio": 307.4775574679
+    },
+    {
+      "name": "ACI Worldwide Inc",
+      "cusip": "004498101",
+      "shares": 240000,
+      "value": 7518000000,
+      "pctOfPortfolio": 326.6724998472
+    },
+    {
+      "name": "Liberty Media Corp-Liberty Formula One",
+      "cusip": "531229854",
+      "shares": 50000,
+      "value": 2079500000,
+      "pctOfPortfolio": 90.3585346411
+    },
+    {
+      "name": "Axalta Coating Systems Ltd",
+      "cusip": "000000000",
+      "shares": 300000,
+      "value": 9045000000,
+      "pctOfPortfolio": 393.0237777491
+    },
+    {
+      "name": "Liberty Media Corp-Liberty SiriusXM",
+      "cusip": "531229607",
+      "shares": 180000,
+      "value": 7552800000,
+      "pctOfPortfolio": 328.1846311314
+    },
+    {
+      "name": "LICT Corp",
+      "cusip": "50187G104",
+      "shares": 800,
+      "value": 15680000000,
+      "pctOfPortfolio": 681.3281188619001
+    },
+    {
+      "name": "Markel Corp",
+      "cusip": "570535104",
+      "shares": 2000,
+      "value": 2363800000,
+      "pctOfPortfolio": 102.71195200030002
+    },
+    {
+      "name": "Liberty Latin America Ltd",
+      "cusip": "000000000",
+      "shares": 325000,
+      "value": 5555875000,
+      "pctOfPortfolio": 241.4141493866
+    },
+    {
+      "name": "GCI Liberty Inc",
+      "cusip": "36164V305",
+      "shares": 157500,
+      "value": 9776025000,
+      "pctOfPortfolio": 424.7883114284
+    },
+    {
+      "name": "CarMax Inc",
+      "cusip": "143130102",
+      "shares": 100000,
+      "value": 8800000000,
+      "pctOfPortfolio": 382.3780258919
+    },
+    {
+      "name": "Liberty Media Corp-Liberty Braves",
+      "cusip": "531229706",
+      "shares": 11000,
+      "value": 306130000,
+      "pctOfPortfolio": 13.3019755757
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912796WE5",
+      "shares": 3000000,
+      "value": 2992782720,
+      "pctOfPortfolio": 130.0425395905
+    },
+    {
+      "name": "Colfax Corp",
+      "cusip": "194014106",
+      "shares": 300000,
+      "value": 8718000000,
+      "pctOfPortfolio": 378.81495792329997
+    },
+    {
+      "name": "Liberty Media Corp-Liberty SiriusXM",
+      "cusip": "531229409",
+      "shares": 50000,
+      "value": 2078500000,
+      "pctOfPortfolio": 90.31508259270001
+    },
+    {
+      "name": "Vulcan Materials Co",
+      "cusip": "929160109",
+      "shares": 26000,
+      "value": 3932240000,
+      "pctOfPortfolio": 170.8638827878
+    },
+    {
+      "name": "Guidewire Software Inc",
+      "cusip": "40171V100",
+      "shares": 90000,
+      "value": 9484200000,
+      "pctOfPortfolio": 412.107917405
+    },
+    {
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307305",
+      "shares": 145000,
+      "value": 15177150000,
+      "pctOfPortfolio": 659.4782563256
+    },
+    {
+      "name": "Liberty Media Corp-Liberty Braves",
+      "cusip": "531229888",
+      "shares": 105000,
+      "value": 2913750000,
+      "pctOfPortfolio": 126.60840601620001
+    },
+    {
+      "name": "Black Knight Inc",
+      "cusip": "09215C105",
+      "shares": 155000,
+      "value": 9464300000,
+      "pctOfPortfolio": 411.2432216419
+    },
+    {
+      "name": "Expedia Group Inc",
+      "cusip": "30212P303",
+      "shares": 54000,
+      "value": 7258140000,
+      "pctOfPortfolio": 315.3810505508
+    },
+    {
+      "name": "Marvell Technology Group Ltd",
+      "cusip": "000000000",
+      "shares": 175000,
+      "value": 4369750000,
+      "pctOfPortfolio": 189.8745884819
+    },
+    {
+      "name": "Fortune Brands Home & Security Inc",
+      "cusip": "34964C106",
+      "shares": 75000,
+      "value": 4102500000,
+      "pctOfPortfolio": 178.2620285479
+    },
+    {
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307107",
+      "shares": 27500,
+      "value": 2874300000,
+      "pctOfPortfolio": 124.89422270690001
+    },
+    {
+      "name": "Equity Commonwealth",
+      "cusip": "294628102",
+      "shares": 250000,
+      "value": 8562500000,
+      "pctOfPortfolio": 372.0581643976
+    },
+    {
+      "name": "Myers Industries Inc",
+      "cusip": "628464109",
+      "shares": 211200,
+      "value": 3727680000,
+      "pctOfPortfolio": 161.9753317678
+    },
+    {
+      "name": "Eagle Materials Inc",
+      "cusip": "26969P108",
+      "shares": 42500,
+      "value": 3825425000,
+      "pctOfPortfolio": 166.2225522383
+    },
+    {
+      "name": "Liberty Global PLC",
+      "cusip": "000000000",
+      "shares": 250000,
+      "value": 5947500000,
+      "pctOfPortfolio": 258.43105784
+    },
+    {
+      "name": "Perspecta Inc",
+      "cusip": "715347100",
+      "shares": 180000,
+      "value": 4701600000,
+      "pctOfPortfolio": 204.2941507424
+    },
+    {
+      "name": "Laboratory Corp of America Holdings",
+      "cusip": "50540R409",
+      "shares": 63000,
+      "value": 10584000000,
+      "pctOfPortfolio": 459.8964802318
+    },
+    {
+      "name": "Redwood Trust Inc",
+      "cusip": "758075402",
+      "shares": 580000,
+      "value": 9517800000,
+      "pctOfPortfolio": 413.5679062311
+    },
+    {
+      "name": "Box Inc",
+      "cusip": "10316T104",
+      "shares": 300000,
+      "value": 4968000000,
+      "pctOfPortfolio": 215.8697764353
+    },
+    {
+      "name": "Liberty Media Corp-Liberty Formula One",
+      "cusip": "531229870",
+      "shares": 27500,
+      "value": 1088725000,
+      "pctOfPortfolio": 47.3073313908
+    },
+    {
+      "name": "Summit Materials Inc",
+      "cusip": "86614U100",
+      "shares": 450000,
+      "value": 9990000000,
+      "pctOfPortfolio": 434.08596348410003
+    }
+  ]
+}

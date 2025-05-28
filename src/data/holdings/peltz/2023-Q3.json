@@ -1,4 +1,55 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-14",
-  "positions": []
+  "period": "2023-08-14",
+  "positions": [
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 5494700,
+      "value": 864371257000
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4028998,
+      "value": 442585430000
+    },
+    {
+      "name": "GE HealthCare Technologies Inc.",
+      "cusip": "36266G107",
+      "shares": 1342830,
+      "value": 109091509000
+    },
+    {
+      "name": "Invesco Ltd.",
+      "cusip": "G491BT108",
+      "shares": 33940096,
+      "value": 570533014000
+    },
+    {
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y214",
+      "shares": 31867800,
+      "value": 868397550000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 16530,
+      "value": 1205698000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 20732628,
+      "value": 450934659000
+    },
+    {
+      "name": "The Walt Disney Company",
+      "cusip": "254687106",
+      "shares": 6425050,
+      "value": 573628464000
+    }
+  ]
 }

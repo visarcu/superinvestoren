@@ -1,47 +1,49 @@
 {
+  "form": "13F-HR",
   "date": "2014-05-05",
+  "period": "2014-05-05",
   "positions": [
     {
       "name": "CARNIVAL CORPORATION",
       "cusip": "143658300",
       "shares": 1000000,
-      "value": 37860000
+      "value": 37860000000
     },
     {
       "name": "HCC INS HLDGS INC",
       "cusip": "404132102",
       "shares": 670000,
-      "value": 30478000
+      "value": 30478000000
     },
     {
       "name": "PROGRESSIVE CORP OHIO",
       "cusip": "743315103",
       "shares": 1610000,
-      "value": 38994000
+      "value": 38994000000
     },
     {
       "name": "RENAISSANCERE HOLDING LTD",
       "cusip": "G7496G103",
       "shares": 175000,
-      "value": 17080000
+      "value": 17080000000
     },
     {
       "name": "RYANAIR HOLDINGS PLC",
       "cusip": "783513104",
       "shares": 235800,
-      "value": 13867000
+      "value": 13867000000
     },
     {
       "name": "SCHWAB CHARLES CORP",
       "cusip": "808513105",
       "shares": 2250000,
-      "value": 61493000
+      "value": 61493000000
     },
     {
       "name": "VALIDUS HOLDINGS LTD",
       "cusip": "G9319H102",
       "shares": 400000,
-      "value": 15084000
+      "value": 15084000000
     }
   ]
 }

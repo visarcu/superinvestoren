@@ -1,0 +1,133 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-15",
+  "period": "2023-05-15",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 100000,
+      "value": 10218000000
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 75000,
+      "value": 7212000000
+    },
+    {
+      "name": "COHERENT CORP",
+      "cusip": "19247G107",
+      "shares": 125000,
+      "value": 4760000000
+    },
+    {
+      "name": "COTERRA ENERGY INC",
+      "cusip": "127097103",
+      "shares": 150000,
+      "value": 3681000000
+    },
+    {
+      "name": "DEVON ENERGY CORP NEW",
+      "cusip": "25179M103",
+      "shares": 48298,
+      "value": 2444362000
+    },
+    {
+      "name": "FIRST REP BK SAN FRANCISCO C",
+      "cusip": "33616C100",
+      "shares": 150000,
+      "value": 2098500000
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 400000,
+      "value": 3156000000
+    },
+    {
+      "name": "HUNTINGTON BANCSHARES INC",
+      "cusip": "446150104",
+      "shares": 184900,
+      "value": 2070880000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 250000,
+      "value": 10972500000
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E128",
+      "shares": 800000,
+      "value": 6608000000
+    },
+    {
+      "name": "NEW YORK CMNTY BANCORP INC",
+      "cusip": "649445103",
+      "shares": 850000,
+      "value": 7684000000
+    },
+    {
+      "name": "NOV INC",
+      "cusip": "62955J103",
+      "shares": 143594,
+      "value": 2657925000
+    },
+    {
+      "name": "OVINTIV INC",
+      "cusip": "69047Q102",
+      "shares": 22500,
+      "value": 811800000
+    },
+    {
+      "name": "PACWEST BANCORP DEL",
+      "cusip": "695263103",
+      "shares": 250000,
+      "value": 2432500000
+    },
+    {
+      "name": "SIBANYE STILLWATER LTD",
+      "cusip": "82575P107",
+      "shares": 800000,
+      "value": 6656000000
+    },
+    {
+      "name": "SIGNET JEWELERS LIMITED",
+      "cusip": "G81276100",
+      "shares": 125000,
+      "value": 9722500000
+    },
+    {
+      "name": "THE CIGNA GROUP",
+      "cusip": "125523100",
+      "shares": 25000,
+      "value": 6388250000
+    },
+    {
+      "name": "THE REALREAL INC",
+      "cusip": "88339P101",
+      "shares": 684442,
+      "value": 862397000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 125000,
+      "value": 4672500000
+    },
+    {
+      "name": "WESTERN ALLIANCE BANCORP",
+      "cusip": "957638109",
+      "shares": 125000,
+      "value": 4442500000
+    },
+    {
+      "name": "ZOOM VIDEO COMMUNICATIONS IN",
+      "cusip": "98980L101",
+      "shares": 100000,
+      "value": 7384000000
+    }
+  ]
+}

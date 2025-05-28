@@ -1,4 +1,91 @@
 {
+  "form": "13F-HR",
   "date": "2024-08-14",
-  "positions": []
+  "period": "2024-08-14",
+  "positions": [
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 669203,
+      "value": 129591161000
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 1284660,
+      "value": 248774409000
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4030213,
+      "value": 640682961000
+    },
+    {
+      "name": "GE HealthCare Technologies Inc.",
+      "cusip": "36266G107",
+      "shares": 1342833,
+      "value": 104633547000
+    },
+    {
+      "name": "Invesco Ltd.",
+      "cusip": "G491BT108",
+      "shares": 27223734,
+      "value": 407267061000
+    },
+    {
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y214",
+      "shares": 31867800,
+      "value": 1074263538000
+    },
+    {
+      "name": "Rentokil Initial plc",
+      "cusip": "760125104",
+      "shares": 470000,
+      "value": 13935500000
+    },
+    {
+      "name": "U-Haul Holding Company",
+      "cusip": "023586100",
+      "shares": 389700,
+      "value": 24056181000
+    },
+    {
+      "name": "U-Haul Holding Company - B",
+      "cusip": "023586506",
+      "shares": 909300,
+      "value": 54576186000
+    },
+    {
+      "name": "The Walt Disney Company",
+      "cusip": "254687106",
+      "shares": 2645583,
+      "value": 262679936000
+    },
+    {
+      "name": "Solventum Corporation",
+      "cusip": "83444M101",
+      "shares": 5360579,
+      "value": 283467418000
+    },
+    {
+      "name": "The Allstate Corporation",
+      "cusip": "200021014",
+      "shares": 2013508,
+      "value": 321476687000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 15943466,
+      "value": 270401183000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 15564402,
+      "value": 263972258000
+    }
+  ]
 }

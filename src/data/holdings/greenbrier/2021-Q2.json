@@ -1,4 +1,103 @@
 {
+  "form": "13F-HR",
   "date": "2021-05-17",
-  "positions": []
+  "period": "2021-05-17",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25234,
+      "value": 52046000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25234,
+      "value": 52200000
+    },
+    {
+      "name": "AMAZON COM INC ",
+      "cusip": "023135106",
+      "shares": 33968,
+      "value": 105100000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1552848,
+      "value": 189680000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 97053,
+      "value": 24794000
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 242632,
+      "value": 85523000
+    },
+    {
+      "name": "DISNEY WALT CO ",
+      "cusip": "254687106",
+      "shares": 200000,
+      "value": 36904000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 436738,
+      "value": 128632000
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 31333,
+      "value": 35708000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 100000,
+      "value": 23577000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 8000,
+      "value": 4173000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 450000,
+      "value": 109278000
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 889764,
+      "value": 46659000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO ",
+      "cusip": "844741108",
+      "shares": 1222866,
+      "value": 74668000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A ",
+      "cusip": "L8681T102",
+      "shares": 38526,
+      "value": 10323000
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905209",
+      "shares": 13980,
+      "value": 287000
+    }
+  ]
 }

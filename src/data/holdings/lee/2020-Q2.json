@@ -1,167 +1,169 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
+  "period": "2020-05-15",
   "positions": [
     {
       "name": "ADVANSIX INC",
       "cusip": "00773T101",
       "shares": 730465,
-      "value": 6969000
+      "value": 6969000000
     },
     {
       "name": "ALLEGIANT TRAVEL CO",
       "cusip": "01748X102",
       "shares": 273853,
-      "value": 22401000
+      "value": 22401000000
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 74460,
-      "value": 86583000
+      "value": 86583000000
     },
     {
       "name": "BUILDERS FIRSTSOURCE INC",
       "cusip": "12008R107",
       "shares": 905692,
-      "value": 11077000
+      "value": 11077000000
     },
     {
       "name": "CANADA GOOSE HOLDINGS INC",
       "cusip": "135086106",
       "shares": 554647,
-      "value": 11032000
+      "value": 11032000000
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 50000,
-      "value": 21816000
+      "value": 21816000000
     },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 20000,
-      "value": 5114000
+      "value": 5114000000
     },
     {
       "name": "DELL TECHNOLOGIES INC",
       "cusip": "24703L202",
       "shares": 300000,
-      "value": 11865000
+      "value": 11865000000
     },
     {
       "name": "DESPEGAR COM CORP",
       "cusip": "G27358103",
       "shares": 1881215,
-      "value": 10666000
+      "value": 10666000000
     },
     {
       "name": "EVENTBRITE INC",
       "cusip": "29975E109",
       "shares": 100000,
-      "value": 730000
+      "value": 730000000
     },
     {
       "name": "FIAT CHRYSLER AUTOMOBILES N",
       "cusip": "N31738102",
       "shares": 1787716,
-      "value": 12854000
+      "value": 12854000000
     },
     {
       "name": "GUIDEWIRE SOFTWARE INC",
       "cusip": "40171V100",
       "shares": 100900,
-      "value": 8002000
+      "value": 8002000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 1891573,
-      "value": 81659000
+      "value": 81659000000
     },
     {
       "name": "JETBLUE AWYS CORP",
       "cusip": "477143101",
       "shares": 725000,
-      "value": 6489000
+      "value": 6489000000
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229854",
       "shares": 1654000,
-      "value": 45038000
+      "value": 45038000000
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229870",
       "shares": 2593428,
-      "value": 66962000
+      "value": 66962000000
     },
     {
       "name": "NATIONAL INSTRS CORP",
       "cusip": "636518102",
       "shares": 25000,
-      "value": 827000
+      "value": 827000000
     },
     {
       "name": "PURPLE INNOVATION INC",
       "cusip": "74640Y106",
       "shares": 16208,
-      "value": 92000
+      "value": 92000000
     },
     {
       "name": "REDFIN CORP",
       "cusip": "75737F108",
       "shares": 2971819,
-      "value": 45825000
+      "value": 45825000000
     },
     {
       "name": "ROSETTA STONE INC",
       "cusip": "777780107",
       "shares": 31316,
-      "value": 439000
+      "value": 439000000
     },
     {
       "name": "SPIRIT AIRLS INC",
       "cusip": "848577102",
       "shares": 926425,
-      "value": 11942000
+      "value": 11942000000
     },
     {
       "name": "TEEKAY LNG PARTNERS L P",
       "cusip": "Y8564M105",
       "shares": 1155323,
-      "value": 11311000
+      "value": 11311000000
     },
     {
       "name": "THOR INDS INC",
       "cusip": "885160101",
       "shares": 336887,
-      "value": 14210000
+      "value": 14210000000
     },
     {
       "name": "TWITTER INC",
       "cusip": "90184L102",
       "shares": 278405,
-      "value": 6838000
+      "value": 6838000000
     },
     {
       "name": "UPWORK INC",
       "cusip": "91688F104",
       "shares": 5574659,
-      "value": 35957000
+      "value": 35957000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M101",
       "shares": 2365609,
-      "value": 80360000
+      "value": 80360000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M200",
       "shares": 82523,
-      "value": 2972000
+      "value": 2972000000
     }
   ]
 }

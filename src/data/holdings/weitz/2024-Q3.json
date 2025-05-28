@@ -1,0 +1,1441 @@
+{
+  "form": "NPORT-P",
+  "groupingDate": "2024-09-30",
+  "positions": [
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46643KAA9",
+      "shares": 29107.54,
+      "value": 28318300,
+      "pctOfPortfolio": 1.1815679174
+    },
+    {
+      "name": "ONEMAIN DIRECT AUTO RECEIVABLES TRUST",
+      "cusip": "682687AA6",
+      "shares": 204818.16,
+      "value": 200867280,
+      "pctOfPortfolio": 8.3810939822
+    },
+    {
+      "name": "AUDAX SENIOR DEBT CLO",
+      "cusip": "05071LAA4",
+      "shares": 500000,
+      "value": 500362640,
+      "pctOfPortfolio": 20.8773988031
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46657TAL9",
+      "shares": 543509.42,
+      "value": 547539540,
+      "pctOfPortfolio": 22.845833048299998
+    },
+    {
+      "name": "ENTERPRISE FLEET FINANCING LLC",
+      "cusip": "29375NAB1",
+      "shares": 304874.23,
+      "value": 307891140,
+      "pctOfPortfolio": 12.8466148426
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "3140JAKW7",
+      "shares": 78037.09,
+      "value": 76657140,
+      "pctOfPortfolio": 3.1984835695999996
+    },
+    {
+      "name": "GRANITE PARK EQUIPMENT LEASING LLC",
+      "cusip": "387422AB4",
+      "shares": 317008.22,
+      "value": 321239200,
+      "pctOfPortfolio": 13.4035564478
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CAZ4",
+      "shares": 2000000,
+      "value": 1921328120,
+      "pctOfPortfolio": 80.16652360970001
+    },
+    {
+      "name": "HPEFS EQUIPMENT TRUST",
+      "cusip": "40444MAE1",
+      "shares": 125000,
+      "value": 127272590,
+      "pctOfPortfolio": 5.3103897168
+    },
+    {
+      "name": "HGI CRE CLO LTD",
+      "cusip": "40441LAA4",
+      "shares": 37159.65,
+      "value": 37066750,
+      "pctOfPortfolio": 1.5465929312
+    },
+    {
+      "name": "FOUNDATION FINANCE TRUST",
+      "cusip": "349941AA2",
+      "shares": 138039.33,
+      "value": 141150050,
+      "pctOfPortfolio": 5.8894202910999995
+    },
+    {
+      "name": "MERCHANTS FLEET FUNDING LLC",
+      "cusip": "588926AA3",
+      "shares": 367629.38,
+      "value": 372294160,
+      "pctOfPortfolio": 15.5338009456
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 21000,
+      "value": 5838420000,
+      "pctOfPortfolio": 243.6053633429
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "31418DF98",
+      "shares": 174857.28,
+      "value": 169418110,
+      "pctOfPortfolio": 7.0688919679
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CJA0",
+      "shares": 2000000,
+      "value": 2077929680,
+      "pctOfPortfolio": 86.7006509804
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CDS7",
+      "shares": 2000000,
+      "value": 1980375460,
+      "pctOfPortfolio": 82.63024645169999
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828J27",
+      "shares": 2000000,
+      "value": 1981490420,
+      "pctOfPortfolio": 82.67676763989999
+    },
+    {
+      "name": "SCF EQUIPMENT LEASING LLC",
+      "cusip": "78397WAC0",
+      "shares": 242276.12,
+      "value": 245838690,
+      "pctOfPortfolio": 10.257505181400001
+    },
+    {
+      "name": "FS RIALTO ISSUER, LTD.",
+      "cusip": "30327MAA2",
+      "shares": 429722.34,
+      "value": 431467010,
+      "pctOfPortfolio": 18.0027606341
+    },
+    {
+      "name": "CARMAX AUTO OWNER TRUST",
+      "cusip": "14317DAF7",
+      "shares": 380000,
+      "value": 366638710,
+      "pctOfPortfolio": 15.2978299206
+    },
+    {
+      "name": "LOANCORE ISSUER LTD",
+      "cusip": "53947XAA0",
+      "shares": 302400.71,
+      "value": 301739360,
+      "pctOfPortfolio": 12.589934678799999
+    },
+    {
+      "name": "CHASE HOME LENDING MORTGAGE TRUST",
+      "cusip": "161929BH6",
+      "shares": 571345.44,
+      "value": 579708390,
+      "pctOfPortfolio": 24.1880633765
+    },
+    {
+      "name": "AREIT LTD.",
+      "cusip": "04002BAC9",
+      "shares": 500000,
+      "value": 502582160,
+      "pctOfPortfolio": 20.9700072445
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128284Z0",
+      "shares": 2000000,
+      "value": 1976848120,
+      "pctOfPortfolio": 82.4830698282
+    },
+    {
+      "name": "ONEMAIN DIRECT AUTO RECEIVABLES TRUST",
+      "cusip": "682687AC2",
+      "shares": 447000,
+      "value": 427416530,
+      "pctOfPortfolio": 17.833756237
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828U24",
+      "shares": 3000000,
+      "value": 2900859360,
+      "pctOfPortfolio": 121.03700973880001
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "3138WHRU8",
+      "shares": 338691.02,
+      "value": 325546440,
+      "pctOfPortfolio": 13.583274036599999
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128283F5",
+      "shares": 2000000,
+      "value": 1922382820,
+      "pctOfPortfolio": 80.2105304774
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912797LT2",
+      "shares": 3000000,
+      "value": 2994507330,
+      "pctOfPortfolio": 124.94442780029999
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "31418C5A8",
+      "shares": 62086.06,
+      "value": 61234340,
+      "pctOfPortfolio": 2.5549744014
+    },
+    {
+      "name": "DLLMT LLC",
+      "cusip": "23347AAE1",
+      "shares": 230000,
+      "value": 233229750,
+      "pctOfPortfolio": 9.731403015
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CKV2",
+      "shares": 2000000,
+      "value": 2054257820,
+      "pctOfPortfolio": 85.7129536143
+    },
+    {
+      "name": "ENTERPRISE FLEET FINANCING LLC",
+      "cusip": "29374LAB6",
+      "shares": 569633.13,
+      "value": 582468100,
+      "pctOfPortfolio": 24.3032109947
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828YQ7",
+      "shares": 4000000,
+      "value": 3840000000,
+      "pctOfPortfolio": 160.22221683889998
+    },
+    {
+      "name": "COMCAST CORPORATION",
+      "cusip": "20030N101",
+      "shares": 80000,
+      "value": 3341600000,
+      "pctOfPortfolio": 139.4267082784
+    },
+    {
+      "name": "JPMorgan Trust II: JPMorgan US Government Money Market Fund; Institutional Shares",
+      "cusip": "4812C2684",
+      "shares": 14685334.28,
+      "value": 14685334280,
+      "pctOfPortfolio": 612.7387534799001
+    },
+    {
+      "name": "PFP LTD",
+      "cusip": "69291WAA0",
+      "shares": 200000,
+      "value": 200288000,
+      "pctOfPortfolio": 8.3569237932
+    },
+    {
+      "name": "HGI CRE CLO LTD",
+      "cusip": "40441LAC0",
+      "shares": 500000,
+      "value": 495474670,
+      "pctOfPortfolio": 20.673450524699998
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "31416W6F4",
+      "shares": 3422.49,
+      "value": 3365710,
+      "pctOfPortfolio": 0.1404326868
+    },
+    {
+      "name": "ENTERPRISE FLEET FINANCING LLC",
+      "cusip": "29375PAB6",
+      "shares": 180000,
+      "value": 181797300,
+      "pctOfPortfolio": 7.585407922200001
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "31418CRK2",
+      "shares": 66112.53,
+      "value": 64512060,
+      "pctOfPortfolio": 2.6917357463
+    },
+    {
+      "name": "WHEELS FLEET LEASE FUNDING LLC",
+      "cusip": "96328GBG1",
+      "shares": 652442.89,
+      "value": 660405300,
+      "pctOfPortfolio": 27.5551044734
+    },
+    {
+      "name": "SEQUOIA MORTGAGE TRUST",
+      "cusip": "816943BJ2",
+      "shares": 416444.11,
+      "value": 422236100,
+      "pctOfPortfolio": 17.6176052008
+    },
+    {
+      "name": "OCTANE RECEIVABLES TRUST",
+      "cusip": "67578XAA6",
+      "shares": 55345.97,
+      "value": 55345820,
+      "pctOfPortfolio": 2.3092786388
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INCORPORATED",
+      "cusip": "883556102",
+      "shares": 8750,
+      "value": 5412487500,
+      "pctOfPortfolio": 225.8335275685
+    },
+    {
+      "name": "VISA INC.",
+      "cusip": "92826C839",
+      "shares": 17000,
+      "value": 4674150000,
+      "pctOfPortfolio": 195.026738239
+    },
+    {
+      "name": "AMERICREDIT AUTOMOBILE RECEIVABLES TRUST",
+      "cusip": "03066EAG9",
+      "shares": 595000,
+      "value": 594105000,
+      "pctOfPortfolio": 24.7887552435
+    },
+    {
+      "name": "LINDE PUBLIC LIMITED COMPANY",
+      "cusip": "G54950103",
+      "shares": 6000,
+      "value": 2861160000,
+      "pctOfPortfolio": 119.3805723778
+    },
+    {
+      "name": "GS MORTGAGE-BACKED SECURITIES TRUST",
+      "cusip": "36263NAH8",
+      "shares": 400874.53,
+      "value": 356794970,
+      "pctOfPortfolio": 14.8871044402
+    },
+    {
+      "name": "GS MORTGAGE-BACKED SECURITIES TRUST",
+      "cusip": "36272LAP3",
+      "shares": 1000000,
+      "value": 998670780,
+      "pctOfPortfolio": 41.6690745478
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828ZW3",
+      "shares": 2000000,
+      "value": 1943392240,
+      "pctOfPortfolio": 81.0871387709
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31398V7F7",
+      "shares": 608.27,
+      "value": 606200,
+      "pctOfPortfolio": 0.0252934135
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CJW2",
+      "shares": 2000000,
+      "value": 2034140620,
+      "pctOfPortfolio": 84.873572786
+    },
+    {
+      "name": "BOF URSA FUNDING TRUST",
+      "cusip": "05603LAE3",
+      "shares": 155975.83,
+      "value": 156849360,
+      "pctOfPortfolio": 6.5444667106
+    },
+    {
+      "name": "KREF LTD",
+      "cusip": "48275RAA5",
+      "shares": 498988.4,
+      "value": 493530460,
+      "pctOfPortfolio": 20.5923292653
+    },
+    {
+      "name": "DIAGEO PLC",
+      "cusip": "25243Q205",
+      "shares": 24000,
+      "value": 3368160000,
+      "pctOfPortfolio": 140.5349119448
+    },
+    {
+      "name": "ORACLE CORPORATION",
+      "cusip": "68389X105",
+      "shares": 23000,
+      "value": 3919200000,
+      "pctOfPortfolio": 163.5268000612
+    },
+    {
+      "name": "AMUR EQUIPMENT FINANCE RECEIVABLES LLC",
+      "cusip": "03237CAB8",
+      "shares": 161209.87,
+      "value": 163247000,
+      "pctOfPortfolio": 6.8114052688
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46652TAF7",
+      "shares": 43216.76,
+      "value": 42191890,
+      "pctOfPortfolio": 1.7604370178000002
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFM8",
+      "shares": 2000000,
+      "value": 2032421880,
+      "pctOfPortfolio": 84.8018591577
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912797MB0",
+      "shares": 2000000,
+      "value": 1989141840,
+      "pctOfPortfolio": 82.99601958640001
+    },
+    {
+      "name": "MICROSOFT CORPORATION",
+      "cusip": "594918104",
+      "shares": 9250,
+      "value": 3980275000,
+      "pctOfPortfolio": 166.0751260751
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "31417AKQ1",
+      "shares": 13971.46,
+      "value": 13771600,
+      "pctOfPortfolio": 0.5746136149
+    },
+    {
+      "name": "ANALOG DEVICES, INC.",
+      "cusip": "032654105",
+      "shares": 20000,
+      "value": 4603400000,
+      "pctOfPortfolio": 192.0747273428
+    },
+    {
+      "name": "ENTERPRISE FLEET FINANCING LLC",
+      "cusip": "29375RAC0",
+      "shares": 300000,
+      "value": 309032760,
+      "pctOfPortfolio": 12.894248407000001
+    },
+    {
+      "name": "RCKT MORTGAGE TRUST",
+      "cusip": "74938DAE3",
+      "shares": 323075.7,
+      "value": 290770070,
+      "pctOfPortfolio": 12.1322461473
+    },
+    {
+      "name": "VERALTO CORPORATION",
+      "cusip": "92338C103",
+      "shares": 32500,
+      "value": 3635450000,
+      "pctOfPortfolio": 151.6874630748
+    },
+    {
+      "name": "CHESAPEAKE FUNDING LLC",
+      "cusip": "165183CU6",
+      "shares": 324659.52,
+      "value": 327570220,
+      "pctOfPortfolio": 13.6677153174
+    },
+    {
+      "name": "GREATAMERICA LEASING RECEIVABLES FUNDING, L.L.C.",
+      "cusip": "39154GAC0",
+      "shares": 240000,
+      "value": 244708130,
+      "pctOfPortfolio": 10.2103330903
+    },
+    {
+      "name": "GPMT LTD",
+      "cusip": "36264BAA8",
+      "shares": 188873.93,
+      "value": 187012960,
+      "pctOfPortfolio": 7.8030289136999995
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFK2",
+      "shares": 2000000,
+      "value": 1991075820,
+      "pctOfPortfolio": 83.0767140038
+    },
+    {
+      "name": "VMC FINANCE LLC",
+      "cusip": "91835RAA8",
+      "shares": 24442.1,
+      "value": 24414480,
+      "pctOfPortfolio": 1.0186828407
+    },
+    {
+      "name": "AMUR EQUIPMENT FINANCE RECEIVABLES LLC",
+      "cusip": "03238BAB9",
+      "shares": 270000,
+      "value": 274257710,
+      "pctOfPortfolio": 11.4432755941
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFU0",
+      "shares": 2000000,
+      "value": 2032070320,
+      "pctOfPortfolio": 84.7871904799
+    },
+    {
+      "name": "KUBOTA CREDIT OWNER TRUST",
+      "cusip": "50117DAC0",
+      "shares": 190000,
+      "value": 195059890,
+      "pctOfPortfolio": 8.1387833312
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CHE4",
+      "shares": 2000000,
+      "value": 2003515620,
+      "pctOfPortfolio": 83.5957588822
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CEM9",
+      "shares": 1000000,
+      "value": 970468750,
+      "pctOfPortfolio": 40.4923579421
+    },
+    {
+      "name": "PFP LTD",
+      "cusip": "69291QAA3",
+      "shares": 204615.38,
+      "value": 205575030,
+      "pctOfPortfolio": 8.5775226649
+    },
+    {
+      "name": "LAD AUTO RECEIVABLES TRUST",
+      "cusip": "505713AB3",
+      "shares": 140770.64,
+      "value": 141195200,
+      "pctOfPortfolio": 5.891304153899999
+    },
+    {
+      "name": "LAD AUTO RECEIVABLES TRUST",
+      "cusip": "50571AAC5",
+      "shares": 225000,
+      "value": 227613870,
+      "pctOfPortfolio": 9.4970830298
+    },
+    {
+      "name": "DEXT ABS LLC",
+      "cusip": "25216CAB6",
+      "shares": 437674.26,
+      "value": 443142820,
+      "pctOfPortfolio": 18.4899283845
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828X88",
+      "shares": 2000000,
+      "value": 1939648440,
+      "pctOfPortfolio": 80.9309304544
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "3136BRV95",
+      "shares": 875527.09,
+      "value": 889274620,
+      "pctOfPortfolio": 37.1045705716
+    },
+    {
+      "name": "Aon plc",
+      "cusip": "G0403H108",
+      "shares": 16750,
+      "value": 5795332500,
+      "pctOfPortfolio": 241.8075574137
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46653PAF4",
+      "shares": 469472.5,
+      "value": 421402270,
+      "pctOfPortfolio": 17.5828140313
+    },
+    {
+      "name": "AMUR EQUIPMENT FINANCE RECEIVABLES LLC",
+      "cusip": "03236XAB3",
+      "shares": 71572.7,
+      "value": 71811210,
+      "pctOfPortfolio": 2.9962893906000003
+    },
+    {
+      "name": "ENTERPRISE FLEET FINANCING LLC",
+      "cusip": "29375QAC2",
+      "shares": 130000,
+      "value": 132428660,
+      "pctOfPortfolio": 5.5255243432
+    },
+    {
+      "name": "MASTERCARD INCORPORATED.",
+      "cusip": "57636Q104",
+      "shares": 10500,
+      "value": 5184900000,
+      "pctOfPortfolio": 216.33754481460002
+    },
+    {
+      "name": "SCF EQUIPMENT LEASING LLC",
+      "cusip": "784024AB7",
+      "shares": 933135.49,
+      "value": 946679950,
+      "pctOfPortfolio": 39.4997813088
+    },
+    {
+      "name": "OCTANE RECEIVABLES TRUST",
+      "cusip": "67571EAB3",
+      "shares": 49633.96,
+      "value": 49509640,
+      "pctOfPortfolio": 2.0657667384
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CAH4",
+      "shares": 2000000,
+      "value": 1831484380,
+      "pctOfPortfolio": 76.41783527850001
+    },
+    {
+      "name": "SEQUOIA MORTGAGE TRUST",
+      "cusip": "81748AAD6",
+      "shares": 22138.13,
+      "value": 21652590,
+      "pctOfPortfolio": 0.903444263
+    },
+    {
+      "name": "DELL EQUIPMENT FINANCE TRUST",
+      "cusip": "24702EAB6",
+      "shares": 90714.77,
+      "value": 91087440,
+      "pctOfPortfolio": 3.8005811361
+    },
+    {
+      "name": "HONEYWELL INTERNATIONAL INCORPORATION",
+      "cusip": "438516106",
+      "shares": 9500,
+      "value": 1963745000,
+      "pctOfPortfolio": 81.93634823080001
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC.",
+      "cusip": "084670702",
+      "shares": 13500,
+      "value": 6213510000,
+      "pctOfPortfolio": 259.2558194143
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "31418E3V0",
+      "shares": 667284.68,
+      "value": 675646650,
+      "pctOfPortfolio": 28.191042724600003
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFE6",
+      "shares": 2000000,
+      "value": 1984200060,
+      "pctOfPortfolio": 82.7898261107
+    },
+    {
+      "name": "BIO-TECHNE CORPORATION",
+      "cusip": "09073M104",
+      "shares": 40000,
+      "value": 3197200000,
+      "pctOfPortfolio": 133.4016853327
+    },
+    {
+      "name": "VERIZON MASTER TRUST",
+      "cusip": "92348KCD3",
+      "shares": 465000,
+      "value": 479895160,
+      "pctOfPortfolio": 20.0234027045
+    },
+    {
+      "name": "CHESAPEAKE FUNDING LLC",
+      "cusip": "165183DE1",
+      "shares": 104350.7,
+      "value": 105630270,
+      "pctOfPortfolio": 4.4073739647000005
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46592TAF0",
+      "shares": 346134.96,
+      "value": 311114550,
+      "pctOfPortfolio": 12.981110128000001
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CAB7",
+      "shares": 2000000,
+      "value": 1938173520,
+      "pctOfPortfolio": 80.8693901023
+    },
+    {
+      "name": "CHESAPEAKE FUNDING LLC",
+      "cusip": "165183CP7",
+      "shares": 34418.9,
+      "value": 34250390,
+      "pctOfPortfolio": 1.429081618
+    },
+    {
+      "name": "H.I.G. RCP LLC",
+      "cusip": "40443GAA3",
+      "shares": 279966.53,
+      "value": 281191540,
+      "pctOfPortfolio": 11.732586431
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3137HCLD2",
+      "shares": 946013.24,
+      "value": 961145670,
+      "pctOfPortfolio": 40.1033567584
+    },
+    {
+      "name": "FLAGSHIP CREDIT AUTO TRUST",
+      "cusip": "33845XAC1",
+      "shares": 53442.74,
+      "value": 53141850,
+      "pctOfPortfolio": 2.217319014
+    },
+    {
+      "name": "ACCENTURE PUBLIC LIMITED COMPANY",
+      "cusip": "G1151C101",
+      "shares": 14250,
+      "value": 5037090000,
+      "pctOfPortfolio": 210.1702412024
+    },
+    {
+      "name": "SEQUOIA MORTGAGE TRUST",
+      "cusip": "81749JAD6",
+      "shares": 431871.68,
+      "value": 438064940,
+      "pctOfPortfolio": 18.2780561995
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "465989AD3",
+      "shares": 579335.02,
+      "value": 582859810,
+      "pctOfPortfolio": 24.3195549126
+    },
+    {
+      "name": "SEQUOIA MORTGAGE TRUST",
+      "cusip": "81747CAA9",
+      "shares": 11398.29,
+      "value": 11297910,
+      "pctOfPortfolio": 0.4714000483
+    },
+    {
+      "name": "ARI FLEET LEASE TRUST",
+      "cusip": "04033GAB3",
+      "shares": 133716.33,
+      "value": 135290330,
+      "pctOfPortfolio": 5.6449261951
+    },
+    {
+      "name": "OCTANE RECEIVABLES TRUST",
+      "cusip": "67578YAB2",
+      "shares": 340000,
+      "value": 344838610,
+      "pctOfPortfolio": 14.388230871300001
+    },
+    {
+      "name": "VULCAN MATERIALS COMPANY",
+      "cusip": "929160109",
+      "shares": 17000,
+      "value": 4257310000,
+      "pctOfPortfolio": 177.6342828048
+    },
+    {
+      "name": "CFMT TRUST",
+      "cusip": "12529UAF7",
+      "shares": 107595.51,
+      "value": 105185590,
+      "pctOfPortfolio": 4.3888198981999995
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912797MD6",
+      "shares": 5000000,
+      "value": 4963648600,
+      "pctOfPortfolio": 207.105932891
+    },
+    {
+      "name": "S&P GLOBAL INC.",
+      "cusip": "78409V104",
+      "shares": 6100,
+      "value": 3151382000,
+      "pctOfPortfolio": 131.4899505589
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828Z52",
+      "shares": 2000000,
+      "value": 1979361220,
+      "pctOfPortfolio": 82.58792775869999
+    },
+    {
+      "name": "HERA COMMERCIAL MORTGAGE LTD",
+      "cusip": "42704RAA9",
+      "shares": 240553.94,
+      "value": 239159030,
+      "pctOfPortfolio": 9.9787994697
+    },
+    {
+      "name": "M&T EQUIPTMENT LLC",
+      "cusip": "55376YAB1",
+      "shares": 300000,
+      "value": 301889220,
+      "pctOfPortfolio": 12.5961875177
+    },
+    {
+      "name": "FORTRESS CREDIT OPPORTUNITIES CLO LIMITED",
+      "cusip": "34962UAC2",
+      "shares": 500000,
+      "value": 500160400,
+      "pctOfPortfolio": 20.868960433
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128284F4",
+      "shares": 2000000,
+      "value": 1983362160,
+      "pctOfPortfolio": 82.7548651223
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE, INC.",
+      "cusip": "679580100",
+      "shares": 16000,
+      "value": 3178240000,
+      "pctOfPortfolio": 132.610588137
+    },
+    {
+      "name": "DELL EQUIPMENT FINANCE TRUST",
+      "cusip": "24702GAE5",
+      "shares": 170000,
+      "value": 172978590,
+      "pctOfPortfolio": 7.2174513425
+    },
+    {
+      "name": "VMC FINANCE LLC",
+      "cusip": "91835BAC9",
+      "shares": 500000,
+      "value": 496644240,
+      "pctOfPortfolio": 20.7222502898
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128282A7",
+      "shares": 2000000,
+      "value": 1922343760,
+      "pctOfPortfolio": 80.2089007171
+    },
+    {
+      "name": "CHASE HOME LENDING MORTGAGE TRUST",
+      "cusip": "16160DAE3",
+      "shares": 896323.36,
+      "value": 908453840,
+      "pctOfPortfolio": 37.9048146199
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CGH8",
+      "shares": 2000000,
+      "value": 1995898440,
+      "pctOfPortfolio": 83.2779355839
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912797KV8",
+      "shares": 5000000,
+      "value": 4984930200,
+      "pctOfPortfolio": 207.9938977686
+    },
+    {
+      "name": "TEXAS INSTRUMENTS INCORPORATED",
+      "cusip": "882508104",
+      "shares": 11000,
+      "value": 2272270000,
+      "pctOfPortfolio": 94.8094105876
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828M56",
+      "shares": 2000000,
+      "value": 1964609380,
+      "pctOfPortfolio": 81.97241408490001
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CHY0",
+      "shares": 2000000,
+      "value": 2036171880,
+      "pctOfPortfolio": 84.9583261663
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "3136BRU70",
+      "shares": 892452.71,
+      "value": 904106360,
+      "pctOfPortfolio": 37.7234180357
+    },
+    {
+      "name": "BOF URSA FUNDING TRUST",
+      "cusip": "05603KAE5",
+      "shares": 67200.28,
+      "value": 67577110,
+      "pctOfPortfolio": 2.8196235343
+    },
+    {
+      "name": "CHASE AUTO CREDIT LINKED NOTES",
+      "cusip": "48128U2M0",
+      "shares": 10711.25,
+      "value": 10664190,
+      "pctOfPortfolio": 0.44495837559999996
+    },
+    {
+      "name": "MMAF EQUIPMENT FINANCE LLC",
+      "cusip": "55317WAB7",
+      "shares": 117580.35,
+      "value": 118270510,
+      "pctOfPortfolio": 4.934782109
+    },
+    {
+      "name": "AUTOZONE, INC.",
+      "cusip": "053332AY8",
+      "shares": 500000,
+      "value": 496679540,
+      "pctOfPortfolio": 20.723723165899997
+    },
+    {
+      "name": "ARI FLEET LEASE TRUST",
+      "cusip": "00217QAB7",
+      "shares": 5081.38,
+      "value": 5074610,
+      "pctOfPortfolio": 0.2117357457
+    },
+    {
+      "name": "ENTERPRISE FLEET FINANCING LLC",
+      "cusip": "29375CAB5",
+      "shares": 159881.93,
+      "value": 160774580,
+      "pctOfPortfolio": 6.708244692400001
+    },
+    {
+      "name": "DLLST LLC",
+      "cusip": "23346HAC1",
+      "shares": 110000,
+      "value": 110985070,
+      "pctOfPortfolio": 4.6308005081
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46655DAE2",
+      "shares": 279311.93,
+      "value": 249592250,
+      "pctOfPortfolio": 10.4141207293
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128285M8",
+      "shares": 2000000,
+      "value": 1965429680,
+      "pctOfPortfolio": 82.0066407215
+    },
+    {
+      "name": "PALMER SQUARE LOAN FUNDING LTD.",
+      "cusip": "69701YAC6",
+      "shares": 382043.75,
+      "value": 382693440,
+      "pctOfPortfolio": 15.967706074599999
+    },
+    {
+      "name": "ALPHABET INC.",
+      "cusip": "02079K107",
+      "shares": 15000,
+      "value": 2507850000,
+      "pctOfPortfolio": 104.6388766926
+    },
+    {
+      "name": "LABCORP HOLDINGS INC.",
+      "cusip": "504922105",
+      "shares": 15000,
+      "value": 3352200000,
+      "pctOfPortfolio": 139.8689883561
+    },
+    {
+      "name": "J.P. MORGAN WEALTH MANAGEMENT MORTGAGE TRUST",
+      "cusip": "46652HAF3",
+      "shares": 5656.35,
+      "value": 5625010,
+      "pctOfPortfolio": 0.23470093009999998
+    },
+    {
+      "name": "HPEFS EQUIPMENT TRUST",
+      "cusip": "40443DAB8",
+      "shares": 174001.58,
+      "value": 174117060,
+      "pctOfPortfolio": 7.2649534746
+    },
+    {
+      "name": "CHESAPEAKE FUNDING LLC",
+      "cusip": "165183CZ5",
+      "shares": 114459.91,
+      "value": 116426770,
+      "pctOfPortfolio": 4.8578529136999995
+    },
+    {
+      "name": "SEQUOIA MORTGAGE TRUST",
+      "cusip": "81743CAE5",
+      "shares": 344674.6,
+      "value": 349419600,
+      "pctOfPortfolio": 14.5793705518
+    },
+    {
+      "name": "FORTIVE CORPORATION",
+      "cusip": "34959J108",
+      "shares": 35000,
+      "value": 2762550000,
+      "pctOfPortfolio": 115.26611591880001
+    },
+    {
+      "name": "FOUNDATION FINANCE TRUST",
+      "cusip": "35042RAA4",
+      "shares": 166309.44,
+      "value": 171424490,
+      "pctOfPortfolio": 7.1526072417
+    },
+    {
+      "name": "STWD MORTGAGE TRUST",
+      "cusip": "78485KAA3",
+      "shares": 494182.1,
+      "value": 490257740,
+      "pctOfPortfolio": 20.455776543000002
+    },
+    {
+      "name": "ARI FLEET LEASE TRUST",
+      "cusip": "00218KAB9",
+      "shares": 85000,
+      "value": 85636240,
+      "pctOfPortfolio": 3.5731323475
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128286S4",
+      "shares": 2000000,
+      "value": 1958671880,
+      "pctOfPortfolio": 81.72467465460001
+    },
+    {
+      "name": "GOLUB CAPITAL PARTNERS CLO LTD",
+      "cusip": "381743AA1",
+      "shares": 500000,
+      "value": 500194780,
+      "pctOfPortfolio": 20.8703949226
+    },
+    {
+      "name": "OCTANE RECEIVABLES TRUST",
+      "cusip": "67578AAA6",
+      "shares": 26030.6,
+      "value": 25729070,
+      "pctOfPortfolio": 1.073533498
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46647EAT8",
+      "shares": 104702.64,
+      "value": 99393470,
+      "pctOfPortfolio": 4.1471463809
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CGP0",
+      "shares": 2000000,
+      "value": 2027617180,
+      "pctOfPortfolio": 84.6013852813
+    },
+    {
+      "name": "KREF LTD",
+      "cusip": "48275EAA4",
+      "shares": 500000,
+      "value": 499687500,
+      "pctOfPortfolio": 20.8492289001
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31294MHZ7",
+      "shares": 11885.3,
+      "value": 11731160,
+      "pctOfPortfolio": 0.4894772034
+    },
+    {
+      "name": "MARTIN MARIETTA MATERIALS, INC.",
+      "cusip": "573284106",
+      "shares": 7500,
+      "value": 4036875000,
+      "pctOfPortfolio": 168.4367347921
+    },
+    {
+      "name": "FIDELITY NATIONAL INFORMATION SERVICES, INC.",
+      "cusip": "31620M106",
+      "shares": 34000,
+      "value": 2847500000,
+      "pctOfPortfolio": 118.810615221
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INCORPORATED",
+      "cusip": "595017104",
+      "shares": 30000,
+      "value": 2408700000,
+      "pctOfPortfolio": 100.5018889843
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128PWML9",
+      "shares": 8763.72,
+      "value": 8672370,
+      "pctOfPortfolio": 0.3618506111
+    },
+    {
+      "name": "DELL EQUIPMENT FINANCE TRUST",
+      "cusip": "24703GAB0",
+      "shares": 83282.51,
+      "value": 83458170,
+      "pctOfPortfolio": 3.4822533881999997
+    },
+    {
+      "name": "MONROE CAPITAL MML CLO LTD",
+      "cusip": "61034VAC7",
+      "shares": 500000,
+      "value": 500491410,
+      "pctOfPortfolio": 20.8827716716
+    },
+    {
+      "name": "MARLETTE FUNDING TRUST",
+      "cusip": "57109RAA8",
+      "shares": 27618.89,
+      "value": 27649900,
+      "pctOfPortfolio": 1.1536792378
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46591XAF2",
+      "shares": 11578.07,
+      "value": 11455260,
+      "pctOfPortfolio": 0.47796540400000004
+    },
+    {
+      "name": "LAD AUTO RECEIVABLES TRUST",
+      "cusip": "501687AA5",
+      "shares": 156122.32,
+      "value": 156375330,
+      "pctOfPortfolio": 6.524688029
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CEC1",
+      "shares": 2000000,
+      "value": 1921015620,
+      "pctOfPortfolio": 80.1534846923
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132D6GA2",
+      "shares": 672317.42,
+      "value": 680742890,
+      "pctOfPortfolio": 28.4036809721
+    },
+    {
+      "name": "GREATAMERICA LEASING RECEIVABLES FUNDING, L.L.C.",
+      "cusip": "39154TBL1",
+      "shares": 500000,
+      "value": 495359450,
+      "pctOfPortfolio": 20.6686430237
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CBH3",
+      "shares": 1000000,
+      "value": 955820310,
+      "pctOfPortfolio": 39.8811585853
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CHQ7",
+      "shares": 2000000,
+      "value": 2039218760,
+      "pctOfPortfolio": 85.0854558194
+    },
+    {
+      "name": "BLACKROCK RAINIER CLO LTD",
+      "cusip": "09261MAA4",
+      "shares": 500000,
+      "value": 500530230,
+      "pctOfPortfolio": 20.8843914181
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "3136BRZ26",
+      "shares": 463581.63,
+      "value": 471212000,
+      "pctOfPortfolio": 19.6611018857
+    },
+    {
+      "name": "LENDINGPOINT ASSET SECURITIZATION TRUST",
+      "cusip": "525919AA4",
+      "shares": 13284.1,
+      "value": 13287900,
+      "pctOfPortfolio": 0.554431457
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CHA2",
+      "shares": 2000000,
+      "value": 1995507820,
+      "pctOfPortfolio": 83.26163714580001
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132A9UR6",
+      "shares": 102869.03,
+      "value": 98325210,
+      "pctOfPortfolio": 4.1025737283999995
+    },
+    {
+      "name": "IDEX CORPORATION",
+      "cusip": "45167R104",
+      "shares": 16000,
+      "value": 3432000000,
+      "pctOfPortfolio": 143.1986062998
+    },
+    {
+      "name": "MMAF EQUIPMENT FINANCE LLC",
+      "cusip": "606940AC8",
+      "shares": 164856.09,
+      "value": 165479940,
+      "pctOfPortfolio": 6.904573653399999
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132D6F47",
+      "shares": 869738.62,
+      "value": 880637200,
+      "pctOfPortfolio": 36.744178233
+    },
+    {
+      "name": "LAD AUTO RECEIVABLES TRUST",
+      "cusip": "505710AB9",
+      "shares": 47834.53,
+      "value": 47876670,
+      "pctOfPortfolio": 1.9976318235
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132D6E63",
+      "shares": 1069516.78,
+      "value": 1092271540,
+      "pctOfPortfolio": 45.5745227939
+    },
+    {
+      "name": "SFS AUTO RECEIVABLES SECURITIZATION TRUST",
+      "cusip": "78398AAB9",
+      "shares": 37314.88,
+      "value": 37432040,
+      "pctOfPortfolio": 1.5618344868
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128PUEW8",
+      "shares": 4875.37,
+      "value": 4817370,
+      "pctOfPortfolio": 0.20100252620000003
+    },
+    {
+      "name": "Government National Mortgage Association 2",
+      "cusip": "36202FZU3",
+      "shares": 13589.64,
+      "value": 13410460,
+      "pctOfPortfolio": 0.5595452161
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "3138WHRX2",
+      "shares": 172716.02,
+      "value": 166066570,
+      "pctOfPortfolio": 6.9290505177
+    },
+    {
+      "name": "ROPER TECHNOLOGIES, INC.",
+      "cusip": "776696106",
+      "shares": 5500,
+      "value": 3060420000,
+      "pctOfPortfolio": 127.6946033485
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CGL9",
+      "shares": 2000000,
+      "value": 2005703120,
+      "pctOfPortfolio": 83.6870313039
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CCF6",
+      "shares": 2000000,
+      "value": 1905234380,
+      "pctOfPortfolio": 79.49501978159999
+    },
+    {
+      "name": "AREIT LTD.",
+      "cusip": "04002PAA2",
+      "shares": 58525.58,
+      "value": 58543840,
+      "pctOfPortfolio": 2.4427145381999997
+    },
+    {
+      "name": "WHEELS FLEET LEASE FUNDING LLC",
+      "cusip": "96328GBT3",
+      "shares": 700000,
+      "value": 706731900,
+      "pctOfPortfolio": 29.488060346
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFT3",
+      "shares": 1000000,
+      "value": 1018710940,
+      "pctOfPortfolio": 42.5052409179
+    },
+    {
+      "name": "FOUNDATION FINANCE TRUST",
+      "cusip": "35042PAA8",
+      "shares": 93557.88,
+      "value": 88036970,
+      "pctOfPortfolio": 3.6733016919000003
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128283D0",
+      "shares": 2000000,
+      "value": 1995682860,
+      "pctOfPortfolio": 83.2689406085
+    },
+    {
+      "name": "J.P. MORGAN MORTGAGE TRUST",
+      "cusip": "46647SBY5",
+      "shares": 139340.18,
+      "value": 124486800,
+      "pctOfPortfolio": 5.1941539227
+    },
+    {
+      "name": "FLAGSTAR MORTGAGE TRUST",
+      "cusip": "33852JAE8",
+      "shares": 358506.07,
+      "value": 321379180,
+      "pctOfPortfolio": 13.4093970483
+    },
+    {
+      "name": "United States of America",
+      "cusip": "9128285J5",
+      "shares": 2000000,
+      "value": 1980625000,
+      "pctOfPortfolio": 82.6406583923
+    },
+    {
+      "name": "HGI CRE CLO LTD",
+      "cusip": "40390JAA0",
+      "shares": 121411.06,
+      "value": 120766120,
+      "pctOfPortfolio": 5.0389102774
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "31417C7D1",
+      "shares": 80487.47,
+      "value": 79139000,
+      "pctOfPortfolio": 3.3020380256
+    },
+    {
+      "name": "ARI FLEET LEASE TRUST",
+      "cusip": "04033HAB1",
+      "shares": 220000,
+      "value": 222673950,
+      "pctOfPortfolio": 9.290967161700001
+    },
+    {
+      "name": "AMUR EQUIPMENT FINANCE RECEIVABLES LLC",
+      "cusip": "03236YAB1",
+      "shares": 180834.67,
+      "value": 183666720,
+      "pctOfPortfolio": 7.6634086036
+    },
+    {
+      "name": "Federal National Mortgage Association",
+      "cusip": "3138E7TW4",
+      "shares": 12555.33,
+      "value": 12363160,
+      "pctOfPortfolio": 0.5158471098999999
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CEQ0",
+      "shares": 3000000,
+      "value": 2972319660,
+      "pctOfPortfolio": 124.01865757270001
+    },
+    {
+      "name": "TIAA CHURCHILL MIDDLE MARKET CLO LTD",
+      "cusip": "17151KAA4",
+      "shares": 250000,
+      "value": 250183300,
+      "pctOfPortfolio": 10.4387820161
+    }
+  ]
+}

@@ -12,7 +12,9 @@
     "fetchNportP": "node --experimental-json-modules scripts/fetchNportP.js",
     "update-stocks": "ts-node scripts/update-stocks.ts",
        "prisma:migrate": "prisma migrate dev",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+     "fetch:nportp": "node scripts/fetchNportP.js",
+     "fetch:holdings": "node scripts/fetchHoldings.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",

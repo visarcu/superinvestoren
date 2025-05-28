@@ -1,4 +1,85 @@
 {
+  "form": "13F-HR",
   "date": "2014-11-13",
-  "positions": []
+  "period": "2014-11-13",
+  "positions": [
+    {
+      "name": "Allegion Pub Ltd Co",
+      "cusip": "G0176J109",
+      "shares": 1526361,
+      "value": 72716000
+    },
+    {
+      "name": "Allegion Pub Ltd Co",
+      "cusip": "G0176J109",
+      "shares": 129027,
+      "value": 6147000
+    },
+    {
+      "name": "Bank New York Mellon Corp. ",
+      "cusip": "064058100",
+      "shares": 28897639,
+      "value": 1119206000
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co. ",
+      "cusip": "263534109",
+      "shares": 6959877,
+      "value": 499441000
+    },
+    {
+      "name": "Family Dlr Stores Inc.",
+      "cusip": "307000109",
+      "shares": 8366386,
+      "value": 646220000
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 11758823,
+      "value": 662727000
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 1062228,
+      "value": 59867000
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 4973851,
+      "value": 252174000
+    },
+    {
+      "name": "Legg Mason Inc.",
+      "cusip": "524901105",
+      "shares": 12887964,
+      "value": 659348000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 41741854,
+      "value": 1430285000
+    },
+    {
+      "name": "PepsiCo Inc.",
+      "cusip": "713448108",
+      "shares": 17865831,
+      "value": 1663130000
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 13412,
+      "value": 1292000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 64800245,
+      "value": 535250000
+    }
+  ]
 }

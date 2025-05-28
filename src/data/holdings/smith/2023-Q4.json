@@ -1,4 +1,241 @@
 {
+  "form": "13F-HR",
   "date": "2023-11-14",
-  "positions": []
+  "period": "2023-11-14",
+  "positions": [
+    {
+      "name": "ALPHABET CL A ORD",
+      "cusip": "02079K305",
+      "shares": 7588728,
+      "value": 993060946000
+    },
+    {
+      "name": "Apple",
+      "cusip": "037833100",
+      "shares": 1333286,
+      "value": 228271896000
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING",
+      "cusip": "053015103",
+      "shares": 5520512,
+      "value": 1328124777000
+    },
+    {
+      "name": "BROWN FORMAN CORP CLASS B",
+      "cusip": "115637209",
+      "shares": 12086171,
+      "value": 697251205000
+    },
+    {
+      "name": "CHURCH AND DWIGHT ORD",
+      "cusip": "171340102",
+      "shares": 7274964,
+      "value": 666604951000
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 2045671,
+      "value": 86818277000
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 491906,
+      "value": 90107341000
+    },
+    {
+      "name": "EXPONENT INC",
+      "cusip": "30214U102",
+      "shares": 1092545,
+      "value": 93521852000
+    },
+    {
+      "name": "FORTINET ORD",
+      "cusip": "34959E109",
+      "shares": 4924241,
+      "value": 288954462000
+    },
+    {
+      "name": "GRACO ORD",
+      "cusip": "384109104",
+      "shares": 1222976,
+      "value": 89130491000
+    },
+    {
+      "name": "HOME DEPOT ORD",
+      "cusip": "437076102",
+      "shares": 147657,
+      "value": 44616039000
+    },
+    {
+      "name": "IDEX ORD",
+      "cusip": "45167R104",
+      "shares": 389008,
+      "value": 80921444000
+    },
+    {
+      "name": "IDEXX LABORATORIES INC",
+      "cusip": "45168D104",
+      "shares": 2964554,
+      "value": 1296310528000
+    },
+    {
+      "name": "IPG PHOTONICS CORP",
+      "cusip": "44980X109",
+      "shares": 556157,
+      "value": 56472182000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 274378,
+      "value": 42734374000
+    },
+    {
+      "name": "MARRIOTT INTERNATIONAL  CL A",
+      "cusip": "571903202",
+      "shares": 4395681,
+      "value": 864015057000
+    },
+    {
+      "name": "MASTERCARD CL A ORD",
+      "cusip": "57636Q104",
+      "shares": 62758,
+      "value": 24846520000
+    },
+    {
+      "name": "MCCORMICK & CO NON VTG SHRS",
+      "cusip": "579780206",
+      "shares": 15312665,
+      "value": 1158249981000
+    },
+    {
+      "name": "MCDONALD S ORD",
+      "cusip": "580135101",
+      "shares": 92320,
+      "value": 24320781000
+    },
+    {
+      "name": "META PLATFORMS INC-CLASS A",
+      "cusip": "30303M102",
+      "shares": 5006145,
+      "value": 1502894790000
+    },
+    {
+      "name": "METTLER TOLEDO ORD",
+      "cusip": "592688105",
+      "shares": 568520,
+      "value": 629959956000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 8648822,
+      "value": 2730865547000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 209869,
+      "value": 107679587000
+    },
+    {
+      "name": "NIKE INC CL B",
+      "cusip": "654106103",
+      "shares": 6702262,
+      "value": 640870292000
+    },
+    {
+      "name": "ODDITY TECH LTD",
+      "cusip": "M7518J104",
+      "shares": 575000,
+      "value": 16301250000
+    },
+    {
+      "name": "OTIS WORLDWIDE ORD",
+      "cusip": "68902V107",
+      "shares": 6450913,
+      "value": 518072823000
+    },
+    {
+      "name": "PAYCOM SOFTWARE INC",
+      "cusip": "70432V102",
+      "shares": 159904,
+      "value": 41458310000
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 6639272,
+      "value": 1124958248000
+    },
+    {
+      "name": "PHILIP MORRIS INTERNATIONAL",
+      "cusip": "718172109",
+      "shares": 15064536,
+      "value": 1394674743000
+    },
+    {
+      "name": "PROCTER & GAMBLE ORD",
+      "cusip": "742718109",
+      "shares": 4846573,
+      "value": 706921138000
+    },
+    {
+      "name": "QUALYS INC",
+      "cusip": "74758T303",
+      "shares": 653895,
+      "value": 99751682000
+    },
+    {
+      "name": "ROLLINS ORD",
+      "cusip": "775711104",
+      "shares": 1714331,
+      "value": 63995976000
+    },
+    {
+      "name": "SABRE CORP",
+      "cusip": "78573M104",
+      "shares": 22552058,
+      "value": 101258740000
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 5518803,
+      "value": 1508123296000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 670166,
+      "value": 135728720000
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 526454,
+      "value": 124369493000
+    },
+    {
+      "name": "VISA INC CLASS A SHARES",
+      "cusip": "92826C839",
+      "shares": 5756599,
+      "value": 1324075336000
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 3806494,
+      "value": 1043778720000
+    },
+    {
+      "name": "ZOETIS CL A ORD",
+      "cusip": "98978V103",
+      "shares": 222803,
+      "value": 38763266000
+    }
+  ]
 }

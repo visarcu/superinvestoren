@@ -1,4 +1,145 @@
 {
+  "form": "13F-HR",
   "date": "2019-08-14",
-  "positions": []
+  "period": "2019-08-14",
+  "positions": [
+    {
+      "name": "AES CORP ",
+      "cusip": "00130H105",
+      "shares": 4146500,
+      "value": 69495000
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 3707646,
+      "value": 519552000
+    },
+    {
+      "name": "ARCOSA INC",
+      "cusip": "039653100",
+      "shares": 4240963,
+      "value": 159587000
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 1222756,
+      "value": 12044000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 17931594,
+      "value": 452235000
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 35000,
+      "value": 65615000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 13225592,
+      "value": 678473000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 31525500,
+      "value": 2207731000
+    },
+    {
+      "name": "DARLING INGREDIENTS INC ",
+      "cusip": "237266101",
+      "shares": 1727528,
+      "value": 34361000
+    },
+    {
+      "name": "EDISON INTL",
+      "cusip": "281020107",
+      "shares": 700000,
+      "value": 47187000
+    },
+    {
+      "name": "ENVIVA PARTNERS LP ",
+      "cusip": "29414J107",
+      "shares": 1654261,
+      "value": 51977000
+    },
+    {
+      "name": "HAWAIIAN ELEC INDUSTRIES ",
+      "cusip": "419870100",
+      "shares": 1175747,
+      "value": 51204000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 50700000,
+      "value": 1281189000
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HLDGS INC ",
+      "cusip": "535219109",
+      "shares": 3012298,
+      "value": 54071000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 26228561,
+      "value": 1149073000
+    },
+    {
+      "name": "PARSONS CORPORATION ",
+      "cusip": "70202L102",
+      "shares": 1805000,
+      "value": 66532000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 31554360,
+      "value": 1486841000
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 39184254,
+      "value": 380871000
+    },
+    {
+      "name": "STARS GROUP INC",
+      "cusip": "85570W100",
+      "shares": 13630000,
+      "value": 232664000
+    },
+    {
+      "name": "STRATEGIC ED INC ",
+      "cusip": "86272C103",
+      "shares": 233765,
+      "value": 41610000
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 21900000,
+      "value": 454425000
+    },
+    {
+      "name": "UNIFI INC ",
+      "cusip": "904677200",
+      "shares": 1298402,
+      "value": 23592000
+    },
+    {
+      "name": "XPO LOGISTICS INC",
+      "cusip": "983793100",
+      "shares": 1000000,
+      "value": 57810000
+    }
+  ]
 }

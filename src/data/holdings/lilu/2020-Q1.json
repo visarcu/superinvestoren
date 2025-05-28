@@ -1,4 +1,13 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
-  "positions": []
+  "period": "2020-02-14",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 7814423,
+      "value": 420260000
+    }
+  ]
 }

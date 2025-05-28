@@ -1,4 +1,115 @@
 {
+  "form": "13F-HR",
   "date": "2017-11-14",
-  "positions": []
+  "period": "2017-11-14",
+  "positions": [
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 2615924,
+      "value": 548141000
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING",
+      "cusip": "053015103",
+      "shares": 5553237,
+      "value": 605414000
+    },
+    {
+      "name": "BARD",
+      "cusip": "067383109",
+      "shares": 2528269,
+      "value": 807226000
+    },
+    {
+      "name": "BECTON DICKINSON AND CO",
+      "cusip": "075887109",
+      "shares": 2301915,
+      "value": 445651000
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 2477902,
+      "value": 181234000
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 7489891,
+      "value": 661732000
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 4374191,
+      "value": 566064000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 2184854,
+      "value": 310905000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 11076335,
+      "value": 817987000
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 5560322,
+      "value": 621700000
+    },
+    {
+      "name": "PHILIP MORRIS INT  INC",
+      "cusip": "718172109",
+      "shares": 6251789,
+      "value": 698887000
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 5174629,
+      "value": 725483000
+    },
+    {
+      "name": "VISA INC ",
+      "cusip": "92826C839",
+      "shares": 5216150,
+      "value": 545348000
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 4355756,
+      "value": 778548000
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 4444708,
+      "value": 686218000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "45168D104",
+      "shares": 14048210,
+      "value": 897962000
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 3844901,
+      "value": 408867000
+    },
+    {
+      "name": "MARRIOTT INTL INC NE",
+      "cusip": "571903202",
+      "shares": 184690,
+      "value": 20316000
+    }
+  ]
 }

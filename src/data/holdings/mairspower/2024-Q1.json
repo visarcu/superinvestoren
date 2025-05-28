@@ -1,0 +1,462 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-02-27",
+  "period": "2024-02-27",
+  "positions": [
+    {
+      "name": "TACORA RESOURCES INC",
+      "cusip": "87356LAC4",
+      "shares": 757524.5242,
+      "value": 757524520,
+      "pctOfPortfolio": 246.43014675999999
+    },
+    {
+      "name": "VF CORPORATION",
+      "cusip": "91820LAR1",
+      "shares": 250000,
+      "value": 248981190,
+      "pctOfPortfolio": 80.99602003000001
+    },
+    {
+      "name": "SECOP GROUP HLDG GMBH",
+      "cusip": "ZK8432245",
+      "shares": 150000,
+      "value": 168490020,
+      "pctOfPortfolio": 54.81145397
+    },
+    {
+      "name": "CLEAR CHANNEL INTL BV",
+      "cusip": "18452MAB2",
+      "shares": 542000,
+      "value": 545057960,
+      "pctOfPortfolio": 177.31269354999998
+    },
+    {
+      "name": "STONEX GROUP INC",
+      "cusip": "46116VAE5",
+      "shares": 1063000,
+      "value": 1078668620,
+      "pctOfPortfolio": 350.90146828
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353TAC4",
+      "shares": 489000,
+      "value": 498414230,
+      "pctOfPortfolio": 162.13903128
+    },
+    {
+      "name": "REBELLION OPERATIONS AB",
+      "cusip": "BW1020005",
+      "shares": 2500000,
+      "value": 229755160,
+      "pctOfPortfolio": 74.74160413999999
+    },
+    {
+      "name": "FIVEN ASA",
+      "cusip": "ZG2628763",
+      "shares": 1001000,
+      "value": 1116102180,
+      "pctOfPortfolio": 363.07897204
+    },
+    {
+      "name": "INNOVATE CORP",
+      "cusip": "404139AJ6",
+      "shares": 460000,
+      "value": 356500000,
+      "pctOfPortfolio": 115.97294213
+    },
+    {
+      "name": "MOUNTAINEER MERGER CORP",
+      "cusip": "62450LAB4",
+      "shares": 480519.47,
+      "value": 362191550,
+      "pctOfPortfolio": 117.82445909999998
+    },
+    {
+      "name": "AUTONATION INC",
+      "cusip": "05330LA37",
+      "shares": 371000,
+      "value": 370704850,
+      "pctOfPortfolio": 120.59391898
+    },
+    {
+      "name": "CHOBANI LLC/FINANCE CORP",
+      "cusip": "17027NAA0",
+      "shares": 186000,
+      "value": 185229030,
+      "pctOfPortfolio": 60.25681789
+    },
+    {
+      "name": "STANLEY BLACK & DECKER",
+      "cusip": "85462CAG0",
+      "shares": 750000,
+      "value": 747958310,
+      "pctOfPortfolio": 243.31816493999997
+    },
+    {
+      "name": "CITRIX SYSTEMS INC",
+      "cusip": "177376AE0",
+      "shares": 145000,
+      "value": 116365400,
+      "pctOfPortfolio": 37.85480449
+    },
+    {
+      "name": "FIVE POINT OP CO LP/FIVE",
+      "cusip": "33834YAA6",
+      "shares": 209000,
+      "value": 207107510,
+      "pctOfPortfolio": 67.37410174
+    },
+    {
+      "name": "NGL ENERGY PARTNERS LP",
+      "cusip": "62913M206",
+      "shares": 4719,
+      "value": 130385970,
+      "pctOfPortfolio": 42.41583325
+    },
+    {
+      "name": "UPHEALTH INC",
+      "cusip": "91532BAC5",
+      "shares": 250000,
+      "value": 216751340,
+      "pctOfPortfolio": 70.51133411
+    },
+    {
+      "name": "LITHIUM MIDCO II LTD",
+      "cusip": "ZP4361637",
+      "shares": 645000,
+      "value": 690684890,
+      "pctOfPortfolio": 224.68656038
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -405040,
+      "pctOfPortfolio": -0.13176348000000002
+    },
+    {
+      "name": "CHOBANI LLC",
+      "cusip": "N/A",
+      "shares": 686000,
+      "value": 687999690,
+      "pctOfPortfolio": 223.81303852
+    },
+    {
+      "name": "SKILL BIDCO APS",
+      "cusip": "ZL0669289",
+      "shares": 159000,
+      "value": 177072330,
+      "pctOfPortfolio": 57.603363480000006
+    },
+    {
+      "name": "CTO Realty Growth Inc",
+      "cusip": "22948Q101",
+      "shares": 20000,
+      "value": 346600000,
+      "pctOfPortfolio": 112.75237515
+    },
+    {
+      "name": "NAI ENTER HOLDINGS LLC",
+      "cusip": "62981EAE2",
+      "shares": 901170.15,
+      "value": 897038280,
+      "pctOfPortfolio": 291.81533951
+    },
+    {
+      "name": "CALLIGO UK LTD",
+      "cusip": "BT0607353",
+      "shares": 100000,
+      "value": 76724370,
+      "pctOfPortfolio": 24.95918912
+    },
+    {
+      "name": "OPNET SPA",
+      "cusip": "BA0032827",
+      "shares": 553000,
+      "value": 614298610,
+      "pctOfPortfolio": 199.83735525
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -30034020,
+      "pctOfPortfolio": -9.77036091
+    },
+    {
+      "name": "NOVEDO HOLDINGS AB",
+      "cusip": "BS3076053",
+      "shares": 1250000,
+      "value": 115258200,
+      "pctOfPortfolio": 37.49462148
+    },
+    {
+      "name": "ALBEMARLE CORP",
+      "cusip": "01265QA59",
+      "shares": 550000,
+      "value": 549385610,
+      "pctOfPortfolio": 178.72052049
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -90462080,
+      "pctOfPortfolio": -29.42820075
+    },
+    {
+      "name": "STOCKWIK FORVALTNING",
+      "cusip": "ZL4689937",
+      "shares": 8750000,
+      "value": 837678650,
+      "pctOfPortfolio": 272.5050704
+    },
+    {
+      "name": "AMERICAN GREETINGS CORP",
+      "cusip": "026375AR6",
+      "shares": 180000,
+      "value": 179901000,
+      "pctOfPortfolio": 58.523557540000006
+    },
+    {
+      "name": "DIEBOLD NIXDORF INC",
+      "cusip": "25365TAM4",
+      "shares": 140681.55,
+      "value": 145033530,
+      "pctOfPortfolio": 47.180828000000005
+    },
+    {
+      "name": "DOCUSIGN INC",
+      "cusip": "256163AD8",
+      "shares": 709000,
+      "value": 709016430,
+      "pctOfPortfolio": 230.64998992
+    },
+    {
+      "name": "ESMAEILZADEH HOLDING AB",
+      "cusip": "BT4292509",
+      "shares": 2500000,
+      "value": 229127090,
+      "pctOfPortfolio": 74.53728681
+    },
+    {
+      "name": "CONNECT FINCO SARL/CONNE",
+      "cusip": "20752TAA2",
+      "shares": 400000,
+      "value": 398010120,
+      "pctOfPortfolio": 129.47659078
+    },
+    {
+      "name": "GETTY IMAGES INC",
+      "cusip": "374276AJ2",
+      "shares": 290000,
+      "value": 292542720,
+      "pctOfPortfolio": 95.16701245
+    },
+    {
+      "name": "HAWAIIAN AIRLINES 13-1A",
+      "cusip": "419838AA5",
+      "shares": 992826.389,
+      "value": 930992170,
+      "pctOfPortfolio": 302.86087252
+    },
+    {
+      "name": "IEA ENERGY SERVICES LLC",
+      "cusip": "45174AAA0",
+      "shares": 862000,
+      "value": 801660000,
+      "pctOfPortfolio": 260.78785073
+    },
+    {
+      "name": "INFRABUILD AUSTRALIA PTY",
+      "cusip": "45682RAC4",
+      "shares": 1048000,
+      "value": 1080750000,
+      "pctOfPortfolio": 351.57856159
+    },
+    {
+      "name": "ZIFF DAVIS INC",
+      "cusip": "48123VAF9",
+      "shares": 318000,
+      "value": 292090700,
+      "pctOfPortfolio": 95.01996591000001
+    },
+    {
+      "name": "LR GLOBAL HOLDING",
+      "cusip": "BN6772238",
+      "shares": 300000,
+      "value": 325388590,
+      "pctOfPortfolio": 105.8520957
+    },
+    {
+      "name": "LIONS GATE CAPITAL HOLD",
+      "cusip": "53627MAB9",
+      "shares": 280873.24,
+      "value": 280748250,
+      "pctOfPortfolio": 91.33015582
+    },
+    {
+      "name": "MAGNITE INC",
+      "cusip": "55955NAB4",
+      "shares": 970000,
+      "value": 974651150,
+      "pctOfPortfolio": 317.06356638
+    },
+    {
+      "name": "FIRST BRANDS GROUP LLC",
+      "cusip": "31935HAG2",
+      "shares": 514454.15,
+      "value": 511562920,
+      "pctOfPortfolio": 166.41642894
+    },
+    {
+      "name": "DEAG DEUTSCHE ENTERTAINM",
+      "cusip": "ZK9039155",
+      "shares": 232000,
+      "value": 268300930,
+      "pctOfPortfolio": 87.2809207
+    },
+    {
+      "name": "GO NORTH GROUP AB FRN GTD 02/2026 USD1 'REGS'",
+      "cusip": "N/A",
+      "shares": 532250,
+      "value": 441767500,
+      "pctOfPortfolio": 143.71129512000002
+    },
+    {
+      "name": "ARROW ELECTRS INC",
+      "cusip": "04273LAA3",
+      "shares": 804000,
+      "value": 802446270,
+      "pctOfPortfolio": 261.04363207
+    },
+    {
+      "name": "XPO INC",
+      "cusip": "98379KAA0",
+      "shares": 512000,
+      "value": 519085060,
+      "pctOfPortfolio": 168.86345476
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -45226780,
+      "pctOfPortfolio": -14.71271456
+    },
+    {
+      "name": "RA PARENT INC",
+      "cusip": "N/A",
+      "shares": 3,
+      "value": 147600000,
+      "pctOfPortfolio": 48.01572583
+    },
+    {
+      "name": "JABIL INC",
+      "cusip": "46652LA56",
+      "shares": 395000,
+      "value": 394533410,
+      "pctOfPortfolio": 128.34558296
+    },
+    {
+      "name": "CONTAINER STORE",
+      "cusip": "21075BAM3",
+      "shares": 743222.88,
+      "value": 674474760,
+      "pctOfPortfolio": 219.41324630999998
+    },
+    {
+      "name": "CENGAGE LEARNING INC",
+      "cusip": "15134NAF3",
+      "shares": 991164.69,
+      "value": 995560510,
+      "pctOfPortfolio": 323.86558601
+    },
+    {
+      "name": "BX Trust",
+      "cusip": "05609VAJ4",
+      "shares": 679000,
+      "value": 655342350,
+      "pctOfPortfolio": 213.18928592
+    },
+    {
+      "name": "First American Treasury Obliga",
+      "cusip": "31846V328",
+      "shares": 1271531.64,
+      "value": 1271531640,
+      "pctOfPortfolio": 413.6416979
+    },
+    {
+      "name": "HUGHES SATELLITE SYSTEMS",
+      "cusip": "444454AD4",
+      "shares": 198000,
+      "value": 174435660,
+      "pctOfPortfolio": 56.7456289
+    },
+    {
+      "name": "CROCS INC",
+      "cusip": "22704NAE2",
+      "shares": 124182.27,
+      "value": 124834850,
+      "pctOfPortfolio": 40.609999540000004
+    },
+    {
+      "name": "ELEVATE TEXTILES INC",
+      "cusip": "28622DAD2",
+      "shares": 775057.5,
+      "value": 772151030,
+      "pctOfPortfolio": 251.18829373999998
+    },
+    {
+      "name": "GENERAL MOTORS FINL CO",
+      "cusip": "37046TAA2",
+      "shares": 600000,
+      "value": 598890130,
+      "pctOfPortfolio": 194.82482577
+    },
+    {
+      "name": "GLOBAL PAYMENTS INC",
+      "cusip": "37961CAG7",
+      "shares": 800000,
+      "value": 797551400,
+      "pctOfPortfolio": 259.45128291000003
+    },
+    {
+      "name": "ICAHN ENTERPRISES/FIN",
+      "cusip": "451102BW6",
+      "shares": 143000,
+      "value": 142215220,
+      "pctOfPortfolio": 46.26400415
+    },
+    {
+      "name": "ROGERS COMMUNICATIONS",
+      "cusip": "77511LB10",
+      "shares": 400000,
+      "value": 397884320,
+      "pctOfPortfolio": 129.43566681000001
+    },
+    {
+      "name": "ELKEM ASA",
+      "cusip": "ZI5662229",
+      "shares": 8000000,
+      "value": 789745940,
+      "pctOfPortfolio": 256.91209031
+    },
+    {
+      "name": "CHOBANI LLC",
+      "cusip": "17026YAH2",
+      "shares": 496163.69,
+      "value": 497652180,
+      "pctOfPortfolio": 161.89112895
+    },
+    {
+      "name": "ICAHN ENTERPRISES/FIN",
+      "cusip": "451102CD7",
+      "shares": 546000,
+      "value": 557711700,
+      "pctOfPortfolio": 181.42907913
+    }
+  ]
+}

@@ -1,209 +1,211 @@
 {
+  "form": "13F-HR",
   "date": "2018-02-13",
+  "period": "2018-02-13",
   "positions": [
     {
       "name": "ALLERGAN PLC",
       "cusip": "G0177J108",
       "shares": 4500000,
-      "value": 736110000
+      "value": 736110000000
     },
     {
       "name": "AMC ENTMT HLDGS INC",
       "cusip": "00165C104",
       "shares": 5000000,
-      "value": 75500000
+      "value": 75500000000
     },
     {
       "name": "AMERISOURCEBERGEN CORP",
       "cusip": "03073E105",
       "shares": 1434565,
-      "value": 131722000
+      "value": 131722000000
     },
     {
       "name": "ANTERO RES CORP",
       "cusip": "03674X106",
       "shares": 24722187,
-      "value": 469722000
+      "value": 469722000000
     },
     {
       "name": "ATARA BIOTHERAPEUTICS INC",
       "cusip": "046513107",
       "shares": 5359632,
-      "value": 97009000
+      "value": 97009000000
     },
     {
       "name": "CARDINAL HEALTH INC",
       "cusip": "14149Y108",
       "shares": 5100000,
-      "value": 312477000
+      "value": 312477000000
     },
     {
       "name": "CASCADIAN THERAPEUTICS INC",
       "cusip": "14740B606",
       "shares": 8721079,
-      "value": 32268000
+      "value": 32268000000
     },
     {
       "name": "CHENIERE ENERGY INC",
       "cusip": "16411R208",
       "shares": 20726340,
-      "value": 1115906000
+      "value": 1115906000000
     },
     {
       "name": "CHIPMOS TECHNOLOGIES INC",
       "cusip": "16965P103",
       "shares": 1470408,
-      "value": 25953000
+      "value": 25953000000
     },
     {
       "name": "COLONY NORTHSTAR INC",
       "cusip": "19625W104",
       "shares": 47905461,
-      "value": 546601000
+      "value": 546601000000
     },
     {
       "name": "EXPRESS SCRIPTS HLDG CO",
       "cusip": "30219G108",
       "shares": 2306456,
-      "value": 172154000
+      "value": 172154000000
     },
     {
       "name": "FORWARD PHARMA A/S",
       "cusip": "34986J105",
       "shares": 4179940,
-      "value": 15382000
+      "value": 15382000000
     },
     {
       "name": "GTY TECHNOLOGY HOLDINGS INC",
       "cusip": "G4182A110",
       "shares": 4400000,
-      "value": 45379000
+      "value": 45379000000
     },
     {
       "name": "KERYX BIOPHARMACEUTICALS INC",
       "cusip": "492515101",
       "shares": 25791678,
-      "value": 119931000
+      "value": 119931000000
     },
     {
       "name": "MCKESSON CORP",
       "cusip": "58155Q103",
       "shares": 1360000,
-      "value": 212092000
+      "value": 212092000000
     },
     {
       "name": "NOVAGOLD RES INC",
       "cusip": "66987E206",
       "shares": 10742835,
-      "value": 42219000
+      "value": 42219000000
     },
     {
       "name": "OREXIGEN THERAPEUTICS INC",
       "cusip": "686164302",
       "shares": 2226839,
-      "value": 2873000
+      "value": 2873000000
     },
     {
       "name": "PARATEK PHARMACEUTICALS INC",
       "cusip": "699374302",
       "shares": 2394498,
-      "value": 42862000
+      "value": 42862000000
     },
     {
       "name": "PBF ENERGY INC",
       "cusip": "69318G106",
       "shares": 10924175,
-      "value": 387262000
+      "value": 387262000000
     },
     {
       "name": "PIONEER NAT RES CO",
       "cusip": "723787107",
       "shares": 2000000,
-      "value": 345700000
+      "value": 345700000000
     },
     {
       "name": "QORVO INC",
       "cusip": "74736K101",
       "shares": 11000000,
-      "value": 732600000
+      "value": 732600000000
     },
     {
       "name": "SABAN CAP ACQUISITION CORP",
       "cusip": "78516C114",
       "shares": 1163250,
-      "value": 1442000
+      "value": 1442000000
     },
     {
       "name": "SABAN CAP ACQUISITION CORP",
       "cusip": "78516C106",
       "shares": 2326500,
-      "value": 23102000
+      "value": 23102000000
     },
     {
       "name": "SENTINEL ENERGY SVCS INC",
       "cusip": "G8062D128",
       "shares": 1600000,
-      "value": 15952000
+      "value": 15952000000
     },
     {
       "name": "SUNRUN INC",
       "cusip": "86771W105",
       "shares": 2848082,
-      "value": 16804000
+      "value": 16804000000
     },
     {
       "name": "SYNCHRONY FINL",
       "cusip": "87165B103",
       "shares": 29295030,
-      "value": 1131081000
+      "value": 1131081000000
     },
     {
       "name": "THERAVANCE BIOPHARMA INC",
       "cusip": "G8807B106",
       "shares": 9309168,
-      "value": 259633000
+      "value": 259633000000
     },
     {
       "name": "THERAVANCE BIOPHARMA INC",
       "cusip": "88339KAA0",
       "shares": 30000000,
-      "value": 33038000
+      "value": 33038000000
     },
     {
       "name": "TIME WARNER INC",
       "cusip": "887317303",
       "shares": 8100000,
-      "value": 740907000
+      "value": 740907000000
     },
     {
       "name": "TRILOGY METALS INC NEW",
       "cusip": "89621C105",
       "shares": 10600758,
-      "value": 11496000
+      "value": 11496000000
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 22288731,
-      "value": 769630000
+      "value": 769630000000
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A200",
       "shares": 10531258,
-      "value": 359327000
+      "value": 359327000000
     },
     {
       "name": "VERITIV CORP",
       "cusip": "923454102",
       "shares": 3641485,
-      "value": 105239000
+      "value": 105239000000
     },
     {
       "name": "VIASAT INC",
       "cusip": "92552V100",
       "shares": 13158137,
-      "value": 984887000
+      "value": 984887000000
     }
   ]
 }

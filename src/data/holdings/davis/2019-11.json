@@ -1,0 +1,217 @@
+{
+  "form": "NPORT-P",
+  "date": "2019-11-27",
+  "period": "2019-11-27",
+  "positions": [
+    {
+      "name": "IFCS REPO",
+      "cusip": "ARP0L6KM7",
+      "shares": 5238000,
+      "value": 5238000,
+      "pctOfPortfolio": 49.2420478
+    },
+    {
+      "name": "SUNTRUST REPO",
+      "cusip": "ARP0L6KN5",
+      "shares": 5238000,
+      "value": 5238000,
+      "pctOfPortfolio": 49.2420478
+    },
+    {
+      "name": "NOMURA REPO",
+      "cusip": "ARP0L6KO3",
+      "shares": 1227000,
+      "value": 1227000,
+      "pctOfPortfolio": 11.5349356
+    },
+    {
+      "name": "ALIBABA GROUP HOLDING SP ADR",
+      "cusip": "01609W102",
+      "shares": 125210,
+      "value": 20938868.3,
+      "pctOfPortfolio": 196.84474107
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079K107",
+      "shares": 52972,
+      "value": 64572868,
+      "pctOfPortfolio": 607.04472177
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079K305",
+      "shares": 41810,
+      "value": 51055863.4,
+      "pctOfPortfolio": 479.97236846
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 41546,
+      "value": 72120116.86,
+      "pctOfPortfolio": 677.99584608
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 426126,
+      "value": 50402183.28,
+      "pctOfPortfolio": 473.82717034999996
+    },
+    {
+      "name": "APACHE CORP",
+      "cusip": "037411105",
+      "shares": 1333999,
+      "value": 34150374.4,
+      "pctOfPortfolio": 321.04512573
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 355900,
+      "value": 10381603,
+      "pctOfPortfolio": 97.59667644
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 1312723,
+      "value": 59348206.83,
+      "pctOfPortfolio": 557.9280713200001
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC CL A",
+      "cusip": "084670108",
+      "shares": 318,
+      "value": 99162576,
+      "pctOfPortfolio": 932.2199899499999
+    },
+    {
+      "name": "CAPITAL ONE FINANCIAL CORP",
+      "cusip": "14040H105",
+      "shares": 754173,
+      "value": 68614659.54,
+      "pctOfPortfolio": 645.04130295
+    },
+    {
+      "name": "FACEBOOK INC CLASS A",
+      "cusip": "30303M102",
+      "shares": 237730,
+      "value": 42334958.4,
+      "pctOfPortfolio": 397.98779022
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 366500,
+      "value": 18885745,
+      "pctOfPortfolio": 177.54348187
+    },
+    {
+      "name": "JPMORGAN CHASE + CO",
+      "cusip": "46625H100",
+      "shares": 380182,
+      "value": 44743619.58,
+      "pctOfPortfolio": 420.63143454
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 51337,
+      "value": 60675200.3,
+      "pctOfPortfolio": 570.40303808
+    },
+    {
+      "name": "NEW ORIENTAL EDUCATIO SP ADR",
+      "cusip": "647581107",
+      "shares": 487000,
+      "value": 53940120,
+      "pctOfPortfolio": 507.08704989999995
+    },
+    {
+      "name": "NASPERS LTD N SHS",
+      "cusip": "662269901",
+      "shares": 84630,
+      "value": 12824700,
+      "pctOfPortfolio": 120.56404934
+    },
+    {
+      "name": "QUEST DIAGNOSTICS INC",
+      "cusip": "74834L100",
+      "shares": 237270,
+      "value": 25395008.1,
+      "pctOfPortfolio": 238.73657937
+    },
+    {
+      "name": "US BANCORP",
+      "cusip": "902973304",
+      "shares": 684850,
+      "value": 37899599,
+      "pctOfPortfolio": 356.2913069
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 574505,
+      "value": 78431422.6,
+      "pctOfPortfolio": 737.32796119
+    },
+    {
+      "name": "DIDI CHUXING",
+      "cusip": "931KKS908",
+      "shares": 91609,
+      "value": 4665838.75,
+      "pctOfPortfolio": 43.86320251
+    },
+    {
+      "name": "WELLS FARGO + CO",
+      "cusip": "949746101",
+      "shares": 1192422,
+      "value": 60145765.68,
+      "pctOfPortfolio": 565.42586265
+    },
+    {
+      "name": "AIA GROUP LTD",
+      "cusip": "B4TX8S909",
+      "shares": 1168970,
+      "value": 11044340.62,
+      "pctOfPortfolio": 103.82702343000001
+    },
+    {
+      "name": "PROSUS NV",
+      "cusip": "BJDS7L900",
+      "shares": 84630,
+      "value": 6212532.14,
+      "pctOfPortfolio": 58.40355185
+    },
+    {
+      "name": "FERGUSON PLC",
+      "cusip": "BJVNSS903",
+      "shares": 232640,
+      "value": 17002360.24,
+      "pctOfPortfolio": 159.83792204
+    },
+    {
+      "name": "ADIENT PLC",
+      "cusip": "G0084W101",
+      "shares": 786989,
+      "value": 18069267.44,
+      "pctOfPortfolio": 169.86783715
+    },
+    {
+      "name": "ASAC II LP UNIT SEALED",
+      "cusip": "AC106TW75",
+      "shares": 407313.049,
+      "value": 422057.78,
+      "pctOfPortfolio": 3.96773375
+    },
+    {
+      "name": "DIDI CHUXING",
+      "cusip": "AC10FSQN9",
+      "shares": 524409,
+      "value": 26709251.63,
+      "pctOfPortfolio": 251.09168489
+    }
+  ]
+}

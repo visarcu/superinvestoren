@@ -1,0 +1,85 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-14",
+  "period": "2023-11-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 50000,
+      "value": 4337000000
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 2500,
+      "value": 7709875000
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 1500,
+      "value": 4625925000
+    },
+    {
+      "name": "CRESCENT ENERGY COMPANY",
+      "cusip": "44952J104",
+      "shares": 200000,
+      "value": 2528000000
+    },
+    {
+      "name": "EURONAV NV",
+      "cusip": "B38564108",
+      "shares": 250000,
+      "value": 4107500000
+    },
+    {
+      "name": "HUDSON PAC PPTYS INC",
+      "cusip": "444097109",
+      "shares": 400000,
+      "value": 2660000000
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287523",
+      "shares": 100000,
+      "value": 47365000000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 125000,
+      "value": 3641250000
+    },
+    {
+      "name": "NEXSTAR MEDIA GROUP INC",
+      "cusip": "65336K103",
+      "shares": 48651,
+      "value": 6975094000
+    },
+    {
+      "name": "SAFE BULKERS INC",
+      "cusip": "Y7388L103",
+      "shares": 300000,
+      "value": 972000000
+    },
+    {
+      "name": "STAR BULK CARRIERS CORP.",
+      "cusip": "Y8162K204",
+      "shares": 250000,
+      "value": 4820000000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 400000,
+      "value": 7652000000
+    },
+    {
+      "name": "THE REALREAL INC",
+      "cusip": "88339P101",
+      "shares": 750000,
+      "value": 1582500000
+    }
+  ]
+}

@@ -1,4 +1,91 @@
 {
+  "form": "13F-HR",
   "date": "2013-08-15",
-  "positions": []
+  "period": "2013-08-15",
+  "positions": [
+    {
+      "name": "ADOBE SYSTEMS INC ",
+      "cusip": "00724F101",
+      "shares": 31303362,
+      "value": 1426181000
+    },
+    {
+      "name": "CR BARD INC",
+      "cusip": "67383109",
+      "shares": 758704,
+      "value": 82456000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 32001464,
+      "value": 747554000
+    },
+    {
+      "name": "CF INDUSTRIES HOLDINGS INC",
+      "cusip": "125269100",
+      "shares": 1000000,
+      "value": 171500000
+    },
+    {
+      "name": "GARDNER DENVER INC",
+      "cusip": "365558105",
+      "shares": 643400,
+      "value": 48371000
+    },
+    {
+      "name": "KAR AUCTION SERVICES INC",
+      "cusip": "48238T109",
+      "shares": 803628,
+      "value": 18371000
+    },
+    {
+      "name": "MICROS SYSTEMS INC",
+      "cusip": "594901100",
+      "shares": 6697308,
+      "value": 288989000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 57750000,
+      "value": 1994108000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 28907623,
+      "value": 1668837000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 6200622,
+      "value": 206295000
+    },
+    {
+      "name": "ROCKWELL COLLINS INC ",
+      "cusip": "774341101",
+      "shares": 11180009,
+      "value": 708924000
+    },
+    {
+      "name": "TECHNE CORP",
+      "cusip": "878377100",
+      "shares": 62004,
+      "value": 4283000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 18923877,
+      "value": 1628967000
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC ",
+      "cusip": "G96666105",
+      "shares": 18214700,
+      "value": 742795000
+    }
+  ]
 }

@@ -1,4 +1,121 @@
 {
+  "form": "13F-HR",
   "date": "2018-11-14",
-  "positions": []
+  "period": "2018-11-14",
+  "positions": [
+    {
+      "name": "AES CORP",
+      "cusip": "00130H105",
+      "shares": 1529500,
+      "value": 21413000
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 6082646,
+      "value": 1436478000
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 4614787,
+      "value": 83528000
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 5224910,
+      "value": 363654000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 18033149,
+      "value": 462911000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 19916923,
+      "value": 878336000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 26225500,
+      "value": 1881417000
+    },
+    {
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 2200000,
+      "value": 83028000
+    },
+    {
+      "name": "ENVIVA PARTNERS LP",
+      "cusip": "29414J107",
+      "shares": 692029,
+      "value": 22007000
+    },
+    {
+      "name": "HAWAIIAN ELEC INDUSTRIES",
+      "cusip": "419870100",
+      "shares": 1197261,
+      "value": 42611000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 49700000,
+      "value": 1355319000
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HLDGS I",
+      "cusip": "535219109",
+      "shares": 1691300,
+      "value": 25150000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 20810470,
+      "value": 969144000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 26396565,
+      "value": 1249877000
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 39184254,
+      "value": 436904000
+    },
+    {
+      "name": "STRATEGIC ED INC",
+      "cusip": "86272C103",
+      "shares": 242141,
+      "value": 33181000
+    },
+    {
+      "name": "SYMANTEC CORP",
+      "cusip": "871503108",
+      "shares": 500000,
+      "value": 10640000
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 21407891,
+      "value": 784385000
+    },
+    {
+      "name": "UNIFI INC",
+      "cusip": "904677200",
+      "shares": 925000,
+      "value": 26205000
+    }
+  ]
 }

@@ -8,7 +8,7 @@ export const investorCiks: Record<string,string> = {
   // bereits vorhandene
   buffett: '0001067983',
   ackman:  '0001336528',   
-  // burry:   '0001768023',  MANUELL
+   burry:   '0001649339', // MANUELL
  // marks:  0000949509, MANUELL!
   pabrai: '0001549575',
   greenhaven: '0000846222',
@@ -75,30 +75,30 @@ donaldsmith: '0000814375',
 meritage: '0001427119',
 vulcanvalue: '0001556785',
 kahn: '0001039565',
+nygren:           '0000872323',  
 
 
 //NportP
-  // 'bill-nygren':           'XXX',    // Bill Nygren – Oakmark Select Fund
- // 'dodgecox':             '0000029440',    // Dodge & Cox
-   // 'john-rogers':           'XXX',    // John Rogers – Ariel Appreciation Fund
-      // cunniff:         '0002049493',    // Ruane Cunniff – Sequoia Fund //NPORT
-     // 'mason-hawkins':         '0000806636',    // Mason Hawkins – Longleaf Partners
+dodgecox:             '0000029440',    // Dodge & Cox
+rogers:           '0000798365',    // John Rogers – Ariel Appreciation Fund
+cunniff:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
+hawkins:         '0000806636',    // Mason Hawkins – Longleaf Partners
        // 'hillman-value':         'XXX',    // Hillman Value Fund
-         // 'wallace-weitz':         'XXX',    // Wallace Weitz – Weitz Large Cap Equity Fund
+        'weitz':         '0001257927',    // Wallace Weitz – Weitz Large Cap Equity Fund
 
  // 0 einträge
 triplefrond: '0001454502',    // Triple Frond Partners
-lee: '0001426749',
+//lee: '0001426749',
 whitman:  '0001099281'  ,  // Third Avenue Management
 greenbrier:'0001532262',
 lilu:  '0001709323', //MANUELL
 peltz: '0001345471',
 ubben: '0001418814', // 0000
 marks:  '0000949509',// MANUELL!!,
-
+davis:     '0001316506',    // Christopher Davis – Davis Advisors NPORT P
   // neu hinzuzufügende Investoren:
 
-  // 'david-katz':            'XXX',    // David Katz – Matrix Asset Advisors
+ katz:         '0000720498',    // David Katz – Matrix Asset Advisors
 
 
   // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
@@ -156,7 +156,7 @@ marks:  '0000949509',// MANUELL!!,
 
              
 
-  //'torray-funds':          'XXX',    // Torray Funds // NPPORT
+  torray:          '0001618627',    // Torray Funds // NPPORT
 
  
 

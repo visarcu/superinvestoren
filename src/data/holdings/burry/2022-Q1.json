@@ -1,0 +1,43 @@
+{
+  "form": "13F-HR",
+  "date": "2022-02-14",
+  "period": "2022-02-14",
+  "positions": [
+    {
+      "name": "AEA-BRIDGES IMPACT CORP",
+      "cusip": "G01046104",
+      "shares": 1000100,
+      "value": 9991000
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 300000,
+      "value": 18705000
+    },
+    {
+      "name": "CORECIVIC INC",
+      "cusip": "21871N101",
+      "shares": 555427,
+      "value": 5538000
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620R303",
+      "shares": 325000,
+      "value": 16959000
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 80000,
+      "value": 16678000
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 850000,
+      "value": 6588000
+    }
+  ]
+}

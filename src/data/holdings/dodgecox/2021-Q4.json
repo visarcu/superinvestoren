@@ -1,4 +1,511 @@
 {
+  "form": "NPORT-P",
   "date": "2021-11-26",
-  "positions": []
+  "period": "2021-11-26",
+  "positions": [
+    {
+      "name": "Aegon NV",
+      "cusip": "007924103",
+      "shares": 80036842,
+      "value": 407387525780,
+      "pctOfPortfolio": 44.64713944
+    },
+    {
+      "name": "Alnylam Pharmaceuticals, Inc.",
+      "cusip": "02043Q107",
+      "shares": 3109177,
+      "value": 587043709370,
+      "pctOfPortfolio": 64.33633995
+    },
+    {
+      "name": "Alphabet, Inc.",
+      "cusip": "02079K107",
+      "shares": 1280953,
+      "value": 3414136840430,
+      "pctOfPortfolio": 374.16816650000004
+    },
+    {
+      "name": "Alphabet, Inc.",
+      "cusip": "02079K305",
+      "shares": 63300,
+      "value": 169233816000,
+      "pctOfPortfolio": 18.54697383
+    },
+    {
+      "name": "American Express Co.",
+      "cusip": "025816109",
+      "shares": 8357200,
+      "value": 1400081716000,
+      "pctOfPortfolio": 153.4402495
+    },
+    {
+      "name": "APA Corp.",
+      "cusip": "03743Q108",
+      "shares": 9813899,
+      "value": 210311855570,
+      "pctOfPortfolio": 23.04887152
+    },
+    {
+      "name": "Baker Hughes Co.",
+      "cusip": "05722G100",
+      "shares": 33081750,
+      "value": 818111677500,
+      "pctOfPortfolio": 89.65995233000001
+    },
+    {
+      "name": "Bank of America Corp.",
+      "cusip": "060505104",
+      "shares": 46581600,
+      "value": 1977388920000,
+      "pctOfPortfolio": 216.70952900999998
+    },
+    {
+      "name": "Bank of New York Mellon Corp.",
+      "cusip": "064058100",
+      "shares": 39156624,
+      "value": 2029879388160,
+      "pctOfPortfolio": 222.4621579
+    },
+    {
+      "name": "BioMarin Pharmaceutical, Inc.",
+      "cusip": "09061G101",
+      "shares": 8986725,
+      "value": 694583975250,
+      "pctOfPortfolio": 76.12208434
+    },
+    {
+      "name": "Booking Holdings, Inc.",
+      "cusip": "09857L108",
+      "shares": 437280,
+      "value": 1038045873600,
+      "pctOfPortfolio": 113.76337253999999
+    },
+    {
+      "name": "Brighthouse Financial, Inc.",
+      "cusip": "10922N103",
+      "shares": 6648863,
+      "value": 300728073490,
+      "pctOfPortfolio": 32.95792674
+    },
+    {
+      "name": "Bristol-Myers Squibb Co.",
+      "cusip": "110122108",
+      "shares": 18197339,
+      "value": 1076736548630.0001,
+      "pctOfPortfolio": 118.00362992
+    },
+    {
+      "name": "Cigna Corp.",
+      "cusip": "125523100",
+      "shares": 11306872,
+      "value": 2263183499520,
+      "pctOfPortfolio": 248.03083768
+    },
+    {
+      "name": "CVS Health Corp.",
+      "cusip": "126650100",
+      "shares": 9736400,
+      "value": 826230904000,
+      "pctOfPortfolio": 90.54976906
+    },
+    {
+      "name": "Capital One Financial Corp.",
+      "cusip": "14040H105",
+      "shares": 22222713,
+      "value": 3599412824610,
+      "pctOfPortfolio": 394.47326221000003
+    },
+    {
+      "name": "Carrier Global Corp.",
+      "cusip": "14448C104",
+      "shares": 12957879,
+      "value": 670699817040,
+      "pctOfPortfolio": 73.50452912
+    },
+    {
+      "name": "Celanese Corp.",
+      "cusip": "150870103",
+      "shares": 4607198,
+      "value": 694028306720,
+      "pctOfPortfolio": 76.06118652
+    },
+    {
+      "name": "Charter Communications, Inc.",
+      "cusip": "16119P108",
+      "shares": 3194086,
+      "value": 2323889210160,
+      "pctOfPortfolio": 254.68380606
+    },
+    {
+      "name": "Cisco Systems, Inc.",
+      "cusip": "17275R102",
+      "shares": 31080187,
+      "value": 1691694578410,
+      "pctOfPortfolio": 185.39920579
+    },
+    {
+      "name": "Cognizant Technology Solutions Corp.",
+      "cusip": "192446102",
+      "shares": 19158077,
+      "value": 1421720894170,
+      "pctOfPortfolio": 155.81176886
+    },
+    {
+      "name": "Comcast Corp.",
+      "cusip": "20030N101",
+      "shares": 47521894,
+      "value": 2657899531420,
+      "pctOfPortfolio": 291.28926018
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 15011358,
+      "value": 1017319731660,
+      "pctOfPortfolio": 111.49191626999999
+    },
+    {
+      "name": "Dell Technologies, Inc.",
+      "cusip": "24703L202",
+      "shares": 22181217,
+      "value": 2307733816680,
+      "pctOfPortfolio": 252.9132754
+    },
+    {
+      "name": "DISH Network Corp.",
+      "cusip": "25470M109",
+      "shares": 24767964,
+      "value": 1076415715440,
+      "pctOfPortfolio": 117.96846859000001
+    },
+    {
+      "name": "Elanco Animal Health, Inc.",
+      "cusip": "28414H103",
+      "shares": 2052527,
+      "value": 65455086030,
+      "pctOfPortfolio": 7.17347039
+    },
+    {
+      "name": "Facebook, Inc.",
+      "cusip": "30303M102",
+      "shares": 2475000,
+      "value": 839990250000,
+      "pctOfPortfolio": 92.05770782
+    },
+    {
+      "name": "FedEx Corp.",
+      "cusip": "31428X106",
+      "shares": 8495262,
+      "value": 1862926003980,
+      "pctOfPortfolio": 204.16510521
+    },
+    {
+      "name": "Fiserv, Inc.",
+      "cusip": "337738108",
+      "shares": 16058900,
+      "value": 1742390650000,
+      "pctOfPortfolio": 190.95517998
+    },
+    {
+      "name": "Fox Corp.",
+      "cusip": "35137L105",
+      "shares": 30447575,
+      "value": 1221252233250,
+      "pctOfPortfolio": 133.84165026
+    },
+    {
+      "name": "Fox Corp.",
+      "cusip": "35137L204",
+      "shares": 8640633,
+      "value": 320740296960,
+      "pctOfPortfolio": 35.15114199
+    },
+    {
+      "name": "The Gap, Inc.",
+      "cusip": "364760108",
+      "shares": 16248400,
+      "value": 368838680000,
+      "pctOfPortfolio": 40.42242566
+    },
+    {
+      "name": "Gilead Sciences, Inc.",
+      "cusip": "375558103",
+      "shares": 25138812,
+      "value": 1755946018200,
+      "pctOfPortfolio": 192.44076403999998
+    },
+    {
+      "name": "GlaxoSmithKline PLC",
+      "cusip": "37733W105",
+      "shares": 58806872,
+      "value": 2247010579120,
+      "pctOfPortfolio": 246.25838617000002
+    },
+    {
+      "name": "Goldman Sachs Group, Inc.",
+      "cusip": "38141G104",
+      "shares": 4791700,
+      "value": 1811406351000,
+      "pctOfPortfolio": 198.51887163
+    },
+    {
+      "name": "HP Inc.",
+      "cusip": "40434L105",
+      "shares": 72926037,
+      "value": 1995256372320,
+      "pctOfPortfolio": 218.66769066999998
+    },
+    {
+      "name": "Halliburton Co.",
+      "cusip": "406216101",
+      "shares": 6548867,
+      "value": 141586504540,
+      "pctOfPortfolio": 15.51700043
+    },
+    {
+      "name": "Hess Corp.",
+      "cusip": "42809H107",
+      "shares": 7934882,
+      "value": 619793633020,
+      "pctOfPortfolio": 67.92552792
+    },
+    {
+      "name": "Hewlett Packard Enterprise Co.",
+      "cusip": "42824C109",
+      "shares": 76957049,
+      "value": 1096637948250,
+      "pctOfPortfolio": 120.18469956
+    },
+    {
+      "name": "Honda Motor Co., Ltd.",
+      "cusip": "438128308",
+      "shares": 29518500,
+      "value": 905332395000,
+      "pctOfPortfolio": 99.21880057999999
+    },
+    {
+      "name": "Incyte Corp.",
+      "cusip": "45337C102",
+      "shares": 9830300,
+      "value": 676128034000,
+      "pctOfPortfolio": 74.09942794999999
+    },
+    {
+      "name": "Juniper Networks, Inc.",
+      "cusip": "48203R104",
+      "shares": 29015165,
+      "value": 798497340800,
+      "pctOfPortfolio": 87.510343
+    },
+    {
+      "name": "Lincoln National Corp.",
+      "cusip": "534187109",
+      "shares": 3466980,
+      "value": 238354875000,
+      "pctOfPortfolio": 26.12221206
+    },
+    {
+      "name": "MetLife, Inc.",
+      "cusip": "59156R108",
+      "shares": 40943600,
+      "value": 2527448428000,
+      "pctOfPortfolio": 276.99263047
+    },
+    {
+      "name": "Micro Focus International PLC",
+      "cusip": "594837403",
+      "shares": 22724028,
+      "value": 123618712320,
+      "pctOfPortfolio": 13.547842130000001
+    },
+    {
+      "name": "Microsoft Corp.",
+      "cusip": "594918104",
+      "shares": 7375000,
+      "value": 2079160000000,
+      "pctOfPortfolio": 227.8630065
+    },
+    {
+      "name": "Microchip Technology, Inc.",
+      "cusip": "595017104",
+      "shares": 10214033,
+      "value": 1567751925170,
+      "pctOfPortfolio": 171.81586175
+    },
+    {
+      "name": "Molson Coors Beverage Company",
+      "cusip": "60871R209",
+      "shares": 18164725,
+      "value": 842479945500,
+      "pctOfPortfolio": 92.33056297
+    },
+    {
+      "name": "News Corp.",
+      "cusip": "65249B109",
+      "shares": 7963490,
+      "value": 187380919700,
+      "pctOfPortfolio": 20.53578355
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "66987V109",
+      "shares": 20013900,
+      "value": 1636736742000,
+      "pctOfPortfolio": 179.37616867999998
+    },
+    {
+      "name": "Occidental Petroleum Corp.",
+      "cusip": "674599105",
+      "shares": 70445026,
+      "value": 2083763869080,
+      "pctOfPortfolio": 228.36756191999999
+    },
+    {
+      "name": "Occidental Petroleum Corp.",
+      "cusip": "674599162",
+      "shares": 9394990,
+      "value": 111330631500,
+      "pctOfPortfolio": 12.20114489
+    },
+    {
+      "name": "Otis Worldwide Corp.",
+      "cusip": "68902V107",
+      "shares": 4313250,
+      "value": 354894210000,
+      "pctOfPortfolio": 38.89419846
+    },
+    {
+      "name": "Qurate Retail, Inc.",
+      "cusip": "74915M100",
+      "shares": 33190514,
+      "value": 338211337660,
+      "pctOfPortfolio": 37.0658594
+    },
+    {
+      "name": "Raytheon Technologies Corp.",
+      "cusip": "75513E101",
+      "shares": 24503500,
+      "value": 2106320860000,
+      "pctOfPortfolio": 230.83966784999998
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "771195104",
+      "shares": 25137499,
+      "value": 1143002079530,
+      "pctOfPortfolio": 125.26592002000001
+    },
+    {
+      "name": "State Street Institutional US",
+      "cusip": "N/A",
+      "shares": 370018435.38,
+      "value": 370018435380,
+      "pctOfPortfolio": 40.55171951
+    },
+    {
+      "name": "Sanofi",
+      "cusip": "80105N105",
+      "shares": 65365828,
+      "value": 3151286567880,
+      "pctOfPortfolio": 345.36141119
+    },
+    {
+      "name": "Schlumberger, Ltd.",
+      "cusip": "806857108",
+      "shares": 33058645,
+      "value": 979858237800,
+      "pctOfPortfolio": 107.3863695
+    },
+    {
+      "name": "Charles Schwab Corp.",
+      "cusip": "808513105",
+      "shares": 48399300,
+      "value": 3525405012000,
+      "pctOfPortfolio": 386.36246617
+    },
+    {
+      "name": "State Street Corp.",
+      "cusip": "857477103",
+      "shares": 15885200,
+      "value": 1345794144000,
+      "pctOfPortfolio": 147.4906692
+    },
+    {
+      "name": "Fixed Income Clearing Corporation",
+      "cusip": "N/A",
+      "shares": 566084000,
+      "value": 566084000000,
+      "pctOfPortfolio": 62.03928614
+    },
+    {
+      "name": "T-Mobile U.S., Inc.",
+      "cusip": "872590104",
+      "shares": 7712137,
+      "value": 985302623120,
+      "pctOfPortfolio": 107.98304027
+    },
+    {
+      "name": "Truist Financial Corp.",
+      "cusip": "89832Q109",
+      "shares": 9628544,
+      "value": 564714105600,
+      "pctOfPortfolio": 61.889154229999995
+    },
+    {
+      "name": "UnitedHealth Group, Inc.",
+      "cusip": "91324P102",
+      "shares": 2582860,
+      "value": 1009226716400,
+      "pctOfPortfolio": 110.60497212
+    },
+    {
+      "name": "VMware, Inc.",
+      "cusip": "928563402",
+      "shares": 5207000,
+      "value": 774280900000,
+      "pctOfPortfolio": 84.85637168
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "949746101",
+      "shares": 87699641,
+      "value": 4070140338810,
+      "pctOfPortfolio": 446.06207049
+    },
+    {
+      "name": "The Williams Companies, Inc.",
+      "cusip": "969457100",
+      "shares": 50955900,
+      "value": 1321796046000,
+      "pctOfPortfolio": 144.8606269
+    },
+    {
+      "name": "Johnson Controls International PLC",
+      "cusip": "G51502105",
+      "shares": 33801317,
+      "value": 2301193661360,
+      "pctOfPortfolio": 252.19651503999998
+    },
+    {
+      "name": "Medtronic PLC",
+      "cusip": "G5960L103",
+      "shares": 3051000,
+      "value": 382442850000,
+      "pctOfPortfolio": 41.91335809
+    },
+    {
+      "name": "TE Connectivity, Ltd.",
+      "cusip": "H84989104",
+      "shares": 8813775,
+      "value": 1209426205500,
+      "pctOfPortfolio": 132.54559116
+    },
+    {
+      "name": "LyondellBasell Industries NV",
+      "cusip": "N53745100",
+      "shares": 1383363,
+      "value": 129828617550,
+      "pctOfPortfolio": 14.22840913
+    }
+  ]
 }

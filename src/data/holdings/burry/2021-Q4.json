@@ -1,0 +1,43 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-15",
+  "period": "2021-11-15",
+  "positions": [
+    {
+      "name": "CORECIVIC INC",
+      "cusip": "21871N101",
+      "shares": 412126,
+      "value": 3668000
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 200000,
+      "value": 16972000
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 1158820,
+      "value": 8656000
+    },
+    {
+      "name": "LOCKHEED MARTIN CORP",
+      "cusip": "539830109",
+      "shares": 30000,
+      "value": 10353000
+    },
+    {
+      "name": "NOW INC",
+      "cusip": "67011P100",
+      "shares": 150000,
+      "value": 1148000
+    },
+    {
+      "name": "SCYNEXIS INC",
+      "cusip": "811292200",
+      "shares": 174030,
+      "value": 922000
+    }
+  ]
+}

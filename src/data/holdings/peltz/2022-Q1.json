@@ -1,4 +1,67 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-11",
-  "positions": []
+  "period": "2022-02-11",
+  "positions": [
+    {
+      "name": "Comcast Corp. New",
+      "cusip": "20030N101",
+      "shares": 19991416,
+      "value": 1006168000
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 6661287,
+      "value": 1182383000
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 4730694,
+      "value": 839701000
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4026113,
+      "value": 380347000
+    },
+    {
+      "name": "Invesco Ltd.",
+      "cusip": "G491BT108",
+      "shares": 45473859,
+      "value": 1182320000
+    },
+    {
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y214",
+      "shares": 28272648,
+      "value": 1185755000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 450184,
+      "value": 29852000
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 237384,
+      "value": 38831000
+    },
+    {
+      "name": "Sysco Corp.",
+      "cusip": "871829107",
+      "shares": 12853962,
+      "value": 1009679000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 25333339,
+      "value": 604200000
+    }
+  ]
 }

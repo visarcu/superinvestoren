@@ -76,6 +76,7 @@ import ackman_2025_Q2 from './ackman/2025-Q2.json'
 import marks_2024_Q3 from './marks/2024-Q3.json'
 import marks_2024_Q4 from './marks/2024-Q4.json'
 import marks_2025_Q1 from './marks/2025-Q1.json'
+import marks_2025_Q2 from './marks/2025-Q2.json'
 
 
 //akre
@@ -121,15 +122,18 @@ import gregalexander_2025_Q2 from './gregalexander/2025-Q2.json'
 //Terry Smith
 import smith_2024_Q4 from './smith/2024-Q4.json'
 import smith_2025_Q1 from './smith/2025-Q1.json'
+import smith_2025_Q2 from './smith/2025-Q2.json'
 
 //Michael Burry
 import burry_2024_Q3 from './burry/2024-Q3.json'
 import burry_2024_Q4 from './burry/2024-Q4.json'
 import burry_2025_Q1 from './burry/2025-Q1.json'
+import burry_2025_Q2 from './burry/2025-Q2.json'
 
 //Li Lu
 import lilu_2024_Q4 from './lilu/2024-Q4.json'
 import lilu_2025_Q1 from './lilu/2025-Q1.json'
+import lilu_2025_Q2 from './lilu/2025-Q2.json'
 
 //Altarock Partners
 import   altarockpartners_2024_Q4 from './altarockpartners/2024-Q4.json'
@@ -139,6 +143,7 @@ import   altarockpartners_2025_Q2 from './altarockpartners/2025-Q2.json'
 //Bill Miller
 import   miller_2024_Q4 from './miller/2024-Q4.json'
 import   miller_2025_Q1 from './miller/2025-Q1.json'
+import   miller_2025_Q2 from './miller/2025-Q2.json'
 
 // Chase Coleman
 import coleman_2024_Q1 from './coleman/2024-Q1.json'
@@ -238,6 +243,7 @@ import cantillon_2024_Q2 from './cantillon/2024-Q2.json'
 import cantillon_2024_Q3 from './cantillon/2024-Q3.json'
 import cantillon_2024_Q4 from './cantillon/2024-Q4.json'
 import cantillon_2025_Q1 from './cantillon/2025-Q1.json'
+import cantillon_2025_Q2 from './cantillon/2025-Q2.json'
 
 //Cantillion Capital Mgmt
 import duan_2024_Q2 from './duan/2024-Q2.json'
@@ -451,6 +457,125 @@ import vulcanvalue_2024_Q3 from './vulcanvalue/2024-Q3.json'
 import vulcanvalue_2024_Q4 from './vulcanvalue/2024-Q4.json'
 import vulcanvalue_2025_Q1 from './vulcanvalue/2025-Q1.json'
 
+//davis
+import davis_2024_Q2 from './davis/2024-Q2.json'
+import davis_2024_Q3 from './davis/2024-Q3.json'
+import davis_2024_Q4 from './davis/2024-Q4.json'
+import davis_2025_Q1 from './davis/2025-Q1.json'
+import davis_2025_Q2 from './davis/2025-Q2.json'
+
+//mairspower
+//import mairspower_2024_Q2 from './mairspower/2024-Q2.json'
+//import mairspower_2024_Q3 from './mairspower/2024-Q3.json'
+import mairspower_2024_Q4 from './mairspower/2024-Q4.json'
+import mairspower_2025_Q1 from './mairspower/2025-Q1.json'
+import mairspower_2025_Q2 from './mairspower/2025-Q2.json'
+
+//nygren
+import nygren_2024_Q2 from './nygren/2024-Q2.json'
+import nygren_2024_Q3 from './nygren/2024-Q3.json'
+import nygren_2024_Q4 from './nygren/2024-Q4.json'
+import nygren_2025_Q1 from './nygren/2025-Q1.json'
+//import nygren_2025_Q2 from './nygren/2025-Q2.json'
+
+//cunniff
+import cunniff_2024_Q2 from './cunniff/2024-Q2.json'
+import cunniff_2024_Q3 from './cunniff/2024-Q3.json'
+import cunniff_2024_Q4 from './cunniff/2024-Q4.json'
+import cunniff_2025_Q1 from './cunniff/2025-Q1.json'
+import cunniff_2025_Q2 from './cunniff/2025-Q2.json'
+
+//hawkins
+import hawkins_2024_Q2 from './hawkins/2024-Q2.json'
+import hawkins_2024_Q3 from './hawkins/2024-Q3.json'
+import hawkins_2024_Q4 from './hawkins/2024-Q4.json'
+import hawkins_2025_Q1 from './hawkins/2025-Q1.json'
+import hawkins_2025_Q2 from './hawkins/2025-Q2.json'
+
+//torray
+import torray_2024_Q2 from './torray/2024-Q2.json'
+import torray_2024_Q3 from './torray/2024-Q3.json'
+import torray_2024_Q4 from './torray/2024-Q4.json'
+import torray_2025_Q1 from './torray/2025-Q1.json'
+import torray_2025_Q2 from './torray/2025-Q2.json'
+
+//rogers
+//import rogers_2024_Q2 from './rogers/2024-Q2.json'
+//import rogers_2024_Q3 from './rogers/2024-Q3.json'
+import rogers_2024_Q4 from './rogers/2024-Q4.json'
+import rogers_2025_Q1 from './rogers/2025-Q1.json'
+import rogers_2025_Q2 from './rogers/2025-Q2.json'
+
+//katz
+//import rogers_2024_Q2 from './rogers/2024-Q2.json'
+//import rogers_2024_Q3 from './rogers/2024-Q3.json'
+import katz_2024_Q4 from './katz/2024-Q4.json'
+import katz_2025_Q1 from './katz/2025-Q1.json'
+//import rogers_2025_Q2 from './rogers/2025-Q2.json'
+
+//klarman
+import klarman_2024_Q2 from './klarman/2024-Q2.json'
+import klarman_2024_Q3 from './klarman/2024-Q3.json'
+import klarman_2024_Q4 from './klarman/2024-Q4.json'
+import klarman_2025_Q1 from './klarman/2025-Q1.json'
+import klarman_2025_Q2 from './klarman/2025-Q2.json'
+
+//spier
+import spier_2024_Q2 from './spier/2024-Q2.json'
+import spier_2024_Q3 from './spier/2024-Q3.json'
+import spier_2024_Q4 from './spier/2024-Q4.json'
+import spier_2025_Q1 from './spier/2025-Q1.json'
+import spier_2025_Q2 from './spier/2025-Q2.json'
+
+//triplefrond
+import triplefrond_2024_Q2 from './triplefrond/2024-Q2.json'
+import triplefrond_2024_Q3 from './triplefrond/2024-Q3.json'
+import triplefrond_2024_Q4 from './triplefrond/2024-Q4.json'
+import triplefrond_2025_Q1 from './triplefrond/2025-Q1.json'
+import triplefrond_2025_Q2 from './triplefrond/2025-Q2.json'
+
+//ubben
+import ubben_2024_Q2 from './ubben/2024-Q2.json'
+import ubben_2024_Q3 from './ubben/2024-Q3.json'
+import ubben_2024_Q4 from './ubben/2024-Q4.json'
+import ubben_2025_Q1 from './ubben/2025-Q1.json'
+import ubben_2025_Q2 from './ubben/2025-Q2.json'
+
+//donaldsmith
+import donaldsmith_2024_Q2 from './donaldsmith/2024-Q2.json'
+import donaldsmith_2024_Q3 from './donaldsmith/2024-Q3.json'
+import donaldsmith_2024_Q4 from './donaldsmith/2024-Q4.json'
+import donaldsmith_2025_Q1 from './donaldsmith/2025-Q1.json'
+import donaldsmith_2025_Q2 from './donaldsmith/2025-Q2.json'
+
+//dodgecox
+import dodgecox_2024_Q2 from './dodgecox/2024-Q2.json'
+import dodgecox_2024_Q3 from './dodgecox/2024-Q3.json'
+import dodgecox_2024_Q4 from './dodgecox/2024-Q4.json'
+import dodgecox_2025_Q1 from './dodgecox/2025-Q1.json'
+import dodgecox_2025_Q2 from './dodgecox/2025-Q2.json'
+
+//whitman
+import whitman_2024_Q2 from './whitman/2024-Q2.json'
+import whitman_2024_Q3 from './whitman/2024-Q3.json'
+import whitman_2024_Q4 from './whitman/2024-Q4.json'
+import whitman_2025_Q1 from './whitman/2025-Q1.json'
+import whitman_2025_Q2 from './whitman/2025-Q2.json'
+
+//greenbrier
+import greenbrier_2024_Q2 from './greenbrier/2024-Q2.json'
+import greenbrier_2024_Q3 from './greenbrier/2024-Q3.json'
+import greenbrier_2024_Q4 from './greenbrier/2024-Q4.json'
+import greenbrier_2025_Q1 from './greenbrier/2025-Q1.json'
+import greenbrier_2025_Q2 from './greenbrier/2025-Q2.json'
+
+//peltz
+import peltz_2024_Q2 from './peltz/2024-Q2.json'
+import peltz_2024_Q3 from './peltz/2024-Q3.json'
+import peltz_2024_Q4 from './peltz/2024-Q4.json'
+import peltz_2025_Q1 from './peltz/2025-Q1.json'
+import peltz_2025_Q2 from './peltz/2025-Q2.json'
+
 
 // … für jeden weiteren Slug analog …
 
@@ -543,6 +668,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: marks_2024_Q3 },
     { quarter: '2024-Q4', data: marks_2024_Q4 },
     { quarter: '2025-Q1', data: marks_2025_Q1 },
+    { quarter: '2025-Q2', data: marks_2025_Q2 },
    
   
    ],
@@ -607,17 +733,20 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    smith: [
     { quarter: '2024-Q4', data: smith_2024_Q4 },
     { quarter: '2025-Q1', data: smith_2025_Q1 },
+    { quarter: '2025-Q2', data: smith_2025_Q2 },
    ],
 
    burry: [
     { quarter: '2024-Q3', data: burry_2024_Q3 },
     { quarter: '2024-Q4', data: burry_2024_Q4 },
     { quarter: '2025-Q1', data: burry_2025_Q1 },
+    { quarter: '2025-Q2', data: burry_2025_Q2 },
    ],
 
     lilu: [
     { quarter: '2024-Q4', data: lilu_2024_Q4 },
     { quarter: '2025-Q1', data: lilu_2025_Q1 },
+    { quarter: '2025-Q2', data: lilu_2025_Q2 },
    ],
 
    altarockpartners: [
@@ -629,6 +758,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    miller: [
     { quarter: '2024-Q4', data: miller_2024_Q4 },
     { quarter: '2025-Q1', data: miller_2025_Q1 },
+    { quarter: '2025-Q2', data: miller_2025_Q2 },
    ],
 
    coleman: [
@@ -734,10 +864,11 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    cantillon: [
-    { quarter: '2024-Q2', data: cantillon_2024_Q2 },
+    { quarter: '2024-Q2', data: cantillon_2024_Q2},
     { quarter: '2024-Q3', data: cantillon_2024_Q3},
     { quarter: '2024-Q4', data: cantillon_2024_Q4},
     { quarter: '2025-Q1', data: cantillon_2025_Q1},
+    { quarter: '2025-Q2', data: cantillon_2025_Q2},
    ],
 
    duan: [
@@ -992,7 +1123,142 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: vulcanvalue_2025_Q1},
    ],
 
+   davis: [
+    { quarter: '2024-Q2', data: davis_2024_Q2},
+    { quarter: '2024-Q3', data: davis_2024_Q3},
+    { quarter: '2024-Q4', data: davis_2024_Q4},
+   { quarter: '2025-Q1', data: davis_2025_Q1},
+   // { quarter: '2025-Q2', data: davis_2025_Q2},
+   ],
 
+   mairspower: [
+    //{ quarter: '2024-Q2', data: mairspower_2024_Q2},
+    //{ quarter: '2024-Q3', data: mairspower_2024_Q3},
+    { quarter: '2024-Q4', data: mairspower_2024_Q4},
+    { quarter: '2025-Q1', data: mairspower_2025_Q1},
+    { quarter: '2025-Q2', data: mairspower_2025_Q2},
+   ],
+
+
+   nygren: [
+    { quarter: '2024-Q2', data: nygren_2024_Q2},
+    { quarter: '2024-Q3', data: nygren_2024_Q3},
+    { quarter: '2024-Q4', data: nygren_2024_Q4},
+    { quarter: '2025-Q1', data: nygren_2025_Q1},
+    //{ quarter: '2025-Q2', data: nygren_2025_Q2},
+   ],
+
+   cunniff: [
+    { quarter: '2024-Q2', data: cunniff_2024_Q2},
+    { quarter: '2024-Q3', data: cunniff_2024_Q3},
+    { quarter: '2024-Q4', data: cunniff_2024_Q4},
+    { quarter: '2025-Q1', data: cunniff_2025_Q1},
+    { quarter: '2025-Q2', data: cunniff_2025_Q2},
+   ],
+
+   hawkins: [
+    { quarter: '2024-Q2', data: hawkins_2024_Q2},
+    { quarter: '2024-Q3', data: hawkins_2024_Q3},
+    { quarter: '2024-Q4', data: hawkins_2024_Q4},
+    { quarter: '2025-Q1', data: hawkins_2025_Q1},
+    //{ quarter: '2025-Q2', data: hawkins_2025_Q2},
+   ],
+
+   torray: [
+    { quarter: '2024-Q2', data: torray_2024_Q2},
+    { quarter: '2024-Q3', data: torray_2024_Q3},
+    { quarter: '2024-Q4', data: torray_2024_Q4},
+    { quarter: '2025-Q1', data: torray_2025_Q1},
+    { quarter: '2025-Q2', data: torray_2025_Q2},
+   ],
+
+   rogers: [
+    //{ quarter: '2024-Q2', data: rogers_2024_Q2},
+    //{ quarter: '2024-Q3', data: rogers_2024_Q3},
+   { quarter: '2024-Q4', data: rogers_2024_Q4},
+    {quarter: '2025-Q1', data: rogers_2025_Q1},
+    //{ quarter: '2025-Q2', data: rogers_2025_Q2},
+   ],
+
+   katz: [
+    //{ quarter: '2024-Q2', data: rogers_2024_Q2},
+    //{ quarter: '2024-Q3', data: rogers_2024_Q3},
+   { quarter: '2024-Q4', data: rogers_2024_Q4},
+    {quarter: '2025-Q1', data: katz_2025_Q1},
+    //{ quarter: '2025-Q2', data: rogers_2025_Q2},
+   ],
+
+   klarman: [
+    { quarter: '2024-Q2', data: klarman_2024_Q2},
+    { quarter: '2024-Q3', data: klarman_2024_Q3},
+    { quarter: '2024-Q4', data: klarman_2024_Q4},
+    { quarter: '2025-Q1', data: klarman_2025_Q1},
+    { quarter: '2025-Q2', data: klarman_2025_Q2},
+   ],
+
+   spier: [
+    { quarter: '2024-Q2', data: spier_2024_Q2},
+    { quarter: '2024-Q3', data: spier_2024_Q3},
+    { quarter: '2024-Q4', data: spier_2024_Q4},
+    { quarter: '2025-Q1', data: spier_2025_Q1},
+    { quarter: '2025-Q2', data: spier_2025_Q2},
+   ],
+
+   triplefrond: [
+    { quarter: '2024-Q2', data: triplefrond_2024_Q2},
+    { quarter: '2024-Q3', data: triplefrond_2024_Q3},
+    { quarter: '2024-Q4', data: triplefrond_2024_Q4},
+    { quarter: '2025-Q1', data: triplefrond_2025_Q1},
+    { quarter: '2025-Q2', data: triplefrond_2025_Q2},
+   ],
+
+   ubben: [
+    { quarter: '2024-Q2', data: ubben_2024_Q2},
+    { quarter: '2024-Q3', data: ubben_2024_Q3},
+    { quarter: '2024-Q4', data: ubben_2024_Q4},
+    { quarter: '2025-Q1', data: ubben_2025_Q1},
+    { quarter: '2025-Q2', data: ubben_2025_Q2},
+   ],
+
+   donaldsmith: [
+    { quarter: '2024-Q2', data: donaldsmith_2024_Q2},
+    { quarter: '2024-Q3', data: donaldsmith_2024_Q3},
+    { quarter: '2024-Q4', data: donaldsmith_2024_Q4},
+    { quarter: '2025-Q1', data: donaldsmith_2025_Q1},
+    { quarter: '2025-Q2', data: donaldsmith_2025_Q2},
+   ],
+
+   dodgecox: [
+    { quarter: '2024-Q2', data: dodgecox_2024_Q2},
+    { quarter: '2024-Q3', data: dodgecox_2024_Q3},
+    { quarter: '2024-Q4', data: dodgecox_2024_Q4},
+    { quarter: '2025-Q1', data: dodgecox_2025_Q1},
+    { quarter: '2025-Q2', data: dodgecox_2025_Q2},
+   ],
+
+   whitman: [
+    { quarter: '2024-Q2', data: whitman_2024_Q2},
+    { quarter: '2024-Q3', data: whitman_2024_Q3},
+    { quarter: '2024-Q4', data: whitman_2024_Q4},
+    { quarter: '2025-Q1', data: whitman_2025_Q1},
+    { quarter: '2025-Q2', data: whitman_2025_Q2},
+   ],
+
+   greenbrier: [
+    { quarter: '2024-Q2', data: greenbrier_2024_Q2},
+    { quarter: '2024-Q3', data: greenbrier_2024_Q3},
+    { quarter: '2024-Q4', data: greenbrier_2024_Q4},
+    { quarter: '2025-Q1', data: greenbrier_2025_Q1},
+    { quarter: '2025-Q2', data: greenbrier_2025_Q2},
+   ],
+
+   peltz: [
+    { quarter: '2024-Q2', data: peltz_2024_Q2},
+    { quarter: '2024-Q3', data: peltz_2024_Q3},
+    { quarter: '2024-Q4', data: peltz_2024_Q4},
+    { quarter: '2025-Q1', data: peltz_2025_Q1},
+    { quarter: '2025-Q2', data: peltz_2025_Q2},
+   ],
 
 
 

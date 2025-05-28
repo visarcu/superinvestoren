@@ -1,71 +1,73 @@
 {
-    "date": "2025-03-31",
-    "positions": [
-      {
-        "name": "ALIBABA GROUP HLDG LTD",
-        "cusip": "01609W102",
-        "shares": 200000,
-        "value": 21224000
-      },
-      {
-        "name": "ALIBABA GROUP HLDG LTD",
-        "cusip": "01609W102",
-        "shares": 168900,
-        "value": 17923668
-      },
-      {
-        "name": "AMERICAN COASTAL INS CORP",
-        "cusip": "910710102",
-        "shares": 100000,
-        "value": 1127000
-      },
-      {
-        "name": "BAIDU INC",
-        "cusip": "056752108",
-        "shares": 125000,
-        "value": 13161250
-      },
-      {
-        "name": "BAIDU INC",
-        "cusip": "056752108",
-        "shares": 83300,
-        "value": 8770657
-      },
-      {
-        "name": "JD.COM INC",
-        "cusip": "47215P106",
-        "shares": 500000,
-        "value": 20000000
-      },
-      {
-        "name": "JD.COM INC",
-        "cusip": "47215P106",
-        "shares": 500000,
-        "value": 20000000
-      },
-      {
-        "name": "MOLINA HEALTHCARE INC",
-        "cusip": "60855R100",
-        "shares": 30000,
-        "value": 10336800
-      },
-      {
-        "name": "OLAPLEX HLDGS INC",
-        "cusip": "679369108",
-        "shares": 1000000,
-        "value": 2350000
-      },
-      {
-        "name": "SHIFT4 PMTS INC",
-        "cusip": "82452J109",
-        "shares": 150000,
-        "value": 13290000
-      },
-      {
-        "name": "THE REALREAL INC",
-        "cusip": "88339P101",
-        "shares": 500000,
-        "value": 1570000
-      }
-    ]
-  }
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 200000,
+      "value": 21224000000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 168900,
+      "value": 17923668000
+    },
+    {
+      "name": "AMERICAN COASTAL INS CORP",
+      "cusip": "910710102",
+      "shares": 100000,
+      "value": 1127000000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 125000,
+      "value": 13161250000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 83300,
+      "value": 8770657000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 500000,
+      "value": 20000000000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 500000,
+      "value": 20000000000
+    },
+    {
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 30000,
+      "value": 10336800000
+    },
+    {
+      "name": "OLAPLEX HLDGS INC",
+      "cusip": "679369108",
+      "shares": 1000000,
+      "value": 2350000000
+    },
+    {
+      "name": "SHIFT4 PMTS INC",
+      "cusip": "82452J109",
+      "shares": 150000,
+      "value": 13290000000
+    },
+    {
+      "name": "THE REALREAL INC",
+      "cusip": "88339P101",
+      "shares": 500000,
+      "value": 1570000000
+    }
+  ]
+}

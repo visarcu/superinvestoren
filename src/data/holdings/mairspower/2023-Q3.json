@@ -1,0 +1,189 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-08-28",
+  "period": "2023-08-28",
+  "positions": [
+    {
+      "name": "AvalonBay Communities Inc",
+      "cusip": "053484101",
+      "shares": 10466,
+      "value": 1980899820,
+      "pctOfPortfolio": 832.47933626
+    },
+    {
+      "name": "Rexford Industrial Realty Inc",
+      "cusip": "76169C100",
+      "shares": 13000,
+      "value": 678860000,
+      "pctOfPortfolio": 285.29303527
+    },
+    {
+      "name": "American Tower Corp",
+      "cusip": "03027X100",
+      "shares": 5271,
+      "value": 1022257740,
+      "pctOfPortfolio": 429.60700803
+    },
+    {
+      "name": "Crown Castle Inc",
+      "cusip": "22822V101",
+      "shares": 5461,
+      "value": 622226340,
+      "pctOfPortfolio": 261.49256277
+    },
+    {
+      "name": "Equinix Inc",
+      "cusip": "29444U700",
+      "shares": 2210,
+      "value": 1732507400,
+      "pctOfPortfolio": 728.09164596
+    },
+    {
+      "name": "Equity Residential",
+      "cusip": "29476L107",
+      "shares": 7500,
+      "value": 494775000,
+      "pctOfPortfolio": 207.93073907
+    },
+    {
+      "name": "Invitation Homes Inc",
+      "cusip": "46187W107",
+      "shares": 17234,
+      "value": 592849600,
+      "pctOfPortfolio": 249.14689604000003
+    },
+    {
+      "name": "US BANK MMDA - USBFS 2",
+      "cusip": "N/A",
+      "shares": 502403.34,
+      "value": 502403340,
+      "pctOfPortfolio": 211.13657278
+    },
+    {
+      "name": "Hudson Pacific Properties Inc",
+      "cusip": "444097109",
+      "shares": 34630,
+      "value": 146138600,
+      "pctOfPortfolio": 61.415203080000005
+    },
+    {
+      "name": "Marriott International Inc/MD",
+      "cusip": "571903202",
+      "shares": 650,
+      "value": 119398500,
+      "pctOfPortfolio": 50.177592540000006
+    },
+    {
+      "name": "Public Storage",
+      "cusip": "74460D109",
+      "shares": 6092,
+      "value": 1778132960,
+      "pctOfPortfolio": 747.2659300500001
+    },
+    {
+      "name": "VICI Properties Inc",
+      "cusip": "925652109",
+      "shares": 24746,
+      "value": 777766780,
+      "pctOfPortfolio": 326.85891848
+    },
+    {
+      "name": "Alexandria Real Estate Equitie",
+      "cusip": "015271109",
+      "shares": 10130,
+      "value": 1149653700,
+      "pctOfPortfolio": 483.14555812000003
+    },
+    {
+      "name": "American Homes 4 Rent",
+      "cusip": "02665T306",
+      "shares": 8911,
+      "value": 315894950,
+      "pctOfPortfolio": 132.75583937
+    },
+    {
+      "name": "Equity LifeStyle Properties In",
+      "cusip": "29472R108",
+      "shares": 9357,
+      "value": 625889730,
+      "pctOfPortfolio": 263.03211386
+    },
+    {
+      "name": "Essex Property Trust Inc",
+      "cusip": "297178105",
+      "shares": 6749,
+      "value": 1581290700,
+      "pctOfPortfolio": 664.54235549
+    },
+    {
+      "name": "Sun Communities Inc",
+      "cusip": "866674104",
+      "shares": 5113,
+      "value": 667041980,
+      "pctOfPortfolio": 280.32647545
+    },
+    {
+      "name": "SBA Communications Corp",
+      "cusip": "78410G104",
+      "shares": 2600,
+      "value": 602576000,
+      "pctOfPortfolio": 253.23444601
+    },
+    {
+      "name": "Simon Property Group Inc",
+      "cusip": "828806109",
+      "shares": 6631,
+      "value": 765747880,
+      "pctOfPortfolio": 321.80793822
+    },
+    {
+      "name": "Tricon Residential Inc",
+      "cusip": "89612W102",
+      "shares": 99500,
+      "value": 876595000,
+      "pctOfPortfolio": 368.3917866
+    },
+    {
+      "name": "Welltower Inc",
+      "cusip": "95040Q104",
+      "shares": 6200,
+      "value": 501518000,
+      "pctOfPortfolio": 210.76450588000003
+    },
+    {
+      "name": "Hilton Worldwide Holdings Inc",
+      "cusip": "43300A203",
+      "shares": 6657,
+      "value": 968926350,
+      "pctOfPortfolio": 407.19432482
+    },
+    {
+      "name": "Prologis Inc",
+      "cusip": "74340W103",
+      "shares": 23664,
+      "value": 2901916320,
+      "pctOfPortfolio": 1219.53939698
+    },
+    {
+      "name": "Extra Space Storage Inc",
+      "cusip": "30225T102",
+      "shares": 8786,
+      "value": 1307796100,
+      "pctOfPortfolio": 549.60539564
+    },
+    {
+      "name": "HUDSON PACIFIC PROPERTIE",
+      "cusip": "444097307",
+      "shares": 6500,
+      "value": 60840000,
+      "pctOfPortfolio": 25.56820002
+    },
+    {
+      "name": "Mid-America Apartment Communit",
+      "cusip": "59522J103",
+      "shares": 5550,
+      "value": 842823000,
+      "pctOfPortfolio": 354.19899812
+    }
+  ]
+}

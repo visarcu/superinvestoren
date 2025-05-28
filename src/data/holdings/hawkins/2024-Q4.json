@@ -1,0 +1,140 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-11-25",
+  "period": "2024-11-25",
+  "positions": [
+    {
+      "name": "Affiliated Managers Group, Inc.",
+      "cusip": "008252108",
+      "shares": 440155,
+      "value": 78259559000,
+      "pctOfPortfolio": 576.1453554953
+    },
+    {
+      "name": "RTX Corp.",
+      "cusip": "75513E101",
+      "shares": 450782,
+      "value": 54616747120,
+      "pctOfPortfolio": 402.0874329927
+    },
+    {
+      "name": "Fidelity National Information Services Inc",
+      "cusip": "31620M106",
+      "shares": 929871,
+      "value": 77876696250,
+      "pctOfPortfolio": 573.3267273555
+    },
+    {
+      "name": "Hyatt Hotels Corporation",
+      "cusip": "448579102",
+      "shares": 227601,
+      "value": 34640872200,
+      "pctOfPortfolio": 255.0254292685
+    },
+    {
+      "name": "PVH Corp.",
+      "cusip": "693656100",
+      "shares": 437447,
+      "value": 44107781010,
+      "pctOfPortfolio": 324.7206283147
+    },
+    {
+      "name": "Mattel, Inc.",
+      "cusip": "577081102",
+      "shares": 3772498,
+      "value": 71866086900,
+      "pctOfPortfolio": 529.076737898
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 1349800,
+      "value": 72646236000,
+      "pctOfPortfolio": 534.8201804411
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "N/A",
+      "shares": 314205000,
+      "value": 314205000000,
+      "pctOfPortfolio": 2313.171115919
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 2727119,
+      "value": 88822265830,
+      "pctOfPortfolio": 653.9077983116
+    },
+    {
+      "name": "CNH Industrial N.V.",
+      "cusip": "N20944109",
+      "shares": 3871492,
+      "value": 42973561200,
+      "pctOfPortfolio": 316.370524072
+    },
+    {
+      "name": "Warner Music Group Corporation",
+      "cusip": "934550203",
+      "shares": 1544530,
+      "value": 48343789000,
+      "pctOfPortfolio": 355.9060369788
+    },
+    {
+      "name": "Paypal Holdings Inc.",
+      "cusip": "70450Y103",
+      "shares": 686174,
+      "value": 53542157220,
+      "pctOfPortfolio": 394.17632299080003
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 1490343,
+      "value": 58257507870,
+      "pctOfPortfolio": 428.8906430208
+    },
+    {
+      "name": "Exor Nv",
+      "cusip": "N3140A107",
+      "shares": 593120,
+      "value": 63499040200,
+      "pctOfPortfolio": 467.4787023735
+    },
+    {
+      "name": "Bio-Rad Laboratories, Inc.",
+      "cusip": "090572207",
+      "shares": 196969,
+      "value": 65901888020,
+      "pctOfPortfolio": 485.1684214205
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 263853,
+      "value": 72211289040,
+      "pctOfPortfolio": 531.6181093574
+    },
+    {
+      "name": "Live Nation Entertainment, Inc.",
+      "cusip": "538034109",
+      "shares": 526472,
+      "value": 57643419280,
+      "pctOfPortfolio": 424.3697347316
+    },
+    {
+      "name": "Warner Bros. Discovery Inc.",
+      "cusip": "934423104",
+      "shares": 4042504,
+      "value": 33350658000,
+      "pctOfPortfolio": 245.5268973521
+    },
+    {
+      "name": "Albertsons Companies Inc.",
+      "cusip": "013091103",
+      "shares": 1738500,
+      "value": 32127480000,
+      "pctOfPortfolio": 236.52188463989998
+    }
+  ]
+}

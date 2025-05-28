@@ -1,35 +1,37 @@
 {
+  "form": "13F-HR",
   "date": "2014-07-30",
+  "period": "2014-07-30",
   "positions": [
     {
       "name": "CARNIVAL CORPORATION",
       "cusip": "143658300",
       "shares": 1000000,
-      "value": 37650000
+      "value": 37650000000
     },
     {
       "name": "HCC INS HLDGS INC",
       "cusip": "404132102",
       "shares": 670000,
-      "value": 32790000
+      "value": 32790000000
     },
     {
       "name": "MCDONALDS CORP",
       "cusip": "580135101",
       "shares": 300000,
-      "value": 30222000
+      "value": 30222000000
     },
     {
       "name": "PROGRESSIVE CORP OHIO",
       "cusip": "743315103",
       "shares": 1610000,
-      "value": 40830000
+      "value": 40830000000
     },
     {
       "name": "SCHWAB CHARLES CORP",
       "cusip": "808513105",
       "shares": 2250000,
-      "value": 60592000
+      "value": 60592000000
     }
   ]
 }

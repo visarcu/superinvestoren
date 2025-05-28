@@ -1,0 +1,168 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-08-23",
+  "period": "2023-08-23",
+  "positions": [
+    {
+      "name": "Anywhere Real Estate Inc.",
+      "cusip": "75605Y106",
+      "shares": 5710068,
+      "value": 38143254240,
+      "pctOfPortfolio": 447.7089081
+    },
+    {
+      "name": "The Boston Beer Company, Inc. Class - A",
+      "cusip": "100557107",
+      "shares": 127153,
+      "value": 39219071320,
+      "pctOfPortfolio": 460.33638049999996
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 3034099,
+      "value": 53764234280,
+      "pctOfPortfolio": 631.06116937
+    },
+    {
+      "name": "Douglas Emmett, Inc.",
+      "cusip": "25960P109",
+      "shares": 1616862,
+      "value": 20323955340,
+      "pctOfPortfolio": 238.55373735
+    },
+    {
+      "name": "Eastman Kodak Company",
+      "cusip": "277461703",
+      "shares": 932150,
+      "value": 74012710000,
+      "pctOfPortfolio": 868.72895981
+    },
+    {
+      "name": "Empire State Realty Trust, Inc.",
+      "cusip": "292104106",
+      "shares": 6112130,
+      "value": 45779853700,
+      "pctOfPortfolio": 537.34398707
+    },
+    {
+      "name": "Graham Holdings Company",
+      "cusip": "384637104",
+      "shares": 67379,
+      "value": 38505750920,
+      "pctOfPortfolio": 451.96373627
+    },
+    {
+      "name": "Gruma, S.A.B. DE C.V.",
+      "cusip": "239254500",
+      "shares": 3424422,
+      "value": 54986410390,
+      "pctOfPortfolio": 645.40654033
+    },
+    {
+      "name": "Hyatt Hotels Corporation",
+      "cusip": "448579102",
+      "shares": 357301,
+      "value": 40939548580,
+      "pctOfPortfolio": 480.53059336999996
+    },
+    {
+      "name": "Ingles Markets, Incorporated",
+      "cusip": "457030104",
+      "shares": 260212,
+      "value": 21506521800,
+      "pctOfPortfolio": 252.43418748000002
+    },
+    {
+      "name": "Knife River Corporation",
+      "cusip": "498894104",
+      "shares": 762611,
+      "value": 33173578500,
+      "pctOfPortfolio": 389.3770184
+    },
+    {
+      "name": "LANXESS AG",
+      "cusip": "B05M8B700",
+      "shares": 188154,
+      "value": 5676700130,
+      "pctOfPortfolio": 66.6306341
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 884226,
+      "value": 28295232000,
+      "pctOfPortfolio": 332.11711155
+    },
+    {
+      "name": "Liberty Braves Group - Series C",
+      "cusip": "531229888",
+      "shares": 1053846,
+      "value": 41753378520,
+      "pctOfPortfolio": 490.0829748
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 19921000,
+      "value": 19921000000,
+      "pctOfPortfolio": 233.82402304
+    },
+    {
+      "name": "Lumen Technologies, Inc.",
+      "cusip": "156700BD7",
+      "shares": 37736000,
+      "value": 18147242400,
+      "pctOfPortfolio": 213.00442875000002
+    },
+    {
+      "name": "Lumen Technologies, Inc.",
+      "cusip": "550241AA1",
+      "shares": 2597000,
+      "value": 1303014990,
+      "pctOfPortfolio": 15.29422253
+    },
+    {
+      "name": "Madison Square Garden Sports Corp. - Class A",
+      "cusip": "55825T103",
+      "shares": 120597,
+      "value": 22678265850,
+      "pctOfPortfolio": 266.18760889000004
+    },
+    {
+      "name": "Masonite International Corporation",
+      "cusip": "575385109",
+      "shares": 294450,
+      "value": 30163458000,
+      "pctOfPortfolio": 354.04553478
+    },
+    {
+      "name": "Mattel, Inc.",
+      "cusip": "577081102",
+      "shares": 2798959,
+      "value": 54691658860,
+      "pctOfPortfolio": 641.94687523
+    },
+    {
+      "name": "Oscar Health, Inc.",
+      "cusip": "687793109",
+      "shares": 5913273,
+      "value": 47660980380,
+      "pctOfPortfolio": 559.4238328600001
+    },
+    {
+      "name": "Westrock Coffee Company - Class A",
+      "cusip": "96145W103",
+      "shares": 5103256,
+      "value": 55472392720,
+      "pctOfPortfolio": 651.11078929
+    },
+    {
+      "name": "White Mountains Insurance Group, Ltd.",
+      "cusip": "G9618E107",
+      "shares": 36662,
+      "value": 50920218420,
+      "pctOfPortfolio": 597.67934968
+    }
+  ]
+}

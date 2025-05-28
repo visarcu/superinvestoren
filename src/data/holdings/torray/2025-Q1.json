@@ -1,0 +1,112 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-01-29",
+  "period": "2025-01-29",
+  "positions": [
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -112,
+      "value": 136369460,
+      "pctOfPortfolio": 51.18974805999999
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -76,
+      "value": 149889720,
+      "pctOfPortfolio": 56.2649218
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -165,
+      "value": 977573200,
+      "pctOfPortfolio": 366.95698446
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -12,
+      "value": 24720100,
+      "pctOfPortfolio": 9.279318779999999
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912797LQ8",
+      "shares": 10800000,
+      "value": 10776815420,
+      "pctOfPortfolio": 4045.3519885600003
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -128,
+      "value": -103715240,
+      "pctOfPortfolio": -38.93215537
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 233,
+      "value": -1080225650,
+      "pctOfPortfolio": -405.49019455
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -19,
+      "value": 134471050,
+      "pctOfPortfolio": 50.477131539999995
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912796ZV4",
+      "shares": 7100000,
+      "value": 7078510640,
+      "pctOfPortfolio": 2657.09915013
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912797MN4",
+      "shares": 4500000,
+      "value": 4495480020,
+      "pctOfPortfolio": 1687.49285663
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -2,
+      "value": 4531920,
+      "pctOfPortfolio": 1.70117153
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 3,
+      "value": 4574610,
+      "pctOfPortfolio": 1.71719631
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 9,
+      "value": 48375360,
+      "pctOfPortfolio": 18.158922760000003
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 15,
+      "value": 1669830,
+      "pctOfPortfolio": 0.6268132
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 2,
+      "value": -155700,
+      "pctOfPortfolio": -0.058445960000000005
+    }
+  ]
+}

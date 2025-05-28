@@ -1,0 +1,238 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-08-26",
+  "period": "2022-08-26",
+  "positions": [
+    {
+      "name": "INGERSOLL RAND INC.",
+      "cusip": "45687V106",
+      "shares": 130000,
+      "value": 5470400000,
+      "pctOfPortfolio": 332.9609620493
+    },
+    {
+      "name": "MARTIN MARIETTA MATERIALS, INC.",
+      "cusip": "573284106",
+      "shares": 16500,
+      "value": 4937460000,
+      "pctOfPortfolio": 300.5230754021
+    },
+    {
+      "name": "DUN & BRADSTREET HOLDINGS, INC.",
+      "cusip": "26484T106",
+      "shares": 320000,
+      "value": 4809600000,
+      "pctOfPortfolio": 292.7407580931
+    },
+    {
+      "name": "LIBERTY BROADBAND CORPORATION",
+      "cusip": "530307305",
+      "shares": 100000,
+      "value": 11564000000,
+      "pctOfPortfolio": 703.8535692341
+    },
+    {
+      "name": "PERIMETER SOLUTIONS SA",
+      "cusip": "N/A",
+      "shares": 500000,
+      "value": 10,
+      "pctOfPortfolio": 6.086e-7
+    },
+    {
+      "name": "GARTNER, INC.",
+      "cusip": "366651107",
+      "shares": 13600,
+      "value": 3288888000,
+      "pctOfPortfolio": 200.18121390619999
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 300000,
+      "value": 6627000000,
+      "pctOfPortfolio": 403.3584921579
+    },
+    {
+      "name": "Markel Corporation",
+      "cusip": "570535104",
+      "shares": 4400,
+      "value": 5690300000,
+      "pctOfPortfolio": 346.34537919509995
+    },
+    {
+      "name": "LIBERTY BROADBAND CORPORATION",
+      "cusip": "530307107",
+      "shares": 30000,
+      "value": 3406500000,
+      "pctOfPortfolio": 207.3397772047
+    },
+    {
+      "name": "MARKETAXESS HOLDINGS INC.",
+      "cusip": "57060D108",
+      "shares": 23000,
+      "value": 5888230000,
+      "pctOfPortfolio": 358.3925719449
+    },
+    {
+      "name": "IDEX CORPORATION",
+      "cusip": "45167R104",
+      "shares": 17500,
+      "value": 3178525000,
+      "pctOfPortfolio": 193.4638677058
+    },
+    {
+      "name": "HEICO CORPORATION",
+      "cusip": "422806208",
+      "shares": 60000,
+      "value": 6322800000,
+      "pctOfPortfolio": 384.8430774432
+    },
+    {
+      "name": "AXALTA COATING SYSTEMS LTD.",
+      "cusip": "G0750C108",
+      "shares": 255000,
+      "value": 5638050000,
+      "pctOfPortfolio": 343.1651345573
+    },
+    {
+      "name": "JPMorgan Trust II: JPMorgan US Government Money Market Fund; Institutional Shares",
+      "cusip": "4812C2684",
+      "shares": 3918713.36,
+      "value": 3918713360,
+      "pctOfPortfolio": 238.51611771369997
+    },
+    {
+      "name": "Perimeter Solutions SA",
+      "cusip": "L7579L106",
+      "shares": 500000,
+      "value": 5420000000,
+      "pctOfPortfolio": 329.8933193747
+    },
+    {
+      "name": "QURATE RETAIL, INC.",
+      "cusip": "74915M308",
+      "shares": 35000,
+      "value": 2045750000,
+      "pctOfPortfolio": 124.5164682861
+    },
+    {
+      "name": "Goldman Sachs Financial Square",
+      "cusip": "N/A",
+      "shares": 2436480,
+      "value": 2436480000,
+      "pctOfPortfolio": 148.2986115848
+    },
+    {
+      "name": "CarMax, Inc.",
+      "cusip": "143130102",
+      "shares": 85000,
+      "value": 7690800000,
+      "pctOfPortfolio": 468.107664326
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD.",
+      "cusip": "G9001E128",
+      "shares": 525000,
+      "value": 4089750000,
+      "pctOfPortfolio": 248.92642120159996
+    },
+    {
+      "name": "BLACK KNIGHT, INC.",
+      "cusip": "09215C105",
+      "shares": 67500,
+      "value": 4413825000,
+      "pctOfPortfolio": 268.6515461972
+    },
+    {
+      "name": "COSTAR GROUP, INC.",
+      "cusip": "22160N109",
+      "shares": 160000,
+      "value": 9665600000,
+      "pctOfPortfolio": 588.3056951564
+    },
+    {
+      "name": "LICT CORPORATION",
+      "cusip": "50187G104",
+      "shares": 447,
+      "value": 10012800000,
+      "pctOfPortfolio": 609.4383446928
+    },
+    {
+      "name": "ACI WORLDWIDE, INC.",
+      "cusip": "004498101",
+      "shares": 150000,
+      "value": 3883500000,
+      "pctOfPortfolio": 236.37282394680003
+    },
+    {
+      "name": "LIBERTY SIRIUS XM",
+      "cusip": "531229607",
+      "shares": 190000,
+      "value": 6849500000,
+      "pctOfPortfolio": 416.9011607116
+    },
+    {
+      "name": "CITIBANK NA",
+      "cusip": "N/A",
+      "shares": 270720,
+      "value": 270720000,
+      "pctOfPortfolio": 16.4776235094
+    },
+    {
+      "name": "LABORATORY CORPORATION OF AMERICA HOLDINGS",
+      "cusip": "50540R409",
+      "shares": 32000,
+      "value": 7499520000,
+      "pctOfPortfolio": 456.4652299846
+    },
+    {
+      "name": "QURATE RETAIL, INC.",
+      "cusip": "74915M100",
+      "shares": 300000,
+      "value": 861000000,
+      "pctOfPortfolio": 52.4055623582
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE, INC.",
+      "cusip": "40171V100",
+      "shares": 70000,
+      "value": 4969300000,
+      "pctOfPortfolio": 302.4610464887
+    },
+    {
+      "name": "LKQ CORPORATION",
+      "cusip": "501889208",
+      "shares": 145000,
+      "value": 7118050000,
+      "pctOfPortfolio": 433.2467051614
+    },
+    {
+      "name": "DOLBY LABORATORIES, INC.",
+      "cusip": "25659T107",
+      "shares": 81000,
+      "value": 5796360000,
+      "pctOfPortfolio": 352.8008193156
+    },
+    {
+      "name": "LIBERTY SIRIUS XM",
+      "cusip": "531229409",
+      "shares": 70000,
+      "value": 2522800000,
+      "pctOfPortfolio": 153.5525583244
+    },
+    {
+      "name": "VULCAN MATERIALS COMPANY",
+      "cusip": "929160109",
+      "shares": 30000,
+      "value": 4263000000,
+      "pctOfPortfolio": 259.4714428956
+    },
+    {
+      "name": "FIRST REPUBLIC BANK",
+      "cusip": "33616C100",
+      "shares": 33000,
+      "value": 4758600000,
+      "pctOfPortfolio": 289.6365958628
+    }
+  ]
+}

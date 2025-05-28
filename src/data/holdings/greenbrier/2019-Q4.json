@@ -1,4 +1,97 @@
 {
+  "form": "13F-HR",
   "date": "2019-11-12",
-  "positions": []
+  "period": "2019-11-12",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25847,
+      "value": 31563000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25847,
+      "value": 31507000
+    },
+    {
+      "name": "AMAZON COM INC ",
+      "cusip": "023135106",
+      "shares": 34794,
+      "value": 60399000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 397651,
+      "value": 89062000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 99413,
+      "value": 20680000
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 248532,
+      "value": 71605000
+    },
+    {
+      "name": "DISNEY WALT CO ",
+      "cusip": "254687106",
+      "shares": 99413,
+      "value": 12956000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 447357,
+      "value": 79665000
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 32095,
+      "value": 37933000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 79530,
+      "value": 11057000
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 497063,
+      "value": 51491000
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 994127,
+      "value": 36335000
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO ",
+      "cusip": "844741108",
+      "shares": 1252600,
+      "value": 67653000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A ",
+      "cusip": "L8681T102",
+      "shares": 49706,
+      "value": 5666000
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905100",
+      "shares": 342765,
+      "value": 651000
+    }
+  ]
 }

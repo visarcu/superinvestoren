@@ -1,0 +1,441 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-08-29",
+  "period": "2022-08-29",
+  "positions": [
+    {
+      "name": "Salesforce Inc",
+      "cusip": "79466L302",
+      "shares": 1620000,
+      "value": 267364800000,
+      "pctOfPortfolio": 187.5428096219
+    },
+    {
+      "name": "General Motors Co",
+      "cusip": "37045V100",
+      "shares": 9862000,
+      "value": 313217120000,
+      "pctOfPortfolio": 219.7058801551
+    },
+    {
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307305",
+      "shares": 1350000,
+      "value": 156114000000,
+      "pctOfPortfolio": 109.50603138970001
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 7450000,
+      "value": 291816500000,
+      "pctOfPortfolio": 204.6944336129
+    },
+    {
+      "name": "Hilton Worldwide Holdings Inc",
+      "cusip": "43300A203",
+      "shares": 1302100,
+      "value": 145106024000,
+      "pctOfPortfolio": 101.7844960669
+    },
+    {
+      "name": "Reinsurance Group of America Inc",
+      "cusip": "759351604",
+      "shares": 1479033,
+      "value": 173475780570,
+      "pctOfPortfolio": 121.68443747810001
+    },
+    {
+      "name": "Fixed Income Clearing Corp",
+      "cusip": "000000000",
+      "shares": 1108303302,
+      "value": 1108303302000,
+      "pctOfPortfolio": 777.4184005162999
+    },
+    {
+      "name": "Masco Corp",
+      "cusip": "574599106",
+      "shares": 3250000,
+      "value": 164450000000,
+      "pctOfPortfolio": 115.35331143930001
+    },
+    {
+      "name": "eBay Inc",
+      "cusip": "278642103",
+      "shares": 4597700,
+      "value": 191586159000,
+      "pctOfPortfolio": 134.3879468932
+    },
+    {
+      "name": "EOG Resources Inc",
+      "cusip": "26875P101",
+      "shares": 4468563,
+      "value": 493508097720,
+      "pctOfPortfolio": 346.1708318282
+    },
+    {
+      "name": "Citigroup Inc",
+      "cusip": "172967424",
+      "shares": 7724200,
+      "value": 355235958000,
+      "pctOfPortfolio": 249.1799580276
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -11000,
+      "value": -14135000000,
+      "pctOfPortfolio": -9.914983625
+    },
+    {
+      "name": "Comcast Corp",
+      "cusip": "20030N101",
+      "shares": 6861100,
+      "value": 269229564000,
+      "pctOfPortfolio": 188.8508467302
+    },
+    {
+      "name": "Moody's Corp",
+      "cusip": "615369105",
+      "shares": 429871,
+      "value": 116912015870,
+      "pctOfPortfolio": 82.0078332481
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 204915,
+      "value": 446563062900,
+      "pctOfPortfolio": 313.24127742179996
+    },
+    {
+      "name": "CBRE Group Inc",
+      "cusip": "12504L109",
+      "shares": 3468000,
+      "value": 255279480000,
+      "pctOfPortfolio": 179.0655722743
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 3800000,
+      "value": 338086000000,
+      "pctOfPortfolio": 237.15013469919998
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 4867800,
+      "value": 300099870000,
+      "pctOfPortfolio": 210.50479639419999
+    },
+    {
+      "name": "Cummins Inc",
+      "cusip": "231021106",
+      "shares": 602000,
+      "value": 116505060000,
+      "pctOfPortfolio": 81.7223744022
+    },
+    {
+      "name": "Workday Inc",
+      "cusip": "98138H101",
+      "shares": 1206800,
+      "value": 168445144000,
+      "pctOfPortfolio": 118.1557017712
+    },
+    {
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 2400000,
+      "value": 225696000000,
+      "pctOfPortfolio": 158.31426560420002
+    },
+    {
+      "name": "Willis Towers Watson PLC",
+      "cusip": "000000000",
+      "shares": 1450000,
+      "value": 286215500000,
+      "pctOfPortfolio": 200.7656169673
+    },
+    {
+      "name": "Take-Two Interactive Software Inc",
+      "cusip": "874054109",
+      "shares": 1700000,
+      "value": 208301000000,
+      "pctOfPortfolio": 146.1125577752
+    },
+    {
+      "name": "Walt Disney Co/The",
+      "cusip": "254687106",
+      "shares": 1500000,
+      "value": 141600000000,
+      "pctOfPortfolio": 99.32519853939999
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -5790,
+      "value": -2634450000,
+      "pctOfPortfolio": -1.847932692
+    },
+    {
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 1051524,
+      "value": 254290048920,
+      "pctOfPortfolio": 178.371536692
+    },
+    {
+      "name": "PACCAR Inc",
+      "cusip": "693718108",
+      "shares": 2000000,
+      "value": 164680000000,
+      "pctOfPortfolio": 115.514644742
+    },
+    {
+      "name": "Netflix Inc",
+      "cusip": "64110L106",
+      "shares": 1708100,
+      "value": 298695447000,
+      "pctOfPortfolio": 209.5196650855
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 6945500,
+      "value": 216213415000,
+      "pctOfPortfolio": 151.6627144899
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -1000,
+      "value": -320000000,
+      "pctOfPortfolio": -0.224463725
+    },
+    {
+      "name": "BorgWarner Inc",
+      "cusip": "099724106",
+      "shares": 6500000,
+      "value": 216905000000,
+      "pctOfPortfolio": 152.1478261949
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -864,
+      "value": -137808000,
+      "pctOfPortfolio": -0.09666530300000001
+    },
+    {
+      "name": "Parker-Hannifin Corp",
+      "cusip": "701094104",
+      "shares": 606000,
+      "value": 149106300000,
+      "pctOfPortfolio": 104.5904862357
+    },
+    {
+      "name": "Goldman Sachs Group Inc/The",
+      "cusip": "38141G104",
+      "shares": 955000,
+      "value": 283654100000,
+      "pctOfPortfolio": 198.96892513440002
+    },
+    {
+      "name": "General Electric Co",
+      "cusip": "369604301",
+      "shares": 2427000,
+      "value": 154527090000,
+      "pctOfPortfolio": 108.39289473139999
+    },
+    {
+      "name": "APA Corp",
+      "cusip": "03743Q108",
+      "shares": 11003809,
+      "value": 384032934100,
+      "pctOfPortfolio": 269.3795722117
+    },
+    {
+      "name": "Charles Schwab Corp/The",
+      "cusip": "808513105",
+      "shares": 5709000,
+      "value": 360694620000,
+      "pctOfPortfolio": 253.0089318052
+    },
+    {
+      "name": "Meta Platforms Inc",
+      "cusip": "30303M102",
+      "shares": 2135400,
+      "value": 344333250000,
+      "pctOfPortfolio": 241.532262853
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 2300000,
+      "value": 160701000000,
+      "pctOfPortfolio": 112.7235786051
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 7430000,
+      "value": 343934700000,
+      "pctOfPortfolio": 241.2527002974
+    },
+    {
+      "name": "TE Connectivity Ltd",
+      "cusip": "000000000",
+      "shares": 892744,
+      "value": 101013983600,
+      "pctOfPortfolio": 70.8561721492
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209S103",
+      "shares": 5610000,
+      "value": 234329700000,
+      "pctOfPortfolio": 164.3703670635
+    },
+    {
+      "name": "PulteGroup Inc",
+      "cusip": "745867101",
+      "shares": 4600000,
+      "value": 182298000000,
+      "pctOfPortfolio": 127.8727757298
+    },
+    {
+      "name": "Bank of New York Mellon Corp/The",
+      "cusip": "064058100",
+      "shares": 5734530,
+      "value": 239187246300,
+      "pctOfPortfolio": 167.77768874900002
+    },
+    {
+      "name": "Ally Financial Inc",
+      "cusip": "02005N100",
+      "shares": 13243100,
+      "value": 443776281000,
+      "pctOfPortfolio": 311.2864916485
+    },
+    {
+      "name": "HCA Healthcare Inc",
+      "cusip": "40412C101",
+      "shares": 1499996,
+      "value": 252089327760,
+      "pctOfPortfolio": 176.827842722
+    },
+    {
+      "name": "Diamondback Energy Inc",
+      "cusip": "25278X109",
+      "shares": 1420000,
+      "value": 172033000000,
+      "pctOfPortfolio": 120.67240028490001
+    },
+    {
+      "name": "Humana Inc",
+      "cusip": "444859102",
+      "shares": 213000,
+      "value": 99698910000,
+      "pctOfPortfolio": 69.9337149005
+    },
+    {
+      "name": "Pinterest Inc",
+      "cusip": "72352L106",
+      "shares": 15000000,
+      "value": 272400000000,
+      "pctOfPortfolio": 191.07474634279998
+    },
+    {
+      "name": "Regeneron Pharmaceuticals Inc",
+      "cusip": "75886F107",
+      "shares": 234896,
+      "value": 138854072480,
+      "pctOfPortfolio": 97.39907003590001
+    },
+    {
+      "name": "Equifax Inc",
+      "cusip": "294429105",
+      "shares": 1250000,
+      "value": 228475000000,
+      "pctOfPortfolio": 160.2635927705
+    },
+    {
+      "name": "T-Mobile US Inc",
+      "cusip": "872590104",
+      "shares": 1000000,
+      "value": 134540000000,
+      "pctOfPortfolio": 94.3729675953
+    },
+    {
+      "name": "Charter Communications Inc",
+      "cusip": "16119P108",
+      "shares": 460500,
+      "value": 215758065000,
+      "pctOfPortfolio": 151.343309623
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -10058,
+      "value": -2147383000,
+      "pctOfPortfolio": -1.506279963
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -25000,
+      "value": -22062500000,
+      "pctOfPortfolio": -15.475721700000001
+    },
+    {
+      "name": "Booking Holdings Inc",
+      "cusip": "09857L108",
+      "shares": 121600,
+      "value": 212677184000,
+      "pctOfPortfolio": 149.1822282882
+    },
+    {
+      "name": "Global Payments Inc",
+      "cusip": "37940X102",
+      "shares": 1700000,
+      "value": 188088000000,
+      "pctOfPortfolio": 131.9341662633
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 2530000,
+      "value": 268711300000,
+      "pctOfPortfolio": 188.4873108919
+    },
+    {
+      "name": "American Express Co",
+      "cusip": "025816109",
+      "shares": 1474300,
+      "value": 204367466000,
+      "pctOfPortfolio": 143.353383725
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 3042000,
+      "value": 316945980000,
+      "pctOfPortfolio": 222.3214858035
+    },
+    {
+      "name": "American International Group Inc",
+      "cusip": "026874784",
+      "shares": 5492800,
+      "value": 280846864000,
+      "pctOfPortfolio": 196.9997918502
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 3155700,
+      "value": 283413417000,
+      "pctOfPortfolio": 198.8000982505
+    }
+  ]
+}

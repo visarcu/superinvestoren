@@ -1,4 +1,151 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
-  "positions": []
+  "period": "2020-05-15",
+  "positions": [
+    {
+      "name": "AES CORP",
+      "cusip": "00130H105",
+      "shares": 4346500,
+      "value": 59112000
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 1222756,
+      "value": 1749000
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 17931594,
+      "value": 277940000
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 2772000,
+      "value": 67609000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 10225592,
+      "value": 385607000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 27025500,
+      "value": 1138314000
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 328000,
+      "value": 11277000
+    },
+    {
+      "name": "DARLING INGREDIENTS INC",
+      "cusip": "237266101",
+      "shares": 2640000,
+      "value": 50609000
+    },
+    {
+      "name": "ENVIVA PARTNERS LP",
+      "cusip": "29414J107",
+      "shares": 2527175,
+      "value": 67526000
+    },
+    {
+      "name": "HAWAIIAN ELEC INDUSTRIES",
+      "cusip": "419870100",
+      "shares": 3246668,
+      "value": 139769000
+    },
+    {
+      "name": "HD SUPPLY HLDGS INC",
+      "cusip": "40416M105",
+      "shares": 25000,
+      "value": 711000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 45000000,
+      "value": 1056150000
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HLDGS I",
+      "cusip": "535219109",
+      "shares": 4923247,
+      "value": 20530000
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 21547746,
+      "value": 441944000
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 14250000,
+      "value": 484500000
+    },
+    {
+      "name": "OUTFRONT MEDIA INC ",
+      "cusip": "69007J106",
+      "shares": 3427200,
+      "value": 46199000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 31554360,
+      "value": 1539853000
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 32294254,
+      "value": 232196000
+    },
+    {
+      "name": "SMITH A O CORP",
+      "cusip": "831865209",
+      "shares": 2092510,
+      "value": 79118000
+    },
+    {
+      "name": "STARS GROUP INC",
+      "cusip": "85570W100",
+      "shares": 13630000,
+      "value": 278325000
+    },
+    {
+      "name": "STRATEGIC ED INC",
+      "cusip": "86272C103",
+      "shares": 650000,
+      "value": 90844000
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 27005855,
+      "value": 433984000
+    },
+    {
+      "name": "UNIFI INC",
+      "cusip": "904677200",
+      "shares": 1417054,
+      "value": 16367000
+    },
+    {
+      "name": "VERRA MOBILITY CORP",
+      "cusip": "92511U102",
+      "shares": 5905000,
+      "value": 42162000
+    }
+  ]
 }

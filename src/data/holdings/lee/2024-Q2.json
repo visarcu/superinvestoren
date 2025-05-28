@@ -1,4 +1,103 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-15",
-  "positions": []
+  "period": "2024-05-15",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 111629,
+      "value": 8077474000000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 1021646,
+      "value": 41468611000000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 90000,
+      "value": 16234200000000
+    },
+    {
+      "name": "CONTROLADORA VUELA COMP DE A",
+      "cusip": "21240E105",
+      "shares": 399168,
+      "value": 2961827000000
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 3071856,
+      "value": 36739398000000
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 81640,
+      "value": 11245910000000
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 17995,
+      "value": 29421825000000
+    },
+    {
+      "name": "FRONTIER GROUP HLDGS INC",
+      "cusip": "35909R108",
+      "shares": 7546815,
+      "value": 61204670000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 550174,
+      "value": 61459938000000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 14612,
+      "value": 7095295000000
+    },
+    {
+      "name": "OSCAR HEALTH INC",
+      "cusip": "687793109",
+      "shares": 1988429,
+      "value": 29567939000000
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 2189723,
+      "value": 29035727000000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 2590998,
+      "value": 73325243000000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 5224436,
+      "value": 64051585000000
+    },
+    {
+      "name": "VITAL ENERGY INC",
+      "cusip": "516806205",
+      "shares": 403700,
+      "value": 21210398000000
+    },
+    {
+      "name": "XPONENTIAL FITNESS INC",
+      "cusip": "98422X101",
+      "shares": 107100,
+      "value": 1771434000000
+    }
+  ]
 }

@@ -1,233 +1,235 @@
 {
+  "form": "13F-HR",
   "date": "2018-11-13",
+  "period": "2018-11-13",
   "positions": [
     {
       "name": "ALLERGAN PLC",
       "cusip": "G0177J108",
       "shares": 4950000,
-      "value": 942876000
+      "value": 942876000000
     },
     {
       "name": "ALTABA INC",
       "cusip": "021346101",
       "shares": 2810775,
-      "value": 191470000
+      "value": 191470000000
     },
     {
       "name": "AMC ENTMT HLDGS INC",
       "cusip": "00165C104",
       "shares": 2731300,
-      "value": 55992000
+      "value": 55992000000
     },
     {
       "name": "AMERISOURCEBERGEN CORP",
       "cusip": "03073E105",
       "shares": 2751056,
-      "value": 253702000
+      "value": 253702000000
     },
     {
       "name": "ANTERO RES CORP",
       "cusip": "03674X106",
       "shares": 26587791,
-      "value": 470870000
+      "value": 470870000000
     },
     {
       "name": "ATARA BIOTHERAPEUTICS INC",
       "cusip": "046513107",
       "shares": 6254632,
-      "value": 258629000
+      "value": 258629000000
     },
     {
       "name": "CARDINAL HEALTH INC",
       "cusip": "14149Y108",
       "shares": 4738485,
-      "value": 255878000
+      "value": 255878000000
     },
     {
       "name": "CHENIERE ENERGY INC",
       "cusip": "16411R208",
       "shares": 14196135,
-      "value": 986489000
+      "value": 986489000000
     },
     {
       "name": "COLONY CAP INC NEW",
       "cusip": "19626G108",
       "shares": 49687370,
-      "value": 302596000
+      "value": 302596000000
     },
     {
       "name": "GTY TECHNOLOGY HOLDINGS INC",
       "cusip": "G4182A110",
       "shares": 4400000,
-      "value": 47608000
+      "value": 47608000000
     },
     {
       "name": "KERYX BIOPHARMACEUTICALS INC",
       "cusip": "492515101",
       "shares": 25791678,
-      "value": 87692000
+      "value": 87692000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U104",
       "shares": 4957205,
-      "value": 143412000
+      "value": 143412000000
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U120",
       "shares": 10768870,
-      "value": 303251000
+      "value": 303251000000
     },
     {
       "name": "MCKESSON CORP",
       "cusip": "58155Q103",
       "shares": 2175700,
-      "value": 288607000
+      "value": 288607000000
     },
     {
       "name": "NEXEO SOLUTIONS INC",
       "cusip": "65342H110",
       "shares": 2850000,
-      "value": 2929000
+      "value": 2929000000
     },
     {
       "name": "NOVAGOLD RES INC",
       "cusip": "66987E206",
       "shares": 13467145,
-      "value": 49963000
+      "value": 49963000000
     },
     {
       "name": "PARATEK PHARMACEUTICALS INC",
       "cusip": "699374302",
       "shares": 2394498,
-      "value": 23227000
+      "value": 23227000000
     },
     {
       "name": "PG&E CORP",
       "cusip": "69331C108",
       "shares": 18979790,
-      "value": 873260000
+      "value": 873260000000
     },
     {
       "name": "PIONEER NAT RES CO",
       "cusip": "723787107",
       "shares": 4000000,
-      "value": 696760000
+      "value": 696760000000
     },
     {
       "name": "QORVO INC",
       "cusip": "74736K101",
       "shares": 11000000,
-      "value": 845790000
+      "value": 845790000000
     },
     {
       "name": "SABAN CAP ACQUISITION CORP",
       "cusip": "78516C114",
       "shares": 1163250,
-      "value": 1280000
+      "value": 1280000000
     },
     {
       "name": "SABAN CAP ACQUISITION CORP",
       "cusip": "78516C106",
       "shares": 2326500,
-      "value": 23567000
+      "value": 23567000000
     },
     {
       "name": "SENTINEL ENERGY SVCS INC",
       "cusip": "G8062D128",
       "shares": 1600000,
-      "value": 16448000
+      "value": 16448000000
     },
     {
       "name": "SHIRE PLC",
       "cusip": "82481R106",
       "shares": 98932,
-      "value": 17933000
+      "value": 17933000000
     },
     {
       "name": "SINCLAIR BROADCAST GROUP INC",
       "cusip": "829226109",
       "shares": 3000000,
-      "value": 85050000
+      "value": 85050000000
     },
     {
       "name": "SYNCHRONY FINL",
       "cusip": "87165B103",
       "shares": 16332929,
-      "value": 507627000
+      "value": 507627000000
     },
     {
       "name": "TESLA INC",
       "cusip": "88160RAD3",
       "shares": 300000000,
-      "value": 308550000
+      "value": 308550000000
     },
     {
       "name": "THERAVANCE BIOPHARMA INC",
       "cusip": "G8807B106",
       "shares": 9309168,
-      "value": 304131000
+      "value": 304131000000
     },
     {
       "name": "THERAVANCE BIOPHARMA INC",
       "cusip": "88339KAA0",
       "shares": 30000000,
-      "value": 34575000
+      "value": 34575000000
     },
     {
       "name": "TRANSLATE BIO INC",
       "cusip": "89374L104",
       "shares": 1923076,
-      "value": 19231000
+      "value": 19231000000
     },
     {
       "name": "TRIBUNE MEDIA CO",
       "cusip": "896047503",
       "shares": 5996042,
-      "value": 230428000
+      "value": 230428000000
     },
     {
       "name": "TRILOGY METALS INC NEW",
       "cusip": "89621C105",
       "shares": 13050758,
-      "value": 26006000
+      "value": 26006000000
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 52001167,
-      "value": 2409214000
+      "value": 2409214000000
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A200",
       "shares": 17320922,
-      "value": 793645000
+      "value": 793645000000
     },
     {
       "name": "UNIVAR INC",
       "cusip": "91336L107",
       "shares": 1771100,
-      "value": 54302000
+      "value": 54302000000
     },
     {
       "name": "VERITIV CORP",
       "cusip": "923454102",
       "shares": 3564439,
-      "value": 129746000
+      "value": 129746000000
     },
     {
       "name": "VIASAT INC",
       "cusip": "92552V100",
       "shares": 13732068,
-      "value": 878166000
+      "value": 878166000000
     },
     {
       "name": "YPF SOCIEDAD ANONIMA",
       "cusip": "984245100",
       "shares": 6000000,
-      "value": 92700000
+      "value": 92700000000
     }
   ]
 }

@@ -1,0 +1,112 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-07-30",
+  "period": "2024-07-30",
+  "positions": [
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -8,
+      "value": -4185140.0000000005,
+      "pctOfPortfolio": -1.58002398
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -47,
+      "value": 197684390,
+      "pctOfPortfolio": 74.63216901
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912797JT5",
+      "shares": 7000000,
+      "value": 6946727060,
+      "pctOfPortfolio": 2622.61126436
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912796Y45",
+      "shares": 8800000,
+      "value": 8769173600,
+      "pctOfPortfolio": 3310.64302136
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912797KC0",
+      "shares": 5500000,
+      "value": 5435945350,
+      "pctOfPortfolio": 2052.2429317
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -6,
+      "value": 5065920,
+      "pctOfPortfolio": 1.91254655
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -192,
+      "value": 239283610,
+      "pctOfPortfolio": 90.33720276
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -108,
+      "value": 572540720,
+      "pctOfPortfolio": 216.15240222
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 3,
+      "value": -2991280,
+      "pctOfPortfolio": -1.12930371
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 9,
+      "value": 26765340,
+      "pctOfPortfolio": 10.10477043
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 230,
+      "value": 454823500,
+      "pctOfPortfolio": 171.71039312
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 11,
+      "value": -3716280,
+      "pctOfPortfolio": -1.40301436
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 2,
+      "value": 144300,
+      "pctOfPortfolio": 0.054477859999999996
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -222,
+      "value": -54493360,
+      "pctOfPortfolio": -20.5729833
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": -59,
+      "value": 16927400,
+      "pctOfPortfolio": 6.39063397
+    }
+  ]
+}

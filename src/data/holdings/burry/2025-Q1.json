@@ -1,83 +1,85 @@
 {
-    "date": "2025-03-31",
-    "positions": [
-      {
-        "name": "ALIBABA GROUP HLDG LTD",
-        "cusip": "01609W102",
-        "shares": 150000,
-        "value": 12718500
-      },
-      {
-        "name": "AMERICAN COASTAL INS CORP",
-        "cusip": "910710102",
-        "shares": 146100,
-        "value": 1966506
-      },
-      {
-        "name": "BAIDU INC",
-        "cusip": "056752108",
-        "shares": 125000,
-        "value": 10538750
-      },
-      {
-        "name": "BRUKER CORP",
-        "cusip": "116794108",
-        "shares": 75000,
-        "value": 4396500
-      },
-      {
-        "name": "CANADA GOOSE HLDGS INC",
-        "cusip": "135086106",
-        "shares": 24838,
-        "value": 249125
-      },
-      {
-        "name": "HCA HEALTHCARE INC",
-        "cusip": "40412C101",
-        "shares": 15000,
-        "value": 4502250
-      },
-      {
-        "name": "JD.COM INC",
-        "cusip": "47215P106",
-        "shares": 300000,
-        "value": 10401000
-      },
-      {
-        "name": "LAUDER ESTEE COS INC",
-        "cusip": "518439104",
-        "shares": 100000,
-        "value": 7498000
-      },
-      {
-        "name": "MAGNERA CORP",
-        "cusip": "55939A107",
-        "shares": 200000,
-        "value": 3634000
-      },
-      {
-        "name": "MOLINA HEALTHCARE INC",
-        "cusip": "60855R100",
-        "shares": 25000,
-        "value": 7276250
-      },
-      {
-        "name": "OSCAR HEALTH INC",
-        "cusip": "687793109",
-        "shares": 200000,
-        "value": 2688000
-      },
-      {
-        "name": "PDD HOLDINGS INC",
-        "cusip": "722304102",
-        "shares": 75000,
-        "value": 7274250
-      },
-      {
-        "name": "V F CORP",
-        "cusip": "918204108",
-        "shares": 200000,
-        "value": 4292000
-      }
-    ]
-  }
+  "form": "13F-HR",
+  "date": "2025-02-14",
+  "period": "2025-02-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 150000,
+      "value": 12718500000
+    },
+    {
+      "name": "AMERICAN COASTAL INS CORP",
+      "cusip": "910710102",
+      "shares": 146100,
+      "value": 1966506000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 125000,
+      "value": 10538750000
+    },
+    {
+      "name": "BRUKER CORP",
+      "cusip": "116794108",
+      "shares": 75000,
+      "value": 4396500000
+    },
+    {
+      "name": "CANADA GOOSE HLDGS INC",
+      "cusip": "135086106",
+      "shares": 24838,
+      "value": 249125000
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 15000,
+      "value": 4502250000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 300000,
+      "value": 10401000000
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 100000,
+      "value": 7498000000
+    },
+    {
+      "name": "MAGNERA CORP",
+      "cusip": "55939A107",
+      "shares": 200000,
+      "value": 3634000000
+    },
+    {
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 25000,
+      "value": 7276250000
+    },
+    {
+      "name": "OSCAR HEALTH INC",
+      "cusip": "687793109",
+      "shares": 200000,
+      "value": 2688000000
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 75000,
+      "value": 7274250000
+    },
+    {
+      "name": "V F CORP",
+      "cusip": "918204108",
+      "shares": 200000,
+      "value": 4292000000
+    }
+  ]
+}

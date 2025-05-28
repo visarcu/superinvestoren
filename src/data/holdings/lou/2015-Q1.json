@@ -1,23 +1,6 @@
 {
+  "form": "13F-HR",
   "date": "2015-02-17",
-  "positions": [
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 373,
-      "value": 84298000
-    },
-    {
-      "name": "CTC MEDIA INC",
-      "cusip": "12642X106",
-      "shares": 2669630,
-      "value": 13001000
-    },
-    {
-      "name": "WELLS FARGO & CO NEW",
-      "cusip": "949746119",
-      "shares": 1459516,
-      "value": 31175000
-    }
-  ]
+  "period": "2015-02-17",
+  "positions": []
 }

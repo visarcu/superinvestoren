@@ -1,4 +1,85 @@
 {
+  "form": "13F-HR",
   "date": "2013-08-14",
-  "positions": []
+  "period": "2013-08-14",
+  "positions": [
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 83000245,
+      "value": 483891000
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 10651,
+      "value": 776000
+    },
+    {
+      "name": "Family Dlr Stores Inc.",
+      "cusip": "307000109",
+      "shares": 8364997,
+      "value": 521223000
+    },
+    {
+      "name": "Legg Mason Inc.",
+      "cusip": "524901105",
+      "shares": 12884337,
+      "value": 399543000
+    },
+    {
+      "name": "State Str Corp.",
+      "cusip": "857477103",
+      "shares": 1862816,
+      "value": 121474000
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 12292118,
+      "value": 682458000
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 1178550,
+      "value": 65433000
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 6702380,
+      "value": 215482000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 40946850,
+      "value": 1168214000
+    },
+    {
+      "name": "PepsiCo Inc.",
+      "cusip": "713448108",
+      "shares": 12270046,
+      "value": 1003567000
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co. ",
+      "cusip": "263534109",
+      "shares": 5778403,
+      "value": 303366000
+    },
+    {
+      "name": "GNC Hldgs Inc.",
+      "cusip": "36191G107",
+      "shares": 776898,
+      "value": 34347000
+    },
+    {
+      "name": "Sothebys",
+      "cusip": "835898107",
+      "shares": 2074182,
+      "value": 78632000
+    }
+  ]
 }

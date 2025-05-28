@@ -1,4 +1,980 @@
 {
+  "form": "NPORT-P",
   "date": "2024-02-27",
-  "positions": []
+  "period": "2024-02-27",
+  "positions": [
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3084192060,
+      "pctOfPortfolio": 0.65049078
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3181089020,
+      "pctOfPortfolio": 0.6709274399999999
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3086219600,
+      "pctOfPortfolio": 0.65091841
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3083413380,
+      "pctOfPortfolio": 0.65032655
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3157650630,
+      "pctOfPortfolio": 0.66598402
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3039018350,
+      "pctOfPortfolio": 0.64096313
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3310170460,
+      "pctOfPortfolio": 0.69815216
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3312454800,
+      "pctOfPortfolio": 0.69863396
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3310165490,
+      "pctOfPortfolio": 0.69815111
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 3310170470,
+      "pctOfPortfolio": 0.69815216
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 290463000,
+      "pctOfPortfolio": 0.06126191
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 308826680,
+      "pctOfPortfolio": 0.06513502
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 611612110,
+      "pctOfPortfolio": 0.12899586999999998
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 577268080,
+      "pctOfPortfolio": 0.12175232999999999
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 580576980,
+      "pctOfPortfolio": 0.12245020999999999
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 327406630,
+      "pctOfPortfolio": 0.06905374
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 348955320,
+      "pctOfPortfolio": 0.0735986
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 334366210,
+      "pctOfPortfolio": 0.07052159
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 275593470,
+      "pctOfPortfolio": 0.058125760000000005
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 277407440,
+      "pctOfPortfolio": 0.05850835
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 268360860,
+      "pctOfPortfolio": 0.05660032
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 263434370,
+      "pctOfPortfolio": 0.055561269999999996
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 232752730,
+      "pctOfPortfolio": 0.04909017
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -607679070,
+      "pctOfPortfolio": -0.12816634999999998
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -633481120,
+      "pctOfPortfolio": -0.13360829
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -234818910,
+      "pctOfPortfolio": -0.04952595
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -281546360,
+      "pctOfPortfolio": -0.059381289999999996
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -258808890,
+      "pctOfPortfolio": -0.054585699999999994
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 66787950,
+      "pctOfPortfolio": 0.01408633
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 39010970,
+      "pctOfPortfolio": 0.00822785
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 179696780,
+      "pctOfPortfolio": 0.03790007
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 87469600,
+      "pctOfPortfolio": 0.01844832
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 104740130,
+      "pctOfPortfolio": 0.02209087
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 97062670,
+      "pctOfPortfolio": 0.02047161
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 82994110,
+      "pctOfPortfolio": 0.01750439
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 93864560,
+      "pctOfPortfolio": 0.01979709
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 210681310,
+      "pctOfPortfolio": 0.04443506
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 195834030,
+      "pctOfPortfolio": 0.041303599999999996
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 203707160,
+      "pctOfPortfolio": 0.04296413
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 190777600,
+      "pctOfPortfolio": 0.04023714
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 189848780,
+      "pctOfPortfolio": 0.04004124
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": 206280370,
+      "pctOfPortfolio": 0.04350685
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -233009460,
+      "pctOfPortfolio": -0.04914431
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -209782790,
+      "pctOfPortfolio": -0.04424555
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -191889130,
+      "pctOfPortfolio": -0.04047157
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -845667150,
+      "pctOfPortfolio": -0.17836071
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -832048870,
+      "pctOfPortfolio": -0.17548845999999999
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -719840760,
+      "pctOfPortfolio": -0.15182251
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -715533060,
+      "pctOfPortfolio": -0.15091397
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -734982520,
+      "pctOfPortfolio": -0.15501608
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -737759400,
+      "pctOfPortfolio": -0.15560175
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -795414260,
+      "pctOfPortfolio": -0.16776180999999998
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -814709590,
+      "pctOfPortfolio": -0.17183141
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -727759700,
+      "pctOfPortfolio": -0.15349269999999998
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -478090480,
+      "pctOfPortfolio": -0.10083466
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -571459490,
+      "pctOfPortfolio": -0.12052723
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -583367920,
+      "pctOfPortfolio": -0.12303884999999999
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -578447140,
+      "pctOfPortfolio": -0.12200100000000001
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1,
+      "value": -625123080,
+      "pctOfPortfolio": -0.13184549
+    },
+    {
+      "name": "Alibaba Group Holding, Ltd.",
+      "cusip": "01609W102",
+      "shares": 11431400,
+      "value": 886047814000,
+      "pctOfPortfolio": 186.87744487999998
+    },
+    {
+      "name": "Standard Chartered PLC",
+      "cusip": "N/A",
+      "shares": 107711814,
+      "value": 915207662330,
+      "pctOfPortfolio": 193.02758471
+    },
+    {
+      "name": "Imperial Brands PLC",
+      "cusip": "N/A",
+      "shares": 38224397,
+      "value": 880176171700,
+      "pctOfPortfolio": 185.63904951
+    },
+    {
+      "name": "Baidu, Inc.",
+      "cusip": "056752108",
+      "shares": 2348785,
+      "value": 279716805650,
+      "pctOfPortfolio": 58.995418879999995
+    },
+    {
+      "name": "Prudential PLC",
+      "cusip": "N/A",
+      "shares": 47494347,
+      "value": 537099134100,
+      "pctOfPortfolio": 113.28024543
+    },
+    {
+      "name": "Booking Holdings, Inc.",
+      "cusip": "09857L108",
+      "shares": 174500,
+      "value": 618989890000,
+      "pctOfPortfolio": 130.55192646
+    },
+    {
+      "name": "Barclays PLC",
+      "cusip": "N/A",
+      "shares": 540610208,
+      "value": 1059680875860,
+      "pctOfPortfolio": 223.49860961000002
+    },
+    {
+      "name": "Grupo Televisa SAB",
+      "cusip": "40049J206",
+      "shares": 46380780,
+      "value": 154911805200,
+      "pctOfPortfolio": 32.672641229999996
+    },
+    {
+      "name": "adidas AG",
+      "cusip": "N/A",
+      "shares": 1331827,
+      "value": 270765037810,
+      "pctOfPortfolio": 57.1073904
+    },
+    {
+      "name": "International Flavors & Fragrances, Inc.",
+      "cusip": "459506101",
+      "shares": 5192900,
+      "value": 420469113000,
+      "pctOfPortfolio": 88.68166283
+    },
+    {
+      "name": "JD.com, Inc.",
+      "cusip": "47215P106",
+      "shares": 16479348,
+      "value": 476088363720,
+      "pctOfPortfolio": 100.41238806999999
+    },
+    {
+      "name": "Schneider Electric SE",
+      "cusip": "483410007",
+      "shares": 2269046,
+      "value": 455343209140,
+      "pctOfPortfolio": 96.03700176
+    },
+    {
+      "name": "Bayer AG",
+      "cusip": "N/A",
+      "shares": 15153410,
+      "value": 562583131090,
+      "pctOfPortfolio": 118.65510688
+    },
+    {
+      "name": "Beiersdorf AG",
+      "cusip": "N/A",
+      "shares": 2515000,
+      "value": 376762180430,
+      "pctOfPortfolio": 79.4633794
+    },
+    {
+      "name": "Fresenius Medical Care AG",
+      "cusip": "N/A",
+      "shares": 13279550,
+      "value": 556492129940,
+      "pctOfPortfolio": 117.37044626
+    },
+    {
+      "name": "Sanofi",
+      "cusip": "N/A",
+      "shares": 15600422,
+      "value": 1545854643680,
+      "pctOfPortfolio": 326.03812278
+    },
+    {
+      "name": "Banco Santander SA",
+      "cusip": "N/A",
+      "shares": 367562616,
+      "value": 1533610763920,
+      "pctOfPortfolio": 323.4557509
+    },
+    {
+      "name": "Deutsche Telekom AG",
+      "cusip": "N/A",
+      "shares": 25935500,
+      "value": 622735108260,
+      "pctOfPortfolio": 131.34183509
+    },
+    {
+      "name": "Infineon Technologies AG",
+      "cusip": "N/A",
+      "shares": 3620770,
+      "value": 151092254910,
+      "pctOfPortfolio": 31.86705513
+    },
+    {
+      "name": "Brother Industries, Ltd.",
+      "cusip": "114813108",
+      "shares": 9270900,
+      "value": 147972769150,
+      "pctOfPortfolio": 31.20912052
+    },
+    {
+      "name": "Daito Trust Construction Co., Ltd.",
+      "cusip": "625050000",
+      "shares": 2849000,
+      "value": 330362765960,
+      "pctOfPortfolio": 69.67722126
+    },
+    {
+      "name": "Hang Lung Group, Ltd.",
+      "cusip": "N/A",
+      "shares": 93433300,
+      "value": 127313864630,
+      "pctOfPortfolio": 26.851925310000002
+    },
+    {
+      "name": "NetEase, Inc.",
+      "cusip": "64110W102",
+      "shares": 1715726,
+      "value": 159837034160,
+      "pctOfPortfolio": 33.71142739
+    },
+    {
+      "name": "Honda Motor Co., Ltd.",
+      "cusip": "643514003",
+      "shares": 50021465,
+      "value": 520081331130,
+      "pctOfPortfolio": 109.69099947000001
+    },
+    {
+      "name": "Kyocera Corp.",
+      "cusip": "649926003",
+      "shares": 26733600,
+      "value": 390196800000,
+      "pctOfPortfolio": 82.2968917
+    },
+    {
+      "name": "Mitsubishi Electric Corp.",
+      "cusip": "659704001",
+      "shares": 68052100,
+      "value": 964795375180,
+      "pctOfPortfolio": 203.48619080999998
+    },
+    {
+      "name": "Murata Manufacturing Co., Ltd.",
+      "cusip": "661040006",
+      "shares": 22191000,
+      "value": 471047255320,
+      "pctOfPortfolio": 99.34916164
+    },
+    {
+      "name": "NIDEC Corp.",
+      "cusip": "664068004",
+      "shares": 3792600,
+      "value": 153183382980,
+      "pctOfPortfolio": 32.30809755
+    },
+    {
+      "name": "Olympus Corp.",
+      "cusip": "665880001",
+      "shares": 19797900,
+      "value": 286507907450,
+      "pctOfPortfolio": 60.427738590000004
+    },
+    {
+      "name": "Nutrien, Ltd.",
+      "cusip": "67077M108",
+      "shares": 7822959,
+      "value": 440667280470,
+      "pctOfPortfolio": 92.94168341
+    },
+    {
+      "name": "Samsung Electronics Co., Ltd.",
+      "cusip": "677172009",
+      "shares": 4419500,
+      "value": 268793615959.99997,
+      "pctOfPortfolio": 56.69159537
+    },
+    {
+      "name": "Samsung Electronics Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 7414600,
+      "value": 357545474460,
+      "pctOfPortfolio": 75.41036007000001
+    },
+    {
+      "name": "Taiwan Semiconductor Manufacturing Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 38252000,
+      "value": 739102849420,
+      "pctOfPortfolio": 155.8850999
+    },
+    {
+      "name": "Ovintiv, Inc.",
+      "cusip": "69047Q102",
+      "shares": 15511124,
+      "value": 681248566080,
+      "pctOfPortfolio": 143.68298115
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "N/A",
+      "shares": 14908470,
+      "value": 1504407406100,
+      "pctOfPortfolio": 317.29643443
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "N/A",
+      "shares": 3372500,
+      "value": 980412876760,
+      "pctOfPortfolio": 206.78009747
+    },
+    {
+      "name": "Holcim, Ltd.",
+      "cusip": "N/A",
+      "shares": 16240941,
+      "value": 1274867040980,
+      "pctOfPortfolio": 268.88379094000004
+    },
+    {
+      "name": "Equinor ASA",
+      "cusip": "N/A",
+      "shares": 13819538,
+      "value": 438189762370,
+      "pctOfPortfolio": 92.41914699
+    },
+    {
+      "name": "BNP Paribas SA",
+      "cusip": "N/A",
+      "shares": 22721892,
+      "value": 1569997306670,
+      "pctOfPortfolio": 331.13008182
+    },
+    {
+      "name": "State Street Institutional US",
+      "cusip": "N/A",
+      "shares": 189408449.15,
+      "value": 189408449150,
+      "pctOfPortfolio": 39.94837125
+    },
+    {
+      "name": "Fixed Income Clearing Corporation",
+      "cusip": "N/A",
+      "shares": 109232000,
+      "value": 109232000000,
+      "pctOfPortfolio": 23.038256779999998
+    },
+    {
+      "name": "Suncor Energy, Inc.",
+      "cusip": "867224107",
+      "shares": 29228854,
+      "value": 936492482160,
+      "pctOfPortfolio": 197.5167925
+    },
+    {
+      "name": "TC Energy Corp.",
+      "cusip": "87807B107",
+      "shares": 11385400,
+      "value": 445055286000,
+      "pctOfPortfolio": 93.86716310999999
+    },
+    {
+      "name": "Teck Resources, Ltd.",
+      "cusip": "878742204",
+      "shares": 14160640,
+      "value": 598570252800,
+      "pctOfPortfolio": 126.24519541999999
+    },
+    {
+      "name": "Yum China Holdings, Inc.",
+      "cusip": "98850P109",
+      "shares": 3024164,
+      "value": 128315278520,
+      "pctOfPortfolio": 27.06313475
+    },
+    {
+      "name": "Axis Bank, Ltd.",
+      "cusip": "N/A",
+      "shares": 86740303,
+      "value": 1146721633510,
+      "pctOfPortfolio": 241.8564839
+    },
+    {
+      "name": "UBS Group AG",
+      "cusip": "N/A",
+      "shares": 51241194,
+      "value": 1590149412520,
+      "pctOfPortfolio": 335.38038749000003
+    },
+    {
+      "name": "Anheuser-Busch InBev SA/NV",
+      "cusip": "N/A",
+      "shares": 13195900,
+      "value": 851040117550,
+      "pctOfPortfolio": 179.49392815000002
+    },
+    {
+      "name": "Engie SA",
+      "cusip": "N/A",
+      "shares": 13736547,
+      "value": 241387924940,
+      "pctOfPortfolio": 50.91142704
+    },
+    {
+      "name": "Aegon, Ltd.",
+      "cusip": "N/A",
+      "shares": 52466275,
+      "value": 303964959740,
+      "pctOfPortfolio": 64.10962717000001
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 1433,
+      "value": 2427936840,
+      "pctOfPortfolio": 0.51207917
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 834,
+      "value": 2298454830,
+      "pctOfPortfolio": 0.48476996
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 822,
+      "value": -325800620,
+      "pctOfPortfolio": -0.06871501
+    },
+    {
+      "name": "Millicom International Cellular SA",
+      "cusip": "N/A",
+      "shares": 8247010,
+      "value": 147384114940,
+      "pctOfPortfolio": 31.08496673
+    },
+    {
+      "name": "Itau Unibanco Holding SA",
+      "cusip": "N/A",
+      "shares": 176002651,
+      "value": 1223839375830,
+      "pctOfPortfolio": 258.12148271
+    },
+    {
+      "name": "Seven & i Holdings Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 9107900,
+      "value": 361409223400,
+      "pctOfPortfolio": 76.22526816
+    },
+    {
+      "name": "Mitsubishi Chemical Group Corp.",
+      "cusip": "N/A",
+      "shares": 108521900,
+      "value": 664985259570,
+      "pctOfPortfolio": 140.25286698
+    },
+    {
+      "name": "TotalEnergies SE",
+      "cusip": "N/A",
+      "shares": 19464870,
+      "value": 1323675968550,
+      "pctOfPortfolio": 279.17814247
+    },
+    {
+      "name": "Smiths Group PLC",
+      "cusip": "N/A",
+      "shares": 20175116,
+      "value": 453505441690,
+      "pctOfPortfolio": 95.64939594
+    },
+    {
+      "name": "Danone SA",
+      "cusip": "N/A",
+      "shares": 6521400,
+      "value": 422454955520,
+      "pctOfPortfolio": 89.10049934
+    },
+    {
+      "name": "Glencore PLC",
+      "cusip": "N/A",
+      "shares": 117646561,
+      "value": 707952688150,
+      "pctOfPortfolio": 149.3151807
+    },
+    {
+      "name": "Entain PLC",
+      "cusip": "N/A",
+      "shares": 49181560,
+      "value": 623256845220,
+      "pctOfPortfolio": 131.45187528
+    },
+    {
+      "name": "Akzo Nobel NV",
+      "cusip": "N/A",
+      "shares": 11504360,
+      "value": 950231956710,
+      "pctOfPortfolio": 200.41460214
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "N/A",
+      "shares": 37787945,
+      "value": 1125706468300,
+      "pctOfPortfolio": 237.42414931
+    },
+    {
+      "name": "HDFC Bank, Ltd.",
+      "cusip": "Y3119P190",
+      "shares": 17186035,
+      "value": 352885415000,
+      "pctOfPortfolio": 74.42750115
+    },
+    {
+      "name": "Stellantis NV",
+      "cusip": "N/A",
+      "shares": 30000000,
+      "value": 700456372990,
+      "pctOfPortfolio": 147.73412356
+    },
+    {
+      "name": "Haleon PLC",
+      "cusip": "N/A",
+      "shares": 158253904,
+      "value": 648827108010,
+      "pctOfPortfolio": 136.84493117
+    },
+    {
+      "name": "GSK PLC",
+      "cusip": "G3910J179",
+      "shares": 68472120,
+      "value": 1265705517880,
+      "pctOfPortfolio": 266.95152272999997
+    },
+    {
+      "name": "Aviva PLC",
+      "cusip": "N/A",
+      "shares": 99490252,
+      "value": 551265951210,
+      "pctOfPortfolio": 116.26818642
+    },
+    {
+      "name": "ICICI Bank, Ltd.",
+      "cusip": "N/A",
+      "shares": 41032873,
+      "value": 492313114160,
+      "pctOfPortfolio": 103.83437034
+    },
+    {
+      "name": "Flutter Entertainment PLC",
+      "cusip": "N/A",
+      "shares": 604478,
+      "value": 106770173030,
+      "pctOfPortfolio": 22.519029800000002
+    },
+    {
+      "name": "CK Asset Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 59144600,
+      "value": 296915965930,
+      "pctOfPortfolio": 62.62291513
+    },
+    {
+      "name": "Credicorp, Ltd.",
+      "cusip": "G2519Y108",
+      "shares": 3335080,
+      "value": 500028544400,
+      "pctOfPortfolio": 105.46164131
+    },
+    {
+      "name": "Johnson Controls International PLC",
+      "cusip": "G51502105",
+      "shares": 19341301,
+      "value": 1114832589640,
+      "pctOfPortfolio": 235.13072605
+    },
+    {
+      "name": "Linde PLC",
+      "cusip": "G54950103",
+      "shares": 1277735,
+      "value": 524778541850,
+      "pctOfPortfolio": 110.68169401000002
+    },
+    {
+      "name": "Liberty Global, Ltd.",
+      "cusip": "G61188101",
+      "shares": 4612561,
+      "value": 81965208970,
+      "pctOfPortfolio": 17.287384019999998
+    },
+    {
+      "name": "Liberty Global, Ltd.",
+      "cusip": "G61188127",
+      "shares": 8459768,
+      "value": 157690075520,
+      "pctOfPortfolio": 33.25860967
+    },
+    {
+      "name": "XP, Inc.",
+      "cusip": "G98239109",
+      "shares": 17776502,
+      "value": 463433407140,
+      "pctOfPortfolio": 97.74331546
+    },
+    {
+      "name": "TE Connectivity, Ltd.",
+      "cusip": "H84989104",
+      "shares": 3871985,
+      "value": 544013892500,
+      "pctOfPortfolio": 114.73864571000001
+    },
+    {
+      "name": "Fixed Income Clearing Corporation",
+      "cusip": "N/A",
+      "shares": 905000000,
+      "value": 905000000000,
+      "pctOfPortfolio": 190.87467397
+    }
+  ]
 }

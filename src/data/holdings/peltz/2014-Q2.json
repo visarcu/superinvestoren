@@ -1,4 +1,85 @@
 {
+  "form": "13F-HR",
   "date": "2014-05-15",
-  "positions": []
+  "period": "2014-05-15",
+  "positions": [
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 64800245,
+      "value": 590978000
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 12632,
+      "value": 1088000
+    },
+    {
+      "name": "Family Dlr Stores Inc.",
+      "cusip": "307000109",
+      "shares": 8366386,
+      "value": 485334000
+    },
+    {
+      "name": "Legg Mason Inc.",
+      "cusip": "524901105",
+      "shares": 12886493,
+      "value": 631954000
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 10917830,
+      "value": 624937000
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 1062228,
+      "value": 60802000
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 6606540,
+      "value": 311102000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 41737993,
+      "value": 1442048000
+    },
+    {
+      "name": "PepsiCo Inc.",
+      "cusip": "713448108",
+      "shares": 12421546,
+      "value": 1037199000
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co. ",
+      "cusip": "263534109",
+      "shares": 6141364,
+      "value": 412086000
+    },
+    {
+      "name": "GNC Hldgs Inc.",
+      "cusip": "36191G107",
+      "shares": 359254,
+      "value": 15814000
+    },
+    {
+      "name": "Allegion Pub Ltd Co",
+      "cusip": "G0176J109",
+      "shares": 2719492,
+      "value": 141876000
+    },
+    {
+      "name": "Allegion Pub Ltd Co",
+      "cusip": "G0176J109",
+      "shares": 237396,
+      "value": 12385000
+    }
+  ]
 }

@@ -1,4 +1,61 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
-  "positions": []
+  "period": "2019-02-14",
+  "positions": [
+    {
+      "name": "Bank New York Mellon Corp. ",
+      "cusip": "064058100",
+      "shares": 16139123,
+      "value": 759669000
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 70865317,
+      "value": 536450000
+    },
+    {
+      "name": "Mondelez Intl Inc.",
+      "cusip": "609207105",
+      "shares": 18824836,
+      "value": 753558000
+    },
+    {
+      "name": "nVent Electric Plc",
+      "cusip": "G6700G107",
+      "shares": 17562998,
+      "value": 394465000
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "G7S00T104",
+      "shares": 8580717,
+      "value": 324179000
+    },
+    {
+      "name": "PPG Inds Inc.",
+      "cusip": "693506107",
+      "shares": 7009412,
+      "value": 716572000
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 37910766,
+      "value": 3484758000
+    },
+    {
+      "name": "Sysco Corp.",
+      "cusip": "871829107",
+      "shares": 28303910,
+      "value": 1773523000
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 31630629,
+      "value": 493754000
+    }
+  ]
 }

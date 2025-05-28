@@ -1,4 +1,31 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-17",
-  "positions": []
+  "period": "2020-08-17",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 85900,
+      "value": 121429000
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 12358987,
+      "value": 293526000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 9909423,
+      "value": 510533000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 608900,
+      "value": 138263000
+    }
+  ]
 }

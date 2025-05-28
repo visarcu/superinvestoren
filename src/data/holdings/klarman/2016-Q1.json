@@ -1,215 +1,217 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-12",
+  "period": "2016-02-12",
   "positions": [
     {
       "name": "AMERICAN INTL GROUP INC",
       "cusip": "026874156",
       "shares": 1258496,
-      "value": 29902000
+      "value": 29902000000
     },
     {
       "name": "ANTERO RES CORP",
       "cusip": "03674X106",
       "shares": 19167944,
-      "value": 417861000
+      "value": 417861000000
     },
     {
       "name": "ATARA BIOTHERAPEUTICS INC",
       "cusip": "046513107",
       "shares": 5359632,
-      "value": 141548000
+      "value": 141548000000
     },
     {
       "name": "BELLATRIX EXPLORATION LTD",
       "cusip": "078314101",
       "shares": 23990500,
-      "value": 29029000
+      "value": 29029000000
     },
     {
       "name": "BIOTIE THERAPIES OYJ",
       "cusip": "09074D103",
       "shares": 1395000,
-      "value": 20018000
+      "value": 20018000000
     },
     {
       "name": "CHENIERE ENERGY INC",
       "cusip": "16411R208",
       "shares": 26089669,
-      "value": 971840000
+      "value": 971840000000
     },
     {
       "name": "CHIPMOS TECH BERMUDA LTD",
       "cusip": "G2110R114",
       "shares": 3751853,
-      "value": 74287000
+      "value": 74287000000
     },
     {
       "name": "CITIGROUP INC",
       "cusip": "172967226",
       "shares": 102553207,
-      "value": 18460000
+      "value": 18460000000
     },
     {
       "name": "E M C CORP MASS",
       "cusip": "268648102",
       "shares": 29248619,
-      "value": 751105000
+      "value": 751105000000
     },
     {
       "name": "FORWARD PHARMA A/S",
       "cusip": "34986J105",
       "shares": 5367300,
-      "value": 101979000
+      "value": 101979000000
     },
     {
       "name": "FRONTIER COMMUNICATIONS CORP",
       "cusip": "35906A108",
       "shares": 10915236,
-      "value": 50974000
+      "value": 50974000000
     },
     {
       "name": "FRONTIER COMMUNICATIONS CORP",
       "cusip": "35906A207",
       "shares": 325000,
-      "value": 29764000
+      "value": 29764000000
     },
     {
       "name": "KERYX BIOPHARMACEUTICALS INC",
       "cusip": "492515101",
       "shares": 25791678,
-      "value": 130248000
+      "value": 130248000000
     },
     {
       "name": "KINDRED BIOSCIENCES INC",
       "cusip": "494577109",
       "shares": 3013848,
-      "value": 10247000
+      "value": 10247000000
     },
     {
       "name": "KLX INC",
       "cusip": "482539103",
       "shares": 2000000,
-      "value": 61580000
+      "value": 61580000000
     },
     {
       "name": "KOSMOS ENERGY LTD",
       "cusip": "G5315B107",
       "shares": 4618796,
-      "value": 24018000
+      "value": 24018000000
     },
     {
       "name": "MICRON TECHNOLOGY INC",
       "cusip": "595112103",
       "shares": 1000000,
-      "value": 14160000
+      "value": 14160000000
     },
     {
       "name": "NOVACOPPER INC",
       "cusip": "66988K102",
       "shares": 10600758,
-      "value": 3001000
+      "value": 3001000000
     },
     {
       "name": "NOVAGOLD RES INC",
       "cusip": "66987E206",
       "shares": 18977449,
-      "value": 79895000
+      "value": 79895000000
     },
     {
       "name": "OCWEN FINL CORP",
       "cusip": "675746309",
       "shares": 5200427,
-      "value": 36247000
+      "value": 36247000000
     },
     {
       "name": "OLIN CORP",
       "cusip": "680665205",
       "shares": 7000000,
-      "value": 120820000
+      "value": 120820000000
     },
     {
       "name": "OREXIGEN THERAPEUTICS INC",
       "cusip": "686164104",
       "shares": 2268399,
-      "value": 3902000
+      "value": 3902000000
     },
     {
       "name": "PARATEK PHARMACEUTICALS INC",
       "cusip": "699374302",
       "shares": 1544498,
-      "value": 29299000
+      "value": 29299000000
     },
     {
       "name": "PAYPAL HLDGS INC",
       "cusip": "70450Y103",
       "shares": 11109278,
-      "value": 402156000
+      "value": 402156000000
     },
     {
       "name": "PBF ENERGY INC",
       "cusip": "69318G106",
       "shares": 11025000,
-      "value": 405830000
+      "value": 405830000000
     },
     {
       "name": "SANCHEZ ENERGY CORP",
       "cusip": "79970Y105",
       "shares": 2000000,
-      "value": 8620000
+      "value": 8620000000
     },
     {
       "name": "SUNEDISON SEMICONDUCTOR LTD",
       "cusip": "Y8213L102",
       "shares": 8372979,
-      "value": 65644000
+      "value": 65644000000
     },
     {
       "name": "SUNRUN INC",
       "cusip": "86771W105",
       "shares": 2848082,
-      "value": 33522000
+      "value": 33522000000
     },
     {
       "name": "THERAVANCE BIOPHARMA INC",
       "cusip": "G8807B106",
       "shares": 6420028,
-      "value": 105224000
+      "value": 105224000000
     },
     {
       "name": "THERAVANCE INC",
       "cusip": "88338T104",
       "shares": 19815983,
-      "value": 208860000
+      "value": 208860000000
     },
     {
       "name": "THERAVANCE INC",
       "cusip": "88338TAB0",
       "shares": 48230000,
-      "value": 36052000
+      "value": 36052000000
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 4097500,
-      "value": 111288000
+      "value": 111288000000
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A200",
       "shares": 6527500,
-      "value": 177744000
+      "value": 177744000000
     },
     {
       "name": "VERITIV CORP",
       "cusip": "923454102",
       "shares": 2885682,
-      "value": 104519000
+      "value": 104519000000
     },
     {
       "name": "VIASAT INC",
       "cusip": "92552V100",
       "shares": 11533137,
-      "value": 703637000
+      "value": 703637000000
     }
   ]
 }

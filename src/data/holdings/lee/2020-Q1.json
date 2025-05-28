@@ -1,107 +1,109 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
   "positions": [
     {
       "name": "ALLEGIANT TRAVEL CO",
       "cusip": "01748X102",
       "shares": 89752,
-      "value": 15620000
+      "value": 15620000000
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 79460,
-      "value": 106240000
+      "value": 106240000000
     },
     {
       "name": "BUILDERS FIRSTSOURCE INC",
       "cusip": "12008R107",
       "shares": 386007,
-      "value": 9808000
+      "value": 9808000000
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 94817,
-      "value": 45994000
+      "value": 45994000000
     },
     {
       "name": "EVENTBRITE INC",
       "cusip": "29975E109",
       "shares": 329144,
-      "value": 6639000
+      "value": 6639000000
     },
     {
       "name": "FIAT CHRYSLER AUTOMOBILES N",
       "cusip": "N31738102",
       "shares": 1025000,
-      "value": 15057000
+      "value": 15057000000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 1619273,
-      "value": 75491000
+      "value": 75491000000
     },
     {
       "name": "LIBERTY MEDIA CORP DELAWARE",
       "cusip": "531229854",
       "shares": 604000,
-      "value": 27763000
+      "value": 27763000000
     },
     {
       "name": "LIBERTY MEDIA CORP DELAWARE",
       "cusip": "531229870",
       "shares": 2593428,
-      "value": 113540000
+      "value": 113540000000
     },
     {
       "name": "PURPLE INNOVATION INC",
       "cusip": "74640Y106",
       "shares": 16208,
-      "value": 141000
+      "value": 141000000
     },
     {
       "name": "REDFIN CORP",
       "cusip": "75737F108",
       "shares": 2653931,
-      "value": 56104000
+      "value": 56104000000
     },
     {
       "name": "ROSETTA STONE INC",
       "cusip": "777780107",
       "shares": 33510,
-      "value": 608000
+      "value": 608000000
     },
     {
       "name": "TEEKAY LNG PARTNERS L P",
       "cusip": "Y8564M105",
       "shares": 495217,
-      "value": 7706000
+      "value": 7706000000
     },
     {
       "name": "THOR INDS INC",
       "cusip": "885160101",
       "shares": 322140,
-      "value": 23932000
+      "value": 23932000000
     },
     {
       "name": "UPWORK INC",
       "cusip": "91688F104",
       "shares": 3565015,
-      "value": 38039000
+      "value": 38039000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M101",
       "shares": 2558462,
-      "value": 117024000
+      "value": 117024000000
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M200",
       "shares": 277682,
-      "value": 12757000
+      "value": 12757000000
     }
   ]
 }

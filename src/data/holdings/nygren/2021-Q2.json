@@ -1,0 +1,217 @@
+{
+  "form": "NPORT-P",
+  "date": "2021-05-27",
+  "period": "2021-05-27",
+  "positions": [
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -11799,
+      "value": -2778664500,
+      "pctOfPortfolio": -5.82012835
+    },
+    {
+      "name": "Hilton Worldwide Holdings Inc",
+      "cusip": "43300A203",
+      "shares": 1116475,
+      "value": 135004157000,
+      "pctOfPortfolio": 282.7766797813
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -5000,
+      "value": -3450000000,
+      "pctOfPortfolio": -7.226292633000001
+    },
+    {
+      "name": "EOG Resources Inc",
+      "cusip": "26875P101",
+      "shares": 2053637,
+      "value": 148950291610,
+      "pctOfPortfolio": 311.98794059299996
+    },
+    {
+      "name": "Citigroup Inc",
+      "cusip": "172967424",
+      "shares": 3862000,
+      "value": 280960500000,
+      "pctOfPortfolio": 588.4935627552001
+    },
+    {
+      "name": "General Electric Co",
+      "cusip": "369604103",
+      "shares": 16000000,
+      "value": 210080000000,
+      "pctOfPortfolio": 440.0288569518
+    },
+    {
+      "name": "Fixed Income Clearing Corp",
+      "cusip": "000000000",
+      "shares": 133732914.5,
+      "value": 133732914500,
+      "pctOfPortfolio": 280.1139637484
+    },
+    {
+      "name": "Lear Corp",
+      "cusip": "521865204",
+      "shares": 1150000,
+      "value": 208437500000,
+      "pctOfPortfolio": 436.5885132849
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 234211,
+      "value": 483064871720,
+      "pctOfPortfolio": 1011.816847565
+    },
+    {
+      "name": "CBRE Group Inc",
+      "cusip": "12504L109",
+      "shares": 5754560,
+      "value": 455243241600,
+      "pctOfPortfolio": 953.5422850166001
+    },
+    {
+      "name": "Constellation Brands Inc",
+      "cusip": "21036P108",
+      "shares": 909600,
+      "value": 207388800000,
+      "pctOfPortfolio": 434.39192978200003
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -2000,
+      "value": -1280000000,
+      "pctOfPortfolio": -2.681059295
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -8201,
+      "value": -2283978500,
+      "pctOfPortfolio": -4.783970147000001
+    },
+    {
+      "name": "First Citizens BancShares Inc/NC",
+      "cusip": "31946M103",
+      "shares": 55930,
+      "value": 46744616100,
+      "pctOfPortfolio": 97.91022463409999
+    },
+    {
+      "name": "Netflix Inc",
+      "cusip": "64110L106",
+      "shares": 349600,
+      "value": 182372336000,
+      "pctOfPortfolio": 381.9930052823
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 6603400,
+      "value": 255485546000,
+      "pctOfPortfolio": 535.1342953830999
+    },
+    {
+      "name": "APA Corp",
+      "cusip": "03743Q108",
+      "shares": 6000000,
+      "value": 107400000000,
+      "pctOfPortfolio": 224.9576315528
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 4687500,
+      "value": 178078125000,
+      "pctOfPortfolio": 372.9984472195
+    },
+    {
+      "name": "Facebook Inc",
+      "cusip": "30303M102",
+      "shares": 783000,
+      "value": 230616990000,
+      "pctOfPortfolio": 483.0451756634
+    },
+    {
+      "name": "Options Clearing Corp.",
+      "cusip": "000000000",
+      "shares": -15000,
+      "value": -16050000000,
+      "pctOfPortfolio": -33.617970078
+    },
+    {
+      "name": "Ally Financial Inc",
+      "cusip": "02005N100",
+      "shares": 6439700,
+      "value": 291138837000,
+      "pctOfPortfolio": 609.812879186
+    },
+    {
+      "name": "HCA Healthcare Inc",
+      "cusip": "40412C101",
+      "shares": 764346,
+      "value": 143956925640,
+      "pctOfPortfolio": 301.5289482086
+    },
+    {
+      "name": "Humana Inc",
+      "cusip": "444859102",
+      "shares": 317000,
+      "value": 132902250000,
+      "pctOfPortfolio": 278.3740725144
+    },
+    {
+      "name": "Regeneron Pharmaceuticals Inc",
+      "cusip": "75886F107",
+      "shares": 20000,
+      "value": 9462800000,
+      "pctOfPortfolio": 19.8205686765
+    },
+    {
+      "name": "Charter Communications Inc",
+      "cusip": "16119P108",
+      "shares": 388900,
+      "value": 239959078000,
+      "pctOfPortfolio": 502.6129036917
+    },
+    {
+      "name": "Booking Holdings Inc",
+      "cusip": "09857L108",
+      "shares": 82000,
+      "value": 191046880000,
+      "pctOfPortfolio": 400.16251061789995
+    },
+    {
+      "name": "CIT Group Inc",
+      "cusip": "125581801",
+      "shares": 1356516,
+      "value": 69874139160,
+      "pctOfPortfolio": 146.3568049555
+    },
+    {
+      "name": "First Citizens BancShares Inc/NC",
+      "cusip": "31946M202",
+      "shares": 6853,
+      "value": 5345340000,
+      "pctOfPortfolio": 11.1962292946
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 1874900,
+      "value": 238543527000,
+      "pctOfPortfolio": 499.6479223108
+    },
+    {
+      "name": "American International Group Inc",
+      "cusip": "026874784",
+      "shares": 4619300,
+      "value": 213457853000,
+      "pctOfPortfolio": 447.10403209720005
+    }
+  ]
+}

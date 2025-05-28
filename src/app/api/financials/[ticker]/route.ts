@@ -48,6 +48,23 @@ export async function GET(
     keyMetrics = {}
   }
 
+    // ── NEU: TTM-Serie für ROE holen ───────────────────────────────────
+    let roeMap: Record<string, number> = {}
+    try {
+      const ttmUrl = `https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}` +
+                     `?period=${period}&limit=${limit}&apikey=${apiKey}`
+      const ttmArr: any[] = await fetchJson(ttmUrl)
+      ttmArr.forEach(e => {
+        // key wie bei incData: bei annual e.calendarYear, sonst e.date
+        const lab = period === 'quarter'
+          ? e.date.slice(0,7)
+          : String(e.calendarYear)
+        roeMap[lab] = e.returnOnEquity ?? 0
+      })
+    } catch {
+      // ignore
+    }
+
   // 3) Fallback aus Profile holen, falls einzelne Kennzahlen fehlen
   const profileUrl = `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${apiKey}`
   try {
@@ -104,6 +121,7 @@ export async function GET(
     const matchVal  = inc[keyMatch]
     const cfRow = cfData.find((c: any) => c[keyMatch] === matchVal) || {}
     const bsRow = bsData.find((b: any) => b[keyMatch] === matchVal) || {}
+    
 
     // zum passenden Jahr/quartal die Dividende/Share finden
     const divPsEntry = histDivPS.find(d =>
@@ -126,6 +144,7 @@ export async function GET(
         bsRow.commonStockSharesOutstanding || bsRow.commonStock || 0,
       // das neue Feld
       dividendPerShareTTM: divPsEntry?.dividendPerShareTTM ?? 0,
+      
     }
   })
 

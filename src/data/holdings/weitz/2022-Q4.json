@@ -1,0 +1,216 @@
+{
+  "form": "NPORT-P",
+  "groupingDate": "2022-12-31",
+  "positions": [
+    {
+      "name": "VULCAN MATERIALS COMPANY",
+      "cusip": "929160109",
+      "shares": 74000,
+      "value": 12958140000,
+      "pctOfPortfolio": 341.7469170695
+    },
+    {
+      "name": "LIBERTY BROADBAND CORPORATION",
+      "cusip": "530307107",
+      "shares": 70000,
+      "value": 5309500000,
+      "pctOfPortfolio": 140.0282182613
+    },
+    {
+      "name": "ALPHABET INC.",
+      "cusip": "02079K107",
+      "shares": 276000,
+      "value": 24489480000,
+      "pctOfPortfolio": 645.8646295406
+    },
+    {
+      "name": "HEICO CORPORATION",
+      "cusip": "422806208",
+      "shares": 120000,
+      "value": 14382000000,
+      "pctOfPortfolio": 379.2985846189
+    },
+    {
+      "name": "COSTAR GROUP, INC.",
+      "cusip": "22160N109",
+      "shares": 285000,
+      "value": 22024800000,
+      "pctOfPortfolio": 580.8632642549001
+    },
+    {
+      "name": "FIRST REPUBLIC BANK",
+      "cusip": "33616C100",
+      "shares": 75000,
+      "value": 9141750000,
+      "pctOfPortfolio": 241.0967067125
+    },
+    {
+      "name": "LKQ CORPORATION",
+      "cusip": "501889208",
+      "shares": 260000,
+      "value": 13886600000,
+      "pctOfPortfolio": 366.2333281302
+    },
+    {
+      "name": "LIBERTY SIRIUS XM",
+      "cusip": "531229409",
+      "shares": 120000,
+      "value": 4717200000,
+      "pctOfPortfolio": 124.40740393300001
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 45000,
+      "value": 11943900000,
+      "pctOfPortfolio": 314.9982175518
+    },
+    {
+      "name": "LIBERTY SIRIUS XM",
+      "cusip": "531229607",
+      "shares": 385000,
+      "value": 15065050000,
+      "pctOfPortfolio": 397.3127619394
+    },
+    {
+      "name": "AXALTA COATING SYSTEMS LTD.",
+      "cusip": "G0750C108",
+      "shares": 310000,
+      "value": 7895700000,
+      "pctOfPortfolio": 208.2344482391
+    },
+    {
+      "name": "CarMax, Inc.",
+      "cusip": "143130102",
+      "shares": 160000,
+      "value": 9742400000,
+      "pctOfPortfolio": 256.93773680929996
+    },
+    {
+      "name": "LABORATORY CORPORATION OF AMERICA HOLDINGS",
+      "cusip": "50540R409",
+      "shares": 57000,
+      "value": 13422360000,
+      "pctOfPortfolio": 353.9898588684
+    },
+    {
+      "name": "MASTERCARD INCORPORATED.",
+      "cusip": "57636Q104",
+      "shares": 50000,
+      "value": 17386500000,
+      "pctOfPortfolio": 458.536701535
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 525000,
+      "value": 10200750000,
+      "pctOfPortfolio": 269.0258682416
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE, INC.",
+      "cusip": "40171V100",
+      "shares": 135000,
+      "value": 8445600000,
+      "pctOfPortfolio": 222.73704118039998
+    },
+    {
+      "name": "VISA INC.",
+      "cusip": "92826C839",
+      "shares": 92500,
+      "value": 19217800000,
+      "pctOfPortfolio": 506.83384365800003
+    },
+    {
+      "name": "IDEX CORPORATION",
+      "cusip": "45167R104",
+      "shares": 35000,
+      "value": 7991550000,
+      "pctOfPortfolio": 210.76231427550002
+    },
+    {
+      "name": "JPMorgan Trust II: JPMorgan US Government Money Market Fund; Institutional Shares",
+      "cusip": "4812C2684",
+      "shares": 6524709.65,
+      "value": 6524709650,
+      "pctOfPortfolio": 172.0771196839
+    },
+    {
+      "name": "Aon plc",
+      "cusip": "G0403H108",
+      "shares": 50000,
+      "value": 15007000000,
+      "pctOfPortfolio": 395.78180081880004
+    },
+    {
+      "name": "Markel Corporation",
+      "cusip": "570535104",
+      "shares": 9300,
+      "value": 12252657000,
+      "pctOfPortfolio": 323.1411109665
+    },
+    {
+      "name": "LIBERTY BROADBAND CORPORATION",
+      "cusip": "530307305",
+      "shares": 100000,
+      "value": 7627000000,
+      "pctOfPortfolio": 201.1479839305
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD.",
+      "cusip": "G9001E128",
+      "shares": 1050000,
+      "value": 7980000000,
+      "pctOfPortfolio": 210.45770444020002
+    },
+    {
+      "name": "BLACK KNIGHT, INC.",
+      "cusip": "09215C105",
+      "shares": 160000,
+      "value": 9880000000,
+      "pctOfPortfolio": 260.56668168780004
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATION",
+      "cusip": "808513105",
+      "shares": 150000,
+      "value": 12489000000,
+      "pctOfPortfolio": 329.3742193927
+    },
+    {
+      "name": "META PLATFORMS, INC.",
+      "cusip": "30303M102",
+      "shares": 85000,
+      "value": 10228900000,
+      "pctOfPortfolio": 269.7682722993
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC.,",
+      "cusip": "084670702",
+      "shares": 100000,
+      "value": 30890000000,
+      "pctOfPortfolio": 814.6664774634
+    },
+    {
+      "name": "TEXAS INSTRUMENTS INCORPORATED",
+      "cusip": "882508104",
+      "shares": 85000,
+      "value": 14043700000,
+      "pctOfPortfolio": 370.3765493542
+    },
+    {
+      "name": "GARTNER, INC.",
+      "cusip": "366651107",
+      "shares": 35200,
+      "value": 11832128000,
+      "pctOfPortfolio": 312.05043828600003
+    },
+    {
+      "name": "MARTIN MARIETTA MATERIALS, INC.",
+      "cusip": "573284106",
+      "shares": 37000,
+      "value": 12504890000,
+      "pctOfPortfolio": 329.7932886813
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "form": "NPORT-P",
+  "date": "2019-11-19",
+  "period": "2019-11-19",
+  "positions": [
+    {
+      "name": "Baidu, Inc.",
+      "cusip": "567521080",
+      "shares": 490914,
+      "value": 50446322640,
+      "pctOfPortfolio": 408.52777263
+    },
+    {
+      "name": "Becle, S.A.B. de C.V.",
+      "cusip": "BYM406300",
+      "shares": 35599467,
+      "value": 52333056540,
+      "pctOfPortfolio": 423.80704686
+    },
+    {
+      "name": "Bharti Infratel Limited",
+      "cusip": "B92P9G400",
+      "shares": 10429376,
+      "value": 37865442120,
+      "pctOfPortfolio": 306.64444739
+    },
+    {
+      "name": "Bollore ",
+      "cusip": "457270900",
+      "shares": 13778657,
+      "value": 57098819490,
+      "pctOfPortfolio": 462.40146606
+    },
+    {
+      "name": "C and C Group plc",
+      "cusip": "B010DT800",
+      "shares": 13386199,
+      "value": 60549909920,
+      "pctOfPortfolio": 490.34931661999997
+    },
+    {
+      "name": "Compagnie Financiere Richemont SA",
+      "cusip": "BCRWZ1800",
+      "shares": 481193,
+      "value": 35301789950,
+      "pctOfPortfolio": 285.8833085
+    },
+    {
+      "name": "CK Asset Holdings Limited",
+      "cusip": "BYZQ07700",
+      "shares": 7743500,
+      "value": 52461800020,
+      "pctOfPortfolio": 424.84964589000003
+    },
+    {
+      "name": "CK Hutchison Holdings Limited ",
+      "cusip": "BW9P81600",
+      "shares": 8496500,
+      "value": 75016624780,
+      "pctOfPortfolio": 607.50463121
+    },
+    {
+      "name": "Domino's Pizza Group PLC",
+      "cusip": "BYN591300",
+      "shares": 19063793,
+      "value": 59747953860,
+      "pctOfPortfolio": 483.8548626
+    },
+    {
+      "name": "EXOR N.V.",
+      "cusip": "BYSLCX900",
+      "shares": 1669354,
+      "value": 111864021620,
+      "pctOfPortfolio": 905.90467646
+    },
+    {
+      "name": "Fairfax Financial Holdings Limited",
+      "cusip": "303901102",
+      "shares": 116719,
+      "value": 51450274370,
+      "pctOfPortfolio": 416.65804145000004
+    },
+    {
+      "name": "Great Eagle Holdings Limited",
+      "cusip": "638740600",
+      "shares": 13222894,
+      "value": 45213973390,
+      "pctOfPortfolio": 366.15481316
+    },
+    {
+      "name": "Gruma, S.A.B. DE C.V.",
+      "cusip": "239254500",
+      "shares": 2767250,
+      "value": 28327362550,
+      "pctOfPortfolio": 229.40253563000002
+    },
+    {
+      "name": "LafargeHolcim Ltd ",
+      "cusip": "711075300",
+      "shares": 35356,
+      "value": 1740079880,
+      "pctOfPortfolio": 14.09163087
+    },
+    {
+      "name": "LafargeHolcim Ltd ",
+      "cusip": "BZ3DNX400",
+      "shares": 1603432,
+      "value": 78889686290,
+      "pctOfPortfolio": 638.8697161
+    },
+    {
+      "name": "LANXESS AG",
+      "cusip": "B05M8B700",
+      "shares": 1139615,
+      "value": 69559157250,
+      "pctOfPortfolio": 563.30860388
+    },
+    {
+      "name": "Lazard Ltd ",
+      "cusip": "G54050102",
+      "shares": 1639840,
+      "value": 57394400000,
+      "pctOfPortfolio": 464.79515585
+    },
+    {
+      "name": "Melco International Development Limited",
+      "cusip": "B092QP300",
+      "shares": 34713700,
+      "value": 82557812620,
+      "pctOfPortfolio": 668.57518126
+    },
+    {
+      "name": "Millicom International Cellular S.A.",
+      "cusip": "B00L2M800",
+      "shares": 929168,
+      "value": 45080087650,
+      "pctOfPortfolio": 365.07057073000004
+    },
+    {
+      "name": "MinebeaMitsumi Inc.",
+      "cusip": "664240600",
+      "shares": 4635500,
+      "value": 73353438150,
+      "pctOfPortfolio": 594.03570238
+    },
+    {
+      "name": "OCI N.V. ",
+      "cusip": "BD4TZK800",
+      "shares": 2013672,
+      "value": 47539576790,
+      "pctOfPortfolio": 384.98816963
+    },
+    {
+      "name": "Vestas Wind Systems A/S",
+      "cusip": "596465100",
+      "shares": 312414,
+      "value": 24254449330,
+      "pctOfPortfolio": 196.4189983
+    },
+    {
+      "name": "Hong Kong Dollar Put",
+      "cusip": "000000000",
+      "shares": 168000000,
+      "value": 1310400000,
+      "pctOfPortfolio": 10.61196863
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 31809000,
+      "value": 31809000000,
+      "pctOfPortfolio": 257.59776411
+    },
+    {
+      "name": "RMB FX Forward",
+      "cusip": "000000000",
+      "shares": 25270490,
+      "value": 412160360,
+      "pctOfPortfolio": 3.3377845
+    },
+    {
+      "name": "RMB FX Forward",
+      "cusip": "000000000",
+      "shares": 14379483,
+      "value": 970421420,
+      "pctOfPortfolio": 7.858731430000001
+    },
+    {
+      "name": "RMB FX Forward",
+      "cusip": "000000000",
+      "shares": 14465177,
+      "value": 894805220,
+      "pctOfPortfolio": 7.24637128
+    }
+  ]
+}

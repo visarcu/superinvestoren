@@ -1,0 +1,168 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-02-23",
+  "period": "2023-02-23",
+  "positions": [
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 385874,
+      "value": 204582677320,
+      "pctOfPortfolio": 684.4619897506
+    },
+    {
+      "name": "Elevance Health Inc",
+      "cusip": "036752103",
+      "shares": 295662,
+      "value": 151665736140,
+      "pctOfPortfolio": 507.4204370343
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 153616,
+      "value": 47451982400,
+      "pctOfPortfolio": 158.7577145659
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 2255975,
+      "value": 137366317750,
+      "pctOfPortfolio": 459.57959101689994
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1074307,
+      "value": 129282104380,
+      "pctOfPortfolio": 432.532644319
+    },
+    {
+      "name": "Netflix Inc",
+      "cusip": "64110L106",
+      "shares": 225165,
+      "value": 66396655200,
+      "pctOfPortfolio": 222.1399549869
+    },
+    {
+      "name": "CHARLES SCHWAB CORP/THE",
+      "cusip": "808513105",
+      "shares": 2638524,
+      "value": 219683508240,
+      "pctOfPortfolio": 734.9840814242
+    },
+    {
+      "name": "Constellation Software Inc/Can",
+      "cusip": "21037X100",
+      "shares": 111427,
+      "value": 173967666850,
+      "pctOfPortfolio": 582.0348866496
+    },
+    {
+      "name": "LIBERTY MEDIA CORP-LIBERTY FORMULA ONE",
+      "cusip": "531229870",
+      "shares": 43481,
+      "value": 2323189830,
+      "pctOfPortfolio": 7.7725795479
+    },
+    {
+      "name": "Eurofins Scientific SE",
+      "cusip": "000000000",
+      "shares": 2554212,
+      "value": 183352517150,
+      "pctOfPortfolio": 613.4333090087
+    },
+    {
+      "name": "Micron Technology Inc",
+      "cusip": "595112103",
+      "shares": 1683406,
+      "value": 84136631880,
+      "pctOfPortfolio": 281.4917040968
+    },
+    {
+      "name": "LIBERTY MEDIA CORP-LIBERTY FORMULA ONE",
+      "cusip": "531229854",
+      "shares": 3400120,
+      "value": 203259173600,
+      "pctOfPortfolio": 680.0340098185
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 1973840,
+      "value": 174151903200,
+      "pctOfPortfolio": 582.6512769538
+    },
+    {
+      "name": "Universal Music Group NV",
+      "cusip": "000000000",
+      "shares": 7948025,
+      "value": 191514255260,
+      "pctOfPortfolio": 640.7396263361
+    },
+    {
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 1807536,
+      "value": 185435118240,
+      "pctOfPortfolio": 620.4009628912
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "000000000",
+      "shares": 1082791,
+      "value": 111723106810,
+      "pctOfPortfolio": 373.786387929
+    },
+    {
+      "name": "Jacobs Solutions Inc",
+      "cusip": "46982L108",
+      "shares": 1020323,
+      "value": 122510182610,
+      "pctOfPortfolio": 409.87616572630003
+    },
+    {
+      "name": "CREDIT ACCEPTANCE CORP",
+      "cusip": "225310101",
+      "shares": 298244,
+      "value": 141486953600,
+      "pctOfPortfolio": 473.3657954497
+    },
+    {
+      "name": "TSMC",
+      "cusip": "874039100",
+      "shares": 1593433,
+      "value": 118694824170,
+      "pctOfPortfolio": 397.1113125938
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 997857,
+      "value": 92760786720,
+      "pctOfPortfolio": 310.34510585609996
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307107",
+      "shares": 350539,
+      "value": 26588383150,
+      "pctOfPortfolio": 88.9554182861
+    },
+    {
+      "name": "Rolls-Royce Holdings PLC",
+      "cusip": "000000000",
+      "shares": 71249483,
+      "value": 80279742220,
+      "pctOfPortfolio": 268.5879020471
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 785200,
+      "value": 59887204000,
+      "pctOfPortfolio": 200.3616109995
+    }
+  ]
+}

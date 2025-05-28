@@ -1,4 +1,91 @@
 {
+  "form": "13F-HR",
   "date": "2013-11-14",
-  "positions": []
+  "period": "2013-11-14",
+  "positions": [
+    {
+      "name": "ADOBE SYSTEMS INC ",
+      "cusip": "00724F101",
+      "shares": 31303362,
+      "value": 1625897000
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 4625204,
+      "value": 115861000
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 32162764,
+      "value": 743925000
+    },
+    {
+      "name": "CF INDUSTRIES HOLDINGS INC",
+      "cusip": "125269100",
+      "shares": 1412200,
+      "value": 297734000
+    },
+    {
+      "name": "KAR AUCTION SERVICES INC",
+      "cusip": "48238T109",
+      "shares": 803628,
+      "value": 22670000
+    },
+    {
+      "name": "MICROS SYSTEMS INC",
+      "cusip": "594901100",
+      "shares": 6697308,
+      "value": 334464000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 66865530,
+      "value": 2227291000
+    },
+    {
+      "name": "MOSAIC CO",
+      "cusip": "61945C103",
+      "shares": 575944,
+      "value": 24777000
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 28907623,
+      "value": 1716535000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 7394017,
+      "value": 297683000
+    },
+    {
+      "name": "ROCKWELL COLLINS INC ",
+      "cusip": "774341101",
+      "shares": 13113000,
+      "value": 889848000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 18923877,
+      "value": 1974328000
+    },
+    {
+      "name": "VALERO ENERGY CORP",
+      "cusip": "91913Y100",
+      "shares": 637747,
+      "value": 21779000
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC ",
+      "cusip": "G96666105",
+      "shares": 18214700,
+      "value": 789243000
+    }
+  ]
 }

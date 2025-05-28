@@ -1,0 +1,2016 @@
+{
+  "form": "NPORT-P",
+  "date": "2020-08-04",
+  "period": "2020-08-04",
+  "positions": [
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023UAD3",
+      "shares": 1478000,
+      "value": 1498167310,
+      "pctOfPortfolio": 20.063869982900002
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128PUEW8",
+      "shares": 1680305.48,
+      "value": 1766615040,
+      "pctOfPortfolio": 23.6589960519
+    },
+    {
+      "name": "OneMain Financial Issuance Trust",
+      "cusip": "68268GAB4",
+      "shares": 1013229.87,
+      "value": 1014561150,
+      "pctOfPortfolio": 13.587282853800001
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31419AA98",
+      "shares": 250557.6,
+      "value": 263768340.00000003,
+      "pctOfPortfolio": 3.532458387
+    },
+    {
+      "name": "CarMax Auto Owner Trust",
+      "cusip": "14314PAF3",
+      "shares": 1070000,
+      "value": 1076050530,
+      "pctOfPortfolio": 14.410765596600001
+    },
+    {
+      "name": "WELLS FARGO & COMPANY",
+      "cusip": "94974BFC9",
+      "shares": 7900000,
+      "value": 8276849040,
+      "pctOfPortfolio": 110.8458460537
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81748JAD7",
+      "shares": 2173313.78,
+      "value": 2227938720,
+      "pctOfPortfolio": 29.8371700608
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3137A9QP4",
+      "shares": 872431.22,
+      "value": 954456850,
+      "pctOfPortfolio": 12.7823494845
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109GAA2",
+      "shares": 629196.12,
+      "value": 635353310,
+      "pctOfPortfolio": 8.5088268312
+    },
+    {
+      "name": "WELLS FARGO & COMPANY",
+      "cusip": "949746SA0",
+      "shares": 10100000,
+      "value": 10282046740,
+      "pctOfPortfolio": 137.700006917
+    },
+    {
+      "name": "Social Professional Loan Program LLC",
+      "cusip": "83404WAA5",
+      "shares": 2085695.64,
+      "value": 2101819740.0000002,
+      "pctOfPortfolio": 28.1481498824
+    },
+    {
+      "name": "Upgrade Receivables Trust",
+      "cusip": "91532HAB4",
+      "shares": 6800000,
+      "value": 6704589880,
+      "pctOfPortfolio": 89.78971757250001
+    },
+    {
+      "name": "NXP BV/NXP FUNDING LLC",
+      "cusip": "62947QAV0",
+      "shares": 3500000,
+      "value": 3842049860,
+      "pctOfPortfolio": 51.453791805799995
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828XT2",
+      "shares": 15000000,
+      "value": 16043847600,
+      "pctOfPortfolio": 214.86363380359998
+    },
+    {
+      "name": "WPX ENERGY INC",
+      "cusip": "98212BAJ2",
+      "shares": 600000,
+      "value": 561526500,
+      "pctOfPortfolio": 7.5201178218
+    },
+    {
+      "name": "Flagstar Mortgage Trust 2017-1",
+      "cusip": "33850BAT4",
+      "shares": 2037927.63,
+      "value": 2126070450.0000002,
+      "pctOfPortfolio": 28.4729220819
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128MB3H8",
+      "shares": 48444.12,
+      "value": 51373010,
+      "pctOfPortfolio": 0.6880015245
+    },
+    {
+      "name": "MET LIFE GLOB FUNDING I",
+      "cusip": "59217GDB2",
+      "shares": 1000000,
+      "value": 1037288420,
+      "pctOfPortfolio": 13.8916527244
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828UN8",
+      "shares": 7000000,
+      "value": 7335234340,
+      "pctOfPortfolio": 98.2354821853
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141GWG5",
+      "shares": 1500000,
+      "value": 1514943660,
+      "pctOfPortfolio": 20.2885434909
+    },
+    {
+      "name": "Drive Auto Receivables Trust",
+      "cusip": "26209AAB7",
+      "shares": 738204.55,
+      "value": 740320170,
+      "pctOfPortfolio": 9.9145719823
+    },
+    {
+      "name": "SoFi Consumer Loan Program Trust",
+      "cusip": "83405AAA2",
+      "shares": 84004.54,
+      "value": 84313760,
+      "pctOfPortfolio": 1.1291531372999999
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EGQZ0",
+      "shares": 582362.11,
+      "value": 614955550,
+      "pctOfPortfolio": 8.2356544013
+    },
+    {
+      "name": "Cox Communications Inc",
+      "cusip": "224044BW6",
+      "shares": 5000000,
+      "value": 5272522150,
+      "pctOfPortfolio": 70.6110714028
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109HAA0",
+      "shares": 1144580.94,
+      "value": 1155024780,
+      "pctOfPortfolio": 15.468410542800001
+    },
+    {
+      "name": "Exeter Automobile Receivables Trust",
+      "cusip": "30167YAA9",
+      "shares": 1750000,
+      "value": 1752740850,
+      "pctOfPortfolio": 23.4731890713
+    },
+    {
+      "name": "Dell Equipment Finance Trust",
+      "cusip": "24704BAJ3",
+      "shares": 2750000,
+      "value": 2779225900,
+      "pctOfPortfolio": 37.220160084
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31395PEM0",
+      "shares": 369443.75,
+      "value": 406784460,
+      "pctOfPortfolio": 5.4477697264
+    },
+    {
+      "name": "First Investors Auto Owner Trust",
+      "cusip": "32058RAA2",
+      "shares": 1758960.06,
+      "value": 1782239370,
+      "pctOfPortfolio": 23.8682413903
+    },
+    {
+      "name": "Chesapeake Funding II LLC",
+      "cusip": "165183AX2",
+      "shares": 385000,
+      "value": 389607330,
+      "pctOfPortfolio": 5.2177288619999995
+    },
+    {
+      "name": "ARI Fleet Lease Trust",
+      "cusip": "04033JAB7",
+      "shares": 785814.46,
+      "value": 797635390,
+      "pctOfPortfolio": 10.6821532227
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416CMH6",
+      "shares": 104358.34,
+      "value": 109807480,
+      "pctOfPortfolio": 1.4705720697
+    },
+    {
+      "name": "Drive Auto Receivables Trust",
+      "cusip": "26208EAG9",
+      "shares": 3913253.64,
+      "value": 3972637260,
+      "pctOfPortfolio": 53.202654297600006
+    },
+    {
+      "name": "Hertz Fleet Lease Funding LP",
+      "cusip": "428041BD8",
+      "shares": 1136764.2,
+      "value": 1143995270,
+      "pctOfPortfolio": 15.320700301699999
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02529WAA5",
+      "shares": 1590194.93,
+      "value": 1598537250,
+      "pctOfPortfolio": 21.408051913
+    },
+    {
+      "name": "Exantas Capital Corp",
+      "cusip": "299670AG4",
+      "shares": 6000000,
+      "value": 5704596000,
+      "pctOfPortfolio": 76.3975236178
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418DF98",
+      "shares": 3985245.4,
+      "value": 4185531360,
+      "pctOfPortfolio": 56.053790825600004
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "23343JAA4",
+      "shares": 1095158.51,
+      "value": 1101897790,
+      "pctOfPortfolio": 14.7569192342
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132A9UR6",
+      "shares": 1797031.63,
+      "value": 1886543250,
+      "pctOfPortfolio": 25.265107730300002
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31398V7F7",
+      "shares": 859214.61,
+      "value": 900526080,
+      "pctOfPortfolio": 12.060093732299999
+    },
+    {
+      "name": "Redwood Trust Inc",
+      "cusip": "758075AD7",
+      "shares": 6300000,
+      "value": 5459847250,
+      "pctOfPortfolio": 73.1197808278
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81744VAA0",
+      "shares": 1331151.52,
+      "value": 1388399690,
+      "pctOfPortfolio": 18.5938317293
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31294MLN9",
+      "shares": 2144987.95,
+      "value": 2259197960,
+      "pctOfPortfolio": 30.2558024278
+    },
+    {
+      "name": "Citigroup Mortgage Loan Trust Inc",
+      "cusip": "17322GAA7",
+      "shares": 793703.86,
+      "value": 838946730,
+      "pctOfPortfolio": 11.2354060864
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3137B6MD0",
+      "shares": 625525.38,
+      "value": 635748780,
+      "pctOfPortfolio": 8.5141230746
+    },
+    {
+      "name": "BCC Funding CORP",
+      "cusip": "05492MAB1",
+      "shares": 4500000,
+      "value": 4540456800,
+      "pctOfPortfolio": 60.80705024750001
+    },
+    {
+      "name": "FIRST REPUBLIC BANK",
+      "cusip": "336158AK6",
+      "shares": 4200000,
+      "value": 4325081920,
+      "pctOfPortfolio": 57.9226904293
+    },
+    {
+      "name": "SOFI CONSUMER LOAN PROGRAM TRUST",
+      "cusip": "83407AAA0",
+      "shares": 1702072.56,
+      "value": 1720889310,
+      "pctOfPortfolio": 23.0466244593
+    },
+    {
+      "name": "Hilton USA Trust",
+      "cusip": "43289VAQ6",
+      "shares": 4300000,
+      "value": 4129064250,
+      "pctOfPortfolio": 55.2975677083
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36258XAA8",
+      "shares": 3583705.66,
+      "value": 3625126130,
+      "pctOfPortfolio": 48.548689361
+    },
+    {
+      "name": "Carvana Auto Receivables trust",
+      "cusip": "146868AE4",
+      "shares": 300000,
+      "value": 305950740,
+      "pctOfPortfolio": 4.0973767265
+    },
+    {
+      "name": "United Auto Credit Securitization Trust",
+      "cusip": "90945BAA2",
+      "shares": 2000000,
+      "value": 2002428000,
+      "pctOfPortfolio": 26.817068276700002
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31412N6C5",
+      "shares": 236751.15,
+      "value": 252535200,
+      "pctOfPortfolio": 3.3820210767
+    },
+    {
+      "name": "NGL ENRGY PART LP/FIN CO",
+      "cusip": "62913TAJ1",
+      "shares": 4555000,
+      "value": 3794838830,
+      "pctOfPortfolio": 50.821528665799995
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31294MDH1",
+      "shares": 1392033.9,
+      "value": 1465292150,
+      "pctOfPortfolio": 19.623596769400002
+    },
+    {
+      "name": "Qwest Corp",
+      "cusip": "74913GAX3",
+      "shares": 1150000,
+      "value": 1215657070,
+      "pctOfPortfolio": 16.280414899900002
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02529RAA6",
+      "shares": 1724614.84,
+      "value": 1732857460,
+      "pctOfPortfolio": 23.2069052263
+    },
+    {
+      "name": "Hertz Fleet Lease Funding LP",
+      "cusip": "428041BC0",
+      "shares": 2393187.79,
+      "value": 2384175280,
+      "pctOfPortfolio": 31.9295331804
+    },
+    {
+      "name": "CCG Receivables Trust",
+      "cusip": "12510FAB0",
+      "shares": 2500000,
+      "value": 2529461000,
+      "pctOfPortfolio": 33.875239629199996
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02529VAA7",
+      "shares": 2244946.35,
+      "value": 2257043240,
+      "pctOfPortfolio": 30.226945823
+    },
+    {
+      "name": "Level 3 Financing Inc",
+      "cusip": "527298BM4",
+      "shares": 1455000,
+      "value": 1502527580,
+      "pctOfPortfolio": 20.1222639218
+    },
+    {
+      "name": "ReadyCap Commercial Mortgage Trust",
+      "cusip": "75574WAG2",
+      "shares": 10200000,
+      "value": 9033637140,
+      "pctOfPortfolio": 120.9809610984
+    },
+    {
+      "name": "AMERICAN AIRLINES GROUP",
+      "cusip": "02376RAE2",
+      "shares": 750000,
+      "value": 349957500,
+      "pctOfPortfolio": 4.6867273985999995
+    },
+    {
+      "name": "OneMain Direct Auto Receivables Trust 2017-2",
+      "cusip": "68267CAD0",
+      "shares": 500000,
+      "value": 502622750,
+      "pctOfPortfolio": 6.7312625493
+    },
+    {
+      "name": "ARI Fleet Lease Trust",
+      "cusip": "04033BAB4",
+      "shares": 588078.18,
+      "value": 595194400,
+      "pctOfPortfolio": 7.971007628
+    },
+    {
+      "name": "Social Professional Loan Program LLC",
+      "cusip": "83406EAB1",
+      "shares": 508414.08,
+      "value": 509553390,
+      "pctOfPortfolio": 6.8240795925
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128PWML9",
+      "shares": 3601175.27,
+      "value": 3790878090,
+      "pctOfPortfolio": 50.7684853428
+    },
+    {
+      "name": "Deephaven Residential Mortgage Trust",
+      "cusip": "24381LAA0",
+      "shares": 2268841.38,
+      "value": 2294071800,
+      "pctOfPortfolio": 30.722842515299998
+    },
+    {
+      "name": "Foursight Capital Automobile Receivables Trust",
+      "cusip": "35105FAB2",
+      "shares": 2500000,
+      "value": 2523749250,
+      "pctOfPortfolio": 33.7987462972
+    },
+    {
+      "name": "Conn Funding II, L.P",
+      "cusip": "20827DAA8",
+      "shares": 194315.67,
+      "value": 192134420,
+      "pctOfPortfolio": 2.5731171654000002
+    },
+    {
+      "name": "Markel Corp",
+      "cusip": "570535AK0",
+      "shares": 3850000,
+      "value": 4127969080,
+      "pctOfPortfolio": 55.2829008895
+    },
+    {
+      "name": "Upstart Securitization Trust",
+      "cusip": "91678WAA7",
+      "shares": 3672887.13,
+      "value": 3695086790,
+      "pctOfPortfolio": 49.485621822999995
+    },
+    {
+      "name": "SPRINT SPECTRUM / SPEC I",
+      "cusip": "85208NAA8",
+      "shares": 2218750,
+      "value": 2249246720,
+      "pctOfPortfolio": 30.122532676000002
+    },
+    {
+      "name": "HPEFS Equipment Trust",
+      "cusip": "40438DAF6",
+      "shares": 1000000,
+      "value": 984626900,
+      "pctOfPortfolio": 13.1863951185
+    },
+    {
+      "name": "OneMain Financial Issuance Trust",
+      "cusip": "68267BAB6",
+      "shares": 1500000,
+      "value": 1509058500,
+      "pctOfPortfolio": 20.2097278044
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74361MAB5",
+      "shares": 4000000,
+      "value": 3939664000,
+      "pctOfPortfolio": 52.7610673019
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418C5A8",
+      "shares": 2879040.89,
+      "value": 3026848830,
+      "pctOfPortfolio": 40.5363946855
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828Q78",
+      "shares": 10000000,
+      "value": 10100390600,
+      "pctOfPortfolio": 135.2672177684
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138E7TW4",
+      "shares": 2656211.81,
+      "value": 2797516780,
+      "pctOfPortfolio": 37.4651165956
+    },
+    {
+      "name": "ANHEUSER-BUSCH INBEV FIN",
+      "cusip": "035242AL0",
+      "shares": 2000000,
+      "value": 2115991080,
+      "pctOfPortfolio": 28.3379363778
+    },
+    {
+      "name": "Boston Properties LP",
+      "cusip": "10112RAV6",
+      "shares": 9560000,
+      "value": 10140567140,
+      "pctOfPortfolio": 135.8052730774
+    },
+    {
+      "name": "Colfax Corp",
+      "cusip": "15723RAA2",
+      "shares": 1000000,
+      "value": 1033855000,
+      "pctOfPortfolio": 13.8456714165
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36258HAA3",
+      "shares": 2451014.87,
+      "value": 2481481230,
+      "pctOfPortfolio": 33.232681311
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46643KAA9",
+      "shares": 4455424.34,
+      "value": 4650398160,
+      "pctOfPortfolio": 62.2794152751
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109JAA6",
+      "shares": 1484323.48,
+      "value": 1490605140,
+      "pctOfPortfolio": 19.9625953157
+    },
+    {
+      "name": "SILVERSEA CRUISE FINANCE",
+      "cusip": "82845LAA8",
+      "shares": 3545000,
+      "value": 3354084030,
+      "pctOfPortfolio": 44.9188187731
+    },
+    {
+      "name": "OneMain Direct Auto Receivables Trust 2017-2",
+      "cusip": "68267CAB4",
+      "shares": 1691574.27,
+      "value": 1693061840,
+      "pctOfPortfolio": 22.6739513031
+    },
+    {
+      "name": "MMAF Equipment Finance LLC",
+      "cusip": "55315FAD2",
+      "shares": 1419920.98,
+      "value": 1426503880,
+      "pctOfPortfolio": 19.104133555300002
+    },
+    {
+      "name": "Exantas Capital Corp",
+      "cusip": "30069LAA6",
+      "shares": 3919713.07,
+      "value": 3802121680,
+      "pctOfPortfolio": 50.919062602400004
+    },
+    {
+      "name": "Matador Resources Co",
+      "cusip": "576485AE6",
+      "shares": 500000,
+      "value": 371185000,
+      "pctOfPortfolio": 4.9710119356
+    },
+    {
+      "name": "OCCIDENTAL PETROLEUM COR",
+      "cusip": "674599CU7",
+      "shares": 1000000,
+      "value": 979975000,
+      "pctOfPortfolio": 13.1240955901
+    },
+    {
+      "name": "HPEFS Equipment Trust",
+      "cusip": "40438FAB0",
+      "shares": 1750000,
+      "value": 1768314450,
+      "pctOfPortfolio": 23.6817550195
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109MAA9",
+      "shares": 2226324.94,
+      "value": 2240833010,
+      "pctOfPortfolio": 30.0098539502
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336VBJ8",
+      "shares": 210000,
+      "value": 212581060,
+      "pctOfPortfolio": 2.8469442099
+    },
+    {
+      "name": "FREED ABS Trust",
+      "cusip": "30308XAA1",
+      "shares": 771746.47,
+      "value": 774140430,
+      "pctOfPortfolio": 10.3675022358
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828P87",
+      "shares": 15000000,
+      "value": 15094042950,
+      "pctOfPortfolio": 202.1435878651
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46647EAT8",
+      "shares": 3814220.4,
+      "value": 3968346560,
+      "pctOfPortfolio": 53.1451920594
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36257NAA1",
+      "shares": 865091.81,
+      "value": 874593460,
+      "pctOfPortfolio": 11.7127969301
+    },
+    {
+      "name": "Computer Sciences Corp",
+      "cusip": "205363AN4",
+      "shares": 325000,
+      "value": 337083690,
+      "pctOfPortfolio": 4.514317783
+    },
+    {
+      "name": "EQT Corp",
+      "cusip": "26884LAE9",
+      "shares": 1180000,
+      "value": 1101087500,
+      "pctOfPortfolio": 14.7460676069
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828C57",
+      "shares": 12000000,
+      "value": 12189375000,
+      "pctOfPortfolio": 163.2434732361
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31412QEL9",
+      "shares": 108704.35,
+      "value": 115055810,
+      "pctOfPortfolio": 1.5408591531
+    },
+    {
+      "name": "XEROX CORPORATION",
+      "cusip": "984121CQ4",
+      "shares": 1370000,
+      "value": 1372205700,
+      "pctOfPortfolio": 18.376957347
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128MMKW2",
+      "shares": 296709.75,
+      "value": 313970470,
+      "pctOfPortfolio": 4.2047791635
+    },
+    {
+      "name": "Carvana Auto Receivables Trust",
+      "cusip": "14686XAD1",
+      "shares": 400000,
+      "value": 405574400,
+      "pctOfPortfolio": 5.431564269
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416W6F4",
+      "shares": 1169927.78,
+      "value": 1238779620,
+      "pctOfPortfolio": 16.590078469399998
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46647SBY5",
+      "shares": 8070495.49,
+      "value": 8282142620,
+      "pctOfPortfolio": 110.9167391376
+    },
+    {
+      "name": "Westlake Automobile Receivables Trust",
+      "cusip": "96042PAB8",
+      "shares": 4000000,
+      "value": 4002914400,
+      "pctOfPortfolio": 53.608134110399995
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417C7D1",
+      "shares": 1076214.87,
+      "value": 1132069520,
+      "pctOfPortfolio": 15.160987367199999
+    },
+    {
+      "name": "SoFi Consumer Loan Program Trust",
+      "cusip": "83405TAA1",
+      "shares": 3192288.92,
+      "value": 3237697310,
+      "pctOfPortfolio": 43.360135706
+    },
+    {
+      "name": "Redwood Trust Inc",
+      "cusip": "758075AC9",
+      "shares": 12500000,
+      "value": 11294307880,
+      "pctOfPortfolio": 151.2564874023
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46641YAJ2",
+      "shares": 1907942.34,
+      "value": 1970979990,
+      "pctOfPortfolio": 26.395907849700002
+    },
+    {
+      "name": "ReadyCap Commercial Mortgage Trust",
+      "cusip": "75574WAE7",
+      "shares": 750000,
+      "value": 683402780,
+      "pctOfPortfolio": 9.1523185911
+    },
+    {
+      "name": "Deephaven Residential Mortgage Trust",
+      "cusip": "24381NAA6",
+      "shares": 2979583.16,
+      "value": 3034222160,
+      "pctOfPortfolio": 40.635140355299995
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "26253KAB0",
+      "shares": 2600000,
+      "value": 2631375500,
+      "pctOfPortfolio": 35.240106733
+    },
+    {
+      "name": "GENERAL MOTORS FINL CO",
+      "cusip": "37045XCJ3",
+      "shares": 1250000,
+      "value": 1265186380,
+      "pctOfPortfolio": 16.9437250853
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418U2F0",
+      "shares": 352676.69,
+      "value": 373020500,
+      "pctOfPortfolio": 4.995593458
+    },
+    {
+      "name": "Conn Funding II, L.P",
+      "cusip": "20826JAA6",
+      "shares": 141592.09,
+      "value": 140835780,
+      "pctOfPortfolio": 1.8861116245
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625HJJ0",
+      "shares": 3956000,
+      "value": 4234021429.9999995,
+      "pctOfPortfolio": 56.7031832222
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128LXAT7",
+      "shares": 998517.5,
+      "value": 1146703360,
+      "pctOfPortfolio": 15.356967790199999
+    },
+    {
+      "name": "WELLS FARGO & COMPANY",
+      "cusip": "94974BEV8",
+      "shares": 5745000,
+      "value": 5923185940,
+      "pctOfPortfolio": 79.32494040659999
+    },
+    {
+      "name": "World OMNI Select Auto Trust",
+      "cusip": "98163BAB8",
+      "shares": 2843472.75,
+      "value": 2867305890,
+      "pctOfPortfolio": 38.3997516127
+    },
+    {
+      "name": "Deephaven Residential Mortgage Trust",
+      "cusip": "24381MAA8",
+      "shares": 1184569.36,
+      "value": 1200088640,
+      "pctOfPortfolio": 16.071918189799998
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "9128284T4",
+      "shares": 10000000,
+      "value": 10236132800,
+      "pctOfPortfolio": 137.08511476409998
+    },
+    {
+      "name": "BXMT Ltd",
+      "cusip": "05607KAA9",
+      "shares": 233738.26,
+      "value": 232979050,
+      "pctOfPortfolio": 3.1201197201
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417YUM7",
+      "shares": 2998746.09,
+      "value": 3230110600,
+      "pctOfPortfolio": 43.2585323924
+    },
+    {
+      "name": "RELX Capital Inc",
+      "cusip": "74949LAB8",
+      "shares": 1800000,
+      "value": 1920211560,
+      "pctOfPortfolio": 25.716003027399996
+    },
+    {
+      "name": "Upgrade Receivables Trust",
+      "cusip": "91532HAA6",
+      "shares": 119313.98,
+      "value": 119325570,
+      "pctOfPortfolio": 1.5980409572
+    },
+    {
+      "name": "Carlisle Cos Inc",
+      "cusip": "142339AG5",
+      "shares": 500000,
+      "value": 541687670,
+      "pctOfPortfolio": 7.2544307366
+    },
+    {
+      "name": "retl",
+      "cusip": "74952PAJ6",
+      "shares": 2750000,
+      "value": 2437301080,
+      "pctOfPortfolio": 32.6410085522
+    },
+    {
+      "name": "Government National Mortgage Association",
+      "cusip": "36202FZU3",
+      "shares": 4627507.04,
+      "value": 4861135150,
+      "pctOfPortfolio": 65.1016631908
+    },
+    {
+      "name": "SoFi Consumer Loan Program Trust",
+      "cusip": "78471FAA0",
+      "shares": 25328.17,
+      "value": 25356090,
+      "pctOfPortfolio": 0.3395757534
+    },
+    {
+      "name": "Carvana Auto Receivables trust",
+      "cusip": "146868AD6",
+      "shares": 5000000,
+      "value": 5096151000,
+      "pctOfPortfolio": 68.2490602985
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418CRK2",
+      "shares": 1868093.07,
+      "value": 1957834280,
+      "pctOfPortfolio": 26.219856874300003
+    },
+    {
+      "name": "T-MOBILE USA INC",
+      "cusip": "87264ABA2",
+      "shares": 1000000,
+      "value": 1091895000,
+      "pctOfPortfolio": 14.6229591106
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "23343CAE1",
+      "shares": 7000000,
+      "value": 7131829600,
+      "pctOfPortfolio": 95.5114297847
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74362DAA6",
+      "shares": 1563296.66,
+      "value": 1569732130,
+      "pctOfPortfolio": 21.0222857982
+    },
+    {
+      "name": "Foursight Capital Automobile Receivables Trust",
+      "cusip": "35104XAC2",
+      "shares": 1090000,
+      "value": 1096334210,
+      "pctOfPortfolio": 14.6824102358
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81743AAD1",
+      "shares": 2955738.07,
+      "value": 3040120250,
+      "pctOfPortfolio": 40.7141292039
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "38014RAA2",
+      "shares": 3000000,
+      "value": 3005921400,
+      "pctOfPortfolio": 40.2561287687
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140E9JM9",
+      "shares": 2116750.7,
+      "value": 2221205360,
+      "pctOfPortfolio": 29.746995045800002
+    },
+    {
+      "name": "Sierra Receivables Funding Co LLC",
+      "cusip": "82652MAB6",
+      "shares": 155148.77,
+      "value": 151794160,
+      "pctOfPortfolio": 2.032869273
+    },
+    {
+      "name": "FREED ABS Trust",
+      "cusip": "35634TAA4",
+      "shares": 1934309.23,
+      "value": 1931602740,
+      "pctOfPortfolio": 25.868556853
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81748GAU5",
+      "shares": 2405296.59,
+      "value": 2466773080,
+      "pctOfPortfolio": 33.035705708
+    },
+    {
+      "name": "Air Canada",
+      "cusip": "008911AZ2",
+      "shares": 250000,
+      "value": 250906250,
+      "pctOfPortfolio": 3.3602057288000005
+    },
+    {
+      "name": "SoFi Consumer Loan Program Trust",
+      "cusip": "83406CAA7",
+      "shares": 1094940.8,
+      "value": 1110673790,
+      "pctOfPortfolio": 14.8744498476
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81748MAD0",
+      "shares": 789653.64,
+      "value": 808795630,
+      "pctOfPortfolio": 10.8316142361
+    },
+    {
+      "name": "GPMT Ltd.",
+      "cusip": "36255CAG4",
+      "shares": 7300000,
+      "value": 6344911800,
+      "pctOfPortfolio": 84.9728094844
+    },
+    {
+      "name": "Upstart Securitization Trust",
+      "cusip": "91678TAC0",
+      "shares": 1549219.79,
+      "value": 1545766730,
+      "pctOfPortfolio": 20.7013345489
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81747LAK7",
+      "shares": 2618893.01,
+      "value": 2650664370,
+      "pctOfPortfolio": 35.4984286021
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74361PAA0",
+      "shares": 230708.46,
+      "value": 231180260,
+      "pctOfPortfolio": 3.0960298281000003
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140JAKW7",
+      "shares": 2561381.55,
+      "value": 2693450940,
+      "pctOfPortfolio": 36.071438153
+    },
+    {
+      "name": "Lennar Corp",
+      "cusip": "526057BX1",
+      "shares": 558000,
+      "value": 566010090,
+      "pctOfPortfolio": 7.580163296099999
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "91159HHL7",
+      "shares": 14000000,
+      "value": 14135339960,
+      "pctOfPortfolio": 189.3043729021
+    },
+    {
+      "name": "Simon Property Group LP",
+      "cusip": "828807CN5",
+      "shares": 1593000,
+      "value": 1656436780,
+      "pctOfPortfolio": 22.1834583941
+    },
+    {
+      "name": "Dell Equipment Finance Trust",
+      "cusip": "24702JAF6",
+      "shares": 2579000,
+      "value": 2583465540,
+      "pctOfPortfolio": 34.5984833295
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109TAC0",
+      "shares": 1791401.79,
+      "value": 1785666440,
+      "pctOfPortfolio": 23.9141376573
+    },
+    {
+      "name": "L Brands Inc",
+      "cusip": "532716AU1",
+      "shares": 4000000,
+      "value": 3918900000,
+      "pctOfPortfolio": 52.482990084799994
+    },
+    {
+      "name": "US BANCORP",
+      "cusip": "91159HHX1",
+      "shares": 500000,
+      "value": 532520579.99999994,
+      "pctOfPortfolio": 7.1316625379000005
+    },
+    {
+      "name": "ReadyCap Commercial Mortgage Trust",
+      "cusip": "75575JAA3",
+      "shares": 4000000,
+      "value": 4006000000,
+      "pctOfPortfolio": 53.64945731700001
+    },
+    {
+      "name": "Upstart Securitization Trust 2017-1",
+      "cusip": "916781AC1",
+      "shares": 1438490.77,
+      "value": 1439005750,
+      "pctOfPortfolio": 19.2715620478
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31402CVZ2",
+      "shares": 182700.49,
+      "value": 209706100,
+      "pctOfPortfolio": 2.8084419523
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31410GBG7",
+      "shares": 23756.32,
+      "value": 24309810,
+      "pctOfPortfolio": 0.3255636829
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3137AUGF0",
+      "shares": 3920505.03,
+      "value": 3981494760,
+      "pctOfPortfolio": 53.3212763816
+    },
+    {
+      "name": "Sequoia Mortgage Trust 2018-CH2",
+      "cusip": "81747EAM9",
+      "shares": 2266781.43,
+      "value": 2293903020,
+      "pctOfPortfolio": 30.7205821669
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02530DAA4",
+      "shares": 138546.09,
+      "value": 138797220,
+      "pctOfPortfolio": 1.8588106665
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31398WC36",
+      "shares": 768578.14,
+      "value": 840095100,
+      "pctOfPortfolio": 11.2507853743
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36255XAA1",
+      "shares": 216814.07,
+      "value": 217843160,
+      "pctOfPortfolio": 2.917415705
+    },
+    {
+      "name": "Exeter Automobile Receivables Trust",
+      "cusip": "30167HAA6",
+      "shares": 2254645.33,
+      "value": 2268587830,
+      "pctOfPortfolio": 30.3815541576
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416PDQ7",
+      "shares": 93231.9,
+      "value": 98626390,
+      "pctOfPortfolio": 1.3208318274
+    },
+    {
+      "name": "Kansas Development Finance Authority",
+      "cusip": "485429Y40",
+      "shares": 750000,
+      "value": 757965000,
+      "pctOfPortfolio": 10.150876414199999
+    },
+    {
+      "name": "Enterprise Fleet Financing LLC",
+      "cusip": "29373KAB9",
+      "shares": 3500000,
+      "value": 3544240700,
+      "pctOfPortfolio": 47.465449364899996
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "38014RAC8",
+      "shares": 250000,
+      "value": 257373030,
+      "pctOfPortfolio": 3.4468106309
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81748KAG7",
+      "shares": 2507090.39,
+      "value": 2586996370,
+      "pctOfPortfolio": 34.6457691791
+    },
+    {
+      "name": "JP Morgan Mortgage Trust",
+      "cusip": "46650JAN4",
+      "shares": 2793963.68,
+      "value": 2914633850,
+      "pctOfPortfolio": 39.0335807115
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417AKQ1",
+      "shares": 1043969.91,
+      "value": 1099393910,
+      "pctOfPortfolio": 14.7233865824
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828A42",
+      "shares": 4000000,
+      "value": 4030312480,
+      "pctOfPortfolio": 53.9750567574
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81744YAC0",
+      "shares": 3970522.63,
+      "value": 3986497630,
+      "pctOfPortfolio": 53.388276196999996
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109FAA4",
+      "shares": 178725.05,
+      "value": 178621480,
+      "pctOfPortfolio": 2.3921481445
+    },
+    {
+      "name": "Wm Wrigley Jr Co",
+      "cusip": "982526AQ8",
+      "shares": 700000,
+      "value": 704683400,
+      "pctOfPortfolio": 9.4373145257
+    },
+    {
+      "name": "RWT HOLDINGS INC",
+      "cusip": "749772AC3",
+      "shares": 3000000,
+      "value": 2473698060,
+      "pctOfPortfolio": 33.1284469508
+    },
+    {
+      "name": "ARI Fleet Lease Trust",
+      "cusip": "00217TAB1",
+      "shares": 1750000,
+      "value": 1764079980,
+      "pctOfPortfolio": 23.6250458289
+    },
+    {
+      "name": "HPEFS Equipment Trust",
+      "cusip": "40438FAC8",
+      "shares": 3500000,
+      "value": 3516151450,
+      "pctOfPortfolio": 47.0892703787
+    },
+    {
+      "name": "Securitized Term Auto Receivables Trust",
+      "cusip": "81379MAC8",
+      "shares": 1123986.47,
+      "value": 1141055550,
+      "pctOfPortfolio": 15.2813307603
+    },
+    {
+      "name": "Exantas Capital Corp",
+      "cusip": "299670AA7",
+      "shares": 926750.21,
+      "value": 924637150,
+      "pctOfPortfolio": 12.382995834399999
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138WHRX2",
+      "shares": 2652956.5,
+      "value": 2827785090,
+      "pctOfPortfolio": 37.8704781547
+    },
+    {
+      "name": "Bunker Hill Loan Depositary Trust",
+      "cusip": "12062BAA3",
+      "shares": 3593752.6,
+      "value": 3671939720,
+      "pctOfPortfolio": 49.175629874900004
+    },
+    {
+      "name": "Exeter Automobile Receivables Trust",
+      "cusip": "30167EAA3",
+      "shares": 553350.52,
+      "value": 555651410,
+      "pctOfPortfolio": 7.4414369954
+    },
+    {
+      "name": "Octane Receivables Trust",
+      "cusip": "67576TAA7",
+      "shares": 3486097.14,
+      "value": 3475930290,
+      "pctOfPortfolio": 46.5506175063
+    },
+    {
+      "name": "UNITED RENTALS NORTH AM",
+      "cusip": "911365BD5",
+      "shares": 2000000,
+      "value": 2054810000,
+      "pctOfPortfolio": 27.518582473699997
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3137AUG94",
+      "shares": 6957615.6,
+      "value": 7196201980,
+      "pctOfPortfolio": 96.373522459
+    },
+    {
+      "name": "OneMain Direct Auto Receivables Trust 2017-2",
+      "cusip": "68267CAC2",
+      "shares": 900000,
+      "value": 903292830,
+      "pctOfPortfolio": 12.0971468117
+    },
+    {
+      "name": "Securitized Term Auto Receivables Trust",
+      "cusip": "81379MAB0",
+      "shares": 1498648.63,
+      "value": 1518546790,
+      "pctOfPortfolio": 20.336797602100003
+    },
+    {
+      "name": "American Tower Corp",
+      "cusip": "03027XAL4",
+      "shares": 5000000,
+      "value": 5125943250,
+      "pctOfPortfolio": 68.6480463306
+    },
+    {
+      "name": "Pawnee Equipment Receivables",
+      "cusip": "704102AB8",
+      "shares": 9500000,
+      "value": 9564989500,
+      "pctOfPortfolio": 128.0969785118
+    },
+    {
+      "name": "Exeter Automobile Receivables Trust",
+      "cusip": "30165YAE3",
+      "shares": 1096000,
+      "value": 1116184260,
+      "pctOfPortfolio": 14.9482475823
+    },
+    {
+      "name": "Upstart Securitization Trust",
+      "cusip": "91679UAA0",
+      "shares": 4369709.63,
+      "value": 4378446430,
+      "pctOfPortfolio": 58.6373626713
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336VAQ3",
+      "shares": 1000000,
+      "value": 1045830690,
+      "pctOfPortfolio": 14.006053161199999
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02529VAC3",
+      "shares": 2500000,
+      "value": 2515780500,
+      "pctOfPortfolio": 33.6920265985
+    },
+    {
+      "name": "Upstart Securitization Trust",
+      "cusip": "91678VAB7",
+      "shares": 1020988.95,
+      "value": 1023153240,
+      "pctOfPortfolio": 13.702350493800001
+    },
+    {
+      "name": "Lexington Realty Trust",
+      "cusip": "529043AD3",
+      "shares": 379000,
+      "value": 387517170,
+      "pctOfPortfolio": 5.1897368625
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416CE44",
+      "shares": 344670.66,
+      "value": 367365620,
+      "pctOfPortfolio": 4.9198617447999995
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81748AAD6",
+      "shares": 2579519.88,
+      "value": 2673597810,
+      "pctOfPortfolio": 35.8055595583
+    },
+    {
+      "name": "Santander Drive Auto Receivables Trust",
+      "cusip": "80287AAB9",
+      "shares": 2000000,
+      "value": 2016618800,
+      "pctOfPortfolio": 27.007115385699997
+    },
+    {
+      "name": "PDC Energy Inc",
+      "cusip": "69327RAG6",
+      "shares": 1200000,
+      "value": 1120374000,
+      "pctOfPortfolio": 15.004357736400001
+    },
+    {
+      "name": "Hilton Grand Vacations Trust",
+      "cusip": "43285HAA6",
+      "shares": 486788.36,
+      "value": 492219560,
+      "pctOfPortfolio": 6.5919401584
+    },
+    {
+      "name": "OneMain Financial Issuance Trust 2017-1",
+      "cusip": "68267LAA6",
+      "shares": 3802947.93,
+      "value": 3815329570,
+      "pctOfPortfolio": 51.09594630949999
+    },
+    {
+      "name": "SoFi Consumer Loan Program Trust",
+      "cusip": "83402QAA0",
+      "shares": 186486.61,
+      "value": 187054090,
+      "pctOfPortfolio": 2.5050799843
+    },
+    {
+      "name": "ENERGY TRANSFER OPERATNG",
+      "cusip": "29273RAQ2",
+      "shares": 3500000,
+      "value": 3663939410,
+      "pctOfPortfolio": 49.0684875159
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74361MAA7",
+      "shares": 90061,
+      "value": 90067140,
+      "pctOfPortfolio": 1.2062039897
+    },
+    {
+      "name": "KINDER MORGAN ENER PART",
+      "cusip": "494550BL9",
+      "shares": 2000000,
+      "value": 2109577220.0000002,
+      "pctOfPortfolio": 28.252040195
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31385XEC7",
+      "shares": 1998969.25,
+      "value": 2282239200,
+      "pctOfPortfolio": 30.564377071299997
+    },
+    {
+      "name": "DIAMONDBACK ENERGY INC",
+      "cusip": "25278XAL3",
+      "shares": 3379000,
+      "value": 3388007300,
+      "pctOfPortfolio": 45.3731285649
+    },
+    {
+      "name": "Sequoia Mortgage Trust 2017-CH1",
+      "cusip": "81746HAL5",
+      "shares": 1092123.2,
+      "value": 1102767910,
+      "pctOfPortfolio": 14.7685721213
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31398SUT8",
+      "shares": 76611.36,
+      "value": 77142370,
+      "pctOfPortfolio": 1.0331119038
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31374CPY6",
+      "shares": 2470531.05,
+      "value": 2598645430,
+      "pctOfPortfolio": 34.8017766048
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138W6DC7",
+      "shares": 1648909.8,
+      "value": 1728121680,
+      "pctOfPortfolio": 23.143482353899998
+    },
+    {
+      "name": "Enterprise Fleet Financing LLC",
+      "cusip": "29372JAC1",
+      "shares": 767230.53,
+      "value": 771789570,
+      "pctOfPortfolio": 10.33601887
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36255GAA8",
+      "shares": 980590.21,
+      "value": 983689560,
+      "pctOfPortfolio": 13.1738420026
+    },
+    {
+      "name": "State Street Global Advisors",
+      "cusip": "857492706",
+      "shares": 26605636.24,
+      "value": 26605636240,
+      "pctOfPortfolio": 356.3100214306
+    },
+    {
+      "name": "Upstart Securitization Trust",
+      "cusip": "91678VAC5",
+      "shares": 2750000,
+      "value": 2708174430,
+      "pctOfPortfolio": 36.2686191935
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128MMKU6",
+      "shares": 286578.72,
+      "value": 304640780,
+      "pctOfPortfolio": 4.0798333808
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418AU48",
+      "shares": 1466202.07,
+      "value": 1536636860,
+      "pctOfPortfolio": 20.5790648108
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416CC53",
+      "shares": 228661.64,
+      "value": 243679120,
+      "pctOfPortfolio": 3.2634180098
+    },
+    {
+      "name": "Amur Equipment Finance Receivables LLC",
+      "cusip": "03237PAG8",
+      "shares": 1400000,
+      "value": 1403021900,
+      "pctOfPortfolio": 18.7896564001
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828P79",
+      "shares": 25000000,
+      "value": 25885254000,
+      "pctOfPortfolio": 346.66246370799996
+    },
+    {
+      "name": "Carvana Auto Receivables Trust",
+      "cusip": "14686UAB1",
+      "shares": 916363.8,
+      "value": 917601260,
+      "pctOfPortfolio": 12.2887692542
+    },
+    {
+      "name": "SoFi Consumer Loan Program Trust",
+      "cusip": "83406HAC2",
+      "shares": 3450000,
+      "value": 3419589290,
+      "pctOfPortfolio": 45.7960832889
+    },
+    {
+      "name": "Chesapeake Funding II LLC",
+      "cusip": "165183AP9",
+      "shares": 1670000,
+      "value": 1685626190,
+      "pctOfPortfolio": 22.574371026599998
+    },
+    {
+      "name": "Upstart Securitization Trust",
+      "cusip": "916780AB5",
+      "shares": 1250000,
+      "value": 1215616250,
+      "pctOfPortfolio": 16.2798682272
+    },
+    {
+      "name": "GREAT AMERICA LEASING RECEIVABLES",
+      "cusip": "39154TBB3",
+      "shares": 7500000,
+      "value": 7567718250,
+      "pctOfPortfolio": 101.3489708539
+    },
+    {
+      "name": "DISCOVERY COMMUNICATIONS",
+      "cusip": "25470DAQ2",
+      "shares": 2277000,
+      "value": 2394009880,
+      "pctOfPortfolio": 32.061240857099996
+    },
+    {
+      "name": "Foundation Finance Trust",
+      "cusip": "35041JAA3",
+      "shares": 2671430.02,
+      "value": 2699470420,
+      "pctOfPortfolio": 36.152052690000005
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31376KUJ3",
+      "shares": 1024.46,
+      "value": 1079520,
+      "pctOfPortfolio": 0.0144572296
+    },
+    {
+      "name": "Equifax Inc",
+      "cusip": "294429AK1",
+      "shares": 2900000,
+      "value": 2943123000,
+      "pctOfPortfolio": 39.415115268899996
+    },
+    {
+      "name": "CCG Receivables Trust",
+      "cusip": "12510GAC6",
+      "shares": 250000,
+      "value": 256231700,
+      "pctOfPortfolio": 3.4315256246
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36258AAA8",
+      "shares": 1336538.32,
+      "value": 1352660980,
+      "pctOfPortfolio": 18.1152090641
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EHQU9",
+      "shares": 1927172.7,
+      "value": 2022752450,
+      "pctOfPortfolio": 27.0892589189
+    },
+    {
+      "name": "Conn Funding II, L.P",
+      "cusip": "20824LAA3",
+      "shares": 661503.04,
+      "value": 652562360,
+      "pctOfPortfolio": 8.739295177099999
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417YBM8",
+      "shares": 141687.66,
+      "value": 149967080,
+      "pctOfPortfolio": 2.0084005135
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02529RAC2",
+      "shares": 2500000,
+      "value": 2533529250,
+      "pctOfPortfolio": 33.9297227557
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416MYM0",
+      "shares": 383680.8,
+      "value": 406059630,
+      "pctOfPortfolio": 5.438062603
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31410GGC1",
+      "shares": 16383.92,
+      "value": 17233710,
+      "pctOfPortfolio": 0.23079859930000002
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828XQ8",
+      "shares": 17000000,
+      "value": 17651777280,
+      "pctOfPortfolio": 236.3974717308
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109XAA5",
+      "shares": 558921.59,
+      "value": 564342910,
+      "pctOfPortfolio": 7.5578359615999995
+    },
+    {
+      "name": "Small Business Lending Trust",
+      "cusip": "83165WAA4",
+      "shares": 1983144.44,
+      "value": 1914126060,
+      "pctOfPortfolio": 25.6345043323
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828S76",
+      "shares": 15000000,
+      "value": 15154980450,
+      "pctOfPortfolio": 202.9596796787
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57110AAA2",
+      "shares": 2357071.66,
+      "value": 2367497220,
+      "pctOfPortfolio": 31.7061759991
+    },
+    {
+      "name": "CALUMET SPECIALTY PROD",
+      "cusip": "131477AL5",
+      "shares": 900000,
+      "value": 862663500,
+      "pctOfPortfolio": 11.553027614100001
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416XQD5",
+      "shares": 1483442.7,
+      "value": 1577546300,
+      "pctOfPortfolio": 21.1269353189
+    },
+    {
+      "name": "PARSLEY ENERGY LLC/FINAN",
+      "cusip": "701885AF2",
+      "shares": 663000,
+      "value": 639128690,
+      "pctOfPortfolio": 8.5593877619
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128MMF81",
+      "shares": 5819.18,
+      "value": 6019130,
+      "pctOfPortfolio": 0.0806098497
+    },
+    {
+      "name": "VMC Finance LLC",
+      "cusip": "91832YAG3",
+      "shares": 4200000,
+      "value": 3901561440,
+      "pctOfPortfolio": 52.250787305299994
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416BN53",
+      "shares": 875756,
+      "value": 1005614550,
+      "pctOfPortfolio": 13.4674675181
+    },
+    {
+      "name": "Redwood Trust Inc",
+      "cusip": "758075402",
+      "shares": 410000,
+      "value": 2870000000,
+      "pctOfPortfolio": 38.4358318771
+    },
+    {
+      "name": "HPEFS Equipment Trust",
+      "cusip": "40438DAB5",
+      "shares": 884090.9,
+      "value": 891291290,
+      "pctOfPortfolio": 11.9364188766
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128MMKJ1",
+      "shares": 133329.24,
+      "value": 141092040,
+      "pctOfPortfolio": 1.8895435291
+    },
+    {
+      "name": "Westlake Automobile Receivables Trust",
+      "cusip": "96042GAC6",
+      "shares": 151972.68,
+      "value": 152131490,
+      "pctOfPortfolio": 2.0373868894
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138A4Y33",
+      "shares": 6487827.92,
+      "value": 6828275520,
+      "pctOfPortfolio": 91.4461497901
+    },
+    {
+      "name": "Sequoia Mortgage Trust",
+      "cusip": "81747CAA9",
+      "shares": 924819.37,
+      "value": 954744860,
+      "pctOfPortfolio": 12.786206593900001
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "23341JAD0",
+      "shares": 474273.67,
+      "value": 475540080,
+      "pctOfPortfolio": 6.3685639601
+    },
+    {
+      "name": "NGL ENRGY PART LP/FIN CO",
+      "cusip": "62913TAM4",
+      "shares": 1490000,
+      "value": 1130381050,
+      "pctOfPortfolio": 15.1383749111
+    },
+    {
+      "name": "GPMT Ltd.",
+      "cusip": "36255CAJ8",
+      "shares": 4500000,
+      "value": 3667077000,
+      "pctOfPortfolio": 49.1105069869
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31410K3V4",
+      "shares": 181532.28,
+      "value": 192060000,
+      "pctOfPortfolio": 2.5721205123
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31395W4L8",
+      "shares": 785546.8,
+      "value": 910892890,
+      "pctOfPortfolio": 12.1989289122
+    },
+    {
+      "name": "Upstart Securitization Trust 2017-2",
+      "cusip": "91678RAC4",
+      "shares": 1978354.58,
+      "value": 1953163600,
+      "pctOfPortfolio": 26.157305839099998
+    },
+    {
+      "name": "Drive Auto Receivables Trust",
+      "cusip": "26208JAF0",
+      "shares": 2215038.74,
+      "value": 2227283700,
+      "pctOfPortfolio": 29.828397852200002
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416CC61",
+      "shares": 238117.26,
+      "value": 251148270,
+      "pctOfPortfolio": 3.3634469275
+    },
+    {
+      "name": "Kimco Realty Corp",
+      "cusip": "49446RAK5",
+      "shares": 495000,
+      "value": 505086450,
+      "pctOfPortfolio": 6.7642570995
+    },
+    {
+      "name": "COLT Funding LLC",
+      "cusip": "196860AA8",
+      "shares": 3520978.64,
+      "value": 3564459910,
+      "pctOfPortfolio": 47.736230604
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128PTL60",
+      "shares": 2080707.6,
+      "value": 2190050220,
+      "pctOfPortfolio": 29.3297568148
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128MCDW2",
+      "shares": 203991.99,
+      "value": 215787270,
+      "pctOfPortfolio": 2.8898826588
+    },
+    {
+      "name": "PFP III",
+      "cusip": "69346TAE4",
+      "shares": 2500000,
+      "value": 2393897250,
+      "pctOfPortfolio": 32.059732485
+    },
+    {
+      "name": "Enterprise Fleet Financing LLC",
+      "cusip": "29374DAB4",
+      "shares": 2461119.96,
+      "value": 2504401710,
+      "pctOfPortfolio": 33.5396387032
+    },
+    {
+      "name": "SOFI CONSUMER LOAN PROGRAM TRUST",
+      "cusip": "83405BAA0",
+      "shares": 1511443.16,
+      "value": 1528734520,
+      "pctOfPortfolio": 20.4732344932
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138WHRU8",
+      "shares": 1986080.05,
+      "value": 2090165320,
+      "pctOfPortfolio": 27.992070674199997
+    },
+    {
+      "name": "QVC Inc",
+      "cusip": "747262AK9",
+      "shares": 3000000,
+      "value": 3014700000,
+      "pctOfPortfolio": 40.373694202100005
+    },
+    {
+      "name": "PFP III",
+      "cusip": "69346TAG9",
+      "shares": 500000,
+      "value": 470000000,
+      "pctOfPortfolio": 6.2943696802
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417A6U8",
+      "shares": 2426246.39,
+      "value": 2554587980,
+      "pctOfPortfolio": 34.2117470783
+    },
+    {
+      "name": "Ascentium Equipment Receivables LLC",
+      "cusip": "04365JAF6",
+      "shares": 490000,
+      "value": 497921730,
+      "pctOfPortfolio": 6.668305192399999
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31294MHZ7",
+      "shares": 3739498.28,
+      "value": 3935124190,
+      "pctOfPortfolio": 52.700268913799995
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31398RSZ9",
+      "shares": 324891.8,
+      "value": 333716580,
+      "pctOfPortfolio": 4.4692245169
+    },
+    {
+      "name": "FLIR Systems Inc",
+      "cusip": "302445AD3",
+      "shares": 4971000,
+      "value": 5059021050,
+      "pctOfPortfolio": 67.7518057633
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418MVX7",
+      "shares": 112170.19,
+      "value": 117988170,
+      "pctOfPortfolio": 1.5801301273000001
+    },
+    {
+      "name": "Sierra Receivables Funding Co LLC",
+      "cusip": "82652MAA8",
+      "shares": 1241190.19,
+      "value": 1243401870,
+      "pctOfPortfolio": 16.651980916699998
+    },
+    {
+      "name": "BOEING CO",
+      "cusip": "097023CS2",
+      "shares": 1000000,
+      "value": 1056593480,
+      "pctOfPortfolio": 14.150191414499998
+    },
+    {
+      "name": "Avant Loans Funding Trust",
+      "cusip": "05354NAA8",
+      "shares": 638252.06,
+      "value": 639578220,
+      "pctOfPortfolio": 8.565407991699999
+    }
+  ]
+}

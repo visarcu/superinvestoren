@@ -1,4 +1,283 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-14",
-  "positions": []
+  "period": "2023-08-14",
+  "positions": [
+    {
+      "name": "AIRBNB INC",
+      "cusip": "009066101",
+      "shares": 9500,
+      "value": 1217520000
+    },
+    {
+      "name": "ALLIANCE RESOURCE PARTNERS L",
+      "cusip": "01877R108",
+      "shares": 217000,
+      "value": 4012330000
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 388600,
+      "value": 3213722000
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 150000,
+      "value": 2392500000
+    },
+    {
+      "name": "ATKORE INC",
+      "cusip": "047649108",
+      "shares": 5000,
+      "value": 779700000
+    },
+    {
+      "name": "B. RILEY FINANCIAL INC",
+      "cusip": "05580M108",
+      "shares": 132300,
+      "value": 6083154000
+    },
+    {
+      "name": "BEAZER HOMES USA INC",
+      "cusip": "07556Q881",
+      "shares": 35000,
+      "value": 990150000
+    },
+    {
+      "name": "BLUEGREEN VACATIONS HLDG COR",
+      "cusip": "096308101",
+      "shares": 10000,
+      "value": 356500000
+    },
+    {
+      "name": "BREAD FINANCIAL HOLDINGS INC",
+      "cusip": "018581108",
+      "shares": 25725,
+      "value": 807508000
+    },
+    {
+      "name": "BUCKLE INC",
+      "cusip": "118440106",
+      "shares": 189700,
+      "value": 6563620000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 17000,
+      "value": 2312000000
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 67000,
+      "value": 2016700000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 29200,
+      "value": 2443456000
+    },
+    {
+      "name": "CHICOS FAS INC",
+      "cusip": "168615102",
+      "shares": 1368107,
+      "value": 7319372000
+    },
+    {
+      "name": "CLEVELAND-CLIFFS INC NEW",
+      "cusip": "185899101",
+      "shares": 12098,
+      "value": 202762000
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 415100,
+      "value": 1411340000
+    },
+    {
+      "name": "CROCS INC",
+      "cusip": "227046109",
+      "shares": 16500,
+      "value": 1855260000
+    },
+    {
+      "name": "CTO RLTY GROWTH INC NEW",
+      "cusip": "22948Q101",
+      "shares": 436900,
+      "value": 7488466000
+    },
+    {
+      "name": "DIAMOND OFFSHORE DRILLING IN",
+      "cusip": "25271C201",
+      "shares": 25000,
+      "value": 356000000
+    },
+    {
+      "name": "GANNETT CO INC",
+      "cusip": "36472T109",
+      "shares": 2527375,
+      "value": 5686594000
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 383000,
+      "value": 2742280000
+    },
+    {
+      "name": "GRAY TELEVISION INC",
+      "cusip": "389375106",
+      "shares": 177390,
+      "value": 1397833000
+    },
+    {
+      "name": "JACKSON FINANCIAL INC",
+      "cusip": "46817M107",
+      "shares": 215050,
+      "value": 6582680000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2000,
+      "value": 608220000
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 4500,
+      "value": 413235000
+    },
+    {
+      "name": "M D C HLDGS INC",
+      "cusip": "552676108",
+      "shares": 103000,
+      "value": 4817310000
+    },
+    {
+      "name": "MASTERBRAND INC",
+      "cusip": "57638P104",
+      "shares": 85000,
+      "value": 988550000
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 14000,
+      "value": 585900000
+    },
+    {
+      "name": "MEDICAL PPTYS TRUST INC",
+      "cusip": "58463J304",
+      "shares": 656000,
+      "value": 6074560000
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 44800,
+      "value": 4128768000
+    },
+    {
+      "name": "MICROSTRATEGY INC",
+      "cusip": "594972AC5",
+      "shares": 3100000,
+      "value": 3353049000
+    },
+    {
+      "name": "NABORS INDUSTRIES LTD",
+      "cusip": "G6359F137",
+      "shares": 50006,
+      "value": 4652058000
+    },
+    {
+      "name": "ONEMAIN HLDGS INC",
+      "cusip": "68268W103",
+      "shares": 181700,
+      "value": 7938473000
+    },
+    {
+      "name": "ORGANON & CO",
+      "cusip": "68622V106",
+      "shares": 222000,
+      "value": 4619820000
+    },
+    {
+      "name": "PERDOCEO ED CORP",
+      "cusip": "71363P106",
+      "shares": 35000,
+      "value": 429450000
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479100",
+      "shares": 164304,
+      "value": 581636000
+    },
+    {
+      "name": "PROSHARES TR",
+      "cusip": "74347X864",
+      "shares": 186950,
+      "value": 8857691000
+    },
+    {
+      "name": "QUAD / GRAPHICS INC",
+      "cusip": "747301109",
+      "shares": 1603975,
+      "value": 6030946000
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 6100,
+      "value": 463539000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 496000,
+      "value": 8699840000
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "G87110105",
+      "shares": 45610,
+      "value": 758038000
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 82137,
+      "value": 618492000
+    },
+    {
+      "name": "TUTOR PERINI CORP",
+      "cusip": "901109108",
+      "shares": 378572,
+      "value": 2706790000
+    },
+    {
+      "name": "VALE S A",
+      "cusip": "91912E105",
+      "shares": 115001,
+      "value": 1543313000
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 825500,
+      "value": 8238490000
+    },
+    {
+      "name": "WESTERN ALLIANCE BANCORP",
+      "cusip": "957638109",
+      "shares": 183109,
+      "value": 6677985000
+    }
+  ]
 }

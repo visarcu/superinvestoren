@@ -1,4 +1,67 @@
 {
+  "form": "13F-HR",
   "date": "2016-08-12",
-  "positions": []
+  "period": "2016-08-12",
+  "positions": [
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 3292250,
+      "value": 94323000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U153",
+      "shares": 318160,
+      "value": 10337000000
+    },
+    {
+      "name": "CHARTER COMMUNICATION INC N",
+      "cusip": "16119P108",
+      "shares": 406890,
+      "value": 93031000000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS INC",
+      "cusip": "23918K108",
+      "shares": 715600,
+      "value": 55330000000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 875000,
+      "value": 81996000000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 600000,
+      "value": 64764000000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 3000000,
+      "value": 75930000000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 317500,
+      "value": 83722000000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 700000,
+      "value": 51919000000
+    },
+    {
+      "name": "NORD ANGLIA EDUCATION INC",
+      "cusip": "G6583A102",
+      "shares": 482017,
+      "value": 10190000000
+    }
+  ]
 }

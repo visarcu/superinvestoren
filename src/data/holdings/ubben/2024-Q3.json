@@ -1,4 +1,67 @@
 {
+  "form": "13F-HR",
   "date": "2024-08-14",
-  "positions": []
+  "period": "2024-08-14",
+  "positions": [
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 6133631,
+      "value": 609008222000
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 3414568,
+      "value": 430201422000
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 1103759,
+      "value": 164504241000
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 323235,
+      "value": 46755943000
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 4061739,
+      "value": 805686548000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 1207208,
+      "value": 127046570000
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 1344392,
+      "value": 68846314000
+    },
+    {
+      "name": "ROBLOX CORP",
+      "cusip": "771049103",
+      "shares": 2300000,
+      "value": 85583000000
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 3914309,
+      "value": 1006368844000
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 676553,
+      "value": 212295566000
+    }
+  ]
 }

@@ -1,4 +1,43 @@
 {
+  "form": "13F-HR",
   "date": "2015-02-11",
-  "positions": []
+  "period": "2015-02-11",
+  "positions": [
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1000000,
+      "value": 48310000000
+    },
+    {
+      "name": "CARNIVAL CORP",
+      "cusip": "143658300",
+      "shares": 750000,
+      "value": 33998000000
+    },
+    {
+      "name": "CHARTER COMMUNICATION INC D",
+      "cusip": "16117M305",
+      "shares": 230000,
+      "value": 38323000000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS INC",
+      "cusip": "23918K108",
+      "shares": 550000,
+      "value": 41657000000
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1610000,
+      "value": 43454000000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP  ",
+      "cusip": "808513105",
+      "shares": 2500000,
+      "value": 75475000000
+    }
+  ]
 }
