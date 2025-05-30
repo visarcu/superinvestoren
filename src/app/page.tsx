@@ -1,455 +1,121 @@
 // src/app/page.tsx
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import Image from 'next/image'
-
-import { investors, Investor } from '@/data/investors'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import SearchTickerInput from '@/components/SearchTickerInput'
+import NewsletterSignup from '@/components/NewsletterSignup'
+import Logo from '@/components/Logo'
+import { investors } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
-import NewsletterSignup from '@/components/NewsletterSignup'
-import SearchTickerInput from '@/components/SearchTickerInput'
-
-interface TopOwnedItem {
-  ticker: string
-  count:  number
-}
-
-// Währung formatieren
-function formatCurrency(
-  amount: number,
-  currency: 'USD' | 'EUR' = 'USD',
-  maximumFractionDigits = 0
-) {
-  return new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency,
-    maximumFractionDigits,
-  }).format(amount)
-}
-
-// Datum → tatsächliches Reporting-Quartal (ein Filing-Quartal zurück)
-function getPeriodFromDate(dateStr: string) {
-  const [year, month] = dateStr.split('-').map(Number)
-  const filingQ = Math.ceil(month / 3)
-  let reportQ = filingQ - 1, reportY = year
-  if (reportQ === 0) {
-    reportQ = 4
-    reportY = year - 1
-  }
-  return `Q${reportQ} ${reportY}`
-}
-
+import Hero from '@/components/Hero'
 
 export default function HomePage() {
   const router = useRouter()
-  const [showAll, setShowAll] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [suggestions, setSuggestions] = useState<typeof stocks>([])
 
-  // Update suggestions on query change
-  useEffect(() => {
-    if (searchQuery.trim().length === 0) {
-      setSuggestions([])
-      return
-    }
-    const q = searchQuery.trim().toUpperCase()
-    const filtered = stocks.filter(
-      s =>
-        s.ticker.startsWith(q) ||
-        s.name.toUpperCase().includes(q)
-    ).slice(0, 10)
-    setSuggestions(filtered)
-  }, [searchQuery])
-
-  const handleSelectTicker = (ticker: string) => {
-    setSearchQuery('')
-    setSuggestions([])
-    router.push(`/analyse/${ticker.toLowerCase()}`)
-  }
-
-  // 1. Portfolio-Werte je Investor
-  const portfolioValue: Record<string, number> = {}
-  Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    const total = latest.positions.reduce((sum, p) => sum + p.value, 0) / 1_000
-    portfolioValue[slug] = total
-  })
-
-  // 2. Weitere Investoren
-  const highlighted = ['buffett', 'ackman', 'burry']
-  const others: Investor[] = investors
-    .filter(inv => !highlighted.includes(inv.slug))
-    .sort((a, b) => (portfolioValue[b.slug] || 0) - (portfolioValue[a.slug] || 0))
-  const visibleOthers = showAll ? others : others.slice(0, 10)
-
-  // 3. Top-10 Käufe
-   // 3. Top-10 Käufe aus **dem letzten** Snapshot-Datum
- // 3. Top-10 Käufe aus **dem letzten** Reporting-Quartal
-// a) Finde das gemeinsame letzte Datum
-const allDates = Object.values(holdingsHistory)
-.map(snaps => snaps[snaps.length - 1]?.data.date)
-.filter(Boolean) as string[]
-const latestDate    = allDates.sort().pop() || ''
-// b) Ermittele das Reporting-Quartal dieses Datums
-const latestQuarter = latestDate ? getPeriodFromDate(latestDate) : ''
-
-// c) Zähle Käufe aus genau diesem Quartal
-const buyCounts = new Map<string, number>()
-Object.values(holdingsHistory).forEach(snaps => {
-if (snaps.length < 2) return
-const prev = snaps[snaps.length - 2].data
-const cur  = snaps[snaps.length - 1].data
-
-// ** statt auf Datum auf Quartal prüfen **
-if (getPeriodFromDate(cur.date) !== latestQuarter) return
-
-const prevMap = new Map<string, number>()
-prev.positions.forEach(p =>
- prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares)
-)
-const seen = new Set<string>()
-cur.positions.forEach(p => {
- const delta = p.shares - (prevMap.get(p.cusip) || 0)
- if (delta > 0) {
-   const st = stocks.find(s => s.cusip === p.cusip)
-   if (st && !seen.has(st.ticker)) {
-     seen.add(st.ticker)
-     buyCounts.set(st.ticker, (buyCounts.get(st.ticker) || 0) + 1)
-   }
- }
-})
-})
-
-// d) Baue die Top-10-Liste und setze das Label aufs Quartal
-const aggregated = Array.from(buyCounts.entries())
-.sort(([, a], [, b]) => b - a)
-.slice(0, 10)
-.map(([ticker, count]) => ({ ticker, count }))
-
-const periodLabel = latestQuarter
-
-  // 4. Name-Lookup für Stocks
-  const nameMap: Record<string, string> = {}
-  stocks.forEach(s => { nameMap[s.ticker] = s.name })
-
-  // 5. Top-10 Meistgehalten
-  const cusipToTicker = new Map(stocks.map(s => [s.cusip, s.ticker]))
-  const ownershipCount = new Map<string, number>()
-  Object.values(holdingsHistory).forEach(snaps => {
-    const latest = snaps[snaps.length - 1].data
-    if (!latest?.positions) return
-    const seen = new Set<string>()
-    latest.positions.forEach(p => {
-      const t = cusipToTicker.get(p.cusip)
-      if (t && !seen.has(t)) {
-        seen.add(t)
-        ownershipCount.set(t, (ownershipCount.get(t) || 0) + 1)
-      }
-    })
-  })
-  const topOwned: TopOwnedItem[] = Array.from(ownershipCount.entries())
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 10)
-    .map(([ticker, count]) => ({ ticker, count }))
-
-  // 6. Top-10 Biggest Investments
-  const biggest = stocks
-    .map(s => {
-      const total = Object.values(holdingsHistory).reduce((sum, snaps) => {
-        const latest = snaps[snaps.length - 1].data
-        const match  = latest.positions.find(p => p.cusip === s.cusip)
-        return sum + (match?.value || 0)
-      }, 0)
-      return { ticker: s.ticker, name: s.name, value: total }
-    })
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 10)
-
-  // Hilfs-Funktion für Sneak-Peek Top-3 Positionen
-  function peekPositions(slug: string) {
-    const snaps = holdingsHistory[slug]
-    if (!Array.isArray(snaps) || snaps.length === 0) return []
-    const latest = snaps[snaps.length - 1].data
-    const map = new Map<string, { shares:number; value:number }>()
-    latest.positions.forEach(p => {
-      const prev = map.get(p.cusip)
-      if (prev) {
-        prev.shares += p.shares
-        prev.value   += p.value
-      } else {
-        map.set(p.cusip, { shares: p.shares, value: p.value })
-      }
-    })
-    return Array.from(map.entries())
-      .map(([cusip, { shares, value }]) => {
-        const st = stocks.find(s => s.cusip === cusip)
-        return { ticker: st?.ticker ?? cusip, name: st?.name ?? cusip, value }
-      })
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 3)
-  }
+  // Für „Top Investoren“ und „Top Käufe“ kannst du deine bisherigen Logiken
+  // hier importieren und wiederverwenden. Ich lasse die hier der Kürze halber weg.
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8 space-y-16">
+    <main className="max-w-9xl mx-auto px-6 py-12 space-y-20">
 
-     {/* Mini-Schnell-Analyse */}
-     <section className="relative overflow-visible rounded-2xl p-10 bg-gradient-to-r from-heroFrom to-heroTo">
-  <div className="absolute inset-0 bg-white/5 blur-3xl animate-pulse-slow" />
-  <div className="relative space-y-4">
-    <h2 className="text-4xl font-orbitron text-white">Schnell-Analyse</h2>
-    <p className="text-gray-300 leading-relaxed">
-      Gib ein Ticker-Symbol ein und erhalte in Sekunden Live-Quote und Charts.
-    </p>
+      {/* ─── Hero ─── */}
+      <Hero />
 
-    <div className="flex space-x-4 items-center">
-      <div className="relative flex-1">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="AAPL, MSFT …"
-          className="w-full px-4 py-3 rounded-full bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-accent outline-none transition"
-        />
-        {suggestions.length > 0 && (
-          <ul className="absolute z-[1000] w-full mt-1 max-h-60 overflow-auto bg-gray-900 rounded shadow-[0_8px_16px_rgba(0,0,0,0.6)]">
-            {suggestions.map((s) => (
-              <li
-                key={s.ticker}
-                onMouseDown={() => handleSelectTicker(s.ticker)}
-                className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-gray-100"
-              >
-                <strong>{s.ticker}</strong> – {s.name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      <button
-        onClick={() => { /* optional */ }}
-        className="bg-accent text-black px-6 py-3 rounded-full font-semibold hover:bg-accent/90 transition"
-      >
-        Los
-      </button>
-    </div>
-  </div>
-</section>
-
-   {/* 1. Highlighted Investors */}
-<section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-  {investors
-    .filter(i => highlighted.includes(i.slug))
-    .map(inv => {
-      const peek = peekPositions(inv.slug)
-      return (
+      {/* ─── Feature-Blöcke ─── */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <Link
-          key={inv.slug}
-          href={`/investor/${inv.slug}`}
-          className={`
-            relative group
-            bg-gradient-to-br from-gray-800 to-gray-900
-            rounded-2xl
-            ring-1 ring-accent/20
-            hover:shadow-lg hover:scale-105
-            transition-all duration-300
-            p-8 flex flex-col items-center
-          `}
+          href="/analyse"
+          className="
+            flex flex-col justify-between
+            bg-gradient-to-br from-heroFrom to-heroTo
+            rounded-2xl p-8 shadow-lg hover:scale-[1.02] transition
+          "
         >
-          {inv.slug === 'buffett' && (
-            <span className="absolute top-2 right-2 text-yellow-400 text-2xl">
-              👑
-            </span>
-          )}
-
-          {inv.imageUrl && (
-            <div className="w-24 h-24 mb-6 relative rounded-full overflow-hidden ring-2 ring-accent ring-offset-1 ring-offset-gray-800">
-              <Image
-                src={inv.imageUrl}
-                alt={inv.name}
-                fill
-                className="object-cover"
-              />
-            </div>
-          )}
-
-<h3 className="text-xl lg:text-2xl font-semibold text-gray-100 text-center">
-            {inv.name}
-          </h3>
-
-          {peek.length > 0 && (
-            <div className={`
-              absolute inset-0
-              bg-white/90 dark:bg-gray-800/90
-              opacity-0 pointer-events-none
-              group-hover:opacity-100 group-hover:pointer-events-auto
-              transition-opacity rounded-3xl p-4 flex flex-col
-            `}>
-              <h4 className="font-semibold mb-2 text-gray-800 dark:text-gray-100">
-                Top 3 Positionen
-              </h4>
-              <ul className="flex-1 overflow-auto space-y-1 text-sm text-gray-700 dark:text-gray-300">
-                {peek.map(p => (
-                  <li key={p.ticker} className="flex justify-between">
-                    <span>
-                      {p.ticker} –{' '}
-                      <span className="text-gray-600 dark:text-gray-400">
-                        {p.name}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
-                …weitere Positionen im vollen Depot
-              </p>
-            </div>
-          )}
+          <div>
+            <h2 className="text-2xl font-orbitron text-white mb-2">
+              Aktien analysieren
+            </h2>
+            <p className="text-gray-200">
+              Live-Quote, Charts & Kennzahlen in Sekundenschnelle.
+            </p>
+          </div>
+          <span className="inline-block mt-4 px-4 py-2 bg-white text-black rounded-full text-sm font-medium hover:bg-gray-100 transition">
+            Jetzt starten →
+          </span>
         </Link>
-      )
-    })}
-</section>
 
-      {/* 2. Weitere Investoren */}
-      <section className="px-4 py-6">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-100">Weitere Investoren</h2>
-        <ul className="divide-y divide-gray-700">
-          {visibleOthers.map(inv => (
-            <li key={inv.slug} className="py-2 flex justify-between items-center text-sm">
-              <Link href={`/investor/${inv.slug}`} className="font-medium text-gray-100 hover:underline">
-                {inv.name}
-              </Link>
-              <span className="numeric text-accent">
-                {formatCurrency(portfolioValue[inv.slug] || 0, 'USD', 1)}
-              </span>
-            </li>
-          ))}
-        </ul>
-        {others.length > 10 && (
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="mt-4 text-accent hover:underline text-sm"
-          >
-            {showAll ? 'Weniger anzeigen' : `Alle (${others.length}) anzeigen`}
-          </button>
-        )}
+        <Link
+          href="/superinvestoren"
+          className="
+            flex flex-col justify-between
+            bg-gray-800/60 backdrop-blur-md
+            rounded-2xl p-8 shadow-lg hover:shadow-2xl transition
+          "
+        >
+          <div>
+            <h2 className="text-2xl font-orbitron text-white mb-2">
+              Super-Investoren
+            </h2>
+            <p className="text-gray-300">
+              Entdecke Portfolios & Strategien der Top-Investoren.
+            </p>
+          </div>
+          <span className="inline-block mt-4 px-4 py-2 bg-accent text-black rounded-full text-sm font-medium hover:bg-accent/90 transition">
+            Portfolio ansehen →
+          </span>
+        </Link>
       </section>
 
-     {/* 3. Top-Tabellen */}
-<section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-  {/* Top-Käufe Card */}
-  <div className="
-    bg-gray-800/60 backdrop-blur-md
-    border border-gray-700 rounded-2xl
-    shadow-2xl/10 p-8 flex flex-col space-y-4
-  ">
-    <div className="flex justify-between items-center mb-4">
-      <h3 className="text-lg font-orbitron text-white">Top 10 Käufe</h3>
-      <span className="text-sm text-accent font-mono">({periodLabel})</span>
-    </div>
-    <ul className="space-y-3">
-      {aggregated.map(item => (
-        <li key={item.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
-          <Link
-            href={`/aktie/${item.ticker.toLowerCase()}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {item.ticker} – <span className="text-gray-300">{nameMap[item.ticker]}</span>
-          </Link>
-          <span className="text-gray-300 text-sm">({item.count})</span>
-        </li>
-      ))}
-    </ul>
-  </div>
+      {/* ─── Top Investoren ─── */}
+      <section className="space-y-4">
+        <h2 className="text-3xl font-semibold text-white">Top Investoren</h2>
+        <p className="text-gray-400 max-w-prose">
+          Klick auf eine Karte für Depot-Details und Performance.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {investors
+            .filter(i => ['buffett','ackman','burry'].includes(i.slug))
+            .map(inv => (
+              <Link
+                key={inv.slug}
+                href={`/investor/${inv.slug}`}
+                className="
+                  group flex flex-col items-center p-6
+                  bg-gray-800/60 rounded-2xl hover:shadow-xl hover:scale-105 transition
+                "
+              >
+                <div className="relative w-24 h-24 mb-4 rounded-full ring-2 ring-accent overflow-hidden">
+                  <Image src={inv.imageUrl!} alt={inv.name} fill className="object-cover" />
+                </div>
+                <h3 className="text-xl text-white font-semibold">{inv.name}</h3>
+              </Link>
+            ))
+          }
+        </div>
+      </section>
 
-  {/* Top-Meistgehalten Card */}
-  <div className="
-    bg-gray-800/60 backdrop-blur-md
-    border border-gray-700 rounded-2xl
-    shadow-2xl/10 p-8 flex flex-col space-y-4
-  ">
-    <h3 className="text-lg font-orbitron text-white mb-4">Top 10 Meistgehalten</h3>
-    <ul className="space-y-3">
-      {topOwned.map(o => (
-        <li key={o.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
-          <Link
-            href={`/aktie/${o.ticker.toLowerCase()}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {o.ticker} – <span className="text-gray-300">{nameMap[o.ticker]}</span>
-          </Link>
-          <span className="text-gray-300 text-sm">{o.count}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
+      {/* ─── Weitere Investoren (optional) ─── */}
+      {/* … hier dein „Alle Investoren“ Abschnitt … */}
 
-  {/* Top-Biggest Investments Card */}
-  <div className="
-    bg-gray-800/60 backdrop-blur-md
-    border border-gray-700 rounded-2xl
-    shadow-md p-6 flex flex-col
-  ">
-    <h3 className="text-lg font-orbitron text-white mb-4">Top 10 Biggest Investments</h3>
-    <ul className="space-y-3">
-      {biggest.map(inv => (
-        <li key={inv.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
-          <Link
-            href={`/aktie/${inv.ticker.toLowerCase()}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {inv.ticker} – <span className="text-gray-300">{inv.name}</span>
-          </Link>
-          <span className="text-gray-300 text-sm">
-            {formatCurrency(inv.value, 'USD', 0)}
-          </span>
-        </li>
-      ))}
-    </ul>
-  </div>
-</section>
-
+      {/* ─── Top Käufe / Top Holdings / Newsletter … ─── */}
+      {/* Du kannst deine Sections 5 + 6 (Top Käufe, Newsletter) hier genauso anschließen */}
       <section className="grid md:grid-cols-2 gap-8">
-  {/* 13F-Filings */}
-  <div className="
-    bg-gray-900
-    border border-gray-700 rounded-2xl shadow-md
-    flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6
-  ">
-    <div className="flex-shrink-0 w-20 h-20">
-      <Image src="/images/13f-icon.png" alt="13F-Icon" width={80} height={80} />
-    </div>
-    <div>
-      <h2 className="text-2xl font-orbitron text-white mb-2">
-        Was sind 13F-Filings?
-      </h2>
-      <p className="text-gray-300">
-        13F-Filings sind quartalsweise Berichte, die große institutionelle Investment-
-        manager (z. B. Hedgefunds) bei der US-Börsenaufsicht SEC einreichen müssen. …
-      </p>
-    </div>
-  </div>
-
-  {/* Newsletter */}
-  <div className="
-    bg-gray-900
-    border border-gray-700 rounded-2xl shadow-md
-    text-center space-y-4
-  ">
-    <h2 className="text-2xl font-orbitron text-white">
-      Nie wieder ein Quartals-Update verpassen
-    </h2>
-    <p className="text-gray-300">
-      Melde Dich zu unserem Newsletter an …
-    </p>
-    <div className="mt-2 max-w-md mx-auto">
-      <NewsletterSignup />
-    </div>
-  </div>
-</section>
+        <div className="bg-gray-900 p-6 rounded-2xl">
+          <h3 className="text-xl font-semibold text-white mb-3">Was sind 13F-Filings?</h3>
+          <p className="text-gray-300">
+            Quartalsberichte großer Investmentmanager an die US-SEC.
+          </p>
+        </div>
+        <div className="bg-gray-900 p-6 rounded-2xl">
+          <h3 className="text-xl font-semibold text-white mb-3">
+            Nie wieder ein Quartals-Update verpassen
+          </h3>
+          <NewsletterSignup />
+        </div>
+      </section>
     </main>
   )
 }

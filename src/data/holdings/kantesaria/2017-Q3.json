@@ -1,4 +1,55 @@
 {
+  "form": "13F-HR",
   "date": "2017-08-14",
-  "positions": []
+  "period": "2017-08-14",
+  "positions": [
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 1752000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 58500,
+      "value": 7769000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 34750,
+      "value": 4220000
+    },
+    {
+      "name": "MONSTER BEVERAGE CORP NEW",
+      "cusip": "61174X109",
+      "shares": 531249,
+      "value": 26392000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 351415,
+      "value": 42760000
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 125084,
+      "value": 7380000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 292209,
+      "value": 42660000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 82000,
+      "value": 7690000
+    }
+  ]
 }

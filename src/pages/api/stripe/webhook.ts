@@ -82,12 +82,24 @@ export default async function handler(
     case 'checkout.session.completed': {
       const sess = event.data.object as Stripe.Checkout.Session
       const email = await lookupEmail(sess)
-      if (email) {
+      const custId = typeof sess.customer === 'string'
+        ? sess.customer
+        : sess.customer?.id
+      const subId = typeof sess.subscription === 'string'
+        ? sess.subscription
+        : (sess.subscription as Stripe.Subscription)?.id
+
+      if (email && custId && subId) {
         await prisma.user.update({
           where: { email },
-          data: { isPremium: true, premiumSince: new Date() },
+          data: {
+            isPremium: true,
+            premiumSince: new Date(),
+            stripeCustomerId: custId,
+            stripeSubscriptionId: subId,      // ← hier speichern
+          },
         })
-        console.log(`✅ ${email} ist jetzt Premium.`)
+        console.log(`✅ ${email} ist jetzt Premium (Cust: ${custId}, Sub: ${subId}).`)
       }
       break
     }
@@ -98,7 +110,10 @@ export default async function handler(
       if (email) {
         await prisma.user.update({
           where: { email },
-          data: { isPremium: false },
+          data: {
+            isPremium: false,
+            stripeSubscriptionId: null,     // ← Subscription aus DB entfernen
+          },
         })
         console.log(`🚫 ${email} hat gekündigt.`)
       }

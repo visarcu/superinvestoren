@@ -1,17 +1,15 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { transporter } from '@/lib/mailer';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { sendMail } from '@/lib/mailer'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    await transporter.sendMail({
-      from: process.env.MAIL_FROM,
-      to: 'deine@inbox.mailtrap.io',   // deine Mailtrap-Inbox-Adresse
-      subject: 'Test-Mail von SuperInvestor',
-      text: '🚀 SMTP läuft!',
-    });
-    res.status(200).json({ ok: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Mail konnte nicht gesendet werden.' });
+    const info = await sendMail({
+      to: 'finanzfreund1@gmail.com',
+      subject: 'FINCLUE Test',
+      html: '<p>🚀 Test-Mail!</p>',
+    })
+    res.status(200).json({ success: true, messageId: info.messageId })
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message })
   }
 }

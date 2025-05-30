@@ -1,4 +1,73 @@
 {
+  "form": "13F-HR",
   "date": "2018-11-14",
-  "positions": []
+  "period": "2018-11-14",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1000,
+      "value": 2003000
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 3612000
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 76200,
+      "value": 11896000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 25000,
+      "value": 4112000
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 333078,
+      "value": 76125000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 58500,
+      "value": 13303000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 34750,
+      "value": 7736000
+    },
+    {
+      "name": "MONSTER BEVERAGE CORP NEW",
+      "cusip": "61174X109",
+      "shares": 608230,
+      "value": 35448000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 369415,
+      "value": 61766000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 369532,
+      "value": 72203000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 82000,
+      "value": 12307000
+    }
+  ]
 }

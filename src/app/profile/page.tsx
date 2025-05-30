@@ -4,11 +4,12 @@ import { redirect } from 'next/navigation'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { prisma } from '@/lib/db'
 import ProfileForm from '@/components/ProfileForm'
+import CancelButton from '@/components/CancelButton'
 import { FaCrown, FaUserSlash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import { format } from 'date-fns'
+import { de } from 'date-fns/locale'
 
-export const metadata = {
-  title: 'Mein Profil – SuperInvestor',
-}
+export const metadata = { title: 'Mein Profil – FinClue' }
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions)
@@ -21,56 +22,61 @@ export default async function ProfilePage() {
       firstName: true,
       lastName: true,
       isPremium: true,
-      emailVerified: true,   // neu
+      emailVerified: true,
+      premiumSince: true,     
     },
   })
   if (!user) redirect('/auth/signin')
 
+  // formatiere Datum, falls vorhanden
+  const memberSince = user.premiumSince
+    ? format(user.premiumSince, 'dd.MM.yyyy', { locale: de })
+    : null
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden p-6">
-      {/* Hintergrundkreise */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
-      <div className="absolute -bottom-40 -right-40 w-[28rem] h-[28rem] bg-accent/25 rounded-full blur-2xl animate-[pulse_12s_ease-in-out_infinite]" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 flex justify-center">
+      <div className="max-w-lg w-full space-y-8">
+        <h1 className="text-3xl font-orbitron text-white text-center">Mein Profil</h1>
 
-      <div className="relative z-10 max-w-2xl w-full space-y-6">
-        <h1 className="text-3xl font-bold text-white text-center">Mein Profil</h1>
-
-        {/* Premium-Status */}
-        <div className="flex justify-center space-x-4">
-          {user.isPremium ? (
-            <span className="inline-flex items-center space-x-2 px-4 py-1 bg-yellow-500 text-black font-medium rounded-full">
-              <FaCrown /> <span>Premium-User</span>
-            </span>
-          ) : (
-            <span className="inline-flex items-center space-x-2 px-4 py-1 bg-red-600 text-white font-medium rounded-full">
-              <FaUserSlash /> <span>Kostenloser Account</span>
-            </span>
-          )}
-
-          {/* E-Mail-Verifiziert? */}
-          {user.emailVerified ? (
-            <span className="inline-flex items-center space-x-2 px-4 py-1 bg-green-600 text-black font-medium rounded-full">
-              <FaCheckCircle /> <span>E-Mail bestätigt</span>
-            </span>
-          ) : (
-            <span className="inline-flex items-center space-x-2 px-4 py-1 bg-red-700 text-white font-medium rounded-full">
-              <FaTimesCircle /> <span>E-Mail nicht bestätigt</span>
-            </span>
+        {/* Status-Badges */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex gap-4">
+            {user.isPremium ? (
+              <span className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500 text-black rounded-full">
+                <FaCrown /> Premium-User
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-2 px-3 py-1 bg-red-600 text-white rounded-full">
+                <FaUserSlash /> Kostenloser Account
+              </span>
+            )}
+            {user.emailVerified ? (
+              <span className="inline-flex items-center gap-2 px-3 py-1 bg-green-600 text-black rounded-full">
+                <FaCheckCircle /> E-Mail bestätigt
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-2 px-3 py-1 bg-red-700 text-white rounded-full">
+                <FaTimesCircle /> E-Mail nicht bestätigt
+              </span>
+            )}
+          </div>
+<br></br>
+          {/* Nur wenn Premium */}
+          {user.isPremium && memberSince && (
+            <p className="text-gray-400 text-sm">
+              Mitglied seit <span className="font-medium text-gray-200">{memberSince}</span>
+            </p>
           )}
         </div>
 
-        {/* Glas/Blur-Box fürs Formular */}
-        <div className="
-          bg-gray-800/70 backdrop-blur-xl
-          border border-gray-700
-          rounded-3xl shadow-lg
-          p-8
-        ">
+        {/* Profil-Form & Kündigen-Button */}
+        <div className="bg-gray-800/70 backdrop-blur-xl border border-gray-700 rounded-3xl shadow-lg p-6 space-y-6">
           <ProfileForm
             initialEmail={user.email}
             initialFirstName={user.firstName || ''}
             initialLastName={user.lastName || ''}
           />
+          {user.isPremium && <CancelButton />}
         </div>
       </div>
     </div>

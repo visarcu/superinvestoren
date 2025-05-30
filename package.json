@@ -11,10 +11,10 @@
     "fetch13f": "node --experimental-json-modules scripts/fetch13f.js",
     "fetchNportP": "node --experimental-json-modules scripts/fetchNportP.js",
     "update-stocks": "ts-node scripts/update-stocks.ts",
-       "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
-     "fetch:nportp": "node scripts/fetchNportP.js",
-     "fetch:holdings": "node scripts/fetchHoldings.js"
+    "fetch:nportp": "node scripts/fetchNportP.js",
+    "fetch:holdings": "node scripts/fetchHoldings.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",
@@ -23,6 +23,7 @@
     "@prisma/client": "^6.7.0",
     "bcryptjs": "^3.0.2",
     "chart.js": "^4.4.9",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "lru-cache": "^11.1.0",
     "micro": "^10.0.1",

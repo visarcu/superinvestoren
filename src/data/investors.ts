@@ -67,7 +67,7 @@ export const investors: Investor[] = [
   {
     name: 'Terry Smith',
     slug: 'smith',
-    imageUrl: '/images/smith-cartoon.png',
+    imageUrl: '/images/smith.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },
@@ -236,7 +236,7 @@ export const investors: Investor[] = [
   {
     name: 'Lee Ainslie - Maverick Capital',
     slug: 'ainslie',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/ainslie.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -292,7 +292,7 @@ export const investors: Investor[] = [
   {
     name: 'Stephen Mandel - Lone Pine Capital',
     slug: 'mandel',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/mandel.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -308,7 +308,7 @@ export const investors: Investor[] = [
   {
     name: 'Henry Ellenbogen - Durable Capital Partners',
     slug: 'ellenbogen',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/ellenbogen.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -356,7 +356,7 @@ export const investors: Investor[] = [
   {
     name: 'Lindsell Train ',
     slug: 'train',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/train.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -626,6 +626,14 @@ export const investors: Investor[] = [
   {
     name: 'Nelson Peltz - Trian Fund Management',
     slug: 'peltz',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Dev Kantesaria - Valley Forge Capital Management',
+    slug: 'kantesaria',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],

@@ -48,7 +48,7 @@ type Quote = {
 }
 
 const ALL_SECTIONS = {
-  Beliebt:  ['AAPL','MSFT','GOOGL','AMZN','TSLA','NVDA','META','NFLX', 'AXP'],
+  Beliebt:  ['AAPL','MSFT','GOOGL','AMZN','TSLA','NVDA','META','NFLX', 'AXP','BAC','UBER','DPZ'],
   Tech:     ['AAPL','MSFT','NVDA','GOOGL','META','ORCL','SAP','ADBE'],
   Finanzen: ['JPM','BAC','WFC','C'],
   DAX:      ['SAP','SIE','DTE','AIR','ALV','MUV2','SHL','MRK','MBG','PAH3'],

@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export const metadata = {
-  title: 'SUPERINVESTOR',
+  title: 'FinClue',
   description: 'Portfolios der bekanntesten Investoren im Überblick',
 }
 
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </div>
               {/* Copyright rechtsbündig */}
               <div className="text-sm text-gray-500">
-                © {new Date().getFullYear()} SUPERINVESTOR
+                © {new Date().getFullYear()} FinClue
               </div>
             </div>
           </footer>

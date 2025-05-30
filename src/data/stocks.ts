@@ -21,6 +21,22 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'LSXMA',
+    cusip:  '531229813',
+    name:   'Liberty Media Corporation Series A',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+  {
+    ticker: 'LSXMK',
+    cusip:  '531229789',
+    name:   'Liberty Media Corporation Series C',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
   {
     ticker: 'LIRC.TO',
     cusip:  '',
@@ -1745,7 +1761,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CVS',
-    cusip:  '',
+    cusip:  '126650100',
     name:   'CVS Health Corporation',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -2296,6 +2312,15 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'HHH',
+    cusip:  '44267D107',
+    name:   'Howard Hughes Holdings Inc.',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'NEA',
     cusip:  '670657105',
@@ -5917,7 +5942,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'DOCS',
-    cusip:  '',
+    cusip:  '26622P107',
     name:   'Doximity, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -7513,7 +7538,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'GGG',
-    cusip:  '',
+    cusip:  '384109104',
     name:   'Graco Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -8988,6 +9013,14 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'NUE',
+    cusip:  '655844108',
+    name:   'Nucor Corporation',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
   {
     ticker: 'AMR',
     cusip:  '020764106',
@@ -10047,7 +10080,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'JCI',
-    cusip:  '',
+    cusip:  'G51502105',
     name:   'Johnson Controls International plc',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -10082,7 +10115,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ZBH',
-    cusip:  '',
+    cusip:  '98956P102',
     name:   'Zimmer Biomet Holdings, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -10201,7 +10234,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SUI',
-    cusip:  '',
+    cusip:  '866674104',
     name:   'Sun Communities, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -10229,7 +10262,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'MTD',
-    cusip:  '',
+    cusip:  '592688105',
     name:   'Mettler-Toledo International Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -10418,7 +10451,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'FI',
-    cusip:  '',
+    cusip:  '337738108',
     name:   'Fiserv, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -11473,6 +11506,15 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'AZPN',
+    cusip:  '29109X106',
+    name:   'Aspen Technology',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'DTE',
     cusip:  '233331107',
@@ -11951,7 +11993,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'OTIS',
-    cusip:  '',
+    cusip:  '68902V107',
     name:   'Otis Worldwide Corporation',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -13204,7 +13246,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'FIS',
-    cusip:  '',
+    cusip:  '31620M106',
     name:   'Fidelity National Information Services, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -16298,7 +16340,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'IBKR',
-    cusip:  '',
+    cusip:  '45841N107',
     name:   'Interactive Brokers Group, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -19189,7 +19231,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'EXPO',
-    cusip:  '',
+    cusip:  '30214U102',
     name:   'Exponent, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -19462,7 +19504,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CME',
-    cusip:  '',
+    cusip:  '12572Q105',
     name:   'CME Group Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -20435,7 +20477,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'GILD',
-    cusip:  '',
+    cusip:  '375558103',
     name:   'Gilead Sciences, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -23779,6 +23821,8 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  
   {
     ticker: 'FALN',
     cusip:  '',
@@ -25519,7 +25563,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ADI',
-    cusip:  '',
+    cusip:  '032654105',
     name:   'Analog Devices, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -25785,7 +25829,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'AEP',
-    cusip:  '',
+    cusip:  '025537101',
     name:   'American Electric Power Company, Inc.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -25841,7 +25885,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'RTX',
-    cusip:  '',
+    cusip:  '75513E101',
     name:   'RTX Corporation',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -29399,7 +29443,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'FNDA',
-    cusip:  '808524763',
+    cusip:  '812215101',
     name:   'Schwab Fundamental U.S. Small Company Index ETF',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -34131,7 +34175,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ODD',
-    cusip:  '',
+    cusip:  'M7518J104',
     name:   'Oddity Tech Ltd.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -40772,6 +40816,16 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+
+  {
+    ticker: 'ATVI',
+    cusip:  '00507V109',
+    name:   'Activision Blizzard, Inc.',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'PAGP',
     cusip:  '72651A207',
@@ -40912,6 +40966,15 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'SIRI',
+    cusip:  '82968B103',
+    name:   'Sirius XM Holdings Inc.',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'MHH',
     cusip:  '57633B100',

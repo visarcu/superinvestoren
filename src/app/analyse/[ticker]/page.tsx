@@ -14,6 +14,8 @@ import Card from '@/components/Card'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
+import Logo from '@/components/Logo'
+
 
 const WatchlistButton = dynamic(
   () => import('@/components/WatchlistButton'),
@@ -342,13 +344,23 @@ export default async function AnalysisPage({
         ← Zurück zur Aktie
       </Link>
 
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      {/* Header mit Logo */}
+  <div className="flex items-center justify-between space-x-6">
+    <div className="flex items-center space-x-4">
+      <Logo
+        src={`/logos/${ticker.toLowerCase()}.svg`}
+        alt={`${ticker} Logo`}
+        className="w-12 h-12"
+      />
+      <div>
         <h1 className="text-3xl font-bold">
           Kennzahlen-Analyse: {stock.name} ({ticker})
         </h1>
-        <WatchlistButton ticker={ticker} />
+        <p className="text-gray-400 text-sm">Detaillierte Finanzkennzahlen</p>
       </div>
+    </div>
+    <WatchlistButton ticker={ticker} />
+  </div>
 
       {/* IR-Link */}
       {irLinks[ticker] && (
@@ -392,17 +404,16 @@ export default async function AnalysisPage({
       <div>
         <h3 className="text-white font-semibold mb-2">Value</h3>
         <ul className="text-sm text-gray-300 space-y-1">
-          <li>Market Cap: {liveMarketCap != null ? fmtB(liveMarketCap) : '–'}</li>
-          <li>Volume: {volume != null ? volume.toLocaleString('de-DE') : '–'}</li>
-          <li>Prev. Close: {fmtPrice(previousClose)}</li>
-          <li>52 W-Range: {fmtPrice(week52Low)} – {fmtPrice(week52High)}</li>
+          <li>Marktkapitalisierung: {liveMarketCap != null ? fmtB(liveMarketCap) : '–'}</li>
+          <li>Volumen: {volume != null ? volume.toLocaleString('de-DE') : '–'}</li>
+          <li>Schlusskurs Vortag: {fmtPrice(previousClose)}</li>
           <li>Beta: {profileData?.beta?.toFixed(2) ?? '–'}</li>
         </ul>
       </div>
 
       {/* Balance */}
       <div>
-        <h3 className="text-white font-semibold mb-2">Balance</h3>
+        <h3 className="text-white font-semibold mb-2">Bilanz</h3>
         <ul className="text-sm text-gray-300 space-y-1">
           <li>Cash: {cashBS != null ? fmtB(cashBS) : '–'}</li>
           <li>Debt: {debtBS != null ? fmtB(debtBS) : '–'}</li>
@@ -410,29 +421,28 @@ export default async function AnalysisPage({
         </ul>
       </div>
 
-      {/* Dividend */}
-      <div>
-        <h3 className="text-white font-semibold mb-2">Dividend</h3>
-        <ul className="text-sm text-gray-300 space-y-1">
-          <li>Rendite: {fmtP(keyMetrics.dividendYield)}</li>
-          <li>Payout Ratio: {fmtP(keyMetrics.payoutRatio)}</li>
-        </ul>
-        {isPremium ? (
-          <Link
-            href={`/analyse/${ticker.toLowerCase()}/dividende`}
-            className="mt-2 inline-block text-blue-400 hover:underline text-sm"
-          >
-            Mehr zur Dividende →
-          </Link>
-        ) : (
-          <Link
-            href="/pricing"
-            className="mt-2 inline-flex items-center text-yellow-400 hover:underline text-sm"
-          >
-            <LockClosedIcon className="w-4 h-4 mr-1" /> Mehr zur Dividende
-          </Link>
-        )}
-      </div>
+     {/* Dividend */}
+<div>
+  <h3 className="text-white font-semibold mb-2">Dividende</h3>
+  <ul className="text-sm text-gray-300 space-y-1">
+    <li>Rendite: {fmtP(keyMetrics.dividendYield)}</li>
+    <li>Payout Ratio: {fmtP(keyMetrics.payoutRatio)}</li>
+  </ul>
+
+  {isPremium ? (
+    // statt des Links: nur ein Hinweis „Coming soon“
+    <span className="mt-2 inline-block text-gray-400 italic text-sm">
+      Mehr zur Dividende: Coming soon…
+    </span>
+  ) : (
+    <Link
+      href="/pricing"
+      className="mt-2 inline-flex items-center text-yellow-400 hover:underline text-sm"
+    >
+      <LockClosedIcon className="w-4 h-4 mr-1" /> Mehr zur Dividende
+    </Link>
+  )}
+</div>
 
       {/* Bewertung */}
       <div className="relative">
@@ -455,12 +465,12 @@ export default async function AnalysisPage({
 
       {/* Margins */}
       <div className="relative">
-        <h3 className="text-white font-semibold mb-2">Margins</h3>
+        <h3 className="text-white font-semibold mb-2">Marge</h3>
         <div className={isPremium ? '' : 'filter blur-sm'}>
           <ul className="text-sm text-gray-300 space-y-1">
-            <li>Gross Margin: {fmtP(grossMargin)}</li>
-            <li>Operating: {fmtP(operatingMargin)}</li>
-            <li>Profit Margin: {fmtP(profitMargin)}</li>
+            <li>Bruttomarge: {fmtP(grossMargin)}</li>
+            <li>Operative Marge: {fmtP(operatingMargin)}</li>
+            <li>Nettogewinnmarge: {fmtP(profitMargin)}</li>
           </ul>
         </div>
         {!isPremium && (
@@ -510,14 +520,14 @@ export default async function AnalysisPage({
   <Card>
     {/* Header */}
     <h2 className="text-2xl font-semibold mb-4">
-      Estimates (ab {new Date().getFullYear()})
+      Analysten Schätzungen (ab {new Date().getFullYear()})
     </h2>
 
     {/* Zwei Spalten: Revenue & Earnings */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Revenue Estimates */}
       <div>
-        <h3 className="font-semibold mb-2">Revenue Estimates</h3>
+        <h3 className="font-semibold mb-2">Umsatzschätzungen</h3>
         <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
           <thead>
             <tr className="border-b border-gray-700">
@@ -581,7 +591,7 @@ export default async function AnalysisPage({
 
       {/* Earnings Estimates */}
       <div>
-        <h3 className="font-semibold mb-2">Earnings Estimates</h3>
+        <h3 className="font-semibold mb-2">Gewinnschätzungen</h3>
         <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
           <thead>
             <tr className="border-b border-gray-700">

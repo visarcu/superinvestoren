@@ -19,6 +19,10 @@ import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
 
 import Link from 'next/link'      
 
+import cashPositions from '@/data/cashPositions'
+import CashPositionChart from '@/components/CashPositionChart'
+
+
 
 // dynamischer Import mit Spinner
 const TopPositionsBarChart = dynamic(
@@ -131,7 +135,10 @@ const investorNames: Record<string,string> = {
   cantillon: 'William von Mueffling - Cantillon Capital Management',
   whitman: 'Marty Whitman - Third Avenue Management',
   greenbrier:'Greenbrier Partners Capital Management',
-  peltz: 'Nelson Peltz - Trian Fund Management'
+  peltz: 'Nelson Peltz - Trian Fund Management',
+  kantesaria:'Dev Kantesaria - Valley Forge Capital Management',
+  viking: 'Ole Andreas Halvorsen - Viking Global Investors',
+  ellenbogen: 'Henry Ellenbogen - Durable Capital Partners'
 
 }
 
@@ -189,31 +196,50 @@ export default function InvestorPage({ params:{ slug } }) {
   const period        = latest.date ? getPeriodFromDate(latest.date) : '–'
 
   // — Käufe/Verkäufe History —
-  const buildHistory = (isBuy:boolean): HistoryGroup[] =>
+  const buildHistory = (isBuy: boolean): HistoryGroup[] =>
     snapshots.map((snap, idx) => {
-      const prevRaw = idx>0 ? snapshots[idx-1].data.positions : []
-      const prevMap = new Map<string,number>()
-      prevRaw.forEach(p => prevMap.set(p.cusip,(prevMap.get(p.cusip)||0)+p.shares))
-
-      const merged = Array.from(mergePositions(snap.data.positions).entries())
-        .map(([cusip,{shares,value}]) => ({
-          cusip, shares, value,
-          name: stocks.find(s=>s.cusip===cusip)?.name || cusip
+      // 1) Vorherige Anteile in prevMap
+      const prevRaw = idx > 0 ? snapshots[idx - 1].data.positions : []
+      const prevMap = new Map<string, number>()
+      prevRaw.forEach(p => prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares))
+  
+      // 2) Aktuelle Anteile zusammenführen
+      const mergedEntries = Array.from(mergePositions(snap.data.positions).entries())
+        .map(([cusip, { shares, value }]) => ({
+          cusip,
+          shares,
+          value,
+          name: stocks.find(s => s.cusip === cusip)?.name || cusip
         }))
-
-      const full = merged.map(p => {
-        const prevShares = prevMap.get(p.cusip)||0
-        const delta = p.shares - prevShares
+  
+      // ── NEU: CUSIPs ergänzen, die nur im prevMap, nicht in mergedEntries sind
+      const seen = new Set(mergedEntries.map(e => e.cusip))
+      for (const [cusip, prevShares] of prevMap.entries()) {
+        if (!seen.has(cusip)) {
+          mergedEntries.push({
+            cusip,
+            shares: 0,
+            value: 0,
+            name: stocks.find(s => s.cusip === cusip)?.name || cusip
+          })
+        }
+      }
+  
+      // 3) Delta / pctDelta berechnen
+      const full = mergedEntries.map(p => {
+        const prevShares = prevMap.get(p.cusip) || 0
+        const delta      = p.shares - prevShares
         return {
           ...p,
           deltaShares: delta,
-          pctDelta: prevShares>0 ? delta/prevShares : 0
+          pctDelta:    prevShares > 0 ? delta / prevShares : 0
         }
       })
-
+  
       return {
         period: getPeriodFromDate(snap.data.date),
-        items:  full.filter(p => isBuy ? p.deltaShares>0 : p.deltaShares<0)
+        // je nachdem buys oder sells filtern
+        items: full.filter(p => isBuy ? p.deltaShares > 0 : p.deltaShares < 0)
       }
     }).reverse()
 
@@ -260,6 +286,17 @@ export default function InvestorPage({ params:{ slug } }) {
   if (slug==='buffett') articles = articlesBuffett
   if (slug==='ackman')  articles = articlesAckman
   if (slug==='gates')   articles = articlesGates
+
+  // Nur für Buffett: Cash-Serie erstellen
+  let cashSeries: { period: string; cash: number }[] = []
+  if (slug === 'buffett') {
+    const list = cashPositions.buffett || []
+    cashSeries = list.map(snap => ({
+      period: getPeriodFromDate(snap.date),  // deine Hilfsfunktion
+      cash:   snap.cash
+    }))
+  }
+
 
   return (
     <main className="bg-black min-h-screen px-6 py-8 space-y-10">
@@ -339,29 +376,44 @@ export default function InvestorPage({ params:{ slug } }) {
         sells={sellsHistory}
       />
 
-      {/* — Charts (nur bei Bestände) in zwei Cards — */}
-    {tab === 'holdings' && (
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    {/* Top 10Positionen */}
-    <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6">
-      <h2 className="text-xl font-orbitron text-gray-100 text-center mb-4">
-        Top 10 Positionen
-      </h2>
-      <ErrorBoundary fallbackRender={({error}) => <ErrorFallback message={error.message} />}>
-        <TopPositionsBarChart data={top10} />
-      </ErrorBoundary>
+   {/* — Charts (nur bei Bestände) in zwei Cards — */}
+{tab === 'holdings' && (
+  <>
+    {/* Zwei Spalten */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Top 10Positionen */}
+      <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6">
+        <h2 className="text-xl font-orbitron text-gray-100 text-center mb-4">
+          Top 10 Positionen
+        </h2>
+        <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+          <TopPositionsBarChart data={top10} />
+        </ErrorBoundary>
+      </div>
+
+      {/* Depot-Wert Verlauf */}
+      <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6">
+        <h2 className="text-xl font-orbitron text-gray-100 text-center mb-4">
+          Depot-Wert Verlauf
+        </h2>
+        <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+          <PortfolioValueChart data={valueHistory} />
+        </ErrorBoundary>
+      </div>
     </div>
 
-    {/* Depot-Wert Verlauf */}
-    <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6">
-      <h2 className="text-xl font-orbitron text-gray-100 text-center mb-4">
-        Depot-Wert Verlauf
-      </h2>
-      <ErrorBoundary fallbackRender={({error}) => <ErrorFallback message={error.message} />}>
-      <PortfolioValueChart data={valueHistory} />
-      </ErrorBoundary>
-    </div>
-  </div>
+    {/* Cash-Position (eigene Zeile unter den beiden Charts) */}
+    {slug === 'buffett' && cashSeries.length > 0 && (
+      <div className="mt-8 bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl shadow-lg p-6">
+        <h2 className="text-xl font-orbitron text-gray-100 text-center mb-4">
+          Cash-Position (Treasuries)
+        </h2>
+        <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+          <CashPositionChart data={cashSeries} />
+        </ErrorBoundary>
+      </div>
+    )}
+  </>
 )}
       {/* — Articles & Commentaries — */}
       {articles.length > 0 && (

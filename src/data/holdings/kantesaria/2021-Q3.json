@@ -1,4 +1,61 @@
 {
+  "form": "13F-HR",
   "date": "2021-08-16",
-  "positions": []
+  "period": "2021-08-16",
+  "positions": [
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 194189,
+      "value": 113725000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 78715,
+      "value": 270792000
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 253608,
+      "value": 74028000
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 671509,
+      "value": 337554000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 215221,
+      "value": 105495000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1352814,
+      "value": 493899000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1155246,
+      "value": 418626000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1272544,
+      "value": 522316000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1015303,
+      "value": 237398000
+    }
+  ]
 }

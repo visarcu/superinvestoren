@@ -18,6 +18,8 @@ model User {
   email                   String                   @unique
   passwordHash            String
   stripeCustomerId  String?   @unique
+  stripeSubscriptionId  String?  
+  stripeSubId      String?
   isPremium               Boolean                  @default(true)
   emailVerified           Boolean                  @default(false)
   premiumSince DateTime?

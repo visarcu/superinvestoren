@@ -14,35 +14,6 @@ import gates_2025_Q1 from './gates/2025-Q1.json'
 import gates_2025_Q2 from './gates/2025-Q2.json'
 
 //Warren Buffet
-import buffett_2016_Q4 from './buffett/2016-Q4.json'
-import buffett_2016_Q3 from './buffett/2016-Q3.json'
-import buffett_2016_Q2 from './buffett/2016-Q2.json'
-import buffett_2016_Q1 from './buffett/2016-Q1.json'
-
-import buffett_2017_Q4 from './buffett/2017-Q4.json'
-import buffett_2017_Q3 from './buffett/2017-Q3.json'
-import buffett_2017_Q2 from './buffett/2017-Q2.json'
-import buffett_2017_Q1 from './buffett/2017-Q1.json'
-
-import buffett_2018_Q4 from './buffett/2018-Q4.json'
-import buffett_2018_Q3 from './buffett/2018-Q3.json'
-import buffett_2018_Q2 from './buffett/2018-Q2.json'
-import buffett_2018_Q1 from './buffett/2018-Q1.json'
-
-import buffett_2019_Q4 from './buffett/2019-Q4.json'
-import buffett_2019_Q3 from './buffett/2019-Q3.json'
-import buffett_2019_Q2 from './buffett/2019-Q2.json'
-import buffett_2019_Q1 from './buffett/2019-Q1.json'
-
-import buffett_2020_Q4 from './buffett/2020-Q4.json'
-import buffett_2020_Q3 from './buffett/2020-Q3.json'
-import buffett_2020_Q2 from './buffett/2020-Q2.json'
-import buffett_2020_Q1 from './buffett/2020-Q1.json'
-
-import buffett_2021_Q4 from './buffett/2021-Q4.json'
-import buffett_2021_Q3 from './buffett/2021-Q3.json'
-import buffett_2021_Q2 from './buffett/2021-Q2.json'
-import buffett_2021_Q1 from './buffett/2021-Q1.json'
 
 import buffett_2022_Q4 from './buffett/2022-Q4.json'
 import buffett_2022_Q3 from './buffett/2022-Q3.json'
@@ -63,7 +34,10 @@ import buffett_2025_Q1 from './buffett/2025-Q1.json'
 import buffett_2025_Q2 from './buffett/2025-Q2.json'
 
 //Bill Ackman
-
+import ackman_2023_Q1 from './ackman/2023-Q1.json'
+import ackman_2023_Q2 from './ackman/2023-Q2.json'
+import ackman_2023_Q3 from './ackman/2023-Q3.json'
+import ackman_2023_Q4 from './ackman/2023-Q4.json'
 import ackman_2024_Q1 from './ackman/2024-Q1.json'
 import ackman_2024_Q2 from './ackman/2024-Q2.json'
 import ackman_2024_Q3 from './ackman/2024-Q3.json'
@@ -576,6 +550,13 @@ import peltz_2024_Q4 from './peltz/2024-Q4.json'
 import peltz_2025_Q1 from './peltz/2025-Q1.json'
 import peltz_2025_Q2 from './peltz/2025-Q2.json'
 
+//kantesaria
+import kantesaria_2024_Q2 from './kantesaria/2024-Q2.json'
+import kantesaria_2024_Q3 from './kantesaria/2024-Q3.json'
+import kantesaria_2024_Q4 from './kantesaria/2024-Q4.json'
+import kantesaria_2025_Q1 from './kantesaria/2025-Q1.json'
+import kantesaria_2025_Q2 from './kantesaria/2025-Q2.json'
+
 
 // … für jeden weiteren Slug analog …
 
@@ -610,34 +591,11 @@ const holdingsHistory: Record<string, Snapshot[]> = {
   ],
 
   buffett: [
-    { quarter: '2016-Q1', data: buffett_2016_Q1 },
-    { quarter: '2016-Q2', data: buffett_2016_Q2 },
-    { quarter: '2016-Q3', data: buffett_2016_Q3 },
-    { quarter: '2016-Q4', data: buffett_2016_Q4 },
-    { quarter: '2017-Q1', data: buffett_2017_Q1 },
-    { quarter: '2017-Q2', data: buffett_2017_Q2 },
-    { quarter: '2017-Q3', data: buffett_2017_Q3 },
-    { quarter: '2017-Q4', data: buffett_2017_Q4 },
-    { quarter: '2018-Q1', data: buffett_2018_Q1 },
-    { quarter: '2018-Q2', data: buffett_2018_Q2 },
-    { quarter: '2018-Q3', data: buffett_2018_Q3 },
-    { quarter: '2018-Q4', data: buffett_2018_Q4 },
-    { quarter: '2019-Q1', data: buffett_2019_Q1 },
-    { quarter: '2019-Q2', data: buffett_2019_Q2 },
-    { quarter: '2019-Q3', data: buffett_2019_Q3 },
-    { quarter: '2019-Q4', data: buffett_2019_Q4 },
-    { quarter: '2020-Q1', data: buffett_2020_Q1 },
-    { quarter: '2020-Q2', data: buffett_2020_Q2 },
-    { quarter: '2020-Q3', data: buffett_2020_Q3 },
-    { quarter: '2020-Q4', data: buffett_2020_Q4 },
-    { quarter: '2021-Q1', data: buffett_2021_Q1 },
-    { quarter: '2021-Q2', data: buffett_2021_Q2 },
-    { quarter: '2021-Q3', data: buffett_2021_Q3 },
-    { quarter: '2021-Q4', data: buffett_2021_Q4 },
-    { quarter: '2022-Q1', data: buffett_2022_Q1 },
-    { quarter: '2022-Q2', data: buffett_2022_Q2 },
-    { quarter: '2022-Q3', data: buffett_2022_Q3 },
-    { quarter: '2022-Q4', data: buffett_2022_Q4 },
+   
+    //{ quarter: '2022-Q1', data: buffett_2022_Q1 },
+    //{ quarter: '2022-Q2', data: buffett_2022_Q2 },
+    //{ quarter: '2022-Q3', data: buffett_2022_Q3 },
+    //{ quarter: '2022-Q4', data: buffett_2022_Q4 },
     { quarter: '2023-Q1', data: buffett_2023_Q1 },
     { quarter: '2023-Q2', data: buffett_2023_Q2 },
     { quarter: '2023-Q3', data: buffett_2023_Q3 },
@@ -651,7 +609,10 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    // …
   ],
   ackman: [
-   
+    { quarter: '2023-Q1', data: ackman_2023_Q1 },
+    { quarter: '2023-Q2', data: ackman_2023_Q2 },
+    { quarter: '2023-Q3', data: ackman_2023_Q3 },
+    { quarter: '2023-Q4', data: ackman_2023_Q4 }, 
     { quarter: '2024-Q1', data: ackman_2024_Q1 },
     { quarter: '2024-Q2', data: ackman_2024_Q2 },
     { quarter: '2024-Q3', data: ackman_2024_Q3 },
@@ -1258,6 +1219,14 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q4', data: peltz_2024_Q4},
     { quarter: '2025-Q1', data: peltz_2025_Q1},
     { quarter: '2025-Q2', data: peltz_2025_Q2},
+   ],
+
+   kantesaria: [
+    { quarter: '2024-Q2', data: kantesaria_2024_Q2},
+    { quarter: '2024-Q3', data: kantesaria_2024_Q3},
+    { quarter: '2024-Q4', data: kantesaria_2024_Q4},
+    { quarter: '2025-Q1', data: kantesaria_2025_Q1},
+    { quarter: '2025-Q2', data: kantesaria_2025_Q2},
    ],
 
 

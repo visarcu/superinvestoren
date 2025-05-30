@@ -69,6 +69,7 @@ export const investorCiks = {
   meritage: '0001427119',
   ketterer: '0001165797',
   vulcanvalue: '0001556785',
+  //kantesaria:          '0001697868',    // Valley Forge Capital Management
 
   //NPORT P TYPES: EVTL NOCH CODE ANPASSEN
   mairspower: '0001141819',    // Mairs & Power Growth Fund NPORT P -> O FILES
@@ -95,53 +96,15 @@ export const investorCiks = {
  donaldsmith: '0000814375', //PASST, nicht aufgenommen in spezialfall
  ubben: '0001418814', //PASST, nicht aufgenommen in spezialfall
  marks:  '0000949509', //PASST, nicht aufgenommen in spezialfall
-
+ smith:    '0001569205',//PASST, nicht aufgenommen in spezialfall
 
   //Manuell folgende Investoren updaten
- burry:   '0001649339',// PORTFOLIO IST FALSCH?!?!?
+ burry:   '0001649339'// PORTFOLIO IST FALSCH?!?!?
 
-  smith:    '0001569205' //PASST, nicht aufgenommen in spezialfall
-
-
-  // neu hinzuzufügende Investoren:
 
 
 
  
-
-  // 'fpa-queens-road':       'XXX',    // FPA Queens Road Small Cap Value Fund
-
-
-
-
-
-
-  
-  // 'meridian-contrarian':   'XXX',    // Meridian Contrarian Fund
-
-
-
-  // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
-
-
-
-  // 'valueact-capital':      'XXX',    // ValueAct Capital
-
-
-
-
-
-  // 'valley-forge':          'XXX',    // Valley Forge Capital Management
- 
-
-  //'samantha-mclemore':     '0001854794',    // Samantha McLemore – Patient Capital Management
-
-
-
- 
-  // 'leon-cooperman':        'XXX',    // Leon Cooperman
-
-
 
 
 

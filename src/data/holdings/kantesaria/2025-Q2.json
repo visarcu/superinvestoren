@@ -1,0 +1,61 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "positions": [
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 125627,
+      "value": 83244219000
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 144000,
+      "value": 35072640000
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 768422,
+      "value": 1417093116000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 297360,
+      "value": 182576066000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1484772,
+      "value": 813833229000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1314144,
+      "value": 611983719000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 59700,
+      "value": 33760350000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1755098,
+      "value": 891765294000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 912017,
+      "value": 319625478000
+    }
+  ]
+}

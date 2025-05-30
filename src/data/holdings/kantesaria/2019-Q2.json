@@ -1,4 +1,61 @@
 {
+  "form": "13F-HR",
   "date": "2019-05-15",
-  "positions": []
+  "period": "2019-05-15",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1000,
+      "value": 1781000
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 3306000
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 108050,
+      "value": 16836000
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 333078,
+      "value": 90474000
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 94641,
+      "value": 24740000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 35750,
+      "value": 8417000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 420915,
+      "value": 76223000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 407407,
+      "value": 85780000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 449922,
+      "value": 70273000
+    }
+  ]
 }

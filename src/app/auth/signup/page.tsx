@@ -69,11 +69,7 @@ export default function SignupPage() {
             p-8 space-y-6 flex flex-col
           "
         >
-          {/* optional: Logo 
-          <div className="flex justify-center">
-        <Image src="/logos/superinvestor.svg" alt="SuperInvestor" width={48} height={48} />
-          </div>
-*/}
+       
           <h1 className="text-3xl font-bold text-white text-center">Registrieren</h1>
 
           {/* Fehlermeldung */}

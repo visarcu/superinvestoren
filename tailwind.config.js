@@ -13,6 +13,9 @@ module.exports = {
           accent:   '#00ff88',
           'surface-dark':'#1f1f1f',
           'card-dark':   '#37383A',
+          section1: '#0f131a',   // etwas dunkleres Schwarzblau
+        section2: '#161c26',   // leicht helleres Schwarzblau
+        section3: '#1d2430',   // noch heller
         },
         fontFamily: {
           sans:    ['Poppins','system-ui','sans-serif'],

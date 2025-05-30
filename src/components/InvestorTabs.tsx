@@ -108,7 +108,7 @@ export default function InvestorTabs({
               {tab === 'holdings' ? (
                 <>
                   <th className="text-left px-4 py-2 border-b border-gray-600">Name &amp; Ticker</th>
-                  <th className="text-right px-4 py-2 border-b border-gray-600">Shares</th>
+                  <th className="text-right px-4 py-2 border-b border-gray-600">Aktien</th>
                   <th className="text-right px-4 py-2 border-b border-gray-600">Wert (USD)</th>
                   <th className="text-right px-4 py-2 border-b border-gray-600">Anteil</th>
                   <th className="text-right px-4 py-2 border-b border-gray-600">Letzte Aktivität</th>
@@ -116,9 +116,9 @@ export default function InvestorTabs({
               ) : (
                 <>
                   <th className="text-left px-4 py-2 border-b border-gray-600">Name &amp; Ticker</th>
-                  <th className="text-right px-4 py-2 border-b border-gray-600">Shares</th>
-                  <th className="text-right px-4 py-2 border-b border-gray-600">Δ Shares</th>
-                  <th className="text-right px-4 py-2 border-b border-gray-600">%Δ</th>
+                  <th className="text-right px-4 py-2 border-b border-gray-600">Aktien</th>
+                  <th className="text-right px-4 py-2 border-b border-gray-600">Δ Aktien</th>
+                  <th className="text-right px-4 py-2 border-b border-gray-600">% Veränderung</th>
                 </>
               )}
             </tr>
@@ -215,7 +215,16 @@ export default function InvestorTabs({
                                   {fmtShares.format(Math.abs(p.deltaShares))}
                                 </span>
                               </td>
-                              <td className="px-4 py-2 text-right">{fmtPercent.format(Math.abs(p.pctDelta))}</td>
+                              <td className="px-4 py-2 text-right">
+      {(() => {
+        const prevShares = p.shares - p.deltaShares
+        // Wenn vorher 0 Shares, zeigen wir statt 0 % lieber "–"
+        if (prevShares === 0) {
+          return 'Neueinkauf'
+        }
+        return fmtPercent.format(Math.abs(p.pctDelta))
+      })()}
+    </td>
                             </tr>
                           )
                         })

@@ -8,8 +8,8 @@ export default function GrowthTooltip({
   if (!active || !payload || payload.length === 0) return null
 
   return (
-    <div className="bg-white border p-2 rounded shadow">
-      <div className="font-semibold mb-1">{label}</div>
+    <div className="bg-dark border p-2 rounded shadow">
+      <div className="font-semibold mb-2">{label}</div>
       {payload.map((entry, i) => {
         const { name, value, payload: row }: any = entry
         // wir nehmen an, das Feld heißt value, und Wachstum steht in row[`${dataKey}GrowthPct`]
