@@ -27,7 +27,7 @@ const analyseSubLinks = [
 
 export default function Navbar() {
   return (
-    <Disclosure as="header" className="fixed inset-x-0 top-0 z-50 bg-section1">
+    <Disclosure as="header" className="fixed inset-x-0 top-0 z-50 bg-dark">
       {({ open }) => (
         <>
           <TickerBar />

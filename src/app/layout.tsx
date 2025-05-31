@@ -35,7 +35,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-screen flex flex-col bg-black text-gray-100">
         <Providers>
           <Navbar />
-          <main className="flex-grow max-w-screen-xl mx-auto px-6">
+          {/* PT-20 rückt den Content um 80px nach unten – damit Navbar/TickerBar nicht überlagert */}
+         <main className="pt-20 flex-grow max-w-screen-xl mx-auto px-6">
             {children}
           </main>
           <footer className="bg-gray-900 border-t border-gray-700 py-6">
