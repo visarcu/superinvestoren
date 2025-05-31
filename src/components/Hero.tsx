@@ -1,3 +1,4 @@
+// src/components/Hero.tsx
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -19,7 +20,8 @@ export default function Hero() {
       {/* der eigentliche zentrierte Content-Wrapper */}
       <div className="relative z-10 top-10 max-w-4xl mx-auto px-6 py-32 text-center space-y-6">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-          Analysiere Aktien<br/>
+          Analysiere Aktien
+          <br />
           <span className="text-accent">Erhalte Einblicke</span>
         </h1>
         <p className="text-lg text-gray-300 max-w-2xl mx-auto">
@@ -30,7 +32,7 @@ export default function Hero() {
         <div className="mt-8 flex justify-center">
           <SearchTickerInput
             placeholder="Suche 10.000+ Aktien & ETFs"
-            onSelect={t => router.push(`/analyse/${t.toLowerCase()}`)}
+            onSelect={(t) => router.push(`/analyse/${t.toLowerCase()}`)}
             className="w-full max-w-2xl"
             inputClassName={`
               w-full px-6 py-4
@@ -52,7 +54,11 @@ export default function Hero() {
               onClick={() => router.push(`/analyse/${ticker}`)}
               className="w-16 h-16 md:w-20 md:h-20 p-2 rounded-xl hover:bg-gray-900 transition"
             >
-              <Logo src={src} alt={alt} className="w-full h-full object-contain" />
+              <Logo
+                src={src}
+                alt={alt}
+                className="w-full h-full object-contain"
+              />
             </button>
           ))}
         </div>

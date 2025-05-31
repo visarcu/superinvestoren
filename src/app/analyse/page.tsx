@@ -30,10 +30,9 @@ async function fetchHistorical(
   )
   if (!res.ok) throw new Error('History fetch failed')
   const json = await res.json()
-  return (json.historical as any[]).map(h => ({
-    date:  h.date as string,
-    close: h.close as number,
-  })).reverse()
+  return (json.historical as any[])
+    .map(h => ({ date: h.date as string, close: h.close as number }))
+    .reverse()
 }
 
 function pctChange(newVal: number, oldVal: number) {
@@ -59,9 +58,9 @@ const ENABLED_TABS: Array<keyof typeof ALL_SECTIONS> = ['Beliebt']
 
 export default function AnalysisIndexPage() {
   const router = useRouter()
-  const [last, setLast]         = useState<string|null>(null)
+  const [last, setLast]           = useState<string|null>(null)
   const [activeTab, setActiveTab] = useState<keyof typeof ALL_SECTIONS>('Beliebt')
-  const [quotes, setQuotes]     = useState<Record<string, Quote>>({})
+  const [quotes, setQuotes]       = useState<Record<string, Quote>>({})
 
   // Last ticker aus localStorage
   useEffect(() => {
@@ -109,11 +108,19 @@ export default function AnalysisIndexPage() {
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-16 space-y-12">
-
-      {/* Hero als Card */}
-      <Card className="relative z-0 overflow-visible bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl p-8 space-y-6">
+      {/* ─── Hero: einziger Container ─── */}
+      <Card
+        className="
+          relative z-0 overflow-visible
+          bg-gray-800/60 backdrop-blur-md
+          border border-gray-700 rounded-2xl
+          p-8 space-y-6
+        "
+      >
         <div className="text-center space-y-3">
-          <h1 className="text-5xl font-orbitron text-white">Aktien-Analyse Hub</h1>
+          <h1 className="text-5xl font-orbitron text-white">
+            Aktien-Analyse Hub
+          </h1>
           <p className="text-gray-300 text-lg">
             Live-Quote, historische Charts, Dividenden &amp; Kennzahlen im Vergleich.
           </p>
@@ -128,27 +135,24 @@ export default function AnalysisIndexPage() {
         </div>
       </Card>
 
-      {/* Zuletzt analysiert */}
+      {/* ─── Zuletzt analysiert ─── */}
       {last && (
-        <Card className="max-w-md mx-auto p-6 flex items-center space-x-6 bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl">
-          <Logo
-            src={`/logos/${last.toLowerCase()}.svg`}
-            alt={`${last} Logo`}
-            className="w-14 h-14"
-          />
-          <div>
-            <p className="text-gray-400 uppercase text-sm">Zuletzt analysiert</p>
-            <button
-              onClick={() => handleSelect(last)}
-              className="mt-1 text-2xl font-semibold text-white hover:underline"
-            >
-              {last}
-            </button>
+        <Card className="max-w-md mx-auto p-6">
+          <div className="flex items-center space-x-6 bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl p-4">
+            <Logo
+              src={`/logos/${last.toLowerCase()}.svg`}
+              alt={`${last} Logo`}
+              className="w-12 h-12"
+            />
+            <div>
+              <h2 className="text-xl font-semibold text-white">{last}</h2>
+              <p className="text-gray-400">Zuletzt analysiert</p>
+            </div>
           </div>
         </Card>
       )}
 
-      {/* Tab-Leiste */}
+      {/* ─── Tab-Leiste ─── */}
       <nav className="flex space-x-4 border-b border-gray-700 pb-2">
         {Object.keys(ALL_SECTIONS).map(rawTab => {
           const tab     = rawTab as keyof typeof ALL_SECTIONS
@@ -177,22 +181,22 @@ export default function AnalysisIndexPage() {
         })}
       </nav>
 
-      {/* Aktien-Grid */}
+      {/* ─── Aktien-Grid ─── */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">{activeTab}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {ALL_SECTIONS[activeTab].map(t => {
+          {ALL_SECTIONS[activeTab].map((t) => {
             const q = quotes[t]
             return (
-              <Link key={t} href={`/analyse/${t.toLowerCase()}`} passHref>
+              <Link key={t} href={`/analyse/${t.toLowerCase()}`}>
                 <Card
-                  as="a"
                   className="
-                    h-60 w-full
-                    flex flex-col justify-between
+                    h-60 w-full flex flex-col justify-between
                     px-5 pt-6 pb-4
-                    bg-gray-800/60 backdrop-blur-md border border-gray-700
-                    rounded-2xl shadow-lg hover:shadow-2xl transition cursor-pointer
+                    bg-gray-800/60 backdrop-blur-md
+                    border border-gray-700 rounded-2xl
+                    shadow-lg hover:shadow-2xl transition
+                    cursor-pointer
                   "
                 >
                   {/* Logo */}
@@ -219,11 +223,9 @@ export default function AnalysisIndexPage() {
                           : '–'}
                       </p>
                       {q && (
-                        <p
-                          className={`mt-1 text-sm font-mono ${
-                            q.changePct >= 0 ? 'text-green-400' : 'text-red-400'
-                          }`}
-                        >
+                        <p className={`mt-1 text-sm font-mono ${
+                          q.changePct >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
                           {q.changePct >= 0 ? '↑' : '↓'}{' '}
                           {Math.abs(q.changePct).toFixed(2).replace('.', ',')} %
                         </p>

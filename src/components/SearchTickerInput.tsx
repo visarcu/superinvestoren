@@ -4,16 +4,29 @@
 import React, { useState, useEffect, InputHTMLAttributes } from 'react'
 import { stocks } from '@/data/stocks'
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface Props
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onSelect'> {
   onSelect: (ticker: string) => void
+  inputClassName?: string
+  buttonClassName?: string
 }
 
-export default function SearchTickerInput({ onSelect, placeholder = '', className = '' }: Props) {
+export default function SearchTickerInput({
+  onSelect,
+  placeholder = '',
+  className = '',
+  inputClassName = '',
+  buttonClassName = '',
+  ...inputProps
+}: Props) {
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<typeof stocks>([])
 
   useEffect(() => {
-    if (query.trim() === '') return setSuggestions([])
+    if (query.trim() === '') {
+      setSuggestions([])
+      return
+    }
     const q = query.trim().toUpperCase()
     setSuggestions(
       stocks
@@ -26,20 +39,25 @@ export default function SearchTickerInput({ onSelect, placeholder = '', classNam
   }, [query])
 
   return (
-    <div className={`relative ${className}`}>  
+    <div className={`relative ${className}`}>
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-2 rounded bg-gray-800 text-gray-100 focus:outline-none"
+        className={`w-full px-4 py-2 rounded bg-gray-800 text-gray-100 focus:outline-none ${inputClassName}`}
+        {...inputProps}
       />
       {suggestions.length > 0 && (
         <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-gray-900 rounded shadow-lg">
           {suggestions.map((s) => (
             <li
               key={s.ticker}
-              onMouseDown={() => onSelect(s.ticker)}
+              onMouseDown={() => {
+                onSelect(s.ticker)
+                setQuery('')
+                setSuggestions([])
+              }}
               className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-gray-100"
             >
               <strong>{s.ticker}</strong> – {s.name}
@@ -50,5 +68,3 @@ export default function SearchTickerInput({ onSelect, placeholder = '', classNam
     </div>
   )
 }
-
-

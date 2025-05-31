@@ -55,11 +55,3 @@ export async function sendMail({
   return info
 }
 
-// vorhandene Spezial-Funktion bleibt natürlich erhalten
-export async function sendInvestorUpdate(
-  to: string,
-  subject: string,
-  html: string
-) {
-  return sendMail({ to, subject, html })
-}

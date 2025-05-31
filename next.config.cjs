@@ -5,8 +5,8 @@ const nextConfig = {
   images: {
     domains: [
       'financialmodelingprep.com',
-      'logo.clearbit.com'
-      
+      'logo.clearbit.com',
+    ],
   },
 }
 

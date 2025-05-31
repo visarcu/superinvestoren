@@ -76,11 +76,17 @@ export default async function DividendDetailPage({
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 bg-card-dark p-6 rounded-xl shadow">
         <div>
           <h2 className="font-semibold mb-1 text-gray-300">Rendite (TTM)</h2>
-          <p className="text-lg text-white">{fmtP(dividendYield)}</p>
+          <p className="text-lg text-white">
++   {fmtP(dividendYield ?? undefined)}
++ </p>
         </div>
         <div>
           <h2 className="font-semibold mb-1 text-gray-300">Payout Ratio</h2>
-          <p className="text-lg text-white">{fmtP(payoutRatio)}</p>
+          <p className="text-lg text-white">
+   {payoutRatio !== null
+     ? fmtP(payoutRatio)
+     : '–' /* Platzhalter für keinen Wert */}
+ </p>
         </div>
         <div>
           <h2 className="font-semibold mb-1 text-gray-300">5-Jahres-CAGR</h2>

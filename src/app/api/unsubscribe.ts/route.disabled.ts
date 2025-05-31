@@ -11,12 +11,12 @@ export async function POST(request: Request) {
     )
   }
 
-  try {
-    await prisma.subscriber.delete({
-      where: { email_investorSlug: { email, investorSlug: slug } },
-    })
-  } catch {
+  //try {
+    //await prisma.subscriber.delete({
+     // where: { email_investorSlug: { email, investorSlug: slug } },
+   // })
+  //} catch {
     // falls nicht gefunden, trotzdem OK
-  }
+ // }
   return NextResponse.json({ success: true })
 }

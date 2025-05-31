@@ -64,6 +64,16 @@ model PasswordResetToken {
   @@index([expiresAt])
 }
 
+
+model Subscriber {
+  id            Int     @id @default(autoincrement())
+  email         String
+  investorSlug  String
+  createdAt     DateTime @default(now())
+
+  @@unique([email, investorSlug])
+}
+
 //model InvestorSubscription {
 // id         String   @id @default(cuid())
 // investorId String

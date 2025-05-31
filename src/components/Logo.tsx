@@ -2,9 +2,25 @@
 
 import Image from 'next/image'
 
-export default function Logo({ src, alt }: { src: string; alt: string }) {
+type LogoProps = {
+  src: string
+  alt: string
+  className?: string  // <— neu: optionaler Klassennamen-Prop
+}
+
+export default function Logo({ src, alt, className }: LogoProps) {
   return (
-    <div className="w-20 h-20 relative rounded-full overflow-hidden bg-white shadow-lg">
+    <div
+      // Default-Styles + alles, was du per className reinschickst
+      className={`
+        relative
+        rounded-full
+        overflow-hidden
+        bg-white
+        shadow-lg
+        ${className ?? ''}
+      `}
+    >
       <Image
         src={src}
         alt={alt}

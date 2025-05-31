@@ -35,11 +35,11 @@ export default function DividendSection({
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
         <li>
           <span className="block text-gray-400">Rendite</span>
-          <span className="font-mono">{fmtP(dividendYield)}</span>
+          <span className="font-mono">{fmtP(dividendYield ?? undefined)}</span>
         </li>
         <li>
           <span className="block text-gray-400">Payout Ratio</span>
-          <span className="font-mono">{fmtP(payoutRatio)}</span>
+          <span className="font-mono">{fmtP(payoutRatio ?? undefined)}</span>
         </li>
         <li>
           <span className="block text-gray-400">5-Y CAGR</span>

@@ -140,7 +140,7 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
           ? (jsonDiv as any).historical
           : []
         const annualDiv: Record<string, number> = {}
-        histDiv.forEach((d) => {
+        histDiv.forEach((d: any) => {
           const y = d.date.slice(0, 4)
           annualDiv[y] = (annualDiv[y] || 0) + (d.adjDividend || 0)
         })
@@ -148,7 +148,7 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
         // Kurse pro Periode
         const histPrice = Array.isArray(jsonPrice.historical) ? jsonPrice.historical : []
         const priceByPeriod: Record<string, number> = {}
-        histPrice.forEach((p) => {
+        histPrice.forEach((p: any) => {
           const key = period === 'annual' ? p.date.slice(0, 4) : p.date.slice(0, 7)
           priceByPeriod[key] = p.close
         })
@@ -457,26 +457,35 @@ return (
           // FORMATIERUNG SONDERN: für ROE Prozent, für eps/dividend Currency, sonst Mrd
           tickFormatter={(v:number) => {
             if (key === 'returnOnEquity') {
-              return `${(v*100).toFixed(1)} %`
-            } else if (key === 'eps' || key === 'dividendPS') {
-              return v.toLocaleString('de-DE', { style:'currency', currency:'USD', minimumFractionDigits:2 })
+              return `${(v * 100).toFixed(1)} %`
+            } else if (key === 'eps') {
+              return v.toLocaleString('de-DE', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+              })
             }
             return yFmt(v)
           }}
           // Domain für ROE auch auf dataMin/dataMax setzen, sonst auto
-          domain={ key === 'returnOnEquity' || key === 'eps' || key === 'dividendPS'
-            ? ['dataMin','dataMax']
-            : undefined
-          }
+          domain={
+               key === 'returnOnEquity' || key === 'eps'
+                 ? ['dataMin','dataMax']
+                 : undefined
+             }
         />
         <Tooltip
           {...TOOLTIP_STYLES}
           formatter={(v:any,n:string)=>{
             if (key === 'returnOnEquity') {
               return [`${((v as number)*100).toFixed(1)} %`, n]
-            } else if (key === 'eps' || key === 'dividendPS') {
+            } else if (key === 'eps') {
               return [
-                (v as number).toLocaleString('de-DE',{ style:'currency', currency:'USD', minimumFractionDigits:2 }),
+                (v as number).toLocaleString('de-DE', {
+                  style: 'currency',
+                  currency: 'USD',
+                  minimumFractionDigits: 2
+                }),
                 n
               ]
             }
@@ -505,63 +514,74 @@ return (
             </button>
 
             <ResponsiveContainer width="100%" height="100%">
-              {fullscreen === 'cashDebt' ? (
-                <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-                  <XAxis dataKey="label" />
-                  <YAxis tickFormatter={yFmt} />
-                  <Tooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false}/>
-                  <Legend verticalAlign="top" height={36}/>
-                  <Bar dataKey="cash" name="Cash" fill={CASH_INFO.fill}/>
-                  <Bar dataKey="debt" name="Debt" fill={DEBT_INFO.fill}/>
-                </BarChart>
-              ) : fullscreen === 'pe' ? (
-                (() => {
-                  const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / data.length
-                  return (
-                    <LineChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-                      <XAxis dataKey="label"/>
-                      <YAxis/>
-                      <ReferenceLine
-                        y={avg}
-                        stroke="#888"
-                        strokeDasharray="3 3"
-                        label={{ value: `Ø ${avg.toFixed(1)}`, position: 'insideTop', fill: '#888'}}
-                      />
-                      <Line type="monotone" dataKey="pe" name="KGV TTM" stroke="#f87171" dot/>
-                      <Tooltip {...TOOLTIP_STYLES} formatter={(v:number)=>([v.toFixed(2),'KGV TTM'])} cursor={false}/>
-                      <Legend verticalAlign="top" height={36}/>
-                    </LineChart>
-                  )
-                })()
-              ) : (
-                <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-                  <XAxis dataKey="label" />
-                  <YAxis
-                    tickFormatter={(v:number) =>
-                      fullscreen === 'eps' || fullscreen === 'dividendPS'
-                        ? v.toLocaleString('de-DE',{ style:'currency',currency:'USD',minimumFractionDigits:2})
-                        : yFmt(v)
-                    }
-                    domain={fullscreen==='eps'||fullscreen==='dividendPS' ? ['dataMin','dataMax'] : undefined}
-                  />
-                  <Tooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false}/>
-                  <Legend verticalAlign="top" height={36}/>
-                  <Bar
-                    dataKey={fullscreen}
-                    name={
-                      fullscreen === 'pe'
-                        ? 'KGV TTM'
-                        : METRICS.find((m) => m.key === fullscreen)!.name
-                    }
-                    fill={
-                      fullscreen === 'pe'
-                        ? '#f87171'
-                        : METRICS.find((m) => m.key === fullscreen)!.fill
-                    }
-                  />
-                </BarChart>
-              )}
-            </ResponsiveContainer>
+    {(() => {
+      if (fullscreen === 'cashDebt') {
+        // ─── Cash & Debt Vollbild ─────────────────────────
+        return (
+          <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+            <XAxis dataKey="label" />
+            <YAxis tickFormatter={yFmt} />
+            <Tooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false}/>
+            <Legend verticalAlign="top" height={36}/>
+            <Bar dataKey="cash" name="Cash" fill={CASH_INFO.fill}/>
+            <Bar dataKey="debt" name="Debt" fill={DEBT_INFO.fill}/>
+          </BarChart>
+        )
+      } else if (fullscreen === 'pe') {
+        // ─── KGV TTM Vollbild ──────────────────────────────
+        const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / data.length
+        return (
+          <LineChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+            <XAxis dataKey="label" />
+            <YAxis />
+            <ReferenceLine
+              y={avg}
+              stroke="#888"
+              strokeDasharray="3 3"
+              label={{ value: `Ø ${avg.toFixed(1)}`, position: 'insideTop', fill: '#888'}}
+            />
+            <Line type="monotone" dataKey="pe" name="KGV TTM" stroke="#f87171" dot />
+            <Tooltip {...TOOLTIP_STYLES} formatter={(v: number) => [v.toFixed(2), 'KGV TTM']} cursor={false}/>
+            <Legend verticalAlign="top" height={36}/>
+          </LineChart>
+        )
+      } else {
+        // ─── Alle anderen Metriken (BarChart) ───────────────
+        // TS weiß hier: fullscreen ist eine Metrik aus METRICS (nicht 'cashDebt' oder 'pe')
+        return (
+          <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+            <XAxis dataKey="label" />
+            <YAxis
+              tickFormatter={(v: number) => {
+                if (fullscreen === 'returnOnEquity') {
+                  return `${(v * 100).toFixed(1)} %`
+                } else if (fullscreen === 'eps') {
+                  return v.toLocaleString('de-DE', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2,
+                  })
+                }
+                return yFmt(v)
+              }}
+              domain={
+                fullscreen === 'returnOnEquity' || fullscreen === 'eps'
+                  ? ['dataMin', 'dataMax']
+                  : undefined
+              }
+            />
+            <Tooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false}/>
+            <Legend verticalAlign="top" height={36}/>
+            <Bar
+              dataKey={fullscreen}
+              name={METRICS.find((m) => m.key === fullscreen)!.name}
+              fill={METRICS.find((m) => m.key === fullscreen)!.fill}
+            />
+          </BarChart>
+        )
+      }
+    })()}
+  </ResponsiveContainer>
           </div>
         </div>
       )}

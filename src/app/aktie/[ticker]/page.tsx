@@ -12,35 +12,24 @@ import { investors } from '../../../data/investors'
 import holdingsHistory from '../../../data/holdings'
 import path from 'path'
 import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
-// großer Chart & WatchlistButton nur client-side
+
+// ← Hier definierst Du Deine „Featured“-Ticker:
+const FEATURED_TICKERS = ['NVDA', 'AAPL', 'AMZN', 'GOOGL']
+
+// Großer Chart & WatchlistButton nur client-side
 const StockLineChart  = dynamic(() => import('../../../components/StockLineChart'), { ssr: false })
 const WatchlistButton = dynamic(() => import('@/components/WatchlistButton'),  { ssr: false })
 // Mini-Sparkline nur client-side
 const Sparkline       = dynamic(() => import('../../../components/Sparkline'),    { ssr: false })
 
-interface OwningInvestor {
-  slug: string
-  name: string
-  imageUrl?: string
-  weight: number
-}
-interface BuyingInvestor {
-  slug: string
-  name: string
-  imageUrl?: string
-  deltaShares: number
-  pctDelta: number
-}
-interface SellingInvestor {
-  slug: string
-  name: string
-  imageUrl?: string
-  deltaShares: number
-  pctDelta: number
-}
+// ISR: Seite wird nach 3600 Sekunden neu gebaut / ge-cached
+export const revalidate = 3600
 
+// ← Nur die vier Featured-Ticker werden beim Build statisch erzeugt:
 export async function generateStaticParams() {
-  return stocks.map(s => ({ ticker: s.ticker.toLowerCase() }))
+  return FEATURED_TICKERS.map((t) => ({
+    ticker: t.toLowerCase()
+  }))
 }
 
 // Live-Preis von FMP
@@ -91,6 +80,12 @@ export default async function StockPage({ params }: { params: { ticker: string }
   const fmtPercent = (n: number) => `${(n * 100).toFixed(1).replace('.', ',')} %`
 
   // 3) Aktuelle Halter
+  interface OwningInvestor {
+    slug: string
+    name: string
+    imageUrl?: string
+    weight: number
+  }
   const owningInvestors: OwningInvestor[] = Object.entries(holdingsHistory)
     .map(([slug, snaps]) => {
       const latest = snaps[snaps.length - 1]?.data
@@ -107,6 +102,13 @@ export default async function StockPage({ params }: { params: { ticker: string }
     .filter(Boolean) as OwningInvestor[]
 
   // 4) Käufer im letzten Quartal
+  interface BuyingInvestor {
+    slug: string
+    name: string
+    imageUrl?: string
+    deltaShares: number
+    pctDelta: number
+  }
   const buyingInvestors: BuyingInvestor[] = Object.entries(holdingsHistory)
     .map(([slug, snaps]) => {
       if (snaps.length < 2) return null
@@ -124,6 +126,13 @@ export default async function StockPage({ params }: { params: { ticker: string }
     .filter(Boolean) as BuyingInvestor[]
 
   // 5) Verkäufer im letzten Quartal
+  interface SellingInvestor {
+    slug: string
+    name: string
+    imageUrl?: string
+    deltaShares: number
+    pctDelta: number
+  }
   const sellingInvestors: SellingInvestor[] = Object.entries(holdingsHistory)
     .map(([slug, snaps]) => {
       if (snaps.length < 2) return null
@@ -191,102 +200,69 @@ export default async function StockPage({ params }: { params: { ticker: string }
         }
       </div>
 
-{/* Investoren, die halten */}
-{owningInvestors.length > 0 && (
-  <section className="space-y-6">
-    <h2 className="text-2xl font-orbitron text-gray-100">Investoren, die halten</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {owningInvestors.map(inv => {
-        // Fallback-URL aus dem Slug, falls inv.imageUrl undefined ist
-        const avatarSrc =
-          inv.imageUrl
-            ? inv.imageUrl
-            : `/investoren/${inv.slug}.png`   // oder .jpg / .svg, je nachdem, wie Deine Dateien heißen
+      {/* Investoren, die halten */}
+      {owningInvestors.length > 0 && (
+        <section className="space-y-6">
+          <h2 className="text-2xl font-orbitron text-gray-100">Investoren, die halten</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {owningInvestors.map(inv => {
+              const avatarSrc =
+                inv.imageUrl
+                  ? inv.imageUrl
+                  : `/investoren/${inv.slug}.png`
+              return (
+                <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+                  <Card borderColor="border-gray-700" hoverBg="hover:bg-gray-700/50">
+                    <InvestorAvatar name={inv.name} imageUrl={avatarSrc} borderColor="border-gray-700" />
+                    <div className="flex-1">
+                      <p className="text-white font-medium">{inv.name}</p>
+                      <p className="text-gray-400 text-sm">
+                        Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
+                      </p>
+                    </div>
+                  </Card>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      )}
 
-        return (
-          <Link key={inv.slug} href={`/investor/${inv.slug}`}>
-            <Card
-              borderColor="border-gray-700"
-              hoverBg="hover:bg-gray-700/50"
-            >
-              <InvestorAvatar
-                name={inv.name}
-                imageUrl={avatarSrc}
-                borderColor="border-gray-700"
-              />
-              <div className="flex-1">
-                <p className="text-white font-medium">{inv.name}</p>
-                <p className="text-gray-400 text-sm">
-                  Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
-                </p>
-              </div>
-            </Card>
-          </Link>
-        )
-      })}
-    </div>
-  </section>
-)}
+      {/* Gekauft (letztes Q.) */}
+      {buyingInvestors.length > 0 && (
+        <section className="space-y-6">
+          <h2 className="text-2xl font-orbitron text-gray-100">Gekauft (letztes Q.)</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {buyingInvestors.map(inv => (
+              <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+                <Card borderColor="border-green-500" hoverBg="hover:bg-gray-700/50">
+                  <InvestorAvatar name={inv.name} imageUrl={inv.imageUrl} borderColor="border-green-500" />
+                  <InvestorDelta name={inv.name} delta={inv.deltaShares} pct={inv.pctDelta} positive />
+                  <ArrowUpRightIcon className="w-5 h-5 text-green-400" />
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
-{/* Gekauft (letztes Q.) */}
-{buyingInvestors.length > 0 && (
-  <section className="space-y-6">
-    <h2 className="text-2xl font-orbitron text-gray-100">Gekauft (letztes Q.)</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {buyingInvestors.map(inv => (
-        <Link key={inv.slug} href={`/investor/${inv.slug}`}>
-          <Card
-            borderColor="border-green-500"
-            hoverBg="hover:bg-gray-700/50"
-          >
-            <InvestorAvatar
-              name={inv.name}
-              imageUrl={inv.imageUrl}
-              borderColor="border-green-500"
-            />
-            <InvestorDelta
-              name={inv.name}
-              delta={inv.deltaShares}
-              pct={inv.pctDelta}
-              positive
-            />
-            <ArrowUpRightIcon className="w-5 h-5 text-green-400" />
-          </Card>
-        </Link>
-      ))}
-    </div>
-  </section>
-)}
-
-
-{/* Verkauft (letztes Q.) */}
-{sellingInvestors.length > 0 && (
-  <section className="space-y-6">
-    <h2 className="text-2xl font-orbitron text-gray-100">Verkauft (letztes Q.)</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {sellingInvestors.map(inv => (
-        <Link key={inv.slug} href={`/investor/${inv.slug}`}>
-          <Card
-            borderColor="border-red-500"
-            hoverBg="hover:bg-gray-700/50"
-          >
-            <InvestorAvatar
-              name={inv.name}
-              imageUrl={inv.imageUrl}
-              borderColor="border-red-500"
-            />
-            <InvestorDelta
-              name={inv.name}
-              delta={inv.deltaShares}
-              pct={inv.pctDelta}
-            />
-            <ArrowUpRightIcon className="w-5 h-5 text-red-400 transform rotate-45" />
-          </Card>
-        </Link>
-      ))}
-    </div>
-  </section>
-)}
+      {/* Verkauft (letztes Q.) */}
+      {sellingInvestors.length > 0 && (
+        <section className="space-y-6">
+          <h2 className="text-2xl font-orbitron text-gray-100">Verkauft (letztes Q.)</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {sellingInvestors.map(inv => (
+              <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+                <Card borderColor="border-red-500" hoverBg="hover:bg-gray-700/50">
+                  <InvestorAvatar name={inv.name} imageUrl={inv.imageUrl} borderColor="border-red-500" />
+                  <InvestorDelta name={inv.name} delta={inv.deltaShares} pct={inv.pctDelta} />
+                  <ArrowUpRightIcon className="w-5 h-5 text-red-400 transform rotate-45" />
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   )
 }

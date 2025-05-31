@@ -31,13 +31,14 @@ export default function AnalysisChart({
       <BarChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 19 }}>
       <CartesianGrid stroke="#E5E7EB" strokeDasharray="2 2" vertical={false} />
       <XAxis
-        dataKey={xDataKey}
-         axisLine={false}
-         tickLine={false}
-         interval={0}
-         tick={{ angle: -45, textAnchor: 'end', fill: '#4B5563', fontSize: 12 }}
-         height={60}
-       />
+   dataKey="period"
+   tickLine={false}
+   interval={0}
+   angle={-45}                     // <— verschoben aus tick‐Objekt
+   textAnchor="end"                // <— ebenso verschoben
+   tick={{ fill: '#4B5563', fontSize: 12 }} // Nur Farb‐ und Größen‐Angaben bleiben im tick‐Objekt
+   height={60}
+/>
         <YAxis axisLine={false} tickLine={false} width={40} tick={{ fill: '#4B5563', fontSize: 12 }} />
         <Tooltip
         

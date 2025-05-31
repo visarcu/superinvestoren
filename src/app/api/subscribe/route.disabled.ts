@@ -31,18 +31,18 @@ export async function POST(request: Request) {
   }
 
   // 2) Subscriber upsert
-  try {
-    await prisma.subscriber.upsert({
-      where: { email_investorSlug: { email, investorSlug: slug } },
-      update: {},
-      create: { email, investorSlug: slug },
-    })
-    return NextResponse.json({ success: true })
-  } catch (e: any) {
-    console.error('Subscribe Error:', e)
+ // try {
+  //  await prisma.subscriber.upsert({
+    //  where: { email_investorSlug: { email, investorSlug: slug } },
+      //update: {},
+      //create: { email, investorSlug: slug },
+    //})
+    //return NextResponse.json({ success: true })
+  //} catch (e: any) {
+    //console.error('Subscribe Error:', e)
     return NextResponse.json(
       { error: 'Subscription fehlgeschlagen.' },
       { status: 500 }
     )
-  }
+  //}
 }

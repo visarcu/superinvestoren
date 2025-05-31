@@ -180,12 +180,17 @@ function mergePositions(raw: { cusip:string; shares:number; value:number }[]) {
   return map
 }
 
+type InvestorPageProps = {
+  params: {
+    slug: string
+  }
+}
 
-export default function InvestorPage({ params:{ slug } }) {
+export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const titleFull = investorNames[slug] ?? slug
   const { name: mainName, subtitle } = splitInvestorName(titleFull)
-  const [tab, setTab] = useState<'holdings'|'buys'|'sells'>('holdings')
-  const [showForm, setShowForm] = useState(false)        // neu
+  const [tab, setTab] = useState<'holdings' | 'buys' | 'sells' | 'activity'>('holdings')
+  const [showForm, setShowForm] = useState(false)     
   const snapshots = holdingsHistory[slug]
   if (!Array.isArray(snapshots) || snapshots.length < 2) return notFound()
 
@@ -369,12 +374,23 @@ export default function InvestorPage({ params:{ slug } }) {
 
       {/* — Tabs + Tabelle in eigener Card — */}
       <InvestorTabs
-        tab={tab}
-        onTabChange={setTab}
-        holdings={scaledHold}
-        buys={buysHistory}
-        sells={sellsHistory}
-      />
+   tab={tab}
+   onTabChange={(newTab) => {
+     // now allow all four possible values:
+     if (
+       newTab === 'holdings' ||
+       newTab === 'buys' ||
+       newTab === 'sells' ||
+       newTab === 'activity'
+     ) {
+       setTab(newTab)
+     }
+     // so auch "activity" wird jetzt ins state übernommen
+   }}
+   holdings={scaledHold}
+   buys={buysHistory}
+   sells={sellsHistory}
+ />
 
    {/* — Charts (nur bei Bestände) in zwei Cards — */}
 {tab === 'holdings' && (
