@@ -1,7 +1,7 @@
 // src/pages/api/profile.ts
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession }           from 'next-auth/next'
-import { authOptions }                from './auth/[...nextauth]'  // genau dieselben Options wie bei NextAuth
+import { authOptions }                from '@/app/api/auth/[...nextauth]/route'  // Pfad zum App-Router-Handler
 import { prisma }                     from '@/lib/db'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

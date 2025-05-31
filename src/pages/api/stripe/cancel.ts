@@ -1,7 +1,8 @@
 // src/pages/api/stripe/cancel.ts
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getServerSession } from 'next-auth/next'              // ← hier
-import { authOptions } from '../auth/[...nextauth]'            // ← hier
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route' // ← Pfad zum App-Router-Handler
+
 import Stripe from 'stripe'
 import { prisma } from '@/lib/db'
 

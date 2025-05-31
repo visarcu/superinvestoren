@@ -1,7 +1,7 @@
 // src/app/profile/page.tsx
 import { getServerSession } from 'next-auth/next'
 import { redirect } from 'next/navigation'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { prisma } from '@/lib/db'
 import ProfileForm from '@/components/ProfileForm'
 import CancelButton from '@/components/CancelButton'

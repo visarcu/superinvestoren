@@ -1,7 +1,7 @@
 // src/pages/api/watchlist/index.ts
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../auth/[...nextauth]'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { prisma } from '@/lib/db'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
