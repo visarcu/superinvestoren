@@ -14,7 +14,7 @@ import path from 'path'
 import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
 
 // ← Hier definierst Du Deine „Featured“-Ticker:
-const FEATURED_TICKERS = ['NVDA', 'AAPL', 'AMZN', 'GOOGL']
+const FEATURED_TICKERS = ['nvda', 'aapl', 'amzn', 'googl']
 
 // Großer Chart & WatchlistButton nur client-side
 const StockLineChart  = dynamic(() => import('../../../components/StockLineChart'), { ssr: false })

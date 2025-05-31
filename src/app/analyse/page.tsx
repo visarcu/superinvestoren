@@ -47,10 +47,10 @@ type Quote = {
 }
 
 const ALL_SECTIONS = {
-  Beliebt:  ['AAPL','MSFT','GOOGL','AMZN','TSLA','NVDA','META','NFLX', 'AXP','BAC','UBER','DPZ'],
-  Tech:     ['AAPL','MSFT','NVDA','GOOGL','META','ORCL','SAP','ADBE'],
-  Finanzen: ['JPM','BAC','WFC','C'],
-  DAX:      ['SAP','SIE','DTE','AIR','ALV','MUV2','SHL','MRK','MBG','PAH3'],
+  Beliebt:  ['aapl','msft','googl','amzn','tsla','nvda','META','nflx', 'axp','bac','uber','dpz'],
+  Tech:     ['aapl','msft','nvda','googl','meta','orcl','sap','adbe'],
+  Finanzen: ['jpm','bac','wfc','c'],
+  DAX:      ['sap','sie','dte','air','alv','muv2','shl','mrk','mbg','pah3'],
 }
 
 // Nur dieser Tab ist aktiv

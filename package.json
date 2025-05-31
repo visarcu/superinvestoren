@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3000",
-"postinstall": "prisma generate --schema=prisma/schema.prisma",
+    "postinstall": "prisma generate --schema=prisma/schema.prisma",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -15,7 +15,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "fetch:nportp": "node scripts/fetchNportP.js",
-    "fetch:holdings": "node scripts/fetchHoldings.js"
+    "fetch:holdings": "node scripts/fetchHoldings.js",
+    "delete:testusers": "node scripts/delete-test-users.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",
@@ -45,7 +46,6 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "prisma": "^6.7.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^18.19.100",
     "@types/nodemailer": "^6.4.17",
@@ -53,6 +53,7 @@
     "autoprefixer": "^10.4.21",
     "kill-port": "^2.0.1",
     "postcss": "^8.5.3",
+    "prisma": "^6.7.0",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.4",
