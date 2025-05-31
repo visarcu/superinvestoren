@@ -1,6 +1,5 @@
 // src/app/api/auth/[...nextauth]/route.ts
 
-import { NextResponse } from 'next/server'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/db'
 import NextAuth, { NextAuthOptions } from 'next-auth'
@@ -54,7 +53,6 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    // 1) JWT-Cookie: Zieh `isPremium` beim ersten Login aus `user`, später aus der DB
     async jwt({ token, user }) {
       if (user) {
         token.isPremium = (user as any).isPremium
@@ -67,8 +65,6 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-
-    // 2) Session-Objekt im Client: baue `session.user.isPremium` aus `token`
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub ?? ''
@@ -79,17 +75,8 @@ export const authOptions: NextAuthOptions = {
   },
 }
 
-// Mit dieser Export-Signatur registriert NextAuth im App Router:
+// ① Erzeuge den NextAuth-Handler
 const handler = NextAuth(authOptions)
 
-// Wir müssen den Standard-NextAuth-Handler in eine POST- und GET-Funktion "wrappen",
-// die Next.js im App Router erwartet. NextAuth reagiert sowohl auf GET (Abruf der Session, CSRF-Token, etc.)
-// als auch auf POST (Login, Logout etc.).
-export async function GET(request: Request) {
-  // NextAuth kümmert sich selbst um die Parameter in der URL
-  return handler(request)
-}
-
-export async function POST(request: Request) {
-  return handler(request)
-}
+// ② Exportiere ihn _direkt_ als GET und POST, ohne eigene Wrapper:
+export { handler as GET, handler as POST }
