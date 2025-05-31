@@ -1,45 +1,67 @@
-// src/pages/api/auth/reset-password.ts
-import type { NextApiRequest, NextApiResponse } from 'next'
+// File: src/app/api/auth/reset-password/route.ts
+
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 
-// Body-Schema
+// 1) Zod-Schema für den Request-Body
 const ResetSchema = z.object({
-  token:           z.string().min(1),
-  password:        z.string().min(8)
-                        .regex(/[A-Z]/)
-                        .regex(/[0-9]/),
+  token:    z.string().min(1),
+  password: z
+    .string()
+    .min(8)
+    .regex(/[A-Z]/, { message: 'Mindestens 1 Großbuchstabe' })
+    .regex(/[0-9]/, { message: 'Mindestens 1 Zahl' }),
 })
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') return res.status(405).end()
+// 2) POST-Handler für /api/auth/reset-password
+export async function POST(request: Request) {
+  // a) Body parsen
+  let body: unknown
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json(
+      { error: 'Ungültiger Request-Body' },
+      { status: 400 }
+    )
+  }
 
-  // 1) validieren
-  const parse = ResetSchema.safeParse(req.body)
+  // b) Zod-Validierung
+  const parse = ResetSchema.safeParse(body)
   if (!parse.success) {
-    return res.status(400).json({ error: parse.error.issues[0].message })
+    return NextResponse.json(
+      { error: parse.error.issues[0].message },
+      { status: 400 }
+    )
   }
   const { token, password } = parse.data
 
-  // 2) Token prüfen
+  // c) Token in der Datenbank nachschlagen
   const rec = await prisma.passwordResetToken.findUnique({
     where:   { token },
     include: { user: true },
   })
   if (!rec || rec.expiresAt < new Date()) {
-    return res.status(400).json({ error: 'Link ungültig oder abgelaufen' })
+    return NextResponse.json(
+      { error: 'Link ungültig oder abgelaufen' },
+      { status: 400 }
+    )
   }
 
-  // 3) Passwort hashen & updaten
+  // d) Neues Passwort hashen und in der User-Tabelle updaten
   const hash = await bcrypt.hash(password, 10)
   await prisma.user.update({
     where: { id: rec.userId },
     data:  { passwordHash: hash },
   })
 
-  // 4) Token löschen
-  await prisma.passwordResetToken.delete({ where: { token } })
+  // e) Verbrauchtes Token löschen
+  await prisma.passwordResetToken.delete({
+    where: { token },
+  })
 
-  return res.status(200).json({ success: true })
+  // f) Erfolg zurückgeben
+  return NextResponse.json({ success: true })
 }
