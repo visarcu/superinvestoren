@@ -19,7 +19,7 @@
 
 /* 3) System-Font als Fallback */
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 /* 4) Dein Gradient-Text Utility */
@@ -47,3 +47,27 @@ body {
   stroke-width: 2px;
 }
 
+/* ─── Nahtloses Marquee ─── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Outer Container blendet alles außerhalb des Bildschirms aus */
+.marquee-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Innerer Stream: 200 % breit und mit Endlos-Animation */
+.marquee-inner {
+  display: inline-flex;       /* Inline, damit white-space: nowrap funktioniert */
+  white-space: nowrap;        /* verhindert Zeilenumbruch */
+  width: 200%;                /* Doppelte Breite, weil wir Logos 2× reingenommen haben */
+  animation: marquee 20s linear infinite;
+}
+
+/* Wenn man mit der Maus darüberfährt, pausiert es */
+.marquee-inner:hover {
+  animation-play-state: paused;
+}

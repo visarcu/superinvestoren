@@ -25,30 +25,40 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'E-Mail & Passwort',
       credentials: {
-        email: { label: 'E-Mail', type: 'text' },
-        password: { label: 'Passwort', type: 'password' },
+        email:    { label: 'E-Mail',    type: 'text'     },
+        password: { label: 'Passwort',  type: 'password' },
       },
       async authorize(credentials, req) {
-        if (!credentials?.email || !credentials.password) return null
+        // 1) Wurde überhaupt ein credentials-Objekt übergeben?
 
-        // Rate-Limit per IP
-        const request = req as NextApiRequest
-        const forwarded = (request.headers['x-forwarded-for'] as string) ?? ''
-        const ip =
-          forwarded.split(',')[0].trim() || request.socket.remoteAddress || ''
-        const count = loginLimiter.get(ip) ?? 0
-        if (count >= 5) throw new Error('Zu viele Login-Versuche…')
-        loginLimiter.set(ip, count + 1)
-
-        // User & Passwort prüfen
+    
+        if (!credentials?.email || !credentials.password) {
+     
+          return null;
+        }
+    
+        // 2) Suche den User in der DB
         const user = await prisma.user.findUnique({ where: { email: credentials.email } })
-        if (!user) return null
+    
+    
+        if (!user) {
+          
+          return null;
+        }
+    
+        // 3) Vergleiche Passwort mit Hash
         const valid = await bcrypt.compare(credentials.password, user.passwordHash)
-        if (!valid) return null
 
-        // Gib im ersten Login schon `isPremium` mit zurück
+    
+        if (!valid) {
+      
+          return null;
+        }
+    
+        // 4) Alles gut: gib das Objekt zurück
+   
         return { id: user.id, email: user.email, isPremium: user.isPremium }
-      },
+      }
     }),
   ],
 
