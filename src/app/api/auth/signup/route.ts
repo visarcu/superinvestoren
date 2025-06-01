@@ -18,6 +18,14 @@ const SignupSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  console.log("🔎 [LIVE SIGNUP] DATABASE_URL =", process.env.DATABASE_URL);
+  try {
+    const test = await prisma.user.findFirst();
+    console.log("🔎 [LIVE SIGNUP] Erste User-Abfrage →", test);
+  } catch(e) {
+    console.error("🔎 [LIVE SIGNUP] Prisma First-Query error:", e);
+  }
+
   const body = await request.json();
   const parsed = SignupSchema.safeParse(body);
   if (!parsed.success) {
