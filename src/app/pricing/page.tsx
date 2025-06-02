@@ -1,28 +1,100 @@
 // src/app/pricing/page.tsx
-'use client'
+"use client";
 
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
+
+interface SupabaseUser {
+  id: string;
+  email: string;
+  // ggf. weitere Felder, die du benötigst
+}
 
 export default function PricingPage() {
-  const { data: session } = useSession()
-  const router = useRouter()
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
+  // 1) Supabase‐Session laden und Auth‐Listener registrieren
+  useEffect(() => {
+    // Hilfsfunktion, um beim Initial‐Render die aktuelle Session zu laden
+    async function loadSession() {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error("[PricingPage] Fehler beim Laden der Session:", error.message);
+      }
+
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email || "",
+        });
+      } else {
+        setUser(null);
+      }
+
+      setLoading(false);
+    }
+
+    loadSession();
+
+    // Listener, um Auth‐State‐Changes (SIGNED_IN, SIGNED_OUT) mitzubekommen
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email || "",
+        });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
+  // 2) Funktion, um beim Klick auf „Jetzt Premium freischalten“ zum Stripe‐Checkout zu navigieren
   async function handleUpgrade() {
-    const res = await fetch('/api/stripe/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: session?.user.email }),
-    })
-    const { url } = await res.json()
-    if (url) window.location.href = url
-    else console.error('Keine Checkout-URL zurückgekommen')
+    if (!user) {
+      // Falls aus irgendeinem Grund kein User vorhanden ist, zurück auf Login
+      router.push("/auth/signin");
+      return;
+    }
+
+    // POST‐Request an deine eigene /api/stripe/checkout‐Route
+    const res = await fetch("/api/stripe/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: user.email }),
+    });
+
+    if (!res.ok) {
+      console.error("[PricingPage] Fehler beim Anfordern der Checkout‐URL:", await res.text());
+      return;
+    }
+
+    const { url } = await res.json();
+    if (url) {
+      window.location.href = url;
+    } else {
+      console.error("[PricingPage] Checkout‐URL ist leer");
+    }
   }
 
-  // ========== LAYOUT ==========
+  // 3) Solange wir laden, geben wir null oder einen Ladeindikator zurück
+  if (loading) {
+    return null; // oder z.B. <p>…lädt…</p>
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900 overflow-hidden p-6">
       {/* Hintergrund-Kreise */}
@@ -30,8 +102,8 @@ export default function PricingPage() {
       <div className="absolute -bottom-32 -right-32 w-[28rem] h-[28rem] bg-accent/25 rounded-full blur-2xl animate-[pulse_12s_ease-in-out_infinite]" />
 
       <div className="relative z-10 w-full max-w-3xl grid grid-cols-1 gap-12">
-        {/* Nicht eingeloggt */}
-        {!session && (
+        {/* 4) Falls kein eingeloggter User, zeige Login‐Aufforderung */}
+        {!user && (
           <div className="bg-gray-800/70 backdrop-blur-xl border border-gray-700 rounded-3xl shadow-lg p-8 text-center space-y-6">
             <p className="text-gray-100 text-lg">
               Bitte melde dich zuerst an, um Premium freizuschalten.
@@ -45,12 +117,12 @@ export default function PricingPage() {
           </div>
         )}
 
-        {/* Eingeloggt */}
-        {session && (
+        {/* 5) Falls eingeloggt, zeige Pricing‐Details + Button */}
+        {user && (
           <div className="bg-gray-800/70 backdrop-blur-xl border border-gray-700 rounded-3xl shadow-lg p-10 space-y-6 text-center">
             <h1 className="text-3xl font-bold text-white">Upgrade auf Premium</h1>
             <p className="text-gray-300">
-              Sichere dir vollen Zugriff auf alle Funktionen für nur{' '}
+              Sichere dir vollen Zugriff auf alle Funktionen für nur{" "}
               <span className="font-semibold text-white">9 € / Monat</span>.
             </p>
 
@@ -81,9 +153,9 @@ export default function PricingPage() {
             </button>
 
             <p className="text-sm text-gray-400">
-              Bereits Premium?{' '}
+              Bereits Premium?{" "}
               <button
-                onClick={() => router.push('/profile')}
+                onClick={() => router.push("/profile")}
                 className="text-accent hover:underline"
               >
                 Zu meinem Profil
@@ -93,5 +165,5 @@ export default function PricingPage() {
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -1,8 +1,8 @@
 // src/app/api/debug/route.ts
 export async function GET(request: Request) {
-    console.log("🔎 [DEBUG] DATABASE_URL ist:", process.env.DATABASE_URL);
-    return new Response(
-      `DATABASE_URL (an Vercel) = ${process.env.DATABASE_URL?.slice(0,50)}…`,
-      { status: 200 }
-    );
-  }
+  console.log("🔎 [DEBUG] SUPABASE_URL ist:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+  return new Response(
+    `SUPABASE_URL = ${process.env.NEXT_PUBLIC_SUPABASE_URL}`,
+    { status: 200 }
+  );
+}
