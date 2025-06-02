@@ -3,6 +3,7 @@ import Script from 'next/script'
 import type { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = {
   title: 'FinClue',
