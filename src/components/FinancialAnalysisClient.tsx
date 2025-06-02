@@ -1,8 +1,7 @@
-// src/components/FinancialAnalysisClient.tsx
+// Datei: src/components/FinancialAnalysisClient.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import GrowthTooltip from './GrowthTooltip'
 import {
@@ -14,15 +13,15 @@ import {
   ReferenceLine,
   XAxis,
   YAxis,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   Legend,
 } from 'recharts'
 import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import Card from '@/components/Card'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import { ErrorBoundary } from 'react-error-boundary'
-import ErrorFallback from '@/components/ErrorFallback'
+import { supabase } from '@/lib/supabaseClient'
 
+// ─── Typdefinitionen ───────────────────────────────────────────────────────────
 type MetricKey =
   | 'revenue'
   | 'ebitda'
@@ -42,26 +41,22 @@ interface Props {
   ticker: string
 }
 
+interface SupabaseSession {
+  user: {
+    id: string
+    email: string
+    app_metadata?: {
+      is_premium?: boolean
+    }
+  }
+}
+
+// ─── Konstante Daten (Farben, Tooltips etc.) ─────────────────────────────────
 const TOOLTIP_STYLES = {
   wrapperStyle: { backgroundColor: 'rgba(55,65,81,0.95)', borderColor: '#4B5563' },
   contentStyle: { backgroundColor: 'rgba(55,65,81,0.95)' },
   labelStyle: { color: '#F3F4F6' },
   itemStyle: { color: '#FFFFFF' },
-}
-
-const DARK_TOOLTIP = {
-  wrapperStyle: { backgroundColor: 'rgba(55,65,81,0.95)', borderColor: '#4B5563' },
-  contentStyle: { backgroundColor: 'rgba(55,65,81,0.95)' },
-  labelStyle: { color: '#F3F4F6' },
-  itemStyle: { color: '#FFFFFF' },
-}
-
-const LIGHT_TOOLTIP = {
-  wrapperStyle: { backgroundColor: '#fff', border: '1px solid rgba(0,0,0,0.1)' },
-  contentStyle: { backgroundColor: '#fff' },
-  labelStyle: { color: '#000' },
-  itemStyle: { color: '#000' },
-  separator: '',
 }
 
 const METRICS: {
@@ -78,41 +73,80 @@ const METRICS: {
   { key: 'sharesOutstanding', name: 'Shares Out. (Stück)', stroke: '#eab308', fill: 'rgba(234,179,8,0.8)' },
   { key: 'netIncome', name: 'Nettogewinn (Mio.)', stroke: '#efb300', fill: 'rgba(239,179,0,0.8)' },
   { key: 'returnOnEquity', name: 'ROE', stroke: '#f472b6', fill: 'rgba(244,114,182,0.8)' },
-  
 ]
 
 const CASH_INFO = { dataKey: 'cash', name: 'Cash', stroke: '#6366f1', fill: 'rgba(99,102,241,0.8)' }
 const DEBT_INFO = { dataKey: 'debt', name: 'Debt', stroke: '#ef4444', fill: 'rgba(239,68,68,0.8)' }
 
+// ─── Component ────────────────────────────────────────────────────────────────
 export default function FinancialAnalysisClient({ ticker }: Props) {
   const router = useRouter()
-  const { data: session, status } = useSession()
-  const userHasPremium = !!session?.user?.isPremium
+  // 1) Session‐State über Supabase:
+  const [session, setSession] = useState<SupabaseSession | null>(null)
+  const [loadingSession, setLoadingSession] = useState(true)
 
+  // 2) „Hat Premium“ ableiten:
+  const userHasPremium = Boolean(session?.user.app_metadata?.is_premium)
+
+  // 3) Alle weiteren States:
   const [years, setYears] = useState<number>(10)
   const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
   const [data, setData] = useState<any[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loadingData, setLoadingData] = useState<boolean>(true)
   const [fullscreen, setFullscreen] = useState<ChartKey | null>(null)
-
   const ALL_KEYS: ChartKey[] = [...METRICS.map((m) => m.key), 'cashDebt', 'pe']
   const [visible, setVisible] = useState<ChartKey[]>(ALL_KEYS)
 
-  const yFmt = (v: number) => `${(v / 1e3).toFixed(0)} Mrd`
-
-  function requirePremium(fn: () => void) {
-    if (!userHasPremium) {
-      router.push('/pricing')
-    } else {
-      fn()
-    }
-  }
-
+  // ─── 1) Supabase-Session holen + Listener registrieren ───────────────────────
   useEffect(() => {
-    setLoading(true)
+    let authListener: { data: { subscription: { unsubscribe(): void } } } | null = null
+
+    async function getSession() {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession()
+
+      if (error) {
+        console.error('[FinancialAnalysisClient] getSession error:', error.message)
+        // wenn kein Zugang, zurück zu /auth/signin
+        router.push('/auth/signin')
+        return
+      }
+      if (!session?.user) {
+        // Wenn kein eingeloggt, auf Login umleiten
+        router.push('/auth/signin')
+        return
+      }
+      setSession(session as SupabaseSession)
+      setLoadingSession(false)
+    }
+
+    getSession()
+
+    // Listener, der Session‐Änderungen nachführt
+    authListener = supabase.auth.onAuthStateChange((event, newSession) => {
+      if (event === 'SIGNED_OUT') {
+        setSession(null)
+        router.push('/auth/signin')
+      } else if (newSession) {
+        setSession(newSession as SupabaseSession)
+      }
+    })
+
+    return () => {
+      if (authListener) authListener.data.subscription.unsubscribe()
+    }
+  }, [])
+
+  // ─── 2) Daten von FinancialModelingPrep holen ─────────────────────────────
+  useEffect(() => {
+    // Wir dürfen erst laden, wenn Session abgeschlossen ist
+    if (loadingSession) return
+
+    setLoadingData(true)
     const limit = period === 'annual' ? years : years * 4
 
-    // Ratio-URL erst NACH period & limit definieren:
     const ratioUrl = `https://financialmodelingprep.com/api/v3/ratios/${ticker}?period=${period}&limit=${limit}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
 
     Promise.all([
@@ -170,7 +204,6 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
         const roeByPeriod: Record<string, number | null> = {}
         roeArr.forEach((r) => {
           const key = period === 'annual' ? r.date.slice(0, 4) : r.date.slice(0, 7)
-          // r.returnOnEquity könnte null oder undefined sein
           roeByPeriod[key] = r.returnOnEquity != null ? r.returnOnEquity : null
         })
 
@@ -198,7 +231,7 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
           return out
         })
 
-        // Wachstum berechnen (inkl. returnOnEquity durch METRICS-Key-Liste)
+        // Wachstum berechnen
         const withGrowth = base.map((row, idx, all) => {
           const out: any = { ...row }
           ;[...METRICS.map((m) => m.key), 'dividendPS', 'pe', 'netIncome'].forEach(
@@ -215,14 +248,26 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
 
         setData(withGrowth)
       })
-      .finally(() => setLoading(false))
-  }, [ticker, period, years])
+      .catch((e) => {
+        console.error('[FinancialAnalysisClient] Fetch-Error:', e)
+      })
+      .finally(() => {
+        setLoadingData(false)
+      })
+  }, [ticker, period, years, loadingSession])
 
-  if (status === 'loading' || loading) return <LoadingSpinner />
+  // ─── 3) Spinner / Zustände, wenn noch nicht eingeloggt oder Daten‐Laden ─────
+  if (loadingSession || loadingData) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    )
+  }
 
   if (!session) {
     return (
-      <div className="p-8 text-center">
+      <div className="p-8 text-center text-gray-200">
         <p>
           Bitte{' '}
           <button
@@ -237,16 +282,23 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
     )
   }
 
+  // ─── 4) Haupt‐Render: Darstellung der Charts + Premium‐Checks ────────────────
   return (
     <div className="space-y-6">
       {/* Zeitraum / Periode */}
       <Card className="p-6">
-        <div className="flex flex-wrap items-center gap-4 mb-4">
+        <div className="flex flex-wrap items-center gap-4 mb-4 text-gray-100">
           <span>Zeitraum:</span>
           {[5, 10, 15, 20].map((y) => (
             <button
               key={y}
-              onClick={() => requirePremium(() => setYears(y))}
+              onClick={() => {
+                if (!userHasPremium) {
+                  router.push('/pricing')
+                } else {
+                  setYears(y)
+                }
+              }}
               className={`px-2 py-1 rounded ${
                 years === y ? 'bg-blue-600 text-white' : 'bg-gray-700'
               }`}
@@ -259,7 +311,13 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
           {(['annual', 'quarterly'] as const).map((p) => (
             <button
               key={p}
-              onClick={() => requirePremium(() => setPeriod(p))}
+              onClick={() => {
+                if (!userHasPremium) {
+                  router.push('/pricing')
+                } else {
+                  setPeriod(p)
+                }
+              }}
               className={`px-3 py-1 rounded ${
                 period === p ? 'bg-blue-600 text-white' : 'bg-gray-500'
               }`}
@@ -272,17 +330,19 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
         {/* Checkbox-Filter */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {ALL_KEYS.map((key) => (
-            <label key={key} className="inline-flex items-center space-x-2">
+            <label key={key} className="inline-flex items-center space-x-2 text-gray-200">
               <input
                 type="checkbox"
                 checked={visible.includes(key)}
-                onChange={() =>
-                  requirePremium(() =>
+                onChange={() => {
+                  if (!userHasPremium) {
+                    router.push('/pricing')
+                  } else {
                     setVisible((v) =>
                       v.includes(key) ? v.filter((x) => x !== key) : [...v, key]
                     )
-                  )
-                }
+                  }
+                }}
                 className="form-checkbox h-5 w-5 text-green-500"
               />
               <span className="text-sm">
@@ -300,26 +360,26 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {visible.map((key) => {
-          // Cash & Debt
+          // → Cash & Debt
           if (key === 'cashDebt') {
             return (
               <Card key={key} className="p-4">
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-2 text-gray-200">
                   <h3 className="font-semibold">Cash &amp; Debt</h3>
                   <button onClick={() => setFullscreen('cashDebt')}>
-                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600" />
+                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
                 <ResponsiveContainer width="100%" height={240}>
                   <BarChart data={data}>
-                    <XAxis dataKey="label" />
-                    <YAxis tickFormatter={yFmt} />
+                    <XAxis dataKey="label" stroke="#888" />
+                    <YAxis tickFormatter={(v) => `${(v / 1e3).toFixed(0)} Mrd`} stroke="#888" />
                     {fullscreen === 'cashDebt' ? (
-                      <Tooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} />
+                      <RechartsTooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} />
                     ) : (
-                      <Tooltip
+                      <RechartsTooltip
                         formatter={(v: any, n: string) => [
-                          `${(v / 1e3).toFixed(2)} Mrd`,
+                          `${(v as number / 1e3).toFixed(2)} Mrd`,
                           n,
                         ]}
                         {...TOOLTIP_STYLES}
@@ -334,21 +394,21 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
             )
           }
 
-          // KGV TTM
+          // → KGV TTM
           if (key === 'pe') {
-            const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / data.length
+            const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / (data.length || 1)
             return (
               <Card key="pe" className="p-4">
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-2 text-gray-200">
                   <h3 className="font-semibold">KGV TTM</h3>
                   <button onClick={() => setFullscreen('pe')}>
-                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600" />
+                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
                 <ResponsiveContainer width="100%" height={240}>
                   <LineChart data={data}>
-                    <XAxis dataKey="label" />
-                    <YAxis />
+                    <XAxis dataKey="label" stroke="#888" />
+                    <YAxis stroke="#888" />
                     <ReferenceLine
                       y={avg}
                       stroke="#888"
@@ -356,7 +416,7 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
                       label={{ value: `Ø ${avg.toFixed(1)}`, position: 'insideTop', fill: '#888' }}
                     />
                     <Line type="monotone" dataKey="pe" stroke="#f87171" dot />
-                    <Tooltip {...TOOLTIP_STYLES} formatter={(v: number) => [v.toFixed(2), 'KGV TTM']} />
+                    <RechartsTooltip {...TOOLTIP_STYLES} formatter={(v: number) => [v.toFixed(2), 'KGV TTM']} />
                     <Legend verticalAlign="top" height={36} />
                   </LineChart>
                 </ResponsiveContainer>
@@ -364,144 +424,148 @@ export default function FinancialAnalysisClient({ ticker }: Props) {
             )
           }
 
+          // → Net Income
           if (key === 'netIncome') {
             return (
               <Card key="netIncome" className="p-4">
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-2 text-gray-200">
                   <h3 className="font-semibold">Reingewinn (Mio.)</h3>
                   <button onClick={() => setFullscreen('netIncome')}>
-                  <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
+                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
                 <ResponsiveContainer width="100%" height={240}>
                   <BarChart data={data}>
-                    <XAxis dataKey="label" />
+                    <XAxis dataKey="label" stroke="#888" />
                     <YAxis
-                      // v ist in USD, wir wollen Mio. => v/1e6
-                      tickFormatter={v => `${(v/1e6).toLocaleString('de-DE')} Mio.`}
-                      domain={['dataMin','dataMax']}
+                      tickFormatter={(v) => `${(v / 1e6).toLocaleString('de-DE')} Mio.`}
+                      domain={['dataMin', 'dataMax']}
+                      stroke="#888"
                     />
-                    <Tooltip
+                    <RechartsTooltip
+                      formatter={(v: number) => [(v / 1e6).toLocaleString('de-DE') + ' Mio.', 'Reingewinn']}
                       {...TOOLTIP_STYLES}
-                      formatter={(v:number) => [
-                        `${(v/1e6).toLocaleString('de-DE')} Mio.`,
-                        'Reingewinn'
-                      ]}
                     />
-                    <Legend verticalAlign="top" height={36}/>
-                    <Bar
-                      dataKey="netIncome"
-                      name="Reingewinn (Mio.)"
-                      fill="#efb300"
-                    />
+                    <Legend verticalAlign="top" height={36} />
+                    <Bar dataKey="netIncome" name="Reingewinn (Mio.)" fill="#efb300" />
                   </BarChart>
                 </ResponsiveContainer>
               </Card>
             )
           }
-       // → Dividende je Aktie
-  if (key === 'dividendPS') {
-    // prüfen, ob im Zeitraum überhaupt etwas > 0 ausgezahlt wurde
-    const hasDividends = data.some(row => row.dividendPS > 0)
-    return (
-      <Card key={key} className="p-4">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold">Dividende je Aktie</h3>
-          <button onClick={() => setFullscreen('dividendPS')}>
-            <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
-          </button>
-        </div>
 
-        { !hasDividends ? (
-          <div className="h-56 flex items-center justify-center text-gray-400 italic">
-            Keine Dividenden in diesem Zeitraum.
-          </div>
-        ) : (
-          <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={data}>
-              <XAxis dataKey="label" />
-              <YAxis
-                tickFormatter={(v:number)=>v.toLocaleString('de-DE',{ style: 'currency', currency: 'USD', minimumFractionDigits: 2 })}
-                domain={['dataMin','dataMax']}
-              />
-              <Tooltip
-                {...TOOLTIP_STYLES}
-                formatter={(v:any,n:string)=>[
-                  (v as number).toLocaleString('de-DE',{ style: 'currency', currency: 'USD', minimumFractionDigits: 2 }),
-                  n
-                ]}
-              />
-              <Legend verticalAlign="top" height={36}/>
-              <Bar dataKey="dividendPS" name="Dividende je Aktie" fill="rgba(34,211,238,0.8)" />
-            </BarChart>
-          </ResponsiveContainer>
-        )}
-      </Card>
-    )
-  }
+          // → Dividende je Aktie
+          if (key === 'dividendPS') {
+            const hasDividends = data.some((row) => row.dividendPS > 0)
+            return (
+              <Card key={key} className="p-4">
+                <div className="flex justify-between items-center mb-2 text-gray-200">
+                  <h3 className="font-semibold">Dividende je Aktie</h3>
+                  <button onClick={() => setFullscreen('dividendPS')}>
+                    <ArrowsPointingOutIcon className="w-5 h-5 text-gray-400" />
+                  </button>
+                </div>
 
-        {/* → alle anderen Bar-Charts inkl. ROE */}
-const m = METRICS.find(m => m.key === key)!
-return (
-  <Card key={key} className="p-4">
-    <div className="flex justify-between items-center mb-2">
-      <h3 className="font-semibold">{m.name}</h3>
-      <button onClick={() => setFullscreen(key)}>
-        <ArrowsPointingOutIcon className="w-5 h-5 text-gray-600"/>
-      </button>
-    </div>
-    <ResponsiveContainer width="100%" height={240}>
-      <BarChart data={data}>
-        <XAxis dataKey="label" />
-        <YAxis
-          // FORMATIERUNG SONDERN: für ROE Prozent, für eps/dividend Currency, sonst Mrd
-          tickFormatter={(v:number) => {
-            if (key === 'returnOnEquity') {
-              return `${(v * 100).toFixed(1)} %`
-            } else if (key === 'eps') {
-              return v.toLocaleString('de-DE', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 2
-              })
-            }
-            return yFmt(v)
-          }}
-          // Domain für ROE auch auf dataMin/dataMax setzen, sonst auto
-          domain={
-               key === 'returnOnEquity' || key === 'eps'
-                 ? ['dataMin','dataMax']
-                 : undefined
-             }
-        />
-        <Tooltip
-          {...TOOLTIP_STYLES}
-          formatter={(v:any,n:string)=>{
-            if (key === 'returnOnEquity') {
-              return [`${((v as number)*100).toFixed(1)} %`, n]
-            } else if (key === 'eps') {
-              return [
-                (v as number).toLocaleString('de-DE', {
-                  style: 'currency',
-                  currency: 'USD',
-                  minimumFractionDigits: 2
-                }),
-                n
-              ]
-            }
-            return [`${((v as number)/1e3).toFixed(2)} Mrd`, n]
-          }}
-        />
-        <Legend verticalAlign="top" height={36}/>
-        <Bar dataKey={key} name={m.name} fill={m.fill}/>
-      </BarChart>
-    </ResponsiveContainer>
-  </Card>
-)
+                {!hasDividends ? (
+                  <div className="h-56 flex items-center justify-center text-gray-400 italic">
+                    Keine Dividenden in diesem Zeitraum.
+                  </div>
+                ) : (
+                  <ResponsiveContainer width="100%" height={240}>
+                    <BarChart data={data}>
+                      <XAxis dataKey="label" stroke="#888" />
+                      <YAxis
+                        tickFormatter={(v: number) =>
+                          v.toLocaleString('de-DE', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 2,
+                          })
+                        }
+                        domain={['dataMin', 'dataMax']}
+                        stroke="#888"
+                      />
+                      <RechartsTooltip
+                        formatter={(v: any, n: string) => [
+                          (v as number).toLocaleString('de-DE', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 2,
+                          }),
+                          n,
+                        ]}
+                        {...TOOLTIP_STYLES}
+                      />
+                      <Legend verticalAlign="top" height={36} />
+                      <Bar dataKey="dividendPS" name="Dividende je Aktie" fill="rgba(34,211,238,0.8)" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
+              </Card>
+            )
+          }
+
+          // → Alle anderen METRICS (Bar‐Charts inkl. ROE)
+          const m = METRICS.find((mt) => mt.key === key)!
+          return (
+            <Card key={key} className="p-4">
+              <div className="flex justify-between items-center mb-2 text-gray-200">
+                <h3 className="font-semibold">{m.name}</h3>
+                <button onClick={() => setFullscreen(key)}>
+                  <ArrowsPointingOutIcon className="w-5 h-5 text-gray-400" />
+                </button>
+              </div>
+              <ResponsiveContainer width="100%" height={240}>
+                <BarChart data={data}>
+                  <XAxis dataKey="label" stroke="#888" />
+                  <YAxis
+                    tickFormatter={(v: number) => {
+                      if (key === 'returnOnEquity') {
+                        return `${(v * 100).toFixed(1)} %`
+                      } else if (key === 'eps') {
+                        return v.toLocaleString('de-DE', {
+                          style: 'currency',
+                          currency: 'USD',
+                          minimumFractionDigits: 2,
+                        })
+                      }
+                      return `${(v / 1e3).toFixed(0)} Mrd`
+                    }}
+                    domain={
+                      key === 'returnOnEquity' || key === 'eps'
+                        ? ['dataMin', 'dataMax']
+                        : undefined
+                    }
+                    stroke="#888"
+                  />
+                  <RechartsTooltip
+                    formatter={(v: any, n: string) => {
+                      if (key === 'returnOnEquity') {
+                        return [`${((v as number) * 100).toFixed(1)} %`, n]
+                      } else if (key === 'eps') {
+                        return [
+                          (v as number).toLocaleString('de-DE', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 2,
+                          }),
+                          n,
+                        ]
+                      }
+                      return [`${((v as number) / 1e3).toFixed(2)} Mrd`, n]
+                    }}
+                    {...TOOLTIP_STYLES}
+                  />
+                  <Legend verticalAlign="top" height={36} />
+                  <Bar dataKey={key} name={m.name} fill={m.fill} />
+                </BarChart>
+              </ResponsiveContainer>
+            </Card>
+          )
         })}
       </div>
 
-      {/* Vollbild-Modal */}
+      {/* Vollbild‐Modal */}
       {fullscreen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-card-dark rounded-lg shadow p-6 max-w-[60vw] max-h-[60vh] w-[60vw] h-[60vh] overflow-auto relative">
@@ -514,74 +578,74 @@ return (
             </button>
 
             <ResponsiveContainer width="100%" height="100%">
-    {(() => {
-      if (fullscreen === 'cashDebt') {
-        // ─── Cash & Debt Vollbild ─────────────────────────
-        return (
-          <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-            <XAxis dataKey="label" />
-            <YAxis tickFormatter={yFmt} />
-            <Tooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false}/>
-            <Legend verticalAlign="top" height={36}/>
-            <Bar dataKey="cash" name="Cash" fill={CASH_INFO.fill}/>
-            <Bar dataKey="debt" name="Debt" fill={DEBT_INFO.fill}/>
-          </BarChart>
-        )
-      } else if (fullscreen === 'pe') {
-        // ─── KGV TTM Vollbild ──────────────────────────────
-        const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / data.length
-        return (
-          <LineChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-            <XAxis dataKey="label" />
-            <YAxis />
-            <ReferenceLine
-              y={avg}
-              stroke="#888"
-              strokeDasharray="3 3"
-              label={{ value: `Ø ${avg.toFixed(1)}`, position: 'insideTop', fill: '#888'}}
-            />
-            <Line type="monotone" dataKey="pe" name="KGV TTM" stroke="#f87171" dot />
-            <Tooltip {...TOOLTIP_STYLES} formatter={(v: number) => [v.toFixed(2), 'KGV TTM']} cursor={false}/>
-            <Legend verticalAlign="top" height={36}/>
-          </LineChart>
-        )
-      } else {
-        // ─── Alle anderen Metriken (BarChart) ───────────────
-        // TS weiß hier: fullscreen ist eine Metrik aus METRICS (nicht 'cashDebt' oder 'pe')
-        return (
-          <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-            <XAxis dataKey="label" />
-            <YAxis
-              tickFormatter={(v: number) => {
-                if (fullscreen === 'returnOnEquity') {
-                  return `${(v * 100).toFixed(1)} %`
-                } else if (fullscreen === 'eps') {
-                  return v.toLocaleString('de-DE', {
-                    style: 'currency',
-                    currency: 'USD',
-                    minimumFractionDigits: 2,
-                  })
+              {(() => {
+                if (fullscreen === 'cashDebt') {
+                  // ─── Cash & Debt Vollbild ─────────────────────────
+                  return (
+                    <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+                      <XAxis dataKey="label" stroke="#888" />
+                      <YAxis tickFormatter={(v) => `${(v / 1e3).toFixed(0)} Mrd`} stroke="#888" />
+                      <RechartsTooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false} />
+                      <Legend verticalAlign="top" height={36} />
+                      <Bar dataKey="cash" name="Cash" fill={CASH_INFO.fill} />
+                      <Bar dataKey="debt" name="Debt" fill={DEBT_INFO.fill} />
+                    </BarChart>
+                  )
+                } else if (fullscreen === 'pe') {
+                  // ─── KGV TTM Vollbild ──────────────────────────────
+                  const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / (data.length || 1)
+                  return (
+                    <LineChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+                      <XAxis dataKey="label" stroke="#888" />
+                      <YAxis stroke="#888" />
+                      <ReferenceLine
+                        y={avg}
+                        stroke="#888"
+                        strokeDasharray="3 3"
+                        label={{ value: `Ø ${avg.toFixed(1)}`, position: 'insideTop', fill: '#888' }}
+                      />
+                      <Line type="monotone" dataKey="pe" name="KGV TTM" stroke="#f87171" dot />
+                      <RechartsTooltip {...TOOLTIP_STYLES} formatter={(v: number) => [v.toFixed(2), 'KGV TTM']} cursor={false} />
+                      <Legend verticalAlign="top" height={36} />
+                    </LineChart>
+                  )
+                } else {
+                  // ─── Alle anderen Metriken (BarChart) ───────────────
+                  return (
+                    <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
+                      <XAxis dataKey="label" stroke="#888" />
+                      <YAxis
+                        tickFormatter={(v: number) => {
+                          if (fullscreen === 'returnOnEquity') {
+                            return `${(v * 100).toFixed(1)} %`
+                          } else if (fullscreen === 'eps') {
+                            return v.toLocaleString('de-DE', {
+                              style: 'currency',
+                              currency: 'USD',
+                              minimumFractionDigits: 2,
+                            })
+                          }
+                          return `${(v / 1e3).toFixed(0)} Mrd`
+                        }}
+                        domain={
+                          fullscreen === 'returnOnEquity' || fullscreen === 'eps'
+                            ? ['dataMin', 'dataMax']
+                            : undefined
+                        }
+                        stroke="#888"
+                      />
+                      <RechartsTooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false} />
+                      <Legend verticalAlign="top" height={36} />
+                      <Bar
+                        dataKey={fullscreen}
+                        name={METRICS.find((m) => m.key === fullscreen)!.name}
+                        fill={METRICS.find((m) => m.key === fullscreen)!.fill}
+                      />
+                    </BarChart>
+                  )
                 }
-                return yFmt(v)
-              }}
-              domain={
-                fullscreen === 'returnOnEquity' || fullscreen === 'eps'
-                  ? ['dataMin', 'dataMax']
-                  : undefined
-              }
-            />
-            <Tooltip content={<GrowthTooltip />} {...TOOLTIP_STYLES} cursor={false}/>
-            <Legend verticalAlign="top" height={36}/>
-            <Bar
-              dataKey={fullscreen}
-              name={METRICS.find((m) => m.key === fullscreen)!.name}
-              fill={METRICS.find((m) => m.key === fullscreen)!.fill}
-            />
-          </BarChart>
-        )
-      }
-    })()}
-  </ResponsiveContainer>
+              })()}
+            </ResponsiveContainer>
           </div>
         </div>
       )}

@@ -1,144 +1,106 @@
-// components/ProfileForm.tsx
-'use client'
+// src/components/ProfileForm.tsx
+'use client';
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 
-interface Props {
-  initialEmail: string
-  initialFirstName: string
-  initialLastName: string
-}
+type Props = {
+  initialEmail: string;
+  initialFirstName: string;
+  initialLastName: string;
+};
 
-export default function ProfileForm({
-  initialEmail,
-  initialFirstName,
-  initialLastName,
-}: Props) {
-  const [email, setEmail] = useState(initialEmail)
-  const [firstName, setFirstName] = useState(initialFirstName)
-  const [lastName, setLastName] = useState(initialLastName)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
-  const router = useRouter()
+export default function ProfileForm({ initialEmail, initialFirstName, initialLastName }: Props) {
+  const [email, setEmail] = useState(initialEmail);
+  const [firstName, setFirstName] = useState(initialFirstName);
+  const [lastName, setLastName] = useState(initialLastName);
+  const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-    setSuccess(false)
+    e.preventDefault();
+    setError(null);
+    setInfo(null);
 
-    try {
-      const res = await fetch('/api/profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, firstName, lastName }),
-      })
-      if (!res.ok) {
-        const body = await res.json()
-        throw new Error(body.error || 'Update fehlgeschlagen')
-      }
-      setSuccess(true)
-      router.refresh()
-    } catch (e: any) {
-      setError(e.message)
-    } finally {
-      setLoading(false)
+    // 1) Session & User-ID aus Supabase holen
+    const {
+      data: { session },
+      error: sessionErr
+    } = await supabase.auth.getSession();
+    if (sessionErr || !session?.user) {
+      setError('Session ungültig. Bitte neu anmelden.');
+      return;
     }
+
+    const userId = session.user.id;
+
+    // 2) Prüfen, ob wir die E-Mail ändern – Supabase Auth braucht extra Request
+    if (email !== session.user.email) {
+      const { error: emailErr } = await supabase.auth.updateUser({
+        email
+      });
+      if (emailErr) {
+        setError(`Fehler beim Ändern der E-Mail: ${emailErr.message}`);
+        return;
+      }
+    }
+
+    // 3) Jetzt die Tabelle `profiles` updaten
+    const { data, error: profileErr } = await supabase
+      .from('profiles')
+      .update({
+        first_name: firstName,
+        last_name: lastName
+      })
+      .eq('user_id', userId);
+
+    if (profileErr) {
+      setError(`Fehler beim Speichern: ${profileErr.message}`);
+      return;
+    }
+
+    setInfo('Profil erfolgreich aktualisiert!');
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="
-        space-y-6
-        bg-gray-800/60 backdrop-blur-xl
-        border border-gray-700 rounded-2xl shadow-lg
-        p-6
-      "
-    >
-      {/* Fehler / Erfolg */}
-      {error && (
-        <p className="bg-red-900 text-red-300 px-4 py-2 rounded text-center">
-          {error}
-        </p>
-      )}
-      {success && (
-        <p className="bg-green-800 text-green-200 px-4 py-2 rounded text-center">
-          Profil aktualisiert!
-        </p>
-      )}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && <p className="text-red-400">{error}</p>}
+      {info && <p className="text-green-400">{info}</p>}
 
-      {/* E-Mail */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-gray-300">E-Mail</label>
+      <div>
+        <label className="block text-gray-300 text-sm">E-Mail</label>
         <input
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-700 text-gray-100 rounded"
           required
-          className="
-            w-full px-4 py-3
-            bg-gray-900/50 backdrop-blur-md
-            border border-gray-600 rounded-lg
-            text-gray-100 placeholder-gray-500
-            focus:outline-none focus:ring-2 focus:ring-accent
-            transition
-          "
         />
       </div>
-
-      {/* Vor- und Nachname */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label className="mb-1 text-gray-300">Vorname</label>
-          <input
-            type="text"
-            value={firstName}
-            onChange={e => setFirstName(e.target.value)}
-            className="
-              w-full px-4 py-3
-              bg-gray-900/50 backdrop-blur-md
-              border border-gray-600 rounded-lg
-              text-gray-100 placeholder-gray-500
-              focus:outline-none focus:ring-2 focus:ring-accent
-              transition
-            "
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="mb-1 text-gray-300">Nachname</label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={e => setLastName(e.target.value)}
-            className="
-              w-full px-4 py-3
-              bg-gray-900/50 backdrop-blur-md
-              border border-gray-600 rounded-lg
-              text-gray-100 placeholder-gray-500
-              focus:outline-none focus:ring-2 focus:ring-accent
-              transition
-            "
-          />
-        </div>
+      <div>
+        <label className="block text-gray-300 text-sm">Vorname</label>
+        <input
+          type="text"
+          value={firstName}
+          onChange={e => setFirstName(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-700 text-gray-100 rounded"
+        />
       </div>
-
-      {/* Speichern-Button */}
+      <div>
+        <label className="block text-gray-300 text-sm">Nachname</label>
+        <input
+          type="text"
+          value={lastName}
+          onChange={e => setLastName(e.target.value)}
+          className="w-full px-3 py-2 bg-gray-700 text-gray-100 rounded"
+        />
+      </div>
       <button
         type="submit"
-        disabled={loading}
-        className="
-          w-full py-3
-          bg-accent text-black font-semibold
-          rounded-lg hover:bg-accent/90
-          disabled:opacity-50
-          transition
-        "
+        className="w-full py-2 bg-accent text-black rounded hover:bg-accent/90 transition"
       >
-        {loading ? 'Speichern…' : 'Speichern'}
+        Speichern
       </button>
     </form>
-  )
+  );
 }
