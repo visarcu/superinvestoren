@@ -27,7 +27,7 @@ const analyseSubLinks = [
 
 export default function Navbar() {
   return (
-    <Disclosure as="header" className="fixed inset-x-0 top-0 z-50 bg-dark">
+    <Disclosure as="header" className="sticky top-0 z-50 bg-black shadow-sm">
       {({ open }) => (
         <>
           <TickerBar />
@@ -99,7 +99,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Panel */}
-          <Disclosure.Panel className="md:hidden bg-gray-900 border-t border-gray-700">
+          <Disclosure.Panel className="md:hidden bg-gray-900 border-t border-gray-700 z-40 relative">
             <div className="space-y-1 px-2 pt-2 pb-4">
               {navLinks.map(link => (
                 <Link

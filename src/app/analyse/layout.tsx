@@ -19,16 +19,17 @@ export default function AnalyseLayout({ children }: { children: ReactNode }) {
   return (
     <div className="mb-8">
       <nav className="flex space-x-4 border-b border-gray-700 pb-2 max-w-4xl mx-auto px-4 text-gray-300">
-        {tabs.map((tab) => (
-          <Link
-          href={tab.href}
-          className={`px-4 py-2 rounded ${
-            path === tab.href ? 'bg-accent text-black' : ''
-          }`}
-        >
-          {tab.label}
-        </Link>
-        ))}
+      {tabs.map((tab) => (
+  <Link
+    key={tab.href}
+    href={tab.href}
+    className={`px-4 py-2 rounded ${
+      path === tab.href ? 'bg-accent text-black' : ''
+    }`}
+  >
+    {tab.label}
+  </Link>
+))}
       </nav>
       <div className="px-4">{children}</div>
     </div>

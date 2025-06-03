@@ -81,7 +81,7 @@ export default function HomePage() {
   })
 
   // 2. Weitere Investoren
-  const highlighted = ['buffett', 'ackman', 'burry']
+  const highlighted = ['buffett', 'ackman', 'smith']
   const others: Investor[] = investors
     .filter(inv => !highlighted.includes(inv.slug))
     .sort((a, b) => (portfolioValue[b.slug] || 0) - (portfolioValue[a.slug] || 0))
@@ -196,6 +196,15 @@ const periodLabel = latestQuarter
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-8 space-y-16">
+
+<section className="text-center space-y-4">
+  <h1 className="text-4xl md:text-5xl font-bold text-white font-orbitron">
+    Die besten Investoren der Welt
+  </h1>
+  <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+    Entdecke, wie Legenden wie Warren Buffett, Bill Ackman und Terry Smith investieren – mit aktuellen Portfolios, Top-Käufen & Analysen.
+  </p>
+</section>
 
 
    {/* 1. Highlighted Investors */}
