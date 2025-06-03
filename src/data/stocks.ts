@@ -4465,7 +4465,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'VIST',
-    cusip:  '',
+    cusip:  '92837L109',
     name:   'Vista Energy, S.A.B. de C.V.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -4493,7 +4493,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'VALE',
-    cusip:  '',
+    cusip:  '91912E105',
     name:   'Vale S.A.',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -8714,7 +8714,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'NOK',
-    cusip:  '',
+    cusip:  '654902204',
     name:   'Nokia Oyj',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -9329,6 +9329,15 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'AU',
+    cusip:  'G0378L100',
+    name:   'AngloGold Ashanti Plc',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'BALY',
     cusip:  '05875B106',
@@ -10374,7 +10383,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CRC',
-    cusip:  '',
+    cusip:  '13057Q305',
     name:   'California Resources Corporation',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -14665,6 +14674,15 @@ export const stocks: Stock[] = [
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'STR',
+    cusip:  '82983N108',
+    name:   'Sitio Royalties Corp. Class A',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'CP',
     cusip:  '13645T100',
@@ -20519,7 +20537,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'LBTYA',
-    cusip:  '',
+    cusip:  'G61188101',
     name:   'Liberty Global plc',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -26340,7 +26358,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'EXE',
-    cusip:  '',
+    cusip:  '165167735',
     name:   'Expand Energy Corporation',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -49456,7 +49474,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'INDV',
-    cusip:  '',
+    cusip:  'G4766E116',
     name:   'Indivior PLC',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],

@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
+import GoogleSignInButton from '@/components/GoogleSignInButton'
 
 export default function SigninPage() {
   const [email, setEmail]       = useState('')
@@ -36,6 +37,8 @@ export default function SigninPage() {
       router.push('/')
     }
   }
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-6">
@@ -75,6 +78,9 @@ export default function SigninPage() {
         >
           Anmelden
         </button>
+
+        <GoogleSignInButton />
+
         <p className="text-sm text-center text-gray-400">
           Noch keinen Account?{' '}
           <a href="/auth/signup" className="text-accent hover:underline">
