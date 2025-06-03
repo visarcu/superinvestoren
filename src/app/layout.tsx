@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
 import { Analytics } from "@vercel/analytics/next"
+
 export const metadata = {
   title: 'FinClue',
   description: 'Portfolios der bekanntesten Investoren im Überblick',
@@ -24,18 +25,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-black text-gray-100">
-        {/* Navbar bleibt */}
+      <body className="min-h-screen flex flex-col bg-gray-950 text-gray-100">
+        {/* Navbar */}
         <Navbar />
-
-        {/* pt-20 sorgt dafür, dass der Inhalt nicht unter Navbar/TickerBar verschwindet */}
-        <main className="pt-20 flex-grow max-w-screen-xl mx-auto px-6">
+        
+        {/* FIXED: Entferne pt-20 für Homepage */}
+        <main className="flex-grow">
           {children}
         </main>
-
-        {/* Footer bleibt */}
-        <footer className="bg-gray-900 border-t border-gray-700 py-6">
-          <div className="max-w-screen-xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        
+        {/* Footer */}
+        <footer className="bg-gray-900 border-t border-gray-800 py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             {/* Links linksbündig */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
               <Link href="/privacy" className="hover:text-gray-200 transition">
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   )

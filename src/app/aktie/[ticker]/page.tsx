@@ -5,27 +5,24 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Card from '@/components/Card'
-import { InvestorAvatar } from '@/components/InvestorAvatar'
-import { InvestorDelta  } from '@/components/InvestorDelta'
+import InvestorAvatar from '@/components/InvestorAvatar'  // ✅ Default import
+import { InvestorDelta } from '@/components/InvestorDelta'  // ✅ Named import
 import { stocks } from '../../../data/stocks'
 import { investors } from '../../../data/investors'
 import holdingsHistory from '../../../data/holdings'
-import path from 'path'
 import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
 
-// ← Hier definierst Du Deine „Featured“-Ticker:
+// Featured tickers
 const FEATURED_TICKERS = ['nvda', 'aapl', 'amzn', 'googl']
 
-// Großer Chart & WatchlistButton nur client-side
+// Dynamic imports
 const StockLineChart  = dynamic(() => import('../../../components/StockLineChart'), { ssr: false })
 const WatchlistButton = dynamic(() => import('@/components/WatchlistButton'),  { ssr: false })
-// Mini-Sparkline nur client-side
 const Sparkline       = dynamic(() => import('../../../components/Sparkline'),    { ssr: false })
 
-// ISR: Seite wird nach 3600 Sekunden neu gebaut / ge-cached
+// ISR
 export const revalidate = 3600
 
-// ← Nur die vier Featured-Ticker werden beim Build statisch erzeugt:
 export async function generateStaticParams() {
   return FEATURED_TICKERS.map((t) => ({
     ticker: t.toLowerCase()
@@ -77,7 +74,7 @@ export default async function StockPage({ params }: { params: { ticker: string }
 
   // Formatter
   const fmtPrice   = (n: number) => n.toLocaleString('de-DE', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 })
-  const fmtPercent = (n: number) => `${(n * 100).toFixed(1).replace('.', ',')} %`
+  const fmtPercent = (n: number) => `${(n * 100).toFixed(1).replace('.', ',')} %`
 
   // 3) Aktuelle Halter
   interface OwningInvestor {
@@ -151,7 +148,7 @@ export default async function StockPage({ params }: { params: { ticker: string }
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-12 space-y-12">
-      {/* ← Back */}
+      {/* Back Link */}
       <Link href="/" className="text-gray-400 hover:text-white">← Zurück</Link>
 
       {/* Header Card */}
@@ -205,25 +202,26 @@ export default async function StockPage({ params }: { params: { ticker: string }
         <section className="space-y-6">
           <h2 className="text-2xl font-orbitron text-gray-100">Investoren, die halten</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {owningInvestors.map(inv => {
-              const avatarSrc =
-                inv.imageUrl
-                  ? inv.imageUrl
-                  : `/investoren/${inv.slug}.png`
-              return (
-                <Link key={inv.slug} href={`/investor/${inv.slug}`}>
-                  <Card borderColor="border-gray-700" hoverBg="hover:bg-gray-700/50">
-                    <InvestorAvatar name={inv.name} imageUrl={avatarSrc} borderColor="border-gray-700" />
+            {owningInvestors.map(inv => (
+              <Link key={inv.slug} href={`/investor/${inv.slug}`}>
+                <Card borderColor="border-gray-700" hoverBg="hover:bg-gray-700/50">
+                  <div className="flex items-center gap-4">
+                    <InvestorAvatar 
+                      name={inv.name} 
+                      imageUrl={inv.imageUrl} 
+                      size="md"
+                      className="ring-2 ring-gray-700"
+                    />
                     <div className="flex-1">
                       <p className="text-white font-medium">{inv.name}</p>
                       <p className="text-gray-400 text-sm">
-                        Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
+                        Anteil: {(inv.weight * 100).toFixed(1).replace('.', ',')} %
                       </p>
                     </div>
-                  </Card>
-                </Link>
-              )
-            })}
+                  </div>
+                </Card>
+              </Link>
+            ))}
           </div>
         </section>
       )}
@@ -236,9 +234,21 @@ export default async function StockPage({ params }: { params: { ticker: string }
             {buyingInvestors.map(inv => (
               <Link key={inv.slug} href={`/investor/${inv.slug}`}>
                 <Card borderColor="border-green-500" hoverBg="hover:bg-gray-700/50">
-                  <InvestorAvatar name={inv.name} imageUrl={inv.imageUrl} borderColor="border-green-500" />
-                  <InvestorDelta name={inv.name} delta={inv.deltaShares} pct={inv.pctDelta} positive />
-                  <ArrowUpRightIcon className="w-5 h-5 text-green-400" />
+                  <div className="flex items-center gap-4">
+                    <InvestorAvatar 
+                      name={inv.name} 
+                      imageUrl={inv.imageUrl} 
+                      size="md"
+                      className="ring-2 ring-green-500"
+                    />
+                    <InvestorDelta 
+                      name={inv.name} 
+                      delta={inv.deltaShares} 
+                      pct={inv.pctDelta} 
+                      positive={true} 
+                    />
+                    <ArrowUpRightIcon className="w-5 h-5 text-green-400" />
+                  </div>
                 </Card>
               </Link>
             ))}
@@ -254,9 +264,21 @@ export default async function StockPage({ params }: { params: { ticker: string }
             {sellingInvestors.map(inv => (
               <Link key={inv.slug} href={`/investor/${inv.slug}`}>
                 <Card borderColor="border-red-500" hoverBg="hover:bg-gray-700/50">
-                  <InvestorAvatar name={inv.name} imageUrl={inv.imageUrl} borderColor="border-red-500" />
-                  <InvestorDelta name={inv.name} delta={inv.deltaShares} pct={inv.pctDelta} />
-                  <ArrowUpRightIcon className="w-5 h-5 text-red-400 transform rotate-45" />
+                  <div className="flex items-center gap-4">
+                    <InvestorAvatar 
+                      name={inv.name} 
+                      imageUrl={inv.imageUrl} 
+                      size="md"
+                      className="ring-2 ring-red-500"
+                    />
+                    <InvestorDelta 
+                      name={inv.name} 
+                      delta={inv.deltaShares} 
+                      pct={inv.pctDelta} 
+                      positive={false} 
+                    />
+                    <ArrowUpRightIcon className="w-5 h-5 text-red-400 transform rotate-45" />
+                  </div>
                 </Card>
               </Link>
             ))}

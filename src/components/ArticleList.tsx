@@ -22,7 +22,7 @@ export default function ArticleList({
 
   return (
     <section className="mt-12">
-      <h2 className="text-xl font-semibold mb-4">Articles &amp; Commentaries</h2>
+      <h2 className="text-xl font-semibold mb-4">News</h2>
       <ul className="divide-y">
         {sorted.map((a, i) => {
           const [y, m, d] = a.date.split('-')

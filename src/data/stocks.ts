@@ -1531,7 +1531,7 @@ export const stocks: Stock[] = [
   {
     ticker: 'OXY-WT',
     cusip:  '',
-    name:   'Occidental Petroleum Corporation',
+    name:   'Occidental Petroleum',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
@@ -8904,7 +8904,7 @@ export const stocks: Stock[] = [
   {
     ticker: 'OXY',
     cusip:  '674599105',
-    name:   'Occidental Petroleum Corporation',
+    name:   'Occidental Petroleum',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
@@ -25400,7 +25400,7 @@ export const stocks: Stock[] = [
   {
     ticker: 'TSM',
     cusip:  '874039100',
-    name:   'Taiwan Semiconductor Manufacturing Company Limited',
+    name:   'Taiwan Semiconductor Mnf Company',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },

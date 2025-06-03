@@ -1,4 +1,4 @@
-// Datei: src/app/analyse/[ticker]/page.tsx
+// src/app/analyse/[ticker]/page.tsx
 import React from 'react'
 import { stocks } from '../../../data/stocks'
 import Link from 'next/link'
@@ -7,10 +7,10 @@ import Card from '@/components/Card'
 import { irLinks } from '../../../data/irLinks'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
-// ➊ ISR: jede Seite wird nach 3600 Sekunden neu gebaut
+// ISR: jede Seite wird nach 3600 Sekunden neu gebaut
 export const revalidate = 3600
 
-// ➋ Nur diese wenigen Ticker werden beim Build bereits statisch erzeugt:
+// Nur diese wenigen Ticker werden beim Build bereits statisch erzeugt:
 const FEATURED_TICKERS = ['NVDA', 'AAPL', 'AMZN', 'GOOGL']
 
 export async function generateStaticParams() {
@@ -19,9 +19,9 @@ export async function generateStaticParams() {
   }))
 }
 
-// ➌ Dieser Page-Component ist jetzt eine reine Server Component.
-//     Sie weiß nur, welchen Ticker sie bekommen hat, und lädt ggf. Daten vor, 
-//     rendert aber **nicht** die useEffect/Client-Hooks selbst.
+// Dieser Page-Component ist jetzt eine reine Server Component.
+// Sie weiß nur, welchen Ticker sie bekommen hat, und lädt ggf. Daten vor,
+// rendert aber **nicht** die useEffect/Client-Hooks selbst.
 export default function AnalysisPage({ params }: { params: { ticker: string } }) {
   const ticker = params.ticker.toUpperCase()
   const stock = stocks.find((s) => s.ticker === ticker)
@@ -60,15 +60,15 @@ export default function AnalysisPage({ params }: { params: { ticker: string } })
         </div>
       </div>
 
-      {/* ➍ Hier binden wir die Client-Komponente ein und geben den Ticker weiter */}
+      {/* Hier binden wir die Client-Komponente ein und geben den Ticker weiter */}
       <AnalysisClient ticker={ticker} />
 
-      {/* Optional: Du könntest hier schon Footer, statische Abschnitte oder 
+      {/* Optional: Du könntest hier schon Footer, statische Abschnitte oder
           andere Server-only-Blöcke rendern */}
     </main>
   )
 }
 
-// ➎ Importiere die Client Component unten (damit Next.js sie richtig erkennt).
-//     Der Importpfad muss ggf. an deine Projektstruktur angepasst werden.
+// Importiere die Client Component unten (damit Next.js sie richtig erkennt).
+// Der Importpfad muss ggf. an deine Projektstruktur angepasst werden.
 import AnalysisClient from '@/components/AnalysisClient'

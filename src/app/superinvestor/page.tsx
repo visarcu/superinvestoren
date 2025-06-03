@@ -1,21 +1,28 @@
-// src/app/page.tsx
+// src/app/superinvestor/page.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { 
+  UserGroupIcon, 
+  ArrowTrendingUpIcon,
+  ArrowRightIcon,
+  TrophyIcon,
+  ChartBarIcon
+} from '@heroicons/react/24/outline'
 import YouTubeCarousel from '@/components/YoutubeCarousel'
 import { featuredVideos } from '@/data/videos'
 import { investors, Investor } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import NewsletterSignup from '@/components/NewsletterSignup'
-import SearchTickerInput from '@/components/SearchTickerInput'
+import InvestorAvatar from '@/components/InvestorAvatar'
 
 interface TopOwnedItem {
   ticker: string
-  count:  number
+  count: number
 }
 
 // Währung formatieren
@@ -43,33 +50,9 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
-
-export default function HomePage() {
+export default function SuperinvestorPage() {
   const router = useRouter()
   const [showAll, setShowAll] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [suggestions, setSuggestions] = useState<typeof stocks>([])
-
-  // Update suggestions on query change
-  useEffect(() => {
-    if (searchQuery.trim().length === 0) {
-      setSuggestions([])
-      return
-    }
-    const q = searchQuery.trim().toUpperCase()
-    const filtered = stocks.filter(
-      s =>
-        s.ticker.startsWith(q) ||
-        s.name.toUpperCase().includes(q)
-    ).slice(0, 10)
-    setSuggestions(filtered)
-  }, [searchQuery])
-
-  const handleSelectTicker = (ticker: string) => {
-    setSearchQuery('')
-    setSuggestions([])
-    router.push(`/analyse/${ticker.toLowerCase()}`)
-  }
 
   // 1. Portfolio-Werte je Investor
   const portfolioValue: Record<string, number> = {}
@@ -85,53 +68,45 @@ export default function HomePage() {
   const others: Investor[] = investors
     .filter(inv => !highlighted.includes(inv.slug))
     .sort((a, b) => (portfolioValue[b.slug] || 0) - (portfolioValue[a.slug] || 0))
-  const visibleOthers = showAll ? others : others.slice(0, 10)
+  const visibleOthers = showAll ? others : others.slice(0, 8)
 
-  // 3. Top-10 Käufe
-   // 3. Top-10 Käufe aus **dem letzten** Snapshot-Datum
- // 3. Top-10 Käufe aus **dem letzten** Reporting-Quartal
-// a) Finde das gemeinsame letzte Datum
-const allDates = Object.values(holdingsHistory)
-.map(snaps => snaps[snaps.length - 1]?.data.date)
-.filter(Boolean) as string[]
-const latestDate    = allDates.sort().pop() || ''
-// b) Ermittele das Reporting-Quartal dieses Datums
-const latestQuarter = latestDate ? getPeriodFromDate(latestDate) : ''
+  // 3. Top-10 Käufe aus dem letzten Reporting-Quartal
+  const allDates = Object.values(holdingsHistory)
+    .map(snaps => snaps[snaps.length - 1]?.data.date)
+    .filter(Boolean) as string[]
+  const latestDate = allDates.sort().pop() || ''
+  const latestQuarter = latestDate ? getPeriodFromDate(latestDate) : ''
 
-// c) Zähle Käufe aus genau diesem Quartal
-const buyCounts = new Map<string, number>()
-Object.values(holdingsHistory).forEach(snaps => {
-if (snaps.length < 2) return
-const prev = snaps[snaps.length - 2].data
-const cur  = snaps[snaps.length - 1].data
+  const buyCounts = new Map<string, number>()
+  Object.values(holdingsHistory).forEach(snaps => {
+    if (snaps.length < 2) return
+    const prev = snaps[snaps.length - 2].data
+    const cur = snaps[snaps.length - 1].data
 
-// ** statt auf Datum auf Quartal prüfen **
-if (getPeriodFromDate(cur.date) !== latestQuarter) return
+    if (getPeriodFromDate(cur.date) !== latestQuarter) return
 
-const prevMap = new Map<string, number>()
-prev.positions.forEach(p =>
- prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares)
-)
-const seen = new Set<string>()
-cur.positions.forEach(p => {
- const delta = p.shares - (prevMap.get(p.cusip) || 0)
- if (delta > 0) {
-   const st = stocks.find(s => s.cusip === p.cusip)
-   if (st && !seen.has(st.ticker)) {
-     seen.add(st.ticker)
-     buyCounts.set(st.ticker, (buyCounts.get(st.ticker) || 0) + 1)
-   }
- }
-})
-})
+    const prevMap = new Map<string, number>()
+    prev.positions.forEach(p =>
+      prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares)
+    )
 
-// d) Baue die Top-10-Liste und setze das Label aufs Quartal
-const aggregated = Array.from(buyCounts.entries())
-.sort(([, a], [, b]) => b - a)
-.slice(0, 10)
-.map(([ticker, count]) => ({ ticker, count }))
+    const seen = new Set<string>()
+    cur.positions.forEach(p => {
+      const delta = p.shares - (prevMap.get(p.cusip) || 0)
+      if (delta > 0) {
+        const st = stocks.find(s => s.cusip === p.cusip)
+        if (st && !seen.has(st.ticker)) {
+          seen.add(st.ticker)
+          buyCounts.set(st.ticker, (buyCounts.get(st.ticker) || 0) + 1)
+        }
+      }
+    })
+  })
 
-const periodLabel = latestQuarter
+  const aggregated = Array.from(buyCounts.entries())
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 10)
+    .map(([ticker, count]) => ({ ticker, count }))
 
   // 4. Name-Lookup für Stocks
   const nameMap: Record<string, string> = {}
@@ -152,6 +127,7 @@ const periodLabel = latestQuarter
       }
     })
   })
+
   const topOwned: TopOwnedItem[] = Array.from(ownershipCount.entries())
     .sort(([, a], [, b]) => b - a)
     .slice(0, 10)
@@ -162,7 +138,7 @@ const periodLabel = latestQuarter
     .map(s => {
       const total = Object.values(holdingsHistory).reduce((sum, snaps) => {
         const latest = snaps[snaps.length - 1].data
-        const match  = latest.positions.find(p => p.cusip === s.cusip)
+        const match = latest.positions.find(p => p.cusip === s.cusip)
         return sum + (match?.value || 0)
       }, 0)
       return { ticker: s.ticker, name: s.name, value: total }
@@ -175,12 +151,12 @@ const periodLabel = latestQuarter
     const snaps = holdingsHistory[slug]
     if (!Array.isArray(snaps) || snaps.length === 0) return []
     const latest = snaps[snaps.length - 1].data
-    const map = new Map<string, { shares:number; value:number }>()
+    const map = new Map<string, { shares: number; value: number }>()
     latest.positions.forEach(p => {
       const prev = map.get(p.cusip)
       if (prev) {
         prev.shares += p.shares
-        prev.value   += p.value
+        prev.value += p.value
       } else {
         map.set(p.cusip, { shares: p.shares, value: p.value })
       }
@@ -195,220 +171,308 @@ const periodLabel = latestQuarter
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8 space-y-16">
-
-<section className="text-center space-y-4">
-  <h1 className="text-4xl md:text-5xl font-bold text-white font-orbitron">
-    Die besten Investoren der Welt
-  </h1>
-  <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-    Entdecke, wie Legenden wie Warren Buffett, Bill Ackman und Terry Smith investieren – mit aktuellen Portfolios, Top-Käufen & Analysen.
-  </p>
-</section>
-
-
-   {/* 1. Highlighted Investors */}
-<section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-  {investors
-    .filter(i => highlighted.includes(i.slug))
-    .map(inv => {
-      const peek = peekPositions(inv.slug)
-      return (
-        <Link
-          key={inv.slug}
-          href={`/investor/${inv.slug}`}
-          className={`
-            relative group
-            bg-gradient-to-br from-gray-800 to-gray-900
-            rounded-2xl
-            ring-1 ring-accent/20
-            hover:shadow-lg hover:scale-105
-            transition-all duration-300
-            p-8 flex flex-col items-center
-          `}
-        >
-          {inv.slug === 'buffett' && (
-            <span className="absolute top-2 right-2 text-yellow-400 text-2xl">
-              👑
-            </span>
-          )}
-
-          {inv.imageUrl && (
-            <div className="w-24 h-24 mb-6 relative rounded-full overflow-hidden ring-2 ring-accent ring-offset-1 ring-offset-gray-800">
-              <Image
-                src={inv.imageUrl}
-                alt={inv.name}
-                fill
-                className="object-cover"
-              />
+    <div className="min-h-screen bg-gray-950">
+      
+      {/* Hero Section - Clean Supabase Style */}
+      <section className="relative overflow-hidden bg-gray-950">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24">
+          <div className="text-center">
+            {/* Clean Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-sm font-medium mb-8 hover:bg-blue-500/20 transition-colors">
+              <UserGroupIcon className="w-4 h-4" />
+              <span>Super-Investoren</span>
             </div>
-          )}
-
-<h3 className="text-xl lg:text-2xl font-semibold text-gray-100 text-center">
-            {inv.name}
-          </h3>
-
-          {peek.length > 0 && (
-            <div className={`
-              absolute inset-0
-              bg-white/90 dark:bg-gray-800/90
-              opacity-0 pointer-events-none
-              group-hover:opacity-100 group-hover:pointer-events-auto
-              transition-opacity rounded-3xl p-4 flex flex-col
-            `}>
-              <h4 className="font-semibold mb-2 text-gray-800 dark:text-gray-100">
-                Top 3 Positionen
-              </h4>
-              <ul className="flex-1 overflow-auto space-y-1 text-sm text-gray-700 dark:text-gray-300">
-                {peek.map(p => (
-                  <li key={p.ticker} className="flex justify-between">
-                    <span>
-                      {p.ticker} –{' '}
-                      <span className="text-gray-600 dark:text-gray-400">
-                        {p.name}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
-                …weitere Positionen im vollen Depot
-              </p>
-            </div>
-          )}
-        </Link>
-      )
-    })}
-</section>
-
-      {/* 2. Weitere Investoren */}
-      <section className="px-4 py-6">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-100">Weitere Investoren</h2>
-        <ul className="divide-y divide-gray-700">
-          {visibleOthers.map(inv => (
-            <li key={inv.slug} className="py-2 flex justify-between items-center text-sm">
-              <Link href={`/investor/${inv.slug}`} className="font-medium text-gray-100 hover:underline">
-                {inv.name}
-              </Link>
-              <span className="numeric text-accent">
-                {formatCurrency(portfolioValue[inv.slug] || 0, 'USD', 1)}
+            
+            {/* Main Heading */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
+              Die besten Investoren
+            </h1>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight tracking-tight">
+              <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+                der Welt
               </span>
-            </li>
-          ))}
-        </ul>
-        {others.length > 10 && (
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="mt-4 text-accent hover:underline text-sm"
-          >
-            {showAll ? 'Weniger anzeigen' : `Alle (${others.length}) anzeigen`}
-          </button>
-        )}
+            </h2>
+            
+            {/* Subtitle */}
+            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+              Entdecke, wie Legenden wie Warren Buffett, Bill Ackman und Terry Smith investieren
+              <br className="hidden sm:block" />
+              mit aktuellen Portfolios, Top-Käufen & detaillierten Analysen.
+            </p>
+          </div>
+        </div>
       </section>
 
-     {/* 3. Top-Tabellen */}
-<section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-  {/* Top-Käufe Card */}
-  <div className="
-    bg-gray-800/60 backdrop-blur-md
-    border border-gray-700 rounded-2xl
-    shadow-2xl/10 p-8 flex flex-col space-y-4
-  ">
-    <div className="flex justify-between items-center mb-4">
-      <h3 className="text-lg font-orbitron text-white">Top 10 Käufe</h3>
-      <span className="text-sm text-accent font-mono">({periodLabel})</span>
-    </div>
-    <ul className="space-y-3">
-      {aggregated.map(item => (
-        <li key={item.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
-          <Link
-            href={`/aktie/${item.ticker.toLowerCase()}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {item.ticker} – <span className="text-gray-300">{nameMap[item.ticker]}</span>
-          </Link>
-          <span className="text-gray-300 text-sm">({item.count})</span>
-        </li>
-      ))}
-    </ul>
-  </div>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        {/* Featured Investors */}
+        <section className="mb-20">
+          <div className="flex items-center gap-3 mb-8">
+            <TrophyIcon className="w-5 h-5 text-yellow-400" />
+            <h2 className="text-2xl font-bold text-white">
+              Top-Investoren
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {investors
+              .filter(i => highlighted.includes(i.slug))
+              .map(inv => {
+                const peek = peekPositions(inv.slug)
+                const portfolioVal = portfolioValue[inv.slug] || 0
+                
+                return (
+                  <Link
+                    key={inv.slug}
+                    href={`/investor/${inv.slug}`}
+                    className="group bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-200 relative overflow-hidden"
+                  >
+                    {/* Crown for Buffett */}
+                    {inv.slug === 'buffett' && (
+                      <div className="absolute top-4 right-4">
+                        <span className="text-yellow-400 text-2xl">👑</span>
+                      </div>
+                    )}
+                    
+                    {/* Profile Image */}
+                    <div className="flex justify-center mb-6">
+                      <InvestorAvatar
+                        name={inv.name}
+                        imageUrl={inv.imageUrl}
+                        size="xl"
+                        className="ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-200"
+                      />
+                    </div>
+                    
+                    {/* Name */}
+                    <h3 className="text-xl font-bold text-white text-center mb-2 group-hover:text-blue-400 transition-colors">
+                      {inv.name.split('–')[0].trim()}
+                    </h3>
+                    
+                    {/* Portfolio Value */}
+                    <p className="text-center text-gray-400 mb-4">
+                      Portfolio: <span className="text-green-400 font-medium">
+                        {formatCurrency(portfolioVal, 'USD', 1)}
+                      </span>
+                    </p>
+                    
+                    {/* Top 3 Holdings Preview */}
+                    {peek.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-sm text-gray-500 text-center mb-3">Top Holdings:</p>
+                        {peek.slice(0, 3).map((p, idx) => (
+                          <div key={p.ticker} className="flex justify-between items-center text-sm">
+                            <span className="text-gray-300">{idx + 1}. {p.ticker}</span>
+                            <span className="text-gray-500 truncate ml-2">{p.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* View Portfolio Button */}
+                    <div className="mt-6 text-center">
+                      <span className="inline-flex items-center gap-1 text-blue-400 text-sm font-medium group-hover:gap-2 transition-all">
+                        Portfolio ansehen
+                        <ArrowRightIcon className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </Link>
+                )
+              })}
+          </div>
+        </section>
 
-  {/* Top-Meistgehalten Card */}
-  <div className="
-    bg-gray-800/60 backdrop-blur-md
-    border border-gray-700 rounded-2xl
-    shadow-2xl/10 p-8 flex flex-col space-y-4
-  ">
-    <h3 className="text-lg font-orbitron text-white mb-4">Top 10 Meistgehalten</h3>
-    <ul className="space-y-3">
-      {topOwned.map(o => (
-        <li key={o.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
-          <Link
-            href={`/aktie/${o.ticker.toLowerCase()}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {o.ticker} – <span className="text-gray-300">{nameMap[o.ticker]}</span>
-          </Link>
-          <span className="text-gray-300 text-sm">{o.count}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
+        {/* Stats Grid */}
+        <section className="mb-20">
+          <div className="flex items-center gap-3 mb-8">
+            <ChartBarIcon className="w-5 h-5 text-gray-400" />
+            <h2 className="text-2xl font-bold text-white">
+              Market Insights
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            {/* Top Käufe */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-lg font-bold text-white">Top Käufe</h3>
+                <span className="text-sm text-gray-400 bg-gray-800 px-2 py-1 rounded">{latestQuarter}</span>
+              </div>
+              <div className="space-y-3">
+                {aggregated.slice(0, 6).map((item, idx) => (
+                  <Link
+                    key={item.ticker}
+                    href={`/analyse/${item.ticker.toLowerCase()}`}
+                    className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-gray-500 text-sm w-4">{idx + 1}</span>
+                      <div>
+                        <p className="text-white font-medium group-hover:text-green-400 transition-colors">
+                          {item.ticker}
+                        </p>
+                        <p className="text-gray-500 text-xs truncate max-w-[180px]">
+                          {nameMap[item.ticker]}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-gray-400 text-sm bg-gray-700 px-2 py-1 rounded">
+                      {item.count}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-  {/* Top-Biggest Investments Card */}
-  <div className="
-    bg-gray-800/60 backdrop-blur-md
-    border border-gray-700 rounded-2xl
-    shadow-md p-6 flex flex-col
-  ">
-    <h3 className="text-lg font-orbitron text-white mb-4">Top 10 Biggest Investments</h3>
-    <ul className="space-y-3">
-      {biggest.map(inv => (
-        <li key={inv.ticker} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
-          <Link
-            href={`/aktie/${inv.ticker.toLowerCase()}`}
-            className="text-accent font-semibold hover:underline"
-          >
-            {inv.ticker} – <span className="text-gray-300">{inv.name}</span>
-          </Link>
-          <span className="text-gray-300 text-sm">
-            {formatCurrency(inv.value, 'USD', 0)}
-          </span>
-        </li>
-      ))}
-    </ul>
-  </div>
-</section>
+            {/* Meistgehalten */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-white mb-6">Beliebteste Aktien</h3>
+              <div className="space-y-3">
+                {topOwned.slice(0, 6).map((item, idx) => (
+                  <Link
+                    key={item.ticker}
+                    href={`/analyse/${item.ticker.toLowerCase()}`}
+                    className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-gray-500 text-sm w-4">{idx + 1}</span>
+                      <div>
+                        <p className="text-white font-medium group-hover:text-blue-400 transition-colors">
+                          {item.ticker}
+                        </p>
+                        <p className="text-gray-500 text-xs truncate max-w-[180px]">
+                          {nameMap[item.ticker]}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-gray-400 text-sm bg-gray-700 px-2 py-1 rounded">
+                      {item.count}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
 
+            {/* Größte Investments */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-white mb-6">Größte Investments</h3>
+              <div className="space-y-3">
+                {biggest.slice(0, 6).map((item, idx) => (
+                  <Link
+                    key={item.ticker}
+                    href={`/analyse/${item.ticker.toLowerCase()}`}
+                    className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-gray-500 text-sm w-4">{idx + 1}</span>
+                      <div>
+                        <p className="text-white font-medium group-hover:text-purple-400 transition-colors">
+                          {item.ticker}
+                        </p>
+                        <p className="text-gray-500 text-xs truncate max-w-[180px]">
+                          {item.name}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-gray-400 text-sm">
+                      {formatCurrency(item.value / 1000000, 'USD', 1)}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
-<section>
-        <h2 className="text-2xl font-semibold text-white mb-4">
-          Neueste Video-Analysen
-        </h2>
-        <YouTubeCarousel videos={featuredVideos} />
-      </section>
+        {/* Other Investors */}
+        <section className="mb-20">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-white">Weitere Investoren</h2>
+            {others.length > 8 && (
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
+              >
+                {showAll ? 'Weniger anzeigen' : `Alle (${others.length}) anzeigen`}
+              </button>
+            )}
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {visibleOthers.map(inv => (
+              <Link
+                key={inv.slug}
+                href={`/investor/${inv.slug}`}
+                className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-3">
+                  <InvestorAvatar
+                    name={inv.name}
+                    imageUrl={inv.imageUrl}
+                    size="sm"
+                    className="ring-1 ring-gray-700"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-medium text-sm group-hover:text-blue-400 transition-colors truncate">
+                      {inv.name.split('–')[0].trim()}
+                    </p>
+                    <p className="text-gray-400 text-xs">
+                      {formatCurrency(portfolioValue[inv.slug] || 0, 'USD', 1)}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
 
+        {/* Video Section */}
+        <section className="mb-20">
+          <h2 className="text-2xl font-bold text-white mb-8">
+            Neueste Video-Analysen
+          </h2>
+          <YouTubeCarousel videos={featuredVideos} />
+        </section>
 
-    {/* 6) Info & Newsletter */}
-          <section className="grid md:grid-cols-2 gap-8">
-            {/* 13F */}
-            <div className="flex items-start space-x-4 bg-gray-900 p-6 rounded-2xl">
-              <Image src="/images/13f-icon.png" alt="13F" width={48} height={48} />
+        {/* Info & Newsletter */}
+        <section className="grid md:grid-cols-2 gap-8">
+          {/* 13F Info */}
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                <ChartBarIcon className="w-6 h-6 text-blue-400" />
+              </div>
               <div>
-                <h3 className="text-xl font-semibold text-white">Was sind 13F-Filings?</h3>
-                <p className="text-gray-300">
-                  Quartalsberichte großer institutioneller Investmentmanager an die US-SEC.
+                <h3 className="text-xl font-bold text-white mb-3">Was sind 13F-Filings?</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Quartalsberichte großer institutioneller Investmentmanager an die US-SEC. 
+                  Diese Berichte zeigen alle Aktienpositionen über $100M und geben uns 
+                  Einblicke in die Strategien der besten Investoren.
                 </p>
               </div>
             </div>
-            {/* Newsletter */}
-            <div className="bg-gray-900 p-6 rounded-2xl">
-              <h3 className="text-xl font-semibold text-white mb-3">
-                Nie wieder ein Quartals-Update verpassen
-              </h3>
-              <NewsletterSignup />
-            </div>
-          </section>
-    </main>
+          </div>
+
+          {/* Newsletter */}
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+            <h3 className="text-xl font-bold text-white mb-3">
+              Nie wieder ein Update verpassen
+            </h3>
+            <p className="text-gray-400 mb-6">
+              Quartalsweise Updates über neue 13F-Filings und Investment-Insights.
+            </p>
+            <NewsletterSignup />
+          </div>
+        </section>
+      </div>
+    </div>
   )
 }
