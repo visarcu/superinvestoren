@@ -302,76 +302,120 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   return (
     <div className="min-h-screen bg-gray-950">
       
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gray-950">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900"></div>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
-        </div>
+   
+{/* Hero Section */}
+<section className="relative overflow-hidden bg-gray-950">
+  <div className="absolute inset-0">
+    <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900"></div>
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
+    
+    {/* Investor Header Card */}
+    <div className="bg-gradient-to-br from-gray-900/60 to-gray-900/40 border border-gray-800/50 rounded-2xl p-8 mb-8 backdrop-blur-sm">
+      <div className="flex flex-col lg:flex-row items-start gap-12">
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
+        {/* Left: Avatar & Main Info */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 flex-1">
           
-          {/* Investor Header Card */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 mb-8">
-            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
-              
-              {/* Avatar & Crown */}
-              <div className="relative flex-shrink-0">
-                {slug === 'buffett' && (
-                  <div className="absolute -top-2 -right-2 z-10">
-                    <span className="text-yellow-400 text-3xl">👑</span>
-                  </div>
-                )}
-                <InvestorAvatar
-                  name={mainName}
-                  imageUrl={`/images/${slug}.png`}
-                  size="xl"
-                  className="ring-4 ring-blue-500/20"
-                />
-              </div>
-              
-              {/* Info */}
-              <div className="flex-1 text-center lg:text-left">
-                <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">
-                  {mainName}
-                </h1>
-                {subtitle && (
-                  <p className="text-lg text-gray-400 mb-4">
-                    {subtitle}
-                  </p>
-                )}
-                
-                {/* Stats */}
-                <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
-                  <div className="flex items-center gap-2 text-gray-400">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span className="text-sm">
-                      {period} • Aktualisiert {formattedDate}
-                    </span>
-                  </div>
+          {/* Avatar & Crown */}
+          <div className="relative flex-shrink-0">
+            {slug === 'buffett' && (
+              <div className="absolute -top-3 -right-3 z-10">
+                <div className="bg-yellow-400/20 rounded-full p-1">
+                  <span className="text-yellow-400 text-2xl">👑</span>
                 </div>
-                
-                {/* Portfolio Value */}
-                <div className="mb-6">
-                  <p className="text-sm text-gray-400 mb-1">Gesamtwert</p>
-                  <p className="text-3xl font-bold text-white">
-                    {formatCurrency(totalVal * 1000, 'USD')}
-                  </p>
-                </div>
-                
-                {/* CTA Button */}
-                <Link
-                  href={`/investor/${slug}/subscribe`}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-lg hover:shadow-green-500/25"
-                >
-                  <EnvelopeIcon className="w-4 h-4" />
-                  Updates erhalten
-                </Link>
               </div>
+            )}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-xl"></div>
+              <InvestorAvatar
+                name={mainName}
+                imageUrl={`/images/${slug}.png`}
+                size="xl"
+                className="relative ring-2 ring-blue-500/30 shadow-2xl"
+              />
+            </div>
+          </div>
+          
+          {/* Info */}
+          <div className="flex-1 text-center lg:text-left space-y-6">
+            <div>
+              <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-3">
+                {mainName}
+              </h1>
+              {subtitle && (
+                <p className="text-xl text-gray-400 font-medium">
+                  {subtitle}
+                </p>
+              )}
+            </div>
+            
+            {/* Stats */}
+            <div className="flex items-center justify-center lg:justify-start gap-2 text-gray-400">
+              <CalendarIcon className="w-4 h-4 text-blue-400" />
+              <span className="text-sm font-medium">
+                {period} • Aktualisiert {formattedDate}
+              </span>
+            </div>
+            
+            {/* Portfolio Value */}
+            <div className="bg-gray-800/40 rounded-xl p-6 border border-gray-700/50">
+              <p className="text-sm text-gray-400 mb-2 font-medium">Gesamtwert</p>
+              <p className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                {formatCurrency(totalVal * 1000, 'USD')}
+              </p>
             </div>
           </div>
         </div>
-      </section>
+
+        {/* Right: CTA Section */}
+        <div className="flex-shrink-0 lg:self-start lg:mt-8">
+          <div className="relative">
+            {/* Decorative arrow */}
+            <div className="absolute -left-20 top-1/2 -translate-y-1/2 hidden lg:block">
+              <div className="flex items-center gap-2 text-gray-500">
+                <div className="w-12 h-px bg-gradient-to-r from-transparent to-gray-600"></div>
+                <svg 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none"
+                  className="text-gray-500"
+                >
+                  <path 
+                    d="M7 17L17 7M17 7H7M17 7V17" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className="opacity-60"
+                  />
+                </svg>
+              </div>
+            </div>
+            
+            {/* CTA Button */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl blur-lg"></div>
+              <Link
+                href={`/investor/${slug}/subscribe`}
+                className="relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 border border-gray-600/50 hover:border-gray-500 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group backdrop-blur-sm"
+              >
+                <EnvelopeIcon className="w-4 h-4 group-hover:text-blue-400 transition-colors duration-200" />
+                Updates erhalten
+                <div className="w-4 h-4 rounded-full bg-gray-700 group-hover:bg-blue-500/20 flex items-center justify-center transition-all duration-200">
+                  <ArrowUpRightIcon className="w-3 h-3 group-hover:translate-x-px group-hover:-translate-y-px transition-transform duration-200" />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

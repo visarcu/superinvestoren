@@ -30,11 +30,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-950">
       
-      {/* Hero Section - Supabase Style */}
-      <section className="relative overflow-hidden bg-gray-950">
-        {/* Background Effects */}
+      {/* Hero Section - Reversed Gradient */}
+      <section className="relative overflow-hidden">
+        {/* Background Effects - Reversed Gradient */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-950/30 via-gray-950 to-gray-950"></div>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-green-500/5 rounded-full blur-3xl"></div>
         </div>
         
@@ -59,10 +59,9 @@ export default function HomePage() {
             
             {/* Subtitle - Supabase Style */}
             <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-8 leading-relaxed">
-             
-              Starte deine Analyse mit Live-Kursen, Charts & Kennzahlen.
+              Starte deine Analyse mit Live-Kursen, Charts, Kennzahlen & mehr.
               <br className="hidden sm:block" />
-              Guck in die Depots der besten Investoren der Welt.
+              Wirf einen Blick in die Depots der besten Investoren der Welt.
             </p>
 
             {/* CTA Buttons - Supabase Style */}
@@ -73,9 +72,12 @@ export default function HomePage() {
               >
                 Jetzt analysieren
               </Link>
-              <button className="inline-flex items-center gap-2 px-6 py-3 border border-gray-700 hover:border-gray-600 text-gray-300 hover:text-white font-medium rounded-lg transition-all duration-200">
-                Demo anfordern
-              </button>
+              <Link
+                href="/superinvestor"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-gray-700 hover:border-gray-600 text-gray-300 hover:text-white font-medium rounded-lg transition-all duration-200"
+              >
+                Super-Investoren
+              </Link>
             </div>
 
             {/* Trusted By Section - Supabase Style */}
@@ -86,14 +88,14 @@ export default function HomePage() {
               
               {/* Company Logos */}
               <div className="flex items-center justify-center gap-16 opacity-60 hover:opacity-80 transition-opacity">
-                {['aapl', 'msft', 'googl', 'amzn', 'nvda'].map((ticker) => (
+                {['aapl', 'googl', 'amzn', 'nvda'].map((ticker) => (
                   <div key={ticker} className="grayscale hover:grayscale-0 transition-all duration-300">
                     <Image
                       src={`/logos/${ticker}.svg`}
                       alt={`${ticker} logo`}
-                      width={120}
-                      height={120}
-                      className="w-25 h-25"
+                      width={101}
+                      height={101}
+                      className="w-21 h-21"
                     />
                   </div>
                 ))}
@@ -103,7 +105,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section - Supabase 3-Card Style */}
+      {/* Features Section - Now seamlessly connected */}
       <section className="bg-gray-950 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -192,8 +194,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Super Investors Showcase - Supabase Style */}
-      <section className="bg-gray-900 border-y border-gray-800 py-24">
+      {/* Super Investors Showcase - Seamless with black background */}
+      <section className="bg-gray-950 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -218,22 +220,22 @@ export default function HomePage() {
               
               <Link
                 href="/superinvestor"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-dark-700 text-white font-medium rounded-lg transition-colors duration-200"
               >
                 Alle Investoren ansehen
                 <ArrowRightIcon className="w-4 h-4" />
               </Link>
             </div>
 
-            {/* Right: Investor Cards Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Right: Investor Cards Grid - Larger cards */}
+            <div className="grid grid-cols-2 gap-6">
               {highlightInvestors.slice(0, 4).map((inv) => (
                 <Link
                   key={inv.slug}
                   href={`/investor/${inv.slug}`}
-                  className="group bg-gray-950/50 border border-gray-800 hover:border-gray-700 rounded-xl p-6 hover:bg-gray-950/70 transition-all duration-200 text-center"
+                  className="group bg-gray-900/50 border border-gray-800 hover:border-gray-700 rounded-xl p-8 hover:bg-gray-900/70 transition-all duration-200 text-center"
                 >
-                  <div className="relative w-12 h-12 mx-auto mb-3 rounded-full overflow-hidden ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-200">
+                  <div className="relative w-16 h-16 mx-auto mb-4 rounded-full overflow-hidden ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-200">
                     <Image
                       src={inv.imageUrl!}
                       alt={inv.name}
@@ -241,10 +243,10 @@ export default function HomePage() {
                       className="object-cover"
                     />
                   </div>
-                  <h3 className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors duration-200">
+                  <h3 className="text-base font-semibold text-white group-hover:text-blue-400 transition-colors duration-200 mb-1">
                     {inv.name.split('–')[0].trim()}
                   </h3>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-sm text-gray-500">
                     Portfolio →
                   </p>
                 </Link>

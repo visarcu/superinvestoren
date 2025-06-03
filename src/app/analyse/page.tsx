@@ -156,8 +156,7 @@ export default function AnalysisIndexPage() {
             {/* Clean Subtitle */}
             <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
               Live-Kurse, historische Charts, Dividenden und Kennzahlen in Sekundenschnelle.
-              <br className="hidden sm:block" />
-              Treffen Sie bessere Investment-Entscheidungen mit unseren professionellen Tools.
+              
             </p>
 
             {/* Clean Search Bar */}
@@ -357,10 +356,10 @@ export default function AnalysisIndexPage() {
       <section className="bg-gray-950 py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Benötigen Sie erweiterte Analysen?
+            Benötigst du erweiterte Analysen?
           </h3>
           <p className="text-lg text-gray-400 mb-12 leading-relaxed max-w-2xl mx-auto">
-            Schalten Sie Premium-Features frei: Erweiterte Charts, Dividenden-Tracker, 
+            Schalte Premium-Features frei: Erweiterte Charts, Dividenden-Tracker, 
             Portfolio-Analyse und exklusive Markt-Insights.
           </p>
           
