@@ -153,12 +153,12 @@ export default function SigninPage() {
 
         {/* Forgot Password Link */}
         <div className="text-center">
-          <a 
-            href="/auth/reset-password" 
-            className="text-sm text-gray-400 hover:text-accent transition"
-          >
-            Passwort vergessen?
-          </a>
+        <a 
+  href="/auth/forgot-password"  // ✅ RICHTIG!
+  className="text-sm text-gray-400 hover:text-accent transition"
+>
+  Passwort vergessen?
+</a>
         </div>
 
         <p className="text-sm text-center text-gray-400">

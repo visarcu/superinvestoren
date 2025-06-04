@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 import SearchTickerInput from '@/components/SearchTickerInput'
 import { investors } from '@/data/investors'
+import NewsletterSignup from '@/components/NewsletterSignup'
 
 export default function HomePage() {
   const router = useRouter()
@@ -256,37 +257,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Newsletter CTA - Supabase Style */}
-      <section className="bg-gray-950 py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Nie wieder ein Update verpassen
-          </h3>
-          <p className="text-lg text-gray-400 mb-12 leading-relaxed max-w-2xl mx-auto">
-            Quartalsweise Updates über neue 13F-Filings, marktbewegende Ereignisse 
-            und Insights unserer Top-Investor-Analysen.
-          </p>
-          
-          <div className="max-w-md mx-auto">
-            <form className="flex gap-3">
-              <input
-                type="email"
-                placeholder="Deine E-Mail-Adresse"
-                className="flex-1 px-4 py-3 bg-gray-900 border border-gray-800 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-all duration-200"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 whitespace-nowrap"
-              >
-                Abonnieren
-              </button>
-            </form>
-            <p className="text-xs text-gray-500 mt-4">
-              Quartalsweise Updates • Jederzeit kündbar • Keine Werbung
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Newsletter CTA - Supabase Style mit funktionierender Komponente */}
+<section className="bg-gray-950 py-24">
+  <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+      Nie wieder ein Update verpassen
+    </h3>
+    <p className="text-lg text-gray-400 mb-12 leading-relaxed max-w-2xl mx-auto">
+      Quartalsweise Updates über neue 13F-Filings, marktbewegende Ereignisse 
+      und Insights unserer Top-Investor-Analysen.
+    </p>
+    
+    <div className="flex justify-center">
+      <NewsletterSignup />
+    </div>
+    
+    <p className="text-xs text-gray-500 mt-6">
+      Quartalsweise Updates • Jederzeit kündbar • Keine Werbung
+    </p>
+  </div>
+</section>
     </div>
   )
 }

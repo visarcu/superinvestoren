@@ -4,37 +4,47 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { supabase } from '@/lib/supabaseClient'
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail]     = useState('')
-  const [error, setError]     = useState<string | null>(null)
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
     setSuccess(false)
+    setIsLoading(true)
 
     if (!email) {
       setError('Bitte gib deine E-Mail an')
+      setIsLoading(false)
       return
     }
 
     try {
-      const res = await fetch('/api/auth/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+      // Debug: Log Supabase Client
+      console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+      console.log('Has anon key:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+      
+      // Direkte Supabase-Integration statt eigene API
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
       })
-      const body = await res.json()
-      if (res.ok && body.success) {
-        setSuccess(true)
+
+      if (error) {
+        console.error('Reset Password Error:', error)
+        setError(`Fehler: ${error.message}`)
       } else {
-        setError(body.error ?? 'Fehler beim Senden der E-Mail.')
+        setSuccess(true)
       }
     } catch (err) {
-      console.error(err)
-      setError('Netzwerkfehler beim Senden der E-Mail.')
+      console.error('[Forgot Password] Error:', err)
+      setError('Fehler beim Senden der E-Mail.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -69,7 +79,7 @@ export default function ForgotPasswordPage() {
           {/* Erfolgsmeldung */}
           {success && (
             <p className="bg-green-900 text-green-300 px-4 py-2 rounded-lg text-center">
-              Reset-Link wurde versandt. Prüfe dein Postfach.
+              Reset-Link wurde versandt. Prüfe dein Postfach (auch Spam-Ordner)!
             </p>
           )}
 
@@ -88,18 +98,21 @@ export default function ForgotPasswordPage() {
                 transition
               "
               required
+              disabled={isLoading}
             />
           </div>
 
           {/* Submit */}
           <button
             type="submit"
+            disabled={isLoading}
             className="
               w-full py-3 bg-accent text-black font-semibold
               rounded-lg hover:bg-accent/90 transition
+              disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
-            Reset-Link senden
+            {isLoading ? 'Sende E-Mail...' : 'Reset-Link senden'}
           </button>
 
           <p className="text-sm text-center text-gray-400">
@@ -150,7 +163,7 @@ export default function ForgotPasswordPage() {
               </li>
               <li className="flex items-start">
                 <span className="inline-block mt-1 mr-3 text-accent">✓</span>
-                Support unter <Link href="mailto:support@superinvestor.test" className="underline">support@superinvestor.test</Link>
+                Support unter <Link href="mailto:team@finclue.de" className="underline">team@finclue.de</Link>
               </li>
             </ul>
           </div>
