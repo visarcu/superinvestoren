@@ -277,7 +277,7 @@ export default function AnalysisIndexPage() {
                         <Logo
                           src={`/logos/${ticker.toLowerCase()}.svg`}
                           alt={`${ticker} Logo`}
-                          className="w-10 h-10"
+                          className="w-16 h-16"
                         />
                       </div>
                     </div>

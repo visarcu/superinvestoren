@@ -503,6 +503,19 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // 13) Endgültiges Rendering (alles ist geladen)
   return (
     <>
+      {/* ─── Header mit Watchlist Button ─── */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
+        <div>
+          <h2 className="text-2xl font-semibold text-white">Kennzahlen-Analyse</h2>
+          <p className="text-gray-400">Detaillierte Finanzdaten für {stock.name} ({ticker})</p>
+        </div>
+        
+        {/* Watchlist Button */}
+        <div className="flex items-center space-x-4">
+          <WatchlistButton ticker={ticker} />
+        </div>
+      </div>
+
       {/* ─── Key Metrics / Bilanz / Dividende / Bewertung / Margins ─── */}
       {hasKeyMetrics ? (
         <Card>
