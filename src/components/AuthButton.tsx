@@ -1,41 +1,52 @@
-// src/components/AuthButton.tsx
+// src/components/AuthButton.tsx - Safe Version
 "use client";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function AuthButton() {
-  const [user, setUser] = useState<null | { id: string; email: string }>(null);
+  const [user, setUser] = useState<null | { 
+    id: string; 
+    email: string; 
+  }>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1) Beim ersten Render: Supabase-Session holen
     async function loadSession() {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-      if (error) {
-        console.error("[AuthButton] Fehler beim Laden der Session:", error.message);
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("[AuthButton] Fehler beim Laden der Session:", error.message);
+          setUser(null);
+          setLoading(false);
+          return;
+        }
+
+        if (session?.user) {
+          setUser({ 
+            id: session.user.id, 
+            email: session.user.email || "" 
+          });
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("[AuthButton] Catch Error:", error);
         setUser(null);
+      } finally {
         setLoading(false);
-        return;
       }
-      if (session?.user) {
-        setUser({ id: session.user.id, email: session.user.email || "" });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
     }
 
     loadSession();
 
-    // 2) Auth-State-Listener
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        setUser({ id: session.user.id, email: session.user.email || "" });
+        setUser({ 
+          id: session.user.id, 
+          email: session.user.email || "" 
+        });
       } else {
         setUser(null);
       }
@@ -46,28 +57,37 @@ export default function AuthButton() {
     };
   }, []);
 
-  // 3) Wenn noch laden, nichts anzeigen
   if (loading) {
-    return null;
+    return (
+      <div className="ml-4 px-4 py-2 bg-gray-600 text-white rounded">
+        ...
+      </div>
+    );
   }
 
-  // 4) Wenn eingeloggt → Abmelden-Button, sonst Link zu /auth/signin
   async function handleSignOut() {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("[AuthButton] Fehler beim Abmelden:", error.message);
       return;
     }
-    // Session‐Listener setzt user automatisch auf null, wir müssen nicht explizit setUser(null)
   }
 
   return user ? (
-    <button
-      onClick={handleSignOut}
-      className="ml-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-    >
-      Abmelden
-    </button>
+    <div className="flex items-center gap-4">
+      <Link
+        href="/profile"
+        className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+      >
+        Profil
+      </Link>
+      <button
+        onClick={handleSignOut}
+        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+      >
+        Abmelden
+      </button>
+    </div>
   ) : (
     <Link
       href="/auth/signin"

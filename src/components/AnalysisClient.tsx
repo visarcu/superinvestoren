@@ -40,6 +40,29 @@ const WallStreetRatingDonut = dynamic(
   { ssr: false }
 )
 
+// ─── Premium Lock Component ─────────────────────────────────────────────────
+const PremiumLockOverlay = ({ title, description }: { title: string; description: string }) => (
+  <div className="relative">
+    <div className="bg-gray-800/70 backdrop-blur-xl border border-gray-700 rounded-2xl p-8 text-center">
+      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-full flex items-center justify-center">
+        <LockClosedIcon className="w-8 h-8 text-yellow-400" />
+      </div>
+      <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
+      <p className="text-gray-300 mb-6 max-w-md mx-auto">{description}</p>
+      <Link
+        href="/pricing"
+        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-semibold rounded-lg hover:from-yellow-400 hover:to-orange-400 transition"
+      >
+        <LockClosedIcon className="w-4 h-4 mr-2" />
+        Premium freischalten
+      </Link>
+      <p className="text-sm text-gray-400 mt-3">
+        Unterstütze uns mit 9€/Monat auf Patreon
+      </p>
+    </div>
+  </div>
+)
+
 // ─── Formatierungshilfen ────────────────────────────────────────────────────
 const fmtB = (n: number) =>
   `$${(n / 1e9).toLocaleString('de-DE', {
@@ -161,8 +184,32 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         router.push('/auth/signin')
         return
       }
-      const isPremiumFlag = session.user.app_metadata?.is_premium || false
-      setUser({ id: session.user.id, email: session.user.email || '', isPremium: isPremiumFlag })
+      
+      // Check Premium status from profiles table instead of app_metadata
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_premium')
+          .eq('user_id', session.user.id)
+          .maybeSingle()
+
+        const isPremiumFlag = profile?.is_premium || false
+        setUser({ 
+          id: session.user.id, 
+          email: session.user.email || '', 
+          isPremium: isPremiumFlag 
+        })
+      } catch (error) {
+        console.error('[AnalysisClient] Error checking premium status:', error)
+        // Fallback to app_metadata
+        const isPremiumFlag = session.user.app_metadata?.is_premium || false
+        setUser({ 
+          id: session.user.id, 
+          email: session.user.email || '', 
+          isPremium: isPremiumFlag 
+        })
+      }
+      
       setLoadingAuth(false)
     }
 
@@ -617,160 +664,174 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         {user?.isPremium ? (
           <FinancialAnalysisClient ticker={ticker} />
         ) : (
-          <div className="bg-card-dark p-6 rounded text-center">
-            <p className="mb-4">
-              Interaktive Charts sind ein Premium-Feature.
-            </p>
-            <Link
-              href="/pricing"
-              className="inline-block bg-accent text-black bold px-4 py-2 rounded"
-            >
-              Jetzt upgraden
-            </Link>
-          </div>
+          <PremiumLockOverlay
+            title="Interaktive Kennzahlen-Charts"
+            description="Analysiere detaillierte Finanzkennzahlen mit interaktiven Charts und Zeitraumauswahl. Verfügbar mit Premium."
+          />
         )}
       </section>
 
       {/* ─── Earnings & Revenue Estimates ─────────────────────────────────────── */}
       {estimates.length > 0 && (
-        <Card>
+        <section>
           <h2 className="text-2xl font-semibold mb-4">
             Analysten Schätzungen (ab {new Date().getFullYear()})
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Revenue Estimates */}
-            <div>
-              <h3 className="font-semibold mb-2">Umsatzschätzungen</h3>
-              <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
-                <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="px-3 py-2 text-left font-medium">FY</th>
-                    <th className="px-3 py-2 text-right font-medium">Avg</th>
-                    <th className="px-3 py-2 text-right font-medium">Low</th>
-                    <th className="px-3 py-2 text-right font-medium">High</th>
-                    <th className="px-3 py-2 text-right font-medium">YoY</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {estimates
-                    .slice()
-                    .reverse()
-                    .map((e, idx, arr) => {
-                      const fy = e.date.slice(0, 4)
-                      let yoy: number | null = null
-                      if (idx > 0) {
-                        const prev = arr[idx - 1].estimatedRevenueAvg
-                        if (prev > 0) {
-                          yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
-                        }
-                      }
-                      const formattedYoY =
-                        yoy == null
-                          ? '–'
-                          : `${yoy >= 0 ? '+' : ''}${yoy
-                              .toFixed(2)
-                              .replace('.', ',')} %`
-                      const yoyClass =
-                        yoy == null
-                          ? ''
-                          : yoy >= 0
-                          ? 'text-green-500'
-                          : 'text-red-500'
+          {user?.isPremium ? (
+            <Card>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Revenue Estimates */}
+                <div>
+                  <h3 className="font-semibold mb-2">Umsatzschätzungen</h3>
+                  <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
+                    <thead>
+                      <tr className="border-b border-gray-700">
+                        <th className="px-3 py-2 text-left font-medium">FY</th>
+                        <th className="px-3 py-2 text-right font-medium">Avg</th>
+                        <th className="px-3 py-2 text-right font-medium">Low</th>
+                        <th className="px-3 py-2 text-right font-medium">High</th>
+                        <th className="px-3 py-2 text-right font-medium">YoY</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {estimates
+                        .slice()
+                        .reverse()
+                        .map((e, idx, arr) => {
+                          const fy = e.date.slice(0, 4)
+                          let yoy: number | null = null
+                          if (idx > 0) {
+                            const prev = arr[idx - 1].estimatedRevenueAvg
+                            if (prev > 0) {
+                              yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
+                            }
+                          }
+                          const formattedYoY =
+                            yoy == null
+                              ? '–'
+                              : `${yoy >= 0 ? '+' : ''}${yoy
+                                  .toFixed(2)
+                                  .replace('.', ',')} %`
+                          const yoyClass =
+                            yoy == null
+                              ? ''
+                              : yoy >= 0
+                              ? 'text-green-500'
+                              : 'text-red-500'
 
-                      return (
-                        <tr
-                          key={e.date}
-                          className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
-                        >
-                          <td className="px-3 py-1">{fy}</td>
-                          <td className="px-3 py-1 text-right">
-                            {fmtB(e.estimatedRevenueAvg)}
-                          </td>
-                          <td className="px-3 py-1 text-right">
-                            {fmtB(e.estimatedRevenueLow)}
-                          </td>
-                          <td className="px-3 py-1 text-right">
-                            {fmtB(e.estimatedRevenueHigh)}
-                          </td>
-                          <td className={`px-3 py-1 text-right ${yoyClass}`}>
-                            {formattedYoY}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                </tbody>
-              </table>
-            </div>
+                          return (
+                            <tr
+                              key={e.date}
+                              className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
+                            >
+                              <td className="px-3 py-1">{fy}</td>
+                              <td className="px-3 py-1 text-right">
+                                {fmtB(e.estimatedRevenueAvg)}
+                              </td>
+                              <td className="px-3 py-1 text-right">
+                                {fmtB(e.estimatedRevenueLow)}
+                              </td>
+                              <td className="px-3 py-1 text-right">
+                                {fmtB(e.estimatedRevenueHigh)}
+                              </td>
+                              <td className={`px-3 py-1 text-right ${yoyClass}`}>
+                                {formattedYoY}
+                              </td>
+                            </tr>
+                          )
+                        })}
+                    </tbody>
+                  </table>
+                </div>
 
-            {/* Earnings Estimates */}
-            <div>
-              <h3 className="font-semibold mb-2">Gewinnschätzungen</h3>
-              <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
-                <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="px-3 py-2 text-left font-medium">FY</th>
-                    <th className="px-3 py-2 text-right font-medium">EPS Avg</th>
-                    <th className="px-3 py-2 text-right font-medium">Low</th>
-                    <th className="px-3 py-2 text-right font-medium">High</th>
-                    <th className="px-3 py-2 text-right font-medium">YoY</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {estimates
-                    .slice()
-                    .reverse()
-                    .map((e, idx, arr) => {
-                      const fy = e.date.slice(0, 4)
-                      let yoy: number | null = null
-                      if (idx > 0) {
-                        const prev = arr[idx - 1].estimatedEpsAvg
-                        if (prev !== 0) {
-                          yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
-                        }
-                      }
-                      const formattedYoY =
-                        yoy == null
-                          ? '–'
-                          : `${yoy >= 0 ? '+' : ''}${yoy
-                              .toFixed(2)
-                              .replace('.', ',')} %`
-                      const yoyClass =
-                        yoy == null
-                          ? ''
-                          : yoy >= 0
-                          ? 'text-green-500'
-                          : 'text-red-500'
+                {/* Earnings Estimates */}
+                <div>
+                  <h3 className="font-semibold mb-2">Gewinnschätzungen</h3>
+                  <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
+                    <thead>
+                      <tr className="border-b border-gray-700">
+                        <th className="px-3 py-2 text-left font-medium">FY</th>
+                        <th className="px-3 py-2 text-right font-medium">EPS Avg</th>
+                        <th className="px-3 py-2 text-right font-medium">Low</th>
+                        <th className="px-3 py-2 text-right font-medium">High</th>
+                        <th className="px-3 py-2 text-right font-medium">YoY</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {estimates
+                        .slice()
+                        .reverse()
+                        .map((e, idx, arr) => {
+                          const fy = e.date.slice(0, 4)
+                          let yoy: number | null = null
+                          if (idx > 0) {
+                            const prev = arr[idx - 1].estimatedEpsAvg
+                            if (prev !== 0) {
+                              yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
+                            }
+                          }
+                          const formattedYoY =
+                            yoy == null
+                              ? '–'
+                              : `${yoy >= 0 ? '+' : ''}${yoy
+                                  .toFixed(2)
+                                  .replace('.', ',')} %`
+                          const yoyClass =
+                            yoy == null
+                              ? ''
+                              : yoy >= 0
+                              ? 'text-green-500'
+                              : 'text-red-500'
 
-                      return (
-                        <tr
-                          key={e.date}
-                          className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
-                        >
-                          <td className="px-3 py-1">{fy}</td>
-                          <td className="px-3 py-1 text-right">
-                            {e.estimatedEpsAvg.toFixed(2)}
-                          </td>
-                          <td className="px-3 py-1 text-right">
-                            {e.estimatedEpsLow.toFixed(2)}
-                          </td>
-                          <td className="px-3 py-1 text-right">
-                            {e.estimatedEpsHigh.toFixed(2)}
-                          </td>
-                          <td className={`px-3 py-1 text-right ${yoyClass}`}>
-                            {formattedYoY}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </Card>
+                          return (
+                            <tr
+                              key={e.date}
+                              className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
+                            >
+                              <td className="px-3 py-1">{fy}</td>
+                              <td className="px-3 py-1 text-right">
+                                {e.estimatedEpsAvg.toFixed(2)}
+                              </td>
+                              <td className="px-3 py-1 text-right">
+                                {e.estimatedEpsLow.toFixed(2)}
+                              </td>
+                              <td className="px-3 py-1 text-right">
+                                {e.estimatedEpsHigh.toFixed(2)}
+                              </td>
+                              <td className={`px-3 py-1 text-right ${yoyClass}`}>
+                                {formattedYoY}
+                              </td>
+                            </tr>
+                          )
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </Card>
+          ) : (
+            <PremiumLockOverlay
+              title="Analysten Schätzungen"
+              description="Erhalte Zugang zu detaillierten Umsatz- und Gewinnschätzungen von Wall Street Analysten."
+            />
+          )}
+        </section>
       )}
 
       {/* ─── Wall Street Rating (Donut) ─────────────────────────────────────────── */}
-      {recs && <WallStreetRatingDonut recs={recs} />}
+      {recs && (
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Wall Street Bewertungen</h2>
+          {user?.isPremium ? (
+            <WallStreetRatingDonut recs={recs} />
+          ) : (
+            <PremiumLockOverlay
+              title="Wall Street Analystenbewertungen"
+              description="Sieh dir an, wie Wall Street Analysten diese Aktie bewerten - von Strong Buy bis Strong Sell."
+            />
+          )}
+        </section>
+      )}
 
       {/* ─── Company Profile ────────────────────────────────────────────────────── */}
       {profileData && (

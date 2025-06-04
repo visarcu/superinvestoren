@@ -9,6 +9,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import SearchTickerInput from '@/components/SearchTickerInput'
 import Logo from '@/components/Logo'
 
+
 // — Hilfsfunktionen —
 async function fetchQuote(ticker: string) {
   const res = await fetch(
