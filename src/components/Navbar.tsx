@@ -17,6 +17,7 @@ import {
 import { SparklesIcon } from '@heroicons/react/24/solid'
 import { supabase } from '@/lib/supabaseClient'
 import TickerBar from './TickerBar'
+import { stocks } from '@/data/stocks'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 // Navigation Links
@@ -43,13 +44,82 @@ interface UserProfile {
   premium_since: string | null;
 }
 
-// Clean Search Component (Supabase Style)
+// Enhanced Search Component with working functionality
 function CleanSearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [suggestions, setSuggestions] = useState<typeof stocks>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  // Filter suggestions based on search term
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    const query = searchTerm.trim().toUpperCase();
+    const filtered = stocks
+      .filter(
+        (stock) =>
+          stock.ticker.startsWith(query) || 
+          stock.name.toUpperCase().includes(query)
+      )
+      .slice(0, 8); // Limit to 8 suggestions
+
+    setSuggestions(filtered);
+    setShowSuggestions(filtered.length > 0 && isFocused);
+  }, [searchTerm, isFocused]);
+
+  // Handle click outside to close suggestions
+  useEffect(() => {
+    function handleClickOutside(event: Event) {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+        setIsFocused(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Handle selection of a stock
+  const handleSelectStock = (ticker: string) => {
+    setSearchTerm('');
+    setSuggestions([]);
+    setShowSuggestions(false);
+    setIsFocused(false);
+    
+    // Navigate to stock detail page - ÄNDERE DIESE ROUTE ZU DEINER AKTIEN-SEITE
+    router.push(`/analyse/${ticker}`);
+  };
+
+  // Handle Enter key press
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (suggestions.length > 0) {
+        // Select first suggestion
+        handleSelectStock(suggestions[0].ticker);
+      } else if (searchTerm.trim()) {
+        // Perform general search - ÄNDERE DIESE ROUTE ZU DEINER SUCHE-SEITE
+        router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      }
+    }
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    if (suggestions.length > 0) {
+      setShowSuggestions(true);
+    }
+  };
 
   return (
-    <div className="relative">
+    <div className="relative" ref={searchRef}>
       <div className={`relative flex items-center transition-all duration-200 ${
         isFocused ? 'ring-2 ring-green-500/20' : ''
       }`}>
@@ -59,11 +129,37 @@ function CleanSearchBar() {
           placeholder="Suche Aktie oder Investor..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={handleFocus}
+          onKeyDown={handleKeyDown}
           className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-green-500/50 transition-all duration-200"
         />
       </div>
+
+      {/* Suggestions Dropdown */}
+      {showSuggestions && suggestions.length > 0 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden z-50 max-h-64 overflow-y-auto">
+          {suggestions.map((stock) => (
+            <button
+              key={stock.ticker}
+              onClick={() => handleSelectStock(stock.ticker)}
+              className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 border-b border-gray-100 dark:border-gray-800 last:border-b-0"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
+                    {stock.ticker}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {stock.name}
+                  </div>
+                </div>
+              </div>
+            </button>
+          ))}
+          
+         
+        </div>
+      )}
     </div>
   );
 }
