@@ -12,6 +12,7 @@ interface Position {
   value:       number
   deltaShares: number
   pctDelta:    number
+  ticker?:     string // HINZUGEFÜGT für neue Datenquellen
 }
 
 interface HistoryGroup {
@@ -73,6 +74,15 @@ export default function InvestorTabs({
   // nur die ersten 20 Bestände, wenn showAll=false
   const displayedHoldings = showAll ? holdings : holdings.slice(0, 20)
 
+  // NEUE HILFSFUNKTION: Ticker ermitteln
+  const getTicker = (position: Position): string | undefined => {
+    // 1. Versuche ticker aus Position (für neue Datenquellen wie Dataroma)
+    if (position.ticker) return position.ticker
+    
+    // 2. Fallback: CUSIP → Ticker Mapping (für 13F-Daten)
+    return cusipToTicker[position.cusip]
+  }
+
   return (
     <div>
       {/* — Tabs — */}
@@ -126,7 +136,7 @@ export default function InvestorTabs({
           <tbody>
             {/* — Bestände — */}
             {tab === 'holdings' && displayedHoldings.map((p, i) => {
-              const ticker = cusipToTicker[p.cusip]
+              const ticker = getTicker(p) // GEÄNDERT: Verwende neue Hilfsfunktion
               return (
                 <tr key={i} className="border-b border-gray-700 hover:bg-gray-800">
                   <td className="px-4 py-2">
@@ -174,20 +184,20 @@ export default function InvestorTabs({
                   <React.Fragment key={gi}>
                     {/* Quartals-Header */}
                     <tr>
-  <td colSpan={5} className="
-    bg-gray-800
-    px-4 py-2
-    border-t border-gray-700
-    font-bold text-white uppercase tracking-wide
-  ">
-    {group.period}
-  </td>
-</tr>
-<tr className="h-1"><td colSpan={5} className="bg-gray-700 p-0"></td></tr>
+                      <td colSpan={5} className="
+                        bg-gray-800
+                        px-4 py-2
+                        border-t border-gray-700
+                        font-bold text-white uppercase tracking-wide
+                      ">
+                        {group.period}
+                      </td>
+                    </tr>
+                    <tr className="h-1"><td colSpan={5} className="bg-gray-700 p-0"></td></tr>
 
                     {group.items.length > 0
                       ? group.items.map((p, i) => {
-                          const ticker = cusipToTicker[p.cusip]
+                          const ticker = getTicker(p) // GEÄNDERT: Verwende neue Hilfsfunktion
                           return (
                             <tr key={i} className="border-b border-gray-700 hover:bg-gray-800">
                               <td className="px-4 py-2">
@@ -216,15 +226,15 @@ export default function InvestorTabs({
                                 </span>
                               </td>
                               <td className="px-4 py-2 text-right">
-      {(() => {
-        const prevShares = p.shares - p.deltaShares
-        // Wenn vorher 0 Shares, zeigen wir statt 0 % lieber "–"
-        if (prevShares === 0) {
-          return 'Neueinkauf'
-        }
-        return fmtPercent.format(Math.abs(p.pctDelta))
-      })()}
-    </td>
+                                {(() => {
+                                  const prevShares = p.shares - p.deltaShares
+                                  // Wenn vorher 0 Shares, zeigen wir statt 0 % lieber "–"
+                                  if (prevShares === 0) {
+                                    return 'Neueinkauf'
+                                  }
+                                  return fmtPercent.format(Math.abs(p.pctDelta))
+                                })()}
+                              </td>
                             </tr>
                           )
                         })

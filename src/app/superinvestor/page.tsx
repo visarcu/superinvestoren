@@ -1,4 +1,4 @@
-// src/app/superinvestor/page.tsx
+// src/app/superinvestor/page.tsx - Mit interaktivem Quarter-Filter
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -10,7 +10,9 @@ import {
   ArrowTrendingUpIcon,
   ArrowRightIcon,
   TrophyIcon,
-  ChartBarIcon
+  ChartBarIcon,
+  ChevronDownIcon,
+  CalendarIcon
 } from '@heroicons/react/24/outline'
 import YouTubeCarousel from '@/components/YoutubeCarousel'
 import { featuredVideos } from '@/data/videos'
@@ -23,6 +25,14 @@ import InvestorAvatar from '@/components/InvestorAvatar'
 interface TopOwnedItem {
   ticker: string
   count: number
+}
+
+// Quarter-Filter-Optionen
+interface QuarterOption {
+  id: string
+  label: string
+  quarters: string[]
+  description: string
 }
 
 // Währung formatieren
@@ -50,11 +60,135 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
+// HILFSFUNKTION: Ticker aus Position extrahieren (13F + Dataroma)
+function getTicker(position: any): string | null {
+  if (position.ticker) return position.ticker
+  const stock = stocks.find(s => s.cusip === position.cusip)
+  return stock?.ticker || null
+}
+
+// HILFSFUNKTION: Name aus Position extrahieren
+function getStockName(position: any): string {
+  if (position.name && position.ticker) {
+    return position.name.includes(' - ') 
+      ? position.name.split(' - ')[1].trim()
+      : position.name
+  }
+  const stock = stocks.find(s => s.cusip === position.cusip)
+  return stock?.name || position.name || position.cusip
+}
+
+// Quarter-Dropdown-Komponente
+function QuarterSelector({ 
+  options, 
+  selected, 
+  onSelect 
+}: { 
+  options: QuarterOption[]
+  selected: string
+  onSelect: (id: string) => void 
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const selectedOption = options.find(opt => opt.id === selected)
+  
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="inline-flex items-center gap-2 px-3 py-1 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm text-gray-300 transition-colors"
+      >
+        <CalendarIcon className="w-4 h-4" />
+        <span>{selectedOption?.label || 'Wählen'}</span>
+        <ChevronDownIcon className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 w-64 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50">
+          <div className="p-2 space-y-1">
+            {options.map(option => (
+              <button
+                key={option.id}
+                onClick={() => {
+                  onSelect(option.id)
+                  setIsOpen(false)
+                }}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
+                  selected === option.id 
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-gray-300 hover:bg-gray-700'
+                }`}
+              >
+                <div className="font-medium">{option.label}</div>
+                <div className="text-xs text-gray-400">{option.description}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function SuperinvestorPage() {
   const router = useRouter()
   const [showAll, setShowAll] = useState(false)
 
-  // 1. Portfolio-Werte je Investor
+  // 1. Alle verfügbaren Quartale ermitteln - KORRIGIERT
+  // Nehme nur die neuesten Daten pro Investor (wie vorher)
+  const latestDatesPerInvestor = Object.values(holdingsHistory)
+    .map(snaps => snaps[snaps.length - 1]?.data.date)
+    .filter(Boolean) as string[]
+  
+  // Das wirklich neueste Datum (z.B. 2025-06-05 von Torray)
+  const latestDate = latestDatesPerInvestor.sort().pop() || ''
+  const actualLatestQuarter = latestDate ? getPeriodFromDate(latestDate) : 'Q1 2025'
+  
+  // Alle verfügbaren Quartale sammeln (für Filter-Optionen)
+  const allQuarters = Array.from(new Set(
+    Object.values(holdingsHistory)
+      .flatMap(snaps => snaps.map(snap => getPeriodFromDate(snap.data.date)))
+  )).sort().reverse() // Neueste zuerst
+
+  // 2. Quarter-Filter-Optionen erstellen - KORRIGIERT
+  const quarterOptions: QuarterOption[] = [
+    {
+      id: 'latest',
+      label: actualLatestQuarter, // Verwende das WIRKLICH neueste
+      quarters: [actualLatestQuarter],
+      description: 'Neuestes Quartal'
+    },
+    {
+      id: 'last2',
+      label: 'Letzte 2 Quartale',
+      quarters: allQuarters.slice(0, 2),
+      description: `${allQuarters.slice(0, 2).join(' + ')}`
+    },
+    {
+      id: 'last3',
+      label: 'Letzte 3 Quartale',
+      quarters: allQuarters.slice(0, 3),
+      description: `${allQuarters.slice(0, 3).join(', ')}`
+    },
+    ...allQuarters.slice(0, 6).map(quarter => ({
+      id: quarter,
+      label: quarter,
+      quarters: [quarter],
+      description: 'Einzelnes Quartal'
+    })),
+    {
+      id: 'all',
+      label: 'Alle Zeit',
+      quarters: allQuarters,
+      description: 'Alle verfügbaren Quartale'
+    }
+  ]
+
+  // 3. State für ausgewählten Filter
+  const [selectedPeriod, setSelectedPeriod] = useState('latest')
+  const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
+  const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
+
+  // 4. Portfolio-Werte je Investor
   const portfolioValue: Record<string, number> = {}
   Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
     const latest = snaps[snaps.length - 1]?.data
@@ -63,42 +197,63 @@ export default function SuperinvestorPage() {
     portfolioValue[slug] = total
   })
 
-  // 2. Weitere Investoren
+  // 5. Weitere Investoren
   const highlighted = ['buffett', 'ackman', 'smith']
   const others: Investor[] = investors
     .filter(inv => !highlighted.includes(inv.slug))
     .sort((a, b) => (portfolioValue[b.slug] || 0) - (portfolioValue[a.slug] || 0))
   const visibleOthers = showAll ? others : others.slice(0, 8)
 
-  // 3. Top-10 Käufe aus dem letzten Reporting-Quartal
-  const allDates = Object.values(holdingsHistory)
-    .map(snaps => snaps[snaps.length - 1]?.data.date)
-    .filter(Boolean) as string[]
-  const latestDate = allDates.sort().pop() || ''
-  const latestQuarter = latestDate ? getPeriodFromDate(latestDate) : ''
-
+  // 6. ERWEITERTE TOP-KÄUFE mit Quarter-Filter
   const buyCounts = new Map<string, number>()
+  
   Object.values(holdingsHistory).forEach(snaps => {
-    if (snaps.length < 2) return
-    const prev = snaps[snaps.length - 2].data
-    const cur = snaps[snaps.length - 1].data
+    if (snaps.length === 0) return
+    
+    // Für jedes Target-Quarter prüfen
+    snaps.forEach((snap, idx) => {
+      const currentQuarter = getPeriodFromDate(snap.data.date)
+      
+      // Nur verarbeiten wenn Quarter im Filter enthalten
+      if (!targetQuarters.includes(currentQuarter)) return
+      
+      const cur = snap.data
+      
+      // Wenn mindestens 2 Snapshots: Vergleiche mit vorherigem
+      if (idx > 0) {
+        const prev = snaps[idx - 1].data
+        
+        const prevMap = new Map<string, number>()
+        prev.positions.forEach((p: any) => {
+          const ticker = getTicker(p)
+          if (ticker) {
+            prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
+          }
+        })
 
-    if (getPeriodFromDate(cur.date) !== latestQuarter) return
-
-    const prevMap = new Map<string, number>()
-    prev.positions.forEach(p =>
-      prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares)
-    )
-
-    const seen = new Set<string>()
-    cur.positions.forEach(p => {
-      const delta = p.shares - (prevMap.get(p.cusip) || 0)
-      if (delta > 0) {
-        const st = stocks.find(s => s.cusip === p.cusip)
-        if (st && !seen.has(st.ticker)) {
-          seen.add(st.ticker)
-          buyCounts.set(st.ticker, (buyCounts.get(st.ticker) || 0) + 1)
-        }
+        const seen = new Set<string>()
+        cur.positions.forEach((p: any) => {
+          const ticker = getTicker(p)
+          if (!ticker || seen.has(ticker)) return
+          
+          const prevShares = prevMap.get(ticker) || 0
+          const delta = p.shares - prevShares
+          
+          if (delta > 0) {
+            seen.add(ticker)
+            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
+          }
+        })
+      } else {
+        // Erste Snapshots: Alle als "Käufe" zählen
+        const seen = new Set<string>()
+        cur.positions.forEach((p: any) => {
+          const ticker = getTicker(p)
+          if (ticker && !seen.has(ticker)) {
+            seen.add(ticker)
+            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
+          }
+        })
       }
     })
   })
@@ -108,22 +263,18 @@ export default function SuperinvestorPage() {
     .slice(0, 10)
     .map(([ticker, count]) => ({ ticker, count }))
 
-  // 4. Name-Lookup für Stocks
-  const nameMap: Record<string, string> = {}
-  stocks.forEach(s => { nameMap[s.ticker] = s.name })
-
-  // 5. Top-10 Meistgehalten
-  const cusipToTicker = new Map(stocks.map(s => [s.cusip, s.ticker]))
+  // 7. ERWEITERTE BELIEBTESTE AKTIEN (unterstützt Dataroma + 13F)
   const ownershipCount = new Map<string, number>()
   Object.values(holdingsHistory).forEach(snaps => {
     const latest = snaps[snaps.length - 1].data
     if (!latest?.positions) return
+    
     const seen = new Set<string>()
-    latest.positions.forEach(p => {
-      const t = cusipToTicker.get(p.cusip)
-      if (t && !seen.has(t)) {
-        seen.add(t)
-        ownershipCount.set(t, (ownershipCount.get(t) || 0) + 1)
+    latest.positions.forEach((p: any) => {
+      const ticker = getTicker(p)
+      if (ticker && !seen.has(ticker)) {
+        seen.add(ticker)
+        ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
       }
     })
   })
@@ -133,38 +284,82 @@ export default function SuperinvestorPage() {
     .slice(0, 10)
     .map(([ticker, count]) => ({ ticker, count }))
 
-  // 6. Top-10 Biggest Investments
-  const biggest = stocks
-    .map(s => {
-      const total = Object.values(holdingsHistory).reduce((sum, snaps) => {
-        const latest = snaps[snaps.length - 1].data
-        const match = latest.positions.find(p => p.cusip === s.cusip)
-        return sum + (match?.value || 0)
-      }, 0)
-      return { ticker: s.ticker, name: s.name, value: total }
+  // 8. ERWEITERTE GRÖSSTE INVESTMENTS (unterstützt Dataroma + 13F)
+  const investmentTotals = new Map<string, { value: number, name: string }>()
+
+  Object.values(holdingsHistory).forEach(snaps => {
+    const latest = snaps[snaps.length - 1].data
+    if (!latest?.positions) return
+    
+    latest.positions.forEach((p: any) => {
+      const ticker = getTicker(p)
+      if (!ticker) return
+      
+      const name = getStockName(p)
+      const current = investmentTotals.get(ticker)
+      
+      if (current) {
+        current.value += p.value
+      } else {
+        investmentTotals.set(ticker, { value: p.value, name })
+      }
     })
+  })
+
+  const biggest = Array.from(investmentTotals.entries())
+    .map(([ticker, { value, name }]) => ({ ticker, name, value }))
     .sort((a, b) => b.value - a.value)
     .slice(0, 10)
 
-  // Hilfs-Funktion für Sneak-Peek Top-3 Positionen
+  // 9. ERWEITERTE NAME-LOOKUP (unterstützt Dataroma + 13F)
+  const nameMap: Record<string, string> = {}
+
+  stocks.forEach(s => { 
+    nameMap[s.ticker] = s.name 
+  })
+
+  Object.values(holdingsHistory).forEach(snaps => {
+    const latest = snaps[snaps.length - 1].data
+    if (!latest?.positions) return
+    
+    latest.positions.forEach((p: any) => {
+      const ticker = getTicker(p)
+      if (ticker && !nameMap[ticker]) {
+        nameMap[ticker] = getStockName(p)
+      }
+    })
+  })
+
+  // 10. ERWEITERTE Hilfs-Funktion für Sneak-Peek Top-3 Positionen
   function peekPositions(slug: string) {
     const snaps = holdingsHistory[slug]
     if (!Array.isArray(snaps) || snaps.length === 0) return []
     const latest = snaps[snaps.length - 1].data
     const map = new Map<string, { shares: number; value: number }>()
+    
     latest.positions.forEach(p => {
-      const prev = map.get(p.cusip)
+      const ticker = getTicker(p)
+      const key = ticker || p.cusip
+      
+      const prev = map.get(key)
       if (prev) {
         prev.shares += p.shares
         prev.value += p.value
       } else {
-        map.set(p.cusip, { shares: p.shares, value: p.value })
+        map.set(key, { shares: p.shares, value: p.value })
       }
     })
+    
     return Array.from(map.entries())
-      .map(([cusip, { shares, value }]) => {
-        const st = stocks.find(s => s.cusip === cusip)
-        return { ticker: st?.ticker ?? cusip, name: st?.name ?? cusip, value }
+      .map(([key, { shares, value }]) => {
+        const ticker = getTicker({ ticker: key, cusip: key })
+        const name = getStockName({ ticker: key, cusip: key, name: key })
+        
+        return { 
+          ticker: ticker || key, 
+          name: name || key, 
+          value 
+        }
       })
       .sort((a, b) => b.value - a.value)
       .slice(0, 3)
@@ -300,35 +495,61 @@ export default function SuperinvestorPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {/* Top Käufe */}
+            {/* Top Käufe - MIT QUARTER-FILTER */}
             <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-bold text-white">Top Käufe</h3>
-                <span className="text-sm text-gray-400 bg-gray-800 px-2 py-1 rounded">{latestQuarter}</span>
+                <QuarterSelector
+                  options={quarterOptions}
+                  selected={selectedPeriod}
+                  onSelect={setSelectedPeriod}
+                />
               </div>
+              
+              {/* Info Badge */}
+              {selectedOption && (
+                <div className="mb-4 p-2 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                  <p className="text-xs text-blue-400">
+                    📊 {selectedOption.description}
+                    {targetQuarters.length > 1 && (
+                      <span className="block mt-1 text-gray-400">
+                        Zeigt Käufe aus: {targetQuarters.join(', ')}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
+              
               <div className="space-y-3">
-                {aggregated.slice(0, 6).map((item, idx) => (
-                  <Link
-                    key={item.ticker}
-                    href={`/analyse/${item.ticker.toLowerCase()}`}
-                    className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-gray-500 text-sm w-4">{idx + 1}</span>
-                      <div>
-                        <p className="text-white font-medium group-hover:text-green-400 transition-colors">
-                          {item.ticker}
-                        </p>
-                        <p className="text-gray-500 text-xs truncate max-w-[180px]">
-                          {nameMap[item.ticker]}
-                        </p>
+                {aggregated.length > 0 ? (
+                  aggregated.slice(0, 6).map((item, idx) => (
+                    <Link
+                      key={item.ticker}
+                      href={`/analyse/${item.ticker.toLowerCase()}`}
+                      className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-gray-500 text-sm w-4">{idx + 1}</span>
+                        <div>
+                          <p className="text-white font-medium group-hover:text-green-400 transition-colors">
+                            {item.ticker}
+                          </p>
+                          <p className="text-gray-500 text-xs truncate max-w-[180px]">
+                            {nameMap[item.ticker] || item.ticker}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <span className="text-gray-400 text-sm bg-gray-700 px-2 py-1 rounded">
-                      {item.count}
-                    </span>
-                  </Link>
-                ))}
+                      <span className="text-gray-400 text-sm bg-gray-700 px-2 py-1 rounded">
+                        {item.count}
+                      </span>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <CalendarIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">Keine Käufe in diesem Zeitraum</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -349,7 +570,7 @@ export default function SuperinvestorPage() {
                           {item.ticker}
                         </p>
                         <p className="text-gray-500 text-xs truncate max-w-[180px]">
-                          {nameMap[item.ticker]}
+                          {nameMap[item.ticker] || item.ticker}
                         </p>
                       </div>
                     </div>

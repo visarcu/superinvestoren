@@ -1,0 +1,180 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "Snap-On Inc.",
+      "cusip": "SNA00000",
+      "shares": 11559,
+      "value": 3895036,
+      "ticker": "SNA"
+    },
+    {
+      "name": "J.M. Smucker Co",
+      "cusip": "SJM00000",
+      "shares": 32707,
+      "value": 3873163,
+      "ticker": "SJM"
+    },
+    {
+      "name": "BOK Financial Corp.",
+      "cusip": "BOKF00000",
+      "shares": 35784,
+      "value": 3726904,
+      "ticker": "BOKF"
+    },
+    {
+      "name": "Mohawk Industries",
+      "cusip": "MHK00000",
+      "shares": 28524,
+      "value": 3256870,
+      "ticker": "MHK"
+    },
+    {
+      "name": "Chevron Corp.",
+      "cusip": "CVX00000",
+      "shares": 17608,
+      "value": 2945994,
+      "ticker": "CVX"
+    },
+    {
+      "name": "Bank of America Corp.",
+      "cusip": "BAC00000",
+      "shares": 68506,
+      "value": 2858755,
+      "ticker": "BAC"
+    },
+    {
+      "name": "Resideo Technologies Inc.",
+      "cusip": "REZI00000",
+      "shares": 159346,
+      "value": 2820424,
+      "ticker": "REZI"
+    },
+    {
+      "name": "Lockheed Martin Corp.",
+      "cusip": "LMT00000",
+      "shares": 6144,
+      "value": 2745016,
+      "ticker": "LMT"
+    },
+    {
+      "name": "PHINIA Inc.",
+      "cusip": "PHIN00000",
+      "shares": 64415,
+      "value": 2733128,
+      "ticker": "PHIN"
+    },
+    {
+      "name": "Affiliated Managers Group",
+      "cusip": "AMG00000",
+      "shares": 15533,
+      "value": 2610010,
+      "ticker": "AMG"
+    },
+    {
+      "name": "Oracle Corp.",
+      "cusip": "ORCL00000",
+      "shares": 17762,
+      "value": 2482950,
+      "ticker": "ORCL"
+    },
+    {
+      "name": "APA Corp.",
+      "cusip": "APA00000",
+      "shares": 118076,
+      "value": 2481958,
+      "ticker": "APA"
+    },
+    {
+      "name": "Boyd Gaming Corp.",
+      "cusip": "BYD00000",
+      "shares": 36441,
+      "value": 2398911,
+      "ticker": "BYD"
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "JNJ00000",
+      "shares": 14285,
+      "value": 2369024,
+      "ticker": "JNJ"
+    },
+    {
+      "name": "Labcorp Holdings Inc.",
+      "cusip": "LH00000",
+      "shares": 10134,
+      "value": 2358993,
+      "ticker": "LH"
+    },
+    {
+      "name": "Goldman Sachs Group",
+      "cusip": "GS00000",
+      "shares": 3934,
+      "value": 2148987,
+      "ticker": "GS"
+    },
+    {
+      "name": "Bio-Rad Laboratories Inc.",
+      "cusip": "BIO00000",
+      "shares": 8123,
+      "value": 1978032,
+      "ticker": "BIO"
+    },
+    {
+      "name": "Schlumberger Ltd.",
+      "cusip": "SLB00000",
+      "shares": 46079,
+      "value": 1926102,
+      "ticker": "SLB"
+    },
+    {
+      "name": "Mosaic Co.",
+      "cusip": "MOS00000",
+      "shares": 66915,
+      "value": 1806705,
+      "ticker": "MOS"
+    },
+    {
+      "name": "First Amern Corp.",
+      "cusip": "FAF00000",
+      "shares": 27413,
+      "value": 1799115,
+      "ticker": "FAF"
+    },
+    {
+      "name": "Madison Square Garden Sports Corp.",
+      "cusip": "MSGS00000",
+      "shares": 8256,
+      "value": 1608021,
+      "ticker": "MSGS"
+    },
+    {
+      "name": "Core Laboratories Inc.",
+      "cusip": "CLB00000",
+      "shares": 100965,
+      "value": 1513465,
+      "ticker": "CLB"
+    },
+    {
+      "name": "Madison Square Garden Entertainment Corp.",
+      "cusip": "MSGE00000",
+      "shares": 42412,
+      "value": 1388993,
+      "ticker": "MSGE"
+    },
+    {
+      "name": "BorgWarner Inc.",
+      "cusip": "BWA00000",
+      "shares": 31842,
+      "value": 911955,
+      "ticker": "BWA"
+    },
+    {
+      "name": "ZimVie Inc.",
+      "cusip": "ZIMV00000",
+      "shares": 75617,
+      "value": 816664,
+      "ticker": "ZIMV"
+    }
+  ]
+}

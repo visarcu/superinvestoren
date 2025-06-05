@@ -1,305 +1,15 @@
 {
+  "form": "13F-HR",
   "date": "2015-11-16",
+  "period": "2015-11-16",
+  "accession": "0001103804-15-000061",
+  "quarterKey": "2015-Q4",
   "positions": [
     {
-      "name": "ADVANCE AUTO PARTS INC",
-      "cusip": "00751Y106",
-      "shares": 211256,
-      "value": 40039000
-    },
-    {
-      "name": "AETNA INC NEW",
-      "cusip": "00817Y108",
-      "shares": 3479173,
-      "value": 380656000
-    },
-    {
-      "name": "ANTHEM INC",
-      "cusip": "036752103",
-      "shares": 5913640,
-      "value": 827910000
-    },
-    {
-      "name": "BANK NEW YORK MELLON CORP",
-      "cusip": "064058100",
-      "shares": 10289868,
-      "value": 402848000
-    },
-    {
-      "name": "BLUEBIRD BIO INC",
-      "cusip": "09609G100",
-      "shares": 615557,
-      "value": 52661000
-    },
-    {
-      "name": "BOSTON SCIENTIFIC CORP",
-      "cusip": "101137107",
-      "shares": 1611935,
-      "value": 26452000
-    },
-    {
-      "name": "BROADCOM CORP",
-      "cusip": "111320107",
-      "shares": 23568995,
-      "value": 1212153000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 4161642,
-      "value": 597487000
-    },
-    {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 13058335,
-      "value": 630718000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167107",
-      "shares": 1940852,
-      "value": 14226000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 4467100,
-      "value": 221613000
-    },
-    {
-      "name": "CLOVIS ONCOLOGY INC",
-      "cusip": "189464100",
-      "shares": 836332,
-      "value": 76909000
-    },
-    {
-      "name": "AGILENT TECHNOLOGIES INC",
-      "cusip": "00846U101",
-      "shares": 218650,
-      "value": 7506000
-    },
-    {
-      "name": "CROWN CASTLE INTL CORP NEW",
-      "cusip": "22822V101",
-      "shares": 4496338,
-      "value": 354626000
-    },
-    {
-      "name": "CTRIP COM INTL LTD",
-      "cusip": "22943F100",
-      "shares": 4914181,
-      "value": 310478000
-    },
-    {
-      "name": "DAVITA HEALTHCARE PARTNERS I",
-      "cusip": "23918K108",
-      "shares": 2735075,
-      "value": 197828000
-    },
-    {
-      "name": "DEERE & CO",
-      "cusip": "244199105",
-      "shares": 214772,
-      "value": 15893000
-    },
-    {
-      "name": "DENTSPLY INTL INC NEW",
-      "cusip": "249030107",
-      "shares": 50000,
-      "value": 2529000
-    },
-    {
-      "name": "EBAY INC",
-      "cusip": "278642103",
-      "shares": 7259872,
-      "value": 177431000
-    },
-    {
-      "name": "ENERGY TRANSFER EQUITY L P",
-      "cusip": "29273V100",
-      "shares": 125250,
-      "value": 2606000
-    },
-    {
-      "name": "ENVISION HEALTHCARE HLDGS IN",
-      "cusip": "29413U103",
-      "shares": 9854659,
-      "value": 362553000
-    },
-    {
-      "name": "58 COM INC",
-      "cusip": "31680Q104",
-      "shares": 1718874,
-      "value": 80873000
-    },
-    {
-      "name": "GOOGLE INC",
-      "cusip": "38259P508",
-      "shares": 2534329,
-      "value": 1617840000
-    },
-    {
-      "name": "AIR PRODS & CHEMS INC",
-      "cusip": "009158106",
-      "shares": 5917221,
-      "value": 754919000
-    },
-    {
-      "name": "GOOGLE INC",
-      "cusip": "38259P706",
-      "shares": 1121683,
-      "value": 682454000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A104",
-      "shares": 15325023,
-      "value": 351556000
-    },
-    {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 3853454,
-      "value": 689768000
-    },
-    {
-      "name": "ILLUMINA INC",
-      "cusip": "452327109",
-      "shares": 1789486,
-      "value": 314627000
-    },
-    {
-      "name": "JD COM INC",
-      "cusip": "47215P106",
-      "shares": 4657304,
-      "value": 121369000
-    },
-    {
-      "name": "KANSAS CITY SOUTHERN",
-      "cusip": "485170302",
-      "shares": 3091200,
-      "value": 280928000
-    },
-    {
-      "name": "KITE PHARMA INC",
-      "cusip": "49803L109",
-      "shares": 2472580,
-      "value": 137673000
-    },
-    {
-      "name": "LABORATORY CORP AMER HLDGS",
-      "cusip": "50540R409",
-      "shares": 5053349,
-      "value": 548137000
-    },
-    {
-      "name": "LEGG MASON INC",
-      "cusip": "524901105",
-      "shares": 2469096,
-      "value": 102739000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 5427711,
-      "value": 489145000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 2483773,
-      "value": 146468000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 2274228,
-      "value": 420800000
-    },
-    {
-      "name": "MOHAWK INDS INC",
-      "cusip": "608190104",
-      "shares": 1979371,
-      "value": 359830000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 4517202,
-      "value": 466446000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 1769797,
-      "value": 217632000
-    },
-    {
-      "name": "PIONEER NAT RES CO",
-      "cusip": "723787107",
-      "shares": 6663287,
-      "value": 810522000
-    },
-    {
-      "name": "QUNAR CAYMAN IS LTD",
-      "cusip": "74906P104",
-      "shares": 4780548,
-      "value": 143751000
-    },
-    {
-      "name": "SEALED AIR CORP NEW",
-      "cusip": "81211K100",
-      "shares": 8582498,
-      "value": 402348000
-    },
-    {
-      "name": "STARWOOD HOTELS&RESORTS WRLD",
-      "cusip": "85590A401",
-      "shares": 5200155,
-      "value": 345706000
-    },
-    {
-      "name": "TEVA PHARMACEUTICAL INDS LTD",
-      "cusip": "881624209",
-      "shares": 8872650,
-      "value": 500950000
-    },
-    {
-      "name": "TEXTRON INC",
-      "cusip": "883203101",
-      "shares": 3714178,
-      "value": 139802000
-    },
-    {
-      "name": "ALLSTATE CORP",
-      "cusip": "020002101",
-      "shares": 4979240,
-      "value": 289991000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 1138974,
-      "value": 241929000
-    },
-    {
-      "name": "TRIPADVISOR INC",
-      "cusip": "896945201",
-      "shares": 1458258,
-      "value": 91899000
-    },
-    {
-      "name": "VALEANT PHARMACEUTICALS INTL",
-      "cusip": "91911K102",
-      "shares": 4993353,
-      "value": 890714000
-    },
-    {
-      "name": "VERTEX PHARMACEUTICALS INC",
-      "cusip": "92532F100",
-      "shares": 1344464,
-      "value": 140012000
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 7202384,
+      "value": 1957680000
     },
     {
       "name": "WALGREENS BOOTS ALLIANCE INC",
@@ -308,34 +18,10 @@
       "value": 1933977000
     },
     {
-      "name": "WHITING PETE CORP NEW",
-      "cusip": "966387102",
-      "shares": 1031483,
-      "value": 15751000
-    },
-    {
-      "name": "ALLERGAN PLC",
-      "cusip": "G0177J108",
-      "shares": 7202384,
-      "value": 1957680000
-    },
-    {
-      "name": "EATON CORP PLC",
-      "cusip": "G29183103",
-      "shares": 4073822,
-      "value": 208987000
-    },
-    {
-      "name": "MALLINCKRODT PUB LTD CO",
-      "cusip": "G5785G107",
-      "shares": 3911692,
-      "value": 250114000
-    },
-    {
-      "name": "ACE LTD",
-      "cusip": "H0023R105",
-      "shares": 1140715,
-      "value": 117950000
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 2534329,
+      "value": 1617840000
     },
     {
       "name": "AMAZON COM INC",
@@ -344,16 +30,22 @@
       "value": 1544763000
     },
     {
+      "name": "BROADCOM CORP",
+      "cusip": "111320107",
+      "shares": 23568995,
+      "value": 1212153000
+    },
+    {
       "name": "LYONDELLBASELL INDUSTRIES N",
       "cusip": "N53745100",
       "shares": 13505956,
       "value": 1125856000
     },
     {
-      "name": "PROQR THRAPEUTICS N V",
-      "cusip": "N71542109",
-      "shares": 576632,
-      "value": 8402000
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 4993353,
+      "value": 890714000
     },
     {
       "name": "AVAGO TECHNOLOGIES LTD",
@@ -362,10 +54,190 @@
       "value": 867505000
     },
     {
-      "name": "AMERICAN INTL GROUP INC",
-      "cusip": "026874784",
-      "shares": 2823940,
-      "value": 160456000
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 5913640,
+      "value": 827910000
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 6663287,
+      "value": 810522000
+    },
+    {
+      "name": "AIR PRODS & CHEMS INC",
+      "cusip": "009158106",
+      "shares": 5917221,
+      "value": 754919000
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 3853454,
+      "value": 689768000
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 1121683,
+      "value": 682454000
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 13058335,
+      "value": 630718000
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 4161642,
+      "value": 597487000
+    },
+    {
+      "name": "LABORATORY CORP AMER HLDGS",
+      "cusip": "50540R409",
+      "shares": 5053349,
+      "value": 548137000
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 8872650,
+      "value": 500950000
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 5427711,
+      "value": 489145000
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 4517202,
+      "value": 466446000
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 2274228,
+      "value": 420800000
+    },
+    {
+      "name": "BANK NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 10289868,
+      "value": 402848000
+    },
+    {
+      "name": "SEALED AIR CORP NEW",
+      "cusip": "81211K100",
+      "shares": 8582498,
+      "value": 402348000
+    },
+    {
+      "name": "AETNA INC NEW",
+      "cusip": "00817Y108",
+      "shares": 3479173,
+      "value": 380656000
+    },
+    {
+      "name": "ENVISION HEALTHCARE HLDGS IN",
+      "cusip": "29413U103",
+      "shares": 9854659,
+      "value": 362553000
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1979371,
+      "value": 359830000
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 4496338,
+      "value": 354626000
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A104",
+      "shares": 15325023,
+      "value": 351556000
+    },
+    {
+      "name": "STARWOOD HOTELS&RESORTS WRLD",
+      "cusip": "85590A401",
+      "shares": 5200155,
+      "value": 345706000
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 1789486,
+      "value": 314627000
+    },
+    {
+      "name": "CTRIP COM INTL LTD",
+      "cusip": "22943F100",
+      "shares": 4914181,
+      "value": 310478000
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 4979240,
+      "value": 289991000
+    },
+    {
+      "name": "KANSAS CITY SOUTHERN",
+      "cusip": "485170302",
+      "shares": 3091200,
+      "value": 280928000
+    },
+    {
+      "name": "MALLINCKRODT PUB LTD CO",
+      "cusip": "G5785G107",
+      "shares": 3911692,
+      "value": 250114000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1138974,
+      "value": 241929000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 4467100,
+      "value": 221613000
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 1769797,
+      "value": 217632000
+    },
+    {
+      "name": "EATON CORP PLC",
+      "cusip": "G29183103",
+      "shares": 4073822,
+      "value": 208987000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 2735075,
+      "value": 197828000
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 7259872,
+      "value": 177431000
     },
     {
       "name": "AMERIPRISE FINL INC",
@@ -374,10 +246,144 @@
       "value": 174207000
     },
     {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 2823940,
+      "value": 160456000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2483773,
+      "value": 146468000
+    },
+    {
+      "name": "QUNAR CAYMAN IS LTD",
+      "cusip": "74906P104",
+      "shares": 4780548,
+      "value": 143751000
+    },
+    {
+      "name": "VERTEX PHARMACEUTICALS INC",
+      "cusip": "92532F100",
+      "shares": 1344464,
+      "value": 140012000
+    },
+    {
+      "name": "TEXTRON INC",
+      "cusip": "883203101",
+      "shares": 3714178,
+      "value": 139802000
+    },
+    {
+      "name": "KITE PHARMA INC",
+      "cusip": "49803L109",
+      "shares": 2472580,
+      "value": 137673000
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 4657304,
+      "value": 121369000
+    },
+    {
+      "name": "ACE LTD",
+      "cusip": "H0023R105",
+      "shares": 1140715,
+      "value": 117950000
+    },
+    {
+      "name": "LEGG MASON INC",
+      "cusip": "524901105",
+      "shares": 2469096,
+      "value": 102739000
+    },
+    {
+      "name": "TRIPADVISOR INC",
+      "cusip": "896945201",
+      "shares": 1458258,
+      "value": 91899000
+    },
+    {
+      "name": "58 COM INC",
+      "cusip": "31680Q104",
+      "shares": 1718874,
+      "value": 80873000
+    },
+    {
+      "name": "CLOVIS ONCOLOGY INC",
+      "cusip": "189464100",
+      "shares": 836332,
+      "value": 76909000
+    },
+    {
+      "name": "BLUEBIRD BIO INC",
+      "cusip": "09609G100",
+      "shares": 615557,
+      "value": 52661000
+    },
+    {
+      "name": "ADVANCE AUTO PARTS INC",
+      "cusip": "00751Y106",
+      "shares": 211256,
+      "value": 40039000
+    },
+    {
       "name": "AMGEN INC",
       "cusip": "031162100",
       "shares": 230298,
       "value": 31855000
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 1611935,
+      "value": 26452000
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 214772,
+      "value": 15893000
+    },
+    {
+      "name": "WHITING PETE CORP NEW",
+      "cusip": "966387102",
+      "shares": 1031483,
+      "value": 15751000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 1940852,
+      "value": 14226000
+    },
+    {
+      "name": "PROQR THRAPEUTICS N V",
+      "cusip": "N71542109",
+      "shares": 576632,
+      "value": 8402000
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 218650,
+      "value": 7506000
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY L P",
+      "cusip": "29273V100",
+      "shares": 125250,
+      "value": 2606000
+    },
+    {
+      "name": "DENTSPLY INTL INC NEW",
+      "cusip": "249030107",
+      "shares": 50000,
+      "value": 2529000
     }
-  ]
+  ],
+  "totalValue": 26093453000,
+  "positionsCount": 63
 }

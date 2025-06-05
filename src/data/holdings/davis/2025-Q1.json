@@ -1,245 +1,726 @@
 {
-  "form": "NPORT-P",
-  "date": "2025-02-27",
-  "period": "2025-02-27",
+  "date": "2025-06-05",
   "positions": [
     {
-      "name": "BANK OF NEW YORK MELLON CORP",
-      "cusip": "064058100",
-      "shares": 157533,
-      "value": 12103260.39,
-      "pctOfPortfolio": 105.19642044999999
+      "name": "Capital One Financial",
+      "cusip": "COF00000",
+      "shares": 8999453,
+      "value": 1613601923,
+      "ticker": "COF"
     },
     {
-      "name": "APPLIED MATERIALS INC",
-      "cusip": "038222105",
-      "shares": 298205,
-      "value": 48497079.15,
-      "pctOfPortfolio": 421.51610097
+      "name": "Meta Platforms Inc.",
+      "cusip": "META00000",
+      "shares": 2210250,
+      "value": 1273899690,
+      "ticker": "META"
     },
     {
-      "name": "AMAZON.COM INC",
-      "cusip": "023135106",
-      "shares": 251123,
-      "value": 55093874.97,
-      "pctOfPortfolio": 478.85266024000003
+      "name": "Berkshire Hathaway CL A",
+      "cusip": "BRK.A0000",
+      "shares": 1558,
+      "value": 1243971997,
+      "ticker": "BRK.A"
     },
     {
-      "name": "ALPHABET INC CL A",
-      "cusip": "02079K305",
-      "shares": 422053,
-      "value": 79894632.9,
-      "pctOfPortfolio": 694.4103591200001
+      "name": "CVS Health Corp.",
+      "cusip": "CVS00000",
+      "shares": 11549057,
+      "value": 782448612,
+      "ticker": "CVS"
     },
     {
-      "name": "AGCO CORP",
-      "cusip": "001084102",
-      "shares": 116310,
-      "value": 10872658.8,
-      "pctOfPortfolio": 94.50055189
+      "name": "Applied Materials",
+      "cusip": "AMAT00000",
+      "shares": 4993172,
+      "value": 724609121,
+      "ticker": "AMAT"
     },
     {
-      "name": "STONEX REPO",
-      "cusip": "ARP15HVJ4",
-      "shares": 22727000,
-      "value": 22727000,
-      "pctOfPortfolio": 197.53347201
+      "name": "Markel Group Inc.",
+      "cusip": "MKL00000",
+      "shares": 371469,
+      "value": 694502157,
+      "ticker": "MKL"
     },
     {
-      "name": "Nomura Repo",
-      "cusip": "ARP15HVH8",
-      "shares": 10493000,
-      "value": 10493000,
-      "pctOfPortfolio": 91.20071816999999
+      "name": "Amazon.com Inc.",
+      "cusip": "AMZN00000",
+      "shares": 3519954,
+      "value": 669706448,
+      "ticker": "AMZN"
     },
     {
-      "name": "NASPERS LTD N SHS",
-      "cusip": "BN0VX8908",
-      "shares": 93460,
-      "value": 20667901.77,
-      "pctOfPortfolio": 179.63666105000001
+      "name": "U.S. Bancorp",
+      "cusip": "USB00000",
+      "shares": 14889014,
+      "value": 628614171,
+      "ticker": "USB"
     },
     {
-      "name": "PING AN INSURANCE GROUP CO H",
-      "cusip": "B01FLR903",
-      "shares": 3326500,
-      "value": 19723474.73,
-      "pctOfPortfolio": 171.42810065
+      "name": "MGM Resorts International",
+      "cusip": "MGM00000",
+      "shares": 20815057,
+      "value": 616958289,
+      "ticker": "MGM"
     },
     {
-      "name": "ASAC II LP UNIT SEALED",
-      "cusip": "ACI06TW75",
-      "shares": 407313.049,
-      "value": 388698.84,
-      "pctOfPortfolio": 3.37840592
+      "name": "Humana Inc.",
+      "cusip": "HUM00000",
+      "shares": 2331343,
+      "value": 616873358,
+      "ticker": "HUM"
     },
     {
-      "name": "WELLS FARGO + CO",
-      "cusip": "949746101",
-      "shares": 432262,
-      "value": 30362082.88,
-      "pctOfPortfolio": 263.89438328
+      "name": "Wells Fargo",
+      "cusip": "WFC00000",
+      "shares": 8468647,
+      "value": 607964168,
+      "ticker": "WFC"
     },
     {
-      "name": "CAPITAL ONE FINANCIAL CORP",
-      "cusip": "14040H105",
-      "shares": 523553,
-      "value": 93359970.96,
-      "pctOfPortfolio": 811.4453826
+      "name": "Viatris Inc.",
+      "cusip": "VTRS00000",
+      "shares": 64948236,
+      "value": 565699136,
+      "ticker": "VTRS"
     },
     {
-      "name": "CVS HEALTH CORP",
-      "cusip": "126650100",
-      "shares": 781360,
-      "value": 35075250.4,
-      "pctOfPortfolio": 304.85924201
+      "name": "Cigna Group",
+      "cusip": "CI00000",
+      "shares": 1433251,
+      "value": 471539579,
+      "ticker": "CI"
     },
     {
-      "name": "CIGNA GROUP",
-      "cusip": "125523100",
-      "shares": 116950,
-      "value": 32294573,
-      "pctOfPortfolio": 280.69077009
+      "name": "Alphabet Inc.",
+      "cusip": "GOOGL0000",
+      "shares": 3039483,
+      "value": 470025651,
+      "ticker": "GOOGL"
     },
     {
-      "name": "BERKSHIRE HATHAWAY INC CL A",
-      "cusip": "084670108",
-      "shares": 155,
-      "value": 105542600,
-      "pctOfPortfolio": 917.33164178
+      "name": "Texas Instruments",
+      "cusip": "TXN00000",
+      "shares": 2431035,
+      "value": 436856990,
+      "ticker": "TXN"
     },
     {
-      "name": "VIATRIS INC",
-      "cusip": "92556V106",
-      "shares": 3314190,
-      "value": 41261665.5,
-      "pctOfPortfolio": 358.62894561999997
+      "name": "Teck Resources",
+      "cusip": "TECK00000",
+      "shares": 11190628,
+      "value": 407674578,
+      "ticker": "TECK"
     },
     {
-      "name": "US BANCORP",
-      "cusip": "902973304",
-      "shares": 1135750,
-      "value": 54322922.5,
-      "pctOfPortfolio": 472.15186743000004
+      "name": "Quest Diagnostics",
+      "cusip": "DGX00000",
+      "shares": 2388302,
+      "value": 404100698,
+      "ticker": "DGX"
     },
     {
-      "name": "TYSON FOODS INC CL A",
-      "cusip": "902494103",
-      "shares": 196120,
-      "value": 11265132.8,
-      "pctOfPortfolio": 97.9117699
+      "name": "Solventum Corp",
+      "cusip": "SOLV00000",
+      "shares": 5288138,
+      "value": 402110014,
+      "ticker": "SOLV"
     },
     {
-      "name": "TRIP.COM GROUP LTD ADR",
-      "cusip": "89677Q107",
-      "shares": 166040,
-      "value": 11400306.4,
-      "pctOfPortfolio": 99.08664166999999
+      "name": "Berkshire Hathaway CL B",
+      "cusip": "BRK.B0000",
+      "shares": 678453,
+      "value": 361330499,
+      "ticker": "BRK.B"
     },
     {
-      "name": "TOURMALINE OIL CORP",
-      "cusip": "89156V957",
-      "shares": 553770,
-      "value": 25626477.72,
-      "pctOfPortfolio": 222.73450606999998
+      "name": "Chubb Limited",
+      "cusip": "CB00000",
+      "shares": 1086389,
+      "value": 328078614,
+      "ticker": "CB"
     },
     {
-      "name": "TECK RESOURCES LTD CLS B",
-      "cusip": "878742204",
-      "shares": 544250,
-      "value": 22058452.5,
-      "pctOfPortfolio": 191.72273988999999
+      "name": "Trip.com Group Ltd",
+      "cusip": "TCOM00000",
+      "shares": 4862997,
+      "value": 309189349,
+      "ticker": "TCOM"
     },
     {
-      "name": "SOLVENTUM CORP",
-      "cusip": "83444M101",
-      "shares": 295500,
-      "value": 19520730,
-      "pctOfPortfolio": 169.66592921
+      "name": "Tyson Foods",
+      "cusip": "TSN00000",
+      "shares": 4679582,
+      "value": 298604127,
+      "ticker": "TSN"
     },
     {
-      "name": "QUEST DIAGNOSTICS INC",
-      "cusip": "74834L100",
-      "shares": 136120,
-      "value": 20535063.2,
-      "pctOfPortfolio": 178.48208438
+      "name": "Owens Corning",
+      "cusip": "OC00000",
+      "shares": 1787242,
+      "value": 255253902,
+      "ticker": "OC"
     },
     {
-      "name": "OWENS CORNING",
-      "cusip": "690742101",
-      "shares": 79350,
-      "value": 13514892,
-      "pctOfPortfolio": 117.46572537
+      "name": "Restaurant Brands International",
+      "cusip": "QSR00000",
+      "shares": 3372511,
+      "value": 224744133,
+      "ticker": "QSR"
     },
     {
-      "name": "SAMSUNG ELECTRONICS CO LTD",
-      "cusip": "677172009",
-      "shares": 450750,
-      "value": 16289033.05,
-      "pctOfPortfolio": 141.57738611
+      "name": "AGCO Corp.",
+      "cusip": "AGCO00000",
+      "shares": 2027266,
+      "value": 187664014,
+      "ticker": "AGCO"
     },
     {
-      "name": "DBS GROUP HOLDINGS LTD",
-      "cusip": "617520903",
-      "shares": 524380,
-      "value": 16787532.38,
-      "pctOfPortfolio": 145.91013145
+      "name": "Bank of New York Mellon Corp.",
+      "cusip": "BK00000",
+      "shares": 1910645,
+      "value": 160245796,
+      "ticker": "BK"
     },
     {
-      "name": "MARKEL GROUP INC",
-      "cusip": "570535104",
-      "shares": 42857,
-      "value": 73981039.11,
-      "pctOfPortfolio": 643.01190294
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "JPM00000",
+      "shares": 639852,
+      "value": 156955696,
+      "ticker": "JPM"
     },
     {
-      "name": "MGM RESORTS INTERNATIONAL",
-      "cusip": "552953101",
-      "shares": 1425810,
-      "value": 49404316.5,
-      "pctOfPortfolio": 429.40142432000005
+      "name": "ConocoPhillips",
+      "cusip": "COP00000",
+      "shares": 1402068,
+      "value": 147245181,
+      "ticker": "COP"
     },
     {
-      "name": "DANSKE BANK A/S",
-      "cusip": "458882909",
-      "shares": 668121,
-      "value": 18904357.11,
-      "pctOfPortfolio": 164.30867673
+      "name": "Davis Select Us Equity ETF",
+      "cusip": "DUSA00000",
+      "shares": 3383338,
+      "value": 143182864,
+      "ticker": "DUSA"
     },
     {
-      "name": "INTEL CORP",
-      "cusip": "458140100",
-      "shares": 216510,
-      "value": 4341025.5,
-      "pctOfPortfolio": 37.73035768
+      "name": "Coupang Inc.",
+      "cusip": "CPNG00000",
+      "shares": 5880990,
+      "value": 128970111,
+      "ticker": "CPNG"
     },
     {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 156590,
-      "value": 39728448.9,
-      "pctOfPortfolio": 345.30287538
+      "name": "IAC Inc.",
+      "cusip": "IAC00000",
+      "shares": 2657782,
+      "value": 122098505,
+      "ticker": "IAC"
     },
     {
-      "name": "META PLATFORMS INC CLASS A",
-      "cusip": "30303M102",
-      "shares": 193431,
-      "value": 113255784.8,
-      "pctOfPortfolio": 984.37138191
+      "name": "Alphabet Inc. CL C",
+      "cusip": "GOOG00000",
+      "shares": 646697,
+      "value": 101033472,
+      "ticker": "GOOG"
     },
     {
-      "name": "DIDI GLOBAL INC",
-      "cusip": "23292E108",
-      "shares": 2199482,
-      "value": 10051632.74,
-      "pctOfPortfolio": 87.36454060999999
+      "name": "Full Truck Alliance  Spn ADR",
+      "cusip": "YMM00000",
+      "shares": 7819344,
+      "value": 99853023,
+      "ticker": "YMM"
     },
     {
-      "name": "CONOCOPHILLIPS",
-      "cusip": "20825C104",
-      "shares": 103890,
-      "value": 10302771.3,
-      "pctOfPortfolio": 89.54733076
+      "name": "Fifth Third Bancorp",
+      "cusip": "FITB00000",
+      "shares": 2461119,
+      "value": 96475865,
+      "ticker": "FITB"
+    },
+    {
+      "name": "Microsoft Corp.",
+      "cusip": "MSFT00000",
+      "shares": 256523,
+      "value": 96296169,
+      "ticker": "MSFT"
+    },
+    {
+      "name": "Davis Select International",
+      "cusip": "DINT00000",
+      "shares": 3890080,
+      "value": 89899749,
+      "ticker": "DINT"
+    },
+    {
+      "name": "PNC Financial Services",
+      "cusip": "PNC00000",
+      "shares": 495808,
+      "value": 87148172,
+      "ticker": "PNC"
+    },
+    {
+      "name": "Davis Select Financial ETF",
+      "cusip": "DFNL00000",
+      "shares": 2129860,
+      "value": 83660901,
+      "ticker": "DFNL"
+    },
+    {
+      "name": "Darling Ingredients Inc.",
+      "cusip": "DAR00000",
+      "shares": 2476469,
+      "value": 77364892,
+      "ticker": "DAR"
+    },
+    {
+      "name": "American Express",
+      "cusip": "AXP00000",
+      "shares": 271435,
+      "value": 73029587,
+      "ticker": "AXP"
+    },
+    {
+      "name": "Davis Select Worldwide ETF",
+      "cusip": "DWLD00000",
+      "shares": 1916287,
+      "value": 72224857,
+      "ticker": "DWLD"
+    },
+    {
+      "name": "Sea Ltd",
+      "cusip": "SE00000",
+      "shares": 514628,
+      "value": 67153808,
+      "ticker": "SE"
+    },
+    {
+      "name": "NetEase.com Inc.",
+      "cusip": "NTES00000",
+      "shares": 596114,
+      "value": 61352053,
+      "ticker": "NTES"
+    },
+    {
+      "name": "Bank of America Corp.",
+      "cusip": "BAC00000",
+      "shares": 1156148,
+      "value": 48246056,
+      "ticker": "BAC"
+    },
+    {
+      "name": "Applovin Corp.",
+      "cusip": "APP00000",
+      "shares": 163011,
+      "value": 43193025,
+      "ticker": "APP"
+    },
+    {
+      "name": "Bank of N.T. Butterfield & Son Ltd",
+      "cusip": "NTB00000",
+      "shares": 1068441,
+      "value": 41583724,
+      "ticker": "NTB"
+    },
+    {
+      "name": "WESCO International Inc.",
+      "cusip": "WCC00000",
+      "shares": 258503,
+      "value": 40145516,
+      "ticker": "WCC"
+    },
+    {
+      "name": "Rocket Companies Inc.",
+      "cusip": "RKT00000",
+      "shares": 3139289,
+      "value": 37891218,
+      "ticker": "RKT"
+    },
+    {
+      "name": "KE Holdings Inc.",
+      "cusip": "BEKE00000",
+      "shares": 1860528,
+      "value": 37378008,
+      "ticker": "BEKE"
+    },
+    {
+      "name": "RenaissanceRe Holdings Ltd.",
+      "cusip": "RNR00000",
+      "shares": 143801,
+      "value": 34512240,
+      "ticker": "RNR"
+    },
+    {
+      "name": "Johnson Controls Intl. plc",
+      "cusip": "JCI00000",
+      "shares": 404164,
+      "value": 32377578,
+      "ticker": "JCI"
+    },
+    {
+      "name": "Vale SA",
+      "cusip": "VALE00000",
+      "shares": 2733513,
+      "value": 27280460,
+      "ticker": "VALE"
+    },
+    {
+      "name": "United Health Group Inc.",
+      "cusip": "UNH00000",
+      "shares": 48519,
+      "value": 25411826,
+      "ticker": "UNH"
+    },
+    {
+      "name": "Charles Schwab Corp.",
+      "cusip": "SCHW00000",
+      "shares": 297606,
+      "value": 23296598,
+      "ticker": "SCHW"
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "SAP00000",
+      "shares": 76126,
+      "value": 20435263,
+      "ticker": "SAP"
+    },
+    {
+      "name": "American Tower Corp.",
+      "cusip": "AMT00000",
+      "shares": 88940,
+      "value": 19353344,
+      "ticker": "AMT"
+    },
+    {
+      "name": "Prologis Inc.",
+      "cusip": "PLD00000",
+      "shares": 171756,
+      "value": 19200603,
+      "ticker": "PLD"
+    },
+    {
+      "name": "Oracle Corp.",
+      "cusip": "ORCL00000",
+      "shares": 136380,
+      "value": 19067288,
+      "ticker": "ORCL"
+    },
+    {
+      "name": "Ventas Inc.",
+      "cusip": "VTR00000",
+      "shares": 250190,
+      "value": 17203064,
+      "ticker": "VTR"
+    },
+    {
+      "name": "Noah Holdings Ltd",
+      "cusip": "NOAH00000",
+      "shares": 1654817,
+      "value": 15638021,
+      "ticker": "NOAH"
+    },
+    {
+      "name": "Clear Secure Inc.",
+      "cusip": "YOU00000",
+      "shares": 581691,
+      "value": 15071614,
+      "ticker": "YOU"
+    },
+    {
+      "name": "Public Storage",
+      "cusip": "PSA00000",
+      "shares": 49760,
+      "value": 14893168,
+      "ticker": "PSA"
+    },
+    {
+      "name": "Everest Group Ltd",
+      "cusip": "EG00000",
+      "shares": 39662,
+      "value": 14409998,
+      "ticker": "EG"
+    },
+    {
+      "name": "Rexford Industrial Realty Inc.",
+      "cusip": "REXR00000",
+      "shares": 363620,
+      "value": 14235723,
+      "ticker": "REXR"
+    },
+    {
+      "name": "JD.com Inc.",
+      "cusip": "JD00000",
+      "shares": 345461,
+      "value": 14205356,
+      "ticker": "JD"
+    },
+    {
+      "name": "Alexandria RE Equities Inc.",
+      "cusip": "ARE00000",
+      "shares": 151317,
+      "value": 13998336,
+      "ticker": "ARE"
+    },
+    {
+      "name": "BXP Inc.",
+      "cusip": "BXP00000",
+      "shares": 203440,
+      "value": 13669134,
+      "ticker": "BXP"
+    },
+    {
+      "name": "Cousins Properties",
+      "cusip": "CUZ00000",
+      "shares": 446935,
+      "value": 13184583,
+      "ticker": "CUZ"
+    },
+    {
+      "name": "Brixmor Property Group Inc.",
+      "cusip": "BRX00000",
+      "shares": 484360,
+      "value": 12859758,
+      "ticker": "BRX"
+    },
+    {
+      "name": "Equinix Inc.",
+      "cusip": "EQIX00000",
+      "shares": 15373,
+      "value": 12534068,
+      "ticker": "EQIX"
+    },
+    {
+      "name": "AvalonBay Communities",
+      "cusip": "AVB00000",
+      "shares": 56650,
+      "value": 12158223,
+      "ticker": "AVB"
+    },
+    {
+      "name": "Simon Property Group Inc.",
+      "cusip": "SPG00000",
+      "shares": 68033,
+      "value": 11298921,
+      "ticker": "SPG"
+    },
+    {
+      "name": "Digital Realty Trust Inc.",
+      "cusip": "DLR00000",
+      "shares": 67130,
+      "value": 9619058,
+      "ticker": "DLR"
+    },
+    {
+      "name": "Camden Property Trust",
+      "cusip": "CPT00000",
+      "shares": 76510,
+      "value": 9357173,
+      "ticker": "CPT"
+    },
+    {
+      "name": "American Homes 4 Rent",
+      "cusip": "AMH00000",
+      "shares": 243120,
+      "value": 9192367,
+      "ticker": "AMH"
+    },
+    {
+      "name": "M&T Bank Corp.",
+      "cusip": "MTB00000",
+      "shares": 51185,
+      "value": 9148807,
+      "ticker": "MTB"
+    },
+    {
+      "name": "Regency Centers Corp.",
+      "cusip": "REG00000",
+      "shares": 118140,
+      "value": 8714006,
+      "ticker": "REG"
+    },
+    {
+      "name": "Mid-America Apt Communties",
+      "cusip": "MAA00000",
+      "shares": 51450,
+      "value": 8621991,
+      "ticker": "MAA"
+    },
+    {
+      "name": "Essex Property Trust",
+      "cusip": "ESS00000",
+      "shares": 27731,
+      "value": 8500938,
+      "ticker": "ESS"
+    },
+    {
+      "name": "Extra Space Storage Inc.",
+      "cusip": "EXR00000",
+      "shares": 56785,
+      "value": 8432005,
+      "ticker": "EXR"
+    },
+    {
+      "name": "EastGroup Properties SBI",
+      "cusip": "EGP00000",
+      "shares": 44750,
+      "value": 7883160,
+      "ticker": "EGP"
+    },
+    {
+      "name": "Sunstone Hotel Investors Inc.",
+      "cusip": "SHO00000",
+      "shares": 791730,
+      "value": 7450179,
+      "ticker": "SHO"
+    },
+    {
+      "name": "UDR Inc.",
+      "cusip": "UDR00000",
+      "shares": 158610,
+      "value": 7164414,
+      "ticker": "UDR"
+    },
+    {
+      "name": "Equity Residential",
+      "cusip": "EQR00000",
+      "shares": 99855,
+      "value": 7147621,
+      "ticker": "EQR"
+    },
+    {
+      "name": "Hudson Pacific Properties Inc.",
+      "cusip": "HPP00000",
+      "shares": 2296963,
+      "value": 6776041,
+      "ticker": "HPP"
+    },
+    {
+      "name": "State Street Corp.",
+      "cusip": "STT00000",
+      "shares": 72704,
+      "value": 6509189,
+      "ticker": "STT"
+    },
+    {
+      "name": "Truist Financial Corp.",
+      "cusip": "TFC00000",
+      "shares": 156431,
+      "value": 6437136,
+      "ticker": "TFC"
+    },
+    {
+      "name": "Terreno Realty Corp.",
+      "cusip": "TRNO00000",
+      "shares": 100827,
+      "value": 6374283,
+      "ticker": "TRNO"
+    },
+    {
+      "name": "Community Healthcare Trust Inc.",
+      "cusip": "CHCT00000",
+      "shares": 301740,
+      "value": 5479598,
+      "ticker": "CHCT"
+    },
+    {
+      "name": "Healthpeak Properties Inc.",
+      "cusip": "DOC00000",
+      "shares": 246806,
+      "value": 4990417,
+      "ticker": "DOC"
+    },
+    {
+      "name": "VICI Properties Inc.",
+      "cusip": "VICI00000",
+      "shares": 143440,
+      "value": 4679013,
+      "ticker": "VICI"
+    },
+    {
+      "name": "Douglas Emmett Inc.",
+      "cusip": "DEI00000",
+      "shares": 268820,
+      "value": 4301120,
+      "ticker": "DEI"
+    },
+    {
+      "name": "Crown Castle International Corp.",
+      "cusip": "CCI00000",
+      "shares": 41000,
+      "value": 4273020,
+      "ticker": "CCI"
+    },
+    {
+      "name": "Highwoods Properties",
+      "cusip": "HIW00000",
+      "shares": 129180,
+      "value": 3828895,
+      "ticker": "HIW"
+    },
+    {
+      "name": "Ishares S&P  500 Value ETF",
+      "cusip": "IVE00000",
+      "shares": 19712,
+      "value": 3756910,
+      "ticker": "IVE"
+    },
+    {
+      "name": "Sun Communities Inc.",
+      "cusip": "SUI00000",
+      "shares": 25040,
+      "value": 3220895,
+      "ticker": "SUI"
+    },
+    {
+      "name": "Federal Realty Inv. Trust",
+      "cusip": "FRT00000",
+      "shares": 32930,
+      "value": 3220883,
+      "ticker": "FRT"
+    },
+    {
+      "name": "Netstreit Corp.",
+      "cusip": "NTST00000",
+      "shares": 114960,
+      "value": 1822116,
+      "ticker": "NTST"
+    },
+    {
+      "name": "Lam Research",
+      "cusip": "LRCX00000",
+      "shares": 12280,
+      "value": 893002,
+      "ticker": "LRCX"
+    },
+    {
+      "name": "Crown Holdings",
+      "cusip": "CCK00000",
+      "shares": 8570,
+      "value": 764958,
+      "ticker": "CCK"
+    },
+    {
+      "name": "RH",
+      "cusip": "RH00000",
+      "shares": 2240,
+      "value": 525011,
+      "ticker": "RH"
+    },
+    {
+      "name": "Skechers U.S.A. Inc.",
+      "cusip": "SKX00000",
+      "shares": 6000,
+      "value": 340980,
+      "ticker": "SKX"
+    },
+    {
+      "name": "Intel Corp.",
+      "cusip": "INTC00000",
+      "shares": 10683,
+      "value": 243038,
+      "ticker": "INTC"
     }
   ]
 }

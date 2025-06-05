@@ -639,6 +639,14 @@ export const investors: Investor[] = [
     holdings: [],
   }, 
  
+  {
+    name: 'Nicolai Tangen - AKO Capital',
+    slug: 'tangen',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
 
   
 

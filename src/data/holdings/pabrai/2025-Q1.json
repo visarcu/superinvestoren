@@ -1,23 +1,33 @@
 {
-  "date": "2025-02-13",
+  "date": "2025-06-05",
   "positions": [
     {
-      "name": "ALPHA METALLURGICAL RESOUR I",
-      "cusip": "020764106",
-      "shares": 487251,
-      "value": 97508670000
+      "name": "Warrior Met Coal Inc.",
+      "cusip": "HCC00000",
+      "shares": 1799580,
+      "value": 85875958,
+      "ticker": "HCC"
     },
     {
-      "name": "CONSOL ENERGY INC NEW",
-      "cusip": "20854L108",
-      "shares": 594950,
-      "value": 63469266000
+      "name": "Valaris plc",
+      "cusip": "VAL00000",
+      "shares": 1427564,
+      "value": 56046163,
+      "ticker": "VAL"
     },
     {
-      "name": "WARRIOR MET COAL INC",
-      "cusip": "93627C101",
-      "shares": 1704670,
-      "value": 92461301000
+      "name": "Alpha Metallurgical Resources Inc.",
+      "cusip": "AMR00000",
+      "shares": 414616,
+      "value": 51930654,
+      "ticker": "AMR"
+    },
+    {
+      "name": "Noble Corp.",
+      "cusip": "NE00000",
+      "shares": 1728744,
+      "value": 40971233,
+      "ticker": "NE"
     }
   ]
 }

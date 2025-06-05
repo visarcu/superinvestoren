@@ -113,18 +113,15 @@ const investorNames: Record<string, string> = {
   jensen: 'Jensen Investment Management',
   gayner: 'Thomas Gayner - Markel Group',
   yacktman: 'Donald Yacktman - Yacktman Asset Management',
-  olstein: 'Robert Olstein - Olstein Capital Management',
   duan: 'Duan Yongping - H&H International Investment',
   hohn: 'Chris Hohn - TCI Fund Management',
   coleman: 'Chase Coleman - Tiger Global Management',
   icahn: 'Carl Icahn - Icahn Capital Management',
   ainslie: 'Lee Ainslie - Maverick Capital',
   mandel: 'Stephen Mandel - Lone Pine Capital',
-  mairspower: 'Andrew R. Adams - Mairs & Power Growth Fund',
+
   cunniff: 'Ruane Cunniff – Sequoia Fund',
   hawkins: 'Mason Hawkins – Longleaf Partners',
-  katz: 'David Katz',
-  klarman: 'Seth Klarman - Baupost Group',
   spier: 'Guy Spier - Aquamarine Capital',
   triplefrond: 'Stuart McLaughlin - Triple Frond Partners',
   lilu: 'Li Lu - Himalaya Capital Management',
@@ -132,7 +129,7 @@ const investorNames: Record<string, string> = {
   ubben: 'Jeffrey Ubben - Valueact Holdings',
   smith: 'Terry Smith - Fundsmith',
   donaldsmith: 'Donald Smith & Co.',
-  dodgecox: 'Dodge & Cox Stock Fund',
+
   miller: 'Bill Miller - Miller Value Partners',
   cantillon: 'William von Mueffling - Cantillon Capital Management',
   whitman: 'Marty Whitman - Third Avenue Management',
@@ -140,7 +137,21 @@ const investorNames: Record<string, string> = {
   peltz: 'Nelson Peltz - Trian Fund Management',
   kantesaria: 'Dev Kantesaria - Valley Forge Capital Management',
   viking: 'Ole Andreas Halvorsen - Viking Global Investors',
-  ellenbogen: 'Henry Ellenbogen - Durable Capital Partners'
+  ellenbogen: 'Henry Ellenbogen - Durable Capital Partners',
+
+  // Neue Investoren hinzufügen
+  torray: 'Torray Funds',
+  burry: 'Michael Burry - Scion Asset Management',
+  klarman: 'Seth Klarman - Baupost Group',
+  dodgecox: 'Dodge & Cox Stock Fund',
+  olstein: 'Robert Olstein - Olstein Capital Management',
+  nygren:'Bill Nygren - Oakmark Select Fund',
+  katz: 'David Katz - Matrix Asset Advisors',
+  davis: 'Christopher Davis - Davis Advisors',
+  mairspower: 'Andrew R. Adams - Mairs & Power Growth Fund',
+  tangen:'Nicolai Tangen - AKO Capital',
+  bobrinskoy: 'Chalres Bobrinskoy - Ariel Focus Fund',
+  loeb:'Daniel Loeb - Third Point'
 }
 
 function splitInvestorName(full: string) {
@@ -181,6 +192,17 @@ function mergePositions(raw: { cusip: string; shares: number; value: number }[])
   return map
 }
 
+// Hilfsfunktion: Erstelle leeren Previous-Snapshot
+function createEmptySnapshot() {
+  return {
+    data: {
+      positions: [],
+      date: '',
+      totalValue: 0
+    }
+  }
+}
+
 type InvestorPageProps = {
   params: {
     slug: string
@@ -193,37 +215,67 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const [tab, setTab] = useState<'holdings' | 'buys' | 'sells' | 'activity'>('holdings')
   
   const snapshots = holdingsHistory[slug]
-  if (!Array.isArray(snapshots) || snapshots.length < 2) return notFound()
+  
+  // GEÄNDERT: Akzeptiere auch einzelne Snapshots
+  if (!Array.isArray(snapshots) || snapshots.length < 1) return notFound()
 
-  // Header data
+  // Header data - sicherer Zugriff auf previous
   const latest = snapshots[snapshots.length - 1].data
-  const previous = snapshots[snapshots.length - 2].data
+  const previous = snapshots.length >= 2 
+    ? snapshots[snapshots.length - 2].data 
+    : { positions: [], date: '', totalValue: 0 } // Fallback für einzelne Snapshots
+  
   const formattedDate = latest.date?.split('-').reverse().join('.') || '–'
   const period = latest.date ? getPeriodFromDate(latest.date) : '–'
 
-  // Build history for buys/sells
+  // Build history for buys/sells - ANGEPASST für einzelne Snapshots
   const buildHistory = (isBuy: boolean): HistoryGroup[] =>
     snapshots.map((snap, idx) => {
+      // Wenn es der erste Snapshot ist, verwende leeren Previous
       const prevRaw = idx > 0 ? snapshots[idx - 1].data.positions : []
       const prevMap = new Map<string, number>()
       prevRaw.forEach(p => prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares))
 
       const mergedEntries = Array.from(mergePositions(snap.data.positions).entries())
-        .map(([cusip, { shares, value }]) => ({
-          cusip,
-          shares,
-          value,
-          name: stocks.find(s => s.cusip === cusip)?.name || cusip
-        }))
+        .map(([cusip, { shares, value }]) => {
+          // Finde die Original-Position für ticker/name
+          const originalPosition = snap.data.positions.find(p => p.cusip === cusip)
+          const stockData = stocks.find(s => s.cusip === cusip)
+          
+          let ticker = originalPosition?.ticker || stockData?.ticker || cusip.replace(/0+$/, '')
+          let displayName = originalPosition?.name || stockData?.name || cusip
+          
+          // Format: "TICKER - Company Name"
+          const formattedName = ticker && displayName && ticker !== displayName 
+            ? `${ticker} - ${displayName}`
+            : displayName
+          
+          return {
+            cusip,
+            shares,
+            value,
+            name: formattedName,
+            ticker
+          }
+        })
 
       const seen = new Set(mergedEntries.map(e => e.cusip))
       for (const [cusip, prevShares] of prevMap.entries()) {
         if (!seen.has(cusip)) {
+          const stockData = stocks.find(s => s.cusip === cusip)
+          let ticker = stockData?.ticker || cusip.replace(/0+$/, '')
+          let displayName = stockData?.name || cusip
+          
+          const formattedName = ticker && displayName && ticker !== displayName 
+            ? `${ticker} - ${displayName}`
+            : displayName
+            
           mergedEntries.push({
             cusip,
             shares: 0,
             value: 0,
-            name: stocks.find(s => s.cusip === cusip)?.name || cusip
+            name: formattedName,
+            ticker
           })
         }
       }
@@ -247,7 +299,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const buysHistory = buildHistory(true)
   const sellsHistory = buildHistory(false)
 
-  // Top 10 positions
+  // Top 10 positions - SICHER für einzelne Snapshots
   const prevMap = new Map<string, number>()
   previous.positions.forEach(p => prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares))
 
@@ -255,9 +307,24 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
     .map(([cusip, { shares, value }]) => {
       const prevShares = prevMap.get(cusip) || 0
       const delta = shares - prevShares
+      
+      // Finde die Position in den originalen Daten um ticker zu bekommen
+      const originalPosition = latest.positions.find(p => p.cusip === cusip)
+      const stockData = stocks.find(s => s.cusip === cusip)
+      
+      // Versuche ticker und name zu bestimmen
+      let ticker = originalPosition?.ticker || stockData?.ticker || cusip.replace(/0+$/, '')
+      let displayName = originalPosition?.name || stockData?.name || cusip
+      
+      // Format: "TICKER - Company Name" (wie bei anderen Investoren)
+      const formattedName = ticker && displayName && ticker !== displayName 
+        ? `${ticker} - ${displayName}`
+        : displayName
+      
       return {
         cusip,
-        name: stocks.find(s => s.cusip === cusip)?.name || cusip,
+        name: formattedName,
+        ticker, // Für Links zu Aktien-Seiten
         shares,
         value,
         deltaShares: delta,
@@ -270,24 +337,28 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const totalVal = scaledHold.reduce((s, p) => s + p.value, 0)
   const top10 = scaledHold.slice(0, 10).map(p => ({ name: p.name, percent: (p.value / totalVal) * 100 }))
 
-  // Cashflow
-  const recentBuys = buysHistory.slice(0, 8)
-  const recentSells = sellsHistory.slice(0, 8)
+  // Cashflow - ANGEPASST für wenige Snapshots
+  const maxHistory = Math.min(8, snapshots.length)
+  const recentBuys = buysHistory.slice(0, maxHistory)
+  const recentSells = sellsHistory.slice(0, maxHistory)
+  
   const cashflowPoints: CashFlowPoint[] = recentBuys.map((grp, idx) => {
-    const buySum = grp.items.reduce((sum, p) => sum + p.deltaShares * (p.value / p.shares), 0)
-    const sellSum = recentSells[idx].items.reduce((sum, p) => sum + (-p.deltaShares) * (p.value / p.shares), 0)
+    const buySum = grp.items.reduce((sum, p) => sum + p.deltaShares * (p.value / Math.max(p.shares, 1)), 0)
+    const sellSum = recentSells[idx]?.items.reduce((sum, p) => sum + (-p.deltaShares) * (p.value / Math.max(p.shares, 1)), 0) || 0
     return { period: grp.period, buy: buySum, sell: sellSum }
   }).reverse()
 
+  // Value history - funktioniert auch mit einem Snapshot
   const valueHistory = snapshots.map(snap => {
     const total = snap.data.positions.reduce((sum, p) => sum + p.value, 0)
     return { period: getPeriodFromDate(snap.data.date), value: total }
   })
 
-  // Articles
+  // Articles - ERWEITERT für neue Investoren
   let articles: Article[] = []
   if (slug === 'buffett') articles = articlesBuffett
-
+  if (slug === 'ackman') articles = articlesAckman
+  if (slug === 'gates') articles = articlesGates
 
   // Cash series for Buffett
   let cashSeries: { period: string; cash: number }[] = []
@@ -298,6 +369,9 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
       cash: snap.cash
     }))
   }
+
+  // HINWEIS für neue Investoren
+  const isNewInvestor = snapshots.length === 1
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -311,6 +385,20 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   </div>
   
   <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
+    
+    {/* NEU: Info für neue Investoren */}
+    {isNewInvestor && (
+      <div className="mb-6 bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
+        <div className="flex items-center gap-2 text-blue-400">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+          </svg>
+          <span className="text-sm font-medium">
+            Neu hinzugefügter Investor - Historische Daten werden in den kommenden Quartalen ergänzt
+          </span>
+        </div>
+      </div>
+    )}
     
     {/* Investor Header Card */}
     <div className="bg-gradient-to-br from-gray-900/60 to-gray-900/40 border border-gray-800/50 rounded-2xl p-8 mb-8 backdrop-blur-sm">
@@ -459,18 +547,37 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                 </ErrorBoundary>
               </div>
 
-              {/* Portfolio Value History */}
-              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
-                  <h2 className="text-xl font-bold text-white">
-                    Portfolio-Verlauf
-                  </h2>
+              {/* Portfolio Value History - nur anzeigen wenn mehr als 1 Snapshot */}
+              {snapshots.length > 1 ? (
+                <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                    <h2 className="text-xl font-bold text-white">
+                      Portfolio-Verlauf
+                    </h2>
+                  </div>
+                  <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+                    <PortfolioValueChart data={valueHistory} />
+                  </ErrorBoundary>
                 </div>
-                <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
-                  <PortfolioValueChart data={valueHistory} />
-                </ErrorBoundary>
-              </div>
+              ) : (
+                <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <ArrowTrendingUpIcon className="w-5 h-5 text-gray-500" />
+                    <h2 className="text-xl font-bold text-gray-400">
+                      Portfolio-Verlauf
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-center h-64 text-gray-500">
+                    <div className="text-center">
+                      <ChartBarIcon className="w-12 h-12 mx-auto mb-4 opacity-30" />
+                      <p className="text-sm">
+                        Verlaufsdaten werden verfügbar, sobald weitere Quartale hinzugefügt werden
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Cash Position Chart (for Buffett) */}

@@ -7,9 +7,7 @@ export const investorCiks = {
   // bereits vorhandene
   buffett: '0001067983',  
   ackman:  '0001336528',   
-  pabrai:  '0001549575',
   akre:    '0001112520', 
-  olstein: '0000947996',
   gregalexander:'0001773994',
   altarockpartners:     '0001631014', 
   miller:   '0001135778', // 0 positionen
@@ -31,9 +29,9 @@ export const investorCiks = {
   jensen:'0001106129',
   russo:          '0000860643',    // Thomas Russo – Gardner Russo & Quinn
   armitage:'0001581811', // John Armitage – Egerton Capital
-  loeb:'0001040273',
+
   icahn: '0000921669',// Carl Icahn – Icahn Capital (Beispiel)
-  tangen: '0001376879',    // AKO Capital
+
   greenhaven: '0000846222',    // Greenhaven Associates
   abrams: '0001358706',    // David Abrams – Abrams Capital Management
   martin: '0001050442', // Fred Martin 
@@ -72,23 +70,22 @@ export const investorCiks = {
   //kantesaria:          '0001697868',    // Valley Forge Capital Management
 
   //NPORT P TYPES: EVTL NOCH CODE ANPASSEN
-  mairspower: '0001141819',    // Mairs & Power Growth Fund NPORT P -> O FILES
-  davis:     '0001316506',    // Christopher Davis – Davis Advisors NPORT P
-  nygren:           '0000872323',    // Bill Nygren – Oakmark Select Fund
-  dodgecox:  '0000029440',    // Dodge & Cox
+
+
+
+
   rogers:           '0000798365',    // John Rogers – Ariel Appreciation Fund
   cunniff:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
    hawkins:         '0000806636',    // Mason Hawkins – Longleaf Partners
   torray:          '0001618627',    // Torray Funds
     // 'hillman-value':         'XXX',    // Hillman Value Fund
   weitz:         '0001257927',    // Wallace Weitz – Weitz Large Cap Equity Fund
-        katz:            '0000720498',    // David Katz – Matrix Asset Advisors NPORT P TYPE
+
 
  // 0 Einträge:
- klarman: '0001061768', //KRIEGE JETZT EINTRÄGE ABER MUSS NOCH MAL 100 GERECHNET WERDEN; MANUELL ANGEPASST OK JETZT
+ //KRIEGE JETZT EINTRÄGE ABER MUSS NOCH MAL 100 GERECHNET WERDEN; MANUELL ANGEPASST OK JETZT
  triplefrond: '0001454502',    // MANUELL ANGEPASST OK JETZT
- spier:             '0001953324', //ANUELL ANGEPASST OK JETZT
- //lee: '0001426749',
+
  whitman:  '0001099281',    // Third Avenue Management PASST, nicht aufgenommen in spezialfall
  greenbrier:'0001532262',//PASST, nicht aufgenommen in spezialfall
  lilu:   '0001709323', //PASST, nicht aufgenommen in spezialfall
@@ -98,8 +95,20 @@ export const investorCiks = {
  marks:  '0000949509', //PASST, nicht aufgenommen in spezialfall
  smith:    '0001569205',//PASST, nicht aufgenommen in spezialfall
 
-  //Manuell folgende Investoren updaten
- burry:   '0001649339'// PORTFOLIO IST FALSCH?!?!?
+//Datarom
+spier:  '0001953324',
+pabrai:  '0001549575',
+ burry:   '0001649339',
+ klarman: '0001061768',
+ dodgecox:  '0000029440',
+ olstein: '0000947996',
+ nygren:'0000872323',
+ katz: '0000720498', 
+ davis: '0001316506',
+ mairspower: '0001141819',
+ tangen: '0001376879',    // AKO Capital
+ bobrinskoy: '0000798365',
+ loeb:'0001040273',
 
 
 

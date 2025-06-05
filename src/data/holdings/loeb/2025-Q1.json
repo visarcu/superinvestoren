@@ -1,4 +1,236 @@
 {
-  "date": "2025-02-14",
-  "positions": []
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "PG&E Corp.",
+      "cusip": "PCG00000",
+      "shares": 51100000,
+      "value": 877898000,
+      "ticker": "PCG"
+    },
+    {
+      "name": "Amazon.com Inc.",
+      "cusip": "AMZN00000",
+      "shares": 2350000,
+      "value": 447111000,
+      "ticker": "AMZN"
+    },
+    {
+      "name": "Taiwan Semiconductor S.A.",
+      "cusip": "TSM00000",
+      "shares": 1780000,
+      "value": 295480000,
+      "ticker": "TSM"
+    },
+    {
+      "name": "Live Nation Inc.",
+      "cusip": "LYV00000",
+      "shares": 2100000,
+      "value": 274218000,
+      "ticker": "LYV"
+    },
+    {
+      "name": "Telephone & Data Systems",
+      "cusip": "TDS00000",
+      "shares": 6760000,
+      "value": 261882400,
+      "ticker": "TDS"
+    },
+    {
+      "name": "CRH plc",
+      "cusip": "CRH00000",
+      "shares": 2715000,
+      "value": 238838550,
+      "ticker": "CRH"
+    },
+    {
+      "name": "Brookfield Corp.",
+      "cusip": "BN00000",
+      "shares": 4240000,
+      "value": 222218400,
+      "ticker": "BN"
+    },
+    {
+      "name": "Flutter Entertainment Plc",
+      "cusip": "FLUT00000",
+      "shares": 970000,
+      "value": 214903500,
+      "ticker": "FLUT"
+    },
+    {
+      "name": "Kenvue Inc",
+      "cusip": "KVUE00000",
+      "shares": 8900000,
+      "value": 213422000,
+      "ticker": "KVUE"
+    },
+    {
+      "name": "Corpay Inc.",
+      "cusip": "CPAY00000",
+      "shares": 610000,
+      "value": 212719200,
+      "ticker": "CPAY"
+    },
+    {
+      "name": "Apollo Global Management",
+      "cusip": "APO00000",
+      "shares": 1500000,
+      "value": 205410000,
+      "ticker": "APO"
+    },
+    {
+      "name": "LPL Financial Holdings Inc.",
+      "cusip": "LPLA00000",
+      "shares": 625000,
+      "value": 204462500,
+      "ticker": "LPLA"
+    },
+    {
+      "name": "Intercontinental Exchange Inc.",
+      "cusip": "ICE00000",
+      "shares": 1100000,
+      "value": 189750000,
+      "ticker": "ICE"
+    },
+    {
+      "name": "Capital One Financial",
+      "cusip": "COF00000",
+      "shares": 1050000,
+      "value": 188265000,
+      "ticker": "COF"
+    },
+    {
+      "name": "Carpenter Technology",
+      "cusip": "CRS00000",
+      "shares": 870000,
+      "value": 157626600,
+      "ticker": "CRS"
+    },
+    {
+      "name": "EQT Corp.",
+      "cusip": "EQT00000",
+      "shares": 2950000,
+      "value": 157618500,
+      "ticker": "EQT"
+    },
+    {
+      "name": "NVIDIA Corp.",
+      "cusip": "NVDA00000",
+      "shares": 1450000,
+      "value": 157151000,
+      "ticker": "NVDA"
+    },
+    {
+      "name": "CoStar Group Inc.",
+      "cusip": "CSGP00000",
+      "shares": 1975000,
+      "value": 156479250,
+      "ticker": "CSGP"
+    },
+    {
+      "name": "Fortive Corp.",
+      "cusip": "FTV00000",
+      "shares": 1900000,
+      "value": 139042000,
+      "ticker": "FTV"
+    },
+    {
+      "name": "Caseys Genl Stores",
+      "cusip": "CASY00000",
+      "shares": 300000,
+      "value": 130212000,
+      "ticker": "CASY"
+    },
+    {
+      "name": "Microsoft Corp.",
+      "cusip": "MSFT00000",
+      "shares": 315000,
+      "value": 118247850,
+      "ticker": "MSFT"
+    },
+    {
+      "name": "Talen Energy Corp",
+      "cusip": "TLN00000",
+      "shares": 585000,
+      "value": 116806950,
+      "ticker": "TLN"
+    },
+    {
+      "name": "Hess Corp.",
+      "cusip": "HES00000",
+      "shares": 625000,
+      "value": 99831250,
+      "ticker": "HES"
+    },
+    {
+      "name": "Vistra Corp.",
+      "cusip": "VST00000",
+      "shares": 850000,
+      "value": 99824000,
+      "ticker": "VST"
+    },
+    {
+      "name": "Primo Brands Corp",
+      "cusip": "PRMB00000",
+      "shares": 2775000,
+      "value": 98484750,
+      "ticker": "PRMB"
+    },
+    {
+      "name": "Ritchie Bros. Auctioneers Inc.",
+      "cusip": "RBA00000",
+      "shares": 950000,
+      "value": 95285000,
+      "ticker": "RBA"
+    },
+    {
+      "name": "Sharkninja Inc",
+      "cusip": "SN00000",
+      "shares": 550000,
+      "value": 45875500,
+      "ticker": "SN"
+    },
+    {
+      "name": "Pinterest Inc.",
+      "cusip": "PINS00000",
+      "shares": 1000000,
+      "value": 31000000,
+      "ticker": "PINS"
+    },
+    {
+      "name": "Seadrill Ltd",
+      "cusip": "SDRL00000",
+      "shares": 1025000,
+      "value": 25625000,
+      "ticker": "SDRL"
+    },
+    {
+      "name": "Hertz Global Hldgs Inc. WTS",
+      "cusip": "HTZWW0000",
+      "shares": 3970000,
+      "value": 8972200,
+      "ticker": "HTZWW"
+    },
+    {
+      "name": "Aurora Innovation Inc.",
+      "cusip": "AUR00000",
+      "shares": 1032463,
+      "value": 6938151,
+      "ticker": "AUR"
+    },
+    {
+      "name": "Flyexclusive Inc",
+      "cusip": "FLYX00000",
+      "shares": 1022000,
+      "value": 3178420,
+      "ticker": "FLYX"
+    },
+    {
+      "name": "Aurora Innovation Inc. WTS",
+      "cusip": "AUROW0000",
+      "shares": 1835000,
+      "value": 2587350,
+      "ticker": "AUROW"
+    }
+  ]
 }
