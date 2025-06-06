@@ -1,281 +1,287 @@
 {
+  "form": "13F-HR",
   "date": "2014-11-14",
+  "period": "2014-11-14",
+  "accession": "0000947871-14-000710",
+  "quarterKey": "2014-Q4",
   "positions": [
     {
-      "name": "ABBVIE INC",
-      "cusip": "00287Y109",
-      "shares": 4723578,
-      "value": 272834000
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1857273,
+      "value": 361555
     },
     {
       "name": "ADOBE SYS INC",
       "cusip": "00724F101",
       "shares": 4916409,
-      "value": 340166000
-    },
-    {
-      "name": "AERCAP HOLDINGS NV",
-      "cusip": "N00985106",
-      "shares": 4501144,
-      "value": 184097000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 2200000,
-      "value": 195470000
-    },
-    {
-      "name": "ALLISON TRANSMISSION HLDGS I",
-      "cusip": "01973R101",
-      "shares": 7241294,
-      "value": 206304000
-    },
-    {
-      "name": "AMC NETWORKS INC",
-      "cusip": "00164V103",
-      "shares": 973456,
-      "value": 56869000
-    },
-    {
-      "name": "ANHEUSER BUSCH INBEV SA/NV",
-      "cusip": "03524A108",
-      "shares": 934417,
-      "value": 103580000
-    },
-    {
-      "name": "ASHLAND INC NEW",
-      "cusip": "044209104",
-      "shares": 1099643,
-      "value": 114473000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 113630,
-      "value": 24797000
-    },
-    {
-      "name": "BURGER KING WORLDWIDE INC",
-      "cusip": "121220107",
-      "shares": 4650884,
-      "value": 137945000
-    },
-    {
-      "name": "CALPINE CORP",
-      "cusip": "131347304",
-      "shares": 9684808,
-      "value": 210160000
-    },
-    {
-      "name": "CASTLIGHT HEALTH INC",
-      "cusip": "14862Q100",
-      "shares": 1144324,
-      "value": 14808000
-    },
-    {
-      "name": "CBS CORP NEW",
-      "cusip": "124857202",
-      "shares": 4827970,
-      "value": 258296000
-    },
-    {
-      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
-      "cusip": "192446102",
-      "shares": 3375000,
-      "value": 151099000
-    },
-    {
-      "name": "COLUMBIA PPTY TR INC",
-      "cusip": "198287203",
-      "shares": 4234265,
-      "value": 101072000
-    },
-    {
-      "name": "COMMUNITY HEALTH SYS INC NEW",
-      "cusip": "203668108",
-      "shares": 2118086,
-      "value": 116050000
-    },
-    {
-      "name": "CROWN CASTLE INTL CORP",
-      "cusip": "228227104",
-      "shares": 1119859,
-      "value": 90182000
-    },
-    {
-      "name": "DOLLAR GEN CORP NEW",
-      "cusip": "256677105",
-      "shares": 5350261,
-      "value": 326954000
-    },
-    {
-      "name": "FLEETCOR TECHNOLOGIES INC",
-      "cusip": "339041105",
-      "shares": 968834,
-      "value": 137691000
-    },
-    {
-      "name": "FORTINET INC",
-      "cusip": "34959E109",
-      "shares": 1193635,
-      "value": 30157000
-    },
-    {
-      "name": "HCA HOLDINGS INC",
-      "cusip": "40412C101",
-      "shares": 4157133,
-      "value": 293161000
-    },
-    {
-      "name": "INTERCONTINENTAL EXCHANGE IN",
-      "cusip": "45866F104",
-      "shares": 153563,
-      "value": 29952000
-    },
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287655",
-      "shares": 420000,
-      "value": 45927000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 1933330,
-      "value": 82244000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 6809609,
-      "value": 279296000
-    },
-    {
-      "name": "MARTIN MARIETTA MATLS INC",
-      "cusip": "573284106",
-      "shares": 709129,
-      "value": 91435000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 1857273,
-      "value": 361555000
-    },
-    {
-      "name": "MGIC INVT CORP WIS",
-      "cusip": "552848103",
-      "shares": 11904556,
-      "value": 92975000
-    },
-    {
-      "name": "NOKIA CORP",
-      "cusip": "654902204",
-      "shares": 667420,
-      "value": 5646000
-    },
-    {
-      "name": "NORTHSTAR RLTY FIN CORP",
-      "cusip": "66704R704",
-      "shares": 2603812,
-      "value": 46009000
-    },
-    {
-      "name": "NOVARTIS A G",
-      "cusip": "66987V109",
-      "shares": 272570,
-      "value": 25657000
-    },
-    {
-      "name": "PACIFIC BIOSCIENCES CALIF IN",
-      "cusip": "69404D108",
-      "shares": 6459784,
-      "value": 31718000
-    },
-    {
-      "name": "PALO ALTO NETWORKS INC",
-      "cusip": "697435105",
-      "shares": 473825,
-      "value": 46482000
-    },
-    {
-      "name": "POWERSHARES QQQ TRUST",
-      "cusip": "73935A104",
-      "shares": 1930000,
-      "value": 190665000
-    },
-    {
-      "name": "PTC INC",
-      "cusip": "69370C100",
-      "shares": 1904256,
-      "value": 70267000
-    },
-    {
-      "name": "QIHOO 360 TECHNOLOGY CO LTD",
-      "cusip": "74734M109",
-      "shares": 3693080,
-      "value": 249172000
-    },
-    {
-      "name": "QLIK TECHNOLOGIES INC",
-      "cusip": "74733T105",
-      "shares": 2568778,
-      "value": 69460000
-    },
-    {
-      "name": "RADIAN GROUP INC",
-      "cusip": "750236101",
-      "shares": 16640321,
-      "value": 237291000
-    },
-    {
-      "name": "SABRE CORP",
-      "cusip": "78573M104",
-      "shares": 6629096,
-      "value": 118760000
-    },
-    {
-      "name": "SANTANDER CONSUMER USA HDG I",
-      "cusip": "80283M101",
-      "shares": 11979327,
-      "value": 213352000
-    },
-    {
-      "name": "SOLARWINDS INC",
-      "cusip": "83416B109",
-      "shares": 4889475,
-      "value": 205602000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 1556152,
-      "value": 286845000
-    },
-    {
-      "name": "TWENTY FIRST CENTY FOX INC",
-      "cusip": "90130A101",
-      "shares": 5280500,
-      "value": 181068000
+      "value": 340166
     },
     {
       "name": "VALEANT PHARMACEUTICALS INTL",
       "cusip": "91911K102",
       "shares": 2527896,
-      "value": 331660000
+      "value": 331660
     },
     {
-      "name": "VULCAN MATLS CO",
-      "cusip": "929160109",
-      "shares": 638260,
-      "value": 38442000
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 5350261,
+      "value": 326954
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 4157133,
+      "value": 293161
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1556152,
+      "value": 286845
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 6809609,
+      "value": 279296
+    },
+    {
+      "name": "ABBVIE INC",
+      "cusip": "00287Y109",
+      "shares": 4723578,
+      "value": 272834
+    },
+    {
+      "name": "CBS CORP NEW",
+      "cusip": "124857202",
+      "shares": 4827970,
+      "value": 258296
+    },
+    {
+      "name": "QIHOO 360 TECHNOLOGY CO LTD",
+      "cusip": "74734M109",
+      "shares": 3693080,
+      "value": 249172
+    },
+    {
+      "name": "RADIAN GROUP INC",
+      "cusip": "750236101",
+      "shares": 16640321,
+      "value": 237291
+    },
+    {
+      "name": "SANTANDER CONSUMER USA HDG I",
+      "cusip": "80283M101",
+      "shares": 11979327,
+      "value": 213352
+    },
+    {
+      "name": "CALPINE CORP",
+      "cusip": "131347304",
+      "shares": 9684808,
+      "value": 210160
+    },
+    {
+      "name": "ALLISON TRANSMISSION HLDGS I",
+      "cusip": "01973R101",
+      "shares": 7241294,
+      "value": 206304
+    },
+    {
+      "name": "SOLARWINDS INC",
+      "cusip": "83416B109",
+      "shares": 4889475,
+      "value": 205602
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2200000,
+      "value": 195470
+    },
+    {
+      "name": "POWERSHARES QQQ TRUST",
+      "cusip": "73935A104",
+      "shares": 1930000,
+      "value": 190665
+    },
+    {
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 4501144,
+      "value": 184097
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 5280500,
+      "value": 181068
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 3375000,
+      "value": 151099
     },
     {
       "name": "WASTE CONNECTIONS INC",
       "cusip": "941053100",
       "shares": 2929407,
-      "value": 142135000
+      "value": 142135
+    },
+    {
+      "name": "BURGER KING WORLDWIDE INC",
+      "cusip": "121220107",
+      "shares": 4650884,
+      "value": 137945
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 968834,
+      "value": 137691
+    },
+    {
+      "name": "SABRE CORP",
+      "cusip": "78573M104",
+      "shares": 6629096,
+      "value": 118760
+    },
+    {
+      "name": "COMMUNITY HEALTH SYS INC NEW",
+      "cusip": "203668108",
+      "shares": 2118086,
+      "value": 116050
+    },
+    {
+      "name": "ASHLAND INC NEW",
+      "cusip": "044209104",
+      "shares": 1099643,
+      "value": 114473
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 934417,
+      "value": 103580
+    },
+    {
+      "name": "COLUMBIA PPTY TR INC",
+      "cusip": "198287203",
+      "shares": 4234265,
+      "value": 101072
+    },
+    {
+      "name": "MGIC INVT CORP WIS",
+      "cusip": "552848103",
+      "shares": 11904556,
+      "value": 92975
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 709129,
+      "value": 91435
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP",
+      "cusip": "228227104",
+      "shares": 1119859,
+      "value": 90182
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 1933330,
+      "value": 82244
+    },
+    {
+      "name": "PTC INC",
+      "cusip": "69370C100",
+      "shares": 1904256,
+      "value": 70267
+    },
+    {
+      "name": "QLIK TECHNOLOGIES INC",
+      "cusip": "74733T105",
+      "shares": 2568778,
+      "value": 69460
+    },
+    {
+      "name": "AMC NETWORKS INC",
+      "cusip": "00164V103",
+      "shares": 973456,
+      "value": 56869
+    },
+    {
+      "name": "PALO ALTO NETWORKS INC",
+      "cusip": "697435105",
+      "shares": 473825,
+      "value": 46482
+    },
+    {
+      "name": "NORTHSTAR RLTY FIN CORP",
+      "cusip": "66704R704",
+      "shares": 2603812,
+      "value": 46009
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 420000,
+      "value": 45927
+    },
+    {
+      "name": "VULCAN MATLS CO",
+      "cusip": "929160109",
+      "shares": 638260,
+      "value": 38442
+    },
+    {
+      "name": "PACIFIC BIOSCIENCES CALIF IN",
+      "cusip": "69404D108",
+      "shares": 6459784,
+      "value": 31718
+    },
+    {
+      "name": "FORTINET INC",
+      "cusip": "34959E109",
+      "shares": 1193635,
+      "value": 30157
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 153563,
+      "value": 29952
+    },
+    {
+      "name": "NOVARTIS A G",
+      "cusip": "66987V109",
+      "shares": 272570,
+      "value": 25657
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 113630,
+      "value": 24797
+    },
+    {
+      "name": "CASTLIGHT HEALTH INC",
+      "cusip": "14862Q100",
+      "shares": 1144324,
+      "value": 14808
+    },
+    {
+      "name": "NOKIA CORP",
+      "cusip": "654902204",
+      "shares": 667420,
+      "value": 5646
     }
-  ]
+  ],
+  "totalValue": 6839780,
+  "positionsCount": 46
 }

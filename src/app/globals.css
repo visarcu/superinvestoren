@@ -1,5 +1,4 @@
 /* src/app/globals.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -47,9 +46,109 @@ body {
   stroke-width: 2px;
 }
 
+/* ─── NEUE RECHARTS TOOLTIP STYLES ─── */
+/* Tooltip Container */
+.recharts-tooltip-wrapper {
+  z-index: 1000 !important;
+  pointer-events: none;
+}
+
+/* Main Tooltip Box */
+.recharts-default-tooltip {
+  background: rgba(17, 24, 39, 0.95) !important;
+  border: 1px solid rgba(75, 85, 99, 0.5) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+  padding: 12px !important;
+  min-width: 200px !important;
+}
+
+/* Tooltip Label (z.B. "Q3 2012") */
+.recharts-tooltip-label {
+  color: #F3F4F6 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  margin-bottom: 6px !important;
+  border-bottom: 1px solid rgba(75, 85, 99, 0.3);
+  padding-bottom: 4px !important;
+}
+
+/* Tooltip Items (z.B. "Cash/Treasuries: $83,700,000,000") */
+.recharts-tooltip-item {
+  color: #FCD34D !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  margin: 0 !important;
+  padding: 2px 0 !important;
+}
+
+/* Tooltip Item Name (z.B. "Cash/Treasuries") */
+.recharts-tooltip-item-name {
+  color: #9CA3AF !important;
+  margin-right: 8px !important;
+}
+
+/* Tooltip Separator */
+.recharts-tooltip-separator {
+  background: #4B5563 !important;
+  margin: 0 4px !important;
+}
+
+/* Cash Chart spezifisch - überschreibt weiße Tooltips komplett */
+.cash-chart-container .recharts-default-tooltip {
+  background: rgba(17, 24, 39, 0.98) !important;
+  border: 1px solid rgba(251, 191, 36, 0.3) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  padding: 16px !important;
+  min-width: 220px !important;
+}
+
+.cash-chart-container .recharts-tooltip-label {
+  color: #FCD34D !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  margin-bottom: 8px !important;
+  text-align: center !important;
+}
+
+.cash-chart-container .recharts-tooltip-item {
+  color: #FBBF24 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+}
+
+.cash-chart-container .recharts-tooltip-item-name {
+  color: #D1D5DB !important;
+}
+
+/* Bar Hover Effekte für Cash Chart */
+.cash-chart-container .recharts-bar-rectangle:hover {
+  filter: brightness(1.2) !important;
+  transition: filter 0.2s ease !important;
+}
+
+/* Grid Lines für besseres Aussehen */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(75, 85, 99, 0.2) !important;
+  stroke-dasharray: 3 3 !important;
+}
+
+/* Achsen-Text */
+.recharts-xAxis .recharts-cartesian-axis-tick-value,
+.recharts-yAxis .recharts-cartesian-axis-tick-value {
+  fill: #9CA3AF !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
 /* ─── Nahtloses Marquee ─── */
 @keyframes marquee {
-  0%   { transform: translateX(0); }
+  0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
@@ -61,9 +160,9 @@ body {
 
 /* Innerer Stream: 200 % breit und mit Endlos-Animation */
 .marquee-inner {
-  display: inline-flex;       /* Inline, damit white-space: nowrap funktioniert */
-  white-space: nowrap;        /* verhindert Zeilenumbruch */
-  width: 200%;                /* Doppelte Breite, weil wir Logos 2× reingenommen haben */
+  display: inline-flex; /* Inline, damit white-space: nowrap funktioniert */
+  white-space: nowrap; /* verhindert Zeilenumbruch */
+  width: 200%; /* Doppelte Breite, weil wir Logos 2× reingenommen haben */
   animation: marquee 20s linear infinite;
 }
 

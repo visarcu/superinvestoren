@@ -1,209 +1,215 @@
 {
+  "form": "13F-HR",
   "date": "2017-05-15",
+  "period": "2017-05-15",
+  "accession": "0001140361-17-020660",
+  "quarterKey": "2017-Q2",
   "positions": [
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 24800690,
-      "value": 1236562000
-    },
-    {
-      "name": "ADOBE SYS INC",
-      "cusip": "00724F101",
-      "shares": 4814596,
-      "value": 626523000
-    },
-    {
-      "name": "ALBEMARLE CORP",
-      "cusip": "012653101",
-      "shares": 1972767,
-      "value": 208403000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 9896713,
-      "value": 1067163000
-    },
-    {
-      "name": "ALIGN TECHNOLOGY INC",
-      "cusip": "016255101",
-      "shares": 2476534,
-      "value": 284083000
-    },
-    {
-      "name": "ARISTA NETWORKS INC",
-      "cusip": "040413106",
-      "shares": 1267936,
-      "value": 167710000
-    },
-    {
-      "name": "BARCLAYS BK PLC",
-      "cusip": "06740Q252",
-      "shares": 800000,
-      "value": 12632000
-    },
-    {
-      "name": "BROADCOM LTD",
-      "cusip": "Y09827109",
-      "shares": 5319591,
-      "value": 1164778000
-    },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 5670234,
-      "value": 1855981000
+      "value": 1855981
     },
     {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 5186332,
-      "value": 245158000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 13740082,
-      "value": 516490000
-    },
-    {
-      "name": "COMMSCOPE HLDG CO INC",
-      "cusip": "20337X109",
-      "shares": 7427085,
-      "value": 309784000
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 24800690,
+      "value": 1236562
     },
     {
       "name": "CONSTELLATION BRANDS INC",
       "cusip": "21036P108",
       "shares": 7261717,
-      "value": 1176906000
+      "value": 1176906
     },
     {
-      "name": "CSX CORP",
-      "cusip": "126408103",
-      "shares": 14378423,
-      "value": 669316000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 6544364,
-      "value": 513471000
-    },
-    {
-      "name": "ELECTRONIC ARTS INC",
-      "cusip": "285512109",
-      "shares": 7779975,
-      "value": 696463000
-    },
-    {
-      "name": "ENCANA CORP",
-      "cusip": "292505104",
-      "shares": 23465824,
-      "value": 274785000
-    },
-    {
-      "name": "EQUINIX INC",
-      "cusip": "29444U700",
-      "shares": 1431461,
-      "value": 573114000
-    },
-    {
-      "name": "EXPEDIA INC DEL",
-      "cusip": "30212P303",
-      "shares": 2121901,
-      "value": 267720000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 5106308,
-      "value": 725351000
-    },
-    {
-      "name": "FLEETCOR TECHNOLOGIES INC",
-      "cusip": "339041105",
-      "shares": 4501773,
-      "value": 681703000
-    },
-    {
-      "name": "GRUPO TELEVISA SA",
-      "cusip": "40049J206",
-      "shares": 18438667,
-      "value": 478299000
-    },
-    {
-      "name": "HDFC BANK LTD",
-      "cusip": "40415F101",
-      "shares": 1312249,
-      "value": 98707000
-    },
-    {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 1184119,
-      "value": 244094000
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 5319591,
+      "value": 1164778
     },
     {
       "name": "NIKE INC",
       "cusip": "654106103",
       "shares": 19159688,
-      "value": 1067769000
+      "value": 1067769
     },
     {
-      "name": "PRICELINE GRP INC",
-      "cusip": "741503403",
-      "shares": 297090,
-      "value": 528811000
-    },
-    {
-      "name": "QUINTILES IMS HOLDINGS INC",
-      "cusip": "74876Y101",
-      "shares": 5976041,
-      "value": 481251000
-    },
-    {
-      "name": "RICE ENERGY INC",
-      "cusip": "762760106",
-      "shares": 13704768,
-      "value": 324803000
-    },
-    {
-      "name": "SHIRE PLC",
-      "cusip": "82481R106",
-      "shares": 1714306,
-      "value": 298684000
-    },
-    {
-      "name": "SNAP INC",
-      "cusip": "83304A106",
-      "shares": 1790364,
-      "value": 34891000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 9896713,
+      "value": 1067163
     },
     {
       "name": "SYMANTEC CORP",
       "cusip": "871503108",
       "shares": 26451017,
-      "value": 811517000
+      "value": 811517
     },
     {
-      "name": "T MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 5978219,
-      "value": 386133000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 5106308,
+      "value": 725351
     },
     {
-      "name": "ULTA BEAUTY INC",
-      "cusip": "90384S303",
-      "shares": 1523935,
-      "value": 434672000
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 7779975,
+      "value": 696463
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 4501773,
+      "value": 681703
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 14378423,
+      "value": 669316
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 4814596,
+      "value": 626523
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U700",
+      "shares": 1431461,
+      "value": 573114
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 6165815,
-      "value": 547956000
+      "value": 547956
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 297090,
+      "value": 528811
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 13740082,
+      "value": 516490
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 6544364,
+      "value": 513471
+    },
+    {
+      "name": "QUINTILES IMS HOLDINGS INC",
+      "cusip": "74876Y101",
+      "shares": 5976041,
+      "value": 481251
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 18438667,
+      "value": 478299
+    },
+    {
+      "name": "ULTA BEAUTY INC",
+      "cusip": "90384S303",
+      "shares": 1523935,
+      "value": 434672
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 5978219,
+      "value": 386133
+    },
+    {
+      "name": "RICE ENERGY INC",
+      "cusip": "762760106",
+      "shares": 13704768,
+      "value": 324803
+    },
+    {
+      "name": "COMMSCOPE HLDG CO INC",
+      "cusip": "20337X109",
+      "shares": 7427085,
+      "value": 309784
+    },
+    {
+      "name": "SHIRE PLC",
+      "cusip": "82481R106",
+      "shares": 1714306,
+      "value": 298684
+    },
+    {
+      "name": "ALIGN TECHNOLOGY INC",
+      "cusip": "016255101",
+      "shares": 2476534,
+      "value": 284083
+    },
+    {
+      "name": "ENCANA CORP",
+      "cusip": "292505104",
+      "shares": 23465824,
+      "value": 274785
+    },
+    {
+      "name": "EXPEDIA INC DEL",
+      "cusip": "30212P303",
+      "shares": 2121901,
+      "value": 267720
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 5186332,
+      "value": 245158
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 1184119,
+      "value": 244094
+    },
+    {
+      "name": "ALBEMARLE CORP",
+      "cusip": "012653101",
+      "shares": 1972767,
+      "value": 208403
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 1267936,
+      "value": 167710
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 1312249,
+      "value": 98707
+    },
+    {
+      "name": "SNAP INC",
+      "cusip": "83304A106",
+      "shares": 1790364,
+      "value": 34891
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06740Q252",
+      "shares": 800000,
+      "value": 12632
     }
-  ]
+  ],
+  "totalValue": 19011683,
+  "positionsCount": 34
 }

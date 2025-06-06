@@ -2,54 +2,58 @@
   "form": "13F-HR",
   "date": "2023-08-14",
   "period": "2023-08-14",
+  "accession": "0001172661-23-003137",
+  "quarterKey": "2023-Q3",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 9377195,
-      "value": 1134359279000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 2185000,
-      "value": 261544500000
-    },
-    {
-      "name": "CANADIAN PACIFIC KANSAS CITY",
-      "cusip": "13646K108",
-      "shares": 15095528,
-      "value": 1219265797000
-    },
     {
       "name": "CHIPOTLE MEXICAN GRILL INC",
       "cusip": "169656105",
       "shares": 953608,
-      "value": 2039767512000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 9332853,
-      "value": 1358396754000
-    },
-    {
-      "name": "HOWARD HUGHES CORP",
-      "cusip": "44267D107",
-      "shares": 16570228,
-      "value": 1307722394000
-    },
-    {
-      "name": "LOWES COS INC",
-      "cusip": "548661107",
-      "shares": 7468850,
-      "value": 1685719445000
+      "value": 2039767512
     },
     {
       "name": "RESTAURANT BRANDS INTL INC",
       "cusip": "76131D103",
       "shares": 23348135,
-      "value": 1809947425000
+      "value": 1809947425
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 7468850,
+      "value": 1685719445
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 9332853,
+      "value": 1358396754
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 16570228,
+      "value": 1307722394
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 15095528,
+      "value": 1219265797
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 9377195,
+      "value": 1134359279
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2185000,
+      "value": 261544500
     }
-  ]
+  ],
+  "totalValue": 10816723106,
+  "positionsCount": 8
 }

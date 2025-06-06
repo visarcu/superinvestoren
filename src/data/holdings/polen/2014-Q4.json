@@ -1,4 +1,143 @@
 {
+  "form": "13F-HR",
   "date": "2014-11-14",
-  "positions": []
+  "period": "2014-11-14",
+  "accession": "0001034524-14-000010",
+  "quarterKey": "2014-Q4",
+  "positions": [
+    {
+      "name": "Allergan Inc",
+      "cusip": "018490102",
+      "shares": 2447375,
+      "value": 436098
+    },
+    {
+      "name": "Visa Inc",
+      "cusip": "92826C839",
+      "shares": 1432587,
+      "value": 305671
+    },
+    {
+      "name": "Nike Inc",
+      "cusip": "654106103",
+      "shares": 3385336,
+      "value": 301972
+    },
+    {
+      "name": "Abbott Labs",
+      "cusip": "002824100",
+      "shares": 7001825,
+      "value": 291206
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 6984325,
+      "value": 267360
+    },
+    {
+      "name": "Starbucks Corp",
+      "cusip": "855244109",
+      "shares": 3094987,
+      "value": 233548
+    },
+    {
+      "name": "Tjx Cos Inc New",
+      "cusip": "872540109",
+      "shares": 3885129,
+      "value": 229883
+    },
+    {
+      "name": "Accenture Plc Ireland",
+      "cusip": "G1151C101",
+      "shares": 2628270,
+      "value": 213731
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 2047325,
+      "value": 206268
+    },
+    {
+      "name": "Google Inc",
+      "cusip": "38259P508",
+      "shares": 339574,
+      "value": 199809
+    },
+    {
+      "name": "Regeneron Pharmaceuticals",
+      "cusip": "75886F107",
+      "shares": 551902,
+      "value": 198972
+    },
+    {
+      "name": "Google Inc",
+      "cusip": "38259P706",
+      "shares": 343051,
+      "value": 198064
+    },
+    {
+      "name": "Automatic Data Processing Inc",
+      "cusip": "053015103",
+      "shares": 2276034,
+      "value": 189093
+    },
+    {
+      "name": "Nestle S.A. Adr",
+      "cusip": "641069406",
+      "shares": 2520198,
+      "value": 185562
+    },
+    {
+      "name": "Priceline Grp Inc",
+      "cusip": "741503403",
+      "shares": 152500,
+      "value": 176683
+    },
+    {
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 2186536,
+      "value": 160645
+    },
+    {
+      "name": "Grainger W W Inc",
+      "cusip": "384802104",
+      "shares": 604852,
+      "value": 152211
+    },
+    {
+      "name": "Factset Resh Sys Inc",
+      "cusip": "303075105",
+      "shares": 1250546,
+      "value": 151979
+    },
+    {
+      "name": "O Reilly Automotive",
+      "cusip": "67103H107",
+      "shares": 887854,
+      "value": 133498
+    },
+    {
+      "name": "Fastenal Co",
+      "cusip": "311900104",
+      "shares": 2833974,
+      "value": 127245
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 1200728,
+      "value": 88758
+    },
+    {
+      "name": "Ishares",
+      "cusip": "464287614",
+      "shares": 15742,
+      "value": 1442
+    }
+  ],
+  "totalValue": 4449698,
+  "positionsCount": 22
 }

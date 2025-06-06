@@ -1,329 +1,335 @@
 {
+  "form": "13F-HR",
   "date": "2015-05-15",
+  "period": "2015-05-15",
+  "accession": "0000919574-15-004426",
+  "quarterKey": "2015-Q2",
   "positions": [
-    {
-      "name": "3-D SYS CORP DEL",
-      "cusip": "88554D205",
-      "shares": 700000,
-      "value": 19194000
-    },
-    {
-      "name": "51JOB INC",
-      "cusip": "316827104",
-      "shares": 1125623,
-      "value": 36318000
-    },
-    {
-      "name": "58 COM INC",
-      "cusip": "31680Q104",
-      "shares": 2450000,
-      "value": 129556000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 6689926,
-      "value": 556869000
-    },
-    {
-      "name": "AUTOHOME INC",
-      "cusip": "05278C107",
-      "shares": 8735000,
-      "value": 384078000
-    },
-    {
-      "name": "AVIS BUDGET GROUP",
-      "cusip": "053774105",
-      "shares": 4850254,
-      "value": 286238000
-    },
-    {
-      "name": "BITAUTO HLDGS LTD",
-      "cusip": "091727107",
-      "shares": 5922953,
-      "value": 301360000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC D",
-      "cusip": "16117M305",
-      "shares": 1192541,
-      "value": 230292000
-    },
-    {
-      "name": "COLFAX CORP",
-      "cusip": "194014106",
-      "shares": 5108326,
-      "value": 243820000
-    },
-    {
-      "name": "CTRIP COM INTL LTD",
-      "cusip": "22943F100",
-      "shares": 330000,
-      "value": 19345000
-    },
-    {
-      "name": "FIREEYE INC",
-      "cusip": "31816Q101",
-      "shares": 200000,
-      "value": 7850000
-    },
-    {
-      "name": "FLEETCOR TECHNOLOGIES INC",
-      "cusip": "339041105",
-      "shares": 3293300,
-      "value": 497025000
-    },
-    {
-      "name": "GAMESTOP CORP NEW",
-      "cusip": "36467W109",
-      "shares": 2000000,
-      "value": 75920000
-    },
-    {
-      "name": "HERTZ GLOBAL HOLDINGS INC",
-      "cusip": "42805T105",
-      "shares": 14207250,
-      "value": 308013000
-    },
-    {
-      "name": "HORTONWORKS INC",
-      "cusip": "440894103",
-      "shares": 260400,
-      "value": 6208000
-    },
-    {
-      "name": "IDREAMSKY TECHNOLOGY LIMITED",
-      "cusip": "45173K101",
-      "shares": 100000,
-      "value": 709000
-    },
-    {
-      "name": "INTERNATIONAL BUSINESS MACHS",
-      "cusip": "459200101",
-      "shares": 141823,
-      "value": 22763000
-    },
-    {
-      "name": "INTREXON CORP",
-      "cusip": "46122T102",
-      "shares": 300000,
-      "value": 13611000
-    },
     {
       "name": "JD COM INC",
       "cusip": "47215P106",
       "shares": 20921329,
-      "value": 614669000
-    },
-    {
-      "name": "KATE SPADE & CO",
-      "cusip": "485865109",
-      "shares": 3576165,
-      "value": 119408000
-    },
-    {
-      "name": "LENDINGCLUB CORP",
-      "cusip": "52603A109",
-      "shares": 275000,
-      "value": 5404000
-    },
-    {
-      "name": "LIBERTY BROADBAND CORP",
-      "cusip": "530307305",
-      "shares": 2751951,
-      "value": 155760000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 9288326,
-      "value": 462652000
-    },
-    {
-      "name": "LIBERTY INTERACTIVE CORP",
-      "cusip": "53071M880",
-      "shares": 5290000,
-      "value": 222233000
-    },
-    {
-      "name": "MAKEMYTRIP LIMITED MAURITIUS",
-      "cusip": "V5633W109",
-      "shares": 1904391,
-      "value": 41820000
-    },
-    {
-      "name": "MASONITE INTL CORP NEW",
-      "cusip": "575385109",
-      "shares": 1025000,
-      "value": 68942000
+      "value": 614669
     },
     {
       "name": "MASTERCARD INC",
       "cusip": "57636Q104",
       "shares": 7111093,
-      "value": 614327000
-    },
-    {
-      "name": "MOMO INC",
-      "cusip": "60879B107",
-      "shares": 2180000,
-      "value": 23108000
-    },
-    {
-      "name": "MYRIAD GENETICS INC",
-      "cusip": "62855J104",
-      "shares": 291097,
-      "value": 10305000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 155877,
-      "value": 64952000
-    },
-    {
-      "name": "NEW RELIC INC",
-      "cusip": "64829B100",
-      "shares": 25000,
-      "value": 868000
-    },
-    {
-      "name": "NIMBLE STORAGE INC",
-      "cusip": "65440R101",
-      "shares": 250000,
-      "value": 5578000
-    },
-    {
-      "name": "ON DECK CAP INC",
-      "cusip": "682163100",
-      "shares": 6850000,
-      "value": 145837000
-    },
-    {
-      "name": "PILGRIMS PRIDE CORP NEW",
-      "cusip": "72147K108",
-      "shares": 2000000,
-      "value": 45180000
-    },
-    {
-      "name": "PRICELINE GRP INC",
-      "cusip": "741503403",
-      "shares": 414817,
-      "value": 482909000
-    },
-    {
-      "name": "QUNAR CAYMAN IS LTD",
-      "cusip": "74906P104",
-      "shares": 150000,
-      "value": 6188000
-    },
-    {
-      "name": "RESTAURANT BRANDS INTL INC",
-      "cusip": "76131D103",
-      "shares": 2345012,
-      "value": 90072000
-    },
-    {
-      "name": "RESTORATION HARDWARE HLDGS I",
-      "cusip": "761283100",
-      "shares": 3193410,
-      "value": 316754000
-    },
-    {
-      "name": "SANDERSON FARMS INC",
-      "cusip": "800013104",
-      "shares": 925000,
-      "value": 73676000
-    },
-    {
-      "name": "TABLEAU SOFTWARE INC",
-      "cusip": "87336U105",
-      "shares": 1687316,
-      "value": 156110000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 2568615,
-      "value": 561807000
-    },
-    {
-      "name": "TRINET GROUP INC",
-      "cusip": "896288107",
-      "shares": 2318590,
-      "value": 81684000
-    },
-    {
-      "name": "TRULIA INC",
-      "cusip": "897888AB9",
-      "shares": 2000000,
-      "value": 2868000
+      "value": 614327
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 16805219,
-      "value": 568689000
+      "value": 568689
     },
     {
-      "name": "TWITTER INC",
-      "cusip": "90184L102",
-      "shares": 500000,
-      "value": 25040000
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 2568615,
+      "value": 561807
     },
     {
-      "name": "UTI WORLDWIDE INC",
-      "cusip": "G87210103",
-      "shares": 5129000,
-      "value": 63087000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 6689926,
+      "value": 556869
     },
     {
-      "name": "VASCO DATA SEC INTL INC",
-      "cusip": "92230Y104",
-      "shares": 1900000,
-      "value": 40926000
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 3293300,
+      "value": 497025
     },
     {
-      "name": "VEEVA SYS INC",
-      "cusip": "922475108",
-      "shares": 75000,
-      "value": 1915000
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 414817,
+      "value": 482909
     },
     {
       "name": "VIPSHOP HLDGS LTD",
       "cusip": "92763W103",
       "shares": 15950149,
-      "value": 469572000
+      "value": 469572
     },
     {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 838089,
-      "value": 54819000
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 9288326,
+      "value": 462652
     },
     {
-      "name": "YODLEE INC",
-      "cusip": "98600P201",
-      "shares": 350000,
-      "value": 4711000
-    },
-    {
-      "name": "ZHAOPIN LTD",
-      "cusip": "98954L103",
-      "shares": 1275000,
-      "value": 20081000
+      "name": "AUTOHOME INC",
+      "cusip": "05278C107",
+      "shares": 8735000,
+      "value": 384078
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M101",
       "shares": 3582691,
-      "value": 359344000
+      "value": 359344
+    },
+    {
+      "name": "RESTORATION HARDWARE HLDGS I",
+      "cusip": "761283100",
+      "shares": 3193410,
+      "value": 316754
+    },
+    {
+      "name": "HERTZ GLOBAL HOLDINGS INC",
+      "cusip": "42805T105",
+      "shares": 14207250,
+      "value": 308013
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 5922953,
+      "value": 301360
+    },
+    {
+      "name": "AVIS BUDGET GROUP",
+      "cusip": "053774105",
+      "shares": 4850254,
+      "value": 286238
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 5108326,
+      "value": 243820
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 1192541,
+      "value": 230292
+    },
+    {
+      "name": "LIBERTY INTERACTIVE CORP",
+      "cusip": "53071M880",
+      "shares": 5290000,
+      "value": 222233
+    },
+    {
+      "name": "TABLEAU SOFTWARE INC",
+      "cusip": "87336U105",
+      "shares": 1687316,
+      "value": 156110
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 2751951,
+      "value": 155760
+    },
+    {
+      "name": "ON DECK CAP INC",
+      "cusip": "682163100",
+      "shares": 6850000,
+      "value": 145837
+    },
+    {
+      "name": "58 COM INC",
+      "cusip": "31680Q104",
+      "shares": 2450000,
+      "value": 129556
+    },
+    {
+      "name": "KATE SPADE & CO",
+      "cusip": "485865109",
+      "shares": 3576165,
+      "value": 119408
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2345012,
+      "value": 90072
+    },
+    {
+      "name": "TRINET GROUP INC",
+      "cusip": "896288107",
+      "shares": 2318590,
+      "value": 81684
+    },
+    {
+      "name": "GAMESTOP CORP NEW",
+      "cusip": "36467W109",
+      "shares": 2000000,
+      "value": 75920
+    },
+    {
+      "name": "SANDERSON FARMS INC",
+      "cusip": "800013104",
+      "shares": 925000,
+      "value": 73676
+    },
+    {
+      "name": "MASONITE INTL CORP NEW",
+      "cusip": "575385109",
+      "shares": 1025000,
+      "value": 68942
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 155877,
+      "value": 64952
+    },
+    {
+      "name": "UTI WORLDWIDE INC",
+      "cusip": "G87210103",
+      "shares": 5129000,
+      "value": 63087
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 838089,
+      "value": 54819
+    },
+    {
+      "name": "PILGRIMS PRIDE CORP NEW",
+      "cusip": "72147K108",
+      "shares": 2000000,
+      "value": 45180
+    },
+    {
+      "name": "MAKEMYTRIP LIMITED MAURITIUS",
+      "cusip": "V5633W109",
+      "shares": 1904391,
+      "value": 41820
+    },
+    {
+      "name": "VASCO DATA SEC INTL INC",
+      "cusip": "92230Y104",
+      "shares": 1900000,
+      "value": 40926
+    },
+    {
+      "name": "51JOB INC",
+      "cusip": "316827104",
+      "shares": 1125623,
+      "value": 36318
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 500000,
+      "value": 25040
+    },
+    {
+      "name": "MOMO INC",
+      "cusip": "60879B107",
+      "shares": 2180000,
+      "value": 23108
+    },
+    {
+      "name": "INTERNATIONAL BUSINESS MACHS",
+      "cusip": "459200101",
+      "shares": 141823,
+      "value": 22763
+    },
+    {
+      "name": "ZHAOPIN LTD",
+      "cusip": "98954L103",
+      "shares": 1275000,
+      "value": 20081
+    },
+    {
+      "name": "CTRIP COM INTL LTD",
+      "cusip": "22943F100",
+      "shares": 330000,
+      "value": 19345
+    },
+    {
+      "name": "3-D SYS CORP DEL",
+      "cusip": "88554D205",
+      "shares": 700000,
+      "value": 19194
+    },
+    {
+      "name": "INTREXON CORP",
+      "cusip": "46122T102",
+      "shares": 300000,
+      "value": 13611
+    },
+    {
+      "name": "MYRIAD GENETICS INC",
+      "cusip": "62855J104",
+      "shares": 291097,
+      "value": 10305
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 7850
+    },
+    {
+      "name": "HORTONWORKS INC",
+      "cusip": "440894103",
+      "shares": 260400,
+      "value": 6208
+    },
+    {
+      "name": "QUNAR CAYMAN IS LTD",
+      "cusip": "74906P104",
+      "shares": 150000,
+      "value": 6188
+    },
+    {
+      "name": "NIMBLE STORAGE INC",
+      "cusip": "65440R101",
+      "shares": 250000,
+      "value": 5578
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 5404
+    },
+    {
+      "name": "YODLEE INC",
+      "cusip": "98600P201",
+      "shares": 350000,
+      "value": 4711
+    },
+    {
+      "name": "TRULIA INC",
+      "cusip": "897888AB9",
+      "shares": 2000000,
+      "value": 2868
     },
     {
       "name": "ZIOPHARM ONCOLOGY INC",
       "cusip": "98973P101",
       "shares": 200000,
-      "value": 2154000
+      "value": 2154
+    },
+    {
+      "name": "VEEVA SYS INC",
+      "cusip": "922475108",
+      "shares": 75000,
+      "value": 1915
+    },
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 25000,
+      "value": 868
+    },
+    {
+      "name": "IDREAMSKY TECHNOLOGY LIMITED",
+      "cusip": "45173K101",
+      "shares": 100000,
+      "value": 709
     }
-  ]
+  ],
+  "totalValue": 9122618,
+  "positionsCount": 54
 }

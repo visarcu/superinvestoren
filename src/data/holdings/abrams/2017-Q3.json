@@ -1,119 +1,125 @@
 {
+  "form": "13F-HR",
   "date": "2017-08-11",
+  "period": "2017-08-11",
+  "accession": "0001172661-17-001555",
+  "quarterKey": "2017-Q3",
   "positions": [
     {
-      "name": "ALTABA INC",
-      "cusip": "021346101",
-      "shares": 3914805,
-      "value": 213279000
-    },
-    {
-      "name": "AMERCO",
-      "cusip": "023586100",
-      "shares": 394610,
-      "value": 144451000
-    },
-    {
-      "name": "BARNES & NOBLE ED INC",
-      "cusip": "06777U101",
-      "shares": 8771492,
-      "value": 93241000
-    },
-    {
-      "name": "BARNES & NOBLE INC",
-      "cusip": "067774109",
-      "shares": 3508735,
-      "value": 26666000
-    },
-    {
-      "name": "CARS COM INC",
-      "cusip": "14575E105",
-      "shares": 2500000,
-      "value": 66575000
-    },
-    {
-      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
-      "cusip": "18451C109",
-      "shares": 3354390,
-      "value": 16269000
-    },
-    {
-      "name": "COLONY NORTHSTAR INC",
-      "cusip": "19625W104",
-      "shares": 9419457,
-      "value": 132720000
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 21608707,
+      "value": 411646
     },
     {
       "name": "FRANKLIN RES INC",
       "cusip": "354613101",
       "shares": 7945023,
-      "value": 355858000
-    },
-    {
-      "name": "GLOBAL EAGLE ENTMT INC",
-      "cusip": "37951D102",
-      "shares": 7000000,
-      "value": 24920000
-    },
-    {
-      "name": "KERYX BIOPHARMACEUTICALS INC",
-      "cusip": "492515101",
-      "shares": 5719176,
-      "value": 41350000
-    },
-    {
-      "name": "OCH ZIFF CAP MGMT GROUP",
-      "cusip": "67551U105",
-      "shares": 22238592,
-      "value": 56931000
-    },
-    {
-      "name": "QUALITY CARE PPTYS INC",
-      "cusip": "747545101",
-      "shares": 5000000,
-      "value": 91550000
-    },
-    {
-      "name": "SUBURBAN PROPANE PARTNERS L",
-      "cusip": "864482104",
-      "shares": 388969,
-      "value": 9254000
+      "value": 355858
     },
     {
       "name": "TIME WARNER INC",
       "cusip": "887317303",
       "shares": 3050000,
-      "value": 306251000
+      "value": 306251
     },
     {
-      "name": "VEON LTD",
-      "cusip": "91822M106",
-      "shares": 14055481,
-      "value": 54957000
-    },
-    {
-      "name": "WELBILT INC",
-      "cusip": "949090104",
-      "shares": 5967907,
-      "value": 112495000
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 3914805,
+      "value": 213279
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 3342343,
-      "value": 185199000
-    },
-    {
-      "name": "WESTERN UN CO",
-      "cusip": "959802109",
-      "shares": 21608707,
-      "value": 411646000
+      "value": 185199
     },
     {
       "name": "WILLIS TOWERS WATSON PUB LTD",
       "cusip": "G96629103",
       "shares": 1183287,
-      "value": 172121000
+      "value": 172121
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 394610,
+      "value": 144451
+    },
+    {
+      "name": "COLONY NORTHSTAR INC",
+      "cusip": "19625W104",
+      "shares": 9419457,
+      "value": 132720
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 5967907,
+      "value": 112495
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 8771492,
+      "value": 93241
+    },
+    {
+      "name": "QUALITY CARE PPTYS INC",
+      "cusip": "747545101",
+      "shares": 5000000,
+      "value": 91550
+    },
+    {
+      "name": "CARS COM INC",
+      "cusip": "14575E105",
+      "shares": 2500000,
+      "value": 66575
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U105",
+      "shares": 22238592,
+      "value": 56931
+    },
+    {
+      "name": "VEON LTD",
+      "cusip": "91822M106",
+      "shares": 14055481,
+      "value": 54957
+    },
+    {
+      "name": "KERYX BIOPHARMACEUTICALS INC",
+      "cusip": "492515101",
+      "shares": 5719176,
+      "value": 41350
+    },
+    {
+      "name": "BARNES & NOBLE INC",
+      "cusip": "067774109",
+      "shares": 3508735,
+      "value": 26666
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 7000000,
+      "value": 24920
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 16269
+    },
+    {
+      "name": "SUBURBAN PROPANE PARTNERS L",
+      "cusip": "864482104",
+      "shares": 388969,
+      "value": 9254
     }
-  ]
+  ],
+  "totalValue": 2515733,
+  "positionsCount": 19
 }

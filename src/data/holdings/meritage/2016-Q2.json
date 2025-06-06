@@ -1,173 +1,179 @@
 {
+  "form": "13F-HR",
   "date": "2016-05-13",
+  "period": "2016-05-13",
+  "accession": "0001427119-16-000018",
+  "quarterKey": "2016-Q2",
   "positions": [
     {
-      "name": "ADVANCE AUTO PARTS INC",
-      "cusip": "00751Y106",
-      "shares": 165700,
-      "value": 26568000
-    },
-    {
-      "name": "APOLLO GLOBAL MGMT LLC",
-      "cusip": "037612306",
-      "shares": 420000,
-      "value": 7190000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 222600,
-      "value": 12980000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 49805,
-      "value": 2904000
-    },
-    {
-      "name": "AXALTA COATING SYS LTD",
-      "cusip": "G0750C108",
-      "shares": 6769299,
-      "value": 197664000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 532621,
-      "value": 101667000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC D",
-      "cusip": "16117M305",
-      "shares": 70000,
-      "value": 14170000
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 3700000,
+      "value": 760424
     },
     {
       "name": "CHARTER COMMUNICATIONS INC D",
       "cusip": "16117M305",
       "shares": 2168236,
-      "value": 438916000
-    },
-    {
-      "name": "DUNKIN BRANDS GROUP INC",
-      "cusip": "265504100",
-      "shares": 3786424,
-      "value": 178606000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 1000000,
-      "value": 31430000
-    },
-    {
-      "name": "HANESBRANDS INC",
-      "cusip": "410345102",
-      "shares": 1725180,
-      "value": 48892000
-    },
-    {
-      "name": "INTERCONTINENTAL EXCHANGE IN",
-      "cusip": "45866F104",
-      "shares": 687575,
-      "value": 161676000
-    },
-    {
-      "name": "LKQ CORP",
-      "cusip": "501889208",
-      "shares": 3438753,
-      "value": 109799000
-    },
-    {
-      "name": "MCGRAW HILL FINL INC",
-      "cusip": "580645109",
-      "shares": 1315077,
-      "value": 130166000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 1105399,
-      "value": 173824000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 3778663,
-      "value": 208696000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 1467649,
-      "value": 141716000
-    },
-    {
-      "name": "QUALCOMM INC",
-      "cusip": "747525103",
-      "shares": 2200345,
-      "value": 112526000
-    },
-    {
-      "name": "SALLY BEAUTY HLDGS INC",
-      "cusip": "79546E104",
-      "shares": 4920368,
-      "value": 159322000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP",
-      "cusip": "78388J106",
-      "shares": 2082393,
-      "value": 208593000
-    },
-    {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 3700000,
-      "value": 760424000
-    },
-    {
-      "name": "TESLA MTRS INC",
-      "cusip": "88160R101",
-      "shares": 76640,
-      "value": 17610000
+      "value": 438916
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 12332589,
-      "value": 343833000
-    },
-    {
-      "name": "UNION PAC CORP",
-      "cusip": "907818108",
-      "shares": 1615433,
-      "value": 128508000
+      "value": 343833
     },
     {
       "name": "UNITED TECHNOLOGIES CORP",
       "cusip": "913017109",
       "shares": 3102857,
-      "value": 310596000
+      "value": 310596
     },
     {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 868281,
-      "value": 66406000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3778663,
+      "value": 208696
     },
     {
-      "name": "WALGREENS BOOTS ALLIANCE INC",
-      "cusip": "931427108",
-      "shares": 1719794,
-      "value": 144875000
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 2082393,
+      "value": 208593
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 6769299,
+      "value": 197664
     },
     {
       "name": "ALLERGAN PLC",
       "cusip": "G0177J108",
       "shares": 709035,
-      "value": 190043000
+      "value": 190043
+    },
+    {
+      "name": "DUNKIN BRANDS GROUP INC",
+      "cusip": "265504100",
+      "shares": 3786424,
+      "value": 178606
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1105399,
+      "value": 173824
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 687575,
+      "value": 161676
+    },
+    {
+      "name": "SALLY BEAUTY HLDGS INC",
+      "cusip": "79546E104",
+      "shares": 4920368,
+      "value": 159322
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 1719794,
+      "value": 144875
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1467649,
+      "value": 141716
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 1315077,
+      "value": 130166
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 1615433,
+      "value": 128508
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 2200345,
+      "value": 112526
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 3438753,
+      "value": 109799
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 532621,
+      "value": 101667
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 868281,
+      "value": 66406
+    },
+    {
+      "name": "HANESBRANDS INC",
+      "cusip": "410345102",
+      "shares": 1725180,
+      "value": 48892
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 1000000,
+      "value": 31430
+    },
+    {
+      "name": "ADVANCE AUTO PARTS INC",
+      "cusip": "00751Y106",
+      "shares": 165700,
+      "value": 26568
+    },
+    {
+      "name": "TESLA MTRS INC",
+      "cusip": "88160R101",
+      "shares": 76640,
+      "value": 17610
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 70000,
+      "value": 14170
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 222600,
+      "value": 12980
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT LLC",
+      "cusip": "037612306",
+      "shares": 420000,
+      "value": 7190
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 49805,
+      "value": 2904
     }
-  ]
+  ],
+  "totalValue": 4429600,
+  "positionsCount": 28
 }

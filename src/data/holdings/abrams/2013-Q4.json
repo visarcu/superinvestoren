@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2013-11-13",
+  "period": "2013-11-13",
+  "accession": "0001172661-13-001442",
+  "quarterKey": "2013-Q4",
   "positions": [
     {
-      "name": "AMERICAN INTL GROUP INC",
-      "cusip": "026874784",
-      "shares": 4745040,
-      "value": 230751000
-    },
-    {
-      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
-      "cusip": "18451C109",
-      "shares": 3354390,
-      "value": 27506000
-    },
-    {
-      "name": "CST BRANDS INC",
-      "cusip": "12646R105",
-      "shares": 3000000,
-      "value": 89400000
-    },
-    {
-      "name": "ENGILITY HLDGS INC",
-      "cusip": "29285W104",
-      "shares": 2527478,
-      "value": 80197000
-    },
-    {
-      "name": "MANTECH INTL CORP",
-      "cusip": "564563104",
-      "shares": 860920,
-      "value": 24760000
-    },
-    {
-      "name": "ROYAL BK SCOTLAND GROUP PLC",
-      "cusip": "780097747",
-      "shares": 115305,
-      "value": 2322000
-    },
-    {
-      "name": "ROYAL BK SCOTLAND GROUP PLC",
-      "cusip": "780097762",
-      "shares": 57380,
-      "value": 1179000
-    },
-    {
-      "name": "SANOFI",
-      "cusip": "80105N113",
-      "shares": 31179637,
-      "value": 62983000
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 17362477,
+      "value": 323984
     },
     {
       "name": "SLM CORP",
       "cusip": "78442P106",
       "shares": 10165910,
-      "value": 253131000
+      "value": 253131
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 4745040,
+      "value": 230751
     },
     {
       "name": "WESCO AIRCRAFT HLDGS INC",
       "cusip": "950814103",
       "shares": 8684212,
-      "value": 181761000
+      "value": 181761
     },
     {
-      "name": "WESTERN UN CO",
-      "cusip": "959802109",
-      "shares": 17362477,
-      "value": 323984000
+      "name": "CST BRANDS INC",
+      "cusip": "12646R105",
+      "shares": 3000000,
+      "value": 89400
+    },
+    {
+      "name": "ENGILITY HLDGS INC",
+      "cusip": "29285W104",
+      "shares": 2527478,
+      "value": 80197
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N113",
+      "shares": 31179637,
+      "value": 62983
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 27506
+    },
+    {
+      "name": "MANTECH INTL CORP",
+      "cusip": "564563104",
+      "shares": 860920,
+      "value": 24760
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097747",
+      "shares": 115305,
+      "value": 2322
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097762",
+      "shares": 57380,
+      "value": 1179
     }
-  ]
+  ],
+  "totalValue": 1277974,
+  "positionsCount": 11
 }

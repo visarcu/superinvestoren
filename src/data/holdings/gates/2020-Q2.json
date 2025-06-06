@@ -1,143 +1,149 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0001104659-20-062657",
+  "quarterKey": "2020-Q2",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 552383,
-      "value": 107427000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 43107,
-      "value": 50088000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 42981,
-      "value": 49979000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 60460,
-      "value": 117880000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 501044,
-      "value": 127410000
-    },
-    {
-      "name": "ARCOS DORADOS HOLDINGS INC",
-      "cusip": "G0457F107",
-      "shares": 3060500,
-      "value": 10222000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 44912525,
-      "value": 8211357000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 17126874,
-      "value": 1329559000
-    },
-    {
-      "name": "CATERPILLAR INC DEL",
-      "cusip": "149123101",
-      "shares": 11260857,
-      "value": 1306710000
-    },
-    {
-      "name": "COCA COLA FEMSA S A B DE C V",
-      "cusip": "191241108",
-      "shares": 6214719,
-      "value": 250018000
-    },
-    {
-      "name": "CROWN CASTLE INTL CORP NEW",
-      "cusip": "22822V101",
-      "shares": 5332900,
-      "value": 770071000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 4366426,
-      "value": 680420000
-    },
-    {
-      "name": "FEDEX CORP",
-      "cusip": "31428X106",
-      "shares": 3024999,
-      "value": 366811000
-    },
-    {
-      "name": "GRUPO TELEVISA SA",
-      "cusip": "40049J206",
-      "shares": 16879104,
-      "value": 97899000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 2119515,
-      "value": 34993000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 3639349,
-      "value": 57174000
-    },
-    {
-      "name": "LIBERTY LATIN AMERICA LTD",
-      "cusip": "G9001E102",
-      "shares": 370424,
-      "value": 3897000
-    },
-    {
-      "name": "LIBERTY LATIN AMERICA LTD",
-      "cusip": "G9001E128",
-      "shares": 636044,
-      "value": 6526000
-    },
-    {
-      "name": "SCHRODINGER INC",
-      "cusip": "80810D103",
-      "shares": 6981665,
-      "value": 301049000
-    },
-    {
-      "name": "TWITTER INC",
-      "cusip": "90184L102",
-      "shares": 272420,
-      "value": 6691000
-    },
-    {
-      "name": "UNITED PARCEL SERVICE INC",
-      "cusip": "911312106",
-      "shares": 4525329,
-      "value": 422756000
-    },
-    {
-      "name": "WALMART INC",
-      "cusip": "931142103",
-      "shares": 11603000,
-      "value": 1318333000
+      "value": 8211357
     },
     {
       "name": "WASTE MGMT INC DEL",
       "cusip": "94106L109",
       "shares": 18633672,
-      "value": 1724733000
+      "value": 1724733
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 17126874,
+      "value": 1329559
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 11603000,
+      "value": 1318333
+    },
+    {
+      "name": "CATERPILLAR INC DEL",
+      "cusip": "149123101",
+      "shares": 11260857,
+      "value": 1306710
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 5332900,
+      "value": 770071
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366426,
+      "value": 680420
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 4525329,
+      "value": 422756
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 3024999,
+      "value": 366811
+    },
+    {
+      "name": "SCHRODINGER INC",
+      "cusip": "80810D103",
+      "shares": 6981665,
+      "value": 301049
+    },
+    {
+      "name": "COCA COLA FEMSA S A B DE C V",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 250018
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 501044,
+      "value": 127410
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 60460,
+      "value": 117880
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 552383,
+      "value": 107427
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 16879104,
+      "value": 97899
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 3639349,
+      "value": 57174
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 43107,
+      "value": 50088
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 42981,
+      "value": 49979
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 2119515,
+      "value": 34993
+    },
+    {
+      "name": "ARCOS DORADOS HOLDINGS INC",
+      "cusip": "G0457F107",
+      "shares": 3060500,
+      "value": 10222
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 272420,
+      "value": 6691
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E128",
+      "shares": 636044,
+      "value": 6526
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E102",
+      "shares": 370424,
+      "value": 3897
     }
-  ]
+  ],
+  "totalValue": 17352003,
+  "positionsCount": 23
 }

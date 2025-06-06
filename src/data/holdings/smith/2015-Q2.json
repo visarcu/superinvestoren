@@ -2,126 +2,130 @@
   "form": "13F-HR",
   "date": "2015-06-03",
   "period": "2015-06-03",
+  "accession": "0001387131-15-001904",
+  "quarterKey": "2015-Q2",
   "positions": [
     {
-      "name": "3M CO",
-      "cusip": "88579Y101",
-      "shares": 920847,
-      "value": 150936000
-    },
-    {
-      "name": "AUTOMATIC DATA PROCESSING INC",
-      "cusip": "53015103",
-      "shares": 1762562,
-      "value": 150946000
-    },
-    {
-      "name": "BARD C R INC",
-      "cusip": "067383109",
-      "shares": 1155034,
-      "value": 193051000
-    },
-    {
-      "name": "BECTON DICKINSON & CO",
-      "cusip": "75887109",
-      "shares": 1791841,
-      "value": 257290000
-    },
-    {
-      "name": "CHOICE HOTELS INTL INC",
-      "cusip": "169905106",
-      "shares": 553589,
-      "value": 35468000
-    },
-    {
-      "name": "COLGATE PALMOLIVE CO",
-      "cusip": "194162103",
-      "shares": 1081946,
-      "value": 74606000
-    },
-    {
-      "name": "DOMINOS PIZZA INC",
-      "cusip": "25754A201",
-      "shares": 2134570,
-      "value": 214631000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 7185480,
+      "value": 290236
     },
     {
       "name": "DR PEPPER SNAPPLE GROUP INC",
       "cusip": "26138E109",
       "shares": 3514615,
-      "value": 275827000
+      "value": 275827
     },
     {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 1902103,
-      "value": 189965000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 7185480,
-      "value": 290236000
-    },
-    {
-      "name": "PEPSICO INC",
-      "cusip": "713448108",
-      "shares": 2170265,
-      "value": 207521000
-    },
-    {
-      "name": "PHILIP MORRIS INTL INC",
-      "cusip": "718172109",
-      "shares": 2942293,
-      "value": 221643000
-    },
-    {
-      "name": "PROCTER & GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 1618689,
-      "value": 131577000
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "75887109",
+      "shares": 1791841,
+      "value": 257290
     },
     {
       "name": "STRYKER CORP",
       "cusip": "863667101",
       "shares": 2694794,
-      "value": 248595000
-    },
-    {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 2546503,
-      "value": 166261000
+      "value": 248595
     },
     {
       "name": "EBAY INC",
       "cusip": "278642103",
       "shares": 3975089,
-      "value": 229283000
+      "value": 229283
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 2942293,
+      "value": 221643
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2134570,
+      "value": 214631
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 2170265,
+      "value": 207521
+    },
+    {
+      "name": "BARD C R INC",
+      "cusip": "067383109",
+      "shares": 1155034,
+      "value": 193051
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 1902103,
+      "value": 189965
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 2546503,
+      "value": 166261
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING INC",
+      "cusip": "53015103",
+      "shares": 1762562,
+      "value": 150946
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 920847,
+      "value": 150936
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1618689,
+      "value": 131577
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 1081946,
+      "value": 74606
     },
     {
       "name": "WATERS CORP",
       "cusip": "941848103",
       "shares": 310736,
-      "value": 38631000
+      "value": 38631
     },
     {
-      "name": "IDEXX LABS INC",
-      "cusip": "45168D104",
-      "shares": 25493,
-      "value": 3938000
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 553589,
+      "value": 35468
     },
     {
       "name": "MARRIOT INTL INC NEW",
       "cusip": "571903202",
       "shares": 49424,
-      "value": 3957000
+      "value": 3957
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 25493,
+      "value": 3938
     },
     {
       "name": "DUNKIN BRANDS GROUP INC",
       "cusip": "265504100",
       "shares": 80148,
-      "value": 3812000
+      "value": 3812
     }
-  ]
+  ],
+  "totalValue": 3088174,
+  "positionsCount": 20
 }

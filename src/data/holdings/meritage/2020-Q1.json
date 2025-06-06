@@ -1,227 +1,233 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001427119-20-000002",
+  "quarterKey": "2020-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 122978,
-      "value": 164716000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 127922,
-      "value": 171034000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 168518,
-      "value": 311394000
-    },
-    {
-      "name": "AMERICAN WTR WKS CO INC NEW",
-      "cusip": "030420103",
-      "shares": 2450,
-      "value": 301000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 1388743,
-      "value": 254779000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 1000,
-      "value": 227000
-    },
-    {
-      "name": "BOEING CO",
-      "cusip": "097023105",
-      "shares": 783467,
-      "value": 255222000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 2394788,
-      "value": 216638000
-    },
-    {
-      "name": "CATERPILLAR INC DEL",
-      "cusip": "149123101",
-      "shares": 1373,
-      "value": 203000
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 2500000,
+      "value": 804650
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 1586408,
-      "value": 769535000
-    },
-    {
-      "name": "ELECTRONIC ARTS INC",
-      "cusip": "285512109",
-      "shares": 200,
-      "value": 22000
-    },
-    {
-      "name": "ELECTRONIC ARTS INC",
-      "cusip": "285512109",
-      "shares": 1559697,
-      "value": 167683000
-    },
-    {
-      "name": "EVERGY INC",
-      "cusip": "30034W106",
-      "shares": 5183,
-      "value": 337000
+      "value": 769535
     },
     {
       "name": "FIDELITY NATL INFORMATION SV",
       "cusip": "31620M106",
       "shares": 3575235,
-      "value": 497279000
-    },
-    {
-      "name": "FLEETCOR TECHNOLOGIES INC",
-      "cusip": "339041105",
-      "shares": 1454,
-      "value": 418000
-    },
-    {
-      "name": "HENRY SCHEIN INC",
-      "cusip": "806407102",
-      "shares": 3584,
-      "value": 239000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 2828,
-      "value": 314000
-    },
-    {
-      "name": "HOST HOTELS & RESORTS INC",
-      "cusip": "44107P104",
-      "shares": 10314,
-      "value": 191000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 1095788,
-      "value": 165935000
+      "value": 497279
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 2231151,
-      "value": 351853000
-    },
-    {
-      "name": "MIMECAST LTD",
-      "cusip": "G14838109",
-      "shares": 1406819,
-      "value": 61028000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 729954,
-      "value": 173298000
-    },
-    {
-      "name": "NATIONAL OILWELL VARCO INC",
-      "cusip": "637071101",
-      "shares": 10979,
-      "value": 275000
-    },
-    {
-      "name": "NEWMONT GOLDCORP CORPORATION",
-      "cusip": "651639106",
-      "shares": 5450,
-      "value": 237000
-    },
-    {
-      "name": "NISOURCE INC",
-      "cusip": "65473P105",
-      "shares": 10516,
-      "value": 293000
-    },
-    {
-      "name": "REPUBLIC SVCS INC",
-      "cusip": "760759100",
-      "shares": 3194,
-      "value": 286000
-    },
-    {
-      "name": "RESTAURANT BRANDS INTL INC",
-      "cusip": "76131D103",
-      "shares": 2579338,
-      "value": 164484000
-    },
-    {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 776736,
-      "value": 126328000
-    },
-    {
-      "name": "SHERWIN WILLIAMS CO",
-      "cusip": "824348106",
-      "shares": 502757,
-      "value": 293379000
-    },
-    {
-      "name": "SMUCKER J M CO",
-      "cusip": "832696405",
-      "shares": 2909,
-      "value": 303000
-    },
-    {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 2500000,
-      "value": 804650000
-    },
-    {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 3500,
-      "value": 1127000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 464744,
-      "value": 126898000
-    },
-    {
-      "name": "THERMO FISHER SCIENTIFIC INC",
-      "cusip": "883556102",
-      "shares": 821795,
-      "value": 266977000
+      "value": 351853
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 620105,
-      "value": 347259000
+      "value": 347259
     },
     {
-      "name": "VERISIGN INC",
-      "cusip": "92343E102",
-      "shares": 1487,
-      "value": 287000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 168518,
+      "value": 311394
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 502757,
+      "value": 293379
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 821795,
+      "value": 266977
+    },
+    {
+      "name": "BOEING CO",
+      "cusip": "097023105",
+      "shares": 783467,
+      "value": 255222
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 1388743,
+      "value": 254779
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 2394788,
+      "value": 216638
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 729954,
+      "value": 173298
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 127922,
+      "value": 171034
+    },
+    {
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 1559697,
+      "value": 167683
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 1095788,
+      "value": 165935
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 122978,
+      "value": 164716
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2579338,
+      "value": 164484
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 464744,
+      "value": 126898
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 776736,
+      "value": 126328
+    },
+    {
+      "name": "MIMECAST LTD",
+      "cusip": "G14838109",
+      "shares": 1406819,
+      "value": 61028
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 3500,
+      "value": 1127
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 1454,
+      "value": 418
+    },
+    {
+      "name": "EVERGY INC",
+      "cusip": "30034W106",
+      "shares": 5183,
+      "value": 337
     },
     {
       "name": "VERISK ANALYTICS INC",
       "cusip": "92345Y106",
       "shares": 2244,
-      "value": 335000
+      "value": 335
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 2828,
+      "value": 314
+    },
+    {
+      "name": "SMUCKER J M CO",
+      "cusip": "832696405",
+      "shares": 2909,
+      "value": 303
+    },
+    {
+      "name": "AMERICAN WTR WKS CO INC NEW",
+      "cusip": "030420103",
+      "shares": 2450,
+      "value": 301
+    },
+    {
+      "name": "NISOURCE INC",
+      "cusip": "65473P105",
+      "shares": 10516,
+      "value": 293
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 1487,
+      "value": 287
+    },
+    {
+      "name": "REPUBLIC SVCS INC",
+      "cusip": "760759100",
+      "shares": 3194,
+      "value": 286
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 10979,
+      "value": 275
+    },
+    {
+      "name": "HENRY SCHEIN INC",
+      "cusip": "806407102",
+      "shares": 3584,
+      "value": 239
+    },
+    {
+      "name": "NEWMONT GOLDCORP CORPORATION",
+      "cusip": "651639106",
+      "shares": 5450,
+      "value": 237
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1000,
+      "value": 227
+    },
+    {
+      "name": "CATERPILLAR INC DEL",
+      "cusip": "149123101",
+      "shares": 1373,
+      "value": 203
+    },
+    {
+      "name": "HOST HOTELS & RESORTS INC",
+      "cusip": "44107P104",
+      "shares": 10314,
+      "value": 191
+    },
+    {
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 200,
+      "value": 22
     }
-  ]
+  ],
+  "totalValue": 5695764,
+  "positionsCount": 37
 }

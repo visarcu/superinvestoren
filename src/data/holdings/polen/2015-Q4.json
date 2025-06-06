@@ -1,4 +1,155 @@
 {
+  "form": "13F-HR",
   "date": "2015-11-16",
-  "positions": []
+  "period": "2015-11-16",
+  "accession": "0001034524-15-000005",
+  "quarterKey": "2015-Q4",
+  "positions": [
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 3472225,
+      "value": 426980
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 5853523,
+      "value": 407756
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 6344218,
+      "value": 360605
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 493575,
+      "value": 300301
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 242483,
+      "value": 299918
+    },
+    {
+      "name": "ABBOTT LABS",
+      "cusip": "002824100",
+      "shares": 7212757,
+      "value": 290097
+    },
+    {
+      "name": "TJX COS INC NEW",
+      "cusip": "872540109",
+      "shares": 4053112,
+      "value": 289473
+    },
+    {
+      "name": "REGENERON PHARMACEUTICALS",
+      "cusip": "75886F107",
+      "shares": 575505,
+      "value": 267690
+    },
+    {
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 2700473,
+      "value": 265348
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 7134873,
+      "value": 257712
+    },
+    {
+      "name": "Nestle S.A. Adr",
+      "cusip": "641069406",
+      "shares": 3406351,
+      "value": 256294
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 3142746,
+      "value": 252363
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 370416,
+      "value": 236029
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2111493,
+      "value": 232159
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 915633,
+      "value": 228662
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 2744000,
+      "value": 225612
+    },
+    {
+      "name": "GARTNER INC",
+      "cusip": "366651107",
+      "shares": 2244524,
+      "value": 188383
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 5126885,
+      "value": 187695
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2065946,
+      "value": 185377
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 1687289,
+      "value": 182447
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 1275459,
+      "value": 114944
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 5068,
+      "value": 471
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 1246,
+      "value": 268
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH LT",
+      "cusip": "M22465104",
+      "shares": 2966,
+      "value": 235
+    }
+  ],
+  "totalValue": 5456819,
+  "positionsCount": 24
 }

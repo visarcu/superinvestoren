@@ -1,209 +1,215 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001656456-22-000002",
+  "quarterKey": "2022-Q2",
   "positions": [
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 119000,
-      "value": 332366000
-    },
-    {
-      "name": "ALPS ETF TR",
-      "cusip": "00162Q452",
-      "shares": 405000,
-      "value": 15512000
-    },
-    {
-      "name": "ALTIMETER GROWTH CORP 2",
-      "cusip": "G0371B109",
-      "shares": 1500000,
-      "value": 14730000
+      "value": 332366
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 85000,
-      "value": 277096000
-    },
-    {
-      "name": "ANTERO RESOURCES CORP",
-      "cusip": "03674X106",
-      "shares": 1975000,
-      "value": 60297000
-    },
-    {
-      "name": "APA CORPORATION",
-      "cusip": "03743Q108",
-      "shares": 200000,
-      "value": 8266000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167172",
-      "shares": 378000,
-      "value": 22506000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167180",
-      "shares": 240000,
-      "value": 13361000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167735",
-      "shares": 122000,
-      "value": 10614000
-    },
-    {
-      "name": "ENERGY TRANSFER L P",
-      "cusip": "29273V100",
-      "shares": 9211393,
-      "value": 103075000
-    },
-    {
-      "name": "ENTERPRISE PRODS PARTNERS L",
-      "cusip": "293792107",
-      "shares": 817980,
-      "value": 21112000
-    },
-    {
-      "name": "EQT CORP",
-      "cusip": "26884L109",
-      "shares": 3935000,
-      "value": 135403000
-    },
-    {
-      "name": "FREEPORT-MCMORAN INC",
-      "cusip": "35671D857",
-      "shares": 740000,
-      "value": 36808000
-    },
-    {
-      "name": "GOODYEAR TIRE & RUBR CO",
-      "cusip": "382550101",
-      "shares": 3254829,
-      "value": 46512000
-    },
-    {
-      "name": "KOHLS CORP",
-      "cusip": "500255104",
-      "shares": 700000,
-      "value": 42322000
-    },
-    {
-      "name": "LAS VEGAS SANDS CORP",
-      "cusip": "517834107",
-      "shares": 525000,
-      "value": 20407000
-    },
-    {
-      "name": "MACYS INC",
-      "cusip": "55616P104",
-      "shares": 7911642,
-      "value": 192728000
+      "value": 277096
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 890000,
-      "value": 197900000
+      "value": 197900
+    },
+    {
+      "name": "MACYS INC",
+      "cusip": "55616P104",
+      "shares": 7911642,
+      "value": 192728
     },
     {
       "name": "MICRON TECHNOLOGY INC",
       "cusip": "595112103",
       "shares": 2100000,
-      "value": 163569000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 366000,
-      "value": 112841000
-    },
-    {
-      "name": "MOSAIC CO NEW",
-      "cusip": "61945C103",
-      "shares": 835000,
-      "value": 55528000
-    },
-    {
-      "name": "MPLX LP",
-      "cusip": "55336V100",
-      "shares": 120380,
-      "value": 3994000
-    },
-    {
-      "name": "NORDSTROM INC",
-      "cusip": "655664100",
-      "shares": 1125000,
-      "value": 30499000
+      "value": 163569
     },
     {
       "name": "OCCIDENTAL PETE CORP",
       "cusip": "674599105",
       "shares": 2840000,
-      "value": 161142000
+      "value": 161142
     },
     {
-      "name": "PG&E CORP",
-      "cusip": "69331C108",
-      "shares": 6007160,
-      "value": 71725000
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 3935000,
+      "value": 135403
     },
     {
-      "name": "PG&E CORP",
-      "cusip": "69331C140",
-      "shares": 75000,
-      "value": 8433000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 366000,
+      "value": 112841
     },
     {
-      "name": "SELECT SECTOR SPDR TR",
-      "cusip": "81369Y506",
-      "shares": 695000,
-      "value": 53126000
-    },
-    {
-      "name": "SPDR SER TR",
-      "cusip": "78468R556",
-      "shares": 285000,
-      "value": 38347000
-    },
-    {
-      "name": "SYSCO CORP",
-      "cusip": "871829107",
-      "shares": 750000,
-      "value": 61238000
-    },
-    {
-      "name": "TCV ACQUISITION CORP",
-      "cusip": "G8704C124",
-      "shares": 600000,
-      "value": 5856000
-    },
-    {
-      "name": "UBER TECHNOLOGIES INC",
-      "cusip": "90353T100",
-      "shares": 2020000,
-      "value": 72074000
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 9211393,
+      "value": 103075
     },
     {
       "name": "UNITEDHEALTH GROUP INC",
       "cusip": "91324P102",
       "shares": 168000,
-      "value": 85675000
+      "value": 85675
     },
     {
-      "name": "WESTERN MIDSTREAM PARTNERS L",
-      "cusip": "958669103",
-      "shares": 239310,
-      "value": 6035000
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 2020000,
+      "value": 72074
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 6007160,
+      "value": 71725
+    },
+    {
+      "name": "SYSCO CORP",
+      "cusip": "871829107",
+      "shares": 750000,
+      "value": 61238
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674X106",
+      "shares": 1975000,
+      "value": 60297
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 835000,
+      "value": 55528
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y506",
+      "shares": 695000,
+      "value": 53126
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 3254829,
+      "value": 46512
+    },
+    {
+      "name": "KOHLS CORP",
+      "cusip": "500255104",
+      "shares": 700000,
+      "value": 42322
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78468R556",
+      "shares": 285000,
+      "value": 38347
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 740000,
+      "value": 36808
+    },
+    {
+      "name": "NORDSTROM INC",
+      "cusip": "655664100",
+      "shares": 1125000,
+      "value": 30499
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167172",
+      "shares": 378000,
+      "value": 22506
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 817980,
+      "value": 21112
+    },
+    {
+      "name": "LAS VEGAS SANDS CORP",
+      "cusip": "517834107",
+      "shares": 525000,
+      "value": 20407
     },
     {
       "name": "WYNN RESORTS LTD",
       "cusip": "983134107",
       "shares": 225000,
-      "value": 17942000
+      "value": 17942
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 405000,
+      "value": 15512
+    },
+    {
+      "name": "ALTIMETER GROWTH CORP 2",
+      "cusip": "G0371B109",
+      "shares": 1500000,
+      "value": 14730
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167180",
+      "shares": 240000,
+      "value": 13361
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 122000,
+      "value": 10614
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 75000,
+      "value": 8433
+    },
+    {
+      "name": "APA CORPORATION",
+      "cusip": "03743Q108",
+      "shares": 200000,
+      "value": 8266
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 239310,
+      "value": 6035
+    },
+    {
+      "name": "TCV ACQUISITION CORP",
+      "cusip": "G8704C124",
+      "shares": 600000,
+      "value": 5856
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 120380,
+      "value": 3994
     }
-  ]
+  ],
+  "totalValue": 2499039,
+  "positionsCount": 34
 }

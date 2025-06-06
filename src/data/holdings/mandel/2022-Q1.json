@@ -1,179 +1,185 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-14",
+  "period": "2022-02-14",
+  "accession": "0001567619-22-004367",
+  "quarterKey": "2022-Q1",
   "positions": [
-    {
-      "name": "ADOBE SYSTEMS INCORPORATED",
-      "cusip": "00724F101",
-      "shares": 1093713,
-      "value": 620201000
-    },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 617321,
-      "value": 2058358000
-    },
-    {
-      "name": "AMPLITUDE INC",
-      "cusip": "03213A104",
-      "shares": 1877000,
-      "value": 99368000
-    },
-    {
-      "name": "AVIDXCHANGE HOLDINGS INC",
-      "cusip": "05368X102",
-      "shares": 5080632,
-      "value": 76514000
-    },
-    {
-      "name": "BATH & BODY WORKS INC",
-      "cusip": "070830104",
-      "shares": 24300268,
-      "value": 1695916000
-    },
-    {
-      "name": "BLOCK INC",
-      "cusip": "852234103",
-      "shares": 277372,
-      "value": 44798000
-    },
-    {
-      "name": "CONFLUENT INC",
-      "cusip": "20717M103",
-      "shares": 4398572,
-      "value": 335347000
-    },
-    {
-      "name": "DATADOG INC",
-      "cusip": "23804L103",
-      "shares": 3272681,
-      "value": 582897000
-    },
-    {
-      "name": "DOORDASH INC",
-      "cusip": "25809K105",
-      "shares": 8252069,
-      "value": 1228733000
-    },
-    {
-      "name": "FARFETCH LTD",
-      "cusip": "30744W107",
-      "shares": 24439933,
-      "value": 817027000
-    },
-    {
-      "name": "FRESHWORKS INC",
-      "cusip": "358054104",
-      "shares": 275000,
-      "value": 7222000
-    },
-    {
-      "name": "KE HLDGS INC",
-      "cusip": "482497104",
-      "shares": 30957063,
-      "value": 622856000
-    },
-    {
-      "name": "MARQETA INC",
-      "cusip": "57142B104",
-      "shares": 17476795,
-      "value": 300077000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 4822796,
-      "value": 1732927000
-    },
-    {
-      "name": "MATCH GROUP INC NEW",
-      "cusip": "57667L107",
-      "shares": 8872280,
-      "value": 1173359000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 4694472,
-      "value": 1578845000
-    },
-    {
-      "name": "NETEASE INC",
-      "cusip": "64110W102",
-      "shares": 4452541,
-      "value": 453180000
-    },
-    {
-      "name": "PVH CORPORATION",
-      "cusip": "693656100",
-      "shares": 3065646,
-      "value": 326951000
-    },
-    {
-      "name": "RH",
-      "cusip": "74967X103",
-      "shares": 1603888,
-      "value": 859588000
-    },
-    {
-      "name": "SERVICENOW INC",
-      "cusip": "81762P102",
-      "shares": 2005586,
-      "value": 1301846000
+      "value": 2058358
     },
     {
       "name": "SHOPIFY INC",
       "cusip": "82509L107",
       "shares": 1389635,
-      "value": 1914069000
+      "value": 1914069
     },
     {
-      "name": "SNAP INC",
-      "cusip": "83304A106",
-      "shares": 33478637,
-      "value": 1574500000
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 4822796,
+      "value": 1732927
     },
     {
-      "name": "SNOWFLAKE INC",
-      "cusip": "833445109",
-      "shares": 1646640,
-      "value": 557799000
-    },
-    {
-      "name": "SWEETGREEN INC",
-      "cusip": "87043Q108",
-      "shares": 4556503,
-      "value": 145808000
-    },
-    {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 2296087,
-      "value": 1152957000
-    },
-    {
-      "name": "VICTORIAS SECRET AND CO",
-      "cusip": "926400102",
-      "shares": 8195810,
-      "value": 455195000
-    },
-    {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 4833625,
-      "value": 1047495000
-    },
-    {
-      "name": "VTEX",
-      "cusip": "G9470A102",
-      "shares": 5274887,
-      "value": 56547000
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 24300268,
+      "value": 1695916
     },
     {
       "name": "WORKDAY INC",
       "cusip": "98138H101",
       "shares": 5814667,
-      "value": 1588451000
+      "value": 1588451
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 4694472,
+      "value": 1578845
+    },
+    {
+      "name": "SNAP INC",
+      "cusip": "83304A106",
+      "shares": 33478637,
+      "value": 1574500
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 2005586,
+      "value": 1301846
+    },
+    {
+      "name": "DOORDASH INC",
+      "cusip": "25809K105",
+      "shares": 8252069,
+      "value": 1228733
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 8872280,
+      "value": 1173359
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 2296087,
+      "value": 1152957
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 4833625,
+      "value": 1047495
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 1603888,
+      "value": 859588
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 24439933,
+      "value": 817027
+    },
+    {
+      "name": "KE HLDGS INC",
+      "cusip": "482497104",
+      "shares": 30957063,
+      "value": 622856
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 1093713,
+      "value": 620201
+    },
+    {
+      "name": "DATADOG INC",
+      "cusip": "23804L103",
+      "shares": 3272681,
+      "value": 582897
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 1646640,
+      "value": 557799
+    },
+    {
+      "name": "VICTORIAS SECRET AND CO",
+      "cusip": "926400102",
+      "shares": 8195810,
+      "value": 455195
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 4452541,
+      "value": 453180
+    },
+    {
+      "name": "CONFLUENT INC",
+      "cusip": "20717M103",
+      "shares": 4398572,
+      "value": 335347
+    },
+    {
+      "name": "PVH CORPORATION",
+      "cusip": "693656100",
+      "shares": 3065646,
+      "value": 326951
+    },
+    {
+      "name": "MARQETA INC",
+      "cusip": "57142B104",
+      "shares": 17476795,
+      "value": 300077
+    },
+    {
+      "name": "SWEETGREEN INC",
+      "cusip": "87043Q108",
+      "shares": 4556503,
+      "value": 145808
+    },
+    {
+      "name": "AMPLITUDE INC",
+      "cusip": "03213A104",
+      "shares": 1877000,
+      "value": 99368
+    },
+    {
+      "name": "AVIDXCHANGE HOLDINGS INC",
+      "cusip": "05368X102",
+      "shares": 5080632,
+      "value": 76514
+    },
+    {
+      "name": "VTEX",
+      "cusip": "G9470A102",
+      "shares": 5274887,
+      "value": 56547
+    },
+    {
+      "name": "BLOCK INC",
+      "cusip": "852234103",
+      "shares": 277372,
+      "value": 44798
+    },
+    {
+      "name": "FRESHWORKS INC",
+      "cusip": "358054104",
+      "shares": 275000,
+      "value": 7222
     }
-  ]
+  ],
+  "totalValue": 24408831,
+  "positionsCount": 29
 }

@@ -12,7 +12,8 @@ import {
   TrophyIcon,
   ChartBarIcon,
   ChevronDownIcon,
-  CalendarIcon
+  CalendarIcon,
+  ArrowLeftIcon
 } from '@heroicons/react/24/outline'
 import YouTubeCarousel from '@/components/YoutubeCarousel'
 import { featuredVideos } from '@/data/videos'
@@ -368,12 +369,13 @@ export default function SuperinvestorPage() {
   return (
     <div className="min-h-screen bg-gray-950">
       
-      {/* Hero Section - Clean Supabase Style */}
-      <section className="relative overflow-hidden bg-gray-950">
-        {/* Background Effects */}
+   {/* Hero Section - VERBESSERT: Gradient umgekehrt + grüner Text */}
+   <section className="relative overflow-hidden bg-gray-950">
+        {/* Background Effects - GEÄNDERT: Gradient von oben (blau) nach unten (schwarz) */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900"></div>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-500/8 via-gray-950 to-gray-950"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/4 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-purple-500/3 rounded-full blur-3xl"></div>
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24">
@@ -384,19 +386,19 @@ export default function SuperinvestorPage() {
               <span>Super-Investoren</span>
             </div>
             
-            {/* Main Heading */}
+            {/* Main Heading - GEÄNDERT: "der Welt" in grün statt blau */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
               Die besten Investoren
             </h1>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight tracking-tight">
-              <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                 der Welt
               </span>
             </h2>
             
             {/* Subtitle */}
             <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-              Entdecke, wie Legenden wie Warren Buffett, Bill Ackman und Terry Smith investieren
+              Entdecke, wie Legenden wie Warren Buffett, Bill Ackman und Terry Smith investieren.
               <br className="hidden sm:block" />
               mit aktuellen Portfolios, Top-Käufen & detaillierten Analysen.
             </p>
@@ -613,11 +615,11 @@ export default function SuperinvestorPage() {
           </div>
         </section>
 
-        {/* Other Investors */}
-        <section className="mb-20">
+  {/* Other Investors - REDESIGNED: Kompakte Liste statt Cards */}
+  <section className="mb-20">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold text-white">Weitere Investoren</h2>
-            {others.length > 8 && (
+            {others.length > 12 && (
               <button
                 onClick={() => setShowAll(!showAll)}
                 className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
@@ -627,31 +629,50 @@ export default function SuperinvestorPage() {
             )}
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {visibleOthers.map(inv => (
-              <Link
-                key={inv.slug}
-                href={`/investor/${inv.slug}`}
-                className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-200 group"
-              >
-                <div className="flex items-center gap-3">
-                  <InvestorAvatar
-                    name={inv.name}
-                    imageUrl={inv.imageUrl}
-                    size="sm"
-                    className="ring-1 ring-gray-700"
-                  />
+          {/* Kompakte Liste in Spalten */}
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+              {(showAll ? others : others.slice(0, 12)).map(inv => (
+                <Link
+                  key={inv.slug}
+                  href={`/investor/${inv.slug}`}
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-800/50 transition-colors group"
+                >
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-medium text-sm group-hover:text-blue-400 transition-colors truncate">
                       {inv.name.split('–')[0].trim()}
                     </p>
-                    <p className="text-gray-400 text-xs">
-                      {formatCurrency(portfolioValue[inv.slug] || 0, 'USD', 1)}
-                    </p>
+                    {inv.name.includes('–') && (
+                      <p className="text-gray-500 text-xs truncate">
+                        {inv.name.split('–')[1].trim()}
+                      </p>
+                    )}
                   </div>
-                </div>
-              </Link>
-            ))}
+                  
+                  {/* Portfolio-Wert (falls verfügbar) */}
+                  {portfolioValue[inv.slug] > 0 && (
+                    <span className="text-gray-400 text-xs ml-2 flex-shrink-0">
+                      {portfolioValue[inv.slug] > 1000 
+                        ? `${(portfolioValue[inv.slug] / 1000).toFixed(1)}B`
+                        : `${portfolioValue[inv.slug].toFixed(0)}M`
+                      }
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+            
+            {/* Show all button falls nicht alle angezeigt */}
+            {!showAll && others.length > 12 && (
+              <div className="mt-4 pt-4 border-t border-gray-800">
+                <button
+                  onClick={() => setShowAll(true)}
+                  className="w-full text-center text-gray-400 hover:text-blue-400 text-sm font-medium transition-colors py-2"
+                >
+                  + {others.length - 12} weitere Investoren anzeigen
+                </button>
+              </div>
+            )}
           </div>
         </section>
 

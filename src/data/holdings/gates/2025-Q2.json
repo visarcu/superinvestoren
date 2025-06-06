@@ -1,155 +1,161 @@
 {
+  "form": "13F-HR",
   "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001104659-25-049456",
+  "quarterKey": "2025-Q2",
   "positions": [
     {
-      "name": "ANHEUSER BUSCH INBEV SA/NV",
-      "cusip": "03524A108",
-      "shares": 1703000,
-      "value": 104836680000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 28457247,
+      "value": 10682565951
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 17172435,
-      "value": 9145695432000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 54826786,
-      "value": 5343418564000
-    },
-    {
-      "name": "CATERPILLAR INC",
-      "cusip": "149123101",
-      "shares": 7353614,
-      "value": 2425221897000
-    },
-    {
-      "name": "COCA-COLA FEMSA SAB DE CV",
-      "cusip": "191241108",
-      "shares": 6214719,
-      "value": 567341698000
-    },
-    {
-      "name": "COUPANG INC",
-      "cusip": "22266T109",
-      "shares": 9248045,
-      "value": 202809627000
-    },
-    {
-      "name": "CROWN CASTLE INC",
-      "cusip": "22822V101",
-      "shares": 1420072,
-      "value": 148014105000
-    },
-    {
-      "name": "DANAHER CORPORATION",
-      "cusip": "235851102",
-      "shares": 373000,
-      "value": 76465000000
-    },
-    {
-      "name": "DEERE & CO",
-      "cusip": "244199105",
-      "shares": 3557378,
-      "value": 1669655364000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 5218044,
-      "value": 1322878515000
-    },
-    {
-      "name": "FEDEX CORP",
-      "cusip": "31428X106",
-      "shares": 2534362,
-      "value": 617826768000
-    },
-    {
-      "name": "HORMEL FOODS CORP",
-      "cusip": "440452100",
-      "shares": 2195290,
-      "value": 67922273000
-    },
-    {
-      "name": "KRAFT HEINZ CO",
-      "cusip": "500754106",
-      "shares": 2622600,
-      "value": 79805718000
-    },
-    {
-      "name": "MADISON SQUARE GRDN SPRT COR",
-      "cusip": "55825T103",
-      "shares": 592406,
-      "value": 115353296000
-    },
-    {
-      "name": "MCDONALDS CORP",
-      "cusip": "580135101",
-      "shares": 334900,
-      "value": 104612713000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 28457247,
-      "value": 10682565951000
-    },
-    {
-      "name": "ON HLDG AG",
-      "cusip": "H5919C104",
-      "shares": 500000,
-      "value": 21960000000
-    },
-    {
-      "name": "PACCAR INC",
-      "cusip": "693718108",
-      "shares": 1000000,
-      "value": 97370000000
-    },
-    {
-      "name": "SCHRODINGER INC",
-      "cusip": "80810D103",
-      "shares": 6981664,
-      "value": 137818047000
-    },
-    {
-      "name": "UNITED PARCEL SERVICE INC",
-      "cusip": "911312106",
-      "shares": 755089,
-      "value": 83052239000
-    },
-    {
-      "name": "VERALTO CORP",
-      "cusip": "92338C103",
-      "shares": 124333,
-      "value": 12116251000
-    },
-    {
-      "name": "WALMART INC",
-      "cusip": "931142103",
-      "shares": 9090477,
-      "value": 798052976000
-    },
-    {
-      "name": "WASTE CONNECTIONS INC",
-      "cusip": "94106B101",
-      "shares": 2149175,
-      "value": 419497468000
+      "value": 9145695432
     },
     {
       "name": "WASTE MGMT INC DEL",
       "cusip": "94106L109",
       "shares": 32234344,
-      "value": 7462572979000
+      "value": 7462572979
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 54826786,
+      "value": 5343418564
+    },
+    {
+      "name": "CATERPILLAR INC",
+      "cusip": "149123101",
+      "shares": 7353614,
+      "value": 2425221897
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 3557378,
+      "value": 1669655364
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 5218044,
+      "value": 1322878515
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 9090477,
+      "value": 798052976
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 2534362,
+      "value": 617826768
+    },
+    {
+      "name": "COCA-COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 567341698
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 2149175,
+      "value": 419497468
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 9248045,
+      "value": 202809627
+    },
+    {
+      "name": "CROWN CASTLE INC",
+      "cusip": "22822V101",
+      "shares": 1420072,
+      "value": 148014105
+    },
+    {
+      "name": "SCHRODINGER INC",
+      "cusip": "80810D103",
+      "shares": 6981664,
+      "value": 137818047
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 592406,
+      "value": 115353296
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 1703000,
+      "value": 104836680
+    },
+    {
+      "name": "MCDONALDS CORP",
+      "cusip": "580135101",
+      "shares": 334900,
+      "value": 104612713
     },
     {
       "name": "WEST PHARMACEUTICAL SVSC INC",
       "cusip": "955306105",
       "shares": 444500,
-      "value": 99514660000
+      "value": 99514660
+    },
+    {
+      "name": "PACCAR INC",
+      "cusip": "693718108",
+      "shares": 1000000,
+      "value": 97370000
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 755089,
+      "value": 83052239
+    },
+    {
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 2622600,
+      "value": 79805718
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 373000,
+      "value": 76465000
+    },
+    {
+      "name": "HORMEL FOODS CORP",
+      "cusip": "440452100",
+      "shares": 2195290,
+      "value": 67922273
+    },
+    {
+      "name": "ON HLDG AG",
+      "cusip": "H5919C104",
+      "shares": 500000,
+      "value": 21960000
+    },
+    {
+      "name": "VERALTO CORP",
+      "cusip": "92338C103",
+      "shares": 124333,
+      "value": 12116251
     }
-  ]
+  ],
+  "totalValue": 41806378221,
+  "positionsCount": 25
 }

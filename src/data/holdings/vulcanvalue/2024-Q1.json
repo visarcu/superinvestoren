@@ -1,281 +1,287 @@
 {
+  "form": "13F-HR",
   "date": "2024-02-13",
+  "period": "2024-02-13",
+  "accession": "0001556785-24-000007",
+  "quarterKey": "2024-Q1",
   "positions": [
     {
-      "name": "ABBOTT LABS",
-      "cusip": "002824100",
-      "shares": 665088,
-      "value": 73198000
-    },
-    {
-      "name": "ABM INDS INC",
-      "cusip": "000957100",
-      "shares": 1365929,
-      "value": 61235000
-    },
-    {
-      "name": "ACUITY BRANDS INC",
-      "cusip": "00508Y102",
-      "shares": 125205,
-      "value": 25646000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 2673507,
-      "value": 376672000
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 6104549,
+      "value": 505495
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 3137012,
-      "value": 476473000
-    },
-    {
-      "name": "APPLIED MATLS INC",
-      "cusip": "038222105",
-      "shares": 373144,
-      "value": 60286000
-    },
-    {
-      "name": "ARES MANAGEMENT CORPORATION",
-      "cusip": "03990B101",
-      "shares": 1551992,
-      "value": 184273000
-    },
-    {
-      "name": "BALL CORP",
-      "cusip": "058498106",
-      "shares": 1755663,
-      "value": 100922000
-    },
-    {
-      "name": "CARLYLE GROUP INC",
-      "cusip": "14316J108",
-      "shares": 8435231,
-      "value": 343004000
-    },
-    {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 2412179,
-      "value": 224559000
-    },
-    {
-      "name": "COLLIERS INTL GROUP INC",
-      "cusip": "194693107",
-      "shares": 474208,
-      "value": 59997000
-    },
-    {
-      "name": "CORE & MAIN INC",
-      "cusip": "21874C102",
-      "shares": 257850,
-      "value": 10420000
-    },
-    {
-      "name": "COSTAR GROUP INC",
-      "cusip": "22160N109",
-      "shares": 1600687,
-      "value": 139688000
-    },
-    {
-      "name": "CUSHMAN WAKEFIELD PLC",
-      "cusip": "G2717B108",
-      "shares": 5539791,
-      "value": 59830000
-    },
-    {
-      "name": "DUN & BRADSTREET HLDGS INC",
-      "cusip": "26484T106",
-      "shares": 3471010,
-      "value": 40611000
-    },
-    {
-      "name": "ELEVANCE HEALTH INC",
-      "cusip": "036752103",
-      "shares": 384417,
-      "value": 181430000
-    },
-    {
-      "name": "ENERSYS",
-      "cusip": "29275Y102",
-      "shares": 236059,
-      "value": 23832000
-    },
-    {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 729266,
-      "value": 96887000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604301",
-      "shares": 1184715,
-      "value": 151172000
-    },
-    {
-      "name": "GENPACT LIMITED",
-      "cusip": "G3922B107",
-      "shares": 1250392,
-      "value": 43401000
-    },
-    {
-      "name": "HEICO CORP NEW",
-      "cusip": "422806208",
-      "shares": 872999,
-      "value": 124309000
-    },
-    {
-      "name": "ITURAN LOCATION AND CONTROL",
-      "cusip": "M6158M104",
-      "shares": 1681329,
-      "value": 45799000
-    },
-    {
-      "name": "JONES LANG LASALLE INC",
-      "cusip": "48020Q107",
-      "shares": 1104349,
-      "value": 208433000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 6104549,
-      "value": 505495000
-    },
-    {
-      "name": "LITTELFUSE INC",
-      "cusip": "537008104",
-      "shares": 263890,
-      "value": 70606000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 365685,
-      "value": 82375000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 743641,
-      "value": 317078000
-    },
-    {
-      "name": "MEDPACE HLDGS INC",
-      "cusip": "58506Q109",
-      "shares": 102260,
-      "value": 31346000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 1095775,
-      "value": 411922000
-    },
-    {
-      "name": "MILLERKNOLL INC",
-      "cusip": "600544100",
-      "shares": 1087257,
-      "value": 29008000
-    },
-    {
-      "name": "NICE LTD",
-      "cusip": "653656108",
-      "shares": 894033,
-      "value": 178019000
-    },
-    {
-      "name": "PARK HOTELS & RESORTS INC",
-      "cusip": "700517105",
-      "shares": 2732270,
-      "value": 41804000
-    },
-    {
-      "name": "PROG HOLDINGS INC",
-      "cusip": "74319R101",
-      "shares": 1021463,
-      "value": 31573000
-    },
-    {
-      "name": "QORVO INC",
-      "cusip": "74736K101",
-      "shares": 1662449,
-      "value": 186895000
+      "value": 476473
     },
     {
       "name": "SALESFORCE INC",
       "cusip": "79466L302",
       "shares": 1597720,
-      "value": 420123000
+      "value": 420123
     },
     {
-      "name": "SEALED AIR CORP NEW",
-      "cusip": "81211K100",
-      "shares": 1135492,
-      "value": 41468000
-    },
-    {
-      "name": "SKYWORKS SOLUTIONS INC",
-      "cusip": "83088M102",
-      "shares": 2890983,
-      "value": 324711000
-    },
-    {
-      "name": "SMARTRENT INC",
-      "cusip": "83193G107",
-      "shares": 9817910,
-      "value": 31319000
-    },
-    {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 3472,
-      "value": 1641000
-    },
-    {
-      "name": "SS&C TECHNOLOGIES HLDGS INC",
-      "cusip": "78467J100",
-      "shares": 2232240,
-      "value": 136319000
-    },
-    {
-      "name": "TEXAS INSTRS INC",
-      "cusip": "882508104",
-      "shares": 319624,
-      "value": 54462000
-    },
-    {
-      "name": "TIMKEN CO",
-      "cusip": "887389104",
-      "shares": 356517,
-      "value": 28575000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1095775,
+      "value": 411922
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 387364,
-      "value": 391609000
+      "value": 391609
     },
     {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 105244,
-      "value": 55502000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2673507,
+      "value": 376672
     },
     {
-      "name": "VIRTUS INVT PARTNERS INC",
-      "cusip": "92828Q109",
-      "shares": 190106,
-      "value": 45960000
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 8435231,
+      "value": 343004
+    },
+    {
+      "name": "SKYWORKS SOLUTIONS INC",
+      "cusip": "83088M102",
+      "shares": 2890983,
+      "value": 324711
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 743641,
+      "value": 317078
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 1094118,
-      "value": 284805000
+      "value": 284805
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 2412179,
+      "value": 224559
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 1104349,
+      "value": 208433
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 1662449,
+      "value": 186895
+    },
+    {
+      "name": "ARES MANAGEMENT CORPORATION",
+      "cusip": "03990B101",
+      "shares": 1551992,
+      "value": 184273
+    },
+    {
+      "name": "ELEVANCE HEALTH INC",
+      "cusip": "036752103",
+      "shares": 384417,
+      "value": 181430
+    },
+    {
+      "name": "NICE LTD",
+      "cusip": "653656108",
+      "shares": 894033,
+      "value": 178019
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 1184715,
+      "value": 151172
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 1600687,
+      "value": 139688
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 2232240,
+      "value": 136319
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 872999,
+      "value": 124309
+    },
+    {
+      "name": "BALL CORP",
+      "cusip": "058498106",
+      "shares": 1755663,
+      "value": 100922
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 729266,
+      "value": 96887
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 365685,
+      "value": 82375
+    },
+    {
+      "name": "ABBOTT LABS",
+      "cusip": "002824100",
+      "shares": 665088,
+      "value": 73198
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 263890,
+      "value": 70606
+    },
+    {
+      "name": "ABM INDS INC",
+      "cusip": "000957100",
+      "shares": 1365929,
+      "value": 61235
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 373144,
+      "value": 60286
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 474208,
+      "value": 59997
+    },
+    {
+      "name": "CUSHMAN WAKEFIELD PLC",
+      "cusip": "G2717B108",
+      "shares": 5539791,
+      "value": 59830
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 105244,
+      "value": 55502
+    },
+    {
+      "name": "TEXAS INSTRS INC",
+      "cusip": "882508104",
+      "shares": 319624,
+      "value": 54462
+    },
+    {
+      "name": "VIRTUS INVT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 190106,
+      "value": 45960
+    },
+    {
+      "name": "ITURAN LOCATION AND CONTROL",
+      "cusip": "M6158M104",
+      "shares": 1681329,
+      "value": 45799
+    },
+    {
+      "name": "GENPACT LIMITED",
+      "cusip": "G3922B107",
+      "shares": 1250392,
+      "value": 43401
+    },
+    {
+      "name": "PARK HOTELS & RESORTS INC",
+      "cusip": "700517105",
+      "shares": 2732270,
+      "value": 41804
+    },
+    {
+      "name": "SEALED AIR CORP NEW",
+      "cusip": "81211K100",
+      "shares": 1135492,
+      "value": 41468
+    },
+    {
+      "name": "DUN & BRADSTREET HLDGS INC",
+      "cusip": "26484T106",
+      "shares": 3471010,
+      "value": 40611
+    },
+    {
+      "name": "PROG HOLDINGS INC",
+      "cusip": "74319R101",
+      "shares": 1021463,
+      "value": 31573
+    },
+    {
+      "name": "MEDPACE HLDGS INC",
+      "cusip": "58506Q109",
+      "shares": 102260,
+      "value": 31346
+    },
+    {
+      "name": "SMARTRENT INC",
+      "cusip": "83193G107",
+      "shares": 9817910,
+      "value": 31319
+    },
+    {
+      "name": "MILLERKNOLL INC",
+      "cusip": "600544100",
+      "shares": 1087257,
+      "value": 29008
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 356517,
+      "value": 28575
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 125205,
+      "value": 25646
+    },
+    {
+      "name": "ENERSYS",
+      "cusip": "29275Y102",
+      "shares": 236059,
+      "value": 23832
+    },
+    {
+      "name": "CORE & MAIN INC",
+      "cusip": "21874C102",
+      "shares": 257850,
+      "value": 10420
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 3472,
+      "value": 1641
     }
-  ]
+  ],
+  "totalValue": 6814692,
+  "positionsCount": 46
 }

@@ -1,4 +1,173 @@
 {
+  "form": "13F-HR",
   "date": "2016-11-14",
-  "positions": []
+  "period": "2016-11-14",
+  "accession": "0001456511-16-000012",
+  "quarterKey": "2016-Q4",
+  "positions": [
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 8320846,
+      "value": 688134
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 4622813,
+      "value": 592968
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 740384,
+      "value": 575493
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 9843582,
+      "value": 518265
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 342149,
+      "value": 503469
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 9022392,
+      "value": 488472
+    },
+    {
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 3787777,
+      "value": 462753
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 3964016,
+      "value": 430254
+    },
+    {
+      "name": "TJX COS INC NEW",
+      "cusip": "872540109",
+      "shares": 5748367,
+      "value": 429863
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 10133372,
+      "value": 398039
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 4507960,
+      "value": 397602
+    },
+    {
+      "name": "NESTLE S. A. ADR",
+      "cusip": "641069406",
+      "shares": 4917942,
+      "value": 388350
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 457885,
+      "value": 368167
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 1297688,
+      "value": 363495
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 3426051,
+      "value": 358125
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2982582,
+      "value": 337181
+    },
+    {
+      "name": "REGENERON PHARMACEUTICALS",
+      "cusip": "75886F107",
+      "shares": 811301,
+      "value": 326159
+    },
+    {
+      "name": "GARTNER INC",
+      "cusip": "366651107",
+      "shares": 3176639,
+      "value": 280974
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1777872,
+      "value": 180934
+    },
+    {
+      "name": "ALIGN TECHNOLOGY INC",
+      "cusip": "016255101",
+      "shares": 1741340,
+      "value": 163251
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 1773731,
+      "value": 124143
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 119716,
+      "value": 12471
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 11535,
+      "value": 1220
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH LT",
+      "cusip": "M22465104",
+      "shares": 12775,
+      "value": 991
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 23480,
+      "value": 981
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 5013,
+      "value": 913
+    },
+    {
+      "name": "NOVO-NORDISK A S",
+      "cusip": "670100205",
+      "shares": 14050,
+      "value": 584
+    }
+  ],
+  "totalValue": 8393251,
+  "positionsCount": 27
 }

@@ -1,83 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001647251-19-000006",
+  "quarterKey": "2019-Q3",
   "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 9716058,
+      "value": 3839592
+    },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 3476095,
-      "value": 3757346000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 549721,
-      "value": 595238000
-    },
-    {
-      "name": "ANTHEM INC",
-      "cusip": "036752103",
-      "shares": 3012085,
-      "value": 850041000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 18992423,
-      "value": 1757269000
+      "value": 3757346
     },
     {
       "name": "CANADIAN PAC RY LTD",
       "cusip": "13645T100",
       "shares": 10157465,
-      "value": 2391674000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 9716058,
-      "value": 3839592000
-    },
-    {
-      "name": "EQUIFAX INC",
-      "cusip": "294429105",
-      "shares": 1634083,
-      "value": 220993000
+      "value": 2391674
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 16425574,
-      "value": 2200370000
+      "value": 2200370
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 18992423,
+      "value": 1757269
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 6022912,
-      "value": 1176335000
+      "value": 1176335
     },
     {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 1982414,
-      "value": 451574000
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 3012085,
+      "value": 850041
     },
     {
       "name": "UNION PACIFIC CORP",
       "cusip": "907818108",
       "shares": 4727781,
-      "value": 799515000
+      "value": 799515
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 549721,
+      "value": 595238
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1982414,
+      "value": 451574
     },
     {
       "name": "UNIVAR INC",
       "cusip": "91336L107",
       "shares": 15764300,
-      "value": 347445000
+      "value": 347445
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1634083,
+      "value": 220993
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 870100,
-      "value": 151006000
+      "value": 151006
     }
-  ]
+  ],
+  "totalValue": 18538398,
+  "positionsCount": 13
 }

@@ -1,179 +1,185 @@
 {
+  "form": "13F-HR",
   "date": "2014-02-07",
+  "period": "2014-02-07",
+  "accession": "0001427119-14-000003",
+  "quarterKey": "2014-Q1",
   "positions": [
     {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 1634960,
-      "value": 247090000
-    },
-    {
-      "name": "CARTER INC",
-      "cusip": "146229109",
-      "shares": 194919,
-      "value": 13993000
-    },
-    {
-      "name": "COCA COLA ENTERPRISES INC NE",
-      "cusip": "19122T109",
-      "shares": 3959041,
-      "value": 174712000
-    },
-    {
-      "name": "DISCOVERY COMMUNICATNS NEW",
-      "cusip": "25470F302",
-      "shares": 2740272,
-      "value": 229799000
-    },
-    {
-      "name": "DOLLAR GEN CORP NEW",
-      "cusip": "256677105",
-      "shares": 2533227,
-      "value": 152804000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 2954307,
-      "value": 166682000
-    },
-    {
-      "name": "EQUINIX INC",
-      "cusip": "29444U502",
-      "shares": 35300,
-      "value": 6264000
-    },
-    {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 3729342,
-      "value": 220218000
-    },
-    {
-      "name": "FORD MTR CO DEL",
-      "cusip": "345370860",
-      "shares": 498300,
-      "value": 7689000
-    },
-    {
-      "name": "GENPACT LIMITED",
-      "cusip": "G3922B107",
-      "shares": 2728816,
-      "value": 50128000
-    },
-    {
-      "name": "GOLDCORP INC NEW",
-      "cusip": "380956409",
-      "shares": 100000,
-      "value": 2167000
-    },
-    {
-      "name": "INTERCONTINENTALEXCHANGE GRO",
-      "cusip": "45866F104",
-      "shares": 1040448,
-      "value": 234018000
-    },
-    {
-      "name": "KIOR INC",
-      "cusip": "497217109",
-      "shares": 43332,
-      "value": 73000
-    },
-    {
-      "name": "LIBERTY INTERACTIVE CORP",
-      "cusip": "53071M104",
-      "shares": 8342471,
-      "value": 244852000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 97117,
-      "value": 81137000
-    },
-    {
-      "name": "MCGRAW HILL FINL INC",
-      "cusip": "580645109",
-      "shares": 1414554,
-      "value": 110618000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 2343766,
-      "value": 183915000
-    },
-    {
-      "name": "PERKINELMER INC",
-      "cusip": "714046109",
-      "shares": 3223334,
-      "value": 132898000
-    },
-    {
-      "name": "PHILIP MORRIS INTL INC",
-      "cusip": "718172109",
-      "shares": 2832988,
-      "value": 246838000
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 2830200,
+      "value": 522710
     },
     {
       "name": "SALLY BEAUTY HLDGS INC",
       "cusip": "79546E104",
       "shares": 8237507,
-      "value": 249020000
+      "value": 249020
     },
     {
-      "name": "SCHWAB CHARLES CORP NEW",
-      "cusip": "808513105",
-      "shares": 803000,
-      "value": 20878000
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 1634960,
+      "value": 247090
     },
     {
-      "name": "SELECT SECTOR SPDR TR",
-      "cusip": "81369Y605",
-      "shares": 1500000,
-      "value": 32790000
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 2832988,
+      "value": 246838
     },
     {
-      "name": "SPDR GOLD TRUST",
-      "cusip": "78463V107",
-      "shares": 700000,
-      "value": 81284000
+      "name": "LIBERTY INTERACTIVE CORP",
+      "cusip": "53071M104",
+      "shares": 8342471,
+      "value": 244852
     },
     {
-      "name": "SPDR GOLD TRUST",
-      "cusip": "78463V107",
-      "shares": 100000,
-      "value": 11612000
+      "name": "INTERCONTINENTALEXCHANGE GRO",
+      "cusip": "45866F104",
+      "shares": 1040448,
+      "value": 234018
     },
     {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 2830200,
-      "value": 522710000
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F302",
+      "shares": 2740272,
+      "value": 229799
     },
     {
-      "name": "TWENTY FIRST CENTY FOX INC",
-      "cusip": "90130A101",
-      "shares": 3883334,
-      "value": 136577000
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 3729342,
+      "value": 220218
     },
     {
-      "name": "ULTRA PETROLEUM CORP",
-      "cusip": "903914109",
-      "shares": 2443484,
-      "value": 52901000
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 2343766,
+      "value": 183915
     },
     {
       "name": "VALEANT PHARMACEUTICALS INTL",
       "cusip": "91911K102",
       "shares": 1528603,
-      "value": 179458000
+      "value": 179458
+    },
+    {
+      "name": "COCA COLA ENTERPRISES INC NE",
+      "cusip": "19122T109",
+      "shares": 3959041,
+      "value": 174712
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 2954307,
+      "value": 166682
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 2533227,
+      "value": 152804
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 3883334,
+      "value": 136577
+    },
+    {
+      "name": "PERKINELMER INC",
+      "cusip": "714046109",
+      "shares": 3223334,
+      "value": 132898
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 1414554,
+      "value": 110618
+    },
+    {
+      "name": "SPDR GOLD TRUST",
+      "cusip": "78463V107",
+      "shares": 700000,
+      "value": 81284
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 97117,
+      "value": 81137
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 363723,
-      "value": 80994000
+      "value": 80994
+    },
+    {
+      "name": "ULTRA PETROLEUM CORP",
+      "cusip": "903914109",
+      "shares": 2443484,
+      "value": 52901
+    },
+    {
+      "name": "GENPACT LIMITED",
+      "cusip": "G3922B107",
+      "shares": 2728816,
+      "value": 50128
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y605",
+      "shares": 1500000,
+      "value": 32790
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 803000,
+      "value": 20878
+    },
+    {
+      "name": "CARTER INC",
+      "cusip": "146229109",
+      "shares": 194919,
+      "value": 13993
+    },
+    {
+      "name": "SPDR GOLD TRUST",
+      "cusip": "78463V107",
+      "shares": 100000,
+      "value": 11612
+    },
+    {
+      "name": "FORD MTR CO DEL",
+      "cusip": "345370860",
+      "shares": 498300,
+      "value": 7689
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U502",
+      "shares": 35300,
+      "value": 6264
+    },
+    {
+      "name": "GOLDCORP INC NEW",
+      "cusip": "380956409",
+      "shares": 100000,
+      "value": 2167
+    },
+    {
+      "name": "KIOR INC",
+      "cusip": "497217109",
+      "shares": 43332,
+      "value": 73
     }
-  ]
+  ],
+  "totalValue": 3874119,
+  "positionsCount": 29
 }

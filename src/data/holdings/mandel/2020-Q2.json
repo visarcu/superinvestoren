@@ -1,239 +1,245 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0001567619-20-010490",
+  "quarterKey": "2020-Q2",
   "positions": [
-    {
-      "name": "ARCONIC INC",
-      "cusip": "03965L100",
-      "shares": 20660173,
-      "value": 331802000
-    },
-    {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 2653450,
-      "value": 844434000
-    },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 6336587,
-      "value": 1232339000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 582971,
-      "value": 1136630000
-    },
-    {
-      "name": "ANAPLAN INC",
-      "cusip": "03272L108",
-      "shares": 2200000,
-      "value": 66572000
-    },
-    {
-      "name": "ATLASSIAN CORP PLC",
-      "cusip": "G06242104",
-      "shares": 1388586,
-      "value": 190597000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 4023409,
-      "value": 628054000
-    },
-    {
-      "name": "BARCLAYS BK PLC",
-      "cusip": "06746P621",
-      "shares": 9000000,
-      "value": 416250000
-    },
-    {
-      "name": "CADENCE DESIGN SYSTEM INC",
-      "cusip": "127387108",
-      "shares": 1288594,
-      "value": 85099000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 2279058,
-      "value": 500458000
-    },
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 5100175,
-      "value": 280969000
-    },
-    {
-      "name": "CERIDIAN HCM HLDG INC",
-      "cusip": "15677J108",
-      "shares": 3244680,
-      "value": 162461000
-    },
-    {
-      "name": "CHEWY INC",
-      "cusip": "16679L109",
-      "shares": 1299749,
-      "value": 48728000
-    },
-    {
-      "name": "COUPA SOFTWARE INC",
-      "cusip": "22266L106",
-      "shares": 2124340,
-      "value": 296834000
-    },
-    {
-      "name": "EQUIFAX INC",
-      "cusip": "294429105",
-      "shares": 3171575,
-      "value": 378845000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 3532011,
-      "value": 589139000
-    },
-    {
-      "name": "GLOBAL PMTS INC",
-      "cusip": "37940X102",
-      "shares": 4954572,
-      "value": 714598000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 2952652,
-      "value": 201489000
-    },
-    {
-      "name": "HUBSPOT INC",
-      "cusip": "443573100",
-      "shares": 776490,
-      "value": 103421000
-    },
-    {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 2164071,
-      "value": 679562000
-    },
-    {
-      "name": "IAC INTERACTIVECORP",
-      "cusip": "44919P508",
-      "shares": 812017,
-      "value": 145538000
-    },
-    {
-      "name": "L BRANDS INC",
-      "cusip": "501797104",
-      "shares": 26265094,
-      "value": 303624000
-    },
-    {
-      "name": "LIVE NATION ENTERTAINMENT IN",
-      "cusip": "538034109",
-      "shares": 3046095,
-      "value": 138475000
-    },
-    {
-      "name": "LUCKIN COFFEE INC",
-      "cusip": "54951L109",
-      "shares": 13522973,
-      "value": 367690000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 2311471,
-      "value": 558359000
-    },
-    {
-      "name": "MATCH GROUP INC",
-      "cusip": "57665R106",
-      "shares": 6845734,
-      "value": 452092000
-    },
-    {
-      "name": "MEDALLIA INC",
-      "cusip": "584021109",
-      "shares": 1853183,
-      "value": 37138000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 5923926,
-      "value": 934262000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 2411338,
-      "value": 905457000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 5265480,
-      "value": 504117000
-    },
-    {
-      "name": "SEA LTD",
-      "cusip": "81141R100",
-      "shares": 27000,
-      "value": 1196000
-    },
-    {
-      "name": "SERVICENOW INC",
-      "cusip": "81762P102",
-      "shares": 1368688,
-      "value": 392239000
-    },
-    {
-      "name": "SHOPIFY INC",
-      "cusip": "82509L107",
-      "shares": 1670133,
-      "value": 696329000
-    },
-    {
-      "name": "SQUARE INC",
-      "cusip": "852234103",
-      "shares": 6698049,
-      "value": 350844000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 775953,
-      "value": 248452000
-    },
-    {
-      "name": "UNDER ARMOUR INC",
-      "cusip": "904311107",
-      "shares": 17431613,
-      "value": 160545000
-    },
-    {
-      "name": "UNDER ARMOUR INC",
-      "cusip": "904311206",
-      "shares": 9890481,
-      "value": 79717000
+      "value": 1232339
     },
     {
       "name": "UNITEDHEALTH GROUP INC",
       "cusip": "91324P102",
       "shares": 4613971,
-      "value": 1150632000
+      "value": 1150632
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 582971,
+      "value": 1136630
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 5923926,
+      "value": 934262
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 2411338,
+      "value": 905457
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 2653450,
+      "value": 844434
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 4954572,
+      "value": 714598
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 1670133,
+      "value": 696329
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 2164071,
+      "value": 679562
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 4023409,
+      "value": 628054
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 3532011,
+      "value": 589139
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 2311471,
+      "value": 558359
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 3329975,
-      "value": 536526000
+      "value": 536526
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 5265480,
+      "value": 504117
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 2279058,
+      "value": 500458
+    },
+    {
+      "name": "MATCH GROUP INC",
+      "cusip": "57665R106",
+      "shares": 6845734,
+      "value": 452092
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06746P621",
+      "shares": 9000000,
+      "value": 416250
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 1368688,
+      "value": 392239
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 3171575,
+      "value": 378845
+    },
+    {
+      "name": "LUCKIN COFFEE INC",
+      "cusip": "54951L109",
+      "shares": 13522973,
+      "value": 367690
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 6698049,
+      "value": 350844
+    },
+    {
+      "name": "ARCONIC INC",
+      "cusip": "03965L100",
+      "shares": 20660173,
+      "value": 331802
+    },
+    {
+      "name": "L BRANDS INC",
+      "cusip": "501797104",
+      "shares": 26265094,
+      "value": 303624
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266L106",
+      "shares": 2124340,
+      "value": 296834
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 5100175,
+      "value": 280969
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 775953,
+      "value": 248452
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 2952652,
+      "value": 201489
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 1388586,
+      "value": 190597
+    },
+    {
+      "name": "CERIDIAN HCM HLDG INC",
+      "cusip": "15677J108",
+      "shares": 3244680,
+      "value": 162461
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311107",
+      "shares": 17431613,
+      "value": 160545
+    },
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44919P508",
+      "shares": 812017,
+      "value": 145538
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 3046095,
+      "value": 138475
+    },
+    {
+      "name": "HUBSPOT INC",
+      "cusip": "443573100",
+      "shares": 776490,
+      "value": 103421
+    },
+    {
+      "name": "CADENCE DESIGN SYSTEM INC",
+      "cusip": "127387108",
+      "shares": 1288594,
+      "value": 85099
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311206",
+      "shares": 9890481,
+      "value": 79717
+    },
+    {
+      "name": "ANAPLAN INC",
+      "cusip": "03272L108",
+      "shares": 2200000,
+      "value": 66572
+    },
+    {
+      "name": "CHEWY INC",
+      "cusip": "16679L109",
+      "shares": 1299749,
+      "value": 48728
+    },
+    {
+      "name": "MEDALLIA INC",
+      "cusip": "584021109",
+      "shares": 1853183,
+      "value": 37138
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 27000,
+      "value": 1196
     }
-  ]
+  ],
+  "totalValue": 16851513,
+  "positionsCount": 39
 }

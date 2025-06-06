@@ -1,149 +1,155 @@
 {
+  "form": "13F-HR",
   "date": "2014-04-29",
+  "period": "2014-04-29",
+  "accession": "0000891092-14-003452",
+  "quarterKey": "2014-Q2",
   "positions": [
     {
-      "name": "Agilent  Technologies, Inc. (A)",
-      "cusip": "00846U101",
-      "shares": 1380854,
-      "value": 77217000
-    },
-    {
-      "name": "Air Products & Chemicals (APD)",
-      "cusip": "009158106",
-      "shares": 2737875,
-      "value": 325917000
-    },
-    {
-      "name": "American Independence Corp (AMIC)",
-      "cusip": "026760405",
-      "shares": 102798,
-      "value": 1110000
-    },
-    {
-      "name": "Arrow Electronics (ARW)",
-      "cusip": "042735100",
-      "shares": 424605,
-      "value": 25205000
-    },
-    {
-      "name": "Avnet Inc. (AVT)",
-      "cusip": "053807103",
-      "shares": 650710,
-      "value": 30278000
-    },
-    {
-      "name": "Baker Hughes Inc. (BHI)",
+      "name": "Baker Hughes Inc (BHI)",
       "cusip": "057224107",
       "shares": 9403423,
-      "value": 611411000
-    },
-    {
-      "name": "Boeing Company (BA)",
-      "cusip": "097023105",
-      "shares": 1194268,
-      "value": 149869000
-    },
-    {
-      "name": "Devon Energy Corp (DVN)",
-      "cusip": "25179M103",
-      "shares": 3022140,
-      "value": 202272000
+      "value": 611411
     },
     {
       "name": "FedEx Corp (FDX)",
       "cusip": "31428X106",
       "shares": 4517601,
-      "value": 598853000
+      "value": 598853
     },
     {
-      "name": "Lowe's Companies, Inc. (LOW)",
+      "name": "Lowe's Companies, Inc (LOW)",
       "cusip": "548661107",
       "shares": 11246303,
-      "value": 549944000
-    },
-    {
-      "name": "Microsoft Corp (MSFT)",
-      "cusip": "594918104",
-      "shares": 1731375,
-      "value": 70969000
-    },
-    {
-      "name": "Owens Corning (OC)",
-      "cusip": "690742101",
-      "shares": 1150144,
-      "value": 49652000
-    },
-    {
-      "name": "Pall Corporation (PLL)",
-      "cusip": "696429307",
-      "shares": 3500,
-      "value": 313000
-    },
-    {
-      "name": "Praxair Inc. (PX)",
-      "cusip": "74005P104",
-      "shares": 575910,
-      "value": 75427000
-    },
-    {
-      "name": "RHJ International (RHJI)",
-      "cusip": "749561205",
-      "shares": 1856194,
-      "value": 9300000
-    },
-    {
-      "name": "Schlumberger Ltd (SLB)",
-      "cusip": "806857108",
-      "shares": 3564460,
-      "value": 347535000
-    },
-    {
-      "name": "Southwest Airlines (LUV)",
-      "cusip": "844741108",
-      "shares": 11207614,
-      "value": 264612000
-    },
-    {
-      "name": "Superior Energy Services Inc. (SPN)",
-      "cusip": "868157108",
-      "shares": 4482885,
-      "value": 137894000
-    },
-    {
-      "name": "TD Ameritrade (AMTD)",
-      "cusip": "87236Y108",
-      "shares": 6940,
-      "value": 236000
-    },
-    {
-      "name": "TE Connectivity Ltd (TEL)",
-      "cusip": "H84989104",
-      "shares": 2830832,
-      "value": 170444000
-    },
-    {
-      "name": "3M Company (MMM)",
-      "cusip": "88579Y101",
-      "shares": 2659869,
-      "value": 360838000
+      "value": 549944
     },
     {
       "name": "United Parcel Service (UPS)",
       "cusip": "911312106",
       "shares": 4671635,
-      "value": 454924000
+      "value": 454924
     },
     {
-      "name": "Wells Fargo & Co  (WFC)",
-      "cusip": "949746101",
-      "shares": 92000,
-      "value": 4576000
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2659869,
+      "value": 360838
     },
     {
       "name": "Whirlpool Corp (WHR)",
       "cusip": "963320106",
       "shares": 2371236,
-      "value": 354405000
+      "value": 354405
+    },
+    {
+      "name": "Schlumberger Ltd (SLB)",
+      "cusip": "806857108",
+      "shares": 3564460,
+      "value": 347535
+    },
+    {
+      "name": "Air Products & Chemicals (APD)",
+      "cusip": "009158106",
+      "shares": 2737875,
+      "value": 325917
+    },
+    {
+      "name": "Southwest Airlines (LUV)",
+      "cusip": "844741108",
+      "shares": 11207614,
+      "value": 264612
+    },
+    {
+      "name": "Devon Energy Corp (DVN)",
+      "cusip": "25179M103",
+      "shares": 3022140,
+      "value": 202272
+    },
+    {
+      "name": "TE Connectivity Ltd (TEL)",
+      "cusip": "H84989104",
+      "shares": 2830832,
+      "value": 170444
+    },
+    {
+      "name": "Boeing Company (BA)",
+      "cusip": "097023105",
+      "shares": 1194268,
+      "value": 149869
+    },
+    {
+      "name": "Superior Energy Services Inc (SPN)",
+      "cusip": "868157108",
+      "shares": 4482885,
+      "value": 137894
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 1380854,
+      "value": 77217
+    },
+    {
+      "name": "Praxair Inc (PX)",
+      "cusip": "74005P104",
+      "shares": 575910,
+      "value": 75427
+    },
+    {
+      "name": "Microsoft Corp (MSFT)",
+      "cusip": "594918104",
+      "shares": 1731375,
+      "value": 70969
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 1150144,
+      "value": 49652
+    },
+    {
+      "name": "Avnet Inc (AVT)",
+      "cusip": "053807103",
+      "shares": 650710,
+      "value": 30278
+    },
+    {
+      "name": "Arrow Electronics (ARW)",
+      "cusip": "042735100",
+      "shares": 424605,
+      "value": 25205
+    },
+    {
+      "name": "RHJ International (RHJI)",
+      "cusip": "749561205",
+      "shares": 1856194,
+      "value": 9300
+    },
+    {
+      "name": "Wells Fargo & Co (WFC)",
+      "cusip": "949746101",
+      "shares": 92000,
+      "value": 4576
+    },
+    {
+      "name": "American Independence Corp (AMIC)",
+      "cusip": "026760405",
+      "shares": 102798,
+      "value": 1110
+    },
+    {
+      "name": "Pall Corporation (PLL)",
+      "cusip": "696429307",
+      "shares": 3500,
+      "value": 313
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 6940,
+      "value": 236
     }
-  ]
+  ],
+  "totalValue": 4873201,
+  "positionsCount": 24
 }

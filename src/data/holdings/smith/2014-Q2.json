@@ -2,96 +2,100 @@
   "form": "13F-HR",
   "date": "2014-04-29",
   "period": "2014-04-29",
+  "accession": "0001387131-14-001548",
+  "quarterKey": "2014-Q2",
   "positions": [
     {
-      "name": "3M CO",
-      "cusip": "88579Y101",
-      "shares": 835096,
-      "value": 113289000
-    },
-    {
-      "name": "AUTOMATIC DATA PROCESSING INC",
-      "cusip": "53015103",
-      "shares": 1571495,
-      "value": 121414000
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 2225955,
+      "value": 181349
     },
     {
       "name": "BARD CR INC",
       "cusip": "826552101",
       "shares": 1209341,
-      "value": 178680000
-    },
-    {
-      "name": "BECTON DICKINSON & CO",
-      "cusip": "75887109",
-      "shares": 1435203,
-      "value": 168034000
-    },
-    {
-      "name": "CHOICE HOTELS INTL INC",
-      "cusip": "169905106",
-      "shares": 870912,
-      "value": 39902000
-    },
-    {
-      "name": "COLGATE PALMOLIVE CO",
-      "cusip": "194162103",
-      "shares": 506402,
-      "value": 32673000
-    },
-    {
-      "name": "DOMINOS PIZZA INC",
-      "cusip": "25754A201",
-      "shares": 2134570,
-      "value": 164298000
-    },
-    {
-      "name": "DR PEPPER SNAPPLE GROUP INC",
-      "cusip": "26138E109",
-      "shares": 3218586,
-      "value": 175284000
-    },
-    {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 1152868,
-      "value": 113246000
+      "value": 178680
     },
     {
       "name": "MICROSOFT",
       "cusip": "580135101",
       "shares": 4290030,
-      "value": 175848000
+      "value": 175848
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 3218586,
+      "value": 175284
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "75887109",
+      "shares": 1435203,
+      "value": 168034
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2134570,
+      "value": 164298
     },
     {
       "name": "PEPSICO INC",
       "cusip": "713448108",
       "shares": 1609367,
-      "value": 134382000
+      "value": 134382
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING INC",
+      "cusip": "53015103",
+      "shares": 1571495,
+      "value": 121414
     },
     {
       "name": "PHILIP MORRIS INTL INC",
       "cusip": "718172109",
       "shares": 1398707,
-      "value": 114512000
+      "value": 114512
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 835096,
+      "value": 113289
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 1152868,
+      "value": 113246
     },
     {
       "name": "PROCTER & GAMBLE CO",
       "cusip": "742718109",
       "shares": 1414311,
-      "value": 113088000
-    },
-    {
-      "name": "STRYKER CORP",
-      "cusip": "863667101",
-      "shares": 2225955,
-      "value": 181349000
+      "value": 113088
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 370764,
-      "value": 80033000
+      "value": 80033
+    },
+    {
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 870912,
+      "value": 39902
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 506402,
+      "value": 32673
     }
-  ]
+  ],
+  "totalValue": 1906032,
+  "positionsCount": 15
 }

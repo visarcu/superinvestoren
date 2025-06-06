@@ -1,143 +1,149 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001656456-20-000001",
+  "quarterKey": "2020-Q1",
   "positions": [
-    {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 240000,
-      "value": 79154000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 2400000,
-      "value": 509040000
-    },
-    {
-      "name": "ALLERGAN PLC",
-      "cusip": "G0177J108",
-      "shares": 1295000,
-      "value": 247565000
-    },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 440000,
-      "value": 588289000
-    },
-    {
-      "name": "ALPS ETF TR",
-      "cusip": "00162Q866",
-      "shares": 6550000,
-      "value": 55675000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 291500,
-      "value": 538645000
-    },
-    {
-      "name": "BROADCOM INC",
-      "cusip": "11135F200",
-      "shares": 2500,
-      "value": 2945000
-    },
-    {
-      "name": "BROADCOM INC",
-      "cusip": "11135F101",
-      "shares": 275000,
-      "value": 86906000
-    },
-    {
-      "name": "CAESARS ENTMT CORP",
-      "cusip": "127686103",
-      "shares": 10050000,
-      "value": 136680000
-    },
-    {
-      "name": "CAESARS ENTMT CORP",
-      "cusip": "127686AA1",
-      "shares": 20000000,
-      "value": 38775000
-    },
-    {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 410000,
-      "value": 25039000
-    },
-    {
-      "name": "CLEARWAY ENERGY INC",
-      "cusip": "18539C105",
-      "shares": 136462,
-      "value": 2609000
-    },
-    {
-      "name": "CLEARWAY ENERGY INC",
-      "cusip": "18539C204",
-      "shares": 443295,
-      "value": 8844000
-    },
-    {
-      "name": "ENERGY TRANSFER LP",
-      "cusip": "29273V100",
-      "shares": 11231053,
-      "value": 144094000
+      "value": 588289
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 2825000,
-      "value": 579831000
+      "value": 579831
     },
     {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 75000,
-      "value": 27489000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 291500,
+      "value": 538645
     },
     {
-      "name": "INTELSAT S A",
-      "cusip": "L5140P101",
-      "shares": 2885019,
-      "value": 20282000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2400000,
+      "value": 509040
     },
     {
       "name": "MICRON TECHNOLOGY INC",
       "cusip": "595112103",
       "shares": 8100000,
-      "value": 435618000
+      "value": 435618
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 1295000,
+      "value": 247565
     },
     {
       "name": "PG&E CORP",
       "cusip": "69331C108",
       "shares": 17400000,
-      "value": 189138000
+      "value": 189138
     },
     {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 500000,
-      "value": 81320000
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 11231053,
+      "value": 144094
     },
     {
-      "name": "T MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 700000,
-      "value": 54894000
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686103",
+      "shares": 10050000,
+      "value": 136680
     },
     {
       "name": "UNITEDHEALTH GROUP INC",
       "cusip": "91324P102",
       "shares": 300000,
-      "value": 88194000
+      "value": 88194
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 275000,
+      "value": 86906
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 500000,
+      "value": 81320
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 240000,
+      "value": 79154
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 6550000,
+      "value": 55675
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 700000,
+      "value": 54894
     },
     {
       "name": "VISTRA ENERGY CORP",
       "cusip": "92840M102",
       "shares": 1719100,
-      "value": 39522000
+      "value": 39522
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686AA1",
+      "shares": 20000000,
+      "value": 38775
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 75000,
+      "value": 27489
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 410000,
+      "value": 25039
+    },
+    {
+      "name": "INTELSAT S A",
+      "cusip": "L5140P101",
+      "shares": 2885019,
+      "value": 20282
+    },
+    {
+      "name": "CLEARWAY ENERGY INC",
+      "cusip": "18539C204",
+      "shares": 443295,
+      "value": 8844
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F200",
+      "shares": 2500,
+      "value": 2945
+    },
+    {
+      "name": "CLEARWAY ENERGY INC",
+      "cusip": "18539C105",
+      "shares": 136462,
+      "value": 2609
     }
-  ]
+  ],
+  "totalValue": 3980548,
+  "positionsCount": 23
 }

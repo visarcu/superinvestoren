@@ -1,257 +1,263 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-14",
+  "period": "2020-08-14",
+  "accession": "0001556785-20-000029",
+  "quarterKey": "2020-Q3",
   "positions": [
     {
-      "name": "ACI WORLDWIDE INC",
-      "cusip": "004498101",
-      "shares": 1170325,
-      "value": 31587000
-    },
-    {
-      "name": "ACUITY BRANDS INC",
-      "cusip": "00508Y102",
-      "shares": 278430,
-      "value": 26657000
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 9362981,
+      "value": 1034890
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 659786,
-      "value": 932680000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 327287,
-      "value": 902926000
-    },
-    {
-      "name": "ANTHEM INC",
-      "cusip": "036752103",
-      "shares": 1826490,
-      "value": 480330000
-    },
-    {
-      "name": "BARNES GROUP INC",
-      "cusip": "067806109",
-      "shares": 30,
-      "value": 1000
-    },
-    {
-      "name": "BOOKING HOLDINGS INC",
-      "cusip": "09857L108",
-      "shares": 11,
-      "value": 18000
-    },
-    {
-      "name": "CARLISLE COS INC",
-      "cusip": "142339100",
-      "shares": 168052,
-      "value": 20111000
-    },
-    {
-      "name": "CARLYLE GROUP INC",
-      "cusip": "14316J108",
-      "shares": 24292103,
-      "value": 677750000
-    },
-    {
-      "name": "CERENCE INC",
-      "cusip": "156727109",
-      "shares": 749635,
-      "value": 30615000
-    },
-    {
-      "name": "COHERENT INC",
-      "cusip": "192479103",
-      "shares": 343007,
-      "value": 44927000
-    },
-    {
-      "name": "CRANE CO",
-      "cusip": "224399105",
-      "shares": 500006,
-      "value": 29730000
-    },
-    {
-      "name": "CREDIT ACCEP CORP MICH",
-      "cusip": "225310101",
-      "shares": 1251354,
-      "value": 524330000
-    },
-    {
-      "name": "CUSHMAN WAKEFIELD PLC",
-      "cusip": "G2717B108",
-      "shares": 9085563,
-      "value": 113206000
-    },
-    {
-      "name": "CVS HEALTH CORP",
-      "cusip": "126650100",
-      "shares": 4384010,
-      "value": 284829000
-    },
-    {
-      "name": "ENERSYS",
-      "cusip": "29275Y102",
-      "shares": 726720,
-      "value": 46786000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 2059975,
-      "value": 467759000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604103",
-      "shares": 11719875,
-      "value": 80047000
-    },
-    {
-      "name": "MILLER HERMAN INC",
-      "cusip": "600544100",
-      "shares": 1526775,
-      "value": 36047000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 6860170,
-      "value": 503879000
-    },
-    {
-      "name": "ITURAN LOCATION AND CONTROL",
-      "cusip": "M6158M104",
-      "shares": 2513763,
-      "value": 40270000
-    },
-    {
-      "name": "JONES LANG LASALLE INC",
-      "cusip": "48020Q107",
-      "shares": 4840190,
-      "value": 500766000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 27219320,
-      "value": 840533000
-    },
-    {
-      "name": "KNOLL INC",
-      "cusip": "498904200",
-      "shares": 2710142,
-      "value": 33037000
-    },
-    {
-      "name": "LITTELFUSE INC",
-      "cusip": "537008104",
-      "shares": 321679,
-      "value": 54888000
-    },
-    {
-      "name": "MARCUS & MILLICHAP INC",
-      "cusip": "566324109",
-      "shares": 893158,
-      "value": 25777000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 2955539,
-      "value": 873953000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 3112366,
-      "value": 633398000
-    },
-    {
-      "name": "NATIONAL OILWELL VARCO INC",
-      "cusip": "637071101",
-      "shares": 19638173,
-      "value": 240568000
-    },
-    {
-      "name": "NVIDIA CORPORATION",
-      "cusip": "67066G104",
-      "shares": 1107382,
-      "value": 420705000
-    },
-    {
-      "name": "ORACLE CORP",
-      "cusip": "68389X105",
-      "shares": 5173224,
-      "value": 285924000
-    },
-    {
-      "name": "PARK HOTELS RESORTS INC",
-      "cusip": "700517105",
-      "shares": 5575326,
-      "value": 55140000
-    },
-    {
-      "name": "QORVO INC",
-      "cusip": "74736K101",
-      "shares": 9362981,
-      "value": 1034890000
-    },
-    {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 1906655,
-      "value": 357174000
+      "value": 932680
     },
     {
       "name": "SKYWORKS SOLUTIONS INC",
       "cusip": "83088M102",
       "shares": 7281631,
-      "value": 931029000
+      "value": 931029
     },
     {
-      "name": "TIMKEN CO",
-      "cusip": "887389104",
-      "shares": 537406,
-      "value": 24447000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 327287,
+      "value": 902926
     },
     {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 1036705,
-      "value": 458275000
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 2955539,
+      "value": 873953
     },
     {
-      "name": "VIRTUS INVT PARTNERS INC",
-      "cusip": "92828Q109",
-      "shares": 423953,
-      "value": 49301000
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 27219320,
+      "value": 840533
+    },
+    {
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 24292103,
+      "value": 677750
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3112366,
+      "value": 633398
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 3180179,
-      "value": 614315000
+      "value": 614315
     },
     {
-      "name": "WELBILT INC",
-      "cusip": "949090104",
-      "shares": 1000,
-      "value": 6000
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 1251354,
+      "value": 524330
     },
     {
-      "name": "WOODWARD INC",
-      "cusip": "980745103",
-      "shares": 100,
-      "value": 8000
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 6860170,
+      "value": 503879
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 4840190,
+      "value": 500766
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 1826490,
+      "value": 480330
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2059975,
+      "value": 467759
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1036705,
+      "value": 458275
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 1107382,
+      "value": 420705
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 1906655,
+      "value": 357174
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 5173224,
+      "value": 285924
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 4384010,
+      "value": 284829
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 19638173,
+      "value": 240568
+    },
+    {
+      "name": "CUSHMAN WAKEFIELD PLC",
+      "cusip": "G2717B108",
+      "shares": 9085563,
+      "value": 113206
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 11719875,
+      "value": 80047
+    },
+    {
+      "name": "PARK HOTELS RESORTS INC",
+      "cusip": "700517105",
+      "shares": 5575326,
+      "value": 55140
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 321679,
+      "value": 54888
+    },
+    {
+      "name": "VIRTUS INVT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 423953,
+      "value": 49301
+    },
+    {
+      "name": "ENERSYS",
+      "cusip": "29275Y102",
+      "shares": 726720,
+      "value": 46786
+    },
+    {
+      "name": "COHERENT INC",
+      "cusip": "192479103",
+      "shares": 343007,
+      "value": 44927
+    },
+    {
+      "name": "ITURAN LOCATION AND CONTROL",
+      "cusip": "M6158M104",
+      "shares": 2513763,
+      "value": 40270
+    },
+    {
+      "name": "MILLER HERMAN INC",
+      "cusip": "600544100",
+      "shares": 1526775,
+      "value": 36047
+    },
+    {
+      "name": "KNOLL INC",
+      "cusip": "498904200",
+      "shares": 2710142,
+      "value": 33037
+    },
+    {
+      "name": "ACI WORLDWIDE INC",
+      "cusip": "004498101",
+      "shares": 1170325,
+      "value": 31587
+    },
+    {
+      "name": "CERENCE INC",
+      "cusip": "156727109",
+      "shares": 749635,
+      "value": 30615
+    },
+    {
+      "name": "CRANE CO",
+      "cusip": "224399105",
+      "shares": 500006,
+      "value": 29730
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 278430,
+      "value": 26657
+    },
+    {
+      "name": "MARCUS & MILLICHAP INC",
+      "cusip": "566324109",
+      "shares": 893158,
+      "value": 25777
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 537406,
+      "value": 24447
+    },
+    {
+      "name": "CARLISLE COS INC",
+      "cusip": "142339100",
+      "shares": 168052,
+      "value": 20111
     },
     {
       "name": "WYNDHAM HOTELS & RESORTS INC",
       "cusip": "98311A105",
       "shares": 472,
-      "value": 20000
+      "value": 20
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 11,
+      "value": 18
+    },
+    {
+      "name": "WOODWARD INC",
+      "cusip": "980745103",
+      "shares": 100,
+      "value": 8
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 1000,
+      "value": 6
+    },
+    {
+      "name": "BARNES GROUP INC",
+      "cusip": "067806109",
+      "shares": 30,
+      "value": 1
     }
-  ]
+  ],
+  "totalValue": 12708639,
+  "positionsCount": 42
 }

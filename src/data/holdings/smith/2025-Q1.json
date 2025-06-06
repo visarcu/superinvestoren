@@ -2,234 +2,238 @@
   "form": "13F-HR",
   "date": "2025-02-14",
   "period": "2025-02-14",
+  "accession": "0001520023-25-000002",
+  "quarterKey": "2025-Q1",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 6848278,
-      "value": 1296379025000
-    },
-    {
-      "name": "AUTOMATIC DATA PROCESSING IN",
-      "cusip": "053015103",
-      "shares": 5013712,
-      "value": 1467663914000
-    },
-    {
-      "name": "BROWN FORMAN CORP",
-      "cusip": "115637209",
-      "shares": 9637881,
-      "value": 366046720000
-    },
-    {
-      "name": "CHOICE HOTELS INTL INC",
-      "cusip": "169905106",
-      "shares": 733892,
-      "value": 104197986000
-    },
-    {
-      "name": "CHURCH & DWIGHT CO INC",
-      "cusip": "171340102",
-      "shares": 6857121,
-      "value": 718009140000
-    },
-    {
-      "name": "CLOROX CO DEL",
-      "cusip": "189054109",
-      "shares": 613497,
-      "value": 99638048000
-    },
-    {
-      "name": "DOXIMITY INC",
-      "cusip": "26622P107",
-      "shares": 710502,
-      "value": 37933702000
-    },
-    {
-      "name": "EQUIFAX INC",
-      "cusip": "294429105",
-      "shares": 363328,
-      "value": 92594141000
-    },
-    {
-      "name": "EXPONENT INC",
-      "cusip": "30214U102",
-      "shares": 836477,
-      "value": 74530101000
-    },
-    {
-      "name": "FORTINET INC",
-      "cusip": "34959E109",
-      "shares": 8530423,
-      "value": 805954365000
-    },
-    {
-      "name": "GRACO INC",
-      "cusip": "384109104",
-      "shares": 1139641,
-      "value": 96060340000
-    },
-    {
-      "name": "HOME DEPOT INC",
-      "cusip": "437076102",
-      "shares": 145639,
-      "value": 56652115000
-    },
-    {
-      "name": "IDEX CORP",
-      "cusip": "45167R104",
-      "shares": 362501,
-      "value": 75867834000
-    },
-    {
-      "name": "IDEXX LABS INC",
-      "cusip": "45168D104",
-      "shares": 2662855,
-      "value": 1100930771000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 4255340,
-      "value": 1186984540000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 64033,
-      "value": 33717857000
-    },
-    {
-      "name": "MEDPACE HLDGS INC",
-      "cusip": "58506Q109",
-      "shares": 127537,
-      "value": 42371618000
-    },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 4561352,
-      "value": 2670717210000
-    },
-    {
-      "name": "METTLER TOLEDO INTERNATIONAL",
-      "cusip": "592688105",
-      "shares": 591455,
-      "value": 723751654000
+      "value": 2670717210
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 6187033,
-      "value": 2607834410000
-    },
-    {
-      "name": "MSCI INC",
-      "cusip": "55354G100",
-      "shares": 166619,
-      "value": 99973066000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 6135629,
-      "value": 464283046000
-    },
-    {
-      "name": "ODDITY TECH LTD",
-      "cusip": "M7518J104",
-      "shares": 1615158,
-      "value": 67868939000
-    },
-    {
-      "name": "OTIS WORLDWIDE CORP",
-      "cusip": "68902V107",
-      "shares": 5966777,
-      "value": 552583218000
-    },
-    {
-      "name": "PAYCOM SOFTWARE INC",
-      "cusip": "70432V102",
-      "shares": 322611,
-      "value": 66125577000
-    },
-    {
-      "name": "PEPSICO INC",
-      "cusip": "713448108",
-      "shares": 5663677,
-      "value": 861218725000
-    },
-    {
-      "name": "PHILIP MORRIS INTL INC",
-      "cusip": "718172109",
-      "shares": 11245175,
-      "value": 1353356811000
-    },
-    {
-      "name": "PROCTER AND GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 4626376,
-      "value": 775611936000
-    },
-    {
-      "name": "QUALYS INC",
-      "cusip": "74758T303",
-      "shares": 548009,
-      "value": 76841822000
-    },
-    {
-      "name": "ROLLINS INC",
-      "cusip": "775711104",
-      "shares": 1597513,
-      "value": 74044728000
-    },
-    {
-      "name": "SABRE CORP",
-      "cusip": "78573M104",
-      "shares": 21499095,
-      "value": 78471697000
+      "value": 2607834410
     },
     {
       "name": "STRYKER CORPORATION",
       "cusip": "863667101",
       "shares": 5333977,
-      "value": 1920498419000
+      "value": 1920498419
     },
     {
-      "name": "TEXAS INSTRS INC",
-      "cusip": "882508104",
-      "shares": 1700630,
-      "value": 318885131000
-    },
-    {
-      "name": "VERISIGN INC",
-      "cusip": "92343E102",
-      "shares": 624500,
-      "value": 129246520000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 417685,
-      "value": 115042980000
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 5013712,
+      "value": 1467663914
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 4622567,
-      "value": 1460916075000
+      "value": 1460916075
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 11245175,
+      "value": 1353356811
     },
     {
       "name": "WATERS CORP",
       "cusip": "941848103",
       "shares": 3634522,
-      "value": 1348334972000
+      "value": 1348334972
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 6848278,
+      "value": 1296379025
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 4255340,
+      "value": 1186984540
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 2662855,
+      "value": 1100930771
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 5663677,
+      "value": 861218725
+    },
+    {
+      "name": "FORTINET INC",
+      "cusip": "34959E109",
+      "shares": 8530423,
+      "value": 805954365
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 4626376,
+      "value": 775611936
+    },
+    {
+      "name": "METTLER TOLEDO INTERNATIONAL",
+      "cusip": "592688105",
+      "shares": 591455,
+      "value": 723751654
+    },
+    {
+      "name": "CHURCH & DWIGHT CO INC",
+      "cusip": "171340102",
+      "shares": 6857121,
+      "value": 718009140
+    },
+    {
+      "name": "OTIS WORLDWIDE CORP",
+      "cusip": "68902V107",
+      "shares": 5966777,
+      "value": 552583218
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 6135629,
+      "value": 464283046
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637209",
+      "shares": 9637881,
+      "value": 366046720
+    },
+    {
+      "name": "TEXAS INSTRS INC",
+      "cusip": "882508104",
+      "shares": 1700630,
+      "value": 318885131
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 624500,
+      "value": 129246520
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 417685,
+      "value": 115042980
+    },
+    {
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 733892,
+      "value": 104197986
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 166619,
+      "value": 99973066
+    },
+    {
+      "name": "CLOROX CO DEL",
+      "cusip": "189054109",
+      "shares": 613497,
+      "value": 99638048
+    },
+    {
+      "name": "GRACO INC",
+      "cusip": "384109104",
+      "shares": 1139641,
+      "value": 96060340
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 363328,
+      "value": 92594141
+    },
+    {
+      "name": "SABRE CORP",
+      "cusip": "78573M104",
+      "shares": 21499095,
+      "value": 78471697
+    },
+    {
+      "name": "QUALYS INC",
+      "cusip": "74758T303",
+      "shares": 548009,
+      "value": 76841822
+    },
+    {
+      "name": "IDEX CORP",
+      "cusip": "45167R104",
+      "shares": 362501,
+      "value": 75867834
+    },
+    {
+      "name": "EXPONENT INC",
+      "cusip": "30214U102",
+      "shares": 836477,
+      "value": 74530101
+    },
+    {
+      "name": "ROLLINS INC",
+      "cusip": "775711104",
+      "shares": 1597513,
+      "value": 74044728
+    },
+    {
+      "name": "ODDITY TECH LTD",
+      "cusip": "M7518J104",
+      "shares": 1615158,
+      "value": 67868939
+    },
+    {
+      "name": "PAYCOM SOFTWARE INC",
+      "cusip": "70432V102",
+      "shares": 322611,
+      "value": 66125577
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 145639,
+      "value": 56652115
+    },
+    {
+      "name": "MEDPACE HLDGS INC",
+      "cusip": "58506Q109",
+      "shares": 127537,
+      "value": 42371618
+    },
+    {
+      "name": "DOXIMITY INC",
+      "cusip": "26622P107",
+      "shares": 710502,
+      "value": 37933702
     },
     {
       "name": "ZOETIS INC",
       "cusip": "98978V103",
       "shares": 227329,
-      "value": 37038714000
+      "value": 37038714
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 64033,
+      "value": 33717857
     }
-  ]
+  ],
+  "totalValue": 23458177867,
+  "positionsCount": 38
 }

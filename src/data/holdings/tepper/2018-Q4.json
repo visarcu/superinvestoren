@@ -1,227 +1,233 @@
 {
+  "form": "13F-HR",
   "date": "2018-11-14",
+  "period": "2018-11-14",
+  "accession": "0001656456-18-000007",
+  "quarterKey": "2018-Q4",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 1500000,
-      "value": 247140000
-    },
-    {
-      "name": "ALLERGAN PLC",
-      "cusip": "G0177J108",
-      "shares": 1992591,
-      "value": 379549000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 200000,
-      "value": 238694000
-    },
-    {
-      "name": "ALTABA INC",
-      "cusip": "021346101",
-      "shares": 3380000,
-      "value": 230246000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 100000,
-      "value": 22574000
-    },
-    {
-      "name": "ATLANTICA YIELD PLC",
-      "cusip": "G0751N103",
-      "shares": 3351273,
-      "value": 68969000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 3383263,
-      "value": 99671000
-    },
-    {
-      "name": "BOSTON SCIENTIFIC CORP",
-      "cusip": "101137107",
-      "shares": 853875,
-      "value": 32874000
-    },
-    {
-      "name": "BOYD GAMING CORP",
-      "cusip": "103304101",
-      "shares": 1356000,
-      "value": 45901000
-    },
-    {
-      "name": "CAESARS ENTMT CORP",
-      "cusip": "127686103",
-      "shares": 14522636,
-      "value": 148857000
-    },
-    {
-      "name": "CAESARS ENTMT CORP",
-      "cusip": "127686AA1",
-      "shares": 48992834,
-      "value": 81136000
-    },
-    {
-      "name": "CENTENE CORP DEL",
-      "cusip": "15135B101",
-      "shares": 589688,
-      "value": 85375000
-    },
-    {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 918000,
-      "value": 63792000
-    },
-    {
-      "name": "DOLLAR GEN CORP NEW",
-      "cusip": "256677105",
-      "shares": 746130,
-      "value": 81552000
-    },
-    {
-      "name": "ENERGY TRANSFER EQUITY L P",
-      "cusip": "29273V100",
-      "shares": 4372241,
-      "value": 76208000
-    },
-    {
-      "name": "ENERGY TRANSFER PARTNERS LP",
-      "cusip": "29278N103",
-      "shares": 3827431,
-      "value": 85199000
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 36000000,
+      "value": 1628280
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 3300000,
-      "value": 542718000
+      "value": 542718
     },
     {
-      "name": "HUNTSMAN CORP",
-      "cusip": "447011107",
-      "shares": 2030039,
-      "value": 55278000
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 1992591,
+      "value": 379549
     },
     {
-      "name": "KENNAMETAL INC",
-      "cusip": "489170100",
-      "shares": 1484134,
-      "value": 64649000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1500000,
+      "value": 247140
     },
     {
-      "name": "LAM RESEARCH CORP",
-      "cusip": "512807108",
-      "shares": 1175000,
-      "value": 178248000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 200000,
+      "value": 238694
     },
     {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 36000000,
-      "value": 1628280000
-    },
-    {
-      "name": "NRG ENERGY INC",
-      "cusip": "629377508",
-      "shares": 2616982,
-      "value": 97875000
-    },
-    {
-      "name": "OWENS CORNING NEW",
-      "cusip": "690742101",
-      "shares": 1073813,
-      "value": 58276000
-    },
-    {
-      "name": "PG&E CORP",
-      "cusip": "69331C108",
-      "shares": 3991033,
-      "value": 183627000
-    },
-    {
-      "name": "PLATFORM SPECIALTY PRODS COR",
-      "cusip": "72766Q105",
-      "shares": 2323706,
-      "value": 28977000
-    },
-    {
-      "name": "STATE STR CORP",
-      "cusip": "857477103",
-      "shares": 1185823,
-      "value": 99348000
-    },
-    {
-      "name": "STRYKER CORP",
-      "cusip": "863667101",
-      "shares": 92000,
-      "value": 16347000
-    },
-    {
-      "name": "SUMMIT MATLS INC",
-      "cusip": "86614U100",
-      "shares": 2979430,
-      "value": 54166000
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 3380000,
+      "value": 230246
     },
     {
       "name": "T MOBILE US INC",
       "cusip": "872590104",
       "shares": 2690127,
-      "value": 188793000
+      "value": 188793
     },
     {
-      "name": "TERRAFORM PWR INC",
-      "cusip": "88104R209",
-      "shares": 3059858,
-      "value": 35341000
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 3991033,
+      "value": 183627
     },
     {
-      "name": "THERMO FISHER SCIENTIFIC INC",
-      "cusip": "883556102",
-      "shares": 187000,
-      "value": 45643000
-    },
-    {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 348890,
-      "value": 92819000
-    },
-    {
-      "name": "VENATOR MATLS PLC",
-      "cusip": "G9329Z100",
-      "shares": 1378979,
-      "value": 12411000
-    },
-    {
-      "name": "VISTRA ENERGY CORP",
-      "cusip": "92840M102",
-      "shares": 1983745,
-      "value": 49356000
-    },
-    {
-      "name": "WILLIAMS COS INC DEL",
-      "cusip": "969457100",
-      "shares": 1044422,
-      "value": 28398000
-    },
-    {
-      "name": "WMIH CORP",
-      "cusip": "92936P100",
-      "shares": 62767086,
-      "value": 87246000
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 1175000,
+      "value": 178248
     },
     {
       "name": "XPO LOGISTICS INC",
       "cusip": "983793100",
       "shares": 1349868,
-      "value": 154114000
+      "value": 154114
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686103",
+      "shares": 14522636,
+      "value": 148857
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 3383263,
+      "value": 99671
+    },
+    {
+      "name": "STATE STR CORP",
+      "cusip": "857477103",
+      "shares": 1185823,
+      "value": 99348
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377508",
+      "shares": 2616982,
+      "value": 97875
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 348890,
+      "value": 92819
+    },
+    {
+      "name": "WMIH CORP",
+      "cusip": "92936P100",
+      "shares": 62767086,
+      "value": 87246
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 589688,
+      "value": 85375
+    },
+    {
+      "name": "ENERGY TRANSFER PARTNERS LP",
+      "cusip": "29278N103",
+      "shares": 3827431,
+      "value": 85199
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 746130,
+      "value": 81552
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686AA1",
+      "shares": 48992834,
+      "value": 81136
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY L P",
+      "cusip": "29273V100",
+      "shares": 4372241,
+      "value": 76208
+    },
+    {
+      "name": "ATLANTICA YIELD PLC",
+      "cusip": "G0751N103",
+      "shares": 3351273,
+      "value": 68969
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 1484134,
+      "value": 64649
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 918000,
+      "value": 63792
+    },
+    {
+      "name": "OWENS CORNING NEW",
+      "cusip": "690742101",
+      "shares": 1073813,
+      "value": 58276
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 2030039,
+      "value": 55278
+    },
+    {
+      "name": "SUMMIT MATLS INC",
+      "cusip": "86614U100",
+      "shares": 2979430,
+      "value": 54166
+    },
+    {
+      "name": "VISTRA ENERGY CORP",
+      "cusip": "92840M102",
+      "shares": 1983745,
+      "value": 49356
+    },
+    {
+      "name": "BOYD GAMING CORP",
+      "cusip": "103304101",
+      "shares": 1356000,
+      "value": 45901
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 187000,
+      "value": 45643
+    },
+    {
+      "name": "TERRAFORM PWR INC",
+      "cusip": "88104R209",
+      "shares": 3059858,
+      "value": 35341
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 853875,
+      "value": 32874
+    },
+    {
+      "name": "PLATFORM SPECIALTY PRODS COR",
+      "cusip": "72766Q105",
+      "shares": 2323706,
+      "value": 28977
+    },
+    {
+      "name": "WILLIAMS COS INC DEL",
+      "cusip": "969457100",
+      "shares": 1044422,
+      "value": 28398
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 100000,
+      "value": 22574
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 92000,
+      "value": 16347
+    },
+    {
+      "name": "VENATOR MATLS PLC",
+      "cusip": "G9329Z100",
+      "shares": 1378979,
+      "value": 12411
     }
-  ]
+  ],
+  "totalValue": 5689647,
+  "positionsCount": 37
 }

@@ -1,251 +1,257 @@
 {
+  "form": "13F-HR",
   "date": "2023-02-13",
+  "period": "2023-02-13",
+  "accession": "0001427119-23-000002",
+  "quarterKey": "2023-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 15,
-      "value": 1000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 2826332,
-      "value": 250780000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 3111751,
-      "value": 261387000
-    },
-    {
-      "name": "AMEREN CORP",
-      "cusip": "023608102",
-      "shares": 2894,
-      "value": 257000
-    },
-    {
-      "name": "BAKER HUGHES COMPANY",
-      "cusip": "05722G100",
-      "shares": 8057,
-      "value": 238000
-    },
-    {
-      "name": "BROADRIDGE FINL SOLUTIONS IN",
-      "cusip": "11133T103",
-      "shares": 1643,
-      "value": 220000
-    },
-    {
-      "name": "BROWN FORMAN CORP",
-      "cusip": "115637209",
-      "shares": 3599,
-      "value": 236000
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 563983,
+      "value": 355112
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 982722,
-      "value": 333241000
-    },
-    {
-      "name": "CME GROUP INC",
-      "cusip": "12572Q105",
-      "shares": 1325,
-      "value": 223000
-    },
-    {
-      "name": "COUPA SOFTWARE INC",
-      "cusip": "22266L106",
-      "shares": 3652504,
-      "value": 289169000
-    },
-    {
-      "name": "DELTA AIR LINES INC DEL",
-      "cusip": "247361702",
-      "shares": 6612,
-      "value": 217000
-    },
-    {
-      "name": "DENTSPLY SIRONA INC",
-      "cusip": "24906P109",
-      "shares": 7582,
-      "value": 241000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 255518,
-      "value": 36140000
-    },
-    {
-      "name": "FIDELITY NATL INFORMATION SV",
-      "cusip": "31620M106",
-      "shares": 3285,
-      "value": 223000
-    },
-    {
-      "name": "FORTINET INC",
-      "cusip": "34959E109",
-      "shares": 4589,
-      "value": 224000
-    },
-    {
-      "name": "FRESHWORKS INC",
-      "cusip": "358054104",
-      "shares": 3033425,
-      "value": 44622000
-    },
-    {
-      "name": "HASBRO INC",
-      "cusip": "418056107",
-      "shares": 3875,
-      "value": 236000
-    },
-    {
-      "name": "MARKETAXESS HLDGS INC",
-      "cusip": "57060D108",
-      "shares": 854,
-      "value": 238000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 1421,
-      "value": 212000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 686,
-      "value": 239000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 445920,
-      "value": 106941000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 520871,
-      "value": 145125000
-    },
-    {
-      "name": "MSCI INC",
-      "cusip": "55354G100",
-      "shares": 453,
-      "value": 211000
-    },
-    {
-      "name": "M & T BK CORP",
-      "cusip": "55261F104",
-      "shares": 1544,
-      "value": 224000
-    },
-    {
-      "name": "PAYCHEX INC",
-      "cusip": "704326107",
-      "shares": 1919,
-      "value": 222000
-    },
-    {
-      "name": "PERIMETER SOLUTIONS SA",
-      "cusip": "L7579L106",
-      "shares": 8000000,
-      "value": 73120000
-    },
-    {
-      "name": "RALPH LAUREN CORP",
-      "cusip": "751212101",
-      "shares": 2106,
-      "value": 223000
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 2393801,
-      "value": 317394000
+      "value": 333241
     },
     {
       "name": "SHERWIN WILLIAMS CO",
       "cusip": "824348106",
       "shares": 1384651,
-      "value": 328619000
-    },
-    {
-      "name": "SOUTHWEST AIRLS CO",
-      "cusip": "844741108",
-      "shares": 6848,
-      "value": 231000
-    },
-    {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 76095,
-      "value": 29101000
-    },
-    {
-      "name": "STERIS PLC",
-      "cusip": "G8473T100",
-      "shares": 1228,
-      "value": 227000
-    },
-    {
-      "name": "TARGA RES CORP",
-      "cusip": "87612G101",
-      "shares": 3576,
-      "value": 263000
-    },
-    {
-      "name": "T-MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 1516,
-      "value": 212000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 563983,
-      "value": 355112000
-    },
-    {
-      "name": "TYLER TECHNOLOGIES INC",
-      "cusip": "902252105",
-      "shares": 726,
-      "value": 234000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 1450,
-      "value": 256000
-    },
-    {
-      "name": "VORNADO RLTY TR",
-      "cusip": "929042109",
-      "shares": 12431,
-      "value": 259000
-    },
-    {
-      "name": "WEC ENERGY GROUP INC",
-      "cusip": "92939U106",
-      "shares": 2367,
-      "value": 222000
+      "value": 328619
     },
     {
       "name": "WORKDAY INC",
       "cusip": "98138H101",
       "shares": 1929459,
-      "value": 322856000
+      "value": 322856
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 2393801,
+      "value": 317394
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266L106",
+      "shares": 3652504,
+      "value": 289169
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3111751,
+      "value": 261387
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2826332,
+      "value": 250780
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 520871,
+      "value": 145125
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 445920,
+      "value": 106941
+    },
+    {
+      "name": "PERIMETER SOLUTIONS SA",
+      "cusip": "L7579L106",
+      "shares": 8000000,
+      "value": 73120
+    },
+    {
+      "name": "FRESHWORKS INC",
+      "cusip": "358054104",
+      "shares": 3033425,
+      "value": 44622
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 255518,
+      "value": 36140
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 76095,
+      "value": 29101
+    },
+    {
+      "name": "TARGA RES CORP",
+      "cusip": "87612G101",
+      "shares": 3576,
+      "value": 263
+    },
+    {
+      "name": "VORNADO RLTY TR",
+      "cusip": "929042109",
+      "shares": 12431,
+      "value": 259
+    },
+    {
+      "name": "AMEREN CORP",
+      "cusip": "023608102",
+      "shares": 2894,
+      "value": 257
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 1450,
+      "value": 256
+    },
+    {
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 7582,
+      "value": 241
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 686,
+      "value": 239
     },
     {
       "name": "XCEL ENERGY INC",
       "cusip": "98389B100",
       "shares": 3416,
-      "value": 239000
+      "value": 239
+    },
+    {
+      "name": "BAKER HUGHES COMPANY",
+      "cusip": "05722G100",
+      "shares": 8057,
+      "value": 238
+    },
+    {
+      "name": "MARKETAXESS HLDGS INC",
+      "cusip": "57060D108",
+      "shares": 854,
+      "value": 238
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637209",
+      "shares": 3599,
+      "value": 236
+    },
+    {
+      "name": "HASBRO INC",
+      "cusip": "418056107",
+      "shares": 3875,
+      "value": 236
+    },
+    {
+      "name": "TYLER TECHNOLOGIES INC",
+      "cusip": "902252105",
+      "shares": 726,
+      "value": 234
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 6848,
+      "value": 231
+    },
+    {
+      "name": "STERIS PLC",
+      "cusip": "G8473T100",
+      "shares": 1228,
+      "value": 227
+    },
+    {
+      "name": "FORTINET INC",
+      "cusip": "34959E109",
+      "shares": 4589,
+      "value": 224
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 1544,
+      "value": 224
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 1325,
+      "value": 223
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3285,
+      "value": 223
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 2106,
+      "value": 223
+    },
+    {
+      "name": "PAYCHEX INC",
+      "cusip": "704326107",
+      "shares": 1919,
+      "value": 222
+    },
+    {
+      "name": "WEC ENERGY GROUP INC",
+      "cusip": "92939U106",
+      "shares": 2367,
+      "value": 222
+    },
+    {
+      "name": "BROADRIDGE FINL SOLUTIONS IN",
+      "cusip": "11133T103",
+      "shares": 1643,
+      "value": 220
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 6612,
+      "value": 217
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 1421,
+      "value": 212
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 1516,
+      "value": 212
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 453,
+      "value": 211
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 15,
+      "value": 1
     }
-  ]
+  ],
+  "totalValue": 2899635,
+  "positionsCount": 41
 }

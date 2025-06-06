@@ -1,275 +1,281 @@
 {
+  "form": "13F-HR",
   "date": "2021-02-16",
+  "period": "2021-02-16",
+  "accession": "0001656456-21-000001",
+  "quarterKey": "2021-Q1",
   "positions": [
     {
-      "name": "ADOBE SYSTEMS INCORPORATED",
-      "cusip": "00724F101",
-      "shares": 200000,
-      "value": 100024000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 1900000,
-      "value": 442187000
-    },
-    {
-      "name": "ALLIANCE DATA SYSTEMS CORP",
-      "cusip": "018581108",
-      "shares": 450000,
-      "value": 33345000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 254500,
-      "value": 445853000
-    },
-    {
-      "name": "ALPS ETF TR",
-      "cusip": "00162Q452",
-      "shares": 2125000,
-      "value": 54528000
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 4905000,
+      "value": 661439
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 197700,
-      "value": 643895000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 750000,
-      "value": 70845000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 745000,
-      "value": 134979000
-    },
-    {
-      "name": "DRAGONEER GROWTH OPPTY CORP",
-      "cusip": "G28314105",
-      "shares": 750000,
-      "value": 8790000
-    },
-    {
-      "name": "EMERSON ELEC CO",
-      "cusip": "291011104",
-      "shares": 975000,
-      "value": 78361000
-    },
-    {
-      "name": "ENABLE MIDSTREAM PARTNERS LP",
-      "cusip": "292480100",
-      "shares": 307116,
-      "value": 1615000
-    },
-    {
-      "name": "ENERGY TRANSFER LP",
-      "cusip": "29273V100",
-      "shares": 24066259,
-      "value": 148729000
-    },
-    {
-      "name": "ENTERPRISE PRODS PARTNERS L",
-      "cusip": "293792107",
-      "shares": 3452759,
-      "value": 67640000
-    },
-    {
-      "name": "EQT CORP",
-      "cusip": "26884L109",
-      "shares": 2192085,
-      "value": 27861000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 2011000,
-      "value": 549325000
-    },
-    {
-      "name": "FREEPORT-MCMORAN INC",
-      "cusip": "35671D857",
-      "shares": 935000,
-      "value": 24329000
-    },
-    {
-      "name": "GOODYEAR TIRE & RUBR CO",
-      "cusip": "382550101",
-      "shares": 4454332,
-      "value": 48597000
-    },
-    {
-      "name": "HCA HEALTHCARE INC",
-      "cusip": "40412C101",
-      "shares": 1000000,
-      "value": 164460000
-    },
-    {
-      "name": "ISHARES INC",
-      "cusip": "464286772",
-      "shares": 500000,
-      "value": 43025000
-    },
-    {
-      "name": "KINDER MORGAN INC DEL",
-      "cusip": "49456B101",
-      "shares": 590000,
-      "value": 8065000
-    },
-    {
-      "name": "KOHLS CORP",
-      "cusip": "500255104",
-      "shares": 1725000,
-      "value": 70190000
-    },
-    {
-      "name": "MACYS INC",
-      "cusip": "55616P104",
-      "shares": 6400000,
-      "value": 72000000
-    },
-    {
-      "name": "MAGELLAN MIDSTREAM PRTNRS LP",
-      "cusip": "559080106",
-      "shares": 280690,
-      "value": 11912000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 402500,
-      "value": 143668000
+      "value": 643895
     },
     {
       "name": "MICRON TECHNOLOGY INC",
       "cusip": "595112103",
       "shares": 8000000,
-      "value": 601440000
+      "value": 601440
     },
     {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 550000,
-      "value": 122331000
-    },
-    {
-      "name": "MPLX LP",
-      "cusip": "55336V100",
-      "shares": 1094022,
-      "value": 23686000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 127000,
-      "value": 68673000
-    },
-    {
-      "name": "OCCIDENTAL PETE CORP",
-      "cusip": "674599105",
-      "shares": 8100540,
-      "value": 140220000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 525000,
-      "value": 122955000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2011000,
+      "value": 549325
     },
     {
       "name": "PG&E CORP",
       "cusip": "69331C108",
       "shares": 42370317,
-      "value": 527934000
+      "value": 527934
     },
     {
-      "name": "PG&E CORP",
-      "cusip": "69331C140",
-      "shares": 75000,
-      "value": 9213000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 254500,
+      "value": 445853
     },
     {
-      "name": "QUALCOMM INC",
-      "cusip": "747525103",
-      "shares": 600000,
-      "value": 91404000
-    },
-    {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 550000,
-      "value": 122392000
-    },
-    {
-      "name": "SELECT SECTOR SPDR TR",
-      "cusip": "81369Y506",
-      "shares": 3125000,
-      "value": 118438000
-    },
-    {
-      "name": "SPDR SER TR",
-      "cusip": "78468R556",
-      "shares": 925000,
-      "value": 54113000
-    },
-    {
-      "name": "SQUARE INC",
-      "cusip": "852234103",
-      "shares": 182500,
-      "value": 39719000
-    },
-    {
-      "name": "SYSCO CORP",
-      "cusip": "871829107",
-      "shares": 1250000,
-      "value": 92825000
-    },
-    {
-      "name": "TENNECO INC",
-      "cusip": "880349105",
-      "shares": 780019,
-      "value": 8268000
-    },
-    {
-      "name": "T-MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 4905000,
-      "value": 661439000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1900000,
+      "value": 442187
     },
     {
       "name": "TWITTER INC",
       "cusip": "90184L102",
       "shares": 4750000,
-      "value": 257213000
+      "value": 257213
     },
     {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 200000,
-      "value": 70136000
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 1000000,
+      "value": 164460
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 24066259,
+      "value": 148729
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 402500,
+      "value": 143668
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 8100540,
+      "value": 140220
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 620000,
-      "value": 135613000
+      "value": 135613
     },
     {
-      "name": "WELLS FARGO CO NEW",
-      "cusip": "949746101",
-      "shares": 400000,
-      "value": 12072000
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 745000,
+      "value": 134979
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 525000,
+      "value": 122955
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 550000,
+      "value": 122392
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 550000,
+      "value": 122331
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y506",
+      "shares": 3125000,
+      "value": 118438
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 200000,
+      "value": 100024
+    },
+    {
+      "name": "SYSCO CORP",
+      "cusip": "871829107",
+      "shares": 1250000,
+      "value": 92825
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 600000,
+      "value": 91404
+    },
+    {
+      "name": "EMERSON ELEC CO",
+      "cusip": "291011104",
+      "shares": 975000,
+      "value": 78361
+    },
+    {
+      "name": "MACYS INC",
+      "cusip": "55616P104",
+      "shares": 6400000,
+      "value": 72000
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 750000,
+      "value": 70845
+    },
+    {
+      "name": "KOHLS CORP",
+      "cusip": "500255104",
+      "shares": 1725000,
+      "value": 70190
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 200000,
+      "value": 70136
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 127000,
+      "value": 68673
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 3452759,
+      "value": 67640
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 2125000,
+      "value": 54528
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78468R556",
+      "shares": 925000,
+      "value": 54113
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 4454332,
+      "value": 48597
+    },
+    {
+      "name": "ISHARES INC",
+      "cusip": "464286772",
+      "shares": 500000,
+      "value": 43025
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 182500,
+      "value": 39719
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 450000,
+      "value": 33345
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 2192085,
+      "value": 27861
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 935000,
+      "value": 24329
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 1094022,
+      "value": 23686
     },
     {
       "name": "WESTERN MIDSTREAM PARTNERS L",
       "cusip": "958669103",
       "shares": 985376,
-      "value": 13618000
+      "value": 13618
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 400000,
+      "value": 12072
+    },
+    {
+      "name": "MAGELLAN MIDSTREAM PRTNRS LP",
+      "cusip": "559080106",
+      "shares": 280690,
+      "value": 11912
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 75000,
+      "value": 9213
+    },
+    {
+      "name": "DRAGONEER GROWTH OPPTY CORP",
+      "cusip": "G28314105",
+      "shares": 750000,
+      "value": 8790
+    },
+    {
+      "name": "TENNECO INC",
+      "cusip": "880349105",
+      "shares": 780019,
+      "value": 8268
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 590000,
+      "value": 8065
+    },
+    {
+      "name": "ENABLE MIDSTREAM PARTNERS LP",
+      "cusip": "292480100",
+      "shares": 307116,
+      "value": 1615
     }
-  ]
+  ],
+  "totalValue": 6687925,
+  "positionsCount": 45
 }

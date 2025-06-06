@@ -1,215 +1,221 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001427119-22-000007",
+  "quarterKey": "2022-Q4",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 2757348,
-      "value": 265119000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 3040137,
-      "value": 343535000
-    },
-    {
-      "name": "ATMOS ENERGY CORP",
-      "cusip": "049560105",
-      "shares": 4056,
-      "value": 413000
-    },
-    {
-      "name": "BECTON DICKINSON & CO",
-      "cusip": "075887109",
-      "shares": 1533,
-      "value": 342000
-    },
-    {
-      "name": "BERKLEY W R CORP",
-      "cusip": "084423102",
-      "shares": 3330,
-      "value": 215000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 1643,
-      "value": 439000
-    },
-    {
-      "name": "BOSTON PROPERTIES INC",
-      "cusip": "101121101",
-      "shares": 3932,
-      "value": 295000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 960128,
-      "value": 291255000
-    },
-    {
-      "name": "CHURCH & DWIGHT CO INC",
-      "cusip": "171340102",
-      "shares": 3745,
-      "value": 268000
-    },
-    {
-      "name": "COUPA SOFTWARE INC",
-      "cusip": "22266L106",
-      "shares": 4381483,
-      "value": 257631000
-    },
-    {
-      "name": "DAVITA INC",
-      "cusip": "23918K108",
-      "shares": 2592,
-      "value": 215000
-    },
-    {
-      "name": "DENTSPLY SIRONA INC",
-      "cusip": "24906P109",
-      "shares": 7426,
-      "value": 211000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 196662,
-      "value": 26766000
-    },
-    {
-      "name": "DOMINOS PIZZA INC",
-      "cusip": "25754A201",
-      "shares": 713,
-      "value": 221000
-    },
-    {
-      "name": "EXPEDIA GROUP INC",
-      "cusip": "30212P303",
-      "shares": 2456,
-      "value": 230000
-    },
-    {
-      "name": "FRESHWORKS INC",
-      "cusip": "358054104",
-      "shares": 2963726,
-      "value": 38440000
-    },
-    {
-      "name": "HENRY SCHEIN INC",
-      "cusip": "806407102",
-      "shares": 5354,
-      "value": 352000
-    },
-    {
-      "name": "JUNIPER NETWORKS INC",
-      "cusip": "48203R104",
-      "shares": 7983,
-      "value": 209000
-    },
-    {
-      "name": "LINDE PLC",
-      "cusip": "G5494J103",
-      "shares": 1276,
-      "value": 344000
-    },
-    {
-      "name": "MARKETAXESS HLDGS INC",
-      "cusip": "57060D108",
-      "shares": 1208,
-      "value": 269000
-    },
-    {
-      "name": "MCCORMICK & CO INC",
-      "cusip": "579780206",
-      "shares": 3042,
-      "value": 217000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 435674,
-      "value": 101468000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 555465,
-      "value": 135039000
-    },
-    {
-      "name": "PERIMETER SOLUTIONS SA",
-      "cusip": "L7579L106",
-      "shares": 8000000,
-      "value": 64080000
-    },
-    {
-      "name": "PROGRESSIVE CORP",
-      "cusip": "743315103",
-      "shares": 2066,
-      "value": 240000
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 1813930,
-      "value": 260916000
-    },
-    {
-      "name": "SHERWIN WILLIAMS CO",
-      "cusip": "824348106",
-      "shares": 1352825,
-      "value": 276991000
-    },
     {
       "name": "SPDR S&P 500 ETF TR",
       "cusip": "78462F103",
       "shares": 1470000,
-      "value": 525055000
-    },
-    {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 48758,
-      "value": 17415000
-    },
-    {
-      "name": "TELEFLEX INCORPORATED",
-      "cusip": "879369106",
-      "shares": 1417,
-      "value": 285000
-    },
-    {
-      "name": "T-MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 1591,
-      "value": 213000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 574399,
-      "value": 301456000
-    },
-    {
-      "name": "UIPATH INC",
-      "cusip": "90364P105",
-      "shares": 5839446,
-      "value": 73635000
-    },
-    {
-      "name": "VORNADO RLTY TR",
-      "cusip": "929042109",
-      "shares": 18686,
-      "value": 433000
+      "value": 525055
     },
     {
       "name": "WORKDAY INC",
       "cusip": "98138H101",
       "shares": 2314310,
-      "value": 352284000
+      "value": 352284
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3040137,
+      "value": 343535
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 574399,
+      "value": 301456
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 960128,
+      "value": 291255
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 1352825,
+      "value": 276991
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2757348,
+      "value": 265119
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 1813930,
+      "value": 260916
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266L106",
+      "shares": 4381483,
+      "value": 257631
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 555465,
+      "value": 135039
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 435674,
+      "value": 101468
+    },
+    {
+      "name": "UIPATH INC",
+      "cusip": "90364P105",
+      "shares": 5839446,
+      "value": 73635
+    },
+    {
+      "name": "PERIMETER SOLUTIONS SA",
+      "cusip": "L7579L106",
+      "shares": 8000000,
+      "value": 64080
+    },
+    {
+      "name": "FRESHWORKS INC",
+      "cusip": "358054104",
+      "shares": 2963726,
+      "value": 38440
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 196662,
+      "value": 26766
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 48758,
+      "value": 17415
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1643,
+      "value": 439
+    },
+    {
+      "name": "VORNADO RLTY TR",
+      "cusip": "929042109",
+      "shares": 18686,
+      "value": 433
+    },
+    {
+      "name": "ATMOS ENERGY CORP",
+      "cusip": "049560105",
+      "shares": 4056,
+      "value": 413
+    },
+    {
+      "name": "HENRY SCHEIN INC",
+      "cusip": "806407102",
+      "shares": 5354,
+      "value": 352
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 1276,
+      "value": 344
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 1533,
+      "value": 342
+    },
+    {
+      "name": "BOSTON PROPERTIES INC",
+      "cusip": "101121101",
+      "shares": 3932,
+      "value": 295
+    },
+    {
+      "name": "TELEFLEX INCORPORATED",
+      "cusip": "879369106",
+      "shares": 1417,
+      "value": 285
+    },
+    {
+      "name": "MARKETAXESS HLDGS INC",
+      "cusip": "57060D108",
+      "shares": 1208,
+      "value": 269
+    },
+    {
+      "name": "CHURCH & DWIGHT CO INC",
+      "cusip": "171340102",
+      "shares": 3745,
+      "value": 268
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 2066,
+      "value": 240
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 2456,
+      "value": 230
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 713,
+      "value": 221
+    },
+    {
+      "name": "MCCORMICK & CO INC",
+      "cusip": "579780206",
+      "shares": 3042,
+      "value": 217
+    },
+    {
+      "name": "BERKLEY W R CORP",
+      "cusip": "084423102",
+      "shares": 3330,
+      "value": 215
+    },
+    {
+      "name": "DAVITA INC",
+      "cusip": "23918K108",
+      "shares": 2592,
+      "value": 215
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 1591,
+      "value": 213
+    },
+    {
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 7426,
+      "value": 211
+    },
+    {
+      "name": "JUNIPER NETWORKS INC",
+      "cusip": "48203R104",
+      "shares": 7983,
+      "value": 209
     }
-  ]
+  ],
+  "totalValue": 3336496,
+  "positionsCount": 35
 }

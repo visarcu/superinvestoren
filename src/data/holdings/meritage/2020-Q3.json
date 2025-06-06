@@ -1,179 +1,185 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-13",
+  "period": "2020-08-13",
+  "accession": "0001427119-20-000005",
+  "quarterKey": "2020-Q3",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 124305,
-      "value": 176271000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 308171,
-      "value": 435634000
-    },
-    {
-      "name": "AMERICAN WTR WKS CO INC NEW",
-      "cusip": "030420103",
-      "shares": 1692,
-      "value": 218000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 2511,
-      "value": 448000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 2421462,
-      "value": 214059000
-    },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 1884999,
-      "value": 961425000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 1959839,
-      "value": 342874000
-    },
-    {
-      "name": "FIDELITY NATL INFORMATION SV",
-      "cusip": "31620M106",
-      "shares": 3629780,
-      "value": 486717000
-    },
-    {
-      "name": "HENRY SCHEIN INC",
-      "cusip": "806407102",
-      "shares": 6515,
-      "value": 380000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 5294,
-      "value": 389000
-    },
-    {
-      "name": "IQVIA HLDGS INC",
-      "cusip": "46266C105",
-      "shares": 707750,
-      "value": 100416000
-    },
-    {
-      "name": "LAS VEGAS SANDS CORP",
-      "cusip": "517834107",
-      "shares": 5170,
-      "value": 235000
-    },
-    {
-      "name": "METTLER TOLEDO INTERNATIONAL",
-      "cusip": "592688105",
-      "shares": 291,
-      "value": 234000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 1193505,
-      "value": 242890000
-    },
-    {
-      "name": "MIMECAST LTD",
-      "cusip": "G14838109",
-      "shares": 1816453,
-      "value": 75673000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 887056,
-      "value": 243701000
-    },
-    {
-      "name": "NATIONAL OILWELL VARCO INC",
-      "cusip": "637071101",
-      "shares": 28918,
-      "value": 354000
-    },
-    {
-      "name": "NEWS CORP NEW",
-      "cusip": "65249B109",
-      "shares": 25057,
-      "value": 297000
-    },
-    {
-      "name": "NISOURCE INC",
-      "cusip": "65473P105",
-      "shares": 19728,
-      "value": 449000
-    },
-    {
-      "name": "NORDSTROM INC",
-      "cusip": "655664100",
-      "shares": 10500,
-      "value": 163000
-    },
-    {
-      "name": "REPUBLIC SVCS INC",
-      "cusip": "760759100",
-      "shares": 4773,
-      "value": 392000
+      "value": 961425
     },
     {
       "name": "RESTAURANT BRANDS INTL INC",
       "cusip": "76131D103",
       "shares": 9382392,
-      "value": 512560000
+      "value": 512560
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3629780,
+      "value": 486717
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 308171,
+      "value": 435634
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 1959839,
+      "value": 342874
     },
     {
       "name": "SALESFORCE COM INC",
       "cusip": "79466L302",
       "shares": 1720906,
-      "value": 322377000
+      "value": 322377
     },
     {
-      "name": "SERVICENOW INC",
-      "cusip": "81762P102",
-      "shares": 549,
-      "value": 222000
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 887056,
+      "value": 243701
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1193505,
+      "value": 242890
     },
     {
       "name": "SHERWIN WILLIAMS CO",
       "cusip": "824348106",
       "shares": 408809,
-      "value": 236230000
-    },
-    {
-      "name": "SL GREEN RLTY CORP",
-      "cusip": "78440X101",
-      "shares": 5573,
-      "value": 275000
+      "value": 236230
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 504255,
-      "value": 222906000
+      "value": 222906
     },
     {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 2244,
-      "value": 382000
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 2421462,
+      "value": 214059
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 124305,
+      "value": 176271
     },
     {
       "name": "WORKDAY INC",
       "cusip": "98138H101",
       "shares": 833153,
-      "value": 156100000
+      "value": 156100
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 707750,
+      "value": 100416
+    },
+    {
+      "name": "MIMECAST LTD",
+      "cusip": "G14838109",
+      "shares": 1816453,
+      "value": 75673
+    },
+    {
+      "name": "NISOURCE INC",
+      "cusip": "65473P105",
+      "shares": 19728,
+      "value": 449
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 2511,
+      "value": 448
+    },
+    {
+      "name": "REPUBLIC SVCS INC",
+      "cusip": "760759100",
+      "shares": 4773,
+      "value": 392
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 5294,
+      "value": 389
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2244,
+      "value": 382
+    },
+    {
+      "name": "HENRY SCHEIN INC",
+      "cusip": "806407102",
+      "shares": 6515,
+      "value": 380
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 28918,
+      "value": 354
+    },
+    {
+      "name": "NEWS CORP NEW",
+      "cusip": "65249B109",
+      "shares": 25057,
+      "value": 297
+    },
+    {
+      "name": "SL GREEN RLTY CORP",
+      "cusip": "78440X101",
+      "shares": 5573,
+      "value": 275
+    },
+    {
+      "name": "LAS VEGAS SANDS CORP",
+      "cusip": "517834107",
+      "shares": 5170,
+      "value": 235
+    },
+    {
+      "name": "METTLER TOLEDO INTERNATIONAL",
+      "cusip": "592688105",
+      "shares": 291,
+      "value": 234
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 549,
+      "value": 222
+    },
+    {
+      "name": "AMERICAN WTR WKS CO INC NEW",
+      "cusip": "030420103",
+      "shares": 1692,
+      "value": 218
+    },
+    {
+      "name": "NORDSTROM INC",
+      "cusip": "655664100",
+      "shares": 10500,
+      "value": 163
     }
-  ]
+  ],
+  "totalValue": 4734271,
+  "positionsCount": 29
 }

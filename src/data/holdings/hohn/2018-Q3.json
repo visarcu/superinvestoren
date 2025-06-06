@@ -1,77 +1,83 @@
 {
+  "form": "13F-HR",
   "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0001647251-18-000006",
+  "quarterKey": "2018-Q3",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 2772650,
-      "value": 3093307000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 380600,
-      "value": 429770000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 2311350,
-      "value": 423987000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 13607841,
-      "value": 3989955000
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 114502969,
+      "value": 5689653
     },
     {
       "name": "ALTABA INC",
       "cusip": "021346101",
       "shares": 57057273,
-      "value": 4177163000
+      "value": 4177163
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 13607841,
+      "value": 3989955
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2772650,
+      "value": 3093307
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 13810449,
-      "value": 1361848000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 1692623,
-      "value": 288694000
-    },
-    {
-      "name": "NORFOLK SOUTHERN CORP",
-      "cusip": "655844108",
-      "shares": 2528088,
-      "value": 381413000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 444619,
-      "value": 90653000
-    },
-    {
-      "name": "TWENTY FIRST CENTY FOX INC",
-      "cusip": "90130A101",
-      "shares": 114502969,
-      "value": 5689653000
+      "value": 1361848
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A200",
       "shares": 22189801,
-      "value": 1093291000
+      "value": 1093291
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 380600,
+      "value": 429770
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 2311350,
+      "value": 423987
+    },
+    {
+      "name": "NORFOLK SOUTHERN CORP",
+      "cusip": "655844108",
+      "shares": 2528088,
+      "value": 381413
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1692623,
+      "value": 288694
     },
     {
       "name": "UNION PAC CORP",
       "cusip": "907818108",
       "shares": 1743433,
-      "value": 247010000
+      "value": 247010
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 444619,
+      "value": 90653
     }
-  ]
+  ],
+  "totalValue": 21266744,
+  "positionsCount": 12
 }

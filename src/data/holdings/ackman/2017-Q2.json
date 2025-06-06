@@ -1,47 +1,53 @@
 {
+  "form": "13F-HR",
   "date": "2017-05-15",
+  "period": "2017-05-15",
+  "accession": "0001172661-17-001220",
+  "quarterKey": "2017-Q2",
   "positions": [
     {
-      "name": "AIR PRODS & CHEMS INC",
-      "cusip": "009158106",
-      "shares": 2280138,
-      "value": 308480000
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 39150551,
+      "value": 2182252
     },
     {
       "name": "CHIPOTLE MEXICAN GRILL INC",
       "cusip": "169656105",
       "shares": 2882463,
-      "value": 1284195000
-    },
-    {
-      "name": "HOWARD HUGHES CORP",
-      "cusip": "44267D107",
-      "shares": 3568017,
-      "value": 418350000
+      "value": 1284195
     },
     {
       "name": "MONDELEZ INTL INC",
       "cusip": "609207105",
       "shares": 19942225,
-      "value": 859111000
-    },
-    {
-      "name": "NOMAD HLDGS LTD",
-      "cusip": "G6564A105",
-      "shares": 33333334,
-      "value": 381667000
+      "value": 859111
     },
     {
       "name": "PLATFORM SPECIALTY PRODS COR",
       "cusip": "72766Q105",
       "shares": 40451506,
-      "value": 526679000
+      "value": 526679
     },
     {
-      "name": "RESTAURANT BRANDS INTL INC",
-      "cusip": "76131D103",
-      "shares": 39150551,
-      "value": 2182252000
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 3568017,
+      "value": 418350
+    },
+    {
+      "name": "NOMAD HLDGS LTD",
+      "cusip": "G6564A105",
+      "shares": 33333334,
+      "value": 381667
+    },
+    {
+      "name": "AIR PRODS & CHEMS INC",
+      "cusip": "009158106",
+      "shares": 2280138,
+      "value": 308480
     }
-  ]
+  ],
+  "totalValue": 5960734,
+  "positionsCount": 7
 }

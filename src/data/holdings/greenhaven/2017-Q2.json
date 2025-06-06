@@ -1,155 +1,161 @@
 {
+  "form": "13F-HR",
   "date": "2017-04-27",
+  "period": "2017-04-27",
+  "accession": "0000891092-17-003512",
+  "quarterKey": "2017-Q2",
   "positions": [
     {
-      "name": "Agilent Technologies, Inc. (A)",
-      "cusip": "00846U101",
-      "shares": 10700,
-      "value": 566000
-    },
-    {
-      "name": "AECOM (ACM)",
-      "cusip": "00766T100",
-      "shares": 1670447,
-      "value": 59451000
-    },
-    {
-      "name": "TD Ameritrade (AMTD)",
-      "cusip": "87236Y108",
-      "shares": 6270,
-      "value": 244000
-    },
-    {
-      "name": "Boeing Company (BA)",
-      "cusip": "097023105",
-      "shares": 2829899,
-      "value": 500496000
-    },
-    {
-      "name": "Citigroup (C)",
-      "cusip": "172967424",
-      "shares": 11385712,
-      "value": 681093000
-    },
-    {
-      "name": "Calatlantic Group (CAA)",
-      "cusip": "128195104",
-      "shares": 2558333,
-      "value": 95810000
-    },
-    {
-      "name": "Canam Group, Inc. (CNMGF)",
-      "cusip": "13710C107",
-      "shares": 225100,
-      "value": 1116000
-    },
-    {
-      "name": "D R Horton, Inc. (DHI)",
-      "cusip": "23331A109",
-      "shares": 7639606,
-      "value": 254475000
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 3702087,
+      "value": 850443
     },
     {
       "name": "Airbus Group NV (EADSY)",
       "cusip": "009279100",
       "shares": 35908268,
-      "value": 684196000
+      "value": 684196
     },
     {
-      "name": "FedEx Corp (FDX)",
-      "cusip": "31428X106",
-      "shares": 3038728,
-      "value": 593008000
-    },
-    {
-      "name": "Goldman Sachs (GS)",
-      "cusip": "38141G104",
-      "shares": 3702087,
-      "value": 850443000
+      "name": "Citigroup (C)",
+      "cusip": "172967424",
+      "shares": 11385712,
+      "value": 681093
     },
     {
       "name": "J P Morgan Chase (JPM)",
       "cusip": "46625H100",
       "shares": 7323232,
-      "value": 643273000
+      "value": 643273
     },
     {
-      "name": "Lennar Corporation (LEN)",
-      "cusip": "526057104",
-      "shares": 5374316,
-      "value": 275111000
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 3038728,
+      "value": 593008
     },
     {
-      "name": "Lowe's Companies, Inc. (LOW)",
+      "name": "Lowe's Companies, Inc (LOW)",
       "cusip": "548661107",
       "shares": 7206251,
-      "value": 592426000
+      "value": 592426
     },
     {
-      "name": "3M Company (MMM)",
-      "cusip": "88579Y101",
-      "shares": 50000,
-      "value": 9567000
-    },
-    {
-      "name": "Owens Corning (OC)",
-      "cusip": "690742101",
-      "shares": 2395861,
-      "value": 147034000
-    },
-    {
-      "name": "PulteGroup (PHM)",
-      "cusip": "745867101",
-      "shares": 5750265,
-      "value": 135419000
-    },
-    {
-      "name": "Praxair Inc. (PX)",
-      "cusip": "74005P104",
-      "shares": 66441,
-      "value": 7880000
-    },
-    {
-      "name": "Sterling Construction Compnay  (STRL)",
-      "cusip": "859241101",
-      "shares": 84623,
-      "value": 783000
-    },
-    {
-      "name": "Taylor Morrison Home Corp (TMHC)",
-      "cusip": "87724P106",
-      "shares": 127700,
-      "value": 2723000
-    },
-    {
-      "name": "Toll Brothers, Inc. (TOL)",
-      "cusip": "889478103",
-      "shares": 4043304,
-      "value": 146004000
-    },
-    {
-      "name": "Tri Pointe Group, Inc. (TPH)",
-      "cusip": "87265H109",
-      "shares": 5179606,
-      "value": 64952000
-    },
-    {
-      "name": "Union Pacific Corp (UNP)",
-      "cusip": "907818108",
-      "shares": 2032,
-      "value": 215000
-    },
-    {
-      "name": "USG Corp (USG)",
-      "cusip": "903293405",
-      "shares": 2733135,
-      "value": 86914000
+      "name": "Boeing Company (BA)",
+      "cusip": "097023105",
+      "shares": 2829899,
+      "value": 500496
     },
     {
       "name": "Whirlpool Corp (WHR)",
       "cusip": "963320106",
       "shares": 2719870,
-      "value": 465995000
+      "value": 465995
+    },
+    {
+      "name": "Lennar Corporation (LEN)",
+      "cusip": "526057104",
+      "shares": 5374316,
+      "value": 275111
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 7639606,
+      "value": 254475
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 2395861,
+      "value": 147034
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 4043304,
+      "value": 146004
+    },
+    {
+      "name": "PulteGroup (PHM)",
+      "cusip": "745867101",
+      "shares": 5750265,
+      "value": 135419
+    },
+    {
+      "name": "Calatlantic Group (CAA)",
+      "cusip": "128195104",
+      "shares": 2558333,
+      "value": 95810
+    },
+    {
+      "name": "USG Corp (USG)",
+      "cusip": "903293405",
+      "shares": 2733135,
+      "value": 86914
+    },
+    {
+      "name": "Tri Pointe Group, Inc (TPH)",
+      "cusip": "87265H109",
+      "shares": 5179606,
+      "value": 64952
+    },
+    {
+      "name": "AECOM (ACM)",
+      "cusip": "00766T100",
+      "shares": 1670447,
+      "value": 59451
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 50000,
+      "value": 9567
+    },
+    {
+      "name": "Praxair Inc (PX)",
+      "cusip": "74005P104",
+      "shares": 66441,
+      "value": 7880
+    },
+    {
+      "name": "Taylor Morrison Home Corp (TMHC)",
+      "cusip": "87724P106",
+      "shares": 127700,
+      "value": 2723
+    },
+    {
+      "name": "Canam Group, Inc (CNMGF)",
+      "cusip": "13710C107",
+      "shares": 225100,
+      "value": 1116
+    },
+    {
+      "name": "Sterling Construction Compnay (STRL)",
+      "cusip": "859241101",
+      "shares": 84623,
+      "value": 783
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 566
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 6270,
+      "value": 244
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 215
     }
-  ]
+  ],
+  "totalValue": 6299194,
+  "positionsCount": 25
 }

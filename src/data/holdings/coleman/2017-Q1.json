@@ -1,227 +1,233 @@
 {
+  "form": "13F-HR",
   "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0000919574-17-001974",
+  "quarterKey": "2017-Q1",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 5283823,
-      "value": 463972000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 186100,
-      "value": 147475000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 190500,
-      "value": 147032000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 1381929,
-      "value": 1036267000
-    },
-    {
-      "name": "AMERICAN FARMLAND CO",
-      "cusip": "02589Y100",
-      "shares": 60000,
-      "value": 478000
-    },
-    {
-      "name": "ARMSTRONG WORLD INDS INC NEW",
-      "cusip": "04247X102",
-      "shares": 1530000,
-      "value": 63954000
-    },
-    {
-      "name": "ATLASSIAN CORP PLC",
-      "cusip": "G06242104",
-      "shares": 500000,
-      "value": 12040000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 2327000,
-      "value": 669990000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 2600000,
-      "value": 179530000
-    },
-    {
-      "name": "DOMINOS PIZZA INC",
-      "cusip": "25754A201",
-      "shares": 612289,
-      "value": 97501000
-    },
-    {
-      "name": "EHI CAR SVCS LTD",
-      "cusip": "26853A100",
-      "shares": 8334863,
-      "value": 75514000
-    },
-    {
-      "name": "ETSY INC",
-      "cusip": "29786A106",
-      "shares": 8739254,
-      "value": 102948000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 366800,
-      "value": 42200000
-    },
-    {
-      "name": "FIAT CHRYSLER AUTOMOBILES N",
-      "cusip": "N31738102",
-      "shares": 52740079,
-      "value": 480990000
-    },
-    {
-      "name": "FIREEYE INC",
-      "cusip": "31816Q101",
-      "shares": 200000,
-      "value": 2380000
-    },
-    {
-      "name": "FITBIT INC",
-      "cusip": "33812L102",
-      "shares": 500000,
-      "value": 3660000
-    },
-    {
-      "name": "FLEETCOR TECHNOLOGIES INC",
-      "cusip": "339041105",
-      "shares": 2920953,
-      "value": 413373000
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 1255992,
+      "value": 1841360
     },
     {
       "name": "JD COM INC",
       "cusip": "47215P106",
       "shares": 45789821,
-      "value": 1164893000
+      "value": 1164893
     },
     {
-      "name": "JUMEI INTL HLDG LTD",
-      "cusip": "48138L107",
-      "shares": 2479085,
-      "value": 12420000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1381929,
+      "value": 1036267
     },
     {
-      "name": "LENDINGCLUB CORP",
-      "cusip": "52603A109",
-      "shares": 275000,
-      "value": 1444000
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 2327000,
+      "value": 669990
     },
     {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 1053341,
-      "value": 108757000
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 52740079,
+      "value": 480990
     },
     {
-      "name": "MERCADOLIBRE INC",
-      "cusip": "58733R102",
-      "shares": 545346,
-      "value": 85150000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 5283823,
+      "value": 463972
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 2920953,
+      "value": 413373
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 2600000,
+      "value": 179530
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 186100,
+      "value": 147475
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 190500,
+      "value": 147032
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 2118000,
-      "value": 131613000
-    },
-    {
-      "name": "NETEASE INC",
-      "cusip": "64110W102",
-      "shares": 191954,
-      "value": 41335000
-    },
-    {
-      "name": "NEW ORIENTAL ED & TECH GRP I",
-      "cusip": "647581107",
-      "shares": 1573022,
-      "value": 66224000
-    },
-    {
-      "name": "ON DECK CAP INC",
-      "cusip": "682163100",
-      "shares": 2461015,
-      "value": 11394000
-    },
-    {
-      "name": "PRICELINE GRP INC",
-      "cusip": "741503403",
-      "shares": 59700,
-      "value": 87524000
-    },
-    {
-      "name": "PRICELINE GRP INC",
-      "cusip": "741503403",
-      "shares": 1255992,
-      "value": 1841360000
-    },
-    {
-      "name": "PURE STORAGE INC",
-      "cusip": "74624M102",
-      "shares": 1000000,
-      "value": 11310000
+      "value": 131613
     },
     {
       "name": "RESTAURANT BRANDS INTL INC",
       "cusip": "76131D103",
       "shares": 2302080,
-      "value": 109717000
+      "value": 109717
     },
     {
-      "name": "SHOPIFY INC",
-      "cusip": "82509L107",
-      "shares": 70000,
-      "value": 3001000
-    },
-    {
-      "name": "SYMANTEC CORP",
-      "cusip": "871503108",
-      "shares": 2630000,
-      "value": 62831000
-    },
-    {
-      "name": "TAL ED GROUP",
-      "cusip": "874080104",
-      "shares": 1271601,
-      "value": 89203000
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1053341,
+      "value": 108757
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 428771,
-      "value": 106747000
+      "value": 106747
     },
     {
-      "name": "VIPSHOP HLDGS LTD",
-      "cusip": "92763W103",
-      "shares": 5018401,
-      "value": 55253000
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 8739254,
+      "value": 102948
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 612289,
+      "value": 97501
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 1271601,
+      "value": 89203
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 1142000,
-      "value": 89099000
+      "value": 89099
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 59700,
+      "value": 87524
+    },
+    {
+      "name": "MERCADOLIBRE INC",
+      "cusip": "58733R102",
+      "shares": 545346,
+      "value": 85150
+    },
+    {
+      "name": "EHI CAR SVCS LTD",
+      "cusip": "26853A100",
+      "shares": 8334863,
+      "value": 75514
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP I",
+      "cusip": "647581107",
+      "shares": 1573022,
+      "value": 66224
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 1530000,
+      "value": 63954
+    },
+    {
+      "name": "SYMANTEC CORP",
+      "cusip": "871503108",
+      "shares": 2630000,
+      "value": 62831
+    },
+    {
+      "name": "VIPSHOP HLDGS LTD",
+      "cusip": "92763W103",
+      "shares": 5018401,
+      "value": 55253
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 366800,
+      "value": 42200
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 191954,
+      "value": 41335
+    },
+    {
+      "name": "JUMEI INTL HLDG LTD",
+      "cusip": "48138L107",
+      "shares": 2479085,
+      "value": 12420
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 500000,
+      "value": 12040
     },
     {
       "name": "ZTO EXPRESS CAYMAN INC",
       "cusip": "98980A105",
       "shares": 994400,
-      "value": 12002000
+      "value": 12002
+    },
+    {
+      "name": "ON DECK CAP INC",
+      "cusip": "682163100",
+      "shares": 2461015,
+      "value": 11394
+    },
+    {
+      "name": "PURE STORAGE INC",
+      "cusip": "74624M102",
+      "shares": 1000000,
+      "value": 11310
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 500000,
+      "value": 3660
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 70000,
+      "value": 3001
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 2380
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 1444
+    },
+    {
+      "name": "AMERICAN FARMLAND CO",
+      "cusip": "02589Y100",
+      "shares": 60000,
+      "value": 478
     }
-  ]
+  ],
+  "totalValue": 8030581,
+  "positionsCount": 37
 }

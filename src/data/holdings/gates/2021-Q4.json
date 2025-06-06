@@ -1,137 +1,143 @@
 {
+  "form": "13F-HR",
   "date": "2021-11-15",
+  "period": "2021-11-15",
+  "accession": "0001104659-21-139188",
+  "quarterKey": "2021-Q4",
   "positions": [
-    {
-      "name": "AFFIRM HLDGS INC",
-      "cusip": "00827B106",
-      "shares": 35229,
-      "value": 4197000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 21554,
-      "value": 57625000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 21491,
-      "value": 57280000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 38686679,
-      "value": 10559142000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 13066169,
-      "value": 1511631000
-    },
-    {
-      "name": "CATERPILLAR INC",
-      "cusip": "149123101",
-      "shares": 9685132,
-      "value": 1859255000
-    },
-    {
-      "name": "COCA-COLA FEMSA SAB DE CV",
-      "cusip": "191241108",
-      "shares": 6214719,
-      "value": 349702000
-    },
-    {
-      "name": "COUPANG INC",
-      "cusip": "22266T109",
-      "shares": 5714285,
-      "value": 159143000
-    },
-    {
-      "name": "CROWN CASTLE INTL CORP NEW",
-      "cusip": "22822V101",
-      "shares": 4564046,
-      "value": 791040000
-    },
-    {
-      "name": "DEERE & CO",
-      "cusip": "244199105",
-      "shares": 1033598,
-      "value": 346328000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 4366427,
-      "value": 910924000
-    },
-    {
-      "name": "FEDEX CORP",
-      "cusip": "31428X106",
-      "shares": 1493712,
-      "value": 327556000
-    },
-    {
-      "name": "GRUPO TELEVISA S A B",
-      "cusip": "40049J206",
-      "shares": 16302889,
-      "value": 179006000
-    },
-    {
-      "name": "KANSAS CITY SOUTHERN",
-      "cusip": "485170302",
-      "shares": 2190000,
-      "value": 592702000
-    },
-    {
-      "name": "MADISON SQUARE GRDN SPRT COR",
-      "cusip": "55825T103",
-      "shares": 278147,
-      "value": 51721000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 2937703,
-      "value": 828197000
-    },
-    {
-      "name": "ON HLDG AG",
-      "cusip": "H5919C104",
-      "shares": 500000,
-      "value": 15065000
-    },
-    {
-      "name": "SCHRODINGER INC",
-      "cusip": "80810D103",
-      "shares": 6981664,
-      "value": 381757000
-    },
-    {
-      "name": "UNITED PARCEL SERVICE INC",
-      "cusip": "911312106",
-      "shares": 2284015,
-      "value": 415919000
-    },
-    {
-      "name": "WALMART INC",
-      "cusip": "931142103",
-      "shares": 6921739,
-      "value": 964752000
+      "value": 10559142
     },
     {
       "name": "WASTE MGMT INC DEL",
       "cusip": "94106L109",
       "shares": 18633672,
-      "value": 2783125000
+      "value": 2783125
+    },
+    {
+      "name": "CATERPILLAR INC",
+      "cusip": "149123101",
+      "shares": 9685132,
+      "value": 1859255
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 13066169,
+      "value": 1511631
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 6921739,
+      "value": 964752
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366427,
+      "value": 910924
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2937703,
+      "value": 828197
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 4564046,
+      "value": 791040
+    },
+    {
+      "name": "KANSAS CITY SOUTHERN",
+      "cusip": "485170302",
+      "shares": 2190000,
+      "value": 592702
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 2284015,
+      "value": 415919
+    },
+    {
+      "name": "SCHRODINGER INC",
+      "cusip": "80810D103",
+      "shares": 6981664,
+      "value": 381757
+    },
+    {
+      "name": "COCA-COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 349702
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 1033598,
+      "value": 346328
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 1493712,
+      "value": 327556
+    },
+    {
+      "name": "GRUPO TELEVISA S A B",
+      "cusip": "40049J206",
+      "shares": 16302889,
+      "value": 179006
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 5714285,
+      "value": 159143
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 21554,
+      "value": 57625
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 21491,
+      "value": 57280
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 278147,
+      "value": 51721
     },
     {
       "name": "WEBER INC",
       "cusip": "94770D102",
       "shares": 2500000,
-      "value": 43975000
+      "value": 43975
+    },
+    {
+      "name": "ON HLDG AG",
+      "cusip": "H5919C104",
+      "shares": 500000,
+      "value": 15065
+    },
+    {
+      "name": "AFFIRM HLDGS INC",
+      "cusip": "00827B106",
+      "shares": 35229,
+      "value": 4197
     }
-  ]
+  ],
+  "totalValue": 23190042,
+  "positionsCount": 22
 }

@@ -1,203 +1,209 @@
 {
+  "form": "13F-HR",
   "date": "2018-05-15",
+  "period": "2018-05-15",
+  "accession": "0001140361-18-023884",
+  "quarterKey": "2018-Q2",
   "positions": [
     {
-      "name": "AMERICAN RAILCAR INDS INC",
-      "cusip": "02916P103",
-      "shares": 11871268,
-      "value": 444104000
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 75949701,
+      "value": 4332171
     },
     {
       "name": "CVR ENERGY INC",
       "cusip": "12662P108",
       "shares": 71198718,
-      "value": 2151625000
-    },
-    {
-      "name": "CVR REFNG LP",
-      "cusip": "12663P107",
-      "shares": 3750000,
-      "value": 48938000
-    },
-    {
-      "name": "CVR REFNG LP",
-      "cusip": "12663P107",
-      "shares": 2000000,
-      "value": 26100000
-    },
-    {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 6536099,
-      "value": 349354000
-    },
-    {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 26144391,
-      "value": 1397418000
-    },
-    {
-      "name": "CONDUENT INC",
-      "cusip": "206787103",
-      "shares": 3961200,
-      "value": 73837000
-    },
-    {
-      "name": "CONDUENT INC",
-      "cusip": "206787103",
-      "shares": 15844800,
-      "value": 295347000
-    },
-    {
-      "name": "FREEPORT-MCMORAN INC",
-      "cusip": "35671D857",
-      "shares": 10032270,
-      "value": 176267000
-    },
-    {
-      "name": "FREEPORT-MCMORAN INC",
-      "cusip": "35671D857",
-      "shares": 40129084,
-      "value": 705068000
-    },
-    {
-      "name": "HERBALIFE LTD",
-      "cusip": "G4412G101",
-      "shares": 4574465,
-      "value": 445873000
-    },
-    {
-      "name": "HERBALIFE LTD",
-      "cusip": "G4412G101",
-      "shares": 18297859,
-      "value": 1783492000
-    },
-    {
-      "name": "HERC HLDGS INC",
-      "cusip": "42704L104",
-      "shares": 898957,
-      "value": 58387000
-    },
-    {
-      "name": "HERC HLDGS INC",
-      "cusip": "42704L104",
-      "shares": 3595832,
-      "value": 233549000
-    },
-    {
-      "name": "HERTZ GLOBAL HLDGS INC",
-      "cusip": "42806J106",
-      "shares": 5852773,
-      "value": 116178000
-    },
-    {
-      "name": "HERTZ GLOBAL HLDGS INC",
-      "cusip": "42806J106",
-      "shares": 23411096,
-      "value": 464710000
-    },
-    {
-      "name": "ICAHN ENTERPRISES LP",
-      "cusip": "451100101",
-      "shares": 75949701,
-      "value": 4332171000
-    },
-    {
-      "name": "ICAHN ENTERPRISES LP",
-      "cusip": "451100101",
-      "shares": 17667329,
-      "value": 1007744000
-    },
-    {
-      "name": "ICAHN ENTERPRISES LP",
-      "cusip": "451100101",
-      "shares": 21646658,
-      "value": 1234725000
-    },
-    {
-      "name": "ICAHN ENTERPRISES LP",
-      "cusip": "451100101",
-      "shares": 5878419,
-      "value": 335305000
+      "value": 2151625
     },
     {
       "name": "ICAHN ENTERPRISES LP",
       "cusip": "451100101",
       "shares": 36756475,
-      "value": 2096589000
+      "value": 2096589
     },
     {
-      "name": "MANITOWOC CO INC",
-      "cusip": "563571405",
-      "shares": 337214,
-      "value": 9597000
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 18297859,
+      "value": 1783492
     },
     {
-      "name": "MANITOWOC CO INC",
-      "cusip": "563571405",
-      "shares": 1348862,
-      "value": 38389000
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 26144391,
+      "value": 1397418
     },
     {
-      "name": "NAVISTAR INTL CORP NEW",
-      "cusip": "63934E108",
-      "shares": 3345991,
-      "value": 117009000
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 21646658,
+      "value": 1234725
     },
     {
-      "name": "NAVISTAR INTL CORP NEW",
-      "cusip": "63934E108",
-      "shares": 13383969,
-      "value": 468037000
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 17667329,
+      "value": 1007744
     },
     {
-      "name": "NEWELL BRANDS INC",
-      "cusip": "651229106",
-      "shares": 6055958,
-      "value": 154306000
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 40129084,
+      "value": 705068
     },
     {
       "name": "NEWELL BRANDS INC",
       "cusip": "651229106",
       "shares": 24223833,
-      "value": 617223000
-    },
-    {
-      "name": "SANDRIDGE ENERGY INC",
-      "cusip": "80007P869",
-      "shares": 963767,
-      "value": 13984000
-    },
-    {
-      "name": "SANDRIDGE ENERGY INC",
-      "cusip": "80007P869",
-      "shares": 3855065,
-      "value": 55937000
-    },
-    {
-      "name": "WELBILT INC",
-      "cusip": "949090104",
-      "shares": 2016531,
-      "value": 39222000
-    },
-    {
-      "name": "WELBILT INC",
-      "cusip": "949090104",
-      "shares": 8066129,
-      "value": 156886000
-    },
-    {
-      "name": "XEROX CORP",
-      "cusip": "984121608",
-      "shares": 4691218,
-      "value": 135013000
+      "value": 617223
     },
     {
       "name": "XEROX CORP",
       "cusip": "984121608",
       "shares": 18764869,
-      "value": 540053000
+      "value": 540053
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 13383969,
+      "value": 468037
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 23411096,
+      "value": 464710
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 4574465,
+      "value": 445873
+    },
+    {
+      "name": "AMERICAN RAILCAR INDS INC",
+      "cusip": "02916P103",
+      "shares": 11871268,
+      "value": 444104
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 6536099,
+      "value": 349354
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 5878419,
+      "value": 335305
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 15844800,
+      "value": 295347
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 3595832,
+      "value": 233549
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 10032270,
+      "value": 176267
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 8066129,
+      "value": 156886
+    },
+    {
+      "name": "NEWELL BRANDS INC",
+      "cusip": "651229106",
+      "shares": 6055958,
+      "value": 154306
+    },
+    {
+      "name": "XEROX CORP",
+      "cusip": "984121608",
+      "shares": 4691218,
+      "value": 135013
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 3345991,
+      "value": 117009
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 5852773,
+      "value": 116178
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 3961200,
+      "value": 73837
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 898957,
+      "value": 58387
+    },
+    {
+      "name": "SANDRIDGE ENERGY INC",
+      "cusip": "80007P869",
+      "shares": 3855065,
+      "value": 55937
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 3750000,
+      "value": 48938
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 2016531,
+      "value": 39222
+    },
+    {
+      "name": "MANITOWOC CO INC",
+      "cusip": "563571405",
+      "shares": 1348862,
+      "value": 38389
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 2000000,
+      "value": 26100
+    },
+    {
+      "name": "SANDRIDGE ENERGY INC",
+      "cusip": "80007P869",
+      "shares": 963767,
+      "value": 13984
+    },
+    {
+      "name": "MANITOWOC CO INC",
+      "cusip": "563571405",
+      "shares": 337214,
+      "value": 9597
     }
-  ]
+  ],
+  "totalValue": 20122437,
+  "positionsCount": 33
 }

@@ -1,353 +1,359 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-12",
+  "period": "2019-02-12",
+  "accession": "0001172661-19-000424",
+  "quarterKey": "2019-Q1",
   "positions": [
-    {
-      "name": "ACCENTURE PLC IRELAND",
-      "cusip": "G1151C101",
-      "shares": 5318111,
-      "value": 749907000
-    },
-    {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 4209605,
-      "value": 952381000
-    },
-    {
-      "name": "ALARM COM HLDGS INC",
-      "cusip": "011642105",
-      "shares": 15375,
-      "value": 798000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 108292,
-      "value": 14844000
-    },
-    {
-      "name": "ALIGN TECHNOLOGY INC",
-      "cusip": "016255101",
-      "shares": 1713303,
-      "value": 358817000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 1039199,
-      "value": 1076205000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 359569,
-      "value": 375735000
-    },
-    {
-      "name": "AMN HEALTHCARE SERVICES INC",
-      "cusip": "001744101",
-      "shares": 11609,
-      "value": 658000
-    },
-    {
-      "name": "AUTOMATIC DATA PROCESSING IN",
-      "cusip": "053015103",
-      "shares": 7376430,
-      "value": 967198000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 38666,
-      "value": 6132000
-    },
-    {
-      "name": "BLACKBAUD INC",
-      "cusip": "09227Q100",
-      "shares": 9814,
-      "value": 617000
-    },
-    {
-      "name": "BOOKING HLDGS INC",
-      "cusip": "09857L108",
-      "shares": 234731,
-      "value": 404305000
-    },
-    {
-      "name": "CANTEL MEDICAL CORP",
-      "cusip": "138098108",
-      "shares": 10246,
-      "value": 763000
-    },
-    {
-      "name": "CHECK POINT SOFTWARE TECH LT",
-      "cusip": "M22465104",
-      "shares": 53811,
-      "value": 5524000
-    },
-    {
-      "name": "DOLLAR GEN CORP NEW",
-      "cusip": "256677105",
-      "shares": 7155529,
-      "value": 773370000
-    },
-    {
-      "name": "ELLIE MAE INC",
-      "cusip": "28849P100",
-      "shares": 8201,
-      "value": 515000
-    },
-    {
-      "name": "EPAM SYS INC",
-      "cusip": "29414B104",
-      "shares": 3961,
-      "value": 460000
-    },
-    {
-      "name": "EURONET WORLDWIDE INC",
-      "cusip": "298736109",
-      "shares": 5635,
-      "value": 577000
-    },
-    {
-      "name": "EXLSERVICE HOLDINGS INC",
-      "cusip": "302081104",
-      "shares": 9350,
-      "value": 492000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 7354192,
-      "value": 964061000
-    },
-    {
-      "name": "FIVE BELOW INC",
-      "cusip": "33829M101",
-      "shares": 4301,
-      "value": 440000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 19650,
-      "value": 509000
-    },
-    {
-      "name": "FOX FACTORY HLDG CORP",
-      "cusip": "35138V102",
-      "shares": 23599,
-      "value": 1389000
-    },
-    {
-      "name": "GARTNER INC",
-      "cusip": "366651107",
-      "shares": 4499201,
-      "value": 575178000
-    },
-    {
-      "name": "GLOBANT S A",
-      "cusip": "L44385109",
-      "shares": 17504,
-      "value": 986000
-    },
-    {
-      "name": "GRAND CANYON ED INC",
-      "cusip": "38526M106",
-      "shares": 7728,
-      "value": 743000
-    },
-    {
-      "name": "HEALTHCARE SVCS GRP INC",
-      "cusip": "421906108",
-      "shares": 16678,
-      "value": 670000
-    },
-    {
-      "name": "ICON PLC",
-      "cusip": "G4705A100",
-      "shares": 98614,
-      "value": 12742000
-    },
-    {
-      "name": "INOGEN INC",
-      "cusip": "45780L104",
-      "shares": 1794,
-      "value": 223000
-    },
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287614",
-      "shares": 213454,
-      "value": 27943000
-    },
-    {
-      "name": "LEMAITRE VASCULAR INC",
-      "cusip": "525558201",
-      "shares": 24734,
-      "value": 585000
-    },
-    {
-      "name": "LENDINGTREE INC NEW",
-      "cusip": "52603B107",
-      "shares": 2262,
-      "value": 497000
-    },
-    {
-      "name": "LITTELFUSE INC",
-      "cusip": "537008104",
-      "shares": 3951,
-      "value": 678000
-    },
-    {
-      "name": "MASIMO CORP",
-      "cusip": "574795100",
-      "shares": 5723,
-      "value": 614000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 2513147,
-      "value": 474105000
-    },
-    {
-      "name": "MEDIDATA SOLUTIONS INC",
-      "cusip": "58471A105",
-      "shares": 11709,
-      "value": 789000
-    },
-    {
-      "name": "MEDTRONIC PLC",
-      "cusip": "G5960L103",
-      "shares": 83735,
-      "value": 7617000
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 14206115,
-      "value": 1442915000
-    },
-    {
-      "name": "NEOGEN CORP",
-      "cusip": "640491106",
-      "shares": 10187,
-      "value": 581000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 11473813,
-      "value": 850668000
-    },
-    {
-      "name": "NOVO-NORDISK A S",
-      "cusip": "670100205",
-      "shares": 31720,
-      "value": 1461000
-    },
-    {
-      "name": "NVIDIA CORP",
-      "cusip": "67066G104",
-      "shares": 2489689,
-      "value": 332373000
-    },
-    {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 2881956,
-      "value": 992344000
-    },
-    {
-      "name": "OLLIES BARGAIN OUTLT HLDGS I",
-      "cusip": "681116109",
-      "shares": 10037,
-      "value": 668000
-    },
-    {
-      "name": "ORACLE CORP",
-      "cusip": "68389X105",
-      "shares": 12969357,
-      "value": 585566000
-    },
-    {
-      "name": "PAYCOM SOFTWARE INC",
-      "cusip": "70432V102",
-      "shares": 8833,
-      "value": 1082000
-    },
-    {
-      "name": "POOL CORPORATION",
-      "cusip": "73278L105",
-      "shares": 8677,
-      "value": 1290000
-    },
-    {
-      "name": "PRESTIGE CONSMR HEALTHCARE I",
-      "cusip": "74112D101",
-      "shares": 10570,
-      "value": 326000
-    },
-    {
-      "name": "REGENERON PHARMACEUTICALS",
-      "cusip": "75886F107",
-      "shares": 1485255,
-      "value": 554743000
-    },
-    {
-      "name": "RELX PLC",
-      "cusip": "759530108",
-      "shares": 273132,
-      "value": 5605000
-    },
-    {
-      "name": "SAP SE",
-      "cusip": "803054204",
-      "shares": 98179,
-      "value": 9774000
-    },
-    {
-      "name": "STAMPS COM INC",
-      "cusip": "852857200",
-      "shares": 6804,
-      "value": 1059000
-    },
-    {
-      "name": "STARBUCKS CORP",
-      "cusip": "855244109",
-      "shares": 12893995,
-      "value": 830373000
-    },
-    {
-      "name": "TEXAS ROADHOUSE INC",
-      "cusip": "882681109",
-      "shares": 10596,
-      "value": 633000
-    },
-    {
-      "name": "TREX CO INC",
-      "cusip": "89531P105",
-      "shares": 13990,
-      "value": 830000
-    },
-    {
-      "name": "UNILEVER PLC",
-      "cusip": "904767704",
-      "shares": 140318,
-      "value": 7332000
+      "value": 1442915
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 8648461,
-      "value": 1141078000
+      "value": 1141078
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1039199,
+      "value": 1076205
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 2881956,
+      "value": 992344
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 7376430,
+      "value": 967198
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 7354192,
+      "value": 964061
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 4209605,
+      "value": 952381
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 11473813,
+      "value": 850668
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 12893995,
+      "value": 830373
     },
     {
       "name": "ZOETIS INC",
       "cusip": "98978V103",
       "shares": 9553567,
-      "value": 817212000
+      "value": 817212
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 7155529,
+      "value": 773370
+    },
+    {
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 5318111,
+      "value": 749907
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 12969357,
+      "value": 585566
+    },
+    {
+      "name": "GARTNER INC",
+      "cusip": "366651107",
+      "shares": 4499201,
+      "value": 575178
+    },
+    {
+      "name": "REGENERON PHARMACEUTICALS",
+      "cusip": "75886F107",
+      "shares": 1485255,
+      "value": 554743
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 2513147,
+      "value": 474105
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 234731,
+      "value": 404305
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 359569,
+      "value": 375735
+    },
+    {
+      "name": "ALIGN TECHNOLOGY INC",
+      "cusip": "016255101",
+      "shares": 1713303,
+      "value": 358817
+    },
+    {
+      "name": "NVIDIA CORP",
+      "cusip": "67066G104",
+      "shares": 2489689,
+      "value": 332373
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 213454,
+      "value": 27943
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 108292,
+      "value": 14844
+    },
+    {
+      "name": "ICON PLC",
+      "cusip": "G4705A100",
+      "shares": 98614,
+      "value": 12742
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "803054204",
+      "shares": 98179,
+      "value": 9774
+    },
+    {
+      "name": "MEDTRONIC PLC",
+      "cusip": "G5960L103",
+      "shares": 83735,
+      "value": 7617
+    },
+    {
+      "name": "UNILEVER PLC",
+      "cusip": "904767704",
+      "shares": 140318,
+      "value": 7332
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 38666,
+      "value": 6132
+    },
+    {
+      "name": "RELX PLC",
+      "cusip": "759530108",
+      "shares": 273132,
+      "value": 5605
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH LT",
+      "cusip": "M22465104",
+      "shares": 53811,
+      "value": 5524
+    },
+    {
+      "name": "NOVO-NORDISK A S",
+      "cusip": "670100205",
+      "shares": 31720,
+      "value": 1461
+    },
+    {
+      "name": "FOX FACTORY HLDG CORP",
+      "cusip": "35138V102",
+      "shares": 23599,
+      "value": 1389
+    },
+    {
+      "name": "POOL CORPORATION",
+      "cusip": "73278L105",
+      "shares": 8677,
+      "value": 1290
+    },
+    {
+      "name": "PAYCOM SOFTWARE INC",
+      "cusip": "70432V102",
+      "shares": 8833,
+      "value": 1082
+    },
+    {
+      "name": "STAMPS COM INC",
+      "cusip": "852857200",
+      "shares": 6804,
+      "value": 1059
+    },
+    {
+      "name": "GLOBANT S A",
+      "cusip": "L44385109",
+      "shares": 17504,
+      "value": 986
+    },
+    {
+      "name": "TREX CO INC",
+      "cusip": "89531P105",
+      "shares": 13990,
+      "value": 830
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 15375,
+      "value": 798
+    },
+    {
+      "name": "MEDIDATA SOLUTIONS INC",
+      "cusip": "58471A105",
+      "shares": 11709,
+      "value": 789
+    },
+    {
+      "name": "CANTEL MEDICAL CORP",
+      "cusip": "138098108",
+      "shares": 10246,
+      "value": 763
+    },
+    {
+      "name": "GRAND CANYON ED INC",
+      "cusip": "38526M106",
+      "shares": 7728,
+      "value": 743
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 3951,
+      "value": 678
+    },
+    {
+      "name": "HEALTHCARE SVCS GRP INC",
+      "cusip": "421906108",
+      "shares": 16678,
+      "value": 670
+    },
+    {
+      "name": "OLLIES BARGAIN OUTLT HLDGS I",
+      "cusip": "681116109",
+      "shares": 10037,
+      "value": 668
+    },
+    {
+      "name": "AMN HEALTHCARE SERVICES INC",
+      "cusip": "001744101",
+      "shares": 11609,
+      "value": 658
+    },
+    {
+      "name": "TEXAS ROADHOUSE INC",
+      "cusip": "882681109",
+      "shares": 10596,
+      "value": 633
+    },
+    {
+      "name": "BLACKBAUD INC",
+      "cusip": "09227Q100",
+      "shares": 9814,
+      "value": 617
+    },
+    {
+      "name": "MASIMO CORP",
+      "cusip": "574795100",
+      "shares": 5723,
+      "value": 614
+    },
+    {
+      "name": "LEMAITRE VASCULAR INC",
+      "cusip": "525558201",
+      "shares": 24734,
+      "value": 585
+    },
+    {
+      "name": "NEOGEN CORP",
+      "cusip": "640491106",
+      "shares": 10187,
+      "value": 581
+    },
+    {
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 5635,
+      "value": 577
+    },
+    {
+      "name": "ELLIE MAE INC",
+      "cusip": "28849P100",
+      "shares": 8201,
+      "value": 515
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 19650,
+      "value": 509
+    },
+    {
+      "name": "LENDINGTREE INC NEW",
+      "cusip": "52603B107",
+      "shares": 2262,
+      "value": 497
+    },
+    {
+      "name": "EXLSERVICE HOLDINGS INC",
+      "cusip": "302081104",
+      "shares": 9350,
+      "value": 492
+    },
+    {
+      "name": "EPAM SYS INC",
+      "cusip": "29414B104",
+      "shares": 3961,
+      "value": 460
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 4301,
+      "value": 440
+    },
+    {
+      "name": "PRESTIGE CONSMR HEALTHCARE I",
+      "cusip": "74112D101",
+      "shares": 10570,
+      "value": 326
+    },
+    {
+      "name": "INOGEN INC",
+      "cusip": "45780L104",
+      "shares": 1794,
+      "value": 223
     }
-  ]
+  ],
+  "totalValue": 15336980,
+  "positionsCount": 58
 }

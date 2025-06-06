@@ -2,108 +2,112 @@
   "form": "13F-HR",
   "date": "2016-04-27",
   "period": "2016-04-27",
+  "accession": "0001387131-16-005089",
+  "quarterKey": "2016-Q2",
   "positions": [
-    {
-      "name": "3M CO",
-      "cusip": "88579Y101",
-      "shares": 1503516,
-      "value": 250531000
-    },
-    {
-      "name": "AUTOMATIC DATA PROCESSING IN",
-      "cusip": "053015103",
-      "shares": 2899555,
-      "value": 260119000
-    },
-    {
-      "name": "BARD C R INC",
-      "cusip": "067383109",
-      "shares": 1762031,
-      "value": 357111000
-    },
-    {
-      "name": "BECTON DICKINSON & CO",
-      "cusip": "075887109",
-      "shares": 1614464,
-      "value": 245108000
-    },
-    {
-      "name": "COLGATE PALMOLIVE CO",
-      "cusip": "194162103",
-      "shares": 1293729,
-      "value": 90897000
-    },
-    {
-      "name": "DR PEPPER SNAPPLE GROUP INC",
-      "cusip": "26138E109",
-      "shares": 3601159,
-      "value": 322016000
-    },
-    {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 2985161,
-      "value": 322994000
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 7860330,
-      "value": 434126000
-    },
-    {
-      "name": "PEPSICO INC",
-      "cusip": "713448108",
-      "shares": 3115986,
-      "value": 319326000
-    },
-    {
-      "name": "PHILIP MORRIS INTL INC",
-      "cusip": "718172109",
-      "shares": 3913280,
-      "value": 383932000
+      "value": 434126
     },
     {
       "name": "STRYKER CORP",
       "cusip": "863667101",
       "shares": 3605529,
-      "value": 386837000
+      "value": 386837
     },
     {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 3922506,
-      "value": 299993000
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 3913280,
+      "value": 383932
     },
     {
-      "name": "WATERS CORP",
-      "cusip": "941848103",
-      "shares": 1467530,
-      "value": 193597000
+      "name": "BARD C R INC",
+      "cusip": "067383109",
+      "shares": 1762031,
+      "value": 357111
     },
     {
       "name": "IDEXX LABS INC",
       "cusip": "45168D104",
       "shares": 4210679,
-      "value": 329780000
+      "value": 329780
     },
     {
-      "name": "DUNKIN BRANDS GROUP INC",
-      "cusip": "265504100",
-      "shares": 89269,
-      "value": 4211000
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 2985161,
+      "value": 322994
     },
     {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 4620093,
-      "value": 178336000
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 3601159,
+      "value": 322016
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 3115986,
+      "value": 319326
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 3922506,
+      "value": 299993
     },
     {
       "name": "SMUCKER J M CO",
       "cusip": "832696405",
       "shares": 2050979,
-      "value": 266299000
+      "value": 266299
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 2899555,
+      "value": 260119
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 1503516,
+      "value": 250531
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 1614464,
+      "value": 245108
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 1467530,
+      "value": 193597
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 4620093,
+      "value": 178336
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 1293729,
+      "value": 90897
+    },
+    {
+      "name": "DUNKIN BRANDS GROUP INC",
+      "cusip": "265504100",
+      "shares": 89269,
+      "value": 4211
     }
-  ]
+  ],
+  "totalValue": 4645213,
+  "positionsCount": 17
 }

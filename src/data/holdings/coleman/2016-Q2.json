@@ -1,161 +1,167 @@
 {
+  "form": "13F-HR",
   "date": "2016-05-16",
+  "period": "2016-05-16",
+  "accession": "0000919574-16-013223",
+  "quarterKey": "2016-Q2",
   "positions": [
     {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 1042240,
-      "value": 618715000
-    },
-    {
-      "name": "AMERICAN FARMLAND CO",
-      "cusip": "02589Y100",
-      "shares": 60000,
-      "value": 377000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 5657250,
-      "value": 616584000
-    },
-    {
-      "name": "ATLASSIAN CORP PLC",
-      "cusip": "G06242104",
-      "shares": 500000,
-      "value": 12575000
-    },
-    {
-      "name": "CAL MAINE FOODS INC",
-      "cusip": "128030202",
-      "shares": 70394,
-      "value": 3654000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC D",
-      "cusip": "16117M305",
-      "shares": 1960980,
-      "value": 396961000
-    },
-    {
-      "name": "EHI CAR SVCS LTD",
-      "cusip": "26853A100",
-      "shares": 8334863,
-      "value": 104102000
-    },
-    {
-      "name": "ETSY INC",
-      "cusip": "29786A106",
-      "shares": 11091426,
-      "value": 96495000
-    },
-    {
-      "name": "FIREEYE INC",
-      "cusip": "31816Q101",
-      "shares": 200000,
-      "value": 3598000
-    },
-    {
-      "name": "FITBIT INC",
-      "cusip": "33812L102",
-      "shares": 500000,
-      "value": 7575000
-    },
-    {
-      "name": "FLEETCOR TECHNOLOGIES INC",
-      "cusip": "339041105",
-      "shares": 3614626,
-      "value": 537676000
-    },
-    {
-      "name": "GAMESTOP CORP NEW",
-      "cusip": "36467W109",
-      "shares": 1750000,
-      "value": 55528000
-    },
-    {
-      "name": "INTREXON CORP",
-      "cusip": "46122T102",
-      "shares": 2093199,
-      "value": 70939000
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 17997273,
+      "value": 1839861
     },
     {
       "name": "JD COM INC",
       "cusip": "47215P106",
       "shares": 44005044,
-      "value": 1166134000
-    },
-    {
-      "name": "LENDINGCLUB CORP",
-      "cusip": "52603A109",
-      "shares": 275000,
-      "value": 2283000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 1918771,
-      "value": 181324000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 17997273,
-      "value": 1839861000
-    },
-    {
-      "name": "ON DECK CAP INC",
-      "cusip": "682163100",
-      "shares": 6900000,
-      "value": 53751000
+      "value": 1166134
     },
     {
       "name": "PRICELINE GRP INC",
       "cusip": "741503403",
       "shares": 550898,
-      "value": 710085000
+      "value": 710085
     },
     {
-      "name": "PURE STORAGE INC",
-      "cusip": "74624M102",
-      "shares": 5242615,
-      "value": 71771000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1042240,
+      "value": 618715
     },
     {
-      "name": "RESTAURANT BRANDS INTL INC",
-      "cusip": "76131D103",
-      "shares": 2460000,
-      "value": 95522000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 5657250,
+      "value": 616584
     },
     {
-      "name": "SHOPIFY INC",
-      "cusip": "82509L107",
-      "shares": 70000,
-      "value": 1975000
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 3614626,
+      "value": 537676
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 1960980,
+      "value": 396961
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 1918771,
+      "value": 181324
+    },
+    {
+      "name": "EHI CAR SVCS LTD",
+      "cusip": "26853A100",
+      "shares": 8334863,
+      "value": 104102
     },
     {
       "name": "SQUARE INC",
       "cusip": "852234103",
       "shares": 6551465,
-      "value": 100106000
+      "value": 100106
     },
     {
-      "name": "TABLEAU SOFTWARE INC",
-      "cusip": "87336U105",
-      "shares": 1688000,
-      "value": 77429000
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 11091426,
+      "value": 96495
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2460000,
+      "value": 95522
     },
     {
       "name": "TAL ED GROUP",
       "cusip": "874080104",
       "shares": 1715000,
-      "value": 85201000
+      "value": 85201
+    },
+    {
+      "name": "TABLEAU SOFTWARE INC",
+      "cusip": "87336U105",
+      "shares": 1688000,
+      "value": 77429
+    },
+    {
+      "name": "PURE STORAGE INC",
+      "cusip": "74624M102",
+      "shares": 5242615,
+      "value": 71771
+    },
+    {
+      "name": "INTREXON CORP",
+      "cusip": "46122T102",
+      "shares": 2093199,
+      "value": 70939
+    },
+    {
+      "name": "GAMESTOP CORP NEW",
+      "cusip": "36467W109",
+      "shares": 1750000,
+      "value": 55528
+    },
+    {
+      "name": "ON DECK CAP INC",
+      "cusip": "682163100",
+      "shares": 6900000,
+      "value": 53751
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954M200",
       "shares": 996708,
-      "value": 23652000
+      "value": 23652
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 500000,
+      "value": 12575
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 500000,
+      "value": 7575
+    },
+    {
+      "name": "CAL MAINE FOODS INC",
+      "cusip": "128030202",
+      "shares": 70394,
+      "value": 3654
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 3598
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 2283
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 70000,
+      "value": 1975
+    },
+    {
+      "name": "AMERICAN FARMLAND CO",
+      "cusip": "02589Y100",
+      "shares": 60000,
+      "value": 377
     }
-  ]
+  ],
+  "totalValue": 6933873,
+  "positionsCount": 26
 }

@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2023-05-15",
+  "period": "2023-05-15",
+  "accession": "0001647251-23-000007",
+  "quarterKey": "2023-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 23528462,
-      "value": 2446960048000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 36699825,
-      "value": 4329617168000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 55860385,
-      "value": 4299986681000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604301",
-      "shares": 26112747,
-      "value": 2496378613000
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 15299188,
-      "value": 4410755900000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 10369479,
-      "value": 3173267964000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 9329611,
-      "value": 3216569984000
-    },
-    {
-      "name": "THERMO FISHER SCIENTIFIC INC",
-      "cusip": "883556102",
-      "shares": 834150,
-      "value": 480779036000
+      "value": 4410755900
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 19291821,
-      "value": 4349533963000
+      "value": 4349533963
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 36699825,
+      "value": 4329617168
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 55860385,
+      "value": 4299986681
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 9329611,
+      "value": 3216569984
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 10369479,
+      "value": 3173267964
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 26112747,
+      "value": 2496378613
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 23528462,
+      "value": 2446960048
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 834150,
+      "value": 480779036
     }
-  ]
+  ],
+  "totalValue": 29203849357,
+  "positionsCount": 9
 }

@@ -1,4 +1,149 @@
 {
+  "form": "13F-HR",
   "date": "2014-05-14",
-  "positions": []
+  "period": "2014-05-14",
+  "accession": "0001034524-14-000003",
+  "quarterKey": "2014-Q2",
+  "positions": [
+    {
+      "name": "Google Inc Cl A",
+      "cusip": "38259P508",
+      "shares": 370196,
+      "value": 412587
+    },
+    {
+      "name": "Visa Inc Cl A",
+      "cusip": "92826C839",
+      "shares": 1555054,
+      "value": 335674
+    },
+    {
+      "name": "Allergan Inc",
+      "cusip": "018490102",
+      "shares": 2648664,
+      "value": 328699
+    },
+    {
+      "name": "Qualcomm Inc",
+      "cusip": "747525103",
+      "shares": 4115757,
+      "value": 324569
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 7591331,
+      "value": 310561
+    },
+    {
+      "name": "T. Rowe Price Group",
+      "cusip": "74144T108",
+      "shares": 3598292,
+      "value": 296319
+    },
+    {
+      "name": "Abbott Labs",
+      "cusip": "002824100",
+      "shares": 7586836,
+      "value": 292169
+    },
+    {
+      "name": "Nike Inc Cl B",
+      "cusip": "654106103",
+      "shares": 3669535,
+      "value": 271032
+    },
+    {
+      "name": "Starbucks Corp",
+      "cusip": "855244109",
+      "shares": 3359443,
+      "value": 246516
+    },
+    {
+      "name": "Ebay Inc",
+      "cusip": "278642103",
+      "shares": 4236029,
+      "value": 233998
+    },
+    {
+      "name": "Accenture Plc",
+      "cusip": "G1151C101",
+      "shares": 2850507,
+      "value": 227242
+    },
+    {
+      "name": "Tjx Companies",
+      "cusip": "872540109",
+      "shares": 3143318,
+      "value": 190642
+    },
+    {
+      "name": "Auto Data Processing",
+      "cusip": "053015103",
+      "shares": 2451365,
+      "value": 189392
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 318618,
+      "value": 171015
+    },
+    {
+      "name": "W.W. Grainger Inc",
+      "cusip": "384802104",
+      "shares": 655199,
+      "value": 165543
+    },
+    {
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 2368206,
+      "value": 164448
+    },
+    {
+      "name": "Fastenal",
+      "cusip": "311900104",
+      "shares": 3071286,
+      "value": 151476
+    },
+    {
+      "name": "Factset Research",
+      "cusip": "303075105",
+      "shares": 1360980,
+      "value": 146727
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 1301454,
+      "value": 97219
+    },
+    {
+      "name": "Regeneron Pharma Inc",
+      "cusip": "75886F107",
+      "shares": 219163,
+      "value": 65810
+    },
+    {
+      "name": "Solarwinds Inc Com",
+      "cusip": "83416B109",
+      "shares": 14472,
+      "value": 617
+    },
+    {
+      "name": "Ishares Russell 1000 Gr",
+      "cusip": "464287614",
+      "shares": 5821,
+      "value": 504
+    },
+    {
+      "name": "Sap Ag Adr",
+      "cusip": "803054204",
+      "shares": 5150,
+      "value": 419
+    }
+  ],
+  "totalValue": 4623178,
+  "positionsCount": 23
 }

@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2024-08-14",
   "period": "2024-08-14",
+  "accession": "0001172661-24-003511",
+  "quarterKey": "2024-Q3",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 3986488,
-      "value": 726138789000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 7547582,
-      "value": 1384377490000
-    },
-    {
-      "name": "BROOKFIELD CORP",
-      "cusip": "11271J107",
-      "shares": 6854510,
-      "value": 284736345000
-    },
-    {
-      "name": "CANADIAN PACIFIC KANSAS CITY",
-      "cusip": "13646K108",
-      "shares": 14965641,
-      "value": 1178244916000
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 8952290,
+      "value": 1953389678
     },
     {
       "name": "CHIPOTLE MEXICAN GRILL INC",
       "cusip": "169656105",
       "shares": 28815165,
-      "value": 1805270087000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 8952290,
-      "value": 1953389678000
-    },
-    {
-      "name": "HOWARD HUGHES HOLDINGS INC",
-      "cusip": "44267T102",
-      "shares": 18852064,
-      "value": 1221990788000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 3040132,
-      "value": 229134749000
+      "value": 1805270087
     },
     {
       "name": "RESTAURANT BRANDS INTL INC",
       "cusip": "76131D103",
       "shares": 23142542,
-      "value": 1628540681000
+      "value": 1628540681
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 7547582,
+      "value": 1384377490
+    },
+    {
+      "name": "HOWARD HUGHES HOLDINGS INC",
+      "cusip": "44267T102",
+      "shares": 18852064,
+      "value": 1221990788
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 14965641,
+      "value": 1178244916
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 3986488,
+      "value": 726138789
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 6854510,
+      "value": 284736345
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 3040132,
+      "value": 229134749
     }
-  ]
+  ],
+  "totalValue": 10411823523,
+  "positionsCount": 9
 }

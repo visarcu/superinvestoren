@@ -1,353 +1,359 @@
 {
+  "form": "13F-HR",
   "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001556785-19-000032",
+  "quarterKey": "2019-Q3",
   "positions": [
     {
-      "name": "ACI WORLDWIDE INC",
-      "cusip": "004498101",
-      "shares": 1717219,
-      "value": 58969000
-    },
-    {
-      "name": "ACUITY BRANDS INC",
-      "cusip": "00508Y102",
-      "shares": 411594,
-      "value": 56763000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 449132,
-      "value": 485471000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 273778,
-      "value": 518434000
-    },
-    {
-      "name": "AMERISOURCEBERGEN CORP",
-      "cusip": "03073E105",
-      "shares": 3458411,
-      "value": 294864000
-    },
-    {
-      "name": "ANTHEM INC",
-      "cusip": "036752103",
-      "shares": 1174036,
-      "value": 331325000
-    },
-    {
-      "name": "AUTOZONE INC",
-      "cusip": "053332102",
-      "shares": 33,
-      "value": 36000
-    },
-    {
-      "name": "AXALTA COATING SYS LTD",
-      "cusip": "G0750C108",
-      "shares": 55,
-      "value": 2000
-    },
-    {
-      "name": "AXIS CAPITAL HOLDINGS LTD",
-      "cusip": "G0692U109",
-      "shares": 3754333,
-      "value": 223946000
-    },
-    {
-      "name": "BANK NEW YORK MELLON CORP",
-      "cusip": "064058100",
-      "shares": 532,
-      "value": 23000
-    },
-    {
-      "name": "BLACKROCK INC",
-      "cusip": "09247X101",
-      "shares": 220547,
-      "value": 103503000
-    },
-    {
-      "name": "BOOKING HLDGS INC",
-      "cusip": "09857L108",
-      "shares": 132542,
-      "value": 248478000
-    },
-    {
-      "name": "CARDINAL HEALTH INC",
-      "cusip": "14149Y108",
-      "shares": 465,
-      "value": 22000
-    },
-    {
-      "name": "CARLISLE COS INC",
-      "cusip": "142339100",
-      "shares": 152884,
-      "value": 21466000
-    },
-    {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 157,
-      "value": 8000
-    },
-    {
-      "name": "CDK GLOBAL INC",
-      "cusip": "12508E101",
-      "shares": 677972,
-      "value": 33519000
-    },
-    {
-      "name": "CHOICE HOTELS INTL INC",
-      "cusip": "169905106",
-      "shares": 298,
-      "value": 26000
-    },
-    {
-      "name": "COHERENT INC",
-      "cusip": "192479103",
-      "shares": 1005502,
-      "value": 137120000
-    },
-    {
-      "name": "CRANE CO",
-      "cusip": "224399105",
-      "shares": 260876,
-      "value": 21768000
-    },
-    {
-      "name": "CUSHMAN WAKEFIELD PLC",
-      "cusip": "G2717B108",
-      "shares": 7666286,
-      "value": 137073000
-    },
-    {
-      "name": "CVS HEALTH CORP",
-      "cusip": "126650100",
-      "shares": 8926631,
-      "value": 486412000
-    },
-    {
-      "name": "DESPEGAR COM CORP",
-      "cusip": "G27358103",
-      "shares": 3474728,
-      "value": 48264000
-    },
-    {
-      "name": "EVEREST RE GROUP LTD",
-      "cusip": "G3223R108",
-      "shares": 1129316,
-      "value": 279144000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 1047475,
-      "value": 202163000
-    },
-    {
-      "name": "FORWARD AIR CORP",
-      "cusip": "349853101",
-      "shares": 460,
-      "value": 27000
-    },
-    {
-      "name": "FRONTDOOR INC",
-      "cusip": "35905A109",
-      "shares": 503570,
-      "value": 21930000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 4270379,
-      "value": 417387000
-    },
-    {
-      "name": "ITURAN LOCATION AND CONTROL",
-      "cusip": "M6158M104",
-      "shares": 1643588,
-      "value": 49456000
-    },
-    {
-      "name": "JONES LANG LASALLE INC",
-      "cusip": "48020Q107",
-      "shares": 795372,
-      "value": 111901000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 26146140,
-      "value": 660713000
-    },
-    {
-      "name": "LANDSTAR SYS INC",
-      "cusip": "515098101",
-      "shares": 298,
-      "value": 32000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 1432813,
-      "value": 201009000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 1594791,
-      "value": 421870000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 3997448,
-      "value": 537217000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 2639735,
-      "value": 353619000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 64,
-      "value": 13000
-    },
-    {
-      "name": "MSC INDL DIRECT INC",
-      "cusip": "553530106",
-      "shares": 408213,
-      "value": 30314000
-    },
-    {
-      "name": "NATIONAL OILWELL VARCO INC",
-      "cusip": "637071101",
-      "shares": 25783344,
-      "value": 573164000
-    },
-    {
-      "name": "NORTHERN TR CORP",
-      "cusip": "665859104",
-      "shares": 226,
-      "value": 20000
-    },
-    {
-      "name": "NVIDIA CORP",
-      "cusip": "67066G104",
-      "shares": 3853253,
-      "value": 632820000
-    },
-    {
-      "name": "ORACLE CORP",
-      "cusip": "68389X105",
-      "shares": 3544220,
-      "value": 201914000
-    },
-    {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 71,
-      "value": 26000
-    },
-    {
-      "name": "PARKER HANNIFIN CORP",
-      "cusip": "701094104",
-      "shares": 1199592,
-      "value": 203943000
+      "name": "SKYWORKS SOLUTIONS INC",
+      "cusip": "83088M102",
+      "shares": 9396190,
+      "value": 726044
     },
     {
       "name": "QORVO INC",
       "cusip": "74736K101",
       "shares": 10851938,
-      "value": 722848000
+      "value": 722848
     },
     {
-      "name": "RESIDEO TECHNOLOGIES INC",
-      "cusip": "76118Y104",
-      "shares": 3942514,
-      "value": 86420000
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 26146140,
+      "value": 660713
     },
     {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 1474506,
-      "value": 335878000
+      "name": "NVIDIA CORP",
+      "cusip": "67066G104",
+      "shares": 3853253,
+      "value": 632820
     },
     {
-      "name": "SABRE CORP",
-      "cusip": "78573M104",
-      "shares": 1836324,
-      "value": 40766000
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 25783344,
+      "value": 573164
     },
     {
-      "name": "SKYWORKS SOLUTIONS INC",
-      "cusip": "83088M102",
-      "shares": 9396190,
-      "value": 726044000
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 3997448,
+      "value": 537217
     },
     {
-      "name": "SLEEP NUMBER CORP",
-      "cusip": "83125X103",
-      "shares": 1741153,
-      "value": 70325000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 273778,
+      "value": 518434
     },
     {
-      "name": "SOTHEBYS",
-      "cusip": "835898107",
-      "shares": 2067,
-      "value": 120000
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 8926631,
+      "value": 486412
     },
     {
-      "name": "STATE STR CORP",
-      "cusip": "857477103",
-      "shares": 383,
-      "value": 21000
-    },
-    {
-      "name": "TEMPUR SEALY INTL INC",
-      "cusip": "88023U101",
-      "shares": 920,
-      "value": 68000
-    },
-    {
-      "name": "TERADYNE INC",
-      "cusip": "880770102",
-      "shares": 5136500,
-      "value": 246090000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 449132,
+      "value": 485471
     },
     {
       "name": "UNITED PARCEL SERVICE INC",
       "cusip": "911312106",
       "shares": 4154949,
-      "value": 429082000
+      "value": 429082
     },
     {
-      "name": "VIRTUS INVT PARTNERS INC",
-      "cusip": "92828Q109",
-      "shares": 288152,
-      "value": 30948000
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 1594791,
+      "value": 421870
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 4270379,
+      "value": 417387
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 2329364,
-      "value": 404261000
+      "value": 404261
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2639735,
+      "value": 353619
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1474506,
+      "value": 335878
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 1174036,
+      "value": 331325
+    },
+    {
+      "name": "AMERISOURCEBERGEN CORP",
+      "cusip": "03073E105",
+      "shares": 3458411,
+      "value": 294864
+    },
+    {
+      "name": "EVEREST RE GROUP LTD",
+      "cusip": "G3223R108",
+      "shares": 1129316,
+      "value": 279144
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 132542,
+      "value": 248478
+    },
+    {
+      "name": "TERADYNE INC",
+      "cusip": "880770102",
+      "shares": 5136500,
+      "value": 246090
+    },
+    {
+      "name": "AXIS CAPITAL HOLDINGS LTD",
+      "cusip": "G0692U109",
+      "shares": 3754333,
+      "value": 223946
+    },
+    {
+      "name": "PARKER HANNIFIN CORP",
+      "cusip": "701094104",
+      "shares": 1199592,
+      "value": 203943
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1047475,
+      "value": 202163
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 3544220,
+      "value": 201914
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 1432813,
+      "value": 201009
+    },
+    {
+      "name": "COHERENT INC",
+      "cusip": "192479103",
+      "shares": 1005502,
+      "value": 137120
+    },
+    {
+      "name": "CUSHMAN WAKEFIELD PLC",
+      "cusip": "G2717B108",
+      "shares": 7666286,
+      "value": 137073
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 795372,
+      "value": 111901
+    },
+    {
+      "name": "BLACKROCK INC",
+      "cusip": "09247X101",
+      "shares": 220547,
+      "value": 103503
+    },
+    {
+      "name": "RESIDEO TECHNOLOGIES INC",
+      "cusip": "76118Y104",
+      "shares": 3942514,
+      "value": 86420
+    },
+    {
+      "name": "SLEEP NUMBER CORP",
+      "cusip": "83125X103",
+      "shares": 1741153,
+      "value": 70325
+    },
+    {
+      "name": "ACI WORLDWIDE INC",
+      "cusip": "004498101",
+      "shares": 1717219,
+      "value": 58969
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 411594,
+      "value": 56763
+    },
+    {
+      "name": "ITURAN LOCATION AND CONTROL",
+      "cusip": "M6158M104",
+      "shares": 1643588,
+      "value": 49456
     },
     {
       "name": "WESCO INTL INC",
       "cusip": "95082P105",
       "shares": 963766,
-      "value": 48815000
+      "value": 48815
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 3474728,
+      "value": 48264
+    },
+    {
+      "name": "SABRE CORP",
+      "cusip": "78573M104",
+      "shares": 1836324,
+      "value": 40766
+    },
+    {
+      "name": "CDK GLOBAL INC",
+      "cusip": "12508E101",
+      "shares": 677972,
+      "value": 33519
+    },
+    {
+      "name": "VIRTUS INVT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 288152,
+      "value": 30948
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 408213,
+      "value": 30314
+    },
+    {
+      "name": "FRONTDOOR INC",
+      "cusip": "35905A109",
+      "shares": 503570,
+      "value": 21930
+    },
+    {
+      "name": "CRANE CO",
+      "cusip": "224399105",
+      "shares": 260876,
+      "value": 21768
+    },
+    {
+      "name": "CARLISLE COS INC",
+      "cusip": "142339100",
+      "shares": 152884,
+      "value": 21466
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 2067,
+      "value": 120
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 920,
+      "value": 68
     },
     {
       "name": "WOODWARD INC",
       "cusip": "980745103",
       "shares": 472,
-      "value": 53000
+      "value": 53
+    },
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332102",
+      "shares": 33,
+      "value": 36
+    },
+    {
+      "name": "LANDSTAR SYS INC",
+      "cusip": "515098101",
+      "shares": 298,
+      "value": 32
+    },
+    {
+      "name": "FORWARD AIR CORP",
+      "cusip": "349853101",
+      "shares": 460,
+      "value": 27
+    },
+    {
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 298,
+      "value": 26
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 71,
+      "value": 26
+    },
+    {
+      "name": "BANK NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 532,
+      "value": 23
+    },
+    {
+      "name": "CARDINAL HEALTH INC",
+      "cusip": "14149Y108",
+      "shares": 465,
+      "value": 22
+    },
+    {
+      "name": "STATE STR CORP",
+      "cusip": "857477103",
+      "shares": 383,
+      "value": 21
+    },
+    {
+      "name": "NORTHERN TR CORP",
+      "cusip": "665859104",
+      "shares": 226,
+      "value": 20
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 64,
+      "value": 13
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 157,
+      "value": 8
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 55,
+      "value": 2
     }
-  ]
+  ],
+  "totalValue": 11247913,
+  "positionsCount": 58
 }

@@ -2,54 +2,58 @@
   "form": "13F-HR",
   "date": "2022-05-16",
   "period": "2022-05-16",
+  "accession": "0001172661-22-001442",
+  "quarterKey": "2022-Q2",
   "positions": [
     {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 2944259,
-      "value": 243019000
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 10207306,
+      "value": 2063815
     },
     {
       "name": "CHIPOTLE MEXICAN GRILL INC",
       "cusip": "169656105",
       "shares": 1114725,
-      "value": 1763528000
-    },
-    {
-      "name": "DOMINOS PIZZA INC",
-      "cusip": "25754A201",
-      "shares": 2068031,
-      "value": 841709000
+      "value": 1763528
     },
     {
       "name": "HILTON WORLDWIDE HLDGS INC",
       "cusip": "43300A203",
       "shares": 9952287,
-      "value": 1510160000
+      "value": 1510160
     },
     {
       "name": "HOWARD HUGHES CORP",
       "cusip": "44267D107",
       "shares": 13620164,
-      "value": 1411185000
-    },
-    {
-      "name": "LOWES COS INC",
-      "cusip": "548661107",
-      "shares": 10207306,
-      "value": 2063815000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 3109965,
-      "value": 1164962000
+      "value": 1411185
     },
     {
       "name": "RESTAURANT BRANDS INTL INC",
       "cusip": "76131D103",
       "shares": 23864631,
-      "value": 1393456000
+      "value": 1393456
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 3109965,
+      "value": 1164962
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2068031,
+      "value": 841709
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 2944259,
+      "value": 243019
     }
-  ]
+  ],
+  "totalValue": 10391834,
+  "positionsCount": 8
 }

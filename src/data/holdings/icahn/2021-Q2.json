@@ -1,143 +1,149 @@
 {
+  "form": "13F-HR",
   "date": "2021-05-14",
+  "period": "2021-05-14",
+  "accession": "0001567619-21-010164",
+  "quarterKey": "2021-Q2",
   "positions": [
-    {
-      "name": "Bausch Health Companies Inc.",
-      "cusip": "071734107",
-      "shares": 34109152,
-      "value": 1082624000
-    },
-    {
-      "name": "Cheniere Energy Inc",
-      "cusip": "16411R208",
-      "shares": 16168606,
-      "value": 1164301000
-    },
-    {
-      "name": "Cloudera Inc",
-      "cusip": "18914U100",
-      "shares": 52327391,
-      "value": 636824000
-    },
-    {
-      "name": "Conduent Inc",
-      "cusip": "206787103",
-      "shares": 38149336,
-      "value": 254075000
-    },
-    {
-      "name": "CVR Energy Inc",
-      "cusip": "12662P108",
-      "shares": 71198718,
-      "value": 1365591000
-    },
-    {
-      "name": "Dana Inc.",
-      "cusip": "235825205",
-      "shares": 12036505,
-      "value": 292848000
-    },
-    {
-      "name": "Delek US Holdings, Inc.",
-      "cusip": "24665A103",
-      "shares": 10539880,
-      "value": 229559000
-    },
-    {
-      "name": "FirstEnergy Corp",
-      "cusip": "337932107",
-      "shares": 18967757,
-      "value": 657991000
-    },
-    {
-      "name": "Herbalife Ltd",
-      "cusip": "G4412G101",
-      "shares": 8018886,
-      "value": 355718000
-    },
-    {
-      "name": "Herc Holdings Inc",
-      "cusip": "42704L104",
-      "shares": 4494789,
-      "value": 455457000
-    },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 106552816,
-      "value": 5724017000
-    },
-    {
-      "name": "Icahn Enterprises LP",
-      "cusip": "451100101",
-      "shares": 24835205,
-      "value": 1334147000
+      "value": 5724017
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 51669068,
-      "value": 2775662000
-    },
-    {
-      "name": "Icahn Enterprises LP",
-      "cusip": "451100101",
-      "shares": 30429004,
-      "value": 1634646000
-    },
-    {
-      "name": "Icahn Enterprises LP",
-      "cusip": "451100101",
-      "shares": 8263369,
-      "value": 443908000
-    },
-    {
-      "name": "Navistar International Corporation",
-      "cusip": "63934E108",
-      "shares": 16729960,
-      "value": 736620000
-    },
-    {
-      "name": "Newell Brands, Inc",
-      "cusip": "651229106",
-      "shares": 43704616,
-      "value": 1170410000
+      "value": 2775662
     },
     {
       "name": "Occidental Petroleum Corp",
       "cusip": "674599105",
       "shares": 86027271,
-      "value": 2290046000
+      "value": 2290046
     },
     {
-      "name": "Occidental Petroleum Corp Warrants",
-      "cusip": "674599162",
-      "shares": 19304913,
-      "value": 229922000
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 30429004,
+      "value": 1634646
     },
     {
-      "name": "SandRidge Energy, Inc.",
-      "cusip": "80007P869",
-      "shares": 4818832,
-      "value": 18842000
+      "name": "CVR Energy Inc",
+      "cusip": "12662P108",
+      "shares": 71198718,
+      "value": 1365591
     },
     {
-      "name": "Tenneco Inc (Class A)",
-      "cusip": "880349105",
-      "shares": 9589751,
-      "value": 102802000
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 24835205,
+      "value": 1334147
     },
     {
-      "name": "Welbilt Inc",
-      "cusip": "949090104",
-      "shares": 11942238,
-      "value": 194061000
+      "name": "Newell Brands, Inc",
+      "cusip": "651229106",
+      "shares": 43704616,
+      "value": 1170410
+    },
+    {
+      "name": "Cheniere Energy Inc",
+      "cusip": "16411R208",
+      "shares": 16168606,
+      "value": 1164301
+    },
+    {
+      "name": "Bausch Health Companies Inc",
+      "cusip": "071734107",
+      "shares": 34109152,
+      "value": 1082624
+    },
+    {
+      "name": "Navistar International Corporation",
+      "cusip": "63934E108",
+      "shares": 16729960,
+      "value": 736620
     },
     {
       "name": "Xerox Holdings Corporation",
       "cusip": "98421M106",
       "shares": 28769235,
-      "value": 698229000
+      "value": 698229
+    },
+    {
+      "name": "FirstEnergy Corp",
+      "cusip": "337932107",
+      "shares": 18967757,
+      "value": 657991
+    },
+    {
+      "name": "Cloudera Inc",
+      "cusip": "18914U100",
+      "shares": 52327391,
+      "value": 636824
+    },
+    {
+      "name": "Herc Holdings Inc",
+      "cusip": "42704L104",
+      "shares": 4494789,
+      "value": 455457
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 8263369,
+      "value": 443908
+    },
+    {
+      "name": "Herbalife Ltd",
+      "cusip": "G4412G101",
+      "shares": 8018886,
+      "value": 355718
+    },
+    {
+      "name": "Dana Inc",
+      "cusip": "235825205",
+      "shares": 12036505,
+      "value": 292848
+    },
+    {
+      "name": "Conduent Inc",
+      "cusip": "206787103",
+      "shares": 38149336,
+      "value": 254075
+    },
+    {
+      "name": "Occidental Petroleum Corp Warrants",
+      "cusip": "674599162",
+      "shares": 19304913,
+      "value": 229922
+    },
+    {
+      "name": "Delek US Holdings, Inc",
+      "cusip": "24665A103",
+      "shares": 10539880,
+      "value": 229559
+    },
+    {
+      "name": "Welbilt Inc",
+      "cusip": "949090104",
+      "shares": 11942238,
+      "value": 194061
+    },
+    {
+      "name": "Tenneco Inc (Class A)",
+      "cusip": "880349105",
+      "shares": 9589751,
+      "value": 102802
+    },
+    {
+      "name": "SandRidge Energy, Inc",
+      "cusip": "80007P869",
+      "shares": 4818832,
+      "value": 18842
     }
-  ]
+  ],
+  "totalValue": 23848300,
+  "positionsCount": 23
 }

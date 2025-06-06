@@ -58,10 +58,14 @@ function normalizeValue(rawValue, form, slug) {
   let value = Number(rawValue.replace(/,/g, ''))
   
   if (form === '13F-HR') {
-    // 13F-HR: Werte sind in Tausenden USD -> *1000
-    value = value * 1000
+    // KORRIGIERT: Die SEC 13F-HR Werte scheinen bereits korrekt zu sein
+    // Entferne die *1000 Multiplikation, da sie zu hohe Werte erzeugt
     
-    // Manche Investoren haben noch kleinere Zahlen
+    // Früher war hier: value = value * 1000
+    // Das führte zu Werten die 1000x zu hoch waren
+    
+    // Für extraMultiplierSlugs bleibt die Multiplikation, da diese 
+    // Investoren tatsächlich kleinere Zahlen in ihren Filings haben
     if (extraMultiplierSlugs.includes(slug)) {
       value = value * 1000
     }
@@ -97,7 +101,7 @@ async function run() {
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
     // Zum Testen nur einen Slug aktivieren:
-    if (slug !== 'torray') continue
+    if (slug !== 'martin') continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })

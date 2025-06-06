@@ -1,119 +1,125 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001539497-24-002435",
+  "quarterKey": "2024-Q4",
   "positions": [
-    {
-      "name": "American Electric Power Company",
-      "cusip": "025537101",
-      "shares": 1205300,
-      "value": 123663780000
-    },
-    {
-      "name": "Bausch Plus Lomb Corp.",
-      "cusip": "071705107",
-      "shares": 3500000,
-      "value": 67515000000
-    },
-    {
-      "name": "Bausch Health Companies Inc.",
-      "cusip": "071734107",
-      "shares": 34721118,
-      "value": 283324323000
-    },
-    {
-      "name": "Caesars Entertainment, Inc.",
-      "cusip": "12769G100",
-      "shares": 2440109,
-      "value": 101850150000
-    },
-    {
-      "name": "Centuri Holdings, Inc.",
-      "cusip": "155923105",
-      "shares": 3591929,
-      "value": 58009653000
-    },
-    {
-      "name": "CVR Energy Inc",
-      "cusip": "12662P108",
-      "shares": 51192381,
-      "value": 1178960534000
-    },
-    {
-      "name": "CVR Energy Inc",
-      "cusip": "12662P108",
-      "shares": 15500000,
-      "value": 356965000000
-    },
-    {
-      "name": "CVR Partners, LP",
-      "cusip": "126633205",
-      "shares": 3892000,
-      "value": 261269960000
-    },
-    {
-      "name": "Dana Inc.",
-      "cusip": "235825205",
-      "shares": 14286505,
-      "value": 150865493000
-    },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 217077397,
-      "value": 2934886407000
-    },
-    {
-      "name": "Icahn Enterprises LP",
-      "cusip": "451100101",
-      "shares": 47852208,
-      "value": 646961852000
+      "value": 2934886407
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 92557626,
-      "value": 1251379104000
+      "value": 1251379104
+    },
+    {
+      "name": "CVR Energy Inc",
+      "cusip": "12662P108",
+      "shares": 51192381,
+      "value": 1178960534
+    },
+    {
+      "name": "Southwest Gas Holdings Inc",
+      "cusip": "844895102",
+      "shares": 11022604,
+      "value": 813027271
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 59548564,
-      "value": 805096585000
+      "value": 805096585
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 47852208,
+      "value": 646961852
+    },
+    {
+      "name": "International Flavors and Fragrances Inc",
+      "cusip": "459506101",
+      "shares": 3750000,
+      "value": 393487500
+    },
+    {
+      "name": "CVR Energy Inc",
+      "cusip": "12662P108",
+      "shares": 15500000,
+      "value": 356965000
+    },
+    {
+      "name": "Bausch Health Companies Inc",
+      "cusip": "071734107",
+      "shares": 34721118,
+      "value": 283324323
+    },
+    {
+      "name": "CVR Partners, LP",
+      "cusip": "126633205",
+      "shares": 3892000,
+      "value": 261269960
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 16171138,
-      "value": 218633786000
+      "value": 218633786
     },
     {
-      "name": "Illumina Inc.",
-      "cusip": "452327109",
-      "shares": 430000,
-      "value": 56076300000
+      "name": "Dana Inc",
+      "cusip": "235825205",
+      "shares": 14286505,
+      "value": 150865493
     },
     {
-      "name": "International Flavors and Fragrances Inc.",
-      "cusip": "459506101",
-      "shares": 3750000,
-      "value": 393487500000
+      "name": "American Electric Power Company",
+      "cusip": "025537101",
+      "shares": 1205300,
+      "value": 123663780
     },
     {
-      "name": "JetBlue Airways Corp.",
+      "name": "JetBlue Airways Corp",
       "cusip": "477143101",
       "shares": 17727029,
-      "value": 116289310000
+      "value": 116289310
     },
     {
-      "name": "SandRidge Energy, Inc.",
+      "name": "Caesars Entertainment, Inc",
+      "cusip": "12769G100",
+      "shares": 2440109,
+      "value": 101850150
+    },
+    {
+      "name": "Bausch Plus Lomb Corp",
+      "cusip": "071705107",
+      "shares": 3500000,
+      "value": 67515000
+    },
+    {
+      "name": "SandRidge Energy, Inc",
       "cusip": "80007P869",
       "shares": 4818832,
-      "value": 58934315000
+      "value": 58934315
     },
     {
-      "name": "Southwest Gas Holdings Inc.",
-      "cusip": "844895102",
-      "shares": 11022604,
-      "value": 813027271000
+      "name": "Centuri Holdings, Inc",
+      "cusip": "155923105",
+      "shares": 3591929,
+      "value": 58009653
+    },
+    {
+      "name": "Illumina Inc",
+      "cusip": "452327109",
+      "shares": 430000,
+      "value": 56076300
     }
-  ]
+  ],
+  "totalValue": 9877196323,
+  "positionsCount": 19
 }

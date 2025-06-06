@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001647251-22-000008",
+  "quarterKey": "2022-Q4",
   "positions": [
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 52430790,
-      "value": 5041220000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 15961420,
-      "value": 1526710000
-    },
-    {
-      "name": "BOSTON PROPERTIES INC",
-      "cusip": "101121101",
-      "shares": 5220997,
-      "value": 391418000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 36699825,
-      "value": 3960442000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 55860385,
-      "value": 3725245000
+      "value": 5041220
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 19877677,
-      "value": 4629511000
+      "value": 4629511
     },
     {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 8246207,
-      "value": 2004735000
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 36699825,
+      "value": 3960442
     },
     {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 8768321,
-      "value": 2677407000
-    },
-    {
-      "name": "UNION PAC CORP",
-      "cusip": "907818108",
-      "shares": 5534098,
-      "value": 1078153000
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 55860385,
+      "value": 3725245
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 19936821,
-      "value": 3541776000
+      "value": 3541776
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 8768321,
+      "value": 2677407
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 8246207,
+      "value": 2004735
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 15961420,
+      "value": 1526710
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 5534098,
+      "value": 1078153
+    },
+    {
+      "name": "BOSTON PROPERTIES INC",
+      "cusip": "101121101",
+      "shares": 5220997,
+      "value": 391418
     }
-  ]
+  ],
+  "totalValue": 28576617,
+  "positionsCount": 10
 }

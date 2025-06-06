@@ -1,203 +1,209 @@
 {
+  "form": "13F-HR",
   "date": "2017-08-14",
+  "period": "2017-08-14",
+  "accession": "0001140361-17-032059",
+  "quarterKey": "2017-Q3",
   "positions": [
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 21535165,
-      "value": 1239779000
-    },
-    {
-      "name": "ADOBE SYS INC",
-      "cusip": "00724F101",
-      "shares": 3931896,
-      "value": 556127000
-    },
-    {
-      "name": "ADVANCE AUTO PARTS INC",
-      "cusip": "00751Y106",
-      "shares": 2048852,
-      "value": 238876000
-    },
-    {
-      "name": "ALBEMARLE CORP",
-      "cusip": "012653101",
-      "shares": 1158452,
-      "value": 122263000
-    },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 11666798,
-      "value": 1643852000
-    },
-    {
-      "name": "ALTICE USA INC",
-      "cusip": "02156K103",
-      "shares": 8395511,
-      "value": 271175000
-    },
-    {
-      "name": "ARISTA NETWORKS INC",
-      "cusip": "040413106",
-      "shares": 1845638,
-      "value": 276458000
-    },
-    {
-      "name": "BROADCOM LTD",
-      "cusip": "Y09827109",
-      "shares": 5319591,
-      "value": 1239731000
+      "value": 1643852
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 4353832,
-      "value": 1466588000
-    },
-    {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 5186332,
-      "value": 252626000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 20438394,
-      "value": 795462000
+      "value": 1466588
     },
     {
       "name": "CONSTELLATION BRANDS INC",
       "cusip": "21036P108",
       "shares": 6576776,
-      "value": 1274119000
+      "value": 1274119
     },
     {
-      "name": "CSX CORP",
-      "cusip": "126408103",
-      "shares": 10314868,
-      "value": 562779000
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 21535165,
+      "value": 1239779
     },
     {
-      "name": "EQUINIX INC",
-      "cusip": "29444U700",
-      "shares": 1273652,
-      "value": 546600000
-    },
-    {
-      "name": "EXPEDIA INC DEL",
-      "cusip": "30212P303",
-      "shares": 4523614,
-      "value": 673792000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 6168049,
-      "value": 931252000
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 5319591,
+      "value": 1239731
     },
     {
       "name": "FLEETCOR TECHNOLOGIES INC",
       "cusip": "339041105",
       "shares": 6555504,
-      "value": 945369000
+      "value": 945369
     },
     {
-      "name": "GRUPO TELEVISA SA",
-      "cusip": "40049J206",
-      "shares": 20535367,
-      "value": 500447000
-    },
-    {
-      "name": "INTERCONTINENTAL EXCHANGE IN",
-      "cusip": "45866F104",
-      "shares": 6356905,
-      "value": 419047000
-    },
-    {
-      "name": "BARCLAYS BK PLC",
-      "cusip": "06740Q252",
-      "shares": 1000000,
-      "value": 12760000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229854",
-      "shares": 2919817,
-      "value": 106924000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 4641369,
-      "value": 563694000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 9687742,
-      "value": 667776000
-    },
-    {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 2841170,
-      "value": 621478000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 6168049,
+      "value": 931252
     },
     {
       "name": "QUINTILES IMS HOLDINGS INC",
       "cusip": "74876Y101",
       "shares": 10055780,
-      "value": 899992000
+      "value": 899992
     },
     {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 2648428,
-      "value": 229354000
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 20438394,
+      "value": 795462
     },
     {
-      "name": "SERVICENOW INC",
-      "cusip": "81762P102",
-      "shares": 3220940,
-      "value": 341420000
+      "name": "EXPEDIA INC DEL",
+      "cusip": "30212P303",
+      "shares": 4523614,
+      "value": 673792
     },
     {
-      "name": "SNAP INC",
-      "cusip": "83304A106",
-      "shares": 7599408,
-      "value": 130487000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 9687742,
+      "value": 667776
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 2841170,
+      "value": 621478
     },
     {
       "name": "SYMANTEC CORP",
       "cusip": "871503108",
       "shares": 21085032,
-      "value": 595652000
+      "value": 595652
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 4641369,
+      "value": 563694
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 10314868,
+      "value": 562779
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 3931896,
+      "value": 556127
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U700",
+      "shares": 1273652,
+      "value": 546600
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 20535367,
+      "value": 500447
     },
     {
       "name": "T MOBILE US INC",
       "cusip": "872590104",
       "shares": 7123517,
-      "value": 431828000
+      "value": 431828
     },
     {
-      "name": "TRANSUNION",
-      "cusip": "89400J107",
-      "shares": 8905062,
-      "value": 385678000
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 6356905,
+      "value": 419047
     },
     {
       "name": "ULTA BEAUTY INC",
       "cusip": "90384S303",
       "shares": 1438673,
-      "value": 413388000
+      "value": 413388
+    },
+    {
+      "name": "TRANSUNION",
+      "cusip": "89400J107",
+      "shares": 8905062,
+      "value": 385678
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 3220940,
+      "value": 341420
     },
     {
       "name": "UNITEDHEALTH GROUP INC",
       "cusip": "91324P102",
       "shares": 1705353,
-      "value": 316207000
+      "value": 316207
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 1845638,
+      "value": 276458
+    },
+    {
+      "name": "ALTICE USA INC",
+      "cusip": "02156K103",
+      "shares": 8395511,
+      "value": 271175
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 5186332,
+      "value": 252626
+    },
+    {
+      "name": "ADVANCE AUTO PARTS INC",
+      "cusip": "00751Y106",
+      "shares": 2048852,
+      "value": 238876
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2648428,
+      "value": 229354
+    },
+    {
+      "name": "SNAP INC",
+      "cusip": "83304A106",
+      "shares": 7599408,
+      "value": 130487
+    },
+    {
+      "name": "ALBEMARLE CORP",
+      "cusip": "012653101",
+      "shares": 1158452,
+      "value": 122263
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229854",
+      "shares": 2919817,
+      "value": 106924
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06740Q252",
+      "shares": 1000000,
+      "value": 12760
     }
-  ]
+  ],
+  "totalValue": 19672980,
+  "positionsCount": 33
 }

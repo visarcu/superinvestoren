@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2017-11-14",
+  "period": "2017-11-14",
+  "accession": "0001172661-17-002144",
+  "quarterKey": "2017-Q4",
   "positions": [
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 26500729,
+      "value": 1692867
+    },
     {
       "name": "AUTOMATIC DATA PROCESSING IN",
       "cusip": "053015103",
       "shares": 8798442,
-      "value": 961846000
+      "value": 961846
     },
     {
       "name": "CHIPOTLE MEXICAN GRILL INC",
       "cusip": "169656105",
       "shares": 2882463,
-      "value": 887309000
-    },
-    {
-      "name": "HOWARD HUGHES CORP",
-      "cusip": "44267D107",
-      "shares": 4704534,
-      "value": 554806000
+      "value": 887309
     },
     {
       "name": "MONDELEZ INTL INC",
       "cusip": "609207105",
       "shares": 13927445,
-      "value": 566290000
+      "value": 566290
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 4704534,
+      "value": 554806
     },
     {
       "name": "PLATFORM SPECIALTY PRODS COR",
       "cusip": "72766Q105",
       "shares": 40451506,
-      "value": 451034000
-    },
-    {
-      "name": "RESTAURANT BRANDS INTL INC",
-      "cusip": "76131D103",
-      "shares": 26500729,
-      "value": 1692867000
+      "value": 451034
     }
-  ]
+  ],
+  "totalValue": 5114152,
+  "positionsCount": 6
 }

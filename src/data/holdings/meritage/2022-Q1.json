@@ -1,197 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-11",
+  "period": "2022-02-11",
+  "accession": "0001427119-22-000003",
+  "quarterKey": "2022-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 10,
-      "value": 29000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 194669,
-      "value": 563292000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 120154,
-      "value": 400634000
-    },
-    {
-      "name": "AMERICAN WTR WKS CO INC NEW",
-      "cusip": "030420103",
-      "shares": 2281,
-      "value": 431000
-    },
-    {
-      "name": "ANAPLAN INC",
-      "cusip": "03272L108",
-      "shares": 2322076,
-      "value": 106467000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 1864,
-      "value": 557000
-    },
-    {
-      "name": "BIO RAD LABS INC",
-      "cusip": "090572207",
-      "shares": 1022,
-      "value": 772000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 2990566,
-      "value": 215229000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 802506,
-      "value": 523210000
-    },
-    {
-      "name": "FIDELITY NATL INFORMATION SV",
-      "cusip": "31620M106",
-      "shares": 2760079,
-      "value": 301263000
-    },
-    {
-      "name": "MARATHON OIL CORP",
-      "cusip": "565849106",
-      "shares": 13083,
-      "value": 215000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 635936,
-      "value": 213878000
-    },
-    {
-      "name": "MIMECAST LTD",
-      "cusip": "G14838109",
-      "shares": 1463649,
-      "value": 116463000
-    },
-    {
-      "name": "MODERNA INC",
-      "cusip": "60770K107",
-      "shares": 2514,
-      "value": 639000
-    },
-    {
-      "name": "MOLSON COORS BEVERAGE CO",
-      "cusip": "60871R209",
-      "shares": 5051,
-      "value": 234000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 556521,
-      "value": 217366000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 320460,
-      "value": 193058000
-    },
-    {
-      "name": "NEWS CORP NEW",
-      "cusip": "65249B109",
-      "shares": 6224,
-      "value": 139000
-    },
-    {
-      "name": "NEWS CORP NEW",
-      "cusip": "65249B208",
-      "shares": 5442,
-      "value": 122000
-    },
-    {
-      "name": "OCCIDENTAL PETE CORP",
-      "cusip": "674599105",
-      "shares": 8015,
-      "value": 232000
-    },
-    {
-      "name": "PERIMETER SOLUTIONS SA",
-      "cusip": "L7579L106",
-      "shares": 8000000,
-      "value": 111120000
-    },
-    {
-      "name": "REGENCY CTRS CORP",
-      "cusip": "758849103",
-      "shares": 4693,
-      "value": 354000
-    },
-    {
-      "name": "RESTAURANT BRANDS INTL INC",
-      "cusip": "76131D103",
-      "shares": 7132490,
-      "value": 432799000
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 1850000,
+      "value": 878676
     },
     {
       "name": "SALESFORCE COM INC",
       "cusip": "79466L302",
       "shares": 2385031,
-      "value": 606108000
+      "value": 606108
     },
     {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 1850000,
-      "value": 878676000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 194669,
+      "value": 563292
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 802506,
+      "value": 523210
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 7132490,
+      "value": 432799
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 657117,
-      "value": 418110000
+      "value": 418110
     },
     {
-      "name": "UNDER ARMOUR INC",
-      "cusip": "904311107",
-      "shares": 5082,
-      "value": 108000
-    },
-    {
-      "name": "UNDER ARMOUR INC",
-      "cusip": "904311206",
-      "shares": 7852,
-      "value": 142000
-    },
-    {
-      "name": "VENTAS INC",
-      "cusip": "92276F100",
-      "shares": 9930,
-      "value": 508000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 2244,
-      "value": 513000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 120154,
+      "value": 400634
     },
     {
       "name": "WORKDAY INC",
       "cusip": "98138H101",
       "shares": 1121703,
-      "value": 306427000
+      "value": 306427
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2760079,
+      "value": 301263
     },
     {
       "name": "ZENDESK INC",
       "cusip": "98936J101",
       "shares": 2749596,
-      "value": 286755000
+      "value": 286755
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 556521,
+      "value": 217366
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 2990566,
+      "value": 215229
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 635936,
+      "value": 213878
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 320460,
+      "value": 193058
+    },
+    {
+      "name": "MIMECAST LTD",
+      "cusip": "G14838109",
+      "shares": 1463649,
+      "value": 116463
+    },
+    {
+      "name": "PERIMETER SOLUTIONS SA",
+      "cusip": "L7579L106",
+      "shares": 8000000,
+      "value": 111120
+    },
+    {
+      "name": "ANAPLAN INC",
+      "cusip": "03272L108",
+      "shares": 2322076,
+      "value": 106467
+    },
+    {
+      "name": "BIO RAD LABS INC",
+      "cusip": "090572207",
+      "shares": 1022,
+      "value": 772
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 2514,
+      "value": 639
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1864,
+      "value": 557
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2244,
+      "value": 513
+    },
+    {
+      "name": "VENTAS INC",
+      "cusip": "92276F100",
+      "shares": 9930,
+      "value": 508
+    },
+    {
+      "name": "AMERICAN WTR WKS CO INC NEW",
+      "cusip": "030420103",
+      "shares": 2281,
+      "value": 431
+    },
+    {
+      "name": "REGENCY CTRS CORP",
+      "cusip": "758849103",
+      "shares": 4693,
+      "value": 354
+    },
+    {
+      "name": "MOLSON COORS BEVERAGE CO",
+      "cusip": "60871R209",
+      "shares": 5051,
+      "value": 234
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 8015,
+      "value": 232
+    },
+    {
+      "name": "MARATHON OIL CORP",
+      "cusip": "565849106",
+      "shares": 13083,
+      "value": 215
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311206",
+      "shares": 7852,
+      "value": 142
+    },
+    {
+      "name": "NEWS CORP NEW",
+      "cusip": "65249B109",
+      "shares": 6224,
+      "value": 139
+    },
+    {
+      "name": "NEWS CORP NEW",
+      "cusip": "65249B208",
+      "shares": 5442,
+      "value": 122
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311107",
+      "shares": 5082,
+      "value": 108
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 10,
+      "value": 29
     }
-  ]
+  ],
+  "totalValue": 5895850,
+  "positionsCount": 32
 }

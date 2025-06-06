@@ -1,95 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2014-08-13",
+  "period": "2014-08-13",
+  "accession": "0001172661-14-001363",
+  "quarterKey": "2014-Q3",
   "positions": [
+    {
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 21427477,
+      "value": 371552
+    },
     {
       "name": "AMERICAN INTL GROUP INC",
       "cusip": "026874784",
       "shares": 4745040,
-      "value": 258984000
-    },
-    {
-      "name": "BARNES & NOBLE INC",
-      "cusip": "067774109",
-      "shares": 4114389,
-      "value": 93767000
-    },
-    {
-      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
-      "cusip": "18451C109",
-      "shares": 3354390,
-      "value": 27439000
-    },
-    {
-      "name": "CST BRANDS INC",
-      "cusip": "12646R105",
-      "shares": 3000000,
-      "value": 103500000
-    },
-    {
-      "name": "GENTIVA HEALTH SERVICES INC",
-      "cusip": "37247A102",
-      "shares": 975170,
-      "value": 14686000
-    },
-    {
-      "name": "GLOBAL EAGLE ENTMT INC",
-      "cusip": "37951D102",
-      "shares": 4342536,
-      "value": 53847000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 3420000,
-      "value": 142614000
-    },
-    {
-      "name": "NAVIENT CORP",
-      "cusip": "63938C108",
-      "shares": 5170518,
-      "value": 91570000
-    },
-    {
-      "name": "OPUS BK IRVINE CALIF",
-      "cusip": "684000102",
-      "shares": 2270265,
-      "value": 62114000
-    },
-    {
-      "name": "PENNEY J C INC",
-      "cusip": "708160106",
-      "shares": 1500000,
-      "value": 13575000
-    },
-    {
-      "name": "RAYONIER INC",
-      "cusip": "754907103",
-      "shares": 920710,
-      "value": 32731000
-    },
-    {
-      "name": "ROYAL BK SCOTLAND GROUP PLC",
-      "cusip": "780097747",
-      "shares": 115305,
-      "value": 2722000
-    },
-    {
-      "name": "ROYAL BK SCOTLAND GROUP PLC",
-      "cusip": "780097762",
-      "shares": 57380,
-      "value": 1360000
+      "value": 258984
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746101",
       "shares": 2770000,
-      "value": 145591000
+      "value": 145591
     },
     {
-      "name": "WESTERN UN CO",
-      "cusip": "959802109",
-      "shares": 21427477,
-      "value": 371552000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3420000,
+      "value": 142614
+    },
+    {
+      "name": "CST BRANDS INC",
+      "cusip": "12646R105",
+      "shares": 3000000,
+      "value": 103500
+    },
+    {
+      "name": "BARNES & NOBLE INC",
+      "cusip": "067774109",
+      "shares": 4114389,
+      "value": 93767
+    },
+    {
+      "name": "NAVIENT CORP",
+      "cusip": "63938C108",
+      "shares": 5170518,
+      "value": 91570
+    },
+    {
+      "name": "OPUS BK IRVINE CALIF",
+      "cusip": "684000102",
+      "shares": 2270265,
+      "value": 62114
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 4342536,
+      "value": 53847
+    },
+    {
+      "name": "RAYONIER INC",
+      "cusip": "754907103",
+      "shares": 920710,
+      "value": 32731
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 27439
+    },
+    {
+      "name": "GENTIVA HEALTH SERVICES INC",
+      "cusip": "37247A102",
+      "shares": 975170,
+      "value": 14686
+    },
+    {
+      "name": "PENNEY J C INC",
+      "cusip": "708160106",
+      "shares": 1500000,
+      "value": 13575
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097747",
+      "shares": 115305,
+      "value": 2722
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097762",
+      "shares": 57380,
+      "value": 1360
     }
-  ]
+  ],
+  "totalValue": 1416052,
+  "positionsCount": 15
 }

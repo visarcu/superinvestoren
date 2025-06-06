@@ -1,47 +1,53 @@
 {
+  "form": "13F-HR",
   "date": "2020-10-23",
+  "period": "2020-10-23",
+  "accession": "0001172661-20-002031",
+  "quarterKey": "2020-Q4",
   "positions": [
-    {
-      "name": "AGILENT TECHNOLOGIES INC",
-      "cusip": "00846U101",
-      "shares": 12248514,
-      "value": 1236365000
-    },
-    {
-      "name": "CHIPOTLE MEXICAN GRILL INC",
-      "cusip": "169656105",
-      "shares": 1161232,
-      "value": 1444236000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 13363011,
-      "value": 1140132000
-    },
-    {
-      "name": "HOWARD HUGHES CORP",
-      "cusip": "44267D107",
-      "shares": 10918008,
-      "value": 628877000
-    },
     {
       "name": "LOWES COS INC",
       "cusip": "548661107",
       "shares": 12408077,
-      "value": 2058004000
+      "value": 2058004
     },
     {
       "name": "RESTAURANT BRANDS INTL INC",
       "cusip": "76131D103",
       "shares": 25119016,
-      "value": 1444595000
+      "value": 1444595
+    },
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 1161232,
+      "value": 1444236
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 12248514,
+      "value": 1236365
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 13363011,
+      "value": 1140132
     },
     {
       "name": "STARBUCKS CORP",
       "cusip": "855244109",
       "shares": 10131008,
-      "value": 870456000
+      "value": 870456
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 10918008,
+      "value": 628877
     }
-  ]
+  ],
+  "totalValue": 8822665,
+  "positionsCount": 7
 }

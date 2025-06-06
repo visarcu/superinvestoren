@@ -1,83 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2025-05-09",
+  "period": "2025-05-09",
+  "accession": "0001172661-25-001634",
+  "quarterKey": "2025-Q2",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 2124130,
-      "value": 328475463000
-    },
-    {
-      "name": "ASBURY AUTOMOTIVE GROUP INC",
-      "cusip": "043436104",
-      "shares": 2108540,
-      "value": 465649974000
-    },
-    {
-      "name": "CANTALOUPE INC",
-      "cusip": "138103106",
-      "shares": 7180000,
-      "value": 56506600000
-    },
-    {
-      "name": "COUPANG INC",
-      "cusip": "22266T109",
-      "shares": 13017964,
-      "value": 285483951000
-    },
-    {
-      "name": "ENERGY TRANSFER L P",
-      "cusip": "29273V100",
-      "shares": 6205777,
-      "value": 115365394000
+      "name": "LOAR HOLDINGS INC",
+      "cusip": "53947R105",
+      "shares": 37427917,
+      "value": 2644282336
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 2444678,
-      "value": 717610780000
+      "value": 717610780
     },
     {
-      "name": "LOAR HOLDINGS INC",
-      "cusip": "53947R105",
-      "shares": 37427917,
-      "value": 2644282336000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 394755,
-      "value": 227520992000
-    },
-    {
-      "name": "NUVATION BIO INC",
-      "cusip": "67080N101",
-      "shares": 3811513,
-      "value": 6708263000
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2108540,
+      "value": 465649974
     },
     {
       "name": "SOMNIGROUP INTERNATIONAL INC",
       "cusip": "88023U101",
       "shares": 5845246,
-      "value": 350013330000
+      "value": 350013330
     },
     {
-      "name": "U HAUL HOLDING COMPANY",
-      "cusip": "023586506",
-      "shares": 3251469,
-      "value": 192421935000
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2124130,
+      "value": 328475463
     },
     {
-      "name": "U HAUL HOLDING COMPANY",
-      "cusip": "023586100",
-      "shares": 36401,
-      "value": 2379169000
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13017964,
+      "value": 285483951
     },
     {
       "name": "WILLIS TOWERS WATSON PLC LTD",
       "cusip": "G96629103",
       "shares": 720779,
-      "value": 243587263000
+      "value": 243587263
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 394755,
+      "value": 227520992
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586506",
+      "shares": 3251469,
+      "value": 192421935
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 6205777,
+      "value": 115365394
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 7180000,
+      "value": 56506600
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 6708263
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586100",
+      "shares": 36401,
+      "value": 2379169
     }
-  ]
+  ],
+  "totalValue": 5636005450,
+  "positionsCount": 13
 }

@@ -1,13 +1,14 @@
 // src/app/investor/[slug]/page.tsx
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, FormEvent } from 'react'
 import { notFound } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { 
   EnvelopeIcon, 
   ArrowUpRightIcon,
+  ArrowLeftIcon,
   UserIcon,
   ChartBarIcon,
   ArrowTrendingUpIcon,
@@ -21,7 +22,6 @@ import LoadingSpinner from '@/components/LoadingSpinner'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
 import PortfolioValueChart from '@/components/PortfolioValueChart'
-import InvestorSubscribeForm from '@/components/InvestorSubscribeForm'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import cashPositions from '@/data/cashPositions'
 import CashPositionChart from '@/components/CashPositionChart'
@@ -29,14 +29,6 @@ import CashPositionChart from '@/components/CashPositionChart'
 // Dynamic imports
 const TopPositionsBarChart = dynamic(
   () => import('@/components/TopPositionsBarChart'),
-  {
-    ssr: false,
-    loading: () => <LoadingSpinner />
-  }
-)
-
-const CashFlowBarChart = dynamic(
-  () => import('@/components/CashFlowBarChart'),
   {
     ssr: false,
     loading: () => <LoadingSpinner />
@@ -61,12 +53,6 @@ interface Position {
 interface HistoryGroup {
   period: string
   items: Position[]
-}
-
-interface CashFlowPoint {
-  period: string
-  buy: number
-  sell: number
 }
 
 const investorNames: Record<string, string> = {
@@ -119,7 +105,6 @@ const investorNames: Record<string, string> = {
   icahn: 'Carl Icahn - Icahn Capital Management',
   ainslie: 'Lee Ainslie - Maverick Capital',
   mandel: 'Stephen Mandel - Lone Pine Capital',
-
   cunniff: 'Ruane Cunniff – Sequoia Fund',
   hawkins: 'Mason Hawkins – Longleaf Partners',
   spier: 'Guy Spier - Aquamarine Capital',
@@ -129,7 +114,6 @@ const investorNames: Record<string, string> = {
   ubben: 'Jeffrey Ubben - Valueact Holdings',
   smith: 'Terry Smith - Fundsmith',
   donaldsmith: 'Donald Smith & Co.',
-
   miller: 'Bill Miller - Miller Value Partners',
   cantillon: 'William von Mueffling - Cantillon Capital Management',
   whitman: 'Marty Whitman - Third Avenue Management',
@@ -138,8 +122,6 @@ const investorNames: Record<string, string> = {
   kantesaria: 'Dev Kantesaria - Valley Forge Capital Management',
   viking: 'Ole Andreas Halvorsen - Viking Global Investors',
   ellenbogen: 'Henry Ellenbogen - Durable Capital Partners',
-
-  // Neue Investoren hinzufügen
   torray: 'Torray Funds',
   burry: 'Michael Burry - Scion Asset Management',
   klarman: 'Seth Klarman - Baupost Group',
@@ -152,6 +134,95 @@ const investorNames: Record<string, string> = {
   tangen:'Nicolai Tangen - AKO Capital',
   bobrinskoy: 'Chalres Bobrinskoy - Ariel Focus Fund',
   loeb:'Daniel Loeb - Third Point'
+}
+
+// Kompakte Newsletter Komponente für Header
+function CompactNewsletterSignup({ investorName }: { investorName: string }) {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [message, setMessage] = useState('')
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    
+    if (!email.trim()) {
+      setStatus('error')
+      setMessage('Bitte gib eine E-Mail-Adresse ein')
+      return
+    }
+
+    setStatus('loading')
+    setMessage('')
+
+    try {
+      const response = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setStatus('success')
+        setMessage(data.message || 'Vielen Dank für deine Anmeldung!')
+        setEmail('')
+      } else {
+        setStatus('error')
+        setMessage(data.error || 'Da ist etwas schiefgegangen.')
+      }
+    } catch (error) {
+      setStatus('error')
+      setMessage('Verbindungsfehler. Bitte versuche es nochmal.')
+    }
+  }
+
+  if (status === 'success') {
+    return (
+      <div className="text-center">
+        <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+          <span className="text-green-400 text-lg">✓</span>
+        </div>
+        <p className="text-sm text-green-400 font-medium mb-1">Erfolgreich angemeldet!</p>
+        <p className="text-xs text-gray-500">Du erhältst Updates zu allen Investoren</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <input
+          type="email"
+          placeholder="deine@email.de"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={status === 'loading'}
+          className="w-full px-3 py-2 text-sm bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+          required
+        />
+        
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="w-full px-3 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+        >
+          {status === 'loading' ? (
+            <>
+              <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></div>
+              Anmelden...
+            </>
+          ) : (
+            'Abonnieren'
+          )}
+        </button>
+      </form>
+      
+      {status === 'error' && message && (
+        <p className="text-xs text-red-400 mt-2">{message}</p>
+      )}
+    </div>
+  )
 }
 
 function splitInvestorName(full: string) {
@@ -192,21 +263,8 @@ function mergePositions(raw: { cusip: string; shares: number; value: number }[])
   return map
 }
 
-// Hilfsfunktion: Erstelle leeren Previous-Snapshot
-function createEmptySnapshot() {
-  return {
-    data: {
-      positions: [],
-      date: '',
-      totalValue: 0
-    }
-  }
-}
-
 type InvestorPageProps = {
-  params: {
-    slug: string
-  }
+  params: { slug: string }
 }
 
 export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
@@ -216,47 +274,37 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   
   const snapshots = holdingsHistory[slug]
   
-  // GEÄNDERT: Akzeptiere auch einzelne Snapshots
   if (!Array.isArray(snapshots) || snapshots.length < 1) return notFound()
 
-  // Header data - sicherer Zugriff auf previous
+  // Header data
   const latest = snapshots[snapshots.length - 1].data
   const previous = snapshots.length >= 2 
     ? snapshots[snapshots.length - 2].data 
-    : { positions: [], date: '', totalValue: 0 } // Fallback für einzelne Snapshots
+    : { positions: [], date: '', totalValue: 0 }
   
   const formattedDate = latest.date?.split('-').reverse().join('.') || '–'
   const period = latest.date ? getPeriodFromDate(latest.date) : '–'
 
-  // Build history for buys/sells - ANGEPASST für einzelne Snapshots
+  // Build history for buys/sells
   const buildHistory = (isBuy: boolean): HistoryGroup[] =>
     snapshots.map((snap, idx) => {
-      // Wenn es der erste Snapshot ist, verwende leeren Previous
       const prevRaw = idx > 0 ? snapshots[idx - 1].data.positions : []
       const prevMap = new Map<string, number>()
       prevRaw.forEach(p => prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares))
 
       const mergedEntries = Array.from(mergePositions(snap.data.positions).entries())
         .map(([cusip, { shares, value }]) => {
-          // Finde die Original-Position für ticker/name
           const originalPosition = snap.data.positions.find(p => p.cusip === cusip)
           const stockData = stocks.find(s => s.cusip === cusip)
           
           let ticker = originalPosition?.ticker || stockData?.ticker || cusip.replace(/0+$/, '')
           let displayName = originalPosition?.name || stockData?.name || cusip
           
-          // Format: "TICKER - Company Name"
           const formattedName = ticker && displayName && ticker !== displayName 
             ? `${ticker} - ${displayName}`
             : displayName
           
-          return {
-            cusip,
-            shares,
-            value,
-            name: formattedName,
-            ticker
-          }
+          return { cusip, shares, value, name: formattedName, ticker }
         })
 
       const seen = new Set(mergedEntries.map(e => e.cusip))
@@ -270,24 +318,14 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
             ? `${ticker} - ${displayName}`
             : displayName
             
-          mergedEntries.push({
-            cusip,
-            shares: 0,
-            value: 0,
-            name: formattedName,
-            ticker
-          })
+          mergedEntries.push({ cusip, shares: 0, value: 0, name: formattedName, ticker })
         }
       }
 
       const full = mergedEntries.map(p => {
         const prevShares = prevMap.get(p.cusip) || 0
         const delta = p.shares - prevShares
-        return {
-          ...p,
-          deltaShares: delta,
-          pctDelta: prevShares > 0 ? delta / prevShares : 0
-        }
+        return { ...p, deltaShares: delta, pctDelta: prevShares > 0 ? delta / prevShares : 0 }
       })
 
       return {
@@ -299,7 +337,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const buysHistory = buildHistory(true)
   const sellsHistory = buildHistory(false)
 
-  // Top 10 positions - SICHER für einzelne Snapshots
+  // Top 10 positions
   const prevMap = new Map<string, number>()
   previous.positions.forEach(p => prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares))
 
@@ -308,27 +346,19 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
       const prevShares = prevMap.get(cusip) || 0
       const delta = shares - prevShares
       
-      // Finde die Position in den originalen Daten um ticker zu bekommen
       const originalPosition = latest.positions.find(p => p.cusip === cusip)
       const stockData = stocks.find(s => s.cusip === cusip)
       
-      // Versuche ticker und name zu bestimmen
       let ticker = originalPosition?.ticker || stockData?.ticker || cusip.replace(/0+$/, '')
       let displayName = originalPosition?.name || stockData?.name || cusip
       
-      // Format: "TICKER - Company Name" (wie bei anderen Investoren)
       const formattedName = ticker && displayName && ticker !== displayName 
         ? `${ticker} - ${displayName}`
         : displayName
       
       return {
-        cusip,
-        name: formattedName,
-        ticker, // Für Links zu Aktien-Seiten
-        shares,
-        value,
-        deltaShares: delta,
-        pctDelta: prevShares > 0 ? delta / prevShares : 0
+        cusip, name: formattedName, ticker, shares, value,
+        deltaShares: delta, pctDelta: prevShares > 0 ? delta / prevShares : 0
       }
     })
 
@@ -337,24 +367,13 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const totalVal = scaledHold.reduce((s, p) => s + p.value, 0)
   const top10 = scaledHold.slice(0, 10).map(p => ({ name: p.name, percent: (p.value / totalVal) * 100 }))
 
-  // Cashflow - ANGEPASST für wenige Snapshots
-  const maxHistory = Math.min(8, snapshots.length)
-  const recentBuys = buysHistory.slice(0, maxHistory)
-  const recentSells = sellsHistory.slice(0, maxHistory)
-  
-  const cashflowPoints: CashFlowPoint[] = recentBuys.map((grp, idx) => {
-    const buySum = grp.items.reduce((sum, p) => sum + p.deltaShares * (p.value / Math.max(p.shares, 1)), 0)
-    const sellSum = recentSells[idx]?.items.reduce((sum, p) => sum + (-p.deltaShares) * (p.value / Math.max(p.shares, 1)), 0) || 0
-    return { period: grp.period, buy: buySum, sell: sellSum }
-  }).reverse()
-
-  // Value history - funktioniert auch mit einem Snapshot
+  // Value history
   const valueHistory = snapshots.map(snap => {
     const total = snap.data.positions.reduce((sum, p) => sum + p.value, 0)
     return { period: getPeriodFromDate(snap.data.date), value: total }
   })
 
-  // Articles - ERWEITERT für neue Investoren
+  // Articles
   let articles: Article[] = []
   if (slug === 'buffett') articles = articlesBuffett
   if (slug === 'ackman') articles = articlesAckman
@@ -367,143 +386,172 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
     cashSeries = list.map(snap => ({
       period: getPeriodFromDate(snap.date),
       cash: snap.cash
-    }))
+    })).reverse() // GEÄNDERT: .reverse() hinzugefügt für korrekte Reihenfolge (alt links -> neu rechts)
   }
 
-  // HINWEIS für neue Investoren
   const isNewInvestor = snapshots.length === 1
 
   return (
     <div className="min-h-screen bg-gray-950">
-      
-   
-{/* Hero Section */}
-<section className="relative overflow-hidden bg-gray-950">
-  <div className="absolute inset-0">
-    <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900"></div>
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
-  </div>
-  
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
     
-    {/* NEU: Info für neue Investoren */}
-    {isNewInvestor && (
-      <div className="mb-6 bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
-        <div className="flex items-center gap-2 text-blue-400">
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-          </svg>
-          <span className="text-sm font-medium">
-            Neu hinzugefügter Investor - Historische Daten werden in den kommenden Quartalen ergänzt
-          </span>
-        </div>
-      </div>
-    )}
-    
-    {/* Investor Header Card */}
-    <div className="bg-gradient-to-br from-gray-900/60 to-gray-900/40 border border-gray-800/50 rounded-2xl p-8 mb-8 backdrop-blur-sm">
-      <div className="flex flex-col lg:flex-row items-start gap-12">
-        
-        {/* Left: Avatar & Main Info */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 flex-1">
-          
-          {/* Avatar & Crown */}
-          <div className="relative flex-shrink-0">
-            {slug === 'buffett' && (
-              <div className="absolute -top-3 -right-3 z-10">
-                <div className="bg-yellow-400/20 rounded-full p-1">
-                  <span className="text-yellow-400 text-2xl">👑</span>
-                </div>
-              </div>
-            )}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-xl"></div>
-              <InvestorAvatar
-                name={mainName}
-                imageUrl={`/images/${slug}.png`}
-                size="xl"
-                className="relative ring-2 ring-blue-500/30 shadow-2xl"
-              />
-            </div>
-          </div>
-          
-          {/* Info */}
-          <div className="flex-1 text-center lg:text-left space-y-6">
-            <div>
-              <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-3">
-                {mainName}
-              </h1>
-              {subtitle && (
-                <p className="text-xl text-gray-400 font-medium">
-                  {subtitle}
-                </p>
-              )}
-            </div>
-            
-            {/* Stats */}
-            <div className="flex items-center justify-center lg:justify-start gap-2 text-gray-400">
-              <CalendarIcon className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium">
-                {period} • Aktualisiert {formattedDate}
-              </span>
-            </div>
-            
-            {/* Portfolio Value */}
-            <div className="bg-gray-800/40 rounded-xl p-6 border border-gray-700/50">
-              <p className="text-sm text-gray-400 mb-2 font-medium">Gesamtwert</p>
-              <p className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
-                {formatCurrency(totalVal * 1000, 'USD')}
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* Right: CTA Section */}
-        <div className="flex-shrink-0 lg:self-start lg:mt-8">
-          <div className="relative">
-            {/* Decorative arrow */}
-            <div className="absolute -left-20 top-1/2 -translate-y-1/2 hidden lg:block">
-              <div className="flex items-center gap-2 text-gray-500">
-                <div className="w-12 h-px bg-gradient-to-r from-transparent to-gray-600"></div>
-                <svg 
-                  width="24" 
-                  height="24" 
-                  viewBox="0 0 24 24" 
-                  fill="none"
-                  className="text-gray-500"
-                >
-                  <path 
-                    d="M7 17L17 7M17 7H7M17 7V17" 
-                    stroke="currentColor" 
-                    strokeWidth="1.5" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                    className="opacity-60"
-                  />
-                </svg>
+{/* Hero Section - VERBESSERT: Ausgewogenes Layout + umgekehrter Gradient */}
+<section className="relative overflow-hidden bg-gray-950">
+        <div className="absolute inset-0">
+          {/* GEÄNDERT: Gradient von oben (blau) nach unten (schwarz) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-500/8 via-gray-950 to-gray-950"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/4 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-purple-500/3 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+          
+          {/* Breadcrumb / Back Navigation */}
+          <div className="mb-8">
+            <Link 
+              href="/superinvestor" 
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm group"
+            >
+              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Zurück zu Super-Investoren
+            </Link>
+          </div>
+          
+          {/* NEU: Info für neue Investoren */}
+          {isNewInvestor && (
+            <div className="mb-8 bg-gradient-to-r from-blue-900/10 to-purple-900/10 border border-blue-500/20 rounded-2xl p-4 backdrop-blur-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                  <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-blue-400 font-medium text-sm">Neu hinzugefügter Investor</p>
+                  <p className="text-gray-400 text-xs">Historische Daten werden in den kommenden Quartalen ergänzt</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* NEUES LAYOUT: Bessere Balance */}
+          <div className="space-y-8">
+            
+            {/* Top Row: Avatar, Name & Portfolio Value */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-transparent to-purple-600/5 rounded-3xl blur-2xl"></div>
+              
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-950/80 border border-gray-800/60 rounded-3xl p-8 lg:p-12 backdrop-blur-xl">
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
+                  
+                  {/* Avatar */}
+                  <div className="relative flex-shrink-0">
+                    {slug === 'buffett' && (
+                      <div className="absolute -top-2 -right-2 z-10">
+                        <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg">
+                          <span className="text-black text-lg">👑</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="relative">
+                      <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-blue-500/30 rounded-full blur-lg opacity-60"></div>
+                      <div className="relative">
+                        <InvestorAvatar
+                          name={mainName}
+                          imageUrl={`/images/${slug}.png`}
+                          size="xl"
+                          className="ring-4 ring-white/10 shadow-2xl"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Name & Meta Info */}
+                  <div className="flex-1 text-center lg:text-left space-y-4">
+                    <div>
+                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent leading-tight">
+                        {mainName}
+                      </h1>
+                      {subtitle && (
+                        <p className="text-lg sm:text-xl text-gray-300 font-medium mt-2">
+                          {subtitle}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {/* Meta Information */}
+                    <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm">
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-800/50 rounded-full">
+                        <CalendarIcon className="w-4 h-4 text-blue-400" />
+                        <span className="text-gray-300 font-medium">{period}</span>
+                      </div>
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-800/50 rounded-full">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-gray-300">Aktualisiert {formattedDate}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Portfolio Value - Prominent rechts */}
+                  <div className="relative flex-shrink-0">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/15 to-emerald-500/15 rounded-2xl blur-xl"></div>
+                    <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 border border-gray-700/60 rounded-2xl p-6 lg:p-8 backdrop-blur-sm min-w-[280px] text-center lg:text-right">
+                      <div className="flex items-center justify-center lg:justify-end gap-2 mb-3">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <p className="text-sm text-gray-400 font-medium uppercase tracking-wide">
+                          Portfolio-Wert
+                        </p>
+                      </div>
+                      <p className="text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
+                        {formatCurrency(totalVal * 1000, 'USD')}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-2">
+                        {scaledHold.length} Positionen
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
-            {/* CTA Button */}
+            {/* Bottom Row: Newsletter - Volle Breite */}
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl blur-lg"></div>
-              <Link
-                href={`/investor/${slug}/subscribe`}
-                className="relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 border border-gray-600/50 hover:border-gray-500 text-white text-sm font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group backdrop-blur-sm"
-              >
-                <EnvelopeIcon className="w-4 h-4 group-hover:text-blue-400 transition-colors duration-200" />
-                Updates erhalten
-                <div className="w-4 h-4 rounded-full bg-gray-700 group-hover:bg-blue-500/20 flex items-center justify-center transition-all duration-200">
-                  <ArrowUpRightIcon className="w-3 h-3 group-hover:translate-x-px group-hover:-translate-y-px transition-transform duration-200" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/8 to-purple-600/8 rounded-2xl blur-xl"></div>
+              <div className="relative bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700/50 rounded-2xl p-6 lg:p-8 backdrop-blur-sm">
+                <div className="max-w-4xl mx-auto">
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    
+                    {/* Left: Newsletter Info */}
+                    <div className="text-center md:text-left">
+                      <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
+                        <EnvelopeIcon className="w-5 h-5 text-blue-400" />
+                        <p className="text-lg font-semibold text-white">
+                          Investment Updates erhalten
+                        </p>
+                      </div>
+                      <p className="text-gray-300 mb-2">
+                        Quartalsweise Insights zu <span className="text-white font-medium">{mainName}</span> und anderen Top-Investoren
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Keine Spam-E-Mails. Du kannst dich jederzeit abmelden.
+                      </p>
+                    </div>
+                    
+                    {/* Right: Newsletter Form */}
+                    <div className="flex justify-center md:justify-end">
+                      <div className="w-full max-w-sm">
+                        <CompactNewsletterSignup investorName={mainName} />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
+
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -547,7 +595,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                 </ErrorBoundary>
               </div>
 
-              {/* Portfolio Value History - nur anzeigen wenn mehr als 1 Snapshot */}
+              {/* Portfolio Value History */}
               {snapshots.length > 1 ? (
                 <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
                   <div className="flex items-center gap-3 mb-6">
@@ -580,20 +628,45 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
               )}
             </div>
 
-            {/* Cash Position Chart (for Buffett) */}
-            {slug === 'buffett' && cashSeries.length > 0 && (
-              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-12">
-                <div className="flex items-center gap-3 mb-6">
-                  <ChartBarIcon className="w-5 h-5 text-yellow-400" />
-                  <h2 className="text-xl font-bold text-white">
-                    Cash-Position (Treasuries)
-                  </h2>
-                </div>
-                <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
-                  <CashPositionChart data={cashSeries} />
-                </ErrorBoundary>
-              </div>
-            )}
+            {/* Cash Position Chart (for Buffett) - VERBESSERT */}
+{/* Cash Position Chart (for Buffett) - KORRIGIERT */}
+{slug === 'buffett' && cashSeries.length > 0 && (
+  <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-12">
+    <div className="flex items-center gap-3 mb-6">
+      <div className="w-8 h-8 bg-yellow-400/20 rounded-lg flex items-center justify-center">
+        <ChartBarIcon className="w-5 h-5 text-yellow-400" />
+      </div>
+      <div>
+        <h2 className="text-xl font-bold text-white">
+          Cash-Position (Treasuries)
+        </h2>
+        <p className="text-sm text-gray-400">
+          Entwicklung der liquiden Mittel über die letzten Quartale
+        </p>
+      </div>
+    </div>
+    
+    <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+      {/* WICHTIG: cash-chart-container Klasse für Styling */}
+      <div className="cash-chart-container">
+        <CashPositionChart data={cashSeries} />
+      </div>
+    </ErrorBoundary>
+    
+    {/* Zusätzliche Info */}
+    <div className="mt-4 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-gray-400">Aktueller Cash-Bestand:</span>
+        <span className="text-yellow-400 font-semibold">
+          {formatCurrency(cashSeries[cashSeries.length - 1]?.cash || 0, 'USD')}
+        </span>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
           </>
         )}
 

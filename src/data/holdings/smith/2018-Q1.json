@@ -2,114 +2,118 @@
   "form": "13F-HR",
   "date": "2018-02-13",
   "period": "2018-02-13",
+  "accession": "0001520023-18-000001",
+  "quarterKey": "2018-Q1",
   "positions": [
     {
-      "name": "3M CO",
-      "cusip": "88579Y101",
-      "shares": 2689620,
-      "value": 633056000
-    },
-    {
-      "name": "AUTOMATIC DATA PROCESSING IN",
-      "cusip": "053015103",
-      "shares": 5523192,
-      "value": 647263000
-    },
-    {
-      "name": "BARD C R INC",
-      "cusip": "067383109",
-      "shares": 2483956,
-      "value": 822786000
-    },
-    {
-      "name": "BECTON DICKINSON & CO ",
-      "cusip": "075887109",
-      "shares": 2301915,
-      "value": 492748000
-    },
-    {
-      "name": "COLGATE PALMOLIVE CO",
-      "cusip": "194162103",
-      "shares": 2495261,
-      "value": 188268000
-    },
-    {
-      "name": "DR PEPPER SNAPPLE GROUP INC",
-      "cusip": "26138E109",
-      "shares": 8742447,
-      "value": 848542000
-    },
-    {
-      "name": "IDEXX LABORATORIES",
-      "cusip": "45168D104",
-      "shares": 4404756,
-      "value": 688816000
-    },
-    {
-      "name": "INTUI INC",
-      "cusip": "461202103",
-      "shares": 2757670,
-      "value": 435105000
-    },
-    {
-      "name": "JOHNSON & JOHNSON ",
-      "cusip": "478160104",
-      "shares": 4331856,
-      "value": 605247000
-    },
-    {
-      "name": "LAUDER ESTEE COS INC",
-      "cusip": "518439104",
-      "shares": 3844901,
-      "value": 489225000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW ",
-      "cusip": "571903202",
-      "shares": 139695,
-      "value": 18961000
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 14461577,
+      "value": 1064661
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 11091160,
-      "value": 948738000
+      "value": 948738
     },
     {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 14461577,
-      "value": 1064661000
-    },
-    {
-      "name": "PEPSICO INC",
-      "cusip": "713448108",
-      "shares": 5803600,
-      "value": 695967000
-    },
-    {
-      "name": "PHILIP MORRIS INTL INC",
-      "cusip": "718172109",
-      "shares": 7507597,
-      "value": 793177000
-    },
-    {
-      "name": "STRYKER CORP",
-      "cusip": "863667101",
-      "shares": 5138240,
-      "value": 795605000
-    },
-    {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 5732658,
-      "value": 653638000
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 8742447,
+      "value": 848542
     },
     {
       "name": "WATERS CORP",
       "cusip": "941848103",
       "shares": 4365313,
-      "value": 843335000
+      "value": 843335
+    },
+    {
+      "name": "BARD C R INC",
+      "cusip": "067383109",
+      "shares": 2483956,
+      "value": 822786
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 5138240,
+      "value": 795605
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 7507597,
+      "value": 793177
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 5803600,
+      "value": 695967
+    },
+    {
+      "name": "IDEXX LABORATORIES",
+      "cusip": "45168D104",
+      "shares": 4404756,
+      "value": 688816
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 5732658,
+      "value": 653638
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 5523192,
+      "value": 647263
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 2689620,
+      "value": 633056
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 4331856,
+      "value": 605247
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 2301915,
+      "value": 492748
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 3844901,
+      "value": 489225
+    },
+    {
+      "name": "INTUI INC",
+      "cusip": "461202103",
+      "shares": 2757670,
+      "value": 435105
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 2495261,
+      "value": 188268
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 139695,
+      "value": 18961
     }
-  ]
+  ],
+  "totalValue": 11665138,
+  "positionsCount": 18
 }

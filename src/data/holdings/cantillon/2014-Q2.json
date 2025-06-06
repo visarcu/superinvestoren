@@ -2,246 +2,250 @@
   "form": "13F-HR",
   "date": "2014-05-09",
   "period": "2014-05-09",
+  "accession": "0001279936-14-000006",
+  "quarterKey": "2014-Q2",
   "positions": [
     {
-      "name": "ALTERA CORP",
-      "cusip": "021441100",
-      "shares": 3389219,
-      "value": 122825000
-    },
-    {
-      "name": "ALTERA CORP",
-      "cusip": "021441100",
-      "shares": 2224524,
-      "value": 80617000
-    },
-    {
-      "name": "AMBEV SA",
-      "cusip": "02319V103",
-      "shares": 11705550,
-      "value": 86738000
-    },
-    {
-      "name": "AMBEV SA",
-      "cusip": "02319V103",
-      "shares": 17808628,
-      "value": 131962000
-    },
-    {
-      "name": "ANALOG DEVICES INC",
-      "cusip": "032654105",
-      "shares": 2616739,
-      "value": 139054000
-    },
-    {
-      "name": "ANALOG DEVICES INC",
-      "cusip": "032654105",
-      "shares": 3988834,
-      "value": 211967000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 920152,
-      "value": 140213000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 1393526,
-      "value": 212345000
-    },
-    {
-      "name": "BRINKS CO",
-      "cusip": "109696104",
-      "shares": 1235111,
-      "value": 35262000
-    },
-    {
-      "name": "BRINKS CO",
-      "cusip": "109696104",
-      "shares": 1885598,
-      "value": 53834000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 1288864,
-      "value": 49827000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 2095944,
-      "value": 81029000
-    },
-    {
-      "name": "COLGATE PALMOLIVE CO",
-      "cusip": "194162103",
-      "shares": 713988,
-      "value": 46316000
-    },
-    {
-      "name": "COLGATE PALMOLIVE CO",
-      "cusip": "194162103",
-      "shares": 1084253,
-      "value": 70335000
-    },
-    {
-      "name": "CREDIT ACCEP CORP MICH",
-      "cusip": "225310101",
-      "shares": 182160,
-      "value": 25894000
-    },
-    {
-      "name": "CREDIT ACCEP CORP MICH",
-      "cusip": "225310101",
-      "shares": 275260,
-      "value": 39128000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 1007125,
-      "value": 108759000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 1531992,
-      "value": 165440000
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 245083,
+      "value": 273147
     },
     {
       "name": "FIDELITY NATL INFORMATION SV",
       "cusip": "31620M106",
       "shares": 4681190,
-      "value": 250210000
-    },
-    {
-      "name": "FIDELITY NATL INFORMATION SV",
-      "cusip": "31620M106",
-      "shares": 3063370,
-      "value": 163737000
-    },
-    {
-      "name": "GOOGLE INC",
-      "cusip": "38259P508",
-      "shares": 160763,
-      "value": 179172000
-    },
-    {
-      "name": "GOOGLE INC",
-      "cusip": "38259P508",
-      "shares": 245083,
-      "value": 273147000
-    },
-    {
-      "name": "GRAINGER W W INC",
-      "cusip": "384802104",
-      "shares": 401784,
-      "value": 101515000
-    },
-    {
-      "name": "GRAINGER W W INC",
-      "cusip": "384802104",
-      "shares": 615020,
-      "value": 155391000
-    },
-    {
-      "name": "HARLEY DAVIDSON INC",
-      "cusip": "412822108",
-      "shares": 2164571,
-      "value": 144182000
+      "value": 250210
     },
     {
       "name": "HARLEY DAVIDSON INC",
       "cusip": "412822108",
       "shares": 3292642,
-      "value": 219323000
-    },
-    {
-      "name": "LKQ CORP",
-      "cusip": "501889208",
-      "shares": 2603656,
-      "value": 68606000
-    },
-    {
-      "name": "LKQ CORP",
-      "cusip": "501889208",
-      "shares": 1703163,
-      "value": 44878000
-    },
-    {
-      "name": "MSC INDL DIRECT INC",
-      "cusip": "553530106",
-      "shares": 585325,
-      "value": 50642000
-    },
-    {
-      "name": "MSC INDL DIRECT INC",
-      "cusip": "553530106",
-      "shares": 381539,
-      "value": 33011000
-    },
-    {
-      "name": "PRICELINE COM INC",
-      "cusip": "741503403",
-      "shares": 118839,
-      "value": 141643000
+      "value": 219323
     },
     {
       "name": "PRICELINE COM INC",
       "cusip": "741503403",
       "shares": 180698,
-      "value": 215372000
+      "value": 215372
     },
     {
-      "name": "SIRONA DENTAL SYSTEMS INC",
-      "cusip": "82966C103",
-      "shares": 707970,
-      "value": 52864000
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1393526,
+      "value": 212345
     },
     {
-      "name": "SIRONA DENTAL SYSTEMS INC",
-      "cusip": "82966C103",
-      "shares": 1083097,
-      "value": 80875000
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 3988834,
+      "value": 211967
     },
     {
-      "name": "SOLERA HOLDINGS INC",
-      "cusip": "83421A104",
-      "shares": 1041571,
-      "value": 65973000
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 160763,
+      "value": 179172
     },
     {
-      "name": "SOLERA HOLDINGS INC",
-      "cusip": "83421A104",
-      "shares": 681899,
-      "value": 43191000
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1531992,
+      "value": 165440
     },
     {
-      "name": "WATERS CORP",
-      "cusip": "941848103",
-      "shares": 48351,
-      "value": 5242000
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3063370,
+      "value": 163737
     },
     {
-      "name": "WATERS CORP",
-      "cusip": "941848103",
-      "shares": 92639,
-      "value": 10043000
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 615020,
+      "value": 155391
     },
     {
-      "name": "WILLIS GROUP HOLDINGS PUBLIC",
-      "cusip": "G96666105",
-      "shares": 1990088,
-      "value": 87823000
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 2164571,
+      "value": 144182
+    },
+    {
+      "name": "PRICELINE COM INC",
+      "cusip": "741503403",
+      "shares": 118839,
+      "value": 141643
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 920152,
+      "value": 140213
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 2616739,
+      "value": 139054
     },
     {
       "name": "WILLIS GROUP HOLDINGS PUBLIC",
       "cusip": "G96666105",
       "shares": 3014582,
-      "value": 133034000
+      "value": 133034
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 17808628,
+      "value": 131962
+    },
+    {
+      "name": "ALTERA CORP",
+      "cusip": "021441100",
+      "shares": 3389219,
+      "value": 122825
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1007125,
+      "value": 108759
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 401784,
+      "value": 101515
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PUBLIC",
+      "cusip": "G96666105",
+      "shares": 1990088,
+      "value": 87823
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 11705550,
+      "value": 86738
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 2095944,
+      "value": 81029
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 1083097,
+      "value": 80875
+    },
+    {
+      "name": "ALTERA CORP",
+      "cusip": "021441100",
+      "shares": 2224524,
+      "value": 80617
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 1084253,
+      "value": 70335
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 2603656,
+      "value": 68606
+    },
+    {
+      "name": "SOLERA HOLDINGS INC",
+      "cusip": "83421A104",
+      "shares": 1041571,
+      "value": 65973
+    },
+    {
+      "name": "BRINKS CO",
+      "cusip": "109696104",
+      "shares": 1885598,
+      "value": 53834
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 707970,
+      "value": 52864
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 585325,
+      "value": 50642
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 1288864,
+      "value": 49827
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 713988,
+      "value": 46316
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 1703163,
+      "value": 44878
+    },
+    {
+      "name": "SOLERA HOLDINGS INC",
+      "cusip": "83421A104",
+      "shares": 681899,
+      "value": 43191
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 275260,
+      "value": 39128
+    },
+    {
+      "name": "BRINKS CO",
+      "cusip": "109696104",
+      "shares": 1235111,
+      "value": 35262
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 381539,
+      "value": 33011
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 182160,
+      "value": 25894
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 92639,
+      "value": 10043
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 48351,
+      "value": 5242
     }
-  ]
+  ],
+  "totalValue": 4321419,
+  "positionsCount": 40
 }

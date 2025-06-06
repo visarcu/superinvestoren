@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2014-02-14",
+  "period": "2014-02-14",
+  "accession": "0001104659-14-010663",
+  "quarterKey": "2014-Q1",
   "positions": [
-    {
-      "name": "AUTONATION INC",
-      "cusip": "05329W102",
-      "shares": 1898716,
-      "value": 94347000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 82039804,
-      "value": 9726639000
-    },
-    {
-      "name": "BP PLC",
-      "cusip": "055622104",
-      "shares": 7315267,
-      "value": 355595000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 17126874,
-      "value": 976574000
-    },
-    {
-      "name": "CATERPILLAR INC DEL",
-      "cusip": "149123101",
-      "shares": 11260857,
-      "value": 1022598000
+      "value": 9726639
     },
     {
       "name": "COCA COLA CO",
       "cusip": "191216100",
       "shares": 34002000,
-      "value": 1404623000
-    },
-    {
-      "name": "COCA COLA FEMSA SAB DE CV",
-      "cusip": "191241108",
-      "shares": 6214719,
-      "value": 756766000
-    },
-    {
-      "name": "CROWN CASTLE INTL CORP",
-      "cusip": "228227104",
-      "shares": 5332900,
-      "value": 391595000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 4366425,
-      "value": 455287000
-    },
-    {
-      "name": "EXXON MOBIL CORP",
-      "cusip": "30231G102",
-      "shares": 8143858,
-      "value": 824158000
-    },
-    {
-      "name": "FEDEX CORP",
-      "cusip": "31428X106",
-      "shares": 3024999,
-      "value": 434904000
-    },
-    {
-      "name": "GRUPO TELEVISA SA",
-      "cusip": "40049J206",
-      "shares": 16879103,
-      "value": 510762000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 2119515,
-      "value": 188616000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 706507,
-      "value": 59573000
+      "value": 1404623
     },
     {
       "name": "MCDONALD S CORP",
       "cusip": "580135101",
       "shares": 10872500,
-      "value": 1054959000
+      "value": 1054959
     },
     {
-      "name": "REPUBLIC SVCS INC",
-      "cusip": "760759100",
-      "shares": 1350000,
-      "value": 44820000
+      "name": "CATERPILLAR INC DEL",
+      "cusip": "149123101",
+      "shares": 11260857,
+      "value": 1022598
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 17126874,
+      "value": 976574
     },
     {
       "name": "WAL-MART STORES INC",
       "cusip": "931142103",
       "shares": 11603000,
-      "value": 913040000
+      "value": 913040
     },
     {
       "name": "WASTE MANAGEMENT INC DEL",
       "cusip": "94106L109",
       "shares": 18633672,
-      "value": 836093000
+      "value": 836093
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 8143858,
+      "value": 824158
+    },
+    {
+      "name": "COCA COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 756766
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 16879103,
+      "value": 510762
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366425,
+      "value": 455287
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 3024999,
+      "value": 434904
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP",
+      "cusip": "228227104",
+      "shares": 5332900,
+      "value": 391595
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 7315267,
+      "value": 355595
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 2119515,
+      "value": 188616
+    },
+    {
+      "name": "AUTONATION INC",
+      "cusip": "05329W102",
+      "shares": 1898716,
+      "value": 94347
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 706507,
+      "value": 59573
+    },
+    {
+      "name": "REPUBLIC SVCS INC",
+      "cusip": "760759100",
+      "shares": 1350000,
+      "value": 44820
     }
-  ]
+  ],
+  "totalValue": 20050949,
+  "positionsCount": 18
 }

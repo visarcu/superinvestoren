@@ -1,77 +1,83 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0001647251-19-000002",
+  "quarterKey": "2019-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 2787988,
-      "value": 2887268000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 430600,
-      "value": 449960000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 10720483,
-      "value": 794635000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 7835316,
-      "value": 1391660000
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 114502969,
+      "value": 5509883
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 11772411,
-      "value": 3354784000
+      "value": 3354784
     },
     {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229854",
-      "shares": 2427057,
-      "value": 74511000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2787988,
+      "value": 2887268
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 21817804,
-      "value": 2216034000
+      "value": 2216034
     },
     {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 5978677,
-      "value": 837254000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 2040954,
-      "value": 346840000
-    },
-    {
-      "name": "TWENTY FIRST CENTY FOX INC",
-      "cusip": "90130A101",
-      "shares": 114502969,
-      "value": 5509883000
-    },
-    {
-      "name": "TWENTY FIRST CENTY FOX INC",
-      "cusip": "90130A200",
-      "shares": 22189801,
-      "value": 1060229000
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 7835316,
+      "value": 1391660
     },
     {
       "name": "UNION PAC CORP",
       "cusip": "907818108",
       "shares": 7698818,
-      "value": 1064208000
+      "value": 1064208
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 22189801,
+      "value": 1060229
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 5978677,
+      "value": 837254
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 10720483,
+      "value": 794635
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 430600,
+      "value": 449960
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 2040954,
+      "value": 346840
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229854",
+      "shares": 2427057,
+      "value": 74511
     }
-  ]
+  ],
+  "totalValue": 19987266,
+  "positionsCount": 12
 }

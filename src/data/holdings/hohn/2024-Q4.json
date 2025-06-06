@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001647251-24-000011",
+  "quarterKey": "2024-Q4",
   "positions": [
-    {
-      "name": "FERROVIAL SE",
-      "cusip": "N3168P101",
-      "shares": 19095244,
-      "value": 820309341000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 16927056,
-      "value": 2830034493000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 6027410,
-      "value": 999645949000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 35437277,
-      "value": 4150341855000
-    },
-    {
-      "name": "CANADIAN PACIFIC KANSAS CITY",
-      "cusip": "13646K108",
-      "shares": 54913285,
-      "value": 4696733365000
-    },
     {
       "name": "GE AEROSPACE",
       "cusip": "369604301",
       "shares": 48180376,
-      "value": 9085855306000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 11990590,
-      "value": 5159550877000
+      "value": 9085855306
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 13246769,
-      "value": 6286784100000
+      "value": 6286784100
     },
     {
       "name": "S&P GLOBAL INC",
       "cusip": "78409V104",
       "shares": 10400077,
-      "value": 5372887780000
+      "value": 5372887780
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 11990590,
+      "value": 5159550877
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 54913285,
+      "value": 4696733365
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 16797187,
-      "value": 4618386566000
+      "value": 4618386566
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 35437277,
+      "value": 4150341855
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 16927056,
+      "value": 2830034493
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 6027410,
+      "value": 999645949
+    },
+    {
+      "name": "FERROVIAL SE",
+      "cusip": "N3168P101",
+      "shares": 19095244,
+      "value": 820309341
     }
-  ]
+  ],
+  "totalValue": 44020529632,
+  "positionsCount": 10
 }

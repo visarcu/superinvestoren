@@ -2,996 +2,1000 @@
   "form": "13F-HR",
   "date": "2023-05-15",
   "period": "2023-05-15",
+  "accession": "0000950123-23-005270",
+  "quarterKey": "2023-Q2",
   "positions": [
     {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 772000,
-      "value": 66075480000
-    },
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 13734052,
-      "value": 1175497511000
-    },
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 1144672,
-      "value": 97972476000
-    },
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 33720078,
-      "value": 2886101476000
-    },
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 68979,
-      "value": 5903913000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 12719675,
-      "value": 324224516000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 2803875,
-      "value": 71470774000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 4228200,
-      "value": 107776818000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 3137000,
-      "value": 79962130000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 4836250,
-      "value": 123276013000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 1275000,
-      "value": 32499750000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 8275000,
-      "value": 854724750000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 2276000,
-      "value": 235088040000
-    },
-    {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 1149942,
-      "value": 189682933000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 668375166,
+      "value": 110215064873
     },
     {
       "name": "AMERICAN EXPRESS CO",
       "cusip": "025816109",
       "shares": 149061045,
-      "value": 24587619373000
-    },
-    {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 1399713,
-      "value": 230882659000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 1025856,
-      "value": 169163654000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 3840000,
-      "value": 633216000000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 24294000,
-      "value": 4006080600000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 63226534,
-      "value": 10426055457000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 2724000,
-      "value": 449187600000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 65178619,
-      "value": 10747954273000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 12152000,
-      "value": 2003864800000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 47832000,
-      "value": 7887496800000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 668375166,
-      "value": 110215064873000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 2712000,
-      "value": 447208800000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 3776000,
-      "value": 622662400000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 20424207,
-      "value": 3367951734000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 3920000,
-      "value": 112112000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 11900000,
-      "value": 340340000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 17482500,
-      "value": 499999500000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 140000000,
-      "value": 4004000000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 31478000,
-      "value": 900270800000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 2100000,
-      "value": 60060000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 311780000,
-      "value": 8916908000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 11999000,
-      "value": 343171400000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 39675000,
-      "value": 1134705000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 401966106,
-      "value": 11496230632000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 28000000,
-      "value": 800800000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 9800000,
-      "value": 280280000000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 22751400,
-      "value": 650690040000
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 1000000,
-      "value": 96160000000
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 4988739,
-      "value": 479717142000
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 1371261,
-      "value": 131860458000
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 2137000,
-      "value": 205493920000
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 425000,
-      "value": 40868000000
-    },
-    {
-      "name": "CELANESE CORP DEL",
-      "cusip": "150870103",
-      "shares": 913141,
-      "value": 99431923000
-    },
-    {
-      "name": "CELANESE CORP DEL",
-      "cusip": "150870103",
-      "shares": 160400,
-      "value": 17465956000
-    },
-    {
-      "name": "CELANESE CORP DEL",
-      "cusip": "150870103",
-      "shares": 2531814,
-      "value": 275689226000
-    },
-    {
-      "name": "CELANESE CORP DEL",
-      "cusip": "150870103",
-      "shares": 656195,
-      "value": 71453074000
-    },
-    {
-      "name": "CELANESE CORP DEL",
-      "cusip": "150870103",
-      "shares": 4557466,
-      "value": 496262473000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 3828941,
-      "value": 1369267591000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 17640750,
-      "value": 2878264770000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 61400,
-      "value": 10018024000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 46237520,
-      "value": 7544113763000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 2858400,
-      "value": 466376544000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 61579525,
-      "value": 10047315299000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 1938000,
-      "value": 316204080000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 2092000,
-      "value": 341330720000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 3645000,
-      "value": 170914050000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 28405025,
-      "value": 1331911622000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 5685250,
-      "value": 266581373000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 14407522,
-      "value": 675568707000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 3013000,
-      "value": 141279570000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 89000,
-      "value": 4173210000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 800000,
-      "value": 49624000000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 371471,
-      "value": 23042346000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 85000,
-      "value": 5272550000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 80283200,
-      "value": 4979966896000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 1824000,
-      "value": 113142720000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 14411200,
-      "value": 893926736000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 14990400,
-      "value": 929854512000
+      "value": 24587619373
     },
     {
       "name": "COCA COLA CO",
       "cusip": "191216100",
       "shares": 282722729,
-      "value": 17537290880000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 3552000,
-      "value": 220330560000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 960000,
-      "value": 59548800000
-    },
-    {
-      "name": "DAVITA INC",
-      "cusip": "23918K108",
-      "shares": 17582088,
-      "value": 1426083158000
-    },
-    {
-      "name": "DAVITA INC",
-      "cusip": "23918K108",
-      "shares": 18513482,
-      "value": 1501628525000
-    },
-    {
-      "name": "DIAGEO P L C",
-      "cusip": "25243Q205",
-      "shares": 227750,
-      "value": 41263745000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 2105000,
-      "value": 206753100000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 1165900,
-      "value": 114514698000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 80880,
-      "value": 7944034000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 960120,
-      "value": 94302986000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 468100,
-      "value": 45976782000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 4969000,
-      "value": 182262920000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 23024209,
-      "value": 844527986000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 4906743,
-      "value": 179979333000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 7100048,
-      "value": 260429761000
-    },
-    {
-      "name": "GLOBE LIFE INC",
-      "cusip": "37959E102",
-      "shares": 213424,
-      "value": 23480908000
-    },
-    {
-      "name": "GLOBE LIFE INC",
-      "cusip": "37959E102",
-      "shares": 174489,
-      "value": 19197280000
-    },
-    {
-      "name": "GLOBE LIFE INC",
-      "cusip": "37959E102",
-      "shares": 1011888,
-      "value": 111327918000
-    },
-    {
-      "name": "GLOBE LIFE INC",
-      "cusip": "37959E102",
-      "shares": 1439325,
-      "value": 158354537000
-    },
-    {
-      "name": "GLOBE LIFE INC",
-      "cusip": "37959E102",
-      "shares": 3514601,
-      "value": 386676402000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 5850000,
-      "value": 171697500000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 26843350,
-      "value": 787852323000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 3444000,
-      "value": 101081400000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 27840300,
-      "value": 817112805000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 9001000,
-      "value": 264179350000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 31385685,
-      "value": 921169855000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 111700,
-      "value": 3278395000
-    },
-    {
-      "name": "HP INC",
-      "cusip": "40434L105",
-      "shares": 16476783,
-      "value": 483593581000
-    },
-    {
-      "name": "JEFFERIES FINL GROUP INC",
-      "cusip": "47233W109",
-      "shares": 433558,
-      "value": 13761131000
-    },
-    {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 327100,
-      "value": 50700500000
-    },
-    {
-      "name": "KRAFT HEINZ CO",
-      "cusip": "500754106",
-      "shares": 325634818,
-      "value": 12592298412000
-    },
-    {
-      "name": "KROGER CO",
-      "cusip": "501044101",
-      "shares": 16607090,
-      "value": 819892033000
-    },
-    {
-      "name": "KROGER CO",
-      "cusip": "501044101",
-      "shares": 768531,
-      "value": 37942375000
-    },
-    {
-      "name": "KROGER CO",
-      "cusip": "501044101",
-      "shares": 5367119,
-      "value": 264974665000
-    },
-    {
-      "name": "KROGER CO",
-      "cusip": "501044101",
-      "shares": 27257260,
-      "value": 1345690926000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229409",
-      "shares": 4308117,
-      "value": 121015007000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229409",
-      "shares": 13139100,
-      "value": 369077319000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229409",
-      "shares": 933391,
-      "value": 26218953000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229409",
-      "shares": 1827072,
-      "value": 51322452000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229607",
-      "shares": 14778322,
-      "value": 413645233000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229607",
-      "shares": 22030333,
-      "value": 616629021000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229607",
-      "shares": 650480,
-      "value": 18206935000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DELAWARE",
-      "cusip": "531229607",
-      "shares": 5749156,
-      "value": 160918876000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229854",
-      "shares": 3736730,
-      "value": 279619506000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229854",
-      "shares": 3344800,
-      "value": 250291384000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229854",
-      "shares": 515501,
-      "value": 38574940000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229854",
-      "shares": 125420,
-      "value": 9385179000
-    },
-    {
-      "name": "LOUISIANA PAC CORP",
-      "cusip": "546347105",
-      "shares": 2700000,
-      "value": 146367000000
-    },
-    {
-      "name": "LOUISIANA PAC CORP",
-      "cusip": "546347105",
-      "shares": 4344909,
-      "value": 235537517000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 35750,
-      "value": 45667408000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 14550,
-      "value": 18586316000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 80880,
-      "value": 103316921000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 181375,
-      "value": 231690239000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 24331,
-      "value": 31080663000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 127475,
-      "value": 162837840000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 3250,
-      "value": 4151583000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 4050,
-      "value": 5173511000
-    },
-    {
-      "name": "MARSH & MCLENNAN COS INC",
-      "cusip": "571748102",
-      "shares": 404911,
-      "value": 67437927000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 3986648,
-      "value": 1448787750000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 1400000,
-      "value": 498470000000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 814884,
-      "value": 290139448000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 74980,
-      "value": 26696629000
-    },
-    {
-      "name": "MONDELEZ INTL INC",
-      "cusip": "609207105",
-      "shares": 578000,
-      "value": 40298160000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 72100,
-      "value": 22064042000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 11973928,
-      "value": 3664261447000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 12623750,
-      "value": 3863119975000
+      "value": 17537290880
     },
     {
       "name": "OCCIDENTAL PETE CORP",
       "cusip": "674599105",
       "shares": 211707119,
-      "value": 13216875439000
+      "value": 13216875439
     },
     {
-      "name": "PROCTER & GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 315400,
-      "value": 46896826000
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 325634818,
+      "value": 12592298412
     },
     {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 39400,
-      "value": 16129966000
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 401966106,
+      "value": 11496230632
     },
     {
-      "name": "SNOWFLAKE INC",
-      "cusip": "833445109",
-      "shares": 6125376,
-      "value": 945084263000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 65178619,
+      "value": 10747954273
     },
     {
-      "name": "T-MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 570000,
-      "value": 82558800000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 63226534,
+      "value": 10426055457
     },
     {
-      "name": "T-MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 4672000,
-      "value": 676692480000
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 61579525,
+      "value": 10047315299
     },
     {
-      "name": "UNITED PARCEL SERVICE INC",
-      "cusip": "911312106",
-      "shares": 59400,
-      "value": 11523006000
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 311780000,
+      "value": 8916908000
     },
     {
-      "name": "VANGUARD INDEX FDS",
-      "cusip": "922908363",
-      "shares": 43000,
-      "value": 16171010000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 47832000,
+      "value": 7887496800
     },
     {
-      "name": "VERISIGN INC",
-      "cusip": "92343E102",
-      "shares": 4910132,
-      "value": 1037658196000
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 46237520,
+      "value": 7544113763
     },
     {
-      "name": "VERISIGN INC",
-      "cusip": "92343E102",
-      "shares": 7905481,
-      "value": 1670665300000
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 80283200,
+      "value": 4979966896
     },
     {
-      "name": "PARAMOUNT GLOBAL",
-      "cusip": "92556H206",
-      "shares": 5886500,
-      "value": 131327815000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 24294000,
+      "value": 4006080600
     },
     {
-      "name": "PARAMOUNT GLOBAL",
-      "cusip": "92556H206",
-      "shares": 541800,
-      "value": 12087558000
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 140000000,
+      "value": 4004000000
     },
     {
-      "name": "PARAMOUNT GLOBAL",
-      "cusip": "92556H206",
-      "shares": 17503089,
-      "value": 390493916000
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 12623750,
+      "value": 3863119975
     },
     {
-      "name": "PARAMOUNT GLOBAL",
-      "cusip": "92556H206",
-      "shares": 6776000,
-      "value": 151172560000
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 11973928,
+      "value": 3664261447
     },
     {
-      "name": "PARAMOUNT GLOBAL",
-      "cusip": "92556H206",
-      "shares": 23157313,
-      "value": 516639653000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 20424207,
+      "value": 3367951734
     },
     {
-      "name": "PARAMOUNT GLOBAL",
-      "cusip": "92556H206",
-      "shares": 36530304,
-      "value": 814991082000
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 33720078,
+      "value": 2886101476
     },
     {
-      "name": "PARAMOUNT GLOBAL",
-      "cusip": "92556H206",
-      "shares": 3335969,
-      "value": 74425468000
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 17640750,
+      "value": 2878264770
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 12152000,
+      "value": 2003864800
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 8297460,
-      "value": 1870745332000
+      "value": 1870745332
     },
     {
-      "name": "VITESSE ENERGY INC",
-      "cusip": "92852X103",
-      "shares": 51026,
-      "value": 971025000
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 7905481,
+      "value": 1670665300
+    },
+    {
+      "name": "DAVITA INC",
+      "cusip": "23918K108",
+      "shares": 18513482,
+      "value": 1501628525
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 3986648,
+      "value": 1448787750
+    },
+    {
+      "name": "DAVITA INC",
+      "cusip": "23918K108",
+      "shares": 17582088,
+      "value": 1426083158
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 3828941,
+      "value": 1369267591
+    },
+    {
+      "name": "KROGER CO",
+      "cusip": "501044101",
+      "shares": 27257260,
+      "value": 1345690926
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 28405025,
+      "value": 1331911622
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 13734052,
+      "value": 1175497511
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 39675000,
+      "value": 1134705000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 4910132,
+      "value": 1037658196
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 6125376,
+      "value": 945084263
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 14990400,
+      "value": 929854512
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 31385685,
+      "value": 921169855
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 31478000,
+      "value": 900270800
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 14411200,
+      "value": 893926736
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 8275000,
+      "value": 854724750
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 23024209,
+      "value": 844527986
+    },
+    {
+      "name": "KROGER CO",
+      "cusip": "501044101",
+      "shares": 16607090,
+      "value": 819892033
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 27840300,
+      "value": 817112805
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 36530304,
+      "value": 814991082
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 28000000,
+      "value": 800800000
     },
     {
       "name": "AON PLC",
       "cusip": "G0403H108",
       "shares": 2539000,
-      "value": 800521310000
+      "value": 800521310
     },
     {
-      "name": "AON PLC",
-      "cusip": "G0403H108",
-      "shares": 43806,
-      "value": 13811594000
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 26843350,
+      "value": 787852323
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 4672000,
+      "value": 676692480
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 14407522,
+      "value": 675568707
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 22751400,
+      "value": 650690040
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3840000,
+      "value": 633216000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3776000,
+      "value": 622662400
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 22030333,
+      "value": 616629021
     },
     {
       "name": "AON PLC",
       "cusip": "G0403H108",
       "shares": 1752194,
-      "value": 552449246000
+      "value": 552449246
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 23157313,
+      "value": 516639653
     },
     {
       "name": "NU HLDGS LTD",
       "cusip": "G6683N103",
       "shares": 107118784,
-      "value": 509885412000
+      "value": 509885412
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 17482500,
+      "value": 499999500
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1400000,
+      "value": 498470000
+    },
+    {
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 4557466,
+      "value": 496262473
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 16476783,
+      "value": 483593581
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 4988739,
+      "value": 479717142
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 2858400,
+      "value": 466376544
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2724000,
+      "value": 449187600
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2712000,
+      "value": 447208800
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 14778322,
+      "value": 413645233
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 17503089,
+      "value": 390493916
+    },
+    {
+      "name": "GLOBE LIFE INC",
+      "cusip": "37959E102",
+      "shares": 3514601,
+      "value": 386676402
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 13139100,
+      "value": 369077319
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 11999000,
+      "value": 343171400
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 2092000,
+      "value": 341330720
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 11900000,
+      "value": 340340000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 12719675,
+      "value": 324224516
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 1938000,
+      "value": 316204080
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 814884,
+      "value": 290139448
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 9800000,
+      "value": 280280000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229854",
+      "shares": 3736730,
+      "value": 279619506
+    },
+    {
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 2531814,
+      "value": 275689226
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 5685250,
+      "value": 266581373
+    },
+    {
+      "name": "KROGER CO",
+      "cusip": "501044101",
+      "shares": 5367119,
+      "value": 264974665
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 9001000,
+      "value": 264179350
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 7100048,
+      "value": 260429761
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229854",
+      "shares": 3344800,
+      "value": 250291384
+    },
+    {
+      "name": "LOUISIANA PAC CORP",
+      "cusip": "546347105",
+      "shares": 4344909,
+      "value": 235537517
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 2276000,
+      "value": 235088040
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 181375,
+      "value": 231690239
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1399713,
+      "value": 230882659
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 3552000,
+      "value": 220330560
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 2105000,
+      "value": 206753100
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 2137000,
+      "value": 205493920
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1149942,
+      "value": 189682933
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 4969000,
+      "value": 182262920
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 4906743,
+      "value": 179979333
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 5850000,
+      "value": 171697500
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 3645000,
+      "value": 170914050
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1025856,
+      "value": 169163654
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 127475,
+      "value": 162837840
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 5749156,
+      "value": 160918876
+    },
+    {
+      "name": "GLOBE LIFE INC",
+      "cusip": "37959E102",
+      "shares": 1439325,
+      "value": 158354537
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 6776000,
+      "value": 151172560
+    },
+    {
+      "name": "LOUISIANA PAC CORP",
+      "cusip": "546347105",
+      "shares": 2700000,
+      "value": 146367000
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 3013000,
+      "value": 141279570
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 1371261,
+      "value": 131860458
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 5886500,
+      "value": 131327815
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 4836250,
+      "value": 123276013
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 4308117,
+      "value": 121015007
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 1165900,
+      "value": 114514698
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 1824000,
+      "value": 113142720
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 3920000,
+      "value": 112112000
+    },
+    {
+      "name": "GLOBE LIFE INC",
+      "cusip": "37959E102",
+      "shares": 1011888,
+      "value": 111327918
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 4228200,
+      "value": 107776818
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 80880,
+      "value": 103316921
     },
     {
       "name": "STONECO LTD",
       "cusip": "G85158106",
       "shares": 10695448,
-      "value": 102034574000
+      "value": 102034574
     },
     {
-      "name": "LIBERTY LATIN AMERICA LTD",
-      "cusip": "G9001E102",
-      "shares": 1005607,
-      "value": 8356594000
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 3444000,
+      "value": 101081400
+    },
+    {
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 913141,
+      "value": 99431923
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 1144672,
+      "value": 97972476
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 1000000,
+      "value": 96160000
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 960120,
+      "value": 94302986
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 570000,
+      "value": 82558800
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 3137000,
+      "value": 79962130
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 3335969,
+      "value": 74425468
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 2803875,
+      "value": 71470774
+    },
+    {
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 656195,
+      "value": 71453074
+    },
+    {
+      "name": "MARSH & MCLENNAN COS INC",
+      "cusip": "571748102",
+      "shares": 404911,
+      "value": 67437927
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 772000,
+      "value": 66075480
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 2100000,
+      "value": 60060000
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 960000,
+      "value": 59548800
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 1827072,
+      "value": 51322452
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 327100,
+      "value": 50700500
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 800000,
+      "value": 49624000
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 315400,
+      "value": 46896826
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 468100,
+      "value": 45976782
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 35750,
+      "value": 45667408
+    },
+    {
+      "name": "DIAGEO P L C",
+      "cusip": "25243Q205",
+      "shares": 227750,
+      "value": 41263745
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 425000,
+      "value": 40868000
+    },
+    {
+      "name": "MONDELEZ INTL INC",
+      "cusip": "609207105",
+      "shares": 578000,
+      "value": 40298160
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229854",
+      "shares": 515501,
+      "value": 38574940
+    },
+    {
+      "name": "KROGER CO",
+      "cusip": "501044101",
+      "shares": 768531,
+      "value": 37942375
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 1275000,
+      "value": 32499750
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 24331,
+      "value": 31080663
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 74980,
+      "value": 26696629
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229409",
+      "shares": 933391,
+      "value": 26218953
+    },
+    {
+      "name": "GLOBE LIFE INC",
+      "cusip": "37959E102",
+      "shares": 213424,
+      "value": 23480908
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 371471,
+      "value": 23042346
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 72100,
+      "value": 22064042
+    },
+    {
+      "name": "GLOBE LIFE INC",
+      "cusip": "37959E102",
+      "shares": 174489,
+      "value": 19197280
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 14550,
+      "value": 18586316
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229607",
+      "shares": 650480,
+      "value": 18206935
+    },
+    {
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 160400,
+      "value": 17465956
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908363",
+      "shares": 43000,
+      "value": 16171010
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 39400,
+      "value": 16129966
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 43806,
+      "value": 13811594
+    },
+    {
+      "name": "JEFFERIES FINL GROUP INC",
+      "cusip": "47233W109",
+      "shares": 433558,
+      "value": 13761131
     },
     {
       "name": "LIBERTY LATIN AMERICA LTD",
       "cusip": "G9001E102",
       "shares": 1625185,
-      "value": 13505287000
+      "value": 13505287
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 541800,
+      "value": 12087558
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 59400,
+      "value": 11523006
     },
     {
       "name": "LIBERTY LATIN AMERICA LTD",
       "cusip": "G9001E128",
       "shares": 1284020,
-      "value": 10606005000
+      "value": 10606005
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 61400,
+      "value": 10018024
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229854",
+      "shares": 125420,
+      "value": 9385179
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E102",
+      "shares": 1005607,
+      "value": 8356594
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 80880,
+      "value": 7944034
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 68979,
+      "value": 5903913
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 85000,
+      "value": 5272550
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 4050,
+      "value": 5173511
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 89000,
+      "value": 4173210
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 3250,
+      "value": 4151583
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 111700,
+      "value": 3278395
+    },
+    {
+      "name": "VITESSE ENERGY INC",
+      "cusip": "92852X103",
+      "shares": 51026,
+      "value": 971025
     }
-  ]
+  ],
+  "totalValue": 325108752692,
+  "positionsCount": 165
 }

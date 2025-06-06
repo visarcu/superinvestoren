@@ -1,167 +1,173 @@
 {
+  "form": "13F-HR",
   "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001656456-19-000006",
+  "quarterKey": "2019-Q3",
   "positions": [
     {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 112000,
-      "value": 33001000
-    },
-    {
-      "name": "ALLERGAN PLC",
-      "cusip": "G0177J108",
-      "shares": 1295000,
-      "value": 216822000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 215000,
-      "value": 232396000
-    },
-    {
-      "name": "ALPS ETF TR",
-      "cusip": "00162Q866",
-      "shares": 6550000,
-      "value": 64518000
-    },
-    {
-      "name": "ALTABA INC",
-      "cusip": "021346101",
-      "shares": 1050000,
-      "value": 72839000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 185000,
-      "value": 350322000
-    },
-    {
-      "name": "CAESARS ENTMT CORP",
-      "cusip": "127686103",
-      "shares": 11200000,
-      "value": 132384000
-    },
-    {
-      "name": "CAESARS ENTMT CORP",
-      "cusip": "127686AA1",
-      "shares": 20000000,
-      "value": 34534000
-    },
-    {
-      "name": "CENTENE CORP DEL",
-      "cusip": "15135B101",
-      "shares": 127815,
-      "value": 6703000
-    },
-    {
-      "name": "CHENIERE ENERGY INC",
-      "cusip": "16411R208",
-      "shares": 410000,
-      "value": 28065000
-    },
-    {
-      "name": "CLEARWAY ENERGY INC",
-      "cusip": "18539C105",
-      "shares": 210200,
-      "value": 3401000
-    },
-    {
-      "name": "CLEARWAY ENERGY INC",
-      "cusip": "18539C204",
-      "shares": 700200,
-      "value": 11805000
-    },
-    {
-      "name": "ENERGY TRANSFER LP",
-      "cusip": "29273V100",
-      "shares": 5852527,
-      "value": 82404000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 1850000,
-      "value": 357050000
-    },
-    {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 95391,
-      "value": 25307000
-    },
-    {
-      "name": "INTELSAT S A",
-      "cusip": "L5140P101",
-      "shares": 592000,
-      "value": 11514000
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 18206800,
+      "value": 5334592
     },
     {
       "name": "INVESCO QQQ TR",
       "cusip": "46090E103",
       "shares": 8261400,
-      "value": 1542734000
-    },
-    {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 900000,
-      "value": 34731000
-    },
-    {
-      "name": "MR COOPER GROUP INC",
-      "cusip": "62482R107",
-      "shares": 1290000,
-      "value": 10333000
+      "value": 1542734
     },
     {
       "name": "PG&E CORP",
       "cusip": "69331C108",
       "shares": 16828015,
-      "value": 385698000
+      "value": 385698
     },
     {
-      "name": "QUALCOMM INC",
-      "cusip": "747525103",
-      "shares": 75000,
-      "value": 5705000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1850000,
+      "value": 357050
     },
     {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 500000,
-      "value": 75865000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 185000,
+      "value": 350322
     },
     {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 18206800,
-      "value": 5334592000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 215000,
+      "value": 232396
     },
     {
-      "name": "SPDR SERIES TRUST",
-      "cusip": "78464A730",
-      "shares": 1300000,
-      "value": 35425000
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 1295000,
+      "value": 216822
     },
     {
-      "name": "T MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 700000,
-      "value": 51898000
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686103",
+      "shares": 11200000,
+      "value": 132384
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 5852527,
+      "value": 82404
     },
     {
       "name": "UNITEDHEALTH GROUP INC",
       "cusip": "91324P102",
       "shares": 335000,
-      "value": 81743000
+      "value": 81743
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 500000,
+      "value": 75865
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 1050000,
+      "value": 72839
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 6550000,
+      "value": 64518
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 700000,
+      "value": 51898
     },
     {
       "name": "VISTRA ENERGY CORP",
       "cusip": "92840M102",
       "shares": 1719100,
-      "value": 38920000
+      "value": 38920
+    },
+    {
+      "name": "SPDR SERIES TRUST",
+      "cusip": "78464A730",
+      "shares": 1300000,
+      "value": 35425
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 900000,
+      "value": 34731
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686AA1",
+      "shares": 20000000,
+      "value": 34534
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 112000,
+      "value": 33001
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 410000,
+      "value": 28065
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 95391,
+      "value": 25307
+    },
+    {
+      "name": "CLEARWAY ENERGY INC",
+      "cusip": "18539C204",
+      "shares": 700200,
+      "value": 11805
+    },
+    {
+      "name": "INTELSAT S A",
+      "cusip": "L5140P101",
+      "shares": 592000,
+      "value": 11514
+    },
+    {
+      "name": "MR COOPER GROUP INC",
+      "cusip": "62482R107",
+      "shares": 1290000,
+      "value": 10333
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 127815,
+      "value": 6703
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 75000,
+      "value": 5705
+    },
+    {
+      "name": "CLEARWAY ENERGY INC",
+      "cusip": "18539C105",
+      "shares": 210200,
+      "value": 3401
     }
-  ]
+  ],
+  "totalValue": 9260709,
+  "positionsCount": 27
 }

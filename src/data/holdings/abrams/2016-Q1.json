@@ -1,101 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-12",
+  "period": "2016-02-12",
+  "accession": "0001172661-16-002639",
+  "quarterKey": "2016-Q1",
   "positions": [
     {
-      "name": "BARNES & NOBLE ED INC",
-      "cusip": "06777U101",
-      "shares": 8220792,
-      "value": 81797000
-    },
-    {
-      "name": "BARNES & NOBLE INC",
-      "cusip": "067774109",
-      "shares": 7418774,
-      "value": 64618000
-    },
-    {
-      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
-      "cusip": "18451C109",
-      "shares": 3354390,
-      "value": 18751000
-    },
-    {
-      "name": "CLECO CORP NEW",
-      "cusip": "12561W105",
-      "shares": 2362366,
-      "value": 123339000
-    },
-    {
-      "name": "FRANKLIN RES INC",
-      "cusip": "354613101",
-      "shares": 5275662,
-      "value": 194250000
-    },
-    {
-      "name": "GLOBAL EAGLE ENTMT INC",
-      "cusip": "37951D102",
-      "shares": 5000000,
-      "value": 49350000
-    },
-    {
-      "name": "INTERXION HOLDING N.V",
-      "cusip": "N47279109",
-      "shares": 2347788,
-      "value": 70786000
-    },
-    {
-      "name": "KERYX BIOPHARMACEUTICALS INC",
-      "cusip": "492515101",
-      "shares": 5500000,
-      "value": 27775000
-    },
-    {
-      "name": "MANITOWOC INC",
-      "cusip": "563571108",
-      "shares": 7225600,
-      "value": 110913000
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 21608707,
+      "value": 387012
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 4980000,
-      "value": 276290000
+      "value": 276290
     },
     {
-      "name": "MONEYGRAM INTL INC",
-      "cusip": "60935Y208",
-      "shares": 5130000,
-      "value": 32165000
-    },
-    {
-      "name": "OPUS BK IRVINE CALIF",
-      "cusip": "684000102",
-      "shares": 1596395,
-      "value": 59019000
-    },
-    {
-      "name": "TIME WARNER CABLE INC",
-      "cusip": "88732J207",
-      "shares": 661000,
-      "value": 122675000
-    },
-    {
-      "name": "VIMPELCOM LTD",
-      "cusip": "92719A106",
-      "shares": 18200000,
-      "value": 59696000
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 5275662,
+      "value": 194250
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746101",
       "shares": 2770000,
-      "value": 150577000
+      "value": 150577
     },
     {
-      "name": "WESTERN UN CO",
-      "cusip": "959802109",
-      "shares": 21608707,
-      "value": 387012000
+      "name": "CLECO CORP NEW",
+      "cusip": "12561W105",
+      "shares": 2362366,
+      "value": 123339
+    },
+    {
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 661000,
+      "value": 122675
+    },
+    {
+      "name": "MANITOWOC INC",
+      "cusip": "563571108",
+      "shares": 7225600,
+      "value": 110913
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 8220792,
+      "value": 81797
+    },
+    {
+      "name": "INTERXION HOLDING N.V",
+      "cusip": "N47279109",
+      "shares": 2347788,
+      "value": 70786
+    },
+    {
+      "name": "BARNES & NOBLE INC",
+      "cusip": "067774109",
+      "shares": 7418774,
+      "value": 64618
+    },
+    {
+      "name": "VIMPELCOM LTD",
+      "cusip": "92719A106",
+      "shares": 18200000,
+      "value": 59696
+    },
+    {
+      "name": "OPUS BK IRVINE CALIF",
+      "cusip": "684000102",
+      "shares": 1596395,
+      "value": 59019
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 5000000,
+      "value": 49350
+    },
+    {
+      "name": "MONEYGRAM INTL INC",
+      "cusip": "60935Y208",
+      "shares": 5130000,
+      "value": 32165
+    },
+    {
+      "name": "KERYX BIOPHARMACEUTICALS INC",
+      "cusip": "492515101",
+      "shares": 5500000,
+      "value": 27775
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 18751
     }
-  ]
+  ],
+  "totalValue": 1829013,
+  "positionsCount": 16
 }

@@ -1,137 +1,143 @@
 {
+  "form": "13F-HR",
   "date": "2018-08-13",
+  "period": "2018-08-13",
+  "accession": "0001172661-18-001508",
+  "quarterKey": "2018-Q3",
   "positions": [
-    {
-      "name": "AETNA INC NEW",
-      "cusip": "00817Y108",
-      "shares": 1575000,
-      "value": 289013000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 124117,
-      "value": 140152000
-    },
-    {
-      "name": "ALTABA INC",
-      "cusip": "021346101",
-      "shares": 3822305,
-      "value": 279831000
-    },
-    {
-      "name": "AMERCO",
-      "cusip": "023586100",
-      "shares": 576045,
-      "value": 205158000
-    },
-    {
-      "name": "ASBURY AUTOMOTIVE GROUP INC",
-      "cusip": "043436104",
-      "shares": 1085091,
-      "value": 74383000
-    },
-    {
-      "name": "BARNES & NOBLE ED INC",
-      "cusip": "06777U101",
-      "shares": 5872465,
-      "value": 33121000
-    },
-    {
-      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
-      "cusip": "18451C109",
-      "shares": 3354390,
-      "value": 14424000
-    },
-    {
-      "name": "EXPRESS SCRIPTS HLDG CO",
-      "cusip": "30219G108",
-      "shares": 2653101,
-      "value": 204846000
-    },
-    {
-      "name": "FRANKLIN RES INC",
-      "cusip": "354613101",
-      "shares": 7945023,
-      "value": 254638000
-    },
-    {
-      "name": "GLOBAL EAGLE ENTMT INC",
-      "cusip": "37951D102",
-      "shares": 7000000,
-      "value": 17640000
-    },
-    {
-      "name": "GROUP 1 AUTOMOTIVE INC",
-      "cusip": "398905109",
-      "shares": 457301,
-      "value": 28810000
-    },
-    {
-      "name": "KERYX BIOPHARMACEUTICALS INC",
-      "cusip": "492515101",
-      "shares": 9950055,
-      "value": 37412000
-    },
-    {
-      "name": "KINDER MORGAN INC DEL",
-      "cusip": "49456B101",
-      "shares": 8761405,
-      "value": 154814000
-    },
-    {
-      "name": "LITHIA MTRS INC",
-      "cusip": "536797103",
-      "shares": 1040327,
-      "value": 98384000
-    },
-    {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 883194,
-      "value": 241615000
-    },
-    {
-      "name": "OCH ZIFF CAP MGMT GROUP",
-      "cusip": "67551U105",
-      "shares": 22238592,
-      "value": 42920000
-    },
-    {
-      "name": "PG&E CORP",
-      "cusip": "69331C108",
-      "shares": 3911357,
-      "value": 166467000
-    },
-    {
-      "name": "QUALITY CARE PPTYS INC",
-      "cusip": "747545101",
-      "shares": 7025579,
-      "value": 151120000
-    },
-    {
-      "name": "SUBURBAN PROPANE PARTNERS L",
-      "cusip": "864482104",
-      "shares": 2832109,
-      "value": 66526000
-    },
     {
       "name": "TEVA PHARMACEUTICAL INDS LTD",
       "cusip": "881624209",
       "shares": 19743123,
-      "value": 480153000
+      "value": 480153
     },
     {
       "name": "WESTERN UN CO",
       "cusip": "959802109",
       "shares": 21351798,
-      "value": 434082000
+      "value": 434082
+    },
+    {
+      "name": "AETNA INC NEW",
+      "cusip": "00817Y108",
+      "shares": 1575000,
+      "value": 289013
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 3822305,
+      "value": 279831
+    },
+    {
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 7945023,
+      "value": 254638
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 883194,
+      "value": 241615
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 576045,
+      "value": 205158
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219G108",
+      "shares": 2653101,
+      "value": 204846
     },
     {
       "name": "WILLIS TOWERS WATSON PUB LTD",
       "cusip": "G96629103",
       "shares": 1183287,
-      "value": 179386000
+      "value": 179386
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 3911357,
+      "value": 166467
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 8761405,
+      "value": 154814
+    },
+    {
+      "name": "QUALITY CARE PPTYS INC",
+      "cusip": "747545101",
+      "shares": 7025579,
+      "value": 151120
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 124117,
+      "value": 140152
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 1040327,
+      "value": 98384
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 1085091,
+      "value": 74383
+    },
+    {
+      "name": "SUBURBAN PROPANE PARTNERS L",
+      "cusip": "864482104",
+      "shares": 2832109,
+      "value": 66526
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U105",
+      "shares": 22238592,
+      "value": 42920
+    },
+    {
+      "name": "KERYX BIOPHARMACEUTICALS INC",
+      "cusip": "492515101",
+      "shares": 9950055,
+      "value": 37412
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 5872465,
+      "value": 33121
+    },
+    {
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 457301,
+      "value": 28810
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 7000000,
+      "value": 17640
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 14424
     }
-  ]
+  ],
+  "totalValue": 3594895,
+  "positionsCount": 22
 }

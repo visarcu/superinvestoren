@@ -1,161 +1,167 @@
 {
+  "form": "13F-HR",
   "date": "2016-11-14",
+  "period": "2016-11-14",
+  "accession": "0001427119-16-000024",
+  "quarterKey": "2016-Q4",
   "positions": [
     {
-      "name": "ABBVIE INC",
-      "cusip": "00287Y109",
-      "shares": 200000,
-      "value": 12614000
-    },
-    {
-      "name": "AFFILIATED MANAGERS GROUP",
-      "cusip": "008252108",
-      "shares": 100000,
-      "value": 14470000
-    },
-    {
-      "name": "ALLERGAN PLC",
-      "cusip": "G0177J108",
-      "shares": 553511,
-      "value": 127479000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 44800,
-      "value": 37511000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 222800,
-      "value": 16115000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 59465,
-      "value": 4301000
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 2500000,
+      "value": 540750
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 1832591,
-      "value": 494745000
-    },
-    {
-      "name": "DUNKIN BRANDS GROUP INC",
-      "cusip": "265504100",
-      "shares": 4773593,
-      "value": 248609000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 627300,
-      "value": 19929000
-    },
-    {
-      "name": "HANESBRANDS INC",
-      "cusip": "410345102",
-      "shares": 5945586,
-      "value": 150126000
-    },
-    {
-      "name": "IHS MARKIT LTD",
-      "cusip": "G47567105",
-      "shares": 1182209,
-      "value": 44392000
-    },
-    {
-      "name": "INTERCONTINENTAL EXCHANGE IN",
-      "cusip": "45866F104",
-      "shares": 691483,
-      "value": 186258000
-    },
-    {
-      "name": "LKQ CORP",
-      "cusip": "501889208",
-      "shares": 2525536,
-      "value": 89556000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 1112142,
-      "value": 185450000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 1245890,
-      "value": 134905000
-    },
-    {
-      "name": "PATTERSON COMPANIES INC",
-      "cusip": "703395103",
-      "shares": 1596972,
-      "value": 73365000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 1123018,
-      "value": 142129000
-    },
-    {
-      "name": "SALLY BEAUTY HLDGS INC",
-      "cusip": "79546E104",
-      "shares": 4989685,
-      "value": 128135000
+      "value": 494745
     },
     {
       "name": "SBA COMMUNICATIONS CORP",
       "cusip": "78388J106",
       "shares": 2731299,
-      "value": 306342000
-    },
-    {
-      "name": "SHERWIN WILLIAMS CO",
-      "cusip": "824348106",
-      "shares": 527405,
-      "value": 145912000
-    },
-    {
-      "name": "SPDR S&P 500 ETF TR",
-      "cusip": "78462F103",
-      "shares": 2500000,
-      "value": 540750000
-    },
-    {
-      "name": "TWENTY FIRST CENTY FOX INC",
-      "cusip": "90130A101",
-      "shares": 2052900,
-      "value": 49721000
+      "value": 306342
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 12402988,
-      "value": 300400000
+      "value": 300400
+    },
+    {
+      "name": "DUNKIN BRANDS GROUP INC",
+      "cusip": "265504100",
+      "shares": 4773593,
+      "value": 248609
     },
     {
       "name": "UNITED TECHNOLOGIES CORP",
       "cusip": "913017109",
       "shares": 2168944,
-      "value": 220365000
+      "value": 220365
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 691483,
+      "value": 186258
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1112142,
+      "value": 185450
+    },
+    {
+      "name": "HANESBRANDS INC",
+      "cusip": "410345102",
+      "shares": 5945586,
+      "value": 150126
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 527405,
+      "value": 145912
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1123018,
+      "value": 142129
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1245890,
+      "value": 134905
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 1628924,
-      "value": 134712000
+      "value": 134712
+    },
+    {
+      "name": "SALLY BEAUTY HLDGS INC",
+      "cusip": "79546E104",
+      "shares": 4989685,
+      "value": 128135
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 553511,
+      "value": 127479
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 2525536,
+      "value": 89556
+    },
+    {
+      "name": "PATTERSON COMPANIES INC",
+      "cusip": "703395103",
+      "shares": 1596972,
+      "value": 73365
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 2052900,
+      "value": 49721
+    },
+    {
+      "name": "IHS MARKIT LTD",
+      "cusip": "G47567105",
+      "shares": 1182209,
+      "value": 44392
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 44800,
+      "value": 37511
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 627300,
+      "value": 19929
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 222800,
+      "value": 16115
+    },
+    {
+      "name": "AFFILIATED MANAGERS GROUP",
+      "cusip": "008252108",
+      "shares": 100000,
+      "value": 14470
+    },
+    {
+      "name": "ABBVIE INC",
+      "cusip": "00287Y109",
+      "shares": 200000,
+      "value": 12614
     },
     {
       "name": "VMWARE INC",
       "cusip": "928563402",
       "shares": 150000,
-      "value": 11003000
+      "value": 11003
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 59465,
+      "value": 4301
     }
-  ]
+  ],
+  "totalValue": 3819294,
+  "positionsCount": 26
 }

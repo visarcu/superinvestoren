@@ -1,101 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2023-05-12",
+  "period": "2023-05-12",
+  "accession": "0001172661-23-002081",
+  "quarterKey": "2023-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 2339440,
-      "value": 242670111000
-    },
-    {
-      "name": "ASBURY AUTOMOTIVE GROUP INC",
-      "cusip": "043436104",
-      "shares": 2108540,
-      "value": 442793400000
-    },
-    {
-      "name": "CAMPING WORLD HLDGS INC",
-      "cusip": "13462K109",
-      "shares": 5108808,
-      "value": 106620823000
-    },
-    {
-      "name": "CANTALOUPE INC",
-      "cusip": "138103106",
-      "shares": 7180000,
-      "value": 40926000000
-    },
-    {
-      "name": "COUPANG INC",
-      "cusip": "22266T109",
-      "shares": 13439964,
-      "value": 215039424000
-    },
-    {
-      "name": "ENERGY TRANSFER L P",
-      "cusip": "29273V100",
-      "shares": 17834322,
-      "value": 222393995000
-    },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 2351068,
-      "value": 538229997000
+      "value": 538229997
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 2151858,
-      "value": 456064785000
+      "value": 456064785
     },
     {
-      "name": "NUVATION BIO INC",
-      "cusip": "67080N101",
-      "shares": 3811513,
-      "value": 6327112000
-    },
-    {
-      "name": "TEMPUR SEALY INTL INC",
-      "cusip": "88023U101",
-      "shares": 3600000,
-      "value": 142164000000
-    },
-    {
-      "name": "TEVA PHARMACEUTICAL INDS LTD",
-      "cusip": "881624209",
-      "shares": 7966433,
-      "value": 70502932000
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2108540,
+      "value": 442793400
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 366187,
-      "value": 269898128000
+      "value": 269898128
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2339440,
+      "value": 242670111
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 17834322,
+      "value": 222393995
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13439964,
+      "value": 215039424
     },
     {
       "name": "U HAUL HOLDING COMPANY",
       "cusip": "023586506",
       "shares": 3663243,
-      "value": 189939150000
-    },
-    {
-      "name": "U HAUL HOLDING COMPANY",
-      "cusip": "023586100",
-      "shares": 407027,
-      "value": 24279161000
-    },
-    {
-      "name": "USCB FINANCIAL HOLDINGS INC",
-      "cusip": "90355N101",
-      "shares": 649085,
-      "value": 6419451000
+      "value": 189939150
     },
     {
       "name": "WILLIS TOWERS WATSON PLC LTD",
       "cusip": "G96629103",
       "shares": 806836,
-      "value": 187492550000
+      "value": 187492550
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 3600000,
+      "value": 142164000
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 106620823
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 7966433,
+      "value": 70502932
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 7180000,
+      "value": 40926000
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586100",
+      "shares": 407027,
+      "value": 24279161
+    },
+    {
+      "name": "USCB FINANCIAL HOLDINGS INC",
+      "cusip": "90355N101",
+      "shares": 649085,
+      "value": 6419451
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 6327112
     }
-  ]
+  ],
+  "totalValue": 3161761019,
+  "positionsCount": 16
 }

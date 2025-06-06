@@ -2,42 +2,46 @@
   "form": "13F-HR",
   "date": "2022-11-14",
   "period": "2022-11-14",
+  "accession": "0001172661-22-002568",
+  "quarterKey": "2022-Q4",
   "positions": [
     {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 15237044,
-      "value": 1016616000
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 10374801,
+      "value": 1948491
     },
     {
       "name": "CHIPOTLE MEXICAN GRILL INC",
       "cusip": "169656105",
       "shares": 1105208,
-      "value": 1660862000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 10031580,
-      "value": 1210009000
-    },
-    {
-      "name": "HOWARD HUGHES CORP",
-      "cusip": "44267D107",
-      "shares": 13620164,
-      "value": 754421000
-    },
-    {
-      "name": "LOWES COS INC",
-      "cusip": "548661107",
-      "shares": 10374801,
-      "value": 1948491000
+      "value": 1660862
     },
     {
       "name": "RESTAURANT BRANDS INTL INC",
       "cusip": "76131D103",
       "shares": 24194166,
-      "value": 1286646000
+      "value": 1286646
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 10031580,
+      "value": 1210009
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 15237044,
+      "value": 1016616
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 13620164,
+      "value": 754421
     }
-  ]
+  ],
+  "totalValue": 7877045,
+  "positionsCount": 6
 }

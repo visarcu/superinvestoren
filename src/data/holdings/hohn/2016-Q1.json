@@ -1,47 +1,53 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-11",
+  "period": "2016-02-11",
+  "accession": "0001647251-16-000011",
+  "quarterKey": "2016-Q1",
   "positions": [
     {
-      "name": "AMBAC FINL GROUP INC",
-      "cusip": "023139884",
-      "shares": 1985785,
-      "value": 27980000
-    },
-    {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 2725004,
-      "value": 189524000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 1161833,
-      "value": 219633000
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 16233532,
+      "value": 3012781
     },
     {
       "name": "COMCAST CORP NEW",
       "cusip": "20030N101",
       "shares": 20126160,
-      "value": 1135719000
+      "value": 1135719
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 3067555,
-      "value": 307798000
+      "value": 307798
     },
     {
-      "name": "TIME WARNER CABLE INC",
-      "cusip": "88732J207",
-      "shares": 16233532,
-      "value": 3012781000
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1161833,
+      "value": 219633
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 2725004,
+      "value": 189524
     },
     {
       "name": "ABENGOA YIELD PLC",
       "cusip": "G00349103",
       "shares": 4422584,
-      "value": 85312000
+      "value": 85312
+    },
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 27980
     }
-  ]
+  ],
+  "totalValue": 4978747,
+  "positionsCount": 7
 }

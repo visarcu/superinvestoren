@@ -1,329 +1,335 @@
 {
+  "form": "13F-HR",
   "date": "2021-08-16",
+  "period": "2021-08-16",
+  "accession": "0001656456-21-000003",
+  "quarterKey": "2021-Q3",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 585000,
-      "value": 132666000
-    },
-    {
-      "name": "ALLIANCE DATA SYSTEMS CORP",
-      "cusip": "018581108",
-      "shares": 325000,
-      "value": 33862000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 146000,
-      "value": 365923000
-    },
-    {
-      "name": "ALPS ETF TR",
-      "cusip": "00162Q452",
-      "shares": 1215000,
-      "value": 44238000
-    },
-    {
-      "name": "ALTIMETER GROWTH CORP 2",
-      "cusip": "G0371B109",
-      "shares": 1500000,
-      "value": 15375000
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 5652691,
+      "value": 480366
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 125000,
-      "value": 430020000
-    },
-    {
-      "name": "ANTERO RESOURCES CORP",
-      "cusip": "03674X106",
-      "shares": 1780000,
-      "value": 26753000
-    },
-    {
-      "name": "APA CORPORATION",
-      "cusip": "03743Q108",
-      "shares": 860000,
-      "value": 18602000
-    },
-    {
-      "name": "BP PLC",
-      "cusip": "055622104",
-      "shares": 400000,
-      "value": 10568000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 415000,
-      "value": 53597000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167180",
-      "shares": 386087,
-      "value": 8054000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167164",
-      "shares": 625461,
-      "value": 16812000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167172",
-      "shares": 694957,
-      "value": 16561000
-    },
-    {
-      "name": "CHESAPEAKE ENERGY CORP",
-      "cusip": "165167735",
-      "shares": 525903,
-      "value": 27305000
-    },
-    {
-      "name": "D R HORTON INC",
-      "cusip": "23331A109",
-      "shares": 1144257,
-      "value": 103407000
-    },
-    {
-      "name": "DRAGONEER GROWTH OPPTY CORP",
-      "cusip": "G28314105",
-      "shares": 750000,
-      "value": 7575000
-    },
-    {
-      "name": "E2OPEN PARENT HOLDINGS INC",
-      "cusip": "29788T103",
-      "shares": 2500000,
-      "value": 28550000
-    },
-    {
-      "name": "EMERSON ELEC CO",
-      "cusip": "291011104",
-      "shares": 737500,
-      "value": 70977000
-    },
-    {
-      "name": "ENERGY TRANSFER L P",
-      "cusip": "29273V100",
-      "shares": 10629920,
-      "value": 112996000
-    },
-    {
-      "name": "ENTERPRISE PRODS PARTNERS L",
-      "cusip": "293792107",
-      "shares": 2062373,
-      "value": 49765000
-    },
-    {
-      "name": "EQT CORP",
-      "cusip": "26884L109",
-      "shares": 1065000,
-      "value": 23707000
+      "value": 430020
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 1205000,
-      "value": 418991000
+      "value": 418991
     },
     {
-      "name": "FREEPORT-MCMORAN INC",
-      "cusip": "35671D857",
-      "shares": 2000000,
-      "value": 74220000
-    },
-    {
-      "name": "GOODYEAR TIRE & RUBR CO",
-      "cusip": "382550101",
-      "shares": 3165000,
-      "value": 54280000
-    },
-    {
-      "name": "HCA HEALTHCARE INC",
-      "cusip": "40412C101",
-      "shares": 405000,
-      "value": 83730000
-    },
-    {
-      "name": "ISHARES INC",
-      "cusip": "464286772",
-      "shares": 308000,
-      "value": 28699000
-    },
-    {
-      "name": "KOHLS CORP",
-      "cusip": "500255104",
-      "shares": 1215000,
-      "value": 66959000
-    },
-    {
-      "name": "MACYS INC",
-      "cusip": "55616P104",
-      "shares": 3610000,
-      "value": 68446000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 140000,
-      "value": 51113000
-    },
-    {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 5652691,
-      "value": 480366000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 312500,
-      "value": 84656000
-    },
-    {
-      "name": "MOSAIC CO NEW",
-      "cusip": "61945C103",
-      "shares": 2463769,
-      "value": 78619000
-    },
-    {
-      "name": "MPLX LP",
-      "cusip": "55336V100",
-      "shares": 547006,
-      "value": 16197000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 65500,
-      "value": 34598000
-    },
-    {
-      "name": "OCCIDENTAL PETE CORP",
-      "cusip": "674599105",
-      "shares": 5710000,
-      "value": 178552000
-    },
-    {
-      "name": "PAYSAFE LIMITED",
-      "cusip": "G6964L107",
-      "shares": 8500000,
-      "value": 102935000
-    },
-    {
-      "name": "PG&E CORP",
-      "cusip": "69331C108",
-      "shares": 16298159,
-      "value": 165752000
-    },
-    {
-      "name": "PG&E CORP",
-      "cusip": "69331C140",
-      "shares": 75000,
-      "value": 7603000
-    },
-    {
-      "name": "PULTE GROUP INC",
-      "cusip": "745867101",
-      "shares": 1509189,
-      "value": 82356000
-    },
-    {
-      "name": "QUALCOMM INC",
-      "cusip": "747525103",
-      "shares": 513000,
-      "value": 73323000
-    },
-    {
-      "name": "ROYAL DUTCH SHELL PLC",
-      "cusip": "780259107",
-      "shares": 180000,
-      "value": 6989000
-    },
-    {
-      "name": "ROYAL DUTCH SHELL PLC",
-      "cusip": "780259206",
-      "shares": 180000,
-      "value": 7272000
-    },
-    {
-      "name": "SELECT SECTOR SPDR TR",
-      "cusip": "81369Y506",
-      "shares": 2325000,
-      "value": 125248000
-    },
-    {
-      "name": "SPDR SER TR",
-      "cusip": "78468R556",
-      "shares": 760000,
-      "value": 73484000
-    },
-    {
-      "name": "SYSCO CORP",
-      "cusip": "871829107",
-      "shares": 880000,
-      "value": 68420000
-    },
-    {
-      "name": "TCV ACQUISITION CORP",
-      "cusip": "G8704C124",
-      "shares": 600000,
-      "value": 5946000
-    },
-    {
-      "name": "THE BEACHBODY COMPANY INC",
-      "cusip": "073463101",
-      "shares": 2000000,
-      "value": 20800000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 146000,
+      "value": 365923
     },
     {
       "name": "T-MOBILE US INC",
       "cusip": "872590104",
       "shares": 2520000,
-      "value": 364972000
+      "value": 364972
     },
     {
-      "name": "TWITTER INC",
-      "cusip": "90184L102",
-      "shares": 1300000,
-      "value": 89453000
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 5710000,
+      "value": 178552
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 16298159,
+      "value": 165752
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 585000,
+      "value": 132666
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y506",
+      "shares": 2325000,
+      "value": 125248
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 10629920,
+      "value": 112996
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 1144257,
+      "value": 103407
+    },
+    {
+      "name": "PAYSAFE LIMITED",
+      "cusip": "G6964L107",
+      "shares": 8500000,
+      "value": 102935
     },
     {
       "name": "UBER TECHNOLOGIES INC",
       "cusip": "90353T100",
       "shares": 2035000,
-      "value": 101994000
+      "value": 101994
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 1300000,
+      "value": 89453
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 312500,
+      "value": 84656
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 405000,
+      "value": 83730
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 1509189,
+      "value": 82356
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 2463769,
+      "value": 78619
     },
     {
       "name": "UNITEDHEALTH GROUP INC",
       "cusip": "91324P102",
       "shares": 187000,
-      "value": 74882000
+      "value": 74882
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 2000000,
+      "value": 74220
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78468R556",
+      "shares": 760000,
+      "value": 73484
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 513000,
+      "value": 73323
+    },
+    {
+      "name": "EMERSON ELEC CO",
+      "cusip": "291011104",
+      "shares": 737500,
+      "value": 70977
+    },
+    {
+      "name": "MACYS INC",
+      "cusip": "55616P104",
+      "shares": 3610000,
+      "value": 68446
+    },
+    {
+      "name": "SYSCO CORP",
+      "cusip": "871829107",
+      "shares": 880000,
+      "value": 68420
+    },
+    {
+      "name": "KOHLS CORP",
+      "cusip": "500255104",
+      "shares": 1215000,
+      "value": 66959
     },
     {
       "name": "VIACOMCBS INC",
       "cusip": "92556H206",
       "shares": 1475000,
-      "value": 66670000
+      "value": 66670
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 275000,
-      "value": 64301000
+      "value": 64301
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 3165000,
+      "value": 54280
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 415000,
+      "value": 53597
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 140000,
+      "value": 51113
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 2062373,
+      "value": 49765
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 1215000,
+      "value": 44238
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 65500,
+      "value": 34598
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 325000,
+      "value": 33862
+    },
+    {
+      "name": "ISHARES INC",
+      "cusip": "464286772",
+      "shares": 308000,
+      "value": 28699
+    },
+    {
+      "name": "E2OPEN PARENT HOLDINGS INC",
+      "cusip": "29788T103",
+      "shares": 2500000,
+      "value": 28550
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 525903,
+      "value": 27305
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674X106",
+      "shares": 1780000,
+      "value": 26753
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 1065000,
+      "value": 23707
+    },
+    {
+      "name": "THE BEACHBODY COMPANY INC",
+      "cusip": "073463101",
+      "shares": 2000000,
+      "value": 20800
+    },
+    {
+      "name": "APA CORPORATION",
+      "cusip": "03743Q108",
+      "shares": 860000,
+      "value": 18602
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167164",
+      "shares": 625461,
+      "value": 16812
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167172",
+      "shares": 694957,
+      "value": 16561
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 547006,
+      "value": 16197
+    },
+    {
+      "name": "ALTIMETER GROWTH CORP 2",
+      "cusip": "G0371B109",
+      "shares": 1500000,
+      "value": 15375
     },
     {
       "name": "WESTERN MIDSTREAM PARTNERS L",
       "cusip": "958669103",
       "shares": 587196,
-      "value": 12578000
+      "value": 12578
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 400000,
+      "value": 10568
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167180",
+      "shares": 386087,
+      "value": 8054
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 75000,
+      "value": 7603
+    },
+    {
+      "name": "DRAGONEER GROWTH OPPTY CORP",
+      "cusip": "G28314105",
+      "shares": 750000,
+      "value": 7575
+    },
+    {
+      "name": "ROYAL DUTCH SHELL PLC",
+      "cusip": "780259206",
+      "shares": 180000,
+      "value": 7272
+    },
+    {
+      "name": "ROYAL DUTCH SHELL PLC",
+      "cusip": "780259107",
+      "shares": 180000,
+      "value": 6989
+    },
+    {
+      "name": "TCV ACQUISITION CORP",
+      "cusip": "G8704C124",
+      "shares": 600000,
+      "value": 5946
     }
-  ]
+  ],
+  "totalValue": 4831717,
+  "positionsCount": 54
 }

@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0001647251-23-000012",
+  "quarterKey": "2023-Q4",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 16927056,
-      "value": 2231832334000
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 41650076,
+      "value": 4604415902
     },
     {
       "name": "CANADIAN NATL RY CO",
       "cusip": "136375102",
       "shares": 40888953,
-      "value": 4427183227000
+      "value": 4427183227
     },
     {
       "name": "CANADIAN PACIFIC KANSAS CITY",
       "cusip": "13646K108",
       "shares": 55860385,
-      "value": 4151920207000
-    },
-    {
-      "name": "FERGUSON PLC NEW",
-      "cusip": "G3421J106",
-      "shares": 490669,
-      "value": 80326441000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604301",
-      "shares": 41650076,
-      "value": 4604415902000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 10371017,
-      "value": 3279004445000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 9058611,
-      "value": 3310107046000
-    },
-    {
-      "name": "THERMO FISHER SCIENTIFIC INC",
-      "cusip": "883556102",
-      "shares": 3193182,
-      "value": 1616292933000
+      "value": 4151920207
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 16797187,
-      "value": 3863520982000
+      "value": 3863520982
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 9058611,
+      "value": 3310107046
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 10371017,
+      "value": 3279004445
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 16927056,
+      "value": 2231832334
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 3193182,
+      "value": 1616292933
+    },
+    {
+      "name": "FERGUSON PLC NEW",
+      "cusip": "G3421J106",
+      "shares": 490669,
+      "value": 80326441
     }
-  ]
+  ],
+  "totalValue": 27564603517,
+  "positionsCount": 9
 }

@@ -1,101 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2016-11-14",
+  "period": "2016-11-14",
+  "accession": "0001172661-16-004306",
+  "quarterKey": "2016-Q4",
   "positions": [
     {
-      "name": "BARNES & NOBLE ED INC",
-      "cusip": "06777U101",
-      "shares": 8771492,
-      "value": 83943000
-    },
-    {
-      "name": "BARNES & NOBLE INC",
-      "cusip": "067774109",
-      "shares": 10418775,
-      "value": 117732000
-    },
-    {
-      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
-      "cusip": "18451C109",
-      "shares": 3354390,
-      "value": 19590000
-    },
-    {
-      "name": "FRANKLIN RES INC",
-      "cusip": "354613101",
-      "shares": 7945023,
-      "value": 282604000
-    },
-    {
-      "name": "GLOBAL EAGLE ENTMT INC",
-      "cusip": "37951D102",
-      "shares": 5000000,
-      "value": 41550000
-    },
-    {
-      "name": "KERYX BIOPHARMACEUTICALS INC",
-      "cusip": "492515101",
-      "shares": 5719176,
-      "value": 30369000
-    },
-    {
-      "name": "MANITOWOC FOODSERVICE INC",
-      "cusip": "563568104",
-      "shares": 11255323,
-      "value": 182561000
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 21608707,
+      "value": 449893
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 4980000,
-      "value": 286848000
+      "value": 286848
     },
     {
-      "name": "MONEYGRAM INTL INC",
-      "cusip": "60935Y208",
-      "shares": 5130000,
-      "value": 36423000
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 7945023,
+      "value": 282604
+    },
+    {
+      "name": "MANITOWOC FOODSERVICE INC",
+      "cusip": "563568104",
+      "shares": 11255323,
+      "value": 182561
     },
     {
       "name": "NORTHSTAR ASSET MGMT GROUP I",
       "cusip": "66705Y104",
       "shares": 10908145,
-      "value": 141042000
-    },
-    {
-      "name": "NORTHSTAR RLTY FIN CORP",
-      "cusip": "66704R803",
-      "shares": 3279651,
-      "value": 43193000
-    },
-    {
-      "name": "OCH ZIFF CAP MGMT GROUP",
-      "cusip": "67551U105",
-      "shares": 17040650,
-      "value": 73956000
-    },
-    {
-      "name": "OPUS BK IRVINE CALIF",
-      "cusip": "684000102",
-      "shares": 1052433,
-      "value": 37225000
-    },
-    {
-      "name": "VIMPELCOM LTD",
-      "cusip": "92719A106",
-      "shares": 18770950,
-      "value": 65323000
+      "value": 141042
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746101",
       "shares": 2770000,
-      "value": 122656000
+      "value": 122656
     },
     {
-      "name": "WESTERN UN CO",
-      "cusip": "959802109",
-      "shares": 21608707,
-      "value": 449893000
+      "name": "BARNES & NOBLE INC",
+      "cusip": "067774109",
+      "shares": 10418775,
+      "value": 117732
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 8771492,
+      "value": 83943
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U105",
+      "shares": 17040650,
+      "value": 73956
+    },
+    {
+      "name": "VIMPELCOM LTD",
+      "cusip": "92719A106",
+      "shares": 18770950,
+      "value": 65323
+    },
+    {
+      "name": "NORTHSTAR RLTY FIN CORP",
+      "cusip": "66704R803",
+      "shares": 3279651,
+      "value": 43193
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 5000000,
+      "value": 41550
+    },
+    {
+      "name": "OPUS BK IRVINE CALIF",
+      "cusip": "684000102",
+      "shares": 1052433,
+      "value": 37225
+    },
+    {
+      "name": "MONEYGRAM INTL INC",
+      "cusip": "60935Y208",
+      "shares": 5130000,
+      "value": 36423
+    },
+    {
+      "name": "KERYX BIOPHARMACEUTICALS INC",
+      "cusip": "492515101",
+      "shares": 5719176,
+      "value": 30369
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 19590
     }
-  ]
+  ],
+  "totalValue": 2014908,
+  "positionsCount": 16
 }

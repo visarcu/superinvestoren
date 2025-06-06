@@ -1,35 +1,41 @@
 {
+  "form": "13F-HR",
   "date": "2015-08-17",
+  "period": "2015-08-17",
+  "accession": "0001362598-15-000006",
+  "quarterKey": "2015-Q3",
   "positions": [
     {
-      "name": "AMBAC FINL GROUP INC",
-      "cusip": "023139884",
-      "shares": 1985785,
-      "value": 33043000
-    },
-    {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 1346069,
-      "value": 104616000
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 16599787,
+      "value": 2957584
     },
     {
       "name": "COMCAST CORP NEW",
       "cusip": "20030N101",
       "shares": 13446161,
-      "value": 808652000
+      "value": 808652
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 3894104,
-      "value": 420407000
+      "value": 420407
     },
     {
-      "name": "TIME WARNER CABLE INC",
-      "cusip": "88732J207",
-      "shares": 16599787,
-      "value": 2957584000
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1346069,
+      "value": 104616
+    },
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 33043
     }
-  ]
+  ],
+  "totalValue": 4324302,
+  "positionsCount": 5
 }
