@@ -418,7 +418,7 @@ export default function ProfilePageClient() {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-2">Mein Profil</h1>
-          <p className="text-gray-400">Verwalten Sie Ihre Account-Einstellungen</p>
+          <p className="text-gray-400">Verwalten deine Account-Einstellungen</p>
         </div>
 
     
@@ -475,18 +475,18 @@ export default function ProfilePageClient() {
         {/* Patreon Connection */}
         <PatreonConnectButton onStatusChange={refreshUserData} />
 
+
         {/* Premium Features Info */}
         <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
           <h3 className="text-xl font-semibold text-white mb-4">Premium Features</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-green-400 mb-2">✅ Mit Premium erhalten Sie:</h4>
+              <h4 className="font-semibold text-green-400 mb-2">✅ Mit Premium erhältst du:</h4>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li>• Vollständige Kennzahlen-Charts</li>
                 <li>• Detaillierte Bewertungsmetriken (KGV, KBV, etc.)</li>
                 <li>• Erweiterte Margenanalysen</li>
                 <li>• Interaktive Finanzdiagramme</li>
-                <li>• Vollzugriff auf alle Depot-Analysen</li>
                 <li>• Keine Werbung</li>
                 <li>• Priority Support</li>
                 <li>• Early Access zu neuen Features</li>
@@ -496,9 +496,8 @@ export default function ProfilePageClient() {
               <h4 className="font-semibold text-gray-400 mb-2">❌ Free-Version Limitierungen:</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>• Basis-Informationen only</li>
-                <li>• Kennzahlen sind unscharf/gesperrt</li>
+                <li>• Einige Kennzahlen sind gesperrt</li>
                 <li>• Keine interaktiven Charts</li>
-                <li>• Begrenzte Depot-Einblicke</li>
                 <li>• Werbung wird angezeigt</li>
                 <li>• Limitierter Support</li>
               </ul>
@@ -514,8 +513,8 @@ export default function ProfilePageClient() {
                     Upgrade zu Premium
                   </p>
                   <p className="text-orange-300 text-sm">
-                    Verbinden Sie Ihr Patreon-Konto um Premium-Features freizuschalten! 
-                    Bereits ab $3/Monat erhalten Sie Vollzugriff auf alle Features.
+                    Verbinde dein Patreon-Konto um Premium-Features freizuschalten! 
+                    Bereits ab $9/Monat Vollzugriff auf alle Features.
                   </p>
                   <div className="mt-2">
                     <a
@@ -539,7 +538,7 @@ export default function ProfilePageClient() {
                     Premium aktiv!
                   </p>
                   <p className="text-green-300 text-sm">
-                    Sie haben Zugang zu allen Premium-Features. Vielen Dank für Ihre Unterstützung!
+                    Du hast Zugang zu allen Premium-Features. Vielen Dank für deine Unterstützung!
                   </p>
                 </div>
               </div>
@@ -556,7 +555,7 @@ export default function ProfilePageClient() {
               <div>
                 <h4 className="text-white font-medium">Status aktualisieren</h4>
                 <p className="text-gray-400 text-sm">
-                  Synchronisiert Ihren Premium-Status mit Patreon
+                  Synchronisiert deinen Premium-Status mit Patreon
                 </p>
               </div>
               <button

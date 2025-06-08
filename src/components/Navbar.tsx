@@ -35,13 +35,19 @@ const analyseSubLinks = [
   { href: '/analyse/earnings', label: 'Earnings' },
 ]
 
-// User Profile Interface
+// User Profile Interface - Angepasst an deine echte DB Struktur
 interface UserProfile {
-  email_verified: boolean;
-  first_name: string | null;
-  last_name: string | null;
-  is_premium: boolean;
-  premium_since: string | null;
+  user_id: string;
+  updated_at: string | null;
+  patreon_id: string | null;
+  patreon_tier: string | null;
+  patreon_access_token: string | null;
+  patreon_refresh_token: string | null;
+  patreon_expires_at: string | null;
+  // Diese Felder müsstest du noch in deiner DB haben oder hinzufügen:
+  first_name?: string | null;
+  last_name?: string | null;
+  email_verified?: boolean;
 }
 
 // Enhanced Search Component with working functionality
@@ -93,7 +99,6 @@ function CleanSearchBar() {
     setShowSuggestions(false);
     setIsFocused(false);
     
-    // Navigate to stock detail page - ÄNDERE DIESE ROUTE ZU DEINER AKTIEN-SEITE
     router.push(`/analyse/${ticker}`);
   };
 
@@ -102,10 +107,8 @@ function CleanSearchBar() {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (suggestions.length > 0) {
-        // Select first suggestion
         handleSelectStock(suggestions[0].ticker);
       } else if (searchTerm.trim()) {
-        // Perform general search - ÄNDERE DIESE ROUTE ZU DEINER SUCHE-SEITE
         router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
       }
     }
@@ -156,16 +159,14 @@ function CleanSearchBar() {
               </div>
             </button>
           ))}
-          
-         
         </div>
       )}
     </div>
   );
 }
 
-// Modern User Dropdown (Supabase Style)
-function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: UserProfile }) {
+// Modern User Dropdown (Supabase Style) - FIXED VERSION
+function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: UserProfile | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -181,17 +182,33 @@ function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: Us
   }, []);
 
   const getInitials = () => {
-    if (profile.first_name) {
+    if (profile?.first_name) {
       return profile.first_name.charAt(0).toUpperCase();
     }
     return (user.email || '').charAt(0).toUpperCase();
   };
 
   const getDisplayName = () => {
-    if (profile.first_name) {
+    if (profile?.first_name) {
       return profile.first_name + (profile.last_name ? ` ${profile.last_name}` : '');
     }
     return (user.email || '').split('@')[0];
+  };
+
+  // Prüfe ob User Patreon Premium hat (supporter oder premium)
+  const isPremium = profile?.patreon_tier && 
+                   profile?.patreon_id && 
+                   ['premium', 'supporter'].includes(profile.patreon_tier);
+  const isEmailVerified = profile?.email_verified ?? user.email_confirmed_at != null;
+
+  // Tier Display Namen für UI
+  const getTierDisplayName = (tier: string) => {
+    switch (tier) {
+      case 'premium': return 'Premium';
+      case 'supporter': return 'Supporter';
+      case 'free': return 'Free';
+      default: return tier;
+    }
   };
 
   const handleLogout = async () => {
@@ -238,7 +255,7 @@ function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: Us
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center text-white font-medium text-sm shadow-sm">
             {getInitials()}
           </div>
-          {profile.is_premium && (
+          {isPremium && (
             <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
               <span className="text-white text-xs font-bold">👑</span>
             </div>
@@ -258,7 +275,7 @@ function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: Us
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center text-white font-medium shadow-sm">
                   {getInitials()}
                 </div>
-                {profile.is_premium && (
+                {isPremium && (
                   <div className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
                     <span className="text-white text-xs font-bold">👑</span>
                   </div>
@@ -268,17 +285,17 @@ function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: Us
                 <div className="text-gray-900 dark:text-gray-100 font-medium text-sm truncate">{getDisplayName()}</div>
                 <div className="text-gray-500 dark:text-gray-400 text-xs truncate">{user.email}</div>
                 <div className="flex items-center gap-2 mt-1">
-                  {profile.is_premium ? (
+                  {isPremium ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800 dark:text-yellow-400 text-xs rounded-md font-medium">
                       <SparklesIcon className="w-2.5 h-2.5" />
-                      Premium
+                      {getTierDisplayName(profile?.patreon_tier || '')}
                     </span>
                   ) : (
                     <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-md">
                       Free
                     </span>
                   )}
-                  {!profile.email_verified && (
+                  {!isEmailVerified && (
                     <span className="inline-flex items-center px-2 py-0.5 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 text-xs rounded-md">
                       Unbestätigt
                     </span>
@@ -355,51 +372,95 @@ function GuestUserActions() {
   );
 }
 
-// Main Navbar Component (Supabase Style)
+// Main Navbar Component (FIXED VERSION)
 export default function Navbar() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+  const [isProfileLoading, setIsProfileLoading] = useState(false);
+
+  // Separate function to load profile
+  const loadUserProfile = async (userId: string) => {
+    setIsProfileLoading(true);
+    try {
+      const { data: profileData, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+      
+      if (error) {
+        console.error('Error loading profile:', error);
+        // Create default profile if none exists
+        setProfile({
+          user_id: userId,
+          updated_at: null,
+          patreon_id: null,
+          patreon_tier: null,
+          patreon_access_token: null,
+          patreon_refresh_token: null,
+          patreon_expires_at: null,
+          first_name: null,
+          last_name: null,
+          email_verified: false
+        });
+      } else {
+        setProfile(profileData as UserProfile);
+      }
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+      // Fallback to default profile
+      setProfile({
+        user_id: userId,
+        updated_at: null,
+        patreon_id: null,
+        patreon_tier: null,
+        patreon_access_token: null,
+        patreon_refresh_token: null,
+        patreon_expires_at: null,
+        first_name: null,
+        last_name: null,
+        email_verified: false
+      });
+    } finally {
+      setIsProfileLoading(false);
+    }
+  };
 
   useEffect(() => {
     async function loadUserData() {
+      setIsUserLoading(true);
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
-        if (session?.user) {
+        if (sessionError) {
+          console.error('Session error:', sessionError);
+          setUser(null);
+          setProfile(null);
+        } else if (session?.user) {
           setUser(session.user);
-          
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('user_id', session.user.id)
-            .single();
-          
-          if (profileData) {
-            setProfile(profileData as UserProfile);
-          }
+          // Load profile after user is set
+          await loadUserProfile(session.user.id);
+        } else {
+          setUser(null);
+          setProfile(null);
         }
       } catch (error) {
         console.error('Error loading user data:', error);
+        setUser(null);
+        setProfile(null);
       } finally {
-        setLoading(false);
+        setIsUserLoading(false);
       }
     }
 
     loadUserData();
 
+    // Listen to auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         setUser(session.user);
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('user_id', session.user.id)
-          .single();
-        
-        if (profileData) {
-          setProfile(profileData as UserProfile);
-        }
+        await loadUserProfile(session.user.id);
       } else {
         setUser(null);
         setProfile(null);
@@ -408,6 +469,9 @@ export default function Navbar() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Show loading indicator only while user session is loading
+  const showLoadingIndicator = isUserLoading;
 
   return (
     <Disclosure as="header" className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50">
@@ -484,11 +548,11 @@ export default function Navbar() {
                   <CleanSearchBar />
                 </div>
 
-                {/* User Menu */}
+                {/* User Menu - FIXED LOGIC */}
                 <div className="hidden md:block">
-                  {loading ? (
+                  {showLoadingIndicator ? (
                     <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-                  ) : user && profile ? (
+                  ) : user ? (
                     <ModernUserDropdown user={user} profile={profile} />
                   ) : (
                     <GuestUserActions />
@@ -544,11 +608,11 @@ export default function Navbar() {
                   )}
                 </Disclosure>
 
-                {/* Mobile User Menu */}
+                {/* Mobile User Menu - FIXED LOGIC */}
                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                  {loading ? (
+                  {showLoadingIndicator ? (
                     <div className="w-full h-12 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-                  ) : user && profile ? (
+                  ) : user ? (
                     <ModernUserDropdown user={user} profile={profile} />
                   ) : (
                     <div className="flex flex-col gap-2">

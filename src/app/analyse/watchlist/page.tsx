@@ -277,16 +277,16 @@ export default function WatchlistPage() {
             {!showOnlyDips && (
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/super-investoren"
+                  href="/superinvestor"
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
                   Super-Investoren entdecken
                 </Link>
                 <Link
-                  href="/startseite"
+                  href="/analyse"
                   className="px-6 py-3 bg-gray-700 text-gray-200 rounded-lg hover:bg-gray-600 transition"
                 >
-                  Zur Startseite
+                  Aktien finden
                 </Link>
               </div>
             )}

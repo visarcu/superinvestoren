@@ -675,7 +675,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           Kennzahlen-Charts auswählen
         </h2>
         {user?.isPremium ? (
-          <FinancialAnalysisClient ticker={ticker} />
+          <FinancialAnalysisClient 
+          ticker={ticker} 
+          isPremium={user?.isPremium}
+          userId={user?.id}
+        />
         ) : (
           <PremiumLockOverlay
             title="Interaktive Kennzahlen-Charts"

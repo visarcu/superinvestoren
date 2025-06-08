@@ -86,24 +86,25 @@ export default function PatreonConnectButton({ onStatusChange }: PatreonConnectB
   // Funktion um Status von außen zu aktualisieren
   async function refreshStatus() {
     console.log('🔄 PatreonConnectButton: Refreshing status...');
-    setLoading(true);
-    await checkAuthAndPatreonStatus();
+    // Kein setLoading(true) mehr - verhindert UI-Flackern
+    try {
+      await checkAuthAndPatreonStatus();
+    } catch (error) {
+      console.error('❌ PatreonConnectButton: Refresh error:', error);
+    }
   }
 
-  // useEffect um auf externe Änderungen zu reagieren
   useEffect(() => {
-    // Wenn onStatusChange aufgerufen wird, aktualisiere den Status
-    if (onStatusChange) {
-      const interval = setInterval(() => {
+    // Nur refreshen wenn explizit durch Patreon-Callback ausgelöst
+    if (onStatusChange && window.location.search.includes('patreon_success')) {
+      console.log('🔄 Patreon success detected, refreshing once...');
+      
+      // Nur EINMAL nach 2 Sekunden refreshen
+      const timeout = setTimeout(() => {
         refreshStatus();
-      }, 2000); // Alle 2 Sekunden prüfen
-
-      // Cleanup nach 10 Sekunden
-      setTimeout(() => {
-        clearInterval(interval);
-      }, 10000);
-
-      return () => clearInterval(interval);
+      }, 2000);
+      
+      return () => clearTimeout(timeout);
     }
   }, [onStatusChange]);
 
@@ -142,47 +143,56 @@ export default function PatreonConnectButton({ onStatusChange }: PatreonConnectB
     }
   }
 
-  async function handlePatreonDisconnect() {
-    if (!confirm('Möchten Sie die Patreon-Verbindung wirklich trennen? Sie verlieren dadurch Ihre Premium-Features.')) {
-      return;
-    }
+  // Ersetze die handlePatreonDisconnect Funktion in PatreonConnectButton.tsx:
 
-    setActionLoading(true);
-    
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          patreon_id: null,
-          patreon_tier: null,
-          patreon_access_token: null,
-          patreon_refresh_token: null,
-          patreon_expires_at: null,
-          is_premium: false,
-        })
-        .eq('user_id', user.id); // user_id statt id!
-
-      if (error) throw error;
-
-      setPatreonStatus({
-        isConnected: false,
-        tier: null,
-        isPremium: false,
-      });
-
-      // Callback aufrufen um Parent zu benachrichtigen
-      if (onStatusChange) {
-        onStatusChange();
-      }
-
-      alert('Patreon-Verbindung wurde erfolgreich getrennt.');
-    } catch (error) {
-      console.error('❌ PatreonConnectButton: Error disconnecting:', error);
-      alert('Fehler beim Trennen der Patreon-Verbindung.');
-    } finally {
-      setActionLoading(false);
-    }
+async function handlePatreonDisconnect() {
+  if (!confirm('Möchten Sie die Patreon-Verbindung wirklich trennen? Sie verlieren dadurch Ihre Premium-Features.')) {
+    return;
   }
+
+  setActionLoading(true);
+  
+  try {
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        patreon_id: null,
+        patreon_tier: null,
+        patreon_access_token: null,
+        patreon_refresh_token: null,
+        patreon_expires_at: null,
+        is_premium: false,
+      })
+      .eq('user_id', user.id);
+
+    if (error) throw error;
+
+    // ZUERST lokalen State aktualisieren
+    const newStatus = {
+      isConnected: false,
+      tier: null,
+      isPremium: false,
+    };
+    setPatreonStatus(newStatus);
+
+    // DANN Success-Message zeigen
+    alert('Patreon-Verbindung wurde erfolgreich getrennt.');
+
+    // OPTIONAL: Parent benachrichtigen nur wenn nötig
+    // (Meist nicht nötig da UI bereits korrekt ist)
+    if (onStatusChange && window.location.pathname === '/profile') {
+      setTimeout(() => {
+        onStatusChange();
+      }, 500); // 500ms Verzögerung für DB-Commit
+    }
+
+  } catch (error) {
+    console.error('❌ PatreonConnectButton: Error disconnecting:', error);
+    alert('Fehler beim Trennen der Patreon-Verbindung.');
+  } finally {
+    setActionLoading(false);
+  }
+}
 
   if (loading) {
     return (
@@ -287,7 +297,7 @@ export default function PatreonConnectButton({ onStatusChange }: PatreonConnectB
           <ol className="text-sm text-gray-300 space-y-1">
             <li>1. Klicken Sie auf "Mit Patreon verbinden"</li>
             <li>2. Loggen Sie sich bei Patreon ein</li>
-            <li>3. Unterstützen Sie unser Projekt mit $3+ pro Monat</li>
+            <li>3. Unterstützen Sie unser Projekt mit einer Patreon-Mitgliedschaft</li>
             <li>4. Premium-Features werden automatisch freigeschaltet</li>
           </ol>
           

@@ -37,8 +37,11 @@ type MetricKey =
 
 type ChartKey = MetricKey
 
+// ✅ NEUE VERSION:
 interface Props {
   ticker: string
+  isPremium?: boolean  // ← NEU
+  userId?: string     // ← NEU
 }
 
 interface SupabaseSession {
@@ -79,14 +82,18 @@ const CASH_INFO = { dataKey: 'cash', name: 'Cash', stroke: '#6366f1', fill: 'rgb
 const DEBT_INFO = { dataKey: 'debt', name: 'Debt', stroke: '#ef4444', fill: 'rgba(239,68,68,0.8)' }
 
 // ─── Component ────────────────────────────────────────────────────────────────
-export default function FinancialAnalysisClient({ ticker }: Props) {
+export default function FinancialAnalysisClient({ 
+  ticker, 
+  isPremium = false, 
+  userId 
+}: Props){
   const router = useRouter()
   // 1) Session‐State über Supabase:
   const [session, setSession] = useState<SupabaseSession | null>(null)
   const [loadingSession, setLoadingSession] = useState(true)
 
   // 2) „Hat Premium“ ableiten:
-  const userHasPremium = Boolean(session?.user.app_metadata?.is_premium)
+  const userHasPremium = isPremium  // ← Verwende Props statt Session
 
   // 3) Alle weiteren States:
   const [years, setYears] = useState<number>(10)
