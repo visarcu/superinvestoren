@@ -2,102 +2,106 @@
   "form": "13F-HR",
   "date": "2014-08-14",
   "period": "2014-08-14",
+  "accession": "0000905718-14-000518",
+  "quarterKey": "2014-Q3",
   "positions": [
     {
       "name": "OWENS ILL INC",
       "cusip": "690768403",
       "shares": 9400000,
-      "value": 325616000
+      "value": 325616
     },
     {
       "name": "TRIUMPH GROUP INC NEW",
       "cusip": "896818101",
       "shares": 3500000,
-      "value": 244370000
+      "value": 244370
     },
     {
       "name": "HARMAN INTL INDS INC",
       "cusip": "413086109",
       "shares": 2265167,
-      "value": 243347000
+      "value": 243347
     },
     {
       "name": "BAKER HUGHES INC",
       "cusip": "057224107",
       "shares": 2750000,
-      "value": 204738000
+      "value": 204738
     },
     {
       "name": "CAMERON INTERNATIONAL CORP",
       "cusip": "13342B105",
       "shares": 2850000,
-      "value": 192974000
+      "value": 192974
     },
     {
       "name": "OIL STS INTL INC",
       "cusip": "678026105",
       "shares": 2130000,
-      "value": 136512000
+      "value": 136512
     },
     {
       "name": "GOODYEAR TIRE & RUBR CO",
       "cusip": "382550101",
       "shares": 1012706,
-      "value": 28133000
+      "value": 28133
     },
     {
       "name": "GENERAL CABLE CORP DEL NEW",
       "cusip": "369300108",
       "shares": 946418,
-      "value": 24286000
+      "value": 24286
     },
     {
       "name": "AMERICAN AXLE & MFG HLDGS IN",
       "cusip": "024061103",
       "shares": 1154418,
-      "value": 21807000
+      "value": 21807
     },
     {
       "name": "CYTEC INDS INC",
       "cusip": "232820100",
       "shares": 188682,
-      "value": 19891000
+      "value": 19891
     },
     {
       "name": "HARSCO CORP",
       "cusip": "415864107",
       "shares": 720045,
-      "value": 19175000
+      "value": 19175
     },
     {
       "name": "EXELIS INC",
       "cusip": "30162A108",
       "shares": 1078328,
-      "value": 18310000
+      "value": 18310
     },
     {
       "name": "TAMINCO CORP",
       "cusip": "87509U106",
       "shares": 722069,
-      "value": 16795000
+      "value": 16795
     },
     {
       "name": "TEREX CORP NEW",
       "cusip": "880779103",
       "shares": 355000,
-      "value": 14591000
+      "value": 14591
     },
     {
       "name": "BABCOCK & WILCOX CO NEW",
       "cusip": "05615F102",
       "shares": 399700,
-      "value": 12974000
+      "value": 12974
     },
     {
       "name": "DONNELLEY R R & SONS CO",
       "cusip": "257867101",
       "shares": 700000,
-      "value": 11872000
+      "value": 11872
     }
-  ]
+  ],
+  "totalValue": 1535391,
+  "positionsCount": 16
 }

@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2021-08-16",
   "period": "2021-08-16",
+  "accession": "0000905718-21-001069",
+  "quarterKey": "2021-Q3",
   "positions": [
     {
       "name": "WESTROCK CO",
       "cusip": "96145D105",
       "shares": 1117924,
-      "value": 59496000
+      "value": 59496
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 2015035,
-      "value": 53439000
+      "value": 53439
     },
     {
       "name": "UNIVAR SOLUTIONS USA INC",
       "cusip": "91336L107",
       "shares": 2024601,
-      "value": 49360000
+      "value": 49360
     },
     {
       "name": "BERRY GLOBAL GROUP INC",
       "cusip": "08579W103",
       "shares": 650109,
-      "value": 42400000
+      "value": 42400
     },
     {
       "name": "AVNET INC",
       "cusip": "053807103",
       "shares": 793945,
-      "value": 31821000
+      "value": 31821
     },
     {
       "name": "LEAR CORP",
       "cusip": "521865204",
       "shares": 180611,
-      "value": 31657000
+      "value": 31657
     },
     {
       "name": "EDGEWELL PERS CARE CO",
       "cusip": "28035Q102",
       "shares": 636650,
-      "value": 27949000
+      "value": 27949
     },
     {
       "name": "EASTMAN CHEM CO",
       "cusip": "277432100",
       "shares": 100000,
-      "value": 11675000
+      "value": 11675
     },
     {
       "name": "O-I GLASS INC",
       "cusip": "67098H104",
       "shares": 655000,
-      "value": 10696000
+      "value": 10696
     }
-  ]
+  ],
+  "totalValue": 318493,
+  "positionsCount": 9
 }

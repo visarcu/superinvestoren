@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0000921895-23-001936",
+  "quarterKey": "2023-Q3",
   "positions": [
     {
-      "name": "BRC INC",
-      "cusip": "05601U105",
-      "shares": 13351450,
-      "value": 68893482000
-    },
-    {
-      "name": "EVOLENT HEALTH INC",
-      "cusip": "30050B101",
-      "shares": 1747252,
-      "value": 52941736000
-    },
-    {
-      "name": "KRATOS DEFENSE & SEC SOLUTIO",
-      "cusip": "50077B207",
-      "shares": 855173,
-      "value": 12263181000
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 1866063,
+      "value": 145030416
     },
     {
       "name": "NCR CORP NEW",
       "cusip": "62886E108",
       "shares": 5252456,
-      "value": 132361891000
+      "value": 132361891
     },
     {
       "name": "NEW RELIC INC",
       "cusip": "64829B100",
       "shares": 1999703,
-      "value": 130860564000
-    },
-    {
-      "name": "QUOTIENT TECHNOLOGY INC",
-      "cusip": "749119103",
-      "shares": 7505432,
-      "value": 28820859000
-    },
-    {
-      "name": "SHAKE SHACK INC",
-      "cusip": "819047101",
-      "shares": 1866063,
-      "value": 145030416000
+      "value": 130860564
     },
     {
       "name": "UPBOUND GROUP INC",
       "cusip": "76009N100",
       "shares": 3857916,
-      "value": 120096925000
+      "value": 120096925
+    },
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 13351450,
+      "value": 68893482
+    },
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 1747252,
+      "value": 52941736
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 7505432,
+      "value": 28820859
+    },
+    {
+      "name": "KRATOS DEFENSE & SEC SOLUTIO",
+      "cusip": "50077B207",
+      "shares": 855173,
+      "value": 12263181
     }
-  ]
+  ],
+  "totalValue": 691269054,
+  "positionsCount": 8
 }

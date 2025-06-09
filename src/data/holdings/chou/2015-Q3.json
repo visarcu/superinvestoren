@@ -1,143 +1,149 @@
 {
+  "form": "13F-HR",
   "date": "2015-08-11",
+  "period": "2015-08-11",
+  "accession": "0001144204-15-047982",
+  "quarterKey": "2015-Q3",
   "positions": [
-    {
-      "name": "ASCENT CAP GROUP INC",
-      "cusip": "043632AA6",
-      "shares": 2683000,
-      "value": 2215000
-    },
-    {
-      "name": "ASCENT CAP GROUP INC",
-      "cusip": "043632108",
-      "shares": 140000,
-      "value": 5982000
-    },
-    {
-      "name": "ASTRAZENECA PLC",
-      "cusip": "046353108",
-      "shares": 13000,
-      "value": 822000
-    },
-    {
-      "name": "BANK OF AMERICA CORPORATION",
-      "cusip": "060505146",
-      "shares": 836825,
-      "value": 5162000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 300,
-      "value": 61438000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 529040,
-      "value": 4330000
-    },
-    {
-      "name": "BP PLC",
-      "cusip": "055622104",
-      "shares": 10000,
-      "value": 399000
-    },
-    {
-      "name": "CHICAGO BRIDGE & IRON CO N C",
-      "cusip": "167250109",
-      "shares": 67446,
-      "value": 3374000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 25537,
-      "value": 428000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 410000,
-      "value": 22642000
-    },
-    {
-      "name": "GLAXOSMITHKLINE PLC",
-      "cusip": "37733W105",
-      "shares": 18000,
-      "value": 374000
-    },
-    {
-      "name": "GOLDMAN SACHS GROUP INC",
-      "cusip": "38141G104",
-      "shares": 75000,
-      "value": 15655000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46634E114",
-      "shares": 1126347,
-      "value": 27869000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 1080797,
-      "value": 6494000
-    },
-    {
-      "name": "NOKIA CORP",
-      "cusip": "654902204",
-      "shares": 5000000,
-      "value": 25680000
-    },
-    {
-      "name": "OVERSTOCK COM INC DEL",
-      "cusip": "690370101",
-      "shares": 582271,
-      "value": 13121000
+      "value": 61438
     },
     {
       "name": "RESOLUTE FST PRODS INC",
       "cusip": "76117W109",
       "shares": 4081218,
-      "value": 45901000
+      "value": 45901
     },
     {
-      "name": "RYANAIR HLDGS PLC",
-      "cusip": "783513104",
-      "shares": 17000,
-      "value": 1213000
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 1126347,
+      "value": 27869
     },
     {
-      "name": "SANOFI",
-      "cusip": "80105N105",
-      "shares": 410000,
-      "value": 20302000
-    },
-    {
-      "name": "SEARS CDA INC",
-      "cusip": "81234D109",
-      "shares": 775149,
-      "value": 4711000
+      "name": "NOKIA CORP",
+      "cusip": "654902204",
+      "shares": 5000000,
+      "value": 25680
     },
     {
       "name": "SEARS HLDGS CORP",
       "cusip": "812350106",
       "shares": 896088,
-      "value": 23919000
+      "value": 23919
     },
     {
-      "name": "SEARS HOMETOWN & OUTLET STOR",
-      "cusip": "812362101",
-      "shares": 1322209,
-      "value": 12558000
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 410000,
+      "value": 22642
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746119",
       "shares": 997500,
-      "value": 22428000
+      "value": 22428
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 410000,
+      "value": 20302
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 75000,
+      "value": 15655
+    },
+    {
+      "name": "OVERSTOCK COM INC DEL",
+      "cusip": "690370101",
+      "shares": 582271,
+      "value": 13121
+    },
+    {
+      "name": "SEARS HOMETOWN & OUTLET STOR",
+      "cusip": "812362101",
+      "shares": 1322209,
+      "value": 12558
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 1080797,
+      "value": 6494
+    },
+    {
+      "name": "ASCENT CAP GROUP INC",
+      "cusip": "043632108",
+      "shares": 140000,
+      "value": 5982
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505146",
+      "shares": 836825,
+      "value": 5162
+    },
+    {
+      "name": "SEARS CDA INC",
+      "cusip": "81234D109",
+      "shares": 775149,
+      "value": 4711
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 529040,
+      "value": 4330
+    },
+    {
+      "name": "CHICAGO BRIDGE & IRON CO N C",
+      "cusip": "167250109",
+      "shares": 67446,
+      "value": 3374
+    },
+    {
+      "name": "ASCENT CAP GROUP INC",
+      "cusip": "043632AA6",
+      "shares": 2683000,
+      "value": 2215
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513104",
+      "shares": 17000,
+      "value": 1213
+    },
+    {
+      "name": "ASTRAZENECA PLC",
+      "cusip": "046353108",
+      "shares": 13000,
+      "value": 822
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 25537,
+      "value": 428
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 10000,
+      "value": 399
+    },
+    {
+      "name": "GLAXOSMITHKLINE PLC",
+      "cusip": "37733W105",
+      "shares": 18000,
+      "value": 374
     }
-  ]
+  ],
+  "totalValue": 327017,
+  "positionsCount": 23
 }

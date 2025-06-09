@@ -2,30 +2,34 @@
   "form": "13F-HR",
   "date": "2019-08-14",
   "period": "2019-08-14",
+  "accession": "0001387131-19-006062",
+  "quarterKey": "2019-Q3",
   "positions": [
     {
-      "name": "EVI INDUSTRIES INC",
-      "cusip": "26929N102",
-      "shares": 941863,
-      "value": 36045000
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 1500000,
+      "value": 42300
     },
     {
       "name": "FERRARI N V",
       "cusip": "N3167Y103",
       "shares": 225000,
-      "value": 36320000
+      "value": 36320
     },
     {
-      "name": "PAR TECHNOLOGY CORP",
-      "cusip": "698884103",
-      "shares": 1500000,
-      "value": 42300000
+      "name": "EVI INDUSTRIES INC",
+      "cusip": "26929N102",
+      "shares": 941863,
+      "value": 36045
     },
     {
       "name": "SELECT INTERIOR CONCEPTS INC",
       "cusip": "816120307",
       "shares": 2514900,
-      "value": 29299000
+      "value": 29299
     }
-  ]
+  ],
+  "totalValue": 143964,
+  "positionsCount": 4
 }

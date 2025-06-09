@@ -2,126 +2,130 @@
   "form": "13F-HR",
   "date": "2018-11-14",
   "period": "2018-11-14",
+  "accession": "0000905718-18-000932",
+  "quarterKey": "2018-Q4",
   "positions": [
     {
       "name": "OWENS ILL INC",
       "cusip": "690768403",
       "shares": 9442027,
-      "value": 177416000
+      "value": 177416
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 2805697,
-      "value": 76399000
+      "value": 76399
     },
     {
       "name": "COMMSCOPE HLDG CO INC",
       "cusip": "20337X109",
       "shares": 2480040,
-      "value": 76286000
+      "value": 76286
     },
     {
       "name": "AVNET INC",
       "cusip": "053807103",
       "shares": 1676777,
-      "value": 75069000
+      "value": 75069
     },
     {
       "name": "ARRIS INTL INC",
       "cusip": "G0551A103",
       "shares": 2677704,
-      "value": 69594000
+      "value": 69594
     },
     {
       "name": "EASTMAN CHEM CO",
       "cusip": "277432100",
       "shares": 519655,
-      "value": 49741000
+      "value": 49741
     },
     {
       "name": "DIEBOLD NXDF INC",
       "cusip": "253651103",
       "shares": 6946342,
-      "value": 31259000
+      "value": 31259
     },
     {
       "name": "KENNAMETAL INC",
       "cusip": "489170100",
       "shares": 100000,
-      "value": 4356000
+      "value": 4356
     },
     {
       "name": "TIMKEN CO",
       "cusip": "887389104",
       "shares": 85000,
-      "value": 4237000
+      "value": 4237
     },
     {
       "name": "TRIUMPH GROUP INC NEW",
       "cusip": "896818101",
       "shares": 180000,
-      "value": 4194000
+      "value": 4194
     },
     {
       "name": "ADT INC",
       "cusip": "00090Q103",
       "shares": 430657,
-      "value": 4044000
+      "value": 4044
     },
     {
       "name": "TECH DATA CORP",
       "cusip": "878237106",
       "shares": 56000,
-      "value": 4008000
+      "value": 4008
     },
     {
       "name": "OSHKOSH CORP",
       "cusip": "688239201",
       "shares": 55300,
-      "value": 3940000
+      "value": 3940
     },
     {
       "name": "LEAR CORP",
       "cusip": "521865204",
       "shares": 25000,
-      "value": 3625000
+      "value": 3625
     },
     {
       "name": "CROWN HOLDINGS INC",
       "cusip": "228368106",
       "shares": 72262,
-      "value": 3469000
+      "value": 3469
     },
     {
       "name": "AMERICAN AXLE & MFG HLDGS IN",
       "cusip": "024061103",
       "shares": 154738,
-      "value": 2699000
+      "value": 2699
     },
     {
       "name": "NCR CORP NEW",
       "cusip": "62886E108",
       "shares": 72377,
-      "value": 2056000
+      "value": 2056
     },
     {
       "name": "NAVISTAR INTL CORP NEW",
       "cusip": "63934E108",
       "shares": 51269,
-      "value": 1974000
+      "value": 1974
     },
     {
       "name": "ADIENT PLC",
       "cusip": "G0084W101",
       "shares": 25500,
-      "value": 1002000
+      "value": 1002
     },
     {
       "name": "TESLA INC",
       "cusip": "88160R101",
       "shares": 2750,
-      "value": 728000
+      "value": 728
     }
-  ]
+  ],
+  "totalValue": 596096,
+  "positionsCount": 20
 }

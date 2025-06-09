@@ -2,84 +2,88 @@
   "form": "13F-HR",
   "date": "2015-08-17",
   "period": "2015-08-17",
+  "accession": "0000905718-15-000727",
+  "quarterKey": "2015-Q3",
   "positions": [
     {
       "name": "OWENS ILL INC",
       "cusip": "690768403",
       "shares": 12713088,
-      "value": 291638239000
+      "value": 291638239
     },
     {
       "name": "TRIUMPH GROUP INC NEW",
       "cusip": "896818101",
       "shares": 4229704,
-      "value": 279118167000
+      "value": 279118167
     },
     {
       "name": "FMC CORP",
       "cusip": "302491303",
       "shares": 5238677,
-      "value": 275292476000
+      "value": 275292476
     },
     {
       "name": "GOODYEAR TIRE & RUBR CO",
       "cusip": "382550101",
       "shares": 7404914,
-      "value": 223258157000
+      "value": 223258157
     },
     {
       "name": "WESCO INTL INC",
       "cusip": "95082P105",
       "shares": 2248553,
-      "value": 154340678000
+      "value": 154340678
     },
     {
       "name": "INGRAM MICRO INC",
       "cusip": "457153104",
       "shares": 5020803,
-      "value": 125670699000
+      "value": 125670699
     },
     {
       "name": "TEREX CORP NEW",
       "cusip": "880779103",
       "shares": 903771,
-      "value": 21012676000
+      "value": 21012676
     },
     {
       "name": "ANIXTER INTL INC",
       "cusip": "035290105",
       "shares": 252733,
-      "value": 16465555000
+      "value": 16465555
     },
     {
       "name": "AECOM TECHNOLOGY CORP DELAWA",
       "cusip": "00766T100",
       "shares": 463750,
-      "value": 15340850000
+      "value": 15340850
     },
     {
       "name": "LEAR CORP",
       "cusip": "521865204",
       "shares": 125816,
-      "value": 14124104000
+      "value": 14124104
     },
     {
       "name": "MAGNA INTL INC",
       "cusip": "559222401",
       "shares": 251668,
-      "value": 14116058000
+      "value": 14116058
     },
     {
       "name": "AMERICAN AXLE & MFG HLDGS IN",
       "cusip": "024061103",
       "shares": 618584,
-      "value": 12934591000
+      "value": 12934591
     },
     {
       "name": "ALASKA AIR GROUP INC",
       "cusip": "011659109",
       "shares": 3,
-      "value": 193000
+      "value": 193
     }
-  ]
+  ],
+  "totalValue": 1443312443,
+  "positionsCount": 13
 }

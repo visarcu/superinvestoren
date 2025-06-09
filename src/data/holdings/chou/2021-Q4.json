@@ -2,120 +2,124 @@
   "form": "13F-HR",
   "date": "2021-11-15",
   "period": "2021-11-15",
+  "accession": "0001104659-21-138960",
+  "quarterKey": "2021-Q4",
   "positions": [
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 1495000,
+      "value": 41636
+    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 100,
-      "value": 41138000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 382900,
-      "value": 3727000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F903",
-      "shares": 382600,
-      "value": 3725000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 73364,
-      "value": 997000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 57695,
-      "value": 4049000
-    },
-    {
-      "name": "GOLDMAN SACHS GROUP INC",
-      "cusip": "38141G104",
-      "shares": 7100,
-      "value": 2684000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46625H100",
-      "shares": 34275,
-      "value": 5610000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 599530,
-      "value": 7704000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C900",
-      "shares": 400000,
-      "value": 5140000
-    },
-    {
-      "name": "POSCO",
-      "cusip": "693483109",
-      "shares": 21000,
-      "value": 1448000
+      "value": 41138
     },
     {
       "name": "RESOLUTE FST PRODS INC",
       "cusip": "76117W109",
       "shares": 3299460,
-      "value": 39264000
+      "value": 39264
     },
     {
       "name": "RESOLUTE FST PRODS INC",
       "cusip": "76117W909",
       "shares": 1886000,
-      "value": 22443000
-    },
-    {
-      "name": "RYANAIR HLDGS PLC",
-      "cusip": "783513203",
-      "shares": 4575,
-      "value": 504000
-    },
-    {
-      "name": "BAUSCH HEALTH COS INC",
-      "cusip": "071734107",
-      "shares": 1495000,
-      "value": 41636000
+      "value": 22443
     },
     {
       "name": "BAUSCH HEALTH COS INC",
       "cusip": "071734907",
       "shares": 600000,
-      "value": 16710000
+      "value": 16710
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 169542,
-      "value": 7868000
+      "value": 7868
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 599530,
+      "value": 7704
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 34275,
+      "value": 5610
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C900",
+      "shares": 400000,
+      "value": 5140
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 4049
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 382900,
+      "value": 3727
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F903",
+      "shares": 382600,
+      "value": 3725
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 7100,
+      "value": 2684
     },
     {
       "name": "MAGNA INTL INC",
       "cusip": "559222401",
       "shares": 20000,
-      "value": 1505000
+      "value": 1505
     },
     {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 12000,
-      "value": 358000
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 21000,
+      "value": 1448
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 997
     },
     {
       "name": "STELLANTIS",
       "cusip": "N82405106",
       "shares": 30000,
-      "value": 573000
+      "value": 573
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 504
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 12000,
+      "value": 358
     }
-  ]
+  ],
+  "totalValue": 207083,
+  "positionsCount": 19
 }

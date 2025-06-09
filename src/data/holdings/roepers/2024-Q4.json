@@ -2,48 +2,52 @@
   "form": "13F-HR",
   "date": "2024-11-14",
   "period": "2024-11-14",
+  "accession": "0001493152-24-045834",
+  "quarterKey": "2024-Q4",
   "positions": [
-    {
-      "name": "HUNTSMAN CORP",
-      "cusip": "447011107",
-      "shares": 200000,
-      "value": 4840000000
-    },
-    {
-      "name": "WESCO INTL INC",
-      "cusip": "95082P105",
-      "shares": 194000,
-      "value": 32588120000
-    },
-    {
-      "name": "TEREX CORP NEW",
-      "cusip": "880779103",
-      "shares": 625038,
-      "value": 33070761000
-    },
-    {
-      "name": "WEATHERFORD INTL PLC",
-      "cusip": "G48833118",
-      "shares": 281109,
-      "value": 23871776000
-    },
-    {
-      "name": "PATTERSON-UTI ENERGY INC",
-      "cusip": "703481101",
-      "shares": 1750000,
-      "value": 13387500000
-    },
     {
       "name": "CHART INDS INC",
       "cusip": "16115Q308",
       "shares": 429070,
-      "value": 53264750000
+      "value": 53264750
     },
     {
       "name": "APTIV PLC",
       "cusip": "G6095L109",
       "shares": 608255,
-      "value": 43800443000
+      "value": 43800443
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 625038,
+      "value": 33070761
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 194000,
+      "value": 32588120
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 281109,
+      "value": 23871776
+    },
+    {
+      "name": "PATTERSON-UTI ENERGY INC",
+      "cusip": "703481101",
+      "shares": 1750000,
+      "value": 13387500
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 200000,
+      "value": 4840000
     }
-  ]
+  ],
+  "totalValue": 204823350,
+  "positionsCount": 7
 }

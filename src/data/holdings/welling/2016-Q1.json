@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-16",
+  "period": "2016-02-16",
+  "accession": "0000921895-16-003406",
+  "quarterKey": "2016-Q1",
   "positions": [
     {
-      "name": "AMAG PHARMACEUTICALS INC",
-      "cusip": "00163U106",
-      "shares": 61425,
-      "value": 1854000
-    },
-    {
-      "name": "BENCHMARK ELECTRS INC",
-      "cusip": "08160H101",
-      "shares": 843768,
-      "value": 17441000
-    },
-    {
-      "name": "HAIN CELESTIAL GROUP INC",
-      "cusip": "405217100",
-      "shares": 86604,
-      "value": 3498000
-    },
-    {
-      "name": "HEARTWARE INTL INC",
-      "cusip": "422368100",
-      "shares": 230000,
-      "value": 11592000
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 2250000,
+      "value": 37485
     },
     {
       "name": "JAMBA INC",
       "cusip": "47023A309",
       "shares": 1830767,
-      "value": 24697000
-    },
-    {
-      "name": "LIBBEY INC",
-      "cusip": "529898108",
-      "shares": 153704,
-      "value": 3277000
-    },
-    {
-      "name": "MAGNACHIP SEMICONDUCTOR CORP",
-      "cusip": "55933J203",
-      "shares": 3452974,
-      "value": 18266000
+      "value": 24697
     },
     {
       "name": "MEDIFAST INC",
       "cusip": "58470H101",
       "shares": 737465,
-      "value": 22404000
+      "value": 22404
     },
     {
-      "name": "OUTERWALL INC",
-      "cusip": "690070107",
-      "shares": 238597,
-      "value": 8718000
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 3452974,
+      "value": 18266
     },
     {
-      "name": "ROVI CORP",
-      "cusip": "779376102",
-      "shares": 2250000,
-      "value": 37485000
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 843768,
+      "value": 17441
     },
     {
       "name": "TRIMAS CORP",
       "cusip": "896215209",
       "shares": 633040,
-      "value": 11806000
+      "value": 11806
+    },
+    {
+      "name": "HEARTWARE INTL INC",
+      "cusip": "422368100",
+      "shares": 230000,
+      "value": 11592
+    },
+    {
+      "name": "OUTERWALL INC",
+      "cusip": "690070107",
+      "shares": 238597,
+      "value": 8718
+    },
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 86604,
+      "value": 3498
+    },
+    {
+      "name": "LIBBEY INC",
+      "cusip": "529898108",
+      "shares": 153704,
+      "value": 3277
+    },
+    {
+      "name": "AMAG PHARMACEUTICALS INC",
+      "cusip": "00163U106",
+      "shares": 61425,
+      "value": 1854
     }
-  ]
+  ],
+  "totalValue": 161038,
+  "positionsCount": 11
 }

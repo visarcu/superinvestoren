@@ -1,89 +1,95 @@
 {
+  "form": "13F-HR",
   "date": "2014-05-15",
+  "period": "2014-05-15",
+  "accession": "0000921895-14-001170",
+  "quarterKey": "2014-Q2",
   "positions": [
     {
-      "name": "ABERCROMBIE & FITCH CO",
-      "cusip": "002896207",
-      "shares": 442132,
-      "value": 17022000
-    },
-    {
-      "name": "AEROVIRONMENT INC",
-      "cusip": "008073108",
-      "shares": 50000,
-      "value": 2013000
-    },
-    {
-      "name": "LSB INDS INC",
-      "cusip": "502160104",
-      "shares": 141710,
-      "value": 5303000
+      "name": "VOLCANO CORPORATION",
+      "cusip": "928645100",
+      "shares": 2372403,
+      "value": 46760
     },
     {
       "name": "MEDIFAST INC",
       "cusip": "58470H101",
       "shares": 600000,
-      "value": 17454000
+      "value": 17454
     },
     {
-      "name": "OSI SYSTEMS INC",
-      "cusip": "671044105",
-      "shares": 40909,
-      "value": 2449000
-    },
-    {
-      "name": "PAREXEL INTL CORP",
-      "cusip": "699462107",
-      "shares": 19000,
-      "value": 1028000
-    },
-    {
-      "name": "QEP RES INC",
-      "cusip": "74733V100",
-      "shares": 98283,
-      "value": 2893000
-    },
-    {
-      "name": "ROVI CORP",
-      "cusip": "779376102",
-      "shares": 494075,
-      "value": 11255000
+      "name": "ABERCROMBIE & FITCH CO",
+      "cusip": "002896207",
+      "shares": 442132,
+      "value": 17022
     },
     {
       "name": "RENTECH INC",
       "cusip": "760112102",
       "shares": 8544305,
-      "value": 16234000
+      "value": 16234
     },
     {
-      "name": "SILICON IMAGE INC",
-      "cusip": "82705T102",
-      "shares": 993674,
-      "value": 6856000
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 494075,
+      "value": 11255
     },
     {
       "name": "TIMKEN CO",
       "cusip": "887389104",
       "shares": 168228,
-      "value": 9888000
+      "value": 9888
     },
     {
-      "name": "URS CORP NEW",
-      "cusip": "903236107",
-      "shares": 27339,
-      "value": 1287000
+      "name": "SILICON IMAGE INC",
+      "cusip": "82705T102",
+      "shares": 993674,
+      "value": 6856
+    },
+    {
+      "name": "LSB INDS INC",
+      "cusip": "502160104",
+      "shares": 141710,
+      "value": 5303
+    },
+    {
+      "name": "QEP RES INC",
+      "cusip": "74733V100",
+      "shares": 98283,
+      "value": 2893
+    },
+    {
+      "name": "OSI SYSTEMS INC",
+      "cusip": "671044105",
+      "shares": 40909,
+      "value": 2449
+    },
+    {
+      "name": "AEROVIRONMENT INC",
+      "cusip": "008073108",
+      "shares": 50000,
+      "value": 2013
     },
     {
       "name": "UTI WORLDWIDE INC",
       "cusip": "G87210103",
       "shares": 179021,
-      "value": 1896000
+      "value": 1896
     },
     {
-      "name": "VOLCANO CORPORATION",
-      "cusip": "928645100",
-      "shares": 2372403,
-      "value": 46760000
+      "name": "URS CORP NEW",
+      "cusip": "903236107",
+      "shares": 27339,
+      "value": 1287
+    },
+    {
+      "name": "PAREXEL INTL CORP",
+      "cusip": "699462107",
+      "shares": 19000,
+      "value": 1028
     }
-  ]
+  ],
+  "totalValue": 142338,
+  "positionsCount": 14
 }

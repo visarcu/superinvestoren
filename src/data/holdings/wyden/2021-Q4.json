@@ -2,54 +2,58 @@
   "form": "13F-HR",
   "date": "2021-11-12",
   "period": "2021-11-12",
+  "accession": "0001420506-21-001517",
+  "quarterKey": "2021-Q4",
   "positions": [
-    {
-      "name": "API GROUP CORP",
-      "cusip": "00187Y100",
-      "shares": 3043000,
-      "value": 61925000
-    },
-    {
-      "name": "FAT BRANDS INC",
-      "cusip": "30258N105",
-      "shares": 587500,
-      "value": 5481000
-    },
-    {
-      "name": "FAT BRANDS INC",
-      "cusip": "30258N600",
-      "shares": 65298,
-      "value": 576000
-    },
-    {
-      "name": "GFL ENVIRONMENTAL INC",
-      "cusip": "36168Q104",
-      "shares": 709000,
-      "value": 26339000
-    },
     {
       "name": "PAR TECHNOLOGY CORP",
       "cusip": "698884103",
       "shares": 2031640,
-      "value": 124966000
+      "value": 124966
     },
     {
-      "name": "PAR TECHNOLOGY CORP",
-      "cusip": "698884103",
-      "shares": 462000,
-      "value": 28418000
-    },
-    {
-      "name": "PLBY GROUP INC",
-      "cusip": "72814P109",
-      "shares": 380000,
-      "value": 8957000
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 3043000,
+      "value": 61925
     },
     {
       "name": "RCI HOSPITALITY HLDGS INC",
       "cusip": "74934Q108",
       "shares": 899700,
-      "value": 61638000
+      "value": 61638
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 462000,
+      "value": 28418
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 709000,
+      "value": 26339
+    },
+    {
+      "name": "PLBY GROUP INC",
+      "cusip": "72814P109",
+      "shares": 380000,
+      "value": 8957
+    },
+    {
+      "name": "FAT BRANDS INC",
+      "cusip": "30258N105",
+      "shares": 587500,
+      "value": 5481
+    },
+    {
+      "name": "FAT BRANDS INC",
+      "cusip": "30258N600",
+      "shares": 65298,
+      "value": 576
     }
-  ]
+  ],
+  "totalValue": 318300,
+  "positionsCount": 8
 }

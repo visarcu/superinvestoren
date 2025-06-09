@@ -365,9 +365,14 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
     })
 
   const sortedHold = mergedHoldings.sort((a, b) => b.value - a.value)
-  const scaledHold = sortedHold.map(p => ({ ...p, value: p.value / 1000 }))
-  const totalVal = scaledHold.reduce((s, p) => s + p.value, 0)
-  const top10 = scaledHold.slice(0, 10).map(p => ({ name: p.name, percent: (p.value / totalVal) * 100 }))
+  
+  // KORRIGIERT: Keine Skalierung mehr! Werte bleiben in Dollar
+  const holdings = sortedHold // Direkte Verwendung ohne /1000
+  const totalVal = holdings.reduce((s, p) => s + p.value, 0)
+  const top10 = holdings.slice(0, 10).map(p => ({ 
+    name: p.name, 
+    percent: (p.value / totalVal) * 100 
+  }))
 
   // Value history
   const valueHistory = snapshots.map(snap => {
@@ -388,19 +393,16 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
     cashSeries = list.map(snap => ({
       period: getPeriodFromDate(snap.date),
       cash: snap.cash
-    })).reverse() // GEÄNDERT: .reverse() hinzugefügt für korrekte Reihenfolge (alt links -> neu rechts)
+    })).reverse()
   }
 
   const isNewInvestor = snapshots.length === 1
 
   return (
     <div className="min-h-screen bg-gray-950">
-    
-
-{/* Hero Section - VERBESSERT: Ausgewogenes Layout + umgekehrter Gradient */}
-<section className="relative overflow-hidden bg-gray-950">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gray-950">
         <div className="absolute inset-0">
-          {/* GEÄNDERT: Gradient von oben (blau) nach unten (schwarz) */}
           <div className="absolute inset-0 bg-gradient-to-b from-blue-500/8 via-gray-950 to-gray-950"></div>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/4 rounded-full blur-3xl"></div>
           <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-purple-500/3 rounded-full blur-3xl"></div>
@@ -419,7 +421,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
             </Link>
           </div>
           
-          {/* NEU: Info für neue Investoren */}
+          {/* Info für neue Investoren */}
           {isNewInvestor && (
             <div className="mb-8 bg-gradient-to-r from-blue-900/10 to-purple-900/10 border border-blue-500/20 rounded-2xl p-4 backdrop-blur-sm">
               <div className="flex items-center gap-3">
@@ -436,7 +438,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
             </div>
           )}
           
-          {/* NEUES LAYOUT: Bessere Balance */}
+          {/* Layout */}
           <div className="space-y-8">
             
             {/* Top Row: Avatar, Name & Portfolio Value */}
@@ -495,7 +497,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                     </div>
                   </div>
                   
-                  {/* Portfolio Value - Prominent rechts */}
+                  {/* Portfolio Value - KORRIGIERT: Keine *1000 mehr */}
                   <div className="relative flex-shrink-0">
                     <div className="absolute inset-0 bg-gradient-to-br from-green-500/15 to-emerald-500/15 rounded-2xl blur-xl"></div>
                     <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 border border-gray-700/60 rounded-2xl p-6 lg:p-8 backdrop-blur-sm min-w-[280px] text-center lg:text-right">
@@ -506,10 +508,10 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                         </p>
                       </div>
                       <p className="text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                        {formatCurrency(totalVal * 1000, 'USD')}
+                        {formatCurrency(totalVal, 'USD')}
                       </p>
                       <p className="text-sm text-gray-500 mt-2">
-                        {scaledHold.length} Positionen
+                        {holdings.length} Positionen
                       </p>
                     </div>
                   </div>
@@ -517,7 +519,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
               </div>
             </div>
             
-            {/* Bottom Row: Newsletter - Volle Breite */}
+            {/* Bottom Row: Newsletter */}
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600/8 to-purple-600/8 rounded-2xl blur-xl"></div>
               <div className="relative bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700/50 rounded-2xl p-6 lg:p-8 backdrop-blur-sm">
@@ -554,11 +556,10 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
         </div>
       </section>
 
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* Tabs & Table */}
+        {/* Tabs & Table - KORRIGIERT: holdings statt scaledHold */}
         <div className="mb-12">
           <InvestorTabs
             tab={tab}
@@ -572,7 +573,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                 setTab(newTab)
               }
             }}
-            holdings={scaledHold}
+            holdings={holdings}
             buys={buysHistory}
             sells={sellsHistory}
           />
@@ -630,45 +631,40 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
               )}
             </div>
 
-            {/* Cash Position Chart (for Buffett) - VERBESSERT */}
-{/* Cash Position Chart (for Buffett) - KORRIGIERT */}
-{slug === 'buffett' && cashSeries.length > 0 && (
-  <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-12">
-    <div className="flex items-center gap-3 mb-6">
-      <div className="w-8 h-8 bg-yellow-400/20 rounded-lg flex items-center justify-center">
-        <ChartBarIcon className="w-5 h-5 text-yellow-400" />
-      </div>
-      <div>
-        <h2 className="text-xl font-bold text-white">
-          Cash-Position (Treasuries)
-        </h2>
-        <p className="text-sm text-gray-400">
-          Entwicklung der liquiden Mittel über die letzten Quartale
-        </p>
-      </div>
-    </div>
-    
-    <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
-      {/* WICHTIG: cash-chart-container Klasse für Styling */}
-      <div className="cash-chart-container">
-        <CashPositionChart data={cashSeries} />
-      </div>
-    </ErrorBoundary>
-    
-    {/* Zusätzliche Info */}
-    <div className="mt-4 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-gray-400">Aktueller Cash-Bestand:</span>
-        <span className="text-yellow-400 font-semibold">
-          {formatCurrency(cashSeries[cashSeries.length - 1]?.cash || 0, 'USD')}
-        </span>
-      </div>
-    </div>
-  </div>
-)}
-
-
-
+            {/* Cash Position Chart (for Buffett) */}
+            {slug === 'buffett' && cashSeries.length > 0 && (
+              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 bg-yellow-400/20 rounded-lg flex items-center justify-center">
+                    <ChartBarIcon className="w-5 h-5 text-yellow-400" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">
+                      Cash-Position (Treasuries)
+                    </h2>
+                    <p className="text-sm text-gray-400">
+                      Entwicklung der liquiden Mittel über die letzten Quartale
+                    </p>
+                  </div>
+                </div>
+                
+                <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+                  <div className="cash-chart-container">
+                    <CashPositionChart data={cashSeries} />
+                  </div>
+                </ErrorBoundary>
+                
+                {/* Zusätzliche Info */}
+                <div className="mt-4 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-400">Aktueller Cash-Bestand:</span>
+                    <span className="text-yellow-400 font-semibold">
+                      {formatCurrency(cashSeries[cashSeries.length - 1]?.cash || 0, 'USD')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
 

@@ -1,4 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2017-11-14",
-  "positions": []
+  "period": "2017-11-14",
+  "accession": "0001657335-17-000004",
+  "quarterKey": "2017-Q4",
+  "positions": [
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 463888,
+      "value": 20893
+    },
+    {
+      "name": "STAR GAS PARTNERS L P",
+      "cusip": "85512C105",
+      "shares": 1563027,
+      "value": 17740
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 53200,
+      "value": 13177
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 170000,
+      "value": 12887
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 49106,
+      "value": 12553
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 12300,
+      "value": 11797
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 324049,
+      "value": 9371
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219G108",
+      "shares": 140844,
+      "value": 8918
+    },
+    {
+      "name": "AXON ENTERPRISE INC",
+      "cusip": "05464C101",
+      "shares": 318204,
+      "value": 7685
+    },
+    {
+      "name": "ALLIANCE HOLDINGS GP LP",
+      "cusip": "01861G100",
+      "shares": 73321,
+      "value": 2039
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 260578,
+      "value": 1490
+    }
+  ],
+  "totalValue": 118550,
+  "positionsCount": 11
 }

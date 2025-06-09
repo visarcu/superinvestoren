@@ -1,101 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2015-05-15",
+  "period": "2015-05-15",
+  "accession": "0000921895-15-001370",
+  "quarterKey": "2015-Q2",
   "positions": [
-    {
-      "name": "ABERCROMBIE & FITCH CO",
-      "cusip": "002896207",
-      "shares": 144935,
-      "value": 3194000
-    },
-    {
-      "name": "ARMSTRONG WORLD INDS INC NEW",
-      "cusip": "04247X102",
-      "shares": 31295,
-      "value": 1799000
-    },
-    {
-      "name": "BENCHMARK ELECTRS INC",
-      "cusip": "08160H101",
-      "shares": 232699,
-      "value": 5592000
-    },
-    {
-      "name": "BIG 5 SPORTING GOODS CORP",
-      "cusip": "08915P101",
-      "shares": 239154,
-      "value": 3174000
-    },
-    {
-      "name": "BOULDER BRANDS INC",
-      "cusip": "101405108",
-      "shares": 410686,
-      "value": 3914000
-    },
-    {
-      "name": "HMS HLDGS CORP",
-      "cusip": "40425J101",
-      "shares": 124709,
-      "value": 1927000
-    },
     {
       "name": "JAMBA INC",
       "cusip": "47023A309",
       "shares": 1581889,
-      "value": 23270000
-    },
-    {
-      "name": "MEDIFAST INC",
-      "cusip": "58470H101",
-      "shares": 618670,
-      "value": 18542000
-    },
-    {
-      "name": "PROCERA NETWORKS INC",
-      "cusip": "74269U203",
-      "shares": 1198407,
-      "value": 11253000
-    },
-    {
-      "name": "RENTECH INC",
-      "cusip": "760112102",
-      "shares": 11363898,
-      "value": 12728000
-    },
-    {
-      "name": "ROVI CORP",
-      "cusip": "779376102",
-      "shares": 550000,
-      "value": 10016000
-    },
-    {
-      "name": "SUNOPTA INC",
-      "cusip": "8676EP108",
-      "shares": 326076,
-      "value": 3463000
-    },
-    {
-      "name": "TEREX CORP NEW",
-      "cusip": "880779103",
-      "shares": 119519,
-      "value": 3178000
+      "value": 23270
     },
     {
       "name": "TRIMAS CORP",
       "cusip": "896215209",
       "shares": 716672,
-      "value": 22066000
+      "value": 22066
     },
     {
-      "name": "UTI WORLDWIDE INC",
-      "cusip": "G87210103",
-      "shares": 328697,
-      "value": 4043000
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 618670,
+      "value": 18542
+    },
+    {
+      "name": "RENTECH INC",
+      "cusip": "760112102",
+      "shares": 11363898,
+      "value": 12728
+    },
+    {
+      "name": "PROCERA NETWORKS INC",
+      "cusip": "74269U203",
+      "shares": 1198407,
+      "value": 11253
+    },
+    {
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 550000,
+      "value": 10016
     },
     {
       "name": "WEB COM GROUP INC",
       "cusip": "94733A104",
       "shares": 305317,
-      "value": 5786000
+      "value": 5786
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 232699,
+      "value": 5592
+    },
+    {
+      "name": "UTI WORLDWIDE INC",
+      "cusip": "G87210103",
+      "shares": 328697,
+      "value": 4043
+    },
+    {
+      "name": "BOULDER BRANDS INC",
+      "cusip": "101405108",
+      "shares": 410686,
+      "value": 3914
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 326076,
+      "value": 3463
+    },
+    {
+      "name": "ABERCROMBIE & FITCH CO",
+      "cusip": "002896207",
+      "shares": 144935,
+      "value": 3194
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 119519,
+      "value": 3178
+    },
+    {
+      "name": "BIG 5 SPORTING GOODS CORP",
+      "cusip": "08915P101",
+      "shares": 239154,
+      "value": 3174
+    },
+    {
+      "name": "HMS HLDGS CORP",
+      "cusip": "40425J101",
+      "shares": 124709,
+      "value": 1927
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 31295,
+      "value": 1799
     }
-  ]
+  ],
+  "totalValue": 133945,
+  "positionsCount": 16
 }

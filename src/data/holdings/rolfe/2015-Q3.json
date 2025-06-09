@@ -1,149 +1,155 @@
 {
+  "form": "13F-HR",
   "date": "2015-08-14",
+  "period": "2015-08-14",
+  "accession": "0000859804-15-000009",
+  "quarterKey": "2015-Q3",
   "positions": [
     {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 4366559,
-      "value": 547675000
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 10046809,
+      "value": 629231
     },
     {
       "name": "BERKSHIRE HATHAWAY CLASS B",
       "cusip": "084670702",
       "shares": 4334428,
-      "value": 589958000
+      "value": 589958
     },
     {
-      "name": "COACH INC",
-      "cusip": "189754104",
-      "shares": 10941844,
-      "value": 378697000
+      "name": "EXPRESS SCRIPTS HLDG",
+      "cusip": "30219108",
+      "shares": 6541035,
+      "value": 581759
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4366559,
+      "value": 547675
+    },
+    {
+      "name": "M & T BANK CORP",
+      "cusip": "55261104",
+      "shares": 3769209,
+      "value": 470887
     },
     {
       "name": "COGNIZANT TECH SOLU CLASS A",
       "cusip": "192446102",
       "shares": 7672080,
-      "value": 468687000
+      "value": 468687
     },
     {
-      "name": "CORE LABORATORIES N V F",
-      "cusip": "n22717107",
-      "shares": 2349692,
-      "value": 267958000
-    },
-    {
-      "name": "CUMMINS INC",
-      "cusip": "231021106",
-      "shares": 1735670,
-      "value": 227702000
-    },
-    {
-      "name": "EMC CORP MASS",
-      "cusip": "268648102",
-      "shares": 9057717,
-      "value": 239033000
-    },
-    {
-      "name": "EXPRESS SCRIPTS HLDG",
-      "cusip": "30219g108",
-      "shares": 6541035,
-      "value": 581759000
-    },
-    {
-      "name": "GOOGLE INC CLASS A",
-      "cusip": "38259p508",
-      "shares": 432845,
-      "value": 233753000
-    },
-    {
-      "name": "GOOGLE INC CLASS C",
-      "cusip": "38259p706",
-      "shares": 176114,
-      "value": 91669000
-    },
-    {
-      "name": "ISHARES MSCI KLD 400 SOCIAL ET",
-      "cusip": "464288570",
-      "shares": 3765,
-      "value": 286000
-    },
-    {
-      "name": "LKQ CORP",
-      "cusip": "501889208",
-      "shares": 10629217,
-      "value": 321480000
-    },
-    {
-      "name": "M & T BANK CORP",
-      "cusip": "55261f104",
-      "shares": 3769209,
-      "value": 470887000
-    },
-    {
-      "name": "MANNING & NAPIER INC CL A",
-      "cusip": "56382q102",
-      "shares": 12500,
-      "value": 124000
-    },
-    {
-      "name": "MEAD JOHNSON NUTRITN",
-      "cusip": "582839106",
-      "shares": 2730152,
-      "value": 246314000
-    },
-    {
-      "name": "NATIONAL OILWELL VAR",
-      "cusip": "637071101",
-      "shares": 7401742,
-      "value": 357356000
-    },
-    {
-      "name": "PERRIGO CO PLC F US SHARES",
-      "cusip": "g97822103",
-      "shares": 892486,
-      "value": 164958000
-    },
-    {
-      "name": "PRICELINE GROUP",
-      "cusip": "741503403",
-      "shares": 244045,
-      "value": 280986000
-    },
-    {
-      "name": "QUALCOMM INC",
-      "cusip": "747525103",
-      "shares": 10046809,
-      "value": 629231000
+      "name": "COACH INC",
+      "cusip": "189754104",
+      "shares": 10941844,
+      "value": 378697
     },
     {
       "name": "SCHLUMBERGER LTD F",
       "cusip": "806857108",
       "shares": 4323129,
-      "value": 372610000
+      "value": 372610
+    },
+    {
+      "name": "NATIONAL OILWELL VAR",
+      "cusip": "637071101",
+      "shares": 7401742,
+      "value": 357356
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 10629217,
+      "value": 321480
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345106",
+      "shares": 4179066,
+      "value": 304068
+    },
+    {
+      "name": "VISA INC CLASS A",
+      "cusip": "92826839",
+      "shares": 4295301,
+      "value": 288429
+    },
+    {
+      "name": "PRICELINE GROUP",
+      "cusip": "741503403",
+      "shares": 244045,
+      "value": 280986
+    },
+    {
+      "name": "CORE LABORATORIES N V F",
+      "cusip": "22717107",
+      "shares": 2349692,
+      "value": 267958
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITN",
+      "cusip": "582839106",
+      "shares": 2730152,
+      "value": 246314
+    },
+    {
+      "name": "EMC CORP MASS",
+      "cusip": "268648102",
+      "shares": 9057717,
+      "value": 239033
+    },
+    {
+      "name": "GOOGLE INC CLASS A",
+      "cusip": "38259508",
+      "shares": 432845,
+      "value": 233753
+    },
+    {
+      "name": "CUMMINS INC",
+      "cusip": "231021106",
+      "shares": 1735670,
+      "value": 227702
     },
     {
       "name": "STERICYCLE INC",
       "cusip": "858912108",
       "shares": 1561450,
-      "value": 209093000
+      "value": 209093
     },
     {
       "name": "VARIAN MEDICAL SYSTM",
-      "cusip": "92220p105",
+      "cusip": "92220105",
       "shares": 2307861,
-      "value": 194621000
+      "value": 194621
     },
     {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345y106",
-      "shares": 4179066,
-      "value": 304068000
+      "name": "PERRIGO CO PLC F US SHARES",
+      "cusip": "97822103",
+      "shares": 892486,
+      "value": 164958
     },
     {
-      "name": "VISA INC CLASS A",
-      "cusip": "92826c839",
-      "shares": 4295301,
-      "value": 288429000
+      "name": "GOOGLE INC CLASS C",
+      "cusip": "38259706",
+      "shares": 176114,
+      "value": 91669
+    },
+    {
+      "name": "ISHARES MSCI KLD 400 SOCIAL ET",
+      "cusip": "464288570",
+      "shares": 3765,
+      "value": 286
+    },
+    {
+      "name": "MANNING & NAPIER INC CL A",
+      "cusip": "56382102",
+      "shares": 12500,
+      "value": 124
     }
-  ]
+  ],
+  "totalValue": 7467334,
+  "positionsCount": 24
 }

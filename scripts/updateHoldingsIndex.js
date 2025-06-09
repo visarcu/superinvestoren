@@ -26,7 +26,8 @@ const SLUG_MAPPING = {
   'mairspower':'mairspower',
   'tangen':'tangen',
   'loeb':'loeb',
-  'hawkins':'hawkins'
+  'hawkins':'hawkins',
+  'dodgecox':'dodgecox'
   // Weitere nach Bedarf...
 }
 

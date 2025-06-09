@@ -11,7 +11,7 @@ import {
 } from 'recharts'
 
 interface Props {
-  data: Array<{ period: string; value: number }>  // roher Wert in USD/EUR
+  data: Array<{ period: string; value: number }> // roher Wert in USD/EUR
 }
 
 export default function PortfolioValueChart({ data }: Props) {
@@ -25,19 +25,20 @@ export default function PortfolioValueChart({ data }: Props) {
         <XAxis dataKey="period" stroke="#888" />
         <YAxis
           stroke="#888"
-          // jede Achsen-Beschriftung durch 1e12 teilen
-          tickFormatter={(v) => `${(v / 1e12).toFixed(1)} Mrd.`}
+          // KORRIGIERT: durch 1e9 (1 Milliarde) statt 1e12 (1 Billion) teilen
+          tickFormatter={(v) => `${(v / 1e9).toFixed(1)} Mrd.`}
         />
         <Tooltip
           // der Tooltip zeigt Datum + formatierten Wert
           labelFormatter={(label) => `${label}`}
           formatter={(value: number) => {
-            const mrd = value / 1e12
+            // KORRIGIERT: auch hier durch 1e9 teilen
+            const mrd = value / 1e9
             return [
               `${mrd.toLocaleString('de-DE', {
                 minimumFractionDigits: 1,
                 maximumFractionDigits: 1
-              })} Mrd.`,
+              })} Mrd.`,
               'Depot-Volumen'
             ]
           }}

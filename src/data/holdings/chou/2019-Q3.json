@@ -1,149 +1,155 @@
 {
+  "form": "13F-HR",
   "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001144204-19-039868",
+  "quarterKey": "2019-Q3",
   "positions": [
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 93376,
-      "value": 2708000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 150,
-      "value": 47752000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 529040,
-      "value": 3943000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 73364,
-      "value": 1100000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 130000,
-      "value": 9104000
-    },
-    {
-      "name": "COMPUCREDIT HLDGS CORP",
-      "cusip": "20478NAD2",
-      "shares": 4800000,
-      "value": 2448000
-    },
-    {
-      "name": "GOLDMAN SACHS GROUP INC",
-      "cusip": "38141G104",
-      "shares": 50000,
-      "value": 10230000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46625H100",
-      "shares": 109275,
-      "value": 12217000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 952531,
-      "value": 8868000
-    },
-    {
-      "name": "POSCO",
-      "cusip": "693483109",
-      "shares": 21000,
-      "value": 1114000
-    },
-    {
-      "name": "RESOLUTE FST PRODS INC",
-      "cusip": "76117W109",
-      "shares": 4571960,
-      "value": 32918000
-    },
-    {
-      "name": "RYANAIR HLDGS PLC",
-      "cusip": "783513203",
-      "shares": 4575,
-      "value": 293000
-    },
-    {
-      "name": "SANOFI",
-      "cusip": "80105N105",
-      "shares": 20000,
-      "value": 865000
-    },
-    {
-      "name": "SEARS HOMETOWN & OUTLET STOR",
-      "cusip": "812362101",
-      "shares": 1296960,
-      "value": 3087000
-    },
-    {
-      "name": "SEARS HOMETOWN & OUTLET STOR",
-      "cusip": "812362101",
-      "shares": 64000,
-      "value": 152000
+      "value": 47752
     },
     {
       "name": "BAUSCH HEALTH COS INC",
       "cusip": "071734107",
       "shares": 1648992,
-      "value": 41588000
+      "value": 41588
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 4571960,
+      "value": 32918
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 434542,
-      "value": 20563000
+      "value": 20563
     },
     {
-      "name": "ENDO INTL PLC",
-      "cusip": "G30401106",
-      "shares": 880000,
-      "value": 3626000
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 109275,
+      "value": 12217
     },
     {
-      "name": "TEVA PHARMACEUTICAL INDS LTD",
-      "cusip": "881624209",
-      "shares": 15000,
-      "value": 138000
-    },
-    {
-      "name": "ALLEGIANT TRAVEL CO",
-      "cusip": "01748X102",
-      "shares": 4317,
-      "value": 619000
-    },
-    {
-      "name": "SPIRIT AIRLS INC",
-      "cusip": "848577102",
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
       "shares": 50000,
-      "value": 2386000
+      "value": 10230
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 130000,
+      "value": 9104
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 952531,
+      "value": 8868
     },
     {
       "name": "DAVITA INC",
       "cusip": "23918K108",
       "shares": 120743,
-      "value": 6793000
+      "value": 6793
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 529040,
+      "value": 3943
+    },
+    {
+      "name": "ENDO INTL PLC",
+      "cusip": "G30401106",
+      "shares": 880000,
+      "value": 3626
+    },
+    {
+      "name": "SEARS HOMETOWN & OUTLET STOR",
+      "cusip": "812362101",
+      "shares": 1296960,
+      "value": 3087
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 93376,
+      "value": 2708
+    },
+    {
+      "name": "COMPUCREDIT HLDGS CORP",
+      "cusip": "20478NAD2",
+      "shares": 4800000,
+      "value": 2448
+    },
+    {
+      "name": "SPIRIT AIRLS INC",
+      "cusip": "848577102",
+      "shares": 50000,
+      "value": 2386
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 21000,
+      "value": 1114
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 1100
     },
     {
       "name": "MAGNA INTL INC",
       "cusip": "559222401",
       "shares": 20000,
-      "value": 994000
+      "value": 994
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 20000,
+      "value": 865
+    },
+    {
+      "name": "ALLEGIANT TRAVEL CO",
+      "cusip": "01748X102",
+      "shares": 4317,
+      "value": 619
     },
     {
       "name": "FIAT CHRYSLER AUTOMOBILES N",
       "cusip": "N31738102",
       "shares": 30000,
-      "value": 415000
+      "value": 415
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 293
+    },
+    {
+      "name": "SEARS HOMETOWN & OUTLET STOR",
+      "cusip": "812362101",
+      "shares": 64000,
+      "value": 152
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 15000,
+      "value": 138
     }
-  ]
+  ],
+  "totalValue": 213921,
+  "positionsCount": 24
 }

@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0000921895-19-002228",
+  "quarterKey": "2019-Q3",
   "positions": [
-    {
-      "name": "APOGEE ENTERPRISES INC",
-      "cusip": "037598109",
-      "shares": 1689332,
-      "value": 73385000
-    },
-    {
-      "name": "DEL FRISCOS RESTAURANT GROUP",
-      "cusip": "245077102",
-      "shares": 3328000,
-      "value": 26491000
-    },
     {
       "name": "HAIN CELESTIAL GROUP INC",
       "cusip": "405217100",
       "shares": 21068777,
-      "value": 461406000
-    },
-    {
-      "name": "INNERWORKINGS INC",
-      "cusip": "45773Y105",
-      "shares": 2582346,
-      "value": 9865000
-    },
-    {
-      "name": "MAGELLAN HEALTH INC",
-      "cusip": "559079207",
-      "shares": 379400,
-      "value": 28163000
-    },
-    {
-      "name": "NCR CORP NEW",
-      "cusip": "62886E108",
-      "shares": 1076463,
-      "value": 33478000
+      "value": 461406
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 5333609,
-      "value": 142034000
+      "value": 142034
+    },
+    {
+      "name": "APOGEE ENTERPRISES INC",
+      "cusip": "037598109",
+      "shares": 1689332,
+      "value": 73385
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 1076463,
+      "value": 33478
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 8731907,
-      "value": 28728000
+      "value": 28728
+    },
+    {
+      "name": "MAGELLAN HEALTH INC",
+      "cusip": "559079207",
+      "shares": 379400,
+      "value": 28163
+    },
+    {
+      "name": "DEL FRISCOS RESTAURANT GROUP",
+      "cusip": "245077102",
+      "shares": 3328000,
+      "value": 26491
     },
     {
       "name": "TIVO CORP",
       "cusip": "88870P106",
       "shares": 2525000,
-      "value": 18609000
+      "value": 18609
+    },
+    {
+      "name": "INNERWORKINGS INC",
+      "cusip": "45773Y105",
+      "shares": 2582346,
+      "value": 9865
     }
-  ]
+  ],
+  "totalValue": 822159,
+  "positionsCount": 9
 }

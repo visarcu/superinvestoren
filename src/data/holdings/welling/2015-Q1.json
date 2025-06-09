@@ -1,83 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2015-02-17",
+  "period": "2015-02-17",
+  "accession": "0000921895-15-000457",
+  "quarterKey": "2015-Q1",
   "positions": [
     {
-      "name": "ABERCROMBIE & FITCH CO",
-      "cusip": "002896207",
-      "shares": 264290,
-      "value": 7569000
-    },
-    {
-      "name": "ARMSTRONG WORLD INDS INC NEW",
-      "cusip": "04247X102",
-      "shares": 28604,
-      "value": 1462000
+      "name": "SILICON IMAGE INC",
+      "cusip": "82705T102",
+      "shares": 4136852,
+      "value": 22835
     },
     {
       "name": "JAMBA INC",
       "cusip": "47023A309",
       "shares": 1431889,
-      "value": 21607000
+      "value": 21607
     },
     {
       "name": "MEDIFAST INC",
       "cusip": "58470H101",
       "shares": 611609,
-      "value": 20519000
-    },
-    {
-      "name": "PAREXEL INTL CORP",
-      "cusip": "699462107",
-      "shares": 27747,
-      "value": 1542000
-    },
-    {
-      "name": "PROCERA NETWORKS INC",
-      "cusip": "74269U203",
-      "shares": 97310,
-      "value": 700000
-    },
-    {
-      "name": "RENTECH INC",
-      "cusip": "760112102",
-      "shares": 7863898,
-      "value": 9909000
-    },
-    {
-      "name": "ROVI CORP",
-      "cusip": "779376102",
-      "shares": 447129,
-      "value": 10101000
-    },
-    {
-      "name": "SILICON IMAGE INC",
-      "cusip": "82705T102",
-      "shares": 4136852,
-      "value": 22835000
-    },
-    {
-      "name": "TEREX CORP NEW",
-      "cusip": "880779103",
-      "shares": 51079,
-      "value": 1424000
+      "value": 20519
     },
     {
       "name": "TRIMAS CORP",
       "cusip": "896215209",
       "shares": 451488,
-      "value": 14127000
+      "value": 14127
     },
     {
-      "name": "UTI WORLDWIDE INC",
-      "cusip": "G87210103",
-      "shares": 143337,
-      "value": 1730000
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 447129,
+      "value": 10101
+    },
+    {
+      "name": "RENTECH INC",
+      "cusip": "760112102",
+      "shares": 7863898,
+      "value": 9909
     },
     {
       "name": "VOLCANO CORPORATION",
       "cusip": "928645100",
       "shares": 502825,
-      "value": 8991000
+      "value": 8991
+    },
+    {
+      "name": "ABERCROMBIE & FITCH CO",
+      "cusip": "002896207",
+      "shares": 264290,
+      "value": 7569
+    },
+    {
+      "name": "UTI WORLDWIDE INC",
+      "cusip": "G87210103",
+      "shares": 143337,
+      "value": 1730
+    },
+    {
+      "name": "PAREXEL INTL CORP",
+      "cusip": "699462107",
+      "shares": 27747,
+      "value": 1542
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 28604,
+      "value": 1462
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 51079,
+      "value": 1424
+    },
+    {
+      "name": "PROCERA NETWORKS INC",
+      "cusip": "74269U203",
+      "shares": 97310,
+      "value": 700
     }
-  ]
+  ],
+  "totalValue": 122516,
+  "positionsCount": 13
 }

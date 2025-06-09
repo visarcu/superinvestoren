@@ -2,114 +2,118 @@
   "form": "13F-HR",
   "date": "2015-11-16",
   "period": "2015-11-16",
+  "accession": "0000905718-15-000893",
+  "quarterKey": "2015-Q4",
   "positions": [
     {
       "name": "OWENS ILL INC",
       "cusip": "690768403",
       "shares": 10708434,
-      "value": 221879000
+      "value": 221879
     },
     {
       "name": "F M C CORP",
       "cusip": "302491303",
       "shares": 5336291,
-      "value": 180954000
+      "value": 180954
     },
     {
       "name": "GOODYEAR TIRE & RUBR CO",
       "cusip": "382550101",
       "shares": 5643329,
-      "value": 165519000
+      "value": 165519
     },
     {
       "name": "TRIUMPH GROUP INC NEW",
       "cusip": "896818101",
       "shares": 3749910,
-      "value": 157796000
+      "value": 157796
     },
     {
       "name": "INGRAM MICRO INC",
       "cusip": "457153104",
       "shares": 4155522,
-      "value": 113196000
+      "value": 113196
     },
     {
       "name": "WESCO INTL INC",
       "cusip": "95082P105",
       "shares": 2085610,
-      "value": 96918000
+      "value": 96918
     },
     {
       "name": "LEAR CORP",
       "cusip": "521865204",
       "shares": 127198,
-      "value": 13837000
+      "value": 13837
     },
     {
       "name": "AMERICAN AXLE & MFG HLDGS IN",
       "cusip": "024061103",
       "shares": 621468,
-      "value": 12392000
+      "value": 12392
     },
     {
       "name": "NORFOLK SOUTHERN CORP",
       "cusip": "655844108",
       "shares": 161989,
-      "value": 12376000
+      "value": 12376
     },
     {
       "name": "CSX CORP",
       "cusip": "126408103",
       "shares": 451538,
-      "value": 12146000
+      "value": 12146
     },
     {
       "name": "OSHKOSH CORP",
       "cusip": "688239201",
       "shares": 333016,
-      "value": 12098000
+      "value": 12098
     },
     {
       "name": "ANIXTER INTL INC",
       "cusip": "035290105",
       "shares": 208282,
-      "value": 12035000
+      "value": 12035
     },
     {
       "name": "MAGNA INTL INC",
       "cusip": "559222401",
       "shares": 243710,
-      "value": 11701000
+      "value": 11701
     },
     {
       "name": "CRANE CO",
       "cusip": "224399105",
       "shares": 236679,
-      "value": 11032000
+      "value": 11032
     },
     {
       "name": "HUNTINGTON INGALLS INDS INC",
       "cusip": "446413106",
       "shares": 88836,
-      "value": 9519000
+      "value": 9519
     },
     {
       "name": "FLEXTRONICS INTL LTD",
       "cusip": "Y2573F102",
       "shares": 416747,
-      "value": 4393000
+      "value": 4393
     },
     {
       "name": "TATA MTRS LTD",
       "cusip": "876568502",
       "shares": 90000,
-      "value": 2025000
+      "value": 2025
     },
     {
       "name": "DIREXION SHS ETF TR",
       "cusip": "25459Y116",
       "shares": 14000,
-      "value": 708000
+      "value": 708
     }
-  ]
+  ],
+  "totalValue": 1050524,
+  "positionsCount": 18
 }

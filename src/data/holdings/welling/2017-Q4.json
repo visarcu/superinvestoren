@@ -1,131 +1,137 @@
 {
+  "form": "13F-HR",
   "date": "2017-11-14",
+  "period": "2017-11-14",
+  "accession": "0000921895-17-002661",
+  "quarterKey": "2017-Q4",
   "positions": [
-    {
-      "name": "BENCHMARK ELECTRS INC",
-      "cusip": "08160H101",
-      "shares": 769782,
-      "value": 26288000
-    },
-    {
-      "name": "BROADSOFT INC",
-      "cusip": "11133B409",
-      "shares": 163328,
-      "value": 8215000
-    },
-    {
-      "name": "CELESTICA INC",
-      "cusip": "15101Q108",
-      "shares": 358214,
-      "value": 4435000
-    },
-    {
-      "name": "CROSS CTRY HEALTHCARE INC",
-      "cusip": "227483104",
-      "shares": 566422,
-      "value": 8060000
-    },
-    {
-      "name": "DEXCOM INC",
-      "cusip": "252131107",
-      "shares": 60000,
-      "value": 2936000
-    },
-    {
-      "name": "DIEBOLD NXDF INC",
-      "cusip": "253651103",
-      "shares": 180000,
-      "value": 4113000
-    },
-    {
-      "name": "FINISAR CORP",
-      "cusip": "31787A507",
-      "shares": 229461,
-      "value": 5087000
-    },
-    {
-      "name": "GIGAMON INC",
-      "cusip": "37518B102",
-      "shares": 100000,
-      "value": 4215000
-    },
     {
       "name": "HAIN CELESTIAL GROUP INC",
       "cusip": "405217100",
       "shares": 10353699,
-      "value": 426055000
-    },
-    {
-      "name": "IMAX CORP",
-      "cusip": "45245E109",
-      "shares": 185814,
-      "value": 4209000
-    },
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287655",
-      "shares": 5800,
-      "value": 859000
-    },
-    {
-      "name": "JAMBA INC",
-      "cusip": "47023A309",
-      "shares": 2834002,
-      "value": 24486000
-    },
-    {
-      "name": "MAGNACHIP SEMICONDUCTOR CORP",
-      "cusip": "55933J203",
-      "shares": 1481225,
-      "value": 16812000
-    },
-    {
-      "name": "MEDIFAST INC",
-      "cusip": "58470H101",
-      "shares": 789549,
-      "value": 46876000
-    },
-    {
-      "name": "NCR CORP NEW",
-      "cusip": "62886E108",
-      "shares": 105134,
-      "value": 3945000
+      "value": 426055
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 8983609,
-      "value": 103132000
-    },
-    {
-      "name": "RUBY TUESDAY INC",
-      "cusip": "781182100",
-      "shares": 2314457,
-      "value": 4953000
+      "value": 103132
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 6756907,
-      "value": 58785000
-    },
-    {
-      "name": "TENET HEALTHCARE CORP",
-      "cusip": "88033G407",
-      "shares": 498613,
-      "value": 8192000
+      "value": 58785
     },
     {
       "name": "TIVO CORP",
       "cusip": "88870P106",
       "shares": 2525000,
-      "value": 50121000
+      "value": 50121
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 789549,
+      "value": 46876
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 769782,
+      "value": 26288
+    },
+    {
+      "name": "JAMBA INC",
+      "cusip": "47023A309",
+      "shares": 2834002,
+      "value": 24486
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 1481225,
+      "value": 16812
+    },
+    {
+      "name": "BROADSOFT INC",
+      "cusip": "11133B409",
+      "shares": 163328,
+      "value": 8215
+    },
+    {
+      "name": "TENET HEALTHCARE CORP",
+      "cusip": "88033G407",
+      "shares": 498613,
+      "value": 8192
+    },
+    {
+      "name": "CROSS CTRY HEALTHCARE INC",
+      "cusip": "227483104",
+      "shares": 566422,
+      "value": 8060
+    },
+    {
+      "name": "FINISAR CORP",
+      "cusip": "31787A507",
+      "shares": 229461,
+      "value": 5087
+    },
+    {
+      "name": "RUBY TUESDAY INC",
+      "cusip": "781182100",
+      "shares": 2314457,
+      "value": 4953
+    },
+    {
+      "name": "CELESTICA INC",
+      "cusip": "15101Q108",
+      "shares": 358214,
+      "value": 4435
+    },
+    {
+      "name": "GIGAMON INC",
+      "cusip": "37518B102",
+      "shares": 100000,
+      "value": 4215
+    },
+    {
+      "name": "IMAX CORP",
+      "cusip": "45245E109",
+      "shares": 185814,
+      "value": 4209
+    },
+    {
+      "name": "DIEBOLD NXDF INC",
+      "cusip": "253651103",
+      "shares": 180000,
+      "value": 4113
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 105134,
+      "value": 3945
+    },
+    {
+      "name": "DEXCOM INC",
+      "cusip": "252131107",
+      "shares": 60000,
+      "value": 2936
     },
     {
       "name": "XPERI CORP",
       "cusip": "98421B100",
       "shares": 53257,
-      "value": 1347000
+      "value": 1347
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 5800,
+      "value": 859
     }
-  ]
+  ],
+  "totalValue": 813121,
+  "positionsCount": 21
 }

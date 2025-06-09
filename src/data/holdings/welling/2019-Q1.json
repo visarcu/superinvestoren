@@ -1,95 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0000921895-19-000429",
+  "quarterKey": "2019-Q1",
   "positions": [
-    {
-      "name": "ANIKA THERAPEUTICS INC",
-      "cusip": "035255108",
-      "shares": 374926,
-      "value": 12601000
-    },
-    {
-      "name": "APOGEE ENTERPRISES INC",
-      "cusip": "037598109",
-      "shares": 1689332,
-      "value": 50427000
-    },
-    {
-      "name": "ARATANA THERAPEUTICS INC",
-      "cusip": "03874P101",
-      "shares": 3487149,
-      "value": 21376000
-    },
-    {
-      "name": "ASTEC INDS INC",
-      "cusip": "046224101",
-      "shares": 73605,
-      "value": 2222000
-    },
-    {
-      "name": "BABCOCK & WILCOX ENTERPRIS I",
-      "cusip": "05614L100",
-      "shares": 3774724,
-      "value": 1474000
-    },
-    {
-      "name": "BENCHMARK ELECTRS INC",
-      "cusip": "08160H101",
-      "shares": 2236787,
-      "value": 47375000
-    },
-    {
-      "name": "DEL FRISCOS RESTAURANT GROUP",
-      "cusip": "245077102",
-      "shares": 3328000,
-      "value": 23795000
-    },
-    {
-      "name": "GROUPON INC",
-      "cusip": "399473107",
-      "shares": 2445406,
-      "value": 7825000
-    },
     {
       "name": "HAIN CELESTIAL GROUP INC",
       "cusip": "405217100",
       "shares": 11761242,
-      "value": 186533000
-    },
-    {
-      "name": "INNERWORKINGS INC",
-      "cusip": "45773Y105",
-      "shares": 2582346,
-      "value": 9658000
-    },
-    {
-      "name": "MAGELLAN HEALTH INC",
-      "cusip": "559079207",
-      "shares": 255761,
-      "value": 14550000
-    },
-    {
-      "name": "NCR CORP NEW",
-      "cusip": "62886E108",
-      "shares": 1076463,
-      "value": 24845000
+      "value": 186533
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 5333609,
-      "value": 86351000
+      "value": 86351
+    },
+    {
+      "name": "APOGEE ENTERPRISES INC",
+      "cusip": "037598109",
+      "shares": 1689332,
+      "value": 50427
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 2236787,
+      "value": 47375
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 6856907,
-      "value": 26536000
+      "value": 26536
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 1076463,
+      "value": 24845
+    },
+    {
+      "name": "DEL FRISCOS RESTAURANT GROUP",
+      "cusip": "245077102",
+      "shares": 3328000,
+      "value": 23795
     },
     {
       "name": "TIVO CORP",
       "cusip": "88870P106",
       "shares": 2525000,
-      "value": 23760000
+      "value": 23760
+    },
+    {
+      "name": "ARATANA THERAPEUTICS INC",
+      "cusip": "03874P101",
+      "shares": 3487149,
+      "value": 21376
+    },
+    {
+      "name": "MAGELLAN HEALTH INC",
+      "cusip": "559079207",
+      "shares": 255761,
+      "value": 14550
+    },
+    {
+      "name": "ANIKA THERAPEUTICS INC",
+      "cusip": "035255108",
+      "shares": 374926,
+      "value": 12601
+    },
+    {
+      "name": "INNERWORKINGS INC",
+      "cusip": "45773Y105",
+      "shares": 2582346,
+      "value": 9658
+    },
+    {
+      "name": "GROUPON INC",
+      "cusip": "399473107",
+      "shares": 2445406,
+      "value": 7825
+    },
+    {
+      "name": "ASTEC INDS INC",
+      "cusip": "046224101",
+      "shares": 73605,
+      "value": 2222
+    },
+    {
+      "name": "BABCOCK & WILCOX ENTERPRIS I",
+      "cusip": "05614L100",
+      "shares": 3774724,
+      "value": 1474
     }
-  ]
+  ],
+  "totalValue": 539328,
+  "positionsCount": 15
 }

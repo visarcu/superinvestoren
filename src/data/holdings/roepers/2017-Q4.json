@@ -2,96 +2,100 @@
   "form": "13F-HR",
   "date": "2017-11-14",
   "period": "2017-11-14",
+  "accession": "0000905718-17-000961",
+  "quarterKey": "2017-Q4",
   "positions": [
     {
-      "name": "ALASKA AIR GROUP INC",
-      "cusip": "011659109",
-      "shares": 95000,
-      "value": 7246000
-    },
-    {
-      "name": "AMERICAN AXLE AND MANUFACTURING",
-      "cusip": "024061103",
-      "shares": 403600,
-      "value": 7095000
-    },
-    {
-      "name": "ARRIS INTERNATIONAL INC",
-      "cusip": "G0551A103",
-      "shares": 3955906,
-      "value": 112704000
-    },
-    {
-      "name": "AVNET INC",
-      "cusip": "053807103",
-      "shares": 188000,
-      "value": 7388000
-    },
-    {
-      "name": "BABCOCK AND WILCOX ENTERPRISES",
-      "cusip": "05614L100",
-      "shares": 750000,
-      "value": 2498000
-    },
-    {
-      "name": "COMMSCOPE HOLDING",
-      "cusip": "20337X109",
-      "shares": 3680441,
-      "value": 122227000
+      "name": "OWENS ILLINOIS INC",
+      "cusip": "690768403",
+      "shares": 6334999,
+      "value": 159389
     },
     {
       "name": "DIEBOLD NIXDORF INC",
       "cusip": "253651103",
       "shares": 6481819,
-      "value": 148110000
+      "value": 148110
+    },
+    {
+      "name": "COMMSCOPE HOLDING",
+      "cusip": "20337X109",
+      "shares": 3680441,
+      "value": 122227
+    },
+    {
+      "name": "ARRIS INTERNATIONAL INC",
+      "cusip": "G0551A103",
+      "shares": 3955906,
+      "value": 112704
     },
     {
       "name": "EASTMAN CHEMICAL CO",
       "cusip": "277432100",
       "shares": 1217837,
-      "value": 110202000
+      "value": 110202
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 3481857,
-      "value": 95473000
-    },
-    {
-      "name": "INTERNATIONAL GAME TECHNOLOGY",
-      "cusip": "G4863A108",
-      "shares": 290000,
-      "value": 7120000
-    },
-    {
-      "name": "KAPSTONE PAPER AND PACKAGING",
-      "cusip": "48562P103",
-      "shares": 190000,
-      "value": 4083000
-    },
-    {
-      "name": "LSC COMMUNICATIONS INC",
-      "cusip": "50218P107",
-      "shares": 435061,
-      "value": 7183000
-    },
-    {
-      "name": "OWENS ILLINOIS INC",
-      "cusip": "690768403",
-      "shares": 6334999,
-      "value": 159389000
+      "value": 95473
     },
     {
       "name": "STEELCASE INC",
       "cusip": "858155203",
       "shares": 482739,
-      "value": 7434000
+      "value": 7434
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 188000,
+      "value": 7388
+    },
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 95000,
+      "value": 7246
+    },
+    {
+      "name": "LSC COMMUNICATIONS INC",
+      "cusip": "50218P107",
+      "shares": 435061,
+      "value": 7183
+    },
+    {
+      "name": "INTERNATIONAL GAME TECHNOLOGY",
+      "cusip": "G4863A108",
+      "shares": 290000,
+      "value": 7120
+    },
+    {
+      "name": "AMERICAN AXLE AND MANUFACTURING",
+      "cusip": "024061103",
+      "shares": 403600,
+      "value": 7095
     },
     {
       "name": "TRIUMPH GROUP INC NEW",
       "cusip": "896818101",
       "shares": 180000,
-      "value": 5355000
+      "value": 5355
+    },
+    {
+      "name": "KAPSTONE PAPER AND PACKAGING",
+      "cusip": "48562P103",
+      "shares": 190000,
+      "value": 4083
+    },
+    {
+      "name": "BABCOCK AND WILCOX ENTERPRISES",
+      "cusip": "05614L100",
+      "shares": 750000,
+      "value": 2498
     }
-  ]
+  ],
+  "totalValue": 803507,
+  "positionsCount": 15
 }

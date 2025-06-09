@@ -2,114 +2,118 @@
   "form": "13F-HR",
   "date": "2023-08-14",
   "period": "2023-08-14",
+  "accession": "0001104659-23-090662",
+  "quarterKey": "2023-Q3",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 3400,
-      "value": 283390000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 155686,
-      "value": 4205077000
-    },
-    {
-      "name": "BAUSCH HEALTH COS INC",
-      "cusip": "071734107",
-      "shares": 715000,
-      "value": 5719997000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 80,
-      "value": 41424778000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 312900,
-      "value": 1733674000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 73364,
-      "value": 770322000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 57695,
-      "value": 2656276000
+      "value": 41424778
     },
     {
       "name": "HERTZ GLOBAL HLDGS INC",
       "cusip": "42806J148",
       "shares": 741583,
-      "value": 7482568000
+      "value": 7482568
     },
     {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 96823,
-      "value": 1632435000
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 715000,
+      "value": 5719997
     },
     {
-      "name": "MAGNA INTL INC",
-      "cusip": "559222401",
-      "shares": 10000,
-      "value": 564400000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 199530,
-      "value": 1723938000
-    },
-    {
-      "name": "METHANEX CORP",
-      "cusip": "59151K108",
-      "shares": 4000,
-      "value": 165284000
-    },
-    {
-      "name": "NAVIENT CORPORATION",
-      "cusip": "63938C108",
-      "shares": 183338,
-      "value": 3406418000
-    },
-    {
-      "name": "OVERSTOCK COM INC",
-      "cusip": "690370101",
-      "shares": 38405,
-      "value": 1250850000
-    },
-    {
-      "name": "RYANAIR HOLDINGS PLC",
-      "cusip": "783513203",
-      "shares": 4575,
-      "value": 505995000
-    },
-    {
-      "name": "STELLANTIS N.V",
-      "cusip": "N82405106",
-      "shares": 30000,
-      "value": 526200000
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 155686,
+      "value": 4205077
     },
     {
       "name": "SYNCHRONY FINANCIAL",
       "cusip": "87165B103",
       "shares": 120000,
-      "value": 4070398000
+      "value": 4070398
+    },
+    {
+      "name": "NAVIENT CORPORATION",
+      "cusip": "63938C108",
+      "shares": 183338,
+      "value": 3406418
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 2656276
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 312900,
+      "value": 1733674
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 199530,
+      "value": 1723938
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 96823,
+      "value": 1632435
+    },
+    {
+      "name": "OVERSTOCK COM INC",
+      "cusip": "690370101",
+      "shares": 38405,
+      "value": 1250850
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 19542,
-      "value": 834052000
+      "value": 834052
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 770322
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 564400
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 30000,
+      "value": 526200
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 505995
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3400,
+      "value": 283390
+    },
+    {
+      "name": "METHANEX CORP",
+      "cusip": "59151K108",
+      "shares": 4000,
+      "value": 165284
     }
-  ]
+  ],
+  "totalValue": 78956052,
+  "positionsCount": 18
 }

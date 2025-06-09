@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-11",
+  "period": "2022-05-11",
+  "accession": "0001172661-22-001230",
+  "quarterKey": "2022-Q2",
   "positions": [
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 494935,
-      "value": 59041000
-    },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 195946,
-      "value": 107843000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 182900,
-      "value": 40670000
+      "value": 107843
     },
     {
       "name": "SALESFORCE COM INC",
       "cusip": "79466L302",
       "shares": 316743,
-      "value": 67251000
+      "value": 67251
     },
     {
-      "name": "TRUPANION INC",
-      "cusip": "898202106",
-      "shares": 11700,
-      "value": 1043000
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 494935,
+      "value": 59041
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 450800,
-      "value": 47091000
+      "value": 47091
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 182900,
+      "value": 40670
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 11700,
+      "value": 1043
     }
-  ]
+  ],
+  "totalValue": 322939,
+  "positionsCount": 6
 }

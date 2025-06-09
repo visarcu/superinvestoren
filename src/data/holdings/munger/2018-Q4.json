@@ -1,29 +1,35 @@
 {
+  "form": "13F-HR",
   "date": "2018-10-09",
+  "period": "2018-10-09",
+  "accession": "0001437749-18-018038",
+  "quarterKey": "2018-Q4",
   "positions": [
     {
-      "name": "Bank of\n  America Corp",
-      "cusip": "060505104",
-      "shares": 2300000,
-      "value": 67758000
+      "name": "Wells Fargo &amp; Co",
+      "cusip": "949746101",
+      "shares": 1591800,
+      "value": 83665
     },
     {
-      "name": "Posco ADR",
-      "cusip": "693483109",
-      "shares": 9745,
-      "value": 643000
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 2300000,
+      "value": 67758
     },
     {
       "name": "US Bancorp",
       "cusip": "902973304",
       "shares": 140000,
-      "value": 7393000
+      "value": 7393
     },
     {
-      "name": "Wells Fargo &amp; Co",
-      "cusip": "949746101",
-      "shares": 1591800,
-      "value": 83665000
+      "name": "Posco ADR",
+      "cusip": "693483109",
+      "shares": 9745,
+      "value": 643
     }
-  ]
+  ],
+  "totalValue": 159459,
+  "positionsCount": 4
 }

@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2025-02-14",
   "period": "2025-02-14",
+  "accession": "0001493152-25-006869",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
-      "name": "HUNTSMAN CORP",
-      "cusip": "447011107",
-      "shares": 200000,
-      "value": 3606000000
-    },
-    {
-      "name": "WESCO INTL INC",
-      "cusip": "95082P105",
-      "shares": 32500,
-      "value": 5881200000
-    },
-    {
-      "name": "TEREX CORP NEW",
-      "cusip": "880779103",
-      "shares": 155000,
-      "value": 7164100000
-    },
-    {
-      "name": "WEATHERFORD INTL PLC",
-      "cusip": "G48833118",
-      "shares": 438109,
-      "value": 31381748000
+      "name": "APTIV PLC",
+      "cusip": "G6095L109",
+      "shares": 763955,
+      "value": 46203998
     },
     {
       "name": "CHART INDS INC",
       "cusip": "16115Q308",
       "shares": 228670,
-      "value": 43639383000
+      "value": 43639383
     },
     {
-      "name": "APTIV PLC",
-      "cusip": "G6095L109",
-      "shares": 763955,
-      "value": 46203998000
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 438109,
+      "value": 31381748
     },
     {
       "name": "OSHKOSH CORP",
       "cusip": "688239201",
       "shares": 230000,
-      "value": 21866100000
-    },
-    {
-      "name": "FMC CORP",
-      "cusip": "302491303",
-      "shares": 321000,
-      "value": 15603810000
-    },
-    {
-      "name": "GOODYEAR TIRE & RUBR CO",
-      "cusip": "382550101",
-      "shares": 1311485,
-      "value": 11803365000
+      "value": 21866100
     },
     {
       "name": "DARLING INGREDIENTS INC",
       "cusip": "237266101",
       "shares": 589050,
-      "value": 19845095000
+      "value": 19845095
+    },
+    {
+      "name": "FMC CORP",
+      "cusip": "302491303",
+      "shares": 321000,
+      "value": 15603810
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 1311485,
+      "value": 11803365
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 155000,
+      "value": 7164100
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 32500,
+      "value": 5881200
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 200000,
+      "value": 3606000
     }
-  ]
+  ],
+  "totalValue": 206994799,
+  "positionsCount": 10
 }

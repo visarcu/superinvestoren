@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001172661-22-001378",
+  "quarterKey": "2022-Q2",
   "positions": [
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 55698,
+      "value": 36289
+    },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 9135,
-      "value": 25514000
-    },
-    {
-      "name": "ALTERYX INC",
-      "cusip": "02156B103",
-      "shares": 195347,
-      "value": 13973000
-    },
-    {
-      "name": "CARDLYTICS INC",
-      "cusip": "14161W105",
-      "shares": 304736,
-      "value": 16754000
-    },
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 180928,
-      "value": 21583000
+      "value": 25514
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 45874,
-      "value": 25025000
+      "value": 25025
     },
     {
-      "name": "GUIDEWIRE SOFTWARE INC",
-      "cusip": "40171V100",
-      "shares": 186435,
-      "value": 17640000
-    },
-    {
-      "name": "HALLADOR ENERGY COMPANY",
-      "cusip": "40609P105",
-      "shares": 527140,
-      "value": 1845000
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 180928,
+      "value": 21583
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 299847,
-      "value": 19763000
+      "value": 19763
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 186435,
+      "value": 17640
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 304736,
+      "value": 16754
     },
     {
       "name": "STAR GROUP L P",
       "cusip": "85512C105",
       "shares": 1305167,
-      "value": 14487000
+      "value": 14487
     },
     {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 55698,
-      "value": 36289000
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 195347,
+      "value": 13973
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 527140,
+      "value": 1845
     }
-  ]
+  ],
+  "totalValue": 192873,
+  "positionsCount": 10
 }

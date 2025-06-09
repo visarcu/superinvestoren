@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001172661-19-001242",
+  "quarterKey": "2019-Q2",
   "positions": [
-    {
-      "name": "ALLIANCE DATA SYSTEMS CORP",
-      "cusip": "018581108",
-      "shares": 82650,
-      "value": 14462000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 12300,
-      "value": 14432000
-    },
-    {
-      "name": "APPIAN CORP",
-      "cusip": "03782L101",
-      "shares": 283264,
-      "value": 9753000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 131540,
-      "value": 9181000
-    },
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 235729,
-      "value": 13686000
-    },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 61500,
-      "value": 21335000
-    },
-    {
-      "name": "HALLADOR ENERGY COMPANY",
-      "cusip": "40609P105",
-      "shares": 557189,
-      "value": 2931000
-    },
-    {
-      "name": "INTERACTIVE BROKERS GROUP IN",
-      "cusip": "45841N107",
-      "shares": 343955,
-      "value": 17844000
-    },
-    {
-      "name": "STAR GROUP L P",
-      "cusip": "85512C105",
-      "shares": 1654387,
-      "value": 15882000
+      "value": 21335
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 40106,
-      "value": 18208000
+      "value": 18208
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 343955,
+      "value": 17844
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1654387,
+      "value": 15882
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 82650,
+      "value": 14462
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 12300,
+      "value": 14432
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 235729,
+      "value": 13686
+    },
+    {
+      "name": "APPIAN CORP",
+      "cusip": "03782L101",
+      "shares": 283264,
+      "value": 9753
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 131540,
+      "value": 9181
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 557189,
+      "value": 2931
     }
-  ]
+  ],
+  "totalValue": 137714,
+  "positionsCount": 10
 }

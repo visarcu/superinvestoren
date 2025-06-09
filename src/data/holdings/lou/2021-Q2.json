@@ -2,24 +2,28 @@
   "form": "13F-HR",
   "date": "2021-05-17",
   "period": "2021-05-17",
+  "accession": "0001398344-21-010973",
+  "quarterKey": "2021-Q2",
   "positions": [
     {
       "name": "ALLY FINL INC",
       "cusip": "02005N100",
       "shares": 3290300,
-      "value": 148754000
+      "value": 148754
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 349,
-      "value": 134610000
+      "value": 134610
     },
     {
       "name": "WINNEBAGO INDS INC",
       "cusip": "974637100",
       "shares": 1022953,
-      "value": 78471000
+      "value": 78471
     }
-  ]
+  ],
+  "totalValue": 361835,
+  "positionsCount": 3
 }

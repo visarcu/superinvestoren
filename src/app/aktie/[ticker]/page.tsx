@@ -5,8 +5,8 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Card from '@/components/Card'
-import InvestorAvatar from '@/components/InvestorAvatar'  // ✅ Default import
-import { InvestorDelta } from '@/components/InvestorDelta'  // ✅ Named import
+import InvestorAvatar from '@/components/InvestorAvatar'  
+import { InvestorDelta } from '@/components/InvestorDelta'  
 import { stocks } from '../../../data/stocks'
 import { investors } from '../../../data/investors'
 import holdingsHistory from '../../../data/holdings'

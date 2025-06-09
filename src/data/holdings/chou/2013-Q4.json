@@ -1,167 +1,173 @@
 {
+  "form": "13F-HR",
   "date": "2013-11-14",
+  "period": "2013-11-14",
+  "accession": "0001140361-13-042702",
+  "quarterKey": "2013-Q4",
   "positions": [
     {
-      "name": "ACTAVIS INC",
-      "cusip": "00507K103",
-      "shares": 76705,
-      "value": 11045000
+      "name": "MANNKIND CORP",
+      "cusip": "56400PAA0",
+      "shares": 7300000,
+      "value": 722700
     },
     {
       "name": "COMPUCREDIT HLDGS CORP",
       "cusip": "20478NAD3",
       "shares": 12300000,
-      "value": 497523000
-    },
-    {
-      "name": "BANK OF AMERICA CORPORATION",
-      "cusip": "060505146",
-      "shares": 836825,
-      "value": 5096000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 300,
-      "value": 51123000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 185000,
-      "value": 1458000
-    },
-    {
-      "name": "BP PLC",
-      "cusip": "055622104",
-      "shares": 10000,
-      "value": 420000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 25537,
-      "value": 607000
-    },
-    {
-      "name": "CHUNGHWA TELECOM CO LTD",
-      "cusip": "17133Q502",
-      "shares": 132088,
-      "value": 4171000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 410000,
-      "value": 19889000
-    },
-    {
-      "name": "DELL INC",
-      "cusip": "24702R101",
-      "shares": 2500000,
-      "value": 34425000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46634E114",
-      "shares": 1126347,
-      "value": 18878000
+      "value": 497523
     },
     {
       "name": "LEVEL 3 COMMUNICATIONS INC",
       "cusip": "52729NBR0",
       "shares": 1470000,
-      "value": 220723000
-    },
-    {
-      "name": "MANNKIND CORP",
-      "cusip": "56400PAA0",
-      "shares": 7300000,
-      "value": 722700000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 1080797,
-      "value": 11057000
-    },
-    {
-      "name": "NOKIA CORP",
-      "cusip": "654902204",
-      "shares": 500000,
-      "value": 32550000
-    },
-    {
-      "name": "OVERSTOCK COM INC DEL",
-      "cusip": "690370101",
-      "shares": 694471,
-      "value": 20605000
-    },
-    {
-      "name": "PRIMUS TELECOMMUNICATIONS GR",
-      "cusip": "741929301",
-      "shares": 451022,
-      "value": 1529000
-    },
-    {
-      "name": "RADIOSHACK CORP",
-      "cusip": "750438103",
-      "shares": 794071,
-      "value": 2708000
+      "value": 220723
     },
     {
       "name": "RESOLUTE FST PRODS INC",
       "cusip": "76117W109",
       "shares": 4127259,
-      "value": 54562000
+      "value": 54562
     },
     {
-      "name": "RYANAIR HLDGS PLC",
-      "cusip": "783513104",
-      "shares": 17000,
-      "value": 846000
-    },
-    {
-      "name": "SANOFI",
-      "cusip": "80105N105",
-      "shares": 410000,
-      "value": 20758000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 300,
+      "value": 51123
     },
     {
       "name": "SEARS HLDGS CORP",
       "cusip": "812350106",
       "shares": 803526,
-      "value": 47922000
+      "value": 47922
     },
     {
-      "name": "SPRINT  CORP",
-      "cusip": "85207U105",
-      "shares": 110770,
-      "value": 688000
+      "name": "DELL INC",
+      "cusip": "24702R101",
+      "shares": 2500000,
+      "value": 34425
     },
     {
-      "name": "GOLDMAN SACHS GROUP INC",
-      "cusip": "38141G104",
-      "shares": 75000,
-      "value": 11866000
+      "name": "NOKIA CORP",
+      "cusip": "654902204",
+      "shares": 500000,
+      "value": 32550
     },
     {
-      "name": "UTSTARCOM HOLDINGS CORP",
-      "cusip": "G9310A114",
-      "shares": 113627,
-      "value": 312000
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 410000,
+      "value": 20758
     },
     {
-      "name": "VODAFONE GROUP PLC NEW",
-      "cusip": "92857W209",
-      "shares": 10000,
-      "value": 352000
+      "name": "OVERSTOCK COM INC DEL",
+      "cusip": "690370101",
+      "shares": 694471,
+      "value": 20605
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 410000,
+      "value": 19889
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 1126347,
+      "value": 18878
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746119",
       "shares": 997500,
-      "value": 14005000
+      "value": 14005
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 75000,
+      "value": 11866
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 1080797,
+      "value": 11057
+    },
+    {
+      "name": "ACTAVIS INC",
+      "cusip": "00507K103",
+      "shares": 76705,
+      "value": 11045
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505146",
+      "shares": 836825,
+      "value": 5096
+    },
+    {
+      "name": "CHUNGHWA TELECOM CO LTD",
+      "cusip": "17133Q502",
+      "shares": 132088,
+      "value": 4171
+    },
+    {
+      "name": "RADIOSHACK CORP",
+      "cusip": "750438103",
+      "shares": 794071,
+      "value": 2708
+    },
+    {
+      "name": "PRIMUS TELECOMMUNICATIONS GR",
+      "cusip": "741929301",
+      "shares": 451022,
+      "value": 1529
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 185000,
+      "value": 1458
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513104",
+      "shares": 17000,
+      "value": 846
+    },
+    {
+      "name": "SPRINT CORP",
+      "cusip": "85207U105",
+      "shares": 110770,
+      "value": 688
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 25537,
+      "value": 607
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 10000,
+      "value": 420
+    },
+    {
+      "name": "VODAFONE GROUP PLC NEW",
+      "cusip": "92857W209",
+      "shares": 10000,
+      "value": 352
+    },
+    {
+      "name": "UTSTARCOM HOLDINGS CORP",
+      "cusip": "G9310A114",
+      "shares": 113627,
+      "value": 312
     }
-  ]
+  ],
+  "totalValue": 1807818,
+  "positionsCount": 27
 }

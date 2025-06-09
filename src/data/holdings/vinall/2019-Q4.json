@@ -1,29 +1,35 @@
 {
+  "form": "13F-HR",
   "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001172661-19-002196",
+  "quarterKey": "2019-Q4",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 19900,
-      "value": 24301000
-    },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 115000,
-      "value": 53051000
+      "value": 53051
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 246500,
-      "value": 43897000
+      "value": 43897
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 19900,
+      "value": 24301
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 719566,
-      "value": 18291000
+      "value": 18291
     }
-  ]
+  ],
+  "totalValue": 139540,
+  "positionsCount": 4
 }

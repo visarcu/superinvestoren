@@ -2,90 +2,94 @@
   "form": "13F-HR",
   "date": "2020-02-14",
   "period": "2020-02-14",
+  "accession": "0000905718-20-000195",
+  "quarterKey": "2020-Q1",
   "positions": [
     {
       "name": "O-I GLASS INC",
       "cusip": "67098H104",
       "shares": 7901765,
-      "value": 94268000
+      "value": 94268
     },
     {
       "name": "DXC TECHNOLOGY CO",
       "cusip": "23355L106",
       "shares": 1462476,
-      "value": 54974000
+      "value": 54974
     },
     {
       "name": "CAPRI HOLDINGS LIMITED",
       "cusip": "G1890L107",
       "shares": 1339245,
-      "value": 51092000
+      "value": 51092
     },
     {
       "name": "WESTROCK CO",
       "cusip": "96145D105",
       "shares": 850184,
-      "value": 36481000
+      "value": 36481
     },
     {
       "name": "EASTMAN CHEMICAL CO",
       "cusip": "277432100",
       "shares": 412864,
-      "value": 32724000
+      "value": 32724
     },
     {
       "name": "LEAR CORP",
       "cusip": "521865204",
       "shares": 237000,
-      "value": 32516000
+      "value": 32516
     },
     {
       "name": "TIMKEN CO",
       "cusip": "887389104",
       "shares": 500728,
-      "value": 28196000
+      "value": 28196
     },
     {
       "name": "NOMAD FOODS LTD",
       "cusip": "G6564A105",
       "shares": 115000,
-      "value": 2573000
+      "value": 2573
     },
     {
       "name": "SMUCKER J M CO",
       "cusip": "832696405",
       "shares": 11000,
-      "value": 1145000
+      "value": 1145
     },
     {
       "name": "ALLEGHENY TECHNOLOGIES INC",
       "cusip": "01741R102",
       "shares": 50000,
-      "value": 1033000
+      "value": 1033
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 40300,
-      "value": 974000
+      "value": 974
     },
     {
       "name": "MOSAIC CO NEW",
       "cusip": "61945C103",
       "shares": 28000,
-      "value": 606000
+      "value": 606
     },
     {
       "name": "TECHNIPFMC PLC",
       "cusip": "G87110105",
       "shares": 28000,
-      "value": 600000
+      "value": 600
     },
     {
       "name": "COOPER TIRE & RUBR CO",
       "cusip": "216831107",
       "shares": 20462,
-      "value": 588000
+      "value": 588
     }
-  ]
+  ],
+  "totalValue": 337770,
+  "positionsCount": 14
 }

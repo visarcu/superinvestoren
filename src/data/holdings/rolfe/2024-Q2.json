@@ -1,119 +1,125 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-16",
+  "period": "2024-05-16",
+  "accession": "0000859804-24-000004",
+  "quarterKey": "2024-Q2",
   "positions": [
     {
       "name": "ALPHABET INC",
       "cusip": "02079K305",
       "shares": 267624,
-      "value": 46167816000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 178374,
-      "value": 33841173000
-    },
-    {
-      "name": "BOOKING HOLDINGS INC",
-      "cusip": "09857L108",
-      "shares": 6289,
-      "value": 23851627000
-    },
-    {
-      "name": "CDW CORP",
-      "cusip": "12514G108",
-      "shares": 98610,
-      "value": 22033490000
-    },
-    {
-      "name": "COPART INC",
-      "cusip": "217204106",
-      "shares": 527209,
-      "value": 29159930000
-    },
-    {
-      "name": "EDWARDS LIFESCIENCES CORP",
-      "cusip": "28176E108",
-      "shares": 245451,
-      "value": 22129862000
+      "value": 46167816
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 85922,
-      "value": 41374743000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 70615,
-      "value": 29875624000
-    },
-    {
-      "name": "MOTOROLA SOLUTIONS INC",
-      "cusip": "620076307",
-      "shares": 80324,
-      "value": 29320590000
-    },
-    {
-      "name": "OLD DOMINION FREIGHT LINE IN",
-      "cusip": "679580100",
-      "shares": 62254,
-      "value": 11449730000
-    },
-    {
-      "name": "OREILLY AUTOMOTIVE INC",
-      "cusip": "67103H107",
-      "shares": 9098,
-      "value": 9192437000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 513797,
-      "value": 32831628000
-    },
-    {
-      "name": "POOL CORP",
-      "cusip": "73278L105",
-      "shares": 34316,
-      "value": 13145576000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 25151,
-      "value": 10958499000
+      "value": 41374743
     },
     {
       "name": "TAIWAN SEMICONDUCTOR MFG LTD",
       "cusip": "874039100",
       "shares": 253667,
-      "value": 39465467000
-    },
-    {
-      "name": "TEXAS PACIFIC LAND CORPORATI",
-      "cusip": "88262P102",
-      "shares": 13699,
-      "value": 8240794000
-    },
-    {
-      "name": "TRACTOR SUPPLY CO",
-      "cusip": "892356106",
-      "shares": 103684,
-      "value": 28612655000
-    },
-    {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 60193,
-      "value": 31152761000
+      "value": 39465467
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 131401,
-      "value": 36989456000
+      "value": 36989456
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 178374,
+      "value": 33841173
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 513797,
+      "value": 32831628
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 60193,
+      "value": 31152761
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 70615,
+      "value": 29875624
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS INC",
+      "cusip": "620076307",
+      "shares": 80324,
+      "value": 29320590
+    },
+    {
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 527209,
+      "value": 29159930
+    },
+    {
+      "name": "TRACTOR SUPPLY CO",
+      "cusip": "892356106",
+      "shares": 103684,
+      "value": 28612655
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 6289,
+      "value": 23851627
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 245451,
+      "value": 22129862
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514G108",
+      "shares": 98610,
+      "value": 22033490
+    },
+    {
+      "name": "POOL CORP",
+      "cusip": "73278L105",
+      "shares": 34316,
+      "value": 13145576
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE IN",
+      "cusip": "679580100",
+      "shares": 62254,
+      "value": 11449730
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 25151,
+      "value": 10958499
+    },
+    {
+      "name": "OREILLY AUTOMOTIVE INC",
+      "cusip": "67103H107",
+      "shares": 9098,
+      "value": 9192437
+    },
+    {
+      "name": "TEXAS PACIFIC LAND CORPORATI",
+      "cusip": "88262P102",
+      "shares": 13699,
+      "value": 8240794
     }
-  ]
+  ],
+  "totalValue": 499793858,
+  "positionsCount": 19
 }

@@ -1,101 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0001387131-19-001178",
+  "quarterKey": "2019-Q1",
   "positions": [
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 7920,
-      "value": 11896000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 4460,
-      "value": 6699000
-    },
     {
       "name": "BROOKFIELD ASSET MGMT INC",
       "cusip": "112585104",
       "shares": 352500,
-      "value": 13518000
+      "value": 13518
     },
     {
-      "name": "BROOKFIELD ASSET MGMT INC",
-      "cusip": "112585104",
-      "shares": 198450,
-      "value": 7611000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 7920,
+      "value": 11896
     },
     {
       "name": "KKR & CO INC",
       "cusip": "48251W104",
       "shares": 456300,
-      "value": 8957000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 252960,
-      "value": 4966000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 28675,
-      "value": 7675000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 15910,
-      "value": 4258000
-    },
-    {
-      "name": "SHAKE SHACK INC",
-      "cusip": "819047101",
-      "shares": 135500,
-      "value": 6154000
-    },
-    {
-      "name": "SHAKE SHACK INC",
-      "cusip": "819047101",
-      "shares": 87540,
-      "value": 3976000
-    },
-    {
-      "name": "SPOTIFY TECHNOLOGY S A",
-      "cusip": "L8681T102",
-      "shares": 27450,
-      "value": 3116000
-    },
-    {
-      "name": "SPOTIFY TECHNOLOGY S A",
-      "cusip": "L8681T102",
-      "shares": 15540,
-      "value": 1764000
+      "value": 8957
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 317700,
-      "value": 8089000
+      "value": 8089
     },
     {
-      "name": "TRUPANION INC",
-      "cusip": "898202106",
-      "shares": 178159,
-      "value": 4536000
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 28675,
+      "value": 7675
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 198450,
+      "value": 7611
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4460,
+      "value": 6699
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 135500,
+      "value": 6154
     },
     {
       "name": "WAYFAIR INC",
       "cusip": "94419L101",
       "shares": 67900,
-      "value": 6116000
+      "value": 6116
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 252960,
+      "value": 4966
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 178159,
+      "value": 4536
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 15910,
+      "value": 4258
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 87540,
+      "value": 3976
     },
     {
       "name": "WAYFAIR INC",
       "cusip": "94419L101",
       "shares": 38230,
-      "value": 3444000
+      "value": 3444
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 27450,
+      "value": 3116
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 15540,
+      "value": 1764
     }
-  ]
+  ],
+  "totalValue": 102775,
+  "positionsCount": 16
 }

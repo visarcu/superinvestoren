@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2021-02-16",
   "period": "2021-02-16",
+  "accession": "0000905718-21-000236",
+  "quarterKey": "2021-Q1",
   "positions": [
     {
       "name": "GRACE W R & CO DEL NEW",
       "cusip": "38388F108",
       "shares": 1035474,
-      "value": 56765000
+      "value": 56765
     },
     {
       "name": "WESTROCK CO",
       "cusip": "96145D105",
       "shares": 1010619,
-      "value": 43992000
+      "value": 43992
     },
     {
       "name": "RALPH LAUREN CORP",
       "cusip": "751212101",
       "shares": 337910,
-      "value": 35055000
+      "value": 35055
     },
     {
       "name": "UNIVAR SOLUTIONS USA INC",
       "cusip": "91336L107",
       "shares": 1813434,
-      "value": 34473000
+      "value": 34473
     },
     {
       "name": "EDGEWELL PERS CARE CO",
       "cusip": "28035Q102",
       "shares": 928182,
-      "value": 32097000
+      "value": 32097
     },
     {
       "name": "O-I GLASS INC",
       "cusip": "67098H104",
       "shares": 2676454,
-      "value": 31850000
+      "value": 31850
     },
     {
       "name": "LEAR CORP",
       "cusip": "521865204",
       "shares": 174905,
-      "value": 27815000
+      "value": 27815
     },
     {
       "name": "AVNET INC",
       "cusip": "053807103",
       "shares": 683333,
-      "value": 23992000
+      "value": 23992
     },
     {
       "name": "EASTMAN CHEM CO",
       "cusip": "277432100",
       "shares": 100000,
-      "value": 10028000
+      "value": 10028
     },
     {
       "name": "NOMAD FOODS LTD",
       "cusip": "G6564A105",
       "shares": 135000,
-      "value": 3432000
+      "value": 3432
     }
-  ]
+  ],
+  "totalValue": 299499,
+  "positionsCount": 10
 }

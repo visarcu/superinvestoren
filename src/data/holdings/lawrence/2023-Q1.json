@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0001172661-23-000989",
+  "quarterKey": "2023-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 204300,
-      "value": 18128000000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 45574,
-      "value": 15454000000
-    },
-    {
-      "name": "GILDAN ACTIVEWEAR INC",
-      "cusip": "375916103",
-      "shares": 417000,
-      "value": 11425800000
-    },
-    {
-      "name": "GUIDEWIRE SOFTWARE INC",
-      "cusip": "40171V100",
-      "shares": 199435,
-      "value": 12477000000
-    },
-    {
-      "name": "HALLADOR ENERGY COMPANY",
-      "cusip": "40609P105",
-      "shares": 372664,
-      "value": 3723000000
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 51698,
+      "value": 32552000
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 339647,
-      "value": 24573000000
+      "value": 24573000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 204300,
+      "value": 18128000
     },
     {
       "name": "STAR GROUP L P",
       "cusip": "85512C105",
       "shares": 1305167,
-      "value": 15727000000
+      "value": 15727000
     },
     {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 51698,
-      "value": 32552000000
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 45574,
+      "value": 15454000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 199435,
+      "value": 12477000
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 417000,
+      "value": 11425800
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 372664,
+      "value": 3723000
     }
-  ]
+  ],
+  "totalValue": 134059800,
+  "positionsCount": 8
 }

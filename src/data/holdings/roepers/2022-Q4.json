@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2022-11-14",
   "period": "2022-11-14",
+  "accession": "0001493152-22-032012",
+  "quarterKey": "2022-Q4",
   "positions": [
     {
-      "name": "EASTMAN CHEM CO",
-      "cusip": "277432100",
-      "shares": 306960,
-      "value": 21810000
+      "name": "UNIVAR SOLUTIONS INC",
+      "cusip": "91336L107",
+      "shares": 1323597,
+      "value": 30099
     },
     {
       "name": "WESTROCK CO",
       "cusip": "96145D105",
       "shares": 951767,
-      "value": 29400000
-    },
-    {
-      "name": "O-I GLASS INC",
-      "cusip": "67098H104",
-      "shares": 655000,
-      "value": 8482000
-    },
-    {
-      "name": "UNIVAR SOLUTIONS INC",
-      "cusip": "91336L107",
-      "shares": 1323597,
-      "value": 30099000
-    },
-    {
-      "name": "AVNET INC",
-      "cusip": "053807103",
-      "shares": 781877,
-      "value": 28241000
-    },
-    {
-      "name": "LEAR CORP",
-      "cusip": "521865204",
-      "shares": 148215,
-      "value": 17740000
-    },
-    {
-      "name": "HUNTSMAN CORP",
-      "cusip": "447011107",
-      "shares": 421969,
-      "value": 10355000
+      "value": 29400
     },
     {
       "name": "TIMKEN CO",
       "cusip": "887389104",
       "shares": 482816,
-      "value": 28505000
+      "value": 28505
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 781877,
+      "value": 28241
     },
     {
       "name": "RALPH LAUREN CORP",
       "cusip": "751212101",
       "shares": 319248,
-      "value": 27114000
+      "value": 27114
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 306960,
+      "value": 21810
     },
     {
       "name": "FLOWSERVE CORP",
       "cusip": "34354P105",
       "shares": 807361,
-      "value": 19619000
+      "value": 19619
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 148215,
+      "value": 17740
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 421969,
+      "value": 10355
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 655000,
+      "value": 8482
     }
-  ]
+  ],
+  "totalValue": 221365,
+  "positionsCount": 10
 }

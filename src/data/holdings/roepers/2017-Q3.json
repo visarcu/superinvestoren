@@ -2,120 +2,124 @@
   "form": "13F-HR",
   "date": "2017-08-14",
   "period": "2017-08-14",
+  "accession": "0000905718-17-000768",
+  "quarterKey": "2017-Q3",
   "positions": [
     {
       "name": "OWENS ILL INC",
       "cusip": "690768403",
       "shares": 8381360,
-      "value": 200482000
+      "value": 200482
     },
     {
       "name": "DIEBOLD NXDF INC",
       "cusip": "253651103",
       "shares": 6000000,
-      "value": 168000000
+      "value": 168000
     },
     {
       "name": "COMMSCOPE HOLDING CO INC",
       "cusip": "20337X109",
       "shares": 4265989,
-      "value": 162236000
+      "value": 162236
     },
     {
       "name": "EASTMAN CHEM CO",
       "cusip": "277432100",
       "shares": 1701345,
-      "value": 142896000
+      "value": 142896
     },
     {
       "name": "ARRIS INTL INC",
       "cusip": "G0551A103",
       "shares": 4280759,
-      "value": 119947000
+      "value": 119947
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 4330700,
-      "value": 111905000
+      "value": 111905
     },
     {
       "name": "MAGNA INTL INC",
       "cusip": "559222401",
       "shares": 173356,
-      "value": 8032000
+      "value": 8032
     },
     {
       "name": "LSC COMMUNICATIONS INC",
       "cusip": "50218P107",
       "shares": 355388,
-      "value": 7605000
+      "value": 7605
     },
     {
       "name": "INTERNATIONAL GAME TECHNOLOGY",
       "cusip": "G4863A108",
       "shares": 412247,
-      "value": 7544000
+      "value": 7544
     },
     {
       "name": "TRIUMPH GROUP INC NEW",
       "cusip": "896818101",
       "shares": 233993,
-      "value": 7394000
+      "value": 7394
     },
     {
       "name": "STEELCASE INC",
       "cusip": "858155203",
       "shares": 487643,
-      "value": 6827000
+      "value": 6827
     },
     {
       "name": "AVNET INC",
       "cusip": "053807103",
       "shares": 158000,
-      "value": 6143000
+      "value": 6143
     },
     {
       "name": "DXC TECHNOLOGY CO",
       "cusip": "23355L106",
       "shares": 61117,
-      "value": 4689000
+      "value": 4689
     },
     {
       "name": "BABCOCK & WILCOX ENTERPRISES I",
       "cusip": "05614L100",
       "shares": 386056,
-      "value": 4540000
+      "value": 4540
     },
     {
       "name": "NOMAD FOODS LTD",
       "cusip": "G6564A105",
       "shares": 312368,
-      "value": 4408000
+      "value": 4408
     },
     {
       "name": "ADIENT PLC",
       "cusip": "G0084W101",
       "shares": 50000,
-      "value": 3269000
+      "value": 3269
     },
     {
       "name": "KAPSTONE PAPER AND PACKAGING",
       "cusip": "48562P103",
       "shares": 150000,
-      "value": 3095000
+      "value": 3095
     },
     {
       "name": "AMERICAN AXLE & MFG HLDGS IN",
       "cusip": "024061103",
       "shares": 150000,
-      "value": 2340000
+      "value": 2340
     },
     {
       "name": "ZTO EXPRESS CAYMAN INC",
       "cusip": "98980A105",
       "shares": 127400,
-      "value": 1779000
+      "value": 1779
     }
-  ]
+  ],
+  "totalValue": 973131,
+  "positionsCount": 19
 }

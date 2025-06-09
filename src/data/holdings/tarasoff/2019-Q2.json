@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001387131-19-003641",
+  "quarterKey": "2019-Q2",
   "positions": [
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 7920,
-      "value": 14104000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 6990,
-      "value": 12447000
-    },
     {
       "name": "BROOKFIELD ASSET MGMT INC",
       "cusip": "112585104",
       "shares": 364700,
-      "value": 17013000
+      "value": 17013
     },
     {
       "name": "BROOKFIELD ASSET MGMT INC",
       "cusip": "112585104",
       "shares": 321650,
-      "value": 15005000
+      "value": 15005
     },
     {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 404300,
-      "value": 9497000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 7920,
+      "value": 14104
     },
     {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 367960,
-      "value": 8643000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 29075,
-      "value": 10367000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 25610,
-      "value": 9132000
-    },
-    {
-      "name": "SHAKE SHACK INC",
-      "cusip": "819047101",
-      "shares": 135500,
-      "value": 8015000
-    },
-    {
-      "name": "SHAKE SHACK INC",
-      "cusip": "819047101",
-      "shares": 119440,
-      "value": 7065000
-    },
-    {
-      "name": "SPOTIFY TECHNOLOGY S A",
-      "cusip": "L8681T102",
-      "shares": 52000,
-      "value": 7218000
-    },
-    {
-      "name": "SPOTIFY TECHNOLOGY S A",
-      "cusip": "L8681T102",
-      "shares": 45290,
-      "value": 6286000
-    },
-    {
-      "name": "STITCH FIX INC",
-      "cusip": "860897107",
-      "shares": 133400,
-      "value": 3766000
-    },
-    {
-      "name": "STITCH FIX INC",
-      "cusip": "860897107",
-      "shares": 118000,
-      "value": 3331000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 6990,
+      "value": 12447
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 317700,
-      "value": 10401000
+      "value": 10401
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 29075,
+      "value": 10367
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 404300,
+      "value": 9497
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 280272,
-      "value": 9176000
+      "value": 9176
     },
     {
       "name": "WAYFAIR INC",
       "cusip": "94419L101",
       "shares": 61800,
-      "value": 9174000
+      "value": 9174
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 25610,
+      "value": 9132
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 367960,
+      "value": 8643
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 135500,
+      "value": 8015
     },
     {
       "name": "WAYFAIR INC",
       "cusip": "94419L101",
       "shares": 50630,
-      "value": 7516000
+      "value": 7516
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 52000,
+      "value": 7218
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 119440,
+      "value": 7065
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 45290,
+      "value": 6286
+    },
+    {
+      "name": "STITCH FIX INC",
+      "cusip": "860897107",
+      "shares": 133400,
+      "value": 3766
+    },
+    {
+      "name": "STITCH FIX INC",
+      "cusip": "860897107",
+      "shares": 118000,
+      "value": 3331
     }
-  ]
+  ],
+  "totalValue": 168156,
+  "positionsCount": 18
 }

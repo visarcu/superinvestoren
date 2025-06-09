@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0000921895-20-001438",
+  "quarterKey": "2020-Q2",
   "positions": [
-    {
-      "name": "APOGEE ENTERPRISES INC",
-      "cusip": "037598109",
-      "shares": 984759,
-      "value": 20503000
-    },
     {
       "name": "HAIN CELESTIAL GROUP INC",
       "cusip": "405217100",
       "shares": 21068777,
-      "value": 547156000
-    },
-    {
-      "name": "INNERWORKINGS INC",
-      "cusip": "45773Y105",
-      "shares": 2573248,
-      "value": 3011000
-    },
-    {
-      "name": "MEDIFAST INC",
-      "cusip": "58470H101",
-      "shares": 1160376,
-      "value": 72524000
-    },
-    {
-      "name": "NCR CORP NEW",
-      "cusip": "62886E108",
-      "shares": 638010,
-      "value": 11293000
+      "value": 547156
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 5333609,
-      "value": 75417000
+      "value": 75417
     },
     {
-      "name": "SUNOPTA INC",
-      "cusip": "8676EP108",
-      "shares": 8731907,
-      "value": 15019000
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 1160376,
+      "value": 72524
+    },
+    {
+      "name": "APOGEE ENTERPRISES INC",
+      "cusip": "037598109",
+      "shares": 984759,
+      "value": 20503
     },
     {
       "name": "TIVO CORP",
       "cusip": "88870P106",
       "shares": 2525000,
-      "value": 17877000
+      "value": 17877
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 8731907,
+      "value": 15019
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 638010,
+      "value": 11293
+    },
+    {
+      "name": "INNERWORKINGS INC",
+      "cusip": "45773Y105",
+      "shares": 2573248,
+      "value": 3011
     }
-  ]
+  ],
+  "totalValue": 762800,
+  "positionsCount": 8
 }

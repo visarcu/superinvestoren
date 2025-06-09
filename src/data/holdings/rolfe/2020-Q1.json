@@ -1,467 +1,473 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0000859804-20-000003",
+  "quarterKey": "2020-Q1",
   "positions": [
-    {
-      "name": "ALCON INC F",
-      "cusip": "h01301128",
-      "shares": 348946,
-      "value": 20340000
-    },
-    {
-      "name": "ALCON INC F",
-      "cusip": "h01301128",
-      "shares": 249471,
-      "value": 14541000
-    },
-    {
-      "name": "ALCON INC F",
-      "cusip": "h01301128",
-      "shares": 53950,
-      "value": 3144000
-    },
-    {
-      "name": "ALPHABET INC. CL A",
-      "cusip": "02079K305",
-      "shares": 33106,
-      "value": 40427000
-    },
-    {
-      "name": "ALPHABET INC. CL A",
-      "cusip": "02079K305",
-      "shares": 25692,
-      "value": 31373000
-    },
-    {
-      "name": "ALPHABET INC. CL A",
-      "cusip": "02079K305",
-      "shares": 6162,
-      "value": 7524000
-    },
-    {
-      "name": "ALPHABET INC. CL C",
-      "cusip": "02079K107",
-      "shares": 4261,
-      "value": 5194000
-    },
-    {
-      "name": "ALPHABET INC. CL C",
-      "cusip": "02079K107",
-      "shares": 3265,
-      "value": 3980000
-    },
-    {
-      "name": "AMEREN CORP COM USD0.01",
-      "cusip": "023608102",
-      "shares": 6900,
-      "value": 552000
-    },
-    {
-      "name": "ANNALY CAP MGMT INC COM",
-      "cusip": "035710409",
-      "shares": 69250,
-      "value": 609000
-    },
     {
       "name": "APPLE",
       "cusip": "037833100",
       "shares": 271766,
-      "value": 60867000
-    },
-    {
-      "name": "APPLE",
-      "cusip": "037833100",
-      "shares": 188254,
-      "value": 42163000
-    },
-    {
-      "name": "APPLE",
-      "cusip": "037833100",
-      "shares": 38362,
-      "value": 8591000
-    },
-    {
-      "name": "AT&T INC COM",
-      "cusip": "00206R102",
-      "shares": 22375,
-      "value": 846000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY CL B",
-      "cusip": "084670702",
-      "shares": 61113,
-      "value": 12712000
-    },
-    {
-      "name": "BLACKSTONE GROUP INC COMCL A",
-      "cusip": "09260d107",
-      "shares": 13000,
-      "value": 634000
-    },
-    {
-      "name": "BOEING CO COM USD5.00",
-      "cusip": "097023105",
-      "shares": 1250,
-      "value": 475000
-    },
-    {
-      "name": "BOOKING HOLDINGS",
-      "cusip": "09857L108",
-      "shares": 18922,
-      "value": 37136000
-    },
-    {
-      "name": "BOOKING HOLDINGS",
-      "cusip": "09857L108",
-      "shares": 13420,
-      "value": 26338000
-    },
-    {
-      "name": "BOOKING HOLDINGS",
-      "cusip": "09857L108",
-      "shares": 2837,
-      "value": 5567000
-    },
-    {
-      "name": "BP PLC SPONSORED ADR",
-      "cusip": "055622104",
-      "shares": 12550,
-      "value": 476000
-    },
-    {
-      "name": "C.H. ROBINSON WORLDWIDE",
-      "cusip": "12541W209",
-      "shares": 251423,
-      "value": 21315000
-    },
-    {
-      "name": "C.H. ROBINSON WORLDWIDE",
-      "cusip": "12541W209",
-      "shares": 202273,
-      "value": 17148000
-    },
-    {
-      "name": "C.H. ROBINSON WORLDWIDE",
-      "cusip": "12541W209",
-      "shares": 42022,
-      "value": 3562000
-    },
-    {
-      "name": "CDW CORP",
-      "cusip": "12514g108",
-      "shares": 79334,
-      "value": 9777000
-    },
-    {
-      "name": "CDW CORP",
-      "cusip": "12514g108",
-      "shares": 73636,
-      "value": 9074000
-    },
-    {
-      "name": "CDW CORP",
-      "cusip": "12514g108",
-      "shares": 15953,
-      "value": 1966000
-    },
-    {
-      "name": "CELGENE CORP",
-      "cusip": "151020104",
-      "shares": 202292,
-      "value": 20087000
-    },
-    {
-      "name": "CELGENE CORP",
-      "cusip": "151020104",
-      "shares": 157565,
-      "value": 15646000
-    },
-    {
-      "name": "CELGENE CORP",
-      "cusip": "151020104",
-      "shares": 34110,
-      "value": 3387000
-    },
-    {
-      "name": "CHARLES SCHWAB",
-      "cusip": "808513105",
-      "shares": 90925,
-      "value": 3803000
-    },
-    {
-      "name": "CONSOLIDATED EDISON INCCOM USD",
-      "cusip": "209115104",
-      "shares": 5250,
-      "value": 495000
-    },
-    {
-      "name": "ECOLAB INC COM",
-      "cusip": "278865100",
-      "shares": 2500,
-      "value": 495000
+      "value": 60867
     },
     {
       "name": "EDWARDS LIFESCIENCES",
       "cusip": "28176E108",
       "shares": 259990,
-      "value": 57174000
-    },
-    {
-      "name": "EDWARDS LIFESCIENCES",
-      "cusip": "28176E108",
-      "shares": 178543,
-      "value": 39263000
-    },
-    {
-      "name": "EDWARDS LIFESCIENCES",
-      "cusip": "28176E108",
-      "shares": 40256,
-      "value": 8852000
-    },
-    {
-      "name": "ELECTRONIC ARTS INC",
-      "cusip": "285512109",
-      "shares": 220088,
-      "value": 21529000
-    },
-    {
-      "name": "ELECTRONIC ARTS INC",
-      "cusip": "285512109",
-      "shares": 165875,
-      "value": 16225000
-    },
-    {
-      "name": "ELECTRONIC ARTS INC",
-      "cusip": "285512109",
-      "shares": 35565,
-      "value": 3478000
-    },
-    {
-      "name": "FACEBOOK",
-      "cusip": "30303M102",
-      "shares": 238335,
-      "value": 42442000
-    },
-    {
-      "name": "FACEBOOK",
-      "cusip": "30303M102",
-      "shares": 202629,
-      "value": 36084000
-    },
-    {
-      "name": "FACEBOOK",
-      "cusip": "30303M102",
-      "shares": 42049,
-      "value": 7488000
-    },
-    {
-      "name": "FASTENAL CO",
-      "cusip": "311900104",
-      "shares": 971882,
-      "value": 31751000
-    },
-    {
-      "name": "FASTENAL CO",
-      "cusip": "311900104",
-      "shares": 744957,
-      "value": 24337000
-    },
-    {
-      "name": "FASTENAL CO",
-      "cusip": "311900104",
-      "shares": 150650,
-      "value": 4921000
-    },
-    {
-      "name": "JOHNSON &JOHNSON COM USD1.00",
-      "cusip": "478160104",
-      "shares": 6300,
-      "value": 815000
-    },
-    {
-      "name": "MANNING & NAPIER INC CL A",
-      "cusip": "56382Q102",
-      "shares": 23000,
-      "value": 43000
-    },
-    {
-      "name": "MOTOROLA SOLUTIONS",
-      "cusip": "620076307",
-      "shares": 102753,
-      "value": 17510000
-    },
-    {
-      "name": "MOTOROLA SOLUTIONS",
-      "cusip": "620076307",
-      "shares": 84557,
-      "value": 14409000
-    },
-    {
-      "name": "MOTOROLA SOLUTIONS",
-      "cusip": "620076307",
-      "shares": 17744,
-      "value": 3023000
-    },
-    {
-      "name": "NVIDIA CORP",
-      "cusip": "67066g104",
-      "shares": 77241,
-      "value": 13445000
-    },
-    {
-      "name": "NVIDIA CORP",
-      "cusip": "67066g104",
-      "shares": 52876,
-      "value": 9204000
-    },
-    {
-      "name": "NVIDIA CORP",
-      "cusip": "67066g104",
-      "shares": 10950,
-      "value": 1906000
-    },
-    {
-      "name": "PAYCHEX INC COM USD0.01",
-      "cusip": "704326107",
-      "shares": 6150,
-      "value": 509000
-    },
-    {
-      "name": "PAYPAL HOLDINGS",
-      "cusip": "70450Y103",
-      "shares": 274221,
-      "value": 28406000
-    },
-    {
-      "name": "PAYPAL HOLDINGS",
-      "cusip": "70450Y103",
-      "shares": 210883,
-      "value": 21845000
-    },
-    {
-      "name": "PAYPAL HOLDINGS",
-      "cusip": "70450Y103",
-      "shares": 42758,
-      "value": 4429000
-    },
-    {
-      "name": "QUALCOMM",
-      "cusip": "747525103",
-      "shares": 48075,
-      "value": 3667000
-    },
-    {
-      "name": "ROSS STORES",
-      "cusip": "778296103",
-      "shares": 198486,
-      "value": 21803000
-    },
-    {
-      "name": "ROSS STORES",
-      "cusip": "778296103",
-      "shares": 154295,
-      "value": 16949000
-    },
-    {
-      "name": "ROSS STORES",
-      "cusip": "778296103",
-      "shares": 31855,
-      "value": 3499000
-    },
-    {
-      "name": "SCHLUMBERGER",
-      "cusip": "806857108",
-      "shares": 29175,
-      "value": 996000
-    },
-    {
-      "name": "STARBUCKS CORP",
-      "cusip": "855244109",
-      "shares": 277487,
-      "value": 24535000
-    },
-    {
-      "name": "STARBUCKS CORP",
-      "cusip": "855244109",
-      "shares": 232033,
-      "value": 20516000
-    },
-    {
-      "name": "STARBUCKS CORP",
-      "cusip": "855244109",
-      "shares": 48340,
-      "value": 4274000
-    },
-    {
-      "name": "TORONTO DOMINION BK ONT COM NE",
-      "cusip": "891160509",
-      "shares": 6000,
-      "value": 349000
-    },
-    {
-      "name": "TRACTOR SUPPLY COMP",
-      "cusip": "892356106",
-      "shares": 361170,
-      "value": 32664000
-    },
-    {
-      "name": "TRACTOR SUPPLY COMP",
-      "cusip": "892356106",
-      "shares": 279450,
-      "value": 25273000
-    },
-    {
-      "name": "TRACTOR SUPPLY COMP",
-      "cusip": "892356106",
-      "shares": 54735,
-      "value": 4950000
-    },
-    {
-      "name": "ULTA BEAUTY INC.",
-      "cusip": "90384S303",
-      "shares": 63387,
-      "value": 15887000
-    },
-    {
-      "name": "ULTA BEAUTY INC.",
-      "cusip": "90384S303",
-      "shares": 35597,
-      "value": 8922000
-    },
-    {
-      "name": "ULTA BEAUTY INC.",
-      "cusip": "90384S303",
-      "shares": 9555,
-      "value": 2394000
-    },
-    {
-      "name": "US BANCORP DEL COMNEW",
-      "cusip": "902973304",
-      "shares": 50663,
-      "value": 2803000
-    },
-    {
-      "name": "VERIZON COMMUNICATIONS INC COM",
-      "cusip": "92343V104",
-      "shares": 17250,
-      "value": 1041000
+      "value": 57174
     },
     {
       "name": "VISA",
       "cusip": "92826C839",
       "shares": 288306,
-      "value": 49591000
+      "value": 49591
+    },
+    {
+      "name": "FACEBOOK",
+      "cusip": "30303M102",
+      "shares": 238335,
+      "value": 42442
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 188254,
+      "value": 42163
     },
     {
       "name": "VISA",
       "cusip": "92826C839",
       "shares": 239219,
-      "value": 41148000
+      "value": 41148
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079K305",
+      "shares": 33106,
+      "value": 40427
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES",
+      "cusip": "28176E108",
+      "shares": 178543,
+      "value": 39263
+    },
+    {
+      "name": "BOOKING HOLDINGS",
+      "cusip": "09857L108",
+      "shares": 18922,
+      "value": 37136
+    },
+    {
+      "name": "FACEBOOK",
+      "cusip": "30303M102",
+      "shares": 202629,
+      "value": 36084
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 361170,
+      "value": 32664
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 971882,
+      "value": 31751
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079K305",
+      "shares": 25692,
+      "value": 31373
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450Y103",
+      "shares": 274221,
+      "value": 28406
+    },
+    {
+      "name": "BOOKING HOLDINGS",
+      "cusip": "09857L108",
+      "shares": 13420,
+      "value": 26338
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 279450,
+      "value": 25273
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 277487,
+      "value": 24535
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 744957,
+      "value": 24337
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450Y103",
+      "shares": 210883,
+      "value": 21845
+    },
+    {
+      "name": "ROSS STORES",
+      "cusip": "778296103",
+      "shares": 198486,
+      "value": 21803
+    },
+    {
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 220088,
+      "value": 21529
+    },
+    {
+      "name": "C.H. ROBINSON WORLDWIDE",
+      "cusip": "12541W209",
+      "shares": 251423,
+      "value": 21315
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 232033,
+      "value": 20516
+    },
+    {
+      "name": "ALCON INC F",
+      "cusip": "01301128",
+      "shares": 348946,
+      "value": 20340
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 202292,
+      "value": 20087
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS",
+      "cusip": "620076307",
+      "shares": 102753,
+      "value": 17510
+    },
+    {
+      "name": "C.H. ROBINSON WORLDWIDE",
+      "cusip": "12541W209",
+      "shares": 202273,
+      "value": 17148
+    },
+    {
+      "name": "ROSS STORES",
+      "cusip": "778296103",
+      "shares": 154295,
+      "value": 16949
+    },
+    {
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 165875,
+      "value": 16225
+    },
+    {
+      "name": "ULTA BEAUTY INC",
+      "cusip": "90384S303",
+      "shares": 63387,
+      "value": 15887
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 157565,
+      "value": 15646
+    },
+    {
+      "name": "ALCON INC F",
+      "cusip": "01301128",
+      "shares": 249471,
+      "value": 14541
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS",
+      "cusip": "620076307",
+      "shares": 84557,
+      "value": 14409
+    },
+    {
+      "name": "NVIDIA CORP",
+      "cusip": "67066104",
+      "shares": 77241,
+      "value": 13445
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 61113,
+      "value": 12712
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514108",
+      "shares": 79334,
+      "value": 9777
+    },
+    {
+      "name": "NVIDIA CORP",
+      "cusip": "67066104",
+      "shares": 52876,
+      "value": 9204
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514108",
+      "shares": 73636,
+      "value": 9074
+    },
+    {
+      "name": "ULTA BEAUTY INC",
+      "cusip": "90384S303",
+      "shares": 35597,
+      "value": 8922
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES",
+      "cusip": "28176E108",
+      "shares": 40256,
+      "value": 8852
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 38362,
+      "value": 8591
     },
     {
       "name": "VISA",
       "cusip": "92826C839",
       "shares": 44407,
-      "value": 7638000
+      "value": 7638
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079K305",
+      "shares": 6162,
+      "value": 7524
+    },
+    {
+      "name": "FACEBOOK",
+      "cusip": "30303M102",
+      "shares": 42049,
+      "value": 7488
+    },
+    {
+      "name": "BOOKING HOLDINGS",
+      "cusip": "09857L108",
+      "shares": 2837,
+      "value": 5567
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079K107",
+      "shares": 4261,
+      "value": 5194
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 54735,
+      "value": 4950
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 150650,
+      "value": 4921
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450Y103",
+      "shares": 42758,
+      "value": 4429
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 48340,
+      "value": 4274
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079K107",
+      "shares": 3265,
+      "value": 3980
+    },
+    {
+      "name": "CHARLES SCHWAB",
+      "cusip": "808513105",
+      "shares": 90925,
+      "value": 3803
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 48075,
+      "value": 3667
+    },
+    {
+      "name": "C.H. ROBINSON WORLDWIDE",
+      "cusip": "12541W209",
+      "shares": 42022,
+      "value": 3562
+    },
+    {
+      "name": "ROSS STORES",
+      "cusip": "778296103",
+      "shares": 31855,
+      "value": 3499
+    },
+    {
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 35565,
+      "value": 3478
+    },
+    {
+      "name": "CELGENE CORP",
+      "cusip": "151020104",
+      "shares": 34110,
+      "value": 3387
+    },
+    {
+      "name": "ALCON INC F",
+      "cusip": "01301128",
+      "shares": 53950,
+      "value": 3144
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS",
+      "cusip": "620076307",
+      "shares": 17744,
+      "value": 3023
+    },
+    {
+      "name": "US BANCORP DEL COMNEW",
+      "cusip": "902973304",
+      "shares": 50663,
+      "value": 2803
+    },
+    {
+      "name": "ULTA BEAUTY INC",
+      "cusip": "90384S303",
+      "shares": 9555,
+      "value": 2394
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514108",
+      "shares": 15953,
+      "value": 1966
+    },
+    {
+      "name": "NVIDIA CORP",
+      "cusip": "67066104",
+      "shares": 10950,
+      "value": 1906
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC COM",
+      "cusip": "92343V104",
+      "shares": 17250,
+      "value": 1041
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 29175,
+      "value": 996
+    },
+    {
+      "name": "AT&T INC COM",
+      "cusip": "00206R102",
+      "shares": 22375,
+      "value": 846
+    },
+    {
+      "name": "JOHNSON &JOHNSON COM USD1.00",
+      "cusip": "478160104",
+      "shares": 6300,
+      "value": 815
+    },
+    {
+      "name": "BLACKSTONE GROUP INC COMCL A",
+      "cusip": "09260107",
+      "shares": 13000,
+      "value": 634
+    },
+    {
+      "name": "ANNALY CAP MGMT INC COM",
+      "cusip": "035710409",
+      "shares": 69250,
+      "value": 609
+    },
+    {
+      "name": "AMEREN CORP COM USD0.01",
+      "cusip": "023608102",
+      "shares": 6900,
+      "value": 552
+    },
+    {
+      "name": "PAYCHEX INC COM USD0.01",
+      "cusip": "704326107",
+      "shares": 6150,
+      "value": 509
+    },
+    {
+      "name": "CONSOLIDATED EDISON INCCOM USD",
+      "cusip": "209115104",
+      "shares": 5250,
+      "value": 495
+    },
+    {
+      "name": "ECOLAB INC COM",
+      "cusip": "278865100",
+      "shares": 2500,
+      "value": 495
+    },
+    {
+      "name": "BP PLC SPONSORED ADR",
+      "cusip": "055622104",
+      "shares": 12550,
+      "value": 476
+    },
+    {
+      "name": "BOEING CO COM USD5.00",
+      "cusip": "097023105",
+      "shares": 1250,
+      "value": 475
+    },
+    {
+      "name": "TORONTO DOMINION BK ONT COM NE",
+      "cusip": "891160509",
+      "shares": 6000,
+      "value": 349
+    },
+    {
+      "name": "MANNING & NAPIER INC CL A",
+      "cusip": "56382Q102",
+      "shares": 23000,
+      "value": 43
     }
-  ]
+  ],
+  "totalValue": 1128231,
+  "positionsCount": 77
 }

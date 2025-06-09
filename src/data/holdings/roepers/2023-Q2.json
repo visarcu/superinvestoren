@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2023-05-15",
   "period": "2023-05-15",
+  "accession": "0001493152-23-017285",
+  "quarterKey": "2023-Q2",
   "positions": [
     {
       "name": "EASTMAN CHEM CO",
       "cusip": "277432100",
       "shares": 362857,
-      "value": 30603359000
-    },
-    {
-      "name": "HUNTSMAN CORP",
-      "cusip": "447011107",
-      "shares": 908000,
-      "value": 24842880000
-    },
-    {
-      "name": "TIMKEN CO",
-      "cusip": "887389104",
-      "shares": 303069,
-      "value": 24766799000
-    },
-    {
-      "name": "RALPH LAUREN CORP",
-      "cusip": "751212101",
-      "shares": 187882,
-      "value": 21920193000
+      "value": 30603359
     },
     {
       "name": "FLOWSERVE CORP",
       "cusip": "34354P105",
       "shares": 780882,
-      "value": 26549988000
+      "value": 26549988
     },
     {
-      "name": "WESCO INTL INC",
-      "cusip": "95082P105",
-      "shares": 110000,
-      "value": 16999400000
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 908000,
+      "value": 24842880
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 303069,
+      "value": 24766799
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 187882,
+      "value": 21920193
     },
     {
       "name": "HALLIBURTON CO",
       "cusip": "406216101",
       "shares": 665000,
-      "value": 21040600000
+      "value": 21040600
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 110000,
+      "value": 16999400
     },
     {
       "name": "HILLENBRAND INC",
       "cusip": "431571108",
       "shares": 346949,
-      "value": 16490486000
+      "value": 16490486
     },
     {
       "name": "CNH INDL N V",
       "cusip": "N20944109",
       "shares": 140000,
-      "value": 2137800000
+      "value": 2137800
     }
-  ]
+  ],
+  "totalValue": 185351505,
+  "positionsCount": 9
 }

@@ -194,9 +194,11 @@ export default function SuperinvestorPage() {
   Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
     const latest = snaps[snaps.length - 1]?.data
     if (!latest?.positions) return
-    const total = latest.positions.reduce((sum, p) => sum + p.value, 0) / 1_000
+    // ENTFERNT: / 1_000 - behalte Original-Dollar-Werte
+    const total = latest.positions.reduce((sum, p) => sum + p.value, 0)
     portfolioValue[slug] = total
   })
+  
 
   // 5. Weitere Investoren
   const highlighted = ['buffett', 'ackman', 'smith']
@@ -615,30 +617,72 @@ export default function SuperinvestorPage() {
           </div>
         </section>
 
-  {/* Other Investors - REDESIGNED: Kompakte Liste statt Cards */}
-  <section className="mb-20">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-white">Weitere Investoren</h2>
-            {others.length > 12 && (
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
-              >
-                {showAll ? 'Weniger anzeigen' : `Alle (${others.length}) anzeigen`}
-              </button>
-            )}
-          </div>
-          
-          {/* Kompakte Liste in Spalten */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
-              {(showAll ? others : others.slice(0, 12)).map(inv => (
-                <Link
-                  key={inv.slug}
-                  href={`/investor/${inv.slug}`}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-800/50 transition-colors group"
-                >
-                  <div className="flex-1 min-w-0">
+        <section className="mb-20">
+  <div className="flex items-center justify-between mb-8">
+    <h2 className="text-2xl font-bold text-white">Weitere Investoren</h2>
+    {others.length > 12 && (
+      <button
+        onClick={() => setShowAll(!showAll)}
+        className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
+      >
+        {showAll ? 'Weniger anzeigen' : `Alle (${others.length}) anzeigen`}
+      </button>
+    )}
+  </div>
+  
+  <div className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
+    {/* Header */}
+    <div className="border-b border-gray-800 px-6 py-3 bg-gray-800/30">
+      <div className="grid grid-cols-12 gap-4 text-sm text-gray-400 font-medium">
+        <div className="col-span-7 sm:col-span-8">Investor</div>
+        <div className="col-span-5 sm:col-span-4 text-right">Portfolio-Wert</div>
+      </div>
+    </div>
+    
+    {/* Investor Liste */}
+    <div className="divide-y divide-gray-800">
+      {(showAll ? others : others.slice(0, 12)).map((inv, idx) => {
+        const portfolioVal = portfolioValue[inv.slug] || 0
+        
+        // KORRIGIERTE Farbkodierung - nutzt echte Dollar-Werte
+        const getValueColor = (value: number) => {
+          if (value >= 10_000_000_000) return 'text-green-400'     // 10B+
+          if (value >= 5_000_000_000) return 'text-emerald-400'    // 5B+
+          if (value >= 1_000_000_000) return 'text-blue-400'       // 1B+
+          if (value >= 500_000_000) return 'text-cyan-400'         // 500M+
+          return 'text-gray-400'                                   // unter 500M
+        }
+        
+        // KORRIGIERTE Formatierung - nutzt echte Dollar-Werte
+        const formatPortfolioValue = (value: number) => {
+          if (value >= 1_000_000_000) {
+            return `${(value / 1_000_000_000).toFixed(1)} Mrd.`
+          } else if (value >= 1_000_000) {
+            return `${(value / 1_000_000).toFixed(0)} Mio.`
+          } else if (value >= 1_000) {
+            return `${(value / 1_000).toFixed(0)}k`
+          } else {
+            return '–'
+          }
+        }
+        
+        return (
+          <Link
+            key={inv.slug}
+            href={`/investor/${inv.slug}`}
+            className="block hover:bg-gray-800/30 transition-colors"
+          >
+            <div className="grid grid-cols-12 gap-4 px-6 py-4 items-center">
+              {/* Investor Info */}
+              <div className="col-span-7 sm:col-span-8 min-w-0">
+                <div className="flex items-center gap-3">
+                  {/* Ranking-Nummer */}
+                  <span className="text-gray-500 text-sm font-mono w-6 text-right flex-shrink-0">
+                    {idx + 1}
+                  </span>
+                  
+                  {/* Name */}
+                  <div className="min-w-0 flex-1">
                     <p className="text-white font-medium text-sm group-hover:text-blue-400 transition-colors truncate">
                       {inv.name.split('–')[0].trim()}
                     </p>
@@ -648,33 +692,47 @@ export default function SuperinvestorPage() {
                       </p>
                     )}
                   </div>
-                  
-                  {/* Portfolio-Wert (falls verfügbar) */}
-                  {portfolioValue[inv.slug] > 0 && (
-                    <span className="text-gray-400 text-xs ml-2 flex-shrink-0">
-                      {portfolioValue[inv.slug] > 1000 
-                        ? `${(portfolioValue[inv.slug] / 1000).toFixed(1)}B`
-                        : `${portfolioValue[inv.slug].toFixed(0)}M`
-                      }
-                    </span>
-                  )}
-                </Link>
-              ))}
-            </div>
-            
-            {/* Show all button falls nicht alle angezeigt */}
-            {!showAll && others.length > 12 && (
-              <div className="mt-4 pt-4 border-t border-gray-800">
-                <button
-                  onClick={() => setShowAll(true)}
-                  className="w-full text-center text-gray-400 hover:text-blue-400 text-sm font-medium transition-colors py-2"
-                >
-                  + {others.length - 12} weitere Investoren anzeigen
-                </button>
+                </div>
               </div>
-            )}
-          </div>
-        </section>
+              
+              {/* Portfolio-Wert */}
+              <div className="col-span-5 sm:col-span-4 text-right">
+                {portfolioVal > 0 ? (
+                  <div className="flex flex-col items-end">
+                    <span className={`font-semibold ${getValueColor(portfolioVal)}`}>
+                      {formatPortfolioValue(portfolioVal)}
+                    </span>
+                    {/* KORRIGIERT: Nutze formatCurrency OHNE zusätzliche Division */}
+                    {portfolioVal >= 1_000_000_000 && (
+                      <span className="text-gray-600 text-xs">
+                        {formatCurrency(portfolioVal, 'USD', 0)}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <span className="text-gray-600 text-sm">–</span>
+                )}
+              </div>
+            </div>
+          </Link>
+        )
+      })}
+    </div>
+    
+    {/* Show all button */}
+    {!showAll && others.length > 12 && (
+      <div className="border-t border-gray-800 px-6 py-4 bg-gray-800/30">
+        <button
+          onClick={() => setShowAll(true)}
+          className="w-full text-center text-gray-400 hover:text-blue-400 text-sm font-medium transition-colors"
+        >
+          + {others.length - 12} weitere Investoren anzeigen
+        </button>
+      </div>
+    )}
+  </div>
+</section>
+
 
         {/* Video Section */}
         <section className="mb-20">

@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0000921895-24-000467",
+  "quarterKey": "2024-Q1",
   "positions": [
-    {
-      "name": "BRC INC",
-      "cusip": "05601U105",
-      "shares": 12851018,
-      "value": 46649195000
-    },
     {
       "name": "EVOLENT HEALTH INC",
       "cusip": "30050B101",
       "shares": 3261458,
-      "value": 107725958000
-    },
-    {
-      "name": "NCR ATLEOS CORPORATION",
-      "cusip": "63001N106",
-      "shares": 2509256,
-      "value": 60949828000
-    },
-    {
-      "name": "NCR VOYIX CORPORATION",
-      "cusip": "62886E108",
-      "shares": 5018513,
-      "value": 84863055000
-    },
-    {
-      "name": "NEVRO CORP",
-      "cusip": "64157F103",
-      "shares": 2168163,
-      "value": 46658868000
-    },
-    {
-      "name": "PRA GROUP INC",
-      "cusip": "69354N106",
-      "shares": 2010750,
-      "value": 52681650000
+      "value": 107725958
     },
     {
       "name": "SHAKE SHACK INC",
       "cusip": "819047101",
       "shares": 1367231,
-      "value": 101339162000
-    },
-    {
-      "name": "UPBOUND GROUP INC",
-      "cusip": "76009N100",
-      "shares": 2396916,
-      "value": 81423237000
+      "value": 101339162
     },
     {
       "name": "V F CORP",
       "cusip": "918204108",
       "shares": 5341368,
-      "value": 100417718000
+      "value": 100417718
+    },
+    {
+      "name": "NCR VOYIX CORPORATION",
+      "cusip": "62886E108",
+      "shares": 5018513,
+      "value": 84863055
+    },
+    {
+      "name": "UPBOUND GROUP INC",
+      "cusip": "76009N100",
+      "shares": 2396916,
+      "value": 81423237
+    },
+    {
+      "name": "NCR ATLEOS CORPORATION",
+      "cusip": "63001N106",
+      "shares": 2509256,
+      "value": 60949828
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 2010750,
+      "value": 52681650
+    },
+    {
+      "name": "NEVRO CORP",
+      "cusip": "64157F103",
+      "shares": 2168163,
+      "value": 46658868
+    },
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 12851018,
+      "value": 46649195
     }
-  ]
+  ],
+  "totalValue": 682708671,
+  "positionsCount": 9
 }

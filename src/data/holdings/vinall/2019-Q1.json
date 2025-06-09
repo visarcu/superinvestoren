@@ -1,35 +1,41 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-06",
+  "period": "2019-02-06",
+  "accession": "0001172661-19-000319",
+  "quarterKey": "2019-Q1",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 19900,
-      "value": 20795000
-    },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 110000,
-      "value": 41994000
+      "value": 41994
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 206500,
-      "value": 27070000
+      "value": 27070
     },
     {
-      "name": "SHAKE SHACK INC",
-      "cusip": "819047101",
-      "shares": 165000,
-      "value": 7494000
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 19900,
+      "value": 20795
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 590700,
-      "value": 15039000
+      "value": 15039
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 165000,
+      "value": 7494
     }
-  ]
+  ],
+  "totalValue": 112392,
+  "positionsCount": 5
 }

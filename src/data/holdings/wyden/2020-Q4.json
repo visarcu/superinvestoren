@@ -2,30 +2,34 @@
   "form": "13F-HR",
   "date": "2020-11-16",
   "period": "2020-11-16",
+  "accession": "0001387131-20-009958",
+  "quarterKey": "2020-Q4",
   "positions": [
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 1825000,
+      "value": 73931
+    },
     {
       "name": "API GROUP CORP",
       "cusip": "00187Y100",
       "shares": 3331400,
-      "value": 47406000
+      "value": 47406
     },
     {
       "name": "GFL ENVIRONMENTAL INC",
       "cusip": "36168Q104",
       "shares": 1495000,
-      "value": 31784000
-    },
-    {
-      "name": "PAR TECHNOLOGY CORP",
-      "cusip": "698884103",
-      "shares": 1825000,
-      "value": 73931000
+      "value": 31784
     },
     {
       "name": "RCI HOSPITALITY HLDGS INC",
       "cusip": "74934Q108",
       "shares": 912400,
-      "value": 18613000
+      "value": 18613
     }
-  ]
+  ],
+  "totalValue": 171734,
+  "positionsCount": 4
 }

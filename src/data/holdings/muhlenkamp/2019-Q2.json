@@ -1,197 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2019-05-23",
+  "period": "2019-05-23",
+  "accession": "0001133219-19-000004",
+  "quarterKey": "2019-Q2",
   "positions": [
     {
-      "name": "ACUITY BRANDS INC",
-      "cusip": "00508Y102",
-      "shares": 43101,
-      "value": 5173000
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 126476,
+      "value": 14917
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 50474,
+      "value": 12480
     },
     {
       "name": "ALLIANCE DATA SYS CORP COM",
       "cusip": "018581108",
       "shares": 68878,
-      "value": 12052000
+      "value": 12052
+    },
+    {
+      "name": "Apple Computer Inc",
+      "cusip": "037833100",
+      "shares": 63143,
+      "value": 11994
     },
     {
       "name": "AUTOZONE INC COM",
       "cusip": "053332102",
       "shares": 10570,
-      "value": 10825000
-    },
-    {
-      "name": "Annaly Capital Management",
-      "cusip": "035710409",
-      "shares": 207364,
-      "value": 2072000
-    },
-    {
-      "name": "Apple Computer Inc.",
-      "cusip": "037833100",
-      "shares": 63143,
-      "value": 11994000
-    },
-    {
-      "name": "BIOGEN IDEC INC COM",
-      "cusip": "09062X103",
-      "shares": 17843,
-      "value": 4218000
-    },
-    {
-      "name": "BROADCOM INC",
-      "cusip": "11135F101",
-      "shares": 26747,
-      "value": 8043000
-    },
-    {
-      "name": "CAMECO CORP COM",
-      "cusip": "13321L108",
-      "shares": 847539,
-      "value": 9992000
-    },
-    {
-      "name": "CELANESE CORP-SERIES A",
-      "cusip": "150870103",
-      "shares": 98761,
-      "value": 9739000
-    },
-    {
-      "name": "CELGENE CORP COM",
-      "cusip": "151020104",
-      "shares": 70831,
-      "value": 6682000
-    },
-    {
-      "name": "COGNIZANT TECH SOLUTIONS - A",
-      "cusip": "192446102",
-      "shares": 92460,
-      "value": 6699000
-    },
-    {
-      "name": "Cigna Corp",
-      "cusip": "125523100",
-      "shares": 30600,
-      "value": 4921000
-    },
-    {
-      "name": "DOWDUPONT INC",
-      "cusip": "26078J100",
-      "shares": 113268,
-      "value": 6038000
-    },
-    {
-      "name": "Delta Air Lines",
-      "cusip": "247361702",
-      "shares": 114570,
-      "value": 5918000
-    },
-    {
-      "name": "Federated Invs. PA CL B",
-      "cusip": "314211103",
-      "shares": 247669,
-      "value": 7259000
-    },
-    {
-      "name": "GAMESTOP CORP NEW CL A",
-      "cusip": "36467W109",
-      "shares": 232937,
-      "value": 2367000
-    },
-    {
-      "name": "GILEAD SCIENCES INC COM",
-      "cusip": "375558103",
-      "shares": 132939,
-      "value": 8642000
-    },
-    {
-      "name": "JAZZ PHARMACEUTICALS PLC",
-      "cusip": "G50871105",
-      "shares": 36324,
-      "value": 5193000
-    },
-    {
-      "name": "MCKESSON CORP COM",
-      "cusip": "58155Q103",
-      "shares": 69600,
-      "value": 8147000
-    },
-    {
-      "name": "MICROCHIP TECHNOLOGY COM",
-      "cusip": "595017104",
-      "shares": 95498,
-      "value": 7923000
-    },
-    {
-      "name": "Microsoft Corp",
-      "cusip": "594918104",
-      "shares": 126476,
-      "value": 14917000
-    },
-    {
-      "name": "Morgan Stanley",
-      "cusip": "617446448",
-      "shares": 10805,
-      "value": 456000
-    },
-    {
-      "name": "Pfizer Inc",
-      "cusip": "717081103",
-      "shares": 25685,
-      "value": 1091000
+      "value": 10825
     },
     {
       "name": "Rush Enterprises CLA",
       "cusip": "781846209",
       "shares": 249899,
-      "value": 10448000
-    },
-    {
-      "name": "Rush Enterprises CLB",
-      "cusip": "781846308",
-      "shares": 4875,
-      "value": 202000
-    },
-    {
-      "name": "UnitedHealth Group Inc.",
-      "cusip": "91324P102",
-      "shares": 50474,
-      "value": 12480000
-    },
-    {
-      "name": "WABTEC CORP",
-      "cusip": "929740108",
-      "shares": 52695,
-      "value": 3885000
-    },
-    {
-      "name": "ENTERPRISE PRODUCTS PARTNERS",
-      "cusip": "293792107",
-      "shares": 25184,
-      "value": 733000
-    },
-    {
-      "name": "GOLAR LNG PARTNERS LP COM UNIT",
-      "cusip": "Y2745C102",
-      "shares": 238350,
-      "value": 3077000
-    },
-    {
-      "name": "ALERIAN MLP ETF",
-      "cusip": "00162Q866",
-      "shares": 783753,
-      "value": 7861000
-    },
-    {
-      "name": "INVESCO BUYBACK ACHIEVERS ETF",
-      "cusip": "46137V308",
-      "shares": 32193,
-      "value": 1920000
+      "value": 10448
     },
     {
       "name": "SPDR GOLD TRUST GOLD SHS",
       "cusip": "78463V107",
       "shares": 82688,
-      "value": 10089000
+      "value": 10089
+    },
+    {
+      "name": "CAMECO CORP COM",
+      "cusip": "13321L108",
+      "shares": 847539,
+      "value": 9992
+    },
+    {
+      "name": "CELANESE CORP-SERIES A",
+      "cusip": "150870103",
+      "shares": 98761,
+      "value": 9739
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 132939,
+      "value": 8642
+    },
+    {
+      "name": "MCKESSON CORP COM",
+      "cusip": "58155Q103",
+      "shares": 69600,
+      "value": 8147
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 26747,
+      "value": 8043
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY COM",
+      "cusip": "595017104",
+      "shares": 95498,
+      "value": 7923
+    },
+    {
+      "name": "ALERIAN MLP ETF",
+      "cusip": "00162Q866",
+      "shares": 783753,
+      "value": 7861
+    },
+    {
+      "name": "Federated Invs. PA CL B",
+      "cusip": "314211103",
+      "shares": 247669,
+      "value": 7259
+    },
+    {
+      "name": "COGNIZANT TECH SOLUTIONS - A",
+      "cusip": "192446102",
+      "shares": 92460,
+      "value": 6699
+    },
+    {
+      "name": "CELGENE CORP COM",
+      "cusip": "151020104",
+      "shares": 70831,
+      "value": 6682
+    },
+    {
+      "name": "DOWDUPONT INC",
+      "cusip": "26078J100",
+      "shares": 113268,
+      "value": 6038
+    },
+    {
+      "name": "Delta Air Lines",
+      "cusip": "247361702",
+      "shares": 114570,
+      "value": 5918
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 36324,
+      "value": 5193
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 43101,
+      "value": 5173
+    },
+    {
+      "name": "Cigna Corp",
+      "cusip": "125523100",
+      "shares": 30600,
+      "value": 4921
+    },
+    {
+      "name": "BIOGEN IDEC INC COM",
+      "cusip": "09062X103",
+      "shares": 17843,
+      "value": 4218
+    },
+    {
+      "name": "WABTEC CORP",
+      "cusip": "929740108",
+      "shares": 52695,
+      "value": 3885
+    },
+    {
+      "name": "GOLAR LNG PARTNERS LP COM UNIT",
+      "cusip": "Y2745C102",
+      "shares": 238350,
+      "value": 3077
+    },
+    {
+      "name": "GAMESTOP CORP NEW CL A",
+      "cusip": "36467W109",
+      "shares": 232937,
+      "value": 2367
+    },
+    {
+      "name": "Annaly Capital Management",
+      "cusip": "035710409",
+      "shares": 207364,
+      "value": 2072
+    },
+    {
+      "name": "INVESCO BUYBACK ACHIEVERS ETF",
+      "cusip": "46137V308",
+      "shares": 32193,
+      "value": 1920
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 25685,
+      "value": 1091
+    },
+    {
+      "name": "ENTERPRISE PRODUCTS PARTNERS",
+      "cusip": "293792107",
+      "shares": 25184,
+      "value": 733
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "617446448",
+      "shares": 10805,
+      "value": 456
+    },
+    {
+      "name": "Rush Enterprises CLB",
+      "cusip": "781846308",
+      "shares": 4875,
+      "value": 202
     }
-  ]
+  ],
+  "totalValue": 211056,
+  "positionsCount": 32
 }

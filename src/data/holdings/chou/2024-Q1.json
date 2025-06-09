@@ -2,102 +2,106 @@
   "form": "13F-HR",
   "date": "2024-02-14",
   "period": "2024-02-14",
+  "accession": "0001104659-24-022879",
+  "quarterKey": "2024-Q1",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 3400,
-      "value": 263534000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 155686,
-      "value": 5436559000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 80,
+      "value": 43410029
     },
     {
       "name": "BAUSCH HEALTH COS INC",
       "cusip": "071734107",
       "shares": 715000,
-      "value": 5734304000
+      "value": 5734304
     },
     {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 80,
-      "value": 43410029000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 312900,
-      "value": 1109868000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 73364,
-      "value": 614791000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 57695,
-      "value": 2967833000
-    },
-    {
-      "name": "HERTZ GLOBAL HLDGS INC",
-      "cusip": "42806J148",
-      "shares": 741583,
-      "value": 4063878000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 96823,
-      "value": 1720546000
-    },
-    {
-      "name": "MAGNA INTL INC",
-      "cusip": "559222401",
-      "shares": 10000,
-      "value": 590800000
-    },
-    {
-      "name": "METHANEX CORP",
-      "cusip": "59151K108",
-      "shares": 4000,
-      "value": 189216000
-    },
-    {
-      "name": "NAVIENT CORPORATION",
-      "cusip": "63938C108",
-      "shares": 183338,
-      "value": 3413756000
-    },
-    {
-      "name": "RYANAIR HOLDINGS PLC",
-      "cusip": "783513203",
-      "shares": 2375,
-      "value": 316730000
-    },
-    {
-      "name": "STELLANTIS N.V",
-      "cusip": "N82405106",
-      "shares": 30000,
-      "value": 699600000
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 155686,
+      "value": 5436559
     },
     {
       "name": "SYNCHRONY FINANCIAL",
       "cusip": "87165B103",
       "shares": 120000,
-      "value": 4582803000
+      "value": 4582803
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 741583,
+      "value": 4063878
+    },
+    {
+      "name": "NAVIENT CORPORATION",
+      "cusip": "63938C108",
+      "shares": 183338,
+      "value": 3413756
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 2967833
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 96823,
+      "value": 1720546
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 312900,
+      "value": 1109868
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 19542,
-      "value": 961858000
+      "value": 961858
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 30000,
+      "value": 699600
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 614791
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 590800
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 2375,
+      "value": 316730
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3400,
+      "value": 263534
+    },
+    {
+      "name": "METHANEX CORP",
+      "cusip": "59151K108",
+      "shares": 4000,
+      "value": 189216
     }
-  ]
+  ],
+  "totalValue": 76076105,
+  "positionsCount": 16
 }

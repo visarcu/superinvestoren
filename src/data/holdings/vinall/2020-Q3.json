@@ -1,35 +1,41 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-10",
+  "period": "2020-08-10",
+  "accession": "0001172661-20-001613",
+  "quarterKey": "2020-Q3",
   "positions": [
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 94642,
-      "value": 11376000
-    },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 183000,
-      "value": 76679000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 260000,
-      "value": 59038000
-    },
-    {
-      "name": "TRUPANION INC",
-      "cusip": "898202106",
-      "shares": 795956,
-      "value": 33979000
+      "value": 76679
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 291000,
-      "value": 74560000
+      "value": 74560
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 260000,
+      "value": 59038
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 795956,
+      "value": 33979
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 94642,
+      "value": 11376
     }
-  ]
+  ],
+  "totalValue": 255632,
+  "positionsCount": 5
 }

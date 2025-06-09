@@ -226,7 +226,7 @@ function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: Us
     {
       icon: <EnvelopeIcon className="w-4 h-4" />,
       label: 'Email Support',
-      action: () => window.location.href = 'mailto:support@finclue.de',
+      action: () => window.location.href = 'mailto:team.finclue@gmail.com',
       description: 'Hilfe & Kontakt'
     },
     {

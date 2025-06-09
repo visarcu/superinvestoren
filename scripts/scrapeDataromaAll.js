@@ -173,6 +173,13 @@ klarman: {
     folder: 'cunniff'
   },
 
+  dodgecox: {
+    slug: 'dodgecox',
+    name: 'Dodge & Cox Stock Fund',
+    param: 'DODGX',
+    folder: 'dodgecox'
+  },
+
 
   
 

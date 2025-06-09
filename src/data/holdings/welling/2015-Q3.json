@@ -1,95 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2015-08-14",
+  "period": "2015-08-14",
+  "accession": "0000921895-15-001994",
+  "quarterKey": "2015-Q3",
   "positions": [
-    {
-      "name": "ABM INDS INC",
-      "cusip": "000957100",
-      "shares": 346151,
-      "value": 11378000
-    },
-    {
-      "name": "BENCHMARK ELECTRS INC",
-      "cusip": "08160H101",
-      "shares": 459544,
-      "value": 10009000
-    },
-    {
-      "name": "BIG 5 SPORTING GOODS CORP",
-      "cusip": "08915P101",
-      "shares": 239154,
-      "value": 3398000
-    },
-    {
-      "name": "BOULDER BRANDS INC",
-      "cusip": "101405108",
-      "shares": 3019383,
-      "value": 20955000
-    },
-    {
-      "name": "EXAR CORP",
-      "cusip": "300645108",
-      "shares": 868510,
-      "value": 8494000
-    },
     {
       "name": "JAMBA INC",
       "cusip": "47023A309",
       "shares": 1634918,
-      "value": 25325000
-    },
-    {
-      "name": "MAGNACHIP SEMICONDUCTOR CORP",
-      "cusip": "55933J203",
-      "shares": 1478135,
-      "value": 11411000
-    },
-    {
-      "name": "MEDIFAST INC",
-      "cusip": "58470H101",
-      "shares": 736266,
-      "value": 23796000
-    },
-    {
-      "name": "RENTECH INC",
-      "cusip": "760112102",
-      "shares": 11363898,
-      "value": 12159000
-    },
-    {
-      "name": "RENTECH NITROGEN PARTNERS L",
-      "cusip": "760113100",
-      "shares": 96201,
-      "value": 1376000
-    },
-    {
-      "name": "ROVI CORP",
-      "cusip": "779376102",
-      "shares": 550000,
-      "value": 8773000
-    },
-    {
-      "name": "SEACHANGE INTL INC",
-      "cusip": "811699107",
-      "shares": 522368,
-      "value": 3662000
-    },
-    {
-      "name": "SUNOPTA INC",
-      "cusip": "8676EP108",
-      "shares": 326076,
-      "value": 3499000
+      "value": 25325
     },
     {
       "name": "TRIMAS CORP",
       "cusip": "896215209",
       "shares": 850865,
-      "value": 25186000
+      "value": 25186
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 736266,
+      "value": 23796
+    },
+    {
+      "name": "BOULDER BRANDS INC",
+      "cusip": "101405108",
+      "shares": 3019383,
+      "value": 20955
+    },
+    {
+      "name": "RENTECH INC",
+      "cusip": "760112102",
+      "shares": 11363898,
+      "value": 12159
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 1478135,
+      "value": 11411
+    },
+    {
+      "name": "ABM INDS INC",
+      "cusip": "000957100",
+      "shares": 346151,
+      "value": 11378
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 459544,
+      "value": 10009
+    },
+    {
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 550000,
+      "value": 8773
+    },
+    {
+      "name": "EXAR CORP",
+      "cusip": "300645108",
+      "shares": 868510,
+      "value": 8494
     },
     {
       "name": "ZIX CORP",
       "cusip": "98974P100",
       "shares": 851822,
-      "value": 4404000
+      "value": 4404
+    },
+    {
+      "name": "SEACHANGE INTL INC",
+      "cusip": "811699107",
+      "shares": 522368,
+      "value": 3662
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 326076,
+      "value": 3499
+    },
+    {
+      "name": "BIG 5 SPORTING GOODS CORP",
+      "cusip": "08915P101",
+      "shares": 239154,
+      "value": 3398
+    },
+    {
+      "name": "RENTECH NITROGEN PARTNERS L",
+      "cusip": "760113100",
+      "shares": 96201,
+      "value": 1376
     }
-  ]
+  ],
+  "totalValue": 173825,
+  "positionsCount": 15
 }

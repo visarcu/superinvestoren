@@ -1,29 +1,35 @@
 {
+  "form": "13F-HR",
   "date": "2021-01-11",
+  "period": "2021-01-11",
+  "accession": "0001437749-21-000453",
+  "quarterKey": "2021-Q1",
   "positions": [
     {
-      "name": "Bank of\n  America Corp",
+      "name": "Bank of America Corp",
       "cusip": "060505104",
       "shares": 2300000,
-      "value": 69713000
-    },
-    {
-      "name": "Posco ADR",
-      "cusip": "693483109",
-      "shares": 9745,
-      "value": 607000
-    },
-    {
-      "name": "US Bancorp",
-      "cusip": "902973304",
-      "shares": 140000,
-      "value": 6523000
+      "value": 69713
     },
     {
       "name": "Wells Fargo & Co",
       "cusip": "949746101",
       "shares": 1591800,
-      "value": 48040000
+      "value": 48040
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 140000,
+      "value": 6523
+    },
+    {
+      "name": "Posco ADR",
+      "cusip": "693483109",
+      "shares": 9745,
+      "value": 607
     }
-  ]
+  ],
+  "totalValue": 124883,
+  "positionsCount": 4
 }

@@ -2,90 +2,94 @@
   "form": "13F-HR",
   "date": "2013-08-14",
   "period": "2013-08-14",
+  "accession": "0001140361-13-032942",
+  "quarterKey": "2013-Q3",
   "positions": [
     {
-      "name": "AGCO CORP",
-      "cusip": "001084102",
-      "shares": 338867,
-      "value": 17008000
-    },
-    {
-      "name": "ASHLAND INC NEW",
-      "cusip": "044209104",
-      "shares": 1600000,
-      "value": 133600000
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 8126050,
+      "value": 225823
     },
     {
       "name": "BAKER HUGHES INC",
       "cusip": "057224107",
       "shares": 4300000,
-      "value": 198359000
-    },
-    {
-      "name": "CARDINAL HEALTH INC",
-      "cusip": "14149Y108",
-      "shares": 232896,
-      "value": 10993000
-    },
-    {
-      "name": "CROWN HOLDINGS INC",
-      "cusip": "228368106",
-      "shares": 289830,
-      "value": 11921000
-    },
-    {
-      "name": "CURTISS WRIGHT CORP",
-      "cusip": "231561101",
-      "shares": 436462,
-      "value": 16175000
-    },
-    {
-      "name": "DANA HLDG CORP",
-      "cusip": "235825205",
-      "shares": 400000,
-      "value": 7704000
-    },
-    {
-      "name": "DRESSER-RAND GROUP INC",
-      "cusip": "261608103",
-      "shares": 257516,
-      "value": 15446000
-    },
-    {
-      "name": "GOODYEAR TIRE & RUBR CO",
-      "cusip": "382550101",
-      "shares": 1018083,
-      "value": 15576000
-    },
-    {
-      "name": "HARMAN INTL INDS INC",
-      "cusip": "413086109",
-      "shares": 2150000,
-      "value": 116530000
+      "value": 198359
     },
     {
       "name": "OIL STS INTL INC",
       "cusip": "678026105",
       "shares": 1600000,
-      "value": 148224000
-    },
-    {
-      "name": "OWENS ILL INC",
-      "cusip": "690768403",
-      "shares": 8126050,
-      "value": 225823000
+      "value": 148224
     },
     {
       "name": "ROCKWOOD HLDGS INC",
       "cusip": "774415103",
       "shares": 2200000,
-      "value": 140866000
+      "value": 140866
+    },
+    {
+      "name": "ASHLAND INC NEW",
+      "cusip": "044209104",
+      "shares": 1600000,
+      "value": 133600
+    },
+    {
+      "name": "HARMAN INTL INDS INC",
+      "cusip": "413086109",
+      "shares": 2150000,
+      "value": 116530
+    },
+    {
+      "name": "AGCO CORP",
+      "cusip": "001084102",
+      "shares": 338867,
+      "value": 17008
+    },
+    {
+      "name": "CURTISS WRIGHT CORP",
+      "cusip": "231561101",
+      "shares": 436462,
+      "value": 16175
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 1018083,
+      "value": 15576
+    },
+    {
+      "name": "DRESSER-RAND GROUP INC",
+      "cusip": "261608103",
+      "shares": 257516,
+      "value": 15446
     },
     {
       "name": "TEREX CORP NEW",
       "cusip": "880779103",
       "shares": 580000,
-      "value": 15254000
+      "value": 15254
+    },
+    {
+      "name": "CROWN HOLDINGS INC",
+      "cusip": "228368106",
+      "shares": 289830,
+      "value": 11921
+    },
+    {
+      "name": "CARDINAL HEALTH INC",
+      "cusip": "14149Y108",
+      "shares": 232896,
+      "value": 10993
+    },
+    {
+      "name": "DANA HLDG CORP",
+      "cusip": "235825205",
+      "shares": 400000,
+      "value": 7704
     }
-  ]
+  ],
+  "totalValue": 1073479,
+  "positionsCount": 14
 }

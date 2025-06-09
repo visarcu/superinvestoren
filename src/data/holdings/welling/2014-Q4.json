@@ -1,83 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2014-11-14",
+  "period": "2014-11-14",
+  "accession": "0000921895-14-002438",
+  "quarterKey": "2014-Q4",
   "positions": [
     {
-      "name": "ABERCROMBIE & FITCH CO",
-      "cusip": "002896207",
-      "shares": 273321,
-      "value": 9932000
-    },
-    {
-      "name": "AEROVIRONMENT INC",
-      "cusip": "008073108",
-      "shares": 25000,
-      "value": 752000
-    },
-    {
-      "name": "EXPRESS INC",
-      "cusip": "30219E103",
-      "shares": 175000,
-      "value": 2732000
-    },
-    {
-      "name": "ICU MED INC",
-      "cusip": "44930G107",
-      "shares": 22711,
-      "value": 1458000
-    },
-    {
-      "name": "JAMBA INC",
-      "cusip": "47023A309",
-      "shares": 1183022,
-      "value": 16823000
+      "name": "VOLCANO CORPORATION",
+      "cusip": "928645100",
+      "shares": 2137081,
+      "value": 22739
     },
     {
       "name": "MEDIFAST INC",
       "cusip": "58470H101",
       "shares": 588000,
-      "value": 19304000
+      "value": 19304
+    },
+    {
+      "name": "JAMBA INC",
+      "cusip": "47023A309",
+      "shares": 1183022,
+      "value": 16823
     },
     {
       "name": "OPLINK COMMUNICATIONS INC",
       "cusip": "68375Q403",
       "shares": 863468,
-      "value": 14524000
-    },
-    {
-      "name": "ROVI CORP",
-      "cusip": "779376102",
-      "shares": 447129,
-      "value": 8829000
-    },
-    {
-      "name": "RENTECH INC",
-      "cusip": "760112102",
-      "shares": 7633898,
-      "value": 13054000
+      "value": 14524
     },
     {
       "name": "SILICON IMAGE INC",
       "cusip": "82705T102",
       "shares": 2855777,
-      "value": 14393000
+      "value": 14393
+    },
+    {
+      "name": "RENTECH INC",
+      "cusip": "760112102",
+      "shares": 7633898,
+      "value": 13054
+    },
+    {
+      "name": "ABERCROMBIE & FITCH CO",
+      "cusip": "002896207",
+      "shares": 273321,
+      "value": 9932
     },
     {
       "name": "TRIMAS CORP",
       "cusip": "896215209",
       "shares": 374926,
-      "value": 9122000
+      "value": 9122
+    },
+    {
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 447129,
+      "value": 8829
+    },
+    {
+      "name": "EXPRESS INC",
+      "cusip": "30219E103",
+      "shares": 175000,
+      "value": 2732
     },
     {
       "name": "UTI WORLDWIDE INC",
       "cusip": "G87210103",
       "shares": 155011,
-      "value": 1648000
+      "value": 1648
     },
     {
-      "name": "VOLCANO CORPORATION",
-      "cusip": "928645100",
-      "shares": 2137081,
-      "value": 22739000
+      "name": "ICU MED INC",
+      "cusip": "44930G107",
+      "shares": 22711,
+      "value": 1458
+    },
+    {
+      "name": "AEROVIRONMENT INC",
+      "cusip": "008073108",
+      "shares": 25000,
+      "value": 752
     }
-  ]
+  ],
+  "totalValue": 135310,
+  "positionsCount": 13
 }

@@ -2,36 +2,40 @@
   "form": "13F-HR",
   "date": "2019-02-14",
   "period": "2019-02-14",
+  "accession": "0001387131-19-001205",
+  "quarterKey": "2019-Q1",
   "positions": [
     {
-      "name": "EVI INDUSTRIES INC",
-      "cusip": "26929N102",
-      "shares": 1201757,
-      "value": 40079000
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 6050000,
+      "value": 87483
     },
     {
       "name": "FERRARI N V",
       "cusip": "N3167Y103",
       "shares": 473000,
-      "value": 47035000
+      "value": 47035
     },
     {
-      "name": "FIAT CHRYSLER AUTOMOBILES N",
-      "cusip": "N31738102",
-      "shares": 375000,
-      "value": 5423000
-    },
-    {
-      "name": "FIAT CHRYSLER AUTOMOBILES N",
-      "cusip": "N31738102",
-      "shares": 6050000,
-      "value": 87483000
+      "name": "EVI INDUSTRIES INC",
+      "cusip": "26929N102",
+      "shares": 1201757,
+      "value": 40079
     },
     {
       "name": "PAR TECHNOLOGY CORP",
       "cusip": "698884103",
       "shares": 1623000,
-      "value": 35300000
+      "value": 35300
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 375000,
+      "value": 5423
     }
-  ]
+  ],
+  "totalValue": 215320,
+  "positionsCount": 5
 }

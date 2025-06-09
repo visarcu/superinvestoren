@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2021-08-16",
+  "period": "2021-08-16",
+  "accession": "0000921895-21-002095",
+  "quarterKey": "2021-Q3",
   "positions": [
-    {
-      "name": "EVOLENT HEALTH INC",
-      "cusip": "30050B101",
-      "shares": 8553155,
-      "value": 180643000
-    },
-    {
-      "name": "GILDAN ACTIVEWEAR INC",
-      "cusip": "375916103",
-      "shares": 1537036,
-      "value": 56747000
-    },
     {
       "name": "HAIN CELESTIAL GROUP INC",
       "cusip": "405217100",
       "shares": 15996598,
-      "value": 641784000
+      "value": 641784
     },
     {
-      "name": "ISHARES TR",
-      "cusip": "464287655",
-      "shares": 34300,
-      "value": 7867000
-    },
-    {
-      "name": "NCR CORP NEW",
-      "cusip": "62886E108",
-      "shares": 1358147,
-      "value": 61945000
-    },
-    {
-      "name": "NEW RELIC INC",
-      "cusip": "64829B100",
-      "shares": 1176692,
-      "value": 78803000
-    },
-    {
-      "name": "QUOTIENT TECHNOLOGY INC",
-      "cusip": "749119103",
-      "shares": 1643486,
-      "value": 17766000
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 8553155,
+      "value": 180643
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 2355730,
-      "value": 125019000
+      "value": 125019
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 9829298,
-      "value": 120311000
+      "value": 120311
+    },
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 1176692,
+      "value": 78803
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 1358147,
+      "value": 61945
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 1537036,
+      "value": 56747
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 1643486,
+      "value": 17766
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 34300,
+      "value": 7867
     }
-  ]
+  ],
+  "totalValue": 1290885,
+  "positionsCount": 9
 }

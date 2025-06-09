@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001172661-25-001957",
+  "quarterKey": "2025-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 118161,
-      "value": 18460293000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 38239,
-      "value": 14092219000
-    },
-    {
-      "name": "GILDAN ACTIVEWEAR INC",
-      "cusip": "375916103",
-      "shares": 611689,
-      "value": 27048888000
-    },
-    {
-      "name": "GUIDEWIRE SOFTWARE INC",
-      "cusip": "40171V100",
-      "shares": 65683,
-      "value": 12306367000
-    },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 257685,
-      "value": 42670059000
-    },
-    {
-      "name": "LENNAR CORP",
-      "cusip": "526057104",
-      "shares": 104000,
-      "value": 11937120000
-    },
-    {
-      "name": "LGI HOMES INC",
-      "cusip": "50187T106",
-      "shares": 49996,
-      "value": 3323234000
-    },
-    {
-      "name": "NATURAL RESOURCE PARTNERS L",
-      "cusip": "63900P608",
-      "shares": 153930,
-      "value": 15993327000
-    },
-    {
-      "name": "STAR GROUP L P",
-      "cusip": "85512C105",
-      "shares": 1099239,
-      "value": 14487970000
+      "value": 42670059
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 21293,
-      "value": 29454394000
+      "value": 29454394
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 611689,
+      "value": 27048888
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 118161,
+      "value": 18460293
+    },
+    {
+      "name": "NATURAL RESOURCE PARTNERS L",
+      "cusip": "63900P608",
+      "shares": 153930,
+      "value": 15993327
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1099239,
+      "value": 14487970
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 38239,
+      "value": 14092219
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 65683,
+      "value": 12306367
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 104000,
+      "value": 11937120
+    },
+    {
+      "name": "LGI HOMES INC",
+      "cusip": "50187T106",
+      "shares": 49996,
+      "value": 3323234
     }
-  ]
+  ],
+  "totalValue": 189773871,
+  "positionsCount": 10
 }

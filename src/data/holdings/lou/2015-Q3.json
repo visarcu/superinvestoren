@@ -2,36 +2,40 @@
   "form": "13F-HR",
   "date": "2015-08-14",
   "period": "2015-08-14",
+  "accession": "0001398344-15-005366",
+  "quarterKey": "2015-Q3",
   "positions": [
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 500,
-      "value": 68000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 373,
-      "value": 76409000
-    },
-    {
-      "name": "CARE COM INC",
-      "cusip": "141633107",
-      "shares": 93198,
-      "value": 552000
-    },
-    {
-      "name": "CTC MEDIA INC",
-      "cusip": "12642X106",
-      "shares": 2669630,
-      "value": 6060000
+      "value": 76409
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746119",
       "shares": 1459516,
-      "value": 32824000
+      "value": 32824
+    },
+    {
+      "name": "CTC MEDIA INC",
+      "cusip": "12642X106",
+      "shares": 2669630,
+      "value": 6060
+    },
+    {
+      "name": "CARE COM INC",
+      "cusip": "141633107",
+      "shares": 93198,
+      "value": 552
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 500,
+      "value": 68
     }
-  ]
+  ],
+  "totalValue": 115913,
+  "positionsCount": 5
 }

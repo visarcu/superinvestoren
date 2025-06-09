@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0000921895-22-003018",
+  "quarterKey": "2022-Q4",
   "positions": [
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 2430370,
+      "value": 139455
+    },
     {
       "name": "BRC INC",
       "cusip": "05601U105",
       "shares": 13251450,
-      "value": 102434000
-    },
-    {
-      "name": "EVOLENT HEALTH INC",
-      "cusip": "30050B101",
-      "shares": 2241992,
-      "value": 80555000
-    },
-    {
-      "name": "FRESHPET INC",
-      "cusip": "358039105",
-      "shares": 295313,
-      "value": 14792000
-    },
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287655",
-      "shares": 40800,
-      "value": 6729000
+      "value": 102434
     },
     {
       "name": "NCR CORP NEW",
       "cusip": "62886E108",
       "shares": 4452456,
-      "value": 84641000
+      "value": 84641
     },
     {
-      "name": "NEW RELIC INC",
-      "cusip": "64829B100",
-      "shares": 2430370,
-      "value": 139455000
-    },
-    {
-      "name": "QUOTIENT TECHNOLOGY INC",
-      "cusip": "749119103",
-      "shares": 6107150,
-      "value": 14108000
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 2241992,
+      "value": 80555
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 2564544,
-      "value": 44905000
+      "value": 44905
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 1991919,
-      "value": 18126000
+      "value": 18126
+    },
+    {
+      "name": "FRESHPET INC",
+      "cusip": "358039105",
+      "shares": 295313,
+      "value": 14792
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 6107150,
+      "value": 14108
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 40800,
+      "value": 6729
     }
-  ]
+  ],
+  "totalValue": 505745,
+  "positionsCount": 9
 }

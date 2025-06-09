@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-14",
+  "period": "2022-02-14",
+  "accession": "0000921895-22-000542",
+  "quarterKey": "2022-Q1",
   "positions": [
     {
       "name": "EVOLENT HEALTH INC",
       "cusip": "30050B101",
       "shares": 7829692,
-      "value": 216648000
-    },
-    {
-      "name": "HAIN CELESTIAL GROUP INC",
-      "cusip": "405217100",
-      "shares": 1867094,
-      "value": 79557000
-    },
-    {
-      "name": "NCR CORP NEW",
-      "cusip": "62886E108",
-      "shares": 2402056,
-      "value": 96563000
+      "value": 216648
     },
     {
       "name": "NEW RELIC INC",
       "cusip": "64829B100",
       "shares": 1595546,
-      "value": 175446000
-    },
-    {
-      "name": "QUOTIENT TECHNOLOGY INC",
-      "cusip": "749119103",
-      "shares": 6107150,
-      "value": 45315000
+      "value": 175446
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 2355730,
-      "value": 113169000
+      "value": 113169
     },
     {
-      "name": "SILVERBOX ENGAGED MERGER CO",
-      "cusip": "82836L101",
-      "shares": 1433988,
-      "value": 14555000
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 2402056,
+      "value": 96563
     },
     {
-      "name": "SILVERBOX ENGAGED MERGER CO",
-      "cusip": "82836L119",
-      "shares": 1754667,
-      "value": 2457000
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 1867094,
+      "value": 79557
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 9829298,
-      "value": 68314000
+      "value": 68314
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 6107150,
+      "value": 45315
+    },
+    {
+      "name": "SILVERBOX ENGAGED MERGER CO",
+      "cusip": "82836L101",
+      "shares": 1433988,
+      "value": 14555
+    },
+    {
+      "name": "SILVERBOX ENGAGED MERGER CO",
+      "cusip": "82836L119",
+      "shares": 1754667,
+      "value": 2457
     }
-  ]
+  ],
+  "totalValue": 812024,
+  "positionsCount": 9
 }

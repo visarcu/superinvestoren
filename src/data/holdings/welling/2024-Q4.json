@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0000921895-24-002693",
+  "quarterKey": "2024-Q4",
   "positions": [
-    {
-      "name": "BLACKLINE INC",
-      "cusip": "09239B109",
-      "shares": 609713,
-      "value": 33619575000
-    },
-    {
-      "name": "BRC INC",
-      "cusip": "05601U105",
-      "shares": 13535560,
-      "value": 46291615000
-    },
     {
       "name": "EVOLENT HEALTH INC",
       "cusip": "30050B101",
       "shares": 3989468,
-      "value": 112822155000
-    },
-    {
-      "name": "NCR ATLEOS CORPORATION",
-      "cusip": "63001N106",
-      "shares": 3008223,
-      "value": 85824602000
-    },
-    {
-      "name": "NCR VOYIX CORPORATION",
-      "cusip": "62886E108",
-      "shares": 7171029,
-      "value": 97310864000
-    },
-    {
-      "name": "NEVRO CORP",
-      "cusip": "64157F103",
-      "shares": 2442956,
-      "value": 13656124000
-    },
-    {
-      "name": "PORTILLOS INC",
-      "cusip": "73642K106",
-      "shares": 6114956,
-      "value": 82368457000
-    },
-    {
-      "name": "PRA GROUP INC",
-      "cusip": "69354N106",
-      "shares": 1703512,
-      "value": 38090528000
+      "value": 112822155
     },
     {
       "name": "V F CORP",
       "cusip": "918204108",
       "shares": 5341368,
-      "value": 106560292000
+      "value": 106560292
+    },
+    {
+      "name": "NCR VOYIX CORPORATION",
+      "cusip": "62886E108",
+      "shares": 7171029,
+      "value": 97310864
+    },
+    {
+      "name": "NCR ATLEOS CORPORATION",
+      "cusip": "63001N106",
+      "shares": 3008223,
+      "value": 85824602
+    },
+    {
+      "name": "PORTILLOS INC",
+      "cusip": "73642K106",
+      "shares": 6114956,
+      "value": 82368457
+    },
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 13535560,
+      "value": 46291615
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 1703512,
+      "value": 38090528
+    },
+    {
+      "name": "BLACKLINE INC",
+      "cusip": "09239B109",
+      "shares": 609713,
+      "value": 33619575
+    },
+    {
+      "name": "NEVRO CORP",
+      "cusip": "64157F103",
+      "shares": 2442956,
+      "value": 13656124
     }
-  ]
+  ],
+  "totalValue": 616544212,
+  "positionsCount": 9
 }

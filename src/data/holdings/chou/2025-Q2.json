@@ -2,204 +2,208 @@
   "form": "13F-HR",
   "date": "2025-05-15",
   "period": "2025-05-15",
+  "accession": "0001104659-25-049383",
+  "quarterKey": "2025-Q2",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 41900,
-      "value": 5540437000
-    },
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 225525,
-      "value": 8224898000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 82390,
-      "value": 12871790000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 44000,
-      "value": 9773720000
-    },
-    {
-      "name": "ASSURED GUARANTY LTD",
-      "cusip": "G0585R106",
-      "shares": 10990,
-      "value": 968219000
-    },
-    {
-      "name": "BANK AMERICA CORP",
-      "cusip": "060505104",
-      "shares": 50000,
-      "value": 2086500000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 86,
-      "value": 68665985000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 73364,
-      "value": 1246455000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 57695,
-      "value": 4095769000
-    },
-    {
-      "name": "CREDIT ACCEP CORP MICH",
-      "cusip": "225310101",
-      "shares": 262,
-      "value": 135284000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 52000,
-      "value": 2445560000
-    },
-    {
-      "name": "GROUPON INC",
-      "cusip": "399473AH0",
-      "shares": 3000000,
-      "value": 3118394000
-    },
-    {
-      "name": "HERTZ GLOBAL HLDGS INC",
-      "cusip": "42806J148",
-      "shares": 1000,
-      "value": 2260000
-    },
-    {
-      "name": "IMPERIAL OIL LTD",
-      "cusip": "453038408",
-      "shares": 5000,
-      "value": 361176000
-    },
-    {
-      "name": "JEFFERIES FINL GROUP INC",
-      "cusip": "47233W109",
-      "shares": 10987,
-      "value": 588574000
-    },
-    {
-      "name": "LEAR CORP",
-      "cusip": "521865204",
-      "shares": 4000,
-      "value": 352880000
-    },
-    {
-      "name": "LIBERTY GLOBAL LTD",
-      "cusip": "G61188101",
-      "shares": 12000,
-      "value": 138120000
+      "value": 68665985
     },
     {
       "name": "SIRIUSXM HOLDINGS INC",
       "cusip": "829933100",
       "shares": 702462,
-      "value": 15837007000
-    },
-    {
-      "name": "LOUISIANA PAC CORP",
-      "cusip": "546347105",
-      "shares": 5886,
-      "value": 541394000
-    },
-    {
-      "name": "MAGNA INTL INC",
-      "cusip": "559222401",
-      "shares": 10000,
-      "value": 339900000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 321000,
-      "value": 1598580000
-    },
-    {
-      "name": "METHANEX CORP",
-      "cusip": "59151K108",
-      "shares": 4000,
-      "value": 140259000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 5899,
-      "value": 2747105000
-    },
-    {
-      "name": "OCCIDENTAL PETE CORP",
-      "cusip": "674599105",
-      "shares": 68000,
-      "value": 3356481000
-    },
-    {
-      "name": "PATHWARD FINANCIAL INC",
-      "cusip": "59100U108",
-      "shares": 27389,
-      "value": 1998028000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 41000,
-      "value": 2675250000
-    },
-    {
-      "name": "POOL CORP",
-      "cusip": "73278L105",
-      "shares": 10636,
-      "value": 3385971000
-    },
-    {
-      "name": "RYANAIR HOLDINGS PLC",
-      "cusip": "783513203",
-      "shares": 5937,
-      "value": 251551000
+      "value": 15837007
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 1396388,
-      "value": 15653510000
+      "value": 15653510
     },
     {
-      "name": "SUNRISE COMMUNICATIONS AG",
-      "cusip": "867975104",
-      "shares": 2400,
-      "value": 115896000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 82390,
+      "value": 12871790
     },
     {
       "name": "SYNCHRONY FINANCIAL",
       "cusip": "87165B103",
       "shares": 215702,
-      "value": 11419265000
+      "value": 11419265
     },
     {
-      "name": "VITESSE ENERGY INC",
-      "cusip": "92852X103",
-      "shares": 1293,
-      "value": 31795000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 44000,
+      "value": 9773720
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 225525,
+      "value": 8224898
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 41900,
+      "value": 5540437
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 59542,
-      "value": 4274520000
+      "value": 4274520
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 4095769
+    },
+    {
+      "name": "POOL CORP",
+      "cusip": "73278L105",
+      "shares": 10636,
+      "value": 3385971
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 68000,
+      "value": 3356481
+    },
+    {
+      "name": "GROUPON INC",
+      "cusip": "399473AH0",
+      "shares": 3000000,
+      "value": 3118394
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 5899,
+      "value": 2747105
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 41000,
+      "value": 2675250
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 52000,
+      "value": 2445560
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 50000,
+      "value": 2086500
+    },
+    {
+      "name": "PATHWARD FINANCIAL INC",
+      "cusip": "59100U108",
+      "shares": 27389,
+      "value": 1998028
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 321000,
+      "value": 1598580
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 1246455
+    },
+    {
+      "name": "ASSURED GUARANTY LTD",
+      "cusip": "G0585R106",
+      "shares": 10990,
+      "value": 968219
+    },
+    {
+      "name": "JEFFERIES FINL GROUP INC",
+      "cusip": "47233W109",
+      "shares": 10987,
+      "value": 588574
+    },
+    {
+      "name": "LOUISIANA PAC CORP",
+      "cusip": "546347105",
+      "shares": 5886,
+      "value": 541394
+    },
+    {
+      "name": "IMPERIAL OIL LTD",
+      "cusip": "453038408",
+      "shares": 5000,
+      "value": 361176
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 4000,
+      "value": 352880
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 339900
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 5937,
+      "value": 251551
+    },
+    {
+      "name": "METHANEX CORP",
+      "cusip": "59151K108",
+      "shares": 4000,
+      "value": 140259
+    },
+    {
+      "name": "LIBERTY GLOBAL LTD",
+      "cusip": "G61188101",
+      "shares": 12000,
+      "value": 138120
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 262,
+      "value": 135284
+    },
+    {
+      "name": "SUNRISE COMMUNICATIONS AG",
+      "cusip": "867975104",
+      "shares": 2400,
+      "value": 115896
+    },
+    {
+      "name": "VITESSE ENERGY INC",
+      "cusip": "92852X103",
+      "shares": 1293,
+      "value": 31795
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 1000,
+      "value": 2260
     }
-  ]
+  ],
+  "totalValue": 184982533,
+  "positionsCount": 33
 }

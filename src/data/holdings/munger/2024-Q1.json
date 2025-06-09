@@ -1,29 +1,35 @@
 {
+  "form": "13F-HR",
   "date": "2024-01-17",
+  "period": "2024-01-17",
+  "accession": "0001437749-24-001453",
+  "quarterKey": "2024-Q1",
   "positions": [
     {
-      "name": "Alibaba Group Holding Ltd",
-      "cusip": "01609W102",
-      "shares": 300000,
-      "value": 23253000000
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1591800,
+      "value": 78348396
     },
     {
       "name": "Bank of America Corp",
       "cusip": "060505104",
       "shares": 2300000,
-      "value": 77441000000
+      "value": 77441000
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "01609W102",
+      "shares": 300000,
+      "value": 23253000
     },
     {
       "name": "US Bancorp",
       "cusip": "902973304",
       "shares": 140000,
-      "value": 6059200000
-    },
-    {
-      "name": "Wells Fargo & Co",
-      "cusip": "949746101",
-      "shares": 1591800,
-      "value": 78348396000
+      "value": 6059200
     }
-  ]
+  ],
+  "totalValue": 185101596,
+  "positionsCount": 4
 }

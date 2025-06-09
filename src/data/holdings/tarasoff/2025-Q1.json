@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0001420506-25-000474",
+  "quarterKey": "2025-Q1",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 107770,
-      "value": 20400861000
-    },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 360065,
-      "value": 78994660000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 70,
-      "value": 47664400000
+      "value": 78994660
     },
     {
       "name": "BROOKFIELD CORP",
       "cusip": "11271J107",
       "shares": 994895,
-      "value": 57156718000
+      "value": 57156718
     },
     {
-      "name": "BURFORD CAP LTD",
-      "cusip": "G17977110",
-      "shares": 884405,
-      "value": 11276164000
-    },
-    {
-      "name": "MARKEL GROUP INC",
-      "cusip": "570535104",
-      "shares": 21720,
-      "value": 37493716000
-    },
-    {
-      "name": "TESLA INC",
-      "cusip": "88160R101",
-      "shares": 83370,
-      "value": 33668141000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 70,
+      "value": 47664400
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 933655,
-      "value": 45002171000
+      "value": 45002171
+    },
+    {
+      "name": "MARKEL GROUP INC",
+      "cusip": "570535104",
+      "shares": 21720,
+      "value": 37493716
+    },
+    {
+      "name": "TESLA INC",
+      "cusip": "88160R101",
+      "shares": 83370,
+      "value": 33668141
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 107770,
+      "value": 20400861
+    },
+    {
+      "name": "BURFORD CAP LTD",
+      "cusip": "G17977110",
+      "shares": 884405,
+      "value": 11276164
     }
-  ]
+  ],
+  "totalValue": 331656831,
+  "positionsCount": 8
 }

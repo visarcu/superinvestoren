@@ -1,131 +1,137 @@
 {
+  "form": "13F-HR",
   "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0000859804-23-000009",
+  "quarterKey": "2023-Q4",
   "positions": [
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 138510,
+      "value": 41582087
+    },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K305",
       "shares": 279250,
-      "value": 36542655000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 1552,
-      "value": 204631000
+      "value": 36542655
     },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 185289,
-      "value": 31723406000
-    },
-    {
-      "name": "BOOKING HOLDINGS INC",
-      "cusip": "09857L108",
-      "shares": 6566,
-      "value": 20249216000
-    },
-    {
-      "name": "CDW CORP",
-      "cusip": "12514G108",
-      "shares": 132362,
-      "value": 26705442000
-    },
-    {
-      "name": "COPART INC",
-      "cusip": "217204106",
-      "shares": 551647,
-      "value": 23770469000
-    },
-    {
-      "name": "EDWARDS LIFESCIENCES CORP",
-      "cusip": "28176E108",
-      "shares": 193797,
-      "value": 13426256000
-    },
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287614",
-      "shares": 1339,
-      "value": 356161000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 138510,
-      "value": 41582087000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 73672,
-      "value": 23261810000
+      "value": 31723406
     },
     {
       "name": "MOTOROLA SOLUTIONS INC",
       "cusip": "620076307",
       "shares": 107202,
-      "value": 29184655000
-    },
-    {
-      "name": "OLD DOMINION FREIGHT LINE IN",
-      "cusip": "679580100",
-      "shares": 32374,
-      "value": 13245673000
-    },
-    {
-      "name": "OREILLY AUTOMOTIVE INC",
-      "cusip": "67103H107",
-      "shares": 9452,
-      "value": 8590545000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 349512,
-      "value": 20432472000
-    },
-    {
-      "name": "POOL CORP",
-      "cusip": "73278L105",
-      "shares": 35916,
-      "value": 12789651000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 26247,
-      "value": 9590796000
-    },
-    {
-      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
-      "cusip": "874039100",
-      "shares": 265848,
-      "value": 23102220000
-    },
-    {
-      "name": "TEXAS PACIFIC LAND CORPORATI",
-      "cusip": "88262P102",
-      "shares": 4781,
-      "value": 8718479000
-    },
-    {
-      "name": "TRACTOR SUPPLY CO",
-      "cusip": "892356106",
-      "shares": 107527,
-      "value": 21833312000
-    },
-    {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 50171,
-      "value": 25295636000
+      "value": 29184655
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 118841,
-      "value": 27334708000
+      "value": 27334708
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514G108",
+      "shares": 132362,
+      "value": 26705442
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 50171,
+      "value": 25295636
+    },
+    {
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 551647,
+      "value": 23770469
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 73672,
+      "value": 23261810
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 265848,
+      "value": 23102220
+    },
+    {
+      "name": "TRACTOR SUPPLY CO",
+      "cusip": "892356106",
+      "shares": 107527,
+      "value": 21833312
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 349512,
+      "value": 20432472
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 6566,
+      "value": 20249216
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 193797,
+      "value": 13426256
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE IN",
+      "cusip": "679580100",
+      "shares": 32374,
+      "value": 13245673
+    },
+    {
+      "name": "POOL CORP",
+      "cusip": "73278L105",
+      "shares": 35916,
+      "value": 12789651
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 26247,
+      "value": 9590796
+    },
+    {
+      "name": "TEXAS PACIFIC LAND CORPORATI",
+      "cusip": "88262P102",
+      "shares": 4781,
+      "value": 8718479
+    },
+    {
+      "name": "OREILLY AUTOMOTIVE INC",
+      "cusip": "67103H107",
+      "shares": 9452,
+      "value": 8590545
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 1339,
+      "value": 356161
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1552,
+      "value": 204631
     }
-  ]
+  ],
+  "totalValue": 417940280,
+  "positionsCount": 21
 }

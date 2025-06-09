@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-12",
+  "period": "2024-11-12",
+  "accession": "0001172661-24-004554",
+  "quarterKey": "2024-Q4",
   "positions": [
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 761731,
-      "value": 132624984000
-    },
-    {
-      "name": "CREDIT ACCEP CORP MICH",
-      "cusip": "225310101",
-      "shares": 134188,
-      "value": 59501643000
-    },
-    {
-      "name": "DEERE & CO",
-      "cusip": "244199105",
-      "shares": 5001,
-      "value": 2087067000
-    },
-    {
-      "name": "H WORLD GROUP LTD",
-      "cusip": "44332N106",
-      "shares": 616337,
-      "value": 22927736000
-    },
-    {
-      "name": "INTERACTIVE BROKERS GROUP IN",
-      "cusip": "45841N107",
-      "shares": 315547,
-      "value": 43974630000
+      "value": 132624984
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 149583,
-      "value": 85627293000
-    },
-    {
-      "name": "PAYCOM SOFTWARE INC",
-      "cusip": "70432V102",
-      "shares": 12395,
-      "value": 2064635000
-    },
-    {
-      "name": "PDD HOLDINGS INC",
-      "cusip": "722304102",
-      "shares": 319389,
-      "value": 43056831000
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 7000,
-      "value": 1915970000
+      "value": 85627293
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 396280,
-      "value": 66246128000
+      "value": 66246128
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 134188,
+      "value": 59501643
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 315547,
+      "value": 43974630
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 319389,
+      "value": 43056831
     },
     {
       "name": "YUM CHINA HLDGS INC",
       "cusip": "98850P109",
       "shares": 551429,
-      "value": 24825334000
+      "value": 24825334
+    },
+    {
+      "name": "H WORLD GROUP LTD",
+      "cusip": "44332N106",
+      "shares": 616337,
+      "value": 22927736
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 5001,
+      "value": 2087067
+    },
+    {
+      "name": "PAYCOM SOFTWARE INC",
+      "cusip": "70432V102",
+      "shares": 12395,
+      "value": 2064635
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 7000,
+      "value": 1915970
     }
-  ]
+  ],
+  "totalValue": 484852251,
+  "positionsCount": 11
 }

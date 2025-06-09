@@ -2,30 +2,34 @@
   "form": "13F-HR",
   "date": "2025-02-14",
   "period": "2025-02-14",
+  "accession": "0001398344-25-002912",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 349,
-      "value": 237641080000
+      "value": 237641080
     },
     {
       "name": "ISHARES TR",
       "cusip": "46436E718",
       "shares": 581100,
-      "value": 58295952000
+      "value": 58295952
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
       "shares": 130000,
-      "value": 12608700000
+      "value": 12608700
     },
     {
       "name": "SMITH & WESSON BRANDS INC",
       "cusip": "831754106",
       "shares": 648956,
-      "value": 6557700000
+      "value": 6557700
     }
-  ]
+  ],
+  "totalValue": 315103432,
+  "positionsCount": 4
 }

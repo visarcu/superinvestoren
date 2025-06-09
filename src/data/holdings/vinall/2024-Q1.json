@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2024-02-13",
+  "period": "2024-02-13",
+  "accession": "0001172661-24-000775",
+  "quarterKey": "2024-Q1",
   "positions": [
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 715412,
-      "value": 37873911000
-    },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 145888,
-      "value": 77718914000
-    },
-    {
-      "name": "INTERACTIVE BROKERS GROUP IN",
-      "cusip": "45841N107",
-      "shares": 309947,
-      "value": 25694606000
+      "value": 77718914
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 198383,
-      "value": 70219647000
-    },
-    {
-      "name": "PDD HOLDINGS INC",
-      "cusip": "722304102",
-      "shares": 199100,
-      "value": 29130321000
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 186849,
-      "value": 49167446000
-    },
-    {
-      "name": "TRUPANION INC",
-      "cusip": "898202106",
-      "shares": 25000,
-      "value": 762750000
+      "value": 70219647
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 448287,
-      "value": 55148267000
+      "value": 55148267
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 186849,
+      "value": 49167446
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 715412,
+      "value": 37873911
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 199100,
+      "value": 29130321
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 309947,
+      "value": 25694606
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 25000,
+      "value": 762750
     }
-  ]
+  ],
+  "totalValue": 345715862,
+  "positionsCount": 8
 }

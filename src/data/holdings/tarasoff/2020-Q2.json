@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0001387131-20-004802",
+  "quarterKey": "2020-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 7990,
-      "value": 9284000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 7777,
-      "value": 9036000
-    },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 7100,
-      "value": 13843000
+      "value": 13843
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 6925,
-      "value": 13502000
+      "value": 13502
     },
     {
       "name": "BROOKFIELD ASSET MGMT INC",
       "cusip": "112585104",
       "shares": 297680,
-      "value": 13172000
+      "value": 13172
     },
     {
       "name": "BROOKFIELD ASSET MGMT INC",
       "cusip": "112585104",
       "shares": 288915,
-      "value": 12784000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 35160,
-      "value": 5865000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 34205,
-      "value": 5705000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 25390,
-      "value": 9534000
-    },
-    {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 24945,
-      "value": 9367000
-    },
-    {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 57818,
-      "value": 8325000
-    },
-    {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 55866,
-      "value": 8044000
-    },
-    {
-      "name": "SLACK TECHNOLOGIES INC",
-      "cusip": "83088V102",
-      "shares": 65000,
-      "value": 1745000
-    },
-    {
-      "name": "SLACK TECHNOLOGIES INC",
-      "cusip": "83088V102",
-      "shares": 62790,
-      "value": 1685000
-    },
-    {
-      "name": "SPOTIFY TECHNOLOGY S A",
-      "cusip": "L8681T102",
-      "shares": 40405,
-      "value": 4907000
-    },
-    {
-      "name": "SPOTIFY TECHNOLOGY S A",
-      "cusip": "L8681T102",
-      "shares": 39300,
-      "value": 4773000
+      "value": 12784
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 403200,
-      "value": 10495000
+      "value": 10495
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 393172,
-      "value": 10234000
+      "value": 10234
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 25390,
+      "value": 9534
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 24945,
+      "value": 9367
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 7990,
+      "value": 9284
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 7777,
+      "value": 9036
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 57818,
+      "value": 8325
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 55866,
+      "value": 8044
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 35160,
+      "value": 5865
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 34205,
+      "value": 5705
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 40405,
+      "value": 4907
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 39300,
+      "value": 4773
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 65000,
+      "value": 1745
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 62790,
+      "value": 1685
     }
-  ]
+  ],
+  "totalValue": 152300,
+  "positionsCount": 18
 }

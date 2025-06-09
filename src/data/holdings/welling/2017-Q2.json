@@ -1,95 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2017-05-15",
+  "period": "2017-05-15",
+  "accession": "0000921895-17-001507",
+  "quarterKey": "2017-Q2",
   "positions": [
-    {
-      "name": "AEROJET ROCKETDYNE HLDGS INC",
-      "cusip": "007800105",
-      "shares": 164556,
-      "value": 3571000
-    },
-    {
-      "name": "BENCHMARK ELECTRS INC",
-      "cusip": "08160H101",
-      "shares": 884668,
-      "value": 28132000
-    },
-    {
-      "name": "COMSCORE INC",
-      "cusip": "20564W105",
-      "shares": 130573,
-      "value": 2819000
-    },
-    {
-      "name": "HOUGHTON MIFFLIN HARCOURT CO",
-      "cusip": "44157R109",
-      "shares": 262145,
-      "value": 2661000
-    },
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287655",
-      "shares": 16172,
-      "value": 2223000
-    },
-    {
-      "name": "JAMBA INC",
-      "cusip": "47023A309",
-      "shares": 2697029,
-      "value": 24408000
-    },
-    {
-      "name": "MAGNACHIP SEMICONDUCTOR CORP",
-      "cusip": "55933J203",
-      "shares": 3227974,
-      "value": 30827000
-    },
-    {
-      "name": "MEDIFAST INC",
-      "cusip": "58470H101",
-      "shares": 789549,
-      "value": 35032000
-    },
-    {
-      "name": "NATIONAL INSTRS CORP",
-      "cusip": "636518102",
-      "shares": 209606,
-      "value": 6825000
-    },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 8983609,
-      "value": 79685000
-    },
-    {
-      "name": "RUBY TUESDAY INC",
-      "cusip": "781182100",
-      "shares": 2022973,
-      "value": 5685000
-    },
-    {
-      "name": "SUNOPTA INC",
-      "cusip": "8676EP108",
-      "shares": 6756907,
-      "value": 46961000
+      "value": 79685
     },
     {
       "name": "TIVO CORP",
       "cusip": "88870P106",
       "shares": 2525000,
-      "value": 47344000
+      "value": 47344
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 6756907,
+      "value": 46961
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 789549,
+      "value": 35032
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 3227974,
+      "value": 30827
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 884668,
+      "value": 28132
+    },
+    {
+      "name": "JAMBA INC",
+      "cusip": "47023A309",
+      "shares": 2697029,
+      "value": 24408
+    },
+    {
+      "name": "NATIONAL INSTRS CORP",
+      "cusip": "636518102",
+      "shares": 209606,
+      "value": 6825
+    },
+    {
+      "name": "RUBY TUESDAY INC",
+      "cusip": "781182100",
+      "shares": 2022973,
+      "value": 5685
     },
     {
       "name": "TRIMAS CORP",
       "cusip": "896215209",
       "shares": 271563,
-      "value": 5635000
+      "value": 5635
+    },
+    {
+      "name": "AEROJET ROCKETDYNE HLDGS INC",
+      "cusip": "007800105",
+      "shares": 164556,
+      "value": 3571
+    },
+    {
+      "name": "COMSCORE INC",
+      "cusip": "20564W105",
+      "shares": 130573,
+      "value": 2819
+    },
+    {
+      "name": "HOUGHTON MIFFLIN HARCOURT CO",
+      "cusip": "44157R109",
+      "shares": 262145,
+      "value": 2661
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 16172,
+      "value": 2223
     },
     {
       "name": "WEB COM GROUP INC",
       "cusip": "94733A104",
       "shares": 111783,
-      "value": 2157000
+      "value": 2157
     }
-  ]
+  ],
+  "totalValue": 323965,
+  "positionsCount": 15
 }

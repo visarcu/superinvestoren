@@ -2,114 +2,118 @@
   "form": "13F-HR",
   "date": "2016-08-15",
   "period": "2016-08-15",
+  "accession": "0000905718-16-001614",
+  "quarterKey": "2016-Q3",
   "positions": [
     {
       "name": "OWENS ILL INC",
       "cusip": "690768403",
       "shares": 10358635,
-      "value": 186559000
-    },
-    {
-      "name": "INGRAM MICRO INC",
-      "cusip": "457153104",
-      "shares": 1299148,
-      "value": 45184000
-    },
-    {
-      "name": "GOODYEAR TIRE AND RUBR CO",
-      "cusip": "382550101",
-      "shares": 4354707,
-      "value": 111741000
-    },
-    {
-      "name": "TRIUMPH GROUP INC NEW",
-      "cusip": "896818101",
-      "shares": 2885383,
-      "value": 102431000
-    },
-    {
-      "name": "EASTMAN CHEM CO",
-      "cusip": "277432100",
-      "shares": 1432161,
-      "value": 97244000
-    },
-    {
-      "name": "SPIRIT AEROSYSTEMS HLDGS INC",
-      "cusip": "848574109",
-      "shares": 236956,
-      "value": 10189000
+      "value": 186559
     },
     {
       "name": "HARMAN INTL INDS INC",
       "cusip": "413086109",
       "shares": 2114706,
-      "value": 151878000
+      "value": 151878
+    },
+    {
+      "name": "GOODYEAR TIRE AND RUBR CO",
+      "cusip": "382550101",
+      "shares": 4354707,
+      "value": 111741
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 2885383,
+      "value": 102431
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 1432161,
+      "value": 97244
+    },
+    {
+      "name": "INGRAM MICRO INC",
+      "cusip": "457153104",
+      "shares": 1299148,
+      "value": 45184
+    },
+    {
+      "name": "SPIRIT AEROSYSTEMS HLDGS INC",
+      "cusip": "848574109",
+      "shares": 236956,
+      "value": 10189
     },
     {
       "name": "ROBERT HALF INTL INC",
       "cusip": "770323103",
       "shares": 250913,
-      "value": 9575000
-    },
-    {
-      "name": "HEWLETT PACKARD ENTERPRISE C",
-      "cusip": "42824C109",
-      "shares": 307746,
-      "value": 5623000
-    },
-    {
-      "name": "ITT INC",
-      "cusip": "45073V108",
-      "shares": 153591,
-      "value": 4912000
+      "value": 9575
     },
     {
       "name": "ALASKA AIR GROUP INC",
       "cusip": "011659109",
       "shares": 148855,
-      "value": 8677000
+      "value": 8677
     },
     {
       "name": "COOPER TIRE & RUBR CO",
       "cusip": "216831107",
       "shares": 283742,
-      "value": 8461000
+      "value": 8461
     },
     {
       "name": "TIFFANY & CO NEW",
       "cusip": "886547108",
       "shares": 125111,
-      "value": 7586000
+      "value": 7586
     },
     {
       "name": "ASBURY AUTOMOTIVE GROUP INC",
       "cusip": "043436104",
       "shares": 122164,
-      "value": 6443000
+      "value": 6443
     },
     {
       "name": "VERIFONE SYS INC",
       "cusip": "92342Y109",
       "shares": 330000,
-      "value": 6118000
+      "value": 6118
+    },
+    {
+      "name": "HEWLETT PACKARD ENTERPRISE C",
+      "cusip": "42824C109",
+      "shares": 307746,
+      "value": 5623
+    },
+    {
+      "name": "ITT INC",
+      "cusip": "45073V108",
+      "shares": 153591,
+      "value": 4912
     },
     {
       "name": "COMMSCOPE HLDG CO INC",
       "cusip": "20337X109",
       "shares": 125000,
-      "value": 3879000
+      "value": 3879
     },
     {
       "name": "IPG PHOTONICS CORP",
       "cusip": "44980X109",
       "shares": 37000,
-      "value": 2960000
+      "value": 2960
     },
     {
       "name": "GROUP 1 AUTOMOTIVE INC",
       "cusip": "398905109",
       "shares": 56880,
-      "value": 2808000
+      "value": 2808
     }
-  ]
+  ],
+  "totalValue": 772268,
+  "positionsCount": 18
 }

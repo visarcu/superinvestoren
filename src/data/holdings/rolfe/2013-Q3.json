@@ -1,131 +1,137 @@
 {
+  "form": "13F-HR",
   "date": "2013-08-16",
+  "period": "2013-08-16",
+  "accession": "0000859804-13-000008",
+  "quarterKey": "2013-Q3",
   "positions": [
-    {
-      "name": "American Express",
-      "cusip": "25816109",
-      "shares": 948983,
-      "value": 96215000
-    },
     {
       "name": "Apple Computer",
       "cusip": "37833100",
       "shares": 559439,
-      "value": 314622000
+      "value": 314622
     },
     {
       "name": "Berkshire Hathaway",
       "cusip": "84670702",
       "shares": 1673214,
-      "value": 251620000
-    },
-    {
-      "name": "Charles Schwab",
-      "cusip": "808513105",
-      "shares": 5338138,
-      "value": 151479000
-    },
-    {
-      "name": "Coach",
-      "cusip": "189754104",
-      "shares": 1929036,
-      "value": 149806000
+      "value": 251620
     },
     {
       "name": "Cognizant Technology",
       "cusip": "192446102",
       "shares": 2773365,
-      "value": 238493000
-    },
-    {
-      "name": "Cummins",
-      "cusip": "231021106",
-      "shares": 1053711,
-      "value": 156260000
-    },
-    {
-      "name": "EMC",
-      "cusip": "268648102",
-      "shares": 6833186,
-      "value": 219741000
-    },
-    {
-      "name": "Express Scripts",
-      "cusip": "30219G108",
-      "shares": 2506739,
-      "value": 210456000
-    },
-    {
-      "name": "Gilead Sciences",
-      "cusip": "375558103",
-      "shares": 1872512,
-      "value": 126099000
-    },
-    {
-      "name": "Google",
-      "cusip": "38259P508",
-      "shares": 155703,
-      "value": 188138000
-    },
-    {
-      "name": "Monster Beverage",
-      "cusip": "611740101",
-      "shares": 1126394,
-      "value": 93155000
-    },
-    {
-      "name": "National Oilwell Varco",
-      "cusip": "637071101",
-      "shares": 1076131,
-      "value": 104117000
-    },
-    {
-      "name": "Perrigo",
-      "cusip": "714290103",
-      "shares": 735502,
-      "value": 125417000
-    },
-    {
-      "name": "Priceline",
-      "cusip": "741503403",
-      "shares": 111124,
-      "value": 122450000
+      "value": 238493
     },
     {
       "name": "Qualcomm",
       "cusip": "747525103",
       "shares": 2623177,
-      "value": 225433000
+      "value": 225433
     },
     {
-      "name": "Schlumberger",
-      "cusip": "806857108",
-      "shares": 1243079,
-      "value": 124264000
+      "name": "EMC",
+      "cusip": "268648102",
+      "shares": 6833186,
+      "value": 219741
+    },
+    {
+      "name": "Express Scripts",
+      "cusip": "30219G108",
+      "shares": 2506739,
+      "value": 210456
+    },
+    {
+      "name": "Google",
+      "cusip": "38259P508",
+      "shares": 155703,
+      "value": 188138
+    },
+    {
+      "name": "Cummins",
+      "cusip": "231021106",
+      "shares": 1053711,
+      "value": 156260
+    },
+    {
+      "name": "Charles Schwab",
+      "cusip": "808513105",
+      "shares": 5338138,
+      "value": 151479
+    },
+    {
+      "name": "Coach",
+      "cusip": "189754104",
+      "shares": 1929036,
+      "value": 149806
     },
     {
       "name": "Stericycle",
       "cusip": "858912108",
       "shares": 917848,
-      "value": 148622000
-    },
-    {
-      "name": "Varian Medical Systems",
-      "cusip": "92220P105",
-      "shares": 1550703,
-      "value": 139197000
-    },
-    {
-      "name": "Verisk Analytics",
-      "cusip": "92345Y106",
-      "shares": 1630306,
-      "value": 133507000
+      "value": 148622
     },
     {
       "name": "Visa",
       "cusip": "92826C839",
       "shares": 592647,
-      "value": 143942000
+      "value": 143942
+    },
+    {
+      "name": "Varian Medical Systems",
+      "cusip": "92220P105",
+      "shares": 1550703,
+      "value": 139197
+    },
+    {
+      "name": "Verisk Analytics",
+      "cusip": "92345Y106",
+      "shares": 1630306,
+      "value": 133507
+    },
+    {
+      "name": "Gilead Sciences",
+      "cusip": "375558103",
+      "shares": 1872512,
+      "value": 126099
+    },
+    {
+      "name": "Perrigo",
+      "cusip": "714290103",
+      "shares": 735502,
+      "value": 125417
+    },
+    {
+      "name": "Schlumberger",
+      "cusip": "806857108",
+      "shares": 1243079,
+      "value": 124264
+    },
+    {
+      "name": "Priceline",
+      "cusip": "741503403",
+      "shares": 111124,
+      "value": 122450
+    },
+    {
+      "name": "National Oilwell Varco",
+      "cusip": "637071101",
+      "shares": 1076131,
+      "value": 104117
+    },
+    {
+      "name": "American Express",
+      "cusip": "25816109",
+      "shares": 948983,
+      "value": 96215
+    },
+    {
+      "name": "Monster Beverage",
+      "cusip": "611740101",
+      "shares": 1126394,
+      "value": 93155
     }
-  ]
+  ],
+  "totalValue": 3463033,
+  "positionsCount": 21
 }

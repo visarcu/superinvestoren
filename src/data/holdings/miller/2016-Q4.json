@@ -2,390 +2,394 @@
   "form": "13F-HR",
   "date": "2016-11-14",
   "period": "2016-11-14",
+  "accession": "0001140361-16-086158",
+  "quarterKey": "2016-Q4",
   "positions": [
     {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 13805,
-      "value": 11560000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3544700,
+      "value": 400728
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 247300,
-      "value": 207067000
-    },
-    {
-      "name": "AMERICAN AIRLS GROUP INC",
-      "cusip": "02376R102",
-      "shares": 2011650,
-      "value": 73647000
-    },
-    {
-      "name": "AMERICAN CAPITAL AGENCY CORP",
-      "cusip": "02503X105",
-      "shares": 66000,
-      "value": 1290000
-    },
-    {
-      "name": "APOLLO GLOBAL MGMT LLC",
-      "cusip": "037612306",
-      "shares": 178000,
-      "value": 3197000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 8580,
-      "value": 970000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 3544700,
-      "value": 400728000
-    },
-    {
-      "name": "ARLINGTON ASSET INVT CORP",
-      "cusip": "041356205",
-      "shares": 160000,
-      "value": 2367000
-    },
-    {
-      "name": "BGC PARTNERS INC",
-      "cusip": "05541T101",
-      "shares": 226400,
-      "value": 1981000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 3901775,
-      "value": 61063000
-    },
-    {
-      "name": "BLUCORA INC",
-      "cusip": "095229AB6",
-      "shares": 2000000,
-      "value": 1919000
-    },
-    {
-      "name": "CIGNA CORPORATION",
-      "cusip": "125509109",
-      "shares": 5420,
-      "value": 707000
-    },
-    {
-      "name": "CYS INVTS INC",
-      "cusip": "12673A108",
-      "shares": 230000,
-      "value": 2006000
-    },
-    {
-      "name": "CARLYLE GROUP L P",
-      "cusip": "14309L102",
-      "shares": 86000,
-      "value": 1340000
-    },
-    {
-      "name": "CHIMERA INVT CORP",
-      "cusip": "16934Q208",
-      "shares": 210000,
-      "value": 3350000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 1005600,
-      "value": 47495000
-    },
-    {
-      "name": "COMMUNICATIONS SALES&LEAS IN",
-      "cusip": "20341J104",
-      "shares": 33940,
-      "value": 1067000
-    },
-    {
-      "name": "COMPASS DIVERSIFIED HOLDINGS",
-      "cusip": "20451Q104",
-      "shares": 90000,
-      "value": 1565000
-    },
-    {
-      "name": "DELTA AIR LINES INC DEL",
-      "cusip": "247361702",
-      "shares": 2012950,
-      "value": 79230000
-    },
-    {
-      "name": "ENDURANCE INTL GROUP HLDGS I",
-      "cusip": "29272B105",
-      "shares": 6165375,
-      "value": 53948000
-    },
-    {
-      "name": "FORTRESS INVESTMENT GROUP LL",
-      "cusip": "34958B106",
-      "shares": 677000,
-      "value": 3345000
-    },
-    {
-      "name": "FORTRESS TRANS INFRST INVS L",
-      "cusip": "34960P101",
-      "shares": 393000,
-      "value": 4917000
-    },
-    {
-      "name": "FRONTIER COMMUNICATIONS CORP",
-      "cusip": "35906A108",
-      "shares": 325000,
-      "value": 1352000
-    },
-    {
-      "name": "FRONTIER COMMUNICATIONS CORP",
-      "cusip": "35906A207",
-      "shares": 28000,
-      "value": 2350000
-    },
-    {
-      "name": "GEO GROUP INC NEW",
-      "cusip": "36162J106",
-      "shares": 92000,
-      "value": 2188000
-    },
-    {
-      "name": "GAMESTOP CORP NEW",
-      "cusip": "36467W109",
-      "shares": 1160125,
-      "value": 32008000
-    },
-    {
-      "name": "GENWORTH FINL INC",
-      "cusip": "37247D106",
-      "shares": 15692250,
-      "value": 77834000
-    },
-    {
-      "name": "GILEAD SCIENCES INC",
-      "cusip": "375558103",
-      "shares": 470550,
-      "value": 37230000
-    },
-    {
-      "name": "INTREXON CORP",
-      "cusip": "46122T102",
-      "shares": 3074925,
-      "value": 86160000
-    },
-    {
-      "name": "JMP GROUP LLC",
-      "cusip": "46629U107",
-      "shares": 300000,
-      "value": 1656000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46634E114",
-      "shares": 2334275,
-      "value": 57494000
-    },
-    {
-      "name": "JD COM INC",
-      "cusip": "47215P106",
-      "shares": 1037500,
-      "value": 27069000
-    },
-    {
-      "name": "LENNAR CORP",
-      "cusip": "526057104",
-      "shares": 1614550,
-      "value": 68361000
-    },
-    {
-      "name": "MGIC INVT CORP WIS",
-      "cusip": "552848103",
-      "shares": 8132900,
-      "value": 65064000
-    },
-    {
-      "name": "MGM GROWTH PPTYS LLC",
-      "cusip": "55303A105",
-      "shares": 75000,
-      "value": 1956000
-    },
-    {
-      "name": "MVC CAPITAL INC",
-      "cusip": "553829102",
-      "shares": 142600,
-      "value": 1183000
-    },
-    {
-      "name": "MEDLEY CAP CORP",
-      "cusip": "58503F106",
-      "shares": 262834,
-      "value": 2006000
-    },
-    {
-      "name": "NATIONSTAR MTG HLDGS INC",
-      "cusip": "63861C109",
-      "shares": 2400350,
-      "value": 35550000
-    },
-    {
-      "name": "NEW MEDIA INVT GROUP INC",
-      "cusip": "64704V106",
-      "shares": 257000,
-      "value": 3984000
-    },
-    {
-      "name": "NEW RESIDENTIAL INVT CORP",
-      "cusip": "64828T201",
-      "shares": 222750,
-      "value": 3077000
-    },
-    {
-      "name": "NORTHSTAR RLTY FIN CORP",
-      "cusip": "66704R803",
-      "shares": 251450,
-      "value": 3312000
-    },
-    {
-      "name": "OCI PARTNERS LP",
-      "cusip": "67091N108",
-      "shares": 139400,
-      "value": 824000
+      "value": 207067
     },
     {
       "name": "ONEMAIN HLDGS INC",
       "cusip": "68268W103",
       "shares": 2830350,
-      "value": 87600000
+      "value": 87600
     },
     {
-      "name": "PANDORA MEDIA INC",
-      "cusip": "698354107",
-      "shares": 5494625,
-      "value": 78738000
-    },
-    {
-      "name": "PENNYMAC FINL SVCS INC",
-      "cusip": "70932B101",
-      "shares": 1457550,
-      "value": 24793000
-    },
-    {
-      "name": "PLATFORM SPECIALTY PRODS COR",
-      "cusip": "72766Q105",
-      "shares": 7241175,
-      "value": 58726000
-    },
-    {
-      "name": "PULTE GROUP INC",
-      "cusip": "745867101",
-      "shares": 3889150,
-      "value": 77939000
+      "name": "INTREXON CORP",
+      "cusip": "46122T102",
+      "shares": 3074925,
+      "value": 86160
     },
     {
       "name": "QUOTIENT TECHNOLOGY INC",
       "cusip": "749119103",
       "shares": 6282625,
-      "value": 83622000
-    },
-    {
-      "name": "RADIAN GROUP INC",
-      "cusip": "750236101",
-      "shares": 1585975,
-      "value": 21490000
-    },
-    {
-      "name": "STARWOOD PPTY TR INC",
-      "cusip": "85571B105",
-      "shares": 145200,
-      "value": 3270000
-    },
-    {
-      "name": "TRI POINTE GROUP INC",
-      "cusip": "87265H109",
-      "shares": 2027650,
-      "value": 26725000
-    },
-    {
-      "name": "TAYLOR MORRISON HOME CORP",
-      "cusip": "87724P106",
-      "shares": 2226525,
-      "value": 39187000
-    },
-    {
-      "name": "TRIANGLE CAP CORP",
-      "cusip": "895848109",
-      "shares": 184278,
-      "value": 3631000
-    },
-    {
-      "name": "TRIPLEPOINT VENTURE GROWTH B",
-      "cusip": "89677Y100",
-      "shares": 122711,
-      "value": 1301000
-    },
-    {
-      "name": "TWITTER INC",
-      "cusip": "90184L102",
-      "shares": 1839049,
-      "value": 42391000
-    },
-    {
-      "name": "TWITTER INC",
-      "cusip": "90184L102",
-      "shares": 3370000,
-      "value": 77679000
-    },
-    {
-      "name": "UNITED CONTL HLDGS INC",
-      "cusip": "910047109",
-      "shares": 1344025,
-      "value": 70521000
-    },
-    {
-      "name": "VALEANT PHARMACEUTICALS INTL",
-      "cusip": "91911K102",
-      "shares": 2291400,
-      "value": 56254000
-    },
-    {
-      "name": "VEREIT INC",
-      "cusip": "92339V100",
-      "shares": 385000,
-      "value": 3993000
-    },
-    {
-      "name": "ZIOPHARM ONCOLOGY INC",
-      "cusip": "98973P101",
-      "shares": 5005921,
-      "value": 28184000
-    },
-    {
-      "name": "ENDO INTL PLC",
-      "cusip": "G30401106",
-      "shares": 1753425,
-      "value": 35332000
-    },
-    {
-      "name": "SEAGATE TECHNOLOGY PLC",
-      "cusip": "G7945M107",
-      "shares": 812075,
-      "value": 31306000
-    },
-    {
-      "name": "FIAT CHRYSLER AUTOMOBILES N",
-      "cusip": "N31738102",
-      "shares": 4959125,
-      "value": 31739000
+      "value": 83622
     },
     {
       "name": "NXP SEMICONDUCTORS N V",
       "cusip": "N6596X109",
       "shares": 804925,
-      "value": 82111000
+      "value": 82111
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 2012950,
+      "value": 79230
+    },
+    {
+      "name": "PANDORA MEDIA INC",
+      "cusip": "698354107",
+      "shares": 5494625,
+      "value": 78738
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 3889150,
+      "value": 77939
+    },
+    {
+      "name": "GENWORTH FINL INC",
+      "cusip": "37247D106",
+      "shares": 15692250,
+      "value": 77834
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 3370000,
+      "value": 77679
+    },
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 2011650,
+      "value": 73647
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 1344025,
+      "value": 70521
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 1614550,
+      "value": 68361
+    },
+    {
+      "name": "MGIC INVT CORP WIS",
+      "cusip": "552848103",
+      "shares": 8132900,
+      "value": 65064
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 3901775,
+      "value": 61063
+    },
+    {
+      "name": "PLATFORM SPECIALTY PRODS COR",
+      "cusip": "72766Q105",
+      "shares": 7241175,
+      "value": 58726
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 2334275,
+      "value": 57494
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 2291400,
+      "value": 56254
+    },
+    {
+      "name": "ENDURANCE INTL GROUP HLDGS I",
+      "cusip": "29272B105",
+      "shares": 6165375,
+      "value": 53948
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1005600,
+      "value": 47495
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 1839049,
+      "value": 42391
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 2226525,
+      "value": 39187
+    },
+    {
+      "name": "GILEAD SCIENCES INC",
+      "cusip": "375558103",
+      "shares": 470550,
+      "value": 37230
+    },
+    {
+      "name": "NATIONSTAR MTG HLDGS INC",
+      "cusip": "63861C109",
+      "shares": 2400350,
+      "value": 35550
+    },
+    {
+      "name": "ENDO INTL PLC",
+      "cusip": "G30401106",
+      "shares": 1753425,
+      "value": 35332
+    },
+    {
+      "name": "GAMESTOP CORP NEW",
+      "cusip": "36467W109",
+      "shares": 1160125,
+      "value": 32008
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 4959125,
+      "value": 31739
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 812075,
+      "value": 31306
+    },
+    {
+      "name": "ZIOPHARM ONCOLOGY INC",
+      "cusip": "98973P101",
+      "shares": 5005921,
+      "value": 28184
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 1037500,
+      "value": 27069
+    },
+    {
+      "name": "TRI POINTE GROUP INC",
+      "cusip": "87265H109",
+      "shares": 2027650,
+      "value": 26725
+    },
+    {
+      "name": "PENNYMAC FINL SVCS INC",
+      "cusip": "70932B101",
+      "shares": 1457550,
+      "value": 24793
+    },
+    {
+      "name": "RADIAN GROUP INC",
+      "cusip": "750236101",
+      "shares": 1585975,
+      "value": 21490
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 13805,
+      "value": 11560
+    },
+    {
+      "name": "FORTRESS TRANS INFRST INVS L",
+      "cusip": "34960P101",
+      "shares": 393000,
+      "value": 4917
+    },
+    {
+      "name": "VEREIT INC",
+      "cusip": "92339V100",
+      "shares": 385000,
+      "value": 3993
+    },
+    {
+      "name": "NEW MEDIA INVT GROUP INC",
+      "cusip": "64704V106",
+      "shares": 257000,
+      "value": 3984
+    },
+    {
+      "name": "TRIANGLE CAP CORP",
+      "cusip": "895848109",
+      "shares": 184278,
+      "value": 3631
+    },
+    {
+      "name": "CHIMERA INVT CORP",
+      "cusip": "16934Q208",
+      "shares": 210000,
+      "value": 3350
+    },
+    {
+      "name": "FORTRESS INVESTMENT GROUP LL",
+      "cusip": "34958B106",
+      "shares": 677000,
+      "value": 3345
+    },
+    {
+      "name": "NORTHSTAR RLTY FIN CORP",
+      "cusip": "66704R803",
+      "shares": 251450,
+      "value": 3312
+    },
+    {
+      "name": "STARWOOD PPTY TR INC",
+      "cusip": "85571B105",
+      "shares": 145200,
+      "value": 3270
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT LLC",
+      "cusip": "037612306",
+      "shares": 178000,
+      "value": 3197
+    },
+    {
+      "name": "NEW RESIDENTIAL INVT CORP",
+      "cusip": "64828T201",
+      "shares": 222750,
+      "value": 3077
+    },
+    {
+      "name": "ARLINGTON ASSET INVT CORP",
+      "cusip": "041356205",
+      "shares": 160000,
+      "value": 2367
+    },
+    {
+      "name": "FRONTIER COMMUNICATIONS CORP",
+      "cusip": "35906A207",
+      "shares": 28000,
+      "value": 2350
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 92000,
+      "value": 2188
+    },
+    {
+      "name": "CYS INVTS INC",
+      "cusip": "12673A108",
+      "shares": 230000,
+      "value": 2006
+    },
+    {
+      "name": "MEDLEY CAP CORP",
+      "cusip": "58503F106",
+      "shares": 262834,
+      "value": 2006
+    },
+    {
+      "name": "BGC PARTNERS INC",
+      "cusip": "05541T101",
+      "shares": 226400,
+      "value": 1981
+    },
+    {
+      "name": "MGM GROWTH PPTYS LLC",
+      "cusip": "55303A105",
+      "shares": 75000,
+      "value": 1956
+    },
+    {
+      "name": "BLUCORA INC",
+      "cusip": "095229AB6",
+      "shares": 2000000,
+      "value": 1919
+    },
+    {
+      "name": "JMP GROUP LLC",
+      "cusip": "46629U107",
+      "shares": 300000,
+      "value": 1656
+    },
+    {
+      "name": "COMPASS DIVERSIFIED HOLDINGS",
+      "cusip": "20451Q104",
+      "shares": 90000,
+      "value": 1565
+    },
+    {
+      "name": "FRONTIER COMMUNICATIONS CORP",
+      "cusip": "35906A108",
+      "shares": 325000,
+      "value": 1352
+    },
+    {
+      "name": "CARLYLE GROUP L P",
+      "cusip": "14309L102",
+      "shares": 86000,
+      "value": 1340
+    },
+    {
+      "name": "TRIPLEPOINT VENTURE GROWTH B",
+      "cusip": "89677Y100",
+      "shares": 122711,
+      "value": 1301
+    },
+    {
+      "name": "AMERICAN CAPITAL AGENCY CORP",
+      "cusip": "02503X105",
+      "shares": 66000,
+      "value": 1290
+    },
+    {
+      "name": "MVC CAPITAL INC",
+      "cusip": "553829102",
+      "shares": 142600,
+      "value": 1183
+    },
+    {
+      "name": "COMMUNICATIONS SALES&LEAS IN",
+      "cusip": "20341J104",
+      "shares": 33940,
+      "value": 1067
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 8580,
+      "value": 970
+    },
+    {
+      "name": "OCI PARTNERS LP",
+      "cusip": "67091N108",
+      "shares": 139400,
+      "value": 824
+    },
+    {
+      "name": "CIGNA CORPORATION",
+      "cusip": "125509109",
+      "shares": 5420,
+      "value": 707
     }
-  ]
+  ],
+  "totalValue": 2441949,
+  "positionsCount": 64
 }

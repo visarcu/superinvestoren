@@ -2,114 +2,118 @@
   "form": "13F-HR",
   "date": "2023-02-14",
   "period": "2023-02-14",
+  "accession": "0001104659-23-021493",
+  "quarterKey": "2023-Q1",
   "positions": [
-    {
-      "name": "ALLY FINL INC",
-      "cusip": "02005N100",
-      "shares": 155686,
-      "value": 3806520000
-    },
-    {
-      "name": "BAUSCH HEALTH COS INC",
-      "cusip": "071734107",
-      "shares": 715000,
-      "value": 4490197000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 80,
-      "value": 37496858000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 312900,
-      "value": 1019120000
-    },
-    {
-      "name": "CHINA YUCHAI INTL LTD",
-      "cusip": "G21082105",
-      "shares": 73364,
-      "value": 519050000
-    },
-    {
-      "name": "CI FINL CORP",
-      "cusip": "125491100",
-      "shares": 28700,
-      "value": 286364000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 57695,
-      "value": 2609543000
-    },
-    {
-      "name": "HERTZ GLOBAL HLDGS INC",
-      "cusip": "42806J148",
-      "shares": 741583,
-      "value": 5528498000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 96823,
-      "value": 1832858000
-    },
-    {
-      "name": "MAGNA INTL INC",
-      "cusip": "559222401",
-      "shares": 10000,
-      "value": 561800000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 199530,
-      "value": 2563959000
-    },
-    {
-      "name": "METHANEX CORP",
-      "cusip": "59151K108",
-      "shares": 4000,
-      "value": 151433000
-    },
-    {
-      "name": "OVERSTOCK COM INC",
-      "cusip": "690370101",
-      "shares": 38405,
-      "value": 743520000
+      "value": 37496858
     },
     {
       "name": "RESOLUTE FST PRODS INC",
       "cusip": "76117W109",
       "shares": 261460,
-      "value": 5644918000
+      "value": 5644918
     },
     {
-      "name": "RYANAIR HOLDINGS PLC",
-      "cusip": "783513203",
-      "shares": 4575,
-      "value": 342027000
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 741583,
+      "value": 5528498
     },
     {
-      "name": "STELLANTIS N.V",
-      "cusip": "N82405106",
-      "shares": 30000,
-      "value": 426000000
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 715000,
+      "value": 4490197
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 155686,
+      "value": 3806520
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 2609543
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 199530,
+      "value": 2563959
     },
     {
       "name": "SYNCHRONY FINANCIAL",
       "cusip": "87165B103",
       "shares": 58000,
-      "value": 1905879000
+      "value": 1905879
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 96823,
+      "value": 1832858
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 312900,
+      "value": 1019120
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 19542,
-      "value": 806889000
+      "value": 806889
+    },
+    {
+      "name": "OVERSTOCK COM INC",
+      "cusip": "690370101",
+      "shares": 38405,
+      "value": 743520
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 561800
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 519050
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 30000,
+      "value": 426000
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 342027
+    },
+    {
+      "name": "CI FINL CORP",
+      "cusip": "125491100",
+      "shares": 28700,
+      "value": 286364
+    },
+    {
+      "name": "METHANEX CORP",
+      "cusip": "59151K108",
+      "shares": 4000,
+      "value": 151433
     }
-  ]
+  ],
+  "totalValue": 70735433,
+  "positionsCount": 18
 }

@@ -2,36 +2,40 @@
   "form": "13F-HR",
   "date": "2016-02-16",
   "period": "2016-02-16",
+  "accession": "0001398344-16-010081",
+  "quarterKey": "2016-Q1",
   "positions": [
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 351759,
-      "value": 66497000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 373,
-      "value": 73779000
+      "value": 73779
     },
     {
-      "name": "CARE COM INC",
-      "cusip": "141633107",
-      "shares": 322178,
-      "value": 2307000
-    },
-    {
-      "name": "PRICE T ROWE GROUP INC",
-      "cusip": "74144T108",
-      "shares": 232800,
-      "value": 16643000
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 351759,
+      "value": 66497
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746119",
       "shares": 1459516,
-      "value": 29905000
+      "value": 29905
+    },
+    {
+      "name": "PRICE T ROWE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 232800,
+      "value": 16643
+    },
+    {
+      "name": "CARE COM INC",
+      "cusip": "141633107",
+      "shares": 322178,
+      "value": 2307
     }
-  ]
+  ],
+  "totalValue": 189131,
+  "positionsCount": 5
 }

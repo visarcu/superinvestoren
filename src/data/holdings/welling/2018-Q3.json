@@ -1,95 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0000921895-18-002322",
+  "quarterKey": "2018-Q3",
   "positions": [
-    {
-      "name": "APOGEE ENTERPRISES INC",
-      "cusip": "037598109",
-      "shares": 1491020,
-      "value": 71822000
-    },
-    {
-      "name": "ARATANA THERAPEUTICS INC",
-      "cusip": "03874P101",
-      "shares": 2400000,
-      "value": 10200000
-    },
-    {
-      "name": "BABCOCK & WILCOX ENTERPRIS I",
-      "cusip": "05614L100",
-      "shares": 4828536,
-      "value": 11492000
-    },
-    {
-      "name": "BENCHMARK ELECTRS INC",
-      "cusip": "08160H101",
-      "shares": 1366874,
-      "value": 39844000
-    },
-    {
-      "name": "CASEYS GEN STORES INC",
-      "cusip": "147528103",
-      "shares": 36672,
-      "value": 3853000
-    },
-    {
-      "name": "CELESTICA INC",
-      "cusip": "15101Q108",
-      "shares": 1652439,
-      "value": 19614000
-    },
-    {
-      "name": "CROSS CTRY HEALTHCARE INC",
-      "cusip": "227483104",
-      "shares": 207680,
-      "value": 2336000
-    },
-    {
-      "name": "GROUPON INC",
-      "cusip": "399473107",
-      "shares": 868119,
-      "value": 3733000
-    },
     {
       "name": "HAIN CELESTIAL GROUP INC",
       "cusip": "405217100",
       "shares": 11761242,
-      "value": 350485000
-    },
-    {
-      "name": "JAMBA INC",
-      "cusip": "47023A309",
-      "shares": 2834002,
-      "value": 30182000
-    },
-    {
-      "name": "NCR CORP NEW",
-      "cusip": "62886E108",
-      "shares": 355799,
-      "value": 10667000
+      "value": 350485
     },
     {
       "name": "RENT A CTR INC NEW",
       "cusip": "76009N100",
       "shares": 8983609,
-      "value": 132239000
+      "value": 132239
+    },
+    {
+      "name": "APOGEE ENTERPRISES INC",
+      "cusip": "037598109",
+      "shares": 1491020,
+      "value": 71822
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 6856907,
-      "value": 57598000
+      "value": 57598
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 1366874,
+      "value": 39844
     },
     {
       "name": "TIVO CORP",
       "cusip": "88870P106",
       "shares": 2525000,
-      "value": 33961000
+      "value": 33961
+    },
+    {
+      "name": "JAMBA INC",
+      "cusip": "47023A309",
+      "shares": 2834002,
+      "value": 30182
+    },
+    {
+      "name": "CELESTICA INC",
+      "cusip": "15101Q108",
+      "shares": 1652439,
+      "value": 19614
+    },
+    {
+      "name": "BABCOCK & WILCOX ENTERPRIS I",
+      "cusip": "05614L100",
+      "shares": 4828536,
+      "value": 11492
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 355799,
+      "value": 10667
+    },
+    {
+      "name": "ARATANA THERAPEUTICS INC",
+      "cusip": "03874P101",
+      "shares": 2400000,
+      "value": 10200
     },
     {
       "name": "UNIVERSAL ELECTRS INC",
       "cusip": "913483103",
       "shares": 251676,
-      "value": 8318000
+      "value": 8318
+    },
+    {
+      "name": "CASEYS GEN STORES INC",
+      "cusip": "147528103",
+      "shares": 36672,
+      "value": 3853
+    },
+    {
+      "name": "GROUPON INC",
+      "cusip": "399473107",
+      "shares": 868119,
+      "value": 3733
+    },
+    {
+      "name": "CROSS CTRY HEALTHCARE INC",
+      "cusip": "227483104",
+      "shares": 207680,
+      "value": 2336
     }
-  ]
+  ],
+  "totalValue": 786344,
+  "positionsCount": 15
 }
