@@ -110,9 +110,9 @@ export default function ProfilePageClient() {
     checkAuth();
   }, []);
 
-  // Handle Patreon OAuth Redirects (only after user is loaded)
+  // Handle Patreon OAuth Redirects (wait for user to be loaded, but trigger on both user and searchParams changes)
   useEffect(() => {
-    if (user && !loading) {
+    if (user && !loading && searchParams) {
       handlePatreonRedirects();
     }
   }, [searchParams, user, loading]);
@@ -206,6 +206,7 @@ export default function ProfilePageClient() {
     window.history.replaceState({}, '', url.toString());
   };
 
+  // KORRIGIERTE FUNKTION - nur eine Definition
   const savePatreonData = async (data: any) => {
     if (!user?.id) {
       console.error('❌ No user ID for saving Patreon data');
@@ -213,24 +214,71 @@ export default function ProfilePageClient() {
     }
 
     try {
-      console.log('💾 Saving Patreon data...');
+      console.log('💾 Saving Patreon data...', data);
       
-      const expiresAt = data.accessToken 
+      // 🔧 DEVELOPMENT MODE DETECTION
+      const isDevelopment = process.env.NODE_ENV === 'development' || 
+                           window.location.hostname === 'localhost' ||
+                           window.location.port !== '';
+      
+      // Handle different data formats (sessionStorage vs URL params)
+      const patreonId = data.patreonId || data.patreon_id;
+      const tier = data.tier || data.patreon_tier || 'free';
+      const originalIsPremium = data.isPremium !== undefined ? data.isPremium : data.is_premium;
+      const accessToken = data.accessToken || data.access_token;
+      const refreshToken = data.refreshToken || data.refresh_token;
+      
+      // 🧪 DEVELOPMENT MODE OVERRIDE
+      let actualIsPremium = originalIsPremium;
+      let actualTier = tier;
+      
+      if (isDevelopment) {
+        console.warn('🧪 DEVELOPMENT MODE DETECTED! Overriding Patreon status...');
+        
+        // Default: Force Free in Development
+        actualIsPremium = false;
+        actualTier = 'free';
+        
+        // Testing Override via URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const testPremium = urlParams.get('test_premium') === 'true';
+        
+        if (testPremium) {
+          actualIsPremium = true;
+          actualTier = 'premium';
+          console.log('🧪 Development Mode: Testing Premium via ?test_premium=true');
+        } else {
+          console.log('🧪 Development Mode: Forcing Free (add ?test_premium=true to test Premium)');
+        }
+        
+        // Developer notification for override
+        if (originalIsPremium !== actualIsPremium) {
+          console.warn(`🧪 DEVELOPMENT OVERRIDE APPLIED: isPremium ${originalIsPremium} → ${actualIsPremium}`);
+        }
+      } else {
+        console.log('🎯 PRODUCTION MODE: Using real Patreon data');
+      }
+      
+      const expiresAt = accessToken 
         ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() 
         : null;
 
+      const profileUpdate = {
+        user_id: user.id,
+        patreon_id: patreonId,
+        patreon_tier: actualTier,        // ← Uses overridden value
+        patreon_access_token: accessToken,
+        patreon_refresh_token: refreshToken,
+        patreon_expires_at: expiresAt,
+        is_premium: actualIsPremium,     // ← Uses overridden value
+        updated_at: new Date().toISOString()
+      };
+
+      console.log('📝 Final profile update data:', profileUpdate);
+
       const { error } = await supabase
         .from('profiles')
-        .upsert({
-          user_id: user.id,
-          patreon_id: data.patreonId,
-          patreon_tier: data.tier,
-          patreon_access_token: data.accessToken,
-          patreon_refresh_token: data.refreshToken,
-          patreon_expires_at: expiresAt,
-          is_premium: data.isPremium,
-          updated_at: new Date().toISOString()
-        }, {
+        .upsert(profileUpdate, {
           onConflict: 'user_id'
         });
 
@@ -239,9 +287,15 @@ export default function ProfilePageClient() {
         alert(`Fehler beim Speichern: ${error.message}`);
       } else {
         console.log('✅ Patreon data saved successfully');
-        alert('✅ Patreon-Daten erfolgreich gespeichert!');
-        // Refresh profile after successful save
+        // Refresh profile data to show updated status
         await loadProfile(user.id);
+        
+        // Different success message for development
+        const successMessage = isDevelopment 
+          ? `✅ Patreon-Daten gespeichert!\n🧪 Development Mode: Status auf "${actualTier}" gesetzt\n\n💡 Für Premium-Test: ?test_premium=true zur URL hinzufügen`
+          : '✅ Patreon-Verbindung erfolgreich gespeichert!';
+          
+        alert(successMessage);
       }
     } catch (error) {
       console.error('❌ Error saving Patreon data:', error);
