@@ -1,4 +1,4 @@
-// src/components/ProfilePageClient.tsx
+// src/components/ProfilePageClient.tsx - OPTIMIERTE VERSION mit Patreon
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,28 +6,125 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import PatreonConnectButton from '@/components/PatreonConnectButton';
 
+interface UserProfile {
+  user_id: string;
+  updated_at: string | null;
+  patreon_id: string | null;
+  patreon_tier: string | null;
+  patreon_access_token: string | null;
+  patreon_refresh_token: string | null;
+  patreon_expires_at: string | null;
+  is_premium?: boolean;
+  first_name?: string | null;
+  last_name?: string | null;
+  email_verified?: boolean;
+}
+
 export default function ProfilePageClient() {
   const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Separate Auth Check Function
+  const checkAuth = async () => {
+    try {
+      console.log('🔍 Checking auth...');
+      setError(null);
+      
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError) {
+        throw new Error(`Session Error: ${sessionError.message}`);
+      }
+
+      if (!session?.user) {
+        console.log('❌ No session, redirecting...');
+        router.push('/auth/signin');
+        return;
+      }
+
+      console.log('✅ Session found:', session.user.id);
+      setUser(session.user);
+
+      // Load profile
+      await loadProfile(session.user.id);
+
+    } catch (error) {
+      console.error('❌ Auth Error:', error);
+      setError(error instanceof Error ? error.message : 'Authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Separate Profile Loading Function
+  const loadProfile = async (userId: string) => {
+    try {
+      console.log('📄 Loading profile for:', userId);
+      
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      if (profileError) {
+        console.warn('⚠️ Profile Error:', profileError.message);
+        // Create default profile if not exists
+        setProfile({
+          user_id: userId,
+          updated_at: null,
+          patreon_id: null,
+          patreon_tier: null,
+          patreon_access_token: null,
+          patreon_refresh_token: null,
+          patreon_expires_at: null,
+          is_premium: false
+        });
+      } else {
+        console.log('✅ Profile loaded:', profileData);
+        setProfile(profileData);
+      }
+
+    } catch (error) {
+      console.error('❌ Profile loading error:', error);
+      // Fallback profile
+      setProfile({
+        user_id: userId,
+        updated_at: null,
+        patreon_id: null,
+        patreon_tier: null,
+        patreon_access_token: null,
+        patreon_refresh_token: null,
+        patreon_expires_at: null,
+        is_premium: false
+      });
+    }
+  };
+
+  // Initial auth check
   useEffect(() => {
     checkAuth();
-    
-    // Handle OAuth redirect messages - ERWEITERT für alle neuen Parameter + sessionStorage
-    const error = searchParams?.get('error');
-    const success = searchParams?.get('success');
-    const tier = searchParams?.get('tier');
-    const premium = searchParams?.get('premium');
-    const patreonId = searchParams?.get('patreon_id');
-    const patreonEmail = searchParams?.get('patreon_email');
-    const accessToken = searchParams?.get('access_token');
-    const refreshToken = searchParams?.get('refresh_token');
-    const details = searchParams?.get('details');
-    const patreonSuccess = searchParams?.get('patreon_success'); // NEU für sessionStorage
+  }, []);
 
+  // Handle Patreon OAuth Redirects (only after user is loaded)
+  useEffect(() => {
+    if (user && !loading) {
+      handlePatreonRedirects();
+    }
+  }, [searchParams, user, loading]);
+
+  const handlePatreonRedirects = async () => {
+    if (!searchParams) return;
+
+    const error = searchParams.get('error');
+    const success = searchParams.get('success');
+    const patreonSuccess = searchParams.get('patreon_success');
+    
+    // Handle errors
     if (error) {
       let message = 'Ein Fehler ist aufgetreten.';
       switch (error) {
@@ -39,219 +136,85 @@ export default function ProfilePageClient() {
           break;
         case 'patreon_oauth_failed':
           message = 'Verbindung zu Patreon fehlgeschlagen.';
-          if (details) {
-            message += `\n\nDetails: ${decodeURIComponent(details)}`;
-          }
           break;
         case 'no_session':
           message = 'Session nicht gefunden. Bitte loggen Sie sich erneut ein.';
           break;
-        case 'no_code':
-          message = 'Kein Autorisierungscode von Patreon erhalten.';
-          break;
       }
-      alert(message);
       
-      // Clean URL after showing message
-      const url = new URL(window.location.href);
-      url.searchParams.delete('error');
-      url.searchParams.delete('details');
-      window.history.replaceState({}, '', url.toString());
+      alert(message);
+      cleanupUrl(['error', 'details']);
+      return;
     }
 
-    // NEUE sessionStorage-Behandlung (Option 2)
+    // Handle sessionStorage success (your preferred method)
     if (patreonSuccess === '1') {
       console.log('🎉 Patreon success detected, checking sessionStorage...');
       
-      // Daten aus sessionStorage laden
       const patreonDataStr = sessionStorage.getItem('patreon_data');
-      
       if (patreonDataStr) {
         try {
           const patreonData = JSON.parse(decodeURIComponent(patreonDataStr));
           console.log('📦 Patreon data from sessionStorage:', patreonData);
           
-          // Success-Meldung zeigen
           alert(`🎉 Patreon erfolgreich verbunden!\n\n✅ Tier: ${patreonData.tier}\n${patreonData.isPremium ? '⭐' : '📊'} Premium: ${patreonData.isPremium ? 'Aktiviert' : 'Nicht aktiviert'}`);
           
-          // Daten speichern
-          savePatreonDataFromSessionStorage(patreonData);
-          
-          // SessionStorage cleanup
+          await savePatreonData(patreonData);
           sessionStorage.removeItem('patreon_data');
-          
-          // URL cleanup
-          const url = new URL(window.location.href);
-          url.searchParams.delete('patreon_success');
-          window.history.replaceState({}, '', url.toString());
+          cleanupUrl(['patreon_success']);
           
         } catch (error) {
-          console.error('❌ Error parsing patreon data from sessionStorage:', error);
+          console.error('❌ Error parsing patreon data:', error);
           alert('Fehler beim Verarbeiten der Patreon-Daten');
         }
-      } else {
-        console.warn('⚠️ patreon_success=1 but no data in sessionStorage');
+      }
+      return;
+    }
+
+    // Handle URL parameter success (fallback method)
+    if (success === 'patreon_connected') {
+      const tier = searchParams.get('tier');
+      const premium = searchParams.get('premium');
+      const patreonId = searchParams.get('patreon_id');
+      const patreonEmail = searchParams.get('patreon_email');
+      const accessToken = searchParams.get('access_token');
+      const refreshToken = searchParams.get('refresh_token');
+
+      if (patreonId) {
+        const isPremiumUser = premium === 'true';
+        alert(`🎉 Patreon erfolgreich verbunden!\n\n✅ Tier: ${tier}\n${isPremiumUser ? '⭐' : '📊'} Premium: ${isPremiumUser ? 'Aktiviert' : 'Nicht aktiviert'}\n📧 E-Mail: ${patreonEmail}`);
+        
+        savePatreonData({
+          patreonId,
+          tier: tier || 'free',
+          isPremium: isPremiumUser,
+          accessToken,
+          refreshToken
+        });
+        
+        cleanupUrl(['success', 'tier', 'premium', 'patreon_id', 'patreon_email', 'access_token', 'refresh_token']);
+        
+        // Refresh after saving
+        setTimeout(() => checkAuth(), 1000);
       }
     }
+  };
 
-    // ERWEITERTE Success-Behandlung mit echten Patreon-Daten (Original URL-Parameter Methode)
-    if (success === 'patreon_connected' && patreonId) {
-      // Zeige detaillierte Success-Meldung
-      const isPremiumUser = premium === 'true';
-      alert(`🎉 Patreon erfolgreich verbunden!\n\n✅ Tier: ${tier}\n${isPremiumUser ? '⭐' : '📊'} Premium: ${isPremiumUser ? 'Aktiviert' : 'Nicht aktiviert'}\n📧 E-Mail: ${patreonEmail}`);
-      
-      // Speichere Patreon-Daten in Supabase
-      savePatreonData({
-        patreonId,
-        tier: tier || 'free',
-        isPremium: isPremiumUser,
-        accessToken,
-        refreshToken
-      });
-      
-      // Clean URL von ALLEN Patreon-Parametern
-      const url = new URL(window.location.href);
-      url.searchParams.delete('success');
-      url.searchParams.delete('tier');
-      url.searchParams.delete('premium');
-      url.searchParams.delete('patreon_id');
-      url.searchParams.delete('patreon_email');
-      url.searchParams.delete('access_token');
-      url.searchParams.delete('refresh_token');
-      window.history.replaceState({}, '', url.toString());
-      
-      // Refresh user data to show updated status
-      setTimeout(() => {
-        checkAuth();
-      }, 1000);
+  const cleanupUrl = (params: string[]) => {
+    const url = new URL(window.location.href);
+    params.forEach(param => url.searchParams.delete(param));
+    window.history.replaceState({}, '', url.toString());
+  };
+
+  const savePatreonData = async (data: any) => {
+    if (!user?.id) {
+      console.error('❌ No user ID for saving Patreon data');
+      return;
     }
-  }, [searchParams]);
 
-  // KORRIGIERTE Funktion für sessionStorage-Daten (mit user_id)
-  async function savePatreonDataFromSessionStorage(data: any) {
     try {
-      console.log('💾 Saving Patreon data from sessionStorage...');
+      console.log('💾 Saving Patreon data...');
       
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      
-      if (sessionError || !session?.user) {
-        console.error('❌ No session for saving from sessionStorage');
-        alert('Bitte loggen Sie sich erneut ein');
-        router.push('/auth/signin');
-        return;
-      }
-
-      console.log('✅ Session found for sessionStorage save:', session.user.id);
-
-      // Prüfe ob Profile existiert (mit user_id!)
-      const { data: existingProfile, error: selectError } = await supabase
-        .from('profiles')
-        .select('user_id')
-        .eq('user_id', session.user.id) // user_id statt id!
-        .maybeSingle();
-
-      console.log('🔍 Existing profile check:', { existingProfile, selectError });
-
-      const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-
-      const profileData = {
-        patreon_id: data.patreonId,
-        patreon_tier: data.tier,
-        patreon_access_token: data.accessToken,
-        patreon_refresh_token: data.refreshToken,
-        patreon_expires_at: expiresAt,
-        is_premium: data.isPremium,
-        updated_at: new Date().toISOString()
-      };
-
-      let result;
-
-      if (existingProfile) {
-        // Update existing profile
-        console.log('📝 Updating existing profile...');
-        result = await supabase
-          .from('profiles')
-          .update(profileData)
-          .eq('user_id', session.user.id); // user_id statt id!
-      } else {
-        // Insert new profile
-        console.log('➕ Creating new profile...');
-        result = await supabase
-          .from('profiles')
-          .insert({
-            user_id: session.user.id, // user_id statt id!
-            ...profileData
-          });
-      }
-
-      if (result.error) {
-        console.error('❌ Failed to save from sessionStorage:', result.error);
-        alert(`Fehler beim Speichern: ${result.error.message}`);
-      } else {
-        console.log('✅ Saved from sessionStorage successfully');
-        alert('✅ Patreon-Daten erfolgreich gespeichert!');
-        // Refresh user data
-        setTimeout(() => {
-          checkAuth();
-        }, 1000);
-      }
-    } catch (error) {
-      console.error('❌ Error saving from sessionStorage:', error);
-      alert('Unerwarteter Fehler beim Speichern der Patreon-Daten');
-    }
-  }
-
-  // KORRIGIERTE Funktion zum Speichern der Patreon-Daten (mit user_id)
-  async function savePatreonData(data: {
-    patreonId: string;
-    tier: string;
-    isPremium: boolean;
-    accessToken: string | null;
-    refreshToken: string | null;
-  }) {
-    try {
-      console.log('💾 Saving Patreon data to Supabase...', {
-        tier: data.tier,
-        isPremium: data.isPremium,
-        hasAccessToken: !!data.accessToken
-      });
-      
-      // Mehrere Versuche für Session
-      let session = null;
-      let attempts = 0;
-      const maxAttempts = 3;
-      
-      while (!session && attempts < maxAttempts) {
-        attempts++;
-        console.log(`🔄 Session attempt ${attempts}/${maxAttempts}`);
-        
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.warn(`⚠️ Session error attempt ${attempts}:`, sessionError);
-          if (attempts < maxAttempts) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            continue;
-          }
-        } else if (sessionData.session?.user) {
-          session = sessionData.session;
-          break;
-        }
-        
-        if (attempts < maxAttempts) {
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      }
-      
-      if (!session?.user) {
-        console.error('❌ No valid session after multiple attempts');
-        alert('Session abgelaufen. Bitte loggen Sie sich erneut ein und versuchen Sie es nochmal.');
-        router.push('/auth/signin');
-        return;
-      }
-
-      console.log('✅ Valid session found:', session.user.id);
-
       const expiresAt = data.accessToken 
         ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() 
         : null;
@@ -259,7 +222,7 @@ export default function ProfilePageClient() {
       const { error } = await supabase
         .from('profiles')
         .upsert({
-          user_id: session.user.id, // user_id statt id!
+          user_id: user.id,
           patreon_id: data.patreonId,
           patreon_tier: data.tier,
           patreon_access_token: data.accessToken,
@@ -268,7 +231,7 @@ export default function ProfilePageClient() {
           is_premium: data.isPremium,
           updated_at: new Date().toISOString()
         }, {
-          onConflict: 'user_id' // user_id statt id!
+          onConflict: 'user_id'
         });
 
       if (error) {
@@ -277,83 +240,34 @@ export default function ProfilePageClient() {
       } else {
         console.log('✅ Patreon data saved successfully');
         alert('✅ Patreon-Daten erfolgreich gespeichert!');
+        // Refresh profile after successful save
+        await loadProfile(user.id);
       }
     } catch (error) {
       console.error('❌ Error saving Patreon data:', error);
       alert('Unerwarteter Fehler beim Speichern der Patreon-Daten');
     }
-  }
+  };
 
-  async function checkAuth() {
-    try {
-      setError(null);
-      console.log('🔍 Checking auth...');
-      
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-      if (sessionError) {
-        console.error('❌ Session Error:', sessionError);
-        setError(`Session Error: ${sessionError.message}`);
-        setLoading(false);
-        return;
-      }
-
-      if (!session?.user) {
-        console.log('❌ No session, redirecting to signin');
-        router.push('/auth/signin');
-        return;
-      }
-
-      console.log('✅ User found:', session.user.id);
-
-      // Versuche Profile zu laden - KORRIGIERT mit user_id
-      try {
-        console.log('🔍 Fetching profile...');
-        
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('user_id', session.user.id) // user_id statt id!
-          .maybeSingle();
-
-        if (profileError) {
-          console.warn('⚠️ Profile Error:', profileError);
-          // Trotzdem weitermachen, nur warnen
-        }
-
-        console.log('📄 Profile data:', profile);
-
-        setUser({
-          ...session.user,
-          profile: profile || {}
-        });
-
-        console.log('✅ User set successfully');
-        
-      } catch (profileErr) {
-        console.warn('⚠️ Profile Catch Error:', profileErr);
-        // User ohne Profile setzen
-        setUser({
-          ...session.user,
-          profile: {}
-        });
-      }
-
-    } catch (error) {
-      console.error('❌ Auth Check Error:', error);
-      setError(`Auth Error: ${error instanceof Error ? error.message : String(error)}`);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // Function to refresh user data (called from PatreonConnectButton)
   const refreshUserData = async () => {
     console.log('🔄 Refreshing user data...');
     setLoading(true);
-    await checkAuth();
+    try {
+      // Refresh both user session and profile
+      await checkAuth();
+    } catch (error) {
+      console.error('❌ Error refreshing user data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/auth/signin');
+  };
+
+  // Loading State
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
@@ -365,6 +279,7 @@ export default function ProfilePageClient() {
     );
   }
 
+  // Error State
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
@@ -375,11 +290,7 @@ export default function ProfilePageClient() {
           </div>
           <div className="space-x-4">
             <button
-              onClick={() => {
-                setError(null);
-                setLoading(true);
-                checkAuth();
-              }}
+              onClick={refreshUserData}
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
               Erneut versuchen
@@ -396,6 +307,7 @@ export default function ProfilePageClient() {
     );
   }
 
+  // No User State
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
@@ -412,16 +324,15 @@ export default function ProfilePageClient() {
     );
   }
 
+  // Main Profile UI
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 px-4 py-8">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-2">Mein Profil</h1>
-          <p className="text-gray-400">Verwalten deine Account-Einstellungen</p>
+          <p className="text-gray-400">Verwalte deinen Account</p>
         </div>
-
-    
 
         {/* Account Info */}
         <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
@@ -440,22 +351,21 @@ export default function ProfilePageClient() {
               <label className="block text-sm font-medium text-gray-300 mb-1">Status</label>
               <div className="flex items-center gap-2">
                 <span className={`px-3 py-1 rounded-full text-sm ${
-                  user.profile?.is_premium 
+                  profile?.is_premium 
                     ? 'bg-yellow-600 text-white' 
                     : 'bg-gray-600 text-gray-300'
                 }`}>
-                  {user.profile?.is_premium ? '⭐ Premium' : 'Free'}
+                  {profile?.is_premium ? '⭐ Premium' : 'Free'}
                 </span>
-                {user.profile?.patreon_tier && user.profile.patreon_tier !== 'free' && (
+                {profile?.patreon_tier && profile.patreon_tier !== 'free' && (
                   <span className="px-2 py-1 bg-orange-600 text-white text-xs rounded">
-                    {user.profile.patreon_tier}
+                    {profile.patreon_tier}
                   </span>
                 )}
               </div>
             </div>
           </div>
           
-          {/* Additional Profile Info */}
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Registriert am</label>
@@ -464,9 +374,9 @@ export default function ProfilePageClient() {
               </p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Letzter Login</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Patreon Status</label>
               <p className="text-gray-400 text-sm">
-                {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString('de-DE') : 'Unbekannt'}
+                {profile?.patreon_id ? `Verbunden (${profile.patreon_tier})` : 'Nicht verbunden'}
               </p>
             </div>
           </div>
@@ -474,7 +384,6 @@ export default function ProfilePageClient() {
 
         {/* Patreon Connection */}
         <PatreonConnectButton onStatusChange={refreshUserData} />
-
 
         {/* Premium Features Info */}
         <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
@@ -484,27 +393,25 @@ export default function ProfilePageClient() {
               <h4 className="font-semibold text-green-400 mb-2">✅ Mit Premium erhältst du:</h4>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li>• Vollständige Kennzahlen-Charts</li>
-                <li>• Detaillierte Bewertungsmetriken (KGV, KBV, etc.)</li>
+                <li>• Detaillierte Bewertungsmetriken</li>
                 <li>• Erweiterte Margenanalysen</li>
                 <li>• Interaktive Finanzdiagramme</li>
                 <li>• Keine Werbung</li>
                 <li>• Priority Support</li>
-                <li>• Early Access zu neuen Features</li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold text-gray-400 mb-2">❌ Free-Version Limitierungen:</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>• Basis-Informationen only</li>
-                <li>• Einige Kennzahlen sind gesperrt</li>
+                <li>• Einige Kennzahlen gesperrt</li>
                 <li>• Keine interaktiven Charts</li>
                 <li>• Werbung wird angezeigt</li>
-                <li>• Limitierter Support</li>
               </ul>
             </div>
           </div>
           
-          {!user.profile?.is_premium && (
+          {!profile?.is_premium && (
             <div className="mt-6 p-4 bg-orange-900/30 border border-orange-500/50 rounded-lg">
               <div className="flex items-start gap-3">
                 <span className="text-orange-400 text-xl">💡</span>
@@ -514,31 +421,6 @@ export default function ProfilePageClient() {
                   </p>
                   <p className="text-orange-300 text-sm">
                     Verbinde dein Patreon-Konto um Premium-Features freizuschalten! 
-                    Bereits ab $9/Monat Vollzugriff auf alle Features.
-                  </p>
-                  <div className="mt-2">
-                    <a
-                      href="/pricing"
-                      className="text-orange-400 hover:text-orange-300 underline text-sm"
-                    >
-                      Alle Preise ansehen →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {user.profile?.is_premium && (
-            <div className="mt-6 p-4 bg-green-900/30 border border-green-500/50 rounded-lg">
-              <div className="flex items-start gap-3">
-                <span className="text-green-400 text-xl">🎉</span>
-                <div>
-                  <p className="text-green-300 text-sm font-medium mb-1">
-                    Premium aktiv!
-                  </p>
-                  <p className="text-green-300 text-sm">
-                    Du hast Zugang zu allen Premium-Features. Vielen Dank für deine Unterstützung!
                   </p>
                 </div>
               </div>
@@ -546,44 +428,23 @@ export default function ProfilePageClient() {
           )}
         </div>
 
-        {/* Account Actions */}
+        {/* Actions */}
         <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
-          <h3 className="text-xl font-semibold text-white mb-4">Account-Aktionen</h3>
+          <h3 className="text-xl font-semibold text-white mb-4">Aktionen</h3>
           <div className="space-y-4">
-            {/* Refresh Status */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="text-white font-medium">Status aktualisieren</h4>
-                <p className="text-gray-400 text-sm">
-                  Synchronisiert deinen Premium-Status mit Patreon
-                </p>
-              </div>
-              <button
-                onClick={refreshUserData}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm"
-              >
-                Aktualisieren
-              </button>
-            </div>
+            <button
+              onClick={refreshUserData}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Status aktualisieren
+            </button>
             
-            {/* Delete Account Warning */}
-            <div className="pt-4 border-t border-gray-700">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-red-400 font-medium">Gefährliche Zone</h4>
-                  <p className="text-gray-400 text-sm">
-                    Account-Löschung und andere kritische Aktionen
-                  </p>
-                </div>
-                <button
-                  onClick={() => alert('Account-Löschung noch nicht implementiert')}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm"
-                  disabled
-                >
-                  Account löschen
-                </button>
-              </div>
-            </div>
+            <button
+              onClick={handleSignOut}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+            >
+              Abmelden
+            </button>
           </div>
         </div>
 
@@ -591,7 +452,7 @@ export default function ProfilePageClient() {
         <div className="text-center">
           <a
             href="/"
-            className="inline-flex items-center px-6 py-3 bg-accent text-black font-semibold rounded-xl hover:bg-accent/90 transition"
+            className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition"
           >
             ← Zurück zur App
           </a>

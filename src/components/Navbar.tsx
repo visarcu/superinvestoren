@@ -1,4 +1,4 @@
-// src/components/Navbar.tsx
+// src/components/Navbar.tsx - OPTIMIERT: Performance + Features
 'use client'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
@@ -16,40 +16,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { SparklesIcon } from '@heroicons/react/24/solid'
 import { supabase } from '@/lib/supabaseClient'
-import TickerBar from './TickerBar'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
-import type { User as SupabaseUser } from '@supabase/supabase-js'
-
-// Navigation Links
-const navLinks = [
-  { href: '/', label: 'Startseite' },
-  { href: '/superinvestor', label: 'Super-Investoren' },
-  { href: '/news', label: 'News' },
-]
-
-// Analyse Dropdown
-const analyseSubLinks = [
-  { href: '/analyse', label: 'Übersicht' },
-  { href: '/analyse/watchlist', label: 'Watchlist' },
-  { href: '/analyse/heatmap', label: 'Heatmap' },
-  { href: '/analyse/earnings', label: 'Earnings' },
-]
-
-// User Profile Interface - Angepasst an deine echte DB Struktur
-interface UserProfile {
-  user_id: string;
-  updated_at: string | null;
-  patreon_id: string | null;
-  patreon_tier: string | null;
-  patreon_access_token: string | null;
-  patreon_refresh_token: string | null;
-  patreon_expires_at: string | null;
-  // Diese Felder müsstest du noch in deiner DB haben oder hinzufügen:
-  first_name?: string | null;
-  last_name?: string | null;
-  email_verified?: boolean;
-}
 
 // Search Result Interface
 interface SearchResult {
@@ -60,7 +28,7 @@ interface SearchResult {
   href: string;
 }
 
-// Enhanced Search Component with working functionality
+// Clean Search Bar Component (wieder hinzugefügt!)
 function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -87,7 +55,7 @@ function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           stock.ticker.startsWith(query) || 
           stock.name.toUpperCase().includes(query)
       )
-      .slice(0, 6) // Limit stocks to 6
+      .slice(0, 6)
       .map((stock): SearchResult => ({
         type: 'stock',
         id: stock.ticker,
@@ -103,23 +71,21 @@ function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           investor.name.toUpperCase().includes(query) ||
           investor.slug.toUpperCase().includes(query)
       )
-      .slice(0, 4) // Limit investors to 4
+      .slice(0, 4)
       .map((investor): SearchResult => ({
         type: 'investor',
         id: investor.slug,
-        title: investor.name.split('–')[0].trim(), // Remove company info
+        title: investor.name.split('–')[0].trim(),
         subtitle: `Investor Portfolio`,
         href: `/investor/${investor.slug}`
       }));
 
-    // Combine results (stocks first, then investors)
     results.push(...filteredStocks, ...filteredInvestors);
-
     setSuggestions(results);
     setShowSuggestions(results.length > 0 && isFocused);
   }, [searchTerm, isFocused]);
 
-  // Handle click outside to close suggestions
+  // Handle click outside
   useEffect(() => {
     function handleClickOutside(event: Event) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -131,27 +97,21 @@ function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle selection of a result
   const handleSelectResult = (result: SearchResult) => {
     setSearchTerm('');
     setSuggestions([]);
     setShowSuggestions(false);
     setIsFocused(false);
-    
-    // Close mobile navbar if this function is provided
     onNavigate?.();
-    
     router.push(result.href);
   };
 
-  // Handle Enter key press
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (suggestions.length > 0) {
         handleSelectResult(suggestions[0]);
       } else if (searchTerm.trim()) {
-        // Close mobile navbar if this function is provided
         onNavigate?.();
         router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
       }
@@ -218,8 +178,31 @@ function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-// Modern User Dropdown (Supabase Style) - FIXED VERSION
-function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser; profile: UserProfile | null; onNavigate?: () => void }) {
+const navLinks = [
+  { href: '/', label: 'Startseite' },
+  { href: '/superinvestor', label: 'Super-Investoren' },
+  { href: '/news', label: 'News' },
+]
+
+const analyseSubLinks = [
+  { href: '/analyse', label: 'Übersicht' },
+  { href: '/analyse/watchlist', label: 'Watchlist' },
+  { href: '/analyse/heatmap', label: 'Heatmap' },
+  { href: '/analyse/earnings', label: 'Earnings' },
+]
+
+// User Profile Interface
+interface UserProfile {
+  user_id: string;
+  patreon_tier?: string | null;
+  is_premium?: boolean;
+  first_name?: string | null;
+  last_name?: string | null;
+  email_verified?: boolean;
+}
+
+// OPTIMIERTER User Dropdown - Performance + Features
+function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProfile | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -248,13 +231,12 @@ function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser;
     return (user.email || '').split('@')[0];
   };
 
-  // Prüfe ob User Patreon Premium hat (supporter oder premium)
-  const isPremium = profile?.patreon_tier && 
-                   profile?.patreon_id && 
-                   ['premium', 'supporter'].includes(profile.patreon_tier);
+  // Premium Status Check
+  const isPremium = profile?.is_premium || 
+                   (profile?.patreon_tier && ['premium', 'supporter'].includes(profile.patreon_tier));
+  
   const isEmailVerified = profile?.email_verified ?? user.email_confirmed_at != null;
 
-  // Tier Display Namen für UI
   const getTierDisplayName = (tier: string) => {
     switch (tier) {
       case 'premium': return 'Premium';
@@ -266,15 +248,15 @@ function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser;
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    onNavigate?.(); // Close mobile navbar
     router.push('/auth/signin');
   };
 
   const handleNavigation = (path: string) => {
-    onNavigate?.(); // Close mobile navbar
     router.push(path);
+    setIsOpen(false);
   };
 
+  // ALLE MENU ITEMS (inkl. Email Support & Einstellungen)
   const menuItems = [
     {
       icon: <UserIcon className="w-4 h-4" />,
@@ -286,7 +268,7 @@ function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser;
       icon: <EnvelopeIcon className="w-4 h-4" />,
       label: 'Email Support',
       action: () => {
-        onNavigate?.(); // Close mobile navbar
+        setIsOpen(false);
         window.location.href = 'mailto:team.finclue@gmail.com';
       },
       description: 'Hilfe & Kontakt'
@@ -308,7 +290,7 @@ function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser;
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Clean Avatar Button */}
+      {/* Avatar Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 group"
@@ -326,11 +308,11 @@ function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser;
         <ChevronDownIcon className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {/* Clean Dropdown Menu */}
+      {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute top-full right-0 mt-2 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden z-50">
           
-          {/* Header */}
+          {/* Header mit User Info */}
           <div className="p-4 border-b border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-3">
               <div className="relative">
@@ -372,10 +354,7 @@ function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser;
             {menuItems.map((item, index) => (
               <button
                 key={index}
-                onClick={() => {
-                  item.action();
-                  setIsOpen(false);
-                }}
+                onClick={item.action}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors duration-150 ${
                   item.isLogout 
                     ? 'hover:bg-red-50 dark:hover:bg-red-500/10 text-red-600 dark:text-red-400' 
@@ -414,139 +393,122 @@ function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser;
   );
 }
 
-// Guest Actions (Clean Style)
-function GuestUserActions({ onNavigate }: { onNavigate?: () => void }) {
-  const router = useRouter();
-
-  const handleNavigation = (path: string) => {
-    onNavigate?.(); // Close mobile navbar
-    router.push(path);
-  };
-
+// Guest Actions
+function GuestActions() {
   return (
     <div className="flex items-center gap-2">
-      <button
-        onClick={() => handleNavigation('/auth/signin')}
+      <Link
+        href="/auth/signin"
         className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
       >
         Anmelden
-      </button>
-      <button
-        onClick={() => handleNavigation('/auth/signup')}
+      </Link>
+      <Link
+        href="/auth/signup"
         className="px-4 py-1.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors duration-200 shadow-sm"
       >
         Registrieren
-      </button>
+      </Link>
     </div>
   );
 }
 
-// Main Navbar Component (FIXED VERSION)
 export default function Navbar() {
-  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [isUserLoading, setIsUserLoading] = useState(true);
-  const [isProfileLoading, setIsProfileLoading] = useState(false);
-
-  // Separate function to load profile
-  const loadUserProfile = async (userId: string) => {
-    setIsProfileLoading(true);
-    try {
-      const { data: profileData, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
-      
-      if (error) {
-        console.error('Error loading profile:', error);
-        // Create default profile if none exists
-        setProfile({
-          user_id: userId,
-          updated_at: null,
-          patreon_id: null,
-          patreon_tier: null,
-          patreon_access_token: null,
-          patreon_refresh_token: null,
-          patreon_expires_at: null,
-          first_name: null,
-          last_name: null,
-          email_verified: false
-        });
-      } else {
-        setProfile(profileData as UserProfile);
-      }
-    } catch (error) {
-      console.error('Error loading user profile:', error);
-      // Fallback to default profile
-      setProfile({
-        user_id: userId,
-        updated_at: null,
-        patreon_id: null,
-        patreon_tier: null,
-        patreon_access_token: null,
-        patreon_refresh_token: null,
-        patreon_expires_at: null,
-        first_name: null,
-        last_name: null,
-        email_verified: false
-      });
-    } finally {
-      setIsProfileLoading(false);
-    }
-  };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadUserData() {
-      setIsUserLoading(true);
+    let mounted = true;
+
+    async function loadUser() {
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        // 1. Session laden (einfach und schnell)
+        const { data: { session }, error } = await supabase.auth.getSession();
         
-        if (sessionError) {
-          console.error('Session error:', sessionError);
+        if (mounted) {
+          if (error) {
+            console.warn('Session error:', error);
+            setUser(null);
+            setProfile(null);
+          } else if (session?.user) {
+            setUser(session.user);
+            // 2. Profile laden (async, blockiert nicht die UI)
+            loadProfile(session.user.id);
+          } else {
+            setUser(null);
+            setProfile(null);
+          }
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error loading user:', error);
+        if (mounted) {
           setUser(null);
           setProfile(null);
-        } else if (session?.user) {
+          setLoading(false);
+        }
+      }
+    }
+
+    // OPTIMIERT: Profile Loading separate (nicht blocking)
+    async function loadProfile(userId: string) {
+      try {
+        const { data: profileData, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', userId)
+          .maybeSingle();
+        
+        if (mounted) {
+          if (error) {
+            console.warn('Profile error:', error);
+            // Fallback profile
+            setProfile({
+              user_id: userId,
+              is_premium: false
+            });
+          } else {
+            setProfile(profileData);
+          }
+        }
+      } catch (error) {
+        console.warn('Profile loading error:', error);
+        if (mounted) {
+          setProfile({
+            user_id: userId,
+            is_premium: false
+          });
+        }
+      }
+    }
+
+    loadUser();
+
+    // Auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (mounted) {
+        if (session?.user) {
           setUser(session.user);
-          // Load profile after user is set
-          await loadUserProfile(session.user.id);
+          loadProfile(session.user.id);
         } else {
           setUser(null);
           setProfile(null);
         }
-      } catch (error) {
-        console.error('Error loading user data:', error);
-        setUser(null);
-        setProfile(null);
-      } finally {
-        setIsUserLoading(false);
-      }
-    }
-
-    loadUserData();
-
-    // Listen to auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        setUser(session.user);
-        await loadUserProfile(session.user.id);
-      } else {
-        setUser(null);
-        setProfile(null);
+        setLoading(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
-
-  // Show loading indicator only while user session is loading
-  const showLoadingIndicator = isUserLoading;
 
   return (
     <Disclosure as="header" className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50">
       {({ open, close }) => (
         <>
-          <TickerBar />
           <div className="max-w-7xl mx-auto">
             <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
               {/* Logo */}
@@ -566,15 +528,15 @@ export default function Navbar() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+                      className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
                     >
                       {link.label}
                     </Link>
                   ))}
                   
-                  {/* Clean Analyse Dropdown */}
+                  {/* Analyse Dropdown */}
                   <Menu as="div" className="relative">
-                    <Menu.Button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                    <Menu.Button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all">
                       Analyse 
                       <ChevronDownIcon className="w-4 h-4" />
                     </Menu.Button>
@@ -593,7 +555,7 @@ export default function Navbar() {
                             {({ active }) => (
                               <Link
                                 href={subLink.href}
-                                className={`block px-4 py-3 text-sm transition-colors duration-150 ${
+                                className={`block px-4 py-3 text-sm transition-colors ${
                                   active 
                                     ? 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white' 
                                     : 'text-gray-700 dark:text-gray-300'
@@ -617,25 +579,25 @@ export default function Navbar() {
                   <CleanSearchBar />
                 </div>
 
-                {/* User Menu - FIXED LOGIC */}
+                {/* User Menu */}
                 <div className="hidden md:block">
-                  {showLoadingIndicator ? (
+                  {loading ? (
                     <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
                   ) : user ? (
-                    <ModernUserDropdown user={user} profile={profile} />
+                    <OptimizedUserDropdown user={user} profile={profile} />
                   ) : (
-                    <GuestUserActions />
+                    <GuestActions />
                   )}
                 </div>
 
                 {/* Mobile Menu Toggle */}
-                <Disclosure.Button className="lg:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                <Disclosure.Button className="lg:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all">
                   {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
                 </Disclosure.Button>
               </div>
             </div>
 
-            {/* Mobile Panel - FIXED VERSION WITH AUTO-CLOSE */}
+            {/* Mobile Panel */}
             <Disclosure.Panel className="lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
               <div className="px-4 py-3 space-y-1">
                 {/* Mobile Search */}
@@ -643,50 +605,43 @@ export default function Navbar() {
                   <CleanSearchBar onNavigate={close} />
                 </div>
 
-                {/* Mobile Nav Links - FIXED: Added onClick to close navbar */}
+                {/* Mobile Nav Links */}
                 {navLinks.map(link => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={() => close()} // This closes the mobile menu
-                    className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+                    onClick={() => close()}
+                    className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
                   >
                     {link.label}
                   </Link>
                 ))}
 
-                {/* Mobile Analyse Section - FIXED: Added onClick to close navbar */}
-                <Disclosure as="div">
-                  {({ open: subOpen }) => (
-                    <>
-                      <Disclosure.Button className="flex w-full items-center justify-between px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
-                        Analyse
-                        <ChevronDownIcon className={`w-5 h-5 transition-transform duration-200 ${subOpen ? 'rotate-180' : ''}`} />
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="pl-6 space-y-1">
-                        {analyseSubLinks.map(subLink => (
-                          <Link
-                            key={subLink.href}
-                            href={subLink.href}
-                            onClick={() => close()} // This closes the mobile menu
-                            className="block px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
-                          >
-                            {subLink.label}
-                          </Link>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                {/* Mobile Analyse Section */}
+                <div className="space-y-1">
+                  <div className="px-3 py-2 text-base font-medium text-gray-900 dark:text-white">
+                    Analyse
+                  </div>
+                  {analyseSubLinks.map(subLink => (
+                    <Link
+                      key={subLink.href}
+                      href={subLink.href}
+                      onClick={() => close()}
+                      className="block px-6 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
+                    >
+                      {subLink.label}
+                    </Link>
+                  ))}
+                </div>
 
-                {/* Mobile User Menu - FIXED: Pass close function */}
+                {/* Mobile User Menu */}
                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                  {showLoadingIndicator ? (
+                  {loading ? (
                     <div className="w-full h-12 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
                   ) : user ? (
-                    <ModernUserDropdown user={user} profile={profile} onNavigate={close} />
+                    <OptimizedUserDropdown user={user} profile={profile} />
                   ) : (
-                    <GuestUserActions onNavigate={close} />
+                    <GuestActions />
                   )}
                 </div>
               </div>

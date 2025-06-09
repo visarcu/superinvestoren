@@ -401,8 +401,6 @@ export default function SuperinvestorPage() {
             {/* Subtitle */}
             <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
               Entdecke, wie Legenden wie Warren Buffett, Bill Ackman und Terry Smith investieren.
-              <br className="hidden sm:block" />
-              mit aktuellen Portfolios, Top-Käufen & detaillierten Analysen.
             </p>
           </div>
         </div>
