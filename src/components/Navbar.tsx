@@ -18,6 +18,7 @@ import { SparklesIcon } from '@heroicons/react/24/solid'
 import { supabase } from '@/lib/supabaseClient'
 import TickerBar from './TickerBar'
 import { stocks } from '@/data/stocks'
+import { investors } from '@/data/investors'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 // Navigation Links
@@ -50,11 +51,20 @@ interface UserProfile {
   email_verified?: boolean;
 }
 
+// Search Result Interface
+interface SearchResult {
+  type: 'stock' | 'investor';
+  id: string;
+  title: string;
+  subtitle: string;
+  href: string;
+}
+
 // Enhanced Search Component with working functionality
-function CleanSearchBar() {
+function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-  const [suggestions, setSuggestions] = useState<typeof stocks>([]);
+  const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -68,16 +78,45 @@ function CleanSearchBar() {
     }
 
     const query = searchTerm.trim().toUpperCase();
-    const filtered = stocks
+    const results: SearchResult[] = [];
+
+    // Search in stocks
+    const filteredStocks = stocks
       .filter(
         (stock) =>
           stock.ticker.startsWith(query) || 
           stock.name.toUpperCase().includes(query)
       )
-      .slice(0, 8); // Limit to 8 suggestions
+      .slice(0, 6) // Limit stocks to 6
+      .map((stock): SearchResult => ({
+        type: 'stock',
+        id: stock.ticker,
+        title: stock.ticker,
+        subtitle: stock.name,
+        href: `/analyse/${stock.ticker}`
+      }));
 
-    setSuggestions(filtered);
-    setShowSuggestions(filtered.length > 0 && isFocused);
+    // Search in investors
+    const filteredInvestors = investors
+      .filter(
+        (investor) =>
+          investor.name.toUpperCase().includes(query) ||
+          investor.slug.toUpperCase().includes(query)
+      )
+      .slice(0, 4) // Limit investors to 4
+      .map((investor): SearchResult => ({
+        type: 'investor',
+        id: investor.slug,
+        title: investor.name.split('–')[0].trim(), // Remove company info
+        subtitle: `Investor Portfolio`,
+        href: `/investor/${investor.slug}`
+      }));
+
+    // Combine results (stocks first, then investors)
+    results.push(...filteredStocks, ...filteredInvestors);
+
+    setSuggestions(results);
+    setShowSuggestions(results.length > 0 && isFocused);
   }, [searchTerm, isFocused]);
 
   // Handle click outside to close suggestions
@@ -92,14 +131,17 @@ function CleanSearchBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle selection of a stock
-  const handleSelectStock = (ticker: string) => {
+  // Handle selection of a result
+  const handleSelectResult = (result: SearchResult) => {
     setSearchTerm('');
     setSuggestions([]);
     setShowSuggestions(false);
     setIsFocused(false);
     
-    router.push(`/analyse/${ticker}`);
+    // Close mobile navbar if this function is provided
+    onNavigate?.();
+    
+    router.push(result.href);
   };
 
   // Handle Enter key press
@@ -107,8 +149,10 @@ function CleanSearchBar() {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (suggestions.length > 0) {
-        handleSelectStock(suggestions[0].ticker);
+        handleSelectResult(suggestions[0]);
       } else if (searchTerm.trim()) {
+        // Close mobile navbar if this function is provided
+        onNavigate?.();
         router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
       }
     }
@@ -141,19 +185,28 @@ function CleanSearchBar() {
       {/* Suggestions Dropdown */}
       {showSuggestions && suggestions.length > 0 && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden z-50 max-h-64 overflow-y-auto">
-          {suggestions.map((stock) => (
+          {suggestions.map((result) => (
             <button
-              key={stock.ticker}
-              onClick={() => handleSelectStock(stock.ticker)}
+              key={`${result.type}-${result.id}`}
+              onClick={() => handleSelectResult(result)}
               className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 border-b border-gray-100 dark:border-gray-800 last:border-b-0"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
-                    {stock.ticker}
+                  <div className="flex items-center gap-2">
+                    <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
+                      {result.title}
+                    </div>
+                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
+                      result.type === 'stock' 
+                        ? 'bg-green-100 dark:bg-green-500/20 text-green-800 dark:text-green-400'
+                        : 'bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-400'
+                    }`}>
+                      {result.type === 'stock' ? 'Aktie' : 'Investor'}
+                    </span>
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {stock.name}
+                    {result.subtitle}
                   </div>
                 </div>
               </div>
@@ -166,7 +219,7 @@ function CleanSearchBar() {
 }
 
 // Modern User Dropdown (Supabase Style) - FIXED VERSION
-function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: UserProfile | null }) {
+function ModernUserDropdown({ user, profile, onNavigate }: { user: SupabaseUser; profile: UserProfile | null; onNavigate?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -213,26 +266,35 @@ function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: Us
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    onNavigate?.(); // Close mobile navbar
     router.push('/auth/signin');
+  };
+
+  const handleNavigation = (path: string) => {
+    onNavigate?.(); // Close mobile navbar
+    router.push(path);
   };
 
   const menuItems = [
     {
       icon: <UserIcon className="w-4 h-4" />,
       label: 'Profil bearbeiten',
-      action: () => router.push('/profile'),
+      action: () => handleNavigation('/profile'),
       description: 'Persönliche Daten verwalten'
     },
     {
       icon: <EnvelopeIcon className="w-4 h-4" />,
       label: 'Email Support',
-      action: () => window.location.href = 'mailto:team.finclue@gmail.com',
+      action: () => {
+        onNavigate?.(); // Close mobile navbar
+        window.location.href = 'mailto:team.finclue@gmail.com';
+      },
       description: 'Hilfe & Kontakt'
     },
     {
       icon: <Cog6ToothIcon className="w-4 h-4" />,
       label: 'Einstellungen',
-      action: () => router.push('/settings'), 
+      action: () => handleNavigation('/settings'), 
       description: 'App-Einstellungen'
     },
     {
@@ -353,21 +415,28 @@ function ModernUserDropdown({ user, profile }: { user: SupabaseUser; profile: Us
 }
 
 // Guest Actions (Clean Style)
-function GuestUserActions() {
+function GuestUserActions({ onNavigate }: { onNavigate?: () => void }) {
+  const router = useRouter();
+
+  const handleNavigation = (path: string) => {
+    onNavigate?.(); // Close mobile navbar
+    router.push(path);
+  };
+
   return (
     <div className="flex items-center gap-2">
-      <Link
-        href="/auth/signin"
+      <button
+        onClick={() => handleNavigation('/auth/signin')}
         className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
       >
         Anmelden
-      </Link>
-      <Link
-        href="/auth/signup"
+      </button>
+      <button
+        onClick={() => handleNavigation('/auth/signup')}
         className="px-4 py-1.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors duration-200 shadow-sm"
       >
         Registrieren
-      </Link>
+      </button>
     </div>
   );
 }
@@ -475,7 +544,7 @@ export default function Navbar() {
 
   return (
     <Disclosure as="header" className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50">
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <TickerBar />
           <div className="max-w-7xl mx-auto">
@@ -566,26 +635,27 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Mobile Panel */}
+            {/* Mobile Panel - FIXED VERSION WITH AUTO-CLOSE */}
             <Disclosure.Panel className="lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
               <div className="px-4 py-3 space-y-1">
                 {/* Mobile Search */}
                 <div className="mb-4">
-                  <CleanSearchBar />
+                  <CleanSearchBar onNavigate={close} />
                 </div>
 
-                {/* Mobile Nav Links */}
+                {/* Mobile Nav Links - FIXED: Added onClick to close navbar */}
                 {navLinks.map(link => (
                   <Link
                     key={link.href}
                     href={link.href}
+                    onClick={() => close()} // This closes the mobile menu
                     className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
                   >
                     {link.label}
                   </Link>
                 ))}
 
-                {/* Mobile Analyse Section */}
+                {/* Mobile Analyse Section - FIXED: Added onClick to close navbar */}
                 <Disclosure as="div">
                   {({ open: subOpen }) => (
                     <>
@@ -598,6 +668,7 @@ export default function Navbar() {
                           <Link
                             key={subLink.href}
                             href={subLink.href}
+                            onClick={() => close()} // This closes the mobile menu
                             className="block px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
                           >
                             {subLink.label}
@@ -608,27 +679,14 @@ export default function Navbar() {
                   )}
                 </Disclosure>
 
-                {/* Mobile User Menu - FIXED LOGIC */}
+                {/* Mobile User Menu - FIXED: Pass close function */}
                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                   {showLoadingIndicator ? (
                     <div className="w-full h-12 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
                   ) : user ? (
-                    <ModernUserDropdown user={user} profile={profile} />
+                    <ModernUserDropdown user={user} profile={profile} onNavigate={close} />
                   ) : (
-                    <div className="flex flex-col gap-2">
-                      <Link
-                        href="/auth/signin"
-                        className="w-full px-4 py-2 text-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 rounded-lg transition-all duration-200"
-                      >
-                        Anmelden
-                      </Link>
-                      <Link
-                        href="/auth/signup"
-                        className="w-full px-4 py-2 text-center text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors duration-200"
-                      >
-                        Registrieren
-                      </Link>
-                    </div>
+                    <GuestUserActions onNavigate={close} />
                   )}
                 </div>
               </div>
