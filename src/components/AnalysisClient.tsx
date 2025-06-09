@@ -23,10 +23,10 @@ const StockLineChart = dynamic(
   () => import('@/components/StockLineChart'),
   { ssr: false, loading: () => <LoadingSpinner /> }
 )
-const FinancialAnalysisClient = dynamic(
-  () => import('@/components/FinancialAnalysisClient'),
-  { ssr: false, loading: () => <LoadingSpinner /> }
-)
+
+// ✅ KORRIGIERTER Import für FinancialAnalysisClient
+import FinancialAnalysisClient from '@/components/FinancialAnalysisClient'
+
 const DividendSection = dynamic(
   () => import('@/components/DividendSection'),
   { ssr: false, loading: () => <LoadingSpinner /> }
@@ -166,8 +166,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     strongSell: number
   }>(null)
 
+  // ✅ NEU: State für aktuelle Outstanding Shares (Hook #33)
+  const [currentShares, setCurrentShares] = useState<number | null>(null)
+
   // ────────────────────────────────────────────────────────────────────────────
-  // 10) Effekt: Supabase-Session + User-Metadaten laden (Hook #33)
+  // 10) Effekt: Supabase-Session + User-Metadaten laden (Hook #34)
   useEffect(() => {
     async function checkAuth() {
       const {
@@ -216,7 +219,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     checkAuth()
   }, [router])
 
-  // 11) Effekt: Alle weiteren Daten fetchen (Hook #34)
+  // 11) Effekt: Alle weiteren Daten fetchen (Hook #35)
   useEffect(() => {
     // Falls keine Aktie, abbrechen
     if (!stock) return
@@ -370,6 +373,26 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       }
     }
 
+    // ✅ NEU: 11.8.1) Aktuelle Outstanding Shares aus der korrekten API
+    async function loadCurrentShares() {
+      try {
+        // Verwende die neue, korrekte shares-float API
+        const res = await fetch(
+          `https://financialmodelingprep.com/stable/shares-float?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+        )
+        if (res.ok) {
+          const sharesData = (await res.json()) as any[]
+          if (Array.isArray(sharesData) && sharesData.length > 0) {
+            const currentSharesCount = sharesData[0].outstandingShares
+            setCurrentShares(currentSharesCount)
+            console.log(`✅ [AnalysisClient] Current Outstanding Shares for ${ticker}: ${(currentSharesCount / 1e9).toFixed(2)} Mrd (${sharesData[0].date})`)
+          }
+        }
+      } catch {
+        console.warn(`[AnalysisClient] CurrentShares für ${ticker} fehlgeschlagen.`)
+      }
+    }
+
     // 11.9) Company Outlook (KGV, PEG, KBV, KUV)
     async function loadOutlook() {
       try {
@@ -466,7 +489,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       }
     }
 
-    // 11.14) Alle Ladevorgänge parallel ausführen
+    // 11.14) ✅ Alle Ladevorgänge parallel ausführen (inkl. neue loadCurrentShares)
     loadProfile()
     loadHistory()
     loadDividendHistory()
@@ -475,6 +498,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     loadBalanceSheet()
     loadDividendDates()
     loadQuote()
+    loadCurrentShares() // ← NEU: Korrekte Outstanding Shares laden
     loadOutlook()
     loadEvEbit()
     loadMargins()
@@ -516,6 +540,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       </div>
 
+
       {/* ─── Key Metrics / Bilanz / Dividende / Bewertung / Margins ─── */}
       {hasKeyMetrics ? (
         <Card>
@@ -541,6 +566,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     Beta:{' '}
                     {profileData?.beta != null ? profileData.beta.toFixed(2) : '–'}
                   </li>
+                  {/* ✅ NEU: Aktuelle Outstanding Shares anzeigen */}
+                  {currentShares && (
+                    <li>
+                      Outstanding Shares:{' '}
+                      {(currentShares / 1e9).toFixed(2)} Mrd
+                    </li>
+                  )}
                 </ul>
               </div>
 
@@ -676,10 +708,10 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </h2>
         {user?.isPremium ? (
           <FinancialAnalysisClient 
-          ticker={ticker} 
-          isPremium={user?.isPremium}
-          userId={user?.id}
-        />
+            ticker={ticker} 
+            isPremium={user?.isPremium}
+            userId={user?.id}
+          />
         ) : (
           <PremiumLockOverlay
             title="Interaktive Kennzahlen-Charts"
