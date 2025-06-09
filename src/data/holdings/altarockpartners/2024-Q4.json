@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-13",
+  "period": "2024-11-13",
+  "accession": "0001104659-24-117526",
+  "quarterKey": "2024-Q4",
   "positions": [
     {
-      "name": "ALPHABET INC-CL A",
-      "cusip": "02079K305",
-      "shares": 3333905,
-      "value": 552928144000
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1048264,
+      "value": 1496009002
     },
     {
       "name": "AMAZON.COM INC",
       "cusip": "023135106",
       "shares": 5402320,
-      "value": 1006614286000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC-A",
-      "cusip": "16119P108",
-      "shares": 6025,
-      "value": 1952582000
-    },
-    {
-      "name": "FAIR ISAAC INC",
-      "cusip": "303250104",
-      "shares": 34652,
-      "value": 67346855000
-    },
-    {
-      "name": "MASTERCARD INC-CLASS A",
-      "cusip": "57636Q104",
-      "shares": 620033,
-      "value": 306172295000
+      "value": 1006614286
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 1934816,
-      "value": 832551325000
+      "value": 832551325
+    },
+    {
+      "name": "ALPHABET INC-CL A",
+      "cusip": "02079K305",
+      "shares": 3333905,
+      "value": 552928144
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 1066619,
-      "value": 506206711000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 1048264,
-      "value": 1496009002000
+      "value": 506206711
     },
     {
       "name": "VISA INC-CLASS A SHRS",
       "cusip": "92826C839",
       "shares": 1118383,
-      "value": 307499406000
+      "value": 307499406
+    },
+    {
+      "name": "MASTERCARD INC-CLASS A",
+      "cusip": "57636Q104",
+      "shares": 620033,
+      "value": 306172295
+    },
+    {
+      "name": "FAIR ISAAC INC",
+      "cusip": "303250104",
+      "shares": 34652,
+      "value": 67346855
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC-A",
+      "cusip": "16119P108",
+      "shares": 6025,
+      "value": 1952582
     }
-  ]
+  ],
+  "totalValue": 5077280606,
+  "positionsCount": 9
 }

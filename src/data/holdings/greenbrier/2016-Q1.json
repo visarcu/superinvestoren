@@ -2,108 +2,112 @@
   "form": "13F-HR",
   "date": "2016-02-08",
   "period": "2016-02-08",
+  "accession": "0001532262-16-000010",
+  "quarterKey": "2016-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 25828,
-      "value": 20094000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 645709,
+      "value": 67580
     },
     {
-      "name": "ALPHABET INC ",
-      "cusip": "02079K107",
-      "shares": 25898,
-      "value": 19653000
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1400000,
+      "value": 60284
     },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 450000,
-      "value": 47367000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 150000,
-      "value": 19806000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 250000,
-      "value": 13493000
+      "value": 47367
     },
     {
       "name": "COSTCO WHSL CORP NEW",
       "cusip": "22160K105",
       "shares": 225000,
-      "value": 36338000
-    },
-    {
-      "name": "DISNEY WALT CO ",
-      "cusip": "254687106",
-      "shares": 138366,
-      "value": 14539000
-    },
-    {
-      "name": "EBAY INC",
-      "cusip": "278642103",
-      "shares": 368976,
-      "value": 10139000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 645709,
-      "value": 67580000
-    },
-    {
-      "name": "INFINERA CORPORATION ",
-      "cusip": "45667G103",
-      "shares": 500000,
-      "value": 9060000
+      "value": 36338
     },
     {
       "name": "MARKEL CORP",
       "cusip": "570535104",
       "shares": 32285,
-      "value": 28519000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 400000,
-      "value": 14480000
+      "value": 28519
     },
     {
       "name": "PULTE GROUP INC",
       "cusip": "745867101",
       "shares": 1200000,
-      "value": 21384000
+      "value": 21384
     },
     {
-      "name": "SOUTHWEST AIRLS CO ",
-      "cusip": "844741108",
-      "shares": 1400000,
-      "value": 60284000
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25828,
+      "value": 20094
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 150000,
+      "value": 19806
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25898,
+      "value": 19653
     },
     {
       "name": "STARBUCKS CORP",
       "cusip": "855244109",
       "shares": 300000,
-      "value": 18009000
+      "value": 18009
     },
     {
-      "name": "VALHI INC NEW",
-      "cusip": "918905100",
-      "shares": 344790,
-      "value": 462000
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 138366,
+      "value": 14539
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 400000,
+      "value": 14480
     },
     {
       "name": "WPP PLC NEW",
       "cusip": "92937A102",
       "shares": 120000,
-      "value": 13769000
+      "value": 13769
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 250000,
+      "value": 13493
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 368976,
+      "value": 10139
+    },
+    {
+      "name": "INFINERA CORPORATION",
+      "cusip": "45667G103",
+      "shares": 500000,
+      "value": 9060
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905100",
+      "shares": 344790,
+      "value": 462
     }
-  ]
+  ],
+  "totalValue": 414976,
+  "positionsCount": 17
 }

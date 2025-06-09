@@ -1,77 +1,83 @@
 {
+  "form": "13F-HR",
   "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0000919574-25-003250",
+  "quarterKey": "2025-Q2",
   "positions": [
     {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 2400,
-      "value": 532788000
-    },
-    {
-      "name": "BANK OZK",
-      "cusip": "06417N103",
-      "shares": 631602,
-      "value": 27443115000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 1,
-      "value": 798442000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 48717,
-      "value": 25945700000
-    },
-    {
-      "name": "CORE NATURAL RESOURCES INC",
-      "cusip": "218937100",
-      "shares": 5000,
-      "value": 385500000
-    },
-    {
-      "name": "DIAMONDBACK ENERGY INC",
-      "cusip": "25278X109",
-      "shares": 4000,
-      "value": 639520000
-    },
-    {
-      "name": "ENERGY TRANSFER L P",
-      "cusip": "29273V100",
-      "shares": 166600,
-      "value": 3097094000
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 20206867,
+      "value": 948712406
     },
     {
       "name": "ENTERPRISE PRODS PARTNERS L",
       "cusip": "293792107",
       "shares": 5450400,
-      "value": 186076656000
+      "value": 186076656
     },
     {
-      "name": "EOG RES INC",
-      "cusip": "26875P101",
-      "shares": 2000,
-      "value": 256480000
+      "name": "BANK OZK",
+      "cusip": "06417N103",
+      "shares": 631602,
+      "value": 27443115
     },
     {
-      "name": "OCCIDENTAL PETE CORP",
-      "cusip": "674599105",
-      "shares": 54300,
-      "value": 2680248000
-    },
-    {
-      "name": "ST JOE CO",
-      "cusip": "790148100",
-      "shares": 20206867,
-      "value": 948712406000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 48717,
+      "value": 25945700
     },
     {
       "name": "WR BERKLEY CORP",
       "cusip": "084423102",
       "shares": 261450,
-      "value": 18604782000
+      "value": 18604782
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 166600,
+      "value": 3097094
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 54300,
+      "value": 2680248
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 798442
+    },
+    {
+      "name": "DIAMONDBACK ENERGY INC",
+      "cusip": "25278X109",
+      "shares": 4000,
+      "value": 639520
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2400,
+      "value": 532788
+    },
+    {
+      "name": "CORE NATURAL RESOURCES INC",
+      "cusip": "218937100",
+      "shares": 5000,
+      "value": 385500
+    },
+    {
+      "name": "EOG RES INC",
+      "cusip": "26875P101",
+      "shares": 2000,
+      "value": 256480
     }
-  ]
+  ],
+  "totalValue": 1215172731,
+  "positionsCount": 12
 }

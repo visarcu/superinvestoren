@@ -2,84 +2,88 @@
   "form": "13F-HR",
   "date": "2024-08-14",
   "period": "2024-08-14",
+  "accession": "0002011328-24-000006",
+  "quarterKey": "2024-Q3",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 466679,
-      "value": 85005580000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 467272,
-      "value": 85707030000
-    },
-    {
-      "name": "AMAZON COM INC ",
-      "cusip": "023135106",
-      "shares": 629003,
-      "value": 121554830000
-    },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 1435993,
-      "value": 302448846000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 88929,
-      "value": 36176317000
-    },
-    {
-      "name": "COSTCO WHSL CORP NEW",
-      "cusip": "22160K105",
-      "shares": 224647,
-      "value": 190947704000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 231469,
-      "value": 22982557000
-    },
-    {
-      "name": "MARKEL GROUP INC",
-      "cusip": "570535104",
-      "shares": 27456,
-      "value": 43261321000
+      "value": 302448846
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 404365,
-      "value": 203888920000
+      "value": 203888920
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 224647,
+      "value": 190947704
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 629003,
+      "value": 121554830
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 467272,
+      "value": 85707030
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 466679,
+      "value": 85005580
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 120000,
-      "value": 53634000000
+      "value": 53634000
+    },
+    {
+      "name": "MARKEL GROUP INC",
+      "cusip": "570535104",
+      "shares": 27456,
+      "value": 43261321
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 88929,
+      "value": 36176317
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1120078,
+      "value": 32045432
     },
     {
       "name": "PAYPAL HLDGS INC",
       "cusip": "70450Y103",
       "shares": 407666,
-      "value": 23656858000
+      "value": 23656858
     },
     {
-      "name": "SOUTHWEST AIRLS CO ",
-      "cusip": "844741108",
-      "shares": 1120078,
-      "value": 32045432000
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 231469,
+      "value": 22982557
     },
     {
-      "name": "SPOTIFY TECHNOLOGY S A ",
+      "name": "SPOTIFY TECHNOLOGY S A",
       "cusip": "L8681T102",
       "shares": 35670,
-      "value": 11192889000
+      "value": 11192889
     }
-  ]
+  ],
+  "totalValue": 1212502284,
+  "positionsCount": 13
 }

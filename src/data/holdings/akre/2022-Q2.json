@@ -1,137 +1,143 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-13",
+  "period": "2022-05-13",
+  "accession": "0001112520-22-000009",
+  "quarterKey": "2022-Q2",
   "positions": [
-    {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 1567090,
-      "value": 713998000
-    },
-    {
-      "name": "ALARM COM HLDGS INC",
-      "cusip": "011642105",
-      "shares": 968939,
-      "value": 64396000
-    },
-    {
-      "name": "AMERICAN TOWER CORP NEW",
-      "cusip": "03027X100",
-      "shares": 6998377,
-      "value": 1758132000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 609764,
-      "value": 193692000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 16414,
-      "value": 5793000
-    },
-    {
-      "name": "BROOKFIELD ASSET MGMT INC",
-      "cusip": "112585104",
-      "shares": 13127694,
-      "value": 742634000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 7339952,
-      "value": 708159000
-    },
-    {
-      "name": "COSTAR GROUP INC",
-      "cusip": "22160N109",
-      "shares": 9668180,
-      "value": 643997000
-    },
-    {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 1655300,
-      "value": 485549000
-    },
-    {
-      "name": "DIGITALBRIDGE GROUP INC",
-      "cusip": "25401T108",
-      "shares": 10504800,
-      "value": 75635000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 32427,
-      "value": 5193000
-    },
-    {
-      "name": "GOOSEHEAD INS INC",
-      "cusip": "38267D109",
-      "shares": 293366,
-      "value": 23050000
-    },
-    {
-      "name": "KKR & CO L P DEL",
-      "cusip": "48251w104",
-      "shares": 14865320,
-      "value": 869175000
-    },
     {
       "name": "MASTERCARD INC",
       "cusip": "57636Q104",
       "shares": 5855151,
-      "value": 2092514000
+      "value": 2092514
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 5659712,
-      "value": 1909643000
+      "value": 1909643
     },
     {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 1577141,
-      "value": 1080278000
-    },
-    {
-      "name": "ROPER INDS INC NEW",
-      "cusip": "776696106",
-      "shares": 1660730,
-      "value": 784247000
-    },
-    {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 2837210,
-      "value": 602396000
-    },
-    {
-      "name": "THREDUP INC",
-      "cusip": "88556E102",
-      "shares": 22500,
-      "value": 173000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 2444286,
-      "value": 524617000
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 6998377,
+      "value": 1758132
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 5244738,
-      "value": 1163126000
+      "value": 1163126
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 1577141,
+      "value": 1080278
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48251104",
+      "shares": 14865320,
+      "value": 869175
+    },
+    {
+      "name": "ROPER INDS INC NEW",
+      "cusip": "776696106",
+      "shares": 1660730,
+      "value": 784247
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 13127694,
+      "value": 742634
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 1567090,
+      "value": 713998
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 7339952,
+      "value": 708159
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 9668180,
+      "value": 643997
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2837210,
+      "value": 602396
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2444286,
+      "value": 524617
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 1655300,
+      "value": 485549
     },
     {
       "name": "MASTERCARD INC",
       "cusip": "57636Q104",
       "shares": 10000,
-      "value": 219000000
+      "value": 219000
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 609764,
+      "value": 193692
+    },
+    {
+      "name": "DIGITALBRIDGE GROUP INC",
+      "cusip": "25401T108",
+      "shares": 10504800,
+      "value": 75635
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 968939,
+      "value": 64396
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 293366,
+      "value": 23050
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 16414,
+      "value": 5793
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 32427,
+      "value": 5193
+    },
+    {
+      "name": "THREDUP INC",
+      "cusip": "88556E102",
+      "shares": 22500,
+      "value": 173
     }
-  ]
+  ],
+  "totalValue": 14665397,
+  "positionsCount": 22
 }

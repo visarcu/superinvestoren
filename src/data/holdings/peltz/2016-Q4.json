@@ -2,48 +2,52 @@
   "form": "13F-HR",
   "date": "2016-11-14",
   "period": "2016-11-14",
+  "accession": "0001345471-16-000143",
+  "quarterKey": "2016-Q4",
   "positions": [
     {
-      "name": "Bank New York Mellon Corp. ",
-      "cusip": "064058100",
-      "shares": 32372626,
-      "value": 1291020000
-    },
-    {
-      "name": "Du Pont E I De Nemours & Co. ",
-      "cusip": "263534109",
-      "shares": 17450891,
-      "value": 1168686000
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 43966457,
+      "value": 2154796
     },
     {
       "name": "General Electric Co.",
       "cusip": "369604103",
       "shares": 72624115,
-      "value": 2151126000
+      "value": 2151126
     },
     {
-      "name": "Mondelez Intl Inc.",
+      "name": "Mondelez Intl Inc",
       "cusip": "609207105",
       "shares": 48031904,
-      "value": 2108601000
+      "value": 2108601
+    },
+    {
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 32372626,
+      "value": 1291020
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co.",
+      "cusip": "263534109",
+      "shares": 17450891,
+      "value": 1168686
     },
     {
       "name": "Pentair PLC",
       "cusip": "G7500T104",
       "shares": 14337040,
-      "value": 921011000
-    },
-    {
-      "name": "Sysco Corp.",
-      "cusip": "871829107",
-      "shares": 43966457,
-      "value": 2154796000
+      "value": 921011
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 40792537,
-      "value": 440559000
+      "value": 440559
     }
-  ]
+  ],
+  "totalValue": 10235799,
+  "positionsCount": 7
 }

@@ -1,23 +1,29 @@
 {
+  "form": "13F-HR",
   "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0000919574-19-003726",
+  "quarterKey": "2019-Q2",
   "positions": [
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 131825,
-      "value": 26482000
-    },
     {
       "name": "ST JOE CO",
       "cusip": "790148100",
       "shares": 26532198,
-      "value": 437516000
+      "value": 437516
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 131825,
+      "value": 26482
     },
     {
       "name": "VISTA OUTDOOR INC",
       "cusip": "928377100",
       "shares": 1159000,
-      "value": 9284000
+      "value": 9284
     }
-  ]
+  ],
+  "totalValue": 473282,
+  "positionsCount": 3
 }

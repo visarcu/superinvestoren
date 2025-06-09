@@ -2,78 +2,82 @@
   "form": "13F-HR",
   "date": "2025-02-14",
   "period": "2025-02-14",
+  "accession": "0001418812-25-000004",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 536900,
-      "value": 117790491000
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 2898509,
+      "value": 969058514
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 6566031,
-      "value": 731127552000
-    },
-    {
-      "name": "EXPEDIA GROUP INC",
-      "cusip": "30212P303",
-      "shares": 2017406,
-      "value": 375903260000
+      "value": 731127552
     },
     {
       "name": "INSIGHT ENTERPRISES INC",
       "cusip": "45765U103",
       "shares": 4061739,
-      "value": 617790502000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229748",
-      "shares": 1268448,
-      "value": 84427899000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229722",
-      "shares": 3168788,
-      "value": 215667711000
-    },
-    {
-      "name": "LIVE NATION ENTERTAINMENT INC",
-      "cusip": "538034109",
-      "shares": 1061466,
-      "value": 137459847000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 211500,
-      "value": 123835365000
+      "value": 617790502
     },
     {
       "name": "ROBLOX CORP",
       "cusip": "771049103",
       "shares": 10135921,
-      "value": 586464389000
+      "value": 586464389
     },
     {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 2898509,
-      "value": 969058514000
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 2017406,
+      "value": 375903260
     },
     {
       "name": "TOAST INC",
       "cusip": "888787108",
       "shares": 8548600,
-      "value": 311596470000
+      "value": 311596470
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229722",
+      "shares": 3168788,
+      "value": 215667711
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT INC",
+      "cusip": "538034109",
+      "shares": 1061466,
+      "value": 137459847
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 211500,
+      "value": 123835365
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 373600,
-      "value": 118072544000
+      "value": 118072544
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 536900,
+      "value": 117790491
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229748",
+      "shares": 1268448,
+      "value": 84427899
     }
-  ]
+  ],
+  "totalValue": 4389194544,
+  "positionsCount": 12
 }

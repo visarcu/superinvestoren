@@ -2,108 +2,112 @@
   "form": "13F-HR",
   "date": "2019-05-09",
   "period": "2019-05-09",
+  "accession": "0001532262-19-000002",
+  "quarterKey": "2019-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 25828,
-      "value": 30397000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 25898,
-      "value": 30386000
-    },
-    {
-      "name": "AMAZON COM INC ",
-      "cusip": "023135106",
-      "shares": 35000,
-      "value": 62326000
-    },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 400000,
-      "value": 75980000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 100000,
-      "value": 20089000
-    },
-    {
-      "name": "BOEING CO ",
-      "cusip": "097023105",
-      "shares": 10000,
-      "value": 3814000
-    },
-    {
-      "name": "BOOKING HLDGS INC",
-      "cusip": "09857L108",
-      "shares": 1500,
-      "value": 2617000
-    },
-    {
-      "name": "COSTCO WHSL CORP NEW",
-      "cusip": "22160K105",
-      "shares": 250000,
-      "value": 60535000
-    },
-    {
-      "name": "DISNEY WALT CO ",
-      "cusip": "254687106",
-      "shares": 100000,
-      "value": 11103000
+      "value": 75980
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 450000,
-      "value": 75011000
+      "value": 75011
     },
     {
-      "name": "GOLDMAN SACHS GROUP INC",
-      "cusip": "38141G104",
-      "shares": 15000,
-      "value": 2880000
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1260000,
+      "value": 65407
     },
     {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 32285,
-      "value": 32164000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 35000,
+      "value": 62326
     },
     {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 80000,
-      "value": 9435000
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 250000,
+      "value": 60535
     },
     {
       "name": "PAYPAL HLDGS INC",
       "cusip": "70450Y103",
       "shares": 500000,
-      "value": 51920000
+      "value": 51920
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 32285,
+      "value": 32164
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25828,
+      "value": 30397
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25898,
+      "value": 30386
     },
     {
       "name": "PULTE GROUP INC",
       "cusip": "745867101",
       "shares": 1000000,
-      "value": 27960000
+      "value": 27960
     },
     {
-      "name": "SOUTHWEST AIRLS CO ",
-      "cusip": "844741108",
-      "shares": 1260000,
-      "value": 65407000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 100000,
+      "value": 20089
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 100000,
+      "value": 11103
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 80000,
+      "value": 9435
+    },
+    {
+      "name": "BOEING CO",
+      "cusip": "097023105",
+      "shares": 10000,
+      "value": 3814
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 15000,
+      "value": 2880
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 1500,
+      "value": 2617
     },
     {
       "name": "VALHI INC NEW",
       "cusip": "918905100",
       "shares": 344790,
-      "value": 796000
+      "value": 796
     }
-  ]
+  ],
+  "totalValue": 562820,
+  "positionsCount": 17
 }

@@ -1,179 +1,185 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-09",
+  "period": "2022-05-09",
+  "accession": "0001581811-22-000004",
+  "quarterKey": "2022-Q2",
   "positions": [
     {
-      "name": "ALCOA CORP",
-      "cusip": "013872106",
-      "shares": 3530533,
-      "value": 317854000
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 26847568,
+      "value": 2215998
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 729822,
-      "value": 2038386000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 369920,
-      "value": 1205921000
-    },
-    {
-      "name": "ANALOG DEVICES INC",
-      "cusip": "032654105",
-      "shares": 3728676,
-      "value": 615903000
-    },
-    {
-      "name": "APPLIED MATLS INC",
-      "cusip": "038222105",
-      "shares": 2000999,
-      "value": 263732000
-    },
-    {
-      "name": "BATH & BODY WORKS INC",
-      "cusip": "070830104",
-      "shares": 13625757,
-      "value": 651311000
-    },
-    {
-      "name": "BLACKSTONE MTG TR INC",
-      "cusip": "09257W100",
-      "shares": 2672963,
-      "value": 84973000
-    },
-    {
-      "name": "BLACKSTONE SECD LENDING FD",
-      "cusip": "09261X102",
-      "shares": 1244940,
-      "value": 34709000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 9388387,
-      "value": 1259358000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 26847568,
-      "value": 2215998000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 1225195,
-      "value": 668368000
-    },
-    {
-      "name": "CSX CORP",
-      "cusip": "126408103",
-      "shares": 30308196,
-      "value": 1135042000
-    },
-    {
-      "name": "D R HORTON INC",
-      "cusip": "23331A109",
-      "shares": 7818902,
-      "value": 582586000
-    },
-    {
-      "name": "FIRST CTZNS BANCSHARES INC N",
-      "cusip": "31946M103",
-      "shares": 837088,
-      "value": 557166000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 6510892,
-      "value": 380692000
-    },
-    {
-      "name": "LINDE PLC",
-      "cusip": "G5494J103",
-      "shares": 2443717,
-      "value": 780597000
-    },
-    {
-      "name": "LOWES COS INC",
-      "cusip": "548661107",
-      "shares": 3610961,
-      "value": 730100000
-    },
-    {
-      "name": "LPL FINL HLDGS INC",
-      "cusip": "50212V100",
-      "shares": 799461,
-      "value": 146046000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 854026,
-      "value": 305212000
+      "value": 2038386
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 4816642,
-      "value": 1485019000
+      "value": 1485019
     },
     {
-      "name": "NVR INC",
-      "cusip": "62944T105",
-      "shares": 11341,
-      "value": 50663000
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 9388387,
+      "value": 1259358
     },
     {
-      "name": "PVH CORPORATION",
-      "cusip": "693656100",
-      "shares": 1809333,
-      "value": 138613000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 369920,
+      "value": 1205921
     },
     {
-      "name": "SCHWAB CHARLES CORP",
-      "cusip": "808513105",
-      "shares": 11865031,
-      "value": 1000341000
-    },
-    {
-      "name": "SNAP INC",
-      "cusip": "83304A106",
-      "shares": 6660121,
-      "value": 239698000
-    },
-    {
-      "name": "TECK RESOURCES LTD",
-      "cusip": "878742204",
-      "shares": 2752408,
-      "value": 111170000
-    },
-    {
-      "name": "TRACTOR SUPPLY CO",
-      "cusip": "892356106",
-      "shares": 88190,
-      "value": 20581000
-    },
-    {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 1635327,
-      "value": 833968000
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 30308196,
+      "value": 1135042
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 4883072,
-      "value": 1082919000
+      "value": 1082919
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 11865031,
+      "value": 1000341
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1635327,
+      "value": 833968
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 2443717,
+      "value": 780597
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 3610961,
+      "value": 730100
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1225195,
+      "value": 668368
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 13625757,
+      "value": 651311
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 3728676,
+      "value": 615903
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 7818902,
+      "value": 582586
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 837088,
+      "value": 557166
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 6510892,
+      "value": 380692
+    },
+    {
+      "name": "ALCOA CORP",
+      "cusip": "013872106",
+      "shares": 3530533,
+      "value": 317854
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 854026,
+      "value": 305212
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 2000999,
+      "value": 263732
+    },
+    {
+      "name": "SNAP INC",
+      "cusip": "83304A106",
+      "shares": 6660121,
+      "value": 239698
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 799461,
+      "value": 146046
+    },
+    {
+      "name": "PVH CORPORATION",
+      "cusip": "693656100",
+      "shares": 1809333,
+      "value": 138613
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 2752408,
+      "value": 111170
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 2672963,
+      "value": 84973
+    },
+    {
+      "name": "NVR INC",
+      "cusip": "62944T105",
+      "shares": 11341,
+      "value": 50663
     },
     {
       "name": "VULCAN MATLS CO",
       "cusip": "929160109",
       "shares": 223611,
-      "value": 41077000
+      "value": 41077
+    },
+    {
+      "name": "BLACKSTONE SECD LENDING FD",
+      "cusip": "09261X102",
+      "shares": 1244940,
+      "value": 34709
+    },
+    {
+      "name": "TRACTOR SUPPLY CO",
+      "cusip": "892356106",
+      "shares": 88190,
+      "value": 20581
     }
-  ]
+  ],
+  "totalValue": 18978003,
+  "positionsCount": 29
 }

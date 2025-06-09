@@ -1,89 +1,95 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001172661-22-002389",
+  "quarterKey": "2022-Q4",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 479571,
-      "value": 38361000
-    },
-    {
-      "name": "AMPHENOL CORP NEW",
-      "cusip": "032095101",
-      "shares": 52940,
-      "value": 3545000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 21170,
-      "value": 3955000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 18215,
-      "value": 4184000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 9420,
-      "value": 1360000
-    },
-    {
-      "name": "EURONET WORLDWIDE INC",
-      "cusip": "298736109",
-      "shares": 604190,
-      "value": 45773000
-    },
-    {
-      "name": "GENERAC HLDGS INC",
-      "cusip": "368736104",
-      "shares": 3830,
-      "value": 682000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 44100,
-      "value": 17081000
-    },
-    {
-      "name": "LAUDER ESTEE COS INC",
-      "cusip": "518439104",
-      "shares": 10352,
-      "value": 2235000
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 590800,
+      "value": 137597
     },
     {
       "name": "LIVENT CORP",
       "cusip": "53814L108",
       "shares": 2978580,
-      "value": 91293000
+      "value": 91293
     },
     {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 590800,
-      "value": 137597000
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 604190,
+      "value": 45773
     },
     {
-      "name": "PROCTER AND GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 23050,
-      "value": 2910000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 479571,
+      "value": 38361
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 44100,
+      "value": 17081
     },
     {
       "name": "RIVIAN AUTOMOTIVE INC",
       "cusip": "76954A103",
       "shares": 225800,
-      "value": 7431000
+      "value": 7431
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 18215,
+      "value": 4184
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 21170,
+      "value": 3955
+    },
+    {
+      "name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "shares": 52940,
+      "value": 3545
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 23050,
+      "value": 2910
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 10352,
+      "value": 2235
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 9420,
+      "value": 1360
     },
     {
       "name": "SIMON PPTY GROUP INC NEW",
       "cusip": "828806109",
       "shares": 13970,
-      "value": 1254000
+      "value": 1254
+    },
+    {
+      "name": "GENERAC HLDGS INC",
+      "cusip": "368736104",
+      "shares": 3830,
+      "value": 682
     }
-  ]
+  ],
+  "totalValue": 357661,
+  "positionsCount": 14
 }

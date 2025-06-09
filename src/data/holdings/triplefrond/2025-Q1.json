@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2025-02-11",
   "period": "2025-02-11",
+  "accession": "0001387292-25-000004",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 807314,
-      "value": 153745000000
-    },
-    {
-      "name": "AMAZON.COM INC",
-      "cusip": "023135106",
-      "shares": 529991,
-      "value": 116275000000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 160480,
-      "value": 55008000000
-    },
-    {
-      "name": "LAM RESEARCH CORP",
-      "cusip": "512807306",
-      "shares": 511765,
-      "value": 36965000000
+      "value": 153745000
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 278458,
-      "value": 117370000000
+      "value": 117370000
     },
     {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 104587,
-      "value": 49508000000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 79754,
-      "value": 101071000000
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 529991,
+      "value": 116275000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 358393,
-      "value": 113266000000
+      "value": 113266000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 79754,
+      "value": 101071000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 160480,
+      "value": 55008000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 104587,
+      "value": 49508000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807306",
+      "shares": 511765,
+      "value": 36965000
     },
     {
       "name": "CANADIAN PACIFIC KANSAS CITY",
       "cusip": "13646K108",
       "shares": 404369,
-      "value": 29264000000
+      "value": 29264000
     }
-  ]
+  ],
+  "totalValue": 772472000,
+  "positionsCount": 9
 }

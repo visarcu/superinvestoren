@@ -1,335 +1,341 @@
 {
+  "form": "13F-HR",
   "date": "2014-08-14",
+  "period": "2014-08-14",
+  "accession": "0000919574-14-004823",
+  "quarterKey": "2014-Q3",
   "positions": [
-    {
-      "name": "ALTRIA GROUP INC",
-      "cusip": "02209S103",
-      "shares": 62000,
-      "value": 2600000
-    },
     {
       "name": "AMERICAN INTL GROUP INC",
       "cusip": "026874784",
       "shares": 69810314,
-      "value": 3810247000
-    },
-    {
-      "name": "AMERICAN INTL GROUP INC",
-      "cusip": "026874156",
-      "shares": 24488935,
-      "value": 651406000
-    },
-    {
-      "name": "AT&T INC",
-      "cusip": "00206R102",
-      "shares": 68500,
-      "value": 2422000
+      "value": 3810247
     },
     {
       "name": "BANK OF AMERICA CORPORATION",
       "cusip": "060505104",
       "shares": 98432215,
-      "value": 1512903000
-    },
-    {
-      "name": "BANK OF AMERICA CORPORATION",
-      "cusip": "060505146",
-      "shares": 12158028,
-      "value": 83890000
-    },
-    {
-      "name": "BANK OF AMERICA CORPORATION",
-      "cusip": "060505153",
-      "shares": 1455701,
-      "value": 1092000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 3,
-      "value": 570000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 288625,
-      "value": 36528000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 54560,
-      "value": 2570000
-    },
-    {
-      "name": "DIAMOND OFFSHORE DRILLING IN",
-      "cusip": "25271C102",
-      "shares": 49000,
-      "value": 2432000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400301",
-      "shares": 19110900,
-      "value": 73768000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400780",
-      "shares": 1699250,
-      "value": 28462000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400608",
-      "shares": 1377829,
-      "value": 23148000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400798",
-      "shares": 546542,
-      "value": 9209000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400715",
-      "shares": 60900,
-      "value": 1072000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400863",
-      "shares": 203000,
-      "value": 3553000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400855",
-      "shares": 1339572,
-      "value": 23844000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400673",
-      "shares": 5799175,
-      "value": 54338000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400665",
-      "shares": 447940,
-      "value": 4166000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400772",
-      "shares": 157500,
-      "value": 2761000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400681",
-      "shares": 517900,
-      "value": 4920000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400749",
-      "shares": 45000,
-      "value": 831000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400657",
-      "shares": 45500,
-      "value": 425000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400640",
-      "shares": 4196108,
-      "value": 39024000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400624",
-      "shares": 39901900,
-      "value": 435330000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400699",
-      "shares": 9200,
-      "value": 166000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400830",
-      "shares": 9400,
-      "value": 166000
-    },
-    {
-      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
-      "cusip": "313400731",
-      "shares": 8400,
-      "value": 151000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586109",
-      "shares": 20645300,
-      "value": 80723000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586802",
-      "shares": 269500,
-      "value": 4681000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586786",
-      "shares": 3672127,
-      "value": 31948000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586778",
-      "shares": 1580000,
-      "value": 14410000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586794",
-      "shares": 6339843,
-      "value": 117287000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586760",
-      "shares": 1500000,
-      "value": 14025000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586752",
-      "shares": 59023319,
-      "value": 610891000
-    },
-    {
-      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
-      "cusip": "313586877",
-      "shares": 4400,
-      "value": 78000
-    },
-    {
-      "name": "GENWORTH FINL INC",
-      "cusip": "37247d106",
-      "shares": 1071500,
-      "value": 18644000
-    },
-    {
-      "name": "HARTFORD FINL SVCS GROUP INC",
-      "cusip": "416515104",
-      "shares": 52000,
-      "value": 1862000
-    },
-    {
-      "name": "HARTFORD FINL SVCS GROUP INC",
-      "cusip": "416515120",
-      "shares": 553900,
-      "value": 15133000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46634E114",
-      "shares": 753300,
-      "value": 14561000
-    },
-    {
-      "name": "KKR & CO L P DEL",
-      "cusip": "48248M102",
-      "shares": 101500,
-      "value": 2469000
-    },
-    {
-      "name": "LANDS END INC NEW",
-      "cusip": "51509F105",
-      "shares": 3362757,
-      "value": 112921000
-    },
-    {
-      "name": "LEUCADIA NATL CORP",
-      "cusip": "527288104",
-      "shares": 15715357,
-      "value": 412057000
-    },
-    {
-      "name": "LINCOLN NATL CORP IND",
-      "cusip": "534187109",
-      "shares": 44400,
-      "value": 2284000
-    },
-    {
-      "name": "LINCOLN NATL CORP IND",
-      "cusip": "534187117",
-      "shares": 205810,
-      "value": 8747000
-    },
-    {
-      "name": "MERCURY GENL CORP NEW",
-      "cusip": "589400100",
-      "shares": 53600,
-      "value": 2521000
-    },
-    {
-      "name": "OAKTREE CAP GROUP LLC",
-      "cusip": "674001201",
-      "shares": 48000,
-      "value": 2400000
-    },
-    {
-      "name": "REYNOLDS AMERICAN INC",
-      "cusip": "761713106",
-      "shares": 44300,
-      "value": 2674000
+      "value": 1512903
     },
     {
       "name": "SEARS HLDGS CORP",
       "cusip": "812350106",
       "shares": 24672823,
-      "value": 985926000
+      "value": 985926
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874156",
+      "shares": 24488935,
+      "value": 651406
     },
     {
       "name": "ST JOE CO",
       "cusip": "790148100",
       "shares": 24836898,
-      "value": 631602000
+      "value": 631602
     },
     {
-      "name": "TRANSOCEAN LTD",
-      "cusip": "H8817H100",
-      "shares": 56500,
-      "value": 2544000
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586752",
+      "shares": 59023319,
+      "value": 610891
     },
     {
-      "name": "VODAFONE GROUP PLC NEW",
-      "cusip": "92857W308",
-      "shares": 71000,
-      "value": 2371000
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400624",
+      "shares": 39901900,
+      "value": 435330
     },
     {
-      "name": "WELLS FARGO & CO NEW",
-      "cusip": "949746101",
-      "shares": 149600,
-      "value": 7863000
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 15715357,
+      "value": 412057
+    },
+    {
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586794",
+      "shares": 6339843,
+      "value": 117287
+    },
+    {
+      "name": "LANDS END INC NEW",
+      "cusip": "51509F105",
+      "shares": 3362757,
+      "value": 112921
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505146",
+      "shares": 12158028,
+      "value": 83890
+    },
+    {
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586109",
+      "shares": 20645300,
+      "value": 80723
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400301",
+      "shares": 19110900,
+      "value": 73768
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400673",
+      "shares": 5799175,
+      "value": 54338
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400640",
+      "shares": 4196108,
+      "value": 39024
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 288625,
+      "value": 36528
+    },
+    {
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586786",
+      "shares": 3672127,
+      "value": 31948
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746119",
       "shares": 1346665,
-      "value": 28872000
+      "value": 28872
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400780",
+      "shares": 1699250,
+      "value": 28462
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400855",
+      "shares": 1339572,
+      "value": 23844
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400608",
+      "shares": 1377829,
+      "value": 23148
+    },
+    {
+      "name": "GENWORTH FINL INC",
+      "cusip": "37247106",
+      "shares": 1071500,
+      "value": 18644
+    },
+    {
+      "name": "HARTFORD FINL SVCS GROUP INC",
+      "cusip": "416515120",
+      "shares": 553900,
+      "value": 15133
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 753300,
+      "value": 14561
+    },
+    {
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586778",
+      "shares": 1580000,
+      "value": 14410
+    },
+    {
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586760",
+      "shares": 1500000,
+      "value": 14025
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400798",
+      "shares": 546542,
+      "value": 9209
+    },
+    {
+      "name": "LINCOLN NATL CORP IND",
+      "cusip": "534187117",
+      "shares": 205810,
+      "value": 8747
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 149600,
+      "value": 7863
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400681",
+      "shares": 517900,
+      "value": 4920
+    },
+    {
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586802",
+      "shares": 269500,
+      "value": 4681
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400665",
+      "shares": 447940,
+      "value": 4166
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400863",
+      "shares": 203000,
+      "value": 3553
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400772",
+      "shares": 157500,
+      "value": 2761
+    },
+    {
+      "name": "REYNOLDS AMERICAN INC",
+      "cusip": "761713106",
+      "shares": 44300,
+      "value": 2674
+    },
+    {
+      "name": "ALTRIA GROUP INC",
+      "cusip": "02209S103",
+      "shares": 62000,
+      "value": 2600
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 54560,
+      "value": 2570
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "H8817H100",
+      "shares": 56500,
+      "value": 2544
+    },
+    {
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 53600,
+      "value": 2521
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48248M102",
+      "shares": 101500,
+      "value": 2469
+    },
+    {
+      "name": "DIAMOND OFFSHORE DRILLING IN",
+      "cusip": "25271C102",
+      "shares": 49000,
+      "value": 2432
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 68500,
+      "value": 2422
+    },
+    {
+      "name": "OAKTREE CAP GROUP LLC",
+      "cusip": "674001201",
+      "shares": 48000,
+      "value": 2400
+    },
+    {
+      "name": "VODAFONE GROUP PLC NEW",
+      "cusip": "92857W308",
+      "shares": 71000,
+      "value": 2371
+    },
+    {
+      "name": "LINCOLN NATL CORP IND",
+      "cusip": "534187109",
+      "shares": 44400,
+      "value": 2284
+    },
+    {
+      "name": "HARTFORD FINL SVCS GROUP INC",
+      "cusip": "416515104",
+      "shares": 52000,
+      "value": 1862
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505153",
+      "shares": 1455701,
+      "value": 1092
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400715",
+      "shares": 60900,
+      "value": 1072
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400749",
+      "shares": 45000,
+      "value": 831
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 3,
+      "value": 570
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400657",
+      "shares": 45500,
+      "value": 425
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400699",
+      "shares": 9200,
+      "value": 166
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400830",
+      "shares": 9400,
+      "value": 166
+    },
+    {
+      "name": "FEDERAL HOME LOAN MORTGAGE CORP",
+      "cusip": "313400731",
+      "shares": 8400,
+      "value": 151
+    },
+    {
+      "name": "FEDERAL NATIONAL MORTGAGE ASSOCIATION",
+      "cusip": "313586877",
+      "shares": 4400,
+      "value": 78
     }
-  ]
+  ],
+  "totalValue": 9941488,
+  "positionsCount": 55
 }

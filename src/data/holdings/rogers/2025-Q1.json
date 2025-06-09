@@ -1,266 +1,299 @@
 {
-  "form": "NPORT-P",
-  "date": "2025-02-20",
-  "period": "2025-02-20",
+  "date": "2025-06-09",
   "positions": [
     {
-      "name": "Janus Henderson Group PLC",
-      "cusip": "G4474Y214",
-      "shares": 1255223,
-      "value": 53384634190,
-      "pctOfPortfolio": 195.29196044
+      "name": "Mattel Inc.",
+      "cusip": "MAT00000",
+      "shares": 1752125,
+      "value": 34043789,
+      "ticker": "MAT"
     },
     {
-      "name": "Manchester United PLC",
-      "cusip": "G5784H106",
-      "shares": 3459051,
-      "value": 60014534850,
-      "pctOfPortfolio": 219.54549926
+      "name": "Northern Trust Corp.",
+      "cusip": "NTRS00000",
+      "shares": 319358,
+      "value": 31504667,
+      "ticker": "NTRS"
     },
     {
-      "name": "Middleby Corp.",
-      "cusip": "596278101",
-      "shares": 264461,
-      "value": 35821242450,
-      "pctOfPortfolio": 131.04146483
-    },
-    {
-      "name": "ADT Inc",
-      "cusip": "00090Q103",
-      "shares": 10507416,
-      "value": 72606244560,
-      "pctOfPortfolio": 265.60856051
+      "name": "Interpublic Group",
+      "cusip": "IPG00000",
+      "shares": 1060737,
+      "value": 28809617,
+      "ticker": "IPG"
     },
     {
       "name": "Generac Holdings Inc.",
-      "cusip": "368736104",
-      "shares": 496535,
-      "value": 76987751750,
-      "pctOfPortfolio": 281.63701405
+      "cusip": "GNRC00000",
+      "shares": 220287,
+      "value": 27899349,
+      "ticker": "GNRC"
     },
     {
-      "name": "First American Financial Corporation",
-      "cusip": "31847R102",
-      "shares": 1094181,
-      "value": 68320661640,
-      "pctOfPortfolio": 249.93101765999998
+      "name": "First Amern Corp.",
+      "cusip": "FAF00000",
+      "shares": 387434,
+      "value": 25427293,
+      "ticker": "FAF"
     },
     {
-      "name": "Northern Institutional Funds",
-      "cusip": "665279873",
-      "shares": 16853353.44,
-      "value": 16853353440.000002,
-      "pctOfPortfolio": 61.65302963
+      "name": "Charles Schwab Corp.",
+      "cusip": "SCHW00000",
+      "shares": 313313,
+      "value": 24526142,
+      "ticker": "SCHW"
     },
     {
-      "name": "Jones Lang LaSalle Incorporated",
-      "cusip": "48020Q107",
-      "shares": 335895,
-      "value": 85028460300,
-      "pctOfPortfolio": 311.051578
+      "name": "Middleby Corp.",
+      "cusip": "MIDD00000",
+      "shares": 159153,
+      "value": 24188073,
+      "ticker": "MIDD"
     },
     {
-      "name": "Bio-Rad Laboratories, Inc.",
-      "cusip": "090572207",
-      "shares": 233122,
-      "value": 76582908220,
-      "pctOfPortfolio": 280.15601324
+      "name": "CarMax Inc.",
+      "cusip": "KMX00000",
+      "shares": 308191,
+      "value": 24014243,
+      "ticker": "KMX"
     },
     {
-      "name": "BOK Financial Corp",
-      "cusip": "05561Q201",
-      "shares": 504588,
-      "value": 53713392600,
-      "pctOfPortfolio": 196.49462626000002
+      "name": "Labcorp Holdings Inc.",
+      "cusip": "LH00000",
+      "shares": 100026,
+      "value": 23280051,
+      "ticker": "LH"
     },
     {
-      "name": "Boyd Gaming Corporation",
-      "cusip": "103304101",
-      "shares": 1548230,
-      "value": 112308604200,
-      "pctOfPortfolio": 410.84794945
+      "name": "J.M. Smucker Co",
+      "cusip": "SJM00000",
+      "shares": 195921,
+      "value": 23199006,
+      "ticker": "SJM"
     },
     {
-      "name": "Affiliated Managers Group, Inc.",
-      "cusip": "008252108",
-      "shares": 546454,
-      "value": 101050273680,
-      "pctOfPortfolio": 369.66266323
+      "name": "Carlyle Group",
+      "cusip": "CG00000",
+      "shares": 522026,
+      "value": 22755113,
+      "ticker": "CG"
     },
     {
-      "name": "Charles River Laboratories International, Inc.",
-      "cusip": "159864107",
-      "shares": 379540,
-      "value": 70063084000,
-      "pctOfPortfolio": 256.30515666
+      "name": "Lazard Inc.",
+      "cusip": "LAZ00000",
+      "shares": 512587,
+      "value": 22195017,
+      "ticker": "LAZ"
     },
     {
-      "name": "Gentex Corp",
-      "cusip": "371901109",
-      "shares": 2070821,
-      "value": 59494687330,
-      "pctOfPortfolio": 217.64379022
+      "name": "Jones Lang Lasalle Inc.",
+      "cusip": "JLL00000",
+      "shares": 88369,
+      "value": 21907559,
+      "ticker": "JLL"
     },
     {
-      "name": "The Interpublic Group of Companies, Inc.",
-      "cusip": "460690100",
-      "shares": 2058141,
-      "value": 57669110820,
-      "pctOfPortfolio": 210.96545626
+      "name": "BOK Financial Corp.",
+      "cusip": "BOKF00000",
+      "shares": 206231,
+      "value": 21478959,
+      "ticker": "BOKF"
     },
     {
-      "name": "Kennametal Inc",
-      "cusip": "489170100",
-      "shares": 2125680,
-      "value": 51058833600,
-      "pctOfPortfolio": 186.78370402
+      "name": "Bio-Rad Laboratories Inc.",
+      "cusip": "BIO00000",
+      "shares": 87404,
+      "value": 21288118,
+      "ticker": "BIO"
     },
     {
-      "name": "Masco Corporation",
-      "cusip": "574599106",
-      "shares": 581567,
-      "value": 42204317190,
-      "pctOfPortfolio": 154.39206371
+      "name": "Core Laboratories Inc.",
+      "cusip": "CLB00000",
+      "shares": 1411250,
+      "value": 21154638,
+      "ticker": "CLB"
     },
     {
-      "name": "Mattel, Inc.",
-      "cusip": "577081102",
-      "shares": 4755930,
-      "value": 84322638900,
-      "pctOfPortfolio": 308.46953829
+      "name": "Schlumberger Ltd.",
+      "cusip": "SLB00000",
+      "shares": 505033,
+      "value": 21110379,
+      "ticker": "SLB"
     },
     {
-      "name": "Mohawk Industries, Inc.",
-      "cusip": "608190104",
-      "shares": 765417,
-      "value": 91184127210,
-      "pctOfPortfolio": 333.57027231999996
+      "name": "Charles River Labs",
+      "cusip": "CRL00000",
+      "shares": 138571,
+      "value": 20857707,
+      "ticker": "CRL"
     },
     {
-      "name": "Northern Trust Corporation",
-      "cusip": "665859104",
-      "shares": 1120469,
-      "value": 114848072500,
-      "pctOfPortfolio": 420.13784626
+      "name": "Envista Holdings Corp.",
+      "cusip": "NVST00000",
+      "shares": 1193594,
+      "value": 20601432,
+      "ticker": "NVST"
     },
     {
-      "name": "The J M Smucker Company",
-      "cusip": "832696405",
-      "shares": 906622,
-      "value": 99837214640,
-      "pctOfPortfolio": 365.22504403
+      "name": "Madison Square Garden Sports Corp.",
+      "cusip": "MSGS00000",
+      "shares": 105474,
+      "value": 20537897,
+      "ticker": "MSGS"
     },
     {
-      "name": "Royal Caribbean Group",
-      "cusip": "V7780T103",
-      "shares": 244933,
-      "value": 56503593770,
-      "pctOfPortfolio": 206.70175542
+      "name": "Madison Square Garden Entertainment Corp.",
+      "cusip": "MSGE00000",
+      "shares": 623080,
+      "value": 20399639,
+      "ticker": "MSGE"
     },
     {
-      "name": "Madison Square Garden Sports Corp",
-      "cusip": "55825T103",
-      "shares": 306553,
-      "value": 69182881040,
-      "pctOfPortfolio": 253.08519338000002
+      "name": "Keysight Technologies Inc.",
+      "cusip": "KEYS00000",
+      "shares": 133723,
+      "value": 20027694,
+      "ticker": "KEYS"
     },
     {
-      "name": "Adtalem Global Education Inc",
-      "cusip": "00737L103",
-      "shares": 1280535,
-      "value": 116336604750,
-      "pctOfPortfolio": 425.58320306999997
+      "name": "Gentex Corp.",
+      "cusip": "GNTX00000",
+      "shares": 818327,
+      "value": 19067019,
+      "ticker": "GNTX"
     },
     {
-      "name": "GCM Grosvenor Inc",
-      "cusip": "36831E108",
-      "shares": 2070647,
-      "value": 25406838690,
-      "pctOfPortfolio": 92.9434361
+      "name": "Stanley Black & Decker Inc.",
+      "cusip": "SWK00000",
+      "shares": 245677,
+      "value": 18887648,
+      "ticker": "SWK"
     },
     {
-      "name": "Core Laboratories Inc",
-      "cusip": "21867A105",
-      "shares": 3505349,
-      "value": 60677591190,
-      "pctOfPortfolio": 221.97109558
+      "name": "Zimmer Biomet Holdings",
+      "cusip": "ZBH00000",
+      "shares": 164532,
+      "value": 18621732,
+      "ticker": "ZBH"
     },
     {
-      "name": "Leslie's Inc.",
-      "cusip": "527064109",
-      "shares": 32000780,
-      "value": 71361739400,
-      "pctOfPortfolio": 261.05590494
+      "name": "Knowles Corp.",
+      "cusip": "KN00000",
+      "shares": 1220569,
+      "value": 18552649,
+      "ticker": "KN"
     },
     {
-      "name": "Lazard Inc",
-      "cusip": "52110M109",
-      "shares": 1877302,
-      "value": 96643506960,
-      "pctOfPortfolio": 353.54180514
+      "name": "Axalta Coating Systems Ltd.",
+      "cusip": "AXTA00000",
+      "shares": 556761,
+      "value": 18467762,
+      "ticker": "AXTA"
     },
     {
-      "name": "Zebra Technologies Corporation",
-      "cusip": "989207105",
-      "shares": 143768,
-      "value": 55526076960,
-      "pctOfPortfolio": 203.12579808
+      "name": "CBRE Group",
+      "cusip": "CBRE00000",
+      "shares": 140194,
+      "value": 18334571,
+      "ticker": "CBRE"
     },
     {
-      "name": "Prestige Consumer Healthcare Inc",
-      "cusip": "74112D101",
-      "shares": 1140938,
-      "value": 89095848420,
-      "pctOfPortfolio": 325.93091944
+      "name": "Molson Coors Beverage Co.",
+      "cusip": "TAP00000",
+      "shares": 300304,
+      "value": 18279504,
+      "ticker": "TAP"
+    },
+    {
+      "name": "KKR & Co. L.P.",
+      "cusip": "KKR00000",
+      "shares": 155962,
+      "value": 18030767,
+      "ticker": "KKR"
     },
     {
       "name": "Sphere Entertainment Co.",
-      "cusip": "55826T102",
-      "shares": 2119656,
-      "value": 85464529920,
-      "pctOfPortfolio": 312.64681026
+      "cusip": "SPHR00000",
+      "shares": 526479,
+      "value": 17226393,
+      "ticker": "SPHR"
     },
     {
-      "name": "Carlyle Group Inc",
-      "cusip": "14316J108",
-      "shares": 2182992,
-      "value": 110219266080,
-      "pctOfPortfolio": 403.20472132000003
+      "name": "Norwegian Cruise Line Hlgs Ltd.",
+      "cusip": "NCLH00000",
+      "shares": 902583,
+      "value": 17112974,
+      "ticker": "NCLH"
     },
     {
-      "name": "Madison Square Garden Entertainment Corp New",
-      "cusip": "558256103",
-      "shares": 3056024,
-      "value": 108794454400,
-      "pctOfPortfolio": 397.99246745
+      "name": "ADT Inc.",
+      "cusip": "ADT00000",
+      "shares": 2094400,
+      "value": 17048416,
+      "ticker": "ADT"
     },
     {
-      "name": "Resideo Technologies Inc",
-      "cusip": "76118Y104",
-      "shares": 2227075,
-      "value": 51334078750,
-      "pctOfPortfolio": 187.79060733
+      "name": "Kennametal Inc.",
+      "cusip": "KMT00000",
+      "shares": 794239,
+      "value": 16917291,
+      "ticker": "KMT"
     },
     {
-      "name": "Paramount Global",
-      "cusip": "92556H206",
-      "shares": 9177602,
-      "value": 95997716920,
-      "pctOfPortfolio": 351.17937249
+      "name": "Resideo Technologies Inc.",
+      "cusip": "REZI00000",
+      "shares": 792097,
+      "value": 14020117,
+      "ticker": "REZI"
     },
     {
-      "name": "Axalta Coating Systems Limited",
-      "cusip": "G0750C108",
-      "shares": 1815278,
-      "value": 62118813160,
-      "pctOfPortfolio": 227.24338167
+      "name": "Littelfuse Inc.",
+      "cusip": "LFUS00000",
+      "shares": 65248,
+      "value": 12836892,
+      "ticker": "LFUS"
     },
     {
-      "name": "Envista Holdings Corporation",
-      "cusip": "29415F104",
-      "shares": 4908366,
-      "value": 94682380140,
-      "pctOfPortfolio": 346.3676003
+      "name": "AFLAC Inc.",
+      "cusip": "AFL00000",
+      "shares": 115387,
+      "value": 12829881,
+      "ticker": "AFL"
+    },
+    {
+      "name": "Manchester United plc",
+      "cusip": "MANU00000",
+      "shares": 932978,
+      "value": 12212682,
+      "ticker": "MANU"
+    },
+    {
+      "name": "Paramount Global CL B",
+      "cusip": "PARA00000",
+      "shares": 905261,
+      "value": 10826922,
+      "ticker": "PARA"
+    },
+    {
+      "name": "OneSpaWorld Holdings Ltd",
+      "cusip": "OSW00000",
+      "shares": 625213,
+      "value": 10497326,
+      "ticker": "OSW"
+    },
+    {
+      "name": "nVent Electric plc",
+      "cusip": "NVT00000",
+      "shares": 196365,
+      "value": 10293453,
+      "ticker": "NVT"
+    },
+    {
+      "name": "BorgWarner Inc.",
+      "cusip": "BWA00000",
+      "shares": 350020,
+      "value": 10028073,
+      "ticker": "BWA"
     }
   ]
 }

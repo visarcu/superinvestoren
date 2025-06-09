@@ -1,4 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2014-02-04",
-  "positions": []
+  "period": "2014-02-04",
+  "accession": "0001484150-14-000001",
+  "quarterKey": "2014-Q1",
+  "positions": [
+    {
+      "name": "MONDELEZ INTERNATIONAL INC",
+      "cusip": "609207105",
+      "shares": 3731890,
+      "value": 131723
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 2021900,
+      "value": 110941
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 2126679,
+      "value": 103605
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 1026969,
+      "value": 78458
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 952000,
+      "value": 72652
+    },
+    {
+      "name": "KRAFT FOODS GROUP INC",
+      "cusip": "50076Q106",
+      "shares": 951896,
+      "value": 51317
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637100",
+      "shares": 476218,
+      "value": 35125
+    },
+    {
+      "name": "WORLD WRESTLING ENTMT INC",
+      "cusip": "98156Q108",
+      "shares": 1870100,
+      "value": 31006
+    },
+    {
+      "name": "HERSHEY CO",
+      "cusip": "427866108",
+      "shares": 56750,
+      "value": 5518
+    },
+    {
+      "name": "INTERNATIONAL SPEEDWAY A CLASS",
+      "cusip": "460335201",
+      "shares": 75900,
+      "value": 2691
+    }
+  ],
+  "totalValue": 623036,
+  "positionsCount": 10
 }

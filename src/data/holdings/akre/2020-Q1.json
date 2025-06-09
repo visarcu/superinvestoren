@@ -1,155 +1,161 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001112520-20-000010",
+  "quarterKey": "2020-Q1",
   "positions": [
-    {
-      "name": "ALARM COM HLDGS INC",
-      "cusip": "011642105",
-      "shares": 1607502,
-      "value": 69074000
-    },
     {
       "name": "AMERICAN TOWER CORP NEW",
       "cusip": "03027X100",
       "shares": 7186212,
-      "value": 1651535000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 163740,
-      "value": 42148000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 285342,
-      "value": 64630000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 42,
-      "value": 14263000
-    },
-    {
-      "name": "BROOKFIELD ASSET MGMT INC",
-      "cusip": "112585104",
-      "shares": 6250000,
-      "value": 361250000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 6747651,
-      "value": 591567000
-    },
-    {
-      "name": "COLONY CAP INC NEW",
-      "cusip": "19626G108",
-      "shares": 10000,
-      "value": 47000
-    },
-    {
-      "name": "COSTAR GROUP INC",
-      "cusip": "22160N109",
-      "shares": 250000,
-      "value": 149575000
-    },
-    {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 1655300,
-      "value": 254055000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 50000,
-      "value": 2136000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 5084880,
-      "value": 478233000
-    },
-    {
-      "name": "GOOSEHEAD INS INC",
-      "cusip": "38267D109",
-      "shares": 172168,
-      "value": 7300000
-    },
-    {
-      "name": "KKR & CO L P DEL",
-      "cusip": "48251W104",
-      "shares": 12754820,
-      "value": 372058000
-    },
-    {
-      "name": "LAMAR ADVERTISING CO",
-      "cusip": "512816109",
-      "shares": 48530,
-      "value": 4332000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 512764,
-      "value": 586176000
+      "value": 1651535
     },
     {
       "name": "MASTERCARD INC",
       "cusip": "57636Q104",
       "shares": 5326849,
-      "value": 1590544000
+      "value": 1590544
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 5681643,
-      "value": 1348879000
-    },
-    {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 1886926,
-      "value": 826964000
-    },
-    {
-      "name": "OLLIES BARGAIN OUTLT HLDGS I",
-      "cusip": "681116109",
-      "shares": 106437,
-      "value": 6951000
-    },
-    {
-      "name": "PRIMO WTR CORP",
-      "cusip": "74165N105",
-      "shares": 3222200,
-      "value": 36169000
-    },
-    {
-      "name": "ROPER INDS INC NEW",
-      "cusip": "776696106",
-      "shares": 1567132,
-      "value": 555125000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP",
-      "cusip": "78410G104",
-      "shares": 2465000,
-      "value": 594040000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 2544142,
-      "value": 379942000
+      "value": 1348879
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 4887270,
-      "value": 918318000
+      "value": 918318
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 1886926,
+      "value": 826964
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78410G104",
+      "shares": 2465000,
+      "value": 594040
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 6747651,
+      "value": 591567
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 512764,
+      "value": 586176
+    },
+    {
+      "name": "ROPER INDS INC NEW",
+      "cusip": "776696106",
+      "shares": 1567132,
+      "value": 555125
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 5084880,
+      "value": 478233
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2544142,
+      "value": 379942
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48251W104",
+      "shares": 12754820,
+      "value": 372058
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 6250000,
+      "value": 361250
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 1655300,
+      "value": 254055
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 250000,
+      "value": 149575
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 1607502,
+      "value": 69074
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 285342,
+      "value": 64630
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 163740,
+      "value": 42148
+    },
+    {
+      "name": "PRIMO WTR CORP",
+      "cusip": "74165N105",
+      "shares": 3222200,
+      "value": 36169
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 42,
+      "value": 14263
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 172168,
+      "value": 7300
+    },
+    {
+      "name": "OLLIES BARGAIN OUTLT HLDGS I",
+      "cusip": "681116109",
+      "shares": 106437,
+      "value": 6951
+    },
+    {
+      "name": "LAMAR ADVERTISING CO",
+      "cusip": "512816109",
+      "shares": 48530,
+      "value": 4332
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 50000,
+      "value": 2136
+    },
+    {
+      "name": "COLONY CAP INC NEW",
+      "cusip": "19626G108",
+      "shares": 10000,
+      "value": 47
     }
-  ]
+  ],
+  "totalValue": 10905311,
+  "positionsCount": 25
 }

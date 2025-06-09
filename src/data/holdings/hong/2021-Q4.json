@@ -1,4 +1,41 @@
 {
+  "form": "13F-HR",
   "date": "2021-11-12",
-  "positions": []
+  "period": "2021-11-12",
+  "accession": "0001085146-21-003217",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "IAC INTERACTIVECORP NEW",
+      "cusip": "44891N208",
+      "shares": 2906872,
+      "value": 378736
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 925913,
+      "value": 295764
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 610340,
+      "value": 146323
+    },
+    {
+      "name": "VIMEO INC",
+      "cusip": "92719V100",
+      "shares": 2952085,
+      "value": 86703
+    },
+    {
+      "name": "ANGI INC",
+      "cusip": "00183L102",
+      "shares": 4133123,
+      "value": 51003
+    }
+  ],
+  "totalValue": 958529,
+  "positionsCount": 5
 }

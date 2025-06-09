@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0001398344-19-002811",
+  "quarterKey": "2019-Q1",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 34348,
-      "value": 35571000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 155006,
-      "value": 22157000
-    },
-    {
-      "name": "CIMPRESS N V",
-      "cusip": "N20146101",
-      "shares": 217373,
-      "value": 22481000
-    },
-    {
-      "name": "DOLLAR GEN CORP NEW",
-      "cusip": "256677105",
-      "shares": 242459,
-      "value": 26205000
-    },
-    {
-      "name": "EBAY INC",
-      "cusip": "278642103",
-      "shares": 413971,
-      "value": 11620000
-    },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 641674,
-      "value": 84117000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 477944,
-      "value": 40190000
-    },
-    {
-      "name": "ROPER TECHNOLOGIES INC",
-      "cusip": "776696106",
-      "shares": 59212,
-      "value": 15781000
-    },
-    {
-      "name": "THE TRADE DESK INC",
-      "cusip": "88339J105",
-      "shares": 337646,
-      "value": 39187000
+      "value": 84117
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 597595,
-      "value": 53987000
+      "value": 53987
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 477944,
+      "value": 40190
+    },
+    {
+      "name": "THE TRADE DESK INC",
+      "cusip": "88339J105",
+      "shares": 337646,
+      "value": 39187
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 34348,
+      "value": 35571
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 242459,
+      "value": 26205
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 217373,
+      "value": 22481
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 155006,
+      "value": 22157
+    },
+    {
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 59212,
+      "value": 15781
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 413971,
+      "value": 11620
     },
     {
       "name": "WORKIVA INC",
       "cusip": "98139A105",
       "shares": 237389,
-      "value": 8520000
+      "value": 8520
     }
-  ]
+  ],
+  "totalValue": 359816,
+  "positionsCount": 11
 }

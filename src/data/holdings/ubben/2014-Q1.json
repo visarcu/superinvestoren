@@ -2,78 +2,82 @@
   "form": "13F-HR",
   "date": "2014-02-14",
   "period": "2014-02-14",
+  "accession": "0001418812-14-000006",
+  "quarterKey": "2014-Q1",
   "positions": [
-    {
-      "name": "ADOBE SYSTEMS INC ",
-      "cusip": "00724F101",
-      "shares": 25310116,
-      "value": 1515544000
-    },
-    {
-      "name": "ALLISON TRANSMISSION HOLDING",
-      "cusip": "01973R101",
-      "shares": 18025204,
-      "value": 497676000
-    },
-    {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 32162764,
-      "value": 845881000
-    },
-    {
-      "name": "DRESSER-RAND GROUP INC",
-      "cusip": "261608103",
-      "shares": 658222,
-      "value": 39250000
-    },
-    {
-      "name": "KAR AUCTION SERVICES INC",
-      "cusip": "48238T109",
-      "shares": 803628,
-      "value": 23747000
-    },
-    {
-      "name": "MICROS SYSTEMS INC",
-      "cusip": "594901100",
-      "shares": 6697308,
-      "value": 384225000
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 66865530,
-      "value": 2501439000
-    },
-    {
-      "name": "MOTOROLA SOLUTIONS, INC",
-      "cusip": "620076307",
-      "shares": 28907623,
-      "value": 1951265000
-    },
-    {
-      "name": "MSCI INC",
-      "cusip": "55354G100",
-      "shares": 7454117,
-      "value": 325894000
-    },
-    {
-      "name": "ROCKWELL COLLINS INC ",
-      "cusip": "774341101",
-      "shares": 13113000,
-      "value": 969313000
+      "value": 2501439
     },
     {
       "name": "VALEANT PHARMACEUTICALS INTE",
       "cusip": "91911K102",
       "shares": 18923877,
-      "value": 2221663000
+      "value": 2221663
     },
     {
-      "name": "WILLIS GROUP HOLDINGS PLC ",
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 28907623,
+      "value": 1951265
+    },
+    {
+      "name": "ADOBE SYSTEMS INC",
+      "cusip": "00724F101",
+      "shares": 25310116,
+      "value": 1515544
+    },
+    {
+      "name": "ROCKWELL COLLINS INC",
+      "cusip": "774341101",
+      "shares": 13113000,
+      "value": 969313
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 32162764,
+      "value": 845881
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC",
       "cusip": "G96666105",
       "shares": 18214700,
-      "value": 816201000
+      "value": 816201
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 18025204,
+      "value": 497676
+    },
+    {
+      "name": "MICROS SYSTEMS INC",
+      "cusip": "594901100",
+      "shares": 6697308,
+      "value": 384225
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 7454117,
+      "value": 325894
+    },
+    {
+      "name": "DRESSER-RAND GROUP INC",
+      "cusip": "261608103",
+      "shares": 658222,
+      "value": 39250
+    },
+    {
+      "name": "KAR AUCTION SERVICES INC",
+      "cusip": "48238T109",
+      "shares": 803628,
+      "value": 23747
     }
-  ]
+  ],
+  "totalValue": 12092098,
+  "positionsCount": 12
 }

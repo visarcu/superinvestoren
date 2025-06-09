@@ -1,4 +1,83 @@
 {
+  "form": "13F-HR",
   "date": "2019-07-15",
-  "positions": []
+  "period": "2019-07-15",
+  "accession": "0001085146-19-001878",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3877900,
+      "value": 785333
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 890000,
+      "value": 189721
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 170600,
+      "value": 184403
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 908400,
+      "value": 175321
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 30000,
+      "value": 56809
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 260000,
+      "value": 19924
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 570900,
+      "value": 16556
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 229900,
+      "value": 10879
+    },
+    {
+      "name": "PINDUODUO INC",
+      "cusip": "722304102",
+      "shares": 467767,
+      "value": 9650
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 200000,
+      "value": 2100
+    },
+    {
+      "name": "SOGOU INC",
+      "cusip": "83409V104",
+      "shares": 240000,
+      "value": 984
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 10000,
+      "value": 838
+    }
+  ],
+  "totalValue": 1452518,
+  "positionsCount": 12
 }

@@ -133,7 +133,9 @@ const investorNames: Record<string, string> = {
   mairspower: 'Andrew R. Adams - Mairs & Power Growth Fund',
   tangen:'Nicolai Tangen - AKO Capital',
   bobrinskoy: 'Chalres Bobrinskoy - Ariel Focus Fund',
-  loeb:'Daniel Loeb - Third Point'
+  loeb:'Daniel Loeb - Third Point',
+  armitage:'John Armitage - Egerton Capital',
+  rogers:'John Rogers - Ariel Appreciation Fund'
 }
 
 // Kompakte Newsletter Komponente für Header

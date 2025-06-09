@@ -2,72 +2,76 @@
   "form": "13F-HR",
   "date": "2013-11-14",
   "period": "2013-11-14",
+  "accession": "0001345471-13-000082",
+  "quarterKey": "2013-Q4",
   "positions": [
     {
-      "name": "Wendys Co.",
-      "cusip": "95058W100",
-      "shares": 83000245,
-      "value": 703842000
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 40946850,
+      "value": 1286591
     },
     {
-      "name": "Tiffany & Co. NEW",
-      "cusip": "886547108",
-      "shares": 10651,
-      "value": 816000
-    },
-    {
-      "name": "Family Dlr Stores Inc.",
-      "cusip": "307000109",
-      "shares": 8364997,
-      "value": 602447000
-    },
-    {
-      "name": "Legg Mason Inc.",
-      "cusip": "524901105",
-      "shares": 12886493,
-      "value": 430924000
+      "name": "PepsiCo Inc",
+      "cusip": "713448108",
+      "shares": 12270046,
+      "value": 975469
     },
     {
       "name": "Ingersoll-Rand PLC",
       "cusip": "G47791101",
       "shares": 11725444,
-      "value": 761450000
+      "value": 761450
     },
     {
-      "name": "Ingersoll-Rand PLC",
-      "cusip": "G47791101",
-      "shares": 1178550,
-      "value": 76535000
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 83000245,
+      "value": 703842
+    },
+    {
+      "name": "Family Dlr Stores Inc",
+      "cusip": "307000109",
+      "shares": 8364997,
+      "value": 602447
+    },
+    {
+      "name": "Legg Mason Inc",
+      "cusip": "524901105",
+      "shares": 12886493,
+      "value": 430924
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co.",
+      "cusip": "263534109",
+      "shares": 5778403,
+      "value": 338383
     },
     {
       "name": "Lazard Ltd",
       "cusip": "G54050102",
       "shares": 6702380,
-      "value": 241420000
+      "value": 241420
     },
     {
-      "name": "Mondelez Intl Inc.",
-      "cusip": "609207105",
-      "shares": 40946850,
-      "value": 1286591000
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 1178550,
+      "value": 76535
     },
     {
-      "name": "PepsiCo Inc.",
-      "cusip": "713448108",
-      "shares": 12270046,
-      "value": 975469000
-    },
-    {
-      "name": "Du Pont E I De Nemours & Co. ",
-      "cusip": "263534109",
-      "shares": 5778403,
-      "value": 338383000
-    },
-    {
-      "name": "GNC Hldgs Inc.",
+      "name": "GNC Hldgs Inc",
       "cusip": "36191G107",
       "shares": 776898,
-      "value": 42442000
+      "value": 42442
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 10651,
+      "value": 816
     }
-  ]
+  ],
+  "totalValue": 5460319,
+  "positionsCount": 11
 }

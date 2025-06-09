@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0001398344-23-014736",
+  "quarterKey": "2023-Q3",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 738119,
-      "value": 89290255000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 648816,
-      "value": 57926292000
-    },
-    {
-      "name": "HERC HLDGS INC",
-      "cusip": "42704L104",
-      "shares": 202804,
-      "value": 27753727000
-    },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 626299,
-      "value": 179735287000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 648363,
-      "value": 43265263000
-    },
-    {
-      "name": "ROKU INC",
-      "cusip": "77543R102",
-      "shares": 781185,
-      "value": 49964593000
-    },
-    {
-      "name": "SEMRUSH HLDGS INC",
-      "cusip": "81686C104",
-      "shares": 3021897,
-      "value": 28919554000
+      "value": 179735287
     },
     {
       "name": "SMARTSHEET INC",
       "cusip": "83200N103",
       "shares": 3280603,
-      "value": 125515871000
-    },
-    {
-      "name": "UPWORK INC",
-      "cusip": "91688F104",
-      "shares": 4691358,
-      "value": 43817284000
+      "value": 125515871
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 1393679,
-      "value": 109041445000
+      "value": 109041445
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 738119,
+      "value": 89290255
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 648816,
+      "value": 57926292
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 781185,
+      "value": 49964593
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 4691358,
+      "value": 43817284
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 648363,
+      "value": 43265263
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 3021897,
+      "value": 28919554
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 202804,
+      "value": 27753727
     }
-  ]
+  ],
+  "totalValue": 755229571,
+  "positionsCount": 10
 }

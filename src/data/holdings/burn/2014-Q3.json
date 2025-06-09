@@ -1,323 +1,329 @@
 {
+  "form": "13F-HR",
   "date": "2014-08-11",
+  "period": "2014-08-11",
+  "accession": "0000950123-14-008253",
+  "quarterKey": "2014-Q3",
   "positions": [
+    {
+      "name": "Hess Corporation",
+      "cusip": "42809H107",
+      "shares": 1845346,
+      "value": 182486
+    },
+    {
+      "name": "Qualcomm Inc",
+      "cusip": "747525103",
+      "shares": 2293029,
+      "value": 181608
+    },
     {
       "name": "AES Corporation",
       "cusip": "00130H105",
       "shares": 11586168,
-      "value": 180165000
+      "value": 180165
     },
     {
-      "name": "Agilent Technologies, Inc.",
-      "cusip": "00846U101",
-      "shares": 2737973,
-      "value": 157269000
-    },
-    {
-      "name": "Alcoa Inc.",
-      "cusip": "013817101",
-      "shares": 10717430,
-      "value": 159583000
-    },
-    {
-      "name": "Altria Group Inc.",
-      "cusip": "02209S103",
-      "shares": 6535,
-      "value": 274000
-    },
-    {
-      "name": "American Intl Group, Inc.",
+      "name": "American Intl Group, Inc",
       "cusip": "026874784",
       "shares": 3292006,
-      "value": 179678000
+      "value": 179678
     },
     {
-      "name": "Applied Materials",
-      "cusip": "038222105",
-      "shares": 6681547,
-      "value": 150669000
-    },
-    {
-      "name": "Baker Hughes Inc.",
-      "cusip": "057224107",
-      "shares": 1826673,
-      "value": 135996000
+      "name": "CitiGroup, Inc",
+      "cusip": "172967424",
+      "shares": 3699266,
+      "value": 174235
     },
     {
       "name": "Bank of America Corporatio",
       "cusip": "060505104",
       "shares": 11317464,
-      "value": 173949000
+      "value": 173949
     },
     {
       "name": "BP PLC Sponsored ADR",
       "cusip": "055622104",
       "shares": 3269799,
-      "value": 172482000
-    },
-    {
-      "name": "Capital One Financial Corp",
-      "cusip": "14040H105",
-      "shares": 1928643,
-      "value": 159306000
-    },
-    {
-      "name": "Chubb Corporation",
-      "cusip": "171232101",
-      "shares": 4334,
-      "value": 399000
-    },
-    {
-      "name": "CIT Group Inc",
-      "cusip": "125581801",
-      "shares": 3467047,
-      "value": 158652000
-    },
-    {
-      "name": "CitiGroup, Inc.",
-      "cusip": "172967424",
-      "shares": 3699266,
-      "value": 174235000
-    },
-    {
-      "name": "Comcast Corporation Class A",
-      "cusip": "20030N101",
-      "shares": 3027061,
-      "value": 162493000
-    },
-    {
-      "name": "CVS Caremark Corporation",
-      "cusip": "126650100",
-      "shares": 2041081,
-      "value": 153836000
-    },
-    {
-      "name": "DIRECTV Group Inc",
-      "cusip": "25490A309",
-      "shares": 1089366,
-      "value": 92607000
-    },
-    {
-      "name": "E. I. du Pont de Nemours &",
-      "cusip": "263534109",
-      "shares": 2325069,
-      "value": 152153000
-    },
-    {
-      "name": "Exxon Mobil Corp",
-      "cusip": "30231G102",
-      "shares": 3074,
-      "value": 309000
+      "value": 172482
     },
     {
       "name": "General Electric Company",
       "cusip": "369604103",
       "shares": 6531933,
-      "value": 171659000
-    },
-    {
-      "name": "Goldman Sachs Group Inc",
-      "cusip": "38141G104",
-      "shares": 1700,
-      "value": 285000
-    },
-    {
-      "name": "Google Inc. Cl A",
-      "cusip": "38259P508",
-      "shares": 149642,
-      "value": 87491000
-    },
-    {
-      "name": "Google Inc. Cl C",
-      "cusip": "38259P706",
-      "shares": 142961,
-      "value": 82243000
-    },
-    {
-      "name": "Hess Corporation",
-      "cusip": "42809H107",
-      "shares": 1845346,
-      "value": 182486000
-    },
-    {
-      "name": "Hospira Inc",
-      "cusip": "441060100",
-      "shares": 2668781,
-      "value": 137095000
-    },
-    {
-      "name": "Intl Business Machines",
-      "cusip": "459200101",
-      "shares": 2048,
-      "value": 371000
-    },
-    {
-      "name": "International Paper Corp.",
-      "cusip": "460146103",
-      "shares": 2967024,
-      "value": 149746000
-    },
-    {
-      "name": "Jabil Circuit, Inc.",
-      "cusip": "466313103",
-      "shares": 12165,
-      "value": 254000
-    },
-    {
-      "name": "JetBlue Airways Corporation",
-      "cusip": "477143101",
-      "shares": 46666,
-      "value": 506000
-    },
-    {
-      "name": "Kohl's Corporation",
-      "cusip": "500255104",
-      "shares": 1162017,
-      "value": 61215000
-    },
-    {
-      "name": "Lowe's Companies, Inc.",
-      "cusip": "548661107",
-      "shares": 3383888,
-      "value": 162393000
-    },
-    {
-      "name": "Marsh & McLennan Companies Inc.",
-      "cusip": "571748102",
-      "shares": 2659497,
-      "value": 137815000
-    },
-    {
-      "name": "Merck & Co. Inc.",
-      "cusip": "58933Y105",
-      "shares": 8400,
-      "value": 486000
-    },
-    {
-      "name": "Microsoft Corp",
-      "cusip": "594918104",
-      "shares": 3978628,
-      "value": 165909000
-    },
-    {
-      "name": "Novartis AG ADR",
-      "cusip": "66987V109",
-      "shares": 1442881,
-      "value": 130624000
-    },
-    {
-      "name": "Owens-Illinois, Inc.",
-      "cusip": "690768403",
-      "shares": 4580023,
-      "value": 158652000
-    },
-    {
-      "name": "Phillip Morris International",
-      "cusip": "718172109",
-      "shares": 5866,
-      "value": 495000
-    },
-    {
-      "name": "PNC Financial Svces Grp",
-      "cusip": "693475105",
-      "shares": 3634,
-      "value": 324000
-    },
-    {
-      "name": "Procter & Gamble Company",
-      "cusip": "742718109",
-      "shares": 1934448,
-      "value": 152028000
-    },
-    {
-      "name": "Qualcomm Inc.",
-      "cusip": "747525103",
-      "shares": 2293029,
-      "value": 181608000
-    },
-    {
-      "name": "Reliance Steel & Aluminum",
-      "cusip": "759509102",
-      "shares": 1959123,
-      "value": 144407000
+      "value": 171659
     },
     {
       "name": "Sanofi ADR",
       "cusip": "80105N105",
       "shares": 3158912,
-      "value": 167959000
+      "value": 167959
     },
     {
-      "name": "Schlumberger Ltd.",
-      "cusip": "806857108",
-      "shares": 1199907,
-      "value": 141529000
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 3978628,
+      "value": 165909
     },
     {
-      "name": "TJX Companies, Inc.",
-      "cusip": "872540109",
-      "shares": 13034,
-      "value": 693000
+      "name": "WellPoint Inc",
+      "cusip": "94973V107",
+      "shares": 1510868,
+      "value": 162585
     },
     {
-      "name": "Teradata Corporation",
-      "cusip": "88076W103",
-      "shares": 1882943,
-      "value": 75694000
+      "name": "Comcast Corporation Class A",
+      "cusip": "20030N101",
+      "shares": 3027061,
+      "value": 162493
     },
     {
-      "name": "Texas Instruments Inc.",
-      "cusip": "882508104",
-      "shares": 2907058,
-      "value": 138928000
+      "name": "Lowe's Companies, Inc",
+      "cusip": "548661107",
+      "shares": 3383888,
+      "value": 162393
+    },
+    {
+      "name": "Alcoa Inc",
+      "cusip": "013817101",
+      "shares": 10717430,
+      "value": 159583
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 1928643,
+      "value": 159306
+    },
+    {
+      "name": "CIT Group Inc",
+      "cusip": "125581801",
+      "shares": 3467047,
+      "value": 158652
+    },
+    {
+      "name": "Owens-Illinois, Inc",
+      "cusip": "690768403",
+      "shares": 4580023,
+      "value": 158652
     },
     {
       "name": "Thermo Fisher Scientific,",
       "cusip": "883556102",
       "shares": 1341231,
-      "value": 158265000
+      "value": 158265
     },
     {
-      "name": "Time Warner, Inc.",
-      "cusip": "887317303",
-      "shares": 1783508,
-      "value": 125291000
+      "name": "Agilent Technologies, Inc",
+      "cusip": "00846U101",
+      "shares": 2737973,
+      "value": 157269
     },
     {
-      "name": "Vodafone Group Plc ADR",
-      "cusip": "92857W308",
-      "shares": 3825487,
-      "value": 127733000
-    },
-    {
-      "name": "WellPoint Inc.",
-      "cusip": "94973V107",
-      "shares": 1510868,
-      "value": 162585000
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 4091699,
+      "value": 154462
     },
     {
       "name": "Aon PLC",
       "cusip": "G0408V102",
       "shares": 1712829,
-      "value": 154309000
+      "value": 154309
     },
     {
-      "name": "Invesco Ltd.",
-      "cusip": "G491BT108",
-      "shares": 4091699,
-      "value": 154462000
+      "name": "CVS Caremark Corporation",
+      "cusip": "126650100",
+      "shares": 2041081,
+      "value": 153836
     },
     {
-      "name": "Weatherford Intl, Ltd.",
+      "name": "Weatherford Intl, Ltd",
       "cusip": "G48833100",
       "shares": 6621011,
-      "value": 152283000
+      "value": 152283
+    },
+    {
+      "name": "E. I. du Pont de Nemours &",
+      "cusip": "263534109",
+      "shares": 2325069,
+      "value": 152153
+    },
+    {
+      "name": "Procter & Gamble Company",
+      "cusip": "742718109",
+      "shares": 1934448,
+      "value": 152028
+    },
+    {
+      "name": "Applied Materials",
+      "cusip": "038222105",
+      "shares": 6681547,
+      "value": 150669
+    },
+    {
+      "name": "International Paper Corp",
+      "cusip": "460146103",
+      "shares": 2967024,
+      "value": 149746
+    },
+    {
+      "name": "Reliance Steel & Aluminum",
+      "cusip": "759509102",
+      "shares": 1959123,
+      "value": 144407
     },
     {
       "name": "Flextronics International",
       "cusip": "Y2573F102",
       "shares": 12823928,
-      "value": 141961000
+      "value": 141961
+    },
+    {
+      "name": "Schlumberger Ltd",
+      "cusip": "806857108",
+      "shares": 1199907,
+      "value": 141529
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 2907058,
+      "value": 138928
+    },
+    {
+      "name": "Marsh & McLennan Companies Inc",
+      "cusip": "571748102",
+      "shares": 2659497,
+      "value": 137815
+    },
+    {
+      "name": "Hospira Inc",
+      "cusip": "441060100",
+      "shares": 2668781,
+      "value": 137095
+    },
+    {
+      "name": "Baker Hughes Inc",
+      "cusip": "057224107",
+      "shares": 1826673,
+      "value": 135996
+    },
+    {
+      "name": "Novartis AG ADR",
+      "cusip": "66987V109",
+      "shares": 1442881,
+      "value": 130624
+    },
+    {
+      "name": "Vodafone Group Plc ADR",
+      "cusip": "92857W308",
+      "shares": 3825487,
+      "value": 127733
+    },
+    {
+      "name": "Time Warner, Inc",
+      "cusip": "887317303",
+      "shares": 1783508,
+      "value": 125291
+    },
+    {
+      "name": "DIRECTV Group Inc",
+      "cusip": "25490A309",
+      "shares": 1089366,
+      "value": 92607
+    },
+    {
+      "name": "Google Inc Cl A",
+      "cusip": "38259P508",
+      "shares": 149642,
+      "value": 87491
+    },
+    {
+      "name": "Google Inc Cl C",
+      "cusip": "38259P706",
+      "shares": 142961,
+      "value": 82243
+    },
+    {
+      "name": "Teradata Corporation",
+      "cusip": "88076W103",
+      "shares": 1882943,
+      "value": 75694
+    },
+    {
+      "name": "Kohl's Corporation",
+      "cusip": "500255104",
+      "shares": 1162017,
+      "value": 61215
+    },
+    {
+      "name": "TJX Companies, Inc",
+      "cusip": "872540109",
+      "shares": 13034,
+      "value": 693
+    },
+    {
+      "name": "JetBlue Airways Corporation",
+      "cusip": "477143101",
+      "shares": 46666,
+      "value": 506
+    },
+    {
+      "name": "Phillip Morris International",
+      "cusip": "718172109",
+      "shares": 5866,
+      "value": 495
+    },
+    {
+      "name": "Merck & Co. Inc",
+      "cusip": "58933Y105",
+      "shares": 8400,
+      "value": 486
+    },
+    {
+      "name": "Chubb Corporation",
+      "cusip": "171232101",
+      "shares": 4334,
+      "value": 399
+    },
+    {
+      "name": "Intl Business Machines",
+      "cusip": "459200101",
+      "shares": 2048,
+      "value": 371
+    },
+    {
+      "name": "PNC Financial Svces Grp",
+      "cusip": "693475105",
+      "shares": 3634,
+      "value": 324
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 3074,
+      "value": 309
+    },
+    {
+      "name": "Goldman Sachs Group Inc",
+      "cusip": "38141G104",
+      "shares": 1700,
+      "value": 285
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209S103",
+      "shares": 6535,
+      "value": 274
+    },
+    {
+      "name": "Jabil Circuit, Inc",
+      "cusip": "466313103",
+      "shares": 12165,
+      "value": 254
     }
-  ]
+  ],
+  "totalValue": 6173839,
+  "positionsCount": 53
 }

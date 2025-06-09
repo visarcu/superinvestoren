@@ -1,77 +1,83 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001172661-24-004879",
+  "quarterKey": "2024-Q4",
   "positions": [
-    {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 115700,
-      "value": 59907146000
-    },
-    {
-      "name": "AMPHENOL CORP NEW",
-      "cusip": "032095101",
-      "shares": 78480,
-      "value": 5113757000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 5230,
-      "value": 1666435000
-    },
-    {
-      "name": "BUMBLE INC",
-      "cusip": "12047B105",
-      "shares": 1350000,
-      "value": 8613000000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 9815,
-      "value": 2529227000
-    },
-    {
-      "name": "DUTCH BROS INC",
-      "cusip": "26701L100",
-      "shares": 1919514,
-      "value": 61482033000
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 651700,
-      "value": 280426510000
-    },
-    {
-      "name": "NU HLDGS LTD",
-      "cusip": "G6683N103",
-      "shares": 2131000,
-      "value": 29088150000
-    },
-    {
-      "name": "PROCTER AND GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 23050,
-      "value": 3992260000
-    },
-    {
-      "name": "QUANTA SVCS INC",
-      "cusip": "74762E102",
-      "shares": 290143,
-      "value": 86506135000
-    },
-    {
-      "name": "TEXAS ROADHOUSE INC",
-      "cusip": "882681109",
-      "shares": 1600,
-      "value": 282560000
+      "value": 280426510
     },
     {
       "name": "UBER TECHNOLOGIES INC",
       "cusip": "90353T100",
       "shares": 1243900,
-      "value": 93491524000
+      "value": 93491524
+    },
+    {
+      "name": "QUANTA SVCS INC",
+      "cusip": "74762E102",
+      "shares": 290143,
+      "value": 86506135
+    },
+    {
+      "name": "DUTCH BROS INC",
+      "cusip": "26701L100",
+      "shares": 1919514,
+      "value": 61482033
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 115700,
+      "value": 59907146
+    },
+    {
+      "name": "NU HLDGS LTD",
+      "cusip": "G6683N103",
+      "shares": 2131000,
+      "value": 29088150
+    },
+    {
+      "name": "BUMBLE INC",
+      "cusip": "12047B105",
+      "shares": 1350000,
+      "value": 8613000
+    },
+    {
+      "name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "shares": 78480,
+      "value": 5113757
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 23050,
+      "value": 3992260
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 9815,
+      "value": 2529227
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 5230,
+      "value": 1666435
+    },
+    {
+      "name": "TEXAS ROADHOUSE INC",
+      "cusip": "882681109",
+      "shares": 1600,
+      "value": 282560
     }
-  ]
+  ],
+  "totalValue": 633098737,
+  "positionsCount": 12
 }

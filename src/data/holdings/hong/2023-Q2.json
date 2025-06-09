@@ -1,47 +1,53 @@
 {
+  "form": "13F-HR",
   "date": "2023-05-12",
+  "period": "2023-05-12",
+  "accession": "0001172661-23-002059",
+  "quarterKey": "2023-Q2",
   "positions": [
-    {
-      "name": "BLEND LABS INC",
-      "cusip": "09352U108",
-      "shares": 10386061,
-      "value": 10346594000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 208393,
-      "value": 92907851000
-    },
     {
       "name": "IAC INC",
       "cusip": "44891N208",
       "shares": 4269795,
-      "value": 220321422000
-    },
-    {
-      "name": "COUPANG INC",
-      "cusip": "22266T109",
-      "shares": 8990248,
-      "value": 143843984000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 663713,
-      "value": 93497250000
-    },
-    {
-      "name": "SNOWFLAKE INC",
-      "cusip": "833445109",
-      "shares": 249626,
-      "value": 38514796000
+      "value": 220321422
     },
     {
       "name": "SEA LTD",
       "cusip": "81141R100",
       "shares": 1843068,
-      "value": 159517535000
+      "value": 159517535
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 8990248,
+      "value": 143843984
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 663713,
+      "value": 93497250
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 208393,
+      "value": 92907851
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 249626,
+      "value": 38514796
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 10386061,
+      "value": 10346594
     }
-  ]
+  ],
+  "totalValue": 758949432,
+  "positionsCount": 7
 }

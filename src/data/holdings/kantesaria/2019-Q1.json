@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2019-02-14",
   "period": "2019-02-14",
+  "accession": "0001697868-19-000002",
+  "quarterKey": "2019-Q1",
   "positions": [
     {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 1000,
-      "value": 1502000
-    },
-    {
-      "name": "ASPEN TECHNOLOGY INC",
-      "cusip": "045327103",
-      "shares": 31713,
-      "value": 2606000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 108050,
-      "value": 13896000
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 407407,
+      "value": 69235
     },
     {
       "name": "FAIR ISAAC CORP",
       "cusip": "303250104",
       "shares": 333078,
-      "value": 62286000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 80641,
-      "value": 15874000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 35750,
-      "value": 6744000
-    },
-    {
-      "name": "MONSTER BEVERAGE CORP NEW",
-      "cusip": "61174X109",
-      "shares": 531249,
-      "value": 26148000
+      "value": 62286
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 384915,
-      "value": 53903000
+      "value": 53903
     },
     {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 407407,
-      "value": 69235000
+      "name": "MONSTER BEVERAGE CORP NEW",
+      "cusip": "61174X109",
+      "shares": 531249,
+      "value": 26148
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 80641,
+      "value": 15874
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 108050,
+      "value": 13896
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 92000,
-      "value": 12138000
+      "value": 12138
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 35750,
+      "value": 6744
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 2606
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1000,
+      "value": 1502
     }
-  ]
+  ],
+  "totalValue": 264332,
+  "positionsCount": 10
 }

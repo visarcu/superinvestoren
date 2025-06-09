@@ -1,137 +1,143 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0001172661-20-001259",
+  "quarterKey": "2020-Q2",
   "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1744715,
+      "value": 318986
+    },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K305",
       "shares": 176380,
-      "value": 204945000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 936,
-      "value": 1088000
-    },
-    {
-      "name": "ANTERO MIDSTREAM CORP",
-      "cusip": "03676B102",
-      "shares": 2961561,
-      "value": 6219000
-    },
-    {
-      "name": "ANTERO RESOURCES CORP",
-      "cusip": "03674X106",
-      "shares": 8518664,
-      "value": 6073000
+      "value": 204945
     },
     {
       "name": "ANTHEM INC",
       "cusip": "036752103",
       "shares": 875467,
-      "value": 198766000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 1744715,
-      "value": 318986000
-    },
-    {
-      "name": "BK OF AMERICA CORP",
-      "cusip": "060505104",
-      "shares": 14532,
-      "value": 309000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 31094,
-      "value": 1069000
-    },
-    {
-      "name": "D R HORTON INC",
-      "cusip": "23331A109",
-      "shares": 1635442,
-      "value": 55605000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 11249,
-      "value": 826000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 330862,
-      "value": 55188000
-    },
-    {
-      "name": "HCA HEALTHCARE INC",
-      "cusip": "40412C101",
-      "shares": 1381943,
-      "value": 124168000
+      "value": 198766
     },
     {
       "name": "JPMORGAN CHASE & CO",
       "cusip": "46625H100",
       "shares": 1909245,
-      "value": 171889000
-    },
-    {
-      "name": "LENNAR CORP",
-      "cusip": "526057104",
-      "shares": 1677451,
-      "value": 64079000
-    },
-    {
-      "name": "LENNAR CORP",
-      "cusip": "526057302",
-      "shares": 9708,
-      "value": 281000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 2897,
-      "value": 217000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 3129,
-      "value": 662000
-    },
-    {
-      "name": "PRIMERICA INC",
-      "cusip": "74164M108",
-      "shares": 1467585,
-      "value": 129852000
-    },
-    {
-      "name": "PROGRESSIVE CORP OHIO",
-      "cusip": "743315103",
-      "shares": 1718989,
-      "value": 126930000
+      "value": 171889
     },
     {
       "name": "RAYMOND JAMES FINANCIAL INC",
       "cusip": "754730109",
       "shares": 2230758,
-      "value": 140984000
+      "value": 140984
     },
     {
-      "name": "SCHWAB CHARLES CORP",
-      "cusip": "808513105",
-      "shares": 1881990,
-      "value": 63273000
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 1467585,
+      "value": 129852
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1718989,
+      "value": 126930
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 1381943,
+      "value": 124168
     },
     {
       "name": "UNITEDHEALTH GROUP INC",
       "cusip": "91324P102",
       "shares": 263100,
-      "value": 65612000
+      "value": 65612
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 1677451,
+      "value": 64079
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 1881990,
+      "value": 63273
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 1635442,
+      "value": 55605
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 330862,
+      "value": 55188
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676B102",
+      "shares": 2961561,
+      "value": 6219
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674X106",
+      "shares": 8518664,
+      "value": 6073
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 936,
+      "value": 1088
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 31094,
+      "value": 1069
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 11249,
+      "value": 826
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 3129,
+      "value": 662
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 309
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057302",
+      "shares": 9708,
+      "value": 281
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 2897,
+      "value": 217
     }
-  ]
+  ],
+  "totalValue": 1737021,
+  "positionsCount": 22
 }

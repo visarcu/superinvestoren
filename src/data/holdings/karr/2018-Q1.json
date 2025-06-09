@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2018-02-13",
+  "period": "2018-02-13",
+  "accession": "0001172661-18-000403",
+  "quarterKey": "2018-Q1",
   "positions": [
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 793637,
-      "value": 136847000
-    },
-    {
-      "name": "CAESARSTONE LTD",
-      "cusip": "M20598104",
-      "shares": 1832279,
-      "value": 40310000
+      "value": 136847
     },
     {
       "name": "COGNEX CORP",
       "cusip": "192422103",
       "shares": 2144992,
-      "value": 131188000
+      "value": 131188
     },
     {
       "name": "HEXCEL CORP NEW",
       "cusip": "428291108",
       "shares": 715966,
-      "value": 44282000
+      "value": 44282
+    },
+    {
+      "name": "CAESARSTONE LTD",
+      "cusip": "M20598104",
+      "shares": 1832279,
+      "value": 40310
     },
     {
       "name": "MOHAWK INDS INC",
       "cusip": "608190104",
       "shares": 127677,
-      "value": 35226000
+      "value": 35226
     },
     {
       "name": "STARBUCKS CORP",
       "cusip": "855244109",
       "shares": 13850,
-      "value": 795000
+      "value": 795
     }
-  ]
+  ],
+  "totalValue": 388648,
+  "positionsCount": 6
 }

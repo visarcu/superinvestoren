@@ -1,227 +1,233 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001340807-22-000009",
+  "quarterKey": "2022-Q2",
   "positions": [
-    {
-      "name": "AGILYSYS INC COM",
-      "cusip": "00847J105",
-      "shares": 554500,
-      "value": 22113000
-    },
-    {
-      "name": "Align Technology Inc.",
-      "cusip": "016255101",
-      "shares": 410772,
-      "value": 179097000
-    },
-    {
-      "name": "Alarm.com Holdings, Inc.",
-      "cusip": "011642105",
-      "shares": 841924,
-      "value": 55954000
-    },
-    {
-      "name": "Astronics Corporation",
-      "cusip": "046433108",
-      "shares": 1463596,
-      "value": 18924000
-    },
-    {
-      "name": "Alteryx Inc",
-      "cusip": "02156B103",
-      "shares": 4850476,
-      "value": 346955000
-    },
-    {
-      "name": "Cimpress NV",
-      "cusip": "G2143T103",
-      "shares": 450106,
-      "value": 28622000
-    },
-    {
-      "name": "CoStar Group",
-      "cusip": "22160N109",
-      "shares": 2122026,
-      "value": 141348000
-    },
-    {
-      "name": "Despegar.com Corp",
-      "cusip": "G27358103",
-      "shares": 2373112,
-      "value": 28952000
-    },
-    {
-      "name": "Element Solutions Inc.",
-      "cusip": "28618M106",
-      "shares": 1141606,
-      "value": 25001000
-    },
-    {
-      "name": "Etsy Inc",
-      "cusip": "29786A106",
-      "shares": 560553,
-      "value": 69666000
-    },
-    {
-      "name": "Evertec Inc",
-      "cusip": "30040P103",
-      "shares": 355200,
-      "value": 14538000
-    },
-    {
-      "name": "Farfetch Ltd",
-      "cusip": "30744W107",
-      "shares": 3182296,
-      "value": 48116000
-    },
-    {
-      "name": "Guidewire Software, Inc.",
-      "cusip": "40171V100",
-      "shares": 285715,
-      "value": 27034000
-    },
-    {
-      "name": "Health Catalyst Inc",
-      "cusip": "42225T107",
-      "shares": 242847,
-      "value": 6346000
-    },
-    {
-      "name": "HESKA CORP COM RESTRC NEW",
-      "cusip": "42805E306",
-      "shares": 100500,
-      "value": 13897000
-    },
-    {
-      "name": "Interactive Brokers Group Inc",
-      "cusip": "45841N107",
-      "shares": 4000911,
-      "value": 263700000
-    },
-    {
-      "name": "Inmode Ltd",
-      "cusip": "M5425M103",
-      "shares": 102400,
-      "value": 3780000
-    },
-    {
-      "name": "IRADIMED CORP",
-      "cusip": "46266A109",
-      "shares": 61786,
-      "value": 2770000
-    },
-    {
-      "name": "Mimecast Limited",
-      "cusip": "G14838109",
-      "shares": 209000,
-      "value": 16628000
-    },
-    {
-      "name": "Model N Inc",
-      "cusip": "607525102",
-      "shares": 757000,
-      "value": 20363000
-    },
-    {
-      "name": "National Instruments Corp.",
-      "cusip": "636518102",
-      "shares": 694102,
-      "value": 28174000
-    },
-    {
-      "name": "OLO Inc",
-      "cusip": "68134L109",
-      "shares": 557300,
-      "value": 7384000
-    },
-    {
-      "name": "Onto Innovation Inc.",
-      "cusip": "683344105",
-      "shares": 177700,
-      "value": 15440000
-    },
-    {
-      "name": "Pagerduty Inc",
-      "cusip": "69553P100",
-      "shares": 1774782,
-      "value": 60680000
-    },
-    {
-      "name": "Pegasystems Inc",
-      "cusip": "705573103",
-      "shares": 5071085,
-      "value": 408983000
-    },
-    {
-      "name": "Planet Fitness Inc",
-      "cusip": "72703H101",
-      "shares": 315818,
-      "value": 26680000
-    },
-    {
-      "name": "Papa John`s International Inc.",
-      "cusip": "698813102",
-      "shares": 126600,
-      "value": 13328000
-    },
-    {
-      "name": "Redfin Corp",
-      "cusip": "75737F108",
-      "shares": 19128438,
-      "value": 345077000
-    },
-    {
-      "name": "Stitch Fix",
-      "cusip": "860897107",
-      "shares": 1933713,
-      "value": 19472000
-    },
     {
       "name": "Block Inc",
       "cusip": "852234103",
       "shares": 6210870,
-      "value": 842194000
+      "value": 842194
     },
     {
-      "name": "ThredUp Inc - Ordinary Shares - Class A",
-      "cusip": "88556E102",
-      "shares": 1012114,
-      "value": 7793000
-    },
-    {
-      "name": "Twilio Inc.",
-      "cusip": "90138F102",
-      "shares": 180322,
-      "value": 29719000
+      "name": "Workday, Inc",
+      "cusip": "98138H101",
+      "shares": 2341693,
+      "value": 560742
     },
     {
       "name": "Wayfair Inc",
       "cusip": "94419L101",
       "shares": 4551863,
-      "value": 504255000
+      "value": 504255
     },
     {
-      "name": "Workday, Inc.",
-      "cusip": "98138H101",
-      "shares": 2341693,
-      "value": 560742000
+      "name": "Pegasystems Inc",
+      "cusip": "705573103",
+      "shares": 5071085,
+      "value": 408983
     },
     {
-      "name": "WideOpenWest Inc",
-      "cusip": "96758W101",
-      "shares": 733000,
-      "value": 12784000
+      "name": "Alteryx Inc",
+      "cusip": "02156B103",
+      "shares": 4850476,
+      "value": 346955
     },
     {
-      "name": "XPEL Inc.",
+      "name": "Redfin Corp",
+      "cusip": "75737F108",
+      "shares": 19128438,
+      "value": 345077
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 4000911,
+      "value": 263700
+    },
+    {
+      "name": "Align Technology Inc",
+      "cusip": "016255101",
+      "shares": 410772,
+      "value": 179097
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 2122026,
+      "value": 141348
+    },
+    {
+      "name": "Etsy Inc",
+      "cusip": "29786A106",
+      "shares": 560553,
+      "value": 69666
+    },
+    {
+      "name": "Pagerduty Inc",
+      "cusip": "69553P100",
+      "shares": 1774782,
+      "value": 60680
+    },
+    {
+      "name": "Alarm.com Holdings, Inc",
+      "cusip": "011642105",
+      "shares": 841924,
+      "value": 55954
+    },
+    {
+      "name": "Farfetch Ltd",
+      "cusip": "30744W107",
+      "shares": 3182296,
+      "value": 48116
+    },
+    {
+      "name": "XPEL Inc",
       "cusip": "98379L100",
       "shares": 903532,
-      "value": 47535000
+      "value": 47535
     },
     {
       "name": "Zuora Inc",
       "cusip": "98983V106",
       "shares": 2208693,
-      "value": 33086000
+      "value": 33086
+    },
+    {
+      "name": "Twilio Inc",
+      "cusip": "90138F102",
+      "shares": 180322,
+      "value": 29719
+    },
+    {
+      "name": "Despegar.com Corp",
+      "cusip": "G27358103",
+      "shares": 2373112,
+      "value": 28952
+    },
+    {
+      "name": "Cimpress NV",
+      "cusip": "G2143T103",
+      "shares": 450106,
+      "value": 28622
+    },
+    {
+      "name": "National Instruments Corp",
+      "cusip": "636518102",
+      "shares": 694102,
+      "value": 28174
+    },
+    {
+      "name": "Guidewire Software, Inc",
+      "cusip": "40171V100",
+      "shares": 285715,
+      "value": 27034
+    },
+    {
+      "name": "Planet Fitness Inc",
+      "cusip": "72703H101",
+      "shares": 315818,
+      "value": 26680
+    },
+    {
+      "name": "Element Solutions Inc",
+      "cusip": "28618M106",
+      "shares": 1141606,
+      "value": 25001
+    },
+    {
+      "name": "AGILYSYS INC COM",
+      "cusip": "00847J105",
+      "shares": 554500,
+      "value": 22113
+    },
+    {
+      "name": "Model N Inc",
+      "cusip": "607525102",
+      "shares": 757000,
+      "value": 20363
+    },
+    {
+      "name": "Stitch Fix",
+      "cusip": "860897107",
+      "shares": 1933713,
+      "value": 19472
+    },
+    {
+      "name": "Astronics Corporation",
+      "cusip": "046433108",
+      "shares": 1463596,
+      "value": 18924
+    },
+    {
+      "name": "Mimecast Limited",
+      "cusip": "G14838109",
+      "shares": 209000,
+      "value": 16628
+    },
+    {
+      "name": "Onto Innovation Inc",
+      "cusip": "683344105",
+      "shares": 177700,
+      "value": 15440
+    },
+    {
+      "name": "Evertec Inc",
+      "cusip": "30040P103",
+      "shares": 355200,
+      "value": 14538
+    },
+    {
+      "name": "HESKA CORP COM RESTRC NEW",
+      "cusip": "42805E306",
+      "shares": 100500,
+      "value": 13897
+    },
+    {
+      "name": "Papa John`s International Inc",
+      "cusip": "698813102",
+      "shares": 126600,
+      "value": 13328
+    },
+    {
+      "name": "WideOpenWest Inc",
+      "cusip": "96758W101",
+      "shares": 733000,
+      "value": 12784
+    },
+    {
+      "name": "ThredUp Inc - Ordinary Shares - Class A",
+      "cusip": "88556E102",
+      "shares": 1012114,
+      "value": 7793
+    },
+    {
+      "name": "OLO Inc",
+      "cusip": "68134L109",
+      "shares": 557300,
+      "value": 7384
+    },
+    {
+      "name": "Health Catalyst Inc",
+      "cusip": "42225T107",
+      "shares": 242847,
+      "value": 6346
+    },
+    {
+      "name": "Inmode Ltd",
+      "cusip": "M5425M103",
+      "shares": 102400,
+      "value": 3780
+    },
+    {
+      "name": "IRADIMED CORP",
+      "cusip": "46266A109",
+      "shares": 61786,
+      "value": 2770
     }
-  ]
+  ],
+  "totalValue": 4297130,
+  "positionsCount": 37
 }

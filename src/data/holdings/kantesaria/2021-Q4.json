@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2021-11-15",
   "period": "2021-11-15",
+  "accession": "0001697868-21-000005",
+  "quarterKey": "2021-Q4",
   "positions": [
     {
-      "name": "ADOBE SYSTEMS INCORPORATED",
-      "cusip": "00724F101",
-      "shares": 200077,
-      "value": 115188000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 80915,
-      "value": 265809000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 253608,
-      "value": 72321000
-    },
-    {
-      "name": "FAIR ISAAC CORP",
-      "cusip": "303250104",
-      "shares": 724711,
-      "value": 288384000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 215221,
-      "value": 116114000
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1276544,
+      "value": 542391
     },
     {
       "name": "MASTERCARD INCORPORATED",
       "cusip": "57636Q104",
       "shares": 1381123,
-      "value": 480189000
+      "value": 480189
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 1156246,
-      "value": 410595000
+      "value": 410595
     },
     {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 1276544,
-      "value": 542391000
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 724711,
+      "value": 288384
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 80915,
+      "value": 265809
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 1015303,
-      "value": 226159000
+      "value": 226159
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 215221,
+      "value": 116114
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 200077,
+      "value": 115188
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 253608,
+      "value": 72321
     }
-  ]
+  ],
+  "totalValue": 2517150,
+  "positionsCount": 9
 }

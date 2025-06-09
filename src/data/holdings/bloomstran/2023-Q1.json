@@ -1,203 +1,209 @@
 {
+  "form": "13F-HR",
   "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0001172661-23-001428",
+  "quarterKey": "2023-Q1",
   "positions": [
-    {
-      "name": "ALASKA AIR GROUP INC",
-      "cusip": "011659109",
-      "shares": 224401,
-      "value": 9635779000
-    },
-    {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 6598,
-      "value": 974855000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 3525,
-      "value": 458003000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 229007,
-      "value": 70740262000
+      "value": 70740262
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 107,
-      "value": 50152073000
-    },
-    {
-      "name": "CHEVRON CORP NEW",
-      "cusip": "166764100",
-      "shares": 3503,
-      "value": 628678000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 22425,
-      "value": 1426454000
-    },
-    {
-      "name": "COSTCO WHSL CORP NEW",
-      "cusip": "22160K105",
-      "shares": 4969,
-      "value": 2268349000
-    },
-    {
-      "name": "CUMMINS INC",
-      "cusip": "231021106",
-      "shares": 41615,
-      "value": 10082898000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 113110,
-      "value": 9826997000
-    },
-    {
-      "name": "DOLLAR GEN CORP NEW",
-      "cusip": "256677105",
-      "shares": 43997,
-      "value": 10834261000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 69879,
-      "value": 9883686000
-    },
-    {
-      "name": "DOW INC",
-      "cusip": "260557103",
-      "shares": 5169,
-      "value": 260466000
-    },
-    {
-      "name": "EQUINOR ASA",
-      "cusip": "29446M102",
-      "shares": 195883,
-      "value": 7014570000
-    },
-    {
-      "name": "EXXON MOBIL CORP",
-      "cusip": "30231G102",
-      "shares": 102245,
-      "value": 11277665000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604301",
-      "shares": 17821,
-      "value": 1493222000
-    },
-    {
-      "name": "HEXCEL CORP NEW",
-      "cusip": "428291108",
-      "shares": 71309,
-      "value": 4196535000
-    },
-    {
-      "name": "HF SINCLAIR CORP",
-      "cusip": "403949100",
-      "shares": 280212,
-      "value": 14540201000
-    },
-    {
-      "name": "KINROSS GOLD CORP",
-      "cusip": "496902404",
-      "shares": 3536561,
-      "value": 14464534000
-    },
-    {
-      "name": "MERCK & CO INC",
-      "cusip": "58933Y105",
-      "shares": 44473,
-      "value": 4934279000
-    },
-    {
-      "name": "MERCURY GENL CORP NEW",
-      "cusip": "589400100",
-      "shares": 596485,
-      "value": 20399777000
-    },
-    {
-      "name": "NEWMONT CORP",
-      "cusip": "651639106",
-      "shares": 456046,
-      "value": 21525371000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 11501,
-      "value": 1345782000
-    },
-    {
-      "name": "NXP SEMICONDUCTORS N V",
-      "cusip": "N6596X109",
-      "shares": 39778,
-      "value": 6286117000
+      "value": 50152073
     },
     {
       "name": "OLIN CORP",
       "cusip": "680665205",
       "shares": 640893,
-      "value": 33928875000
+      "value": 33928875
+    },
+    {
+      "name": "NEWMONT CORP",
+      "cusip": "651639106",
+      "shares": 456046,
+      "value": 21525371
+    },
+    {
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 596485,
+      "value": 20399777
     },
     {
       "name": "PARAMOUNT GLOBAL",
       "cusip": "92556H206",
       "shares": 947720,
-      "value": 15997514000
-    },
-    {
-      "name": "PEPSICO INC",
-      "cusip": "713448108",
-      "shares": 1582,
-      "value": 285804000
-    },
-    {
-      "name": "SEACOR MARINE HLDGS INC",
-      "cusip": "78413P101",
-      "shares": 250387,
-      "value": 2293545000
-    },
-    {
-      "name": "SHELL PLC",
-      "cusip": "780259305",
-      "shares": 4868,
-      "value": 277233000
-    },
-    {
-      "name": "STARBUCKS CORP",
-      "cusip": "855244109",
-      "shares": 98854,
-      "value": 9806317000
-    },
-    {
-      "name": "TRAVELERS COMPANIES INC",
-      "cusip": "89417E109",
-      "shares": 20155,
-      "value": 3778861000
+      "value": 15997514
     },
     {
       "name": "VALERO ENERGY CORP",
       "cusip": "91913Y100",
       "shares": 120733,
-      "value": 15316188000
+      "value": 15316188
+    },
+    {
+      "name": "HF SINCLAIR CORP",
+      "cusip": "403949100",
+      "shares": 280212,
+      "value": 14540201
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 3536561,
+      "value": 14464534
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 102245,
+      "value": 11277665
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 43997,
+      "value": 10834261
+    },
+    {
+      "name": "CUMMINS INC",
+      "cusip": "231021106",
+      "shares": 41615,
+      "value": 10082898
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 69879,
+      "value": 9883686
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 113110,
+      "value": 9826997
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 98854,
+      "value": 9806317
+    },
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 224401,
+      "value": 9635779
+    },
+    {
+      "name": "EQUINOR ASA",
+      "cusip": "29446M102",
+      "shares": 195883,
+      "value": 7014570
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 39778,
+      "value": 6286117
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 44473,
+      "value": 4934279
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 71309,
+      "value": 4196535
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20155,
+      "value": 3778861
+    },
+    {
+      "name": "SEACOR MARINE HLDGS INC",
+      "cusip": "78413P101",
+      "shares": 250387,
+      "value": 2293545
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 4969,
+      "value": 2268349
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 17821,
+      "value": 1493222
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 22425,
+      "value": 1426454
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 11501,
+      "value": 1345782
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 6598,
+      "value": 974855
     },
     {
       "name": "WASHINGTON FED INC",
       "cusip": "938824109",
       "shares": 27847,
-      "value": 934267000
+      "value": 934267
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 3503,
+      "value": 628678
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3525,
+      "value": 458003
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 1582,
+      "value": 285804
+    },
+    {
+      "name": "SHELL PLC",
+      "cusip": "780259305",
+      "shares": 4868,
+      "value": 277233
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 5169,
+      "value": 260466
     }
-  ]
+  ],
+  "totalValue": 367269418,
+  "positionsCount": 33
 }

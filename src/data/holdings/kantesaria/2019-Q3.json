@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2019-08-14",
   "period": "2019-08-14",
+  "accession": "0001697868-19-000004",
+  "quarterKey": "2019-Q3",
   "positions": [
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 1000,
-      "value": 1894000
-    },
-    {
-      "name": "ASPEN TECHNOLOGY INC",
-      "cusip": "045327103",
-      "shares": 31713,
-      "value": 3941000
-    },
-    {
-      "name": "AUTODESK INC",
-      "cusip": "052769106",
-      "shares": 108050,
-      "value": 17601000
-    },
     {
       "name": "FAIR ISAAC CORP",
       "cusip": "303250104",
       "shares": 333078,
-      "value": 104593000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 94641,
-      "value": 24733000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 35750,
-      "value": 9457000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 420915,
-      "value": 82209000
+      "value": 104593
     },
     {
       "name": "S&P GLOBAL INC",
       "cusip": "78409V104",
       "shares": 421407,
-      "value": 95992000
+      "value": 95992
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 420915,
+      "value": 82209
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 468922,
-      "value": 81381000
+      "value": 81381
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 94641,
+      "value": 24733
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 108050,
+      "value": 17601
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 35750,
+      "value": 9457
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 3941
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1000,
+      "value": 1894
     }
-  ]
+  ],
+  "totalValue": 421801,
+  "positionsCount": 9
 }

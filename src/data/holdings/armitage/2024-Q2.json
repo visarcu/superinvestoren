@@ -1,137 +1,143 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-13",
+  "period": "2024-05-13",
+  "accession": "0001581811-24-000004",
+  "quarterKey": "2024-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 2490553,
-      "value": 379211600000
-    },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 4992216,
-      "value": 900495922000
-    },
-    {
-      "name": "API GROUP CORP",
-      "cusip": "00187Y100",
-      "shares": 4079597,
-      "value": 160205774000
-    },
-    {
-      "name": "ARCH CAP GROUP LTD",
-      "cusip": "G0450A105",
-      "shares": 3400894,
-      "value": 314378641000
-    },
-    {
-      "name": "BLOCK INC",
-      "cusip": "852234103",
-      "shares": 1900407,
-      "value": 160736424000
-    },
-    {
-      "name": "BOOKING HOLDINGS INC",
-      "cusip": "09857L108",
-      "shares": 80821,
-      "value": 293208889000
-    },
-    {
-      "name": "CANADIAN NATL RY CO",
-      "cusip": "136375102",
-      "shares": 6006248,
-      "value": 791082924000
+      "value": 900495922
     },
     {
       "name": "CANADIAN PACIFIC KANSAS CITY",
       "cusip": "13646K108",
       "shares": 9951877,
-      "value": 877456995000
-    },
-    {
-      "name": "CENOVUS ENERGY INC",
-      "cusip": "15135U109",
-      "shares": 13967943,
-      "value": 279219181000
-    },
-    {
-      "name": "CRH PLC",
-      "cusip": "G25508105",
-      "shares": 4235437,
-      "value": 365348796000
-    },
-    {
-      "name": "FIRST CTZNS BANCSHARES INC N",
-      "cusip": "31946M103",
-      "shares": 298463,
-      "value": 487987005000
-    },
-    {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 3392276,
-      "value": 542153550000
+      "value": 877456995
     },
     {
       "name": "GE HEALTHCARE TECHNOLOGIES I",
       "cusip": "36266G107",
       "shares": 8706854,
-      "value": 791540097000
+      "value": 791540097
     },
     {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604301",
-      "shares": 3371807,
-      "value": 591853283000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 1281706,
-      "value": 273400707000
-    },
-    {
-      "name": "ICICI BANK LIMITED",
-      "cusip": "45104G104",
-      "shares": 6063550,
-      "value": 160138356000
-    },
-    {
-      "name": "INTERACTIVE BROKERS GROUP IN",
-      "cusip": "45841N107",
-      "shares": 2823697,
-      "value": 315435192000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 376093,
-      "value": 181115106000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 1441137,
-      "value": 699787304000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 1387066,
-      "value": 583566408000
-    },
-    {
-      "name": "RENAISSANCERE HLDGS LTD",
-      "cusip": "G7496G103",
-      "shares": 1858824,
-      "value": 436879405000
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 6006248,
+      "value": 791082924
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 2735356,
-      "value": 763383152000
+      "value": 763383152
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1441137,
+      "value": 699787304
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 3371807,
+      "value": 591853283
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1387066,
+      "value": 583566408
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 3392276,
+      "value": 542153550
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 298463,
+      "value": 487987005
+    },
+    {
+      "name": "RENAISSANCERE HLDGS LTD",
+      "cusip": "G7496G103",
+      "shares": 1858824,
+      "value": 436879405
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2490553,
+      "value": 379211600
+    },
+    {
+      "name": "CRH PLC",
+      "cusip": "G25508105",
+      "shares": 4235437,
+      "value": 365348796
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 2823697,
+      "value": 315435192
+    },
+    {
+      "name": "ARCH CAP GROUP LTD",
+      "cusip": "G0450A105",
+      "shares": 3400894,
+      "value": 314378641
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 80821,
+      "value": 293208889
+    },
+    {
+      "name": "CENOVUS ENERGY INC",
+      "cusip": "15135U109",
+      "shares": 13967943,
+      "value": 279219181
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 1281706,
+      "value": 273400707
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 376093,
+      "value": 181115106
+    },
+    {
+      "name": "BLOCK INC",
+      "cusip": "852234103",
+      "shares": 1900407,
+      "value": 160736424
+    },
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 4079597,
+      "value": 160205774
+    },
+    {
+      "name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "shares": 6063550,
+      "value": 160138356
     }
-  ]
+  ],
+  "totalValue": 10348584711,
+  "positionsCount": 22
 }

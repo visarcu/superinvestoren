@@ -25,7 +25,9 @@
     "prisma:generate": "prisma generate",
     "fetch:nportp": "node scripts/fetchNportP.js",
     "fetch:holdings": "node scripts/fetchHoldings.js",
-    "delete:testusers": "node scripts/delete-test-users.js"
+    "delete:testusers": "node scripts/delete-test-users.js",
+     "download-logos": "node scripts/downloadLogos.js",
+    "setup-logos": "mkdir -p public/logos && node scripts/downloadLogos.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",
@@ -40,6 +42,7 @@
     "cheerio": "^1.0.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
+    "lightweight-charts": "^3.8.0",
     "lru-cache": "^11.1.0",
     "lucide-react": "^0.511.0",
     "micro": "^10.0.1",

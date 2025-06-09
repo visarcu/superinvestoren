@@ -2,72 +2,76 @@
   "form": "13F-HR",
   "date": "2015-08-14",
   "period": "2015-08-14",
+  "accession": "0001345471-15-000069",
+  "quarterKey": "2015-Q3",
   "positions": [
     {
-      "name": "Bank New York Mellon Corp. ",
-      "cusip": "064058100",
-      "shares": 30225639,
-      "value": 1268570000
-    },
-    {
-      "name": "Du Pont E I De Nemours & Co. ",
-      "cusip": "263534109",
-      "shares": 24563084,
-      "value": 1570809000
-    },
-    {
-      "name": "Family Dlr Stores Inc.",
-      "cusip": "307000109",
-      "shares": 3679,
-      "value": 290000
-    },
-    {
-      "name": "Ingersoll-Rand PLC",
-      "cusip": "G47791101",
-      "shares": 7289130,
-      "value": 491433000
-    },
-    {
-      "name": "Legg Mason Inc.",
-      "cusip": "524901105",
-      "shares": 11039896,
-      "value": 568886000
-    },
-    {
-      "name": "Mondelez Intl Inc.",
+      "name": "Mondelez Intl Inc",
       "cusip": "609207105",
       "shares": 48028053,
-      "value": 1975874000
+      "value": 1975874
     },
     {
-      "name": "Pentair PLC",
-      "cusip": "G7500T104",
-      "shares": 6788791,
-      "value": 466729000
-    },
-    {
-      "name": "PepsiCo Inc.",
+      "name": "PepsiCo Inc",
       "cusip": "713448108",
       "shares": 18316211,
-      "value": 1709635000
+      "value": 1709635
     },
     {
-      "name": "Sysco Corp.",
-      "cusip": "871829107",
-      "shares": 10218418,
-      "value": 368885000
+      "name": "Du Pont E I De Nemours & Co.",
+      "cusip": "263534109",
+      "shares": 24563084,
+      "value": 1570809
     },
     {
-      "name": "Tiffany & Co. NEW",
-      "cusip": "886547108",
-      "shares": 14260,
-      "value": 1309000
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 30225639,
+      "value": 1268570
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 54024581,
-      "value": 609397000
+      "value": 609397
+    },
+    {
+      "name": "Legg Mason Inc",
+      "cusip": "524901105",
+      "shares": 11039896,
+      "value": 568886
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 7289130,
+      "value": 491433
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "G7500T104",
+      "shares": 6788791,
+      "value": 466729
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 10218418,
+      "value": 368885
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 14260,
+      "value": 1309
+    },
+    {
+      "name": "Family Dlr Stores Inc",
+      "cusip": "307000109",
+      "shares": 3679,
+      "value": 290
     }
-  ]
+  ],
+  "totalValue": 9031817,
+  "positionsCount": 11
 }

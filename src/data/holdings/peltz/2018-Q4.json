@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2018-11-14",
   "period": "2018-11-14",
+  "accession": "0001345471-18-000074",
+  "quarterKey": "2018-Q4",
   "positions": [
     {
-      "name": "Bank New York Mellon Corp. ",
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 37908621,
+      "value": 3155135
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 37656693,
+      "value": 2758353
+    },
+    {
+      "name": "Bank New York Mellon Corp",
       "cusip": "064058100",
       "shares": 16138942,
-      "value": 822925000
+      "value": 822925
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 18824773,
+      "value": 808712
     },
     {
       "name": "General Electric Co.",
       "cusip": "369604103",
       "shares": 70865214,
-      "value": 800068000
-    },
-    {
-      "name": "Mondelez Intl Inc.",
-      "cusip": "609207105",
-      "shares": 18824773,
-      "value": 808712000
-    },
-    {
-      "name": "nVent Electric Plc",
-      "cusip": "G6700G107",
-      "shares": 17562998,
-      "value": 477011000
-    },
-    {
-      "name": "Pentair PLC",
-      "cusip": "G7S00T104",
-      "shares": 12036582,
-      "value": 521786000
-    },
-    {
-      "name": "PPG Inds Inc.",
-      "cusip": "693506107",
-      "shares": 4143262,
-      "value": 452154000
-    },
-    {
-      "name": "Procter and Gamble Co.",
-      "cusip": "742718109",
-      "shares": 37908621,
-      "value": 3155135000
-    },
-    {
-      "name": "Sysco Corp.",
-      "cusip": "871829107",
-      "shares": 37656693,
-      "value": 2758353000
+      "value": 800068
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 31630629,
-      "value": 542149000
+      "value": 542149
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "G7S00T104",
+      "shares": 12036582,
+      "value": 521786
+    },
+    {
+      "name": "nVent Electric Plc",
+      "cusip": "G6700G107",
+      "shares": 17562998,
+      "value": 477011
+    },
+    {
+      "name": "PPG Inds Inc",
+      "cusip": "693506107",
+      "shares": 4143262,
+      "value": 452154
     }
-  ]
+  ],
+  "totalValue": 10338293,
+  "positionsCount": 9
 }

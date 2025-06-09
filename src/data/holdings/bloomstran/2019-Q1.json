@@ -1,173 +1,179 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-13",
+  "period": "2019-02-13",
+  "accession": "0001172661-19-000456",
+  "quarterKey": "2019-Q1",
   "positions": [
     {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 21284,
-      "value": 2029000
-    },
-    {
-      "name": "AVX CORP NEW",
-      "cusip": "002444107",
-      "shares": 95058,
-      "value": 1450000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 181032,
+      "value": 36963
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 85,
-      "value": 26010000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 181032,
-      "value": 36963000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 30000,
-      "value": 1420000
-    },
-    {
-      "name": "COSTCO WHSL CORP NEW",
-      "cusip": "22160K105",
-      "shares": 19516,
-      "value": 3976000
-    },
-    {
-      "name": "CUMMINS INC",
-      "cusip": "231021106",
-      "shares": 29295,
-      "value": 3915000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 21468,
-      "value": 2354000
-    },
-    {
-      "name": "DOLLAR GEN CORP NEW",
-      "cusip": "256677105",
-      "shares": 55987,
-      "value": 6051000
-    },
-    {
-      "name": "EQUINOR ASA",
-      "cusip": "29446M102",
-      "shares": 107815,
-      "value": 2282000
-    },
-    {
-      "name": "EXXON MOBIL CORP",
-      "cusip": "30231G102",
-      "shares": 111989,
-      "value": 7637000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604103",
-      "shares": 119415,
-      "value": 904000
-    },
-    {
-      "name": "GOLDCORP INC NEW",
-      "cusip": "380956409",
-      "shares": 367048,
-      "value": 3597000
-    },
-    {
-      "name": "HEXCEL CORP NEW",
-      "cusip": "428291108",
-      "shares": 64762,
-      "value": 3713000
-    },
-    {
-      "name": "INTEL CORP",
-      "cusip": "458140100",
-      "shares": 20677,
-      "value": 970000
-    },
-    {
-      "name": "KINROSS GOLD CORP",
-      "cusip": "496902404",
-      "shares": 1083752,
-      "value": 3511000
-    },
-    {
-      "name": "MEDTRONIC PLC",
-      "cusip": "G5960L103",
-      "shares": 5050,
-      "value": 459000
-    },
-    {
-      "name": "MERCK & CO INC",
-      "cusip": "58933Y105",
-      "shares": 42723,
-      "value": 3264000
-    },
-    {
-      "name": "MERCURY GENL CORP NEW",
-      "cusip": "589400100",
-      "shares": 150972,
-      "value": 7807000
-    },
-    {
-      "name": "NEWMONT MINING CORP",
-      "cusip": "651639106",
-      "shares": 174526,
-      "value": 6047000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 38792,
-      "value": 2876000
-    },
-    {
-      "name": "NXP SEMICONDUCTORS N V",
-      "cusip": "N6596X109",
-      "shares": 52592,
-      "value": 3854000
-    },
-    {
-      "name": "ROYAL DUTCH SHELL PLC",
-      "cusip": "780259206",
-      "shares": 4868,
-      "value": 284000
-    },
-    {
-      "name": "SEACOR MARINE HLDGS INC",
-      "cusip": "78413P101",
-      "shares": 321148,
-      "value": 3777000
+      "value": 26010
     },
     {
       "name": "STARBUCKS CORP",
       "cusip": "855244109",
       "shares": 172724,
-      "value": 11123000
+      "value": 11123
     },
     {
-      "name": "TRAVELERS COMPANIES INC",
-      "cusip": "89417E109",
-      "shares": 20000,
-      "value": 2395000
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 150972,
+      "value": 7807
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 111989,
+      "value": 7637
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 55987,
+      "value": 6051
+    },
+    {
+      "name": "NEWMONT MINING CORP",
+      "cusip": "651639106",
+      "shares": 174526,
+      "value": 6047
     },
     {
       "name": "U S G CORP",
       "cusip": "903293405",
       "shares": 130280,
-      "value": 5558000
+      "value": 5558
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 19516,
+      "value": 3976
+    },
+    {
+      "name": "CUMMINS INC",
+      "cusip": "231021106",
+      "shares": 29295,
+      "value": 3915
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 52592,
+      "value": 3854
+    },
+    {
+      "name": "SEACOR MARINE HLDGS INC",
+      "cusip": "78413P101",
+      "shares": 321148,
+      "value": 3777
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 64762,
+      "value": 3713
+    },
+    {
+      "name": "GOLDCORP INC NEW",
+      "cusip": "380956409",
+      "shares": 367048,
+      "value": 3597
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 1083752,
+      "value": 3511
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 42723,
+      "value": 3264
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 38792,
+      "value": 2876
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20000,
+      "value": 2395
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 21468,
+      "value": 2354
+    },
+    {
+      "name": "EQUINOR ASA",
+      "cusip": "29446M102",
+      "shares": 107815,
+      "value": 2282
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 21284,
+      "value": 2029
+    },
+    {
+      "name": "AVX CORP NEW",
+      "cusip": "002444107",
+      "shares": 95058,
+      "value": 1450
     },
     {
       "name": "WASHINGTON FED INC",
       "cusip": "938824109",
       "shares": 54022,
-      "value": 1443000
+      "value": 1443
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 30000,
+      "value": 1420
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 20677,
+      "value": 970
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 119415,
+      "value": 904
+    },
+    {
+      "name": "MEDTRONIC PLC",
+      "cusip": "G5960L103",
+      "shares": 5050,
+      "value": 459
+    },
+    {
+      "name": "ROYAL DUTCH SHELL PLC",
+      "cusip": "780259206",
+      "shares": 4868,
+      "value": 284
     }
-  ]
+  ],
+  "totalValue": 155669,
+  "positionsCount": 28
 }

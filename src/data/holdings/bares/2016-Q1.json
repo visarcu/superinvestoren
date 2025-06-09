@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-16",
+  "period": "2016-02-16",
+  "accession": "0001340807-16-000004",
+  "quarterKey": "2016-Q1",
   "positions": [
-    {
-      "name": "America's Car-Mart Inc.",
-      "cusip": "03062T105",
-      "shares": 1478678,
-      "value": 39466000
-    },
-    {
-      "name": "Ansys, Inc.",
-      "cusip": "03662Q105",
-      "shares": 689585,
-      "value": 63787000
-    },
     {
       "name": "Colfax Corporation",
       "cusip": "194014106",
       "shares": 7554012,
-      "value": 176386000
-    },
-    {
-      "name": "FactSet Research Systems inc.",
-      "cusip": "303075105",
-      "shares": 377886,
-      "value": 61433000
-    },
-    {
-      "name": "Fastenal Company",
-      "cusip": "311900104",
-      "shares": 1974164,
-      "value": 80585000
-    },
-    {
-      "name": "Gartner Inc.",
-      "cusip": "366651107",
-      "shares": 875293,
-      "value": 79389000
-    },
-    {
-      "name": "Heico CP CL A",
-      "cusip": "422806208",
-      "shares": 1585091,
-      "value": 77986000
-    },
-    {
-      "name": "Interactive Brokers Group Inc",
-      "cusip": "45841N107",
-      "shares": 1402549,
-      "value": 61151000
+      "value": 176386
     },
     {
       "name": "Interactive Intelligence Group",
       "cusip": "45841V109",
       "shares": 3168416,
-      "value": 99552000
-    },
-    {
-      "name": "Markel Corp.",
-      "cusip": "570535104",
-      "shares": 71153,
-      "value": 62853000
-    },
-    {
-      "name": "Moody's Corporation",
-      "cusip": "615369105",
-      "shares": 636913,
-      "value": 63908000
-    },
-    {
-      "name": "National Instruments Corp.",
-      "cusip": "636518102",
-      "shares": 2077477,
-      "value": 59603000
+      "value": 99552
     },
     {
       "name": "Platform Specialty Products Co",
       "cusip": "72766Q105",
       "shares": 7306260,
-      "value": 93739000
+      "value": 93739
     },
     {
-      "name": "RealD Inc.",
-      "cusip": "75604L105",
-      "shares": 6081447,
-      "value": 64159000
+      "name": "Fastenal Company",
+      "cusip": "311900104",
+      "shares": 1974164,
+      "value": 80585
     },
     {
-      "name": "RPX Corporation ",
-      "cusip": "74972G103",
-      "shares": 965680,
-      "value": 10622000
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 875293,
+      "value": 79389
     },
     {
-      "name": "US Ecology, Inc.",
-      "cusip": "91732J102",
-      "shares": 1244284,
-      "value": 45342000
+      "name": "Heico CP CL A",
+      "cusip": "422806208",
+      "shares": 1585091,
+      "value": 77986
     },
     {
-      "name": "Verisk Analytics, Inc.",
+      "name": "Verisk Analytics, Inc",
       "cusip": "92345Y106",
       "shares": 879247,
-      "value": 67597000
+      "value": 67597
     },
     {
       "name": "Waters Corporation",
       "cusip": "941848103",
       "shares": 488891,
-      "value": 65795000
+      "value": 65795
+    },
+    {
+      "name": "RealD Inc",
+      "cusip": "75604L105",
+      "shares": 6081447,
+      "value": 64159
+    },
+    {
+      "name": "Moody's Corporation",
+      "cusip": "615369105",
+      "shares": 636913,
+      "value": 63908
+    },
+    {
+      "name": "Ansys, Inc",
+      "cusip": "03662Q105",
+      "shares": 689585,
+      "value": 63787
+    },
+    {
+      "name": "Markel Corp",
+      "cusip": "570535104",
+      "shares": 71153,
+      "value": 62853
+    },
+    {
+      "name": "FactSet Research Systems inc",
+      "cusip": "303075105",
+      "shares": 377886,
+      "value": 61433
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 1402549,
+      "value": 61151
+    },
+    {
+      "name": "National Instruments Corp",
+      "cusip": "636518102",
+      "shares": 2077477,
+      "value": 59603
+    },
+    {
+      "name": "US Ecology, Inc",
+      "cusip": "91732J102",
+      "shares": 1244284,
+      "value": 45342
+    },
+    {
+      "name": "America's Car-Mart Inc",
+      "cusip": "03062T105",
+      "shares": 1478678,
+      "value": 39466
+    },
+    {
+      "name": "RPX Corporation",
+      "cusip": "74972G103",
+      "shares": 965680,
+      "value": 10622
     }
-  ]
+  ],
+  "totalValue": 1273353,
+  "positionsCount": 18
 }

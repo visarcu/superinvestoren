@@ -1,107 +1,113 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-14",
+  "period": "2020-08-14",
+  "accession": "0000919574-20-005313",
+  "quarterKey": "2020-Q3",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 63000,
-      "value": 89337000
-    },
-    {
-      "name": "ANGI HOMESERVICES INC",
-      "cusip": "00183L102",
-      "shares": 1517500,
-      "value": 18438000
-    },
-    {
-      "name": "BMC STK HLDGS INC",
-      "cusip": "05591B109",
-      "shares": 4107486,
-      "value": 103262000
-    },
-    {
-      "name": "BOOT BARN HLDGS INC",
-      "cusip": "099406100",
-      "shares": 923500,
-      "value": 19911000
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 28000000,
+      "value": 286720
     },
     {
       "name": "BUILDERS FIRSTSOURCE INC",
       "cusip": "12008R107",
       "shares": 10000000,
-      "value": 207000000
-    },
-    {
-      "name": "CRESUD S A C I F Y A",
-      "cusip": "226406106",
-      "shares": 660492,
-      "value": 1955000
-    },
-    {
-      "name": "EQUITABLE HLDGS INC",
-      "cusip": "29452E101",
-      "shares": 4899270,
-      "value": 94507000
-    },
-    {
-      "name": "EVI INDUSTRIES INC",
-      "cusip": "26929N102",
-      "shares": 269306,
-      "value": 5847000
-    },
-    {
-      "name": "FIAT CHRYSLER AUTOMOBILES N",
-      "cusip": "N31738102",
-      "shares": 28000000,
-      "value": 286720000
-    },
-    {
-      "name": "GTT COMMUNICATIONS INC",
-      "cusip": "362393100",
-      "shares": 3709971,
-      "value": 30273000
-    },
-    {
-      "name": "GTY TECHNOLOGY HOLDINGS INC",
-      "cusip": "362409104",
-      "shares": 4324130,
-      "value": 18010000
-    },
-    {
-      "name": "INTERNATIONAL MNY EXPRESS IN",
-      "cusip": "46005L101",
-      "shares": 2594241,
-      "value": 32324000
-    },
-    {
-      "name": "JD.COM INC",
-      "cusip": "47215P106",
-      "shares": 3000000,
-      "value": 180540000
-    },
-    {
-      "name": "SAILPOINT TECHNLGIES HLDGS I",
-      "cusip": "78781P105",
-      "shares": 2960000,
-      "value": 78351000
-    },
-    {
-      "name": "SINCLAIR BROADCAST GROUP INC",
-      "cusip": "829226109",
-      "shares": 4154967,
-      "value": 76701000
-    },
-    {
-      "name": "WAITR HLDGS INC",
-      "cusip": "930752100",
-      "shares": 1480000,
-      "value": 3892000
+      "value": 207000
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 4000000,
-      "value": 200080000
+      "value": 200080
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 3000000,
+      "value": 180540
+    },
+    {
+      "name": "BMC STK HLDGS INC",
+      "cusip": "05591B109",
+      "shares": 4107486,
+      "value": 103262
+    },
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 4899270,
+      "value": 94507
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 63000,
+      "value": 89337
+    },
+    {
+      "name": "SAILPOINT TECHNLGIES HLDGS I",
+      "cusip": "78781P105",
+      "shares": 2960000,
+      "value": 78351
+    },
+    {
+      "name": "SINCLAIR BROADCAST GROUP INC",
+      "cusip": "829226109",
+      "shares": 4154967,
+      "value": 76701
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 2594241,
+      "value": 32324
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 3709971,
+      "value": 30273
+    },
+    {
+      "name": "BOOT BARN HLDGS INC",
+      "cusip": "099406100",
+      "shares": 923500,
+      "value": 19911
+    },
+    {
+      "name": "ANGI HOMESERVICES INC",
+      "cusip": "00183L102",
+      "shares": 1517500,
+      "value": 18438
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "362409104",
+      "shares": 4324130,
+      "value": 18010
+    },
+    {
+      "name": "EVI INDUSTRIES INC",
+      "cusip": "26929N102",
+      "shares": 269306,
+      "value": 5847
+    },
+    {
+      "name": "WAITR HLDGS INC",
+      "cusip": "930752100",
+      "shares": 1480000,
+      "value": 3892
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "226406106",
+      "shares": 660492,
+      "value": 1955
     }
-  ]
+  ],
+  "totalValue": 1447148,
+  "positionsCount": 17
 }

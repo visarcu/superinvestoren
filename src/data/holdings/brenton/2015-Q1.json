@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2015-02-12",
+  "period": "2015-02-12",
+  "accession": "0000950123-15-001607",
+  "quarterKey": "2015-Q1",
   "positions": [
-    {
-      "name": "ACTAVIS PLC",
-      "cusip": "G0083B108",
-      "shares": 6469,
-      "value": 1665000
-    },
-    {
-      "name": "CLEAN HARBORS INC",
-      "cusip": "184496107",
-      "shares": 283644,
-      "value": 13629000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 226192,
-      "value": 3352000
-    },
     {
       "name": "GILDAN ACTIVEWEAR INC",
       "cusip": "375916103",
       "shares": 922350,
-      "value": 52159000
-    },
-    {
-      "name": "HEICO CORP NEW",
-      "cusip": "422806208",
-      "shares": 102900,
-      "value": 4873000
+      "value": 52159
     },
     {
       "name": "MITEL NETWORKS CORP",
       "cusip": "60671Q104",
       "shares": 3963927,
-      "value": 42374000
+      "value": 42374
     },
     {
       "name": "OPEN TEXT CORP",
       "cusip": "683715106",
       "shares": 588068,
-      "value": 34261000
+      "value": 34261
+    },
+    {
+      "name": "CLEAN HARBORS INC",
+      "cusip": "184496107",
+      "shares": 283644,
+      "value": 13629
     },
     {
       "name": "TRACTOR SUPPLY CO",
       "cusip": "892356106",
       "shares": 134400,
-      "value": 10593000
+      "value": 10593
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 102900,
+      "value": 4873
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 226192,
+      "value": 3352
+    },
+    {
+      "name": "ACTAVIS PLC",
+      "cusip": "G0083B108",
+      "shares": 6469,
+      "value": 1665
     }
-  ]
+  ],
+  "totalValue": 162906,
+  "positionsCount": 8
 }

@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2015-08-14",
+  "period": "2015-08-14",
+  "accession": "0001140361-15-032201",
+  "quarterKey": "2015-Q3",
   "positions": [
-    {
-      "name": "America's Car-Mart Inc.",
-      "cusip": "03062T105",
-      "shares": 1257966,
-      "value": 62043000
-    },
-    {
-      "name": "Ansys, Inc.",
-      "cusip": "03662Q105",
-      "shares": 231089,
-      "value": 21085000
-    },
     {
       "name": "Colfax Corporation",
       "cusip": "194014106",
       "shares": 4574215,
-      "value": 211100000
-    },
-    {
-      "name": "Dorman Products, Inc.",
-      "cusip": "258278100",
-      "shares": 661965,
-      "value": 31549000
-    },
-    {
-      "name": "FactSet Research Systems inc.",
-      "cusip": "303075105",
-      "shares": 126790,
-      "value": 20605000
-    },
-    {
-      "name": "Fastenal Company",
-      "cusip": "311900104",
-      "shares": 621258,
-      "value": 26205000
-    },
-    {
-      "name": "Gartner Inc.",
-      "cusip": "366651107",
-      "shares": 301494,
-      "value": 25862000
-    },
-    {
-      "name": "Heico CP CL A",
-      "cusip": "422806208",
-      "shares": 1946621,
-      "value": 98830000
-    },
-    {
-      "name": "HomeAway, Inc.",
-      "cusip": "43739Q100",
-      "shares": 2691439,
-      "value": 83758000
+      "value": 211100
     },
     {
       "name": "Interactive Intelligence Group",
       "cusip": "45841V109",
       "shares": 2801736,
-      "value": 124593000
+      "value": 124593
     },
     {
-      "name": "Markel Corp.",
-      "cusip": "570535104",
-      "shares": 32977,
-      "value": 26404000
+      "name": "Heico CP CL A",
+      "cusip": "422806208",
+      "shares": 1946621,
+      "value": 98830
     },
     {
-      "name": "National Instruments Corp.",
-      "cusip": "636518102",
-      "shares": 1024716,
-      "value": 30188000
+      "name": "RealD Inc",
+      "cusip": "75604L105",
+      "shares": 7880790,
+      "value": 97170
+    },
+    {
+      "name": "US Ecology, Inc",
+      "cusip": "91732J102",
+      "shares": 1856274,
+      "value": 90438
+    },
+    {
+      "name": "HomeAway, Inc",
+      "cusip": "43739Q100",
+      "shares": 2691439,
+      "value": 83758
+    },
+    {
+      "name": "America's Car-Mart Inc",
+      "cusip": "03062T105",
+      "shares": 1257966,
+      "value": 62043
     },
     {
       "name": "Platform Specialty Products Corpora",
       "cusip": "72766Q105",
       "shares": 2414920,
-      "value": 61774000
+      "value": 61774
     },
     {
-      "name": "Polaris Industries Inc.",
+      "name": "Dorman Products, Inc",
+      "cusip": "258278100",
+      "shares": 661965,
+      "value": 31549
+    },
+    {
+      "name": "National Instruments Corp",
+      "cusip": "636518102",
+      "shares": 1024716,
+      "value": 30188
+    },
+    {
+      "name": "Markel Corp",
+      "cusip": "570535104",
+      "shares": 32977,
+      "value": 26404
+    },
+    {
+      "name": "Fastenal Company",
+      "cusip": "311900104",
+      "shares": 621258,
+      "value": 26205
+    },
+    {
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 301494,
+      "value": 25862
+    },
+    {
+      "name": "Polaris Industries Inc",
       "cusip": "731068102",
       "shares": 145172,
-      "value": 21501000
+      "value": 21501
     },
     {
-      "name": "RealD Inc.",
-      "cusip": "75604L105",
-      "shares": 7880790,
-      "value": 97170000
+      "name": "Ansys, Inc",
+      "cusip": "03662Q105",
+      "shares": 231089,
+      "value": 21085
     },
     {
-      "name": "US Ecology, Inc.",
-      "cusip": "91732J102",
-      "shares": 1856274,
-      "value": 90438000
-    },
-    {
-      "name": "Verisk Analytics, Inc.",
+      "name": "Verisk Analytics, Inc",
       "cusip": "92345Y106",
       "shares": 283952,
-      "value": 20660000
+      "value": 20660
+    },
+    {
+      "name": "FactSet Research Systems inc",
+      "cusip": "303075105",
+      "shares": 126790,
+      "value": 20605
     },
     {
       "name": "Waters Corporation",
       "cusip": "941848103",
       "shares": 116076,
-      "value": 14902000
+      "value": 14902
     }
-  ]
+  ],
+  "totalValue": 1068667,
+  "positionsCount": 18
 }

@@ -1,167 +1,173 @@
 {
+  "form": "13F-HR",
   "date": "2025-05-06",
+  "period": "2025-05-06",
+  "accession": "0001581811-25-000005",
+  "quarterKey": "2025-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 1665708,
-      "value": 260233561000
-    },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 4221867,
-      "value": 803252415000
-    },
-    {
-      "name": "AMPHENOL CORP NEW",
-      "cusip": "032095101",
-      "shares": 1762623,
-      "value": 115610443000
-    },
-    {
-      "name": "ARAMARK",
-      "cusip": "03852U106",
-      "shares": 2075126,
-      "value": 71633350000
-    },
-    {
-      "name": "ARCH CAP GROUP LTD",
-      "cusip": "G0450A105",
-      "shares": 4325217,
-      "value": 415999371000
-    },
-    {
-      "name": "CANADIAN PACIFIC KANSAS CITY",
-      "cusip": "13646K108",
-      "shares": 4165545,
-      "value": 292462914000
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 891659,
-      "value": 159874459000
-    },
-    {
-      "name": "CARPENTER TECHNOLOGY CORP",
-      "cusip": "144285103",
-      "shares": 1819885,
-      "value": 329726764000
-    },
-    {
-      "name": "CME GROUP INC",
-      "cusip": "12572Q105",
-      "shares": 1730194,
-      "value": 459003166000
-    },
-    {
-      "name": "CRH PLC",
-      "cusip": "G25508105",
-      "shares": 4231236,
-      "value": 372221831000
-    },
-    {
-      "name": "ELI LILLY & CO",
-      "cusip": "532457108",
-      "shares": 492808,
-      "value": 407015055000
-    },
-    {
-      "name": "FIRST CTZNS BANCSHARES INC N",
-      "cusip": "31946M103",
-      "shares": 124773,
-      "value": 231344115000
-    },
-    {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 2381496,
-      "value": 525905762000
-    },
-    {
-      "name": "FLUTTER ENTMT PLC",
-      "cusip": "G3643J108",
-      "shares": 2193794,
-      "value": 486035061000
-    },
-    {
-      "name": "GE AEROSPACE",
-      "cusip": "369604301",
-      "shares": 1497354,
-      "value": 299695403000
-    },
-    {
-      "name": "HDFC BANK LTD",
-      "cusip": "40415F101",
-      "shares": 1116493,
-      "value": 74179795000
-    },
-    {
-      "name": "HOWARD HUGHES HOLDINGS INC",
-      "cusip": "44267T102",
-      "shares": 1196288,
-      "value": 88621015000
-    },
-    {
-      "name": "ICICI BANK LIMITED",
-      "cusip": "45104G104",
-      "shares": 5031304,
-      "value": 158586702000
-    },
-    {
-      "name": "INTERACTIVE BROKERS GROUP IN",
-      "cusip": "45841N107",
-      "shares": 1833969,
-      "value": 303686927000
-    },
-    {
-      "name": "INTERCONTINENTAL EXCHANGE IN",
-      "cusip": "45866F104",
-      "shares": 1101419,
-      "value": 189994778000
-    },
-    {
-      "name": "LPL FINL HLDGS INC",
-      "cusip": "50212V100",
-      "shares": 871265,
-      "value": 285025632000
-    },
-    {
-      "name": "MARTIN MARIETTA MATLS INC",
-      "cusip": "573284106",
-      "shares": 165338,
-      "value": 79053058000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 380221,
-      "value": 208406735000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 742455,
-      "value": 427921364000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 1328533,
-      "value": 498718003000
+      "value": 803252415
     },
     {
       "name": "PROGRESSIVE CORP",
       "cusip": "743315103",
       "shares": 2778832,
-      "value": 786437244000
+      "value": 786437244
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 2381496,
+      "value": 525905762
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1328533,
+      "value": 498718003
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 2193794,
+      "value": 486035061
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 1730194,
+      "value": 459003166
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 742455,
+      "value": 427921364
+    },
+    {
+      "name": "ARCH CAP GROUP LTD",
+      "cusip": "G0450A105",
+      "shares": 4325217,
+      "value": 415999371
+    },
+    {
+      "name": "ELI LILLY & CO",
+      "cusip": "532457108",
+      "shares": 492808,
+      "value": 407015055
+    },
+    {
+      "name": "CRH PLC",
+      "cusip": "G25508105",
+      "shares": 4231236,
+      "value": 372221831
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 958985,
-      "value": 336085883000
+      "value": 336085883
+    },
+    {
+      "name": "CARPENTER TECHNOLOGY CORP",
+      "cusip": "144285103",
+      "shares": 1819885,
+      "value": 329726764
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1833969,
+      "value": 303686927
+    },
+    {
+      "name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "shares": 1497354,
+      "value": 299695403
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 4165545,
+      "value": 292462914
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 871265,
+      "value": 285025632
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1665708,
+      "value": 260233561
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 124773,
+      "value": 231344115
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 380221,
+      "value": 208406735
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 1101419,
+      "value": 189994778
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 891659,
+      "value": 159874459
+    },
+    {
+      "name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "shares": 5031304,
+      "value": 158586702
+    },
+    {
+      "name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "shares": 1762623,
+      "value": 115610443
+    },
+    {
+      "name": "HOWARD HUGHES HOLDINGS INC",
+      "cusip": "44267T102",
+      "shares": 1196288,
+      "value": 88621015
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 165338,
+      "value": 79053058
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 1116493,
+      "value": 74179795
+    },
+    {
+      "name": "ARAMARK",
+      "cusip": "03852U106",
+      "shares": 2075126,
+      "value": 71633350
     }
-  ]
+  ],
+  "totalValue": 8666730806,
+  "positionsCount": 27
 }

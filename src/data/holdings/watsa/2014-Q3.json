@@ -1,257 +1,263 @@
 {
+  "form": "13F-HR",
   "date": "2014-08-13",
+  "period": "2014-08-13",
+  "accession": "0001104659-14-060374",
+  "quarterKey": "2014-Q3",
   "positions": [
     {
-      "name": "BALDWIN & LYONS INC CL B",
-      "cusip": "057755209",
-      "shares": 969875,
-      "value": 24974000
-    },
-    {
-      "name": "BCE INC.",
-      "cusip": "05534B760",
-      "shares": 268300,
-      "value": 12189000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC.",
-      "cusip": "084670108",
-      "shares": 6,
-      "value": 1139000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC.",
-      "cusip": "084670702",
-      "shares": 24500,
-      "value": 3100000
+      "name": "RESOLUTE FOREST PRODUCTS",
+      "cusip": "76117W109",
+      "shares": 29044012,
+      "value": 487068
     },
     {
       "name": "BLACKBERRY LIMITED",
       "cusip": "09228F103",
       "shares": 46654700,
-      "value": 477765000
-    },
-    {
-      "name": "BP PLC",
-      "cusip": "055622104",
-      "shares": 11000,
-      "value": 580000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 20000,
-      "value": 942000
-    },
-    {
-      "name": "CRESUD S A C I F Y A",
-      "cusip": "226406106",
-      "shares": 723012,
-      "value": 9414000
-    },
-    {
-      "name": "CSX CORP",
-      "cusip": "126408103",
-      "shares": 7600,
-      "value": 234000
-    },
-    {
-      "name": "DEX MEDIA INC NEW",
-      "cusip": "25213A107",
-      "shares": 159198,
-      "value": 1770000
-    },
-    {
-      "name": "EXCO RESOURCES INC",
-      "cusip": "269279402",
-      "shares": 17538912,
-      "value": 103237000
-    },
-    {
-      "name": "GENERAL DYNAMICS CORP",
-      "cusip": "369550108",
-      "shares": 2200,
-      "value": 256000
-    },
-    {
-      "name": "HOLOGIC INC",
-      "cusip": "436440101",
-      "shares": 20000,
-      "value": 507000
-    },
-    {
-      "name": "IDENIX PHARMACEUTICALS INC",
-      "cusip": "45166R204",
-      "shares": 50400,
-      "value": 1214000
-    },
-    {
-      "name": "INTEL CORP",
-      "cusip": "458140AD2",
-      "shares": 11500000,
-      "value": 14296000
-    },
-    {
-      "name": "INTL BUSINESS MACHS CORP",
-      "cusip": "459200101",
-      "shares": 1200,
-      "value": 217000
-    },
-    {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 84700,
-      "value": 8858000
-    },
-    {
-      "name": "K12 INC",
-      "cusip": "48273U102",
-      "shares": 33133,
-      "value": 797000
-    },
-    {
-      "name": "KENNEDY-WILSON",
-      "cusip": "489398107",
-      "shares": 400000,
-      "value": 10724000
-    },
-    {
-      "name": "MBIA INC",
-      "cusip": "55262C100",
-      "shares": 30000,
-      "value": 331000
-    },
-    {
-      "name": "MERCK & CO. INC.",
-      "cusip": "58933Y105",
-      "shares": 12000,
-      "value": 694000
-    },
-    {
-      "name": "NAM TAI PROPERTY INC",
-      "cusip": "G63907102",
-      "shares": 35000,
-      "value": 264000
-    },
-    {
-      "name": "NAVIENT CORPORATION",
-      "cusip": "63938C108",
-      "shares": 15000,
-      "value": 266000
-    },
-    {
-      "name": "NEW ORIENTAL ED & TECH GRP INC",
-      "cusip": "647581107",
-      "shares": 11100,
-      "value": 295000
-    },
-    {
-      "name": "NEW YORK COMMUNITY BANCORP INC",
-      "cusip": "649445103",
-      "shares": 40000,
-      "value": 639000
-    },
-    {
-      "name": "NEW YORK TIMES CO",
-      "cusip": "650111107",
-      "shares": 70000,
-      "value": 1064000
-    },
-    {
-      "name": "NEWMARKET CORP",
-      "cusip": "651587107",
-      "shares": 750,
-      "value": 294000
-    },
-    {
-      "name": "OLD REPUBLIC INTL CORPORATION",
-      "cusip": "680223104",
-      "shares": 45000,
-      "value": 744000
-    },
-    {
-      "name": "OVERSTOCK.COM INC",
-      "cusip": "690370101",
-      "shares": 3184677,
-      "value": 50127000
-    },
-    {
-      "name": "PATTERSON UTI ENERGY INC",
-      "cusip": "703481101",
-      "shares": 12000,
-      "value": 419000
-    },
-    {
-      "name": "PENN WEST PETE LTD NEW",
-      "cusip": "707887105",
-      "shares": 15900,
-      "value": 155000
-    },
-    {
-      "name": "PFIZER INC",
-      "cusip": "717081103",
-      "shares": 235000,
-      "value": 6972000
-    },
-    {
-      "name": "QUESTCOR PHARMACEUTICALS",
-      "cusip": "74835Y101",
-      "shares": 6500,
-      "value": 600000
-    },
-    {
-      "name": "RESOLUTE FOREST PRODUCTS",
-      "cusip": "76117W109",
-      "shares": 29044012,
-      "value": 487068000
+      "value": 477765
     },
     {
       "name": "SANDRIDGE ENERGY INC",
       "cusip": "80007P307",
       "shares": 32463200,
-      "value": 232112000
+      "value": 232112
     },
     {
-      "name": "SLM CORP",
-      "cusip": "78442P106",
-      "shares": 15000,
-      "value": 125000
+      "name": "EXCO RESOURCES INC",
+      "cusip": "269279402",
+      "shares": 17538912,
+      "value": 103237
     },
     {
-      "name": "STERLING BANCORP/DE",
-      "cusip": "85917A100",
-      "shares": 25000,
-      "value": 300000
+      "name": "OVERSTOCK.COM INC",
+      "cusip": "690370101",
+      "shares": 3184677,
+      "value": 50127
     },
     {
-      "name": "SUSSER HLDGS CORP",
-      "cusip": "869233106",
-      "shares": 6400,
-      "value": 517000
+      "name": "BALDWIN & LYONS INC CL B",
+      "cusip": "057755209",
+      "shares": 969875,
+      "value": 24974
     },
     {
-      "name": "ULTRA PETROLEUM CORP",
-      "cusip": "903914109",
-      "shares": 32500,
-      "value": 964000
+      "name": "INTEL CORP",
+      "cusip": "458140AD2",
+      "shares": 11500000,
+      "value": 14296
     },
     {
-      "name": "US BANCORP DEL",
-      "cusip": "902973304",
-      "shares": 30000,
-      "value": 1299000
+      "name": "BCE INC",
+      "cusip": "05534B760",
+      "shares": 268300,
+      "value": 12189
     },
     {
-      "name": "USG Corp",
-      "cusip": "903293405",
-      "shares": 42800,
-      "value": 1290000
+      "name": "KENNEDY-WILSON",
+      "cusip": "489398107",
+      "shares": 400000,
+      "value": 10724
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "226406106",
+      "shares": 723012,
+      "value": 9414
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 84700,
+      "value": 8858
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 235000,
+      "value": 6972
     },
     {
       "name": "WELLS FARGO & CO. NEW",
       "cusip": "949746101",
       "shares": 69300,
-      "value": 3641000
+      "value": 3641
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 24500,
+      "value": 3100
+    },
+    {
+      "name": "DEX MEDIA INC NEW",
+      "cusip": "25213A107",
+      "shares": 159198,
+      "value": 1770
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 30000,
+      "value": 1299
+    },
+    {
+      "name": "USG Corp",
+      "cusip": "903293405",
+      "shares": 42800,
+      "value": 1290
+    },
+    {
+      "name": "IDENIX PHARMACEUTICALS INC",
+      "cusip": "45166R204",
+      "shares": 50400,
+      "value": 1214
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 6,
+      "value": 1139
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 70000,
+      "value": 1064
+    },
+    {
+      "name": "ULTRA PETROLEUM CORP",
+      "cusip": "903914109",
+      "shares": 32500,
+      "value": 964
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 20000,
+      "value": 942
+    },
+    {
+      "name": "K12 INC",
+      "cusip": "48273U102",
+      "shares": 33133,
+      "value": 797
+    },
+    {
+      "name": "OLD REPUBLIC INTL CORPORATION",
+      "cusip": "680223104",
+      "shares": 45000,
+      "value": 744
+    },
+    {
+      "name": "MERCK & CO. INC",
+      "cusip": "58933Y105",
+      "shares": 12000,
+      "value": 694
+    },
+    {
+      "name": "NEW YORK COMMUNITY BANCORP INC",
+      "cusip": "649445103",
+      "shares": 40000,
+      "value": 639
+    },
+    {
+      "name": "QUESTCOR PHARMACEUTICALS",
+      "cusip": "74835Y101",
+      "shares": 6500,
+      "value": 600
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 11000,
+      "value": 580
+    },
+    {
+      "name": "SUSSER HLDGS CORP",
+      "cusip": "869233106",
+      "shares": 6400,
+      "value": 517
+    },
+    {
+      "name": "HOLOGIC INC",
+      "cusip": "436440101",
+      "shares": 20000,
+      "value": 507
+    },
+    {
+      "name": "PATTERSON UTI ENERGY INC",
+      "cusip": "703481101",
+      "shares": 12000,
+      "value": 419
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 30000,
+      "value": 331
+    },
+    {
+      "name": "STERLING BANCORP/DE",
+      "cusip": "85917A100",
+      "shares": 25000,
+      "value": 300
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP INC",
+      "cusip": "647581107",
+      "shares": 11100,
+      "value": 295
+    },
+    {
+      "name": "NEWMARKET CORP",
+      "cusip": "651587107",
+      "shares": 750,
+      "value": 294
+    },
+    {
+      "name": "NAVIENT CORPORATION",
+      "cusip": "63938C108",
+      "shares": 15000,
+      "value": 266
+    },
+    {
+      "name": "NAM TAI PROPERTY INC",
+      "cusip": "G63907102",
+      "shares": 35000,
+      "value": 264
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 2200,
+      "value": 256
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 7600,
+      "value": 234
+    },
+    {
+      "name": "INTL BUSINESS MACHS CORP",
+      "cusip": "459200101",
+      "shares": 1200,
+      "value": 217
+    },
+    {
+      "name": "PENN WEST PETE LTD NEW",
+      "cusip": "707887105",
+      "shares": 15900,
+      "value": 155
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 15000,
+      "value": 125
     }
-  ]
+  ],
+  "totalValue": 1462393,
+  "positionsCount": 42
 }

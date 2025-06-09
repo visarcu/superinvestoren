@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0001420506-23-000672",
+  "quarterKey": "2023-Q1",
   "positions": [
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 151218,
-      "value": 14057225000
-    },
-    {
-      "name": "CARDLYTICS INC",
-      "cusip": "14161W105",
-      "shares": 5416116,
-      "value": 31305150000
-    },
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 6827803,
-      "value": 32363786000
-    },
     {
       "name": "HILTON GRAND VACATIONS INC",
       "cusip": "43283X105",
       "shares": 7367930,
-      "value": 283960022000
-    },
-    {
-      "name": "PARTY CITY HOLDCO INC",
-      "cusip": "702149105",
-      "shares": 19557248,
-      "value": 7148174000
+      "value": 283960022
     },
     {
       "name": "WORLD ACCEP CORPORATION",
       "cusip": "981419104",
       "shares": 755768,
-      "value": 49835342000
+      "value": 49835342
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 6827803,
+      "value": 32363786
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 5416116,
+      "value": 31305150
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 151218,
+      "value": 14057225
+    },
+    {
+      "name": "PARTY CITY HOLDCO INC",
+      "cusip": "702149105",
+      "shares": 19557248,
+      "value": 7148174
     }
-  ]
+  ],
+  "totalValue": 418669699,
+  "positionsCount": 6
 }

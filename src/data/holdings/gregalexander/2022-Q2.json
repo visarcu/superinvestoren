@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0000919574-22-003244",
+  "quarterKey": "2022-Q2",
   "positions": [
-    {
-      "name": "BUILDERS FIRSTSOURCE INC",
-      "cusip": "12008R107",
-      "shares": 2500000,
-      "value": 161350000
-    },
-    {
-      "name": "CRESUD S A C I F Y A",
-      "cusip": "P3311R259",
-      "shares": 1242313,
-      "value": 311000
-    },
     {
       "name": "EQUITABLE HLDGS INC",
       "cusip": "29452E101",
       "shares": 9204377,
-      "value": 284507000
-    },
-    {
-      "name": "EVI INDS INC",
-      "cusip": "26929N102",
-      "shares": 116341,
-      "value": 2163000
-    },
-    {
-      "name": "GTY TECHNOLOGY HOLDINGS INC",
-      "cusip": "362409104",
-      "shares": 5876987,
-      "value": 18983000
-    },
-    {
-      "name": "INTERNATIONAL MNY EXPRESS IN",
-      "cusip": "46005L101",
-      "shares": 2000000,
-      "value": 41220000
-    },
-    {
-      "name": "JD.COM INC",
-      "cusip": "47215P106",
-      "shares": 1115396,
-      "value": 64548000
-    },
-    {
-      "name": "LIBERTY MEDIA ACQUISITION CO",
-      "cusip": "53073L203",
-      "shares": 235410,
-      "value": 2361000
-    },
-    {
-      "name": "RIMINI STR INC DEL",
-      "cusip": "76674Q107",
-      "shares": 4000000,
-      "value": 23200000
+      "value": 284507
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 14800000,
-      "value": 240796000
+      "value": 240796
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 2500000,
+      "value": 161350
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 1115396,
+      "value": 64548
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 2000000,
+      "value": 41220
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 5500000,
-      "value": 33330000
+      "value": 33330
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 4000000,
+      "value": 23200
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "362409104",
+      "shares": 5876987,
+      "value": 18983
+    },
+    {
+      "name": "LIBERTY MEDIA ACQUISITION CO",
+      "cusip": "53073L203",
+      "shares": 235410,
+      "value": 2361
+    },
+    {
+      "name": "EVI INDS INC",
+      "cusip": "26929N102",
+      "shares": 116341,
+      "value": 2163
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "P3311R259",
+      "shares": 1242313,
+      "value": 311
     }
-  ]
+  ],
+  "totalValue": 872769,
+  "positionsCount": 11
 }

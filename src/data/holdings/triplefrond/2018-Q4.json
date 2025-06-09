@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2018-11-07",
   "period": "2018-11-07",
+  "accession": "0001454502-18-000004",
+  "quarterKey": "2018-Q4",
   "positions": [
-    {
-      "name": "LIBERTY BROADBAND CORP",
-      "cusip": "530307305",
-      "shares": 900000,
-      "value": 75870000000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 1735333,
-      "value": 48867000000
-    },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 620029,
-      "value": 202055000000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 186000,
-      "value": 41406000000
+      "value": 202055000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 912389,
-      "value": 152551000000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP NEW",
-      "cusip": "78410G104",
-      "shares": 674676,
-      "value": 108373000000
+      "value": 152551000
     },
     {
       "name": "SCHWAB CHARLES CORP NEW",
       "cusip": "808513105",
       "shares": 2737265,
-      "value": 134537000000
+      "value": 134537000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 674676,
+      "value": 108373000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 205698,
-      "value": 76581000000
+      "value": 76581000
     },
     {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 387627,
-      "value": 46728000000
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 900000,
+      "value": 75870000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 500000,
-      "value": 75045000000
+      "value": 75045000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1735333,
+      "value": 48867000
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 387627,
+      "value": 46728000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 186000,
+      "value": 41406000
     }
-  ]
+  ],
+  "totalValue": 962013000,
+  "positionsCount": 10
 }

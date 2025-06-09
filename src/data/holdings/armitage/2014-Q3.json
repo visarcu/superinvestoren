@@ -1,203 +1,209 @@
 {
+  "form": "13F-HR",
   "date": "2014-08-11",
+  "period": "2014-08-11",
+  "accession": "0000919574-14-004329",
+  "quarterKey": "2014-Q3",
   "positions": [
-    {
-      "name": "AMERICAN AIRLS GROUP INC",
-      "cusip": "02376R102",
-      "shares": 7418016,
-      "value": 318678000
-    },
-    {
-      "name": "AMERICAN INTL GROUP INC",
-      "cusip": "026874784",
-      "shares": 6032511,
-      "value": 329254000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 683392,
-      "value": 127664000
-    },
-    {
-      "name": "BLACKSTONE MTG TR INC",
-      "cusip": "09257W100",
-      "shares": 1501076,
-      "value": 43531000
-    },
-    {
-      "name": "CF INDS HLDGS INC",
-      "cusip": "125269100",
-      "shares": 544372,
-      "value": 130938000
-    },
-    {
-      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
-      "cusip": "192446102",
-      "shares": 6466761,
-      "value": 316289000
-    },
     {
       "name": "COMCAST CORP NEW",
       "cusip": "20030N101",
       "shares": 12375738,
-      "value": 664330000
-    },
-    {
-      "name": "CROWN CASTLE INTL CORP",
-      "cusip": "228227104",
-      "shares": 2868941,
-      "value": 213048000
-    },
-    {
-      "name": "DAVITA HEALTHCARE PARTNERS I",
-      "cusip": "23918K108",
-      "shares": 4428669,
-      "value": 320281000
-    },
-    {
-      "name": "DELTA AIR LINES INC DEL",
-      "cusip": "247361702",
-      "shares": 2388300,
-      "value": 92475000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 3175724,
-      "value": 272287000
-    },
-    {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 2702577,
-      "value": 163019000
-    },
-    {
-      "name": "FOOT LOCKER INC",
-      "cusip": "344849104",
-      "shares": 1616231,
-      "value": 81975000
-    },
-    {
-      "name": "GARMIN LTD",
-      "cusip": "H2906T109",
-      "shares": 2720977,
-      "value": 165707000
+      "value": 664330
     },
     {
       "name": "GILEAD SCIENCES INC",
       "cusip": "375558103",
       "shares": 6148743,
-      "value": 509792000
-    },
-    {
-      "name": "HALLIBURTON CO",
-      "cusip": "406216101",
-      "shares": 981568,
-      "value": 69701000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A104",
-      "shares": 2638586,
-      "value": 61479000
-    },
-    {
-      "name": "INTERCONTINENTAL EXCHANGE IN",
-      "cusip": "45866F104",
-      "shares": 185052,
-      "value": 34956000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 4697937,
-      "value": 207743000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 3014507,
-      "value": 127544000
-    },
-    {
-      "name": "LYONDELLBASELL INDUSTRIES N",
-      "cusip": "N53745100",
-      "shares": 1436892,
-      "value": 140313000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 1009913,
-      "value": 74198000
-    },
-    {
-      "name": "MCGRAW HILL FINL INC",
-      "cusip": "580645109",
-      "shares": 4131246,
-      "value": 343017000
-    },
-    {
-      "name": "MCKESSON CORP",
-      "cusip": "58155Q103",
-      "shares": 536311,
-      "value": 99866000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 914280,
-      "value": 80146000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 3030731,
-      "value": 235033000
-    },
-    {
-      "name": "NORWEGIAN CRUISE LINE HLDGS",
-      "cusip": "G66721104",
-      "shares": 1569150,
-      "value": 49742000
-    },
-    {
-      "name": "OWENS ILL INC",
-      "cusip": "690768403",
-      "shares": 173685,
-      "value": 6016000
-    },
-    {
-      "name": "SCHLUMBERGER LTD",
-      "cusip": "806857108",
-      "shares": 594200,
-      "value": 70086000
-    },
-    {
-      "name": "TWENTY FIRST CENTY FOX INC",
-      "cusip": "90130A101",
-      "shares": 11618976,
-      "value": 408407000
-    },
-    {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 295672,
-      "value": 62301000
+      "value": 509792
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746101",
       "shares": 8681204,
-      "value": 456284000
+      "value": 456284
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 11618976,
+      "value": 408407
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 4131246,
+      "value": 343017
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 6032511,
+      "value": 329254
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 4428669,
+      "value": 320281
+    },
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 7418016,
+      "value": 318678
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 6466761,
+      "value": 316289
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 3175724,
+      "value": 272287
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 3030731,
+      "value": 235033
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP",
+      "cusip": "228227104",
+      "shares": 2868941,
+      "value": 213048
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 4697937,
+      "value": 207743
+    },
+    {
+      "name": "GARMIN LTD",
+      "cusip": "H2906T109",
+      "shares": 2720977,
+      "value": 165707
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 2702577,
+      "value": 163019
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 1436892,
+      "value": 140313
+    },
+    {
+      "name": "CF INDS HLDGS INC",
+      "cusip": "125269100",
+      "shares": 544372,
+      "value": 130938
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 683392,
+      "value": 127664
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 3014507,
+      "value": 127544
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 536311,
+      "value": 99866
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 2388300,
+      "value": 92475
+    },
+    {
+      "name": "FOOT LOCKER INC",
+      "cusip": "344849104",
+      "shares": 1616231,
+      "value": 81975
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 914280,
+      "value": 80146
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 1009913,
+      "value": 74198
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 594200,
+      "value": 70086
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 981568,
+      "value": 69701
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 295672,
+      "value": 62301
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A104",
+      "shares": 2638586,
+      "value": 61479
+    },
+    {
+      "name": "NORWEGIAN CRUISE LINE HLDGS",
+      "cusip": "G66721104",
+      "shares": 1569150,
+      "value": 49742
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1501076,
+      "value": 43531
     },
     {
       "name": "WYNDHAM WORLDWIDE CORP",
       "cusip": "98310W108",
       "shares": 509164,
-      "value": 38554000
+      "value": 38554
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 185052,
+      "value": 34956
+    },
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 173685,
+      "value": 6016
     }
-  ]
+  ],
+  "totalValue": 6314654,
+  "positionsCount": 33
 }

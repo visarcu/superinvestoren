@@ -2,30 +2,34 @@
   "form": "13F-HR",
   "date": "2018-05-16",
   "period": "2018-05-16",
+  "accession": "0001709323-18-000005",
+  "quarterKey": "2018-Q2",
   "positions": [
-    {
-      "name": "Baidu Inc",
-      "cusip": "056752108",
-      "shares": 5800,
-      "value": 1295000
-    },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 53000,
-      "value": 9728000
+      "value": 9728
     },
     {
       "name": "Sina Corp",
       "cusip": "G81477104",
       "shares": 52300,
-      "value": 5453000
+      "value": 5453
+    },
+    {
+      "name": "Baidu Inc",
+      "cusip": "056752108",
+      "shares": 5800,
+      "value": 1295
     },
     {
       "name": "Weibo Corp",
       "cusip": "948596101",
       "shares": 5230,
-      "value": 625000
+      "value": 625
     }
-  ]
+  ],
+  "totalValue": 17101,
+  "positionsCount": 4
 }

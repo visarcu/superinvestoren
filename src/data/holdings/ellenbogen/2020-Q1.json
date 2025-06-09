@@ -1,23 +1,29 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-13",
+  "period": "2020-02-13",
+  "accession": "0001798849-20-000004",
+  "quarterKey": "2020-Q1",
   "positions": [
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287655",
-      "shares": 3015014,
-      "value": 499497000
-    },
     {
       "name": "SPDR S&P 500 ETF TR",
       "cusip": "78462F103",
       "shares": 7763085,
-      "value": 2498627000
+      "value": 2498627
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 3015014,
+      "value": 499497
     },
     {
       "name": "XP INC",
       "cusip": "G98239109",
       "shares": 5500000,
-      "value": 211860000
+      "value": 211860
     }
-  ]
+  ],
+  "totalValue": 3209984,
+  "positionsCount": 3
 }

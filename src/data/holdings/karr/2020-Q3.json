@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-14",
+  "period": "2020-08-14",
+  "accession": "0001172661-20-001698",
+  "quarterKey": "2020-Q3",
   "positions": [
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 768471,
-      "value": 165759000
-    },
-    {
-      "name": "CERIDIAN HCM HLDG INC",
-      "cusip": "15677J108",
-      "shares": 25537,
-      "value": 2024000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 163903,
-      "value": 9449000
-    },
-    {
-      "name": "FOUR SEASONS ED CAYMAN INC",
-      "cusip": "35101A101",
-      "shares": 434887,
-      "value": 504000
-    },
-    {
-      "name": "GLOBAL PMTS INC",
-      "cusip": "37940X102",
-      "shares": 37960,
-      "value": 6439000
-    },
-    {
-      "name": "LAUDER ESTEE COS INC",
-      "cusip": "518439104",
-      "shares": 6522,
-      "value": 1231000
-    },
-    {
-      "name": "LIVENT CORP",
-      "cusip": "53814L108",
-      "shares": 2255475,
-      "value": 13894000
+      "value": 165759
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 738000,
-      "value": 150190000
+      "value": 150190
+    },
+    {
+      "name": "LIVENT CORP",
+      "cusip": "53814L108",
+      "shares": 2255475,
+      "value": 13894
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 163903,
+      "value": 9449
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 37960,
+      "value": 6439
+    },
+    {
+      "name": "CERIDIAN HCM HLDG INC",
+      "cusip": "15677J108",
+      "shares": 25537,
+      "value": 2024
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 6522,
+      "value": 1231
+    },
+    {
+      "name": "FOUR SEASONS ED CAYMAN INC",
+      "cusip": "35101A101",
+      "shares": 434887,
+      "value": 504
     }
-  ]
+  ],
+  "totalValue": 349490,
+  "positionsCount": 8
 }

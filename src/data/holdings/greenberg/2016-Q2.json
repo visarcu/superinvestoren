@@ -1,89 +1,95 @@
 {
+  "form": "13F-HR",
   "date": "2016-05-16",
+  "period": "2016-05-16",
+  "accession": "0001172661-16-003303",
+  "quarterKey": "2016-Q2",
   "positions": [
     {
-      "name": "ANTERO RES CORP",
-      "cusip": "03674x106",
-      "shares": 4205195,
-      "value": 104583000
-    },
-    {
-      "name": "AXALTA COATING SYS LTD",
-      "cusip": "g0750c108",
-      "shares": 4825715,
-      "value": 140911000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 14532,
-      "value": 196000
-    },
-    {
-      "name": "BROOKFIELD ASSET MGMT INC",
-      "cusip": "112585104",
-      "shares": 6930194,
-      "value": 241101000
-    },
-    {
       "name": "CIMPRESS N V",
-      "cusip": "n20146101",
+      "cusip": "20146101",
       "shares": 3393765,
-      "value": 307781000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030n101",
-      "shares": 15547,
-      "value": 950000
-    },
-    {
-      "name": "HALLIBURTON CO",
-      "cusip": "406216101",
-      "shares": 6461858,
-      "value": 230818000
+      "value": 307781
     },
     {
       "name": "JPMORGAN CHASE & CO",
-      "cusip": "46625h100",
+      "cusip": "46625100",
       "shares": 4724238,
-      "value": 279769000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46634e114",
-      "shares": 4643248,
-      "value": 82185000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "g5480u120",
-      "shares": 5144323,
-      "value": 193221000
-    },
-    {
-      "name": "PRIMERICA INC",
-      "cusip": "74164m108",
-      "shares": 3311941,
-      "value": 147481000
+      "value": 279769
     },
     {
       "name": "SCHWAB CHARLES CORP NEW",
       "cusip": "808513105",
       "shares": 9554406,
-      "value": 267714000
+      "value": 267714
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 6930194,
+      "value": 241101
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 6461858,
+      "value": 230818
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480120",
+      "shares": 5144323,
+      "value": 193221
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 3311941,
+      "value": 147481
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "0750108",
+      "shares": 4825715,
+      "value": 140911
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 4205195,
+      "value": 104583
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634114",
+      "shares": 4643248,
+      "value": 82185
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911102",
+      "shares": 2034281,
+      "value": 53502
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 15547,
+      "value": 950
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 196
     },
     {
       "name": "TIDEWATER INC",
       "cusip": "886423102",
       "shares": 19625,
-      "value": 134000
-    },
-    {
-      "name": "VALEANT PHARMACEUTICALS INTL",
-      "cusip": "91911k102",
-      "shares": 2034281,
-      "value": 53502000
+      "value": 134
     }
-  ]
+  ],
+  "totalValue": 2050346,
+  "positionsCount": 14
 }

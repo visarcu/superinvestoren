@@ -1,317 +1,323 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001798849-22-000034",
+  "quarterKey": "2022-Q4",
   "positions": [
     {
-      "name": "ABCAM PLC",
-      "cusip": "000380204",
-      "shares": 500000,
-      "value": 7495000
-    },
-    {
-      "name": "ACADIA HEALTHCARE COMPANY IN",
-      "cusip": "00404A109",
-      "shares": 1483908,
-      "value": 116012000
-    },
-    {
-      "name": "AGILON HEALTH INC",
-      "cusip": "00857U107",
-      "shares": 9429055,
-      "value": 220828000
-    },
-    {
-      "name": "ALIGNMENT HEALTHCARE INC",
-      "cusip": "01625V104",
-      "shares": 1017404,
-      "value": 12046000
-    },
-    {
-      "name": "ATLASSIAN CORP PLC",
-      "cusip": "G06242104",
-      "shares": 2812701,
-      "value": 592327000
-    },
-    {
-      "name": "BENTLEY SYS INC",
-      "cusip": "08265T208",
-      "shares": 2227383,
-      "value": 68136000
-    },
-    {
-      "name": "BLACK KNIGHT INC",
-      "cusip": "09215C105",
-      "shares": 146604,
-      "value": 9490000
-    },
-    {
-      "name": "BRIGHT HORIZONS FAM SOL IN D",
-      "cusip": "109194100",
-      "shares": 29785,
-      "value": 1717000
-    },
-    {
-      "name": "CLEAR SECURE INC",
-      "cusip": "18467V109",
-      "shares": 11476588,
-      "value": 262355000
-    },
-    {
-      "name": "CLEARWATER ANALYTICS HLDGS I",
-      "cusip": "185123106",
-      "shares": 9675988,
-      "value": 162460000
-    },
-    {
-      "name": "CONFLUENT INC",
-      "cusip": "20717M103",
-      "shares": 5277220,
-      "value": 125440000
-    },
-    {
-      "name": "COUPANG INC",
-      "cusip": "22266T109",
-      "shares": 5824375,
-      "value": 97092000
-    },
-    {
-      "name": "DATADOG INC",
-      "cusip": "23804L103",
-      "shares": 3267227,
-      "value": 290064000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 4260355,
-      "value": 270660000
-    },
-    {
-      "name": "DOORDASH INC",
-      "cusip": "25809K105",
-      "shares": 192264,
-      "value": 9507000
-    },
-    {
-      "name": "DOXIMITY INC",
-      "cusip": "26622P107",
-      "shares": 78515,
-      "value": 2373000
-    },
-    {
-      "name": "DUOLINGO INC",
-      "cusip": "26603R106",
-      "shares": 3776894,
-      "value": 359674000
-    },
-    {
-      "name": "ENOVIS CORPORATION",
-      "cusip": "194014502",
-      "shares": 2679207,
-      "value": 123431000
-    },
-    {
-      "name": "EXPENSIFY INC",
-      "cusip": "30219Q106",
-      "shares": 2549831,
-      "value": 37941000
-    },
-    {
-      "name": "FIRSTSERVICE CORP NEW",
-      "cusip": "33767E202",
-      "shares": 3908039,
-      "value": 465096000
-    },
-    {
-      "name": "GOOSEHEAD INS INC",
-      "cusip": "38267D109",
-      "shares": 998625,
-      "value": 35591000
-    },
-    {
-      "name": "HUBSPOT INC",
-      "cusip": "443573100",
-      "shares": 917522,
-      "value": 247841000
-    },
-    {
-      "name": "HUNT J B TRANS SVCS INC",
-      "cusip": "445658107",
-      "shares": 2292084,
-      "value": 358528000
-    },
-    {
-      "name": "IAC INC",
-      "cusip": "44891N208",
-      "shares": 1066277,
-      "value": 59050000
-    },
-    {
-      "name": "IDEXX LABS INC",
-      "cusip": "45168D104",
-      "shares": 207714,
-      "value": 67673000
-    },
-    {
-      "name": "INGERSOLL RAND INC",
-      "cusip": "45687V106",
-      "shares": 1836144,
-      "value": 79432000
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 1624439,
+      "value": 685172
     },
     {
       "name": "INTUIT",
       "cusip": "461202103",
       "shares": 1704270,
-      "value": 660098000
+      "value": 660098
     },
     {
-      "name": "MOLINA HEALTHCARE INC",
-      "cusip": "60855R100",
-      "shares": 1129977,
-      "value": 372712000
-    },
-    {
-      "name": "MSCI INC",
-      "cusip": "55354G100",
-      "shares": 1624439,
-      "value": 685172000
-    },
-    {
-      "name": "NATIONAL VISION HLDGS INC",
-      "cusip": "63845R107",
-      "shares": 3073624,
-      "value": 100354000
-    },
-    {
-      "name": "ON HLDG AG",
-      "cusip": "H5919C104",
-      "shares": 8323446,
-      "value": 133591000
-    },
-    {
-      "name": "QUAKER HOUGHTON",
-      "cusip": "747316107",
-      "shares": 1288333,
-      "value": 186010000
-    },
-    {
-      "name": "RBC BEARINGS INC",
-      "cusip": "75524B104",
-      "shares": 1702253,
-      "value": 353745000
-    },
-    {
-      "name": "REDFIN CORP",
-      "cusip": "75737F108",
-      "shares": 6707745,
-      "value": 39173000
-    },
-    {
-      "name": "RH",
-      "cusip": "74967X103",
-      "shares": 538246,
-      "value": 132446000
-    },
-    {
-      "name": "ROLLINS INC",
-      "cusip": "775711104",
-      "shares": 436238,
-      "value": 15129000
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 2812701,
+      "value": 592327
     },
     {
       "name": "ROPER TECHNOLOGIES INC",
       "cusip": "776696106",
       "shares": 1620297,
-      "value": 582724000
+      "value": 582724
     },
     {
-      "name": "SHIFT4 PMTS INC",
-      "cusip": "82452J109",
-      "shares": 4274558,
-      "value": 190688000
+      "name": "FIRSTSERVICE CORP NEW",
+      "cusip": "33767E202",
+      "shares": 3908039,
+      "value": 465096
     },
     {
-      "name": "SHOPIFY INC",
-      "cusip": "82509L107",
-      "shares": 198473,
-      "value": 5347000
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 1129977,
+      "value": 372712
     },
     {
-      "name": "SPORTRADAR GROUP AG",
-      "cusip": "H8088L103",
-      "shares": 610875,
-      "value": 5376000
+      "name": "DUOLINGO INC",
+      "cusip": "26603R106",
+      "shares": 3776894,
+      "value": 359674
     },
     {
-      "name": "SURGERY PARTNERS INC",
-      "cusip": "86881A100",
-      "shares": 2134229,
-      "value": 49941000
+      "name": "HUNT J B TRANS SVCS INC",
+      "cusip": "445658107",
+      "shares": 2292084,
+      "value": 358528
     },
     {
-      "name": "SWEETGREEN INC",
-      "cusip": "87043Q108",
-      "shares": 2802281,
-      "value": 51842000
-    },
-    {
-      "name": "TELEDYNE TECHNOLOGIES INC",
-      "cusip": "879360105",
-      "shares": 380905,
-      "value": 128544000
-    },
-    {
-      "name": "TOAST INC",
-      "cusip": "888787108",
-      "shares": 14705314,
-      "value": 245873000
-    },
-    {
-      "name": "TORO CO",
-      "cusip": "891092108",
-      "shares": 1141749,
-      "value": 98738000
-    },
-    {
-      "name": "UPWORK INC",
-      "cusip": "91688F104",
-      "shares": 974665,
-      "value": 13275000
-    },
-    {
-      "name": "VAIL RESORTS INC",
-      "cusip": "91879Q109",
-      "shares": 231156,
-      "value": 49846000
-    },
-    {
-      "name": "WARBY PARKER INC",
-      "cusip": "93403J106",
-      "shares": 14808493,
-      "value": 197545000
-    },
-    {
-      "name": "WASTE CONNECTIONS INC",
-      "cusip": "94106B101",
-      "shares": 2129652,
-      "value": 287780000
+      "name": "RBC BEARINGS INC",
+      "cusip": "75524B104",
+      "shares": 1702253,
+      "value": 353745
     },
     {
       "name": "WEST PHARMACEUTICAL SVSC INC",
       "cusip": "955306105",
       "shares": 1179447,
-      "value": 290238000
+      "value": 290238
     },
     {
-      "name": "XOMETRY INC",
-      "cusip": "98423F109",
-      "shares": 912009,
-      "value": 51793000
+      "name": "DATADOG INC",
+      "cusip": "23804L103",
+      "shares": 3267227,
+      "value": 290064
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 2129652,
+      "value": 287780
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 4260355,
+      "value": 270660
+    },
+    {
+      "name": "CLEAR SECURE INC",
+      "cusip": "18467V109",
+      "shares": 11476588,
+      "value": 262355
+    },
+    {
+      "name": "HUBSPOT INC",
+      "cusip": "443573100",
+      "shares": 917522,
+      "value": 247841
+    },
+    {
+      "name": "TOAST INC",
+      "cusip": "888787108",
+      "shares": 14705314,
+      "value": 245873
+    },
+    {
+      "name": "AGILON HEALTH INC",
+      "cusip": "00857U107",
+      "shares": 9429055,
+      "value": 220828
+    },
+    {
+      "name": "WARBY PARKER INC",
+      "cusip": "93403J106",
+      "shares": 14808493,
+      "value": 197545
+    },
+    {
+      "name": "SHIFT4 PMTS INC",
+      "cusip": "82452J109",
+      "shares": 4274558,
+      "value": 190688
+    },
+    {
+      "name": "QUAKER HOUGHTON",
+      "cusip": "747316107",
+      "shares": 1288333,
+      "value": 186010
+    },
+    {
+      "name": "CLEARWATER ANALYTICS HLDGS I",
+      "cusip": "185123106",
+      "shares": 9675988,
+      "value": 162460
+    },
+    {
+      "name": "ON HLDG AG",
+      "cusip": "H5919C104",
+      "shares": 8323446,
+      "value": 133591
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 538246,
+      "value": 132446
+    },
+    {
+      "name": "TELEDYNE TECHNOLOGIES INC",
+      "cusip": "879360105",
+      "shares": 380905,
+      "value": 128544
+    },
+    {
+      "name": "CONFLUENT INC",
+      "cusip": "20717M103",
+      "shares": 5277220,
+      "value": 125440
+    },
+    {
+      "name": "ENOVIS CORPORATION",
+      "cusip": "194014502",
+      "shares": 2679207,
+      "value": 123431
+    },
+    {
+      "name": "ACADIA HEALTHCARE COMPANY IN",
+      "cusip": "00404A109",
+      "shares": 1483908,
+      "value": 116012
+    },
+    {
+      "name": "NATIONAL VISION HLDGS INC",
+      "cusip": "63845R107",
+      "shares": 3073624,
+      "value": 100354
+    },
+    {
+      "name": "TORO CO",
+      "cusip": "891092108",
+      "shares": 1141749,
+      "value": 98738
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 5824375,
+      "value": 97092
     },
     {
       "name": "XP INC",
       "cusip": "G98239109",
       "shares": 4612865,
-      "value": 87691000
+      "value": 87691
+    },
+    {
+      "name": "INGERSOLL RAND INC",
+      "cusip": "45687V106",
+      "shares": 1836144,
+      "value": 79432
+    },
+    {
+      "name": "BENTLEY SYS INC",
+      "cusip": "08265T208",
+      "shares": 2227383,
+      "value": 68136
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 207714,
+      "value": 67673
+    },
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 1066277,
+      "value": 59050
+    },
+    {
+      "name": "SWEETGREEN INC",
+      "cusip": "87043Q108",
+      "shares": 2802281,
+      "value": 51842
+    },
+    {
+      "name": "XOMETRY INC",
+      "cusip": "98423F109",
+      "shares": 912009,
+      "value": 51793
+    },
+    {
+      "name": "SURGERY PARTNERS INC",
+      "cusip": "86881A100",
+      "shares": 2134229,
+      "value": 49941
+    },
+    {
+      "name": "VAIL RESORTS INC",
+      "cusip": "91879Q109",
+      "shares": 231156,
+      "value": 49846
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 6707745,
+      "value": 39173
+    },
+    {
+      "name": "EXPENSIFY INC",
+      "cusip": "30219Q106",
+      "shares": 2549831,
+      "value": 37941
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 998625,
+      "value": 35591
+    },
+    {
+      "name": "ROLLINS INC",
+      "cusip": "775711104",
+      "shares": 436238,
+      "value": 15129
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 974665,
+      "value": 13275
+    },
+    {
+      "name": "ALIGNMENT HEALTHCARE INC",
+      "cusip": "01625V104",
+      "shares": 1017404,
+      "value": 12046
+    },
+    {
+      "name": "DOORDASH INC",
+      "cusip": "25809K105",
+      "shares": 192264,
+      "value": 9507
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 146604,
+      "value": 9490
+    },
+    {
+      "name": "ABCAM PLC",
+      "cusip": "000380204",
+      "shares": 500000,
+      "value": 7495
+    },
+    {
+      "name": "SPORTRADAR GROUP AG",
+      "cusip": "H8088L103",
+      "shares": 610875,
+      "value": 5376
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 198473,
+      "value": 5347
+    },
+    {
+      "name": "DOXIMITY INC",
+      "cusip": "26622P107",
+      "shares": 78515,
+      "value": 2373
+    },
+    {
+      "name": "BRIGHT HORIZONS FAM SOL IN D",
+      "cusip": "109194100",
+      "shares": 29785,
+      "value": 1717
     }
-  ]
+  ],
+  "totalValue": 9097930,
+  "positionsCount": 52
 }

@@ -2,102 +2,106 @@
   "form": "13F-HR",
   "date": "2018-02-07",
   "period": "2018-02-07",
+  "accession": "0001532262-18-000002",
+  "quarterKey": "2018-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 25828,
-      "value": 27207000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 580000,
+      "value": 102347
     },
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 25898,
-      "value": 27100000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 35000,
-      "value": 40931000
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1260000,
+      "value": 82467
     },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 400000,
-      "value": 67692000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 100000,
-      "value": 19822000
+      "value": 67692
     },
     {
       "name": "COSTCO WHSL CORP NEW",
       "cusip": "22160K105",
       "shares": 225000,
-      "value": 41877000
+      "value": 41877
     },
     {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 100000,
-      "value": 10751000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 580000,
-      "value": 102347000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 32285,
-      "value": 36777000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 500000,
-      "value": 36810000
-    },
-    {
-      "name": "PRICE T ROWE GROUP INC",
-      "cusip": "74144T108",
-      "shares": 30000,
-      "value": 3148000
-    },
-    {
-      "name": "PRICELINE GRP INC",
-      "cusip": "741503403",
-      "shares": 1500,
-      "value": 2607000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 35000,
+      "value": 40931
     },
     {
       "name": "PULTE GROUP INC",
       "cusip": "745867101",
       "shares": 1200000,
-      "value": 39900000
+      "value": 39900
     },
     {
-      "name": "SOUTHWEST AIRLS CO ",
-      "cusip": "844741108",
-      "shares": 1260000,
-      "value": 82467000
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 500000,
+      "value": 36810
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 32285,
+      "value": 36777
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25828,
+      "value": 27207
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25898,
+      "value": 27100
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 100000,
+      "value": 19822
     },
     {
       "name": "STARBUCKS CORP",
       "cusip": "855244109",
       "shares": 250000,
-      "value": 14358000
+      "value": 14358
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 100000,
+      "value": 10751
+    },
+    {
+      "name": "PRICE T ROWE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 30000,
+      "value": 3148
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 1500,
+      "value": 2607
     },
     {
       "name": "VALHI INC NEW",
       "cusip": "918905100",
       "shares": 344790,
-      "value": 2127000
+      "value": 2127
     }
-  ]
+  ],
+  "totalValue": 555921,
+  "positionsCount": 16
 }

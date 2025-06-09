@@ -2,456 +2,460 @@
   "form": "13F-HR",
   "date": "2014-08-12",
   "period": "2014-08-12",
+  "accession": "0000814375-14-000047",
+  "quarterKey": "2014-Q3",
   "positions": [
     {
-      "name": "ADVANTAGE OIL AND GAS",
-      "cusip": "00765F101",
-      "shares": 9176927,
-      "value": 61669000
-    },
-    {
-      "name": "AXCELIS TECHNOLOGY",
-      "cusip": "054540109",
-      "shares": 10303509,
-      "value": 20607000
+      "name": "MICRON TECHNOLOGY",
+      "cusip": "595112103",
+      "shares": 18691359,
+      "value": 615880
     },
     {
       "name": "AERCAP HOLDINGS",
       "cusip": "N00985106",
       "shares": 8595356,
-      "value": 393667000
-    },
-    {
-      "name": "AIR FRANCE-KLM",
-      "cusip": "009119108",
-      "shares": 18862360,
-      "value": 237477000
-    },
-    {
-      "name": "AMERICAN INTERNATIONAL GROUP\n",
-      "cusip": "026874784",
-      "shares": 2344551,
-      "value": 127966000
-    },
-    {
-      "name": "AMERICAN NATIONAL",
-      "cusip": "028591105",
-      "shares": 1500621,
-      "value": 171371000
-    },
-    {
-      "name": "ALLIANCE ONE",
-      "cusip": "018772103",
-      "shares": 8831619,
-      "value": 22079000
-    },
-    {
-      "name": "AURICO GOLD",
-      "cusip": "05155C105",
-      "shares": 21985271,
-      "value": 93657000
-    },
-    {
-      "name": "YAMANA GOLD",
-      "cusip": "98462Y100",
-      "shares": 27589638,
-      "value": 226787000
-    },
-    {
-      "name": "AIRCASTLE",
-      "cusip": "G0129K104",
-      "shares": 2125066,
-      "value": 37762000
-    },
-    {
-      "name": "BANNER CORPORATION",
-      "cusip": "06652V208",
-      "shares": 62541,
-      "value": 2478000
-    },
-    {
-      "name": "BRIDGEPOINT EDUCATION",
-      "cusip": "10807M105",
-      "shares": 403296,
-      "value": 5356000
-    },
-    {
-      "name": "BASSETT FURNITURE",
-      "cusip": "070203104",
-      "shares": 659471,
-      "value": 8679000
-    },
-    {
-      "name": "COEUR MINING",
-      "cusip": "192108504",
-      "shares": 10386723,
-      "value": 95350000
-    },
-    {
-      "name": "CELESTICA",
-      "cusip": "15101Q108",
-      "shares": 8248224,
-      "value": 103598000
-    },
-    {
-      "name": "CNA FINANCIAL CORP.",
-      "cusip": "126117100",
-      "shares": 2213532,
-      "value": 89471000
-    },
-    {
-      "name": "COVENANT TRANSPORT",
-      "cusip": "22284P105",
-      "shares": 572277,
-      "value": 7371000
-    },
-    {
-      "name": "DANA HOLDING CORP",
-      "cusip": "235825205",
-      "shares": 1256002,
-      "value": 30672000
-    },
-    {
-      "name": "DIAMONDROCK HOSPITALITY",
-      "cusip": "252784301",
-      "shares": 1614371,
-      "value": 20696000
-    },
-    {
-      "name": "EXELON CORP",
-      "cusip": "30161N101",
-      "shares": 1552794,
-      "value": 56646000
-    },
-    {
-      "name": "GRANITE REAL ESTATE INVESTMENT TRUST",
-      "cusip": "387437114",
-      "shares": 3366815,
-      "value": 125279000
-    },
-    {
-      "name": "HORACE MANN EDUCATORS",
-      "cusip": "440327104",
-      "shares": 1923698,
-      "value": 60154000
-    },
-    {
-      "name": "INGRAM MICRO",
-      "cusip": "457153104",
-      "shares": 6796297,
-      "value": 198520000
-    },
-    {
-      "name": "IMATION CORP",
-      "cusip": "45245A107",
-      "shares": 153538,
-      "value": 528000
-    },
-    {
-      "name": "INTEGRATED SILICON SOLUTIONS, INC",
-      "cusip": "45812P107",
-      "shares": 2061633,
-      "value": 30540000
-    },
-    {
-      "name": "JETBLUE AIRWAYS",
-      "cusip": "477143101",
-      "shares": 18698496,
-      "value": 202879000
-    },
-    {
-      "name": "KIMBALL",
-      "cusip": "494274103",
-      "shares": 1489157,
-      "value": 24899000
-    },
-    {
-      "name": "KANSAS CITY LIFE",
-      "cusip": "484836101",
-      "shares": 90712,
-      "value": 4126000
-    },
-    {
-      "name": "KOREA ELECTRIC POWER CORP",
-      "cusip": "500631106",
-      "shares": 2384687,
-      "value": 43878000
-    },
-    {
-      "name": "LOEWS CORP",
-      "cusip": "540424108",
-      "shares": 962636,
-      "value": 42366000
-    },
-    {
-      "name": "SOUTHWEST AIRLINES",
-      "cusip": "844741108",
-      "shares": 5237,
-      "value": 141000
-    },
-    {
-      "name": "MFA FINANCIAL INC.",
-      "cusip": "55272X102",
-      "shares": 1077827,
-      "value": 8849000
-    },
-    {
-      "name": "M/I HOMES",
-      "cusip": "55305B101",
-      "shares": 429589,
-      "value": 10426000
-    },
-    {
-      "name": "MONTPELIER RE HOLDINGS",
-      "cusip": "G62185106",
-      "shares": 2221972,
-      "value": 70992000
-    },
-    {
-      "name": "MICRON TECHNOLOGY",
-      "cusip": "595112103",
-      "shares": 18691359,
-      "value": 615880000
-    },
-    {
-      "name": "NORDIC AMERICAN TANKERS",
-      "cusip": "G65773106",
-      "shares": 1634122,
-      "value": 15573000
-    },
-    {
-      "name": "NABORS INDUSTRIES",
-      "cusip": "G6359F103",
-      "shares": 1054213,
-      "value": 30962000
-    },
-    {
-      "name": "NORD RESOURCES",
-      "cusip": "655555100",
-      "shares": 507100,
-      "value": 20000
-    },
-    {
-      "name": "NRG ENERGY",
-      "cusip": "629377508",
-      "shares": 1690040,
-      "value": 62869000
-    },
-    {
-      "name": "NATUZZI SPA",
-      "cusip": "63905A101",
-      "shares": 3026659,
-      "value": 7779000
-    },
-    {
-      "name": "PEPBOYS AUTO",
-      "cusip": "713278109",
-      "shares": 1148501,
-      "value": 13162000
-    },
-    {
-      "name": "PARKER DRILLING COMPANY",
-      "cusip": "701081101",
-      "shares": 4670727,
-      "value": 30453000
-    },
-    {
-      "name": "PHOTRONICS",
-      "cusip": "719405102",
-      "shares": 5872146,
-      "value": 50500000
-    },
-    {
-      "name": "PRIMERO MINING CORP",
-      "cusip": "74164W106",
-      "shares": 2095782,
-      "value": 16787000
-    },
-    {
-      "name": "PLATINUM UNDERWRITERS",
-      "cusip": "G7127P100",
-      "shares": 2044416,
-      "value": 132580000
-    },
-    {
-      "name": "ROYAL CARIBBEAN CRUISES",
-      "cusip": "V7780T103",
-      "shares": 1532739,
-      "value": 85220000
-    },
-    {
-      "name": "EVEREST RE GROUP",
-      "cusip": "G3223R108",
-      "shares": 429991,
-      "value": 69009000
-    },
-    {
-      "name": "RESOLUTE FOREST PRODUCTS",
-      "cusip": "76117W109",
-      "shares": 8511471,
-      "value": 142822000
-    },
-    {
-      "name": "RUBY TUESDAY",
-      "cusip": "781182100",
-      "shares": 3904018,
-      "value": 29631000
-    },
-    {
-      "name": "SANMINA CORPORATION",
-      "cusip": "801056102",
-      "shares": 6870965,
-      "value": 156521000
-    },
-    {
-      "name": "TECHDATA",
-      "cusip": "878237106",
-      "shares": 1179041,
-      "value": 73714000
-    },
-    {
-      "name": "TECUMSEH PRODUCTS",
-      "cusip": "878895309",
-      "shares": 1610591,
-      "value": 8198000
-    },
-    {
-      "name": "TOYOTA MOTOR CORP",
-      "cusip": "892331307",
-      "shares": 651052,
-      "value": 77905000
-    },
-    {
-      "name": "TESORO CORP",
-      "cusip": "881609101",
-      "shares": 619,
-      "value": 36000
-    },
-    {
-      "name": "UNUM GROUP",
-      "cusip": "91529Y106",
-      "shares": 4046171,
-      "value": 140645000
-    },
-    {
-      "name": "UTSTARCOM",
-      "cusip": "G9310A114",
-      "shares": 163586,
-      "value": 479000
-    },
-    {
-      "name": "VALERO ENERGY CORP",
-      "cusip": "91913Y100",
-      "shares": 542669,
-      "value": 27188000
+      "value": 393667
     },
     {
       "name": "WPX ENERGY INC",
       "cusip": "98212B103",
       "shares": 12640948,
-      "value": 302245000
+      "value": 302245
     },
     {
       "name": "XL GROUP",
       "cusip": "G98290102",
       "shares": 7619232,
-      "value": 249377000
+      "value": 249377
     },
     {
-      "name": "ALLIED NEVADA",
-      "cusip": "019344100",
-      "shares": 150350,
-      "value": 565000
+      "name": "AIR FRANCE-KLM",
+      "cusip": "009119108",
+      "shares": 18862360,
+      "value": 237477
     },
     {
-      "name": "GENERAL MOTORS",
-      "cusip": "37045V100",
-      "shares": 239945,
-      "value": 8710000
+      "name": "YAMANA GOLD",
+      "cusip": "98462Y100",
+      "shares": 27589638,
+      "value": 226787
     },
     {
-      "name": "MATTSON TECHNOLOGY",
-      "cusip": "577223100",
-      "shares": 3012550,
-      "value": 6597000
+      "name": "JETBLUE AIRWAYS",
+      "cusip": "477143101",
+      "shares": 18698496,
+      "value": 202879
     },
     {
-      "name": "STANLEY FURNITURE",
-      "cusip": "854305208",
-      "shares": 121292,
-      "value": 325000
+      "name": "INGRAM MICRO",
+      "cusip": "457153104",
+      "shares": 6796297,
+      "value": 198520
     },
     {
-      "name": "SYPRIS SOLUTIONS\n",
-      "cusip": "871655106",
-      "shares": 230098,
-      "value": 1284000
+      "name": "AMERICAN NATIONAL",
+      "cusip": "028591105",
+      "shares": 1500621,
+      "value": 171371
     },
     {
-      "name": "CARROL'S RESTAURANT GROUP\n",
-      "cusip": "14574X104",
-      "shares": 211143,
-      "value": 1503000
+      "name": "SANMINA CORPORATION",
+      "cusip": "801056102",
+      "shares": 6870965,
+      "value": 156521
     },
     {
-      "name": "ARDMORE SHIPPING CORP",
-      "cusip": "Y0207T100",
-      "shares": 2617729,
-      "value": 36203000
+      "name": "RESOLUTE FOREST PRODUCTS",
+      "cusip": "76117W109",
+      "shares": 8511471,
+      "value": 142822
     },
     {
-      "name": "BLUE CAPITAL REINSURANCE",
-      "cusip": "G1190F107",
-      "shares": 833684,
-      "value": 16424000
+      "name": "UNUM GROUP",
+      "cusip": "91529Y106",
+      "shares": 4046171,
+      "value": 140645
     },
     {
-      "name": "NEW GOLD INC.",
-      "cusip": "644535106",
-      "shares": 9730860,
-      "value": 61986000
-    },
-    {
-      "name": "PAN AMERICAN SILVER",
-      "cusip": "697900108",
-      "shares": 1776045,
-      "value": 27262000
+      "name": "PLATINUM UNDERWRITERS",
+      "cusip": "G7127P100",
+      "shares": 2044416,
+      "value": 132580
     },
     {
       "name": "NOBLE CORP",
       "cusip": "G65431101",
       "shares": 3838679,
-      "value": 128826000
+      "value": 128826
+    },
+    {
+      "name": "AMERICAN INTERNATIONAL GROUP",
+      "cusip": "026874784",
+      "shares": 2344551,
+      "value": 127966
+    },
+    {
+      "name": "GRANITE REAL ESTATE INVESTMENT TRUST",
+      "cusip": "387437114",
+      "shares": 3366815,
+      "value": 125279
+    },
+    {
+      "name": "CELESTICA",
+      "cusip": "15101Q108",
+      "shares": 8248224,
+      "value": 103598
+    },
+    {
+      "name": "COEUR MINING",
+      "cusip": "192108504",
+      "shares": 10386723,
+      "value": 95350
+    },
+    {
+      "name": "AURICO GOLD",
+      "cusip": "05155C105",
+      "shares": 21985271,
+      "value": 93657
+    },
+    {
+      "name": "CNA FINANCIAL CORP",
+      "cusip": "126117100",
+      "shares": 2213532,
+      "value": 89471
+    },
+    {
+      "name": "ROYAL CARIBBEAN CRUISES",
+      "cusip": "V7780T103",
+      "shares": 1532739,
+      "value": 85220
+    },
+    {
+      "name": "TOYOTA MOTOR CORP",
+      "cusip": "892331307",
+      "shares": 651052,
+      "value": 77905
+    },
+    {
+      "name": "TECHDATA",
+      "cusip": "878237106",
+      "shares": 1179041,
+      "value": 73714
+    },
+    {
+      "name": "MONTPELIER RE HOLDINGS",
+      "cusip": "G62185106",
+      "shares": 2221972,
+      "value": 70992
+    },
+    {
+      "name": "EVEREST RE GROUP",
+      "cusip": "G3223R108",
+      "shares": 429991,
+      "value": 69009
+    },
+    {
+      "name": "NRG ENERGY",
+      "cusip": "629377508",
+      "shares": 1690040,
+      "value": 62869
+    },
+    {
+      "name": "NEW GOLD INC",
+      "cusip": "644535106",
+      "shares": 9730860,
+      "value": 61986
+    },
+    {
+      "name": "ADVANTAGE OIL AND GAS",
+      "cusip": "00765F101",
+      "shares": 9176927,
+      "value": 61669
+    },
+    {
+      "name": "HORACE MANN EDUCATORS",
+      "cusip": "440327104",
+      "shares": 1923698,
+      "value": 60154
+    },
+    {
+      "name": "EXELON CORP",
+      "cusip": "30161N101",
+      "shares": 1552794,
+      "value": 56646
+    },
+    {
+      "name": "PHOTRONICS",
+      "cusip": "719405102",
+      "shares": 5872146,
+      "value": 50500
+    },
+    {
+      "name": "KOREA ELECTRIC POWER CORP",
+      "cusip": "500631106",
+      "shares": 2384687,
+      "value": 43878
+    },
+    {
+      "name": "LOEWS CORP",
+      "cusip": "540424108",
+      "shares": 962636,
+      "value": 42366
+    },
+    {
+      "name": "AIRCASTLE",
+      "cusip": "G0129K104",
+      "shares": 2125066,
+      "value": 37762
+    },
+    {
+      "name": "ARDMORE SHIPPING CORP",
+      "cusip": "Y0207T100",
+      "shares": 2617729,
+      "value": 36203
+    },
+    {
+      "name": "VALIDUS HOLDINGS",
+      "cusip": "9319102",
+      "shares": 816534,
+      "value": 31224
+    },
+    {
+      "name": "NABORS INDUSTRIES",
+      "cusip": "G6359F103",
+      "shares": 1054213,
+      "value": 30962
+    },
+    {
+      "name": "DANA HOLDING CORP",
+      "cusip": "235825205",
+      "shares": 1256002,
+      "value": 30672
+    },
+    {
+      "name": "INTEGRATED SILICON SOLUTIONS, INC",
+      "cusip": "45812P107",
+      "shares": 2061633,
+      "value": 30540
+    },
+    {
+      "name": "PARKER DRILLING COMPANY",
+      "cusip": "701081101",
+      "shares": 4670727,
+      "value": 30453
+    },
+    {
+      "name": "RUBY TUESDAY",
+      "cusip": "781182100",
+      "shares": 3904018,
+      "value": 29631
     },
     {
       "name": "TIDEWATER INC",
       "cusip": "886423102",
       "shares": 502006,
-      "value": 28188000
+      "value": 28188
+    },
+    {
+      "name": "PAN AMERICAN SILVER",
+      "cusip": "697900108",
+      "shares": 1776045,
+      "value": 27262
+    },
+    {
+      "name": "VALERO ENERGY CORP",
+      "cusip": "91913Y100",
+      "shares": 542669,
+      "value": 27188
+    },
+    {
+      "name": "KIMBALL",
+      "cusip": "494274103",
+      "shares": 1489157,
+      "value": 24899
+    },
+    {
+      "name": "ALLIANCE ONE",
+      "cusip": "018772103",
+      "shares": 8831619,
+      "value": 22079
+    },
+    {
+      "name": "DIAMONDROCK HOSPITALITY",
+      "cusip": "252784301",
+      "shares": 1614371,
+      "value": 20696
+    },
+    {
+      "name": "AXCELIS TECHNOLOGY",
+      "cusip": "054540109",
+      "shares": 10303509,
+      "value": 20607
+    },
+    {
+      "name": "PRIMERO MINING CORP",
+      "cusip": "74164W106",
+      "shares": 2095782,
+      "value": 16787
+    },
+    {
+      "name": "BLUE CAPITAL REINSURANCE",
+      "cusip": "G1190F107",
+      "shares": 833684,
+      "value": 16424
+    },
+    {
+      "name": "NORDIC AMERICAN TANKERS",
+      "cusip": "G65773106",
+      "shares": 1634122,
+      "value": 15573
+    },
+    {
+      "name": "PEPBOYS AUTO",
+      "cusip": "713278109",
+      "shares": 1148501,
+      "value": 13162
+    },
+    {
+      "name": "M/I HOMES",
+      "cusip": "55305B101",
+      "shares": 429589,
+      "value": 10426
+    },
+    {
+      "name": "MFA FINANCIAL INC",
+      "cusip": "55272X102",
+      "shares": 1077827,
+      "value": 8849
+    },
+    {
+      "name": "GENERAL MOTORS",
+      "cusip": "37045V100",
+      "shares": 239945,
+      "value": 8710
+    },
+    {
+      "name": "BASSETT FURNITURE",
+      "cusip": "070203104",
+      "shares": 659471,
+      "value": 8679
+    },
+    {
+      "name": "TECUMSEH PRODUCTS",
+      "cusip": "878895309",
+      "shares": 1610591,
+      "value": 8198
+    },
+    {
+      "name": "NATUZZI SPA",
+      "cusip": "63905A101",
+      "shares": 3026659,
+      "value": 7779
+    },
+    {
+      "name": "COVENANT TRANSPORT",
+      "cusip": "22284P105",
+      "shares": 572277,
+      "value": 7371
+    },
+    {
+      "name": "MATTSON TECHNOLOGY",
+      "cusip": "577223100",
+      "shares": 3012550,
+      "value": 6597
+    },
+    {
+      "name": "BRIDGEPOINT EDUCATION",
+      "cusip": "10807M105",
+      "shares": 403296,
+      "value": 5356
     },
     {
       "name": "SEACOR HOLDINGS",
       "cusip": "811904101",
       "shares": 64626,
-      "value": 5315000
+      "value": 5315
     },
     {
       "name": "NEWS CORP - CLASS B",
       "cusip": "65249B208",
       "shares": 300000,
-      "value": 5235000
+      "value": 5235
     },
     {
       "name": "OPLINK COMMUNICATIONS",
-      "cusip": "68375q403",
+      "cusip": "68375403",
       "shares": 307498,
-      "value": 5218000
+      "value": 5218
     },
     {
-      "name": "VALIDUS HOLDINGS",
-      "cusip": "g9319h102",
-      "shares": 816534,
-      "value": 31224000
+      "name": "KANSAS CITY LIFE",
+      "cusip": "484836101",
+      "shares": 90712,
+      "value": 4126
+    },
+    {
+      "name": "BANNER CORPORATION",
+      "cusip": "06652V208",
+      "shares": 62541,
+      "value": 2478
+    },
+    {
+      "name": "CARROL'S RESTAURANT GROUP",
+      "cusip": "14574X104",
+      "shares": 211143,
+      "value": 1503
+    },
+    {
+      "name": "SYPRIS SOLUTIONS",
+      "cusip": "871655106",
+      "shares": 230098,
+      "value": 1284
+    },
+    {
+      "name": "ALLIED NEVADA",
+      "cusip": "019344100",
+      "shares": 150350,
+      "value": 565
+    },
+    {
+      "name": "IMATION CORP",
+      "cusip": "45245A107",
+      "shares": 153538,
+      "value": 528
+    },
+    {
+      "name": "UTSTARCOM",
+      "cusip": "G9310A114",
+      "shares": 163586,
+      "value": 479
+    },
+    {
+      "name": "STANLEY FURNITURE",
+      "cusip": "854305208",
+      "shares": 121292,
+      "value": 325
+    },
+    {
+      "name": "SOUTHWEST AIRLINES",
+      "cusip": "844741108",
+      "shares": 5237,
+      "value": 141
+    },
+    {
+      "name": "TESORO CORP",
+      "cusip": "881609101",
+      "shares": 619,
+      "value": 36
+    },
+    {
+      "name": "NORD RESOURCES",
+      "cusip": "655555100",
+      "shares": 507100,
+      "value": 20
     }
-  ]
+  ],
+  "totalValue": 5341356,
+  "positionsCount": 75
 }

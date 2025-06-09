@@ -74,9 +74,8 @@ export const investorCiks = {
 
 
 
-  rogers:           '0000798365',    // John Rogers – Ariel Appreciation Fund
-  cunniff:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
-   hawkins:         '0000806636',    // Mason Hawkins – Longleaf Partners
+
+
   torray:          '0001618627',    // Torray Funds
     // 'hillman-value':         'XXX',    // Hillman Value Fund
   weitz:         '0001257927',    // Wallace Weitz – Weitz Large Cap Equity Fund
@@ -109,6 +108,9 @@ pabrai:  '0001549575',
  tangen: '0001376879',    // AKO Capital
  bobrinskoy: '0000798365',
  loeb:'0001040273',
+ hawkins:         '0000806636',    // Mason Hawkins – Longleaf Partners
+ rogers:           '0000798365',    // John Rogers – Ariel Appreciation Fund
+ cunniff:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
 
 
 

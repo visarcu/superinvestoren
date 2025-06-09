@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2023-05-12",
   "period": "2023-05-12",
+  "accession": "0001454502-23-000003",
+  "quarterKey": "2023-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 822900,
-      "value": 85582000000
-    },
-    {
-      "name": "AMAZON.COM INC",
-      "cusip": "023135106",
-      "shares": 719936,
-      "value": 74362000000
-    },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 381748,
-      "value": 136517000000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 493692,
-      "value": 25929000000
-    },
-    {
-      "name": "LAM RESEARCH CORP",
-      "cusip": "512807108",
-      "shares": 62060,
-      "value": 32899000000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 253304,
-      "value": 73028000000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 123644,
-      "value": 37838000000
+      "value": 136517000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 129000,
-      "value": 95079000000
-    },
-    {
-      "name": "VERISIGN INC",
-      "cusip": "92343E102",
-      "shares": 161504,
-      "value": 34131000000
+      "value": 95079000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 399482,
-      "value": 90067000000
+      "value": 90067000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 822900,
+      "value": 85582000
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 719936,
+      "value": 74362000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 253304,
+      "value": 73028000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 123644,
+      "value": 37838000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 161504,
+      "value": 34131000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 62060,
+      "value": 32899000
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 493692,
+      "value": 25929000
     }
-  ]
+  ],
+  "totalValue": 685432000,
+  "positionsCount": 10
 }

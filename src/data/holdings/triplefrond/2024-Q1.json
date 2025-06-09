@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2024-02-14",
   "period": "2024-02-14",
+  "accession": "0001387292-24-000003",
+  "quarterKey": "2024-Q1",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 716700,
-      "value": 101005000000
-    },
-    {
-      "name": "AMAZON.COM INC",
-      "cusip": "023135106",
-      "shares": 541901,
-      "value": 82336000000
-    },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 398045,
-      "value": 154712000000
-    },
-    {
-      "name": "LAM RESEARCH CORP",
-      "cusip": "512807108",
-      "shares": 62060,
-      "value": 48609000000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 228654,
-      "value": 85983000000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 174753,
-      "value": 68252000000
+      "value": 154712000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 119982,
-      "value": 121374000000
+      "value": 121374000
     },
     {
-      "name": "VERISIGN INC",
-      "cusip": "92343E102",
-      "shares": 233415,
-      "value": 48074000000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 716700,
+      "value": 101005000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 366637,
-      "value": 95454000000
+      "value": 95454000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 228654,
+      "value": 85983000
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 541901,
+      "value": 82336000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 174753,
+      "value": 68252000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 62060,
+      "value": 48609000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 233415,
+      "value": 48074000
     },
     {
       "name": "CANADIAN PACIFIC KANSAS CITY",
       "cusip": "13646K108",
       "shares": 440844,
-      "value": 34853000000
+      "value": 34853000
     }
-  ]
+  ],
+  "totalValue": 840652000,
+  "positionsCount": 10
 }

@@ -2,114 +2,118 @@
   "form": "13F-HR",
   "date": "2016-11-08",
   "period": "2016-11-08",
+  "accession": "0001532262-16-000016",
+  "quarterKey": "2016-Q4",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 25828,
-      "value": 20767000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 580000,
+      "value": 74397
     },
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 25898,
-      "value": 20130000
-    },
-    {
-      "name": "AMAZON COM INC ",
-      "cusip": "023135106",
-      "shares": 20000,
-      "value": 16746000
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1260000,
+      "value": 49001
     },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 400000,
-      "value": 45220000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 100000,
-      "value": 14447000
+      "value": 45220
     },
     {
       "name": "COSTCO WHSL CORP NEW",
       "cusip": "22160K105",
       "shares": 225000,
-      "value": 34315000
-    },
-    {
-      "name": "DISNEY WALT CO ",
-      "cusip": "254687106",
-      "shares": 100000,
-      "value": 9286000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 580000,
-      "value": 74397000
-    },
-    {
-      "name": "INFINERA CORPORATION ",
-      "cusip": "45667G103",
-      "shares": 500000,
-      "value": 4515000
-    },
-    {
-      "name": "LENNAR CORP",
-      "cusip": "526057104",
-      "shares": 50000,
-      "value": 2117000
+      "value": 34315
     },
     {
       "name": "MARKEL CORP",
       "cusip": "570535104",
       "shares": 32285,
-      "value": 29985000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 50000,
-      "value": 2633000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 500000,
-      "value": 20485000
+      "value": 29985
     },
     {
       "name": "PULTE GROUP INC",
       "cusip": "745867101",
       "shares": 1200000,
-      "value": 24048000
+      "value": 24048
     },
     {
-      "name": "SOUTHWEST AIRLS CO ",
-      "cusip": "844741108",
-      "shares": 1260000,
-      "value": 49001000
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25828,
+      "value": 20767
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 500000,
+      "value": 20485
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25898,
+      "value": 20130
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 20000,
+      "value": 16746
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 100000,
+      "value": 14447
     },
     {
       "name": "STARBUCKS CORP",
       "cusip": "855244109",
       "shares": 250000,
-      "value": 13535000
+      "value": 13535
+    },
+    {
+      "name": "WPP PLC NEW",
+      "cusip": "92937A102",
+      "shares": 80000,
+      "value": 9418
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 100000,
+      "value": 9286
+    },
+    {
+      "name": "INFINERA CORPORATION",
+      "cusip": "45667G103",
+      "shares": 500000,
+      "value": 4515
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 50000,
+      "value": 2633
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 50000,
+      "value": 2117
     },
     {
       "name": "VALHI INC NEW",
       "cusip": "918905100",
       "shares": 344790,
-      "value": 793000
-    },
-    {
-      "name": "WPP PLC NEW ",
-      "cusip": "92937A102",
-      "shares": 80000,
-      "value": 9418000
+      "value": 793
     }
-  ]
+  ],
+  "totalValue": 391838,
+  "positionsCount": 18
 }

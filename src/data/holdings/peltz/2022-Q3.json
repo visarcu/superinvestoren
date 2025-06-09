@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2022-08-12",
   "period": "2022-08-12",
+  "accession": "0001345471-22-000075",
+  "quarterKey": "2022-Q3",
   "positions": [
+    {
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 55758634,
+      "value": 899387
+    },
     {
       "name": "Ferguson Plc New",
       "cusip": "G3421J106",
       "shares": 8095917,
-      "value": 896299000
-    },
-    {
-      "name": "Ferguson Plc New",
-      "cusip": "G3421J106",
-      "shares": 4730694,
-      "value": 523735000
-    },
-    {
-      "name": "General Electric Co.",
-      "cusip": "369604301",
-      "shares": 4026615,
-      "value": 256375000
-    },
-    {
-      "name": "Invesco Ltd.",
-      "cusip": "G491BT108",
-      "shares": 55758634,
-      "value": 899387000
+      "value": 896299
     },
     {
       "name": "Janus Henderson Group plc",
       "cusip": "G4474Y214",
       "shares": 31867800,
-      "value": 749212000
+      "value": 749212
     },
     {
-      "name": "Mondelez Intl Inc.",
-      "cusip": "609207105",
-      "shares": 16239,
-      "value": 1008000
-    },
-    {
-      "name": "Procter and Gamble Co.",
-      "cusip": "742718109",
-      "shares": 5457,
-      "value": 785000
-    },
-    {
-      "name": "Sysco Corp.",
+      "name": "Sysco Corp",
       "cusip": "871829107",
       "shares": 8793157,
-      "value": 744868000
+      "value": 744868
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 4730694,
+      "value": 523735
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 25333339,
-      "value": 478293000
+      "value": 478293
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4026615,
+      "value": 256375
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 16239,
+      "value": 1008
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 5457,
+      "value": 785
     }
-  ]
+  ],
+  "totalValue": 4549962,
+  "positionsCount": 9
 }

@@ -1,77 +1,83 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-11",
+  "period": "2022-02-11",
+  "accession": "0001085146-22-000865",
+  "quarterKey": "2022-Q1",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 2530200,
-      "value": 300563000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 20000,
-      "value": 57872000
-    },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 30073700,
-      "value": 5340187000
+      "value": 5340187
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 7054261,
-      "value": 2109224000
+      "value": 2109224
     },
     {
-      "name": "BK OF AMERICA CORP",
-      "cusip": "060505104",
-      "shares": 552900,
-      "value": 24599000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2530200,
+      "value": 300563
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 926800,
-      "value": 143552000
+      "value": 143552
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 20000,
+      "value": 57872
     },
     {
       "name": "EXXON MOBIL CORP",
       "cusip": "30231G102",
       "shares": 899700,
-      "value": 55053000
-    },
-    {
-      "name": "GAOTU TECHEDU INC",
-      "cusip": "36257Y109",
-      "shares": 152400,
-      "value": 296000
-    },
-    {
-      "name": "JOYY INC",
-      "cusip": "46591M109",
-      "shares": 302500,
-      "value": 13743000
-    },
-    {
-      "name": "MODERNA INC",
-      "cusip": "60770K107",
-      "shares": 60000,
-      "value": 15239000
-    },
-    {
-      "name": "WELLS FARGO CO NEW",
-      "cusip": "949746101",
-      "shares": 136000,
-      "value": 6525000
+      "value": 55053
     },
     {
       "name": "ZOOM VIDEO COMMUNICATIONS IN",
       "cusip": "98980L101",
       "shares": 209800,
-      "value": 38584000
+      "value": 38584
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 552900,
+      "value": 24599
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 60000,
+      "value": 15239
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 302500,
+      "value": 13743
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 136000,
+      "value": 6525
+    },
+    {
+      "name": "GAOTU TECHEDU INC",
+      "cusip": "36257Y109",
+      "shares": 152400,
+      "value": 296
     }
-  ]
+  ],
+  "totalValue": 8105437,
+  "positionsCount": 12
 }

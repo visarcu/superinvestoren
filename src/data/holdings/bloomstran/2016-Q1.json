@@ -1,197 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-08",
+  "period": "2016-02-08",
+  "accession": "0001172661-16-002456",
+  "quarterKey": "2016-Q1",
   "positions": [
-    {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 24415,
-      "value": 1698000
-    },
-    {
-      "name": "AVX CORP NEW",
-      "cusip": "002444107",
-      "shares": 226869,
-      "value": 2754000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 86,
-      "value": 17011000
-    },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 187891,
-      "value": 24809000
-    },
-    {
-      "name": "CHICAGO BRIDGE & IRON CO N V",
-      "cusip": "167250109",
-      "shares": 33166,
-      "value": 1293000
-    },
-    {
-      "name": "CHUBB CORP",
-      "cusip": "171232101",
-      "shares": 10000,
-      "value": 1326000
-    },
-    {
-      "name": "CNA FINL CORP",
-      "cusip": "126117100",
-      "shares": 37915,
-      "value": 1333000
-    },
-    {
-      "name": "COCA COLA CO",
-      "cusip": "191216100",
-      "shares": 50000,
-      "value": 2148000
-    },
-    {
-      "name": "COSTCO WHSL CORP NEW",
-      "cusip": "22160K105",
-      "shares": 20302,
-      "value": 3279000
-    },
-    {
-      "name": "DST SYS INC DEL",
-      "cusip": "233326107",
-      "shares": 2450,
-      "value": 279000
+      "value": 24809
     },
     {
       "name": "EXXON MOBIL CORP",
       "cusip": "30231G102",
       "shares": 256418,
-      "value": 19988000
+      "value": 19988
     },
     {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604103",
-      "shares": 98009,
-      "value": 3053000
-    },
-    {
-      "name": "GOLDCORP INC NEW",
-      "cusip": "380956409",
-      "shares": 379901,
-      "value": 4392000
-    },
-    {
-      "name": "INTEL CORP",
-      "cusip": "458140100",
-      "shares": 88248,
-      "value": 3040000
-    },
-    {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 20089,
-      "value": 2064000
-    },
-    {
-      "name": "KINROSS GOLD CORP",
-      "cusip": "496902404",
-      "shares": 536458,
-      "value": 976000
-    },
-    {
-      "name": "LEUCADIA NATL CORP",
-      "cusip": "527288104",
-      "shares": 307601,
-      "value": 5349000
-    },
-    {
-      "name": "MEDTRONIC PLC",
-      "cusip": "G5960L103",
-      "shares": 5000,
-      "value": 385000
-    },
-    {
-      "name": "MERCK & CO INC NEW",
-      "cusip": "58933Y105",
-      "shares": 78729,
-      "value": 4158000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 86,
+      "value": 17011
     },
     {
       "name": "MERCURY GENL CORP NEW",
       "cusip": "589400100",
       "shares": 196847,
-      "value": 9167000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 68125,
-      "value": 3780000
-    },
-    {
-      "name": "NEWMONT MINING CORP",
-      "cusip": "651639106",
-      "shares": 200263,
-      "value": 3603000
-    },
-    {
-      "name": "PEPSICO INC",
-      "cusip": "713448108",
-      "shares": 21475,
-      "value": 2146000
+      "value": 9167
     },
     {
       "name": "PRECISION CASTPARTS CORP",
       "cusip": "740189105",
       "shares": 35397,
-      "value": 8212000
-    },
-    {
-      "name": "ROYAL DUTCH SHELL PLC",
-      "cusip": "780259206",
-      "shares": 4868,
-      "value": 223000
-    },
-    {
-      "name": "SANOFI",
-      "cusip": "80105N105",
-      "shares": 83220,
-      "value": 3549000
-    },
-    {
-      "name": "STATOIL ASA",
-      "cusip": "85771P102",
-      "shares": 128114,
-      "value": 1788000
-    },
-    {
-      "name": "SYNCHRONY FINL",
-      "cusip": "87165B103",
-      "shares": 9571,
-      "value": 291000
-    },
-    {
-      "name": "TRAVELERS COMPANIES INC",
-      "cusip": "89417E109",
-      "shares": 20000,
-      "value": 2257000
-    },
-    {
-      "name": "VALIDUS HOLDINGS LTD",
-      "cusip": "G9319H102",
-      "shares": 56101,
-      "value": 2597000
-    },
-    {
-      "name": "VICAL INC",
-      "cusip": "925602104",
-      "shares": 374146,
-      "value": 153000
+      "value": 8212
     },
     {
       "name": "WASHINGTON FED INC",
       "cusip": "938824109",
       "shares": 234239,
-      "value": 5582000
+      "value": 5582
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 307601,
+      "value": 5349
+    },
+    {
+      "name": "GOLDCORP INC NEW",
+      "cusip": "380956409",
+      "shares": 379901,
+      "value": 4392
+    },
+    {
+      "name": "MERCK & CO INC NEW",
+      "cusip": "58933Y105",
+      "shares": 78729,
+      "value": 4158
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 68125,
+      "value": 3780
+    },
+    {
+      "name": "NEWMONT MINING CORP",
+      "cusip": "651639106",
+      "shares": 200263,
+      "value": 3603
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 83220,
+      "value": 3549
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 20302,
+      "value": 3279
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 98009,
+      "value": 3053
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 88248,
+      "value": 3040
+    },
+    {
+      "name": "AVX CORP NEW",
+      "cusip": "002444107",
+      "shares": 226869,
+      "value": 2754
+    },
+    {
+      "name": "VALIDUS HOLDINGS LTD",
+      "cusip": "G9319H102",
+      "shares": 56101,
+      "value": 2597
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20000,
+      "value": 2257
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 50000,
+      "value": 2148
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 21475,
+      "value": 2146
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 20089,
+      "value": 2064
+    },
+    {
+      "name": "STATOIL ASA",
+      "cusip": "85771P102",
+      "shares": 128114,
+      "value": 1788
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 24415,
+      "value": 1698
+    },
+    {
+      "name": "CNA FINL CORP",
+      "cusip": "126117100",
+      "shares": 37915,
+      "value": 1333
+    },
+    {
+      "name": "CHUBB CORP",
+      "cusip": "171232101",
+      "shares": 10000,
+      "value": 1326
+    },
+    {
+      "name": "CHICAGO BRIDGE & IRON CO N V",
+      "cusip": "167250109",
+      "shares": 33166,
+      "value": 1293
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 536458,
+      "value": 976
+    },
+    {
+      "name": "MEDTRONIC PLC",
+      "cusip": "G5960L103",
+      "shares": 5000,
+      "value": 385
+    },
+    {
+      "name": "SYNCHRONY FINL",
+      "cusip": "87165B103",
+      "shares": 9571,
+      "value": 291
+    },
+    {
+      "name": "DST SYS INC DEL",
+      "cusip": "233326107",
+      "shares": 2450,
+      "value": 279
+    },
+    {
+      "name": "ROYAL DUTCH SHELL PLC",
+      "cusip": "780259206",
+      "shares": 4868,
+      "value": 223
+    },
+    {
+      "name": "VICAL INC",
+      "cusip": "925602104",
+      "shares": 374146,
+      "value": 153
     }
-  ]
+  ],
+  "totalValue": 142683,
+  "positionsCount": 32
 }

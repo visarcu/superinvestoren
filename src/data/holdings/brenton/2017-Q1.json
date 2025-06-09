@@ -1,83 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2017-02-10",
+  "period": "2017-02-10",
+  "accession": "0000950123-17-001295",
+  "quarterKey": "2017-Q1",
   "positions": [
-    {
-      "name": "BORGWARNER INC",
-      "cusip": "099724106",
-      "shares": 1503000,
-      "value": 59278000
-    },
-    {
-      "name": "CIMPRESS NV",
-      "cusip": "N20146101",
-      "shares": 348391,
-      "value": 31916000
-    },
-    {
-      "name": "CLEAN HARBORS INC",
-      "cusip": "184496107",
-      "shares": 219354,
-      "value": 12207000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 300,
-      "value": 6000
-    },
     {
       "name": "GILDAN ACTIVEWEAR INC",
       "cusip": "375916103",
       "shares": 4160163,
-      "value": 105543000
-    },
-    {
-      "name": "HEICO CORP NEW",
-      "cusip": "422806208",
-      "shares": 296447,
-      "value": 20129000
-    },
-    {
-      "name": "MITEL NETWORKS CORP",
-      "cusip": "60671Q104",
-      "shares": 8385047,
-      "value": 57018000
-    },
-    {
-      "name": "NETSCOUT SYSTEMS INC",
-      "cusip": "64115T104",
-      "shares": 951000,
-      "value": 29957000
-    },
-    {
-      "name": "OPEN TEXT CORP",
-      "cusip": "683715106",
-      "shares": 817868,
-      "value": 50552000
+      "value": 105543
     },
     {
       "name": "PRA GROUP INC",
       "cusip": "69354N106",
       "shares": 2109019,
-      "value": 82463000
+      "value": 82463
     },
     {
-      "name": "SS&C TECHNOLOGIES  HOLDINGS INC.",
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 1503000,
+      "value": 59278
+    },
+    {
+      "name": "MITEL NETWORKS CORP",
+      "cusip": "60671Q104",
+      "shares": 8385047,
+      "value": 57018
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 817868,
+      "value": 50552
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
       "cusip": "78467J100",
       "shares": 1451300,
-      "value": 41507000
+      "value": 41507
     },
     {
-      "name": "TJX COMPANIES INC",
-      "cusip": "872540109",
-      "shares": 261000,
-      "value": 19609000
+      "name": "CIMPRESS NV",
+      "cusip": "N20146101",
+      "shares": 348391,
+      "value": 31916
     },
     {
       "name": "TRACTOR SUPPLY CO",
       "cusip": "892356106",
       "shares": 416100,
-      "value": 31545000
+      "value": 31545
+    },
+    {
+      "name": "NETSCOUT SYSTEMS INC",
+      "cusip": "64115T104",
+      "shares": 951000,
+      "value": 29957
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 296447,
+      "value": 20129
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 261000,
+      "value": 19609
+    },
+    {
+      "name": "CLEAN HARBORS INC",
+      "cusip": "184496107",
+      "shares": 219354,
+      "value": 12207
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 300,
+      "value": 6
     }
-  ]
+  ],
+  "totalValue": 541730,
+  "positionsCount": 13
 }

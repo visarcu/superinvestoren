@@ -1,89 +1,95 @@
 {
+  "form": "13F-HR",
   "date": "2021-02-16",
+  "period": "2021-02-16",
+  "accession": "0000919574-21-001232",
+  "quarterKey": "2021-Q1",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 600000,
-      "value": 139638000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 12000,
-      "value": 21032000
-    },
-    {
-      "name": "BMC STK HLDGS INC",
-      "cusip": "05591B109",
-      "shares": 2464429,
-      "value": 132291000
-    },
-    {
-      "name": "BUILDERS FIRSTSOURCE INC",
-      "cusip": "12008R107",
-      "shares": 5000000,
-      "value": 204050000
-    },
-    {
-      "name": "CRESUD S A C I F Y A",
-      "cusip": "226406106",
-      "shares": 660492,
-      "value": 3164000
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 24000000,
+      "value": 434160
     },
     {
       "name": "EQUITABLE HLDGS INC",
       "cusip": "29452E101",
       "shares": 9000000,
-      "value": 230310000
+      "value": 230310
     },
     {
-      "name": "EVI INDS INC",
-      "cusip": "26929N102",
-      "shares": 269306,
-      "value": 8058000
-    },
-    {
-      "name": "FIAT CHRYSLER AUTOMOBILES N",
-      "cusip": "N31738102",
-      "shares": 24000000,
-      "value": 434160000
-    },
-    {
-      "name": "GTT COMMUNICATIONS INC",
-      "cusip": "362393100",
-      "shares": 5209971,
-      "value": 18600000
-    },
-    {
-      "name": "GTY TECHNOLOGY HOLDINGS INC",
-      "cusip": "362409104",
-      "shares": 6324130,
-      "value": 32759000
-    },
-    {
-      "name": "INTERNATIONAL MNY EXPRESS IN",
-      "cusip": "46005L101",
-      "shares": 2594241,
-      "value": 40263000
-    },
-    {
-      "name": "JD.COM INC",
-      "cusip": "47215P106",
-      "shares": 1176000,
-      "value": 103370000
-    },
-    {
-      "name": "SINCLAIR BROADCAST GROUP INC",
-      "cusip": "829226109",
-      "shares": 4154967,
-      "value": 132336000
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 5000000,
+      "value": 204050
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 2136000,
-      "value": 148623000
+      "value": 148623
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 600000,
+      "value": 139638
+    },
+    {
+      "name": "SINCLAIR BROADCAST GROUP INC",
+      "cusip": "829226109",
+      "shares": 4154967,
+      "value": 132336
+    },
+    {
+      "name": "BMC STK HLDGS INC",
+      "cusip": "05591B109",
+      "shares": 2464429,
+      "value": 132291
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 1176000,
+      "value": 103370
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 2594241,
+      "value": 40263
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "362409104",
+      "shares": 6324130,
+      "value": 32759
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 12000,
+      "value": 21032
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 5209971,
+      "value": 18600
+    },
+    {
+      "name": "EVI INDS INC",
+      "cusip": "26929N102",
+      "shares": 269306,
+      "value": 8058
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "226406106",
+      "shares": 660492,
+      "value": 3164
     }
-  ]
+  ],
+  "totalValue": 1648654,
+  "positionsCount": 14
 }

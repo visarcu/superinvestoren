@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-13",
+  "period": "2020-11-13",
+  "accession": "0001172661-20-002113",
+  "quarterKey": "2020-Q4",
   "positions": [
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 742471,
-      "value": 218272000
-    },
-    {
-      "name": "CERIDIAN HCM HLDG INC",
-      "cusip": "15677J108",
-      "shares": 190537,
-      "value": 15748000
-    },
-    {
-      "name": "EURONET WORLDWIDE INC",
-      "cusip": "298736109",
-      "shares": 285214,
-      "value": 25983000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 34603,
-      "value": 2588000
-    },
-    {
-      "name": "GLOBAL PMTS INC",
-      "cusip": "37940X102",
-      "shares": 255960,
-      "value": 45453000
-    },
-    {
-      "name": "LAUDER ESTEE COS INC",
-      "cusip": "518439104",
-      "shares": 6522,
-      "value": 1423000
-    },
-    {
-      "name": "LIVENT CORP",
-      "cusip": "53814L108",
-      "shares": 2955475,
-      "value": 26511000
+      "value": 218272
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 738000,
-      "value": 155224000
+      "value": 155224
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 255960,
+      "value": 45453
+    },
+    {
+      "name": "LIVENT CORP",
+      "cusip": "53814L108",
+      "shares": 2955475,
+      "value": 26511
+    },
+    {
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 285214,
+      "value": 25983
+    },
+    {
+      "name": "CERIDIAN HCM HLDG INC",
+      "cusip": "15677J108",
+      "shares": 190537,
+      "value": 15748
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 34603,
+      "value": 2588
     },
     {
       "name": "PROCTER AND GAMBLE CO",
       "cusip": "742718109",
       "shares": 16550,
-      "value": 2300000
+      "value": 2300
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 6522,
+      "value": 1423
     },
     {
       "name": "SNOWFLAKE INC",
       "cusip": "833445109",
       "shares": 4824,
-      "value": 1211000
+      "value": 1211
     }
-  ]
+  ],
+  "totalValue": 494713,
+  "positionsCount": 10
 }

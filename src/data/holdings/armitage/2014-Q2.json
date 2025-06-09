@@ -1,179 +1,185 @@
 {
+  "form": "13F-HR",
   "date": "2014-05-13",
+  "period": "2014-05-13",
+  "accession": "0000919574-14-002898",
+  "quarterKey": "2014-Q2",
   "positions": [
     {
-      "name": "AMERICAN AIRLS GROUP INC",
-      "cusip": "02376R102",
-      "shares": 4668955,
-      "value": 170884000
-    },
-    {
-      "name": "AMERICAN EXPRESS CO",
-      "cusip": "025816109",
-      "shares": 5515424,
-      "value": 496554000
-    },
-    {
-      "name": "AMERICAN INTL GROUP INC",
-      "cusip": "026874784",
-      "shares": 6618384,
-      "value": 330985000
-    },
-    {
-      "name": "BANK OF AMERICA CORPORATION",
-      "cusip": "060505104",
-      "shares": 8287491,
-      "value": 142545000
-    },
-    {
-      "name": "BLACKSTONE MTG TR INC",
-      "cusip": "09257W100",
-      "shares": 1543824,
-      "value": 44385000
-    },
-    {
-      "name": "CF INDS HLDGS INC",
-      "cusip": "125269100",
-      "shares": 893612,
-      "value": 232911000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC D",
-      "cusip": "16117M305",
-      "shares": 1727819,
-      "value": 212867000
-    },
-    {
-      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
-      "cusip": "192446102",
-      "shares": 3731298,
-      "value": 188804000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 7831191,
-      "value": 391873000
-    },
-    {
-      "name": "DAVITA HEALTHCARE PARTNERS I",
-      "cusip": "23918K108",
-      "shares": 3544846,
-      "value": 244063000
-    },
-    {
-      "name": "DELTA AIR LINES INC DEL",
-      "cusip": "247361702",
-      "shares": 5339709,
-      "value": 185021000
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 11627465,
+      "value": 578350
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 7057139,
-      "value": 565065000
+      "value": 565065
     },
     {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 3274584,
-      "value": 185636000
-    },
-    {
-      "name": "FOOT LOCKER INC",
-      "cusip": "344849104",
-      "shares": 840272,
-      "value": 39476000
-    },
-    {
-      "name": "GARMIN LTD",
-      "cusip": "H2906T109",
-      "shares": 4407358,
-      "value": 243551000
-    },
-    {
-      "name": "INTERCONTINENTALEXCHANGE GRO",
-      "cusip": "45866F104",
-      "shares": 654790,
-      "value": 129537000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 3717905,
-      "value": 154665000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 3100515,
-      "value": 126222000
-    },
-    {
-      "name": "MCGRAW HILL FINL INC",
-      "cusip": "580645109",
-      "shares": 1549228,
-      "value": 118206000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 3523187,
-      "value": 279459000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 1925616,
-      "value": 142226000
-    },
-    {
-      "name": "NORWEGIAN CRUISE LINE HLDGS",
-      "cusip": "G66721104",
-      "shares": 1176012,
-      "value": 37950000
-    },
-    {
-      "name": "OMNICOM GROUP INC",
-      "cusip": "681919106",
-      "shares": 940782,
-      "value": 68301000
-    },
-    {
-      "name": "QUALCOMM INC",
-      "cusip": "747525103",
-      "shares": 3473163,
-      "value": 273894000
-    },
-    {
-      "name": "REALOGY HLDGS CORP",
-      "cusip": "75605Y106",
-      "shares": 4182504,
-      "value": 181730000
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 5515424,
+      "value": 496554
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 12839375,
-      "value": 410475000
+      "value": 410475
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 7831191,
+      "value": 391873
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 1690014,
-      "value": 364806000
+      "value": 364806
     },
     {
-      "name": "WELLS FARGO & CO NEW",
-      "cusip": "949746101",
-      "shares": 11627465,
-      "value": 578350000
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 6618384,
+      "value": 330985
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 3523187,
+      "value": 279459
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 3473163,
+      "value": 273894
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 3544846,
+      "value": 244063
+    },
+    {
+      "name": "GARMIN LTD",
+      "cusip": "H2906T109",
+      "shares": 4407358,
+      "value": 243551
+    },
+    {
+      "name": "CF INDS HLDGS INC",
+      "cusip": "125269100",
+      "shares": 893612,
+      "value": 232911
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 1727819,
+      "value": 212867
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 3731298,
+      "value": 188804
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 3274584,
+      "value": 185636
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 5339709,
+      "value": 185021
+    },
+    {
+      "name": "REALOGY HLDGS CORP",
+      "cusip": "75605Y106",
+      "shares": 4182504,
+      "value": 181730
+    },
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 4668955,
+      "value": 170884
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 3717905,
+      "value": 154665
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505104",
+      "shares": 8287491,
+      "value": 142545
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 1925616,
+      "value": 142226
+    },
+    {
+      "name": "INTERCONTINENTALEXCHANGE GRO",
+      "cusip": "45866F104",
+      "shares": 654790,
+      "value": 129537
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 3100515,
+      "value": 126222
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 1549228,
+      "value": 118206
+    },
+    {
+      "name": "OMNICOM GROUP INC",
+      "cusip": "681919106",
+      "shares": 940782,
+      "value": 68301
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1543824,
+      "value": 44385
+    },
+    {
+      "name": "FOOT LOCKER INC",
+      "cusip": "344849104",
+      "shares": 840272,
+      "value": 39476
+    },
+    {
+      "name": "NORWEGIAN CRUISE LINE HLDGS",
+      "cusip": "G66721104",
+      "shares": 1176012,
+      "value": 37950
     },
     {
       "name": "WYNDHAM WORLDWIDE CORP",
       "cusip": "98310W108",
       "shares": 355799,
-      "value": 26055000
+      "value": 26055
     }
-  ]
+  ],
+  "totalValue": 6566496,
+  "positionsCount": 29
 }

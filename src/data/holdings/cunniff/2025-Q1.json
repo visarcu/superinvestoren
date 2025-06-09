@@ -1,182 +1,166 @@
 {
-  "form": "NPORT-P",
-  "date": "2025-02-27",
-  "period": "2025-02-27",
+  "date": "2025-06-09",
   "positions": [
     {
-      "name": "CHARLES SCHWAB CORP/THE",
-      "cusip": "808513105",
-      "shares": 2532139,
-      "value": 187403607390,
-      "pctOfPortfolio": 556.6493314794
-    },
-    {
-      "name": "Ashtead Group PLC",
-      "cusip": "000000000",
-      "shares": 1489275,
-      "value": 92568620440,
-      "pctOfPortfolio": 274.9587449331
-    },
-    {
-      "name": "SAP SE",
-      "cusip": "000000000",
-      "shares": 575172,
-      "value": 140785629800,
-      "pctOfPortfolio": 418.1788589959
-    },
-    {
-      "name": "TSMC",
-      "cusip": "874039100",
-      "shares": 696985,
-      "value": 137647567650,
-      "pctOfPortfolio": 408.8577993735
-    },
-    {
-      "name": "Rolls-Royce Holdings PLC",
-      "cusip": "000000000",
+      "name": "Rolls Royce Holdings plc",
+      "cusip": "RYCEF0000",
       "shares": 41891727,
-      "value": 298198022740,
-      "pctOfPortfolio": 885.744582607
+      "value": 405511917,
+      "ticker": "RYCEF"
     },
     {
-      "name": "Constellation Software Inc/Can",
-      "cusip": "21037X100",
+      "name": "Constellation Software Inc.",
+      "cusip": "CNSWF0000",
       "shares": 83113,
-      "value": 257003586090,
-      "pctOfPortfolio": 763.3837810128
+      "value": 263213053,
+      "ticker": "CNSWF"
     },
     {
-      "name": "Charter Communications Inc",
-      "cusip": "16119P108",
-      "shares": 146487,
-      "value": 50211348990,
-      "pctOfPortfolio": 149.14394785259998
+      "name": "Liberty Media Corp Formula One Series C",
+      "cusip": "FWONK0000",
+      "shares": 2743813,
+      "value": 246970608,
+      "ticker": "FWONK"
     },
     {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 199675,
-      "value": 116911709250,
-      "pctOfPortfolio": 347.2655927092
+      "name": "Charles Schwab Corp.",
+      "cusip": "SCHW00000",
+      "shares": 2532139,
+      "value": 198215841,
+      "ticker": "SCHW"
+    },
+    {
+      "name": "Universal Music Grp NV",
+      "cusip": "UMGNF0000",
+      "shares": 7137909,
+      "value": 196292498,
+      "ticker": "UMGNF"
+    },
+    {
+      "name": "Elevance Health Inc.",
+      "cusip": "ELV00000",
+      "shares": 418967,
+      "value": 182233886,
+      "ticker": "ELV"
+    },
+    {
+      "name": "Alphabet Inc.",
+      "cusip": "GOOGL0000",
+      "shares": 1155584,
+      "value": 178699510,
+      "ticker": "GOOGL"
+    },
+    {
+      "name": "Intercontinental Exchange Inc.",
+      "cusip": "ICE00000",
+      "shares": 1017373,
+      "value": 175496843,
+      "ticker": "ICE"
+    },
+    {
+      "name": "United Health Group Inc.",
+      "cusip": "UNH00000",
+      "shares": 317276,
+      "value": 166173305,
+      "ticker": "UNH"
     },
     {
       "name": "Eurofins Scientific SE",
-      "cusip": "000000000",
+      "cusip": "ERFSF0000",
       "shares": 2926063,
-      "value": 149456753900,
-      "pctOfPortfolio": 443.9349023329
+      "value": 155725073,
+      "ticker": "ERFSF"
     },
     {
-      "name": "LIBERTY BROADBAND CORP",
-      "cusip": "530307305",
-      "shares": 875797,
-      "value": 65474583720,
-      "pctOfPortfolio": 194.4806920433
+      "name": "SAP SE",
+      "cusip": "SAP00000",
+      "shares": 575172,
+      "value": 152000704,
+      "ticker": "SAP"
     },
     {
-      "name": "UnitedHealth Group Inc",
-      "cusip": "91324P102",
-      "shares": 317276,
-      "value": 160497237360,
-      "pctOfPortfolio": 476.72870936149997
-    },
-    {
-      "name": "CONSTELLATION SOFTWARE INC",
-      "cusip": "21037X134",
-      "shares": 99398,
-      "value": 0,
-      "pctOfPortfolio": 0
-    },
-    {
-      "name": "Intercontinental Exchange Inc",
-      "cusip": "45866F104",
-      "shares": 1757109,
-      "value": 261826812090,
-      "pctOfPortfolio": 777.7103223524
-    },
-    {
-      "name": "Liberty Media Corp-Liberty For",
-      "cusip": "531229771",
-      "shares": 42268,
-      "value": 3552202720,
-      "pctOfPortfolio": 10.5511910731
-    },
-    {
-      "name": "Amentum Holdings Inc",
-      "cusip": "023939101",
-      "shares": 991858,
-      "value": 20858773740,
-      "pctOfPortfolio": 61.9573049823
-    },
-    {
-      "name": "LIBERTY BROADBAND CORP",
-      "cusip": "530307107",
-      "shares": 340760,
-      "value": 25338913600,
-      "pctOfPortfolio": 75.26476951160001
-    },
-    {
-      "name": "Liberty Media Corp-Liberty For",
-      "cusip": "531229755",
-      "shares": 2743813,
-      "value": 254241712580,
-      "pctOfPortfolio": 755.180123333
-    },
-    {
-      "name": "CREDIT ACCEPTANCE CORP",
-      "cusip": "225310101",
-      "shares": 263328,
-      "value": 123621962880,
-      "pctOfPortfolio": 367.1972164875
-    },
-    {
-      "name": "Jacobs Solutions Inc",
-      "cusip": "46982L108",
-      "shares": 373479,
-      "value": 49904263980,
-      "pctOfPortfolio": 148.2318060432
-    },
-    {
-      "name": "Universal Music Group NV",
-      "cusip": "000000000",
-      "shares": 7137909,
-      "value": 182774811090,
-      "pctOfPortfolio": 542.9003092389
-    },
-    {
-      "name": "Elevance Health Inc",
-      "cusip": "036752103",
-      "shares": 418967,
-      "value": 154556926300,
-      "pctOfPortfolio": 459.08406406160003
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC",
-      "cusip": "084670702",
-      "shares": 78394,
-      "value": 35534432320,
-      "pctOfPortfolio": 105.54875795030001
-    },
-    {
-      "name": "Capital One Financial Corp",
-      "cusip": "14040H105",
+      "name": "Capital One Financial",
+      "cusip": "COF00000",
       "shares": 828064,
-      "value": 147660372480,
-      "pctOfPortfolio": 438.5990684584
+      "value": 148471875,
+      "ticker": "COF"
     },
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 1155584,
-      "value": 218752051200,
-      "pctOfPortfolio": 649.7643495561
+      "name": "Credit Acceptance Corp.",
+      "cusip": "CACC00000",
+      "shares": 263328,
+      "value": 135969413,
+      "ticker": "CACC"
     },
     {
-      "name": "ICON PLC",
-      "cusip": "000000000",
+      "name": "Ashtead Group plc",
+      "cusip": "ASHTF0000",
+      "shares": 2182681,
+      "value": 116904394,
+      "ticker": "ASHTF"
+    },
+    {
+      "name": "Taiwan Semiconductor S.A.",
+      "cusip": "TSM00000",
+      "shares": 696985,
+      "value": 115699510,
+      "ticker": "TSM"
+    },
+    {
+      "name": "Meta Platforms Inc.",
+      "cusip": "META00000",
+      "shares": 199675,
+      "value": 115084683,
+      "ticker": "META"
+    },
+    {
+      "name": "ICON plc",
+      "cusip": "ICLR00000",
       "shares": 494675,
-      "value": 103738294250,
-      "pctOfPortfolio": 308.1362890891
+      "value": 86563178,
+      "ticker": "ICLR"
+    },
+    {
+      "name": "Liberty Broadband Corp. CL C",
+      "cusip": "LBRDK0000",
+      "shares": 875797,
+      "value": 74486535,
+      "ticker": "LBRDK"
+    },
+    {
+      "name": "Charter Communications",
+      "cusip": "CHTR00000",
+      "shares": 146487,
+      "value": 53984854,
+      "ticker": "CHTR"
+    },
+    {
+      "name": "Berkshire Hathaway CL B",
+      "cusip": "BRK.B0000",
+      "shares": 78394,
+      "value": 41751077,
+      "ticker": "BRK.B"
+    },
+    {
+      "name": "Liberty Broadband Corp. CL A",
+      "cusip": "LBRDA0000",
+      "shares": 340760,
+      "value": 28964600,
+      "ticker": "LBRDA"
+    },
+    {
+      "name": "Amentum Holdings Inc.",
+      "cusip": "AMTM00000",
+      "shares": 991858,
+      "value": 18051816,
+      "ticker": "AMTM"
+    },
+    {
+      "name": "Liberty Media Corp Formula One Series A",
+      "cusip": "FWONA0000",
+      "shares": 42268,
+      "value": 3443997,
+      "ticker": "FWONA"
     }
   ]
 }

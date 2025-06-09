@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-14",
+  "period": "2022-02-14",
+  "accession": "0001104659-22-022401",
+  "quarterKey": "2022-Q1",
   "positions": [
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 1351054,
-      "value": 859649000
-    },
     {
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 1349477,
-      "value": 879819000
+      "value": 879819
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1351054,
+      "value": 859649
     },
     {
       "name": "ALPHABET INC - CL A",
       "cusip": "02079K305",
       "shares": 288376,
-      "value": 835437000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 529189,
-      "value": 177993000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 123310,
-      "value": 48162000
-    },
-    {
-      "name": "MASTERCARD INC CL A",
-      "cusip": "57636Q104",
-      "shares": 251249,
-      "value": 90279000
-    },
-    {
-      "name": "VISA INC CL A",
-      "cusip": "92826C839",
-      "shares": 1496102,
-      "value": 324220000
+      "value": 835437
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 1720176,
-      "value": 578530000
+      "value": 578530
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 1496102,
+      "value": 324220
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 529189,
+      "value": 177993
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 251249,
+      "value": 90279
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 123310,
+      "value": 48162
     }
-  ]
+  ],
+  "totalValue": 3794089,
+  "positionsCount": 8
 }

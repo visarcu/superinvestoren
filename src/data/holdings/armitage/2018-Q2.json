@@ -1,197 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2018-05-11",
+  "period": "2018-05-11",
+  "accession": "0001581811-18-000003",
+  "quarterKey": "2018-Q2",
   "positions": [
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 5643945,
-      "value": 380741000
-    },
     {
       "name": "ADOBE SYS INC",
       "cusip": "00724F101",
       "shares": 3305589,
-      "value": 714272000
-    },
-    {
-      "name": "ALASKA AIR GROUP INC",
-      "cusip": "011659109",
-      "shares": 858731,
-      "value": 53207000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 2427697,
-      "value": 445580000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 570939,
-      "value": 589089000
-    },
-    {
-      "name": "APPLIED MATLS INC",
-      "cusip": "038222105",
-      "shares": 11057737,
-      "value": 614921000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 21187986,
-      "value": 635428000
-    },
-    {
-      "name": "BLACKSTONE MTG TR INC",
-      "cusip": "09257W100",
-      "shares": 1298933,
-      "value": 40812000
-    },
-    {
-      "name": "BROADCOM LTD",
-      "cusip": "Y09827109",
-      "shares": 703964,
-      "value": 165889000
-    },
-    {
-      "name": "CANADIAN PAC RY LTD",
-      "cusip": "13645T100",
-      "shares": 2244338,
-      "value": 396126000
+      "value": 714272
     },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 2174268,
-      "value": 676676000
-    },
-    {
-      "name": "CINTAS CORP",
-      "cusip": "172908105",
-      "shares": 1270926,
-      "value": 216795000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 808764,
-      "value": 184333000
-    },
-    {
-      "name": "ELECTRONIC ARTS INC",
-      "cusip": "285512109",
-      "shares": 2247693,
-      "value": 272510000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 1661207,
-      "value": 265444000
-    },
-    {
-      "name": "GODADDY INC",
-      "cusip": "380237107",
-      "shares": 4321581,
-      "value": 265432000
-    },
-    {
-      "name": "HDFC BANK LTD",
-      "cusip": "40415F101",
-      "shares": 1681996,
-      "value": 166131000
-    },
-    {
-      "name": "HONEYWELL INTL INC",
-      "cusip": "438516106",
-      "shares": 225419,
-      "value": 32575000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 1442945,
-      "value": 252746000
+      "value": 676676
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 7079132,
-      "value": 646112000
+      "value": 646112
     },
     {
-      "name": "MORGAN STANLEY",
-      "cusip": "617446448",
-      "shares": 3136354,
-      "value": 169238000
-    },
-    {
-      "name": "PRAXAIR INC",
-      "cusip": "74005P104",
-      "shares": 4298447,
-      "value": 620266000
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 21187986,
+      "value": 635428
     },
     {
       "name": "S&P GLOBAL INC",
       "cusip": "78409V104",
       "shares": 3272717,
-      "value": 625285000
+      "value": 625285
     },
     {
-      "name": "SALESFORCE COM INC",
-      "cusip": "79466L302",
-      "shares": 2810516,
-      "value": 326863000
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 4298447,
+      "value": 620266
     },
     {
-      "name": "SCHWAB CHARLES CORP NEW",
-      "cusip": "808513105",
-      "shares": 10645934,
-      "value": 555931000
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 11057737,
+      "value": 614921
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 570939,
+      "value": 589089
     },
     {
       "name": "SOUTHWEST AIRLS CO",
       "cusip": "844741108",
       "shares": 10259924,
-      "value": 587688000
+      "value": 587688
     },
     {
-      "name": "TRANSUNION",
-      "cusip": "89400J107",
-      "shares": 3739456,
-      "value": 212326000
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 10645934,
+      "value": 555931
     },
     {
       "name": "TWENTY FIRST CENTY FOX INC",
       "cusip": "90130A101",
       "shares": 13875893,
-      "value": 509107000
-    },
-    {
-      "name": "UNION PAC CORP",
-      "cusip": "907818108",
-      "shares": 3269058,
-      "value": 439459000
-    },
-    {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 2165874,
-      "value": 463497000
-    },
-    {
-      "name": "WORLDPAY INC",
-      "cusip": "981558109",
-      "shares": 3232051,
-      "value": 265804000
+      "value": 509107
     },
     {
       "name": "WYNN RESORTS LTD",
       "cusip": "983134107",
       "shares": 2736728,
-      "value": 499070000
+      "value": 499070
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 2165874,
+      "value": 463497
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2427697,
+      "value": 445580
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 3269058,
+      "value": 439459
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 2244338,
+      "value": 396126
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 5643945,
+      "value": 380741
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2810516,
+      "value": 326863
+    },
+    {
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 2247693,
+      "value": 272510
+    },
+    {
+      "name": "WORLDPAY INC",
+      "cusip": "981558109",
+      "shares": 3232051,
+      "value": 265804
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1661207,
+      "value": 265444
+    },
+    {
+      "name": "GODADDY INC",
+      "cusip": "380237107",
+      "shares": 4321581,
+      "value": 265432
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1442945,
+      "value": 252746
+    },
+    {
+      "name": "CINTAS CORP",
+      "cusip": "172908105",
+      "shares": 1270926,
+      "value": 216795
+    },
+    {
+      "name": "TRANSUNION",
+      "cusip": "89400J107",
+      "shares": 3739456,
+      "value": 212326
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 808764,
+      "value": 184333
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 3136354,
+      "value": 169238
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 1681996,
+      "value": 166131
+    },
+    {
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 703964,
+      "value": 165889
+    },
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 858731,
+      "value": 53207
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1298933,
+      "value": 40812
+    },
+    {
+      "name": "HONEYWELL INTL INC",
+      "cusip": "438516106",
+      "shares": 225419,
+      "value": 32575
     }
-  ]
+  ],
+  "totalValue": 12289353,
+  "positionsCount": 32
 }

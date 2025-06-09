@@ -2,78 +2,82 @@
   "form": "13F-HR",
   "date": "2023-11-14",
   "period": "2023-11-14",
+  "accession": "0001418812-23-000073",
+  "quarterKey": "2023-Q4",
   "positions": [
-    {
-      "name": "ALARM COM HLDGS INC",
-      "cusip": "011642105",
-      "shares": 585400,
-      "value": 35791356000
-    },
-    {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 4637748,
-      "value": 342544067000
-    },
-    {
-      "name": "DANAHER CORPORATION",
-      "cusip": "235851102",
-      "shares": 118000,
-      "value": 29275800000
-    },
     {
       "name": "FISERV INC",
       "cusip": "337738108",
       "shares": 7548841,
-      "value": 852717079000
-    },
-    {
-      "name": "ILLUMINA INC",
-      "cusip": "452327109",
-      "shares": 519610,
-      "value": 71332061000
-    },
-    {
-      "name": "INSIGHT ENTERPRISES INC",
-      "cusip": "45765U103",
-      "shares": 4511630,
-      "value": 656442165000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 11420908,
-      "value": 703527933000
-    },
-    {
-      "name": "NEW YORK TIMES CO",
-      "cusip": "650111107",
-      "shares": 7284596,
-      "value": 300125355000
-    },
-    {
-      "name": "ROBLOX CORP",
-      "cusip": "771049103",
-      "shares": 1800000,
-      "value": 52128000000
+      "value": 852717079
     },
     {
       "name": "SALESFORCE INC",
       "cusip": "79466L302",
       "shares": 3486309,
-      "value": 706953739000
+      "value": 706953739
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 11420908,
+      "value": 703527933
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 4511630,
+      "value": 656442165
     },
     {
       "name": "SEAGATE TECHNOLOGY HLDNGS PL",
       "cusip": "G7997R103",
       "shares": 7687070,
-      "value": 506962267000
+      "value": 506962267
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 4637748,
+      "value": 342544067
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 7284596,
+      "value": 300125355
     },
     {
       "name": "SPOTIFY TECHNOLOGY S A",
       "cusip": "L8681T102",
       "shares": 1253853,
-      "value": 193895828000
+      "value": 193895828
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 519610,
+      "value": 71332061
+    },
+    {
+      "name": "ROBLOX CORP",
+      "cusip": "771049103",
+      "shares": 1800000,
+      "value": 52128000
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 585400,
+      "value": 35791356
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 118000,
+      "value": 29275800
     }
-  ]
+  ],
+  "totalValue": 4451695650,
+  "positionsCount": 12
 }

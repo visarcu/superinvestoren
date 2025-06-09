@@ -1,101 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2015-11-16",
+  "period": "2015-11-16",
+  "accession": "0001172661-15-001969",
+  "quarterKey": "2015-Q4",
   "positions": [
     {
-      "name": "ANTERO RES CORP",
-      "cusip": "03674x106",
-      "shares": 3487994,
-      "value": 73806000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 14532,
-      "value": 226000
-    },
-    {
-      "name": "BROOKFIELD ASSET MGMT INC",
-      "cusip": "112585104",
-      "shares": 8521806,
-      "value": 267926000
-    },
-    {
-      "name": "BROOKFIELD INFRAST PARTNERS",
-      "cusip": "g16252101",
-      "shares": 121773,
-      "value": 4478000
-    },
-    {
-      "name": "BROOKFIELD PPTY PARTNERS L P",
-      "cusip": "g16249107",
-      "shares": 13200,
-      "value": 283000
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911102",
+      "shares": 5577892,
+      "value": 994984
     },
     {
       "name": "CIMPRESS N V",
-      "cusip": "n20146101",
+      "cusip": "20146101",
       "shares": 4060537,
-      "value": 309047000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030n101",
-      "shares": 15547,
-      "value": 884000
-    },
-    {
-      "name": "EQUINIX INC",
-      "cusip": "29444u700",
-      "shares": 641658,
-      "value": 175429000
-    },
-    {
-      "name": "HALLIBURTON CO",
-      "cusip": "406216101",
-      "shares": 7210130,
-      "value": 254878000
+      "value": 309047
     },
     {
       "name": "JPMORGAN CHASE & CO",
-      "cusip": "46625h100",
+      "cusip": "46625100",
       "shares": 4814343,
-      "value": 293530000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46634e114",
-      "shares": 4647495,
-      "value": 92532000
+      "value": 293530
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 6280742,
-      "value": 277986000
+      "value": 277986
     },
     {
-      "name": "PRIMERICA INC",
-      "cusip": "74164m108",
-      "shares": 3106919,
-      "value": 140029000
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 8521806,
+      "value": 267926
     },
     {
       "name": "SCHWAB CHARLES CORP NEW",
       "cusip": "808513105",
       "shares": 9124945,
-      "value": 260608000
+      "value": 260608
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 7210130,
+      "value": 254878
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444700",
+      "shares": 641658,
+      "value": 175429
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 3106919,
+      "value": 140029
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634114",
+      "shares": 4647495,
+      "value": 92532
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 3487994,
+      "value": 73806
+    },
+    {
+      "name": "BROOKFIELD INFRAST PARTNERS",
+      "cusip": "16252101",
+      "shares": 121773,
+      "value": 4478
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 15547,
+      "value": 884
+    },
+    {
+      "name": "BROOKFIELD PPTY PARTNERS L P",
+      "cusip": "16249107",
+      "shares": 13200,
+      "value": 283
     },
     {
       "name": "TIDEWATER INC",
       "cusip": "886423102",
       "shares": 19625,
-      "value": 258000
+      "value": 258
     },
     {
-      "name": "VALEANT PHARMACEUTICALS INTL",
-      "cusip": "91911k102",
-      "shares": 5577892,
-      "value": 994984000
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 226
     }
-  ]
+  ],
+  "totalValue": 3146884,
+  "positionsCount": 16
 }

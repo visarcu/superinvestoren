@@ -1,215 +1,221 @@
 {
+  "form": "13F-HR",
   "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001104659-19-045720",
+  "quarterKey": "2019-Q3",
   "positions": [
     {
-      "name": "AMPCO-PITTSBURGH CORP",
-      "cusip": "032037103",
-      "shares": 260000,
-      "value": 1035000
-    },
-    {
-      "name": "ARGAN INC",
-      "cusip": "04010E109",
-      "shares": 86000,
-      "value": 3484000
-    },
-    {
-      "name": "ARRAY BIOPHARMA INC",
-      "cusip": "04269X105",
-      "shares": 27500,
-      "value": 1273000
-    },
-    {
-      "name": "BANK N S HALIFAX",
-      "cusip": "064149107",
-      "shares": 247100,
-      "value": 13307000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 1,
-      "value": 319000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 46724700,
-      "value": 348200000
+      "name": "SEASPAN CORP",
+      "cusip": "Y75638109",
+      "shares": 77155000,
+      "value": 756119
     },
     {
       "name": "BLACKBERRY LTD",
       "cusip": "C10268AC1",
       "shares": 500000000,
-      "value": 525098000
+      "value": 525098
     },
     {
-      "name": "CENTURYLINK INC",
-      "cusip": "156700106",
-      "shares": 2359100,
-      "value": 27743000
-    },
-    {
-      "name": "CRAY INC",
-      "cusip": "225223304",
-      "shares": 170000,
-      "value": 5916000
-    },
-    {
-      "name": "DESTINATION MATERNITY CORP",
-      "cusip": "25065D100",
-      "shares": 38085,
-      "value": 49000
-    },
-    {
-      "name": "DIAMOND S SHIPPING INC",
-      "cusip": "Y20676105",
-      "shares": 1034681,
-      "value": 13223000
-    },
-    {
-      "name": "FREIGHTCAR AMER INC",
-      "cusip": "357023100",
-      "shares": 200000,
-      "value": 1170000
-    },
-    {
-      "name": "GARRETT MOTION INC",
-      "cusip": "366505105",
-      "shares": 81000,
-      "value": 1243000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604103",
-      "shares": 1390900,
-      "value": 14604000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 375965,
-      "value": 14486000
-    },
-    {
-      "name": "HELMERICH & PAYNE INC",
-      "cusip": "423452101",
-      "shares": 141400,
-      "value": 7155000
-    },
-    {
-      "name": "INDEPENDENCE CONTRACT DRIL I",
-      "cusip": "453415309",
-      "shares": 400000,
-      "value": 628000
-    },
-    {
-      "name": "JACOBS ENGR GROUP INC",
-      "cusip": "469814107",
-      "shares": 47000,
-      "value": 3965000
-    },
-    {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 146800,
-      "value": 20415000
-    },
-    {
-      "name": "K12 INC",
-      "cusip": "48273U102",
-      "shares": 33133,
-      "value": 1006000
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 46724700,
+      "value": 348200
     },
     {
       "name": "KENNEDY-WILSON HLDGS INC",
       "cusip": "489398107",
       "shares": 13322009,
-      "value": 273501000
-    },
-    {
-      "name": "KULICKE & SOFFA INDS INC",
-      "cusip": "501242101",
-      "shares": 130000,
-      "value": 2932000
-    },
-    {
-      "name": "MCDERMOTT INTL INC",
-      "cusip": "580037703",
-      "shares": 655400,
-      "value": 6325000
-    },
-    {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 298000,
-      "value": 11500000
-    },
-    {
-      "name": "NETEASE INC",
-      "cusip": "64110W102",
-      "shares": 8000,
-      "value": 2046000
-    },
-    {
-      "name": "NORTHWEST PIPE CO",
-      "cusip": "667746101",
-      "shares": 135000,
-      "value": 3464000
-    },
-    {
-      "name": "PACIFIC BIOSCIENCES CALIF IN",
-      "cusip": "69404D108",
-      "shares": 160000,
-      "value": 966000
-    },
-    {
-      "name": "QUARTERHILL INC",
-      "cusip": "747713105",
-      "shares": 800000,
-      "value": 863000
-    },
-    {
-      "name": "RED HAT INC",
-      "cusip": "756577102",
-      "shares": 10200,
-      "value": 1914000
+      "value": 273501
     },
     {
       "name": "RESOLUTE FST PRODS INC",
       "cusip": "76117W109",
       "shares": 30548190,
-      "value": 219641000
+      "value": 219641
     },
     {
-      "name": "SEASPAN CORP",
-      "cusip": "Y75638109",
-      "shares": 77155000,
-      "value": 756119000
+      "name": "CENTURYLINK INC",
+      "cusip": "156700106",
+      "shares": 2359100,
+      "value": 27743
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 146800,
+      "value": 20415
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 1390900,
+      "value": 14604
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 375965,
+      "value": 14486
+    },
+    {
+      "name": "BANK N S HALIFAX",
+      "cusip": "064149107",
+      "shares": 247100,
+      "value": 13307
+    },
+    {
+      "name": "DIAMOND S SHIPPING INC",
+      "cusip": "Y20676105",
+      "shares": 1034681,
+      "value": 13223
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 298000,
+      "value": 11500
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 141400,
+      "value": 7155
+    },
+    {
+      "name": "MCDERMOTT INTL INC",
+      "cusip": "580037703",
+      "shares": 655400,
+      "value": 6325
+    },
+    {
+      "name": "CRAY INC",
+      "cusip": "225223304",
+      "shares": 170000,
+      "value": 5916
+    },
+    {
+      "name": "JACOBS ENGR GROUP INC",
+      "cusip": "469814107",
+      "shares": 47000,
+      "value": 3965
+    },
+    {
+      "name": "ARGAN INC",
+      "cusip": "04010E109",
+      "shares": 86000,
+      "value": 3484
+    },
+    {
+      "name": "NORTHWEST PIPE CO",
+      "cusip": "667746101",
+      "shares": 135000,
+      "value": 3464
     },
     {
       "name": "SIGNATURE BK NEW YORK N Y",
       "cusip": "82669G104",
       "shares": 25400,
-      "value": 3070000
+      "value": 3070
     },
     {
-      "name": "SPARK THERAPEUTICS INC",
-      "cusip": "84652J103",
-      "shares": 11600,
-      "value": 1188000
+      "name": "KULICKE & SOFFA INDS INC",
+      "cusip": "501242101",
+      "shares": 130000,
+      "value": 2932
     },
     {
       "name": "TAIWAN SEMICONDUCTOR MFG LTD",
       "cusip": "874039100",
       "shares": 53700,
-      "value": 2103000
+      "value": 2103
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 8000,
+      "value": 2046
+    },
+    {
+      "name": "RED HAT INC",
+      "cusip": "756577102",
+      "shares": 10200,
+      "value": 1914
     },
     {
       "name": "U S SILICA HLDGS INC",
       "cusip": "90346E103",
       "shares": 135000,
-      "value": 1725000
+      "value": 1725
+    },
+    {
+      "name": "ARRAY BIOPHARMA INC",
+      "cusip": "04269X105",
+      "shares": 27500,
+      "value": 1273
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505105",
+      "shares": 81000,
+      "value": 1243
+    },
+    {
+      "name": "SPARK THERAPEUTICS INC",
+      "cusip": "84652J103",
+      "shares": 11600,
+      "value": 1188
+    },
+    {
+      "name": "FREIGHTCAR AMER INC",
+      "cusip": "357023100",
+      "shares": 200000,
+      "value": 1170
+    },
+    {
+      "name": "AMPCO-PITTSBURGH CORP",
+      "cusip": "032037103",
+      "shares": 260000,
+      "value": 1035
+    },
+    {
+      "name": "K12 INC",
+      "cusip": "48273U102",
+      "shares": 33133,
+      "value": 1006
+    },
+    {
+      "name": "PACIFIC BIOSCIENCES CALIF IN",
+      "cusip": "69404D108",
+      "shares": 160000,
+      "value": 966
+    },
+    {
+      "name": "QUARTERHILL INC",
+      "cusip": "747713105",
+      "shares": 800000,
+      "value": 863
+    },
+    {
+      "name": "INDEPENDENCE CONTRACT DRIL I",
+      "cusip": "453415309",
+      "shares": 400000,
+      "value": 628
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 319
+    },
+    {
+      "name": "DESTINATION MATERNITY CORP",
+      "cusip": "25065D100",
+      "shares": 38085,
+      "value": 49
     }
-  ]
+  ],
+  "totalValue": 2291676,
+  "positionsCount": 35
 }

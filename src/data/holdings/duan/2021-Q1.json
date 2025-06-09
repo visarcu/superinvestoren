@@ -1,89 +1,95 @@
 {
+  "form": "13F-HR",
   "date": "2021-02-12",
+  "period": "2021-02-12",
+  "accession": "0001085146-21-000734",
+  "quarterKey": "2021-Q1",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 278900,
-      "value": 488599000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 60000,
-      "value": 195416000
-    },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 28101300,
-      "value": 3728761000
+      "value": 3728761
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 8945176,
-      "value": 2074118000
+      "value": 2074118
     },
     {
-      "name": "BK OF AMERICA CORP",
-      "cusip": "060505104",
-      "shares": 4388900,
-      "value": 133028000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 278900,
+      "value": 488599
     },
     {
-      "name": "DELTA AIR LINES INC DEL",
-      "cusip": "247361702",
-      "shares": 400000,
-      "value": 16084000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 60000,
+      "value": 195416
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 1036900,
-      "value": 187866000
+      "value": 187866
     },
     {
-      "name": "EXXON MOBIL CORP",
-      "cusip": "30231G102",
-      "shares": 899700,
-      "value": 37086000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 40000,
-      "value": 10926000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604103",
-      "shares": 200000,
-      "value": 2160000
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 4388900,
+      "value": 133028
     },
     {
       "name": "JOYY INC",
       "cusip": "46591M109",
       "shares": 1112000,
-      "value": 88938000
-    },
-    {
-      "name": "STARBUCKS CORP",
-      "cusip": "855244109",
-      "shares": 10000,
-      "value": 1070000
+      "value": 88938
     },
     {
       "name": "TOYOTA MOTOR CORP",
       "cusip": "892331307",
       "shares": 317618,
-      "value": 49094000
+      "value": 49094
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 899700,
+      "value": 37086
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 400000,
+      "value": 16084
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 40000,
+      "value": 10926
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 136000,
-      "value": 4104000
+      "value": 4104
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 200000,
+      "value": 2160
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 10000,
+      "value": 1070
     }
-  ]
+  ],
+  "totalValue": 7017250,
+  "positionsCount": 14
 }

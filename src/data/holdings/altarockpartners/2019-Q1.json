@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0001144204-19-007801",
+  "quarterKey": "2019-Q1",
   "positions": [
     {
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 859850,
-      "value": 245031000
-    },
-    {
-      "name": "MASTERCARD INC CL A",
-      "cusip": "57636Q104",
-      "shares": 396940,
-      "value": 74883000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 1130261,
-      "value": 158282000
-    },
-    {
-      "name": "O'REILLY AUTO PARTS",
-      "cusip": "67103H107",
-      "shares": 308729,
-      "value": 106305000
+      "value": 245031
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 642485,
-      "value": 218483000
+      "value": 218483
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1130261,
+      "value": 158282
+    },
+    {
+      "name": "O'REILLY AUTO PARTS",
+      "cusip": "67103H107",
+      "shares": 308729,
+      "value": 106305
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 396940,
+      "value": 74883
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 282516,
-      "value": 37275000
+      "value": 37275
     }
-  ]
+  ],
+  "totalValue": 840259,
+  "positionsCount": 6
 }

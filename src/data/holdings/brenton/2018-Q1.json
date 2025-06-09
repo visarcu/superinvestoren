@@ -1,167 +1,173 @@
 {
+  "form": "13F-HR",
   "date": "2018-02-14",
+  "period": "2018-02-14",
+  "accession": "0000950123-18-001867",
+  "quarterKey": "2018-Q1",
   "positions": [
     {
-      "name": "ALLIANCE DATA SYSTEMS CORP",
-      "cusip": "018581108",
-      "shares": 234950,
-      "value": 59555000
-    },
-    {
-      "name": "SMITH (A.O.) CORP",
-      "cusip": "831865209",
-      "shares": 6500,
-      "value": 398000
-    },
-    {
-      "name": "BORGWARNER INC",
-      "cusip": "099724106",
-      "shares": 891250,
-      "value": 45534000
-    },
-    {
-      "name": "CERNER CORP",
-      "cusip": "156782104",
-      "shares": 19350,
-      "value": 1304000
-    },
-    {
-      "name": "CIMPRESS NV",
-      "cusip": "N20146101",
-      "shares": 1880,
-      "value": 225000
-    },
-    {
-      "name": "CLEAN HARBORS INC",
-      "cusip": "184496107",
-      "shares": 30050,
-      "value": 1629000
-    },
-    {
-      "name": "COGENT COMMUNICATIONS HOLDINGS INC",
-      "cusip": "19239V302",
-      "shares": 31600,
-      "value": 1431000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 1700,
-      "value": 48000
-    },
-    {
-      "name": "F5 NETWORKS INC",
-      "cusip": "315616102",
-      "shares": 282600,
-      "value": 37083000
-    },
-    {
-      "name": "FASTENAL CO",
-      "cusip": "311900104",
-      "shares": 439600,
-      "value": 24042000
-    },
-    {
-      "name": "GILDAN ACTIVEWEAR INC",
-      "cusip": "375916103",
-      "shares": 4207013,
-      "value": 135887000
-    },
-    {
-      "name": "HD SUPPLY HOLDINGS INC",
-      "cusip": "40416M105",
-      "shares": 42150,
-      "value": 1687000
-    },
-    {
-      "name": "HEICO CORP NEW",
-      "cusip": "422806208",
-      "shares": 3300,
-      "value": 209000
-    },
-    {
-      "name": "KIRBY CORP",
-      "cusip": "497266106",
-      "shares": 18400,
-      "value": 1229000
-    },
-    {
-      "name": "MANHATTAN ASSOCIATES INC",
-      "cusip": "562750109",
-      "shares": 33100,
-      "value": 1640000
-    },
-    {
-      "name": "MIDDLEBY CORP",
-      "cusip": "596278101",
-      "shares": 515700,
-      "value": 69594000
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 4876044,
+      "value": 161885
     },
     {
       "name": "NETSCOUT SYSTEMS INC",
       "cusip": "64115T104",
       "shares": 4750446,
-      "value": 144651000
+      "value": 144651
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 4207013,
+      "value": 135887
     },
     {
       "name": "OPEN TEXT CORP",
       "cusip": "683715106",
       "shares": 2802516,
-      "value": 99966000
-    },
-    {
-      "name": "POLARIS INDUSTRIES INC",
-      "cusip": "731068102",
-      "shares": 6750,
-      "value": 837000
-    },
-    {
-      "name": "PRA GROUP INC",
-      "cusip": "69354N106",
-      "shares": 4876044,
-      "value": 161885000
-    },
-    {
-      "name": "SERVICE CORP INTERNATIONAL",
-      "cusip": "817565104",
-      "shares": 1415350,
-      "value": 52821000
-    },
-    {
-      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
-      "cusip": "78467J100",
-      "shares": 1802296,
-      "value": 72957000
-    },
-    {
-      "name": "TJX COMPANIES INC",
-      "cusip": "872540109",
-      "shares": 815050,
-      "value": 62319000
+      "value": 99966
     },
     {
       "name": "TRACTOR SUPPLY CO",
       "cusip": "892356106",
       "shares": 1076686,
-      "value": 80482000
+      "value": 80482
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
+      "cusip": "78467J100",
+      "shares": 1802296,
+      "value": 72957
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 515700,
+      "value": 69594
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 815050,
+      "value": 62319
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 234950,
+      "value": 59555
+    },
+    {
+      "name": "SERVICE CORP INTERNATIONAL",
+      "cusip": "817565104",
+      "shares": 1415350,
+      "value": 52821
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 891250,
+      "value": 45534
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 282600,
+      "value": 37083
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 439600,
+      "value": 24042
     },
     {
       "name": "URBAN OUTFITTERS INC",
       "cusip": "917047102",
       "shares": 668388,
-      "value": 23434000
+      "value": 23434
+    },
+    {
+      "name": "HD SUPPLY HOLDINGS INC",
+      "cusip": "40416M105",
+      "shares": 42150,
+      "value": 1687
     },
     {
       "name": "WABCO HOLDINGS INC",
       "cusip": "92927K102",
       "shares": 11600,
-      "value": 1665000
+      "value": 1665
+    },
+    {
+      "name": "MANHATTAN ASSOCIATES INC",
+      "cusip": "562750109",
+      "shares": 33100,
+      "value": 1640
+    },
+    {
+      "name": "CLEAN HARBORS INC",
+      "cusip": "184496107",
+      "shares": 30050,
+      "value": 1629
+    },
+    {
+      "name": "COGENT COMMUNICATIONS HOLDINGS INC",
+      "cusip": "19239V302",
+      "shares": 31600,
+      "value": 1431
+    },
+    {
+      "name": "CERNER CORP",
+      "cusip": "156782104",
+      "shares": 19350,
+      "value": 1304
+    },
+    {
+      "name": "KIRBY CORP",
+      "cusip": "497266106",
+      "shares": 18400,
+      "value": 1229
+    },
+    {
+      "name": "POLARIS INDUSTRIES INC",
+      "cusip": "731068102",
+      "shares": 6750,
+      "value": 837
     },
     {
       "name": "WABTEC CORP",
       "cusip": "929740108",
       "shares": 9300,
-      "value": 757000
+      "value": 757
+    },
+    {
+      "name": "SMITH (A.O.) CORP",
+      "cusip": "831865209",
+      "shares": 6500,
+      "value": 398
+    },
+    {
+      "name": "CIMPRESS NV",
+      "cusip": "N20146101",
+      "shares": 1880,
+      "value": 225
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 3300,
+      "value": 209
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 1700,
+      "value": 48
     }
-  ]
+  ],
+  "totalValue": 1083269,
+  "positionsCount": 27
 }

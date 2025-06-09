@@ -1,119 +1,125 @@
 {
+  "form": "13F-HR",
   "date": "2024-08-13",
+  "period": "2024-08-13",
+  "accession": "0001112520-24-000014",
+  "quarterKey": "2024-Q3",
   "positions": [
-    {
-      "name": "AIRBNB INC",
-      "cusip": "009066101",
-      "shares": 935876,
-      "value": 141906878000
-    },
-    {
-      "name": "AMERICAN TOWER CORP NEW",
-      "cusip": "03027X100",
-      "shares": 6134307,
-      "value": 1192386595000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 15895,
-      "value": 6466086000
-    },
-    {
-      "name": "BROOKFIELD CORP",
-      "cusip": "11271J107",
-      "shares": 18465882,
-      "value": 767072738000
-    },
-    {
-      "name": "CCC INTELLIGENT SOLUTIONS HL",
-      "cusip": "12510Q100",
-      "shares": 7815722,
-      "value": 86832671000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 2145509,
-      "value": 157351630000
-    },
-    {
-      "name": "COSTAR GROUP INC",
-      "cusip": "22160N109",
-      "shares": 8770423,
-      "value": 650239161000
-    },
-    {
-      "name": "DANAHER CORPORATION",
-      "cusip": "235851102",
-      "shares": 1775400,
-      "value": 443583690000
-    },
-    {
-      "name": "DIGITALBRIDGE GROUP INC",
-      "cusip": "25401T603",
-      "shares": 3643094,
-      "value": 49910391000
-    },
-    {
-      "name": "GOOSEHEAD INS INC",
-      "cusip": "38267D109",
-      "shares": 366125,
-      "value": 21030220000
-    },
-    {
-      "name": "KKR & CO L P DEL",
-      "cusip": "48251w104",
-      "shares": 13689816,
-      "value": 1440716189000
-    },
     {
       "name": "MASTERCARD INCORPORATED",
       "cusip": "57636Q104",
       "shares": 4039349,
-      "value": 1781999205000
+      "value": 1781999205
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 4221104,
-      "value": 1776789307000
+      "value": 1776789307
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48251104",
+      "shares": 13689816,
+      "value": 1440716189
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 6134307,
+      "value": 1192386595
     },
     {
       "name": "OREILLY AUTOMOTIVE INC",
       "cusip": "67103H107",
       "shares": 956079,
-      "value": 1009676789000
+      "value": 1009676789
     },
     {
       "name": "ROPER TECHNOLOGIES INC",
       "cusip": "776696106",
       "shares": 1543679,
-      "value": 870110105000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP NEW",
-      "cusip": "78410G104",
-      "shares": 500000,
-      "value": 98150000000
-    },
-    {
-      "name": "SOPHIA GENETICS SA",
-      "cusip": "H82027105",
-      "shares": 1920432,
-      "value": 8795579000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 16069,
-      "value": 4331399000
+      "value": 870110105
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 3271740,
-      "value": 858733598000
+      "value": 858733598
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 18465882,
+      "value": 767072738
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 8770423,
+      "value": 650239161
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 1775400,
+      "value": 443583690
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 2145509,
+      "value": 157351630
+    },
+    {
+      "name": "AIRBNB INC",
+      "cusip": "009066101",
+      "shares": 935876,
+      "value": 141906878
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 500000,
+      "value": 98150000
+    },
+    {
+      "name": "CCC INTELLIGENT SOLUTIONS HL",
+      "cusip": "12510Q100",
+      "shares": 7815722,
+      "value": 86832671
+    },
+    {
+      "name": "DIGITALBRIDGE GROUP INC",
+      "cusip": "25401T603",
+      "shares": 3643094,
+      "value": 49910391
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 366125,
+      "value": 21030220
+    },
+    {
+      "name": "SOPHIA GENETICS SA",
+      "cusip": "H82027105",
+      "shares": 1920432,
+      "value": 8795579
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 15895,
+      "value": 6466086
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 16069,
+      "value": 4331399
     }
-  ]
+  ],
+  "totalValue": 11366082231,
+  "positionsCount": 19
 }

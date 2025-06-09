@@ -1,35 +1,41 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-13",
+  "period": "2020-02-13",
+  "accession": "0001085146-20-000662",
+  "quarterKey": "2020-Q1",
   "positions": [
     {
-      "name": "ANGI HOMESERVICES INC",
-      "cusip": "00183L102",
-      "shares": 4555236,
-      "value": 38583000
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 2479380,
+      "value": 99721
     },
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 640785,
-      "value": 58984000
+      "value": 58984
+    },
+    {
+      "name": "ANGI HOMESERVICES INC",
+      "cusip": "00183L102",
+      "shares": 4555236,
+      "value": 38583
     },
     {
       "name": "IAC INTERACTIVECORP",
       "cusip": "44919P508",
       "shares": 117338,
-      "value": 29230000
+      "value": 29230
     },
     {
       "name": "JD COM INC",
       "cusip": "47215P106",
       "shares": 653883,
-      "value": 23036000
-    },
-    {
-      "name": "SEA LTD",
-      "cusip": "81141R100",
-      "shares": 2479380,
-      "value": 99721000
+      "value": 23036
     }
-  ]
+  ],
+  "totalValue": 249554,
+  "positionsCount": 5
 }

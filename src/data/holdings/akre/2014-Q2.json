@@ -1,257 +1,263 @@
 {
+  "form": "13F-HR",
   "date": "2014-05-13",
+  "period": "2014-05-13",
+  "accession": "0001112520-14-000020",
+  "quarterKey": "2014-Q2",
   "positions": [
-    {
-      "name": "AMERICAN TOWER CORP NEW",
-      "cusip": "03027X100",
-      "shares": 4027121,
-      "value": 329700000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 94800,
-      "value": 7301000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 91029,
-      "value": 48859000
-    },
-    {
-      "name": "ARLINGTON ASSET INVT CORP",
-      "cusip": "041356205",
-      "shares": 10000,
-      "value": 265000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 312019,
-      "value": 38993000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 52,
-      "value": 9743000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 200000,
-      "value": 9360000
-    },
     {
       "name": "COLFAX CORP",
       "cusip": "194014106",
       "shares": 5162070,
-      "value": 368210000
+      "value": 368210
     },
     {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 300000,
-      "value": 22500000
-    },
-    {
-      "name": "DIAMOND HILL INVESTMENT GROU",
-      "cusip": "25264R207",
-      "shares": 145500,
-      "value": 19125000
-    },
-    {
-      "name": "DIRECTV",
-      "cusip": "25490A309",
-      "shares": 500000,
-      "value": 38210000
-    },
-    {
-      "name": "DISCOVERY COMMUNICATNS NEW",
-      "cusip": "25470F302",
-      "shares": 1784200,
-      "value": 137490000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 2983023,
-      "value": 155654000
-    },
-    {
-      "name": "ENSTAR GROUP LIMITED",
-      "cusip": "G3075P101",
-      "shares": 498626,
-      "value": 67968000
-    },
-    {
-      "name": "EQUINIX INC",
-      "cusip": "29444U502",
-      "shares": 212300,
-      "value": 39242000
-    },
-    {
-      "name": "EXXON MOBIL CORP",
-      "cusip": "30231G102",
-      "shares": 4446,
-      "value": 434000
-    },
-    {
-      "name": "FACTSET RESH SYS INC",
-      "cusip": "303075105",
-      "shares": 130000,
-      "value": 14015000
-    },
-    {
-      "name": "HARTFORD FINL SVCS GROUP INC",
-      "cusip": "416515104",
-      "shares": 317874,
-      "value": 11211000
-    },
-    {
-      "name": "LPL FINL HLDGS INC",
-      "cusip": "50212V100",
-      "shares": 1715000,
-      "value": 90106000
-    },
-    {
-      "name": "LAMAR ADVERTISING CO",
-      "cusip": "512815101",
-      "shares": 67100,
-      "value": 3422000
-    },
-    {
-      "name": "LEUCADIA NATL CORP",
-      "cusip": "527288104",
-      "shares": 2000000,
-      "value": 56000000
-    },
-    {
-      "name": "LIVE NATION ENTERTAINMENT IN",
-      "cusip": "538034109",
-      "shares": 6350000,
-      "value": 138112000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 381007,
-      "value": 227118000
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 4027121,
+      "value": 329700
     },
     {
       "name": "MASTERCARD INC",
       "cusip": "57636Q104",
       "shares": 3963530,
-      "value": 296076000
-    },
-    {
-      "name": "MONRO MUFFLER BRAKE INC",
-      "cusip": "610236101",
-      "shares": 500000,
-      "value": 28440000
+      "value": 296076
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 3482130,
-      "value": 276203000
+      "value": 276203
     },
     {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 821882,
-      "value": 121959000
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 381007,
+      "value": 227118
     },
     {
-      "name": "PRIMO WTR CORP",
-      "cusip": "74165N105",
-      "shares": 1600000,
-      "value": 6224000
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 2983023,
+      "value": 155654
     },
     {
-      "name": "ROPER INDS INC NEW",
-      "cusip": "776696106",
-      "shares": 79000,
-      "value": 10547000
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 6350000,
+      "value": 138112
     },
     {
-      "name": "ROSS STORES INC",
-      "cusip": "778296103",
-      "shares": 1631038,
-      "value": 116733000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP",
-      "cusip": "78388J106",
-      "shares": 977600,
-      "value": 88922000
-    },
-    {
-      "name": "TD AMERITRADE HLDG CORP",
-      "cusip": "87236Y108",
-      "shares": 3158900,
-      "value": 107245000
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 10000,
-      "value": 1852000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 800000,
-      "value": 47968000
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F302",
+      "shares": 1784200,
+      "value": 137490
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 570430,
-      "value": 123133000
+      "value": 123133
     },
     {
-      "name": "ANNALY CAP MGMT INC",
-      "cusip": "035710409",
-      "shares": 50044,
-      "value": 549000
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 821882,
+      "value": 121959
+    },
+    {
+      "name": "ROSS STORES INC",
+      "cusip": "778296103",
+      "shares": 1631038,
+      "value": 116733
+    },
+    {
+      "name": "TD AMERITRADE HLDG CORP",
+      "cusip": "87236Y108",
+      "shares": 3158900,
+      "value": 107245
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 1715000,
+      "value": 90106
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 977600,
+      "value": 88922
+    },
+    {
+      "name": "ENSTAR GROUP LIMITED",
+      "cusip": "G3075P101",
+      "shares": 498626,
+      "value": 67968
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 2000000,
+      "value": 56000
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 91029,
+      "value": 48859
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 800000,
+      "value": 47968
     },
     {
       "name": "MARKWEST ENERGY PARTNERS L P",
       "cusip": "570759100",
       "shares": 706965,
-      "value": 46179000
+      "value": 46179
     },
     {
-      "name": "NUSTAR GP HOLDINGS LLC",
-      "cusip": "67059L102",
-      "shares": 27775,
-      "value": 945000
+      "name": "EQUINIX INC",
+      "cusip": "29444U502",
+      "shares": 212300,
+      "value": 39242
     },
     {
-      "name": "WILLIAMS COS INC DEL",
-      "cusip": "969457100",
-      "shares": 18880,
-      "value": 766000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 312019,
+      "value": 38993
+    },
+    {
+      "name": "DIRECTV",
+      "cusip": "25490A309",
+      "shares": 500000,
+      "value": 38210
+    },
+    {
+      "name": "MONRO MUFFLER BRAKE INC",
+      "cusip": "610236101",
+      "shares": 500000,
+      "value": 28440
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 300000,
+      "value": 22500
+    },
+    {
+      "name": "DIAMOND HILL INVESTMENT GROU",
+      "cusip": "25264R207",
+      "shares": 145500,
+      "value": 19125
+    },
+    {
+      "name": "FACTSET RESH SYS INC",
+      "cusip": "303075105",
+      "shares": 130000,
+      "value": 14015
     },
     {
       "name": "LIBERTY INTERACTIVE CORP",
       "cusip": "53071M880",
       "shares": 90000,
-      "value": 11730000
+      "value": 11730
+    },
+    {
+      "name": "HARTFORD FINL SVCS GROUP INC",
+      "cusip": "416515104",
+      "shares": 317874,
+      "value": 11211
+    },
+    {
+      "name": "ROPER INDS INC NEW",
+      "cusip": "776696106",
+      "shares": 79000,
+      "value": 10547
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 52,
+      "value": 9743
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 200000,
+      "value": 9360
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 94800,
+      "value": 7301
+    },
+    {
+      "name": "PRIMO WTR CORP",
+      "cusip": "74165N105",
+      "shares": 1600000,
+      "value": 6224
     },
     {
       "name": "BANK OF AMERICA CORPORATION",
       "cusip": "060505146",
       "shares": 700000,
-      "value": 5754000
+      "value": 5754
+    },
+    {
+      "name": "LAMAR ADVERTISING CO",
+      "cusip": "512815101",
+      "shares": 67100,
+      "value": 3422
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 10000,
+      "value": 1852
     },
     {
       "name": "CSX CORP",
       "cusip": "126408103",
       "shares": 49917,
-      "value": 1446000
+      "value": 1446
+    },
+    {
+      "name": "NUSTAR GP HOLDINGS LLC",
+      "cusip": "67059L102",
+      "shares": 27775,
+      "value": 945
+    },
+    {
+      "name": "WILLIAMS COS INC DEL",
+      "cusip": "969457100",
+      "shares": 18880,
+      "value": 766
+    },
+    {
+      "name": "ANNALY CAP MGMT INC",
+      "cusip": "035710409",
+      "shares": 50044,
+      "value": 549
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 4446,
+      "value": 434
+    },
+    {
+      "name": "ARLINGTON ASSET INVT CORP",
+      "cusip": "041356205",
+      "shares": 10000,
+      "value": 265
     }
-  ]
+  ],
+  "totalValue": 3125709,
+  "positionsCount": 42
 }

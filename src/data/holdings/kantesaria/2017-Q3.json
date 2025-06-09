@@ -2,54 +2,58 @@
   "form": "13F-HR",
   "date": "2017-08-14",
   "period": "2017-08-14",
+  "accession": "0001697868-17-000004",
+  "quarterKey": "2017-Q3",
   "positions": [
-    {
-      "name": "ASPEN TECHNOLOGY INC",
-      "cusip": "045327103",
-      "shares": 31713,
-      "value": 1752000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 58500,
-      "value": 7769000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 34750,
-      "value": 4220000
-    },
-    {
-      "name": "MONSTER BEVERAGE CORP NEW",
-      "cusip": "61174X109",
-      "shares": 531249,
-      "value": 26392000
-    },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 351415,
-      "value": 42760000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 125084,
-      "value": 7380000
+      "value": 42760
     },
     {
       "name": "S&P GLOBAL INC",
       "cusip": "78409V104",
       "shares": 292209,
-      "value": 42660000
+      "value": 42660
+    },
+    {
+      "name": "MONSTER BEVERAGE CORP NEW",
+      "cusip": "61174X109",
+      "shares": 531249,
+      "value": 26392
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 58500,
+      "value": 7769
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 82000,
-      "value": 7690000
+      "value": 7690
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 125084,
+      "value": 7380
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 34750,
+      "value": 4220
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 1752
     }
-  ]
+  ],
+  "totalValue": 140623,
+  "positionsCount": 8
 }

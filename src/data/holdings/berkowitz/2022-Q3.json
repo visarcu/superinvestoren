@@ -1,95 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2022-08-15",
+  "period": "2022-08-15",
+  "accession": "0000919574-22-005098",
+  "quarterKey": "2022-Q3",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 16290,
-      "value": 1852000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 4260,
-      "value": 582000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 49325,
-      "value": 13467000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 1,
-      "value": 409000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967424",
-      "shares": 175900,
-      "value": 8090000
-    },
-    {
-      "name": "COMMERCIAL METALS CO",
-      "cusip": "201723103",
-      "shares": 2291000,
-      "value": 75832000
-    },
-    {
-      "name": "D R HORTON INC",
-      "cusip": "23331A109",
-      "shares": 71000,
-      "value": 4699000
-    },
-    {
-      "name": "ENERGY TRANSFER L P",
-      "cusip": "29273V100",
-      "shares": 268700,
-      "value": 2682000
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 24469790,
+      "value": 968025
     },
     {
       "name": "ENTERPRISE PRODS PARTNERS L",
       "cusip": "293792107",
       "shares": 3592800,
-      "value": 87557000
+      "value": 87557
+    },
+    {
+      "name": "COMMERCIAL METALS CO",
+      "cusip": "201723103",
+      "shares": 2291000,
+      "value": 75832
     },
     {
       "name": "INTEL CORP",
       "cusip": "458140100",
       "shares": 588400,
-      "value": 22012000
+      "value": 22012
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 49325,
+      "value": 13467
     },
     {
       "name": "KINDER MORGAN INC DEL",
       "cusip": "49456B101",
       "shares": 786600,
-      "value": 13183000
+      "value": 13183
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 175900,
+      "value": 8090
     },
     {
       "name": "OLD REP INTL CORP",
       "cusip": "680223104",
       "shares": 316100,
-      "value": 7068000
+      "value": 7068
     },
     {
-      "name": "ST JOE CO",
-      "cusip": "790148100",
-      "shares": 24469790,
-      "value": 968025000
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 71000,
+      "value": 4699
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 268700,
+      "value": 2682
     },
     {
       "name": "WALGREENS BOOTS ALLIANCE INC",
       "cusip": "931427108",
       "shares": 69000,
-      "value": 2615000
+      "value": 2615
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 16290,
+      "value": 1852
     },
     {
       "name": "WEST FRASER TIMBER CO LTD",
       "cusip": "952845105",
       "shares": 11000,
-      "value": 844000
+      "value": 844
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4260,
+      "value": 582
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 409
     }
-  ]
+  ],
+  "totalValue": 1208917,
+  "positionsCount": 15
 }

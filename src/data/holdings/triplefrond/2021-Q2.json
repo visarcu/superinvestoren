@@ -2,72 +2,76 @@
   "form": "13F-HR",
   "date": "2021-05-13",
   "period": "2021-05-13",
+  "accession": "0001454502-21-000003",
+  "quarterKey": "2021-Q2",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 135500,
-      "value": 30722000000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 49120,
-      "value": 101611000000
-    },
     {
       "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
       "shares": 317529,
-      "value": 195922000000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 149500,
-      "value": 44032000000
-    },
-    {
-      "name": "GUIDEWIRE SOFTWARE INC",
-      "cusip": "40171V100",
-      "shares": 395800,
-      "value": 40225000000
-    },
-    {
-      "name": "LIBERTY BROADBAND CORP",
-      "cusip": "530307305",
-      "shares": 244179,
-      "value": 36663000000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 250050,
-      "value": 58954000000
+      "value": 195922000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 373828,
-      "value": 111629000000
+      "value": 111629000
     },
     {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 114274,
-      "value": 67184000000
-    },
-    {
-      "name": "VERISIGN INC",
-      "cusip": "92343E102",
-      "shares": 116390,
-      "value": 23134000000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 49120,
+      "value": 101611000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 454500,
-      "value": 96232000000
+      "value": 96232000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 114274,
+      "value": 67184000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 250050,
+      "value": 58954000
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 149500,
+      "value": 44032000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 395800,
+      "value": 40225000
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 244179,
+      "value": 36663000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 135500,
+      "value": 30722000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 116390,
+      "value": 23134000
     }
-  ]
+  ],
+  "totalValue": 806308000,
+  "positionsCount": 11
 }

@@ -2,72 +2,76 @@
   "form": "13F-HR",
   "date": "2025-02-14",
   "period": "2025-02-14",
+  "accession": "0001345471-25-000009",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
-      "name": "Ferguson Plc New",
-      "cusip": "G3421J106",
-      "shares": 1237274,
-      "value": 214753648000
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y214",
+      "shares": 31867800,
+      "value": 1355337534
     },
     {
       "name": "General Electric Co.",
       "cusip": "369604301",
       "shares": 4030213,
-      "value": 672199226000
-    },
-    {
-      "name": "GE HealthCare Technologies Inc.",
-      "cusip": "36266G107",
-      "shares": 4029,
-      "value": 314987000
-    },
-    {
-      "name": "Invesco Ltd.",
-      "cusip": "G491BT108",
-      "shares": 23173442,
-      "value": 405071766000
-    },
-    {
-      "name": "Janus Henderson Group plc",
-      "cusip": "G4474Y214",
-      "shares": 31867800,
-      "value": 1355337534000
-    },
-    {
-      "name": "U-Haul Holding Company",
-      "cusip": "023586100",
-      "shares": 652000,
-      "value": 45046680000
-    },
-    {
-      "name": "U-Haul Holding Company - B",
-      "cusip": "023586506",
-      "shares": 1124700,
-      "value": 72037035000
+      "value": 672199226
     },
     {
       "name": "Solventum Corporation",
       "cusip": "83444M101",
       "shares": 8462819,
-      "value": 559053823000
+      "value": 559053823
     },
     {
-      "name": "The Allstate Corporation",
-      "cusip": "200021014",
-      "shares": 306722,
-      "value": 59132934000
-    },
-    {
-      "name": "Wendys Co.",
-      "cusip": "95058W100",
-      "shares": 14943466,
-      "value": 243578496000
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 23173442,
+      "value": 405071766
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 15581563,
-      "value": 253979477000
+      "value": 253979477
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 14943466,
+      "value": 243578496
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 1237274,
+      "value": 214753648
+    },
+    {
+      "name": "U-Haul Holding Company - B",
+      "cusip": "023586506",
+      "shares": 1124700,
+      "value": 72037035
+    },
+    {
+      "name": "The Allstate Corporation",
+      "cusip": "200021014",
+      "shares": 306722,
+      "value": 59132934
+    },
+    {
+      "name": "U-Haul Holding Company",
+      "cusip": "023586100",
+      "shares": 652000,
+      "value": 45046680
+    },
+    {
+      "name": "GE HealthCare Technologies Inc",
+      "cusip": "36266G107",
+      "shares": 4029,
+      "value": 314987
     }
-  ]
+  ],
+  "totalValue": 3880505606,
+  "positionsCount": 11
 }

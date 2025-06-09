@@ -1,1409 +1,1415 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-01",
+  "period": "2020-05-01",
+  "accession": "0000950123-20-003783",
+  "quarterKey": "2020-Q2",
   "positions": [
     {
-      "name": "3M Company",
-      "cusip": "88579Y101",
-      "shares": 77000,
-      "value": 10511000
-    },
-    {
-      "name": "3M Company",
-      "cusip": "88579Y101",
-      "shares": 157200,
-      "value": 21459000
-    },
-    {
-      "name": "Accenture",
-      "cusip": "G1151C101",
-      "shares": 67100,
-      "value": 10955000
-    },
-    {
-      "name": "Accenture",
-      "cusip": "G1151C101",
-      "shares": 92300,
-      "value": 15069000
-    },
-    {
-      "name": "Activision Blizzard Inc",
-      "cusip": "00507V109",
-      "shares": 1800,
-      "value": 107000
-    },
-    {
-      "name": "Activision Blizzard Inc",
-      "cusip": "00507V109",
-      "shares": 282000,
-      "value": 16773000
-    },
-    {
-      "name": "Albemarle Corp",
-      "cusip": "012653101",
-      "shares": 76000,
-      "value": 4284000
-    },
-    {
-      "name": "Alleghany Corporation",
-      "cusip": "017175100",
-      "shares": 4328,
-      "value": 2391000
-    },
-    {
-      "name": "Alphabet Inc",
-      "cusip": "02079K107",
-      "shares": 42249,
-      "value": 49128000
-    },
-    {
-      "name": "Alphabet Inc",
-      "cusip": "02079K107",
-      "shares": 95244,
-      "value": 110751000
-    },
-    {
-      "name": "Alphabet Inc Class A",
-      "cusip": "02079K305",
-      "shares": 3300,
-      "value": 3834000
-    },
-    {
-      "name": "Alphabet Inc Class A",
-      "cusip": "02079K305",
-      "shares": 9200,
-      "value": 10690000
-    },
-    {
-      "name": "Amazon.com",
-      "cusip": "023135106",
-      "shares": 33400,
-      "value": 65121000
-    },
-    {
-      "name": "Amazon.com",
-      "cusip": "023135106",
-      "shares": 65042,
-      "value": 126814000
-    },
-    {
-      "name": "American Airlines Group",
-      "cusip": "02376R102",
-      "shares": 55000,
-      "value": 670000
-    },
-    {
-      "name": "American Express",
-      "cusip": "025816109",
-      "shares": 10000,
-      "value": 856000
-    },
-    {
-      "name": "American Express",
-      "cusip": "025816109",
-      "shares": 473950,
-      "value": 40575000
-    },
-    {
-      "name": "American Tower",
-      "cusip": "03027X100",
-      "shares": 1000,
-      "value": 218000
-    },
-    {
-      "name": "American Tower",
-      "cusip": "03027X100",
-      "shares": 50150,
-      "value": 10920000
-    },
-    {
-      "name": "Analog Devices Inc",
-      "cusip": "032654105",
-      "shares": 203565,
-      "value": 18250000
-    },
-    {
-      "name": "Analog Devices Inc",
-      "cusip": "032654105",
-      "shares": 682246,
-      "value": 61163000
-    },
-    {
-      "name": "Anthem Inc",
-      "cusip": "036752103",
-      "shares": 29000,
-      "value": 6584000
-    },
-    {
-      "name": "Anthem Inc",
-      "cusip": "036752103",
-      "shares": 145000,
-      "value": 32921000
-    },
-    {
-      "name": "Aon Corporation",
-      "cusip": "G0408V102",
-      "shares": 37000,
-      "value": 6106000
-    },
-    {
-      "name": "Apollo Global Management - A",
-      "cusip": "037612306",
-      "shares": 22500,
-      "value": 754000
-    },
-    {
-      "name": "Apollo Global Management - A",
-      "cusip": "037612306",
-      "shares": 990000,
-      "value": 33165000
-    },
-    {
-      "name": "Apple Inc",
-      "cusip": "037833100",
-      "shares": 12050,
-      "value": 3064000
-    },
-    {
-      "name": "Apple Inc",
-      "cusip": "037833100",
-      "shares": 288585,
-      "value": 73384000
-    },
-    {
-      "name": "Archer Daniels",
-      "cusip": "039483102",
-      "shares": 594000,
-      "value": 20897000
-    },
-    {
-      "name": "Archer Daniels",
-      "cusip": "039483102",
-      "shares": 884300,
-      "value": 31110000
-    },
-    {
-      "name": "Automatic Data Processing",
-      "cusip": "053015103",
-      "shares": 127000,
-      "value": 17358000
-    },
-    {
-      "name": "Automatic Data Processing",
-      "cusip": "053015103",
-      "shares": 403700,
-      "value": 55178000
-    },
-    {
-      "name": "Autonation Inc",
-      "cusip": "05329W102",
-      "shares": 1200,
-      "value": 34000
-    },
-    {
-      "name": "Autonation Inc",
-      "cusip": "05329W102",
-      "shares": 45660,
-      "value": 1281000
-    },
-    {
-      "name": "Ball Corporation",
-      "cusip": "058498106",
-      "shares": 46000,
-      "value": 2974000
-    },
-    {
-      "name": "Bank of New York Mellon Corp",
-      "cusip": "064058100",
-      "shares": 350000,
-      "value": 11788000
-    },
-    {
-      "name": "Berkshire Hathaway Class B",
-      "cusip": "084670702",
-      "shares": 751620,
-      "value": 137419000
-    },
-    {
-      "name": "Berkshire Hathaway Class B",
-      "cusip": "084670702",
-      "shares": 780067,
-      "value": 142620000
-    },
-    {
-      "name": "Berkshire Hathaway, Inc.",
-      "cusip": "084670108",
-      "shares": 580,
-      "value": 157760000
-    },
-    {
-      "name": "Berkshire Hathaway, Inc.",
-      "cusip": "084670108",
-      "shares": 534,
-      "value": 145248000
-    },
-    {
-      "name": "Blackrock Inc",
-      "cusip": "09247X101",
-      "shares": 12000,
-      "value": 5280000
-    },
-    {
-      "name": "Blackrock Inc",
-      "cusip": "09247X101",
-      "shares": 208200,
-      "value": 91602000
-    },
-    {
-      "name": "Blackstone Group",
-      "cusip": "09260D107",
-      "shares": 34500,
-      "value": 1572000
-    },
-    {
-      "name": "Blackstone Group",
-      "cusip": "09260D107",
-      "shares": 1194500,
-      "value": 54433000
-    },
-    {
-      "name": "Boeing Co",
-      "cusip": "097023105",
-      "shares": 11900,
-      "value": 1775000
-    },
-    {
-      "name": "Boeing Co",
-      "cusip": "097023105",
-      "shares": 82500,
-      "value": 12304000
-    },
-    {
-      "name": "Booking Holdings Inc",
-      "cusip": "09857L108",
-      "shares": 410,
-      "value": 552000
-    },
-    {
-      "name": "Brookfield Asset Management",
-      "cusip": "112585104",
-      "shares": 1929782,
-      "value": 85393000
+      "name": "Carmax",
+      "cusip": "143130102",
+      "shares": 3343944,
+      "value": 180005
     },
     {
       "name": "Brookfield Asset Management",
       "cusip": "112585104",
       "shares": 3870659,
-      "value": 171277000
+      "value": 171277
     },
     {
-      "name": "Brown Forman Class A",
-      "cusip": "115637100",
-      "shares": 492600,
-      "value": 25310000
-    },
-    {
-      "name": "Brown Forman Class A",
-      "cusip": "115637100",
-      "shares": 350400,
-      "value": 18004000
-    },
-    {
-      "name": "Brown-Forman Class B",
-      "cusip": "115637209",
-      "shares": 226750,
-      "value": 12587000
-    },
-    {
-      "name": "Brown-Forman Class B",
-      "cusip": "115637209",
-      "shares": 247437,
-      "value": 13735000
-    },
-    {
-      "name": "CVS Corporation",
-      "cusip": "126650100",
-      "shares": 2000,
-      "value": 119000
-    },
-    {
-      "name": "CVS Corporation",
-      "cusip": "126650100",
-      "shares": 330000,
-      "value": 19579000
-    },
-    {
-      "name": "Cable One",
-      "cusip": "12685J105",
-      "shares": 5200,
-      "value": 8549000
-    },
-    {
-      "name": "Carmax",
-      "cusip": "143130102",
-      "shares": 1569126,
-      "value": 84466000
-    },
-    {
-      "name": "Carmax",
-      "cusip": "143130102",
-      "shares": 3343944,
-      "value": 180005000
-    },
-    {
-      "name": "Caterpillar Inc",
-      "cusip": "149123101",
-      "shares": 10000,
-      "value": 1160000
-    },
-    {
-      "name": "Caterpillar Inc",
-      "cusip": "149123101",
-      "shares": 277500,
-      "value": 32201000
-    },
-    {
-      "name": "Charles Schwab",
-      "cusip": "808513105",
-      "shares": 123000,
-      "value": 4135000
-    },
-    {
-      "name": "Charles Schwab",
-      "cusip": "808513105",
-      "shares": 972300,
-      "value": 32689000
-    },
-    {
-      "name": "Choice Hotels Intl Inc",
-      "cusip": "169905106",
-      "shares": 3000,
-      "value": 184000
-    },
-    {
-      "name": "Choice Hotels Intl Inc",
-      "cusip": "169905106",
-      "shares": 210000,
-      "value": 12862000
-    },
-    {
-      "name": "Cisco",
-      "cusip": "17275R102",
-      "shares": 148000,
-      "value": 5818000
-    },
-    {
-      "name": "Cisco",
-      "cusip": "17275R102",
-      "shares": 194000,
-      "value": 7626000
-    },
-    {
-      "name": "Citigroup Inc",
-      "cusip": "172967424",
-      "shares": 1320,
-      "value": 56000
-    },
-    {
-      "name": "Citigroup Inc",
-      "cusip": "172967424",
-      "shares": 21300,
-      "value": 897000
-    },
-    {
-      "name": "Colfax Corporation",
-      "cusip": "194014106",
-      "shares": 1085070,
-      "value": 21484000
-    },
-    {
-      "name": "Colfax Corporation",
-      "cusip": "194014106",
-      "shares": 50000,
-      "value": 990000
-    },
-    {
-      "name": "Comcast Corp- Class A",
-      "cusip": "20030n101",
-      "shares": 103000,
-      "value": 3541000
-    },
-    {
-      "name": "Comcast Corp- Class A",
-      "cusip": "20030n101",
-      "shares": 419000,
-      "value": 14405000
-    },
-    {
-      "name": "Costco",
-      "cusip": "22160K105",
-      "shares": 13000,
-      "value": 3707000
-    },
-    {
-      "name": "Costco",
-      "cusip": "22160K105",
-      "shares": 26150,
-      "value": 7456000
-    },
-    {
-      "name": "Crown Holdings Inc",
-      "cusip": "228368106",
-      "shares": 116000,
-      "value": 6733000
-    },
-    {
-      "name": "DR Horton Inc",
-      "cusip": "23331A109",
-      "shares": 850,
-      "value": 29000
-    },
-    {
-      "name": "DR Horton Inc",
-      "cusip": "23331A109",
-      "shares": 31797,
-      "value": 1081000
-    },
-    {
-      "name": "Delta Air Lines",
-      "cusip": "247361702",
-      "shares": 6000,
-      "value": 171000
-    },
-    {
-      "name": "Delta Air Lines",
-      "cusip": "247361702",
-      "shares": 454500,
-      "value": 12967000
-    },
-    {
-      "name": "Diageo PLC",
-      "cusip": "25243Q205",
-      "shares": 738300,
-      "value": 93853000
-    },
-    {
-      "name": "Diageo PLC",
-      "cusip": "25243Q205",
-      "shares": 611500,
-      "value": 77734000
-    },
-    {
-      "name": "Disney",
-      "cusip": "254687106",
-      "shares": 544700,
-      "value": 52618000
-    },
-    {
-      "name": "Disney",
-      "cusip": "254687106",
-      "shares": 1317680,
-      "value": 127288000
-    },
-    {
-      "name": "Eastman Chemical Company",
-      "cusip": "277432100",
-      "shares": 6000,
-      "value": 279000
-    },
-    {
-      "name": "Ecolab",
-      "cusip": "278865100",
-      "shares": 23000,
-      "value": 3584000
-    },
-    {
-      "name": "Ecolab",
-      "cusip": "278865100",
-      "shares": 286300,
-      "value": 44614000
-    },
-    {
-      "name": "Electronic Arts Inc",
-      "cusip": "285512109",
-      "shares": 900,
-      "value": 90000
-    },
-    {
-      "name": "Electronic Arts Inc",
-      "cusip": "285512109",
-      "shares": 124300,
-      "value": 12451000
-    },
-    {
-      "name": "Equifax Inc",
-      "cusip": "294429105",
-      "shares": 114000,
-      "value": 13617000
-    },
-    {
-      "name": "Facebook",
-      "cusip": "30303M102",
-      "shares": 18610,
-      "value": 3104000
-    },
-    {
-      "name": "Facebook",
-      "cusip": "30303M102",
-      "shares": 126390,
-      "value": 21082000
-    },
-    {
-      "name": "Factset Research",
-      "cusip": "303075105",
-      "shares": 23000,
-      "value": 5996000
-    },
-    {
-      "name": "Factset Research",
-      "cusip": "303075105",
-      "shares": 93680,
-      "value": 24421000
-    },
-    {
-      "name": "General Dynamics",
-      "cusip": "369550108",
-      "shares": 44000,
-      "value": 5822000
-    },
-    {
-      "name": "General Dynamics",
-      "cusip": "369550108",
-      "shares": 343000,
-      "value": 45382000
-    },
-    {
-      "name": "Goldman Sachs",
-      "cusip": "38141G104",
-      "shares": 17850,
-      "value": 2759000
-    },
-    {
-      "name": "Goldman Sachs",
-      "cusip": "38141G104",
-      "shares": 324950,
-      "value": 50234000
-    },
-    {
-      "name": "Graham Holdings Co",
-      "cusip": "384637104",
-      "shares": 5200,
-      "value": 1774000
-    },
-    {
-      "name": "Guidewire Software Inc",
-      "cusip": "40171V100",
-      "shares": 13000,
-      "value": 1031000
-    },
-    {
-      "name": "Healthcare Services Group",
-      "cusip": "421906108",
-      "shares": 20000,
-      "value": 478000
-    },
-    {
-      "name": "Healthcare Services Group",
-      "cusip": "421906108",
-      "shares": 678500,
-      "value": 16223000
-    },
-    {
-      "name": "Heico Corp Class A",
-      "cusip": "422806208",
-      "shares": 7702,
-      "value": 492000
-    },
-    {
-      "name": "Heico Corp Class A",
-      "cusip": "422806208",
-      "shares": 335442,
-      "value": 21435000
-    },
-    {
-      "name": "Hexcel Corp",
-      "cusip": "428291108",
-      "shares": 4000,
-      "value": 149000
-    },
-    {
-      "name": "Hexcel Corp",
-      "cusip": "428291108",
-      "shares": 185000,
-      "value": 6880000
-    },
-    {
-      "name": "Home Depot",
-      "cusip": "437076102",
-      "shares": 117000,
-      "value": 21845000
+      "name": "Berkshire Hathaway, Inc",
+      "cusip": "084670108",
+      "shares": 580,
+      "value": 157760
     },
     {
       "name": "Home Depot",
       "cusip": "437076102",
       "shares": 803000,
-      "value": 149928000
+      "value": 149928
     },
     {
-      "name": "Illinois Tool Works",
-      "cusip": "452308109",
-      "shares": 85000,
-      "value": 12080000
+      "name": "Berkshire Hathaway, Inc",
+      "cusip": "084670108",
+      "shares": 534,
+      "value": 145248
     },
     {
-      "name": "Illinois Tool Works",
-      "cusip": "452308109",
-      "shares": 242500,
-      "value": 34464000
+      "name": "Berkshire Hathaway Class B",
+      "cusip": "084670702",
+      "shares": 780067,
+      "value": 142620
     },
     {
-      "name": "Illumina Inc",
-      "cusip": "452327109",
-      "shares": 4000,
-      "value": 1092000
+      "name": "Berkshire Hathaway Class B",
+      "cusip": "084670702",
+      "shares": 751620,
+      "value": 137419
     },
     {
-      "name": "InterActiveCorp",
-      "cusip": "44919P508",
-      "shares": 1650,
-      "value": 296000
+      "name": "Disney",
+      "cusip": "254687106",
+      "shares": 1317680,
+      "value": 127288
     },
     {
-      "name": "Intl Flavors & Fragrances",
-      "cusip": "459506101",
-      "shares": 15000,
-      "value": 1531000
-    },
-    {
-      "name": "Intl Flavors & Fragrances",
-      "cusip": "459506101",
-      "shares": 92000,
-      "value": 9391000
-    },
-    {
-      "name": "Investors Title Company",
-      "cusip": "461804106",
-      "shares": 213300,
-      "value": 27302000
-    },
-    {
-      "name": "JP Morgan",
-      "cusip": "46625H100",
-      "shares": 217350,
-      "value": 19568000
-    },
-    {
-      "name": "John Deere",
-      "cusip": "244199105",
-      "shares": 150000,
-      "value": 20724000
-    },
-    {
-      "name": "John Deere",
-      "cusip": "244199105",
-      "shares": 855900,
-      "value": 118251000
-    },
-    {
-      "name": "Johnson and Johnson",
-      "cusip": "478160104",
-      "shares": 114200,
-      "value": 14975000
-    },
-    {
-      "name": "Johnson and Johnson",
-      "cusip": "478160104",
-      "shares": 496600,
-      "value": 65119000
-    },
-    {
-      "name": "KKR & Co LLC",
-      "cusip": "48251W104",
-      "shares": 62000,
-      "value": 1455000
-    },
-    {
-      "name": "KKR & Co LLC",
-      "cusip": "48251W104",
-      "shares": 1317400,
-      "value": 30919000
-    },
-    {
-      "name": "Lamar Advertising Company",
-      "cusip": "512816109",
-      "shares": 8500,
-      "value": 436000
-    },
-    {
-      "name": "Lennar Corp - B",
-      "cusip": "526057302",
-      "shares": 25700,
-      "value": 743000
-    },
-    {
-      "name": "Lennar Corporation",
-      "cusip": "526057104",
-      "shares": 550,
-      "value": 21000
-    },
-    {
-      "name": "Lennar Corporation",
-      "cusip": "526057104",
-      "shares": 5350,
-      "value": 204000
-    },
-    {
-      "name": "Liberty Broadband A",
-      "cusip": "530307107",
-      "shares": 21750,
-      "value": 2327000
-    },
-    {
-      "name": "Liberty Broadband A",
-      "cusip": "530307107",
-      "shares": 183500,
-      "value": 19634000
-    },
-    {
-      "name": "Liberty Broadband Class C",
-      "cusip": "530307305",
-      "shares": 40853,
-      "value": 4523000
-    },
-    {
-      "name": "Liberty Broadband Class C",
-      "cusip": "530307305",
-      "shares": 131260,
-      "value": 14533000
-    },
-    {
-      "name": "Liberty Global PLC",
-      "cusip": "G5480U104",
-      "shares": 3000,
-      "value": 50000
-    },
-    {
-      "name": "Liberty Global PLC",
-      "cusip": "G5480U104",
-      "shares": 176000,
-      "value": 2906000
-    },
-    {
-      "name": "Liberty Media Group A",
-      "cusip": "531229870",
-      "shares": 19000,
-      "value": 491000
-    },
-    {
-      "name": "Liberty Media Group A",
-      "cusip": "531229870",
-      "shares": 210500,
-      "value": 5435000
-    },
-    {
-      "name": "Liberty Media Group C",
-      "cusip": "531229854",
-      "shares": 29000,
-      "value": 790000
-    },
-    {
-      "name": "Liberty Media Group C",
-      "cusip": "531229854",
-      "shares": 230500,
-      "value": 6277000
-    },
-    {
-      "name": "Liberty Sirius Group A",
-      "cusip": "531229409",
-      "shares": 52000,
-      "value": 1648000
-    },
-    {
-      "name": "Liberty Sirius Group A",
-      "cusip": "531229409",
-      "shares": 374000,
-      "value": 11852000
-    },
-    {
-      "name": "Liberty Sirius Group C",
-      "cusip": "531229607",
-      "shares": 134000,
-      "value": 4237000
-    },
-    {
-      "name": "Liberty Sirius Group C",
-      "cusip": "531229607",
-      "shares": 388000,
-      "value": 12269000
-    },
-    {
-      "name": "Linde PLC",
-      "cusip": "G5494J103",
-      "shares": 5900,
-      "value": 1021000
-    },
-    {
-      "name": "Linde PLC",
-      "cusip": "G5494J103",
-      "shares": 88500,
-      "value": 15310000
-    },
-    {
-      "name": "Live Nation",
-      "cusip": "538034109",
-      "shares": 10500,
-      "value": 477000
-    },
-    {
-      "name": "Live Nation",
-      "cusip": "538034109",
-      "shares": 478200,
-      "value": 21739000
-    },
-    {
-      "name": "Lowes",
-      "cusip": "548661107",
-      "shares": 257000,
-      "value": 22115000
-    },
-    {
-      "name": "Lowes",
-      "cusip": "548661107",
-      "shares": 331500,
-      "value": 28526000
-    },
-    {
-      "name": "MSCI",
-      "cusip": "55354G100",
-      "shares": 1000,
-      "value": 289000
-    },
-    {
-      "name": "MSCI",
-      "cusip": "55354G100",
-      "shares": 136000,
-      "value": 39299000
-    },
-    {
-      "name": "Marriott International",
-      "cusip": "571903202",
-      "shares": 358049,
-      "value": 26786000
-    },
-    {
-      "name": "Marriott International",
-      "cusip": "571903202",
-      "shares": 1234720,
-      "value": 92369000
-    },
-    {
-      "name": "Marsh & McLennan",
-      "cusip": "571748102",
-      "shares": 17500,
-      "value": 1513000
-    },
-    {
-      "name": "Marsh & McLennan",
-      "cusip": "571748102",
-      "shares": 592000,
-      "value": 51184000
-    },
-    {
-      "name": "Mastercard, Inc",
-      "cusip": "57636Q104",
-      "shares": 36000,
-      "value": 8696000
-    },
-    {
-      "name": "Mastercard, Inc",
-      "cusip": "57636Q104",
-      "shares": 171370,
-      "value": 41396000
-    },
-    {
-      "name": "Maxim Integrated Products",
-      "cusip": "57772K101",
-      "shares": 70000,
-      "value": 3403000
-    },
-    {
-      "name": "Maxim Integrated Products",
-      "cusip": "57772K101",
-      "shares": 182000,
-      "value": 8847000
-    },
-    {
-      "name": "McKesson Corp",
-      "cusip": "58155Q103",
-      "shares": 4700,
-      "value": 636000
-    },
-    {
-      "name": "McKesson Corp",
-      "cusip": "58155Q103",
-      "shares": 58400,
-      "value": 7899000
-    },
-    {
-      "name": "Microchip Technology",
-      "cusip": "595017104",
-      "shares": 4000,
-      "value": 271000
-    },
-    {
-      "name": "Microchip Technology",
-      "cusip": "595017104",
-      "shares": 159000,
-      "value": 10780000
-    },
-    {
-      "name": "Microsoft Corp",
-      "cusip": "594918104",
-      "shares": 85000,
-      "value": 13405000
-    },
-    {
-      "name": "Microsoft Corp",
-      "cusip": "594918104",
-      "shares": 393620,
-      "value": 62078000
-    },
-    {
-      "name": "Mohawk Industries",
-      "cusip": "608190104",
-      "shares": 5000,
-      "value": 381000
-    },
-    {
-      "name": "Mohawk Industries",
-      "cusip": "608190104",
-      "shares": 290000,
-      "value": 22110000
-    },
-    {
-      "name": "Moody's Corp",
-      "cusip": "615369105",
-      "shares": 104000,
-      "value": 21996000
-    },
-    {
-      "name": "Moody's Corp",
-      "cusip": "615369105",
-      "shares": 107080,
-      "value": 22647000
-    },
-    {
-      "name": "NVR Inc",
-      "cusip": "62944T105",
-      "shares": 100,
-      "value": 257000
-    },
-    {
-      "name": "NVR Inc",
-      "cusip": "62944T105",
-      "shares": 8755,
-      "value": 22493000
-    },
-    {
-      "name": "Nike",
-      "cusip": "654106103",
-      "shares": 82000,
-      "value": 6785000
-    },
-    {
-      "name": "Nike",
-      "cusip": "654106103",
-      "shares": 284000,
-      "value": 23498000
-    },
-    {
-      "name": "Norfolk Southern",
-      "cusip": "655844108",
-      "shares": 73000,
-      "value": 10658000
-    },
-    {
-      "name": "Norfolk Southern",
-      "cusip": "655844108",
-      "shares": 156500,
-      "value": 22849000
-    },
-    {
-      "name": "Novo-Nordisk A/S",
-      "cusip": "670100205",
-      "shares": 525000,
-      "value": 31605000
-    },
-    {
-      "name": "Novo-Nordisk A/S",
-      "cusip": "670100205",
-      "shares": 550000,
-      "value": 33110000
-    },
-    {
-      "name": "Owens-Illinois Inc",
-      "cusip": "67098H104",
-      "shares": 444000,
-      "value": 3157000
-    },
-    {
-      "name": "Parker-Hannifin Corp",
-      "cusip": "701094104",
-      "shares": 6100,
-      "value": 791000
-    },
-    {
-      "name": "Parker-Hannifin Corp",
-      "cusip": "701094104",
-      "shares": 112500,
-      "value": 14595000
-    },
-    {
-      "name": "Paychex",
-      "cusip": "704326107",
-      "shares": 70000,
-      "value": 4404000
-    },
-    {
-      "name": "Paychex",
-      "cusip": "704326107",
-      "shares": 80000,
-      "value": 5034000
-    },
-    {
-      "name": "Penske Automotive Group",
-      "cusip": "70959W103",
-      "shares": 25000,
-      "value": 700000
-    },
-    {
-      "name": "Penske Automotive Group",
-      "cusip": "70959W103",
-      "shares": 47000,
-      "value": 1316000
-    },
-    {
-      "name": "Pepsico",
-      "cusip": "713448108",
-      "shares": 95600,
-      "value": 11482000
-    },
-    {
-      "name": "Philip Morris International",
-      "cusip": "718172109",
-      "shares": 114500,
-      "value": 8354000
-    },
-    {
-      "name": "Progressive Corp",
-      "cusip": "743315103",
-      "shares": 60000,
-      "value": 4430000
-    },
-    {
-      "name": "Progressive Corp",
-      "cusip": "743315103",
-      "shares": 614500,
-      "value": 45375000
-    },
-    {
-      "name": "RLI Corporation",
-      "cusip": "749607107",
-      "shares": 377000,
-      "value": 33150000
-    },
-    {
-      "name": "RLI Corporation",
-      "cusip": "749607107",
-      "shares": 820272,
-      "value": 72127000
-    },
-    {
-      "name": "Rockwell  Automation Inc",
-      "cusip": "773903109",
-      "shares": 7900,
-      "value": 1192000
-    },
-    {
-      "name": "Rockwell  Automation Inc",
-      "cusip": "773903109",
-      "shares": 134200,
-      "value": 20252000
-    },
-    {
-      "name": "Rollins, Inc.",
-      "cusip": "775711104",
-      "shares": 36650,
-      "value": 1325000
-    },
-    {
-      "name": "Rollins, Inc.",
-      "cusip": "775711104",
-      "shares": 792200,
-      "value": 28630000
-    },
-    {
-      "name": "S&P Global",
-      "cusip": "78409V104",
-      "shares": 1000,
-      "value": 245000
-    },
-    {
-      "name": "S&P Global",
-      "cusip": "78409V104",
-      "shares": 146000,
-      "value": 35777000
-    },
-    {
-      "name": "SEI Investments Co",
-      "cusip": "784117103",
-      "shares": 59000,
-      "value": 2734000
-    },
-    {
-      "name": "SEI Investments Co",
-      "cusip": "784117103",
-      "shares": 324200,
-      "value": 15023000
-    },
-    {
-      "name": "Shake Shack Inc - Class A",
-      "cusip": "819047101",
-      "shares": 3000,
-      "value": 113000
-    },
-    {
-      "name": "Shake Shack Inc - Class A",
-      "cusip": "819047101",
-      "shares": 27600,
-      "value": 1042000
-    },
-    {
-      "name": "Sherwin Williams",
-      "cusip": "824348106",
-      "shares": 31000,
-      "value": 14245000
-    },
-    {
-      "name": "Southwest Airlines",
-      "cusip": "844741108",
-      "shares": 17000,
-      "value": 605000
-    },
-    {
-      "name": "Southwest Airlines",
-      "cusip": "844741108",
-      "shares": 528000,
-      "value": 18802000
-    },
-    {
-      "name": "Starbucks Corp",
-      "cusip": "855244109",
-      "shares": 40500,
-      "value": 2662000
-    },
-    {
-      "name": "Starbucks Corp",
-      "cusip": "855244109",
-      "shares": 487318,
-      "value": 32036000
-    },
-    {
-      "name": "Stericycle Inc",
-      "cusip": "858912108",
-      "shares": 25000,
-      "value": 1214000
-    },
-    {
-      "name": "Stericycle Inc",
-      "cusip": "858912108",
-      "shares": 568700,
-      "value": 27627000
-    },
-    {
-      "name": "T.Rowe Price",
-      "cusip": "74144T108",
-      "shares": 32000,
-      "value": 3125000
-    },
-    {
-      "name": "T.Rowe Price",
-      "cusip": "74144T108",
-      "shares": 282000,
-      "value": 27537000
-    },
-    {
-      "name": "Texas Instruments Inc",
-      "cusip": "882508104",
-      "shares": 176000,
-      "value": 17588000
-    },
-    {
-      "name": "Texas Instruments Inc",
-      "cusip": "882508104",
-      "shares": 548000,
-      "value": 54762000
-    },
-    {
-      "name": "The Carlyle Group",
-      "cusip": "14316J108",
-      "shares": 44500,
-      "value": 963000
-    },
-    {
-      "name": "The Carlyle Group",
-      "cusip": "14316J108",
-      "shares": 1177500,
-      "value": 25493000
-    },
-    {
-      "name": "The Travelers Companies Inc",
-      "cusip": "89417E109",
-      "shares": 315000,
-      "value": 31295000
-    },
-    {
-      "name": "TransUnion",
-      "cusip": "89400J107",
-      "shares": 3000,
-      "value": 199000
-    },
-    {
-      "name": "TransUnion",
-      "cusip": "89400J107",
-      "shares": 91500,
-      "value": 6055000
-    },
-    {
-      "name": "Trupanion",
-      "cusip": "898202106",
-      "shares": 5000,
-      "value": 130000
-    },
-    {
-      "name": "Trupanion",
-      "cusip": "898202106",
-      "shares": 128300,
-      "value": 3340000
-    },
-    {
-      "name": "Twitter Inc",
-      "cusip": "90184l102",
-      "shares": 8500,
-      "value": 209000
-    },
-    {
-      "name": "Tyson Foods",
-      "cusip": "902494103",
-      "shares": 5000,
-      "value": 289000
-    },
-    {
-      "name": "Tyson Foods",
-      "cusip": "902494103",
-      "shares": 364000,
-      "value": 21065000
-    },
-    {
-      "name": "Union Pacific",
-      "cusip": "907818108",
-      "shares": 11100,
-      "value": 1566000
-    },
-    {
-      "name": "Union Pacific",
-      "cusip": "907818108",
-      "shares": 74270,
-      "value": 10475000
-    },
-    {
-      "name": "United Technologies",
-      "cusip": "913017109",
-      "shares": 54600,
-      "value": 5150000
-    },
-    {
-      "name": "United Technologies",
-      "cusip": "913017109",
-      "shares": 169400,
-      "value": 15980000
-    },
-    {
-      "name": "Verisk Analytics Inc",
-      "cusip": "92345Y106",
-      "shares": 1000,
-      "value": 139000
-    },
-    {
-      "name": "Verisk Analytics Inc",
-      "cusip": "92345Y106",
-      "shares": 73000,
-      "value": 10175000
-    },
-    {
-      "name": "Visa",
-      "cusip": "92826C839",
-      "shares": 186100,
-      "value": 29984000
+      "name": "Amazon.com",
+      "cusip": "023135106",
+      "shares": 65042,
+      "value": 126814
     },
     {
       "name": "Visa",
       "cusip": "92826C839",
       "shares": 770550,
-      "value": 124151000
+      "value": 124151
     },
     {
-      "name": "WR Berkley Corp",
-      "cusip": "084423102",
-      "shares": 27000,
-      "value": 1409000
+      "name": "John Deere",
+      "cusip": "244199105",
+      "shares": 855900,
+      "value": 118251
     },
     {
-      "name": "Walgreens Boots Alliance Inc",
-      "cusip": "931427108",
-      "shares": 685650,
-      "value": 31368000
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 95244,
+      "value": 110751
     },
     {
-      "name": "Walgreens Boots Alliance Inc",
-      "cusip": "931427108",
-      "shares": 1096850,
-      "value": 50181000
+      "name": "Diageo PLC",
+      "cusip": "25243Q205",
+      "shares": 738300,
+      "value": 93853
     },
     {
-      "name": "Watsco Inc",
-      "cusip": "942622200",
-      "shares": 27100,
-      "value": 4283000
+      "name": "Marriott International",
+      "cusip": "571903202",
+      "shares": 1234720,
+      "value": 92369
+    },
+    {
+      "name": "Blackrock Inc",
+      "cusip": "09247X101",
+      "shares": 208200,
+      "value": 91602
+    },
+    {
+      "name": "Brookfield Asset Management",
+      "cusip": "112585104",
+      "shares": 1929782,
+      "value": 85393
+    },
+    {
+      "name": "Carmax",
+      "cusip": "143130102",
+      "shares": 1569126,
+      "value": 84466
+    },
+    {
+      "name": "Diageo PLC",
+      "cusip": "25243Q205",
+      "shares": 611500,
+      "value": 77734
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 288585,
+      "value": 73384
+    },
+    {
+      "name": "RLI Corporation",
+      "cusip": "749607107",
+      "shares": 820272,
+      "value": 72127
+    },
+    {
+      "name": "Amazon.com",
+      "cusip": "023135106",
+      "shares": 33400,
+      "value": 65121
+    },
+    {
+      "name": "Johnson and Johnson",
+      "cusip": "478160104",
+      "shares": 496600,
+      "value": 65119
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 393620,
+      "value": 62078
+    },
+    {
+      "name": "Analog Devices Inc",
+      "cusip": "032654105",
+      "shares": 682246,
+      "value": 61163
     },
     {
       "name": "Watsco Inc",
       "cusip": "942622200",
       "shares": 369900,
-      "value": 58455000
+      "value": 58455
     },
     {
-      "name": "Wells Fargo",
-      "cusip": "949746101",
-      "shares": 32000,
-      "value": 918000
+      "name": "Automatic Data Processing",
+      "cusip": "053015103",
+      "shares": 403700,
+      "value": 55178
     },
     {
-      "name": "Wells Fargo",
-      "cusip": "949746101",
-      "shares": 163450,
-      "value": 4691000
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 548000,
+      "value": 54762
     },
     {
-      "name": "Whirlpool Corp",
-      "cusip": "963320106",
-      "shares": 5230,
-      "value": 449000
+      "name": "Blackstone Group",
+      "cusip": "09260D107",
+      "shares": 1194500,
+      "value": 54433
+    },
+    {
+      "name": "Disney",
+      "cusip": "254687106",
+      "shares": 544700,
+      "value": 52618
+    },
+    {
+      "name": "Marsh & McLennan",
+      "cusip": "571748102",
+      "shares": 592000,
+      "value": 51184
+    },
+    {
+      "name": "Goldman Sachs",
+      "cusip": "38141G104",
+      "shares": 324950,
+      "value": 50234
+    },
+    {
+      "name": "Walgreens Boots Alliance Inc",
+      "cusip": "931427108",
+      "shares": 1096850,
+      "value": 50181
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 42249,
+      "value": 49128
+    },
+    {
+      "name": "General Dynamics",
+      "cusip": "369550108",
+      "shares": 343000,
+      "value": 45382
+    },
+    {
+      "name": "Progressive Corp",
+      "cusip": "743315103",
+      "shares": 614500,
+      "value": 45375
+    },
+    {
+      "name": "Ecolab",
+      "cusip": "278865100",
+      "shares": 286300,
+      "value": 44614
+    },
+    {
+      "name": "Mastercard, Inc",
+      "cusip": "57636Q104",
+      "shares": 171370,
+      "value": 41396
+    },
+    {
+      "name": "American Express",
+      "cusip": "025816109",
+      "shares": 473950,
+      "value": 40575
+    },
+    {
+      "name": "MSCI",
+      "cusip": "55354G100",
+      "shares": 136000,
+      "value": 39299
+    },
+    {
+      "name": "S&P Global",
+      "cusip": "78409V104",
+      "shares": 146000,
+      "value": 35777
+    },
+    {
+      "name": "Illinois Tool Works",
+      "cusip": "452308109",
+      "shares": 242500,
+      "value": 34464
+    },
+    {
+      "name": "Apollo Global Management - A",
+      "cusip": "037612306",
+      "shares": 990000,
+      "value": 33165
+    },
+    {
+      "name": "RLI Corporation",
+      "cusip": "749607107",
+      "shares": 377000,
+      "value": 33150
+    },
+    {
+      "name": "Novo-Nordisk A/S",
+      "cusip": "670100205",
+      "shares": 550000,
+      "value": 33110
+    },
+    {
+      "name": "Anthem Inc",
+      "cusip": "036752103",
+      "shares": 145000,
+      "value": 32921
+    },
+    {
+      "name": "Charles Schwab",
+      "cusip": "808513105",
+      "shares": 972300,
+      "value": 32689
+    },
+    {
+      "name": "Caterpillar Inc",
+      "cusip": "149123101",
+      "shares": 277500,
+      "value": 32201
+    },
+    {
+      "name": "Starbucks Corp",
+      "cusip": "855244109",
+      "shares": 487318,
+      "value": 32036
+    },
+    {
+      "name": "Novo-Nordisk A/S",
+      "cusip": "670100205",
+      "shares": 525000,
+      "value": 31605
+    },
+    {
+      "name": "Walgreens Boots Alliance Inc",
+      "cusip": "931427108",
+      "shares": 685650,
+      "value": 31368
+    },
+    {
+      "name": "The Travelers Companies Inc",
+      "cusip": "89417E109",
+      "shares": 315000,
+      "value": 31295
+    },
+    {
+      "name": "Archer Daniels",
+      "cusip": "039483102",
+      "shares": 884300,
+      "value": 31110
+    },
+    {
+      "name": "KKR & Co LLC",
+      "cusip": "48251W104",
+      "shares": 1317400,
+      "value": 30919
+    },
+    {
+      "name": "Visa",
+      "cusip": "92826C839",
+      "shares": 186100,
+      "value": 29984
+    },
+    {
+      "name": "Rollins, Inc",
+      "cusip": "775711104",
+      "shares": 792200,
+      "value": 28630
+    },
+    {
+      "name": "Lowes",
+      "cusip": "548661107",
+      "shares": 331500,
+      "value": 28526
+    },
+    {
+      "name": "Stericycle Inc",
+      "cusip": "858912108",
+      "shares": 568700,
+      "value": 27627
+    },
+    {
+      "name": "T.Rowe Price",
+      "cusip": "74144T108",
+      "shares": 282000,
+      "value": 27537
+    },
+    {
+      "name": "Investors Title Company",
+      "cusip": "461804106",
+      "shares": 213300,
+      "value": 27302
+    },
+    {
+      "name": "Marriott International",
+      "cusip": "571903202",
+      "shares": 358049,
+      "value": 26786
+    },
+    {
+      "name": "The Carlyle Group",
+      "cusip": "14316J108",
+      "shares": 1177500,
+      "value": 25493
+    },
+    {
+      "name": "Brown Forman Class A",
+      "cusip": "115637100",
+      "shares": 492600,
+      "value": 25310
+    },
+    {
+      "name": "Factset Research",
+      "cusip": "303075105",
+      "shares": 93680,
+      "value": 24421
+    },
+    {
+      "name": "Nike",
+      "cusip": "654106103",
+      "shares": 284000,
+      "value": 23498
+    },
+    {
+      "name": "Norfolk Southern",
+      "cusip": "655844108",
+      "shares": 156500,
+      "value": 22849
     },
     {
       "name": "Whirlpool Corp",
       "cusip": "963320106",
       "shares": 265709,
-      "value": 22798000
+      "value": 22798
+    },
+    {
+      "name": "Moody's Corp",
+      "cusip": "615369105",
+      "shares": 107080,
+      "value": 22647
+    },
+    {
+      "name": "NVR Inc",
+      "cusip": "62944T105",
+      "shares": 8755,
+      "value": 22493
+    },
+    {
+      "name": "Lowes",
+      "cusip": "548661107",
+      "shares": 257000,
+      "value": 22115
+    },
+    {
+      "name": "Mohawk Industries",
+      "cusip": "608190104",
+      "shares": 290000,
+      "value": 22110
+    },
+    {
+      "name": "Moody's Corp",
+      "cusip": "615369105",
+      "shares": 104000,
+      "value": 21996
+    },
+    {
+      "name": "Home Depot",
+      "cusip": "437076102",
+      "shares": 117000,
+      "value": 21845
+    },
+    {
+      "name": "Live Nation",
+      "cusip": "538034109",
+      "shares": 478200,
+      "value": 21739
+    },
+    {
+      "name": "Colfax Corporation",
+      "cusip": "194014106",
+      "shares": 1085070,
+      "value": 21484
+    },
+    {
+      "name": "3M Company",
+      "cusip": "88579Y101",
+      "shares": 157200,
+      "value": 21459
+    },
+    {
+      "name": "Heico Corp Class A",
+      "cusip": "422806208",
+      "shares": 335442,
+      "value": 21435
+    },
+    {
+      "name": "Facebook",
+      "cusip": "30303M102",
+      "shares": 126390,
+      "value": 21082
+    },
+    {
+      "name": "Tyson Foods",
+      "cusip": "902494103",
+      "shares": 364000,
+      "value": 21065
+    },
+    {
+      "name": "Archer Daniels",
+      "cusip": "039483102",
+      "shares": 594000,
+      "value": 20897
+    },
+    {
+      "name": "John Deere",
+      "cusip": "244199105",
+      "shares": 150000,
+      "value": 20724
+    },
+    {
+      "name": "Rockwell Automation Inc",
+      "cusip": "773903109",
+      "shares": 134200,
+      "value": 20252
+    },
+    {
+      "name": "Liberty Broadband A",
+      "cusip": "530307107",
+      "shares": 183500,
+      "value": 19634
+    },
+    {
+      "name": "CVS Corporation",
+      "cusip": "126650100",
+      "shares": 330000,
+      "value": 19579
+    },
+    {
+      "name": "JP Morgan",
+      "cusip": "46625H100",
+      "shares": 217350,
+      "value": 19568
+    },
+    {
+      "name": "Southwest Airlines",
+      "cusip": "844741108",
+      "shares": 528000,
+      "value": 18802
+    },
+    {
+      "name": "Analog Devices Inc",
+      "cusip": "032654105",
+      "shares": 203565,
+      "value": 18250
+    },
+    {
+      "name": "Brown Forman Class A",
+      "cusip": "115637100",
+      "shares": 350400,
+      "value": 18004
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 176000,
+      "value": 17588
+    },
+    {
+      "name": "Automatic Data Processing",
+      "cusip": "053015103",
+      "shares": 127000,
+      "value": 17358
+    },
+    {
+      "name": "Activision Blizzard Inc",
+      "cusip": "00507V109",
+      "shares": 282000,
+      "value": 16773
+    },
+    {
+      "name": "Healthcare Services Group",
+      "cusip": "421906108",
+      "shares": 678500,
+      "value": 16223
+    },
+    {
+      "name": "United Technologies",
+      "cusip": "913017109",
+      "shares": 169400,
+      "value": 15980
+    },
+    {
+      "name": "Linde PLC",
+      "cusip": "G5494J103",
+      "shares": 88500,
+      "value": 15310
+    },
+    {
+      "name": "Accenture",
+      "cusip": "G1151C101",
+      "shares": 92300,
+      "value": 15069
+    },
+    {
+      "name": "SEI Investments Co",
+      "cusip": "784117103",
+      "shares": 324200,
+      "value": 15023
+    },
+    {
+      "name": "Johnson and Johnson",
+      "cusip": "478160104",
+      "shares": 114200,
+      "value": 14975
+    },
+    {
+      "name": "Parker-Hannifin Corp",
+      "cusip": "701094104",
+      "shares": 112500,
+      "value": 14595
+    },
+    {
+      "name": "Liberty Broadband Class C",
+      "cusip": "530307305",
+      "shares": 131260,
+      "value": 14533
+    },
+    {
+      "name": "Comcast Corp- Class A",
+      "cusip": "20030101",
+      "shares": 419000,
+      "value": 14405
+    },
+    {
+      "name": "Sherwin Williams",
+      "cusip": "824348106",
+      "shares": 31000,
+      "value": 14245
+    },
+    {
+      "name": "Brown-Forman Class B",
+      "cusip": "115637209",
+      "shares": 247437,
+      "value": 13735
+    },
+    {
+      "name": "Equifax Inc",
+      "cusip": "294429105",
+      "shares": 114000,
+      "value": 13617
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 85000,
+      "value": 13405
+    },
+    {
+      "name": "Delta Air Lines",
+      "cusip": "247361702",
+      "shares": 454500,
+      "value": 12967
+    },
+    {
+      "name": "Choice Hotels Intl Inc",
+      "cusip": "169905106",
+      "shares": 210000,
+      "value": 12862
+    },
+    {
+      "name": "Brown-Forman Class B",
+      "cusip": "115637209",
+      "shares": 226750,
+      "value": 12587
+    },
+    {
+      "name": "Electronic Arts Inc",
+      "cusip": "285512109",
+      "shares": 124300,
+      "value": 12451
+    },
+    {
+      "name": "Boeing Co",
+      "cusip": "097023105",
+      "shares": 82500,
+      "value": 12304
+    },
+    {
+      "name": "Liberty Sirius Group C",
+      "cusip": "531229607",
+      "shares": 388000,
+      "value": 12269
+    },
+    {
+      "name": "Illinois Tool Works",
+      "cusip": "452308109",
+      "shares": 85000,
+      "value": 12080
+    },
+    {
+      "name": "Liberty Sirius Group A",
+      "cusip": "531229409",
+      "shares": 374000,
+      "value": 11852
+    },
+    {
+      "name": "Bank of New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 350000,
+      "value": 11788
+    },
+    {
+      "name": "Pepsico",
+      "cusip": "713448108",
+      "shares": 95600,
+      "value": 11482
+    },
+    {
+      "name": "Accenture",
+      "cusip": "G1151C101",
+      "shares": 67100,
+      "value": 10955
+    },
+    {
+      "name": "American Tower",
+      "cusip": "03027X100",
+      "shares": 50150,
+      "value": 10920
+    },
+    {
+      "name": "Microchip Technology",
+      "cusip": "595017104",
+      "shares": 159000,
+      "value": 10780
+    },
+    {
+      "name": "Alphabet Inc Class A",
+      "cusip": "02079K305",
+      "shares": 9200,
+      "value": 10690
+    },
+    {
+      "name": "Norfolk Southern",
+      "cusip": "655844108",
+      "shares": 73000,
+      "value": 10658
+    },
+    {
+      "name": "3M Company",
+      "cusip": "88579Y101",
+      "shares": 77000,
+      "value": 10511
+    },
+    {
+      "name": "Union Pacific",
+      "cusip": "907818108",
+      "shares": 74270,
+      "value": 10475
+    },
+    {
+      "name": "Verisk Analytics Inc",
+      "cusip": "92345Y106",
+      "shares": 73000,
+      "value": 10175
+    },
+    {
+      "name": "Intl Flavors & Fragrances",
+      "cusip": "459506101",
+      "shares": 92000,
+      "value": 9391
+    },
+    {
+      "name": "Maxim Integrated Products",
+      "cusip": "57772K101",
+      "shares": 182000,
+      "value": 8847
+    },
+    {
+      "name": "Mastercard, Inc",
+      "cusip": "57636Q104",
+      "shares": 36000,
+      "value": 8696
+    },
+    {
+      "name": "Cable One",
+      "cusip": "12685J105",
+      "shares": 5200,
+      "value": 8549
+    },
+    {
+      "name": "Philip Morris International",
+      "cusip": "718172109",
+      "shares": 114500,
+      "value": 8354
+    },
+    {
+      "name": "McKesson Corp",
+      "cusip": "58155Q103",
+      "shares": 58400,
+      "value": 7899
+    },
+    {
+      "name": "Cisco",
+      "cusip": "17275R102",
+      "shares": 194000,
+      "value": 7626
+    },
+    {
+      "name": "Costco",
+      "cusip": "22160K105",
+      "shares": 26150,
+      "value": 7456
+    },
+    {
+      "name": "Hexcel Corp",
+      "cusip": "428291108",
+      "shares": 185000,
+      "value": 6880
+    },
+    {
+      "name": "Nike",
+      "cusip": "654106103",
+      "shares": 82000,
+      "value": 6785
+    },
+    {
+      "name": "Crown Holdings Inc",
+      "cusip": "228368106",
+      "shares": 116000,
+      "value": 6733
+    },
+    {
+      "name": "Anthem Inc",
+      "cusip": "036752103",
+      "shares": 29000,
+      "value": 6584
+    },
+    {
+      "name": "Liberty Media Group C",
+      "cusip": "531229854",
+      "shares": 230500,
+      "value": 6277
+    },
+    {
+      "name": "Aon Corporation",
+      "cusip": "G0408V102",
+      "shares": 37000,
+      "value": 6106
+    },
+    {
+      "name": "TransUnion",
+      "cusip": "89400J107",
+      "shares": 91500,
+      "value": 6055
+    },
+    {
+      "name": "Factset Research",
+      "cusip": "303075105",
+      "shares": 23000,
+      "value": 5996
+    },
+    {
+      "name": "General Dynamics",
+      "cusip": "369550108",
+      "shares": 44000,
+      "value": 5822
+    },
+    {
+      "name": "Cisco",
+      "cusip": "17275R102",
+      "shares": 148000,
+      "value": 5818
+    },
+    {
+      "name": "Liberty Media Group A",
+      "cusip": "531229870",
+      "shares": 210500,
+      "value": 5435
+    },
+    {
+      "name": "Blackrock Inc",
+      "cusip": "09247X101",
+      "shares": 12000,
+      "value": 5280
+    },
+    {
+      "name": "United Technologies",
+      "cusip": "913017109",
+      "shares": 54600,
+      "value": 5150
+    },
+    {
+      "name": "Paychex",
+      "cusip": "704326107",
+      "shares": 80000,
+      "value": 5034
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "949746101",
+      "shares": 163450,
+      "value": 4691
+    },
+    {
+      "name": "Liberty Broadband Class C",
+      "cusip": "530307305",
+      "shares": 40853,
+      "value": 4523
+    },
+    {
+      "name": "Progressive Corp",
+      "cusip": "743315103",
+      "shares": 60000,
+      "value": 4430
+    },
+    {
+      "name": "Paychex",
+      "cusip": "704326107",
+      "shares": 70000,
+      "value": 4404
+    },
+    {
+      "name": "Albemarle Corp",
+      "cusip": "012653101",
+      "shares": 76000,
+      "value": 4284
+    },
+    {
+      "name": "Watsco Inc",
+      "cusip": "942622200",
+      "shares": 27100,
+      "value": 4283
+    },
+    {
+      "name": "Liberty Sirius Group C",
+      "cusip": "531229607",
+      "shares": 134000,
+      "value": 4237
+    },
+    {
+      "name": "Charles Schwab",
+      "cusip": "808513105",
+      "shares": 123000,
+      "value": 4135
+    },
+    {
+      "name": "Alphabet Inc Class A",
+      "cusip": "02079K305",
+      "shares": 3300,
+      "value": 3834
+    },
+    {
+      "name": "Costco",
+      "cusip": "22160K105",
+      "shares": 13000,
+      "value": 3707
+    },
+    {
+      "name": "Ecolab",
+      "cusip": "278865100",
+      "shares": 23000,
+      "value": 3584
+    },
+    {
+      "name": "Comcast Corp- Class A",
+      "cusip": "20030101",
+      "shares": 103000,
+      "value": 3541
+    },
+    {
+      "name": "Maxim Integrated Products",
+      "cusip": "57772K101",
+      "shares": 70000,
+      "value": 3403
+    },
+    {
+      "name": "Trupanion",
+      "cusip": "898202106",
+      "shares": 128300,
+      "value": 3340
+    },
+    {
+      "name": "Owens-Illinois Inc",
+      "cusip": "67098H104",
+      "shares": 444000,
+      "value": 3157
+    },
+    {
+      "name": "T.Rowe Price",
+      "cusip": "74144T108",
+      "shares": 32000,
+      "value": 3125
+    },
+    {
+      "name": "Facebook",
+      "cusip": "30303M102",
+      "shares": 18610,
+      "value": 3104
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 12050,
+      "value": 3064
+    },
+    {
+      "name": "Ball Corporation",
+      "cusip": "058498106",
+      "shares": 46000,
+      "value": 2974
+    },
+    {
+      "name": "Liberty Global PLC",
+      "cusip": "G5480U104",
+      "shares": 176000,
+      "value": 2906
+    },
+    {
+      "name": "Goldman Sachs",
+      "cusip": "38141G104",
+      "shares": 17850,
+      "value": 2759
+    },
+    {
+      "name": "SEI Investments Co",
+      "cusip": "784117103",
+      "shares": 59000,
+      "value": 2734
+    },
+    {
+      "name": "Starbucks Corp",
+      "cusip": "855244109",
+      "shares": 40500,
+      "value": 2662
+    },
+    {
+      "name": "Alleghany Corporation",
+      "cusip": "017175100",
+      "shares": 4328,
+      "value": 2391
+    },
+    {
+      "name": "Liberty Broadband A",
+      "cusip": "530307107",
+      "shares": 21750,
+      "value": 2327
+    },
+    {
+      "name": "Boeing Co",
+      "cusip": "097023105",
+      "shares": 11900,
+      "value": 1775
+    },
+    {
+      "name": "Graham Holdings Co",
+      "cusip": "384637104",
+      "shares": 5200,
+      "value": 1774
+    },
+    {
+      "name": "Liberty Sirius Group A",
+      "cusip": "531229409",
+      "shares": 52000,
+      "value": 1648
+    },
+    {
+      "name": "Blackstone Group",
+      "cusip": "09260D107",
+      "shares": 34500,
+      "value": 1572
+    },
+    {
+      "name": "Union Pacific",
+      "cusip": "907818108",
+      "shares": 11100,
+      "value": 1566
+    },
+    {
+      "name": "Intl Flavors & Fragrances",
+      "cusip": "459506101",
+      "shares": 15000,
+      "value": 1531
+    },
+    {
+      "name": "Marsh & McLennan",
+      "cusip": "571748102",
+      "shares": 17500,
+      "value": 1513
+    },
+    {
+      "name": "KKR & Co LLC",
+      "cusip": "48251W104",
+      "shares": 62000,
+      "value": 1455
+    },
+    {
+      "name": "WR Berkley Corp",
+      "cusip": "084423102",
+      "shares": 27000,
+      "value": 1409
+    },
+    {
+      "name": "Rollins, Inc",
+      "cusip": "775711104",
+      "shares": 36650,
+      "value": 1325
+    },
+    {
+      "name": "Penske Automotive Group",
+      "cusip": "70959W103",
+      "shares": 47000,
+      "value": 1316
+    },
+    {
+      "name": "Autonation Inc",
+      "cusip": "05329W102",
+      "shares": 45660,
+      "value": 1281
+    },
+    {
+      "name": "Stericycle Inc",
+      "cusip": "858912108",
+      "shares": 25000,
+      "value": 1214
+    },
+    {
+      "name": "Rockwell Automation Inc",
+      "cusip": "773903109",
+      "shares": 7900,
+      "value": 1192
+    },
+    {
+      "name": "Caterpillar Inc",
+      "cusip": "149123101",
+      "shares": 10000,
+      "value": 1160
+    },
+    {
+      "name": "Illumina Inc",
+      "cusip": "452327109",
+      "shares": 4000,
+      "value": 1092
+    },
+    {
+      "name": "DR Horton Inc",
+      "cusip": "23331A109",
+      "shares": 31797,
+      "value": 1081
+    },
+    {
+      "name": "Shake Shack Inc - Class A",
+      "cusip": "819047101",
+      "shares": 27600,
+      "value": 1042
+    },
+    {
+      "name": "Guidewire Software Inc",
+      "cusip": "40171V100",
+      "shares": 13000,
+      "value": 1031
+    },
+    {
+      "name": "Linde PLC",
+      "cusip": "G5494J103",
+      "shares": 5900,
+      "value": 1021
+    },
+    {
+      "name": "Colfax Corporation",
+      "cusip": "194014106",
+      "shares": 50000,
+      "value": 990
+    },
+    {
+      "name": "The Carlyle Group",
+      "cusip": "14316J108",
+      "shares": 44500,
+      "value": 963
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "949746101",
+      "shares": 32000,
+      "value": 918
+    },
+    {
+      "name": "Citigroup Inc",
+      "cusip": "172967424",
+      "shares": 21300,
+      "value": 897
+    },
+    {
+      "name": "American Express",
+      "cusip": "025816109",
+      "shares": 10000,
+      "value": 856
+    },
+    {
+      "name": "Parker-Hannifin Corp",
+      "cusip": "701094104",
+      "shares": 6100,
+      "value": 791
+    },
+    {
+      "name": "Liberty Media Group C",
+      "cusip": "531229854",
+      "shares": 29000,
+      "value": 790
+    },
+    {
+      "name": "Apollo Global Management - A",
+      "cusip": "037612306",
+      "shares": 22500,
+      "value": 754
+    },
+    {
+      "name": "Lennar Corp - B",
+      "cusip": "526057302",
+      "shares": 25700,
+      "value": 743
+    },
+    {
+      "name": "Penske Automotive Group",
+      "cusip": "70959W103",
+      "shares": 25000,
+      "value": 700
+    },
+    {
+      "name": "American Airlines Group",
+      "cusip": "02376R102",
+      "shares": 55000,
+      "value": 670
+    },
+    {
+      "name": "McKesson Corp",
+      "cusip": "58155Q103",
+      "shares": 4700,
+      "value": 636
+    },
+    {
+      "name": "Southwest Airlines",
+      "cusip": "844741108",
+      "shares": 17000,
+      "value": 605
+    },
+    {
+      "name": "Booking Holdings Inc",
+      "cusip": "09857L108",
+      "shares": 410,
+      "value": 552
+    },
+    {
+      "name": "Heico Corp Class A",
+      "cusip": "422806208",
+      "shares": 7702,
+      "value": 492
+    },
+    {
+      "name": "Liberty Media Group A",
+      "cusip": "531229870",
+      "shares": 19000,
+      "value": 491
+    },
+    {
+      "name": "Healthcare Services Group",
+      "cusip": "421906108",
+      "shares": 20000,
+      "value": 478
+    },
+    {
+      "name": "Live Nation",
+      "cusip": "538034109",
+      "shares": 10500,
+      "value": 477
+    },
+    {
+      "name": "Whirlpool Corp",
+      "cusip": "963320106",
+      "shares": 5230,
+      "value": 449
+    },
+    {
+      "name": "Lamar Advertising Company",
+      "cusip": "512816109",
+      "shares": 8500,
+      "value": 436
+    },
+    {
+      "name": "Mohawk Industries",
+      "cusip": "608190104",
+      "shares": 5000,
+      "value": 381
+    },
+    {
+      "name": "InterActiveCorp",
+      "cusip": "44919P508",
+      "shares": 1650,
+      "value": 296
+    },
+    {
+      "name": "MSCI",
+      "cusip": "55354G100",
+      "shares": 1000,
+      "value": 289
+    },
+    {
+      "name": "Tyson Foods",
+      "cusip": "902494103",
+      "shares": 5000,
+      "value": 289
+    },
+    {
+      "name": "Eastman Chemical Company",
+      "cusip": "277432100",
+      "shares": 6000,
+      "value": 279
+    },
+    {
+      "name": "Microchip Technology",
+      "cusip": "595017104",
+      "shares": 4000,
+      "value": 271
+    },
+    {
+      "name": "NVR Inc",
+      "cusip": "62944T105",
+      "shares": 100,
+      "value": 257
+    },
+    {
+      "name": "S&P Global",
+      "cusip": "78409V104",
+      "shares": 1000,
+      "value": 245
+    },
+    {
+      "name": "American Tower",
+      "cusip": "03027X100",
+      "shares": 1000,
+      "value": 218
+    },
+    {
+      "name": "Twitter Inc",
+      "cusip": "90184102",
+      "shares": 8500,
+      "value": 209
+    },
+    {
+      "name": "Lennar Corporation",
+      "cusip": "526057104",
+      "shares": 5350,
+      "value": 204
+    },
+    {
+      "name": "TransUnion",
+      "cusip": "89400J107",
+      "shares": 3000,
+      "value": 199
+    },
+    {
+      "name": "Choice Hotels Intl Inc",
+      "cusip": "169905106",
+      "shares": 3000,
+      "value": 184
+    },
+    {
+      "name": "Delta Air Lines",
+      "cusip": "247361702",
+      "shares": 6000,
+      "value": 171
+    },
+    {
+      "name": "Hexcel Corp",
+      "cusip": "428291108",
+      "shares": 4000,
+      "value": 149
+    },
+    {
+      "name": "Verisk Analytics Inc",
+      "cusip": "92345Y106",
+      "shares": 1000,
+      "value": 139
+    },
+    {
+      "name": "Trupanion",
+      "cusip": "898202106",
+      "shares": 5000,
+      "value": 130
+    },
+    {
+      "name": "CVS Corporation",
+      "cusip": "126650100",
+      "shares": 2000,
+      "value": 119
+    },
+    {
+      "name": "Shake Shack Inc - Class A",
+      "cusip": "819047101",
+      "shares": 3000,
+      "value": 113
+    },
+    {
+      "name": "Activision Blizzard Inc",
+      "cusip": "00507V109",
+      "shares": 1800,
+      "value": 107
+    },
+    {
+      "name": "Electronic Arts Inc",
+      "cusip": "285512109",
+      "shares": 900,
+      "value": 90
+    },
+    {
+      "name": "Citigroup Inc",
+      "cusip": "172967424",
+      "shares": 1320,
+      "value": 56
+    },
+    {
+      "name": "Liberty Global PLC",
+      "cusip": "G5480U104",
+      "shares": 3000,
+      "value": 50
+    },
+    {
+      "name": "Autonation Inc",
+      "cusip": "05329W102",
+      "shares": 1200,
+      "value": 34
+    },
+    {
+      "name": "DR Horton Inc",
+      "cusip": "23331A109",
+      "shares": 850,
+      "value": 29
+    },
+    {
+      "name": "Lennar Corporation",
+      "cusip": "526057104",
+      "shares": 550,
+      "value": 21
     }
-  ]
+  ],
+  "totalValue": 5316713,
+  "positionsCount": 234
 }

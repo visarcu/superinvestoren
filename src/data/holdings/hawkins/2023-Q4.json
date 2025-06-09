@@ -1,161 +1,144 @@
 {
   "form": "NPORT-P",
-  "date": "2023-11-21",
-  "period": "2023-11-21",
+  "date": "2024-02-27",
+  "period": "2024-02-27",
+  "accession": "0001145549-24-009296",
+  "quarterKey": "2023-Q4",
   "positions": [
     {
-      "name": "CNH Industrial N.V.",
-      "cusip": "BDSV2V000",
-      "shares": 3306184,
-      "value": 40337643410,
-      "pctOfPortfolio": 304.5918754
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 115754000,
+      "value": 115754000,
+      "pctOfPortfolio": 13.5580302117
+    },
+    {
+      "name": "Eastman Kodak Company",
+      "cusip": "277461703",
+      "shares": 932150,
+      "value": 76529515,
+      "pctOfPortfolio": 8.9637461898
+    },
+    {
+      "name": "Westrock Coffee Company - Class A",
+      "cusip": "96145W103",
+      "shares": 5231296,
+      "value": 53411532.16,
+      "pctOfPortfolio": 6.2559839546
+    },
+    {
+      "name": "Oscar Health, Inc",
+      "cusip": "687793109",
+      "shares": 5711707,
+      "value": 52262119.05,
+      "pctOfPortfolio": 6.1213555385
+    },
+    {
+      "name": "Gruma, S.A.B. DE C.V.",
+      "cusip": "239254500",
+      "shares": 2662172,
+      "value": 48717387.02,
+      "pctOfPortfolio": 5.706168297
+    },
+    {
+      "name": "Mattel, Inc",
+      "cusip": "577081102",
+      "shares": 2521419,
+      "value": 47604390.72,
+      "pctOfPortfolio": 5.5758053077
+    },
+    {
+      "name": "Graham Holdings Company",
+      "cusip": "384637104",
+      "shares": 67379,
+      "value": 46930821.08,
+      "pctOfPortfolio": 5.496911468
+    },
+    {
+      "name": "Anywhere Real Estate Inc",
+      "cusip": "75605Y106",
+      "shares": 5710068,
+      "value": 46308651.48,
+      "pctOfPortfolio": 5.4240380102
     },
     {
       "name": "CNX Resources Corporation",
       "cusip": "12653C108",
-      "shares": 3706366,
-      "value": 83689744280,
-      "pctOfPortfolio": 631.9460932000001
+      "shares": 2112642,
+      "value": 42252840,
+      "pctOfPortfolio": 4.9489890738
     },
     {
-      "name": "CNH Industrial N.V.",
-      "cusip": "N20944109",
-      "shares": 806177,
-      "value": 9754741700,
-      "pctOfPortfolio": 73.65861804000001
+      "name": "White Mountains Insurance Group, Ltd",
+      "cusip": "G9618E107",
+      "shares": 27961,
+      "value": 42081584.61,
+      "pctOfPortfolio": 4.9289302789
     },
     {
-      "name": "Bio-Rad Laboratories, Inc.",
-      "cusip": "090572207",
-      "shares": 171987,
-      "value": 61648740150,
-      "pctOfPortfolio": 465.51319787
+      "name": "Empire State Realty Trust, Inc",
+      "cusip": "292104106",
+      "shares": 4136822,
+      "value": 40085805.18,
+      "pctOfPortfolio": 4.6951686999
     },
     {
-      "name": "Affiliated Managers Group, Inc.",
-      "cusip": "008252108",
-      "shares": 492252,
-      "value": 64160125680,
-      "pctOfPortfolio": 484.47681507000004
+      "name": "Atlanta Braves Holdings, Inc - Class C",
+      "cusip": "047726302",
+      "shares": 982236,
+      "value": 38876900.88,
+      "pctOfPortfolio": 4.553572202
     },
     {
-      "name": "State Street Bank and Trust Company",
-      "cusip": "000000000",
-      "shares": 94333000,
-      "value": 94333000000,
-      "pctOfPortfolio": 712.31393192
+      "name": "Ingles Markets, Incorporated",
+      "cusip": "457030104",
+      "shares": 440184,
+      "value": 38018692.08,
+      "pctOfPortfolio": 4.4530519535
     },
     {
-      "name": "Warner Music Group Corp.",
-      "cusip": "934550203",
-      "shares": 2176653,
-      "value": 68346904200,
-      "pctOfPortfolio": 516.09142151
+      "name": "Park Hotels & Resorts Inc",
+      "cusip": "700517105",
+      "shares": 2425421,
+      "value": 37108941.3,
+      "pctOfPortfolio": 4.346494698
     },
     {
-      "name": "Warner Bros., Discovery, Inc.",
-      "cusip": "934423104",
-      "shares": 6463736,
-      "value": 70196172960,
-      "pctOfPortfolio": 530.05535674
-    },
-    {
-      "name": "RTX Corporation",
-      "cusip": "75513E101",
-      "shares": 635612,
-      "value": 45744995640,
-      "pctOfPortfolio": 345.42310443
-    },
-    {
-      "name": "PVH Corp.",
-      "cusip": "693656100",
-      "shares": 765955,
-      "value": 58603217050,
-      "pctOfPortfolio": 442.51627702
-    },
-    {
-      "name": "Live Nation Entertainment, Inc.",
-      "cusip": "538034109",
-      "shares": 667329,
-      "value": 55415000160,
-      "pctOfPortfolio": 418.44186712000004
-    },
-    {
-      "name": "Mattel, Inc.",
-      "cusip": "577081102",
-      "shares": 3772498,
-      "value": 83108130940,
-      "pctOfPortfolio": 627.55429727
-    },
-    {
-      "name": "MGM Resorts International",
-      "cusip": "552953101",
-      "shares": 1409430,
-      "value": 51810646800,
-      "pctOfPortfolio": 391.22518671
-    },
-    {
-      "name": "Kellogg Company",
-      "cusip": "487836108",
-      "shares": 994382,
-      "value": 59175672820,
-      "pctOfPortfolio": 446.83892361
-    },
-    {
-      "name": "Liberty Broadband Corporation",
-      "cusip": "530307305",
-      "shares": 761905,
-      "value": 69577164600,
-      "pctOfPortfolio": 525.38118885
+      "name": "The Boston Beer Company, Inc Class - A",
+      "cusip": "100557107",
+      "shares": 106204,
+      "value": 36703040.36,
+      "pctOfPortfolio": 4.2989523478
     },
     {
       "name": "Hyatt Hotels Corporation",
       "cusip": "448579102",
-      "shares": 477283,
-      "value": 50630180640,
-      "pctOfPortfolio": 382.31141855000004
+      "shares": 225767,
+      "value": 29442274.47,
+      "pctOfPortfolio": 3.4485136303
     },
     {
-      "name": "IAC, Inc.",
-      "cusip": "44891N208",
-      "shares": 1240084,
-      "value": 62487832760,
-      "pctOfPortfolio": 471.84923462999996
+      "name": "Knife River Corporation",
+      "cusip": "498894104",
+      "shares": 319925,
+      "value": 21172636.5,
+      "pctOfPortfolio": 2.4799077814
     },
     {
-      "name": "Fortune Brands Innovations, Inc.",
-      "cusip": "34964C106",
-      "shares": 852545,
-      "value": 52994197200,
-      "pctOfPortfolio": 400.16224414000004
+      "name": "Douglas Emmett, Inc",
+      "cusip": "25960P109",
+      "shares": 1329830,
+      "value": 19282535,
+      "pctOfPortfolio": 2.2585240431
     },
     {
-      "name": "Fiserv, Inc.",
-      "cusip": "337738108",
-      "shares": 328429,
-      "value": 37099339840,
-      "pctOfPortfolio": 280.13925809
-    },
-    {
-      "name": "Fidelity National Information Services, Inc.",
-      "cusip": "31620M106",
-      "shares": 931243,
-      "value": 51469800610,
-      "pctOfPortfolio": 388.65143744
-    },
-    {
-      "name": "FedEx Corporation",
-      "cusip": "31428X106",
-      "shares": 313753,
-      "value": 83119444760,
-      "pctOfPortfolio": 627.63972858
-    },
-    {
-      "name": "Fairfax Financial Holdings Limited",
-      "cusip": "303901102",
-      "shares": 82939,
-      "value": 67704969650.00001,
-      "pctOfPortfolio": 511.24413663999997
+      "name": "Masonite International Corporation",
+      "cusip": "575385109",
+      "shares": 142253,
+      "value": 12043138.98,
+      "pctOfPortfolio": 1.410588335
     }
-  ]
+  ],
+  "totalValue": 844586805.8699999,
+  "positionsCount": 19
 }

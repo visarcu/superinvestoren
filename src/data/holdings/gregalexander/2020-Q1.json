@@ -1,95 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0000919574-20-001475",
+  "quarterKey": "2020-Q1",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 1600000,
-      "value": 339360000
-    },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K305",
       "shares": 360000,
-      "value": 482180000
-    },
-    {
-      "name": "AXA EQUITABLE HLDGS INC",
-      "cusip": "054561105",
-      "shares": 1800000,
-      "value": 44604000
-    },
-    {
-      "name": "BMC STK HLDGS INC",
-      "cusip": "05591B109",
-      "shares": 3186469,
-      "value": 91420000
-    },
-    {
-      "name": "BUILDERS FIRSTSOURCE INC",
-      "cusip": "12008R107",
-      "shares": 6819640,
-      "value": 173287000
-    },
-    {
-      "name": "CRESUD S A C I F Y A",
-      "cusip": "226406106",
-      "shares": 660492,
-      "value": 4650000
+      "value": 482180
     },
     {
       "name": "FIAT CHRYSLER AUTOMOBILES N",
       "cusip": "N31738102",
       "shares": 28000000,
-      "value": 411320000
+      "value": 411320
     },
     {
-      "name": "GTT COMMUNICATIONS INC",
-      "cusip": "362393100",
-      "shares": 3843687,
-      "value": 43626000
-    },
-    {
-      "name": "GTY TECHNOLOGY HOLDINGS INC",
-      "cusip": "362409104",
-      "shares": 4324130,
-      "value": 25469000
-    },
-    {
-      "name": "INTERNATIONAL MNY EXPRESS IN",
-      "cusip": "46005L101",
-      "shares": 1241234,
-      "value": 14944000
-    },
-    {
-      "name": "JD COM INC",
-      "cusip": "47215P106",
-      "shares": 3000000,
-      "value": 105690000
-    },
-    {
-      "name": "SAILPOINT TECHNLGIES HLDGS I",
-      "cusip": "78781P105",
-      "shares": 4000000,
-      "value": 94400000
-    },
-    {
-      "name": "SINCLAIR BROADCAST GROUP INC",
-      "cusip": "829226109",
-      "shares": 2500000,
-      "value": 83350000
-    },
-    {
-      "name": "WAITR HLDGS INC",
-      "cusip": "930752100",
-      "shares": 3000000,
-      "value": 966000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1600000,
+      "value": 339360
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 4000000,
-      "value": 173960000
+      "value": 173960
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 6819640,
+      "value": 173287
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 3000000,
+      "value": 105690
+    },
+    {
+      "name": "SAILPOINT TECHNLGIES HLDGS I",
+      "cusip": "78781P105",
+      "shares": 4000000,
+      "value": 94400
+    },
+    {
+      "name": "BMC STK HLDGS INC",
+      "cusip": "05591B109",
+      "shares": 3186469,
+      "value": 91420
+    },
+    {
+      "name": "SINCLAIR BROADCAST GROUP INC",
+      "cusip": "829226109",
+      "shares": 2500000,
+      "value": 83350
+    },
+    {
+      "name": "AXA EQUITABLE HLDGS INC",
+      "cusip": "054561105",
+      "shares": 1800000,
+      "value": 44604
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 3843687,
+      "value": 43626
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "362409104",
+      "shares": 4324130,
+      "value": 25469
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 1241234,
+      "value": 14944
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "226406106",
+      "shares": 660492,
+      "value": 4650
+    },
+    {
+      "name": "WAITR HLDGS INC",
+      "cusip": "930752100",
+      "shares": 3000000,
+      "value": 966
     }
-  ]
+  ],
+  "totalValue": 2089226,
+  "positionsCount": 15
 }

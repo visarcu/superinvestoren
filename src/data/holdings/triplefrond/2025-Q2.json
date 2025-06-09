@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2025-05-14",
   "period": "2025-05-14",
+  "accession": "0001387292-25-000011",
+  "quarterKey": "2025-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 648905,
-      "value": 101378000000
-    },
-    {
-      "name": "AMAZON.COM INC",
-      "cusip": "023135106",
-      "shares": 487191,
-      "value": 92693000000
-    },
-    {
-      "name": "CCC INTELLIGENT SOLUTION HOLDINGS INC",
-      "cusip": "12510Q100",
-      "shares": 2415000,
-      "value": 21807000000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 160480,
-      "value": 59142000000
-    },
-    {
-      "name": "LAM RESEARCH CORP",
-      "cusip": "512807306",
-      "shares": 706615,
-      "value": 51371000000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 76750,
-      "value": 44236000000
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 403043,
-      "value": 151298000000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 81627,
-      "value": 38013000000
+      "value": 151298000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 92144,
-      "value": 127462000000
+      "value": 127462000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 648905,
+      "value": 101378000
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 487191,
+      "value": 92693000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 160480,
+      "value": 59142000
     },
     {
       "name": "ASML HOLDING N V",
       "cusip": "N07059210",
       "shares": 79300,
-      "value": 52547000000
+      "value": 52547000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807306",
+      "shares": 706615,
+      "value": 51371000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 76750,
+      "value": 44236000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 81627,
+      "value": 38013000
+    },
+    {
+      "name": "CCC INTELLIGENT SOLUTION HOLDINGS INC",
+      "cusip": "12510Q100",
+      "shares": 2415000,
+      "value": 21807000
     }
-  ]
+  ],
+  "totalValue": 739947000,
+  "positionsCount": 10
 }

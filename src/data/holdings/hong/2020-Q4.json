@@ -1,4 +1,41 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-13",
-  "positions": []
+  "period": "2020-11-13",
+  "accession": "0001085146-20-002934",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1203402,
+      "value": 185372
+    },
+    {
+      "name": "IAC INTERACTIVECORP NEW",
+      "cusip": "44891N109",
+      "shares": 825763,
+      "value": 98910
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 563099,
+      "value": 91532
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 779110,
+      "value": 86209
+    },
+    {
+      "name": "ANGI HOMESERVICES INC",
+      "cusip": "00183L102",
+      "shares": 2713083,
+      "value": 30102
+    }
+  ],
+  "totalValue": 492125,
+  "positionsCount": 5
 }

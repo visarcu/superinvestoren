@@ -460,11 +460,11 @@ import cunniff_2025_Q1 from './cunniff/2025-Q1.json'
 import cunniff_2025_Q2 from './cunniff/2025-Q2.json'
 
 //hawkins
-import hawkins_2024_Q2 from './hawkins/2024-Q2.json'
-import hawkins_2024_Q3 from './hawkins/2024-Q3.json'
-import hawkins_2024_Q4 from './hawkins/2024-Q4.json'
+//import hawkins_2024_Q2 from './hawkins/2024-Q2.json'
+//import hawkins_2024_Q3 from './hawkins/2024-Q3.json'
+//import hawkins_2024_Q4 from './hawkins/2024-Q4.json'
 import hawkins_2025_Q1 from './hawkins/2025-Q1.json'
-import hawkins_2025_Q2 from './hawkins/2025-Q2.json'
+//import hawkins_2025_Q2 from './hawkins/2025-Q2.json'
 
 //torray
 //import torray_2024_Q2 from './torray/2024-Q2.json'
@@ -1123,17 +1123,17 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    cunniff: [
-    { quarter: '2024-Q2', data: cunniff_2024_Q2},
-    { quarter: '2024-Q3', data: cunniff_2024_Q3},
-    { quarter: '2024-Q4', data: cunniff_2024_Q4},
+    //{ quarter: '2024-Q2', data: cunniff_2024_Q2},
+    //{ quarter: '2024-Q3', data: cunniff_2024_Q3},
+    //{ quarter: '2024-Q4', data: cunniff_2024_Q4},
     { quarter: '2025-Q1', data: cunniff_2025_Q1},
-    { quarter: '2025-Q2', data: cunniff_2025_Q2},
+   // { quarter: '2025-Q2', data: cunniff_2025_Q2},
    ],
 
    hawkins: [
-    { quarter: '2024-Q2', data: hawkins_2024_Q2},
-    { quarter: '2024-Q3', data: hawkins_2024_Q3},
-    { quarter: '2024-Q4', data: hawkins_2024_Q4},
+    //{ quarter: '2024-Q2', data: hawkins_2024_Q2},
+    //{ quarter: '2024-Q3', data: hawkins_2024_Q3},
+    //{ quarter: '2024-Q4', data: hawkins_2024_Q4},
     { quarter: '2025-Q1', data: hawkins_2025_Q1},
     //{ quarter: '2025-Q2', data: hawkins_2025_Q2},
    ],
@@ -1149,7 +1149,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    rogers: [
     //{ quarter: '2024-Q2', data: rogers_2024_Q2},
     //{ quarter: '2024-Q3', data: rogers_2024_Q3},
-   { quarter: '2024-Q4', data: rogers_2024_Q4},
+   //{ quarter: '2024-Q4', data: rogers_2024_Q4},
     {quarter: '2025-Q1', data: rogers_2025_Q1},
     //{ quarter: '2025-Q2', data: rogers_2025_Q2},
    ],

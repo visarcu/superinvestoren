@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2021-02-16",
+  "period": "2021-02-16",
+  "accession": "0001172661-21-000414",
+  "quarterKey": "2021-Q1",
   "positions": [
-    {
-      "name": "ADOBE SYSTEMS INCORPORATED",
-      "cusip": "00724F101",
-      "shares": 5610,
-      "value": 2806000
-    },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 754591,
-      "value": 175616000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 375,
-      "value": 657000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 1740,
-      "value": 5667000
-    },
-    {
-      "name": "COGNEX CORP",
-      "cusip": "192422103",
-      "shares": 14112,
-      "value": 1133000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 10735,
-      "value": 2352000
-    },
-    {
-      "name": "DYNATRACE INC",
-      "cusip": "268150109",
-      "shares": 13200,
-      "value": 571000
-    },
-    {
-      "name": "ECOLAB INC",
-      "cusip": "278865100",
-      "shares": 4920,
-      "value": 1064000
-    },
-    {
-      "name": "EURONET WORLDWIDE INC",
-      "cusip": "298736109",
-      "shares": 458214,
-      "value": 66404000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 12230,
-      "value": 3341000
-    },
-    {
-      "name": "FLOOR & DECOR HLDGS INC",
-      "cusip": "339750101",
-      "shares": 34603,
-      "value": 3213000
-    },
-    {
-      "name": "GLOBAL PMTS INC",
-      "cusip": "37940X102",
-      "shares": 345580,
-      "value": 74445000
-    },
-    {
-      "name": "LAUDER ESTEE COS INC",
-      "cusip": "518439104",
-      "shares": 6522,
-      "value": 1736000
-    },
-    {
-      "name": "LIVENT CORP",
-      "cusip": "53814L108",
-      "shares": 3761080,
-      "value": 70859000
+      "value": 175616
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 762600,
-      "value": 169617000
+      "value": 169617
     },
     {
-      "name": "PERFORMANCE FOOD GROUP CO",
-      "cusip": "71377A103",
-      "shares": 12700,
-      "value": 605000
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 345580,
+      "value": 74445
     },
     {
-      "name": "PROCTER AND GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 19080,
-      "value": 2655000
+      "name": "LIVENT CORP",
+      "cusip": "53814L108",
+      "shares": 3761080,
+      "value": 70859
+    },
+    {
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 458214,
+      "value": 66404
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1740,
+      "value": 5667
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 12230,
+      "value": 3341
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 34603,
+      "value": 3213
     },
     {
       "name": "SERVICENOW INC",
       "cusip": "81762P102",
       "shares": 5610,
-      "value": 3088000
+      "value": 3088
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 5610,
+      "value": 2806
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 19080,
+      "value": 2655
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 10735,
+      "value": 2352
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 6522,
+      "value": 1736
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 14112,
+      "value": 1133
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4920,
+      "value": 1064
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 375,
+      "value": 657
+    },
+    {
+      "name": "PERFORMANCE FOOD GROUP CO",
+      "cusip": "71377A103",
+      "shares": 12700,
+      "value": 605
+    },
+    {
+      "name": "DYNATRACE INC",
+      "cusip": "268150109",
+      "shares": 13200,
+      "value": 571
     }
-  ]
+  ],
+  "totalValue": 585829,
+  "positionsCount": 18
 }

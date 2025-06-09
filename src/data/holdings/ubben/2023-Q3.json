@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2023-08-14",
   "period": "2023-08-14",
+  "accession": "0001418812-23-000038",
+  "quarterKey": "2023-Q3",
   "positions": [
-    {
-      "name": "ALTUS POWER INC",
-      "cusip": "02217A102",
-      "shares": 4017628,
-      "value": 21695191000
-    },
-    {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 9237748,
-      "value": 745578641000
-    },
     {
       "name": "FISERV INC",
       "cusip": "337738108",
       "shares": 11647776,
-      "value": 1469366942000
-    },
-    {
-      "name": "INSIGHT ENTERPRISES INC",
-      "cusip": "45765U103",
-      "shares": 4511630,
-      "value": 660231934000
+      "value": 1469366942
     },
     {
       "name": "KKR & CO INC",
       "cusip": "48251W104",
       "shares": 20535233,
-      "value": 1149973048000
-    },
-    {
-      "name": "NEW YORK TIMES CO",
-      "cusip": "650111107",
-      "shares": 13410554,
-      "value": 528107617000
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 3486309,
-      "value": 736517639000
+      "value": 1149973048
     },
     {
       "name": "SEAGATE TECHNOLOGY HLDNGS PL",
       "cusip": "G7997R103",
       "shares": 13437070,
-      "value": 831351521000
+      "value": 831351521
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 9237748,
+      "value": 745578641
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 3486309,
+      "value": 736517639
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 4511630,
+      "value": 660231934
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 13410554,
+      "value": 528107617
     },
     {
       "name": "SPOTIFY TECHNOLOGY S A",
       "cusip": "L8681T102",
       "shares": 1799141,
-      "value": 288852088000
+      "value": 288852088
+    },
+    {
+      "name": "ALTUS POWER INC",
+      "cusip": "02217A102",
+      "shares": 4017628,
+      "value": 21695191
     }
-  ]
+  ],
+  "totalValue": 6431674621,
+  "positionsCount": 9
 }

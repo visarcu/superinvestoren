@@ -2,24 +2,28 @@
   "form": "13F-HR",
   "date": "2020-05-14",
   "period": "2020-05-14",
+  "accession": "0001709323-20-000003",
+  "quarterKey": "2020-Q2",
   "positions": [
     {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 175000,
-      "value": 34034000
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 9909423,
+      "value": 416790
     },
     {
       "name": "BK OF AMERICA CORP",
       "cusip": "060505104",
       "shares": 12358987,
-      "value": 262381000
+      "value": 262381
     },
     {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 9909423,
-      "value": 416790000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 175000,
+      "value": 34034
     }
-  ]
+  ],
+  "totalValue": 713205,
+  "positionsCount": 3
 }

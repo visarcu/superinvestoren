@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0000919574-23-006407",
+  "quarterKey": "2023-Q4",
   "positions": [
     {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 2400,
-      "value": 410904000
-    },
-    {
-      "name": "BANK OZK",
-      "cusip": "06417N103",
-      "shares": 147500,
-      "value": 5467825000
-    },
-    {
-      "name": "WR BERKLEY CORP",
-      "cusip": "084423102",
-      "shares": 128200,
-      "value": 8139418000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 51273,
-      "value": 17960932000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 1,
-      "value": 531477000
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 22711748,
+      "value": 1233929269
     },
     {
       "name": "ENTERPRISE PRODS PARTNERS L",
       "cusip": "293792107",
       "shares": 5064200,
-      "value": 138607154000
+      "value": 138607154
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 51273,
+      "value": 17960932
+    },
+    {
+      "name": "WR BERKLEY CORP",
+      "cusip": "084423102",
+      "shares": 128200,
+      "value": 8139418
+    },
+    {
+      "name": "BANK OZK",
+      "cusip": "06417N103",
+      "shares": 147500,
+      "value": 5467825
     },
     {
       "name": "HOME BANCSHARES INC",
       "cusip": "436893200",
       "shares": 103400,
-      "value": 2165196000
+      "value": 2165196
     },
     {
-      "name": "ST JOE CO",
-      "cusip": "790148100",
-      "shares": 22711748,
-      "value": 1233929269000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 531477
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2400,
+      "value": 410904
     }
-  ]
+  ],
+  "totalValue": 1407212175,
+  "positionsCount": 8
 }

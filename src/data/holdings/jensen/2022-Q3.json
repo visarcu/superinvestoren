@@ -1,491 +1,497 @@
 {
+  "form": "13F-HR",
   "date": "2022-08-12",
+  "period": "2022-08-12",
+  "accession": "0001171200-22-000293",
+  "quarterKey": "2022-Q3",
   "positions": [
     {
-      "name": "3M Company",
-      "cusip": "88579Y101",
-      "shares": 2527510,
-      "value": 327085000
-    },
-    {
-      "name": "Abbott Laboratories",
-      "cusip": "002824100",
-      "shares": 106425,
-      "value": 11563000
-    },
-    {
-      "name": "AbbVie Inc.",
-      "cusip": "00287Y109",
-      "shares": 23957,
-      "value": 3669000
-    },
-    {
-      "name": "Accenture Plc",
-      "cusip": "G1151C101",
-      "shares": 2015402,
-      "value": 559576000
-    },
-    {
-      "name": "Adobe Systems Inc.",
-      "cusip": "00724F101",
-      "shares": 44967,
-      "value": 16461000
-    },
-    {
-      "name": "Alphabet Inc Cap Stk Cl A",
-      "cusip": "02079K305",
-      "shares": 335077,
-      "value": 730220000
-    },
-    {
-      "name": "Amphenol Corp.",
-      "cusip": "032095101",
-      "shares": 2332483,
-      "value": 150165000
-    },
-    {
-      "name": "Apple Inc.",
-      "cusip": "037833100",
-      "shares": 4207774,
-      "value": 575287000
-    },
-    {
-      "name": "Automatic Data Processing Inc.",
-      "cusip": "053015103",
-      "shares": 2275524,
-      "value": 477951000
-    },
-    {
-      "name": "Ball Corporation",
-      "cusip": "058498106",
-      "shares": 2581210,
-      "value": 177510000
-    },
-    {
-      "name": "Becton Dickinson & Co.",
-      "cusip": "075887109",
-      "shares": 2133735,
-      "value": 526030000
-    },
-    {
-      "name": "Best Buy Co. Inc.",
-      "cusip": "086516101",
-      "shares": 88690,
-      "value": 5782000
-    },
-    {
-      "name": "Bristol Myers Squibb Co.",
-      "cusip": "110122108",
-      "shares": 26375,
-      "value": 2031000
-    },
-    {
-      "name": "Broadridge Financial Solutions",
-      "cusip": "11133T103",
-      "shares": 1736658,
-      "value": 247561000
-    },
-    {
-      "name": "Cadence Design Systems, Inc.",
-      "cusip": "127387108",
-      "shares": 35530,
-      "value": 5331000
-    },
-    {
-      "name": "Campbell Soup Company",
-      "cusip": "134429109",
-      "shares": 67350,
-      "value": 3236000
-    },
-    {
-      "name": "Carter's Inc.",
-      "cusip": "146229109",
-      "shares": 41640,
-      "value": 2935000
-    },
-    {
-      "name": "CBRE Group Inc.",
-      "cusip": "12504L109",
-      "shares": 38180,
-      "value": 2810000
-    },
-    {
-      "name": "Charles River Laboratories",
-      "cusip": "159864107",
-      "shares": 8660,
-      "value": 1853000
-    },
-    {
-      "name": "Church & Dwight Co Inc",
-      "cusip": "171340102",
-      "shares": 88210,
-      "value": 8174000
-    },
-    {
-      "name": "Clorox Company",
-      "cusip": "189054109",
-      "shares": 29000,
-      "value": 4088000
-    },
-    {
-      "name": "Coca-Cola Company",
-      "cusip": "191216100",
-      "shares": 131409,
-      "value": 8267000
-    },
-    {
-      "name": "Cognizant Tech Solutions",
-      "cusip": "192446102",
-      "shares": 4092081,
-      "value": 276175000
-    },
-    {
-      "name": "Colgate-Palmolive Co",
-      "cusip": "194162103",
-      "shares": 102699,
-      "value": 8230000
-    },
-    {
-      "name": "Copart Inc. (DE)",
-      "cusip": "217204106",
-      "shares": 65760,
-      "value": 7145000
-    },
-    {
-      "name": "Crown Holdings Inc.",
-      "cusip": "228368106",
-      "shares": 80300,
-      "value": 7401000
-    },
-    {
-      "name": "Donaldson Co. Inc.",
-      "cusip": "257651109",
-      "shares": 44880,
-      "value": 2161000
-    },
-    {
-      "name": "Ecolab Inc",
-      "cusip": "278865100",
-      "shares": 74170,
-      "value": 11404000
-    },
-    {
-      "name": "Emerson Electric Co.",
-      "cusip": "291011104",
-      "shares": 101905,
-      "value": 8106000
-    },
-    {
-      "name": "Encompass Health Corp",
-      "cusip": "29261A100",
-      "shares": 133000,
-      "value": 7455000
-    },
-    {
-      "name": "Equifax Inc",
-      "cusip": "294429105",
-      "shares": 1354123,
-      "value": 247507000
-    },
-    {
-      "name": "Expeditors International of WA",
-      "cusip": "302130109",
-      "shares": 62300,
-      "value": 6072000
-    },
-    {
-      "name": "F5 Networks Inc.",
-      "cusip": "315616102",
-      "shares": 31300,
-      "value": 4790000
-    },
-    {
-      "name": "FactSet Research Systems Inc.",
-      "cusip": "303075105",
-      "shares": 17850,
-      "value": 6865000
-    },
-    {
-      "name": "General Mills Inc.",
-      "cusip": "370334104",
-      "shares": 136480,
-      "value": 10297000
-    },
-    {
-      "name": "Genpact Limited",
-      "cusip": "G3922B107",
-      "shares": 106380,
-      "value": 4506000
-    },
-    {
-      "name": "Gentex Corporation",
-      "cusip": "371901109",
-      "shares": 195910,
-      "value": 5480000
-    },
-    {
-      "name": "Genuine Parts Company",
-      "cusip": "372460105",
-      "shares": 55420,
-      "value": 7371000
-    },
-    {
-      "name": "Hasbro Inc",
-      "cusip": "418056107",
-      "shares": 92830,
-      "value": 7601000
-    },
-    {
-      "name": "Home Depot Inc.",
-      "cusip": "437076102",
-      "shares": 910772,
-      "value": 249797000
-    },
-    {
-      "name": "Intuit Inc.",
-      "cusip": "461202103",
-      "shares": 831429,
-      "value": 320466000
-    },
-    {
-      "name": "Johnson & Johnson",
-      "cusip": "478160104",
-      "shares": 3613839,
-      "value": 641493000
-    },
-    {
-      "name": "Kellogg Company",
-      "cusip": "487836108",
-      "shares": 58110,
-      "value": 4146000
-    },
-    {
-      "name": "Kroger Company",
-      "cusip": "501044101",
-      "shares": 119100,
-      "value": 5637000
-    },
-    {
-      "name": "Laboratory Corp of America",
-      "cusip": "50540R409",
-      "shares": 33810,
-      "value": 7924000
-    },
-    {
-      "name": "Landstar System Inc.",
-      "cusip": "515098101",
-      "shares": 16760,
-      "value": 2437000
-    },
-    {
-      "name": "Lennox International Inc.",
-      "cusip": "526107107",
-      "shares": 16850,
-      "value": 3481000
-    },
-    {
-      "name": "Levi Strauss & Co",
-      "cusip": "52736R102",
-      "shares": 365150,
-      "value": 5959000
-    },
-    {
-      "name": "Linde plc SH",
-      "cusip": "G5494J103",
-      "shares": 4195,
-      "value": 1206000
-    },
-    {
-      "name": "Manhattan Associates, Inc.",
-      "cusip": "562750109",
-      "shares": 39310,
-      "value": 4505000
-    },
-    {
-      "name": "Marsh & McLennan Company Inc",
-      "cusip": "571748102",
-      "shares": 2037800,
-      "value": 316368000
-    },
-    {
-      "name": "Mastercard Inc.",
-      "cusip": "57636Q104",
-      "shares": 1022792,
-      "value": 322670000
-    },
-    {
-      "name": "MAXIMUS, Inc.",
-      "cusip": "577933104",
-      "shares": 58280,
-      "value": 3643000
-    },
-    {
-      "name": "Microchip Technology Inc",
-      "cusip": "595017104",
-      "shares": 116100,
-      "value": 6743000
+      "name": "PepsiCo Inc",
+      "cusip": "713448108",
+      "shares": 4821448,
+      "value": 803543
     },
     {
       "name": "Microsoft Corp",
       "cusip": "594918104",
       "shares": 3046456,
-      "value": 782421000
+      "value": 782421
     },
     {
-      "name": "Moody's Corp.",
-      "cusip": "615369105",
-      "shares": 632235,
-      "value": 171949000
+      "name": "Alphabet Inc Cap Stk Cl A",
+      "cusip": "02079K305",
+      "shares": 335077,
+      "value": 730220
     },
     {
-      "name": "Nike Inc Cl B",
-      "cusip": "654106103",
-      "shares": 4357438,
-      "value": 445330000
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 3613839,
+      "value": 641493
     },
     {
-      "name": "Omnicom Group Inc",
-      "cusip": "681919106",
-      "shares": 90664,
-      "value": 5767000
-    },
-    {
-      "name": "Oracle Corporation",
-      "cusip": "68389X105",
-      "shares": 178645,
-      "value": 12482000
-    },
-    {
-      "name": "Paychex Inc.",
-      "cusip": "704326107",
-      "shares": 9830,
-      "value": 1119000
-    },
-    {
-      "name": "PepsiCo Inc.",
-      "cusip": "713448108",
-      "shares": 4821448,
-      "value": 803543000
-    },
-    {
-      "name": "Pfizer Inc.",
-      "cusip": "717081103",
-      "shares": 10040094,
-      "value": 526402000
-    },
-    {
-      "name": "Pool Corporation",
-      "cusip": "73278L105",
-      "shares": 6820,
-      "value": 2395000
-    },
-    {
-      "name": "Procter & Gamble Co.",
-      "cusip": "742718109",
-      "shares": 2410475,
-      "value": 346602000
-    },
-    {
-      "name": "Raytheon Technologies Corp",
-      "cusip": "75513E101",
-      "shares": 21850,
-      "value": 2100000
-    },
-    {
-      "name": "Resmed",
-      "cusip": "761152107",
-      "shares": 18240,
-      "value": 3824000
-    },
-    {
-      "name": "Starbucks Corp",
-      "cusip": "855244109",
-      "shares": 4348451,
-      "value": 332178000
-    },
-    {
-      "name": "Stryker Corp",
-      "cusip": "863667101",
-      "shares": 2515693,
-      "value": 500447000
-    },
-    {
-      "name": "T Rowe Price Group Inc",
-      "cusip": "74144T108",
-      "shares": 32361,
-      "value": 3677000
-    },
-    {
-      "name": "Texas Instruments Inc",
-      "cusip": "882508104",
-      "shares": 1807500,
-      "value": 277722000
-    },
-    {
-      "name": "TJX Companies Inc",
-      "cusip": "872540109",
-      "shares": 4280120,
-      "value": 239045000
-    },
-    {
-      "name": "Toro Company",
-      "cusip": "891092108",
-      "shares": 38750,
-      "value": 2937000
-    },
-    {
-      "name": "Tractor Supply Co",
-      "cusip": "892356106",
-      "shares": 5770,
-      "value": 1119000
-    },
-    {
-      "name": "United Parcel Svc Cl B",
-      "cusip": "911312106",
-      "shares": 1273299,
-      "value": 232428000
-    },
-    {
-      "name": "United Rentals, Inc.",
-      "cusip": "911363109",
-      "shares": 13340,
-      "value": 3240000
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 4207774,
+      "value": 575287
     },
     {
       "name": "Unitedhealth Group Inc",
       "cusip": "91324P102",
       "shares": 1113688,
-      "value": 572023000
+      "value": 572023
     },
     {
-      "name": "Verisk Analytics Inc",
-      "cusip": "92345Y106",
-      "shares": 941134,
-      "value": 162901000
+      "name": "Accenture Plc",
+      "cusip": "G1151C101",
+      "shares": 2015402,
+      "value": 559576
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 10040094,
+      "value": 526402
+    },
+    {
+      "name": "Becton Dickinson & Co.",
+      "cusip": "075887109",
+      "shares": 2133735,
+      "value": 526030
+    },
+    {
+      "name": "Stryker Corp",
+      "cusip": "863667101",
+      "shares": 2515693,
+      "value": 500447
+    },
+    {
+      "name": "Automatic Data Processing Inc",
+      "cusip": "053015103",
+      "shares": 2275524,
+      "value": 477951
+    },
+    {
+      "name": "Nike Inc Cl B",
+      "cusip": "654106103",
+      "shares": 4357438,
+      "value": 445330
+    },
+    {
+      "name": "Procter & Gamble Co.",
+      "cusip": "742718109",
+      "shares": 2410475,
+      "value": 346602
+    },
+    {
+      "name": "Starbucks Corp",
+      "cusip": "855244109",
+      "shares": 4348451,
+      "value": 332178
+    },
+    {
+      "name": "3M Company",
+      "cusip": "88579Y101",
+      "shares": 2527510,
+      "value": 327085
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 1022792,
+      "value": 322670
+    },
+    {
+      "name": "Intuit Inc",
+      "cusip": "461202103",
+      "shares": 831429,
+      "value": 320466
+    },
+    {
+      "name": "Marsh & McLennan Company Inc",
+      "cusip": "571748102",
+      "shares": 2037800,
+      "value": 316368
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 1807500,
+      "value": 277722
+    },
+    {
+      "name": "Cognizant Tech Solutions",
+      "cusip": "192446102",
+      "shares": 4092081,
+      "value": 276175
     },
     {
       "name": "Waste Management",
       "cusip": "94106L109",
       "shares": 1682827,
-      "value": 257439000
+      "value": 257439
+    },
+    {
+      "name": "Home Depot Inc",
+      "cusip": "437076102",
+      "shares": 910772,
+      "value": 249797
+    },
+    {
+      "name": "Broadridge Financial Solutions",
+      "cusip": "11133T103",
+      "shares": 1736658,
+      "value": 247561
+    },
+    {
+      "name": "Equifax Inc",
+      "cusip": "294429105",
+      "shares": 1354123,
+      "value": 247507
+    },
+    {
+      "name": "TJX Companies Inc",
+      "cusip": "872540109",
+      "shares": 4280120,
+      "value": 239045
+    },
+    {
+      "name": "United Parcel Svc Cl B",
+      "cusip": "911312106",
+      "shares": 1273299,
+      "value": 232428
+    },
+    {
+      "name": "Ball Corporation",
+      "cusip": "058498106",
+      "shares": 2581210,
+      "value": 177510
+    },
+    {
+      "name": "Moody's Corp",
+      "cusip": "615369105",
+      "shares": 632235,
+      "value": 171949
+    },
+    {
+      "name": "Verisk Analytics Inc",
+      "cusip": "92345Y106",
+      "shares": 941134,
+      "value": 162901
+    },
+    {
+      "name": "Amphenol Corp",
+      "cusip": "032095101",
+      "shares": 2332483,
+      "value": 150165
+    },
+    {
+      "name": "Adobe Systems Inc",
+      "cusip": "00724F101",
+      "shares": 44967,
+      "value": 16461
     },
     {
       "name": "Waters Corp",
       "cusip": "941848103",
       "shares": 46772,
-      "value": 15481000
+      "value": 15481
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 178645,
+      "value": 12482
+    },
+    {
+      "name": "Abbott Laboratories",
+      "cusip": "002824100",
+      "shares": 106425,
+      "value": 11563
+    },
+    {
+      "name": "Ecolab Inc",
+      "cusip": "278865100",
+      "shares": 74170,
+      "value": 11404
+    },
+    {
+      "name": "General Mills Inc",
+      "cusip": "370334104",
+      "shares": 136480,
+      "value": 10297
+    },
+    {
+      "name": "Coca-Cola Company",
+      "cusip": "191216100",
+      "shares": 131409,
+      "value": 8267
+    },
+    {
+      "name": "Colgate-Palmolive Co",
+      "cusip": "194162103",
+      "shares": 102699,
+      "value": 8230
+    },
+    {
+      "name": "Church & Dwight Co Inc",
+      "cusip": "171340102",
+      "shares": 88210,
+      "value": 8174
+    },
+    {
+      "name": "Emerson Electric Co.",
+      "cusip": "291011104",
+      "shares": 101905,
+      "value": 8106
+    },
+    {
+      "name": "Laboratory Corp of America",
+      "cusip": "50540R409",
+      "shares": 33810,
+      "value": 7924
+    },
+    {
+      "name": "Hasbro Inc",
+      "cusip": "418056107",
+      "shares": 92830,
+      "value": 7601
+    },
+    {
+      "name": "Encompass Health Corp",
+      "cusip": "29261A100",
+      "shares": 133000,
+      "value": 7455
+    },
+    {
+      "name": "Crown Holdings Inc",
+      "cusip": "228368106",
+      "shares": 80300,
+      "value": 7401
+    },
+    {
+      "name": "Genuine Parts Company",
+      "cusip": "372460105",
+      "shares": 55420,
+      "value": 7371
+    },
+    {
+      "name": "Copart Inc (DE)",
+      "cusip": "217204106",
+      "shares": 65760,
+      "value": 7145
+    },
+    {
+      "name": "FactSet Research Systems Inc",
+      "cusip": "303075105",
+      "shares": 17850,
+      "value": 6865
+    },
+    {
+      "name": "Microchip Technology Inc",
+      "cusip": "595017104",
+      "shares": 116100,
+      "value": 6743
+    },
+    {
+      "name": "Expeditors International of WA",
+      "cusip": "302130109",
+      "shares": 62300,
+      "value": 6072
+    },
+    {
+      "name": "Levi Strauss & Co",
+      "cusip": "52736R102",
+      "shares": 365150,
+      "value": 5959
+    },
+    {
+      "name": "Best Buy Co. Inc",
+      "cusip": "086516101",
+      "shares": 88690,
+      "value": 5782
+    },
+    {
+      "name": "Omnicom Group Inc",
+      "cusip": "681919106",
+      "shares": 90664,
+      "value": 5767
+    },
+    {
+      "name": "Kroger Company",
+      "cusip": "501044101",
+      "shares": 119100,
+      "value": 5637
+    },
+    {
+      "name": "Gentex Corporation",
+      "cusip": "371901109",
+      "shares": 195910,
+      "value": 5480
+    },
+    {
+      "name": "Cadence Design Systems, Inc",
+      "cusip": "127387108",
+      "shares": 35530,
+      "value": 5331
+    },
+    {
+      "name": "F5 Networks Inc",
+      "cusip": "315616102",
+      "shares": 31300,
+      "value": 4790
+    },
+    {
+      "name": "Genpact Limited",
+      "cusip": "G3922B107",
+      "shares": 106380,
+      "value": 4506
+    },
+    {
+      "name": "Manhattan Associates, Inc",
+      "cusip": "562750109",
+      "shares": 39310,
+      "value": 4505
+    },
+    {
+      "name": "Kellogg Company",
+      "cusip": "487836108",
+      "shares": 58110,
+      "value": 4146
+    },
+    {
+      "name": "Clorox Company",
+      "cusip": "189054109",
+      "shares": 29000,
+      "value": 4088
+    },
+    {
+      "name": "Resmed",
+      "cusip": "761152107",
+      "shares": 18240,
+      "value": 3824
+    },
+    {
+      "name": "T Rowe Price Group Inc",
+      "cusip": "74144T108",
+      "shares": 32361,
+      "value": 3677
+    },
+    {
+      "name": "AbbVie Inc",
+      "cusip": "00287Y109",
+      "shares": 23957,
+      "value": 3669
+    },
+    {
+      "name": "MAXIMUS, Inc",
+      "cusip": "577933104",
+      "shares": 58280,
+      "value": 3643
+    },
+    {
+      "name": "Lennox International Inc",
+      "cusip": "526107107",
+      "shares": 16850,
+      "value": 3481
+    },
+    {
+      "name": "United Rentals, Inc",
+      "cusip": "911363109",
+      "shares": 13340,
+      "value": 3240
+    },
+    {
+      "name": "Campbell Soup Company",
+      "cusip": "134429109",
+      "shares": 67350,
+      "value": 3236
+    },
+    {
+      "name": "Toro Company",
+      "cusip": "891092108",
+      "shares": 38750,
+      "value": 2937
+    },
+    {
+      "name": "Carter's Inc",
+      "cusip": "146229109",
+      "shares": 41640,
+      "value": 2935
+    },
+    {
+      "name": "CBRE Group Inc",
+      "cusip": "12504L109",
+      "shares": 38180,
+      "value": 2810
+    },
+    {
+      "name": "Landstar System Inc",
+      "cusip": "515098101",
+      "shares": 16760,
+      "value": 2437
+    },
+    {
+      "name": "Pool Corporation",
+      "cusip": "73278L105",
+      "shares": 6820,
+      "value": 2395
+    },
+    {
+      "name": "Donaldson Co. Inc",
+      "cusip": "257651109",
+      "shares": 44880,
+      "value": 2161
+    },
+    {
+      "name": "Raytheon Technologies Corp",
+      "cusip": "75513E101",
+      "shares": 21850,
+      "value": 2100
+    },
+    {
+      "name": "Bristol Myers Squibb Co.",
+      "cusip": "110122108",
+      "shares": 26375,
+      "value": 2031
+    },
+    {
+      "name": "Charles River Laboratories",
+      "cusip": "159864107",
+      "shares": 8660,
+      "value": 1853
     },
     {
       "name": "Williams Sonoma Inc",
       "cusip": "969904101",
       "shares": 15360,
-      "value": 1704000
+      "value": 1704
     },
     {
       "name": "Taiwan Semiconductor Manuf ADR",
       "cusip": "874039100",
       "shares": 16040,
-      "value": 1311000
+      "value": 1311
+    },
+    {
+      "name": "Linde plc SH",
+      "cusip": "G5494J103",
+      "shares": 4195,
+      "value": 1206
+    },
+    {
+      "name": "Paychex Inc",
+      "cusip": "704326107",
+      "shares": 9830,
+      "value": 1119
+    },
+    {
+      "name": "Tractor Supply Co",
+      "cusip": "892356106",
+      "shares": 5770,
+      "value": 1119
     }
-  ]
+  ],
+  "totalValue": 12080212,
+  "positionsCount": 81
 }

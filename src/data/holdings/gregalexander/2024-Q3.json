@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2024-08-14",
+  "period": "2024-08-14",
+  "accession": "0000919574-24-004562",
+  "quarterKey": "2024-Q3",
   "positions": [
     {
       "name": "EQUITABLE HLDGS INC",
       "cusip": "29452E101",
       "shares": 6000000,
-      "value": 245160000000
-    },
-    {
-      "name": "GROUP 1 AUTOMOTIVE INC",
-      "cusip": "398905109",
-      "shares": 568424,
-      "value": 168981087000
+      "value": 245160000
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 700000,
-      "value": 176715000000
+      "value": 176715000
     },
     {
-      "name": "RIMINI STR INC DEL",
-      "cusip": "76674Q107",
-      "shares": 5913199,
-      "value": 18153521000
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 568424,
+      "value": 168981087
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 7120000,
-      "value": 141332000000
+      "value": 141332000
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 5500000,
-      "value": 65301747000
+      "value": 65301747
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 5913199,
+      "value": 18153521
     }
-  ]
+  ],
+  "totalValue": 815643355,
+  "positionsCount": 6
 }

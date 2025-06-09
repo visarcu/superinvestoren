@@ -1,4 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-14",
-  "positions": []
+  "period": "2020-05-14",
+  "accession": "0001484150-20-000004",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "MONDELEZ INTERNATIONAL INC",
+      "cusip": "609207105",
+      "shares": 29815636,
+      "value": 1493167
+    },
+    {
+      "name": "PAYPAL INC",
+      "cusip": "70450Y103",
+      "shares": 6667718,
+      "value": 638367
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5766380,
+      "value": 557032
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 2358600,
+      "value": 542478
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 4442224,
+      "value": 533511
+    },
+    {
+      "name": "WORLD WRESTLING ENTMT INC",
+      "cusip": "98156Q108",
+      "shares": 9163138,
+      "value": 310905
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 9966421,
+      "value": 299591
+    },
+    {
+      "name": "MANCHESTER UNITED PLC",
+      "cusip": "G5784H106",
+      "shares": 11299163,
+      "value": 170052
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637100",
+      "shares": 2498133,
+      "value": 128354
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637209",
+      "shares": 290307,
+      "value": 16115
+    }
+  ],
+  "totalValue": 4689572,
+  "positionsCount": 10
 }

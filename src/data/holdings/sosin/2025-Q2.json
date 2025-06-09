@@ -1,29 +1,35 @@
 {
+  "form": "13F-HR",
   "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001420506-25-001269",
+  "quarterKey": "2025-Q2",
   "positions": [
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 709295,
-      "value": 127176593000
-    },
-    {
-      "name": "CARDLYTICS INC",
-      "cusip": "14161W105",
-      "shares": 5613922,
-      "value": 10217338000
-    },
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 5685029,
-      "value": 1188625863000
+      "value": 1188625863
     },
     {
       "name": "HILTON GRAND VACATIONS INC",
       "cusip": "43283X105",
       "shares": 5716641,
-      "value": 213859540000
+      "value": 213859540
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 709295,
+      "value": 127176593
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 5613922,
+      "value": 10217338
     }
-  ]
+  ],
+  "totalValue": 1539879334,
+  "positionsCount": 4
 }

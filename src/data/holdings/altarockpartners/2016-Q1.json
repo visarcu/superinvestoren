@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-08",
+  "period": "2016-02-08",
+  "accession": "0001144204-16-079521",
+  "quarterKey": "2016-Q1",
   "positions": [
     {
-      "name": "CHARTER COMMUNICATIONS",
-      "cusip": "16117M305",
-      "shares": 487331,
-      "value": 89230000
-    },
-    {
-      "name": "INTERACTIVE BROKERS",
-      "cusip": "45841N107",
-      "shares": 27201,
-      "value": 1186000
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 695243,
+      "value": 158828
     },
     {
       "name": "LIBERTY GLOBAL CL C",
       "cusip": "G5480U120",
       "shares": 2389833,
-      "value": 97433000
+      "value": 97433
     },
     {
-      "name": "LIBERTY LILAC GROUP - C",
-      "cusip": "G5480U153",
-      "shares": 46045,
-      "value": 1980000
-    },
-    {
-      "name": "MASTERCARD INC CL A",
-      "cusip": "57636Q104",
-      "shares": 403690,
-      "value": 39303000
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16117M305",
+      "shares": 487331,
+      "value": 89230
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 842370,
-      "value": 84523000
+      "value": 84523
     },
     {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 695243,
-      "value": 158828000
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 403690,
+      "value": 39303
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 250416,
-      "value": 19420000
+      "value": 19420
+    },
+    {
+      "name": "LIBERTY LILAC GROUP - C",
+      "cusip": "G5480U153",
+      "shares": 46045,
+      "value": 1980
+    },
+    {
+      "name": "INTERACTIVE BROKERS",
+      "cusip": "45841N107",
+      "shares": 27201,
+      "value": 1186
     }
-  ]
+  ],
+  "totalValue": 491903,
+  "positionsCount": 8
 }

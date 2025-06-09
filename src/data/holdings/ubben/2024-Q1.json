@@ -2,90 +2,94 @@
   "form": "13F-HR",
   "date": "2024-02-14",
   "period": "2024-02-14",
+  "accession": "0001418812-24-000003",
+  "quarterKey": "2024-Q1",
   "positions": [
     {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 4637748,
-      "value": 431727961000
-    },
-    {
-      "name": "DANAHER CORPORATION",
-      "cusip": "235851102",
-      "shares": 200000,
-      "value": 46268000000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 5086331,
-      "value": 459244826000
-    },
-    {
-      "name": "EXPEDIA GROUP INC",
-      "cusip": "30212P303",
-      "shares": 4251568,
-      "value": 645345507000
-    },
-    {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 4188841,
-      "value": 556445638000
-    },
-    {
-      "name": "ILLUMINA INC",
-      "cusip": "452327109",
-      "shares": 328045,
-      "value": 45676986000
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 3486309,
+      "value": 917387350
     },
     {
       "name": "INSIGHT ENTERPRISES INC",
       "cusip": "45765U103",
       "shares": 4511630,
-      "value": 799415720000
+      "value": 799415720
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 4251568,
+      "value": 645345507
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 4188841,
+      "value": 556445638
     },
     {
       "name": "KKR & CO INC",
       "cusip": "48251W104",
       "shares": 5954108,
-      "value": 493297848000
+      "value": 493297848
     },
     {
-      "name": "NEW YORK TIMES CO",
-      "cusip": "650111107",
-      "shares": 3626732,
-      "value": 177673601000
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5086331,
+      "value": 459244826
     },
     {
-      "name": "PAYCOM SOFTWARE INC",
-      "cusip": "70432V102",
-      "shares": 608000,
-      "value": 125685760000
-    },
-    {
-      "name": "ROBLOX CORP",
-      "cusip": "771049103",
-      "shares": 1800000,
-      "value": 82296000000
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 3486309,
-      "value": 917387350000
-    },
-    {
-      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
-      "cusip": "G7997R103",
-      "shares": 262348,
-      "value": 22396649000
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 4637748,
+      "value": 431727961
     },
     {
       "name": "SPOTIFY TECHNOLOGY S A",
       "cusip": "L8681T102",
       "shares": 1027553,
-      "value": 193087484000
+      "value": 193087484
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 3626732,
+      "value": 177673601
+    },
+    {
+      "name": "PAYCOM SOFTWARE INC",
+      "cusip": "70432V102",
+      "shares": 608000,
+      "value": 125685760
+    },
+    {
+      "name": "ROBLOX CORP",
+      "cusip": "771049103",
+      "shares": 1800000,
+      "value": 82296000
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 200000,
+      "value": 46268000
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 328045,
+      "value": 45676986
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 262348,
+      "value": 22396649
     }
-  ]
+  ],
+  "totalValue": 4995949330,
+  "positionsCount": 14
 }

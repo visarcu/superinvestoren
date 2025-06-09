@@ -2,42 +2,46 @@
   "form": "13F-HR",
   "date": "2022-05-16",
   "period": "2022-05-16",
+  "accession": "0001709323-22-000003",
+  "quarterKey": "2022-Q2",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 85900,
-      "value": 239918000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 759600,
-      "value": 132634000
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 11476523,
+      "value": 893906
     },
     {
       "name": "BK OF AMERICA CORP",
       "cusip": "060505104",
       "shares": 14586987,
-      "value": 601276000
+      "value": 601276
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 897749,
-      "value": 316825000
+      "value": 316825
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 85900,
+      "value": 239918
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 876200,
-      "value": 194832000
+      "value": 194832
     },
     {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 11476523,
-      "value": 893906000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 759600,
+      "value": 132634
     }
-  ]
+  ],
+  "totalValue": 2379391,
+  "positionsCount": 6
 }

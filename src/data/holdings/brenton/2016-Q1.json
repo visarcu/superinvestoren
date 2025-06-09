@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-12",
+  "period": "2016-02-12",
+  "accession": "0000950123-16-014330",
+  "quarterKey": "2016-Q1",
   "positions": [
     {
-      "name": "CLEAN HARBORS INC",
-      "cusip": "184496107",
-      "shares": 452744,
-      "value": 18857000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 267192,
-      "value": 5365000
+      "name": "MITEL NETWORKS CORP",
+      "cusip": "60671Q104",
+      "shares": 4311727,
+      "value": 33157
     },
     {
       "name": "GILDAN ACTIVEWEAR INC",
       "cusip": "375916103",
       "shares": 1156200,
-      "value": 32859000
-    },
-    {
-      "name": "HEICO CORP NEW",
-      "cusip": "422806208",
-      "shares": 267100,
-      "value": 13141000
-    },
-    {
-      "name": "MITEL NETWORKS CORP",
-      "cusip": "60671Q104",
-      "shares": 4311727,
-      "value": 33157000
+      "value": 32859
     },
     {
       "name": "OPEN TEXT CORP",
       "cusip": "683715106",
       "shares": 665168,
-      "value": 31882000
+      "value": 31882
     },
     {
-      "name": "TJX COMPANIES INC",
-      "cusip": "872540109",
-      "shares": 79200,
-      "value": 5616000
+      "name": "CLEAN HARBORS INC",
+      "cusip": "184496107",
+      "shares": 452744,
+      "value": 18857
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 267100,
+      "value": 13141
     },
     {
       "name": "TRACTOR SUPPLY CO",
       "cusip": "892356106",
       "shares": 87100,
-      "value": 7447000
+      "value": 7447
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 79200,
+      "value": 5616
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 267192,
+      "value": 5365
     }
-  ]
+  ],
+  "totalValue": 148324,
+  "positionsCount": 8
 }

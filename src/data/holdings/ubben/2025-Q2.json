@@ -2,90 +2,94 @@
   "form": "13F-HR",
   "date": "2025-05-15",
   "period": "2025-05-15",
+  "accession": "0001418812-25-000015",
+  "quarterKey": "2025-Q2",
   "positions": [
     {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 563100,
-      "value": 107135406000
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 2898509,
+      "value": 777843875
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 6566031,
-      "value": 648067260000
-    },
-    {
-      "name": "EXPEDIA GROUP INC",
-      "cusip": "30212P303",
-      "shares": 1117156,
-      "value": 187793924000
+      "value": 648067260
     },
     {
       "name": "INSIGHT ENTERPRISES INC",
       "cusip": "45765U103",
       "shares": 4061739,
-      "value": 609220233000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229748",
-      "shares": 1658648,
-      "value": 111527492000
-    },
-    {
-      "name": "LIBERTY MEDIA CORP DEL",
-      "cusip": "531229722",
-      "shares": 3903888,
-      "value": 266010928000
-    },
-    {
-      "name": "LIVE NATION ENTERTAINMENT IN",
-      "cusip": "538034109",
-      "shares": 885266,
-      "value": 115598034000
+      "value": 609220233
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 1014874,
-      "value": 584932779000
-    },
-    {
-      "name": "NU HLDGS LTD",
-      "cusip": "G6683N103",
-      "shares": 3416200,
-      "value": 34981888000
+      "value": 584932779
     },
     {
       "name": "ROBLOX CORP",
       "cusip": "771049103",
       "shares": 8764921,
-      "value": 510907245000
-    },
-    {
-      "name": "ROCKET COS INC",
-      "cusip": "77311W101",
-      "shares": 6728509,
-      "value": 81213104000
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 2898509,
-      "value": 777843875000
-    },
-    {
-      "name": "TOAST INC",
-      "cusip": "888787108",
-      "shares": 2597200,
-      "value": 86149124000
+      "value": 510907245
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 1312950,
-      "value": 460136457000
+      "value": 460136457
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229722",
+      "shares": 3903888,
+      "value": 266010928
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 1117156,
+      "value": 187793924
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 885266,
+      "value": 115598034
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229748",
+      "shares": 1658648,
+      "value": 111527492
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 563100,
+      "value": 107135406
+    },
+    {
+      "name": "TOAST INC",
+      "cusip": "888787108",
+      "shares": 2597200,
+      "value": 86149124
+    },
+    {
+      "name": "ROCKET COS INC",
+      "cusip": "77311W101",
+      "shares": 6728509,
+      "value": 81213104
+    },
+    {
+      "name": "NU HLDGS LTD",
+      "cusip": "G6683N103",
+      "shares": 3416200,
+      "value": 34981888
     }
-  ]
+  ],
+  "totalValue": 4581517749,
+  "positionsCount": 14
 }

@@ -1,168 +1,158 @@
 {
   "form": "NPORT-P",
-  "date": "2022-11-22",
-  "period": "2022-11-22",
+  "date": "2023-02-23",
+  "period": "2023-02-23",
+  "accession": "0001145549-23-008584",
+  "quarterKey": "2022-Q4",
   "positions": [
-    {
-      "name": "CNH Industrial N.V. ",
-      "cusip": "N20944109",
-      "shares": 1992702,
-      "value": 22258481340,
-      "pctOfPortfolio": 186.93084582999998
-    },
-    {
-      "name": "CNX Resources Corporation",
-      "cusip": "12653C108",
-      "shares": 4106095,
-      "value": 63767655350,
-      "pctOfPortfolio": 535.5325715700001
-    },
-    {
-      "name": "Douglas Emmett, Inc.",
-      "cusip": "25960P109",
-      "shares": 2299613,
-      "value": 41232061090,
-      "pctOfPortfolio": 346.27448015
-    },
-    {
-      "name": "Fairfax Financial Holdings Limited",
-      "cusip": "303901102",
-      "shares": 113459,
-      "value": 51818980350,
-      "pctOfPortfolio": 435.1853875
-    },
-    {
-      "name": "FedEx Corporation",
-      "cusip": "31428X106",
-      "shares": 419531,
-      "value": 62287767570,
-      "pctOfPortfolio": 523.1042001
-    },
-    {
-      "name": "Fiserv, Inc.",
-      "cusip": "337738108",
-      "shares": 653112,
-      "value": 61111689840,
-      "pctOfPortfolio": 513.2272816599999
-    },
     {
       "name": "General Electric Company",
       "cusip": "369604301",
-      "shares": 1176110,
-      "value": 72812970100,
-      "pctOfPortfolio": 611.4967989300001
+      "shares": 1007428,
+      "value": 84412392.12,
+      "pctOfPortfolio": 6.8274319194
     },
     {
-      "name": "Hyatt Hotels Corporation ",
-      "cusip": "448579102",
-      "shares": 881374,
-      "value": 71356039040,
-      "pctOfPortfolio": 599.26122224
-    },
-    {
-      "name": "IAC, Inc.",
-      "cusip": "44891N208",
-      "shares": 1011453,
-      "value": 56014267140,
-      "pctOfPortfolio": 470.41818241
-    },
-    {
-      "name": "Liberty Broadband Corporation",
-      "cusip": "530307107",
-      "shares": 14118,
-      "value": 1053202800,
-      "pctOfPortfolio": 8.844992040000001
-    },
-    {
-      "name": "Liberty Broadband Corporation",
-      "cusip": "530307305",
-      "shares": 657972,
-      "value": 48558333600,
-      "pctOfPortfolio": 407.80187262
-    },
-    {
-      "name": "State Street Bank and Trust Company",
-      "cusip": "000000000",
-      "shares": 21884000,
-      "value": 21884000000,
-      "pctOfPortfolio": 183.78588223
-    },
-    {
-      "name": "Lumen Technologies, Inc.",
-      "cusip": "550241103",
-      "shares": 15615282,
-      "value": 113679252960,
-      "pctOfPortfolio": 954.6994058099999
-    },
-    {
-      "name": "Mattel, Inc.",
+      "name": "Mattel, Inc",
       "cusip": "577081102",
-      "shares": 3838348,
-      "value": 72698311120,
-      "pctOfPortfolio": 610.53387159
+      "shares": 4389269,
+      "value": 78304558.96,
+      "pctOfPortfolio": 6.3334189667
+    },
+    {
+      "name": "Affiliated Managers Group, Inc",
+      "cusip": "008252108",
+      "shares": 492252,
+      "value": 77987484.36,
+      "pctOfPortfolio": 6.3077733809
     },
     {
       "name": "MGM Resorts International",
       "cusip": "552953101",
       "shares": 2286705,
-      "value": 67960872599.99999,
-      "pctOfPortfolio": 570.74798611
+      "value": 76673218.65,
+      "pctOfPortfolio": 6.2014731159
     },
     {
-      "name": "PVH Corp.",
+      "name": "Lumen Technologies, Inc",
+      "cusip": "550241103",
+      "shares": 14598687,
+      "value": 76205146.14,
+      "pctOfPortfolio": 6.1636145371
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 419531,
+      "value": 72662769.2,
+      "pctOfPortfolio": 5.8771004746
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 4106095,
+      "value": 69146639.8,
+      "pctOfPortfolio": 5.5927093622
+    },
+    {
+      "name": "Hyatt Hotels Corporation",
+      "cusip": "448579102",
+      "shares": 747434,
+      "value": 67605405.3,
+      "pctOfPortfolio": 5.4680514375
+    },
+    {
+      "name": "Fairfax Financial Holdings Limited",
+      "cusip": "303901102",
+      "shares": 113459,
+      "value": 67209793.3,
+      "pctOfPortfolio": 5.4360536001
+    },
+    {
+      "name": "Fiserv, Inc",
+      "cusip": "337738108",
+      "shares": 653112,
+      "value": 66010029.84,
+      "pctOfPortfolio": 5.3390144908
+    },
+    {
+      "name": "PVH Corp",
       "cusip": "693656100",
-      "shares": 1140300,
-      "value": 51085440000,
-      "pctOfPortfolio": 429.02497987
+      "shares": 914449,
+      "value": 64550954.91,
+      "pctOfPortfolio": 5.2210017856
     },
     {
-      "name": "Stanley Black & Decker, Inc.",
-      "cusip": "854502101",
-      "shares": 344739,
-      "value": 25927820190,
-      "pctOfPortfolio": 217.74663260999998
+      "name": "IAC, Inc",
+      "cusip": "44891N208",
+      "shares": 1358794,
+      "value": 60330453.6,
+      "pctOfPortfolio": 4.8796397576
     },
     {
-      "name": "Warner Bros., Discovery, Inc.",
+      "name": "Warner Bros., Discovery, Inc",
       "cusip": "934423104",
-      "shares": 5090188,
-      "value": 58537162000,
-      "pctOfPortfolio": 491.60592038
+      "shares": 6300188,
+      "value": 59725782.24,
+      "pctOfPortfolio": 4.8307328087
     },
     {
-      "name": "Warner Music Group Corp.",
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 59690000,
+      "value": 59690000,
+      "pctOfPortfolio": 4.8278386743
+    },
+    {
+      "name": "Liberty Broadband Corporation",
+      "cusip": "530307305",
+      "shares": 773919,
+      "value": 59026802.13,
+      "pctOfPortfolio": 4.7741979921
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 589746,
+      "value": 52328162.58,
+      "pctOfPortfolio": 4.2323995152
+    },
+    {
+      "name": "Warner Music Group Corp",
       "cusip": "934550203",
       "shares": 1211591,
-      "value": 28121027110,
-      "pctOfPortfolio": 236.16559023
+      "value": 42429916.82,
+      "pctOfPortfolio": 3.4318109126
     },
     {
-      "name": "Affiliated Managers Group, Inc.",
-      "cusip": "008252108",
-      "shares": 619026,
-      "value": 69238058100,
-      "pctOfPortfolio": 581.47402632
-    },
-    {
-      "name": "Alphabet Inc. ",
-      "cusip": "02079K107",
-      "shares": 556900,
-      "value": 53545935000,
-      "pctOfPortfolio": 449.68867227000004
-    },
-    {
-      "name": "CK Hutchison Holdings Limited ",
-      "cusip": "BW9P81600",
-      "shares": 8754000,
-      "value": 48201701000,
-      "pctOfPortfolio": 404.80680604
-    },
-    {
-      "name": "CNH Industrial N.V. ",
+      "name": "CNH Industrial N.V.",
       "cusip": "BDSV2V000",
       "shares": 2430335,
-      "value": 27200932130,
-      "pctOfPortfolio": 228.43846229999997
+      "value": 38932227.19,
+      "pctOfPortfolio": 3.1489112432
+    },
+    {
+      "name": "Stanley Black & Decker, Inc",
+      "cusip": "854502101",
+      "shares": 344739,
+      "value": 25896793.68,
+      "pctOfPortfolio": 2.0945810365
+    },
+    {
+      "name": "Douglas Emmett, Inc",
+      "cusip": "25960P109",
+      "shares": 1546510,
+      "value": 24249276.8,
+      "pctOfPortfolio": 1.9613267944
+    },
+    {
+      "name": "CNH Industrial N.V.",
+      "cusip": "N20944109",
+      "shares": 806177,
+      "value": 12947202.62,
+      "pctOfPortfolio": 1.0471939275
     }
-  ]
+  ],
+  "totalValue": 1236325010.24,
+  "positionsCount": 21
 }

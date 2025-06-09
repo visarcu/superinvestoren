@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2017-05-11",
   "period": "2017-05-11",
+  "accession": "0001454502-17-000005",
+  "quarterKey": "2017-Q2",
   "positions": [
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U120",
       "shares": 4000000,
-      "value": 140160000000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 324554,
-      "value": 106233000000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 186000,
-      "value": 20919000000
+      "value": 140160000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 1034075,
-      "value": 115858000000
+      "value": 115858000
     },
     {
-      "name": "SBA COMMUNICATIONS CORP NEW",
-      "cusip": "78410G104",
-      "shares": 824676,
-      "value": 99266000000
-    },
-    {
-      "name": "SCHWAB CHARLES CORP NEW",
-      "cusip": "808513105",
-      "shares": 2000000,
-      "value": 81620000000
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 324554,
+      "value": 106233000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 479998,
-      "value": 105676000000
+      "value": 105676000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 824676,
+      "value": 99266000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 2000000,
+      "value": 81620000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 500000,
-      "value": 44435000000
+      "value": 44435000
     },
     {
       "name": "NORD ANGLIA EDUCATION INC",
       "cusip": "G6583A102",
       "shares": 1503073,
-      "value": 38088000000
+      "value": 38088000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 186000,
+      "value": 20919000
     }
-  ]
+  ],
+  "totalValue": 752255000,
+  "positionsCount": 9
 }

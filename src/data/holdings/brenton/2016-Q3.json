@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2016-08-11",
+  "period": "2016-08-11",
+  "accession": "0000950123-16-019272",
+  "quarterKey": "2016-Q3",
   "positions": [
-    {
-      "name": "BORGWARNER INC",
-      "cusip": "099724106",
-      "shares": 993500,
-      "value": 29328000
-    },
-    {
-      "name": "CLEAN HARBORS INC",
-      "cusip": "184496107",
-      "shares": 473240,
-      "value": 24661000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 300,
-      "value": 6000
-    },
     {
       "name": "GILDAN ACTIVEWEAR INC",
       "cusip": "375916103",
       "shares": 1764963,
-      "value": 51766000
-    },
-    {
-      "name": "HEICO CORP NEW",
-      "cusip": "422806208",
-      "shares": 314969,
-      "value": 16898000
+      "value": 51766
     },
     {
       "name": "MITEL NETWORKS CORP",
       "cusip": "60671Q104",
       "shares": 7052027,
-      "value": 44357000
+      "value": 44357
     },
     {
       "name": "OPEN TEXT CORP",
       "cusip": "683715106",
       "shares": 703468,
-      "value": 41617000
+      "value": 41617
     },
     {
-      "name": "SS&C TECHNOLOGIES  HOLDINGS INC.",
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 993500,
+      "value": 29328
+    },
+    {
+      "name": "CLEAN HARBORS INC",
+      "cusip": "184496107",
+      "shares": 473240,
+      "value": 24661
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
       "cusip": "78467J100",
       "shares": 730500,
-      "value": 20512000
+      "value": 20512
     },
     {
-      "name": "TJX COMPANIES INC",
-      "cusip": "872540109",
-      "shares": 71400,
-      "value": 5514000
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 314969,
+      "value": 16898
     },
     {
       "name": "TRACTOR SUPPLY CO",
       "cusip": "892356106",
       "shares": 99300,
-      "value": 9054000
+      "value": 9054
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 71400,
+      "value": 5514
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 300,
+      "value": 6
     }
-  ]
+  ],
+  "totalValue": 243713,
+  "positionsCount": 10
 }

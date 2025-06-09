@@ -1,47 +1,53 @@
 {
+  "form": "13F-HR",
   "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0000919574-24-006738",
+  "quarterKey": "2024-Q4",
   "positions": [
     {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 2400,
-      "value": 559200000
-    },
-    {
-      "name": "BANK OZK",
-      "cusip": "06417N103",
-      "shares": 653102,
-      "value": 28076863000
-    },
-    {
-      "name": "WR BERKLEY CORP",
-      "cusip": "084423102",
-      "shares": 261450,
-      "value": 14832059000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 50072,
-      "value": 23046139000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 1,
-      "value": 691180000
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 21146067,
+      "value": 1233027167
     },
     {
       "name": "ENTERPRISE PRODS PARTNERS L",
       "cusip": "293792107",
       "shares": 5446400,
-      "value": 158544704000
+      "value": 158544704
     },
     {
-      "name": "ST JOE CO",
-      "cusip": "790148100",
-      "shares": 21146067,
-      "value": 1233027167000
+      "name": "BANK OZK",
+      "cusip": "06417N103",
+      "shares": 653102,
+      "value": 28076863
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 50072,
+      "value": 23046139
+    },
+    {
+      "name": "WR BERKLEY CORP",
+      "cusip": "084423102",
+      "shares": 261450,
+      "value": 14832059
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 691180
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2400,
+      "value": 559200
     }
-  ]
+  ],
+  "totalValue": 1458777312,
+  "positionsCount": 7
 }

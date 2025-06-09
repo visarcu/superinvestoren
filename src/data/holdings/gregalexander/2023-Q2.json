@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2023-05-15",
+  "period": "2023-05-15",
+  "accession": "0000919574-23-003132",
+  "quarterKey": "2023-Q2",
   "positions": [
     {
-      "name": "BUILDERS FIRSTSOURCE INC",
-      "cusip": "12008R107",
-      "shares": 1200000,
-      "value": 106536000000
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 100000,
-      "value": 9616000000
-    },
-    {
-      "name": "CRESUD S A C I F Y A",
-      "cusip": "P3311R259",
-      "shares": 1242313,
-      "value": 347848000
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 15000000,
+      "value": 272850000
     },
     {
       "name": "EQUITABLE HLDGS INC",
       "cusip": "29452E101",
       "shares": 7600000,
-      "value": 192964000000
-    },
-    {
-      "name": "EVI INDS INC",
-      "cusip": "26929N102",
-      "shares": 116341,
-      "value": 2303552000
-    },
-    {
-      "name": "GROUP 1 AUTOMOTIVE INC",
-      "cusip": "398905109",
-      "shares": 240683,
-      "value": 54495445000
-    },
-    {
-      "name": "INTERNATIONAL MNY EXPRESS IN",
-      "cusip": "46005L101",
-      "shares": 1000000,
-      "value": 25780000000
+      "value": 192964000
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 500000,
-      "value": 114465000000
+      "value": 114465000
     },
     {
-      "name": "RIMINI STR INC DEL",
-      "cusip": "76674Q107",
-      "shares": 4919848,
-      "value": 20269774000
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 1200000,
+      "value": 106536000
     },
     {
-      "name": "STELLANTIS N.V",
-      "cusip": "N82405106",
-      "shares": 15000000,
-      "value": 272850000000
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 240683,
+      "value": 54495445
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 5500000,
-      "value": 33601692000
+      "value": 33601692
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 1000000,
+      "value": 25780000
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 4919848,
+      "value": 20269774
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 100000,
+      "value": 9616000
+    },
+    {
+      "name": "EVI INDS INC",
+      "cusip": "26929N102",
+      "shares": 116341,
+      "value": 2303552
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "P3311R259",
+      "shares": 1242313,
+      "value": 347848
     }
-  ]
+  ],
+  "totalValue": 833229311,
+  "positionsCount": 11
 }

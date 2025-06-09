@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2015-05-15",
+  "period": "2015-05-15",
+  "accession": "0001172661-15-001211",
+  "quarterKey": "2015-Q2",
   "positions": [
     {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 340700,
-      "value": 71002000
-    },
-    {
-      "name": "GOOGLE INC",
-      "cusip": "38259P508",
-      "shares": 3964,
-      "value": 2199000
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 2615890,
+      "value": 86900
     },
     {
       "name": "GOOGLE INC",
       "cusip": "38259P706",
       "shares": 150664,
-      "value": 82564000
+      "value": 82564
     },
     {
-      "name": "HEXCEL CORP NEW",
-      "cusip": "428291108",
-      "shares": 856960,
-      "value": 44065000
-    },
-    {
-      "name": "MEAD JOHNSON NUTRITION CO",
-      "cusip": "582839106",
-      "shares": 452500,
-      "value": 45490000
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 340700,
+      "value": 71002
     },
     {
       "name": "QUNAR CAYMAN IS LTD",
       "cusip": "74906P104",
       "shares": 1508617,
-      "value": 62230000
+      "value": 62230
     },
     {
-      "name": "TAL ED GROUP",
-      "cusip": "874080104",
-      "shares": 2615890,
-      "value": 86900000
+      "name": "MEAD JOHNSON NUTRITION CO",
+      "cusip": "582839106",
+      "shares": 452500,
+      "value": 45490
     },
     {
-      "name": "TARENA INTL INC",
-      "cusip": "876108101",
-      "shares": 514303,
-      "value": 5004000
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 856960,
+      "value": 44065
     },
     {
       "name": "YELP INC",
       "cusip": "985817105",
       "shares": 805677,
-      "value": 38149000
+      "value": 38149
+    },
+    {
+      "name": "TARENA INTL INC",
+      "cusip": "876108101",
+      "shares": 514303,
+      "value": 5004
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 3964,
+      "value": 2199
     }
-  ]
+  ],
+  "totalValue": 437603,
+  "positionsCount": 9
 }

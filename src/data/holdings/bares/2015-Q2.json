@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2015-05-15",
+  "period": "2015-05-15",
+  "accession": "0001140361-15-020250",
+  "quarterKey": "2015-Q2",
   "positions": [
-    {
-      "name": "Actuant Corporation",
-      "cusip": "00508X203",
-      "shares": 3299444,
-      "value": 78329000
-    },
-    {
-      "name": "America's Car-Mart Inc.",
-      "cusip": "03062T105",
-      "shares": 1161506,
-      "value": 63012000
-    },
     {
       "name": "Colfax Corporation",
       "cusip": "194014106",
       "shares": 3412226,
-      "value": 162866000
-    },
-    {
-      "name": "Dorman Products, Inc.",
-      "cusip": "258278100",
-      "shares": 378831,
-      "value": 18847000
-    },
-    {
-      "name": "Heico CP CL A",
-      "cusip": "422806208",
-      "shares": 1953388,
-      "value": 96771000
-    },
-    {
-      "name": "HomeAway, Inc.",
-      "cusip": "43739Q100",
-      "shares": 1168243,
-      "value": 35246000
+      "value": 162866
     },
     {
       "name": "Interactive Intelligence Group",
       "cusip": "45841V109",
       "shares": 2675717,
-      "value": 110186000
+      "value": 110186
+    },
+    {
+      "name": "RealD Inc",
+      "cusip": "75604L105",
+      "shares": 7880790,
+      "value": 100795
+    },
+    {
+      "name": "Heico CP CL A",
+      "cusip": "422806208",
+      "shares": 1953388,
+      "value": 96771
+    },
+    {
+      "name": "US Ecology, Inc",
+      "cusip": "91732J102",
+      "shares": 1669298,
+      "value": 83415
+    },
+    {
+      "name": "Actuant Corporation",
+      "cusip": "00508X203",
+      "shares": 3299444,
+      "value": 78329
+    },
+    {
+      "name": "America's Car-Mart Inc",
+      "cusip": "03062T105",
+      "shares": 1161506,
+      "value": 63012
     },
     {
       "name": "Platform Specialty Products Corpora",
       "cusip": "72766Q105",
       "shares": 2414920,
-      "value": 61967000
+      "value": 61967
     },
     {
-      "name": "RealD Inc.",
-      "cusip": "75604L105",
-      "shares": 7880790,
-      "value": 100795000
+      "name": "HomeAway, Inc",
+      "cusip": "43739Q100",
+      "shares": 1168243,
+      "value": 35246
     },
     {
-      "name": "US Ecology, Inc.",
-      "cusip": "91732J102",
-      "shares": 1669298,
-      "value": 83415000
+      "name": "Dorman Products, Inc",
+      "cusip": "258278100",
+      "shares": 378831,
+      "value": 18847
     }
-  ]
+  ],
+  "totalValue": 811434,
+  "positionsCount": 10
 }

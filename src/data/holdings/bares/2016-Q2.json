@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2016-05-16",
+  "period": "2016-05-16",
+  "accession": "0001603715-16-000002",
+  "quarterKey": "2016-Q2",
   "positions": [
-    {
-      "name": "Alarm.com Holdings, Inc.",
-      "cusip": "011642105",
-      "shares": 1809246,
-      "value": 42879000
-    },
-    {
-      "name": "America's Car-Mart Inc.",
-      "cusip": "03062T105",
-      "shares": 1366454,
-      "value": 34161000
-    },
-    {
-      "name": "Ansys, Inc.",
-      "cusip": "03662Q105",
-      "shares": 755321,
-      "value": 67571000
-    },
-    {
-      "name": "Box, Inc",
-      "cusip": "10316T104",
-      "shares": 3455748,
-      "value": 42367000
-    },
     {
       "name": "Colfax Corporation",
       "cusip": "194014106",
       "shares": 7494276,
-      "value": 214261000
-    },
-    {
-      "name": "FactSet Research Systems inc.",
-      "cusip": "303075105",
-      "shares": 456700,
-      "value": 69204000
-    },
-    {
-      "name": "Fastenal Company",
-      "cusip": "311900104",
-      "shares": 1944332,
-      "value": 95272000
-    },
-    {
-      "name": "Gartner Inc.",
-      "cusip": "366651107",
-      "shares": 1016334,
-      "value": 90809000
-    },
-    {
-      "name": "Heico CP CL A",
-      "cusip": "422806208",
-      "shares": 350977,
-      "value": 16707000
-    },
-    {
-      "name": "Interactive Brokers Group Inc",
-      "cusip": "45841N107",
-      "shares": 2240609,
-      "value": 88101000
+      "value": 214261
     },
     {
       "name": "Interactive Intelligence Group",
       "cusip": "45841V109",
       "shares": 2950451,
-      "value": 107455000
-    },
-    {
-      "name": "Markel Corp.",
-      "cusip": "570535104",
-      "shares": 71732,
-      "value": 63954000
-    },
-    {
-      "name": "Moody's Corporation",
-      "cusip": "615369105",
-      "shares": 919443,
-      "value": 88781000
-    },
-    {
-      "name": "National Instruments Corp.",
-      "cusip": "636518102",
-      "shares": 2260351,
-      "value": 68059000
+      "value": 107455
     },
     {
       "name": "Platform Specialty Products Co",
       "cusip": "72766Q105",
       "shares": 11950569,
-      "value": 102775000
+      "value": 102775
     },
     {
-      "name": "US Ecology, Inc.",
-      "cusip": "91732J102",
-      "shares": 976790,
-      "value": 43135000
+      "name": "Fastenal Company",
+      "cusip": "311900104",
+      "shares": 1944332,
+      "value": 95272
     },
     {
-      "name": "Verisk Analytics, Inc.",
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 1016334,
+      "value": 90809
+    },
+    {
+      "name": "Moody's Corporation",
+      "cusip": "615369105",
+      "shares": 919443,
+      "value": 88781
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 2240609,
+      "value": 88101
+    },
+    {
+      "name": "Verisk Analytics, Inc",
       "cusip": "92345Y106",
       "shares": 908084,
-      "value": 72574000
+      "value": 72574
     },
     {
       "name": "Waters Corporation",
       "cusip": "941848103",
       "shares": 546180,
-      "value": 72052000
+      "value": 72052
+    },
+    {
+      "name": "FactSet Research Systems inc",
+      "cusip": "303075105",
+      "shares": 456700,
+      "value": 69204
+    },
+    {
+      "name": "National Instruments Corp",
+      "cusip": "636518102",
+      "shares": 2260351,
+      "value": 68059
+    },
+    {
+      "name": "Ansys, Inc",
+      "cusip": "03662Q105",
+      "shares": 755321,
+      "value": 67571
+    },
+    {
+      "name": "Markel Corp",
+      "cusip": "570535104",
+      "shares": 71732,
+      "value": 63954
+    },
+    {
+      "name": "US Ecology, Inc",
+      "cusip": "91732J102",
+      "shares": 976790,
+      "value": 43135
+    },
+    {
+      "name": "Alarm.com Holdings, Inc",
+      "cusip": "011642105",
+      "shares": 1809246,
+      "value": 42879
+    },
+    {
+      "name": "Box, Inc",
+      "cusip": "10316T104",
+      "shares": 3455748,
+      "value": 42367
+    },
+    {
+      "name": "America's Car-Mart Inc",
+      "cusip": "03062T105",
+      "shares": 1366454,
+      "value": 34161
+    },
+    {
+      "name": "Heico CP CL A",
+      "cusip": "422806208",
+      "shares": 350977,
+      "value": 16707
     }
-  ]
+  ],
+  "totalValue": 1380117,
+  "positionsCount": 18
 }

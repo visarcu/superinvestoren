@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0000919574-25-001156",
+  "quarterKey": "2025-Q1",
   "positions": [
-    {
-      "name": "EQUITABLE HLDGS INC",
-      "cusip": "29452E101",
-      "shares": 5000000,
-      "value": 235850000000
-    },
     {
       "name": "GROUP 1 AUTOMOTIVE INC",
       "cusip": "398905109",
       "shares": 568424,
-      "value": 239579348000
+      "value": 239579348
+    },
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 5000000,
+      "value": 235850000
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 500000,
-      "value": 178715000000
+      "value": 178715000
     },
     {
       "name": "NEBIUS GROUP N.V.",
       "cusip": "N97284108",
       "shares": 2500000,
-      "value": 69250000000
-    },
-    {
-      "name": "RIMINI STR INC DEL",
-      "cusip": "76674Q107",
-      "shares": 5913199,
-      "value": 15788241000
+      "value": 69250000
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 2807761,
-      "value": 36641281000
+      "value": 36641281
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 5913199,
+      "value": 15788241
     }
-  ]
+  ],
+  "totalValue": 775823870,
+  "positionsCount": 6
 }

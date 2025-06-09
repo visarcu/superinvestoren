@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001398344-24-009633",
+  "quarterKey": "2024-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 846297,
-      "value": 128857181000
-    },
-    {
-      "name": "AUTOZONE INC",
-      "cusip": "053332102",
-      "shares": 23282,
-      "value": 73376715000
-    },
-    {
-      "name": "DANAHER CORPORATION",
-      "cusip": "235851102",
-      "shares": 310364,
-      "value": 77504098000
-    },
-    {
-      "name": "HERC HLDGS INC",
-      "cusip": "42704L104",
-      "shares": 444769,
-      "value": 74854623000
-    },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 287226,
-      "value": 139471201000
+      "value": 139471201
     },
     {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 1212462,
-      "value": 81222829000
-    },
-    {
-      "name": "SEMRUSH HLDGS INC",
-      "cusip": "81686C104",
-      "shares": 3805121,
-      "value": 50455904000
-    },
-    {
-      "name": "SMARTSHEET INC",
-      "cusip": "83200N103",
-      "shares": 2512328,
-      "value": 96724628000
-    },
-    {
-      "name": "UPWORK INC",
-      "cusip": "91688F104",
-      "shares": 2760387,
-      "value": 33842345000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 846297,
+      "value": 128857181
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 755440,
-      "value": 103857891000
+      "value": 103857891
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 2512328,
+      "value": 96724628
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 1212462,
+      "value": 81222829
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 310364,
+      "value": 77504098
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 444769,
+      "value": 74854623
+    },
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332102",
+      "shares": 23282,
+      "value": 73376715
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 3805121,
+      "value": 50455904
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 2760387,
+      "value": 33842345
     }
-  ]
+  ],
+  "totalValue": 860167415,
+  "positionsCount": 10
 }

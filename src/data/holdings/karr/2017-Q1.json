@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0001172661-17-000623",
+  "quarterKey": "2017-Q1",
   "positions": [
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 4370804,
+      "value": 164430
+    },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 1313137,
-      "value": 115307000
-    },
-    {
-      "name": "AMERICAN EAGLE OUTFITTERS NE",
-      "cusip": "02553E106",
-      "shares": 60000,
-      "value": 910000
-    },
-    {
-      "name": "CAESARSTONE LTD",
-      "cusip": "M20598104",
-      "shares": 2572130,
-      "value": 73692000
-    },
-    {
-      "name": "CHINA ONLINE ED GROUP",
-      "cusip": "16954L105",
-      "shares": 263500,
-      "value": 4097000
+      "value": 115307
     },
     {
       "name": "COGNEX CORP",
       "cusip": "192422103",
       "shares": 1628701,
-      "value": 103618000
+      "value": 103618
     },
     {
-      "name": "ETSY INC",
-      "cusip": "29786A106",
-      "shares": 1365949,
-      "value": 16091000
-    },
-    {
-      "name": "GRUBHUB INC",
-      "cusip": "400110102",
-      "shares": 4370804,
-      "value": 164430000
+      "name": "CAESARSTONE LTD",
+      "cusip": "M20598104",
+      "shares": 2572130,
+      "value": 73692
     },
     {
       "name": "HEXCEL CORP NEW",
       "cusip": "428291108",
       "shares": 386283,
-      "value": 19870000
+      "value": 19870
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 1365949,
+      "value": 16091
+    },
+    {
+      "name": "CHINA ONLINE ED GROUP",
+      "cusip": "16954L105",
+      "shares": 263500,
+      "value": 4097
+    },
+    {
+      "name": "AMERICAN EAGLE OUTFITTERS NE",
+      "cusip": "02553E106",
+      "shares": 60000,
+      "value": 910
     }
-  ]
+  ],
+  "totalValue": 498015,
+  "positionsCount": 8
 }

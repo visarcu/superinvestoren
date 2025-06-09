@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2025-02-14",
   "period": "2025-02-14",
+  "accession": "0001697868-25-000001",
+  "quarterKey": "2025-Q1",
   "positions": [
-    {
-      "name": "ASML HOLDING N V",
-      "cusip": "N07059210",
-      "shares": 125627,
-      "value": 87069561000
-    },
-    {
-      "name": "EQUIFAX INC",
-      "cusip": "294429105",
-      "shares": 144000,
-      "value": 36698400000
-    },
     {
       "name": "FAIR ISAAC CORP",
       "cusip": "303250104",
       "shares": 784122,
-      "value": 1561132013000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 402281,
-      "value": 252833609000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 1484772,
-      "value": 781836392000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 1314144,
-      "value": 622076345000
-    },
-    {
-      "name": "MSCI INC",
-      "cusip": "55354G100",
-      "shares": 59700,
-      "value": 35820597000
+      "value": 1561132013
     },
     {
       "name": "S&P GLOBAL INC",
       "cusip": "78409V104",
       "shares": 1755098,
-      "value": 874091457000
+      "value": 874091457
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1484772,
+      "value": 781836392
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1314144,
+      "value": 622076345
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 912017,
-      "value": 288233853000
+      "value": 288233853
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 402281,
+      "value": 252833609
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 125627,
+      "value": 87069561
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 144000,
+      "value": 36698400
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 59700,
+      "value": 35820597
     }
-  ]
+  ],
+  "totalValue": 4539792227,
+  "positionsCount": 9
 }

@@ -1,191 +1,197 @@
 {
+  "form": "13F-HR",
   "date": "2021-08-12",
+  "period": "2021-08-12",
+  "accession": "0001581811-21-000006",
+  "quarterKey": "2021-Q3",
   "positions": [
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 881903,
-      "value": 2210331000
-    },
-    {
-      "name": "ALTICE USA INC",
-      "cusip": "02156K103",
-      "shares": 6036046,
-      "value": 206071000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 367794,
-      "value": 1265270000
-    },
-    {
-      "name": "ANALOG DEVICES INC",
-      "cusip": "032654105",
-      "shares": 1809269,
-      "value": 311484000
-    },
-    {
-      "name": "BLACKSTONE MTG TR INC",
-      "cusip": "09257W100",
-      "shares": 3724764,
-      "value": 118783000
+      "value": 2210331
     },
     {
       "name": "CANADIAN PAC RY LTD",
       "cusip": "13645T100",
       "shares": 19682671,
-      "value": 1513794000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 1744153,
-      "value": 1258319000
-    },
-    {
-      "name": "CIT GROUP INC",
-      "cusip": "125581801",
-      "shares": 2220704,
-      "value": 114566000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 10144500,
-      "value": 578439000
-    },
-    {
-      "name": "CSX CORP",
-      "cusip": "126408103",
-      "shares": 31948068,
-      "value": 1024894000
-    },
-    {
-      "name": "D R HORTON INC",
-      "cusip": "23331A109",
-      "shares": 8327783,
-      "value": 752582000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 2458744,
-      "value": 854930000
-    },
-    {
-      "name": "FIRST CTZNS BANCSHARES INC N",
-      "cusip": "31946M103",
-      "shares": 138970,
-      "value": 115726000
-    },
-    {
-      "name": "KE HLDGS INC",
-      "cusip": "482497104",
-      "shares": 2356400,
-      "value": 112353000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 7323877,
-      "value": 433866000
-    },
-    {
-      "name": "L BRANDS INC",
-      "cusip": "501797104",
-      "shares": 13024177,
-      "value": 938522000
-    },
-    {
-      "name": "LINDE PLC",
-      "cusip": "G5494J103",
-      "shares": 3258404,
-      "value": 942005000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 818262,
-      "value": 298739000
-    },
-    {
-      "name": "MATCH GROUP INC NEW",
-      "cusip": "57667L107",
-      "shares": 1279095,
-      "value": 206254000
+      "value": 1513794
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 5027497,
-      "value": 1361949000
+      "value": 1361949
     },
     {
-      "name": "NETFLIX INC",
-      "cusip": "64110L106",
-      "shares": 1502391,
-      "value": 793578000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 367794,
+      "value": 1265270
     },
     {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 1500614,
-      "value": 437399000
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1744153,
+      "value": 1258319
     },
     {
-      "name": "SCHWAB CHARLES CORP",
-      "cusip": "808513105",
-      "shares": 6305043,
-      "value": 459070000
-    },
-    {
-      "name": "SEA LTD",
-      "cusip": "81141R100",
-      "shares": 649749,
-      "value": 178421000
-    },
-    {
-      "name": "SHOPIFY INC",
-      "cusip": "82509L107",
-      "shares": 192526,
-      "value": 281277000
-    },
-    {
-      "name": "STONECO LTD",
-      "cusip": "G85158106",
-      "shares": 2871017,
-      "value": 192530000
-    },
-    {
-      "name": "T-MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 6648425,
-      "value": 962891000
-    },
-    {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324P102",
-      "shares": 2104602,
-      "value": 842767000
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 31948068,
+      "value": 1024894
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 4369854,
-      "value": 1021759000
+      "value": 1021759
     },
     {
-      "name": "WELLS FARGO CO NEW",
-      "cusip": "949746101",
-      "shares": 2152827,
-      "value": 97502000
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 6648425,
+      "value": 962891
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 3258404,
+      "value": 942005
+    },
+    {
+      "name": "L BRANDS INC",
+      "cusip": "501797104",
+      "shares": 13024177,
+      "value": 938522
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2458744,
+      "value": 854930
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 2104602,
+      "value": 842767
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 1502391,
+      "value": 793578
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 8327783,
+      "value": 752582
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 10144500,
+      "value": 578439
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 6305043,
+      "value": 459070
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 1500614,
+      "value": 437399
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 7323877,
+      "value": 433866
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 1809269,
+      "value": 311484
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 818262,
+      "value": 298739
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 192526,
+      "value": 281277
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 3249911,
-      "value": 229931000
+      "value": 229931
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 1279095,
+      "value": 206254
+    },
+    {
+      "name": "ALTICE USA INC",
+      "cusip": "02156K103",
+      "shares": 6036046,
+      "value": 206071
+    },
+    {
+      "name": "STONECO LTD",
+      "cusip": "G85158106",
+      "shares": 2871017,
+      "value": 192530
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 649749,
+      "value": 178421
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 3724764,
+      "value": 118783
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 138970,
+      "value": 115726
+    },
+    {
+      "name": "CIT GROUP INC",
+      "cusip": "125581801",
+      "shares": 2220704,
+      "value": 114566
+    },
+    {
+      "name": "KE HLDGS INC",
+      "cusip": "482497104",
+      "shares": 2356400,
+      "value": 112353
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 2152827,
+      "value": 97502
     }
-  ]
+  ],
+  "totalValue": 20116002,
+  "positionsCount": 31
 }

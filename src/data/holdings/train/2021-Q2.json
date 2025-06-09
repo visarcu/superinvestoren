@@ -1,4 +1,173 @@
 {
+  "form": "13F-HR",
   "date": "2021-05-12",
-  "positions": []
+  "period": "2021-05-12",
+  "accession": "0001484150-21-000005",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "MONDELEZ INTERNATIONAL INC",
+      "cusip": "609207105",
+      "shares": 31261035,
+      "value": 1829708
+    },
+    {
+      "name": "PAYPAL INC",
+      "cusip": "70450Y103",
+      "shares": 4308512,
+      "value": 1046279
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5201740,
+      "value": 959825
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 2265806,
+      "value": 867940
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 5793310,
+      "value": 819464
+    },
+    {
+      "name": "WORLD WRESTLING ENTMT INC",
+      "cusip": "98156Q108",
+      "shares": 11075514,
+      "value": 600957
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 9237871,
+      "value": 565727
+    },
+    {
+      "name": "MANCHESTER UNITED PLC",
+      "cusip": "G5784H106",
+      "shares": 11527266,
+      "value": 181439
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637100",
+      "shares": 2848271,
+      "value": 181349
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637209",
+      "shares": 290307,
+      "value": 20022
+    },
+    {
+      "name": "ESTEE LAUDER COMPANIES-CL A",
+      "cusip": "518439104",
+      "shares": 8800,
+      "value": 2559
+    },
+    {
+      "name": "NIKE INC -CL B",
+      "cusip": "654106103",
+      "shares": 13900,
+      "value": 1847
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 9400,
+      "value": 1703
+    },
+    {
+      "name": "ALPHABET INC-CL A",
+      "cusip": "02079K305",
+      "shares": 800,
+      "value": 1650
+    },
+    {
+      "name": "T ROWE PRICE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 9600,
+      "value": 1647
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 11600,
+      "value": 1641
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 4400,
+      "value": 1553
+    },
+    {
+      "name": "COLGATE-PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 16900,
+      "value": 1332
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 18600,
+      "value": 1305
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 7900,
+      "value": 1298
+    },
+    {
+      "name": "VISA INC-CLASS A SHARES",
+      "cusip": "92826C839",
+      "shares": 5900,
+      "value": 1291
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 2500,
+      "value": 1188
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 6500,
+      "value": 1148
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 5600,
+      "value": 1144
+    },
+    {
+      "name": "COCA-COLA CO/THE",
+      "cusip": "191216100",
+      "shares": 21100,
+      "value": 1112
+    },
+    {
+      "name": "HERSHEY CO/THE",
+      "cusip": "427866108",
+      "shares": 5100,
+      "value": 807
+    },
+    {
+      "name": "MADISON SQUARE GARDEN SPORTS A CLASS",
+      "cusip": "55825T103",
+      "shares": 3300,
+      "value": 592
+    }
+  ],
+  "totalValue": 7096527,
+  "positionsCount": 27
 }

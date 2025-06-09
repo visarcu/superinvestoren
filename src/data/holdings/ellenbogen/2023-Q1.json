@@ -1,311 +1,317 @@
 {
+  "form": "13F-HR",
   "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0001798849-23-000002",
+  "quarterKey": "2023-Q1",
   "positions": [
     {
-      "name": "ABCAM PLC",
-      "cusip": "000380204",
-      "shares": 17460597,
-      "value": 271686889000
-    },
-    {
-      "name": "ACADIA HEALTHCARE COMPANY IN",
-      "cusip": "00404A109",
-      "shares": 1941595,
-      "value": 159832100000
-    },
-    {
-      "name": "AGILON HEALTH INC",
-      "cusip": "00857U107",
-      "shares": 8842728,
-      "value": 142721630000
-    },
-    {
-      "name": "ALIGNMENT HEALTHCARE INC",
-      "cusip": "01625V104",
-      "shares": 3767644,
-      "value": 44307493000
-    },
-    {
-      "name": "ATLASSIAN CORPORATION",
-      "cusip": "049468101",
-      "shares": 2705654,
-      "value": 348163557000
-    },
-    {
-      "name": "BENTLEY SYS INC",
-      "cusip": "08265T208",
-      "shares": 2227383,
-      "value": 82324076000
-    },
-    {
-      "name": "BOOKING HOLDINGS INC",
-      "cusip": "09857L108",
-      "shares": 73046,
-      "value": 147208143000
-    },
-    {
-      "name": "CARGURUS INC",
-      "cusip": "141788109",
-      "shares": 3253457,
-      "value": 45580933000
-    },
-    {
-      "name": "CHEMED CORP NEW",
-      "cusip": "16359R103",
-      "shares": 193448,
-      "value": 98741663000
-    },
-    {
-      "name": "CLEAR SECURE INC",
-      "cusip": "18467V109",
-      "shares": 11476588,
-      "value": 314802809000
-    },
-    {
-      "name": "CLEARWATER ANALYTICS HLDGS I",
-      "cusip": "185123106",
-      "shares": 9675988,
-      "value": 181424775000
-    },
-    {
-      "name": "CONFLUENT INC",
-      "cusip": "20717M103",
-      "shares": 681238,
-      "value": 15150733000
-    },
-    {
-      "name": "COUPANG INC",
-      "cusip": "22266T109",
-      "shares": 3602099,
-      "value": 52986876000
-    },
-    {
-      "name": "DATADOG INC",
-      "cusip": "23804L103",
-      "shares": 2791380,
-      "value": 205166430000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 3960768,
-      "value": 275867491000
-    },
-    {
-      "name": "DUOLINGO INC",
-      "cusip": "26603R106",
-      "shares": 4156738,
-      "value": 295668774000
-    },
-    {
-      "name": "ENOVIS CORPORATION",
-      "cusip": "194014502",
-      "shares": 2714032,
-      "value": 145254993000
-    },
-    {
-      "name": "EQUIFAX INC",
-      "cusip": "294429105",
-      "shares": 331615,
-      "value": 64452691000
-    },
-    {
-      "name": "EXPENSIFY INC",
-      "cusip": "30219Q106",
-      "shares": 1599905,
-      "value": 14127161000
-    },
-    {
-      "name": "FIRSTSERVICE CORP NEW",
-      "cusip": "33767E202",
-      "shares": 3993742,
-      "value": 489433082000
-    },
-    {
-      "name": "GOOSEHEAD INS INC",
-      "cusip": "38267D109",
-      "shares": 969925,
-      "value": 33307225000
-    },
-    {
-      "name": "HUBSPOT INC",
-      "cusip": "443573100",
-      "shares": 986355,
-      "value": 285184821000
-    },
-    {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 205094,
-      "value": 105047096000
-    },
-    {
-      "name": "HUNT J B TRANS SVCS INC",
-      "cusip": "445658107",
-      "shares": 2002843,
-      "value": 349215705000
-    },
-    {
-      "name": "IAC INC",
-      "cusip": "44891N208",
-      "shares": 874113,
-      "value": 38810617000
-    },
-    {
-      "name": "IDEXX LABS INC",
-      "cusip": "45168D104",
-      "shares": 208030,
-      "value": 84867919000
-    },
-    {
-      "name": "INGERSOLL RAND INC",
-      "cusip": "45687V106",
-      "shares": 1836144,
-      "value": 95938524000
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 1684142,
+      "value": 727700917
     },
     {
       "name": "INTUIT",
       "cusip": "461202103",
       "shares": 1751349,
-      "value": 681660058000
-    },
-    {
-      "name": "ISHARES TR",
-      "cusip": "464287655",
-      "shares": 276718,
-      "value": 48248550000
-    },
-    {
-      "name": "MOLINA HEALTHCARE INC",
-      "cusip": "60855R100",
-      "shares": 1240045,
-      "value": 409487660000
+      "value": 681660058
     },
     {
       "name": "MSCI INC",
       "cusip": "55354G100",
       "shares": 1371880,
-      "value": 638157420000
+      "value": 638157420
     },
     {
-      "name": "NATIONAL VISION HLDGS INC",
-      "cusip": "63845R107",
-      "shares": 3073624,
-      "value": 119133666000
+      "name": "FIRSTSERVICE CORP NEW",
+      "cusip": "33767E202",
+      "shares": 3993742,
+      "value": 489433082
     },
     {
-      "name": "ON HLDG AG",
-      "cusip": "H5919C104",
-      "shares": 6926768,
-      "value": 118863339000
-    },
-    {
-      "name": "QUAKER HOUGHTON",
-      "cusip": "747316107",
-      "shares": 1288333,
-      "value": 215022778000
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 1240045,
+      "value": 409487660
     },
     {
       "name": "RBC BEARINGS INC",
       "cusip": "75524B104",
       "shares": 1855997,
-      "value": 388552972000
+      "value": 388552972
     },
     {
-      "name": "REDFIN CORP",
-      "cusip": "75737F108",
-      "shares": 3449175,
-      "value": 14624502000
+      "name": "HUNT J B TRANS SVCS INC",
+      "cusip": "445658107",
+      "shares": 2002843,
+      "value": 349215705
     },
     {
-      "name": "RH",
-      "cusip": "74967X103",
-      "shares": 157108,
-      "value": 41977687000
+      "name": "ATLASSIAN CORPORATION",
+      "cusip": "049468101",
+      "shares": 2705654,
+      "value": 348163557
     },
     {
-      "name": "ROLLINS INC",
-      "cusip": "775711104",
-      "shares": 436238,
-      "value": 15940137000
+      "name": "CLEAR SECURE INC",
+      "cusip": "18467V109",
+      "shares": 11476588,
+      "value": 314802809
     },
     {
-      "name": "ROPER TECHNOLOGIES INC",
-      "cusip": "776696106",
-      "shares": 1684142,
-      "value": 727700917000
-    },
-    {
-      "name": "SHIFT4 PMTS INC",
-      "cusip": "82452J109",
-      "shares": 4576010,
-      "value": 255936239000
-    },
-    {
-      "name": "SURGERY PARTNERS INC",
-      "cusip": "86881A100",
-      "shares": 5853995,
-      "value": 163092301000
-    },
-    {
-      "name": "TELEDYNE TECHNOLOGIES INC",
-      "cusip": "879360105",
-      "shares": 496111,
-      "value": 198399750000
-    },
-    {
-      "name": "TOAST INC",
-      "cusip": "888787108",
-      "shares": 9900873,
-      "value": 178512740000
-    },
-    {
-      "name": "TORO CO",
-      "cusip": "891092108",
-      "shares": 1742218,
-      "value": 197219078000
-    },
-    {
-      "name": "UPWORK INC",
-      "cusip": "91688F104",
-      "shares": 196592,
-      "value": 2052420000
-    },
-    {
-      "name": "VAIL RESORTS INC",
-      "cusip": "91879Q109",
-      "shares": 167106,
-      "value": 39829715000
-    },
-    {
-      "name": "WARBY PARKER INC",
-      "cusip": "93403J106",
-      "shares": 11672306,
-      "value": 157459408000
+      "name": "DUOLINGO INC",
+      "cusip": "26603R106",
+      "shares": 4156738,
+      "value": 295668774
     },
     {
       "name": "WASTE CONNECTIONS INC",
       "cusip": "94106B101",
       "shares": 2205428,
-      "value": 292351536000
+      "value": 292351536
+    },
+    {
+      "name": "HUBSPOT INC",
+      "cusip": "443573100",
+      "shares": 986355,
+      "value": 285184821
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 3960768,
+      "value": 275867491
+    },
+    {
+      "name": "ABCAM PLC",
+      "cusip": "000380204",
+      "shares": 17460597,
+      "value": 271686889
     },
     {
       "name": "WEST PHARMACEUTICAL SVSC INC",
       "cusip": "955306105",
       "shares": 1113684,
-      "value": 262105529000
+      "value": 262105529
     },
     {
-      "name": "XOMETRY INC",
-      "cusip": "98423F109",
-      "shares": 607780,
-      "value": 19588749000
+      "name": "SHIFT4 PMTS INC",
+      "cusip": "82452J109",
+      "shares": 4576010,
+      "value": 255936239
+    },
+    {
+      "name": "QUAKER HOUGHTON",
+      "cusip": "747316107",
+      "shares": 1288333,
+      "value": 215022778
+    },
+    {
+      "name": "DATADOG INC",
+      "cusip": "23804L103",
+      "shares": 2791380,
+      "value": 205166430
+    },
+    {
+      "name": "TELEDYNE TECHNOLOGIES INC",
+      "cusip": "879360105",
+      "shares": 496111,
+      "value": 198399750
+    },
+    {
+      "name": "TORO CO",
+      "cusip": "891092108",
+      "shares": 1742218,
+      "value": 197219078
+    },
+    {
+      "name": "CLEARWATER ANALYTICS HLDGS I",
+      "cusip": "185123106",
+      "shares": 9675988,
+      "value": 181424775
+    },
+    {
+      "name": "TOAST INC",
+      "cusip": "888787108",
+      "shares": 9900873,
+      "value": 178512740
+    },
+    {
+      "name": "SURGERY PARTNERS INC",
+      "cusip": "86881A100",
+      "shares": 5853995,
+      "value": 163092301
+    },
+    {
+      "name": "ACADIA HEALTHCARE COMPANY IN",
+      "cusip": "00404A109",
+      "shares": 1941595,
+      "value": 159832100
+    },
+    {
+      "name": "WARBY PARKER INC",
+      "cusip": "93403J106",
+      "shares": 11672306,
+      "value": 157459408
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 73046,
+      "value": 147208143
+    },
+    {
+      "name": "ENOVIS CORPORATION",
+      "cusip": "194014502",
+      "shares": 2714032,
+      "value": 145254993
+    },
+    {
+      "name": "AGILON HEALTH INC",
+      "cusip": "00857U107",
+      "shares": 8842728,
+      "value": 142721630
+    },
+    {
+      "name": "NATIONAL VISION HLDGS INC",
+      "cusip": "63845R107",
+      "shares": 3073624,
+      "value": 119133666
+    },
+    {
+      "name": "ON HLDG AG",
+      "cusip": "H5919C104",
+      "shares": 6926768,
+      "value": 118863339
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 205094,
+      "value": 105047096
+    },
+    {
+      "name": "CHEMED CORP NEW",
+      "cusip": "16359R103",
+      "shares": 193448,
+      "value": 98741663
+    },
+    {
+      "name": "INGERSOLL RAND INC",
+      "cusip": "45687V106",
+      "shares": 1836144,
+      "value": 95938524
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 208030,
+      "value": 84867919
+    },
+    {
+      "name": "BENTLEY SYS INC",
+      "cusip": "08265T208",
+      "shares": 2227383,
+      "value": 82324076
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 331615,
+      "value": 64452691
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 3602099,
+      "value": 52986876
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 276718,
+      "value": 48248550
     },
     {
       "name": "XP INC",
       "cusip": "G98239109",
       "shares": 3007035,
-      "value": 46127917000
+      "value": 46127917
+    },
+    {
+      "name": "CARGURUS INC",
+      "cusip": "141788109",
+      "shares": 3253457,
+      "value": 45580933
+    },
+    {
+      "name": "ALIGNMENT HEALTHCARE INC",
+      "cusip": "01625V104",
+      "shares": 3767644,
+      "value": 44307493
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 157108,
+      "value": 41977687
+    },
+    {
+      "name": "VAIL RESORTS INC",
+      "cusip": "91879Q109",
+      "shares": 167106,
+      "value": 39829715
+    },
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 874113,
+      "value": 38810617
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 969925,
+      "value": 33307225
+    },
+    {
+      "name": "XOMETRY INC",
+      "cusip": "98423F109",
+      "shares": 607780,
+      "value": 19588749
+    },
+    {
+      "name": "ROLLINS INC",
+      "cusip": "775711104",
+      "shares": 436238,
+      "value": 15940137
+    },
+    {
+      "name": "CONFLUENT INC",
+      "cusip": "20717M103",
+      "shares": 681238,
+      "value": 15150733
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 3449175,
+      "value": 14624502
+    },
+    {
+      "name": "EXPENSIFY INC",
+      "cusip": "30219Q106",
+      "shares": 1599905,
+      "value": 14127161
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 196592,
+      "value": 2052420
     }
-  ]
+  ],
+  "totalValue": 9619319274,
+  "positionsCount": 51
 }

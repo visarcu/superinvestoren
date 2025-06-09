@@ -1,101 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0000919574-20-007019",
+  "quarterKey": "2020-Q4",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 63000,
-      "value": 92333000
-    },
-    {
-      "name": "ANGI HOMESERVICES INC",
-      "cusip": "00183L102",
-      "shares": 1216836,
-      "value": 13501000
-    },
-    {
-      "name": "BMC STK HLDGS INC",
-      "cusip": "05591B109",
-      "shares": 3464429,
-      "value": 148381000
-    },
-    {
-      "name": "BOOT BARN HLDGS INC",
-      "cusip": "099406100",
-      "shares": 729489,
-      "value": 20528000
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 28000000,
+      "value": 342160
     },
     {
       "name": "BUILDERS FIRSTSOURCE INC",
       "cusip": "12008R107",
       "shares": 7200000,
-      "value": 234864000
+      "value": 234864
     },
     {
-      "name": "CRESUD S A C I F Y A",
-      "cusip": "226406106",
-      "shares": 660492,
-      "value": 1856000
-    },
-    {
-      "name": "EQUITABLE HLDGS INC",
-      "cusip": "29452E101",
-      "shares": 7100000,
-      "value": 129504000
-    },
-    {
-      "name": "EVI INDS INC",
-      "cusip": "26929N102",
-      "shares": 269306,
-      "value": 7166000
-    },
-    {
-      "name": "FIAT CHRYSLER AUTOMOBILES N",
-      "cusip": "N31738102",
-      "shares": 28000000,
-      "value": 342160000
-    },
-    {
-      "name": "GTT COMMUNICATIONS INC",
-      "cusip": "362393100",
-      "shares": 5209971,
-      "value": 26883000
-    },
-    {
-      "name": "GTY TECHNOLOGY HOLDINGS INC",
-      "cusip": "362409104",
-      "shares": 4324130,
-      "value": 11459000
-    },
-    {
-      "name": "INTERNATIONAL MNY EXPRESS IN",
-      "cusip": "46005L101",
-      "shares": 2594241,
-      "value": 37266000
-    },
-    {
-      "name": "JD.COM INC",
-      "cusip": "47215P106",
-      "shares": 1444000,
-      "value": 112069000
-    },
-    {
-      "name": "SAILPOINT TECHNLGIES HLDGS I",
-      "cusip": "78781P105",
-      "shares": 780000,
-      "value": 30865000
-    },
-    {
-      "name": "SINCLAIR BROADCAST GROUP INC",
-      "cusip": "829226109",
-      "shares": 4154967,
-      "value": 79900000
+      "name": "BMC STK HLDGS INC",
+      "cusip": "05591B109",
+      "shares": 3464429,
+      "value": 148381
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 2136000,
-      "value": 139374000
+      "value": 139374
+    },
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 7100000,
+      "value": 129504
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 1444000,
+      "value": 112069
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 63000,
+      "value": 92333
+    },
+    {
+      "name": "SINCLAIR BROADCAST GROUP INC",
+      "cusip": "829226109",
+      "shares": 4154967,
+      "value": 79900
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 2594241,
+      "value": 37266
+    },
+    {
+      "name": "SAILPOINT TECHNLGIES HLDGS I",
+      "cusip": "78781P105",
+      "shares": 780000,
+      "value": 30865
+    },
+    {
+      "name": "GTT COMMUNICATIONS INC",
+      "cusip": "362393100",
+      "shares": 5209971,
+      "value": 26883
+    },
+    {
+      "name": "BOOT BARN HLDGS INC",
+      "cusip": "099406100",
+      "shares": 729489,
+      "value": 20528
+    },
+    {
+      "name": "ANGI HOMESERVICES INC",
+      "cusip": "00183L102",
+      "shares": 1216836,
+      "value": 13501
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "362409104",
+      "shares": 4324130,
+      "value": 11459
+    },
+    {
+      "name": "EVI INDS INC",
+      "cusip": "26929N102",
+      "shares": 269306,
+      "value": 7166
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "226406106",
+      "shares": 660492,
+      "value": 1856
     }
-  ]
+  ],
+  "totalValue": 1428109,
+  "positionsCount": 16
 }

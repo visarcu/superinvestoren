@@ -1,179 +1,185 @@
 {
+  "form": "13F-HR",
   "date": "2021-05-13",
+  "period": "2021-05-13",
+  "accession": "0001112520-21-000012",
+  "quarterKey": "2021-Q2",
   "positions": [
     {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 1529870,
-      "value": 727254000
-    },
-    {
-      "name": "ALARM COM HLDGS INC",
-      "cusip": "011642105",
-      "shares": 1981858,
-      "value": 171193000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 40,
-      "value": 83000
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 5872150,
+      "value": 2090779
     },
     {
       "name": "AMERICAN TOWER CORP NEW",
       "cusip": "03027X100",
       "shares": 7124087,
-      "value": 1703084000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 609764,
-      "value": 207051000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 18399,
-      "value": 4700000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 3,
-      "value": 1157000
-    },
-    {
-      "name": "BROOKFIELD ASSET MGMT INC",
-      "cusip": "112585104",
-      "shares": 13040095,
-      "value": 580284000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 7113557,
-      "value": 943684000
-    },
-    {
-      "name": "COLONY CAP INC NEW",
-      "cusip": "19626G108",
-      "shares": 10714800,
-      "value": 69432000
-    },
-    {
-      "name": "COSTAR GROUP INC",
-      "cusip": "22160N109",
-      "shares": 977045,
-      "value": 803024000
-    },
-    {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 1655300,
-      "value": 372575000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 3590456,
-      "value": 410964000
-    },
-    {
-      "name": "GOOSEHEAD INS INC",
-      "cusip": "38267D109",
-      "shares": 243366,
-      "value": 26084000
-    },
-    {
-      "name": "KKR & CO L P DEL",
-      "cusip": "48251W104",
-      "shares": 14733824,
-      "value": 719747000
-    },
-    {
-      "name": "LAMAR ADVERTISING CO",
-      "cusip": "512816109",
-      "shares": 48530,
-      "value": 4558000
-    },
-    {
-      "name": "LIVE NATION ENTERTAINMENT IN",
-      "cusip": "538034109",
-      "shares": 5469400,
-      "value": 462985000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 13933,
-      "value": 15878000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 5872150,
-      "value": 2090779000
+      "value": 1703084
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 5627255,
-      "value": 1680355000
-    },
-    {
-      "name": "O REILLY AUTOMOTIVE INC NEW",
-      "cusip": "67103H107",
-      "shares": 1582959,
-      "value": 802956000
-    },
-    {
-      "name": "OLLIES BARGAIN OUTLT HLDGS I",
-      "cusip": "681116109",
-      "shares": 500000,
-      "value": 43500000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 5000,
-      "value": 1214000
-    },
-    {
-      "name": "ROPER INDS INC NEW",
-      "cusip": "776696106",
-      "shares": 1736443,
-      "value": 700377000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP",
-      "cusip": "78410G104",
-      "shares": 2285126,
-      "value": 634237000
-    },
-    {
-      "name": "THE TRADE DESK INC",
-      "cusip": "88339J105",
-      "shares": 445,
-      "value": 290000
-    },
-    {
-      "name": "THREDUP INC",
-      "cusip": "88556E102",
-      "shares": 200000,
-      "value": 4666000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 2448376,
-      "value": 432604000
+      "value": 1680355
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 5254738,
-      "value": 1112586000
+      "value": 1112586
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 7113557,
+      "value": 943684
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 977045,
+      "value": 803024
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 1582959,
+      "value": 802956
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 1529870,
+      "value": 727254
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48251W104",
+      "shares": 14733824,
+      "value": 719747
+    },
+    {
+      "name": "ROPER INDS INC NEW",
+      "cusip": "776696106",
+      "shares": 1736443,
+      "value": 700377
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78410G104",
+      "shares": 2285126,
+      "value": 634237
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 13040095,
+      "value": 580284
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 5469400,
+      "value": 462985
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2448376,
+      "value": 432604
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 3590456,
+      "value": 410964
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 1655300,
+      "value": 372575
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 609764,
+      "value": 207051
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 1981858,
+      "value": 171193
+    },
+    {
+      "name": "COLONY CAP INC NEW",
+      "cusip": "19626G108",
+      "shares": 10714800,
+      "value": 69432
+    },
+    {
+      "name": "OLLIES BARGAIN OUTLT HLDGS I",
+      "cusip": "681116109",
+      "shares": 500000,
+      "value": 43500
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 243366,
+      "value": 26084
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 13933,
+      "value": 15878
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 18399,
+      "value": 4700
+    },
+    {
+      "name": "THREDUP INC",
+      "cusip": "88556E102",
+      "shares": 200000,
+      "value": 4666
+    },
+    {
+      "name": "LAMAR ADVERTISING CO",
+      "cusip": "512816109",
+      "shares": 48530,
+      "value": 4558
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 5000,
+      "value": 1214
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 3,
+      "value": 1157
+    },
+    {
+      "name": "THE TRADE DESK INC",
+      "cusip": "88339J105",
+      "shares": 445,
+      "value": 290
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 40,
+      "value": 83
     }
-  ]
+  ],
+  "totalValue": 14727301,
+  "positionsCount": 29
 }

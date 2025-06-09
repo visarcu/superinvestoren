@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001085146-22-004013",
+  "quarterKey": "2022-Q4",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 2916500,
-      "value": 233291000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 5020200,
-      "value": 482692000
-    },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 49758100,
-      "value": 6876570000
+      "value": 6876570
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 6489261,
-      "value": 1732762000
+      "value": 1732762
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 5020200,
+      "value": 482692
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2916500,
+      "value": 233291
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 926800,
-      "value": 87425000
-    },
-    {
-      "name": "JOYY INC",
-      "cusip": "46591M109",
-      "shares": 302500,
-      "value": 7865000
+      "value": 87425
     },
     {
       "name": "MODERNA INC",
       "cusip": "60770K107",
       "shares": 160000,
-      "value": 18920000
+      "value": 18920
     },
     {
       "name": "ZOOM VIDEO COMMUNICATIONS IN",
       "cusip": "98980L101",
       "shares": 209800,
-      "value": 15439000
+      "value": 15439
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 302500,
+      "value": 7865
     }
-  ]
+  ],
+  "totalValue": 9454964,
+  "positionsCount": 8
 }

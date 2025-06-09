@@ -11,6 +11,7 @@ import { stocks } from '../../../data/stocks'
 import { investors } from '../../../data/investors'
 import holdingsHistory from '../../../data/holdings'
 import { EnvelopeIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline'
+import Logo from '@/components/Logo'  // ✅ NEU
 
 // Featured tickers
 const FEATURED_TICKERS = ['nvda', 'aapl', 'amzn', 'googl']
@@ -155,9 +156,12 @@ export default async function StockPage({ params }: { params: { ticker: string }
       <div className="bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-2xl p-6 flex flex-col lg:flex-row items-center lg:items-start gap-6 shadow-lg">
         {/* Logo + Titel */}
         <div className="flex items-center space-x-6 flex-1">
-          <div className="w-20 h-20 relative rounded-full overflow-hidden bg-white shadow-lg">
-            <Image src={logoSrc} alt={`${stock.name} Logo`} fill className="object-contain p-3" priority />
-          </div>
+        <Logo
+  ticker={ticker}
+  alt={`${stock.name} Logo`}
+  className="w-20 h-20"
+  padding="medium"
+/>
           <div className="flex-1">
             <h1 className="text-3xl font-orbitron text-white leading-tight">
               {stock.name}{' '}

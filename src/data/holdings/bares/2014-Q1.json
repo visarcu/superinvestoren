@@ -1,4 +1,395 @@
 {
+  "form": "13F-HR",
   "date": "2014-02-14",
-  "positions": []
+  "period": "2014-02-14",
+  "accession": "0001340807-14-000003",
+  "quarterKey": "2014-Q1",
+  "positions": [
+    {
+      "name": "Post Holdings Inc",
+      "cusip": "737446104",
+      "shares": 2227375,
+      "value": 109750
+    },
+    {
+      "name": "Actuant Corporation",
+      "cusip": "00508X203",
+      "shares": 2989528,
+      "value": 109536
+    },
+    {
+      "name": "Colfax Corporation",
+      "cusip": "194014106",
+      "shares": 1542653,
+      "value": 98252
+    },
+    {
+      "name": "XPO Logistics Inc",
+      "cusip": "983793100",
+      "shares": 3545978,
+      "value": 93224
+    },
+    {
+      "name": "Corporate Executive Board",
+      "cusip": "21988R102",
+      "shares": 1183659,
+      "value": 91651
+    },
+    {
+      "name": "The Middleby Corporation",
+      "cusip": "596278101",
+      "shares": 338162,
+      "value": 81075
+    },
+    {
+      "name": "Winmark Corp",
+      "cusip": "974250102",
+      "shares": 833650,
+      "value": 77213
+    },
+    {
+      "name": "RealD Inc",
+      "cusip": "75604L105",
+      "shares": 8016910,
+      "value": 68464
+    },
+    {
+      "name": "Masimo Corporation",
+      "cusip": "574795100",
+      "shares": 2153144,
+      "value": 62936
+    },
+    {
+      "name": "INTL FCStone Inc",
+      "cusip": "46116V105",
+      "shares": 2629300,
+      "value": 48621
+    },
+    {
+      "name": "Heico CP CL A",
+      "cusip": "422806208",
+      "shares": 1073083,
+      "value": 45198
+    },
+    {
+      "name": "Americas Car Mart Inc",
+      "cusip": "03062T105",
+      "shares": 949986,
+      "value": 40118
+    },
+    {
+      "name": "Female Health Co",
+      "cusip": "314462102",
+      "shares": 4145996,
+      "value": 35243
+    },
+    {
+      "name": "Interactive Intelligence",
+      "cusip": "45841V109",
+      "shares": 393325,
+      "value": 26494
+    },
+    {
+      "name": "US Ecology Inc",
+      "cusip": "91732J102",
+      "shares": 619212,
+      "value": 22974
+    },
+    {
+      "name": "Utah Medical Products",
+      "cusip": "917488108",
+      "shares": 398937,
+      "value": 22803
+    },
+    {
+      "name": "Travelzoo Inc",
+      "cusip": "89421Q106",
+      "shares": 1067663,
+      "value": 22763
+    },
+    {
+      "name": "Tandy Leather Factory Inc",
+      "cusip": "87538X105",
+      "shares": 1631829,
+      "value": 15927
+    },
+    {
+      "name": "Reis Inc",
+      "cusip": "75936P105",
+      "shares": 761200,
+      "value": 14638
+    },
+    {
+      "name": "Cherokee Inc",
+      "cusip": "16444H102",
+      "shares": 1051542,
+      "value": 14511
+    },
+    {
+      "name": "Omega Flex Inc",
+      "cusip": "682095104",
+      "shares": 547009,
+      "value": 11192
+    },
+    {
+      "name": "Hallmark Financial Services",
+      "cusip": "40624Q203",
+      "shares": 855324,
+      "value": 7600
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 30000,
+      "value": 2120
+    },
+    {
+      "name": "Berkshire Hathaway Inc B",
+      "cusip": "84670702",
+      "shares": 16871,
+      "value": 2000
+    },
+    {
+      "name": "Vanguard Emerging Markets",
+      "cusip": "922042858",
+      "shares": 46891,
+      "value": 1929
+    },
+    {
+      "name": "Brookfield Asset Management",
+      "cusip": "112585104",
+      "shares": 48046,
+      "value": 1866
+    },
+    {
+      "name": "Berkshire Hathaway Inc A",
+      "cusip": "84670108",
+      "shares": 9,
+      "value": 1601
+    },
+    {
+      "name": "Morningstar Inc",
+      "cusip": "617700109",
+      "shares": 19315,
+      "value": 1508
+    },
+    {
+      "name": "Greenlight Capital Re Lt",
+      "cusip": "G4095J109",
+      "shares": 38699,
+      "value": 1305
+    },
+    {
+      "name": "Ultra Petroleum Corp",
+      "cusip": "903914109",
+      "shares": 59959,
+      "value": 1298
+    },
+    {
+      "name": "Expeditors International",
+      "cusip": "302130109",
+      "shares": 28201,
+      "value": 1248
+    },
+    {
+      "name": "Phillips 66 Common Stock",
+      "cusip": "718546104",
+      "shares": 15000,
+      "value": 1157
+    },
+    {
+      "name": "Occidental Petroleum",
+      "cusip": "674599105",
+      "shares": 12000,
+      "value": 1141
+    },
+    {
+      "name": "Brookfield Property Partn",
+      "cusip": "G16249107",
+      "shares": 55715,
+      "value": 1111
+    },
+    {
+      "name": "Capital Southwest Corpora",
+      "cusip": "140501107",
+      "shares": 31556,
+      "value": 1100
+    },
+    {
+      "name": "Pizza Inn Holdings",
+      "cusip": "725846109",
+      "shares": 126530,
+      "value": 1020
+    },
+    {
+      "name": "Weyehaeuser Company",
+      "cusip": "962166104",
+      "shares": 29808,
+      "value": 941
+    },
+    {
+      "name": "SPDR Lehman Intl Treasury",
+      "cusip": "78464A516",
+      "shares": 16156,
+      "value": 933
+    },
+    {
+      "name": "Vanguard ST Corp Bond ETF",
+      "cusip": "92206C409",
+      "shares": 11622,
+      "value": 927
+    },
+    {
+      "name": "Leucadia National Corp",
+      "cusip": "527288104",
+      "shares": 32412,
+      "value": 919
+    },
+    {
+      "name": "White Mountains Insurance",
+      "cusip": "G9618E107",
+      "shares": 1465,
+      "value": 884
+    },
+    {
+      "name": "Alleghany Corp",
+      "cusip": "17175100",
+      "shares": 2162,
+      "value": 865
+    },
+    {
+      "name": "American Express Company",
+      "cusip": "25816109",
+      "shares": 9107,
+      "value": 826
+    },
+    {
+      "name": "Automatic Data Processing",
+      "cusip": "53015103",
+      "shares": 9744,
+      "value": 787
+    },
+    {
+      "name": "Vanguard European VIPER",
+      "cusip": "922042874",
+      "shares": 13359,
+      "value": 786
+    },
+    {
+      "name": "Kinder Morgan Energy LP",
+      "cusip": "494550106",
+      "shares": 9600,
+      "value": 774
+    },
+    {
+      "name": "XCEL Energy Inc",
+      "cusip": "98389B100",
+      "shares": 26000,
+      "value": 726
+    },
+    {
+      "name": "Vanguard Value ETF",
+      "cusip": "922908744",
+      "shares": 9484,
+      "value": 724
+    },
+    {
+      "name": "SPDR S&P Middle East Africa",
+      "cusip": "78463X806",
+      "shares": 9722,
+      "value": 666
+    },
+    {
+      "name": "Hospitality Properties",
+      "cusip": "44106M102",
+      "shares": 23915,
+      "value": 646
+    },
+    {
+      "name": "Emerson Electric Co",
+      "cusip": "291011104",
+      "shares": 7711,
+      "value": 541
+    },
+    {
+      "name": "Kinder Morgan Management",
+      "cusip": "49455U100",
+      "shares": 6870,
+      "value": 520
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 16579,
+      "value": 508
+    },
+    {
+      "name": "Choice Hotels Internation",
+      "cusip": "169905106",
+      "shares": 10000,
+      "value": 491
+    },
+    {
+      "name": "Ascent Capital Group",
+      "cusip": "43632108",
+      "shares": 5186,
+      "value": 444
+    },
+    {
+      "name": "National Retail Properties",
+      "cusip": "637417106",
+      "shares": 14000,
+      "value": 425
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 10449,
+      "value": 391
+    },
+    {
+      "name": "Vanguard MBS ETF",
+      "cusip": "92206C771",
+      "shares": 7194,
+      "value": 367
+    },
+    {
+      "name": "Conagra Food Inc",
+      "cusip": "205887102",
+      "shares": 10000,
+      "value": 337
+    },
+    {
+      "name": "VCA Antech Inc",
+      "cusip": "918194101",
+      "shares": 10728,
+      "value": 336
+    },
+    {
+      "name": "UGI Corp",
+      "cusip": "902681105",
+      "shares": 6205,
+      "value": 257
+    },
+    {
+      "name": "Weingarten Realty",
+      "cusip": "948741103",
+      "shares": 7900,
+      "value": 217
+    },
+    {
+      "name": "Bristol Myers Squibb Comp",
+      "cusip": "110122108",
+      "shares": 3834,
+      "value": 204
+    },
+    {
+      "name": "Pennsylvania Real Estate",
+      "cusip": "709102107",
+      "shares": 10155,
+      "value": 193
+    }
+  ],
+  "totalValue": 1157222,
+  "positionsCount": 64
 }

@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0001398344-20-010237",
+  "quarterKey": "2020-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 46803,
-      "value": 54423000
-    },
-    {
-      "name": "ALTERYX INC",
-      "cusip": "02156B103",
-      "shares": 340895,
-      "value": 32443000
-    },
-    {
-      "name": "AVALARA INC",
-      "cusip": "05338G106",
-      "shares": 691309,
-      "value": 51572000
-    },
-    {
-      "name": "DESPEGAR COM CORP",
-      "cusip": "G27358103",
-      "shares": 5890786,
-      "value": 33401000
-    },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 605377,
-      "value": 100977000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 253557,
-      "value": 24276000
-    },
-    {
-      "name": "ROKU INC",
-      "cusip": "77543R102",
-      "shares": 492874,
-      "value": 43117000
+      "value": 100977
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 555291,
-      "value": 55984000
+      "value": 55984
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 46803,
+      "value": 54423
+    },
+    {
+      "name": "AVALARA INC",
+      "cusip": "05338G106",
+      "shares": 691309,
+      "value": 51572
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 492874,
+      "value": 43117
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 5890786,
+      "value": 33401
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 340895,
+      "value": 32443
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 253557,
+      "value": 24276
     }
-  ]
+  ],
+  "totalValue": 396193,
+  "positionsCount": 8
 }

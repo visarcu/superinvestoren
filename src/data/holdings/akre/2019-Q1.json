@@ -1,155 +1,161 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0001112520-19-000005",
+  "quarterKey": "2019-Q1",
   "positions": [
-    {
-      "name": "ALARM COM HLDGS INC",
-      "cusip": "011642105",
-      "shares": 600770,
-      "value": 31162000
-    },
     {
       "name": "AMERICAN TOWER CORP NEW",
       "cusip": "03027X100",
       "shares": 7067428,
-      "value": 1117996000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 286046,
-      "value": 58405000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 42,
-      "value": 12852000
-    },
-    {
-      "name": "BOSTON OMAHA CORP",
-      "cusip": "101044105",
-      "shares": 242396,
-      "value": 5672000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 5777181,
-      "value": 362403000
-    },
-    {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 1655300,
-      "value": 170695000
-    },
-    {
-      "name": "DIAMOND HILL INVESTMENT GROU",
-      "cusip": "25264R207",
-      "shares": 65848,
-      "value": 9841000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 5085935,
-      "value": 459362000
-    },
-    {
-      "name": "ENSTAR GROUP LIMITED",
-      "cusip": "G3075P101",
-      "shares": 894216,
-      "value": 149844000
-    },
-    {
-      "name": "FOCUS FINL PARTNERS INC",
-      "cusip": "34417P100",
-      "shares": 2970000,
-      "value": 78200000
-    },
-    {
-      "name": "GOOSEHEAD INS INC",
-      "cusip": "38267D109",
-      "shares": 11831,
-      "value": 311000
-    },
-    {
-      "name": "KKR & CO L P DEL",
-      "cusip": "48251W104",
-      "shares": 12652100,
-      "value": 248361000
-    },
-    {
-      "name": "LAMAR ADVERTISING CO",
-      "cusip": "512816109",
-      "shares": 48530,
-      "value": 3357000
-    },
-    {
-      "name": "MARKEL CORP",
-      "cusip": "570535104",
-      "shares": 513070,
-      "value": 532592000
+      "value": 1117996
     },
     {
       "name": "MASTERCARD INC",
       "cusip": "57636Q104",
       "shares": 5327015,
-      "value": 1004941000
+      "value": 1004941
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 5681771,
-      "value": 795675000
+      "value": 795675
     },
     {
       "name": "O REILLY AUTOMOTIVE INC NEW",
       "cusip": "67103H107",
       "shares": 1887165,
-      "value": 649808000
-    },
-    {
-      "name": "PRIMO WTR CORP",
-      "cusip": "74165N105",
-      "shares": 2845220,
-      "value": 39862000
-    },
-    {
-      "name": "ROPER INDS INC NEW",
-      "cusip": "776696106",
-      "shares": 1567164,
-      "value": 417681000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP",
-      "cusip": "78388J106",
-      "shares": 2465000,
-      "value": 399059000
-    },
-    {
-      "name": "TD AMERITRADE HLDG CORP",
-      "cusip": "87236Y108",
-      "shares": 3350000,
-      "value": 164016000
-    },
-    {
-      "name": "UBIQUITI NETWORKS INC",
-      "cusip": "90347A100",
-      "shares": 2680000,
-      "value": 266419000
-    },
-    {
-      "name": "VERISK ANALYTICS INC",
-      "cusip": "92345Y106",
-      "shares": 2543442,
-      "value": 277337000
+      "value": 649808
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 4887270,
-      "value": 644826000
+      "value": 644826
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 513070,
+      "value": 532592
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 5085935,
+      "value": 459362
+    },
+    {
+      "name": "ROPER INDS INC NEW",
+      "cusip": "776696106",
+      "shares": 1567164,
+      "value": 417681
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 2465000,
+      "value": 399059
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 5777181,
+      "value": 362403
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2543442,
+      "value": 277337
+    },
+    {
+      "name": "UBIQUITI NETWORKS INC",
+      "cusip": "90347A100",
+      "shares": 2680000,
+      "value": 266419
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48251W104",
+      "shares": 12652100,
+      "value": 248361
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 1655300,
+      "value": 170695
+    },
+    {
+      "name": "TD AMERITRADE HLDG CORP",
+      "cusip": "87236Y108",
+      "shares": 3350000,
+      "value": 164016
+    },
+    {
+      "name": "ENSTAR GROUP LIMITED",
+      "cusip": "G3075P101",
+      "shares": 894216,
+      "value": 149844
+    },
+    {
+      "name": "FOCUS FINL PARTNERS INC",
+      "cusip": "34417P100",
+      "shares": 2970000,
+      "value": 78200
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 286046,
+      "value": 58405
+    },
+    {
+      "name": "PRIMO WTR CORP",
+      "cusip": "74165N105",
+      "shares": 2845220,
+      "value": 39862
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 600770,
+      "value": 31162
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 42,
+      "value": 12852
+    },
+    {
+      "name": "DIAMOND HILL INVESTMENT GROU",
+      "cusip": "25264R207",
+      "shares": 65848,
+      "value": 9841
+    },
+    {
+      "name": "BOSTON OMAHA CORP",
+      "cusip": "101044105",
+      "shares": 242396,
+      "value": 5672
+    },
+    {
+      "name": "LAMAR ADVERTISING CO",
+      "cusip": "512816109",
+      "shares": 48530,
+      "value": 3357
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 11831,
+      "value": 311
     }
-  ]
+  ],
+  "totalValue": 7900677,
+  "positionsCount": 25
 }

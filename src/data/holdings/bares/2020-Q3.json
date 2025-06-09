@@ -1,155 +1,161 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-14",
+  "period": "2020-08-14",
+  "accession": "0001340807-20-000009",
+  "quarterKey": "2020-Q3",
   "positions": [
-    {
-      "name": "Alarm.com Holdings, Inc.",
-      "cusip": "011642105",
-      "shares": 460431,
-      "value": 29841000
-    },
-    {
-      "name": "Align Technology Inc.",
-      "cusip": "016255101",
-      "shares": 1401657,
-      "value": 384671000
-    },
-    {
-      "name": "Alteryx Inc",
-      "cusip": "02156B103",
-      "shares": 1627230,
-      "value": 267321000
-    },
-    {
-      "name": "Astronics Corporation",
-      "cusip": "046433108",
-      "shares": 184940,
-      "value": 1953000
-    },
-    {
-      "name": "Box, Inc",
-      "cusip": "10316T104",
-      "shares": 1433211,
-      "value": 29753000
-    },
-    {
-      "name": "Cimpress NV",
-      "cusip": "G2143T103",
-      "shares": 51606,
-      "value": 3940000
-    },
-    {
-      "name": "CoStar Group",
-      "cusip": "22160N109",
-      "shares": 371810,
-      "value": 264234000
-    },
-    {
-      "name": "Despegar.com Corp",
-      "cusip": "G27358103",
-      "shares": 583316,
-      "value": 4188000
-    },
-    {
-      "name": "Element Solutions Inc.",
-      "cusip": "28618M106",
-      "shares": 1762994,
-      "value": 19128000
-    },
-    {
-      "name": "Farfetch Ltd",
-      "cusip": "30744W107",
-      "shares": 1143104,
-      "value": 19741000
-    },
-    {
-      "name": "Gartner Inc.",
-      "cusip": "366651107",
-      "shares": 2418294,
-      "value": 293412000
-    },
-    {
-      "name": "Guidewire Software, Inc.",
-      "cusip": "40171V100",
-      "shares": 451544,
-      "value": 50054000
-    },
-    {
-      "name": "Interactive Brokers Group Inc",
-      "cusip": "45841N107",
-      "shares": 5711303,
-      "value": 238561000
-    },
-    {
-      "name": "Middleby Corp",
-      "cusip": "596278101",
-      "shares": 416726,
-      "value": 32896000
-    },
-    {
-      "name": "Mimecast Limited",
-      "cusip": "G14838109",
-      "shares": 150688,
-      "value": 6278000
-    },
-    {
-      "name": "National Instruments Corp.",
-      "cusip": "636518102",
-      "shares": 715092,
-      "value": 27681000
-    },
-    {
-      "name": "Pagerduty Inc",
-      "cusip": "69553P100",
-      "shares": 313516,
-      "value": 8973000
-    },
-    {
-      "name": "Papa John's International Inc.",
-      "cusip": "698813102",
-      "shares": 121438,
-      "value": 9643000
-    },
-    {
-      "name": "Pegasystems Inc",
-      "cusip": "705573103",
-      "shares": 4716487,
-      "value": 477167000
-    },
     {
       "name": "Square Inc",
       "cusip": "852234103",
       "shares": 6246363,
-      "value": 655493000
-    },
-    {
-      "name": "Twilio Inc.",
-      "cusip": "90138F102",
-      "shares": 269438,
-      "value": 59120000
-    },
-    {
-      "name": "Tyler Technologies, Inc.",
-      "cusip": "902252105",
-      "shares": 85840,
-      "value": 29776000
+      "value": 655493
     },
     {
       "name": "Wayfair Inc",
       "cusip": "94419L101",
       "shares": 2990042,
-      "value": 590862000
+      "value": 590862
     },
     {
-      "name": "Workday, Inc.",
+      "name": "Workday, Inc",
       "cusip": "98138H101",
       "shares": 2849238,
-      "value": 533833000
+      "value": 533833
+    },
+    {
+      "name": "Pegasystems Inc",
+      "cusip": "705573103",
+      "shares": 4716487,
+      "value": 477167
+    },
+    {
+      "name": "Align Technology Inc",
+      "cusip": "016255101",
+      "shares": 1401657,
+      "value": 384671
+    },
+    {
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 2418294,
+      "value": 293412
+    },
+    {
+      "name": "Alteryx Inc",
+      "cusip": "02156B103",
+      "shares": 1627230,
+      "value": 267321
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 371810,
+      "value": 264234
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 5711303,
+      "value": 238561
+    },
+    {
+      "name": "Twilio Inc",
+      "cusip": "90138F102",
+      "shares": 269438,
+      "value": 59120
+    },
+    {
+      "name": "Guidewire Software, Inc",
+      "cusip": "40171V100",
+      "shares": 451544,
+      "value": 50054
+    },
+    {
+      "name": "Middleby Corp",
+      "cusip": "596278101",
+      "shares": 416726,
+      "value": 32896
+    },
+    {
+      "name": "Alarm.com Holdings, Inc",
+      "cusip": "011642105",
+      "shares": 460431,
+      "value": 29841
+    },
+    {
+      "name": "Tyler Technologies, Inc",
+      "cusip": "902252105",
+      "shares": 85840,
+      "value": 29776
+    },
+    {
+      "name": "Box, Inc",
+      "cusip": "10316T104",
+      "shares": 1433211,
+      "value": 29753
+    },
+    {
+      "name": "National Instruments Corp",
+      "cusip": "636518102",
+      "shares": 715092,
+      "value": 27681
+    },
+    {
+      "name": "Farfetch Ltd",
+      "cusip": "30744W107",
+      "shares": 1143104,
+      "value": 19741
+    },
+    {
+      "name": "Element Solutions Inc",
+      "cusip": "28618M106",
+      "shares": 1762994,
+      "value": 19128
     },
     {
       "name": "Zuora Inc",
       "cusip": "98983V106",
       "shares": 1044134,
-      "value": 13313000
+      "value": 13313
+    },
+    {
+      "name": "Papa John's International Inc",
+      "cusip": "698813102",
+      "shares": 121438,
+      "value": 9643
+    },
+    {
+      "name": "Pagerduty Inc",
+      "cusip": "69553P100",
+      "shares": 313516,
+      "value": 8973
+    },
+    {
+      "name": "Mimecast Limited",
+      "cusip": "G14838109",
+      "shares": 150688,
+      "value": 6278
+    },
+    {
+      "name": "Despegar.com Corp",
+      "cusip": "G27358103",
+      "shares": 583316,
+      "value": 4188
+    },
+    {
+      "name": "Cimpress NV",
+      "cusip": "G2143T103",
+      "shares": 51606,
+      "value": 3940
+    },
+    {
+      "name": "Astronics Corporation",
+      "cusip": "046433108",
+      "shares": 184940,
+      "value": 1953
     }
-  ]
+  ],
+  "totalValue": 4051832,
+  "positionsCount": 25
 }

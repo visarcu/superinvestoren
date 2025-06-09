@@ -2,48 +2,52 @@
   "form": "13F-HR",
   "date": "2015-11-12",
   "period": "2015-11-12",
+  "accession": "0001454502-15-000010",
+  "quarterKey": "2015-Q4",
   "positions": [
     {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U120",
-      "shares": 1800000,
-      "value": 73836000000
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 3000000,
+      "value": 85680000
     },
     {
       "name": "CHARTER COMMUNICATION INC D",
       "cusip": "16117M305",
       "shares": 450000,
-      "value": 79133000000
+      "value": 79133000
     },
     {
-      "name": "DAVITA HEALTHCARE PARTNERS INC",
-      "cusip": "23918K108",
-      "shares": 750000,
-      "value": 54248000000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 625000,
-      "value": 61375000000
-    },
-    {
-      "name": "PROGRESSIVE CORP OHIO",
-      "cusip": "743315103",
-      "shares": 1610000,
-      "value": 49330000000
-    },
-    {
-      "name": "SCHWAB CHARLES CORP NEW",
-      "cusip": "808513105",
-      "shares": 3000000,
-      "value": 85680000000
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1800000,
+      "value": 73836000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 325000,
-      "value": 69033000000
+      "value": 69033000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 625000,
+      "value": 61375000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS INC",
+      "cusip": "23918K108",
+      "shares": 750000,
+      "value": 54248000
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1610000,
+      "value": 49330000
     }
-  ]
+  ],
+  "totalValue": 472635000,
+  "positionsCount": 7
 }

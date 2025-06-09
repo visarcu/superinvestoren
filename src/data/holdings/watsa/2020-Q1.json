@@ -1,257 +1,263 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001104659-20-020622",
+  "quarterKey": "2020-Q1",
   "positions": [
     {
-      "name": "AMPCO-PITTSBURGH CORP",
-      "cusip": "032037103",
-      "shares": 254119,
-      "value": 765000
-    },
-    {
-      "name": "ARGAN INC",
-      "cusip": "04010E109",
-      "shares": 86000,
-      "value": 3452000
-    },
-    {
-      "name": "BANK N S HALIFAX",
-      "cusip": "064149107",
-      "shares": 247100,
-      "value": 13955000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670108",
-      "shares": 1,
-      "value": 340000
-    },
-    {
-      "name": "BLACKBERRY LTD",
-      "cusip": "09228F103",
-      "shares": 46724700,
-      "value": 300006000
+      "name": "SEASPAN CORP",
+      "cusip": "Y75638109",
+      "shares": 77155000,
+      "value": 1095601
     },
     {
       "name": "BLACKBERRY LTD",
       "cusip": "C10268AC1",
       "shares": 500000000,
-      "value": 506362000
+      "value": 506362
     },
     {
-      "name": "CENTURYLINK INC",
-      "cusip": "156700106",
-      "shares": 2359100,
-      "value": 31164000
-    },
-    {
-      "name": "COLLIERS INTL GROUP INC",
-      "cusip": "194693107",
-      "shares": 25000,
-      "value": 1944000
-    },
-    {
-      "name": "CULP INC",
-      "cusip": "230215105",
-      "shares": 54000,
-      "value": 736000
-    },
-    {
-      "name": "CVS HEALTH CORP",
-      "cusip": "126650100",
-      "shares": 26500,
-      "value": 1968000
-    },
-    {
-      "name": "DELEK US HLDGS INC",
-      "cusip": "24665A103",
-      "shares": 50000,
-      "value": 1676000
-    },
-    {
-      "name": "DIAMOND S SHIPPING INC",
-      "cusip": "Y20676105",
-      "shares": 1034681,
-      "value": 17269000
-    },
-    {
-      "name": "DINE BRANDS GLOBAL INC",
-      "cusip": "254423106",
-      "shares": 20000,
-      "value": 1670000
-    },
-    {
-      "name": "FITBIT INC",
-      "cusip": "33812L102",
-      "shares": 2150000,
-      "value": 14126000
-    },
-    {
-      "name": "FREIGHTCAR AMER INC",
-      "cusip": "357023100",
-      "shares": 450000,
-      "value": 923000
-    },
-    {
-      "name": "GARRETT MOTION INC",
-      "cusip": "366505105",
-      "shares": 110000,
-      "value": 1097000
-    },
-    {
-      "name": "GENERAL ELECTRIC CO",
-      "cusip": "369604103",
-      "shares": 1390900,
-      "value": 15522000
-    },
-    {
-      "name": "GENERAL MTRS CO",
-      "cusip": "37045V100",
-      "shares": 375965,
-      "value": 13760000
-    },
-    {
-      "name": "HELMERICH & PAYNE INC",
-      "cusip": "423452101",
-      "shares": 226400,
-      "value": 10281000
-    },
-    {
-      "name": "JACOBS ENGR GROUP INC",
-      "cusip": "469814107",
-      "shares": 32000,
-      "value": 2875000
-    },
-    {
-      "name": "JOHNSON & JOHNSON",
-      "cusip": "478160104",
-      "shares": 146800,
-      "value": 21401000
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 46724700,
+      "value": 300006
     },
     {
       "name": "KENNEDY-WILSON HLDGS INC",
       "cusip": "489398107",
       "shares": 13322009,
-      "value": 296681000
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 66000,
-      "value": 1924000
-    },
-    {
-      "name": "KULICKE & SOFFA INDS INC",
-      "cusip": "501242101",
-      "shares": 130000,
-      "value": 3532000
-    },
-    {
-      "name": "LORAL SPACE & COMMUNICATIONS INC",
-      "cusip": "543881106",
-      "shares": 52500,
-      "value": 1696000
-    },
-    {
-      "name": "MADISON SQUARE GARDEN CO",
-      "cusip": "55825T103",
-      "shares": 8000,
-      "value": 2352000
-    },
-    {
-      "name": "MASTERCRAFT BOAT HLDGS INC",
-      "cusip": "57637H103",
-      "shares": 532457,
-      "value": 8381000
-    },
-    {
-      "name": "MCDERMOTT INTL INC",
-      "cusip": "580037703",
-      "shares": 655400,
-      "value": 441000
-    },
-    {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 325000,
-      "value": 17472000
-    },
-    {
-      "name": "MIDDLEBY CORP",
-      "cusip": "596278101",
-      "shares": 7400,
-      "value": 810000
-    },
-    {
-      "name": "NETEASE INC",
-      "cusip": "64110W102",
-      "shares": 8000,
-      "value": 2453000
-    },
-    {
-      "name": "NORTHWEST PIPE CO",
-      "cusip": "667746101",
-      "shares": 85000,
-      "value": 2826000
-    },
-    {
-      "name": "OSISKO GOLD ROYALTIES LTD",
-      "cusip": "68827L101",
-      "shares": 87000,
-      "value": 846000
-    },
-    {
-      "name": "PACIFIC BIOSCIENCES CALIF INC",
-      "cusip": "69404D108",
-      "shares": 160000,
-      "value": 822000
-    },
-    {
-      "name": "PENN NATL GAMING INC",
-      "cusip": "707569109",
-      "shares": 65000,
-      "value": 1661000
+      "value": 296681
     },
     {
       "name": "RESOLUTE FST PRODS INC",
       "cusip": "76117W109",
       "shares": 30548190,
-      "value": 128302000
+      "value": 128302
     },
     {
-      "name": "RESTAURANT BRANDS INTL INC",
-      "cusip": "76131D103",
-      "shares": 37000,
-      "value": 2361000
+      "name": "CENTURYLINK INC",
+      "cusip": "156700106",
+      "shares": 2359100,
+      "value": 31164
     },
     {
-      "name": "SEASPAN CORP",
-      "cusip": "Y75638109",
-      "shares": 77155000,
-      "value": 1095601000
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 146800,
+      "value": 21401
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 325000,
+      "value": 17472
+    },
+    {
+      "name": "DIAMOND S SHIPPING INC",
+      "cusip": "Y20676105",
+      "shares": 1034681,
+      "value": 17269
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 1390900,
+      "value": 15522
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 2150000,
+      "value": 14126
+    },
+    {
+      "name": "BANK N S HALIFAX",
+      "cusip": "064149107",
+      "shares": 247100,
+      "value": 13955
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 375965,
+      "value": 13760
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 226400,
+      "value": 10281
+    },
+    {
+      "name": "MASTERCRAFT BOAT HLDGS INC",
+      "cusip": "57637H103",
+      "shares": 532457,
+      "value": 8381
+    },
+    {
+      "name": "KULICKE & SOFFA INDS INC",
+      "cusip": "501242101",
+      "shares": 130000,
+      "value": 3532
     },
     {
       "name": "SIGNATURE BK NEW YORK N Y",
       "cusip": "82669G104",
       "shares": 25400,
-      "value": 3470000
+      "value": 3470
+    },
+    {
+      "name": "ARGAN INC",
+      "cusip": "04010E109",
+      "shares": 86000,
+      "value": 3452
     },
     {
       "name": "TAIWAN SEMICONDUCTOR MFG LTD",
       "cusip": "874039100",
       "shares": 53700,
-      "value": 3120000
+      "value": 3120
+    },
+    {
+      "name": "JACOBS ENGR GROUP INC",
+      "cusip": "469814107",
+      "shares": 32000,
+      "value": 2875
+    },
+    {
+      "name": "NORTHWEST PIPE CO",
+      "cusip": "667746101",
+      "shares": 85000,
+      "value": 2826
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 8000,
+      "value": 2453
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 37000,
+      "value": 2361
+    },
+    {
+      "name": "MADISON SQUARE GARDEN CO",
+      "cusip": "55825T103",
+      "shares": 8000,
+      "value": 2352
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 26500,
+      "value": 1968
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 25000,
+      "value": 1944
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 66000,
+      "value": 1924
+    },
+    {
+      "name": "LORAL SPACE & COMMUNICATIONS INC",
+      "cusip": "543881106",
+      "shares": 52500,
+      "value": 1696
+    },
+    {
+      "name": "DELEK US HLDGS INC",
+      "cusip": "24665A103",
+      "shares": 50000,
+      "value": 1676
+    },
+    {
+      "name": "DINE BRANDS GLOBAL INC",
+      "cusip": "254423106",
+      "shares": 20000,
+      "value": 1670
+    },
+    {
+      "name": "PENN NATL GAMING INC",
+      "cusip": "707569109",
+      "shares": 65000,
+      "value": 1661
     },
     {
       "name": "TRANSALTA CORP",
       "cusip": "89346D107",
       "shares": 215000,
-      "value": 1530000
+      "value": 1530
     },
     {
       "name": "U S SILICA HLDGS INC",
       "cusip": "90346E103",
       "shares": 215000,
-      "value": 1322000
+      "value": 1322
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505105",
+      "shares": 110000,
+      "value": 1097
+    },
+    {
+      "name": "FREIGHTCAR AMER INC",
+      "cusip": "357023100",
+      "shares": 450000,
+      "value": 923
+    },
+    {
+      "name": "OSISKO GOLD ROYALTIES LTD",
+      "cusip": "68827L101",
+      "shares": 87000,
+      "value": 846
+    },
+    {
+      "name": "PACIFIC BIOSCIENCES CALIF INC",
+      "cusip": "69404D108",
+      "shares": 160000,
+      "value": 822
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 7400,
+      "value": 810
+    },
+    {
+      "name": "AMPCO-PITTSBURGH CORP",
+      "cusip": "032037103",
+      "shares": 254119,
+      "value": 765
+    },
+    {
+      "name": "CULP INC",
+      "cusip": "230215105",
+      "shares": 54000,
+      "value": 736
+    },
+    {
+      "name": "MCDERMOTT INTL INC",
+      "cusip": "580037703",
+      "shares": 655400,
+      "value": 441
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 340
     }
-  ]
+  ],
+  "totalValue": 2538895,
+  "positionsCount": 42
 }

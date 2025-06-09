@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2016-05-16",
+  "period": "2016-05-16",
+  "accession": "0001172661-16-003348",
+  "quarterKey": "2016-Q2",
   "positions": [
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 3815704,
+      "value": 95889
+    },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 999450,
-      "value": 78987000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 36456,
-      "value": 27158000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 3990,
-      "value": 2369000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 20736,
-      "value": 3958000
-    },
-    {
-      "name": "CAESARSTONE SDOT-YAM LTD",
-      "cusip": "M20598104",
-      "shares": 707109,
-      "value": 24289000
+      "value": 78987
     },
     {
       "name": "COGNEX CORP",
       "cusip": "192422103",
       "shares": 1540549,
-      "value": 60004000
-    },
-    {
-      "name": "ETSY INC",
-      "cusip": "29786A106",
-      "shares": 313213,
-      "value": 2725000
-    },
-    {
-      "name": "GRUBHUB INC",
-      "cusip": "400110102",
-      "shares": 3815704,
-      "value": 95889000
+      "value": 60004
     },
     {
       "name": "HEXCEL CORP NEW",
       "cusip": "428291108",
       "shares": 1094779,
-      "value": 47853000
+      "value": 47853
     },
     {
       "name": "MULTI COLOR CORP",
       "cusip": "625383104",
       "shares": 636090,
-      "value": 33935000
+      "value": 33935
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 36456,
+      "value": 27158
+    },
+    {
+      "name": "CAESARSTONE SDOT-YAM LTD",
+      "cusip": "M20598104",
+      "shares": 707109,
+      "value": 24289
     },
     {
       "name": "TAL ED GROUP",
       "cusip": "874080104",
       "shares": 422053,
-      "value": 20968000
+      "value": 20968
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 20736,
+      "value": 3958
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 313213,
+      "value": 2725
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3990,
+      "value": 2369
     }
-  ]
+  ],
+  "totalValue": 398135,
+  "positionsCount": 11
 }

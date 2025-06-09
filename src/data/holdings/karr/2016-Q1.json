@@ -1,83 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2016-02-12",
+  "period": "2016-02-12",
+  "accession": "0001172661-16-002594",
+  "quarterKey": "2016-Q1",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 674450,
-      "value": 54813000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 52956,
-      "value": 40187000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 2607,
-      "value": 2028000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 3990,
-      "value": 2697000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 12516,
-      "value": 2366000
-    },
-    {
-      "name": "COGNEX CORP",
-      "cusip": "192422103",
-      "shares": 1540549,
-      "value": 52024000
-    },
-    {
-      "name": "CORNING INC",
-      "cusip": "219350105",
-      "shares": 157200,
-      "value": 2874000
-    },
     {
       "name": "GRUBHUB INC",
       "cusip": "400110102",
       "shares": 2978219,
-      "value": 72073000
+      "value": 72073
     },
     {
       "name": "HEXCEL CORP NEW",
       "cusip": "428291108",
       "shares": 1259260,
-      "value": 58493000
+      "value": 58493
     },
     {
-      "name": "MULTI COLOR CORP",
-      "cusip": "625383104",
-      "shares": 327400,
-      "value": 19582000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 674450,
+      "value": 54813
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 1540549,
+      "value": 52024
     },
     {
       "name": "TAL ED GROUP",
       "cusip": "874080104",
       "shares": 883056,
-      "value": 41036000
+      "value": 41036
     },
     {
-      "name": "YELP INC",
-      "cusip": "985817105",
-      "shares": 68600,
-      "value": 1976000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 52956,
+      "value": 40187
+    },
+    {
+      "name": "MULTI COLOR CORP",
+      "cusip": "625383104",
+      "shares": 327400,
+      "value": 19582
     },
     {
       "name": "YIRENDAI LTD",
       "cusip": "98585L100",
       "shares": 725275,
-      "value": 6854000
+      "value": 6854
+    },
+    {
+      "name": "CORNING INC",
+      "cusip": "219350105",
+      "shares": 157200,
+      "value": 2874
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3990,
+      "value": 2697
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 12516,
+      "value": 2366
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2607,
+      "value": 2028
+    },
+    {
+      "name": "YELP INC",
+      "cusip": "985817105",
+      "shares": 68600,
+      "value": 1976
     }
-  ]
+  ],
+  "totalValue": 357003,
+  "positionsCount": 13
 }

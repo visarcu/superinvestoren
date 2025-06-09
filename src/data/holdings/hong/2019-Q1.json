@@ -1,23 +1,29 @@
 {
+  "form": "13F-HR",
   "date": "2019-02-12",
+  "period": "2019-02-12",
+  "accession": "0001766908-19-000001",
+  "quarterKey": "2019-Q1",
   "positions": [
-    {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 695861,
-      "value": 22762000
-    },
     {
       "name": "IAC INTERACTIVECORP",
       "cusip": "44919P508",
       "shares": 252363,
-      "value": 46193000
+      "value": 46193
     },
     {
       "name": "JD COM INC",
       "cusip": "47215P106",
       "shares": 1322297,
-      "value": 27676000
+      "value": 27676
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 695861,
+      "value": 22762
     }
-  ]
+  ],
+  "totalValue": 96631,
+  "positionsCount": 3
 }

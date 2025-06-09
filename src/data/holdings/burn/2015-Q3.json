@@ -1,245 +1,251 @@
 {
+  "form": "13F-HR",
   "date": "2015-08-03",
+  "period": "2015-08-03",
+  "accession": "0000950123-15-007935",
+  "quarterKey": "2015-Q3",
   "positions": [
     {
-      "name": "AES Corporation",
-      "cusip": "00130H105",
-      "shares": 12115748,
-      "value": 160655000
-    },
-    {
-      "name": "Agilent Technologies, Inc.",
-      "cusip": "00846U101",
-      "shares": 3744952,
-      "value": 144480000
-    },
-    {
-      "name": "American Intl Group, Inc.",
-      "cusip": "026874784",
-      "shares": 3137331,
-      "value": 193950000
-    },
-    {
-      "name": "Anthem Inc.",
-      "cusip": "036752103",
-      "shares": 987841,
-      "value": 162144000
-    },
-    {
-      "name": "Applied Materials",
-      "cusip": "038222105",
-      "shares": 9220428,
-      "value": 177217000
-    },
-    {
-      "name": "Bank of America Corporatio",
-      "cusip": "060505104",
-      "shares": 11808315,
-      "value": 200978000
-    },
-    {
-      "name": "BP PLC Sponsored ADR",
-      "cusip": "055622104",
-      "shares": 4623318,
-      "value": 184748000
+      "name": "Merck & Co. Inc",
+      "cusip": "58933Y105",
+      "shares": 3595407,
+      "value": 204687
     },
     {
       "name": "Capital One Financial Corp",
       "cusip": "14040H105",
       "shares": 2292574,
-      "value": 201678000
+      "value": 201678
     },
     {
-      "name": "CBS Corporation",
-      "cusip": "124857202",
-      "shares": 2903833,
-      "value": 161163000
-    },
-    {
-      "name": "CIT Group Inc",
-      "cusip": "125581801",
-      "shares": 4310379,
-      "value": 200390000
-    },
-    {
-      "name": "CitiGroup, Inc.",
-      "cusip": "172967424",
-      "shares": 3508742,
-      "value": 193823000
-    },
-    {
-      "name": "Citizens Financial Group",
-      "cusip": "174610105",
-      "shares": 6009913,
-      "value": 164131000
-    },
-    {
-      "name": "Comcast Corporation Class A",
-      "cusip": "20030N101",
-      "shares": 2782119,
-      "value": 167317000
-    },
-    {
-      "name": "CVS Caremark Corporation",
-      "cusip": "126650100",
-      "shares": 1310870,
-      "value": 137484000
-    },
-    {
-      "name": "Exelon Corporation",
-      "cusip": "30161N101",
-      "shares": 3945978,
-      "value": 123983000
-    },
-    {
-      "name": "General Electric Company",
-      "cusip": "369604103",
-      "shares": 6023160,
-      "value": 160035000
-    },
-    {
-      "name": "Google Inc. Cl A",
-      "cusip": "38259P508",
-      "shares": 205230,
-      "value": 110832000
-    },
-    {
-      "name": "Google Inc. Cl C",
-      "cusip": "38259P706",
-      "shares": 135884,
-      "value": 70729000
-    },
-    {
-      "name": "International Paper Corp.",
-      "cusip": "460146103",
-      "shares": 3584717,
-      "value": 170597000
-    },
-    {
-      "name": "Keysight Technologies, Inc.",
-      "cusip": "49338L103",
-      "shares": 4467942,
-      "value": 139355000
-    },
-    {
-      "name": "Lowe's Companies, Inc.",
-      "cusip": "548661107",
-      "shares": 1872320,
-      "value": 125389000
-    },
-    {
-      "name": "Marsh & McLennan Companies Inc.",
-      "cusip": "571748102",
-      "shares": 2902867,
-      "value": 164593000
-    },
-    {
-      "name": "Merck & Co. Inc.",
-      "cusip": "58933Y105",
-      "shares": 3595407,
-      "value": 204687000
-    },
-    {
-      "name": "Oracle Corporation",
-      "cusip": "68389X105",
-      "shares": 4933903,
-      "value": 198836000
-    },
-    {
-      "name": "Owens-Illinois, Inc.",
-      "cusip": "690768403",
-      "shares": 5997960,
-      "value": 137593000
-    },
-    {
-      "name": "Procter & Gamble Company",
-      "cusip": "742718109",
-      "shares": 2003630,
-      "value": 156764000
-    },
-    {
-      "name": "Qualcomm Inc.",
-      "cusip": "747525103",
-      "shares": 2275355,
-      "value": 142505000
-    },
-    {
-      "name": "Realogy Holdings Corporation",
-      "cusip": "75605Y106",
-      "shares": 3908658,
-      "value": 182613000
-    },
-    {
-      "name": "Reliance Steel & Aluminum",
-      "cusip": "759509102",
-      "shares": 2003777,
-      "value": 121188000
-    },
-    {
-      "name": "Royal Dutch Shell PLC ADR",
-      "cusip": "780259206",
-      "shares": 5900,
-      "value": 336000
-    },
-    {
-      "name": "Sanofi ADR",
-      "cusip": "80105N105",
-      "shares": 3606724,
-      "value": 178641000
-    },
-    {
-      "name": "Texas Instruments Inc.",
-      "cusip": "882508104",
-      "shares": 3287004,
-      "value": 169314000
+      "name": "Bank of America Corporatio",
+      "cusip": "060505104",
+      "shares": 11808315,
+      "value": 200978
     },
     {
       "name": "Thermo Fisher Scientific,",
       "cusip": "883556102",
       "shares": 1545056,
-      "value": 200486000
+      "value": 200486
     },
     {
-      "name": "Time Warner, Inc.",
-      "cusip": "887317303",
-      "shares": 1926344,
-      "value": 168382000
+      "name": "CIT Group Inc",
+      "cusip": "125581801",
+      "shares": 4310379,
+      "value": 200390
     },
     {
-      "name": "Vivendi SA - Unspon ADR",
-      "cusip": "92852T201",
-      "shares": 11900,
-      "value": 301000
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 4933903,
+      "value": 198836
+    },
+    {
+      "name": "American Intl Group, Inc",
+      "cusip": "026874784",
+      "shares": 3137331,
+      "value": 193950
+    },
+    {
+      "name": "CitiGroup, Inc",
+      "cusip": "172967424",
+      "shares": 3508742,
+      "value": 193823
+    },
+    {
+      "name": "BP PLC Sponsored ADR",
+      "cusip": "055622104",
+      "shares": 4623318,
+      "value": 184748
     },
     {
       "name": "Vodafone Group Plc ADR",
       "cusip": "92857W308",
       "shares": 5042412,
-      "value": 183796000
+      "value": 183796
     },
     {
-      "name": "AerCap Holdings NV",
-      "cusip": "N00985106",
-      "shares": 3100310,
-      "value": 141963000
+      "name": "Realogy Holdings Corporation",
+      "cusip": "75605Y106",
+      "shares": 3908658,
+      "value": 182613
     },
     {
       "name": "Aon PLC",
       "cusip": "G0408V102",
       "shares": 1802252,
-      "value": 179648000
+      "value": 179648
     },
     {
-      "name": "Invesco Ltd.",
-      "cusip": "G491BT108",
-      "shares": 4310714,
-      "value": 161609000
+      "name": "Sanofi ADR",
+      "cusip": "80105N105",
+      "shares": 3606724,
+      "value": 178641
+    },
+    {
+      "name": "Applied Materials",
+      "cusip": "038222105",
+      "shares": 9220428,
+      "value": 177217
+    },
+    {
+      "name": "International Paper Corp",
+      "cusip": "460146103",
+      "shares": 3584717,
+      "value": 170597
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 3287004,
+      "value": 169314
+    },
+    {
+      "name": "Time Warner, Inc",
+      "cusip": "887317303",
+      "shares": 1926344,
+      "value": 168382
+    },
+    {
+      "name": "Comcast Corporation Class A",
+      "cusip": "20030N101",
+      "shares": 2782119,
+      "value": 167317
+    },
+    {
+      "name": "Marsh & McLennan Companies Inc",
+      "cusip": "571748102",
+      "shares": 2902867,
+      "value": 164593
+    },
+    {
+      "name": "Citizens Financial Group",
+      "cusip": "174610105",
+      "shares": 6009913,
+      "value": 164131
     },
     {
       "name": "Flextronics International",
       "cusip": "Y2573F102",
       "shares": 14494514,
-      "value": 163933000
+      "value": 163933
+    },
+    {
+      "name": "Anthem Inc",
+      "cusip": "036752103",
+      "shares": 987841,
+      "value": 162144
+    },
+    {
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 4310714,
+      "value": 161609
+    },
+    {
+      "name": "CBS Corporation",
+      "cusip": "124857202",
+      "shares": 2903833,
+      "value": 161163
+    },
+    {
+      "name": "AES Corporation",
+      "cusip": "00130H105",
+      "shares": 12115748,
+      "value": 160655
+    },
+    {
+      "name": "General Electric Company",
+      "cusip": "369604103",
+      "shares": 6023160,
+      "value": 160035
+    },
+    {
+      "name": "Procter & Gamble Company",
+      "cusip": "742718109",
+      "shares": 2003630,
+      "value": 156764
+    },
+    {
+      "name": "Agilent Technologies, Inc",
+      "cusip": "00846U101",
+      "shares": 3744952,
+      "value": 144480
+    },
+    {
+      "name": "Qualcomm Inc",
+      "cusip": "747525103",
+      "shares": 2275355,
+      "value": 142505
+    },
+    {
+      "name": "AerCap Holdings NV",
+      "cusip": "N00985106",
+      "shares": 3100310,
+      "value": 141963
+    },
+    {
+      "name": "Keysight Technologies, Inc",
+      "cusip": "49338L103",
+      "shares": 4467942,
+      "value": 139355
+    },
+    {
+      "name": "Owens-Illinois, Inc",
+      "cusip": "690768403",
+      "shares": 5997960,
+      "value": 137593
+    },
+    {
+      "name": "CVS Caremark Corporation",
+      "cusip": "126650100",
+      "shares": 1310870,
+      "value": 137484
+    },
+    {
+      "name": "Lowe's Companies, Inc",
+      "cusip": "548661107",
+      "shares": 1872320,
+      "value": 125389
+    },
+    {
+      "name": "Exelon Corporation",
+      "cusip": "30161N101",
+      "shares": 3945978,
+      "value": 123983
+    },
+    {
+      "name": "Reliance Steel & Aluminum",
+      "cusip": "759509102",
+      "shares": 2003777,
+      "value": 121188
+    },
+    {
+      "name": "Google Inc Cl A",
+      "cusip": "38259P508",
+      "shares": 205230,
+      "value": 110832
+    },
+    {
+      "name": "Google Inc Cl C",
+      "cusip": "38259P706",
+      "shares": 135884,
+      "value": 70729
+    },
+    {
+      "name": "Royal Dutch Shell PLC ADR",
+      "cusip": "780259206",
+      "shares": 5900,
+      "value": 336
+    },
+    {
+      "name": "Vivendi SA - Unspon ADR",
+      "cusip": "92852T201",
+      "shares": 11900,
+      "value": 301
     }
-  ]
+  ],
+  "totalValue": 6208266,
+  "positionsCount": 40
 }

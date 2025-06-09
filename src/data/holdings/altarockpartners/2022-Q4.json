@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001104659-22-118063",
+  "quarterKey": "2022-Q4",
   "positions": [
+    {
+      "name": "TRANSDIGM GROUP",
+      "cusip": "893641100",
+      "shares": 1502379,
+      "value": 788479
+    },
     {
       "name": "ALPHABET INC - CL A",
       "cusip": "02079K305",
       "shares": 7003600,
-      "value": 669894000
-    },
-    {
-      "name": "AMAZON",
-      "cusip": "023135106",
-      "shares": 3294034,
-      "value": 372226000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS",
-      "cusip": "16119P108",
-      "shares": 345405,
-      "value": 104779000
-    },
-    {
-      "name": "MASTERCARD INC CL A",
-      "cusip": "57636Q104",
-      "shares": 328163,
-      "value": 93310000
+      "value": 669894
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 2818509,
-      "value": 656431000
+      "value": 656431
     },
     {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 252608,
-      "value": 61412000
-    },
-    {
-      "name": "TRANSDIGM GROUP",
-      "cusip": "893641100",
-      "shares": 1502379,
-      "value": 788479000
+      "name": "AMAZON",
+      "cusip": "023135106",
+      "shares": 3294034,
+      "value": 372226
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 1734105,
-      "value": 308064000
+      "value": 308064
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16119P108",
+      "shares": 345405,
+      "value": 104779
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 328163,
+      "value": 93310
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 252608,
+      "value": 61412
     }
-  ]
+  ],
+  "totalValue": 3054595,
+  "positionsCount": 8
 }

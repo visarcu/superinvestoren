@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-13",
+  "period": "2020-11-13",
+  "accession": "0001398344-20-022484",
+  "quarterKey": "2020-Q4",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 46947,
-      "value": 68993000
-    },
-    {
-      "name": "ALTERYX INC",
-      "cusip": "02156B103",
-      "shares": 94189,
-      "value": 10695000
-    },
-    {
-      "name": "AVALARA INC",
-      "cusip": "05338G106",
-      "shares": 293390,
-      "value": 37360000
-    },
-    {
-      "name": "DESPEGAR COM CORP",
-      "cusip": "G27358103",
-      "shares": 4223698,
-      "value": 26863000
-    },
-    {
-      "name": "EBAY INC.",
-      "cusip": "278642103",
-      "shares": 871076,
-      "value": 45383000
-    },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 606612,
-      "value": 158872000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 254341,
-      "value": 50113000
-    },
-    {
-      "name": "ROKU INC",
-      "cusip": "77543R102",
-      "shares": 303373,
-      "value": 57277000
-    },
-    {
-      "name": "SMARTSHEET INC",
-      "cusip": "83200N103",
-      "shares": 889987,
-      "value": 43983000
-    },
-    {
-      "name": "UPWORK INC",
-      "cusip": "91688F104",
-      "shares": 3950351,
-      "value": 68894000
+      "value": 158872
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 410415,
-      "value": 104594000
+      "value": 104594
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 46947,
+      "value": 68993
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 3950351,
+      "value": 68894
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 303373,
+      "value": 57277
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 254341,
+      "value": 50113
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 871076,
+      "value": 45383
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 889987,
+      "value": 43983
+    },
+    {
+      "name": "AVALARA INC",
+      "cusip": "05338G106",
+      "shares": 293390,
+      "value": 37360
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 4223698,
+      "value": 26863
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 94189,
+      "value": 10695
     }
-  ]
+  ],
+  "totalValue": 673027,
+  "positionsCount": 11
 }

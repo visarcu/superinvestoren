@@ -2,78 +2,82 @@
   "form": "13F-HR",
   "date": "2023-11-14",
   "period": "2023-11-14",
+  "accession": "0001345471-23-000146",
+  "quarterKey": "2023-Q4",
   "positions": [
     {
-      "name": "Ferguson Plc New",
-      "cusip": "G3421J106",
-      "shares": 4211768,
-      "value": 692709483000
-    },
-    {
-      "name": "Ferguson Plc New",
-      "cusip": "G3421J106",
-      "shares": 1203450,
-      "value": 197931422000
-    },
-    {
-      "name": "General Electric Co.",
-      "cusip": "369604301",
-      "shares": 4029840,
-      "value": 445498812000
-    },
-    {
-      "name": "GE HealthCare Technologies Inc.",
-      "cusip": "36266G107",
-      "shares": 1342830,
-      "value": 91366153000
-    },
-    {
-      "name": "Invesco Ltd.",
-      "cusip": "G491BT108",
-      "shares": 33940096,
-      "value": 492810194000
+      "name": "The Walt Disney Company",
+      "cusip": "254687106",
+      "shares": 25565138,
+      "value": 2072054435
     },
     {
       "name": "Janus Henderson Group plc",
       "cusip": "G4474Y214",
       "shares": 31867800,
-      "value": 822826596000
+      "value": 822826596
     },
     {
-      "name": "Wendys Co.",
-      "cusip": "95058W100",
-      "shares": 17827059,
-      "value": 363850274000
-    },
-    {
-      "name": "Wendys Co.",
-      "cusip": "95058W100",
-      "shares": 15523684,
-      "value": 316838390000
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 4211768,
+      "value": 692709483
     },
     {
       "name": "The Walt Disney Company",
       "cusip": "254687106",
       "shares": 7303169,
-      "value": 591921847000
+      "value": 591921847
     },
     {
-      "name": "The Walt Disney Company",
-      "cusip": "254687106",
-      "shares": 25565138,
-      "value": 2072054435000
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 33940096,
+      "value": 492810194
     },
     {
-      "name": "Sysco Corporation",
-      "cusip": "871829107",
-      "shares": 1223500,
-      "value": 80812175000
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4029840,
+      "value": 445498812
     },
     {
       "name": "The Allstate Corporation",
       "cusip": "200021014",
       "shares": 3643618,
-      "value": 405935481000
+      "value": 405935481
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 17827059,
+      "value": 363850274
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 15523684,
+      "value": 316838390
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 1203450,
+      "value": 197931422
+    },
+    {
+      "name": "GE HealthCare Technologies Inc",
+      "cusip": "36266G107",
+      "shares": 1342830,
+      "value": 91366153
+    },
+    {
+      "name": "Sysco Corporation",
+      "cusip": "871829107",
+      "shares": 1223500,
+      "value": 80812175
     }
-  ]
+  ],
+  "totalValue": 6574555262,
+  "positionsCount": 12
 }

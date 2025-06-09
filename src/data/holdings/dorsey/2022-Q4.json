@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001398344-22-021940",
+  "quarterKey": "2022-Q4",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 566919,
-      "value": 54509000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 741105,
-      "value": 69908000
-    },
-    {
-      "name": "META PLATFORMS INC",
-      "cusip": "30303M102",
-      "shares": 757556,
-      "value": 102785000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 740556,
-      "value": 63740000
-    },
-    {
-      "name": "POSHMARK INC",
-      "cusip": "73739W104",
-      "shares": 4745573,
-      "value": 74363000
-    },
-    {
-      "name": "ROKU INC",
-      "cusip": "77543R102",
-      "shares": 1423046,
-      "value": 80260000
-    },
-    {
-      "name": "SEMRUSH HLDGS INC",
-      "cusip": "81686C104",
-      "shares": 3452605,
-      "value": 38704000
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 1880107,
+      "value": 147081
     },
     {
       "name": "SMARTSHEET INC",
       "cusip": "83200N103",
       "shares": 3441486,
-      "value": 118249000
+      "value": 118249
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 757556,
+      "value": 102785
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 1423046,
+      "value": 80260
+    },
+    {
+      "name": "POSHMARK INC",
+      "cusip": "73739W104",
+      "shares": 4745573,
+      "value": 74363
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 741105,
+      "value": 69908
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 740556,
+      "value": 63740
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 566919,
+      "value": 54509
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 3452605,
+      "value": 38704
     },
     {
       "name": "UPWORK INC",
       "cusip": "91688F104",
       "shares": 2669800,
-      "value": 36363000
-    },
-    {
-      "name": "WIX COM LTD",
-      "cusip": "M98068105",
-      "shares": 1880107,
-      "value": 147081000
+      "value": 36363
     }
-  ]
+  ],
+  "totalValue": 785962,
+  "positionsCount": 10
 }

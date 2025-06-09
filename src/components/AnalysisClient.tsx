@@ -13,16 +13,14 @@ import Tooltip from '@/components/Tooltip'
 import { irLinks } from '../data/irLinks'
 import Card from '@/components/Card'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import WorkingStockChart from '@/components/WorkingStockChart'
 
 // ─── Dynamische Komponentenimporte ─────────────────────────────────────────
 const WatchlistButton = dynamic(
   () => import('@/components/WatchlistButton'),
   { ssr: false }
 )
-const StockLineChart = dynamic(
-  () => import('@/components/StockLineChart'),
-  { ssr: false, loading: () => <LoadingSpinner /> }
-)
+// ✅ REMOVED: StockLineChart import (nicht verwendet und kann Konflikte verursachen)
 
 // ✅ KORRIGIERTER Import für FinancialAnalysisClient
 import FinancialAnalysisClient from '@/components/FinancialAnalysisClient'
@@ -68,7 +66,7 @@ const fmtB = (n: number) =>
   `$${(n / 1e9).toLocaleString('de-DE', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  })} b`
+  })} Mrd`
 const fmtP = (n?: number) =>
   typeof n === 'number' ? `${(n * 100).toFixed(2).replace('.', ',')} %` : '–'
 const fmtPrice = (n?: number) =>
@@ -169,8 +167,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // ✅ NEU: State für aktuelle Outstanding Shares (Hook #33)
   const [currentShares, setCurrentShares] = useState<number | null>(null)
 
+  // ✅ NEU: State für Forward P/E (Hook #34)
+  const [forwardPE, setForwardPE] = useState<number | null>(null)
+
   // ────────────────────────────────────────────────────────────────────────────
-  // 10) Effekt: Supabase-Session + User-Metadaten laden (Hook #34)
+  // 10) Effekt: Supabase-Session + User-Metadaten laden (Hook #35)
   useEffect(() => {
     async function checkAuth() {
       const {
@@ -219,7 +220,37 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     checkAuth()
   }, [router])
 
-  // 11) Effekt: Alle weiteren Daten fetchen (Hook #35)
+  // ✅ NEU: Effekt für Forward P/E Berechnung (Hook #36)
+  useEffect(() => {
+    if (livePrice && estimates.length > 0) {
+      const currentYear = new Date().getFullYear()
+      const nextYear = currentYear + 1
+      
+      // Suche nach EPS-Schätzung für nächstes Jahr
+      const nextYearEstimate = estimates.find(e => 
+        parseInt(e.date.slice(0, 4), 10) === nextYear
+      )
+      
+      if (nextYearEstimate && nextYearEstimate.estimatedEpsAvg > 0) {
+        const forwardPEValue = livePrice / nextYearEstimate.estimatedEpsAvg
+        setForwardPE(forwardPEValue)
+        console.log(`✅ Forward P/E berechnet: ${forwardPEValue.toFixed(2)} (Kurs: ${livePrice}, EPS ${nextYear}: ${nextYearEstimate.estimatedEpsAvg})`)
+      } else {
+        // Fallback: Verwende aktuelle Jahr EPS falls nächstes Jahr nicht verfügbar
+        const currentYearEstimate = estimates.find(e => 
+          parseInt(e.date.slice(0, 4), 10) === currentYear
+        )
+        
+        if (currentYearEstimate && currentYearEstimate.estimatedEpsAvg > 0) {
+          const forwardPEValue = livePrice / currentYearEstimate.estimatedEpsAvg
+          setForwardPE(forwardPEValue)
+          console.log(`⚠️ Forward P/E mit aktuellem Jahr berechnet: ${forwardPEValue.toFixed(2)} (Kurs: ${livePrice}, EPS ${currentYear}: ${currentYearEstimate.estimatedEpsAvg})`)
+        }
+      }
+    }
+  }, [livePrice, estimates])
+
+  // 11) Effekt: Alle weiteren Daten fetchen (Hook #37)
   useEffect(() => {
     // Falls keine Aktie, abbrechen
     if (!stock) return
@@ -512,7 +543,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // 12.1) Wenn wir noch auf das Supabase-Ergebnis warten, zeige Spinner
   if (loadingAuth) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gray-900 text-gray-100">
+      <div className="flex h-screen items-center justify-center bg-gray-950 text-gray-100">
         <LoadingSpinner />
       </div>
     )
@@ -526,12 +557,12 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // ────────────────────────────────────────────────────────────────────────────
   // 13) Endgültiges Rendering (alles ist geladen)
   return (
-    <>
+    <div className="space-y-8">
       {/* ─── Header mit Watchlist Button ─── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <div>
-          <h2 className="text-2xl font-semibold text-white">Kennzahlen-Analyse</h2>
-          <p className="text-gray-400">Detaillierte Finanzdaten für {stock.name} ({ticker})</p>
+          <h2 className="text-3xl font-bold text-white">Kennzahlen-Analyse</h2>
+          <p className="text-gray-400 text-lg">Detaillierte Finanzdaten für {stock.name} ({ticker})</p>
         </div>
         
         {/* Watchlist Button */}
@@ -540,172 +571,231 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       </div>
 
-
-      {/* ─── Key Metrics / Bilanz / Dividende / Bewertung / Margins ─── */}
+      {/* ─── Key Metrics Grid - Modernes Design ─── */}
       {hasKeyMetrics ? (
-        <Card>
-          <div className="bg-gray-800/80 border border-gray-700 rounded-2xl p-6">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-              {/* 1) Value */}
-              <div>
-                <h3 className="text-white font-semibold mb-2">Value</h3>
-                <ul className="text-sm text-gray-300 space-y-1">
-                  <li>
-                    Marktkapitalisierung:{' '}
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
+          <h3 className="text-xl font-bold text-white mb-6">Übersicht</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            
+            {/* 1) Marktdaten */}
+            <div className="space-y-4">
+              <h4 className="text-white font-semibold text-lg flex items-center">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                Marktdaten
+              </h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Marktkapitalisierung</span>
+                  <span className="text-white font-medium">
                     {liveMarketCap != null ? fmtB(liveMarketCap) : '–'}
-                  </li>
-                  <li>
-                    Volumen:{' '}
-                    {volume != null ? volume.toLocaleString('de-DE') : '–'}
-                  </li>
-                  <li>
-                    Schlusskurs Vortag:{' '}
-                    {previousClose != null ? fmtPrice(previousClose) : '–'}
-                  </li>
-                  <li>
-                    Beta:{' '}
-                    {profileData?.beta != null ? profileData.beta.toFixed(2) : '–'}
-                  </li>
-                  {/* ✅ NEU: Aktuelle Outstanding Shares anzeigen */}
-                  {currentShares && (
-                    <li>
-                      Outstanding Shares:{' '}
-                      {(currentShares / 1e9).toFixed(2)} Mrd
-                    </li>
-                  )}
-                </ul>
-              </div>
-
-              {/* 2) Bilanz */}
-              <div>
-                <h3 className="text-white font-semibold mb-2">Bilanz</h3>
-                <ul className="text-sm text-gray-300 space-y-1">
-                  <li>Cash: {cashBS != null ? fmtB(cashBS) : '–'}</li>
-                  <li>Debt: {debtBS != null ? fmtB(debtBS) : '–'}</li>
-                  <li>Net Debt:{' '}
-                    {netDebtBS != null ? fmtB(netDebtBS) : '–'}
-                  </li>
-                </ul>
-              </div>
-
-              {/* 3) Dividende */}
-              <div>
-                <h3 className="text-white font-semibold mb-2">Dividende</h3>
-                <ul className="text-sm text-gray-300 space-y-1">
-                  <li>
-                    Rendite:{' '}
-                    {keyMetrics.dividendYield != null
-                      ? fmtP(keyMetrics.dividendYield)
-                      : '–'}
-                  </li>
-                  <li>
-                    Payout Ratio:{' '}
-                    {keyMetrics.payoutRatio != null
-                      ? fmtP(keyMetrics.payoutRatio)
-                      : '–'}
-                  </li>
-                </ul>
-                {user?.isPremium ? (
-                  <span className="mt-2 inline-block text-gray-400 italic text-sm">
-                    Mehr zur Dividende: Coming soon…
                   </span>
-                ) : (
-                  <Link
-                    href="/pricing"
-                    className="mt-2 inline-flex items-center text-yellow-400 hover:underline text-sm"
-                  >
-                    <LockClosedIcon className="w-4 h-4 mr-1" /> Mehr zur Dividende
-                  </Link>
-                )}
-              </div>
-
-              {/* 4) Bewertung */}
-              <div className="relative">
-                <h3 className="text-white font-semibold mb-2">Bewertung</h3>
-                <div className={user?.isPremium ? '' : 'filter blur-sm'}>
-                  <ul className="text-sm text-gray-300 space-y-1">
-                    <li>
-                      KGV TTM:{' '}
-                      {peTTM != null ? peTTM.toFixed(2) : '–'}
-                    </li>
-                    <li>
-                      PEG TTM:{' '}
-                      {pegTTM != null ? pegTTM.toFixed(2) : '–'}
-                    </li>
-                    <li>
-                      KBV TTM:{' '}
-                      {pbTTM != null ? pbTTM.toFixed(2) : '–'}
-                    </li>
-                    <li>
-                      KUV TTM:{' '}
-                      {psTTM != null ? psTTM.toFixed(2) : '–'}
-                    </li>
-                    <li>
-                      EV/EBIT:{' '}
-                      {evEbit != null ? evEbit.toFixed(2) : '–'}
-                    </li>
-                  </ul>
                 </div>
-                {!user?.isPremium && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <LockClosedIcon className="w-6 h-6 text-yellow-400" />
-                  </div>
-                )}
-              </div>
-
-              {/* 5) Margins */}
-              <div className="relative">
-                <h3 className="text-white font-semibold mb-2">Marge</h3>
-                <div className={user?.isPremium ? '' : 'filter blur-sm'}>
-                  <ul className="text-sm text-gray-300 space-y-1">
-                    <li>
-                      Bruttomarge:{' '}
-                      {grossMargin != null ? fmtP(grossMargin) : '–'}
-                    </li>
-                    <li>
-                      Operative Marge:{' '}
-                      {operatingMargin != null
-                        ? fmtP(operatingMargin)
-                        : '–'}
-                    </li>
-                    <li>
-                      Nettogewinnmarge:{' '}
-                      {profitMargin != null
-                        ? fmtP(profitMargin)
-                        : '–'}
-                    </li>
-                  </ul>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Volumen</span>
+                  <span className="text-white font-medium">
+                    {volume != null ? volume.toLocaleString('de-DE') : '–'}
+                  </span>
                 </div>
-                {!user?.isPremium && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <LockClosedIcon className="w-6 h-6 text-yellow-400" />
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Beta</span>
+                  <span className="text-white font-medium">
+                    {profileData?.beta != null ? profileData.beta.toFixed(2) : '–'}
+                  </span>
+                </div>
+                {currentShares && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400 text-sm">Outstanding Shares</span>
+                    <span className="text-white font-medium">
+                      {(currentShares / 1e9).toFixed(2)} Mrd
+                    </span>
                   </div>
                 )}
               </div>
             </div>
+
+            {/* 2) Bilanz */}
+            <div className="space-y-4">
+              <h4 className="text-white font-semibold text-lg flex items-center">
+                <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
+                Bilanz
+              </h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Cash</span>
+                  <span className="text-white font-medium">
+                    {cashBS != null ? fmtB(cashBS) : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Debt</span>
+                  <span className="text-white font-medium">
+                    {debtBS != null ? fmtB(debtBS) : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Net Debt</span>
+                  <span className="text-white font-medium">
+                    {netDebtBS != null ? fmtB(netDebtBS) : '–'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3) Dividende */}
+            <div className="space-y-4">
+              <h4 className="text-white font-semibold text-lg flex items-center">
+                <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                Dividende
+              </h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Rendite</span>
+                  <span className="text-white font-medium">
+                    {keyMetrics.dividendYield != null ? fmtP(keyMetrics.dividendYield) : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">Payout Ratio</span>
+                  <span className="text-white font-medium">
+                    {keyMetrics.payoutRatio != null ? fmtP(keyMetrics.payoutRatio) : '–'}
+                  </span>
+                </div>
+              </div>
+              {user?.isPremium ? (
+                <span className="text-gray-400 italic text-sm">
+                  Mehr zur Dividende: Coming soon…
+                </span>
+              ) : (
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center text-yellow-400 hover:underline text-sm"
+                >
+                  <LockClosedIcon className="w-4 h-4 mr-1" /> Mehr zur Dividende
+                </Link>
+              )}
+            </div>
+
+            {/* 4) Bewertung - Premium */}
+            <div className="space-y-4 relative">
+              <h4 className="text-white font-semibold text-lg flex items-center">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                Bewertung
+              </h4>
+              <div className={`space-y-3 ${!user?.isPremium ? 'filter blur-sm' : ''}`}>
+                {/* ✅ FIXED: KGV TTM und Forward P/E in einer Zeile */}
+                <div className="flex justify-between items-center group relative">
+                  <span className="text-gray-400 text-sm">KGV (TTM|Erw.)</span>
+                  <div className="flex items-center">
+                    <span className="text-white font-medium">
+                      {peTTM != null ? peTTM.toFixed(2) : '–'} | {forwardPE != null ? forwardPE.toFixed(2) : '–'}
+                    </span>
+                    {forwardPE != null && (
+                      <div className="relative ml-2">
+                        <InformationCircleIcon className="w-4 h-4 text-gray-400 cursor-help" />
+                        {/* Custom Tooltip */}
+                        <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10 pointer-events-none">
+                          Erwartetes KGV basiert auf Analysten-Schätzungen
+                          <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">PEG TTM</span>
+                  <span className="text-white font-medium">
+                    {pegTTM != null ? pegTTM.toFixed(2) : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">KBV TTM</span>
+                  <span className="text-white font-medium">
+                    {pbTTM != null ? pbTTM.toFixed(2) : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">KUV TTM</span>
+                  <span className="text-white font-medium">
+                    {psTTM != null ? psTTM.toFixed(2) : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400 text-sm">EV/EBIT</span>
+                  <span className="text-white font-medium">
+                    {evEbit != null ? evEbit.toFixed(2) : '–'}
+                  </span>
+                </div>
+              </div>
+              {!user?.isPremium && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <LockClosedIcon className="w-6 h-6 text-yellow-400" />
+                </div>
+              )}
+            </div>
           </div>
-        </Card>
+
+          {/* Margins Row - nur bei Premium */}
+          {user?.isPremium && (
+            <div className="mt-8 pt-6 border-t border-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="space-y-4">
+                  <h4 className="text-white font-semibold text-lg flex items-center">
+                    <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
+                    Margen
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400 text-sm">Bruttomarge</span>
+                      <span className="text-white font-medium">
+                        {grossMargin != null ? fmtP(grossMargin) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400 text-sm">Operative Marge</span>
+                      <span className="text-white font-medium">
+                        {operatingMargin != null ? fmtP(operatingMargin) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400 text-sm">Nettogewinnmarge</span>
+                      <span className="text-white font-medium">
+                        {profitMargin != null ? fmtP(profitMargin) : '–'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       ) : (
-        <p className="text-gray-500">Key Metrics nicht verfügbar.</p>
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 text-center">
+          <p className="text-gray-400">Key Metrics werden geladen...</p>
+        </div>
       )}
 
-      {/* ─── Historical Chart ──────────────────────────────────────────────────── */}
-      <Card>
-        <h2 className="text-2xl font-semibold mb-4">
-          Historischer Kursverlauf
-        </h2>
-        {history.length > 0 ? (
-          <StockLineChart data={history} />
-        ) : (
-          <p className="text-gray-500">Keine historischen Kursdaten.</p>
-        )}
-      </Card>
+
+{history.length > 0 ? (
+        <WorkingStockChart 
+          ticker={ticker} 
+          data={history}
+        />
+      ) : (
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+          <h3 className="text-2xl font-bold text-white mb-6">
+            Historischer Kursverlauf
+          </h3>
+          <div className="flex items-center justify-center h-64">
+            <LoadingSpinner />
+          </div>
+        </div>
+      )}
 
       {/* ─── Kennzahlen-Charts ────────────────────────────────────────────────── */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">
-          Kennzahlen-Charts auswählen
-        </h2>
+      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
+        <h3 className="text-2xl font-bold text-white mb-6">
+          Kennzahlen-Charts
+        </h3>
         {user?.isPremium ? (
           <FinancialAnalysisClient 
             ticker={ticker} 
@@ -718,28 +808,28 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             description="Analysiere detaillierte Finanzkennzahlen mit interaktiven Charts und Zeitraumauswahl. Verfügbar mit Premium."
           />
         )}
-      </section>
+      </div>
 
       {/* ─── Earnings & Revenue Estimates ─────────────────────────────────────── */}
       {estimates.length > 0 && (
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
+          <h3 className="text-2xl font-bold text-white mb-6">
             Analysten Schätzungen (ab {new Date().getFullYear()})
-          </h2>
+          </h3>
           {user?.isPremium ? (
-            <Card>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Revenue Estimates */}
-                <div>
-                  <h3 className="font-semibold mb-2">Umsatzschätzungen</h3>
-                  <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Revenue Estimates */}
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4">Umsatzschätzungen</h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-gray-100">
                     <thead>
                       <tr className="border-b border-gray-700">
-                        <th className="px-3 py-2 text-left font-medium">FY</th>
-                        <th className="px-3 py-2 text-right font-medium">Avg</th>
-                        <th className="px-3 py-2 text-right font-medium">Low</th>
-                        <th className="px-3 py-2 text-right font-medium">High</th>
-                        <th className="px-3 py-2 text-right font-medium">YoY</th>
+                        <th className="text-left py-3 font-medium text-gray-300">FY</th>
+                        <th className="text-right py-3 font-medium text-gray-300">Avg</th>
+                        <th className="text-right py-3 font-medium text-gray-300">Low</th>
+                        <th className="text-right py-3 font-medium text-gray-300">High</th>
+                        <th className="text-right py-3 font-medium text-gray-300">YoY</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -759,31 +849,30 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                             yoy == null
                               ? '–'
                               : `${yoy >= 0 ? '+' : ''}${yoy
-                                  .toFixed(2)
-                                  .replace('.', ',')} %`
+                                  .toFixed(1)} %`
                           const yoyClass =
                             yoy == null
                               ? ''
                               : yoy >= 0
-                              ? 'text-green-500'
-                              : 'text-red-500'
+                              ? 'text-green-400'
+                              : 'text-red-400'
 
                           return (
                             <tr
                               key={e.date}
-                              className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
+                              className="border-b border-gray-800/50 hover:bg-gray-800/30"
                             >
-                              <td className="px-3 py-1">{fy}</td>
-                              <td className="px-3 py-1 text-right">
+                              <td className="py-3 text-white font-medium">{fy}</td>
+                              <td className="py-3 text-right text-white">
                                 {fmtB(e.estimatedRevenueAvg)}
                               </td>
-                              <td className="px-3 py-1 text-right">
+                              <td className="py-3 text-right text-gray-300">
                                 {fmtB(e.estimatedRevenueLow)}
                               </td>
-                              <td className="px-3 py-1 text-right">
+                              <td className="py-3 text-right text-gray-300">
                                 {fmtB(e.estimatedRevenueHigh)}
                               </td>
-                              <td className={`px-3 py-1 text-right ${yoyClass}`}>
+                              <td className={`py-3 text-right font-medium ${yoyClass}`}>
                                 {formattedYoY}
                               </td>
                             </tr>
@@ -792,18 +881,20 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     </tbody>
                   </table>
                 </div>
+              </div>
 
-                {/* Earnings Estimates */}
-                <div>
-                  <h3 className="font-semibold mb-2">Gewinnschätzungen</h3>
-                  <table className="min-w-full text-sm text-gray-100 divide-y divide-gray-700">
+              {/* Earnings Estimates */}
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4">Gewinnschätzungen</h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-gray-100">
                     <thead>
                       <tr className="border-b border-gray-700">
-                        <th className="px-3 py-2 text-left font-medium">FY</th>
-                        <th className="px-3 py-2 text-right font-medium">EPS Avg</th>
-                        <th className="px-3 py-2 text-right font-medium">Low</th>
-                        <th className="px-3 py-2 text-right font-medium">High</th>
-                        <th className="px-3 py-2 text-right font-medium">YoY</th>
+                        <th className="text-left py-3 font-medium text-gray-300">FY</th>
+                        <th className="text-right py-3 font-medium text-gray-300">EPS Avg</th>
+                        <th className="text-right py-3 font-medium text-gray-300">Low</th>
+                        <th className="text-right py-3 font-medium text-gray-300">High</th>
+                        <th className="text-right py-3 font-medium text-gray-300">YoY</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -823,31 +914,30 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                             yoy == null
                               ? '–'
                               : `${yoy >= 0 ? '+' : ''}${yoy
-                                  .toFixed(2)
-                                  .replace('.', ',')} %`
+                                  .toFixed(1)} %`
                           const yoyClass =
                             yoy == null
                               ? ''
                               : yoy >= 0
-                              ? 'text-green-500'
-                              : 'text-red-500'
+                              ? 'text-green-400'
+                              : 'text-red-400'
 
                           return (
                             <tr
                               key={e.date}
-                              className="odd:bg-gray-800 even:bg-transparent hover:bg-gray-700"
+                              className="border-b border-gray-800/50 hover:bg-gray-800/30"
                             >
-                              <td className="px-3 py-1">{fy}</td>
-                              <td className="px-3 py-1 text-right">
+                              <td className="py-3 text-white font-medium">{fy}</td>
+                              <td className="py-3 text-right text-white">
                                 {e.estimatedEpsAvg.toFixed(2)}
                               </td>
-                              <td className="px-3 py-1 text-right">
+                              <td className="py-3 text-right text-gray-300">
                                 {e.estimatedEpsLow.toFixed(2)}
                               </td>
-                              <td className="px-3 py-1 text-right">
+                              <td className="py-3 text-right text-gray-300">
                                 {e.estimatedEpsHigh.toFixed(2)}
                               </td>
-                              <td className={`px-3 py-1 text-right ${yoyClass}`}>
+                              <td className={`py-3 text-right font-medium ${yoyClass}`}>
                                 {formattedYoY}
                               </td>
                             </tr>
@@ -857,20 +947,20 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                   </table>
                 </div>
               </div>
-            </Card>
+            </div>
           ) : (
             <PremiumLockOverlay
               title="Analysten Schätzungen"
               description="Erhalte Zugang zu detaillierten Umsatz- und Gewinnschätzungen von Wall Street Analysten."
             />
           )}
-        </section>
+        </div>
       )}
 
       {/* ─── Wall Street Rating (Donut) ─────────────────────────────────────────── */}
       {recs && (
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Wall Street Bewertungen</h2>
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
+          <h3 className="text-2xl font-bold text-white mb-6">Wall Street Bewertungen</h3>
           {user?.isPremium ? (
             <WallStreetRatingDonut recs={recs} />
           ) : (
@@ -879,54 +969,61 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               description="Sieh dir an, wie Wall Street Analysten diese Aktie bewerten - von Strong Buy bis Strong Sell."
             />
           )}
-        </section>
+        </div>
       )}
 
       {/* ─── Company Profile ────────────────────────────────────────────────────── */}
       {profileData && (
-        <Card>
-          <h2 className="text-2xl font-semibold mb-4">Company Profile</h2>
-          <p className="text-sm text-gray-300 mb-4">
+        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
+          <h3 className="text-2xl font-bold text-white mb-6">Company Profile</h3>
+          <p className="text-gray-300 mb-6 leading-relaxed">
             {profileData.description}
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ul className="text-sm space-y-1">
-              <li>
-                <strong>Sector:</strong> {profileData.sector ?? '–'}
-              </li>
-              <li>
-                <strong>Industry:</strong> {profileData.industry ?? '–'}
-              </li>
-              <li>
-                <strong>Employees:</strong> {profileData.fullTimeEmployees ?? '–'}
-              </li>
-              <li>
-                <strong>IPO Date:</strong> {fmtDate(profileData.ipoDate)}
-              </li>
-            </ul>
-            <ul className="text-sm space-y-1">
-              <li>
-                <strong>Address:</strong>{' '}
-                {`${profileData.address}, ${profileData.city}, ${profileData.state} ${profileData.zip}, ${profileData.country}`}
-              </li>
-              <li>
-                <strong>Phone:</strong> {profileData.phone ?? '–'}
-              </li>
-              <li>
-                <strong>Website:</strong>{' '}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Sector</span>
+                <span className="text-white font-medium">{profileData.sector ?? '–'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Industry</span>
+                <span className="text-white font-medium">{profileData.industry ?? '–'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Employees</span>
+                <span className="text-white font-medium">{profileData.fullTimeEmployees ?? '–'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">IPO Date</span>
+                <span className="text-white font-medium">{fmtDate(profileData.ipoDate)}</span>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Address</span>
+                <span className="text-white font-medium text-right">
+                  {`${profileData.address}, ${profileData.city}, ${profileData.state} ${profileData.zip}, ${profileData.country}`}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Phone</span>
+                <span className="text-white font-medium">{profileData.phone ?? '–'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Website</span>
                 <a
                   href={profileData.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-green-400 hover:text-green-300 transition-colors font-medium"
                 >
                   {profileData.website}
                 </a>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
-        </Card>
+        </div>
       )}
-    </>
+    </div>
   )
 }

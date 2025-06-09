@@ -1,113 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2016-08-10",
+  "period": "2016-08-10",
+  "accession": "0001340807-16-000007",
+  "quarterKey": "2016-Q3",
   "positions": [
-    {
-      "name": "Alarm.com Holdings, Inc.",
-      "cusip": "011642105",
-      "shares": 2006661,
-      "value": 51431000
-    },
-    {
-      "name": "America's Car-Mart Inc.",
-      "cusip": "03062T105",
-      "shares": 1291696,
-      "value": 36477000
-    },
-    {
-      "name": "Ansys, Inc.",
-      "cusip": "03662Q105",
-      "shares": 859187,
-      "value": 77971000
-    },
-    {
-      "name": "Box, Inc",
-      "cusip": "10316T104",
-      "shares": 5136447,
-      "value": 53111000
-    },
-    {
-      "name": "Colfax Corporation",
-      "cusip": "194014106",
-      "shares": 4129169,
-      "value": 109258000
-    },
-    {
-      "name": "CoStar Group",
-      "cusip": "22160N109",
-      "shares": 267612,
-      "value": 58516000
-    },
-    {
-      "name": "FactSet Research Systems inc.",
-      "cusip": "303075105",
-      "shares": 478638,
-      "value": 77262000
-    },
-    {
-      "name": "Fastenal Company",
-      "cusip": "311900104",
-      "shares": 2157361,
-      "value": 95765000
-    },
-    {
-      "name": "Gartner Inc.",
-      "cusip": "366651107",
-      "shares": 1016334,
-      "value": 99001000
-    },
-    {
-      "name": "Interactive Brokers Group Inc",
-      "cusip": "45841N107",
-      "shares": 2616550,
-      "value": 92626000
-    },
     {
       "name": "Interactive Intelligence Group",
       "cusip": "45841V109",
       "shares": 2863755,
-      "value": 117385000
-    },
-    {
-      "name": "Markel Corp.",
-      "cusip": "570535104",
-      "shares": 80660,
-      "value": 76851000
-    },
-    {
-      "name": "Moody's Corporation",
-      "cusip": "615369105",
-      "shares": 960802,
-      "value": 90037000
-    },
-    {
-      "name": "National Instruments Corp.",
-      "cusip": "636518102",
-      "shares": 2314212,
-      "value": 63409000
+      "value": 117385
     },
     {
       "name": "Platform Specialty Products Co",
       "cusip": "72766Q105",
       "shares": 12786794,
-      "value": 113547000
+      "value": 113547
     },
     {
-      "name": "US Ecology, Inc.",
-      "cusip": "91732J102",
-      "shares": 907758,
-      "value": 41711000
+      "name": "Colfax Corporation",
+      "cusip": "194014106",
+      "shares": 4129169,
+      "value": 109258
     },
     {
-      "name": "Verisk Analytics, Inc.",
-      "cusip": "92345Y106",
-      "shares": 908084,
-      "value": 73627000
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 1016334,
+      "value": 99001
+    },
+    {
+      "name": "Fastenal Company",
+      "cusip": "311900104",
+      "shares": 2157361,
+      "value": 95765
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 2616550,
+      "value": 92626
+    },
+    {
+      "name": "Moody's Corporation",
+      "cusip": "615369105",
+      "shares": 960802,
+      "value": 90037
+    },
+    {
+      "name": "Ansys, Inc",
+      "cusip": "03662Q105",
+      "shares": 859187,
+      "value": 77971
+    },
+    {
+      "name": "FactSet Research Systems inc",
+      "cusip": "303075105",
+      "shares": 478638,
+      "value": 77262
+    },
+    {
+      "name": "Markel Corp",
+      "cusip": "570535104",
+      "shares": 80660,
+      "value": 76851
     },
     {
       "name": "Waters Corporation",
       "cusip": "941848103",
       "shares": 546180,
-      "value": 76820000
+      "value": 76820
+    },
+    {
+      "name": "Verisk Analytics, Inc",
+      "cusip": "92345Y106",
+      "shares": 908084,
+      "value": 73627
+    },
+    {
+      "name": "National Instruments Corp",
+      "cusip": "636518102",
+      "shares": 2314212,
+      "value": 63409
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 267612,
+      "value": 58516
+    },
+    {
+      "name": "Box, Inc",
+      "cusip": "10316T104",
+      "shares": 5136447,
+      "value": 53111
+    },
+    {
+      "name": "Alarm.com Holdings, Inc",
+      "cusip": "011642105",
+      "shares": 2006661,
+      "value": 51431
+    },
+    {
+      "name": "US Ecology, Inc",
+      "cusip": "91732J102",
+      "shares": 907758,
+      "value": 41711
+    },
+    {
+      "name": "America's Car-Mart Inc",
+      "cusip": "03062T105",
+      "shares": 1291696,
+      "value": 36477
     }
-  ]
+  ],
+  "totalValue": 1404805,
+  "positionsCount": 18
 }

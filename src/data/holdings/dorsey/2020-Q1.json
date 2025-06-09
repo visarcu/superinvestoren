@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001398344-20-003505",
+  "quarterKey": "2020-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 10343,
-      "value": 13829000
-    },
-    {
-      "name": "ALTERYX INC",
-      "cusip": "02156B103",
-      "shares": 477906,
-      "value": 47824000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 448037,
+      "value": 91960
     },
     {
       "name": "AVALARA INC",
       "cusip": "05338G106",
       "shares": 1231614,
-      "value": 90216000
-    },
-    {
-      "name": "DESPEGAR COM CORP",
-      "cusip": "G27358103",
-      "shares": 4999428,
-      "value": 67392000
-    },
-    {
-      "name": "EBAY INC",
-      "cusip": "278642103",
-      "shares": 934115,
-      "value": 33731000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 448037,
-      "value": 91960000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 435147,
-      "value": 47070000
-    },
-    {
-      "name": "ROKU INC",
-      "cusip": "77543R102",
-      "shares": 363488,
-      "value": 48671000
+      "value": 90216
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 551405,
-      "value": 67481000
+      "value": 67481
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 4999428,
+      "value": 67392
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 363488,
+      "value": 48671
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 477906,
+      "value": 47824
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 435147,
+      "value": 47070
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 934115,
+      "value": 33731
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 10343,
+      "value": 13829
     }
-  ]
+  ],
+  "totalValue": 508174,
+  "positionsCount": 9
 }

@@ -1,59 +1,65 @@
 {
+  "form": "13F-HR",
   "date": "2017-05-15",
+  "period": "2017-05-15",
+  "accession": "0001398344-17-006366",
+  "quarterKey": "2017-Q2",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 23061,
-      "value": 19130000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 155651,
-      "value": 16634000
-    },
-    {
-      "name": "BROOKFIELD ASSET MGMT INC",
-      "cusip": "112585104",
-      "shares": 520454,
-      "value": 18976000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 228559,
+      "value": 32467
     },
     {
       "name": "CIMPRESS N V",
       "cusip": "N20146101",
       "shares": 257326,
-      "value": 22179000
+      "value": 22179
     },
     {
       "name": "DOLLAR GEN CORP NEW",
       "cusip": "256677105",
       "shares": 278400,
-      "value": 19413000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 228559,
-      "value": 32467000
-    },
-    {
-      "name": "ROPER TECHNOLOGIES INC",
-      "cusip": "776696106",
-      "shares": 90253,
-      "value": 18636000
-    },
-    {
-      "name": "WORKIVA INC",
-      "cusip": "98139A105",
-      "shares": 645973,
-      "value": 10109000
+      "value": 19413
     },
     {
       "name": "DESCARTES SYS GROUP INC",
       "cusip": "249906108",
       "shares": 842740,
-      "value": 19258000
+      "value": 19258
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 23061,
+      "value": 19130
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 520454,
+      "value": 18976
+    },
+    {
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 90253,
+      "value": 18636
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 155651,
+      "value": 16634
+    },
+    {
+      "name": "WORKIVA INC",
+      "cusip": "98139A105",
+      "shares": 645973,
+      "value": 10109
     }
-  ]
+  ],
+  "totalValue": 176802,
+  "positionsCount": 9
 }

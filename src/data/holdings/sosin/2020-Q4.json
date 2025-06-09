@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0001387131-20-009974",
+  "quarterKey": "2020-Q4",
   "positions": [
     {
-      "name": "AT HOME GROUP INC",
-      "cusip": "04650Y100",
-      "shares": 10433735,
-      "value": 155045000
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 3606974,
+      "value": 804572
     },
     {
       "name": "CARDLYTICS INC",
       "cusip": "14161W105",
       "shares": 4391586,
-      "value": 309914000
+      "value": 309914
     },
     {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 3606974,
-      "value": 804572000
-    },
-    {
-      "name": "HERBALIFE NUTRITION LTD",
-      "cusip": "G4412G101",
-      "shares": 1425462,
-      "value": 66498000
-    },
-    {
-      "name": "PARTY CITY HOLDCO INC",
-      "cusip": "702149105",
-      "shares": 12290199,
-      "value": 31955000
+      "name": "AT HOME GROUP INC",
+      "cusip": "04650Y100",
+      "shares": 10433735,
+      "value": 155045
     },
     {
       "name": "WORLD ACCEP CORP DEL",
       "cusip": "981419104",
       "shares": 707768,
-      "value": 74705000
+      "value": 74705
+    },
+    {
+      "name": "HERBALIFE NUTRITION LTD",
+      "cusip": "G4412G101",
+      "shares": 1425462,
+      "value": 66498
+    },
+    {
+      "name": "PARTY CITY HOLDCO INC",
+      "cusip": "702149105",
+      "shares": 12290199,
+      "value": 31955
     }
-  ]
+  ],
+  "totalValue": 1442689,
+  "positionsCount": 6
 }

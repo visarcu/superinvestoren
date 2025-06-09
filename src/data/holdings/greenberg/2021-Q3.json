@@ -1,149 +1,155 @@
 {
+  "form": "13F-HR",
   "date": "2021-08-16",
+  "period": "2021-08-16",
+  "accession": "0001172661-21-001819",
+  "quarterKey": "2021-Q3",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079k305",
-      "shares": 564,
-      "value": 1377000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079k107",
-      "shares": 345,
-      "value": 865000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 69,
-      "value": 237000
-    },
-    {
-      "name": "ANTERO MIDSTREAM CORP",
-      "cusip": "03676b102",
-      "shares": 3348311,
-      "value": 34788000
-    },
     {
       "name": "ANTHEM INC",
       "cusip": "036752103",
       "shares": 1145416,
-      "value": 437320000
+      "value": 437320
     },
     {
       "name": "AON PLC",
-      "cusip": "g0403h108",
+      "cusip": "0403108",
       "shares": 1250429,
-      "value": 298553000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 696440,
-      "value": 193554000
-    },
-    {
-      "name": "BK OF AMERICA CORP",
-      "cusip": "060505104",
-      "shares": 14532,
-      "value": 599000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030n101",
-      "shares": 31094,
-      "value": 1773000
-    },
-    {
-      "name": "DOLLAR TREE INC",
-      "cusip": "256746108",
-      "shares": 949378,
-      "value": 94463000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303m102",
-      "shares": 1246,
-      "value": 433000
-    },
-    {
-      "name": "FIDELITY NATIONAL FINANCIAL",
-      "cusip": "31620r303",
-      "shares": 6286646,
-      "value": 273217000
-    },
-    {
-      "name": "HCA HEALTHCARE INC",
-      "cusip": "40412c101",
-      "shares": 782236,
-      "value": 161719000
+      "value": 298553
     },
     {
       "name": "JPMORGAN CHASE & CO",
-      "cusip": "46625h100",
+      "cusip": "46625100",
       "shares": 1847337,
-      "value": 287334000
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 3223,
-      "value": 440000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636q104",
-      "shares": 558,
-      "value": 204000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 3279,
-      "value": 1188000
+      "value": 287334
     },
     {
       "name": "PRIMERICA INC",
-      "cusip": "74164m108",
+      "cusip": "74164108",
       "shares": 1872970,
-      "value": 286827000
+      "value": 286827
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620303",
+      "shares": 6286646,
+      "value": 273217
+    },
+    {
+      "name": "VALVOLINE INC",
+      "cusip": "92047101",
+      "shares": 7584897,
+      "value": 246206
     },
     {
       "name": "PROGRESSIVE CORP",
       "cusip": "743315103",
       "shares": 2347931,
-      "value": 230590000
+      "value": 230590
     },
     {
       "name": "RAYMOND JAMES FINL INC",
       "cusip": "754730109",
       "shares": 1626779,
-      "value": 211319000
+      "value": 211319
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 696440,
+      "value": 193554
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412101",
+      "shares": 782236,
+      "value": 161719
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324102",
+      "shares": 242019,
+      "value": 96914
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 949378,
+      "value": 94463
     },
     {
       "name": "SCHWAB CHARLES CORP",
       "cusip": "808513105",
       "shares": 721293,
-      "value": 52517000
+      "value": 52517
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676102",
+      "shares": 3348311,
+      "value": 34788
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 31094,
+      "value": 1773
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 564,
+      "value": 1377
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 3279,
+      "value": 1188
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079107",
+      "shares": 345,
+      "value": 865
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 599
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 3223,
+      "value": 440
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303102",
+      "shares": 1246,
+      "value": 433
     },
     {
       "name": "SQUARESPACE INC",
-      "cusip": "85225a107",
+      "cusip": "85225107",
       "shares": 6000,
-      "value": 356000
+      "value": 356
     },
     {
-      "name": "UNITEDHEALTH GROUP INC",
-      "cusip": "91324p102",
-      "shares": 242019,
-      "value": 96914000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 69,
+      "value": 237
     },
     {
-      "name": "VALVOLINE INC",
-      "cusip": "92047w101",
-      "shares": 7584897,
-      "value": 246206000
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636104",
+      "shares": 558,
+      "value": 204
     }
-  ]
+  ],
+  "totalValue": 2912793,
+  "positionsCount": 24
 }

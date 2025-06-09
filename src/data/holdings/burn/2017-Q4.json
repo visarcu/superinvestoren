@@ -1,221 +1,227 @@
 {
+  "form": "13F-HR",
   "date": "2017-11-08",
+  "period": "2017-11-08",
+  "accession": "0000950123-17-009803",
+  "quarterKey": "2017-Q4",
   "positions": [
     {
-      "name": "Alphabet Inc. Cl A",
-      "cusip": "02079K305",
-      "shares": 144568,
-      "value": 140769000
-    },
-    {
-      "name": "Analog Devices Inc",
-      "cusip": "032654105",
-      "shares": 1991215,
-      "value": 171583000
-    },
-    {
-      "name": "Antero Resources Corporation",
-      "cusip": "03674X106",
-      "shares": 9932900,
-      "value": 197665000
-    },
-    {
-      "name": "Applied Materials",
-      "cusip": "038222105",
-      "shares": 3105309,
-      "value": 161756000
+      "name": "CitiGroup, Inc",
+      "cusip": "172967424",
+      "shares": 3623014,
+      "value": 263538
     },
     {
       "name": "Bank of America Corporatio",
       "cusip": "060505104",
       "shares": 10121051,
-      "value": 256467000
-    },
-    {
-      "name": "Berkshire Hathaway, Inc. C",
-      "cusip": "084670702",
-      "shares": 997356,
-      "value": 182835000
-    },
-    {
-      "name": "BP PLC Sponsored ADR",
-      "cusip": "055622104",
-      "shares": 3980820,
-      "value": 152983000
-    },
-    {
-      "name": "Capital One Financial Corp",
-      "cusip": "14040H105",
-      "shares": 2360838,
-      "value": 199869000
-    },
-    {
-      "name": "CBS Corporation",
-      "cusip": "124857202",
-      "shares": 2440353,
-      "value": 141540000
-    },
-    {
-      "name": "CitiGroup, Inc.",
-      "cusip": "172967424",
-      "shares": 3623014,
-      "value": 263538000
-    },
-    {
-      "name": "Comcast Corporation Class A",
-      "cusip": "20030N101",
-      "shares": 3272421,
-      "value": 125923000
-    },
-    {
-      "name": "Delta Air Lines Inc",
-      "cusip": "247361702",
-      "shares": 2968928,
-      "value": 143162000
-    },
-    {
-      "name": "Exelon Corporation",
-      "cusip": "30161N101",
-      "shares": 3786713,
-      "value": 142645000
+      "value": 256467
     },
     {
       "name": "First Data Corporation",
       "cusip": "32008D106",
       "shares": 12294211,
-      "value": 221788000
+      "value": 221788
     },
     {
-      "name": "General Electric Company",
-      "cusip": "369604103",
-      "shares": 5269540,
-      "value": 127417000
-    },
-    {
-      "name": "The Goodyear Tire and Rubber Co",
-      "cusip": "382550101",
-      "shares": 4023929,
-      "value": 133796000
-    },
-    {
-      "name": "Hewlett Packard Enterprise",
-      "cusip": "42824C109",
-      "shares": 9528965,
-      "value": 140171000
+      "name": "Merck & Co. Inc",
+      "cusip": "58933Y105",
+      "shares": 3351152,
+      "value": 214574
     },
     {
       "name": "International Paper Company",
       "cusip": "460146103",
       "shares": 3624456,
-      "value": 205942000
-    },
-    {
-      "name": "Keysight Technologies, Inc.",
-      "cusip": "49338L103",
-      "shares": 4347717,
-      "value": 181126000
-    },
-    {
-      "name": "Marsh & McLennan Companies Inc.",
-      "cusip": "571748102",
-      "shares": 1538492,
-      "value": 128941000
-    },
-    {
-      "name": "Merck & Co. Inc.",
-      "cusip": "58933Y105",
-      "shares": 3351152,
-      "value": 214574000
-    },
-    {
-      "name": "Micro Focus International",
-      "cusip": "594837304",
-      "shares": 3898012,
-      "value": 124347000
-    },
-    {
-      "name": "Microsoft Corporation",
-      "cusip": "594918104",
-      "shares": 2228440,
-      "value": 165996000
-    },
-    {
-      "name": "Occidental Petroleum Corporation",
-      "cusip": "674599105",
-      "shares": 3107127,
-      "value": 199509000
-    },
-    {
-      "name": "Oracle Corporation",
-      "cusip": "68389X105",
-      "shares": 3822453,
-      "value": 184816000
-    },
-    {
-      "name": "Pfizer Inc.",
-      "cusip": "717081103",
-      "shares": 5338219,
-      "value": 190574000
+      "value": 205942
     },
     {
       "name": "Thermo Fisher Scientific,",
       "cusip": "883556102",
       "shares": 1082464,
-      "value": 204802000
+      "value": 204802
     },
     {
       "name": "TOTAL S.A. - ADR",
       "cusip": "89151E109",
       "shares": 3799343,
-      "value": 203341000
+      "value": 203341
     },
     {
-      "name": "Vodafone Group Plc ADR",
-      "cusip": "92857W308",
-      "shares": 5218946,
-      "value": 148531000
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 2360838,
+      "value": 199869
     },
     {
-      "name": "Wal-Mart Stores, Inc.",
+      "name": "Occidental Petroleum Corporation",
+      "cusip": "674599105",
+      "shares": 3107127,
+      "value": 199509
+    },
+    {
+      "name": "Antero Resources Corporation",
+      "cusip": "03674X106",
+      "shares": 9932900,
+      "value": 197665
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 5338219,
+      "value": 190574
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 3822453,
+      "value": 184816
+    },
+    {
+      "name": "Flex, Ltd",
+      "cusip": "Y2573F102",
+      "shares": 11071853,
+      "value": 183461
+    },
+    {
+      "name": "Berkshire Hathaway, Inc C",
+      "cusip": "084670702",
+      "shares": 997356,
+      "value": 182835
+    },
+    {
+      "name": "Keysight Technologies, Inc",
+      "cusip": "49338L103",
+      "shares": 4347717,
+      "value": 181126
+    },
+    {
+      "name": "Wal-Mart Stores, Inc",
       "cusip": "931142103",
       "shares": 2237496,
-      "value": 174838000
+      "value": 174838
     },
     {
-      "name": "Allergan plc",
-      "cusip": "G0177J108",
-      "shares": 781069,
-      "value": 160080000
+      "name": "Analog Devices Inc",
+      "cusip": "032654105",
+      "shares": 1991215,
+      "value": 171583
+    },
+    {
+      "name": "Microsoft Corporation",
+      "cusip": "594918104",
+      "shares": 2228440,
+      "value": 165996
+    },
+    {
+      "name": "Applied Materials",
+      "cusip": "038222105",
+      "shares": 3105309,
+      "value": 161756
     },
     {
       "name": "Aon PLC",
       "cusip": "G0408V102",
       "shares": 1106583,
-      "value": 161672000
+      "value": 161672
     },
     {
-      "name": "Invesco Ltd.",
-      "cusip": "G491BT108",
-      "shares": 2655103,
-      "value": 93035000
+      "name": "Allergan plc",
+      "cusip": "G0177J108",
+      "shares": 781069,
+      "value": 160080
     },
     {
       "name": "Pentair plc",
       "cusip": "G7S00T104",
       "shares": 2264529,
-      "value": 153897000
+      "value": 153897
+    },
+    {
+      "name": "BP PLC Sponsored ADR",
+      "cusip": "055622104",
+      "shares": 3980820,
+      "value": 152983
+    },
+    {
+      "name": "Vodafone Group Plc ADR",
+      "cusip": "92857W308",
+      "shares": 5218946,
+      "value": 148531
+    },
+    {
+      "name": "Delta Air Lines Inc",
+      "cusip": "247361702",
+      "shares": 2968928,
+      "value": 143162
+    },
+    {
+      "name": "Exelon Corporation",
+      "cusip": "30161N101",
+      "shares": 3786713,
+      "value": 142645
+    },
+    {
+      "name": "CBS Corporation",
+      "cusip": "124857202",
+      "shares": 2440353,
+      "value": 141540
+    },
+    {
+      "name": "Alphabet Inc Cl A",
+      "cusip": "02079K305",
+      "shares": 144568,
+      "value": 140769
+    },
+    {
+      "name": "Hewlett Packard Enterprise",
+      "cusip": "42824C109",
+      "shares": 9528965,
+      "value": 140171
     },
     {
       "name": "Chubb Ltd",
       "cusip": "H1467J104",
       "shares": 971453,
-      "value": 138481000
+      "value": 138481
     },
     {
-      "name": "Flex, Ltd.",
-      "cusip": "Y2573F102",
-      "shares": 11071853,
-      "value": 183461000
+      "name": "The Goodyear Tire and Rubber Co",
+      "cusip": "382550101",
+      "shares": 4023929,
+      "value": 133796
+    },
+    {
+      "name": "Marsh & McLennan Companies Inc",
+      "cusip": "571748102",
+      "shares": 1538492,
+      "value": 128941
+    },
+    {
+      "name": "General Electric Company",
+      "cusip": "369604103",
+      "shares": 5269540,
+      "value": 127417
+    },
+    {
+      "name": "Comcast Corporation Class A",
+      "cusip": "20030N101",
+      "shares": 3272421,
+      "value": 125923
+    },
+    {
+      "name": "Micro Focus International",
+      "cusip": "594837304",
+      "shares": 3898012,
+      "value": 124347
+    },
+    {
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 2655103,
+      "value": 93035
     }
-  ]
+  ],
+  "totalValue": 6121870,
+  "positionsCount": 36
 }

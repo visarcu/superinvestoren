@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2020-05-13",
+  "period": "2020-05-13",
+  "accession": "0001104659-20-060577",
+  "quarterKey": "2020-Q2",
   "positions": [
-    {
-      "name": "ALPHABET INC - CL A",
-      "cusip": "02079K305",
-      "shares": 290943,
-      "value": 338061000
-    },
     {
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 1095554,
-      "value": 478001000
+      "value": 478001
     },
     {
-      "name": "MASTERCARD INC CL A",
-      "cusip": "57636Q104",
-      "shares": 361940,
-      "value": 87430000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 1485724,
-      "value": 314231000
+      "name": "ALPHABET INC - CL A",
+      "cusip": "02079K305",
+      "shares": 290943,
+      "value": 338061
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 1010067,
-      "value": 323413000
+      "value": 323413
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1485724,
+      "value": 314231
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 361940,
+      "value": 87430
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 208516,
-      "value": 33596000
+      "value": 33596
     }
-  ]
+  ],
+  "totalValue": 1574732,
+  "positionsCount": 6
 }

@@ -2,90 +2,94 @@
   "form": "13F-HR",
   "date": "2015-02-17",
   "period": "2015-02-17",
+  "accession": "0001418812-15-000018",
+  "quarterKey": "2015-Q1",
   "positions": [
-    {
-      "name": "ADOBE SYSTEMS INC ",
-      "cusip": "00724F101",
-      "shares": 16006753,
-      "value": 1163691000
-    },
-    {
-      "name": "AGRIUM INC",
-      "cusip": "008916108",
-      "shares": 8194898,
-      "value": 776221000
-    },
-    {
-      "name": "ALLISON TRANSMISSION HOLDING",
-      "cusip": "01973R101",
-      "shares": 19125204,
-      "value": 648344000
-    },
-    {
-      "name": "ARMSTRONG WORLD INDUSTRIES",
-      "cusip": "04247X102",
-      "shares": 9200000,
-      "value": 470304000
-    },
-    {
-      "name": "BAKER HUGHES INC",
-      "cusip": "057224107",
-      "shares": 14997500,
-      "value": 840910000
-    },
-    {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 31322230,
-      "value": 1072786000
-    },
-    {
-      "name": "HALLIBURTON CO",
-      "cusip": "406216101",
-      "shares": 20895000,
-      "value": 821800000
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 74238243,
-      "value": 3448366000
-    },
-    {
-      "name": "MOTOROLA SOLUTIONS, INC",
-      "cusip": "620076307",
-      "shares": 17588576,
-      "value": 1179842000
-    },
-    {
-      "name": "MSCI INC",
-      "cusip": "55354G100",
-      "shares": 9308960,
-      "value": 441617000
-    },
-    {
-      "name": "ROCKWELL COLLINS INC ",
-      "cusip": "774341101",
-      "shares": 4465000,
-      "value": 377203000
-    },
-    {
-      "name": "TWENTY-FIRST CENTURY FOX INC",
-      "cusip": "90130A200",
-      "shares": 30300000,
-      "value": 1117767000
+      "value": 3448366
     },
     {
       "name": "VALEANT PHARMACEUTICALS INTE",
       "cusip": "91911K102",
       "shares": 19383877,
-      "value": 2774027000
+      "value": 2774027
     },
     {
-      "name": "WILLIS GROUP HOLDINGS PLC ",
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 17588576,
+      "value": 1179842
+    },
+    {
+      "name": "ADOBE SYSTEMS INC",
+      "cusip": "00724F101",
+      "shares": 16006753,
+      "value": 1163691
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX INC",
+      "cusip": "90130A200",
+      "shares": 30300000,
+      "value": 1117767
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 31322230,
+      "value": 1072786
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 14997500,
+      "value": 840910
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC",
       "cusip": "G96666105",
       "shares": 18423835,
-      "value": 825572000
+      "value": 825572
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 20895000,
+      "value": 821800
+    },
+    {
+      "name": "AGRIUM INC",
+      "cusip": "008916108",
+      "shares": 8194898,
+      "value": 776221
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 19125204,
+      "value": 648344
+    },
+    {
+      "name": "ARMSTRONG WORLD INDUSTRIES",
+      "cusip": "04247X102",
+      "shares": 9200000,
+      "value": 470304
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 9308960,
+      "value": 441617
+    },
+    {
+      "name": "ROCKWELL COLLINS INC",
+      "cusip": "774341101",
+      "shares": 4465000,
+      "value": 377203
     }
-  ]
+  ],
+  "totalValue": 15958450,
+  "positionsCount": 14
 }

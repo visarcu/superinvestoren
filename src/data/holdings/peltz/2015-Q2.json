@@ -2,78 +2,82 @@
   "form": "13F-HR",
   "date": "2015-05-15",
   "period": "2015-05-15",
+  "accession": "0001345471-15-000031",
+  "quarterKey": "2015-Q2",
   "positions": [
     {
-      "name": "Allegion Pub Ltd Co",
-      "cusip": "G0176J109",
-      "shares": 1526361,
-      "value": 93368000
-    },
-    {
-      "name": "Allegion Pub Ltd Co",
-      "cusip": "G0176J109",
-      "shares": 129027,
-      "value": 7893000
-    },
-    {
-      "name": "Bank New York Mellon Corp. ",
-      "cusip": "064058100",
-      "shares": 30225639,
-      "value": 1216280000
-    },
-    {
-      "name": "Du Pont E I De Nemours & Co. ",
+      "name": "Du Pont E I De Nemours & Co.",
       "cusip": "263534109",
       "shares": 24563084,
-      "value": 1755524000
+      "value": 1755524
     },
     {
-      "name": "Family Dlr Stores Inc.",
-      "cusip": "307000109",
-      "shares": 3679,
-      "value": 292000
-    },
-    {
-      "name": "Ingersoll-Rand PLC",
-      "cusip": "G47791101",
-      "shares": 7862153,
-      "value": 535255000
-    },
-    {
-      "name": "Ingersoll-Rand PLC",
-      "cusip": "G47791101",
-      "shares": 708140,
-      "value": 48210000
-    },
-    {
-      "name": "Legg Mason Inc.",
-      "cusip": "524901105",
-      "shares": 12887964,
-      "value": 711416000
-    },
-    {
-      "name": "Mondelez Intl Inc.",
-      "cusip": "609207105",
-      "shares": 48024117,
-      "value": 1733190000
-    },
-    {
-      "name": "PepsiCo Inc.",
+      "name": "PepsiCo Inc",
       "cusip": "713448108",
       "shares": 18316211,
-      "value": 1751396000
+      "value": 1751396
     },
     {
-      "name": "Tiffany & Co. NEW",
-      "cusip": "886547108",
-      "shares": 13412,
-      "value": 1180000
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 48024117,
+      "value": 1733190
+    },
+    {
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 30225639,
+      "value": 1216280
+    },
+    {
+      "name": "Legg Mason Inc",
+      "cusip": "524901105",
+      "shares": 12887964,
+      "value": 711416
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 64800245,
-      "value": 706323000
+      "value": 706323
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 7862153,
+      "value": 535255
+    },
+    {
+      "name": "Allegion Pub Ltd Co",
+      "cusip": "G0176J109",
+      "shares": 1526361,
+      "value": 93368
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 708140,
+      "value": 48210
+    },
+    {
+      "name": "Allegion Pub Ltd Co",
+      "cusip": "G0176J109",
+      "shares": 129027,
+      "value": 7893
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 13412,
+      "value": 1180
+    },
+    {
+      "name": "Family Dlr Stores Inc",
+      "cusip": "307000109",
+      "shares": 3679,
+      "value": 292
     }
-  ]
+  ],
+  "totalValue": 8560327,
+  "positionsCount": 12
 }

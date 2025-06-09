@@ -1,71 +1,77 @@
 {
+  "form": "13F-HR",
   "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0001398344-18-011830",
+  "quarterKey": "2018-Q3",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 37411,
-      "value": 41738000
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 150704,
-      "value": 26250000
-    },
-    {
-      "name": "CIMPRESS N V",
-      "cusip": "N20146101",
-      "shares": 184980,
-      "value": 26815000
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 422382,
+      "value": 82077
     },
     {
       "name": "DOLLAR GEN CORP NEW",
       "cusip": "256677105",
       "shares": 465375,
-      "value": 45886000
+      "value": 45886
     },
     {
-      "name": "EBAY INC",
-      "cusip": "278642103",
-      "shares": 351761,
-      "value": 12755000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 422382,
-      "value": 82077000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 37411,
+      "value": 41738
     },
     {
       "name": "PAYPAL HLDGS INC",
       "cusip": "70450Y103",
       "shares": 432105,
-      "value": 35981000
-    },
-    {
-      "name": "ROPER TECHNOLOGIES INC",
-      "cusip": "776696106",
-      "shares": 102739,
-      "value": 28347000
+      "value": 35981
     },
     {
       "name": "SITEONE LANDSCAPE SUPPLY INC",
       "cusip": "82982L103",
       "shares": 415378,
-      "value": 34879000
+      "value": 34879
+    },
+    {
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 102739,
+      "value": 28347
     },
     {
       "name": "THE TRADE DESK INC",
       "cusip": "88339J105",
       "shares": 286708,
-      "value": 26893000
+      "value": 26893
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 184980,
+      "value": 26815
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 150704,
+      "value": 26250
     },
     {
       "name": "WORKIVA INC",
       "cusip": "98139A105",
       "shares": 698448,
-      "value": 17042000
+      "value": 17042
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 351761,
+      "value": 12755
     }
-  ]
+  ],
+  "totalValue": 378663,
+  "positionsCount": 11
 }

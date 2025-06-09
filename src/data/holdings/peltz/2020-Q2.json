@@ -2,54 +2,58 @@
   "form": "13F-HR",
   "date": "2020-05-15",
   "period": "2020-05-15",
+  "accession": "0001345471-20-000027",
+  "quarterKey": "2020-Q2",
   "positions": [
     {
-      "name": "Bank New York Mellon Corp. ",
-      "cusip": "064058100",
-      "shares": 9701088,
-      "value": 326733000
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 31034785,
+      "value": 3413826
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 23676143,
+      "value": 1080342
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 15845340,
+      "value": 793535
     },
     {
       "name": "General Electric Co.",
       "cusip": "369604103",
       "shares": 64236784,
-      "value": 510040000
-    },
-    {
-      "name": "Legg Mason Inc.",
-      "cusip": "524901105",
-      "shares": 3881704,
-      "value": 189621000
-    },
-    {
-      "name": "Mondelez Intl Inc.",
-      "cusip": "609207105",
-      "shares": 15845340,
-      "value": 793535000
-    },
-    {
-      "name": "nVent Electric Plc",
-      "cusip": "G6700G107",
-      "shares": 13555821,
-      "value": 228687000
-    },
-    {
-      "name": "Procter and Gamble Co.",
-      "cusip": "742718109",
-      "shares": 31034785,
-      "value": 3413826000
-    },
-    {
-      "name": "Sysco Corp.",
-      "cusip": "871829107",
-      "shares": 23676143,
-      "value": 1080342000
+      "value": 510040
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 26630629,
-      "value": 396264000
+      "value": 396264
+    },
+    {
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 9701088,
+      "value": 326733
+    },
+    {
+      "name": "nVent Electric Plc",
+      "cusip": "G6700G107",
+      "shares": 13555821,
+      "value": 228687
+    },
+    {
+      "name": "Legg Mason Inc",
+      "cusip": "524901105",
+      "shares": 3881704,
+      "value": 189621
     }
-  ]
+  ],
+  "totalValue": 6939048,
+  "positionsCount": 8
 }

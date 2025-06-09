@@ -1,167 +1,173 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0000950123-20-002008",
+  "quarterKey": "2020-Q1",
   "positions": [
-    {
-      "name": "ALLIANCE DATA SYSTEMS CORP",
-      "cusip": "018581108",
-      "shares": 458532,
-      "value": 51447000
-    },
-    {
-      "name": "SMITH (A.O.) CORP",
-      "cusip": "831865209",
-      "shares": 46950,
-      "value": 2237000
-    },
     {
       "name": "BERRY GLOBAL GROUP",
       "cusip": "08579W103",
       "shares": 5643179,
-      "value": 267995000
-    },
-    {
-      "name": "BORGWARNER INC",
-      "cusip": "099724106",
-      "shares": 2117151,
-      "value": 91842000
-    },
-    {
-      "name": "BRP INC.",
-      "cusip": "05577W200",
-      "shares": 3500,
-      "value": 159000
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 414300,
-      "value": 36322000
-    },
-    {
-      "name": "COGENT COMMUNICATIONS HOLDINGS INC",
-      "cusip": "19239V302",
-      "shares": 9700,
-      "value": 638000
-    },
-    {
-      "name": "DESCARTES SYS GROUP INC",
-      "cusip": "249906108",
-      "shares": 1900,
-      "value": 81000
-    },
-    {
-      "name": "DISCOVER FINANCIAL SERVICES",
-      "cusip": "254709108",
-      "shares": 598350,
-      "value": 50752000
-    },
-    {
-      "name": "F5 NETWORKS INC",
-      "cusip": "315616102",
-      "shares": 18000,
-      "value": 2514000
-    },
-    {
-      "name": "FASTENAL CORPORATION",
-      "cusip": "311900104",
-      "shares": 13400,
-      "value": 495000
-    },
-    {
-      "name": "FLOWSERVE",
-      "cusip": "34354P105",
-      "shares": 16800,
-      "value": 836000
-    },
-    {
-      "name": "GARDNER DENVER HOLDINGS INC",
-      "cusip": "36555P107",
-      "shares": 2446606,
-      "value": 126196000
-    },
-    {
-      "name": "GILDAN ACTIVEWEAR INC",
-      "cusip": "375916103",
-      "shares": 3906352,
-      "value": 115355000
-    },
-    {
-      "name": "HD SUPPLY HOLDINGS INC",
-      "cusip": "40416M105",
-      "shares": 59050,
-      "value": 2375000
-    },
-    {
-      "name": "KNIGHT-SWIFT TRANSPORTATION",
-      "cusip": "499049104",
-      "shares": 1020846,
-      "value": 36587000
-    },
-    {
-      "name": "MAGNA INTERNATIONAL INC",
-      "cusip": "559222401",
-      "shares": 1435900,
-      "value": 78745000
-    },
-    {
-      "name": "MIDDLEBY CORP",
-      "cusip": "596278101",
-      "shares": 1060196,
-      "value": 116113000
-    },
-    {
-      "name": "NETSCOUT SYSTEMS INC",
-      "cusip": "64115T104",
-      "shares": 546057,
-      "value": 13144000
-    },
-    {
-      "name": "OPEN TEXT CORP",
-      "cusip": "683715106",
-      "shares": 2339166,
-      "value": 103087000
-    },
-    {
-      "name": "POLARIS INDUSTRIES INC",
-      "cusip": "731068102",
-      "shares": 20450,
-      "value": 2080000
-    },
-    {
-      "name": "PRA GROUP INC",
-      "cusip": "69354N106",
-      "shares": 2984570,
-      "value": 108340000
-    },
-    {
-      "name": "PRESTIGE CONSUMER HEALTHCARE INC",
-      "cusip": "74112D101",
-      "shares": 84550,
-      "value": 3424000
-    },
-    {
-      "name": "SERVICE CORP INTERNATIONAL",
-      "cusip": "817565104",
-      "shares": 1480037,
-      "value": 68126000
+      "value": 267995
     },
     {
       "name": "SS&C TECHNOLOGIES HOLDINGS INC",
       "cusip": "78467J100",
       "shares": 2289515,
-      "value": 140576000
+      "value": 140576
     },
     {
-      "name": "TJX COMPANIES INC",
-      "cusip": "872540109",
-      "shares": 17238,
-      "value": 1053000
+      "name": "GARDNER DENVER HOLDINGS INC",
+      "cusip": "36555P107",
+      "shares": 2446606,
+      "value": 126196
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 1060196,
+      "value": 116113
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 3906352,
+      "value": 115355
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 2984570,
+      "value": 108340
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 2339166,
+      "value": 103087
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 2117151,
+      "value": 91842
     },
     {
       "name": "URBAN OUTFITTERS INC",
       "cusip": "917047102",
       "shares": 3000247,
-      "value": 83317000
+      "value": 83317
+    },
+    {
+      "name": "MAGNA INTERNATIONAL INC",
+      "cusip": "559222401",
+      "shares": 1435900,
+      "value": 78745
+    },
+    {
+      "name": "SERVICE CORP INTERNATIONAL",
+      "cusip": "817565104",
+      "shares": 1480037,
+      "value": 68126
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 458532,
+      "value": 51447
+    },
+    {
+      "name": "DISCOVER FINANCIAL SERVICES",
+      "cusip": "254709108",
+      "shares": 598350,
+      "value": 50752
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORTATION",
+      "cusip": "499049104",
+      "shares": 1020846,
+      "value": 36587
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 414300,
+      "value": 36322
+    },
+    {
+      "name": "NETSCOUT SYSTEMS INC",
+      "cusip": "64115T104",
+      "shares": 546057,
+      "value": 13144
+    },
+    {
+      "name": "PRESTIGE CONSUMER HEALTHCARE INC",
+      "cusip": "74112D101",
+      "shares": 84550,
+      "value": 3424
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 18000,
+      "value": 2514
+    },
+    {
+      "name": "HD SUPPLY HOLDINGS INC",
+      "cusip": "40416M105",
+      "shares": 59050,
+      "value": 2375
+    },
+    {
+      "name": "SMITH (A.O.) CORP",
+      "cusip": "831865209",
+      "shares": 46950,
+      "value": 2237
+    },
+    {
+      "name": "POLARIS INDUSTRIES INC",
+      "cusip": "731068102",
+      "shares": 20450,
+      "value": 2080
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 17238,
+      "value": 1053
+    },
+    {
+      "name": "FLOWSERVE",
+      "cusip": "34354P105",
+      "shares": 16800,
+      "value": 836
+    },
+    {
+      "name": "COGENT COMMUNICATIONS HOLDINGS INC",
+      "cusip": "19239V302",
+      "shares": 9700,
+      "value": 638
+    },
+    {
+      "name": "FASTENAL CORPORATION",
+      "cusip": "311900104",
+      "shares": 13400,
+      "value": 495
+    },
+    {
+      "name": "BRP INC",
+      "cusip": "05577W200",
+      "shares": 3500,
+      "value": 159
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 1900,
+      "value": 81
     }
-  ]
+  ],
+  "totalValue": 1503836,
+  "positionsCount": 27
 }

@@ -1,191 +1,197 @@
 {
+  "form": "13F-HR",
   "date": "2015-08-06",
+  "period": "2015-08-06",
+  "accession": "0000919574-15-005709",
+  "quarterKey": "2015-Q3",
   "positions": [
     {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 7498588,
-      "value": 181541000
-    },
-    {
-      "name": "AMERICAN INTL GROUP INC",
-      "cusip": "026874784",
-      "shares": 5994760,
-      "value": 370596000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 2899531,
-      "value": 363688000
-    },
-    {
-      "name": "BLACKSTONE MTG TR INC",
-      "cusip": "09257W100",
-      "shares": 1790835,
-      "value": 49821000
-    },
-    {
-      "name": "CF INDS HLDGS INC",
-      "cusip": "125269100",
-      "shares": 3206500,
-      "value": 206114000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 5674262,
-      "value": 341250000
-    },
-    {
-      "name": "DAVITA HEALTHCARE PARTNERS I",
-      "cusip": "23918K108",
-      "shares": 3174157,
-      "value": 252250000
-    },
-    {
-      "name": "DELPHI AUTOMOTIVE PLC",
-      "cusip": "G27823106",
-      "shares": 130136,
-      "value": 11073000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 623283,
-      "value": 71142000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 2653693,
-      "value": 227607000
-    },
-    {
-      "name": "FISERV INC",
-      "cusip": "337738108",
-      "shares": 1796705,
-      "value": 148821000
-    },
-    {
-      "name": "FOOT LOCKER INC",
-      "cusip": "344849104",
-      "shares": 1079163,
-      "value": 72315000
-    },
-    {
-      "name": "GILEAD SCIENCES INC",
-      "cusip": "375558103",
-      "shares": 3999454,
-      "value": 468256000
-    },
-    {
-      "name": "GOPRO INC",
-      "cusip": "38268T103",
-      "shares": 888128,
-      "value": 46822000
-    },
-    {
-      "name": "GRACE W R & CO DEL NEW",
-      "cusip": "38388F108",
-      "shares": 1928919,
-      "value": 193471000
-    },
-    {
-      "name": "HDFC BANK LTD",
-      "cusip": "40415F101",
-      "shares": 1709569,
-      "value": 103480000
-    },
-    {
-      "name": "HOME DEPOT INC",
-      "cusip": "437076102",
-      "shares": 2374828,
-      "value": 263915000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46625H100",
-      "shares": 5884244,
-      "value": 398716000
-    },
-    {
-      "name": "MARTIN MARIETTA MATLS INC",
-      "cusip": "573284106",
-      "shares": 1898157,
-      "value": 268608000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 4356564,
-      "value": 407252000
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 6209386,
+      "value": 1106326
     },
     {
       "name": "MCGRAW HILL FINL INC",
       "cusip": "580645109",
       "shares": 5458694,
-      "value": 548326000
+      "value": 548326
     },
     {
-      "name": "PRICELINE GRP INC",
-      "cusip": "741503403",
-      "shares": 319326,
-      "value": 367662000
-    },
-    {
-      "name": "SCHLUMBERGER LTD",
-      "cusip": "806857108",
-      "shares": 878052,
-      "value": 75679000
-    },
-    {
-      "name": "SCHWAB CHARLES CORP NEW",
-      "cusip": "808513105",
-      "shares": 2144224,
-      "value": 70009000
-    },
-    {
-      "name": "SENSATA TECHNOLOGIES HLDG NV",
-      "cusip": "N7902X106",
-      "shares": 920316,
-      "value": 48537000
-    },
-    {
-      "name": "SKECHERS U S A INC",
-      "cusip": "830566105",
-      "shares": 1147270,
-      "value": 125959000
+      "name": "GILEAD SCIENCES INC",
+      "cusip": "375558103",
+      "shares": 3999454,
+      "value": 468256
     },
     {
       "name": "SOUTHWEST AIRLS CO",
       "cusip": "844741108",
       "shares": 13936320,
-      "value": 461153000
+      "value": 461153
     },
     {
-      "name": "TIME WARNER CABLE INC",
-      "cusip": "88732J207",
-      "shares": 6209386,
-      "value": 1106326000
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 4356564,
+      "value": 407252
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 5884244,
+      "value": 398716
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 5994760,
+      "value": 370596
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 319326,
+      "value": 367662
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2899531,
+      "value": 363688
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 5674262,
+      "value": 341250
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 4539902,
-      "value": 304854000
+      "value": 304854
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 1898157,
+      "value": 268608
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 2374828,
+      "value": 263915
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 3174157,
+      "value": 252250
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2653693,
+      "value": 227607
+    },
+    {
+      "name": "CF INDS HLDGS INC",
+      "cusip": "125269100",
+      "shares": 3206500,
+      "value": 206114
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 1928919,
+      "value": 193471
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 7498588,
+      "value": 181541
     },
     {
       "name": "WALGREENS BOOTS ALLIANCE INC",
       "cusip": "931427108",
       "shares": 2149316,
-      "value": 181488000
+      "value": 181488
     },
     {
       "name": "WELLS FARGO & CO NEW",
       "cusip": "949746101",
       "shares": 2804033,
-      "value": 157699000
+      "value": 157699
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 1796705,
+      "value": 148821
+    },
+    {
+      "name": "SKECHERS U S A INC",
+      "cusip": "830566105",
+      "shares": 1147270,
+      "value": 125959
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 1709569,
+      "value": 103480
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 878052,
+      "value": 75679
+    },
+    {
+      "name": "FOOT LOCKER INC",
+      "cusip": "344849104",
+      "shares": 1079163,
+      "value": 72315
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 623283,
+      "value": 71142
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 2144224,
+      "value": 70009
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1790835,
+      "value": 49821
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 920316,
+      "value": 48537
+    },
+    {
+      "name": "GOPRO INC",
+      "cusip": "38268T103",
+      "shares": 888128,
+      "value": 46822
+    },
+    {
+      "name": "DELPHI AUTOMOTIVE PLC",
+      "cusip": "G27823106",
+      "shares": 130136,
+      "value": 11073
     }
-  ]
+  ],
+  "totalValue": 7894430,
+  "positionsCount": 31
 }

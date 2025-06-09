@@ -2,42 +2,46 @@
   "form": "13F-HR",
   "date": "2021-02-16",
   "period": "2021-02-16",
+  "accession": "0001709323-21-000001",
+  "quarterKey": "2021-Q1",
   "positions": [
     {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 85900,
-      "value": 150486000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 759600,
-      "value": 100791000
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 11476523,
+      "value": 862805
     },
     {
       "name": "BK OF AMERICA CORP",
       "cusip": "060505104",
       "shares": 12358987,
-      "value": 374601000
+      "value": 374601
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 960300,
-      "value": 262316000
+      "value": 262316
     },
     {
-      "name": "MICRON TECHNOLOGY INC",
-      "cusip": "595112103",
-      "shares": 11476523,
-      "value": 862805000
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 85900,
+      "value": 150486
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 759600,
+      "value": 100791
     },
     {
       "name": "PINDUODUO INC",
       "cusip": "722304102",
       "shares": 363165,
-      "value": 64524000
+      "value": 64524
     }
-  ]
+  ],
+  "totalValue": 1815523,
+  "positionsCount": 6
 }

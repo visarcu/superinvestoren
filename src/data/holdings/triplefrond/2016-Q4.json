@@ -2,60 +2,64 @@
   "form": "13F-HR",
   "date": "2016-11-14",
   "period": "2016-11-14",
+  "accession": "0001454502-16-000020",
+  "quarterKey": "2016-Q4",
   "positions": [
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U120",
       "shares": 3774250,
-      "value": 124701000000
+      "value": 124701000
     },
     {
       "name": "CHARTER COMMUNICATION INC N",
       "cusip": "16119P108",
       "shares": 406890,
-      "value": 109848000000
-    },
-    {
-      "name": "DAVITA INC",
-      "cusip": "23918K108",
-      "shares": 674300,
-      "value": 44551000000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 929000,
-      "value": 100592000000
-    },
-    {
-      "name": "SBA COMMUNICATIONS CORP",
-      "cusip": "78388J106",
-      "shares": 600000,
-      "value": 67296000000
+      "value": 109848000
     },
     {
       "name": "SCHWAB CHARLES CORP NEW",
       "cusip": "808513105",
       "shares": 3205000,
-      "value": 101182000000
+      "value": 101182000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 929000,
+      "value": 100592000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 283000,
-      "value": 81821000000
+      "value": 81821000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 600000,
+      "value": 67296000
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 692400,
-      "value": 57261000000
+      "value": 57261000
+    },
+    {
+      "name": "DAVITA INC",
+      "cusip": "23918K108",
+      "shares": 674300,
+      "value": 44551000
     },
     {
       "name": "NORD ANGLIA EDUCATION INC",
       "cusip": "G6583A102",
       "shares": 672628,
-      "value": 14650000000
+      "value": 14650000
     }
-  ]
+  ],
+  "totalValue": 701902000,
+  "positionsCount": 9
 }

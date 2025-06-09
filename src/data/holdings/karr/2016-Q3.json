@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2016-08-15",
+  "period": "2016-08-15",
+  "accession": "0001172661-16-003800",
+  "quarterKey": "2016-Q3",
   "positions": [
+    {
+      "name": "GRUBHUB INC",
+      "cusip": "400110102",
+      "shares": 3435704,
+      "value": 106747
+    },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 1135987,
-      "value": 90345000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 3990,
-      "value": 2855000
-    },
-    {
-      "name": "BAIDU INC",
-      "cusip": "056752108",
-      "shares": 20736,
-      "value": 3425000
-    },
-    {
-      "name": "CAESARSTONE LTD",
-      "cusip": "M20598104",
-      "shares": 1214627,
-      "value": 42220000
-    },
-    {
-      "name": "CHINA ONLINE ED GROUP",
-      "cusip": "16954L105",
-      "shares": 263500,
-      "value": 5225000
+      "value": 90345
     },
     {
       "name": "COGNEX CORP",
       "cusip": "192422103",
       "shares": 1540549,
-      "value": 66398000
+      "value": 66398
     },
     {
-      "name": "ETSY INC",
-      "cusip": "29786A106",
-      "shares": 313213,
-      "value": 3004000
-    },
-    {
-      "name": "GRUBHUB INC",
-      "cusip": "400110102",
-      "shares": 3435704,
-      "value": 106747000
-    },
-    {
-      "name": "HEXCEL CORP NEW",
-      "cusip": "428291108",
-      "shares": 386283,
-      "value": 16085000
+      "name": "CAESARSTONE LTD",
+      "cusip": "M20598104",
+      "shares": 1214627,
+      "value": 42220
     },
     {
       "name": "MULTI COLOR CORP",
       "cusip": "625383104",
       "shares": 488797,
-      "value": 30990000
+      "value": 30990
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 386283,
+      "value": 16085
+    },
+    {
+      "name": "CHINA ONLINE ED GROUP",
+      "cusip": "16954L105",
+      "shares": 263500,
+      "value": 5225
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 20736,
+      "value": 3425
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 313213,
+      "value": 3004
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3990,
+      "value": 2855
     }
-  ]
+  ],
+  "totalValue": 367294,
+  "positionsCount": 10
 }

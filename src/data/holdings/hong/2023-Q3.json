@@ -1,41 +1,47 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0001172661-23-003069",
+  "quarterKey": "2023-Q3",
   "positions": [
     {
-      "name": "BLEND LABS INC",
-      "cusip": "09352U108",
-      "shares": 11241342,
-      "value": 10647799000
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 4181399,
+      "value": 262591857
     },
     {
       "name": "COUPANG INC",
       "cusip": "22266T109",
       "shares": 9478703,
-      "value": 164929432000
-    },
-    {
-      "name": "HILTON WORLDWIDE HLDGS INC",
-      "cusip": "43300A203",
-      "shares": 717821,
-      "value": 104478847000
-    },
-    {
-      "name": "IAC INC",
-      "cusip": "44891N208",
-      "shares": 4181399,
-      "value": 262591857000
-    },
-    {
-      "name": "INTUIT",
-      "cusip": "461202103",
-      "shares": 184786,
-      "value": 84667097000
+      "value": 164929432
     },
     {
       "name": "SEA LTD",
       "cusip": "81141R100",
       "shares": 1838289,
-      "value": 106694294000
+      "value": 106694294
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 717821,
+      "value": 104478847
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 184786,
+      "value": 84667097
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 11241342,
+      "value": 10647799
     }
-  ]
+  ],
+  "totalValue": 734009326,
+  "positionsCount": 6
 }

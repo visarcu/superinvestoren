@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0001104659-23-117428",
+  "quarterKey": "2023-Q4",
   "positions": [
     {
-      "name": "ALPHABET INC CAP STK CL A",
-      "cusip": "02079K305",
-      "shares": 5259222,
-      "value": 688221791000
-    },
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 4600234,
-      "value": 584781746000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC NEW CL A",
-      "cusip": "16119P108",
-      "shares": 497702,
-      "value": 218899294000
-    },
-    {
-      "name": "MASTERCARD INCORPORATED CL A",
-      "cusip": "57636Q104",
-      "shares": 280451,
-      "value": 111033355000
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1310086,
+      "value": 1104572809
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 2211512,
-      "value": 698284914000
+      "value": 698284914
     },
     {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 344434,
-      "value": 108899698000
+      "name": "ALPHABET INC CAP STK CL A",
+      "cusip": "02079K305",
+      "shares": 5259222,
+      "value": 688221791
     },
     {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 1310086,
-      "value": 1104572809000
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4600234,
+      "value": 584781746
     },
     {
       "name": "VISA INC COM CL A",
       "cusip": "92826C839",
       "shares": 2078020,
-      "value": 477965380000
+      "value": 477965380
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC NEW CL A",
+      "cusip": "16119P108",
+      "shares": 497702,
+      "value": 218899294
+    },
+    {
+      "name": "MASTERCARD INCORPORATED CL A",
+      "cusip": "57636Q104",
+      "shares": 280451,
+      "value": 111033355
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 344434,
+      "value": 108899698
     }
-  ]
+  ],
+  "totalValue": 3992658987,
+  "positionsCount": 8
 }

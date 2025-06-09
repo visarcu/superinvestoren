@@ -2,66 +2,70 @@
   "form": "13F-HR",
   "date": "2021-08-13",
   "period": "2021-08-13",
+  "accession": "0001345471-21-000043",
+  "quarterKey": "2021-Q3",
   "positions": [
     {
-      "name": "Comcast Corp. New",
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 17875724,
+      "value": 1389838
+    },
+    {
+      "name": "Comcast Corp New",
       "cusip": "20030N101",
       "shares": 20797466,
-      "value": 1185872000
+      "value": 1185872
     },
     {
       "name": "Ferguson Plc New",
       "cusip": "G3421J106",
       "shares": 8386679,
-      "value": 1164407000
+      "value": 1164407
     },
     {
-      "name": "Ferguson Plc New",
-      "cusip": "G3421J106",
-      "shares": 4730694,
-      "value": 656810000
-    },
-    {
-      "name": "General Electric Co.",
-      "cusip": "369604103",
-      "shares": 32201472,
-      "value": 433432000
-    },
-    {
-      "name": "Invesco Ltd.",
+      "name": "Invesco Ltd",
       "cusip": "G491BT108",
       "shares": 36755775,
-      "value": 955650000
+      "value": 955650
     },
     {
       "name": "Janus Henderson Group plc",
       "cusip": "G4474Y904",
       "shares": 21223084,
-      "value": 823668000
-    },
-    {
-      "name": "Mondelez Intl Inc.",
-      "cusip": "609207105",
-      "shares": 8638085,
-      "value": 539362000
+      "value": 823668
     },
     {
       "name": "Procter and Gamble Co.",
       "cusip": "742718109",
       "shares": 5791785,
-      "value": 781486000
+      "value": 781486
     },
     {
-      "name": "Sysco Corp.",
-      "cusip": "871829107",
-      "shares": 17875724,
-      "value": 1389838000
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 4730694,
+      "value": 656810
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 26630629,
-      "value": 623689000
+      "value": 623689
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 8638085,
+      "value": 539362
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 32201472,
+      "value": 433432
     }
-  ]
+  ],
+  "totalValue": 8554214,
+  "positionsCount": 10
 }

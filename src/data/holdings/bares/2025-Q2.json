@@ -1,0 +1,137 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001340807-25-000004",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 844537,
+      "value": 139846882
+    },
+    {
+      "name": "Pegasystems Inc",
+      "cusip": "705573103",
+      "shares": 2005990,
+      "value": 139456425
+    },
+    {
+      "name": "Workday Inc",
+      "cusip": "98138H101",
+      "shares": 570833,
+      "value": 133306630
+    },
+    {
+      "name": "Block Inc",
+      "cusip": "852234103",
+      "shares": 2268105,
+      "value": 123226145
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 1133002,
+      "value": 89767748
+    },
+    {
+      "name": "Align Technology Inc",
+      "cusip": "016255101",
+      "shares": 537606,
+      "value": 85404089
+    },
+    {
+      "name": "Etsy Inc",
+      "cusip": "29786A106",
+      "shares": 1509001,
+      "value": 71194667
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 795061,
+      "value": 25465804
+    },
+    {
+      "name": "Veeva Systems Inc",
+      "cusip": "922475108",
+      "shares": 104361,
+      "value": 24173138
+    },
+    {
+      "name": "Medpace Holdings, Inc",
+      "cusip": "58506Q109",
+      "shares": 37476,
+      "value": 11418562
+    },
+    {
+      "name": "StoneX Group Inc",
+      "cusip": "861896108",
+      "shares": 109902,
+      "value": 8394315
+    },
+    {
+      "name": "Brown & Brown Inc",
+      "cusip": "115236101",
+      "shares": 213,
+      "value": 26497
+    },
+    {
+      "name": "AMETEK Inc",
+      "cusip": "031100100",
+      "shares": 152,
+      "value": 26165
+    },
+    {
+      "name": "HEICO Corporation Class A",
+      "cusip": "422806208",
+      "shares": 122,
+      "value": 25738
+    },
+    {
+      "name": "Amphenol Corporation Class A",
+      "cusip": "032095101",
+      "shares": 353,
+      "value": 23153
+    },
+    {
+      "name": "Kadant Inc",
+      "cusip": "48282T104",
+      "shares": 60,
+      "value": 20215
+    },
+    {
+      "name": "Verisk Analytics Inc",
+      "cusip": "92345Y106",
+      "shares": 58,
+      "value": 17262
+    },
+    {
+      "name": "Watsco Inc",
+      "cusip": "942622200",
+      "shares": 33,
+      "value": 16774
+    },
+    {
+      "name": "Tyler Technologies, Inc",
+      "cusip": "902252105",
+      "shares": 28,
+      "value": 16279
+    },
+    {
+      "name": "Moody`s Corporation",
+      "cusip": "615369105",
+      "shares": 34,
+      "value": 15833
+    },
+    {
+      "name": "Danaher Corporation",
+      "cusip": "235851102",
+      "shares": 68,
+      "value": 13940
+    }
+  ],
+  "totalValue": 851856261,
+  "positionsCount": 21
+}

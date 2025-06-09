@@ -2,132 +2,136 @@
   "form": "13F-HR",
   "date": "2015-05-08",
   "period": "2015-05-08",
+  "accession": "0001532262-15-000004",
+  "quarterKey": "2015-Q2",
   "positions": [
     {
-      "name": "APPLE INC ",
-      "cusip": "037833100",
-      "shares": 419711,
-      "value": 52225000
-    },
-    {
-      "name": "BANK AMER CORP ",
-      "cusip": "060505104",
-      "shares": 737953,
-      "value": 11357000
-    },
-    {
-      "name": "BERKSHIRE HATHAWAY INC DEL",
-      "cusip": "084670702",
-      "shares": 184488,
-      "value": 26625000
-    },
-    {
-      "name": "CARMAX INC ",
-      "cusip": "143130102",
-      "shares": 276732,
-      "value": 19097000
-    },
-    {
-      "name": "COSTCO WHSL CORP NEW ",
-      "cusip": "22160K105",
-      "shares": 200000,
-      "value": 30299000
-    },
-    {
-      "name": "DISNEY WALT CO",
-      "cusip": "254687106",
-      "shares": 138366,
-      "value": 14513000
-    },
-    {
-      "name": "EOG RES INC ",
-      "cusip": "26875P101",
-      "shares": 36897,
-      "value": 3383000
-    },
-    {
-      "name": "EBAY INC ",
-      "cusip": "278642103",
-      "shares": 368976,
-      "value": 21283000
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1383663,
+      "value": 61296
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 645709,
-      "value": 53087000
+      "value": 53087
     },
     {
-      "name": "GOOGLE INC",
-      "cusip": "38259P508",
-      "shares": 25828,
-      "value": 14327000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 419711,
+      "value": 52225
     },
     {
-      "name": "GOOGLE INC",
-      "cusip": "38259P706",
-      "shares": 25828,
-      "value": 14154000
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 200000,
+      "value": 30299
     },
     {
-      "name": "INFINERA CORPORATION ",
-      "cusip": "45667G103",
-      "shares": 474873,
-      "value": 9341000
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 184488,
+      "value": 26625
     },
     {
-      "name": "MARKEL CORP ",
+      "name": "MARKEL CORP",
       "cusip": "570535104",
       "shares": 32285,
-      "value": 24826000
+      "value": 24826
     },
     {
-      "name": "MONSANTO CO NEW ",
-      "cusip": "61166W101",
-      "shares": 150000,
-      "value": 16881000
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 368976,
+      "value": 21283
     },
     {
-      "name": "PIONEER NAT RES CO ",
-      "cusip": "723787107",
-      "shares": 45473,
-      "value": 7435000
-    },
-    {
-      "name": "PULTE GROUP INC ",
+      "name": "PULTE GROUP INC",
       "cusip": "745867101",
       "shares": 922442,
-      "value": 20506000
-    },
-    {
-      "name": "SOUTHWEST AIRLS CO ",
-      "cusip": "844741108",
-      "shares": 1383663,
-      "value": 61296000
-    },
-    {
-      "name": "STARBUCKS CORP ",
-      "cusip": "855244109",
-      "shares": 184488,
-      "value": 17471000
-    },
-    {
-      "name": "TWITTER INC",
-      "cusip": "90184L102",
-      "shares": 10000,
-      "value": 501000
-    },
-    {
-      "name": "VALHI INC NEW ",
-      "cusip": "918905100",
-      "shares": 344790,
-      "value": 2148000
+      "value": 20506
     },
     {
       "name": "WPP PLC NEW",
       "cusip": "92937A102",
       "shares": 170638,
-      "value": 19413000
+      "value": 19413
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 276732,
+      "value": 19097
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 184488,
+      "value": 17471
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 150000,
+      "value": 16881
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 138366,
+      "value": 14513
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 25828,
+      "value": 14327
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 25828,
+      "value": 14154
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 737953,
+      "value": 11357
+    },
+    {
+      "name": "INFINERA CORPORATION",
+      "cusip": "45667G103",
+      "shares": 474873,
+      "value": 9341
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 45473,
+      "value": 7435
+    },
+    {
+      "name": "EOG RES INC",
+      "cusip": "26875P101",
+      "shares": 36897,
+      "value": 3383
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905100",
+      "shares": 344790,
+      "value": 2148
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 10000,
+      "value": 501
     }
-  ]
+  ],
+  "totalValue": 440168,
+  "positionsCount": 21
 }

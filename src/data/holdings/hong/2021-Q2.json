@@ -1,4 +1,41 @@
 {
+  "form": "13F-HR",
   "date": "2021-05-14",
-  "positions": []
+  "period": "2021-05-14",
+  "accession": "0001085146-21-001661",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "IAC INTERACTIVECORP NEW",
+      "cusip": "44891N109",
+      "shares": 1358278,
+      "value": 293809
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1091927,
+      "value": 243751
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 572340,
+      "value": 129950
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 655110,
+      "value": 89999
+    },
+    {
+      "name": "ANGI INC",
+      "cusip": "00183L102",
+      "shares": 3433123,
+      "value": 44631
+    }
+  ],
+  "totalValue": 802140,
+  "positionsCount": 5
 }

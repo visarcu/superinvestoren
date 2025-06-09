@@ -1,197 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2016-05-11",
+  "period": "2016-05-11",
+  "accession": "0000919574-16-012808",
+  "quarterKey": "2016-Q2",
   "positions": [
-    {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 8373028,
-      "value": 283343000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 648239,
-      "value": 482906000
-    },
-    {
-      "name": "BLACKSTONE MTG TR INC",
-      "cusip": "09257W100",
-      "shares": 1714627,
-      "value": 46055000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC D",
-      "cusip": "16117M305",
-      "shares": 1706465,
-      "value": 345440000
-    },
-    {
-      "name": "COMCAST CORP NEW",
-      "cusip": "20030N101",
-      "shares": 10553535,
-      "value": 644610000
-    },
-    {
-      "name": "DAVITA HEALTHCARE PARTNERS I",
-      "cusip": "23918K108",
-      "shares": 4557487,
-      "value": 334428000
-    },
-    {
-      "name": "EQUINIX INC",
-      "cusip": "29444U700",
-      "shares": 222027,
-      "value": 73427000
-    },
-    {
-      "name": "FACEBOOK INC",
-      "cusip": "30303M102",
-      "shares": 5892989,
-      "value": 672390000
-    },
-    {
-      "name": "FLEETCOR TECHNOLOGIES INC",
-      "cusip": "339041105",
-      "shares": 411132,
-      "value": 61156000
-    },
-    {
-      "name": "GILEAD SCIENCES INC",
-      "cusip": "375558103",
-      "shares": 4521685,
-      "value": 415362000
-    },
-    {
-      "name": "HDFC BANK LTD",
-      "cusip": "40415F101",
-      "shares": 2134278,
-      "value": 131536000
-    },
-    {
-      "name": "HOME DEPOT INC",
-      "cusip": "437076102",
-      "shares": 1910702,
-      "value": 254945000
-    },
-    {
-      "name": "JD COM INC",
-      "cusip": "47215P106",
-      "shares": 12928431,
-      "value": 342603000
-    },
-    {
-      "name": "JPMORGAN CHASE & CO",
-      "cusip": "46625H100",
-      "shares": 3465899,
-      "value": 205251000
-    },
-    {
-      "name": "LIBERTY BROADBAND CORP",
-      "cusip": "530307305",
-      "shares": 1101100,
-      "value": 63809000
-    },
-    {
-      "name": "MARTIN MARIETTA MATLS INC",
-      "cusip": "573284106",
-      "shares": 960378,
-      "value": 153190000
-    },
-    {
-      "name": "MASTERCARD INC",
-      "cusip": "57636Q104",
-      "shares": 1832135,
-      "value": 173137000
-    },
-    {
-      "name": "MCGRAW HILL FINL INC",
-      "cusip": "580645109",
-      "shares": 5609033,
-      "value": 555182000
-    },
-    {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 12814461,
-      "value": 707743000
-    },
-    {
-      "name": "MOHAWK INDS INC",
-      "cusip": "608190104",
-      "shares": 1391117,
-      "value": 265564000
-    },
-    {
-      "name": "MOODYS CORP",
-      "cusip": "615369105",
-      "shares": 2670123,
-      "value": 257827000
-    },
-    {
-      "name": "NIKE INC",
-      "cusip": "654106103",
-      "shares": 2244693,
-      "value": 137981000
-    },
-    {
-      "name": "NORTHROP GRUMMAN CORP",
-      "cusip": "666807102",
-      "shares": 612702,
-      "value": 121254000
-    },
-    {
-      "name": "NVIDIA CORP",
-      "cusip": "67066G104",
-      "shares": 3134300,
-      "value": 111675000
-    },
-    {
-      "name": "PRICELINE GRP INC",
-      "cusip": "741503403",
-      "shares": 376625,
-      "value": 485455000
-    },
-    {
-      "name": "SCHWAB CHARLES CORP NEW",
-      "cusip": "808513105",
-      "shares": 9004230,
-      "value": 252299000
-    },
-    {
-      "name": "SOUTHWEST AIRLS CO",
-      "cusip": "844741108",
-      "shares": 16298268,
-      "value": 730162000
-    },
-    {
-      "name": "STRYKER CORP",
-      "cusip": "863667101",
-      "shares": 851303,
-      "value": 91336000
-    },
     {
       "name": "TIME WARNER CABLE INC",
       "cusip": "88732J207",
       "shares": 4841113,
-      "value": 990589000
+      "value": 990589
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 9932110,
-      "value": 759608000
+      "value": 759608
     },
     {
-      "name": "WALGREENS BOOTS ALLIANCE INC",
-      "cusip": "931427108",
-      "shares": 1118101,
-      "value": 94189000
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 16298268,
+      "value": 730162
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 12814461,
+      "value": 707743
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 5892989,
+      "value": 672390
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 10553535,
+      "value": 644610
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 5609033,
+      "value": 555182
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 376625,
+      "value": 485455
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 648239,
+      "value": 482906
+    },
+    {
+      "name": "GILEAD SCIENCES INC",
+      "cusip": "375558103",
+      "shares": 4521685,
+      "value": 415362
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 1706465,
+      "value": 345440
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 12928431,
+      "value": 342603
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 4557487,
+      "value": 334428
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 8373028,
+      "value": 283343
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1391117,
+      "value": 265564
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 2670123,
+      "value": 257827
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 1910702,
+      "value": 254945
     },
     {
       "name": "WILLIS TOWERS WATSON PUB LTD",
       "cusip": "G96629103",
       "shares": 2126633,
-      "value": 252346000
+      "value": 252346
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 9004230,
+      "value": 252299
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 3465899,
+      "value": 205251
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 1832135,
+      "value": 173137
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 960378,
+      "value": 153190
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 2244693,
+      "value": 137981
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 2134278,
+      "value": 131536
+    },
+    {
+      "name": "NORTHROP GRUMMAN CORP",
+      "cusip": "666807102",
+      "shares": 612702,
+      "value": 121254
+    },
+    {
+      "name": "NVIDIA CORP",
+      "cusip": "67066G104",
+      "shares": 3134300,
+      "value": 111675
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 1118101,
+      "value": 94189
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 851303,
+      "value": 91336
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U700",
+      "shares": 222027,
+      "value": 73427
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 1101100,
+      "value": 63809
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 411132,
+      "value": 61156
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1714627,
+      "value": 46055
     }
-  ]
+  ],
+  "totalValue": 10496798,
+  "positionsCount": 32
 }

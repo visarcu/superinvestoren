@@ -1,53 +1,59 @@
 {
+  "form": "13F-HR",
   "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0001144204-17-008608",
+  "quarterKey": "2017-Q1",
   "positions": [
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 591504,
+      "value": 147261
+    },
     {
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 481637,
-      "value": 138673000
-    },
-    {
-      "name": "LIBERTY GLOBAL CL C",
-      "cusip": "G5480U120",
-      "shares": 2585359,
-      "value": 76785000
-    },
-    {
-      "name": "MASTERCARD INC CL A",
-      "cusip": "57636Q104",
-      "shares": 403690,
-      "value": 41681000
+      "value": 138673
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 1078336,
-      "value": 101655000
+      "value": 101655
     },
     {
       "name": "PRICELINE GROUP INC",
       "cusip": "741503403",
       "shares": 66213,
-      "value": 97072000
+      "value": 97072
     },
     {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 591504,
-      "value": 147261000
-    },
-    {
-      "name": "VISA INC CL A",
-      "cusip": "92826C839",
-      "shares": 282516,
-      "value": 22042000
+      "name": "LIBERTY GLOBAL CL C",
+      "cusip": "G5480U120",
+      "shares": 2585359,
+      "value": 76785
     },
     {
       "name": "WABTEC",
       "cusip": "929740108",
       "shares": 689826,
-      "value": 57269000
+      "value": 57269
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 403690,
+      "value": 41681
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 282516,
+      "value": 22042
     }
-  ]
+  ],
+  "totalValue": 682438,
+  "positionsCount": 8
 }

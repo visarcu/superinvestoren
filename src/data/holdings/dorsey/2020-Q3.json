@@ -1,65 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-14",
+  "period": "2020-08-14",
+  "accession": "0001398344-20-015802",
+  "quarterKey": "2020-Q3",
   "positions": [
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 45948,
-      "value": 64953000
-    },
-    {
-      "name": "ALTERYX INC",
-      "cusip": "02156B103",
-      "shares": 212858,
-      "value": 34968000
-    },
-    {
-      "name": "AVALARA INC",
-      "cusip": "05338G106",
-      "shares": 287138,
-      "value": 38215000
-    },
-    {
-      "name": "DESPEGAR COM CORP",
-      "cusip": "G27358103",
-      "shares": 4592541,
-      "value": 32974000
-    },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 640771,
-      "value": 145500000
-    },
-    {
-      "name": "PAYPAL HLDGS INC",
-      "cusip": "70450Y103",
-      "shares": 248927,
-      "value": 43371000
-    },
-    {
-      "name": "ROKU INC",
-      "cusip": "77543R102",
-      "shares": 342401,
-      "value": 39900000
+      "value": 145500
     },
     {
       "name": "SMARTSHEET INC",
       "cusip": "83200N103",
       "shares": 1635037,
-      "value": 83256000
-    },
-    {
-      "name": "UPWORK INC",
-      "cusip": "91688F104",
-      "shares": 3786489,
-      "value": 54677000
+      "value": 83256
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 316348,
-      "value": 81055000
+      "value": 81055
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 45948,
+      "value": 64953
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 3786489,
+      "value": 54677
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 248927,
+      "value": 43371
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 342401,
+      "value": 39900
+    },
+    {
+      "name": "AVALARA INC",
+      "cusip": "05338G106",
+      "shares": 287138,
+      "value": 38215
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 212858,
+      "value": 34968
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 4592541,
+      "value": 32974
     }
-  ]
+  ],
+  "totalValue": 618869,
+  "positionsCount": 10
 }

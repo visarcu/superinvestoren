@@ -152,6 +152,28 @@ klarman: {
   },
 
 
+  hawkins: {
+    slug: 'hawkins',
+    name: 'Mason Hawkins - Longleaf Partners',
+    param: 'LLPFX',
+    folder: 'hawkins'
+  },
+
+  rogers: {
+    slug: 'rogers',
+    name: 'John Rogers - Ariel Appreciation Fund',
+    param: 'CAAPX',
+    folder: 'rogers'
+  },
+
+  cunniff: {
+    slug: 'cunniff',
+    name: 'Ruane Cunniff - Sequoia Fund',
+    param: 'SEQUX',
+    folder: 'cunniff'
+  },
+
+
   
 
 
