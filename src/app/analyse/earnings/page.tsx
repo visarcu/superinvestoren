@@ -1,9 +1,9 @@
-// src/app/analyse/earnings/page.tsx
+// src/app/analyse/earnings/page.tsx - Verbesserte Version
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
-import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon, ClockIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import Card from '@/components/Card';
 import Logo from '@/components/Logo';
 
@@ -25,9 +25,11 @@ export default function EarningsPage() {
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
   const [earningsData, setEarningsData] = useState<EarningsEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingEarnings, setLoadingEarnings] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'week' | 'month'>('month');
+  const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
 
   const formatDate = (date: Date) => {
@@ -76,10 +78,6 @@ export default function EarningsPage() {
         } else {
           console.log('[EarningsPage] Watchlist loaded:', data);
           setWatchlistItems(data || []);
-          
-          if (data && data.length > 0) {
-            await loadEarningsData(data.map(item => item.ticker));
-          }
         }
       } catch (error) {
         console.error('[EarningsPage] Error:', error);
@@ -91,41 +89,110 @@ export default function EarningsPage() {
     init();
   }, [router]);
 
+  // Separate useEffect für das Laden der Earnings-Daten
+  useEffect(() => {
+    if (watchlistItems.length > 0) {
+      loadEarningsData(watchlistItems.map(item => item.ticker));
+    } else if (!loading) {
+      // Wenn keine Watchlist-Items vorhanden sind, Earnings-Daten zurücksetzen
+      setEarningsData([]);
+    }
+  }, [watchlistItems, loading]);
+
   async function loadEarningsData(tickers: string[]) {
+    if (tickers.length === 0) return;
+    
+    setLoadingEarnings(true);
+    setApiError(null);
+    
     try {
-      // Lade Earnings für die nächsten 30 Tage statt nur 1 Woche
-      const startDate = formatDate(new Date());
-      const endDate = formatDate(addDays(new Date(), 30));
+      // Erweitere den Zeitraum für bessere Chancen, Daten zu finden
+      const startDate = formatDate(addDays(new Date(), -7)); // 7 Tage in der Vergangenheit
+      const endDate = formatDate(addDays(new Date(), 60));   // 60 Tage in der Zukunft
       
       console.log('[EarningsPage] Loading earnings from', startDate, 'to', endDate, 'for tickers:', tickers);
 
-      const res = await fetch(
-        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${startDate}&to=${endDate}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-      );
+      // Prüfe zunächst, ob API-Key verfügbar ist
+      if (!process.env.NEXT_PUBLIC_FMP_API_KEY) {
+        throw new Error('FMP API Key nicht konfiguriert');
+      }
 
-      if (res.ok) {
-        const allEarnings = await res.json();
-        console.log('[EarningsPage] All earnings loaded:', allEarnings.length);
-        
-        const filteredEarnings = allEarnings
-          .filter((earning: any) => tickers.includes(earning.symbol))
-          .map((earning: any) => ({
-            ticker: earning.symbol,
-            date: earning.date,
-            time: earning.time === 'bmo' ? 'bmo' : earning.time === 'amc' ? 'amc' : null,
+      const apiUrl = `https://financialmodelingprep.com/api/v3/earning_calendar?from=${startDate}&to=${endDate}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`;
+      console.log('[EarningsPage] API URL:', apiUrl.replace(process.env.NEXT_PUBLIC_FMP_API_KEY!, '[API_KEY]'));
+
+      const res = await fetch(apiUrl);
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('[EarningsPage] API Error:', res.status, res.statusText, errorText);
+        setApiError(`API Fehler: ${res.status} ${res.statusText}`);
+        return;
+      }
+
+      const allEarnings = await res.json();
+      console.log('[EarningsPage] Raw API response:', allEarnings);
+      
+      // Prüfe ob die Antwort ein Array ist
+      if (!Array.isArray(allEarnings)) {
+        console.error('[EarningsPage] API response is not an array:', allEarnings);
+        setApiError('Unerwartete API-Antwort: Keine Array-Daten');
+        return;
+      }
+
+      console.log('[EarningsPage] All earnings loaded:', allEarnings.length);
+      
+      // Debugging: Zeige erste paar Earnings-Einträge
+      if (allEarnings.length > 0) {
+        console.log('[EarningsPage] Sample earnings data:', allEarnings.slice(0, 3));
+      }
+
+      // Filtere nach Watchlist-Tickers (case-insensitive)
+      const tickersUpper = tickers.map(t => t.toUpperCase());
+      const filteredEarnings: EarningsEvent[] = allEarnings
+        .filter((earning: any) => {
+          const symbol = earning.symbol?.toUpperCase();
+          const isMatch = tickersUpper.includes(symbol);
+          if (isMatch) {
+            console.log('[EarningsPage] Found earnings for:', symbol, earning);
+          }
+          return isMatch;
+        })
+        .map((earning: any): EarningsEvent => {
+          // Normalisiere das time field - manchmal kommt "pre-market" statt "bmo", etc.
+          let normalizedTime: 'bmo' | 'amc' | null = null;
+          if (earning.time) {
+            const timeStr = earning.time.toLowerCase();
+            if (timeStr === 'bmo' || timeStr.includes('pre') || timeStr.includes('before')) {
+              normalizedTime = 'bmo';
+            } else if (timeStr === 'amc' || timeStr.includes('after') || timeStr.includes('close')) {
+              normalizedTime = 'amc';
+            }
+          }
+          
+          return {
+            ticker: earning.symbol || '',
+            date: earning.date || '',
+            time: normalizedTime,
             eps: earning.eps,
             epsEstimated: earning.epsEstimated,
             revenue: earning.revenue,
             revenueEstimated: earning.revenueEstimated
-          }));
+          };
+        });
 
-        console.log('[EarningsPage] Filtered earnings for watchlist:', filteredEarnings);
-        setEarningsData(filteredEarnings);
-      } else {
-        console.error('[EarningsPage] API Error:', res.status, res.statusText);
+      console.log('[EarningsPage] Filtered earnings for watchlist:', filteredEarnings);
+      setEarningsData(filteredEarnings);
+
+      if (filteredEarnings.length === 0 && allEarnings.length > 0) {
+        console.log('[EarningsPage] No earnings found for watchlist tickers. Available symbols in API:', 
+          allEarnings.slice(0, 10).map((e: any) => e.symbol));
       }
+
     } catch (error) {
-      console.error('Error loading earnings data:', error);
+      console.error('[EarningsPage] Error loading earnings data:', error);
+      setApiError(`Fehler beim Laden: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`);
+    } finally {
+      setLoadingEarnings(false);
     }
   }
 
@@ -145,7 +212,6 @@ export default function EarningsPage() {
       const weekStart = getWeekStart(currentDate);
       return Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
     } else {
-      // Zeige 3 Wochen (21 Tage) für bessere Übersicht
       const start = getWeekStart(currentDate);
       return Array.from({ length: 21 }, (_, i) => addDays(start, i));
     }
@@ -190,6 +256,27 @@ export default function EarningsPage() {
         </p>
       </div>
 
+      {/* API Error Alert */}
+      {apiError && (
+        <Card>
+          <div className="p-6 border-l-4 border-red-500 bg-red-900/20">
+            <div className="flex items-center">
+              <ExclamationTriangleIcon className="w-6 h-6 text-red-400 mr-3" />
+              <div>
+                <h3 className="text-red-400 font-medium">API Fehler</h3>
+                <p className="text-red-300 text-sm mt-1">{apiError}</p>
+                <button
+                  onClick={() => watchlistItems.length > 0 && loadEarningsData(watchlistItems.map(i => i.ticker))}
+                  className="mt-2 px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition"
+                >
+                  Erneut versuchen
+                </button>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {watchlistItems.length === 0 ? (
         <Card>
           <div className="text-center py-12 space-y-6">
@@ -220,103 +307,107 @@ export default function EarningsPage() {
         </Card>
       ) : (
         <>
-          {/* Controls */}
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Navigation */}
-            <Card>
-              <div className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <h2 className="text-xl font-semibold text-white">
-                      {viewMode === 'week' ? 'Diese Woche' : 'Nächste 3 Wochen'}
-                    </h2>
-                    <span className="px-3 py-1 bg-blue-600/20 text-blue-400 rounded-full text-sm">
-                      {watchlistItems.length} Aktien • {earningsData.length} Earnings
-                    </span>
+          {/* Controls - Eine einzige kompakte Spalte */}
+          <Card>
+            <div className="p-4">
+              {/* Obere Zeile: Navigation & View Controls */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                <div className="flex items-center space-x-3">
+                  <h2 className="text-lg font-semibold text-white">
+                    {viewMode === 'week' ? 'Diese Woche' : 'Nächste 3 Wochen'}
+                  </h2>
+                  <span className="px-2 py-1 bg-blue-600/20 text-blue-400 rounded-full text-xs">
+                    {watchlistItems.length} Aktien • {earningsData.length} Earnings
+                  </span>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                  {/* View Mode Toggle */}
+                  <div className="flex items-center bg-gray-700 rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode('week')}
+                      className={`px-3 py-1 text-sm rounded transition ${
+                        viewMode === 'week' 
+                          ? 'bg-blue-600 text-white' 
+                          : 'text-gray-300 hover:text-white'
+                      }`}
+                    >
+                      Woche
+                    </button>
+                    <button
+                      onClick={() => setViewMode('month')}
+                      className={`px-3 py-1 text-sm rounded transition ${
+                        viewMode === 'month' 
+                          ? 'bg-blue-600 text-white' 
+                          : 'text-gray-300 hover:text-white'
+                      }`}
+                    >
+                      3 Wochen
+                    </button>
                   </div>
-                  
-                  <div className="flex items-center space-x-4">
-                    {/* View Mode Toggle */}
-                    <div className="flex items-center bg-gray-700 rounded-lg p-1">
-                      <button
-                        onClick={() => setViewMode('week')}
-                        className={`px-3 py-1 text-sm rounded transition ${
-                          viewMode === 'week' 
-                            ? 'bg-blue-600 text-white' 
-                            : 'text-gray-300 hover:text-white'
-                        }`}
-                      >
-                        Woche
-                      </button>
-                      <button
-                        onClick={() => setViewMode('month')}
-                        className={`px-3 py-1 text-sm rounded transition ${
-                          viewMode === 'month' 
-                            ? 'bg-blue-600 text-white' 
-                            : 'text-gray-300 hover:text-white'
-                        }`}
-                      >
-                        3 Wochen
-                      </button>
-                    </div>
 
-                    {/* Navigation */}
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => navigate('prev')}
-                        className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition"
-                      >
-                        <ChevronLeftIcon className="w-5 h-5" />
-                      </button>
-                      <button
-                        onClick={() => setCurrentDate(new Date())}
-                        className="px-3 py-1 text-sm bg-gray-700 text-gray-200 hover:bg-gray-600 rounded-lg transition"
-                      >
-                        Heute
-                      </button>
-                      <button
-                        onClick={() => navigate('next')}
-                        className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition"
-                      >
-                        <ChevronRightIcon className="w-5 h-5" />
-                      </button>
-                    </div>
+                  {/* Navigation */}
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => navigate('prev')}
+                      className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition"
+                      title="Vorherige Periode"
+                    >
+                      <ChevronLeftIcon className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setCurrentDate(new Date())}
+                      className="px-3 py-1.5 text-sm bg-gray-700 text-gray-200 hover:bg-gray-600 rounded-lg transition font-medium"
+                    >
+                      Heute
+                    </button>
+                    <button
+                      onClick={() => navigate('next')}
+                      className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition"
+                      title="Nächste Periode"
+                    >
+                      <ChevronRightIcon className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
               </div>
-            </Card>
 
-            {/* Upcoming Earnings */}
-            {upcomingEarnings.length > 0 && (
-              <Card>
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                    <ClockIcon className="w-5 h-5 mr-2 text-yellow-400" />
+              {/* Nächste Earnings - integriert */}
+              {upcomingEarnings.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold text-white mb-3 flex items-center">
+                    <ClockIcon className="w-4 h-4 mr-2 text-yellow-400" />
                     Nächste Earnings
                   </h3>
-                  <div className="space-y-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
                     {upcomingEarnings.map((earning, idx) => (
                       <div 
                         key={`${earning.ticker}-${idx}`}
-                        className="flex items-center space-x-3 p-2 hover:bg-gray-700/50 rounded-lg transition cursor-pointer"
+                        className="flex items-center space-x-2 p-2 hover:bg-gray-700/50 rounded-lg transition cursor-pointer group bg-gray-800/50"
                         onClick={() => router.push(`/analyse/${earning.ticker.toLowerCase()}`)}
                       >
                         <Logo
                           src={`/logos/${earning.ticker.toLowerCase()}.svg`}
                           alt={`${earning.ticker} Logo`}
-                          className="w-8 h-8"
+                          className="w-6 h-6 flex-shrink-0"
                           padding="small"
                         />
-                        <div className="flex-1">
-                          <div className="text-white font-medium">{earning.ticker}</div>
-                          <div className="text-sm text-gray-400">
-                            {new Date(earning.date).toLocaleDateString('de-DE', { 
-                              month: 'short', 
-                              day: 'numeric' 
-                            })}
+                        <div className="flex-1 min-w-0">
+                          <div className="text-white font-medium text-sm group-hover:text-blue-400 transition">
+                            {earning.ticker}
+                          </div>
+                          <div className="text-xs text-gray-400 flex items-center">
+                            <span>
+                              {new Date(earning.date).toLocaleDateString('de-DE', { 
+                                month: 'short', 
+                                day: 'numeric' 
+                              })}
+                            </span>
                             {earning.time && (
-                              <span className={`ml-2 px-1 rounded text-xs ${
-                                earning.time === 'bmo' ? 'bg-green-600/20 text-green-400' : 'bg-red-600/20 text-red-400'
+                              <span className={`ml-1 px-1 py-0.5 rounded text-xs font-medium ${
+                                earning.time === 'bmo' 
+                                  ? 'bg-green-600/20 text-green-400' 
+                                  : 'bg-red-600/20 text-red-400'
                               }`}>
                                 {earning.time === 'bmo' ? 'BMO' : 'AMC'}
                               </span>
@@ -326,15 +417,31 @@ export default function EarningsPage() {
                       </div>
                     ))}
                   </div>
+                  
+                  {/* Wenn mehr als 5 Earnings vorhanden */}
+                  {earningsData.filter(e => new Date(e.date) >= new Date()).length > 5 && (
+                    <div className="mt-3 pt-3 border-t border-gray-700">
+                      <p className="text-xs text-gray-500 text-center">
+                        +{earningsData.filter(e => new Date(e.date) >= new Date()).length - 5} weitere im Kalender
+                      </p>
+                    </div>
+                  )}
                 </div>
-              </Card>
-            )}
-          </div>
+              )}
+            </div>
+          </Card>
 
-          {/* Calendar Grid */}
+          {/* Calendar Grid - Verbessertes Design */}
           <Card>
             <div className="p-6">
-              <div className={`grid gap-4 ${
+              {/* Kalender Header */}
+              <div className="mb-4 text-center">
+                <h3 className="text-xl font-semibold text-white">
+                  {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                </h3>
+              </div>
+
+              <div className={`grid gap-3 ${
                 viewMode === 'week' 
                   ? 'grid-cols-7' 
                   : 'grid-cols-7 lg:grid-cols-7'
@@ -344,21 +451,24 @@ export default function EarningsPage() {
                   const dayEarnings = groupedEarnings[dateStr] || [];
                   const isToday = formatDate(new Date()) === dateStr;
                   const isWeekend = day.getDay() === 0 || day.getDay() === 6;
+                  const hasEarnings = dayEarnings.length > 0;
                   
                   return (
                     <div 
                       key={dateStr} 
-                      className={`min-h-[120px] p-3 rounded-lg border transition ${
+                      className={`min-h-[130px] p-3 rounded-xl border transition-all duration-200 ${
                         isToday 
-                          ? 'bg-blue-900/30 border-blue-500' 
-                          : isWeekend
-                            ? 'bg-gray-800/30 border-gray-700'
-                            : 'bg-gray-800/50 border-gray-700 hover:bg-gray-800/70'
+                          ? 'bg-blue-900/40 border-blue-400 shadow-lg shadow-blue-500/20' 
+                          : hasEarnings
+                            ? 'bg-gray-800/80 border-gray-600 hover:bg-gray-800/90 hover:border-gray-500'
+                            : isWeekend
+                              ? 'bg-gray-800/30 border-gray-700/50'
+                              : 'bg-gray-800/50 border-gray-700 hover:bg-gray-800/70'
                       }`}
                     >
                       {/* Day Header */}
-                      <div className="text-center mb-2">
-                        <div className="text-xs text-gray-400 mb-1">
+                      <div className="text-center mb-3">
+                        <div className="text-xs text-gray-400 mb-1 font-medium">
                           {weekDayNames[day.getDay()]}
                         </div>
                         <div className={`text-lg font-bold ${
@@ -367,17 +477,17 @@ export default function EarningsPage() {
                           {day.getDate()}
                         </div>
                         {day.getDate() === 1 && (
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-gray-500 font-medium">
                             {monthNames[day.getMonth()]}
                           </div>
                         )}
                       </div>
 
                       {/* Earnings Events */}
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         {dayEarnings.length === 0 ? (
                           !isWeekend && (
-                            <div className="text-center text-gray-500 text-xs mt-4">
+                            <div className="text-center text-gray-500 text-xs mt-6 italic">
                               Keine Earnings
                             </div>
                           )
@@ -385,22 +495,22 @@ export default function EarningsPage() {
                           dayEarnings.map((earning, idx) => (
                             <div
                               key={`${earning.ticker}-${idx}`}
-                              className="bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 rounded p-2 transition cursor-pointer"
+                              className="bg-gradient-to-r from-blue-600/20 to-blue-500/20 hover:from-blue-600/30 hover:to-blue-500/30 border border-blue-500/30 rounded-lg p-2.5 transition-all duration-200 cursor-pointer group hover:scale-105 hover:shadow-lg"
                               onClick={() => router.push(`/analyse/${earning.ticker.toLowerCase()}`)}
                             >
                               <div className="flex items-center space-x-2">
                                 <Logo
                                   src={`/logos/${earning.ticker.toLowerCase()}.svg`}
                                   alt={`${earning.ticker} Logo`}
-                                  className="w-6 h-6"
+                                  className="w-6 h-6 flex-shrink-0"
                                   padding="none"
                                 />
                                 <div className="flex-1 min-w-0">
-                                  <div className="text-white font-medium text-sm truncate">
+                                  <div className="text-white font-medium text-sm truncate group-hover:text-blue-300 transition">
                                     {earning.ticker}
                                   </div>
                                   {earning.time && (
-                                    <div className={`text-xs ${
+                                    <div className={`text-xs font-medium ${
                                       earning.time === 'bmo' ? 'text-green-400' : 'text-red-400'
                                     }`}>
                                       {earning.time === 'bmo' ? 'Before Open' : 'After Close'}
@@ -419,19 +529,6 @@ export default function EarningsPage() {
             </div>
           </Card>
 
-          {/* Debug Info */}
-          {process.env.NODE_ENV === 'development' && (
-            <Card>
-              <div className="p-4">
-                <h4 className="text-white font-medium mb-2">Debug Info:</h4>
-                <div className="text-sm text-gray-400 space-y-1">
-                  <div>Watchlist Aktien: {watchlistItems.map(i => i.ticker).join(', ')}</div>
-                  <div>Earnings geladen: {earningsData.length}</div>
-                  <div>Earnings Tickers: {earningsData.map(e => e.ticker).join(', ')}</div>
-                </div>
-              </div>
-            </Card>
-          )}
         </>
       )}
     </main>
