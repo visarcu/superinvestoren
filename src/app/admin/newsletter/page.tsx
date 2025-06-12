@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react'
 export default function NewsletterAdminPage() {
   const [subject, setSubject] = useState('')
   const [content, setContent] = useState('')
+  const [testEmail, setTestEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isTestLoading, setIsTestLoading] = useState(false)
   const [subscribers, setSubscribers] = useState([])
   const [preview, setPreview] = useState(false)
+  const [message, setMessage] = useState('')
 
   // Abonnenten laden
   useEffect(() => {
@@ -24,10 +27,42 @@ export default function NewsletterAdminPage() {
     loadSubscribers()
   }, [])
 
-  // Newsletter versenden
+  // Test-Newsletter senden
+  async function handleTestSend() {
+    if (!subject.trim() || !content.trim() || !testEmail.trim()) {
+      setMessage('❌ Bitte alle Felder für den Test ausfüllen')
+      setTimeout(() => setMessage(''), 5000)
+      return
+    }
+
+    setIsTestLoading(true)
+    setMessage('')
+    try {
+      const response = await fetch('/api/admin/newsletter/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject, content, testEmail })
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        setMessage(`✅ Test-Newsletter erfolgreich an ${testEmail} gesendet!`)
+      } else {
+        setMessage(`❌ Test-Fehler: ${data.error}`)
+      }
+    } catch (error) {
+      setMessage(`❌ Fehler beim Test-Versand: ${error}`)
+    } finally {
+      setIsTestLoading(false)
+      setTimeout(() => setMessage(''), 8000)
+    }
+  }
+
+  // Newsletter an alle senden
   async function handleSend() {
     if (!subject.trim() || !content.trim()) {
-      alert('Bitte Betreff und Inhalt eingeben')
+      setMessage('❌ Bitte Betreff und Inhalt eingeben')
+      setTimeout(() => setMessage(''), 5000)
       return
     }
 
@@ -35,6 +70,7 @@ export default function NewsletterAdminPage() {
     if (!confirmed) return
 
     setIsLoading(true)
+    setMessage('')
     try {
       const response = await fetch('/api/admin/newsletter/send', {
         method: 'POST',
@@ -44,17 +80,41 @@ export default function NewsletterAdminPage() {
 
       const data = await response.json()
       if (data.success) {
-        alert(`Newsletter erfolgreich an ${data.sentCount} Abonnenten gesendet!`)
+        setMessage(`✅ Newsletter erfolgreich an ${data.sentCount} Abonnenten gesendet!`)
         setSubject('')
         setContent('')
       } else {
-        alert(`Fehler: ${data.error}`)
+        setMessage(`❌ Fehler: ${data.error}`)
       }
     } catch (error) {
-      alert(`Fehler beim Versenden: ${error}`)
+      setMessage(`❌ Fehler beim Versenden: ${error}`)
     } finally {
       setIsLoading(false)
+      setTimeout(() => setMessage(''), 8000)
     }
+  }
+
+  // Markdown zu HTML für Preview
+  function markdownToHtml(text: string): string {
+    return text
+      // Headers
+      .replace(/# (.*$)/gm, '<h1 class="text-2xl font-bold text-white mb-4">$1</h1>')
+      .replace(/## (.*$)/gm, '<h2 class="text-xl font-semibold text-white mb-3">$1</h2>')
+      .replace(/### (.*$)/gm, '<h3 class="text-lg font-medium text-white mb-2">$1</h3>')
+      
+      // Text formatting
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+      
+      // Lists
+      .replace(/^- (.*$)/gm, '<div class="flex items-start mb-1"><span class="text-gray-400 mr-2">•</span><span>$1</span></div>')
+      
+      // Emojis und spezielle Zeichen bleiben erhalten
+      .replace(/\n\n/g, '<br class="mb-4">')
+      .replace(/\n/g, '<br>')
+      
+      // Horizontal rule
+      .replace(/---/g, '<hr class="border-gray-700 my-4">')
   }
 
   return (
@@ -66,6 +126,17 @@ export default function NewsletterAdminPage() {
             {subscribers.length} aktive Abonnenten • Quartalsweise Updates
           </p>
         </div>
+
+        {/* Status Message */}
+        {message && (
+          <div className={`mb-6 p-4 rounded-lg border ${
+            message.includes('✅') 
+              ? 'bg-green-950 border-green-800 text-green-300' 
+              : 'bg-red-950 border-red-800 text-red-300'
+          }`}>
+            {message}
+          </div>
+        )}
 
         {/* Newsletter Editor */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -120,6 +191,30 @@ Dein FinClue Team"
               />
             </div>
 
+            {/* Test Section */}
+            <div className="bg-yellow-900/20 border border-yellow-800/50 rounded-lg p-4">
+              <h3 className="text-yellow-300 font-medium mb-3 flex items-center gap-2">
+                🧪 Test-Newsletter
+              </h3>
+              <div className="space-y-3">
+                <input
+                  type="email"
+                  value={testEmail}
+                  onChange={(e) => setTestEmail(e.target.value)}
+                  placeholder="deine@email.com"
+                  className="w-full px-3 py-2 bg-gray-900 border border-yellow-800/50 rounded text-white placeholder-gray-500 focus:outline-none focus:border-yellow-700"
+                />
+                <button
+                  onClick={handleTestSend}
+                  disabled={isTestLoading || !subject.trim() || !content.trim() || !testEmail.trim()}
+                  className="w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded transition-colors"
+                >
+                  {isTestLoading ? 'Sende Test...' : 'Test senden'}
+                </button>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
             <div className="flex gap-4">
               <button
                 onClick={() => setPreview(!preview)}
@@ -145,11 +240,17 @@ Dein FinClue Team"
             </h3>
             
             {preview ? (
-              <div className="prose prose-invert max-w-none">
-                <h4 className="text-white font-semibold">{subject || 'Newsletter Betreff'}</h4>
-                <div className="mt-4 text-gray-300 whitespace-pre-wrap text-sm leading-relaxed">
-                  {content || 'Newsletter Inhalt wird hier angezeigt...'}
+              <div className="max-w-none">
+                <div className="bg-gray-800 p-4 rounded-lg mb-4">
+                  <h4 className="text-white font-semibold text-lg">{subject || 'Newsletter Betreff'}</h4>
+                  <p className="text-gray-400 text-sm mt-1">FinClue Newsletter • {new Date().toLocaleDateString('de-DE')}</p>
                 </div>
+                <div 
+                  className="text-gray-300 leading-relaxed text-sm"
+                  dangerouslySetInnerHTML={{ 
+                    __html: content ? markdownToHtml(content) : '<p class="text-gray-500">Newsletter Inhalt wird hier angezeigt...</p>'
+                  }}
+                />
               </div>
             ) : (
               <div className="space-y-2 max-h-96 overflow-y-auto">
