@@ -1,4 +1,4 @@
-// src/components/Navbar.tsx - OPTIMIERT: Performance + Features
+// src/components/Navbar.tsx - KOMPLETT ÜBERARBEITET: Stripe Premium (ohne Patreon)
 'use client'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
@@ -28,7 +28,7 @@ interface SearchResult {
   href: string;
 }
 
-// Clean Search Bar Component (wieder hinzugefügt!)
+// Clean Search Bar Component
 function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -191,17 +191,20 @@ const analyseSubLinks = [
   { href: '/analyse/earnings', label: 'Earnings' },
 ]
 
-// User Profile Interface
+// ✅ ÜBERARBEITETES User Profile Interface (ohne Patreon)
 interface UserProfile {
   user_id: string;
-  patreon_tier?: string | null;
   is_premium?: boolean;
+  subscription_status?: string | null;
+  stripe_customer_id?: string | null;
+  stripe_subscription_id?: string | null;
+  subscription_end_date?: string | null;
   first_name?: string | null;
   last_name?: string | null;
   email_verified?: boolean;
 }
 
-// OPTIMIERTER User Dropdown - Performance + Features
+// OPTIMIERTER User Dropdown - mit Stripe Premium Logik
 function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProfile | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -231,18 +234,27 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
     return (user.email || '').split('@')[0];
   };
 
-  // Premium Status Check
-  const isPremium = profile?.is_premium || 
-                   (profile?.patreon_tier && ['premium', 'supporter'].includes(profile.patreon_tier));
+  // ✅ STRIPE PREMIUM STATUS CHECK
+  const isPremium = profile?.is_premium || false;
+  const subscriptionStatus = profile?.subscription_status;
   
   const isEmailVerified = profile?.email_verified ?? user.email_confirmed_at != null;
 
-  const getTierDisplayName = (tier: string) => {
-    switch (tier) {
-      case 'premium': return 'Premium';
-      case 'supporter': return 'Supporter';
-      case 'free': return 'Free';
-      default: return tier;
+  // ✅ NEUE Premium Display Funktion (ohne Patreon)
+  const getPremiumDisplayName = (isPremium: boolean, status?: string | null): string => {
+    if (!isPremium) return 'Free';
+    
+    switch (status) {
+      case 'active':
+        return 'Premium';
+      case 'trialing':
+        return 'Premium (Trial)';
+      case 'past_due':
+        return 'Premium (Überfällig)';
+      case 'canceled':
+        return 'Premium (Gekündigt)';
+      default:
+        return 'Premium';
     }
   };
 
@@ -256,14 +268,21 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
     setIsOpen(false);
   };
 
-  // ALLE MENU ITEMS (inkl. Email Support & Einstellungen)
+  // ✅ ÜBERARBEITETE Menu Items (Pricing statt Patreon)
   const menuItems = [
     {
       icon: <UserIcon className="w-4 h-4" />,
       label: 'Profil bearbeiten',
       action: () => handleNavigation('/profile'),
-      description: 'Persönliche Daten verwalten'
+      description: 'Persönliche Daten & Premium verwalten'
     },
+    // Premium/Pricing Link für Non-Premium User
+    ...(!isPremium ? [{
+      icon: <SparklesIcon className="w-4 h-4" />,
+      label: 'Premium upgraden',
+      action: () => handleNavigation('/pricing'),
+      description: 'Alle Features für 9€/Monat'
+    }] : []),
     {
       icon: <EnvelopeIcon className="w-4 h-4" />,
       label: 'Email Support',
@@ -301,7 +320,7 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
           </div>
           {isPremium && (
             <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
-              <span className="text-white text-xs font-bold">👑</span>
+              <span className="text-white text-xs font-bold">⭐</span>
             </div>
           )}
         </div>
@@ -321,7 +340,7 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
                 </div>
                 {isPremium && (
                   <div className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
-                    <span className="text-white text-xs font-bold">👑</span>
+                    <span className="text-white text-xs font-bold">⭐</span>
                   </div>
                 )}
               </div>
@@ -330,9 +349,9 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
                 <div className="text-gray-500 dark:text-gray-400 text-xs truncate">{user.email}</div>
                 <div className="flex items-center gap-2 mt-1">
                   {isPremium ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800 dark:text-yellow-400 text-xs rounded-md font-medium">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 dark:bg-green-500/20 text-green-800 dark:text-green-400 text-xs rounded-md font-medium">
                       <SparklesIcon className="w-2.5 h-2.5" />
-                      {getTierDisplayName(profile?.patreon_tier || '')}
+                      {getPremiumDisplayName(isPremium, subscriptionStatus)}
                     </span>
                   ) : (
                     <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-md">
@@ -456,7 +475,7 @@ export default function Navbar() {
       try {
         const { data: profileData, error } = await supabase
           .from('profiles')
-          .select('*')
+          .select('user_id, is_premium, subscription_status, stripe_customer_id, stripe_subscription_id, subscription_end_date, first_name, last_name, email_verified')
           .eq('user_id', userId)
           .maybeSingle();
         
