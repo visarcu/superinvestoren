@@ -201,7 +201,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         setUser({ 
           id: session.user.id, 
           email: session.user.email || '', 
-          isPremium: process.env.NODE_ENV === 'development' ? true : isPremiumFlag
+          isPremium: isPremiumFlag
         })
       } catch (error) {
         console.error('[AnalysisClient] Error checking premium status:', error)

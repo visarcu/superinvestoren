@@ -1,20 +1,21 @@
-// src/components/ProfilePageClient.tsx - OPTIMIERTE VERSION mit Patreon
+// src/components/ProfilePageClient.tsx - AUFGERÄUMT (weniger Redundanz)
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
-import PatreonConnectButton from '@/components/PatreonConnectButton';
+import StripeConnectButton from '@/components/StripeConnectButton';
+import { usePremiumStatus } from '@/lib/premiumUtils';
 
 interface UserProfile {
   user_id: string;
   updated_at: string | null;
-  patreon_id: string | null;
-  patreon_tier: string | null;
-  patreon_access_token: string | null;
-  patreon_refresh_token: string | null;
-  patreon_expires_at: string | null;
+  stripe_customer_id: string | null;
+  stripe_subscription_id: string | null;
+  subscription_status: string | null;
+  subscription_end_date: string | null;
   is_premium?: boolean;
+  premium_since?: string | null;
   first_name?: string | null;
   last_name?: string | null;
   email_verified?: boolean;
@@ -28,7 +29,8 @@ export default function ProfilePageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Separate Auth Check Function
+  const { premiumStatus, loading: premiumLoading, refetch: refetchPremium } = usePremiumStatus(user?.id);
+
   const checkAuth = async () => {
     try {
       console.log('🔍 Checking auth...');
@@ -48,8 +50,6 @@ export default function ProfilePageClient() {
 
       console.log('✅ Session found:', session.user.id);
       setUser(session.user);
-
-      // Load profile
       await loadProfile(session.user.id);
 
     } catch (error) {
@@ -60,255 +60,81 @@ export default function ProfilePageClient() {
     }
   };
 
-  // Separate Profile Loading Function
   const loadProfile = async (userId: string) => {
     try {
-      console.log('📄 Loading profile for:', userId);
-      
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .select('*')
+        .select(`
+          user_id,
+          updated_at,
+          stripe_customer_id,
+          stripe_subscription_id,
+          subscription_status,
+          subscription_end_date,
+          is_premium,
+          premium_since,
+          first_name,
+          last_name,
+          email_verified
+        `)
         .eq('user_id', userId)
         .maybeSingle();
 
       if (profileError) {
         console.warn('⚠️ Profile Error:', profileError.message);
-        // Create default profile if not exists
         setProfile({
           user_id: userId,
           updated_at: null,
-          patreon_id: null,
-          patreon_tier: null,
-          patreon_access_token: null,
-          patreon_refresh_token: null,
-          patreon_expires_at: null,
+          stripe_customer_id: null,
+          stripe_subscription_id: null,
+          subscription_status: null,
+          subscription_end_date: null,
           is_premium: false
         });
       } else {
-        console.log('✅ Profile loaded:', profileData);
         setProfile(profileData);
       }
 
     } catch (error) {
       console.error('❌ Profile loading error:', error);
-      // Fallback profile
       setProfile({
         user_id: userId,
         updated_at: null,
-        patreon_id: null,
-        patreon_tier: null,
-        patreon_access_token: null,
-        patreon_refresh_token: null,
-        patreon_expires_at: null,
+        stripe_customer_id: null,
+        stripe_subscription_id: null,
+        subscription_status: null,
+        subscription_end_date: null,
         is_premium: false
       });
     }
   };
 
-  // Initial auth check
   useEffect(() => {
     checkAuth();
   }, []);
 
-  // Handle Patreon OAuth Redirects (wait for user to be loaded, but trigger on both user and searchParams changes)
+  // URL-Parameter cleanup (aber kein Handling, das macht StripeConnectButton)
   useEffect(() => {
-    if (user && !loading && searchParams) {
-      handlePatreonRedirects();
-    }
-  }, [searchParams, user, loading]);
+    if (!searchParams || loading) return;
 
-  const handlePatreonRedirects = async () => {
-    if (!searchParams) return;
-
-    const error = searchParams.get('error');
-    const success = searchParams.get('success');
-    const patreonSuccess = searchParams.get('patreon_success');
+    const stripeSuccess = searchParams.get('stripe_success');
+    const stripeCanceled = searchParams.get('stripe_canceled');
     
-    // Handle errors
-    if (error) {
-      let message = 'Ein Fehler ist aufgetreten.';
-      switch (error) {
-        case 'patreon_auth_failed':
-          message = 'Patreon-Authentifizierung fehlgeschlagen.';
-          break;
-        case 'not_authenticated':
-          message = 'Sie müssen eingeloggt sein.';
-          break;
-        case 'patreon_oauth_failed':
-          message = 'Verbindung zu Patreon fehlgeschlagen.';
-          break;
-        case 'no_session':
-          message = 'Session nicht gefunden. Bitte loggen Sie sich erneut ein.';
-          break;
-      }
-      
-      alert(message);
-      cleanupUrl(['error', 'details']);
-      return;
+    if (stripeSuccess === 'true' || stripeCanceled === 'true') {
+      console.log('🔧 ProfilePageClient: Cleaning up URL parameters');
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
     }
-
-    // Handle sessionStorage success (your preferred method)
-    if (patreonSuccess === '1') {
-      console.log('🎉 Patreon success detected, checking sessionStorage...');
-      
-      const patreonDataStr = sessionStorage.getItem('patreon_data');
-      if (patreonDataStr) {
-        try {
-          const patreonData = JSON.parse(decodeURIComponent(patreonDataStr));
-          console.log('📦 Patreon data from sessionStorage:', patreonData);
-          
-          alert(`🎉 Patreon erfolgreich verbunden!\n\n✅ Tier: ${patreonData.tier}\n${patreonData.isPremium ? '⭐' : '📊'} Premium: ${patreonData.isPremium ? 'Aktiviert' : 'Nicht aktiviert'}`);
-          
-          await savePatreonData(patreonData);
-          sessionStorage.removeItem('patreon_data');
-          cleanupUrl(['patreon_success']);
-          
-        } catch (error) {
-          console.error('❌ Error parsing patreon data:', error);
-          alert('Fehler beim Verarbeiten der Patreon-Daten');
-        }
-      }
-      return;
-    }
-
-    // Handle URL parameter success (fallback method)
-    if (success === 'patreon_connected') {
-      const tier = searchParams.get('tier');
-      const premium = searchParams.get('premium');
-      const patreonId = searchParams.get('patreon_id');
-      const patreonEmail = searchParams.get('patreon_email');
-      const accessToken = searchParams.get('access_token');
-      const refreshToken = searchParams.get('refresh_token');
-
-      if (patreonId) {
-        const isPremiumUser = premium === 'true';
-        alert(`🎉 Patreon erfolgreich verbunden!\n\n✅ Tier: ${tier}\n${isPremiumUser ? '⭐' : '📊'} Premium: ${isPremiumUser ? 'Aktiviert' : 'Nicht aktiviert'}\n📧 E-Mail: ${patreonEmail}`);
-        
-        savePatreonData({
-          patreonId,
-          tier: tier || 'free',
-          isPremium: isPremiumUser,
-          accessToken,
-          refreshToken
-        });
-        
-        cleanupUrl(['success', 'tier', 'premium', 'patreon_id', 'patreon_email', 'access_token', 'refresh_token']);
-        
-        // Refresh after saving
-        setTimeout(() => checkAuth(), 1000);
-      }
-    }
-  };
-
-  const cleanupUrl = (params: string[]) => {
-    const url = new URL(window.location.href);
-    params.forEach(param => url.searchParams.delete(param));
-    window.history.replaceState({}, '', url.toString());
-  };
-
-  // KORRIGIERTE FUNKTION - nur eine Definition
-  const savePatreonData = async (data: any) => {
-    if (!user?.id) {
-      console.error('❌ No user ID for saving Patreon data');
-      return;
-    }
-
-    try {
-      console.log('💾 Saving Patreon data...', data);
-      
-      // 🔧 DEVELOPMENT MODE DETECTION
-      const isDevelopment = process.env.NODE_ENV === 'development' || 
-                           window.location.hostname === 'localhost' ||
-                           window.location.port !== '';
-      
-      // Handle different data formats (sessionStorage vs URL params)
-      const patreonId = data.patreonId || data.patreon_id;
-      const tier = data.tier || data.patreon_tier || 'free';
-      const originalIsPremium = data.isPremium !== undefined ? data.isPremium : data.is_premium;
-      const accessToken = data.accessToken || data.access_token;
-      const refreshToken = data.refreshToken || data.refresh_token;
-      
-      // 🧪 DEVELOPMENT MODE OVERRIDE
-      let actualIsPremium = originalIsPremium;
-      let actualTier = tier;
-      
-      if (isDevelopment) {
-        console.warn('🧪 DEVELOPMENT MODE DETECTED! Overriding Patreon status...');
-        
-        // Default: Force Free in Development
-        actualIsPremium = false;
-        actualTier = 'free';
-        
-        // Testing Override via URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const testPremium = urlParams.get('test_premium') === 'true';
-        
-        if (testPremium) {
-          actualIsPremium = true;
-          actualTier = 'premium';
-          console.log('🧪 Development Mode: Testing Premium via ?test_premium=true');
-        } else {
-          console.log('🧪 Development Mode: Forcing Free (add ?test_premium=true to test Premium)');
-        }
-        
-        // Developer notification for override
-        if (originalIsPremium !== actualIsPremium) {
-          console.warn(`🧪 DEVELOPMENT OVERRIDE APPLIED: isPremium ${originalIsPremium} → ${actualIsPremium}`);
-        }
-      } else {
-        console.log('🎯 PRODUCTION MODE: Using real Patreon data');
-      }
-      
-      const expiresAt = accessToken 
-        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() 
-        : null;
-
-      const profileUpdate = {
-        user_id: user.id,
-        patreon_id: patreonId,
-        patreon_tier: actualTier,        // ← Uses overridden value
-        patreon_access_token: accessToken,
-        patreon_refresh_token: refreshToken,
-        patreon_expires_at: expiresAt,
-        is_premium: actualIsPremium,     // ← Uses overridden value
-        updated_at: new Date().toISOString()
-      };
-
-      console.log('📝 Final profile update data:', profileUpdate);
-
-      const { error } = await supabase
-        .from('profiles')
-        .upsert(profileUpdate, {
-          onConflict: 'user_id'
-        });
-
-      if (error) {
-        console.error('❌ Failed to save Patreon data:', error);
-        alert(`Fehler beim Speichern: ${error.message}`);
-      } else {
-        console.log('✅ Patreon data saved successfully');
-        // Refresh profile data to show updated status
-        await loadProfile(user.id);
-        
-        // Different success message for development
-        const successMessage = isDevelopment 
-          ? `✅ Patreon-Daten gespeichert!\n🧪 Development Mode: Status auf "${actualTier}" gesetzt\n\n💡 Für Premium-Test: ?test_premium=true zur URL hinzufügen`
-          : '✅ Patreon-Verbindung erfolgreich gespeichert!';
-          
-        alert(successMessage);
-      }
-    } catch (error) {
-      console.error('❌ Error saving Patreon data:', error);
-      alert('Unerwarteter Fehler beim Speichern der Patreon-Daten');
-    }
-  };
+  }, [searchParams, loading]);
 
   const refreshUserData = async () => {
     console.log('🔄 Refreshing user data...');
     setLoading(true);
     try {
-      // Refresh both user session and profile
-      await checkAuth();
+      if (user?.id) {
+        await loadProfile(user.id);
+        refetchPremium();
+      }
     } catch (error) {
       console.error('❌ Error refreshing user data:', error);
     } finally {
@@ -322,7 +148,7 @@ export default function ProfilePageClient() {
   };
 
   // Loading State
-  if (loading) {
+  if (loading || premiumLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
         <div className="text-center">
@@ -361,7 +187,6 @@ export default function ProfilePageClient() {
     );
   }
 
-  // No User State
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
@@ -378,114 +203,112 @@ export default function ProfilePageClient() {
     );
   }
 
-  // Main Profile UI
+  // Main Profile UI - SAUBER & WENIGER REDUNDANT
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-900 px-4 py-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-white mb-2">Mein Profil</h1>
-          <p className="text-gray-400">Verwalte deinen Account</p>
+          <p className="text-gray-400">Verwalte deinen Account und Premium-Zugang</p>
         </div>
 
-        {/* Account Info */}
+        {/* Account Info - Kompakter */}
         <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
           <h2 className="text-xl font-semibold text-white mb-4">Account Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">E-Mail</label>
-              <input
-                type="email"
-                value={user.email || ''}
-                disabled
-                className="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-lg border border-gray-600"
-              />
+              <div className="text-white bg-gray-700 px-3 py-2 rounded-lg">
+                {user.email || 'Unbekannt'}
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Status</label>
               <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-sm ${
-                  profile?.is_premium 
-                    ? 'bg-yellow-600 text-white' 
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  premiumStatus.isPremium
+                    ? 'bg-green-600 text-white' 
                     : 'bg-gray-600 text-gray-300'
                 }`}>
-                  {profile?.is_premium ? '⭐ Premium' : 'Free'}
+                  {premiumStatus.isPremium ? '⭐ Premium' : '👤 Free'}
                 </span>
-                {profile?.patreon_tier && profile.patreon_tier !== 'free' && (
-                  <span className="px-2 py-1 bg-orange-600 text-white text-xs rounded">
-                    {profile.patreon_tier}
-                  </span>
-                )}
               </div>
             </div>
-          </div>
-          
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Registriert am</label>
-              <p className="text-gray-400 text-sm">
+              <label className="block text-sm font-medium text-gray-300 mb-1">Mitglied seit</label>
+              <div className="text-gray-300">
                 {user.created_at ? new Date(user.created_at).toLocaleDateString('de-DE') : 'Unbekannt'}
-              </p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Patreon Status</label>
-              <p className="text-gray-400 text-sm">
-                {profile?.patreon_id ? `Verbunden (${profile.patreon_tier})` : 'Nicht verbunden'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Patreon Connection */}
-        <PatreonConnectButton onStatusChange={refreshUserData} />
-
-        {/* Premium Features Info */}
-        <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
-          <h3 className="text-xl font-semibold text-white mb-4">Premium Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-semibold text-green-400 mb-2">✅ Mit Premium erhältst du:</h4>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li>• Vollständige Kennzahlen-Charts</li>
-                <li>• Detaillierte Bewertungsmetriken</li>
-                <li>• Erweiterte Margenanalysen</li>
-                <li>• Interaktive Finanzdiagramme</li>
-                <li>• Keine Werbung</li>
-                <li>• Priority Support</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-400 mb-2">❌ Free-Version Limitierungen:</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>• Basis-Informationen only</li>
-                <li>• Einige Kennzahlen gesperrt</li>
-                <li>• Keine interaktiven Charts</li>
-                <li>• Werbung wird angezeigt</li>
-              </ul>
-            </div>
-          </div>
-          
-          {!profile?.is_premium && (
-            <div className="mt-6 p-4 bg-orange-900/30 border border-orange-500/50 rounded-lg">
-              <div className="flex items-start gap-3">
-                <span className="text-orange-400 text-xl">💡</span>
-                <div>
-                  <p className="text-orange-300 text-sm font-medium mb-1">
-                    Upgrade zu Premium
-                  </p>
-                  <p className="text-orange-300 text-sm">
-                    Verbinde dein Patreon-Konto um Premium-Features freizuschalten! 
-                  </p>
-                </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
+
+        {/* Premium Bereich - Vereinfacht durch StripeConnectButton */}
+        <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
+          <h3 className="text-xl font-semibold text-white mb-4">Premium Zugang</h3>
+          <StripeConnectButton onStatusChange={refreshUserData} />
+        </div>
+
+        {/* Premium Features Info - Nur wenn NICHT Premium */}
+        {!premiumStatus.isPremium && (
+          <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
+            <h3 className="text-xl font-semibold text-white mb-4">Was bringt dir Premium?</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold text-green-400 mb-3">✅ Premium Features</h4>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400">•</span>
+                    Vollständige Kennzahlen-Charts
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400">•</span>
+                    Detaillierte Bewertungsmetriken
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400">•</span>
+                    Erweiterte Margenanalysen
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400">•</span>
+                    Interaktive Finanzdiagramme
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400">•</span>
+                    Priority Support
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-orange-400 mb-3">⚠️ Free Limitierungen</h4>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li className="flex items-center gap-2">
+                    <span className="text-orange-400">•</span>
+                    Nur Basis-Kennzahlen
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-orange-400">•</span>
+                    Begrenzte Chart-Funktionen
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-orange-400">•</span>
+                    Werbung wird angezeigt
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-orange-400">•</span>
+                    Kein Priority Support
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Actions */}
         <div className="bg-gray-800/60 backdrop-blur-md p-6 rounded-2xl border border-gray-700">
           <h3 className="text-xl font-semibold text-white mb-4">Aktionen</h3>
-          <div className="space-y-4">
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={refreshUserData}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -499,17 +322,14 @@ export default function ProfilePageClient() {
             >
               Abmelden
             </button>
-          </div>
-        </div>
 
-        {/* Back to App */}
-        <div className="text-center">
-          <a
-            href="/"
-            className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition"
-          >
-            ← Zurück zur App
-          </a>
+            <a
+              href="/"
+              className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            >
+              ← Zurück zur App
+            </a>
+          </div>
         </div>
       </div>
     </div>

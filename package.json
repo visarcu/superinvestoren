@@ -26,7 +26,7 @@
     "fetch:nportp": "node scripts/fetchNportP.js",
     "fetch:holdings": "node scripts/fetchHoldings.js",
     "delete:testusers": "node scripts/delete-test-users.js",
-     "download-logos": "node scripts/downloadLogos.js",
+    "download-logos": "node scripts/downloadLogos.js",
     "setup-logos": "mkdir -p public/logos && node scripts/downloadLogos.js"
   },
   "dependencies": {
@@ -35,6 +35,7 @@
     "@prisma/client": "^6.8.2",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.49.8",
+    "@types/stripe": "^8.0.417",
     "@vercel/analytics": "^1.5.0",
     "bcryptjs": "^3.0.2",
     "bufferutil": "^4.0.9",
@@ -57,7 +58,7 @@
     "react-icons": "^5.5.0",
     "recharts": "^2.15.3",
     "resend": "^4.5.2",
-    "stripe": "^18.1.0",
+    "stripe": "^18.2.1",
     "swr": "^2.3.3",
     "utf-8-validate": "^6.0.5",
     "xml2js": "^0.4.23",
