@@ -1,6 +1,5 @@
-// src/components/Hero.tsx
+// src/components/Hero.tsx - VERBESSERTE VERSION
 'use client'
-
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowTrendingUpIcon } from '@heroicons/react/24/outline'
@@ -28,61 +27,114 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gray-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-32">
-        <div className="text-center">
-          {/* Clean Badge - Supabase Style */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-8">
-            <ArrowTrendingUpIcon className="w-4 h-4" />
-            Professionelle Investment-Analyse
-          </div>
+    <div className="min-h-screen bg-gray-950 noise-bg">
+      {/* Hero Section - Konsistent mit Pricing */}
+      <div className="bg-gray-950 noise-bg pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           
-          {/* Main Heading - Clean Typography */}
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
-            Analysiere Aktien
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">
-              Erhalte Einblicke
-            </span>
-          </h1>
+          {/* Subtle Background Glow - Positioniert wie auf Pricing */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
           
-          {/* Clean Subheading */}
-          <p className="text-xl md:text-2xl text-gray-400 max-w-4xl mx-auto mb-12 leading-relaxed">
-            Aktienanalyse für langfristige Investoren – Live-Quote, Charts & Kennzahlen in 
-            Sekundenschnelle. Treffen Sie bessere Investment-Entscheidungen.
-          </p>
+          <div className="relative text-center space-y-8">
+            
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm">
+              <ArrowTrendingUpIcon className="w-4 h-4" />
+              Professionelle Investment-Analyse
+            </div>
 
-          {/* Clean Search Bar - Reuse existing component */}
-          <div className="max-w-lg mx-auto mb-16">
-            <SearchTickerInput
-              placeholder="Suche 10.000+ Aktien & ETFs..."
-              onSelect={handleTickerSelect}
-            />
-          </div>
+            {/* Main Heading */}
+            <div className="space-y-4">
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
+                Analysiere Aktien
+              </h1>
+              <h2 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-300 leading-tight tracking-tight">
+                Erhalte Einblicke
+              </h2>
+            </div>
 
-          {/* Clean Company Logos Section */}
-          <div className="flex items-center justify-center gap-8 opacity-60 mb-6">
-            <div className="text-gray-600 text-sm font-medium">Trusted by investors analyzing:</div>
-          </div>
-          <div className="flex items-center justify-center gap-8">
-            {['aapl', 'msft', 'googl', 'amzn'].map((ticker) => (
+            {/* Subheading */}
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+              Starte deine Analyse mit Live-Kursen, Charts, Kennzahlen & mehr.<br />
+              Wirf einen Blick in die Depots der besten Investoren der Welt.
+            </p>
+
+            {/* Search Bar */}
+            <div className="max-w-lg mx-auto">
+              <SearchTickerInput
+                placeholder="Suche Aktie oder Investor..."
+                onSelect={handleTickerSelect}
+              />
+            </div>
+
+            {/* Quick Actions */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
-                key={ticker}
-                onClick={() => handleQuickSearch(ticker.toUpperCase())}
-                className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity duration-200"
+                onClick={() => router.push('/analyse')}
+                className="px-6 py-3 bg-green-500 text-black font-medium rounded-lg hover:bg-green-400 transition"
               >
-                <Logo
-                  src={`/logos/${ticker}.svg`}
-                  alt={`${ticker} Logo`}
-                  className="w-8 h-8"
-                />
+                Jetzt analysieren
               </button>
-            ))}
+              <button
+                onClick={() => router.push('/superinvestor')}
+                className="px-6 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition border border-gray-700"
+              >
+                Super-Investoren
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Subtle Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900 pointer-events-none"></div>
-    </section>
+      {/* Trust Section */}
+      <div className="bg-gray-950 noise-bg py-16 border-t border-gray-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Company Logos Header */}
+          <div className="text-center mb-12">
+            <p className="text-sm text-gray-500 uppercase tracking-wider mb-6">
+              Analysiere Aktien von 10.000+ Unternehmen
+            </p>
+          </div>
+
+          {/* Logo Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-40">
+            {['aapl', 'msft', 'googl', 'amzn'].map((ticker) => (
+              <button
+                key={ticker}
+                onClick={() => handleQuickSearch(ticker.toUpperCase())}
+                className="group p-4 rounded-xl bg-gray-900/30 border border-gray-800/50 hover:border-gray-700/50 hover:bg-gray-900/50 transition-all duration-300 hover:opacity-100 backdrop-blur-sm"
+              >
+                <Logo
+                  src={`/logos/${ticker}.svg`}
+                  alt={`${ticker} Logo`}
+                  className="w-12 h-12 group-hover:scale-110 transition-transform duration-300"
+                />
+              </button>
+            ))}
+          </div>
+
+          {/* Stats or Features Preview */}
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            
+            <div className="p-6">
+              <div className="text-3xl font-bold text-white numeric mb-2">10.000+</div>
+              <div className="text-sm text-gray-400">Aktien & ETFs</div>
+            </div>
+            
+            <div className="p-6">
+              <div className="text-3xl font-bold text-white numeric mb-2">154</div>
+              <div className="text-sm text-gray-400">Jahre historische Daten</div>
+            </div>
+            
+            <div className="p-6">
+              <div className="text-3xl font-bold text-white numeric mb-2">20+</div>
+              <div className="text-sm text-gray-400">Super-Investoren</div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

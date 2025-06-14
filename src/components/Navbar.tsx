@@ -1,4 +1,4 @@
-// src/components/Navbar.tsx - KOMPLETT ÜBERARBEITET: Stripe Premium (ohne Patreon)
+// src/components/Navbar.tsx - KOMPLETT MODERNISIERTE DUNKLE VERSION
 'use client'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
@@ -18,6 +18,7 @@ import { SparklesIcon } from '@heroicons/react/24/solid'
 import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
+import { usePathname } from 'next/navigation'
 
 // Search Result Interface
 interface SearchResult {
@@ -28,8 +29,8 @@ interface SearchResult {
   href: string;
 }
 
-// Clean Search Bar Component
-function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
+// Dark Theme Search Bar Component
+function DarkSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
@@ -130,7 +131,7 @@ function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
       <div className={`relative flex items-center transition-all duration-200 ${
         isFocused ? 'ring-2 ring-green-500/20' : ''
       }`}>
-        <MagnifyingGlassIcon className="absolute left-3 h-4 w-4 text-gray-400" />
+        <MagnifyingGlassIcon className="absolute left-3 h-4 w-4 text-gray-500" />
         <input
           type="text"
           placeholder="Suche Aktie oder Investor..."
@@ -138,34 +139,34 @@ function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
           onKeyDown={handleKeyDown}
-          className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:border-green-500/50 transition-all duration-200"
+          className="w-full pl-10 pr-4 py-2 text-sm bg-gray-800/50 border border-gray-700/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:bg-gray-800 focus:border-green-500/50 transition-all duration-200"
         />
       </div>
 
-      {/* Suggestions Dropdown */}
+      {/* Suggestions Dropdown - Dark Theme */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden z-50 max-h-64 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50 max-h-64 overflow-y-auto">
           {suggestions.map((result) => (
             <button
               key={`${result.type}-${result.id}`}
               onClick={() => handleSelectResult(result)}
-              className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 border-b border-gray-100 dark:border-gray-800 last:border-b-0"
+              className="w-full px-4 py-3 text-left hover:bg-gray-800 transition-colors duration-150 border-b border-gray-800 last:border-b-0"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
+                    <div className="font-medium text-sm text-gray-100">
                       {result.title}
                     </div>
                     <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                       result.type === 'stock' 
-                        ? 'bg-green-100 dark:bg-green-500/20 text-green-800 dark:text-green-400'
-                        : 'bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-400'
+                        ? 'bg-green-500/20 text-green-400'
+                        : 'bg-blue-500/20 text-blue-400'
                     }`}>
                       {result.type === 'stock' ? 'Aktie' : 'Investor'}
                     </span>
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  <div className="text-xs text-gray-400 truncate">
                     {result.subtitle}
                   </div>
                 </div>
@@ -178,20 +179,35 @@ function CleanSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
+// Navigation Links (ohne Startseite)
 const navLinks = [
-  { href: '/', label: 'Startseite' },
-  { href: '/superinvestor', label: 'Super-Investoren' },
   { href: '/news', label: 'News' },
 ]
 
-const analyseSubLinks = [
-  { href: '/analyse', label: 'Übersicht' },
-  { href: '/analyse/watchlist', label: 'Watchlist' },
-  { href: '/analyse/heatmap', label: 'Heatmap' },
-  { href: '/analyse/earnings', label: 'Earnings' },
+const productLinks = [
+  { 
+    href: '/analyse', 
+    label: 'Aktien-Analyse',
+    description: 'Tiefgehende Analyse von 10.000+ Aktien'
+  },
+  { 
+    href: '/superinvestor', 
+    label: 'Super-Investoren',
+    description: 'Portfolios der besten Investoren der Welt'
+  },
+  { 
+    href: '/analyse/watchlist', 
+    label: 'Watchlist',
+    description: 'Verfolge deine Lieblings-Aktien'
+  },
+  { 
+    href: '/analyse/heatmap', 
+    label: 'Markt Heatmap',
+    description: 'Visualisiere Marktbewegungen'
+  },
 ]
 
-// ✅ ÜBERARBEITETES User Profile Interface (ohne Patreon)
+// User Profile Interface
 interface UserProfile {
   user_id: string;
   is_premium?: boolean;
@@ -204,8 +220,8 @@ interface UserProfile {
   email_verified?: boolean;
 }
 
-// OPTIMIERTER User Dropdown - mit Stripe Premium Logik
-function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProfile | null }) {
+// Modern User Dropdown - NUR DIESE VERSION
+function DarkUserDropdown({ user, profile }: { user: any; profile: UserProfile | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -234,13 +250,10 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
     return (user.email || '').split('@')[0];
   };
 
-  // ✅ STRIPE PREMIUM STATUS CHECK
   const isPremium = profile?.is_premium || false;
   const subscriptionStatus = profile?.subscription_status;
-  
   const isEmailVerified = profile?.email_verified ?? user.email_confirmed_at != null;
 
-  // ✅ NEUE Premium Display Funktion (ohne Patreon)
   const getPremiumDisplayName = (isPremium: boolean, status?: string | null): string => {
     if (!isPremium) return 'Free';
     
@@ -259,6 +272,7 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
   };
 
   const handleLogout = async () => {
+    setIsOpen(false);
     await supabase.auth.signOut();
     router.push('/auth/signin');
   };
@@ -268,142 +282,241 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
     setIsOpen(false);
   };
 
-  // ✅ ÜBERARBEITETE Menu Items (Pricing statt Patreon)
-  const menuItems = [
-    {
-      icon: <UserIcon className="w-4 h-4" />,
-      label: 'Profil bearbeiten',
-      action: () => handleNavigation('/profile'),
-      description: 'Persönliche Daten & Premium verwalten'
-    },
-    // Premium/Pricing Link für Non-Premium User
-    ...(!isPremium ? [{
-      icon: <SparklesIcon className="w-4 h-4" />,
-      label: 'Premium upgraden',
-      action: () => handleNavigation('/pricing'),
-      description: 'Alle Features für 9€/Monat'
-    }] : []),
-    {
-      icon: <EnvelopeIcon className="w-4 h-4" />,
-      label: 'Email Support',
-      action: () => {
-        setIsOpen(false);
-        window.location.href = 'mailto:team.finclue@gmail.com';
-      },
-      description: 'Hilfe & Kontakt'
-    },
-    {
-      icon: <Cog6ToothIcon className="w-4 h-4" />,
-      label: 'Einstellungen',
-      action: () => handleNavigation('/settings'), 
-      description: 'App-Einstellungen'
-    },
-    {
-      icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
-      label: 'Abmelden',
-      action: handleLogout,
-      description: 'Sicher ausloggen',
-      isLogout: true
+  const getJoinDate = () => {
+    try {
+      return new Date(user.created_at || '').toLocaleDateString('de-DE', { 
+        month: 'long', 
+        year: 'numeric' 
+      });
+    } catch {
+      return 'Unbekannt';
     }
-  ];
+  };
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Avatar Button */}
+      {/* Avatar Button - Modernisiert */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 group"
+        className="flex items-center gap-2 p-2 rounded-lg bg-gray-900/50 border border-gray-800 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-200 backdrop-blur-sm"
       >
         <div className="relative">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center text-white font-medium text-sm shadow-sm">
+          <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center text-black font-semibold text-sm shadow-lg">
             {getInitials()}
           </div>
           {isPremium && (
-            <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
-              <span className="text-white text-xs font-bold">⭐</span>
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
+              <SparklesIcon className="w-2 h-2 text-black" />
             </div>
           )}
         </div>
-        <ChevronDownIcon className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDownIcon className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {/* Dropdown Menu */}
+      {/* Dropdown Menu - Modernes Design */}
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-72 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl overflow-hidden z-50">
+        <div className="absolute right-0 mt-2 w-80 bg-gray-900/95 border border-gray-800/50 rounded-xl shadow-2xl backdrop-blur-xl z-50 overflow-hidden">
           
-          {/* Header mit User Info */}
-          <div className="p-4 border-b border-gray-100 dark:border-gray-800">
-            <div className="flex items-center gap-3">
+          {/* User Info Header - Verbessertes Design */}
+          <div className="p-6 border-b border-gray-800/50 bg-gradient-to-r from-gray-900/50 to-gray-900/30">
+            <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center text-white font-medium shadow-sm">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center text-black font-bold text-lg shadow-lg">
                   {getInitials()}
                 </div>
                 {isPremium && (
-                  <div className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
-                    <span className="text-white text-xs font-bold">⭐</span>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center shadow-sm">
+                    <SparklesIcon className="w-2.5 h-2.5 text-black" />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-gray-900 dark:text-gray-100 font-medium text-sm truncate">{getDisplayName()}</div>
-                <div className="text-gray-500 dark:text-gray-400 text-xs truncate">{user.email}</div>
-                <div className="flex items-center gap-2 mt-1">
+                <h3 className="text-white font-semibold text-base truncate">{getDisplayName()}</h3>
+                <p className="text-gray-400 text-sm truncate">{user.email}</p>
+                <div className="flex items-center gap-2 mt-2">
                   {isPremium ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 dark:bg-green-500/20 text-green-800 dark:text-green-400 text-xs rounded-md font-medium">
-                      <SparklesIcon className="w-2.5 h-2.5" />
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded-md text-xs font-medium">
+                      <SparklesIcon className="w-3 h-3" />
                       {getPremiumDisplayName(isPremium, subscriptionStatus)}
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-md">
+                    <span className="inline-flex items-center px-2 py-1 bg-gray-700/50 text-gray-400 rounded-md text-xs">
                       Free
                     </span>
                   )}
-                  {!isEmailVerified && (
-                    <span className="inline-flex items-center px-2 py-0.5 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 text-xs rounded-md">
-                      Unbestätigt
-                    </span>
-                  )}
+                  <span className="text-xs text-gray-500">
+                    Seit {getJoinDate()}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Menu Items */}
-          <div className="p-1">
-            {menuItems.map((item, index) => (
-              <button
-                key={index}
-                onClick={item.action}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors duration-150 ${
-                  item.isLogout 
-                    ? 'hover:bg-red-50 dark:hover:bg-red-500/10 text-red-600 dark:text-red-400' 
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                }`}
-              >
-                <div className={`p-1.5 rounded-md ${
-                  item.isLogout 
-                    ? 'bg-red-100 dark:bg-red-500/20' 
-                    : 'bg-gray-100 dark:bg-gray-800'
-                }`}>
-                  {item.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm truncate">{item.label}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {item.description}
-                  </div>
-                </div>
-              </button>
-            ))}
+          {/* Menu Items - Moderneres Design */}
+          <div className="p-2">
+            
+            {/* Profile */}
+            <button
+              onClick={() => handleNavigation('/profile')}
+              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+            >
+              <div className="w-8 h-8 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-gray-700/50 transition-colors">
+                <UserIcon className="w-4 h-4 text-gray-400" />
+              </div>
+              <div className="flex-1">
+                <div className="text-white text-sm font-medium">Profil bearbeiten</div>
+                <div className="text-gray-500 text-xs">Persönliche Daten & Premium verwalten</div>
+              </div>
+            </button>
+
+            {/* Email Support */}
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                window.location.href = 'mailto:team.finclue@gmail.com';
+              }}
+              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+            >
+              <div className="w-8 h-8 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-gray-700/50 transition-colors">
+                <EnvelopeIcon className="w-4 h-4 text-gray-400" />
+              </div>
+              <div className="flex-1">
+                <div className="text-white text-sm font-medium">Email Support</div>
+                <div className="text-gray-500 text-xs">Hilfe & Kontakt</div>
+              </div>
+            </button>
+
+            {/* Settings */}
+            <button
+              onClick={() => handleNavigation('/settings')}
+              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+            >
+              <div className="w-8 h-8 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-gray-700/50 transition-colors">
+                <Cog6ToothIcon className="w-4 h-4 text-gray-400" />
+              </div>
+              <div className="flex-1">
+                <div className="text-white text-sm font-medium">Einstellungen</div>
+                <div className="text-gray-500 text-xs">App-Einstellungen</div>
+              </div>
+            </button>
+
+            {/* Divider */}
+            <div className="my-2 h-px bg-gray-800/50"></div>
+
+            {/* Sign Out */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-red-500/10 transition-colors group"
+            >
+              <div className="w-8 h-8 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
+                <ArrowRightOnRectangleIcon className="w-4 h-4 text-gray-400 group-hover:text-red-400 transition-colors" />
+              </div>
+              <div className="flex-1">
+                <div className="text-white text-sm font-medium group-hover:text-red-400 transition-colors">Abmelden</div>
+                <div className="text-gray-500 text-xs">Sicher ausloggen</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Guest Actions - Dark Theme
+// Ersetze die DarkGuestActions Funktion in deiner Navbar mit dieser Version:
+
+// Modern Guest Actions - Eleganter Dropdown Approach
+function DarkGuestActions() {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    function handleClickOutside(event: Event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      {/* Account Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900/50 border border-gray-800 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-200 backdrop-blur-sm text-gray-300 hover:text-white"
+      >
+        <UserIcon className="w-4 h-4" />
+        <span className="text-sm font-medium">Account</span>
+        <ChevronDownIcon className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-64 bg-gray-900/95 border border-gray-800/50 rounded-xl shadow-2xl backdrop-blur-xl z-50 overflow-hidden">
+          
+          {/* Header */}
+          <div className="p-4 border-b border-gray-800/50 bg-gradient-to-r from-gray-900/50 to-gray-900/30">
+            <h3 className="text-white font-semibold text-sm">Willkommen bei FinClue</h3>
+            <p className="text-gray-400 text-xs mt-1">Melde dich an oder erstelle einen Account</p>
           </div>
 
-          {/* Footer */}
-          <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-            <div className="text-center text-xs text-gray-500 dark:text-gray-400">
-              Mitglied seit {new Date(user.created_at || '').toLocaleDateString('de-DE', { 
-                month: 'long', 
-                year: 'numeric' 
-              })}
+          {/* Actions */}
+          <div className="p-2">
+            
+            {/* Sign In */}
+            <Link
+              href="/auth/signin"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+            >
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
+                <ArrowRightOnRectangleIcon className="w-4 h-4 text-green-400" />
+              </div>
+              <div className="flex-1">
+                <div className="text-white text-sm font-medium">Anmelden</div>
+                <div className="text-gray-500 text-xs">Bereits registriert? Hier einloggen</div>
+              </div>
+            </Link>
+
+            {/* Sign Up */}
+            <Link
+              href="/auth/signup"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+            >
+              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
+                <UserIcon className="w-4 h-4 text-blue-400" />
+              </div>
+              <div className="flex-1">
+                <div className="text-white text-sm font-medium">Registrieren</div>
+                <div className="text-gray-500 text-xs">Kostenlosen Account erstellen</div>
+              </div>
+            </Link>
+
+            {/* Divider */}
+            <div className="my-2 h-px bg-gray-800/50"></div>
+
+            {/* Quick Benefits */}
+            <div className="p-3 bg-gray-800/30 rounded-lg">
+              <div className="text-xs text-gray-400 mb-2">Mit Account erhältst du:</div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                  <span>Persönliche Watchlist</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                  <span>Erweiterte Analysen</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                  <span>Super-Investor Portfolios</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -412,27 +525,7 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: UserProf
   );
 }
 
-// Guest Actions
-function GuestActions() {
-  return (
-    <div className="flex items-center gap-2">
-      <Link
-        href="/auth/signin"
-        className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
-      >
-        Anmelden
-      </Link>
-      <Link
-        href="/auth/signup"
-        className="px-4 py-1.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors duration-200 shadow-sm"
-      >
-        Registrieren
-      </Link>
-    </div>
-  );
-}
-
-export default function Navbar() {
+export default function ModernDarkNavbar() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -442,7 +535,6 @@ export default function Navbar() {
 
     async function loadUser() {
       try {
-        // 1. Session laden (einfach und schnell)
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (mounted) {
@@ -452,7 +544,6 @@ export default function Navbar() {
             setProfile(null);
           } else if (session?.user) {
             setUser(session.user);
-            // 2. Profile laden (async, blockiert nicht die UI)
             loadProfile(session.user.id);
           } else {
             setUser(null);
@@ -470,7 +561,6 @@ export default function Navbar() {
       }
     }
 
-    // OPTIMIERT: Profile Loading separate (nicht blocking)
     async function loadProfile(userId: string) {
       try {
         const { data: profileData, error } = await supabase
@@ -482,7 +572,6 @@ export default function Navbar() {
         if (mounted) {
           if (error) {
             console.warn('Profile error:', error);
-            // Fallback profile
             setProfile({
               user_id: userId,
               is_premium: false
@@ -504,7 +593,6 @@ export default function Navbar() {
 
     loadUser();
 
-    // Auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (mounted) {
         if (session?.user) {
@@ -523,9 +611,16 @@ export default function Navbar() {
       subscription.unsubscribe();
     };
   }, []);
-
+  
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
+  
   return (
-    <Disclosure as="header" className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50">
+    <Disclosure as="header" className={`sticky top-0 z-50 backdrop-blur-md border-b border-gray-800/50 ${
+      isHomePage 
+        ? 'bg-transparent' // <- Transparent für Homepage
+        : 'bg-gray-950/90 noise-bg' // <- Normal für andere Pages
+    }`}>
       {({ open, close }) => (
         <>
           <div className="max-w-7xl mx-auto">
@@ -533,61 +628,137 @@ export default function Navbar() {
               {/* Logo */}
               <div className="flex items-center gap-8">
                 <Link href="/" className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">F</span>
+                  <div className="flex items-center gap-1">
+                    <div className="flex items-end gap-0.5">
+                      <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
+                      <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
+                      <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
+                    </div>
                   </div>
-                  <span className="text-xl font-bold text-gray-900 dark:text-white">
-                    Fin<span className="text-green-600">Clue</span>
+                  <span className="text-xl font-bold text-white">
+                    Finclue
                   </span>
                 </Link>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center space-x-1">
+             
+                  {/* Products Dropdown - Dark Theme */}
+                  <div className="relative group">
+                    <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all">
+                      Produkte
+                      <ChevronDownIcon className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                    </button>
+                    
+                    {/* Hover Dropdown - Dark Theme */}
+                    <div className="absolute left-0 mt-2 w-[600px] bg-gray-900/95 border border-gray-700/50 rounded-2xl shadow-2xl backdrop-blur-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      <div className="p-6">
+                        <div className="grid grid-cols-2 gap-6">
+                          
+                          {/* Aktien-Analyse Tool */}
+                          <Link
+                            href="/analyse"
+                            className="block p-4 rounded-xl hover:bg-gray-800/50 transition-all group/item"
+                          >
+                            <div className="relative mb-4 h-32 rounded-lg overflow-hidden bg-gray-800">
+                              <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-gray-800">
+                                <div className="absolute bottom-0 left-0 right-0 h-16">
+                                  <svg className="w-full h-full" viewBox="0 0 200 60" fill="none">
+                                    <path 
+                                      d="M0 40 L20 35 L40 25 L60 30 L80 20 L100 15 L120 25 L140 10 L160 20 L180 5 L200 15" 
+                                      stroke="#22c55e" 
+                                      strokeWidth="2" 
+                                      fill="none"
+                                    />
+                                    <path 
+                                      d="M0 40 L20 35 L40 25 L60 30 L80 20 L100 15 L120 25 L140 10 L160 20 L180 5 L200 15 L200 60 L0 60 Z" 
+                                      fill="#22c55e"
+                                      opacity="0.2"
+                                    />
+                                  </svg>
+                                </div>
+                                <div className="absolute top-3 left-3 space-y-1">
+                                  <div className="text-white text-xs font-mono">AAPL: $175.43</div>
+                                  <div className="text-green-400 text-xs font-mono">+2.34%</div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
+                                  Aktien-Analyse
+                                </h3>
+                                <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
+                              </div>
+                              <p className="text-sm text-gray-400 leading-relaxed">
+                                Tiefgehende Analyse von 10.000+ Aktien mit historischen Daten und erweiterten Kennzahlen.
+                              </p>
+                            </div>
+                          </Link>
+
+                          {/* Super-Investor Portfolios */}
+                          <Link
+                            href="/superinvestor"
+                            className="block p-4 rounded-xl hover:bg-gray-800/50 transition-all group/item"
+                          >
+                            <div className="relative mb-4 h-32 rounded-lg overflow-hidden bg-gray-800">
+                              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-gray-800">
+                                <div className="absolute inset-3 space-y-2">
+                                  <div className="text-white text-xs font-semibold">Warren Buffett Portfolio</div>
+                                  <div className="space-y-1">
+                                    <div className="flex justify-between items-center">
+                                      <span className="text-gray-300 text-xs">AAPL</span>
+                                      <span className="text-green-400 text-xs">47.8%</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                      <span className="text-gray-300 text-xs">BAC</span>
+                                      <span className="text-blue-400 text-xs">13.2%</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                      <span className="text-gray-300 text-xs">KO</span>
+                                      <span className="text-yellow-400 text-xs">8.1%</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
+                                  Super-Investoren
+                                </h3>
+                                <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
+                              </div>
+                              <p className="text-sm text-gray-400 leading-relaxed">
+                                Verfolge die Portfolios der erfolgreichsten Investoren der Welt in Echtzeit.
+                              </p>
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Normale Nav Links */}
                   {navLinks.map(link => (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
+                      className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
                     >
                       {link.label}
                     </Link>
                   ))}
-                  
-                  {/* Analyse Dropdown */}
-                  <Menu as="div" className="relative">
-                    <Menu.Button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all">
-                      Analyse 
-                      <ChevronDownIcon className="w-4 h-4" />
-                    </Menu.Button>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="opacity-0 scale-95"
-                      enterTo="opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="opacity-100 scale-100"
-                      leaveTo="opacity-0 scale-95"
-                    >
-                      <Menu.Items className="absolute left-0 mt-1 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden focus:outline-none">
-                        {analyseSubLinks.map(subLink => (
-                          <Menu.Item key={subLink.href}>
-                            {({ active }) => (
-                              <Link
-                                href={subLink.href}
-                                className={`block px-4 py-3 text-sm transition-colors ${
-                                  active 
-                                    ? 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white' 
-                                    : 'text-gray-700 dark:text-gray-300'
-                                }`}
-                              >
-                                {subLink.label}
-                              </Link>
-                            )}
-                          </Menu.Item>
-                        ))}
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
+
+                  {/* Pricing Link */}
+                  <Link
+                    href="/pricing"
+                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
+                  >
+                    Preise
+                  </Link>
                 </nav>
               </div>
 
@@ -595,33 +766,50 @@ export default function Navbar() {
               <div className="flex items-center gap-4">
                 {/* Search */}
                 <div className="hidden lg:block w-64">
-                  <CleanSearchBar />
+                  <DarkSearchBar />
                 </div>
 
                 {/* User Menu */}
                 <div className="hidden md:block">
                   {loading ? (
-                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+                    <div className="w-8 h-8 rounded-full bg-gray-800 animate-pulse"></div>
                   ) : user ? (
-                    <OptimizedUserDropdown user={user} profile={profile} />
+                    <DarkUserDropdown user={user} profile={profile} />
                   ) : (
-                    <GuestActions />
+                    <DarkGuestActions />
                   )}
                 </div>
 
                 {/* Mobile Menu Toggle */}
-                <Disclosure.Button className="lg:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all">
+                <Disclosure.Button className="lg:hidden p-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 rounded-lg transition-all">
                   {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
                 </Disclosure.Button>
               </div>
             </div>
 
-            {/* Mobile Panel */}
-            <Disclosure.Panel className="lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+            {/* Mobile Panel - Dark Theme */}
+            <Disclosure.Panel className="lg:hidden border-t border-gray-800/50 bg-gray-950/95 backdrop-blur-md">
               <div className="px-4 py-3 space-y-1">
                 {/* Mobile Search */}
                 <div className="mb-4">
-                  <CleanSearchBar onNavigate={close} />
+                  <DarkSearchBar onNavigate={close} />
+                </div>
+
+                {/* Mobile Products Section */}
+                <div className="space-y-1">
+                  <div className="px-3 py-2 text-base font-medium text-white">
+                    Produkte
+                  </div>
+                  {productLinks.map(product => (
+                    <Link
+                      key={product.href}
+                      href={product.href}
+                      onClick={() => close()}
+                      className="block px-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
+                    >
+                      {product.label}
+                    </Link>
+                  ))}
                 </div>
 
                 {/* Mobile Nav Links */}
@@ -630,37 +818,29 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => close()}
-                    className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
+                    className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
                   >
                     {link.label}
                   </Link>
                 ))}
 
-                {/* Mobile Analyse Section */}
-                <div className="space-y-1">
-                  <div className="px-3 py-2 text-base font-medium text-gray-900 dark:text-white">
-                    Analyse
-                  </div>
-                  {analyseSubLinks.map(subLink => (
-                    <Link
-                      key={subLink.href}
-                      href={subLink.href}
-                      onClick={() => close()}
-                      className="block px-6 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
-                    >
-                      {subLink.label}
-                    </Link>
-                  ))}
-                </div>
+                {/* Mobile Pricing Link */}
+                <Link
+                  href="/pricing"
+                  onClick={() => close()}
+                  className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
+                >
+                  Preise
+                </Link>
 
                 {/* Mobile User Menu */}
-                <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="pt-4 border-t border-gray-800/50">
                   {loading ? (
-                    <div className="w-full h-12 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+                    <div className="w-full h-12 rounded-lg bg-gray-800 animate-pulse"></div>
                   ) : user ? (
-                    <OptimizedUserDropdown user={user} profile={profile} />
+                    <DarkUserDropdown user={user} profile={profile} />
                   ) : (
-                    <GuestActions />
+                    <DarkGuestActions />
                   )}
                 </div>
               </div>

@@ -1,4 +1,4 @@
-/* src/app/globals.css */
+/* src/app/globals.css - OPTIMIERTE VERSION */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -46,7 +46,41 @@ body {
   stroke-width: 2px;
 }
 
-/* ─── NEUE RECHARTS TOOLTIP STYLES ─── */
+/* ─── OPTIMIERTES NOISE PATTERN ─── */
+/* Verbessertes Noise Pattern mit besserer Performance und nahtloserem Look */
+.noise-bg {
+  background-image: 
+    /* Feine Grundstruktur */
+    radial-gradient(circle at 0.5px 0.5px, rgba(34, 197, 94, 0.15) 0.5px, transparent 0),
+    /* Medium Texture */
+    radial-gradient(circle at 3px 3px, rgba(34, 197, 94, 0.08) 0.4px, transparent 0),
+    /* Größere Punkte für Tiefe */
+    radial-gradient(circle at 6px 6px, rgba(34, 197, 94, 0.04) 0.3px, transparent 0),
+    /* Subtile größere Struktur */
+    radial-gradient(circle at 12px 12px, rgba(34, 197, 94, 0.02) 0.2px, transparent 0);
+  
+  background-size: 6px 6px, 12px 12px, 24px 24px, 48px 48px;
+  
+  /* Wichtig: Nahtlose Wiederholung ohne Abschneiden */
+  background-attachment: local;
+  background-repeat: repeat;
+  
+  /* Bessere Performance */
+  will-change: auto;
+  transform: translateZ(0);
+}
+
+/* Alternative: Subtileres Noise für sensible Bereiche */
+.noise-bg-subtle {
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(34, 197, 94, 0.08) 0.5px, transparent 0),
+    radial-gradient(circle at 4px 4px, rgba(34, 197, 94, 0.04) 0.3px, transparent 0);
+  background-size: 8px 8px, 16px 16px;
+  background-attachment: local;
+  background-repeat: repeat;
+}
+
+/* ─── RECHARTS TOOLTIP STYLES ─── */
 /* Tooltip Container */
 .recharts-tooltip-wrapper {
   z-index: 1000 !important;
@@ -146,7 +180,7 @@ body {
   font-weight: 500 !important;
 }
 
-/* ─── Nahtloses Marquee ─── */
+/* ─── NAHTLOSES MARQUEE ─── */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -169,4 +203,60 @@ body {
 /* Wenn man mit der Maus darüberfährt, pausiert es */
 .marquee-inner:hover {
   animation-play-state: paused;
+}
+
+/* ─── PREMIUM DESIGN UTILITIES ─── */
+/* Grüner Glow für Premium */
+.green-glow {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+}
+
+/* Premium Gradient - Verbessert */
+.premium-gradient {
+  background: linear-gradient(135deg, 
+      rgba(34, 197, 94, 0.05) 0%, 
+      rgba(17, 24, 39, 0.95) 50%,
+      rgba(17, 24, 39, 1) 100%
+  );
+}
+
+/* ─── SMOOTH SCROLL & PERFORMANCE ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Bessere Performance für animierte Elemente */
+.animate-spin,
+.marquee-inner,
+.card {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ─── RESPONSIVE NOISE ANPASSUNGEN ─── */
+@media (max-width: 768px) {
+  .noise-bg {
+    /* Auf mobilen Geräten weniger intensiv für bessere Performance */
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(34, 197, 94, 0.12) 0.5px, transparent 0),
+      radial-gradient(circle at 4px 4px, rgba(34, 197, 94, 0.06) 0.3px, transparent 0);
+    background-size: 8px 8px, 16px 16px;
+  }
+}
+
+/* ─── ACCESSIBILITY ─── */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-inner {
+    animation: none;
+  }
+  
+  .card {
+    transition: none;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

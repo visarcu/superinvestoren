@@ -9,7 +9,6 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import SearchTickerInput from '@/components/SearchTickerInput'
 import Logo from '@/components/Logo'
 
-
 // — Hilfsfunktionen —
 async function fetchQuote(ticker: string) {
   const res = await fetch(
@@ -57,7 +56,7 @@ const ALL_SECTIONS = {
 // Nur dieser Tab ist aktiv
 const ENABLED_TABS: Array<keyof typeof ALL_SECTIONS> = ['Beliebt']
 
-export default function AnalysisIndexPage() {
+export default function ModernAnalysisIndexPage() {
   const router = useRouter()
   const [last, setLast]           = useState<string|null>(null)
   const [activeTab, setActiveTab] = useState<keyof typeof ALL_SECTIONS>('Beliebt')
@@ -127,40 +126,42 @@ export default function AnalysisIndexPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      {/* Hero Section - Clean Supabase Style */}
-      <section className="relative overflow-hidden bg-gray-950">
-        {/* Subtle Background Effects */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900"></div>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-green-500/5 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24">
-          <div className="text-center">
-            {/* Clean Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-8 hover:bg-green-500/20 transition-colors">
+    <div className="min-h-screen bg-gray-950 noise-bg">
+      {/* Background Effects - Konsistent mit anderen Seiten */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-blue-500/3 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* Hero Section - Modernisiert wie Homepage */}
+      <div className="bg-gray-950 noise-bg pt-24 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center space-y-8">
+            
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm">
               <ChartBarIcon className="w-4 h-4" />
               <span>Aktienanalyse</span>
             </div>
             
-            {/* Main Heading - Supabase Style */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
-              Professionelle
-            </h1>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight tracking-tight">
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
-                Aktien-Analyse
-              </span>
-            </h2>
+            {/* Main Heading */}
+            <div className="space-y-4">
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
+                Professionelle
+              </h1>
+              <h2 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight">
+                <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
+                  Aktien-Analyse
+                </span>
+              </h2>
+            </div>
             
-            {/* Clean Subtitle */}
-            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+            {/* Subtitle */}
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
               Live-Kurse, historische Charts, Dividenden und Kennzahlen in Sekundenschnelle.
-              
             </p>
 
-            {/* Clean Search Bar */}
+            {/* Search Bar */}
             <div className="max-w-lg mx-auto">
               <div className="relative">
                 <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -174,24 +175,24 @@ export default function AnalysisIndexPage() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Main Content Area - Clean Spacing */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Main Content - Modernisiert */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative space-y-12">
         
-        {/* Recently Analyzed - Clean Card */}
+        {/* Recently Analyzed - Glassmorphism Card */}
         {last && (
-          <div className="mb-20">
-            <div className="flex items-center gap-3 mb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
               <ClockIcon className="w-5 h-5 text-gray-400" />
               <h2 className="text-xl font-semibold text-white">
                 Zuletzt analysiert
               </h2>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-200 max-w-sm">
+            <div className="bg-gray-900/70 border border-gray-800 rounded-xl p-6 hover:bg-gray-900/80 hover:border-gray-700 transition-all duration-200 max-w-sm backdrop-blur-sm">
               <Link href={`/analyse/${last.toLowerCase()}`} className="flex items-center gap-4 group">
-                <div className="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center group-hover:bg-gray-700 transition-colors duration-200">
+                <div className="w-12 h-12 bg-gray-800/50 rounded-xl flex items-center justify-center group-hover:bg-gray-700/50 transition-colors duration-200">
                   <Logo
                     src={`/logos/${last.toLowerCase()}.svg`}
                     alt={`${last} Logo`}
@@ -211,9 +212,9 @@ export default function AnalysisIndexPage() {
           </div>
         )}
 
-        {/* Category Tabs - Clean Design */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
+        {/* Category Tabs - Modernisiert */}
+        <div>
+          <div className="flex items-center gap-3 mb-6">
             <ArrowTrendingUpIcon className="w-5 h-5 text-gray-400" />
             <h2 className="text-xl font-semibold text-white">
               Aktien-Kategorien
@@ -232,12 +233,12 @@ export default function AnalysisIndexPage() {
                   onClick={() => handleTabClick(tab)}
                   disabled={!enabled}
                   className={`
-                    inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200
+                    inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200 backdrop-blur-sm
                     ${active
-                      ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-500/25'
+                      ? 'bg-green-500 hover:bg-green-400 text-black shadow-lg shadow-green-500/25'
                       : enabled
-                        ? 'bg-gray-900/50 text-gray-300 border border-gray-800 hover:bg-gray-800 hover:text-white hover:border-gray-700'
-                        : 'bg-gray-900/30 text-gray-600 border border-gray-800/50 cursor-not-allowed'}
+                        ? 'bg-gray-900/70 text-gray-300 border border-gray-800 hover:bg-gray-800/70 hover:text-white hover:border-gray-700'
+                        : 'bg-gray-900/50 text-gray-600 border border-gray-800/50 cursor-not-allowed'}
                   `}
                 >
                   <span>{tab}</span>
@@ -248,8 +249,8 @@ export default function AnalysisIndexPage() {
           </div>
         </div>
 
-        {/* Stocks Grid - Clean Cards */}
-        <div className="mb-24">
+        {/* Stocks Grid - Modernisierte Cards */}
+        <div>
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold text-white">
               {activeTab} Aktien
@@ -269,30 +270,30 @@ export default function AnalysisIndexPage() {
 
               return (
                 <Link key={ticker} href={`/analyse/${ticker.toLowerCase()}`}>
-                  <div className="group bg-gray-900/50 border border-gray-800 rounded-xl p-6 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-200 cursor-pointer">
+                  <div className="group bg-gray-900/70 border border-gray-800 rounded-xl p-6 hover:bg-gray-900/80 hover:border-gray-700 transition-all duration-200 cursor-pointer backdrop-blur-sm hover:shadow-xl hover:shadow-green-500/5">
                     
                     {/* Company Logo */}
                     <div className="flex justify-center mb-6">
-                      <div className="w-16 h-16 bg-gray-800 rounded-xl flex items-center justify-center group-hover:bg-gray-700 transition-colors duration-200">
+                      <div className="w-16 h-16 bg-gray-800/50 rounded-xl flex items-center justify-center group-hover:bg-gray-700/50 transition-colors duration-200">
                         <Logo
                           src={`/logos/${ticker.toLowerCase()}.svg`}
                           alt={`${ticker} Logo`}
-                          className="w-16 h-16"
+                          className="w-12 h-12"
                         />
                       </div>
                     </div>
 
                     {/* Ticker Symbol */}
                     <div className="text-center mb-6">
-                      <h3 className="text-lg font-bold text-white mb-2">
+                      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
                         {ticker.toUpperCase()}
                       </h3>
                       
                       {/* Current Price */}
                       {isLoading ? (
                         <div className="space-y-3">
-                          <div className="h-6 bg-gray-800 rounded animate-pulse"></div>
-                          <div className="h-4 bg-gray-800 rounded animate-pulse w-2/3 mx-auto"></div>
+                          <div className="h-6 bg-gray-800/50 rounded animate-pulse"></div>
+                          <div className="h-4 bg-gray-800/50 rounded animate-pulse w-2/3 mx-auto"></div>
                         </div>
                       ) : quote ? (
                         <div>
@@ -302,10 +303,10 @@ export default function AnalysisIndexPage() {
                               currency: 'USD',
                             })}
                           </p>
-                          <div className={`inline-flex items-center gap-1 text-sm font-medium px-2 py-1 rounded-lg ${
+                          <div className={`inline-flex items-center gap-1 text-sm font-medium px-3 py-1 rounded-lg ${
                             quote.changePct >= 0 
-                              ? 'text-green-400 bg-green-500/10' 
-                              : 'text-red-400 bg-red-500/10'
+                              ? 'text-green-400 bg-green-500/20' 
+                              : 'text-red-400 bg-red-500/20'
                           }`}>
                             <span>{quote.changePct >= 0 ? '↗' : '↘'}</span>
                             <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
@@ -318,7 +319,7 @@ export default function AnalysisIndexPage() {
 
                     {/* Performance Metrics */}
                     {quote && (
-                      <div className="space-y-3 pt-4 border-t border-gray-800">
+                      <div className="space-y-3 pt-4 border-t border-gray-800/50">
                         <div className="flex justify-between items-center text-sm">
                           <span className="text-gray-400">1M:</span>
                           <span className={`font-medium ${
@@ -353,22 +354,29 @@ export default function AnalysisIndexPage() {
         </div>
       </div>
 
-      {/* Call to Action - Clean Supabase Style */}
-      <section className="bg-gray-950 py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Benötigst du erweiterte Analysen?
-          </h3>
-          <p className="text-lg text-gray-400 mb-12 leading-relaxed max-w-2xl mx-auto">
-            Schalte Premium-Features frei: Erweiterte Charts, Dividenden-Tracker, 
-            Portfolio-Analyse und exklusive Markt-Insights.
-          </p>
-          
-          <button className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-lg hover:shadow-green-500/25">
-            Premium upgraden
-          </button>
+      {/* CTA Section - Modernisiert */}
+      <div className="bg-gray-950 noise-bg py-24 relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+          <div className="bg-gray-900/70 border border-gray-800/50 rounded-2xl p-12 backdrop-blur-xl">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              Benötigst du erweiterte Analysen?
+            </h3>
+            <p className="text-lg text-gray-400 mb-8 leading-relaxed max-w-2xl mx-auto">
+              Schalte Premium-Features frei: Erweiterte Charts, Dividenden-Tracker, 
+              Portfolio-Analyse und exklusive Markt-Insights.
+            </p>
+            
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-green-500/25 hover:scale-105"
+            >
+              Premium upgraden
+            </Link>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   )
 }
