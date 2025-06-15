@@ -92,6 +92,7 @@ export async function POST(request: NextRequest) {
       customer: customerId,
       payment_method_types: ['card'],
       mode: 'subscription',
+      allow_promotion_codes: true,
       line_items: [
         {
           price: process.env.STRIPE_PRICE_ID!,
