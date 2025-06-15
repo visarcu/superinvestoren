@@ -169,7 +169,13 @@ async function handleCheckoutSessionCompleted(sessionData: any) {
 
     // User Premium Status aktualisieren
     const subscriptionAny = subscription as any;
-    const endDate = new Date(subscriptionAny.current_period_end * 1000);
+    const currentPeriodEnd = subscriptionAny?.current_period_end;
+
+    if (!currentPeriodEnd || isNaN(currentPeriodEnd)) {
+      throw new Error('Invalid or missing current_period_end');
+    }
+    
+    const endDate = new Date(currentPeriodEnd * 1000);
     
     const updateData = {
       is_premium: true,

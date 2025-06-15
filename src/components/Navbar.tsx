@@ -19,6 +19,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 
 // Search Result Interface
 interface SearchResult {
@@ -656,86 +657,63 @@ export default function ModernDarkNavbar() {
                         <div className="grid grid-cols-2 gap-6">
                           
                           {/* Aktien-Analyse Tool */}
-                          <Link
-                            href="/analyse"
-                            className="block p-4 rounded-xl hover:bg-gray-800/50 transition-all group/item"
-                          >
-                            <div className="relative mb-4 h-32 rounded-lg overflow-hidden bg-gray-800">
-                              <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-gray-800">
-                                <div className="absolute bottom-0 left-0 right-0 h-16">
-                                  <svg className="w-full h-full" viewBox="0 0 200 60" fill="none">
-                                    <path 
-                                      d="M0 40 L20 35 L40 25 L60 30 L80 20 L100 15 L120 25 L140 10 L160 20 L180 5 L200 15" 
-                                      stroke="#22c55e" 
-                                      strokeWidth="2" 
-                                      fill="none"
-                                    />
-                                    <path 
-                                      d="M0 40 L20 35 L40 25 L60 30 L80 20 L100 15 L120 25 L140 10 L160 20 L180 5 L200 15 L200 60 L0 60 Z" 
-                                      fill="#22c55e"
-                                      opacity="0.2"
-                                    />
-                                  </svg>
-                                </div>
-                                <div className="absolute top-3 left-3 space-y-1">
-                                  <div className="text-white text-xs font-mono">AAPL: $175.43</div>
-                                  <div className="text-green-400 text-xs font-mono">+2.34%</div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
-                                  Aktien-Analyse
-                                </h3>
-                                <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
-                              </div>
-                              <p className="text-sm text-gray-400 leading-relaxed">
-                                Tiefgehende Analyse von 10.000+ Aktien mit historischen Daten und erweiterten Kennzahlen.
-                              </p>
-                            </div>
-                          </Link>
+<Link
+  href="/analyse"
+  className="block p-4 rounded-xl hover:bg-gray-800/50 transition-all group/item"
+>
+  {/* Vorschau-Bild */}
+  <div className="relative mb-4 h-32 w-full rounded-lg overflow-hidden bg-gray-800">
+    <Image
+      src="/previews/analyse-preview.png"
+      alt="Aktien Analyse Vorschau"
+      fill={true}
+      className="object-cover"
+    />
+  </div>
+
+  {/* Text-Bereich */}
+  <div className="space-y-2">
+    <div className="flex items-center gap-2">
+      <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
+        Aktien-Analyse
+      </h3>
+      <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
+    </div>
+    <p className="text-sm text-gray-400 leading-relaxed">
+      Tiefgehende Analyse von 10.000+ Aktien mit historischen Daten und erweiterten Kennzahlen.
+    </p>
+  </div>
+</Link>
 
                           {/* Super-Investor Portfolios */}
-                          <Link
-                            href="/superinvestor"
-                            className="block p-4 rounded-xl hover:bg-gray-800/50 transition-all group/item"
-                          >
-                            <div className="relative mb-4 h-32 rounded-lg overflow-hidden bg-gray-800">
-                              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-gray-800">
-                                <div className="absolute inset-3 space-y-2">
-                                  <div className="text-white text-xs font-semibold">Warren Buffett Portfolio</div>
-                                  <div className="space-y-1">
-                                    <div className="flex justify-between items-center">
-                                      <span className="text-gray-300 text-xs">AAPL</span>
-                                      <span className="text-green-400 text-xs">47.8%</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                      <span className="text-gray-300 text-xs">BAC</span>
-                                      <span className="text-blue-400 text-xs">13.2%</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                      <span className="text-gray-300 text-xs">KO</span>
-                                      <span className="text-yellow-400 text-xs">8.1%</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
-                                  Super-Investoren
-                                </h3>
-                                <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
-                              </div>
-                              <p className="text-sm text-gray-400 leading-relaxed">
-                                Verfolge die Portfolios der erfolgreichsten Investoren der Welt in Echtzeit.
-                              </p>
-                            </div>
-                          </Link>
+                        {/* Super-Investor Portfolios */}
+<Link
+  href="/superinvestor"
+  className="block p-4 rounded-xl hover:bg-gray-800/50 transition-all group/item"
+>
+  {/* Bild-Vorschau */}
+  <div className="relative mb-4 h-32 w-full rounded-lg overflow-hidden bg-gray-800">
+    <Image
+      src="/previews/superinvestor-preview.png"
+      alt="Super-Investoren Vorschau"
+      fill
+      className="object-cover"
+    />
+  </div>
+
+  {/* Text-Bereich */}
+  <div className="space-y-2">
+    <div className="flex items-center gap-2">
+      <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
+        Super-Investoren
+      </h3>
+      <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
+    </div>
+    <p className="text-sm text-gray-400 leading-relaxed">
+      Verfolge die Portfolios der erfolgreichsten Investoren der Welt in Echtzeit.
+    </p>
+  </div>
+</Link>
                         </div>
                       </div>
                     </div>
@@ -751,6 +729,16 @@ export default function ModernDarkNavbar() {
                       {link.label}
                     </Link>
                   ))}
+
+                  {/* 👇 HIER HINZUFÜGEN - Terminal Link 
+<Link
+  href="/terminal"
+  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
+>
+  Terminal
+</Link>
+
+*/}
 
                   {/* Pricing Link */}
                   <Link
@@ -823,6 +811,16 @@ export default function ModernDarkNavbar() {
                     {link.label}
                   </Link>
                 ))}
+
+{/* 👇 HIER AUCH HINZUFÜGEN - Mobile Terminal Link 
+<Link
+  href="/terminal"
+  onClick={() => close()}
+  className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
+>
+  Terminal
+</Link> */}
+
 
                 {/* Mobile Pricing Link */}
                 <Link

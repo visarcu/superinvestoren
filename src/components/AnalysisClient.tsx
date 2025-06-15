@@ -1,10 +1,9 @@
-// Datei: src/components/AnalysisClient.tsx
+// src/components/AnalysisClient.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react'
 import { stocks } from '../data/stocks'
 import { supabase } from '@/lib/supabaseClient'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
@@ -20,9 +19,7 @@ const WatchlistButton = dynamic(
   () => import('@/components/WatchlistButton'),
   { ssr: false }
 )
-// ✅ REMOVED: StockLineChart import (nicht verwendet und kann Konflikte verursachen)
 
-// ✅ KORRIGIERTER Import für FinancialAnalysisClient
 import FinancialAnalysisClient from '@/components/FinancialAnalysisClient'
 
 const DividendSection = dynamic(
@@ -103,20 +100,23 @@ type SegmentEntry = {
   [key: string]: number | string
 }
 
+// User Interface
+interface User {
+  id: string
+  email: string
+  isPremium: boolean
+}
+
 // ─── Komponente: AnalysisClient ───────────────────────────────────────────────
 export default function AnalysisClient({ ticker }: { ticker: string }) {
-  // ────────────────────────────────────────────────────────────────────────────
-  // 1) Suchen der Aktie (synchron, KEIN Hook)
+  // 1) Suchen der Aktie
   const stock = stocks.find((s) => s.ticker === ticker)
 
-  // 2) useRouter-Hook (muss immer an derselben Stelle stehen)
-  const router = useRouter()
+  // 2) User State (wird vom Layout bereitgestellt)
+  const [user, setUser] = useState<User | null>(null)
+  const [loadingUser, setLoadingUser] = useState(true)
 
-  // 3) Auth- & Premium-Status (Hooks #1, #2, #3)
-  const [loadingAuth, setLoadingAuth] = useState(true)
-  const [user, setUser] = useState<null | { id: string; email: string; isPremium: boolean }>(null)
-
-  // 4) States für Live-Daten (Hooks #4 – #11)
+  // 3) States für Live-Daten
   const [livePrice, setLivePrice] = useState<number | null>(null)
   const [liveMarketCap, setLiveMarketCap] = useState<number | null>(null)
   const [liveChangePct, setLiveChangePct] = useState<number | null>(null)
@@ -126,7 +126,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   const [week52Low, setWeek52Low] = useState<number | null>(null)
   const [week52High, setWeek52High] = useState<number | null>(null)
 
-  // 5) States für Profil, Historie, Dividend‐Historie, Segmente, Key Metrics (Hooks #12 – #19)
+  // 4) States für andere Daten
   const [profileData, setProfileData] = useState<Profile | null>(null)
   const [irWebsite, setIrWebsite] = useState<string | null>(null)
   const [history, setHistory] = useState<{ date: string; close: number }[]>([])
@@ -135,16 +135,16 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   const [keyMetrics, setKeyMetrics] = useState<Record<string, any>>({})
   const [hasKeyMetrics, setHasKeyMetrics] = useState(false)
 
-  // 6) States für Bilanz (Hooks #20 – #22)
+  // 5) States für Bilanz
   const [cashBS, setCashBS] = useState<number | null>(null)
   const [debtBS, setDebtBS] = useState<number | null>(null)
   const [netDebtBS, setNetDebtBS] = useState<number | null>(null)
 
-  // 7) States für Dividend Ex-/Pay-Datum (Hooks #23, #24)
+  // 6) States für Dividend Dates
   const [exDate, setExDate] = useState<string | null>(null)
   const [payDate, setPayDate] = useState<string | null>(null)
 
-  // 8) States für Bewertung & Margins (Hooks #25 – #30)
+  // 7) States für Bewertung & Margins
   const [peTTM, setPeTTM] = useState<number | null>(null)
   const [pegTTM, setPegTTM] = useState<number | null>(null)
   const [pbTTM, setPbTTM] = useState<number | null>(null)
@@ -154,7 +154,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   const [operatingMargin, setOperatingMargin] = useState<number | null>(null)
   const [profitMargin, setProfitMargin] = useState<number | null>(null)
 
-  // 9) States für Estimates & Recommendations (Hooks #31, #32)
+  // 8) States für Estimates & Recommendations
   const [estimates, setEstimates] = useState<any[]>([])
   const [recs, setRecs] = useState<null | {
     strongBuy: number
@@ -164,69 +164,46 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     strongSell: number
   }>(null)
 
-  // ✅ NEU: State für aktuelle Outstanding Shares (Hook #33)
+  // 9) States für Outstanding Shares & Forward P/E
   const [currentShares, setCurrentShares] = useState<number | null>(null)
-
-  // ✅ NEU: State für Forward P/E (Hook #34)
   const [forwardPE, setForwardPE] = useState<number | null>(null)
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // 10) Effekt: Supabase-Session + User-Metadaten laden (Hook #35)
+  // ✅ User-Daten laden (vereinfacht, da Layout bereits Auth sicherstellt)
   useEffect(() => {
-    async function checkAuth() {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession()
-
-      if (error) {
-        console.error('[AnalysisClient] Supabase getSession error:', error.message)
-        router.push('/auth/signin')
-        return
-      }
-      if (!session?.user) {
-        router.push('/auth/signin')
-        return
-      }
-      
-      // Check Premium status from profiles table instead of app_metadata
+    async function loadUser() {
       try {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_premium')
-          .eq('user_id', session.user.id)
-          .maybeSingle()
+        const { data: { session } } = await supabase.auth.getSession()
+        
+        if (session?.user) {
+          // Premium Status holen
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('is_premium')
+            .eq('user_id', session.user.id)
+            .maybeSingle()
 
-        const isPremiumFlag = profile?.is_premium || false
-        setUser({ 
-          id: session.user.id, 
-          email: session.user.email || '', 
-          isPremium: isPremiumFlag
-        })
+          setUser({
+            id: session.user.id,
+            email: session.user.email || '',
+            isPremium: profile?.is_premium || false
+          })
+        }
       } catch (error) {
-        console.error('[AnalysisClient] Error checking premium status:', error)
-        // Fallback to app_metadata
-        const isPremiumFlag = session.user.app_metadata?.is_premium || false
-        setUser({ 
-          id: session.user.id, 
-          email: session.user.email || '', 
-          isPremium: isPremiumFlag 
-        })
+        console.error('[AnalysisClient] Error loading user:', error)
+      } finally {
+        setLoadingUser(false)
       }
-      
-      setLoadingAuth(false)
     }
 
-    checkAuth()
-  }, [router])
+    loadUser()
+  }, [])
 
-  // ✅ NEU: Effekt für Forward P/E Berechnung (Hook #36)
+  // Forward P/E Berechnung
   useEffect(() => {
     if (livePrice && estimates.length > 0) {
       const currentYear = new Date().getFullYear()
       const nextYear = currentYear + 1
       
-      // Suche nach EPS-Schätzung für nächstes Jahr
       const nextYearEstimate = estimates.find(e => 
         parseInt(e.date.slice(0, 4), 10) === nextYear
       )
@@ -234,9 +211,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       if (nextYearEstimate && nextYearEstimate.estimatedEpsAvg > 0) {
         const forwardPEValue = livePrice / nextYearEstimate.estimatedEpsAvg
         setForwardPE(forwardPEValue)
-        console.log(`✅ Forward P/E berechnet: ${forwardPEValue.toFixed(2)} (Kurs: ${livePrice}, EPS ${nextYear}: ${nextYearEstimate.estimatedEpsAvg})`)
       } else {
-        // Fallback: Verwende aktuelle Jahr EPS falls nächstes Jahr nicht verfügbar
         const currentYearEstimate = estimates.find(e => 
           parseInt(e.date.slice(0, 4), 10) === currentYear
         )
@@ -244,19 +219,17 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         if (currentYearEstimate && currentYearEstimate.estimatedEpsAvg > 0) {
           const forwardPEValue = livePrice / currentYearEstimate.estimatedEpsAvg
           setForwardPE(forwardPEValue)
-          console.log(`⚠️ Forward P/E mit aktuellem Jahr berechnet: ${forwardPEValue.toFixed(2)} (Kurs: ${livePrice}, EPS ${currentYear}: ${currentYearEstimate.estimatedEpsAvg})`)
         }
       }
     }
   }, [livePrice, estimates])
 
-  // 11) Effekt: Alle weiteren Daten fetchen (Hook #37)
+  // Alle weiteren Daten laden
   useEffect(() => {
-    // Falls keine Aktie, abbrechen
     if (!stock) return
 
-    // 11.1) Firmenprofil & IR-Website
-    async function loadProfile() {
+    async function loadAllData() {
+      // Profile laden
       try {
         const res = await fetch(
           `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`,
@@ -270,10 +243,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } catch {
         console.warn(`[AnalysisClient] Profile für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // 11.2) Historische Kurse
-    async function loadHistory() {
+      // Historische Kurse
       try {
         const res = await fetch(
           `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -289,47 +260,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } catch {
         console.warn(`[AnalysisClient] History für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // 11.3) Dividend-Historie
-    async function loadDividendHistory() {
-      try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
-        if (res.ok) {
-          const { historical = [] } = (await res.json()) as any
-          const arr = (historical as any[])
-            .slice()
-            .reverse()
-            .map((d) => ({ date: d.date, dividend: d.dividend }))
-          setDividendHistory(arr)
-        }
-      } catch {
-        console.warn(`[AnalysisClient] DividendHistory für ${ticker} fehlgeschlagen.`)
-      }
-    }
-
-    // 11.4) Segmente
-    async function loadSegments() {
-      try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v4/revenue-product-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
-        if (res.ok) {
-          const segRaw = (await res.json()) as Record<string, Record<string, number>>
-          const segArr: SegmentEntry[] = Object.entries(segRaw)
-            .map(([date, seg]) => ({ date, ...seg }))
-            .sort((a, b) => a.date.localeCompare(b.date))
-          setSegmentData(segArr)
-        }
-      } catch {
-        console.warn(`[AnalysisClient] Segmentierung für ${ticker} fehlgeschlagen.`)
-      }
-    }
-
-    // 11.5) Key Metrics (eigene API-Route)
-    async function loadKeyMetrics() {
+      // Key Metrics
       try {
         const base = process.env.NEXT_PUBLIC_BASE_URL!
         const res = await fetch(`${base}/api/financials/${ticker}`)
@@ -341,49 +273,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } catch {
         console.warn(`[AnalysisClient] KeyMetrics für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // 11.6) Bilanzdaten
-    async function loadBalanceSheet() {
-      try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=annual&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
-        if (res.ok) {
-          const fin = (await res.json()) as any
-          const L = Array.isArray(fin.financials) ? fin.financials[0] : fin[0]
-          setCashBS(L.cashAndShortTermInvestments ?? null)
-          setDebtBS(L.totalDebt ?? null)
-          setNetDebtBS(L.netDebt ?? null)
-        }
-      } catch {
-        console.warn(`[AnalysisClient] Bilanzdaten für ${ticker} fehlgeschlagen.`)
-      }
-    }
-
-    // 11.7) Dividend-Ex-/Pay-Datum
-    async function loadDividendDates() {
-      try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
-        if (res.ok) {
-          const djson = (await res.json()) as any
-          const list = Array.isArray(djson.historical) ? djson.historical : djson
-          if (list.length) {
-            const L = (list as { date: string; paymentDate: string }[])
-              .sort((a, b) => b.date.localeCompare(a.date))[0]
-            setExDate(L.date)
-            setPayDate(L.paymentDate)
-          }
-        }
-      } catch {
-        console.warn(`[AnalysisClient] DividendDates für ${ticker} fehlgeschlagen.`)
-      }
-    }
-
-    // 11.8) Live-Quote
-    async function loadQuote() {
+      // Live Quote
       try {
         const res = await fetch(
           `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -402,30 +293,23 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } catch {
         console.warn(`[AnalysisClient] LiveQuote für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // ✅ NEU: 11.8.1) Aktuelle Outstanding Shares aus der korrekten API
-    async function loadCurrentShares() {
+      // Current Shares
       try {
-        // Verwende die neue, korrekte shares-float API
         const res = await fetch(
           `https://financialmodelingprep.com/stable/shares-float?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
         )
         if (res.ok) {
           const sharesData = (await res.json()) as any[]
           if (Array.isArray(sharesData) && sharesData.length > 0) {
-            const currentSharesCount = sharesData[0].outstandingShares
-            setCurrentShares(currentSharesCount)
-            console.log(`✅ [AnalysisClient] Current Outstanding Shares for ${ticker}: ${(currentSharesCount / 1e9).toFixed(2)} Mrd (${sharesData[0].date})`)
+            setCurrentShares(sharesData[0].outstandingShares)
           }
         }
       } catch {
         console.warn(`[AnalysisClient] CurrentShares für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // 11.9) Company Outlook (KGV, PEG, KBV, KUV)
-    async function loadOutlook() {
+      // Company Outlook (Bewertungskennzahlen)
       try {
         const res = await fetch(
           `https://financialmodelingprep.com/api/v4/company-outlook?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -441,10 +325,39 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } catch {
         console.warn(`[AnalysisClient] CompanyOutlook für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // 11.10) EV/EBIT
-    async function loadEvEbit() {
+      // Balance Sheet
+      try {
+        const res = await fetch(
+          `https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=annual&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+        )
+        if (res.ok) {
+          const fin = (await res.json()) as any
+          const L = Array.isArray(fin.financials) ? fin.financials[0] : fin[0]
+          setCashBS(L.cashAndShortTermInvestments ?? null)
+          setDebtBS(L.totalDebt ?? null)
+          setNetDebtBS(L.netDebt ?? null)
+        }
+      } catch {
+        console.warn(`[AnalysisClient] Bilanzdaten für ${ticker} fehlgeschlagen.`)
+      }
+
+      // Margins
+      try {
+        const res = await fetch(
+          `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+        )
+        if (res.ok) {
+          const [inc] = (await res.json()) as any[]
+          setGrossMargin(inc.grossProfitRatio ?? null)
+          setOperatingMargin(inc.operatingIncomeRatio ?? null)
+          setProfitMargin(inc.netIncomeRatio ?? null)
+        }
+      } catch {
+        console.warn(`[AnalysisClient] Margins für ${ticker} fehlgeschlagen.`)
+      }
+
+      // EV/EBIT
       try {
         const [resEV, resInc] = await Promise.all([
           fetch(
@@ -464,27 +377,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } catch {
         console.warn(`[AnalysisClient] EV/EBIT für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // 11.11) Margins (Brutto, Operativ, Netto)
-    async function loadMargins() {
-      try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
-        if (res.ok) {
-          const [inc] = (await res.json()) as any[]
-          setGrossMargin(inc.grossProfitRatio ?? null)
-          setOperatingMargin(inc.operatingIncomeRatio ?? null)
-          setProfitMargin(inc.netIncomeRatio ?? null)
-        }
-      } catch {
-        console.warn(`[AnalysisClient] Margins für ${ticker} fehlgeschlagen.`)
-      }
-    }
-
-    // 11.12) Estimates
-    async function loadEstimates() {
+      // Estimates
       try {
         const res = await fetch(
           `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -497,10 +391,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } catch {
         console.warn(`[AnalysisClient] Estimates für ${ticker} fehlgeschlagen.`)
       }
-    }
 
-    // 11.13) Recommendations
-    async function loadRecs() {
+      // Recommendations
       try {
         const res = await fetch(
           `https://financialmodelingprep.com/api/v3/analyst-stock-recommendations/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -520,42 +412,23 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       }
     }
 
-    // 11.14) ✅ Alle Ladevorgänge parallel ausführen (inkl. neue loadCurrentShares)
-    loadProfile()
-    loadHistory()
-    loadDividendHistory()
-    loadSegments()
-    loadKeyMetrics()
-    loadBalanceSheet()
-    loadDividendDates()
-    loadQuote()
-    loadCurrentShares() // ← NEU: Korrekte Outstanding Shares laden
-    loadOutlook()
-    loadEvEbit()
-    loadMargins()
-    loadEstimates()
-    loadRecs()
+    loadAllData()
   }, [ticker, stock])
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // 12) Frühe Returns NACH Deklaration aller Hooks
-
-  // 12.1) Wenn wir noch auf das Supabase-Ergebnis warten, zeige Spinner
-  if (loadingAuth) {
+  // Loading State
+  if (loadingUser) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gray-950 text-gray-100">
+      <div className="flex h-64 items-center justify-center">
         <LoadingSpinner />
       </div>
     )
   }
 
-  // 12.2) Wenn Aktie nicht gefunden, zeige 404-Text
+  // Aktie nicht gefunden
   if (!stock) {
     return <p className="text-white">Aktie nicht gefunden.</p>
   }
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // 13) Endgültiges Rendering (alles ist geladen)
   return (
     <div className="space-y-8">
       {/* ─── Header mit Watchlist Button ─── */}
@@ -571,13 +444,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       </div>
 
-      {/* ─── Key Metrics Grid - Modernes Design ─── */}
+      {/* ─── Key Metrics Grid ─── */}
       {hasKeyMetrics ? (
         <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
           <h3 className="text-xl font-bold text-white mb-6">Übersicht</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             
-            {/* 1) Marktdaten */}
+            {/* Marktdaten */}
             <div className="space-y-4">
               <h4 className="text-white font-semibold text-lg flex items-center">
                 <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
@@ -613,7 +486,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               </div>
             </div>
 
-            {/* 2) Bilanz */}
+            {/* Bilanz */}
             <div className="space-y-4">
               <h4 className="text-white font-semibold text-lg flex items-center">
                 <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
@@ -641,7 +514,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               </div>
             </div>
 
-            {/* 3) Dividende */}
+            {/* Dividende */}
             <div className="space-y-4">
               <h4 className="text-white font-semibold text-lg flex items-center">
                 <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
@@ -675,14 +548,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               )}
             </div>
 
-            {/* 4) Bewertung - Premium */}
+            {/* Bewertung - Premium */}
             <div className="space-y-4 relative">
               <h4 className="text-white font-semibold text-lg flex items-center">
                 <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
                 Bewertung
               </h4>
               <div className={`space-y-3 ${!user?.isPremium ? 'filter blur-sm' : ''}`}>
-                {/* ✅ FIXED: KGV TTM und Forward P/E in einer Zeile */}
                 <div className="flex justify-between items-center group relative">
                   <span className="text-gray-400 text-sm">KGV (TTM|Erw.)</span>
                   <div className="flex items-center">
@@ -692,7 +564,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     {forwardPE != null && (
                       <div className="relative ml-2">
                         <InformationCircleIcon className="w-4 h-4 text-gray-400 cursor-help" />
-                        {/* Custom Tooltip */}
                         <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10 pointer-events-none">
                           Erwartetes KGV basiert auf Analysten-Schätzungen
                           <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
@@ -774,8 +645,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-
-{history.length > 0 ? (
+      {/* Chart */}
+      {history.length > 0 ? (
         <WorkingStockChart 
           ticker={ticker} 
           data={history}
@@ -791,7 +662,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-      {/* ─── Kennzahlen-Charts ────────────────────────────────────────────────── */}
+      {/* Kennzahlen-Charts */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
         <h3 className="text-2xl font-bold text-white mb-6">
           Kennzahlen-Charts
@@ -810,7 +681,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         )}
       </div>
 
-      {/* ─── Earnings & Revenue Estimates ─────────────────────────────────────── */}
+      {/* Estimates */}
       {estimates.length > 0 && (
         <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
           <h3 className="text-2xl font-bold text-white mb-6">
@@ -848,8 +719,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           const formattedYoY =
                             yoy == null
                               ? '–'
-                              : `${yoy >= 0 ? '+' : ''}${yoy
-                                  .toFixed(1)} %`
+                              : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)} %`
                           const yoyClass =
                             yoy == null
                               ? ''
@@ -913,8 +783,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           const formattedYoY =
                             yoy == null
                               ? '–'
-                              : `${yoy >= 0 ? '+' : ''}${yoy
-                                  .toFixed(1)} %`
+                              : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)} %`
                           const yoyClass =
                             yoy == null
                               ? ''
@@ -957,7 +826,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-      {/* ─── Wall Street Rating (Donut) ─────────────────────────────────────────── */}
+      {/* Wall Street Ratings */}
       {recs && (
         <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
           <h3 className="text-2xl font-bold text-white mb-6">Wall Street Bewertungen</h3>
@@ -972,7 +841,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-      {/* ─── Company Profile ────────────────────────────────────────────────────── */}
+      {/* Company Profile */}
       {profileData && (
         <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
           <h3 className="text-2xl font-bold text-white mb-6">Company Profile</h3>

@@ -27,7 +27,10 @@
     "fetch:holdings": "node scripts/fetchHoldings.js",
     "delete:testusers": "node scripts/delete-test-users.js",
     "download-logos": "node scripts/downloadLogos.js",
-    "setup-logos": "mkdir -p public/logos && node scripts/downloadLogos.js"
+    "setup-logos": "mkdir -p public/logos && node scripts/downloadLogos.js",
+    "setup:data": "mkdir -p public/data && mkdir -p src/data",
+    "scrape:realtime": "npm run setup:data && node scripts/scrapeDataromaRealTime.js && cp src/data/realtime-activity.json public/data/ 2>/dev/null || echo 'File copy skipped'",
+    "dev:scrape": "npm run scrape:realtime && npm run dev"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",
@@ -37,10 +40,11 @@
     "@supabase/supabase-js": "^2.49.8",
     "@types/stripe": "^8.0.417",
     "@vercel/analytics": "^1.5.0",
+    "axios": "^1.10.0",
     "bcryptjs": "^3.0.2",
     "bufferutil": "^4.0.9",
     "chart.js": "^4.4.9",
-    "cheerio": "^1.0.0",
+    "cheerio": "^1.1.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "lightweight-charts": "^3.8.0",

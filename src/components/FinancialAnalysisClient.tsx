@@ -1,8 +1,7 @@
-// Datei: src/components/FinancialAnalysisClient.tsx
+// src/components/FinancialAnalysisClient.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import GrowthTooltip from './GrowthTooltip'
 import {
   ResponsiveContainer,
@@ -19,7 +18,6 @@ import {
 import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import Card from '@/components/Card'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import { supabase } from '@/lib/supabaseClient'
 
 // ─── Typdefinitionen ───────────────────────────────────────────────────────────
 type MetricKey =
@@ -35,26 +33,16 @@ type MetricKey =
   | 'returnOnEquity'
   | 'stockAward'
   | 'capEx'
-  | 'researchAndDevelopment'  // ✅ NEU
+  | 'researchAndDevelopment'
   | 'operatingIncome' 
 
 type ChartKey = MetricKey
 
-// ✅ Props Interface
+// ✅ Props Interface (vereinfacht)
 interface Props {
   ticker: string
   isPremium?: boolean
   userId?: string
-}
-
-interface SupabaseSession {
-  user: {
-    id: string
-    email: string
-    app_metadata?: {
-      is_premium?: boolean
-    }
-  }
 }
 
 // ─── Konstante Daten (Farben, Tooltips etc.) ─────────────────────────────────
@@ -90,70 +78,20 @@ export default function FinancialAnalysisClient({
   isPremium = false, 
   userId 
 }: Props){
-  const router = useRouter()
-  // 1) Session‐State über Supabase:
-  const [session, setSession] = useState<SupabaseSession | null>(null)
-  const [loadingSession, setLoadingSession] = useState(true)
-
-  // 2) „Hat Premium" ableiten:
-  const userHasPremium = isPremium  // ← Verwende Props statt Session
-
-  // 3) Alle weiteren States:
+  
+  // ✅ Entfernt: Auth-State und Session-Loading
+  // Das Layout stellt bereits sicher, dass User eingeloggt ist
+  
   const [years, setYears] = useState<number>(10)
   const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
   const [data, setData] = useState<any[]>([])
   const [loadingData, setLoadingData] = useState<boolean>(true)
   const [fullscreen, setFullscreen] = useState<ChartKey | null>(null)
-  const ALL_KEYS: ChartKey[] = [...METRICS.map((m) => m.key), 'cashDebt', 'pe', 'capEx', 'researchAndDevelopment', 'operatingIncome'   ] // ← CapEx explizit hinzufügen
+  const ALL_KEYS: ChartKey[] = [...METRICS.map((m) => m.key), 'cashDebt', 'pe', 'capEx', 'researchAndDevelopment', 'operatingIncome']
   const [visible, setVisible] = useState<ChartKey[]>(ALL_KEYS)
 
-  // ─── 1) Supabase-Session holen + Listener registrieren ───────────────────────
+  // ─── Daten von API laden ─────────────────────────────────────────────────────
   useEffect(() => {
-    let authListener: { data: { subscription: { unsubscribe(): void } } } | null = null
-
-    async function getSession() {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession()
-
-      if (error) {
-        console.error('[FinancialAnalysisClient] getSession error:', error.message)
-        // wenn kein Zugang, zurück zu /auth/signin
-        router.push('/auth/signin')
-        return
-      }
-      if (!session?.user) {
-        // Wenn kein eingeloggt, auf Login umleiten
-        router.push('/auth/signin')
-        return
-      }
-      setSession(session as SupabaseSession)
-      setLoadingSession(false)
-    }
-
-    getSession()
-
-    // Listener, der Session‐Änderungen nachführt
-    authListener = supabase.auth.onAuthStateChange((event, newSession) => {
-      if (event === 'SIGNED_OUT') {
-        setSession(null)
-        router.push('/auth/signin')
-      } else if (newSession) {
-        setSession(newSession as SupabaseSession)
-      }
-    })
-
-    return () => {
-      if (authListener) authListener.data.subscription.unsubscribe()
-    }
-  }, [])
-
-  // ─── 2) Daten von Ihrer zentralisierten API + Historical Share Float ─────────────────────────────
-  useEffect(() => {
-    // Wir dürfen erst laden, wenn Session abgeschlossen ist
-    if (loadingSession) return
-
     setLoadingData(true)
     const limit = period === 'annual' ? years : years * 4
 
@@ -161,11 +99,11 @@ export default function FinancialAnalysisClient({
     const sharesFloatUrl = `https://financialmodelingprep.com/api/v3/historical-share-float/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
 
     Promise.all([
-      fetch(`/api/financials/${ticker.toUpperCase()}?period=${period}&limit=${limit}`), // ← Ihre API (Revenue, EBITDA, EPS, FreeCashFlow, Cash, Debt, NetIncome, CapEx)
+      fetch(`/api/financials/${ticker.toUpperCase()}?period=${period}&limit=${limit}`),
       fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`),
       fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`),
-      fetch(ratioUrl), // ← ROE
-      fetch(sharesFloatUrl).catch(() => null), // ← Shares Outstanding separat (wie ursprünglich)
+      fetch(ratioUrl),
+      fetch(sharesFloatUrl).catch(() => null),
     ])
       .then(async ([rFin, rDiv, rPrice, rRatio, rSharesFloat]) => {
         const [jsonFin, jsonDiv, jsonPrice, jsonRatios] = await Promise.all([
@@ -175,7 +113,7 @@ export default function FinancialAnalysisClient({
           rRatio.json(),
         ])
 
-        // Historical Share Float API für KORREKTE Shares Outstanding
+        // Historical Share Float API für korrekte Shares Outstanding
         let jsonSharesFloat = null
         if (rSharesFloat && rSharesFloat.ok) {
           jsonSharesFloat = await rSharesFloat.json()
@@ -188,7 +126,7 @@ export default function FinancialAnalysisClient({
 
         const arr: any[] = jsonFin.data || []
 
-        // Dividenden aufs Jahr aggregieren (nur für ergänzende dividendPS)
+        // Dividenden aufs Jahr aggregieren
         const histDiv = Array.isArray(jsonDiv[0]?.historical)
           ? jsonDiv[0].historical
           : Array.isArray((jsonDiv as any).historical)
@@ -208,7 +146,7 @@ export default function FinancialAnalysisClient({
           priceByPeriod[key] = p.close
         })
 
-        // ROE aus Ratios (ergänzend)
+        // ROE aus Ratios
         const roeArr: any[] = Array.isArray(jsonRatios) ? jsonRatios : []
         const roeByPeriod: Record<string, number | null> = {}
         roeArr.forEach((r) => {
@@ -216,11 +154,10 @@ export default function FinancialAnalysisClient({
           roeByPeriod[key] = r.returnOnEquity != null ? r.returnOnEquity : null
         })
 
-        // ⭐ SHARES OUTSTANDING: Separate Verarbeitung für korrekte Daten
+        // Shares Outstanding Processing
         const sharesByPeriod: Record<string, number> = {}
         
         if (jsonSharesFloat && Array.isArray(jsonSharesFloat) && jsonSharesFloat.length > 0) {
-          // Verwende Historical Share Float API (bevorzugt)
           console.log('✅ Using Historical Share Float API for shares outstanding')
           jsonSharesFloat.forEach((s) => {
             const year = s.date.slice(0, 4)
@@ -238,26 +175,22 @@ export default function FinancialAnalysisClient({
               }
             }
           })
-          console.log('📊 Processed shares by period:', Object.keys(sharesByPeriod).slice(0, 5), 'sample values:', Object.values(sharesByPeriod).slice(0, 3))
         } else {
-          // Fallback: Income Statement WeightedAverageShsOut (als letzte Option)
           console.log('⚠️ Using Income Statement fallback for shares outstanding')
-          // Diese Daten sind oft falsch, aber besser als gar nichts
         }
 
-        // sortieren
+        // Daten sortieren
         arr.sort((a, b) =>
           period === 'annual'
             ? (a.year || 0) - (b.year || 0)
             : new Date(a.quarter).getTime() - new Date(b.quarter).getTime()
         )
 
-        // zusammenbauen - Ihre API liefert bereits ALLE Daten!
+        // Zusammenbauen
         const base = arr.map((row) => {
           const label = period === 'annual' ? String(row.year) : row.quarter
           const out: any = {
             label,
-            // Alle Hauptdaten kommen aus Ihrer API:
             revenue: row.revenue || 0,
             ebitda: row.ebitda || 0,
             eps: row.eps || 0,
@@ -266,26 +199,21 @@ export default function FinancialAnalysisClient({
             debt: row.debt || 0,
             netIncome: row.netIncome || 0,
             capEx: row.capEx || 0,
-            
-            // ✅ NEU: Diese beiden Zeilen hinzufügen:
             researchAndDevelopment: row.researchAndDevelopment || 0,
             operatingIncome: row.operatingIncome || 0,
             
-            // ⭐ SHARES OUTSTANDING: Historical Share Float API hat Priorität!
+            // Shares Outstanding mit korrekten Daten
             sharesOutstanding: (() => {
               const correctShares = sharesByPeriod[label]
               const fallbackShares = row.sharesOutstanding || 0
               
               if (correctShares) {
-                console.log(`✅ Using correct shares for ${label}: ${(correctShares / 1e9).toFixed(2)} Mrd`)
                 return correctShares
               } else {
-                console.log(`⚠️ Using fallback shares for ${label}: ${(fallbackShares / 1e9).toFixed(2)} Mrd (likely wrong!)`)
                 return fallbackShares
               }
             })(),
             
-            // Nur kleine Ergänzungen:
             dividendPS: annualDiv[label] ?? 0,
             returnOnEquity: roeByPeriod[label] ?? null,
           }
@@ -297,12 +225,10 @@ export default function FinancialAnalysisClient({
           return out
         })
 
-        console.log('🎯 Final data with CORRECT shares:', base.slice(0, 2)) // ← Debug-Log
-
         // Wachstum berechnen
         const withGrowth = base.map((row, idx, all) => {
           const out: any = { ...row }
-          ;['revenue', 'ebitda', 'eps', 'freeCashFlow', 'sharesOutstanding', 'dividendPS', 'pe', 'netIncome', 'returnOnEquity', 'capEx', 'researchAndDevelopment', 'operatingIncome'].forEach(  // ✅ NEU: researchAndDevelopment, operatingIncome hinzugefügt
+          ;['revenue', 'ebitda', 'eps', 'freeCashFlow', 'sharesOutstanding', 'dividendPS', 'pe', 'netIncome', 'returnOnEquity', 'capEx', 'researchAndDevelopment', 'operatingIncome'].forEach(
             (k: any) => {
               const prev = idx > 0 ? all[idx - 1][k] : null
               out[`${k}GrowthPct`] =
@@ -322,10 +248,10 @@ export default function FinancialAnalysisClient({
       .finally(() => {
         setLoadingData(false)
       })
-  }, [ticker, period, years, loadingSession])
+  }, [ticker, period, years])
 
-  // ─── 3) Spinner / Zustände, wenn noch nicht eingeloggt oder Daten‐Laden ─────
-  if (loadingSession || loadingData) {
+  // ✅ Loading State vereinfacht
+  if (loadingData) {
     return (
       <div className="flex h-64 items-center justify-center">
         <LoadingSpinner />
@@ -333,40 +259,25 @@ export default function FinancialAnalysisClient({
     )
   }
 
-  if (!session) {
-    return (
-      <div className="p-8 text-center text-gray-200">
-        <p>
-          Bitte{' '}
-          <button
-            onClick={() => router.push('/auth/signin')}
-            className="text-accent underline"
-          >
-            anmelden
-          </button>{' '}
-          um die Finanzanalyse zu sehen.
-        </p>
-      </div>
-    )
+  // ─── Premium-Check für Controls ──────────────────────────────────────────────
+  const handlePremiumAction = (action: () => void) => {
+    if (!isPremium) {
+      window.location.href = '/pricing'
+    } else {
+      action()
+    }
   }
 
-  // ─── 4) Haupt‐Render: Darstellung der Charts + Premium‐Checks ────────────────
   return (
     <div className="space-y-6">
-      {/* Zeitraum / Periode */}
+      {/* Zeitraum / Periode Controls */}
       <Card className="p-6">
         <div className="flex flex-wrap items-center gap-4 mb-4 text-gray-100">
           <span>Zeitraum:</span>
           {[5, 10, 15, 20].map((y) => (
             <button
               key={y}
-              onClick={() => {
-                if (!userHasPremium) {
-                  router.push('/pricing')
-                } else {
-                  setYears(y)
-                }
-              }}
+              onClick={() => handlePremiumAction(() => setYears(y))}
               className={`px-2 py-1 rounded ${
                 years === y ? 'bg-blue-600 text-white' : 'bg-gray-700'
               }`}
@@ -379,13 +290,7 @@ export default function FinancialAnalysisClient({
           {(['annual', 'quarterly'] as const).map((p) => (
             <button
               key={p}
-              onClick={() => {
-                if (!userHasPremium) {
-                  router.push('/pricing')
-                } else {
-                  setPeriod(p)
-                }
-              }}
+              onClick={() => handlePremiumAction(() => setPeriod(p))}
               className={`px-3 py-1 rounded ${
                 period === p ? 'bg-blue-600 text-white' : 'bg-gray-500'
               }`}
@@ -402,30 +307,26 @@ export default function FinancialAnalysisClient({
               <input
                 type="checkbox"
                 checked={visible.includes(key)}
-                onChange={() => {
-                  if (!userHasPremium) {
-                    router.push('/pricing')
-                  } else {
-                    setVisible((v) =>
-                      v.includes(key) ? v.filter((x) => x !== key) : [...v, key]
-                    )
-                  }
-                }}
+                onChange={() => handlePremiumAction(() => {
+                  setVisible((v) =>
+                    v.includes(key) ? v.filter((x) => x !== key) : [...v, key]
+                  )
+                })}
                 className="form-checkbox h-5 w-5 text-green-500"
               />
-             <span className="text-sm">
-  {key === 'cashDebt'
-    ? 'Cash & Debt'
-    : key === 'pe'
-    ? 'KGV TTM'
-    : key === 'capEx'
-    ? 'CapEx (Mio.)'
-    : key === 'researchAndDevelopment'  // ✅ NEU
-    ? 'R&D (Mio.)'
-    : key === 'operatingIncome'         // ✅ NEU  
-    ? 'Operating Income (Mio.)'
-    : METRICS.find((m) => m.key === key)?.name || key}
-</span>
+              <span className="text-sm">
+                {key === 'cashDebt'
+                  ? 'Cash & Debt'
+                  : key === 'pe'
+                  ? 'KGV TTM'
+                  : key === 'capEx'
+                  ? 'CapEx (Mio.)'
+                  : key === 'researchAndDevelopment'
+                  ? 'R&D (Mio.)'
+                  : key === 'operatingIncome'         
+                  ? 'Operating Income (Mio.)'
+                  : METRICS.find((m) => m.key === key)?.name || key}
+              </span>
             </label>
           ))}
         </div>
@@ -434,7 +335,7 @@ export default function FinancialAnalysisClient({
       {/* Charts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {visible.map((key) => {
-          // → Cash & Debt
+          // Cash & Debt Chart
           if (key === 'cashDebt') {
             return (
               <Card key={key} className="p-4">
@@ -468,7 +369,7 @@ export default function FinancialAnalysisClient({
             )
           }
 
-          // → CapEx (NEU)
+          // CapEx Chart
           if (key === 'capEx') {
             return (
               <Card key={key} className="p-4">
@@ -501,6 +402,7 @@ export default function FinancialAnalysisClient({
             )
           }
 
+          // R&D Chart
           if (key === 'researchAndDevelopment') {
             return (
               <Card key={key} className="p-4">
@@ -530,7 +432,7 @@ export default function FinancialAnalysisClient({
             )
           }
           
-          // → Operating Income Chart (NEU)
+          // Operating Income Chart
           if (key === 'operatingIncome') {
             return (
               <Card key={key} className="p-4">
@@ -545,7 +447,7 @@ export default function FinancialAnalysisClient({
                     <XAxis dataKey="label" stroke="#888" />
                     <YAxis 
                       tickFormatter={(v) => `${(v / 1e3).toFixed(1)} Mrd`}
-                      domain={['dataMin', 'dataMax']} // Operating Income kann negativ sein
+                      domain={['dataMin', 'dataMax']}
                       stroke="#888" 
                     />
                     <RechartsTooltip
@@ -560,7 +462,7 @@ export default function FinancialAnalysisClient({
             )
           }
 
-          // → KGV TTM
+          // P/E Ratio Chart
           if (key === 'pe') {
             const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / (data.length || 1)
             return (
@@ -590,12 +492,12 @@ export default function FinancialAnalysisClient({
             )
           }
 
-          // → Net Income
+          // Net Income Chart
           if (key === 'netIncome') {
             return (
               <Card key="netIncome" className="p-4">
                 <div className="flex justify-between items-center mb-2 text-gray-200">
-                  <h3 className="font-semibold">Nettogewinn (Mrd)</h3> {/* ← Geändert zu "Mrd" */}
+                  <h3 className="font-semibold">Nettogewinn (Mrd)</h3>
                   <button onClick={() => setFullscreen('netIncome')}>
                     <ArrowsPointingOutIcon className="w-5 h-5 text-gray-400" />
                   </button>
@@ -604,13 +506,11 @@ export default function FinancialAnalysisClient({
                   <BarChart data={data}>
                     <XAxis dataKey="label" stroke="#888" />
                     <YAxis
-                      // ✅ KORRIGIERT: Durch 1000 teilen statt 1 Million
                       tickFormatter={(v) => `${(v / 1e3).toFixed(1)} Mrd`}
-                      domain={['dataMin', 'dataMax']} // Net Income kann negativ sein
+                      domain={['dataMin', 'dataMax']}
                       stroke="#888"
                     />
                     <RechartsTooltip
-                      // ✅ KORRIGIERT: Durch 1000 teilen statt 1 Million  
                       formatter={(v: number) => [`${(v / 1e3).toFixed(1)} Mrd`, 'Nettogewinn']}
                       {...TOOLTIP_STYLES}
                     />
@@ -621,7 +521,8 @@ export default function FinancialAnalysisClient({
               </Card>
             )
           }
-          // → Dividende je Aktie
+
+          // Dividende je Aktie
           if (key === 'dividendPS') {
             const hasDividends = data.some((row) => row.dividendPS > 0)
             return (
@@ -649,7 +550,7 @@ export default function FinancialAnalysisClient({
                             minimumFractionDigits: 2,
                           })
                         }
-                        domain={[0, 'dataMax']} // Dividenden starten bei 0
+                        domain={[0, 'dataMax']}
                         stroke="#888"
                       />
                       <RechartsTooltip
@@ -672,7 +573,7 @@ export default function FinancialAnalysisClient({
             )
           }
 
-          // → Alle anderen METRICS (Bar‐Charts inkl. ROE + CapEx + korrekte Shares Outstanding Formatierung)
+          // Alle anderen METRICS
           const m = METRICS.find((mt) => mt.key === key)
           if (!m) {
             console.warn(`Metric not found for key: ${key}`)
@@ -700,15 +601,14 @@ export default function FinancialAnalysisClient({
                           minimumFractionDigits: 2,
                         })
                       } else if (key === 'sharesOutstanding') {
-                        // ← KORREKTE Formatierung für Shares Outstanding (durch 1e9 für Milliarden)
                         return `${(v / 1e9).toFixed(2)} Mrd`
                       }
-                      return `${(v / 1e3).toFixed(0)} Mrd` // CapEx wird auch in Milliarden angezeigt
+                      return `${(v / 1e3).toFixed(0)} Mrd`
                     }}
                     domain={
                       key === 'returnOnEquity' || key === 'eps'
-                        ? ['dataMin', 'dataMax'] // Nur für ROE und EPS (können negativ sein)
-                        : [0, 'dataMax'] // Alle anderen starten bei 0
+                        ? ['dataMin', 'dataMax']
+                        : [0, 'dataMax']
                     }
                     stroke="#888"
                   />
@@ -726,10 +626,9 @@ export default function FinancialAnalysisClient({
                           n,
                         ]
                       } else if (key === 'sharesOutstanding') {
-                        // ← KORREKTE Tooltip-Formatierung für Shares Outstanding
                         return [`${((v as number) / 1e9).toFixed(3)} Mrd Aktien`, n]
                       }
-                      return [`${((v as number) / 1e3).toFixed(2)} Mrd`, n] // CapEx auch in Milliarden
+                      return [`${((v as number) / 1e3).toFixed(2)} Mrd`, n]
                     }}
                     {...TOOLTIP_STYLES}
                   />
@@ -742,7 +641,7 @@ export default function FinancialAnalysisClient({
         })}
       </div>
 
-      {/* Vollbild‐Modal */}
+      {/* Vollbild Modal */}
       {fullscreen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-card-dark rounded-lg shadow p-6 max-w-[60vw] max-h-[60vh] w-[60vw] h-[60vh] overflow-auto relative">
@@ -757,7 +656,6 @@ export default function FinancialAnalysisClient({
             <ResponsiveContainer width="100%" height="100%">
               {(() => {
                 if (fullscreen === 'cashDebt') {
-                  // ─── Cash & Debt Vollbild ─────────────────────────
                   return (
                     <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
                       <XAxis dataKey="label" stroke="#888" />
@@ -769,7 +667,6 @@ export default function FinancialAnalysisClient({
                     </BarChart>
                   )
                 } else if (fullscreen === 'capEx') {
-                  // ─── CapEx Vollbild ─────────────────────────
                   return (
                     <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
                       <XAxis dataKey="label" stroke="#888" />
@@ -779,12 +676,7 @@ export default function FinancialAnalysisClient({
                       <Bar dataKey="capEx" name="CapEx (Mio.)" fill="rgba(6,182,212,0.8)" />
                     </BarChart>
                   )
-
-                } 
-                
-
-                else if (fullscreen === 'researchAndDevelopment') {
-                  // ─── R&D Vollbild ─────────────────────────
+                } else if (fullscreen === 'researchAndDevelopment') {
                   return (
                     <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
                       <XAxis dataKey="label" stroke="#888" />
@@ -795,7 +687,6 @@ export default function FinancialAnalysisClient({
                     </BarChart>
                   )
                 } else if (fullscreen === 'operatingIncome') {
-                  // ─── Operating Income Vollbild ─────────────────────────
                   return (
                     <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
                       <XAxis dataKey="label" stroke="#888" />
@@ -805,10 +696,7 @@ export default function FinancialAnalysisClient({
                       <Bar dataKey="operatingIncome" name="Operating Income" fill="rgba(132,204,22,0.8)" />
                     </BarChart>
                   )
-                }
-                
-                else if (fullscreen === 'pe') {
-                  // ─── KGV TTM Vollbild ──────────────────────────────
+                } else if (fullscreen === 'pe') {
                   const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / (data.length || 1)
                   return (
                     <LineChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
@@ -826,7 +714,6 @@ export default function FinancialAnalysisClient({
                     </LineChart>
                   )
                 } else {
-                  // ─── Alle anderen Metriken (BarChart) ───────────────
                   return (
                     <BarChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
                       <XAxis dataKey="label" stroke="#888" />
@@ -841,15 +728,14 @@ export default function FinancialAnalysisClient({
                               minimumFractionDigits: 2,
                             })
                           } else if (fullscreen === 'sharesOutstanding') {
-                            // ← KORREKTE Vollbild-Formatierung für Shares Outstanding
                             return `${(v / 1e9).toFixed(2)} Mrd`
                           }
-                          return `${(v / 1e3).toFixed(0)} Mrd` // CapEx auch in Milliarden
+                          return `${(v / 1e3).toFixed(0)} Mrd`
                         }}
                         domain={
                           fullscreen === 'returnOnEquity' || fullscreen === 'eps'
-                            ? ['dataMin', 'dataMax'] // Nur für ROE und EPS (können negativ sein)
-                            : [0, 'dataMax'] // Alle anderen starten bei 0
+                            ? ['dataMin', 'dataMax']
+                            : [0, 'dataMax']
                         }
                         stroke="#888"
                       />

@@ -38,7 +38,6 @@ async function fetchHistorical(
 function pctChange(newVal: number, oldVal: number) {
   return ((newVal - oldVal) / oldVal) * 100
 }
-
 type Quote = {
   price:     number
   changePct: number

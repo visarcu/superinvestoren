@@ -337,7 +337,7 @@ export default function OptimizedHomePage() {
                 href="/analyse"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25"
               >
-                Live Demo ansehen
+                Zur Analyse
                 <ArrowRightIcon className="w-4 h-4" />
               </Link>
             </div>
@@ -351,9 +351,15 @@ export default function OptimizedHomePage() {
                 
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">A</span>
-                  </div>
+                <div className="w-8 h-8 rounded-lg overflow-hidden">
+  <Image
+    src="/logos/aapl.png"
+    alt="Apple Logo"
+    width={32}
+    height={32}
+    className="object-contain"
+  />
+</div>
                   <div>
                     <h3 className="text-white font-semibold">Apple Inc.</h3>
                     <p className="text-green-400 text-sm">$185.24 (+2.1%)</p>
@@ -410,10 +416,16 @@ export default function OptimizedHomePage() {
               <div className={`absolute -right-4 -bottom-4 bg-gray-900/90 border border-gray-700 rounded-lg p-4 backdrop-blur-sm transform transition-all duration-1000 ${
                 chartVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'
               }`} style={{ transitionDelay: '1000ms' }}>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
-                  <span className="text-white text-sm font-medium">Warren Buffett</span>
-                </div>
+               <div className="flex items-center gap-2 mb-2">
+  <Image
+    src="/images/buffett-cartoon.png" // oder: "/images/91F18A22-B8B8-4A1E-A505-A64E2BBCCC04.jpeg"
+    alt="Warren Buffett"
+    width={24}
+    height={24}
+    className="rounded-full object-cover"
+  />
+  <span className="text-white text-sm font-medium">Warren Buffett</span>
+</div>
                 <div className="text-xs text-gray-400">Berkshire besitzt</div>
                 <div className="text-green-400 font-semibold">915M Aktien</div>
               </div>
@@ -439,9 +451,15 @@ export default function OptimizedHomePage() {
                 {/* Chart Header */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                      <span className="text-white font-bold text-sm">MSFT</span>
-                    </div>
+                  <div className="w-10 h-10 rounded-lg overflow-hidden">
+  <Image
+    src="/logos/msft.png"
+    alt="Microsoft Logo"
+    width={40}
+    height={40}
+    className="object-contain"
+  />
+</div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Microsoft Corp.</h3>
                       <p className="text-sm text-gray-400">Umsatzentwicklung 5 Jahre</p>
@@ -691,9 +709,15 @@ export default function OptimizedHomePage() {
                       style={{ transitionDelay: `${index * 150}ms` }}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center">
-                          <span className="text-white font-bold text-sm">{stock.symbol.charAt(0)}</span>
-                        </div>
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-white flex items-center justify-center">
+  <Image
+    src={`/logos/${stock.symbol.toLowerCase()}.png`}
+    alt={`${stock.name} Logo`}
+    width={32}
+    height={32}
+    className="object-contain"
+  />
+</div>
                         <div>
                           <div className="font-semibold text-white text-sm flex items-center gap-2">
                             {stock.symbol}
@@ -739,7 +763,9 @@ export default function OptimizedHomePage() {
       </section>
 
       {/* Super Investors Showcase - Interaktiver Kartenstack */}
-      <section className="bg-gray-950 noise-bg py-24">
+  
+  {/* Super Investors Showcase - Clean Stacked Cards wie wallstreetlocal */}
+  <section className="bg-gray-950 noise-bg py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Zentrierter Titel */}
@@ -770,76 +796,115 @@ export default function OptimizedHomePage() {
             </Link>
           </div>
 
-          {/* Sehr breite Karten - Full Width */}
-          <div className="flex justify-center">
-            <div className="relative h-[500px] w-full max-w-4xl">
-              {safeInvestorData.map((investor, index) => {
-                const isActive = index === activeCard;
-                const offset = (index - activeCard) * 40;
-                const zIndex = 3 - Math.abs(index - activeCard);
-                const scale = isActive ? 1 : 0.92 - Math.abs(index - activeCard) * 0.03;
-                
-                return (
-                  <div
-                    key={index}
-                    onClick={() => setActiveCard(index)}
-                    className={`absolute inset-0 bg-gray-900/90 border border-gray-700 rounded-2xl p-8 backdrop-blur-sm cursor-pointer transition-all duration-500 hover:border-green-500/50 ${
-                      isActive ? 'shadow-2xl shadow-green-500/10' : 'shadow-lg'
-                    }`}
-                    style={{
-                      transform: `translateY(${offset}px) scale(${scale})`,
-                      zIndex: zIndex,
-                    }}
-                  >
-                    {/* Card Header */}
-                    <div className="mb-6">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-xl font-bold text-white">{investor.name}</h3>
-                        <div className="text-right">
-                          <div className="text-sm text-gray-400">{investor.date}</div>
-                          <div className="text-xs text-gray-500">{investor.filingId}</div>
+          {/* Clean Stacked Cards Layout - genau wie wallstreetlocal */}
+          <div className="max-w-6xl mx-auto">
+            {/* Stacked Cards Container */}
+            <div className="relative flex justify-center">
+              <div className="relative w-full max-w-4xl">
+                {safeInvestorData.map((investor, index) => {
+                  const isActive = index === activeCard;
+                  const offset = index * 12; // Größerer Versatz damit man alle Karten sieht
+                  const zIndex = safeInvestorData.length - index;
+                  const scale = 1 - (index * 0.02); // Leichte Skalierung für Tiefeneffekt
+                  
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => setActiveCard(index)}
+                      className={`absolute w-full bg-gray-900/90 border border-gray-700 rounded-xl backdrop-blur-sm cursor-pointer transition-all duration-300 ${
+                        isActive 
+                          ? 'shadow-2xl shadow-green-500/10 hover:border-green-500/50' 
+                          : 'shadow-lg hover:border-gray-600'
+                      }`}
+                      style={{
+                        transform: `translateY(${offset}px) scale(${scale})`,
+                        zIndex: zIndex,
+                        top: 0,
+                      }}
+                    >
+                      {/* Card Header */}
+                      <div className="p-6 border-b border-gray-800">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                          <div>
+                            <h3 className="text-2xl font-bold text-white mb-1">{investor.name}</h3>
+                            <p className="text-gray-400 mb-2">{investor.investor}</p>
+                            <p className="text-3xl font-bold text-green-400">{investor.totalValue}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-gray-400 text-sm">{investor.date}</p>
+                            <p className="text-gray-500 text-xs">{investor.filingId}</p>
+                            <p className="text-gray-500 text-sm mt-2">{investor.tickers}</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="text-base text-gray-300 mb-1">{investor.investor}</div>
-                      <div className="text-lg font-semibold text-green-400">{investor.totalValue}</div>
-                      <div className="text-sm text-gray-500 mt-1">{investor.tickers}</div>
-                    </div>
 
-                    {/* Portfolio Table - Breiter */}
-                    <div className="bg-gray-800/50 rounded-lg overflow-hidden">
-                      {/* Table Header */}
-                      <div className="grid grid-cols-3 gap-4 p-4 bg-gray-700/50 text-sm font-medium text-gray-300">
-                        <div>Ticker</div>
-                        <div>Market Value</div>
-                        <div>Portfolio %</div>
+                      {/* Portfolio Table */}
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="bg-gray-800/50">
+                            <tr>
+                              <th className="text-left p-4 text-sm font-medium text-gray-300">Ticker</th>
+                              <th className="text-right p-4 text-sm font-medium text-gray-300">Market Value</th>
+                              <th className="text-right p-4 text-sm font-medium text-gray-300">Portfolio %</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {investor.holdings.map((holding: { ticker: string; value: string; percentage: string }, holdingIndex: number) => (
+                              <tr key={holdingIndex} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                                <td className="p-4">
+                                  <span className="font-medium text-white">{holding.ticker}</span>
+                                </td>
+                                <td className="p-4 text-right">
+                                  <span className="text-gray-300">{holding.value}</span>
+                                </td>
+                                <td className="p-4 text-right">
+                                  <span className="text-gray-400">{holding.percentage}%</span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                      
-                      {/* Table Rows */}
-                      <div className="space-y-2 p-4">
-                        {investor.holdings.map((holding: { ticker: string; value: string; percentage: string }, holdingIndex: number) => (
-                          <div key={holdingIndex} className="grid grid-cols-3 gap-4 py-3 px-2 text-sm hover:bg-gray-700/30 rounded">
-                            <div className="font-medium text-white">{holding.ticker}</div>
-                            <div className="text-gray-300">{holding.value}</div>
-                            <div className="text-gray-400">{holding.percentage}%</div>
+
+                      {/* Footer with navigation - nur bei der aktiven Karte */}
+                      {isActive && (
+                        <div className="p-6 bg-gray-800/30 border-t border-gray-800">
+                          <div className="flex flex-wrap gap-3 items-center justify-between">
+                            <div className="flex flex-wrap gap-3">
+                              {safeInvestorData.map((inv, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setActiveCard(idx);
+                                  }}
+                                  className={`px-3 py-2 text-sm rounded-lg transition-all duration-200 border ${
+                                    idx === activeCard
+                                      ? 'bg-green-500/20 text-green-400 border-green-500/50'
+                                      : 'bg-gray-700/50 hover:bg-gray-700 text-gray-300 hover:text-white border-gray-600/50 hover:border-gray-500'
+                                  }`}
+                                >
+                                  {inv.investor}
+                                </button>
+                              ))}
+                            </div>
+                            <Link
+                              href="/superinvestor"
+                              className="text-sm text-green-400 hover:text-green-300 transition-colors flex items-center gap-1"
+                            >
+                              Alle ansehen
+                              <ArrowRightIcon className="w-3 h-3" />
+                            </Link>
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      )}
                     </div>
-
-                    {/* Card Indicator */}
-                    <div className="flex justify-center mt-6 space-x-2">
-                      {safeInvestorData.map((_, i) => (
-                        <div
-                          key={i}
-                          className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                            i === activeCard ? 'bg-green-400' : 'bg-gray-600'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+                
+                {/* Spacer für die gestapelten Karten */}
+                <div style={{ height: `${(safeInvestorData.length - 1) * 12 + 650}px` }}></div>
+              </div>
             </div>
           </div>
         </div>

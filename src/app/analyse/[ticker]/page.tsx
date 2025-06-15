@@ -83,12 +83,10 @@ export default function AnalysisPage({ params }: { params: { ticker: string } })
           <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-8">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-gray-800 rounded-xl flex items-center justify-center border border-gray-700">
-                {/* ✅ UPDATED: Verwende ticker prop statt src */}
                 <Logo
-                  ticker={ticker}
+                  src={`/logos/${ticker.toLowerCase()}.svg`}
                   alt={`${ticker} Logo`}
                   className="w-12 h-12"
-                  padding="small"
                 />
               </div>
               <div>
