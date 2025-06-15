@@ -1,4 +1,5 @@
 // src/app/api/debug/customer-portal/route.ts
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import Stripe from 'stripe';
