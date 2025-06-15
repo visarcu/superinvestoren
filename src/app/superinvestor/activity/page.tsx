@@ -1,4 +1,4 @@
-// src/app/superinvestor/activity/page.tsx
+// src/app/superinvestor/activity/page.tsx - OHNE Scraping-Erwähnung
 'use client'
 
 import React, { useState, useEffect, useMemo } from 'react'
@@ -64,11 +64,11 @@ export default function DataromaRealTimeActivityPage() {
       setLoading(true)
       setError(null)
       
-      // Try to load scraped data from JSON file
+      // Try to load activity data from JSON file
       const response = await fetch('/data/realtime-activity.json')
       
       if (!response.ok) {
-        throw new Error('Real-time data not available. Run scraper first.')
+        throw new Error('Real-time data not available.')
       }
       
       const data: ActivityData = await response.json()
@@ -77,7 +77,7 @@ export default function DataromaRealTimeActivityPage() {
       
     } catch (err) {
       console.error('Error loading real-time data:', err)
-      setError('Real-time data not available. Please run the scraper first: npm run scrape:realtime')
+      setError('Real-time data temporarily unavailable. Please try again later.')
       
       // Fallback to demo data
       setActivityData({
@@ -95,23 +95,23 @@ export default function DataromaRealTimeActivityPage() {
     try {
       setError(null)
       
-      // Call API endpoint to trigger scraping
-      const response = await fetch('/api/scrape-realtime', {
+      // Call API endpoint to update data
+      const response = await fetch('/api/update-activity-data', {
         method: 'POST',
       })
       
       if (!response.ok) {
-        throw new Error('Failed to trigger scrape')
+        throw new Error('Failed to update data')
       }
       
-      // Reload data after scraping
+      // Reload data after update
       setTimeout(() => {
         loadRealTimeData()
       }, 2000)
       
     } catch (err) {
-      console.error('Error triggering scrape:', err)
-      setError('Manual scraping failed. Please run: npm run scrape:realtime')
+      console.error('Error updating data:', err)
+      setError('Data update failed. Please try again later.')
     }
   }
   
@@ -244,268 +244,266 @@ export default function DataromaRealTimeActivityPage() {
   
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center py-12">
-          <BoltIcon className="w-12 h-12 text-orange-600 mx-auto mb-4 animate-pulse" />
-          <div className="text-orange-400">Loading real-time activities...</div>
+      <div className="min-h-screen bg-gray-950 noise-bg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center py-12">
+            <BoltIcon className="w-12 h-12 text-green-500 mx-auto mb-4 animate-pulse" />
+            <div className="text-green-400">Lade Real-Time Aktivitäten...</div>
+          </div>
         </div>
       </div>
     )
   }
   
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
-              <BoltIcon className="w-5 h-5 text-orange-400" />
+    <div className="min-h-screen bg-gray-950 noise-bg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <BoltIcon className="w-5 h-5 text-green-400" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-white">Real-Time Aktivität</h1>
+                <p className="text-gray-400">Live Superinvestor Transaktionen</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-white">Real-Time Activity</h1>
-              <p className="text-gray-400">Live Superinvestor Transactions from Dataroma</p>
+            
+            <div className="flex items-center gap-4">
+              {activityData?.lastUpdated && (
+                <div className="text-sm text-gray-500">
+                  Zuletzt aktualisiert: {format(parseISO(activityData.lastUpdated), 'dd.MM.yyyy HH:mm', { locale: de })}
+                </div>
+              )}
+              <button 
+                onClick={loadRealTimeData}
+                className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition text-sm flex items-center gap-2 border border-gray-600"
+              >
+                <ArrowPathIcon className="w-4 h-4" />
+                Aktualisieren
+              </button>
+             
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            {activityData?.lastUpdated && (
-              <div className="text-sm text-gray-500">
-                Last updated: {format(parseISO(activityData.lastUpdated), 'dd.MM.yyyy HH:mm', { locale: de })}
+          {error && (
+            <div className="mb-6 bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <LinkIcon className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-red-400 font-medium">Fehler beim Laden der Daten</p>
+                  <p className="text-sm text-gray-300 mt-1">{error}</p>
+                </div>
               </div>
-            )}
-            <button 
-              onClick={loadRealTimeData}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm flex items-center gap-2"
-            >
-              <ArrowPathIcon className="w-4 h-4" />
-              Refresh
-            </button>
-            <button 
-              onClick={triggerScrape}
-              className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition text-sm"
-            >
-              Update Data
-            </button>
+            </div>
+          )}
+          
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+              <div className="text-2xl font-bold text-white">{stats.totalActivities}</div>
+              <div className="text-sm text-gray-400">Transaktionen</div>
+            </div>
+            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+              <div className="text-2xl font-bold text-white">{stats.totalInvestors}</div>
+              <div className="text-sm text-gray-400">Investoren</div>
+            </div>
+            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+              <div className="text-2xl font-bold text-green-400">{stats.buyActivities}</div>
+              <div className="text-sm text-gray-400">Käufe</div>
+            </div>
+            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+              <div className="text-2xl font-bold text-red-400">{stats.sellActivities}</div>
+              <div className="text-sm text-gray-400">Verkäufe</div>
+            </div>
+            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+              <div className="text-2xl font-bold text-blue-400">{stats.recentActivities}</div>
+              <div className="text-sm text-gray-400">Aktuell (7d)</div>
+            </div>
           </div>
         </div>
         
-        {error && (
-          <div className="mb-6 bg-red-500/10 border border-red-500/20 rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <LinkIcon className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-red-400 font-medium">Data Loading Error</p>
-                <p className="text-sm text-gray-300 mt-1">{error}</p>
-                <p className="text-xs text-gray-500 mt-2">
-                  To get real-time data, run: <code className="bg-gray-800 px-2 py-1 rounded">npm run scrape:realtime</code>
+        {/* Filters - Cleaner Design */}
+        <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <FunnelIcon className="w-4 h-4 text-gray-400" />
+            <h3 className="text-base font-medium text-white">Filter</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="relative">
+              <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Investor oder Aktie suchen..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
+              />
+            </div>
+            
+            <select
+              value={selectedInvestor}
+              onChange={(e) => setSelectedInvestor(e.target.value)}
+              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
+            >
+              <option value="all">Alle Investoren</option>
+              {uniqueInvestors.map(investor => (
+                <option key={investor} value={investor}>{investor}</option>
+              ))}
+            </select>
+            
+            <select
+              value={selectedActivity}
+              onChange={(e) => setSelectedActivity(e.target.value)}
+              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
+            >
+              <option value="all">Alle Aktivitäten</option>
+              {uniqueActivities.map(activity => (
+                <option key={activity} value={activity}>{activity}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        
+        {/* Activities Table */}
+        <div className="bg-gray-900/50 border border-gray-800 rounded-lg overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-800/50">
+                <tr>
+                  <th 
+                    className="text-left p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
+                    onClick={() => handleSort('date')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Datum
+                      {sortField === 'date' && (
+                        sortDirection === 'asc' ? <ArrowUpIcon className="w-4 h-4" /> : <ArrowDownIcon className="w-4 h-4" />
+                      )}
+                    </div>
+                  </th>
+                  <th className="text-left p-4 text-sm font-medium text-gray-300">Filing</th>
+                  <th 
+                    className="text-left p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
+                    onClick={() => handleSort('investor')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Investor
+                      {sortField === 'investor' && (
+                        sortDirection === 'asc' ? <ArrowUpIcon className="w-4 h-4" /> : <ArrowDownIcon className="w-4 h-4" />
+                      )}
+                    </div>
+                  </th>
+                  <th className="text-left p-4 text-sm font-medium text-gray-300">Aktivität</th>
+                  <th className="text-left p-4 text-sm font-medium text-gray-300">Wertpapier</th>
+                  <th className="text-right p-4 text-sm font-medium text-gray-300">Aktien</th>
+                  <th className="text-right p-4 text-sm font-medium text-gray-300">Preis</th>
+                  <th 
+                    className="text-right p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
+                    onClick={() => handleSort('total')}
+                  >
+                    <div className="flex items-center justify-end gap-2">
+                      Volumen
+                      {sortField === 'total' && (
+                        sortDirection === 'asc' ? <ArrowUpIcon className="w-4 h-4" /> : <ArrowDownIcon className="w-4 h-4" />
+                      )}
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredActivities.map((activity) => (
+                  <tr key={activity.id} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                    <td className="p-4">
+                      <div className="text-white font-medium">
+                        {format(parseISO(activity.date), 'dd.MM.yyyy', { locale: de })}
+                      </div>
+                      {isRecentActivity(activity.date) && (
+                        <span className="inline-block mt-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
+                          Aktuell
+                        </span>
+                      )}
+                    </td>
+                    <td className="p-4">
+                      <div className="text-gray-300 font-mono text-sm">{activity.filing}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className="text-blue-400 font-medium">{activity.investor}</div>
+                    </td>
+                    <td className="p-4">
+                      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium border ${getActivityColor(activity.activity)}`}>
+                        {getActivityIcon(activity.activity)}
+                        {activity.activity}
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <div className="text-white font-medium">{activity.ticker}</div>
+                      <div className="text-xs text-gray-500 truncate max-w-[200px]">
+                        {activity.security}
+                      </div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="text-white font-medium">
+                        {activity.shares.toLocaleString()}
+                      </div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="text-white font-medium">
+                        ${activity.price.toFixed(2)}
+                      </div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="text-white font-semibold">
+                        {formatCurrency(activity.total)}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          {filteredActivities.length === 0 && !loading && (
+            <div className="text-center py-12">
+              <BoltIcon className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+              <div className="text-gray-400">
+                {activities.length === 0 ? 'Keine Real-Time Daten verfügbar' : 'Keine Aktivitäten entsprechen deinen Filtern'}
+              </div>
+              <div className="text-gray-600 text-sm mt-2">
+                {activities.length === 0 
+                  ? 'Bitte versuche die Daten zu aktualisieren oder schaue später nochmal vorbei'
+                  : 'Versuche deine Filter-Einstellungen anzupassen'
+                }
+              </div>
+            </div>
+          )}
+        </div>
+        
+        {/* Info Box - Neutraler Text ohne Scraping-Erwähnung */}
+        <div className="mt-8 bg-green-500/10 border border-green-500/20 rounded-lg p-6">
+          <div className="flex items-start gap-3">
+            <CalendarIcon className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+            <div>
+              <h3 className="text-green-400 font-semibold mb-2">Real-Time Superinvestor Activity</h3>
+              <div className="text-sm text-gray-300 space-y-2">
+                <p>
+                  Diese Sektion zeigt aktuelle Transaktionen der Super-Investoren zwischen den 
+                  quarterly 13F-Filings. Daten enthalten Amendment Filings, Form 4s und andere 
+                  sofort gemeldete Transaktionen.
+                </p>
+                <p>
+                  Die Daten werden regelmäßig aktualisiert und bieten Einblicke in die 
+                  Investment-Aktivitäten der erfolgreichsten Investoren der Welt.
+                </p>
+                <p>
+                  <strong>Hinweis:</strong> Nutze die Filter-Funktionen um nach bestimmten 
+                  Investoren oder Aktivitäten zu suchen.
                 </p>
               </div>
-            </div>
-          </div>
-        )}
-        
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
-            <div className="text-2xl font-bold text-white">{stats.totalActivities}</div>
-            <div className="text-sm text-gray-400">Transactions</div>
-          </div>
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
-            <div className="text-2xl font-bold text-white">{stats.totalInvestors}</div>
-            <div className="text-sm text-gray-400">Investors</div>
-          </div>
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-400">{stats.buyActivities}</div>
-            <div className="text-sm text-gray-400">Buys</div>
-          </div>
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
-            <div className="text-2xl font-bold text-red-400">{stats.sellActivities}</div>
-            <div className="text-sm text-gray-400">Sells</div>
-          </div>
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
-            <div className="text-2xl font-bold text-blue-400">{stats.recentActivities}</div>
-            <div className="text-sm text-gray-400">Recent (7d)</div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Filters */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-8">
-        <div className="flex items-center gap-2 mb-4">
-          <FunnelIcon className="w-5 h-5 text-gray-400" />
-          <h3 className="text-lg font-semibold text-white">Filter & Search</h3>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="relative">
-            <MagnifyingGlassIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              placeholder="Investor oder Aktie suchen..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
-          
-          <select
-            value={selectedInvestor}
-            onChange={(e) => setSelectedInvestor(e.target.value)}
-            className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-          >
-            <option value="all">Alle Investoren</option>
-            {uniqueInvestors.map(investor => (
-              <option key={investor} value={investor}>{investor}</option>
-            ))}
-          </select>
-          
-          <select
-            value={selectedActivity}
-            onChange={(e) => setSelectedActivity(e.target.value)}
-            className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-          >
-            <option value="all">Alle Aktivitäten</option>
-            {uniqueActivities.map(activity => (
-              <option key={activity} value={activity}>{activity}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-      
-      {/* Activities Table */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-800/50">
-              <tr>
-                <th 
-                  className="text-left p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
-                  onClick={() => handleSort('date')}
-                >
-                  <div className="flex items-center gap-2">
-                    Transaction Date
-                    {sortField === 'date' && (
-                      sortDirection === 'asc' ? <ArrowUpIcon className="w-4 h-4" /> : <ArrowDownIcon className="w-4 h-4" />
-                    )}
-                  </div>
-                </th>
-                <th className="text-left p-4 text-sm font-medium text-gray-300">Filing</th>
-                <th 
-                  className="text-left p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
-                  onClick={() => handleSort('investor')}
-                >
-                  <div className="flex items-center gap-2">
-                    Reporting Name
-                    {sortField === 'investor' && (
-                      sortDirection === 'asc' ? <ArrowUpIcon className="w-4 h-4" /> : <ArrowDownIcon className="w-4 h-4" />
-                    )}
-                  </div>
-                </th>
-                <th className="text-left p-4 text-sm font-medium text-gray-300">Activity</th>
-                <th className="text-left p-4 text-sm font-medium text-gray-300">Security</th>
-                <th className="text-right p-4 text-sm font-medium text-gray-300">Shares</th>
-                <th className="text-right p-4 text-sm font-medium text-gray-300">Price</th>
-                <th 
-                  className="text-right p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
-                  onClick={() => handleSort('total')}
-                >
-                  <div className="flex items-center justify-end gap-2">
-                    Total
-                    {sortField === 'total' && (
-                      sortDirection === 'asc' ? <ArrowUpIcon className="w-4 h-4" /> : <ArrowDownIcon className="w-4 h-4" />
-                    )}
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredActivities.map((activity) => (
-                <tr key={activity.id} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
-                  <td className="p-4">
-                    <div className="text-white font-medium">
-                      {format(parseISO(activity.date), 'dd.MM.yyyy', { locale: de })}
-                    </div>
-                    {isRecentActivity(activity.date) && (
-                      <span className="inline-block mt-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">
-                        Recent
-                      </span>
-                    )}
-                  </td>
-                  <td className="p-4">
-                    <div className="text-gray-300 font-mono text-sm">{activity.filing}</div>
-                  </td>
-                  <td className="p-4">
-                    <div className="text-blue-400 font-medium">{activity.investor}</div>
-                  </td>
-                  <td className="p-4">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium border ${getActivityColor(activity.activity)}`}>
-                      {getActivityIcon(activity.activity)}
-                      {activity.activity}
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="text-white font-medium">{activity.ticker}</div>
-                    <div className="text-xs text-gray-500 truncate max-w-[200px]">
-                      {activity.security}
-                    </div>
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="text-white font-medium">
-                      {activity.shares.toLocaleString()}
-                    </div>
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="text-white font-medium">
-                      ${activity.price.toFixed(2)}
-                    </div>
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="text-white font-semibold">
-                      {formatCurrency(activity.total)}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        
-        {filteredActivities.length === 0 && !loading && (
-          <div className="text-center py-12">
-            <BoltIcon className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-            <div className="text-gray-400">
-              {activities.length === 0 ? 'No real-time data available' : 'No activities match your filters'}
-            </div>
-            <div className="text-gray-600 text-sm mt-2">
-              {activities.length === 0 
-                ? 'Run the scraper to get latest data: npm run scrape:realtime'
-                : 'Try adjusting your filter settings'
-              }
-            </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Info Box */}
-      <div className="mt-8 bg-orange-500/10 border border-orange-500/20 rounded-xl p-6">
-        <div className="flex items-start gap-3">
-          <CalendarIcon className="w-6 h-6 text-orange-400 flex-shrink-0 mt-1" />
-          <div>
-            <h3 className="text-orange-400 font-semibold mb-2">Real-Time Superinvestor Activity</h3>
-            <div className="text-sm text-gray-300 space-y-2">
-              <p>
-                Diese Daten werden direkt von <strong>Dataroma</strong> gescraped und zeigen echte 
-                Real-Time Transaktionen der Super-Investoren zwischen den quarterly 13F-Filings.
-              </p>
-              <p>
-                Daten enthalten Amendment Filings, Form 4s von Investoren und andere sofort gemeldete Transaktionen.
-              </p>
-              <p>
-                <strong>Update:</strong> Führe <code className="bg-gray-800 px-2 py-1 rounded">npm run scrape:realtime</code> aus 
-                für die neuesten Daten.
-              </p>
             </div>
           </div>
         </div>

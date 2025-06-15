@@ -1,4 +1,4 @@
-// scripts/scrapeDataromaRealTime.js - ES Module Version
+// scripts/scrapeDataromaRealTime.js - FIXED VERSION for correct URL and headers
 import fs from 'fs/promises'
 import path from 'path'
 import axios from 'axios'
@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename)
 class DataromaRealTimeScraper {
   
   constructor() {
-    this.outputPath = path.join(__dirname, '../src/data/realtime-activity.json')
+    this.outputPath = path.join(__dirname, '../public/data/realtime-activity.json')
     this.baseUrl = 'https://www.dataroma.com'
   }
   
@@ -19,7 +19,7 @@ class DataromaRealTimeScraper {
     console.log('🔄 Scraping Dataroma Real-Time Activity...')
     
     try {
-      // Scrape the main Real-Time Activity table
+      // Scrape the Real-Time Activity page (correct URL!)
       const activities = await this.scrapeRealTimeTable()
       
       // Save activities
@@ -49,9 +49,10 @@ class DataromaRealTimeScraper {
   }
   
   async scrapeRealTimeTable() {
-    console.log('🔍 Fetching Dataroma homepage...')
+    console.log('🔍 Fetching Dataroma Real-Time page...')
     
-    const response = await axios.get(`${this.baseUrl}/m/home.php`, {
+    // FIXED: Use correct URL for Real-Time Activity
+    const response = await axios.get(`${this.baseUrl}/m/rt.php`, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -68,81 +69,119 @@ class DataromaRealTimeScraper {
     
     console.log('🔍 Looking for Real-Time Activity table...')
     
-    // Look for the Real-Time Activity table
+    // Look for the table with the specific structure we saw in terminal
     let foundTable = false
     
     $('table').each((tableIndex, table) => {
       const $table = $(table)
       
-      // Check if this table contains the Real-Time Activity data
+      // Check if this table contains Real-Time Activity data
       const tableText = $table.text()
-      if (tableText.includes('Transaction Date') || 
-          tableText.includes('Filing') || 
-          tableText.includes('Reporting Name') ||
-          tableText.includes('Activity')) {
+      
+      // FIXED: Look for the correct headers from terminal output
+      if (tableText.includes('Date Filed') || 
+          tableText.includes('Transaction Date') ||
+          (tableText.includes('Stock') && tableText.includes('Total Value'))) {
         
-        console.log(`📋 Found potential activity table ${tableIndex + 1}`)
+        console.log(`📋 Found Real-Time Activity table ${tableIndex + 1}`)
         foundTable = true
         
         // Get headers to understand table structure
         const headers = []
-        $table.find('tr').first().find('td, th').each((i, cell) => {
+        const headerRow = $table.find('tr').first()
+        headerRow.find('td, th').each((i, cell) => {
           const headerText = $(cell).text().trim()
           headers.push(headerText)
           console.log(`   Header ${i}: "${headerText}"`)
         })
         
-        // Process data rows
+        // Process data rows - skip header row
         let rowCount = 0
+        console.log(`📋 Processing ${$table.find('tr').length - 1} data rows...`)
+        
         $table.find('tr').slice(1).each((rowIndex, row) => {
           const $row = $(row)
           const cells = $row.find('td')
           
-          if (cells.length >= 7) { // Ensure we have enough columns
+          console.log(`   Checking row ${rowIndex + 1}: ${cells.length} cells`)
+          
+          if (cells.length >= 7) { // Need at least 7 columns for full data
             const cellData = []
             cells.each((i, cell) => {
-              cellData.push($(cell).text().trim())
+              const cellText = $(cell).text().trim()
+              cellData.push(cellText)
             })
             
-            // Map to expected structure based on Dataroma format:
-            // [Transaction Date, Filing, Reporting Name, Activity, Security, Shares, Price, Total]
-            const [date, filing, reportingName, activity, security, shares, price, total] = cellData
+            // Log first few rows for debugging
+            if (rowIndex < 3) {
+              console.log(`   Row ${rowIndex + 1} data:`, cellData)
+            }
             
-            if (date && reportingName && security && this.isValidDate(date)) {
+            // Parse based on correct headers we found:
+            // [Transaction Date, Filing, Reporting Name, Activity, Security, Shares, Price, Total]
+            const [transactionDate, filing, reportingName, activity, security, shares, price, total] = cellData
+            
+            console.log(`   Parsing: Date="${transactionDate}", Investor="${reportingName}", Security="${security}"`)
+            
+            // Parse stock symbol from security field
+            const stockMatch = security?.match(/([A-Z]{1,5})\s*-?\s*(.*)/) || security?.match(/^([A-Z]+)/)
+            const ticker = stockMatch ? stockMatch[1] : security?.split(' ')[0]?.replace(/[^A-Z]/g, '') || 'UNKNOWN'
+            const companyName = stockMatch && stockMatch[2] ? stockMatch[2].trim() : security || 'Unknown Company'
+            
+            console.log(`   Extracted ticker: "${ticker}", company: "${companyName}"`)
+            console.log(`   Date check: "${transactionDate}" -> valid: ${this.isValidDate(transactionDate)}`)
+            
+            if (transactionDate && reportingName && security && this.isValidDate(transactionDate)) {
               const activityData = {
-                id: `dataroma-${date}-${reportingName}-${security}`.replace(/[^a-zA-Z0-9-]/g, '-'),
-                date: this.parseDate(date),
+                id: `dataroma-rt-${transactionDate}-${ticker}-${total}`.replace(/[^a-zA-Z0-9-]/g, '-'),
+                date: this.parseDate(transactionDate),
                 filing: filing || 'Unknown',
                 investor: this.cleanInvestorName(reportingName),
                 activity: this.normalizeActivity(activity),
-                security: security,
-                ticker: this.extractTicker(security),
+                security: companyName,
+                ticker: ticker,
                 shares: this.parseNumber(shares),
                 price: this.parseNumber(price),
-                total: this.parseNumber(total) || (this.parseNumber(shares) * this.parseNumber(price)),
+                total: this.parseNumber(total),
                 source: 'dataroma-realtime',
-                quarter: this.dateToQuarter(this.parseDate(date))
+                quarter: this.dateToQuarter(this.parseDate(transactionDate))
               }
               
+              console.log(`   Created activity:`, {
+                ticker: activityData.ticker,
+                investor: activityData.investor,
+                total: activityData.total,
+                date: activityData.date
+              })
+              
               // Only add if we have meaningful data
-              if (activityData.investor && activityData.security && activityData.date) {
+              if (activityData.ticker && activityData.ticker !== 'UNKNOWN' && activityData.total > 0) {
                 activities.push(activityData)
                 rowCount++
-                
-                if (rowCount <= 3) { // Log first few for debugging
-                  console.log(`   Row ${rowCount}: ${activityData.investor} - ${activityData.activity} - ${activityData.ticker}`)
-                }
+                console.log(`   ✅ Added activity ${rowCount}: ${activityData.ticker} - ${activityData.investor} - ${activityData.total}`)
+              } else {
+                console.log(`   ❌ Skipped activity: ticker="${activityData.ticker}", total=${activityData.total}`)
               }
+            } else {
+              console.log(`   ❌ Skipped row: missing required data or invalid date`)
+              console.log(`      Date: "${transactionDate}", Investor: "${reportingName}", Security: "${security}"`)
             }
+          } else {
+            console.log(`   ❌ Skipped row: only ${cells.length} cells (need 7+)`)
           }
         })
         
         console.log(`📊 Extracted ${rowCount} activities from table ${tableIndex + 1}`)
+        
+        // If we found data in this table, we can stop looking
+        if (rowCount > 0) {
+          return false // Break out of each loop
+        }
       }
     })
     
     if (!foundTable) {
-      console.warn('⚠️ No activity table found - page structure may have changed')
+      console.warn('⚠️ No Real-Time Activity table found - page structure may have changed')
       
       // Debug: log page structure
       console.log('🔍 Page structure analysis:')
@@ -158,12 +197,45 @@ class DataromaRealTimeScraper {
   }
   
   isValidDate(dateStr) {
-    // Check if string looks like a date (MM/DD/YYYY or similar)
-    return /\d{1,2}\/\d{1,2}\/\d{4}/.test(dateStr) || /\d{4}-\d{2}-\d{2}/.test(dateStr)
+    // Check if string looks like a date
+    // Handle "13 Jun" format from Dataroma
+    return /^\d{1,2}\s+[A-Za-z]{3}$/.test(dateStr) || 
+           /^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$/.test(dateStr) ||
+           /\d{1,2}\/\d{1,2}\/\d{4}/.test(dateStr) || 
+           /\d{4}-\d{2}-\d{2}/.test(dateStr)
   }
   
   parseDate(dateStr) {
     if (!dateStr) return new Date().toISOString().split('T')[0]
+    
+    // Handle "13 Jun" format (assume current year)
+    if (/^\d{1,2}\s+[A-Za-z]{3}$/.test(dateStr)) {
+      const currentYear = new Date().getFullYear()
+      const [day, monthStr] = dateStr.split(' ')
+      
+      const monthMap = {
+        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+        'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 
+        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+      }
+      
+      const month = monthMap[monthStr] || '01'
+      return `${currentYear}-${month}-${day.padStart(2, '0')}`
+    }
+    
+    // Handle "31 Dec 2024" format (day month year)
+    if (/^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$/.test(dateStr)) {
+      const [day, monthStr, year] = dateStr.split(' ')
+      
+      const monthMap = {
+        'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+        'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 
+        'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+      }
+      
+      const month = monthMap[monthStr] || '01'
+      return `${year}-${month}-${day.padStart(2, '0')}`
+    }
     
     // Handle MM/DD/YYYY format
     if (dateStr.includes('/')) {
@@ -180,7 +252,7 @@ class DataromaRealTimeScraper {
   }
   
   cleanInvestorName(name) {
-    if (!name) return 'Unknown'
+    if (!name || name === 'Unknown') return 'Unknown Investor'
     
     return name
       .replace(/\s+/g, ' ')
@@ -190,7 +262,7 @@ class DataromaRealTimeScraper {
   }
   
   normalizeActivity(activity) {
-    if (!activity) return 'Unknown'
+    if (!activity || activity === 'Unknown') return 'Buy' // Default assumption
     
     const activityLower = activity.toLowerCase()
     
@@ -201,25 +273,18 @@ class DataromaRealTimeScraper {
     if (activityLower.includes('increased')) return 'Increased'
     if (activityLower.includes('decreased')) return 'Decreased'
     
-    return activity // Return original if no match
+    return 'Buy' // Default
   }
   
-  extractTicker(security) {
-    if (!security) return 'Unknown'
+  estimateShares(totalValue, price) {
+    const total = this.parseNumber(totalValue)
+    const priceNum = this.parseNumber(price)
     
-    // Try to extract ticker from "COMPANY NAME (TICKER)" format
-    const match = security.match(/\(([A-Z]{1,5})\)/)
-    if (match) return match[1]
-    
-    // Try to get ticker from beginning if all caps
-    const words = security.split(' ')
-    const firstWord = words[0]
-    if (firstWord && /^[A-Z]{1,5}$/.test(firstWord)) {
-      return firstWord
+    if (total > 0 && priceNum > 0) {
+      return Math.round(total / priceNum)
     }
     
-    // Fallback to first word
-    return firstWord || security.substring(0, 5).toUpperCase()
+    return 0
   }
   
   parseNumber(str) {
@@ -235,18 +300,18 @@ class DataromaRealTimeScraper {
   dateToQuarter(dateStr) {
     try {
       const [year, month] = dateStr.split('-').map(Number)
-      if (isNaN(year) || isNaN(month)) return 'Q1 2024'
+      if (isNaN(year) || isNaN(month)) return 'Q2 2025'
       const quarter = Math.ceil(month / 3)
       return `Q${quarter} ${year}`
     } catch (error) {
-      return 'Q1 2024'
+      return 'Q2 2025'
     }
   }
   
   removeDuplicates(activities) {
     const seen = new Set()
     return activities.filter(activity => {
-      const key = `${activity.date}-${activity.investor}-${activity.security}-${activity.activity}`
+      const key = `${activity.date}-${activity.ticker}-${activity.total}`
       if (seen.has(key)) return false
       seen.add(key)
       return true
@@ -254,6 +319,10 @@ class DataromaRealTimeScraper {
   }
   
   async saveActivities(data) {
+    // Ensure directory exists
+    const dir = path.dirname(this.outputPath)
+    await fs.mkdir(dir, { recursive: true })
+    
     await fs.writeFile(this.outputPath, JSON.stringify(data, null, 2))
     console.log(`💾 Saved to ${this.outputPath}`)
   }
@@ -271,8 +340,8 @@ class DataromaRealTimeScraper {
     const stats = {
       total: activities.length,
       investors: new Set(activities.map(a => a.investor)).size,
-      buys: activities.filter(a => a.activity === 'Buy').length,
-      sells: activities.filter(a => a.activity === 'Sell').length,
+      buys: activities.filter(a => ['Buy', 'New Position', 'Increased'].includes(a.activity)).length,
+      sells: activities.filter(a => ['Sell', 'Decreased', 'Sold Out'].includes(a.activity)).length,
       recent: activities.filter(a => {
         const daysDiff = (new Date().getTime() - new Date(a.date).getTime()) / (1000 * 60 * 60 * 24)
         return daysDiff <= 30
@@ -288,16 +357,16 @@ class DataromaRealTimeScraper {
     
     if (activities.length > 0) {
       console.log(`Date Range: ${activities[activities.length - 1].date} to ${activities[0].date}`)
-      console.log('\nTop Investors:')
-      const investorCount = {}
+      console.log('\nTop Tickers:')
+      const tickerCount = {}
       activities.forEach(a => {
-        investorCount[a.investor] = (investorCount[a.investor] || 0) + 1
+        tickerCount[a.ticker] = (tickerCount[a.ticker] || 0) + 1
       })
-      Object.entries(investorCount)
+      Object.entries(tickerCount)
         .sort(([,a], [,b]) => b - a)
         .slice(0, 5)
-        .forEach(([investor, count]) => {
-          console.log(`  ${investor}: ${count} activities`)
+        .forEach(([ticker, count]) => {
+          console.log(`  ${ticker}: ${count} activities`)
         })
     }
   }

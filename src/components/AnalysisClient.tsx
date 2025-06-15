@@ -52,7 +52,7 @@ const PremiumLockOverlay = ({ title, description }: { title: string; description
         Premium freischalten
       </Link>
       <p className="text-sm text-gray-400 mt-3">
-        Unterstütze uns mit 9€/Monat auf Patreon
+        Jederzeit kündbar.
       </p>
     </div>
   </div>
