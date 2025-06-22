@@ -1,4 +1,4 @@
-// src/app/analyse/[ticker]/news/page.tsx - Ticker-spezifische News-Seite mit Theme Support
+// src/app/analyse/[ticker]/news/page.tsx - THEME-OPTIMIERTE VERSION
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -13,7 +13,8 @@ import {
   ExclamationTriangleIcon,
   GlobeAltIcon,
   UserIcon,
-  CalendarIcon
+  CalendarIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline'
 import { 
   BookmarkIcon as BookmarkSolidIcon,
@@ -250,12 +251,12 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-theme-background">
-        <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-theme-primary">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <LoadingSpinner />
-              <p className="text-theme-secondary mt-4">Lade Nachrichten für {ticker}...</p>
+              <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+              <p className="text-theme-muted mt-4">Lade Nachrichten für {ticker}...</p>
             </div>
           </div>
         </div>
@@ -264,24 +265,24 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
   }
 
   return (
-    <div className="min-h-screen bg-theme-background">
-      <div className="container mx-auto px-4 py-8 space-y-8">
+    <div className="min-h-screen bg-theme-primary">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        {/* Header */}
+        {/* ✅ REDESIGNED Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center">
-              <NewspaperIcon className="w-7 h-7 text-white" />
+              <NewspaperIcon className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold text-theme-primary">
                 {ticker} Nachrichten
               </h1>
-              <p className="text-theme-secondary text-lg">Aktuelle News und Marktentwicklungen</p>
+              <p className="text-theme-muted">Aktuelle News und Marktentwicklungen</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-xl text-sm">
+          <div className="flex items-center gap-2 px-3 py-2 bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             <span>Live News</span>
           </div>
@@ -289,26 +290,28 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 flex items-center gap-3">
+          <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-xl p-4 flex items-center gap-3">
             <ExclamationTriangleIcon className="w-5 h-5 text-yellow-400" />
             <span className="text-yellow-200">{error}</span>
           </div>
         )}
 
-        {/* Filter Bar */}
-        <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme">
-          <div className="flex flex-wrap items-center gap-4">
+        {/* ✅ REDESIGNED Filter Bar */}
+        <div className="bg-theme-secondary border border-theme rounded-xl p-4">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
-              <FunnelIcon className="w-5 h-5 text-theme-secondary" />
-              <span className="text-theme-secondary font-medium">Filter:</span>
+              <div className="w-6 h-6 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <FunnelIcon className="w-3 h-3 text-blue-400" />
+              </div>
+              <span className="text-theme-muted font-medium text-sm">Filter:</span>
             </div>
             
             <button
               onClick={() => setSelectedSource('all')}
-              className={`px-4 py-2 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-lg transition-all text-sm ${
                 selectedSource === 'all'
                   ? 'bg-blue-500 text-white'
-                  : 'bg-theme-secondary/50 text-theme-tertiary hover:bg-theme-secondary/70'
+                  : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
               }`}
             >
               Alle Quellen ({newsData.length})
@@ -318,10 +321,10 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
               <button
                 key={source}
                 onClick={() => setSelectedSource(source)}
-                className={`px-4 py-2 rounded-lg transition-all flex items-center gap-2 ${
+                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-2 text-sm ${
                   selectedSource === source
                     ? 'bg-blue-500 text-white'
-                    : 'bg-theme-secondary/50 text-theme-tertiary hover:bg-theme-secondary/70'
+                    : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
                 }`}
               >
                 <span>{getSourceIcon(source)}</span>
@@ -331,18 +334,18 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         </div>
 
-        {/* News Articles */}
-        <div className="space-y-6">
+        {/* ✅ REDESIGNED News Articles */}
+        <div className="space-y-4">
           {filteredNews.slice(0, user?.isPremium ? undefined : 5).map((article, index) => (
             <article 
               key={article.url + index}
-              className="bg-theme-card/70 backdrop-blur-sm rounded-2xl border border-theme hover:border-border-hover transition-all duration-300 overflow-hidden group"
+              className="bg-theme-secondary border border-theme rounded-xl hover:bg-theme-tertiary/50 transition-all overflow-hidden group"
             >
               <div className="p-6">
                 <div className="flex flex-col lg:flex-row gap-6">
                   {/* Article Image */}
                   {article.image && (
-                    <div className="lg:w-80 h-48 lg:h-32 rounded-xl overflow-hidden flex-shrink-0">
+                    <div className="lg:w-64 h-40 lg:h-24 rounded-lg overflow-hidden flex-shrink-0">
                       <img 
                         src={article.image} 
                         alt={article.title}
@@ -355,21 +358,21 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                   )}
                   
                   {/* Article Content */}
-                  <div className="flex-1 space-y-4">
+                  <div className="flex-1 space-y-3">
                     {/* Article Header */}
                     <div className="flex items-start justify-between gap-4">
-                      <h2 className="text-xl font-bold text-theme-primary leading-tight group-hover:text-blue-400 transition-colors">
+                      <h2 className="text-lg font-semibold text-theme-primary leading-tight group-hover:text-blue-400 transition-colors">
                         {article.title}
                       </h2>
                       
                       {user?.isPremium && (
                         <button
                           onClick={() => toggleSaveArticle(article.url)}
-                          className="p-2 rounded-lg bg-theme-secondary/50 hover:bg-theme-secondary/70 transition-colors"
+                          className="p-1.5 rounded-lg bg-theme-tertiary/50 hover:bg-theme-tertiary/70 transition-colors"
                         >
                           <BookmarkSolidIcon 
-                            className={`w-5 h-5 ${
-                              savedArticles.has(article.url) ? 'text-yellow-400' : 'text-theme-secondary'
+                            className={`w-4 h-4 ${
+                              savedArticles.has(article.url) ? 'text-yellow-400' : 'text-theme-muted'
                             }`} 
                           />
                         </button>
@@ -377,45 +380,43 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                     </div>
 
                     {/* Article Meta */}
-                    <div className="flex items-center gap-6 text-sm text-theme-secondary">
-                      <div className="flex items-center gap-2">
-                        <GlobeAltIcon className="w-4 h-4" />
-                        <span className="font-medium">{getSourceIcon(article.site)} {article.site}</span>
+                    <div className="flex items-center gap-4 text-sm text-theme-muted">
+                      <div className="flex items-center gap-1">
+                        <GlobeAltIcon className="w-3 h-3" />
+                        <span>{getSourceIcon(article.site)} {article.site}</span>
                       </div>
                       
-                      <div className="flex items-center gap-2">
-                        <ClockIcon className="w-4 h-4" />
+                      <div className="flex items-center gap-1">
+                        <ClockIcon className="w-3 h-3" />
                         <span>{formatDate(article.publishedDate)} • {formatTime(article.publishedDate)}</span>
                       </div>
                       
                       {article.symbol && (
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs font-semibold">
-                            {article.symbol}
-                          </span>
-                        </div>
+                        <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs font-medium">
+                          {article.symbol}
+                        </span>
                       )}
                     </div>
 
                     {/* Article Text */}
-                    <p className="text-theme-tertiary leading-relaxed">
+                    <p className="text-theme-secondary text-sm leading-relaxed">
                       {user?.isPremium ? article.text : truncateText(article.text, 200)}
                     </p>
 
                     {/* Article Actions */}
-                    <div className="flex items-center justify-between pt-4 border-t border-theme/50">
+                    <div className="flex items-center justify-between pt-3 border-t border-theme/50">
                       <Link
                         href={article.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors font-medium"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium"
                       >
                         <span>Artikel lesen</span>
-                        <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                        <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                       </Link>
                       
                       {!user?.isPremium && index >= 2 && (
-                        <div className="text-sm text-theme-secondary">
+                        <div className="text-xs text-theme-muted">
                           <Link href="/pricing" className="text-blue-400 hover:underline">
                             Premium für vollständige Artikel
                           </Link>
@@ -435,20 +436,20 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <button
               onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
               disabled={currentPage === 0}
-              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary/50 hover:bg-theme-secondary/70 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme"
             >
               <ChevronLeftIcon className="w-4 h-4" />
               Zurück
             </button>
             
-            <span className="text-theme-secondary">
+            <span className="text-theme-muted text-sm">
               Seite {currentPage + 1} von {totalPages}
             </span>
             
             <button
               onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
               disabled={currentPage >= totalPages - 1}
-              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary/50 hover:bg-theme-secondary/70 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme"
             >
               Weiter
               <ChevronRightIcon className="w-4 h-4" />
@@ -456,38 +457,40 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         )}
 
-        {/* Premium CTA für Non-Premium Users */}
+        {/* ✅ REDESIGNED Premium CTA */}
         {!user?.isPremium && (
-          <div className="bg-gradient-to-r from-green-500/10 via-blue-500/10 to-purple-500/10 border border-theme rounded-2xl p-8 text-center backdrop-blur-sm">
-            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl flex items-center justify-center">
-              <NewspaperIcon className="w-10 h-10 text-white" />
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center">
+              <NewspaperIcon className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-theme-primary mb-4">Unlimited News Access</h3>
-            <p className="text-theme-secondary mb-8 max-w-2xl mx-auto text-lg">
+            <h3 className="text-xl font-bold text-theme-primary mb-3">Unlimited News Access</h3>
+            <p className="text-theme-muted mb-6 max-w-xl mx-auto">
               Erhalte Zugang zu allen Nachrichten, vollständigen Artikeltexten, erweiterten Filtern, 
               Bookmark-Funktion und exklusiven Markt-Insights für {ticker} und 3000+ weitere Aktien.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-              <div className="flex items-center gap-2 text-green-400">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6">
+              <div className="flex items-center gap-2 text-green-400 text-sm">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
                 <span>Unbegrenzte Artikel</span>
               </div>
-              <div className="flex items-center gap-2 text-green-400">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex items-center gap-2 text-green-400 text-sm">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
                 <span>Vollständige Texte</span>
               </div>
-              <div className="flex items-center gap-2 text-green-400">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex items-center gap-2 text-green-400 text-sm">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
                 <span>Bookmark-Funktion</span>
               </div>
             </div>
-            <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold rounded-xl hover:from-green-400 hover:to-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl">
+            
+            <button className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg hover:from-green-400 hover:to-blue-400 transition-all">
               Premium freischalten - Nur 9€/Monat
             </button>
           </div>

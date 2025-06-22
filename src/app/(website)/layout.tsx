@@ -1,4 +1,4 @@
-// src/app/layout.tsx - WEBSITE LAYOUT MIT CURRENCY PROVIDER
+// src/app/layout.tsx - OPTIMIERTE WEBSITE VERSION
 'use client'
 
 import '@/app/globals.css'
@@ -6,14 +6,13 @@ import type { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
 import { Analytics } from "@vercel/analytics/next"
-import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider } from '@/lib/CurrencyContext'
 
-export default function WebsiteLayout({ children }: { children: ReactNode }) {
-  const { theme } = useTheme()
+// ❌ ENTFERNT: useTheme Hook (nur für Terminal)
 
+export default function OptimizedWebsiteLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="de" className={theme}>
+    <html lang="de" className="dark"> {/* 🎯 FIXIERT auf Dark Theme */}
       <head>
         <title>FinClue</title>
         <meta name="description" content="Portfolios der bekanntesten Investoren im Überblick" />
@@ -30,21 +29,21 @@ export default function WebsiteLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-theme-primary noise-bg text-theme-primary">
+      <body className="min-h-screen flex flex-col bg-gray-950 noise-bg text-white">
         <CurrencyProvider>
-          {/* ✅ Theme-aware Navbar */}
+          {/* ✅ Optimierte Navbar ohne Theme-Toggle */}
           <Navbar />
           
-          {/* ✅ KOMPAKTE Main Content */}
+          {/* ✅ Main Content */}
           <main className="flex-grow">
             {children}
           </main>
           
-          {/* ✅ KOMPAKTE Footer mit Theme-Variablen */}
-          <footer className="bg-theme-secondary border-t border-theme py-10">
+          {/* ✅ OPTIMIERTER Footer - Dark Theme Only */}
+          <footer className="bg-gray-900 border-t border-gray-800 py-10">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               
-              {/* ✅ KOMPAKTE Footer Content */}
+              {/* Footer Content */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                 
                 {/* Brand Column */}
@@ -55,29 +54,29 @@ export default function WebsiteLayout({ children }: { children: ReactNode }) {
                       <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
                       <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
                     </div>
-                    <span className="text-lg font-bold text-theme-primary">FinClue</span>
+                    <span className="text-lg font-bold text-white">FinClue</span>
                   </div>
-                  <p className="text-sm text-theme-secondary leading-relaxed">
+                  <p className="text-sm text-gray-400 leading-relaxed">
                     Professionelle Investment-Analyse und Super-Investor Portfolios für bessere Anlageentscheidungen.
                   </p>
                 </div>
 
                 {/* Product Links */}
                 <div>
-                  <h3 className="text-theme-primary font-semibold mb-3 text-sm">Produkte</h3>
+                  <h3 className="text-white font-semibold mb-3 text-sm">Produkte</h3>
                   <ul className="space-y-2">
                     <li>
-                      <Link href="/analyse" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <Link href="/analyse" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         Aktien-Analyse
                       </Link>
                     </li>
                     <li>
-                      <Link href="/superinvestor" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <Link href="/superinvestor" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         Super-Investoren
                       </Link>
                     </li>
                     <li>
-                      <Link href="/pricing" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <Link href="/pricing" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         Preise
                       </Link>
                     </li>
@@ -86,20 +85,20 @@ export default function WebsiteLayout({ children }: { children: ReactNode }) {
 
                 {/* Company Links */}
                 <div>
-                  <h3 className="text-theme-primary font-semibold mb-3 text-sm">Unternehmen</h3>
+                  <h3 className="text-white font-semibold mb-3 text-sm">Unternehmen</h3>
                   <ul className="space-y-2">
                     <li>
-                      <Link href="/news" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <Link href="/news" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         News
                       </Link>
                     </li>
                     <li>
-                      <a href="mailto:team.finclue@gmail.com" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <a href="mailto:team.finclue@gmail.com" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         Kontakt
                       </a>
                     </li>
                     <li>
-                      <Link href="/impressum" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <Link href="/impressum" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         Impressum
                       </Link>
                     </li>
@@ -108,20 +107,20 @@ export default function WebsiteLayout({ children }: { children: ReactNode }) {
 
                 {/* Legal Links */}
                 <div>
-                  <h3 className="text-theme-primary font-semibold mb-3 text-sm">Rechtliches</h3>
+                  <h3 className="text-white font-semibold mb-3 text-sm">Rechtliches</h3>
                   <ul className="space-y-2">
                     <li>
-                      <Link href="/privacy" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <Link href="/privacy" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         Datenschutz
                       </Link>
                     </li>
                     <li>
-                      <Link href="/terms" className="text-theme-secondary hover:text-green-400 transition-colors text-sm">
+                      <Link href="/terms" className="text-gray-400 hover:text-green-400 transition-colors text-sm">
                         AGB
                       </Link>
                     </li>
                     <li>
-                      <span className="text-theme-muted text-sm">
+                      <span className="text-gray-500 text-sm">
                         Keine Anlageberatung
                       </span>
                     </li>
@@ -129,17 +128,17 @@ export default function WebsiteLayout({ children }: { children: ReactNode }) {
                 </div>
               </div>
 
-              {/* ✅ KOMPAKTE Bottom Section */}
-              <div className="pt-6 border-t border-theme">
+              {/* Bottom Section */}
+              <div className="pt-6 border-t border-gray-800">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-3">
                   
                   {/* Copyright */}
-                  <div className="text-sm text-theme-muted">
+                  <div className="text-sm text-gray-500">
                     © {new Date().getFullYear()} FinClue. Alle Rechte vorbehalten.
                   </div>
 
-                  {/* ✅ KOMPAKTE Status Indicators */}
-                  <div className="flex items-center gap-4 text-xs text-theme-muted">
+                  {/* Status Indicators */}
+                  <div className="flex items-center gap-4 text-xs text-gray-500">
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                       <span>Live-Daten</span>

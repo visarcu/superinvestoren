@@ -7,13 +7,6 @@ interface Subscriber {
   email: string
 }
 
-interface SendResult {
-  success: boolean
-  email: string
-  error?: any
-  data?: any
-}
-
 export async function POST(request: NextRequest) {
   try {
     const { subject, content } = await request.json()
@@ -22,11 +15,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Betreff und Inhalt sind erforderlich' }, { status: 400 })
     }
 
-    // Alle aktiven Abonnenten laden
+    // E-Mails die bereits verschickt wurden (temporär für diesen Versand)
+    const alreadySent = [
+      'knackerjoe84@hotmail.com',
+      'josef.steinkirchner@t-online.de',
+      'visartest2@web.de',
+      'jan-luca.krohn@web.de',
+      'mbhannover@gmx.de',
+      'christian.lobnig@gmx.at'
+    ];
+
+    // Alle aktiven Abonnenten laden (außer bereits verschickte)
     const { data: subscribers, error: fetchError } = await supabase
       .from('newsletter_subscribers')
       .select('email')
       .eq('status', 'confirmed')
+      .not('email', 'in', `(${alreadySent.map(email => `"${email}"`).join(',')})`)
 
     if (fetchError) {
       console.error('Subscribers fetch error:', fetchError)
@@ -34,77 +38,63 @@ export async function POST(request: NextRequest) {
     }
 
     if (!subscribers || subscribers.length === 0) {
-      return NextResponse.json({ error: 'Keine aktiven Abonnenten gefunden' }, { status: 400 })
+      return NextResponse.json({ error: 'Keine neuen Abonnenten zum Versenden gefunden' }, { status: 400 })
     }
+
+    console.log(`📧 Sending to ${subscribers.length} subscribers (excluding ${alreadySent.length} already sent)`)
 
     // Newsletter-HTML generieren
     const newsletterHtml = generateNewsletterHtml(subject, content)
 
-    // 🔒 EINZELVERSAND - Jede E-Mail individuell senden
+    // 🔥 NEUER ANSATZ: Sequential Versand - eine E-Mail nach der anderen
     let sentCount = 0
     const errors: Array<{ email: string; error: any }> = []
-    const batchSize = 10 // Reduziert für bessere Rate-Limiting
 
-    for (let i = 0; i < subscribers.length; i += batchSize) {
-      const batch = subscribers.slice(i, i + batchSize)
+    for (let i = 0; i < subscribers.length; i++) {
+      const subscriber = subscribers[i]
       
-      // Promise.allSettled für parallelen Versand mit Fehlerbehandlung
-      const promises = batch.map(async (subscriber: Subscriber): Promise<SendResult> => {
-        try {
-          // Personalisierte E-Mail für jeden Empfänger
-          const personalizedHtml = newsletterHtml.replace(
-            'EMAIL_PLACEHOLDER', 
-            encodeURIComponent(subscriber.email)
-          )
+      try {
+        console.log(`📤 Sending to: ${subscriber.email} (${i + 1}/${subscribers.length})`)
+        
+        // Personalisierte E-Mail für jeden Empfänger
+        const personalizedHtml = newsletterHtml.replace(
+          'EMAIL_PLACEHOLDER', 
+          encodeURIComponent(subscriber.email)
+        )
 
-          const { data, error } = await resend.emails.send({
-            from: 'FinClue Newsletter <team@finclue.de>',
-            to: [subscriber.email], // ✅ Nur ein Empfänger pro E-Mail
-            subject: subject,
-            html: personalizedHtml,
-          })
+        const { data, error } = await resend.emails.send({
+          from: 'FinClue Newsletter <team@finclue.de>',
+          to: [subscriber.email],
+          subject: subject,
+          html: personalizedHtml,
+        })
 
-          if (error) {
-            console.error(`Failed to send to ${subscriber.email}:`, error)
-            return { success: false, email: subscriber.email, error }
-          }
-
-          return { success: true, email: subscriber.email, data }
-        } catch (error) {
-          console.error(`Exception sending to ${subscriber.email}:`, error)
-          return { success: false, email: subscriber.email, error }
-        }
-      })
-
-      // Warten auf alle E-Mails des Batches
-      const results = await Promise.allSettled(promises)
-      
-      // Ergebnisse auswerten
-      results.forEach((result, index) => {
-        if (result.status === 'fulfilled' && result.value.success) {
-          sentCount++
+        if (error) {
+          console.error(`❌ Failed to send to ${subscriber.email}:`, error)
+          errors.push({ email: subscriber.email, error })
         } else {
-          const email = batch[index].email
-          const error = result.status === 'rejected' ? result.reason : result.value?.error
-          errors.push({ email, error })
-          console.error(`Failed for ${email}:`, error)
+          sentCount++
+          console.log(`✅ Sent to ${subscriber.email} (${sentCount}/${subscribers.length} completed)`)
         }
-      })
 
-      console.log(`✅ Batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(subscribers.length/batchSize)} completed: ${sentCount}/${i + batch.length} sent`)
+        // Kleine Pause zwischen E-Mails (Rate-Limiting vermeiden)
+        await new Promise(resolve => setTimeout(resolve, 500)) // 0.5 Sekunden
 
-      // Pause zwischen Batches (wichtig für Rate-Limiting)
-      if (i + batchSize < subscribers.length) {
-        await new Promise(resolve => setTimeout(resolve, 2000))
+      } catch (error) {
+        console.error(`❌ Exception sending to ${subscriber.email}:`, error)
+        errors.push({ email: subscriber.email, error })
       }
     }
+
+    console.log(`🎉 Newsletter completed: ${sentCount}/${subscribers.length} sent, ${errors.length} failed`)
 
     return NextResponse.json({ 
       success: true, 
       sentCount,
       totalSubscribers: subscribers.length,
       errors: errors.length > 0 ? errors : undefined,
-      failedCount: errors.length
+      failedCount: errors.length,
+      excludedCount: alreadySent.length
     })
 
   } catch (error) {

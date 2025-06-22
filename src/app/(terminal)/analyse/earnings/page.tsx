@@ -1,4 +1,4 @@
-// src/app/analyse/earnings/page.tsx - MIT THEME SUPPORT
+// src/app/(terminal)/analyse/earnings/page.tsx - THEME-AWARE DESIGN
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -9,7 +9,9 @@ import {
   CalendarIcon, 
   ClockIcon, 
   ExclamationTriangleIcon,
-  BookmarkIcon 
+  BookmarkIcon,
+  ArrowTrendingUpIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline';
 import Logo from '@/components/Logo';
 
@@ -100,7 +102,6 @@ export default function ModernEarningsPage() {
     if (watchlistItems.length > 0) {
       loadEarningsData(watchlistItems.map(item => item.ticker));
     } else if (!loading) {
-      // Wenn keine Watchlist-Items vorhanden sind, Earnings-Daten zurücksetzen
       setEarningsData([]);
     }
   }, [watchlistItems, loading]);
@@ -112,20 +113,16 @@ export default function ModernEarningsPage() {
     setApiError(null);
     
     try {
-      // Erweitere den Zeitraum für bessere Chancen, Daten zu finden
-      const startDate = formatDate(addDays(new Date(), -7)); // 7 Tage in der Vergangenheit
-      const endDate = formatDate(addDays(new Date(), 60));   // 60 Tage in der Zukunft
+      const startDate = formatDate(addDays(new Date(), -7));
+      const endDate = formatDate(addDays(new Date(), 60));
       
       console.log('[EarningsPage] Loading earnings from', startDate, 'to', endDate, 'for tickers:', tickers);
 
-      // Prüfe zunächst, ob API-Key verfügbar ist
       if (!process.env.NEXT_PUBLIC_FMP_API_KEY) {
         throw new Error('FMP API Key nicht konfiguriert');
       }
 
       const apiUrl = `https://financialmodelingprep.com/api/v3/earning_calendar?from=${startDate}&to=${endDate}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`;
-      console.log('[EarningsPage] API URL:', apiUrl.replace(process.env.NEXT_PUBLIC_FMP_API_KEY!, '[API_KEY]'));
-
       const res = await fetch(apiUrl);
 
       if (!res.ok) {
@@ -136,35 +133,20 @@ export default function ModernEarningsPage() {
       }
 
       const allEarnings = await res.json();
-      console.log('[EarningsPage] Raw API response:', allEarnings);
       
-      // Prüfe ob die Antwort ein Array ist
       if (!Array.isArray(allEarnings)) {
         console.error('[EarningsPage] API response is not an array:', allEarnings);
         setApiError('Unerwartete API-Antwort: Keine Array-Daten');
         return;
       }
 
-      console.log('[EarningsPage] All earnings loaded:', allEarnings.length);
-      
-      // Debugging: Zeige erste paar Earnings-Einträge
-      if (allEarnings.length > 0) {
-        console.log('[EarningsPage] Sample earnings data:', allEarnings.slice(0, 3));
-      }
-
-      // Filtere nach Watchlist-Tickers (case-insensitive)
       const tickersUpper = tickers.map(t => t.toUpperCase());
       const filteredEarnings: EarningsEvent[] = allEarnings
         .filter((earning: any) => {
           const symbol = earning.symbol?.toUpperCase();
-          const isMatch = tickersUpper.includes(symbol);
-          if (isMatch) {
-            console.log('[EarningsPage] Found earnings for:', symbol, earning);
-          }
-          return isMatch;
+          return tickersUpper.includes(symbol);
         })
         .map((earning: any): EarningsEvent => {
-          // Normalisiere das time field - manchmal kommt "pre-market" statt "bmo", etc.
           let normalizedTime: 'bmo' | 'amc' | null = null;
           if (earning.time) {
             const timeStr = earning.time.toLowerCase();
@@ -186,13 +168,7 @@ export default function ModernEarningsPage() {
           };
         });
 
-      console.log('[EarningsPage] Filtered earnings for watchlist:', filteredEarnings);
       setEarningsData(filteredEarnings);
-
-      if (filteredEarnings.length === 0 && allEarnings.length > 0) {
-        console.log('[EarningsPage] No earnings found for watchlist tickers. Available symbols in API:', 
-          allEarnings.slice(0, 10).map((e: any) => e.symbol));
-      }
 
     } catch (error) {
       console.error('[EarningsPage] Error loading earnings data:', error);
@@ -230,17 +206,13 @@ export default function ModernEarningsPage() {
     setCurrentDate(newDate);
   };
 
-  // Loading State - Theme-aware
+  // Loading State
   if (loading) {
     return (
-      <div className="min-h-screen bg-theme-primary noise-bg">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative flex min-h-screen items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-theme-primary">
+        <div className="flex min-h-screen items-center justify-center py-12 px-4">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+            <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-theme-secondary">Lade Earnings-Kalender...</p>
           </div>
         </div>
@@ -260,58 +232,47 @@ export default function ModernEarningsPage() {
   const weekDayNames = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
   return (
-    <div className="min-h-screen bg-theme-primary noise-bg">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-blue-500/3 rounded-full blur-3xl"></div>
-      </div>
-
-      {/* Hero Section */}
-      <div className="bg-theme-primary noise-bg pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center space-y-6">
-            
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm">
-              <CalendarIcon className="w-4 h-4" />
-              <span>Earnings Kalender</span>
+    <div className="min-h-screen bg-theme-primary">
+      {/* Professional Header */}
+      <div className="bg-theme-primary border-b border-theme py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-4 h-4 text-green-400" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-theme-primary">Earnings Kalender</h1>
+                <p className="text-theme-secondary text-sm">
+                  Termine deiner Watchlist • Live-Daten
+                </p>
+              </div>
             </div>
             
-            {/* Main Heading */}
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-bold text-theme-primary leading-tight tracking-tight">
-                Earnings Termine
-              </h1>
-              <h2 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
-                <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
-                  deiner Watchlist
-                </span>
-              </h2>
-            </div>
-            
-            {/* Subtitle */}
-            <p className="text-xl text-theme-secondary max-w-3xl mx-auto leading-relaxed">
-              Verpasse nie wieder wichtige Earnings-Termine deiner bevorzugten Aktien.
-            </p>
+            {loadingEarnings && (
+              <div className="flex items-center gap-2 text-xs text-theme-muted">
+                <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
+                Lade von API...
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
         {/* API Error Alert */}
         {apiError && (
-          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 backdrop-blur-sm">
+          <div className="bg-theme-secondary border border-theme rounded-lg p-4">
             <div className="flex items-center gap-3">
-              <ExclamationTriangleIcon className="w-6 h-6 text-red-400 flex-shrink-0" />
+              <ExclamationTriangleIcon className="w-5 h-5 text-red-400 flex-shrink-0" />
               <div className="flex-1">
-                <h3 className="text-red-400 font-medium">API Fehler</h3>
-                <p className="text-red-300 text-sm mt-1">{apiError}</p>
+                <h3 className="text-red-400 font-medium text-sm">API Fehler</h3>
+                <p className="text-theme-secondary text-sm mt-1">{apiError}</p>
                 <button
                   onClick={() => watchlistItems.length > 0 && loadEarningsData(watchlistItems.map(i => i.ticker))}
-                  className="mt-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-400 transition font-medium"
+                  className="mt-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-400 transition font-medium text-sm"
                 >
                   Erneut versuchen
                 </button>
@@ -321,28 +282,28 @@ export default function ModernEarningsPage() {
         )}
 
         {watchlistItems.length === 0 ? (
-          <div className="bg-theme-card/70 border border-theme rounded-xl p-12 backdrop-blur-sm text-center">
-            <div className="w-24 h-24 mx-auto bg-theme-secondary/50 rounded-2xl flex items-center justify-center mb-6">
-              <BookmarkIcon className="w-12 h-12 text-theme-secondary" />
+          <div className="bg-theme-secondary border border-theme rounded-lg p-8 text-center">
+            <div className="w-16 h-16 mx-auto bg-theme-tertiary rounded-lg flex items-center justify-center mb-4">
+              <BookmarkIcon className="w-8 h-8 text-theme-muted" />
             </div>
             
-            <div className="space-y-4 max-w-md mx-auto">
-              <h2 className="text-2xl font-semibold text-theme-primary">Keine Watchlist-Aktien</h2>
-              <p className="text-theme-secondary">
+            <div className="space-y-3 max-w-md mx-auto">
+              <h2 className="text-xl font-semibold text-theme-primary">Keine Watchlist-Aktien</h2>
+              <p className="text-theme-secondary text-sm">
                 Füge Aktien zu deiner Watchlist hinzu, um ihre Earnings-Termine hier zu sehen.
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
               <button
-                onClick={() => router.push('/watchlist')}
-                className="px-6 py-3 bg-green-500 text-black rounded-lg hover:bg-green-400 transition font-medium"
+                onClick={() => router.push('/analyse/watchlist')}
+                className="px-6 py-2 bg-green-500 text-black rounded-lg hover:bg-green-400 transition font-medium text-sm"
               >
                 Zur Watchlist
               </button>
               <button
-                onClick={() => router.push('/analyse/stocks')}
-                className="px-6 py-3 bg-theme-secondary text-theme-secondary rounded-lg hover:bg-theme-tertiary hover:text-theme-primary transition font-medium border border-theme"
+                onClick={() => router.push('/analyse')}
+                className="px-6 py-2 bg-theme-tertiary text-theme-secondary rounded-lg hover:bg-theme-tertiary/70 hover:text-theme-primary transition font-medium text-sm border border-theme"
               >
                 Aktien suchen
               </button>
@@ -351,11 +312,10 @@ export default function ModernEarningsPage() {
         ) : (
           <>
             {/* Controls */}
-            <div className="bg-theme-card/70 border border-theme rounded-xl p-6 backdrop-blur-sm">
-              {/* Obere Zeile: Navigation & View Controls */}
+            <div className="bg-theme-secondary border border-theme rounded-lg p-6">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-6">
                 <div className="flex items-center gap-4">
-                  <h2 className="text-xl font-semibold text-theme-primary">
+                  <h2 className="text-lg font-semibold text-theme-primary">
                     {viewMode === 'week' ? 'Diese Woche' : 'Nächste 3 Wochen'}
                   </h2>
                   <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-lg text-sm font-medium">
@@ -368,7 +328,7 @@ export default function ModernEarningsPage() {
                   <div className="flex items-center bg-theme-tertiary rounded-lg p-1">
                     <button
                       onClick={() => setViewMode('week')}
-                      className={`px-4 py-2 text-sm rounded-lg transition font-medium ${
+                      className={`px-3 py-1.5 text-sm rounded transition font-medium ${
                         viewMode === 'week' 
                           ? 'bg-green-500 text-black' 
                           : 'text-theme-secondary hover:text-theme-primary'
@@ -378,7 +338,7 @@ export default function ModernEarningsPage() {
                     </button>
                     <button
                       onClick={() => setViewMode('month')}
-                      className={`px-4 py-2 text-sm rounded-lg transition font-medium ${
+                      className={`px-3 py-1.5 text-sm rounded transition font-medium ${
                         viewMode === 'month' 
                           ? 'bg-green-500 text-black' 
                           : 'text-theme-secondary hover:text-theme-primary'
@@ -393,22 +353,20 @@ export default function ModernEarningsPage() {
                     <button
                       onClick={() => navigate('prev')}
                       className="p-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary rounded-lg transition"
-                      title="Vorherige Periode"
                     >
-                      <ChevronLeftIcon className="w-5 h-5" />
+                      <ChevronLeftIcon className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => setCurrentDate(new Date())}
-                      className="px-4 py-2 text-sm bg-theme-secondary text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary rounded-lg transition font-medium border border-theme"
+                      className="px-4 py-2 text-sm bg-theme-tertiary text-theme-secondary hover:bg-theme-tertiary/70 hover:text-theme-primary rounded-lg transition font-medium"
                     >
                       Heute
                     </button>
                     <button
                       onClick={() => navigate('next')}
                       className="p-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary rounded-lg transition"
-                      title="Nächste Periode"
                     >
-                      <ChevronRightIcon className="w-5 h-5" />
+                      <ChevronRightIcon className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -417,15 +375,18 @@ export default function ModernEarningsPage() {
               {/* Nächste Earnings */}
               {upcomingEarnings.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-theme-primary mb-4 flex items-center">
-                    <ClockIcon className="w-4 h-4 mr-2 text-yellow-400" />
-                    Nächste Earnings
-                  </h3>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-6 h-6 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                      <ClockIcon className="w-3 h-3 text-yellow-400" />
+                    </div>
+                    <h3 className="text-sm font-semibold text-theme-primary">Nächste Earnings</h3>
+                  </div>
+                  
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
                     {upcomingEarnings.map((earning, idx) => (
-                      <div 
+                      <button 
                         key={`${earning.ticker}-${idx}`}
-                        className="flex items-center gap-3 p-3 bg-theme-secondary/50 hover:bg-theme-tertiary/50 rounded-lg transition cursor-pointer group"
+                        className="flex items-center gap-3 p-3 bg-theme-tertiary/50 hover:bg-theme-tertiary rounded-lg transition group text-left"
                         onClick={() => router.push(`/analyse/stocks/${earning.ticker.toLowerCase()}`)}
                       >
                         <Logo
@@ -437,7 +398,7 @@ export default function ModernEarningsPage() {
                           <div className="text-theme-primary font-medium text-sm group-hover:text-green-400 transition">
                             {earning.ticker}
                           </div>
-                          <div className="text-xs text-theme-secondary flex items-center gap-2">
+                          <div className="text-xs text-theme-muted flex items-center gap-2">
                             <span>
                               {new Date(earning.date).toLocaleDateString('de-DE', { 
                                 month: 'short', 
@@ -445,7 +406,7 @@ export default function ModernEarningsPage() {
                               })}
                             </span>
                             {earning.time && (
-                              <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                              <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${
                                 earning.time === 'bmo' 
                                   ? 'bg-green-500/20 text-green-400' 
                                   : 'bg-red-500/20 text-red-400'
@@ -455,11 +416,10 @@ export default function ModernEarningsPage() {
                             )}
                           </div>
                         </div>
-                      </div>
+                      </button>
                     ))}
                   </div>
                   
-                  {/* Wenn mehr als 5 Earnings vorhanden */}
                   {earningsData.filter(e => new Date(e.date) >= new Date()).length > 5 && (
                     <div className="mt-4 pt-4 border-t border-theme/50">
                       <p className="text-xs text-theme-muted text-center">
@@ -472,10 +432,9 @@ export default function ModernEarningsPage() {
             </div>
 
             {/* Calendar Grid */}
-            <div className="bg-theme-card/70 border border-theme rounded-xl p-6 backdrop-blur-sm">
-              {/* Kalender Header */}
+            <div className="bg-theme-secondary border border-theme rounded-lg p-6">
               <div className="mb-6 text-center">
-                <h3 className="text-xl font-semibold text-theme-primary">
+                <h3 className="text-lg font-semibold text-theme-primary">
                   {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
                 </h3>
               </div>
@@ -483,7 +442,7 @@ export default function ModernEarningsPage() {
               <div className={`grid gap-3 ${
                 viewMode === 'week' 
                   ? 'grid-cols-7' 
-                  : 'grid-cols-7 lg:grid-cols-7'
+                  : 'grid-cols-7'
               }`}>
                 {displayDays.map((day, index) => {
                   const dateStr = formatDate(day);
@@ -495,22 +454,22 @@ export default function ModernEarningsPage() {
                   return (
                     <div 
                       key={dateStr} 
-                      className={`min-h-[130px] p-4 rounded-xl border transition-all duration-200 ${
+                      className={`min-h-[120px] p-3 rounded-lg border transition-all duration-200 ${
                         isToday 
-                          ? 'bg-green-500/20 border-green-400/50 shadow-lg shadow-green-500/20' 
+                          ? 'bg-green-500/20 border-green-500/30' 
                           : hasEarnings
-                            ? 'bg-theme-secondary/80 border-border-hover hover:bg-theme-secondary/90 hover:border-border-hover'
+                            ? 'bg-theme-tertiary/70 border-theme hover:bg-theme-tertiary'
                             : isWeekend
-                              ? 'bg-theme-secondary/30 border-theme/50'
-                              : 'bg-theme-secondary/50 border-theme hover:bg-theme-secondary/70'
+                              ? 'bg-theme-tertiary/30 border-theme/50'
+                              : 'bg-theme-tertiary/50 border-theme hover:bg-theme-tertiary/70'
                       }`}
                     >
                       {/* Day Header */}
-                      <div className="text-center mb-3">
-                        <div className="text-xs text-theme-secondary mb-1 font-medium">
+                      <div className="text-center mb-2">
+                        <div className="text-xs text-theme-muted mb-1 font-medium">
                           {weekDayNames[day.getDay()]}
                         </div>
-                        <div className={`text-lg font-bold ${
+                        <div className={`text-sm font-bold ${
                           isToday ? 'text-green-400' : 'text-theme-primary'
                         }`}>
                           {day.getDate()}
@@ -523,40 +482,40 @@ export default function ModernEarningsPage() {
                       </div>
 
                       {/* Earnings Events */}
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {dayEarnings.length === 0 ? (
                           !isWeekend && (
-                            <div className="text-center text-theme-muted text-xs mt-6 italic">
+                            <div className="text-center text-theme-muted text-xs mt-4 italic">
                               Keine Earnings
                             </div>
                           )
                         ) : (
                           dayEarnings.map((earning, idx) => (
-                            <div
+                            <button
                               key={`${earning.ticker}-${idx}`}
-                              className="bg-gradient-to-r from-green-500/20 to-green-400/20 hover:from-green-500/30 hover:to-green-400/30 border border-green-500/30 rounded-lg p-3 transition-all duration-200 cursor-pointer group hover:scale-105 hover:shadow-lg"
+                              className="w-full bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 rounded p-2 transition-all duration-200 cursor-pointer group"
                               onClick={() => router.push(`/analyse/stocks/${earning.ticker.toLowerCase()}`)}
                             >
                               <div className="flex items-center gap-2">
                                 <Logo
                                   src={`/logos/${earning.ticker.toLowerCase()}.svg`}
                                   alt={`${earning.ticker} Logo`}
-                                  className="w-6 h-6 flex-shrink-0"
+                                  className="w-5 h-5 flex-shrink-0"
                                 />
-                                <div className="flex-1 min-w-0">
-                                  <div className="text-theme-primary font-medium text-sm truncate group-hover:text-green-300 transition">
+                                <div className="flex-1 min-w-0 text-left">
+                                  <div className="text-theme-primary font-medium text-xs truncate group-hover:text-green-300 transition">
                                     {earning.ticker}
                                   </div>
                                   {earning.time && (
                                     <div className={`text-xs font-medium ${
                                       earning.time === 'bmo' ? 'text-green-400' : 'text-red-400'
                                     }`}>
-                                      {earning.time === 'bmo' ? 'Before Open' : 'After Close'}
+                                      {earning.time === 'bmo' ? 'BMO' : 'AMC'}
                                     </div>
                                   )}
                                 </div>
                               </div>
-                            </div>
+                            </button>
                           ))
                         )}
                       </div>

@@ -1,9 +1,9 @@
-// src/components/Navbar.tsx - MODERNE DUNKLE VERSION (FISCAL.AI INSPIRIERT)
+// src/components/Navbar.tsx - OPTIMIERTE VERSION
 'use client'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Disclosure } from '@headlessui/react'
 import { 
   Bars3Icon, 
   XMarkIcon, 
@@ -21,7 +21,9 @@ import { investors } from '@/data/investors'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 
-// Search Result Interface
+// ❌ ENTFERNT: ThemeSwitcher Import (nur für Terminal)
+
+// Search Result Interface (unverändert)
 interface SearchResult {
   type: 'stock' | 'investor';
   id: string;
@@ -30,8 +32,8 @@ interface SearchResult {
   href: string;
 }
 
-// Moderne Search Bar - Dunkles Theme aber cleaner
-function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
+// 🎯 VEREINFACHTE Search Bar (weniger Theme-Dependencies)
+function OptimizedSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
@@ -39,7 +41,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Filter suggestions based on search term
+  // Filter logic (unverändert)
   useEffect(() => {
     if (searchTerm.trim() === '') {
       setSuggestions([]);
@@ -50,7 +52,6 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
     const query = searchTerm.trim().toUpperCase();
     const results: SearchResult[] = [];
 
-    // Search in stocks
     const filteredStocks = stocks
       .filter(
         (stock) =>
@@ -66,7 +67,6 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
         href: `/analyse/stocks/${stock.ticker}`
       }));
 
-    // Search in investors
     const filteredInvestors = investors
       .filter(
         (investor) =>
@@ -87,7 +87,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
     setShowSuggestions(results.length > 0 && isFocused);
   }, [searchTerm, isFocused]);
 
-  // Handle click outside
+  // Event handlers (unverändert)
   useEffect(() => {
     function handleClickOutside(event: Event) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -130,7 +130,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="relative" ref={searchRef}>
       <div className={`relative flex items-center transition-all duration-200 ${
-        isFocused ? 'ring-1 ring-gray-600' : ''
+        isFocused ? 'ring-2 ring-green-500/30' : ''
       }`}>
         <MagnifyingGlassIcon className="absolute left-3 h-4 w-4 text-gray-400" />
         <input
@@ -140,29 +140,29 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
           onKeyDown={handleKeyDown}
-          className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-900/60 border border-gray-700/50 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:bg-gray-900/80 focus:border-gray-600 transition-all duration-200 backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg transition-all duration-200 bg-gray-900/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 backdrop-blur-sm"
         />
       </div>
 
-      {/* Suggestions Dropdown - Moderne dunkle Version */}
+      {/* 🎯 VEREINFACHTE Suggestions (Dark Theme) */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-gray-900/95 border border-gray-700/50 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden z-50 max-h-64 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-gray-900/95 border border-gray-700 rounded-xl shadow-xl backdrop-blur-xl overflow-hidden z-50 max-h-64 overflow-y-auto">
           {suggestions.map((result) => (
             <button
               key={`${result.type}-${result.id}`}
               onClick={() => handleSelectResult(result)}
-              className="w-full px-4 py-3 text-left hover:bg-gray-800/50 transition-colors duration-150 border-b border-gray-800/30 last:border-b-0"
+              className="w-full px-4 py-3 text-left hover:bg-gray-800/50 transition-colors duration-150 border-b border-gray-700 last:border-b-0"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <div className="font-medium text-sm text-gray-100">
+                    <div className="font-medium text-sm text-white">
                       {result.title}
                     </div>
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${
                       result.type === 'stock' 
-                        ? 'bg-green-500/20 text-green-400 border border-green-500/20'
-                        : 'bg-blue-500/20 text-blue-400 border border-blue-500/20'
+                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                        : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                     }`}>
                       {result.type === 'stock' ? 'Aktie' : 'Investor'}
                     </span>
@@ -180,49 +180,8 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-// Navigation Links
-const navLinks = [
-  { href: '/news', label: 'News' },
-]
-
-const productLinks = [
-  { 
-    href: '/analyse', 
-    label: 'Aktien-Analyse',
-    description: 'Tiefgehende Analyse von 10.000+ Aktien'
-  },
-  { 
-    href: '/superinvestor', 
-    label: 'Super-Investoren',
-    description: 'Portfolios der besten Investoren der Welt'
-  },
-  { 
-    href: '/analyse/watchlist', 
-    label: 'Watchlist',
-    description: 'Verfolge deine Lieblings-Aktien'
-  },
-  { 
-    href: '/analyse/heatmap', 
-    label: 'Markt Heatmap',
-    description: 'Visualisiere Marktbewegungen'
-  },
-]
-
-// User Profile Interface
-interface UserProfile {
-  user_id: string;
-  is_premium?: boolean;
-  subscription_status?: string | null;
-  stripe_customer_id?: string | null;
-  stripe_subscription_id?: string | null;
-  subscription_end_date?: string | null;
-  first_name?: string | null;
-  last_name?: string | null;
-  email_verified?: boolean;
-}
-
-// Modern User Dropdown - Clean Dark Style
-function ModernUserDropdown({ user, profile }: { user: any; profile: UserProfile | null }) {
+// 🎯 VEREINFACHTE User Dropdown (Dark Theme)
+function OptimizedUserDropdown({ user, profile }: { user: any; profile: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -252,24 +211,6 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: UserProfile
   };
 
   const isPremium = profile?.is_premium || false;
-  const subscriptionStatus = profile?.subscription_status;
-
-  const getPremiumDisplayName = (isPremium: boolean, status?: string | null): string => {
-    if (!isPremium) return 'Free';
-    
-    switch (status) {
-      case 'active':
-        return 'Premium';
-      case 'trialing':
-        return 'Premium (Trial)';
-      case 'past_due':
-        return 'Premium (Überfällig)';
-      case 'canceled':
-        return 'Premium (Gekündigt)';
-      default:
-        return 'Premium';
-    }
-  };
 
   const handleLogout = async () => {
     setIsOpen(false);
@@ -282,26 +223,15 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: UserProfile
     setIsOpen(false);
   };
 
-  const getJoinDate = () => {
-    try {
-      return new Date(user.created_at || '').toLocaleDateString('de-DE', { 
-        month: 'long', 
-        year: 'numeric' 
-      });
-    } catch {
-      return 'Unbekannt';
-    }
-  };
-
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Modern Avatar Button - Clean aber dunkel */}
+      {/* 🎯 VEREINFACHTE Avatar Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-3 py-2 rounded-xl bg-gray-900/50 border border-gray-700/50 hover:bg-gray-900/70 hover:border-gray-600/50 transition-all duration-200 backdrop-blur-sm"
+        className="flex items-center gap-3 px-3 py-2 rounded-xl bg-gray-900/50 border border-gray-700 hover:bg-gray-800/50 hover:border-gray-600 transition-all duration-200 backdrop-blur-sm"
       >
         <div className="relative">
-          <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-500 rounded-lg flex items-center justify-center text-black font-semibold text-sm">
+          <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-400 rounded-lg flex items-center justify-center text-black font-semibold text-sm">
             {getInitials()}
           </div>
           {isPremium && (
@@ -311,21 +241,21 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: UserProfile
           )}
         </div>
         <div className="hidden sm:block text-left">
-          <div className="text-sm font-medium text-gray-100">{getDisplayName()}</div>
-          <div className="text-xs text-gray-400">{getPremiumDisplayName(isPremium, subscriptionStatus)}</div>
+          <div className="text-sm font-medium text-white">{getDisplayName()}</div>
+          <div className="text-xs text-gray-400">{isPremium ? 'Premium' : 'Free'}</div>
         </div>
         <ChevronDownIcon className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {/* Modern Dropdown Menu - Clean Dark */}
+      {/* 🎯 VEREINFACHTE Dropdown (Dark Theme) */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-gray-900/95 border border-gray-700/50 rounded-xl shadow-2xl backdrop-blur-xl z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-80 bg-gray-900/95 border border-gray-700 rounded-xl shadow-xl backdrop-blur-xl z-50 overflow-hidden">
           
-          {/* User Info Header - Modern Dark */}
-          <div className="p-6 border-b border-gray-800/50 bg-gradient-to-r from-gray-900/80 to-gray-800/40">
+          {/* Header */}
+          <div className="p-6 border-b border-gray-700 bg-gray-800/30">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-xl flex items-center justify-center text-black font-bold text-lg">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-400 rounded-xl flex items-center justify-center text-black font-bold text-lg">
                   {getInitials()}
                 </div>
                 {isPremium && (
@@ -339,41 +269,35 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: UserProfile
                 <p className="text-gray-400 text-sm truncate">{user.email}</p>
                 <div className="flex items-center gap-2 mt-2">
                   {isPremium ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded-md text-xs font-medium border border-green-500/20">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded-md text-xs font-medium border border-green-500/30">
                       <SparklesIcon className="w-3 h-3" />
-                      {getPremiumDisplayName(isPremium, subscriptionStatus)}
+                      Premium
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-2 py-1 bg-gray-700/50 text-gray-400 rounded-md text-xs border border-gray-600/30">
+                    <span className="inline-flex items-center px-2 py-1 bg-gray-700 text-gray-300 rounded-md text-xs border border-gray-600">
                       Free
                     </span>
                   )}
-                  <span className="text-xs text-gray-500">
-                    Seit {getJoinDate()}
-                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Menu Items - Clean Dark Design */}
+          {/* Menu Items */}
           <div className="p-2">
-            
-            {/* Profile */}
             <button
               onClick={() => handleNavigation('/profile')}
               className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
             >
-              <div className="w-9 h-9 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-gray-700/50 transition-colors border border-gray-700/30">
+              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-colors border border-gray-700">
                 <UserIcon className="w-4 h-4 text-gray-400" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-medium">Profil bearbeiten</div>
-                <div className="text-gray-500 text-xs">Persönliche Daten & Premium</div>
+                <div className="text-gray-400 text-xs">Persönliche Daten & Premium</div>
               </div>
             </button>
 
-            {/* Email Support */}
             <button
               onClick={() => {
                 setIsOpen(false);
@@ -381,43 +305,40 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: UserProfile
               }}
               className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
             >
-              <div className="w-9 h-9 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-gray-700/50 transition-colors border border-gray-700/30">
+              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-colors border border-gray-700">
                 <EnvelopeIcon className="w-4 h-4 text-gray-400" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-medium">Email Support</div>
-                <div className="text-gray-500 text-xs">Hilfe & Kontakt</div>
+                <div className="text-gray-400 text-xs">Hilfe & Kontakt</div>
               </div>
             </button>
 
-            {/* Settings */}
             <button
               onClick={() => handleNavigation('/settings')}
               className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
             >
-              <div className="w-9 h-9 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-gray-700/50 transition-colors border border-gray-700/30">
+              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-colors border border-gray-700">
                 <Cog6ToothIcon className="w-4 h-4 text-gray-400" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-medium">Einstellungen</div>
-                <div className="text-gray-500 text-xs">App-Einstellungen</div>
+                <div className="text-gray-400 text-xs">App-Einstellungen</div>
               </div>
             </button>
 
-            {/* Divider */}
-            <div className="my-3 h-px bg-gray-700/50"></div>
+            <div className="my-3 h-px border-t border-gray-700"></div>
 
-            {/* Sign Out */}
             <button
               onClick={handleLogout}
               className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-red-500/10 transition-colors group"
             >
-              <div className="w-9 h-9 bg-gray-800/50 rounded-lg flex items-center justify-center group-hover:bg-red-500/20 transition-colors border border-gray-700/30 group-hover:border-red-500/30">
+              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-red-500/20 transition-colors border border-gray-700 group-hover:border-red-500/30">
                 <ArrowRightOnRectangleIcon className="w-4 h-4 text-gray-400 group-hover:text-red-400 transition-colors" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-medium group-hover:text-red-400 transition-colors">Abmelden</div>
-                <div className="text-gray-500 text-xs">Sicher ausloggen</div>
+                <div className="text-gray-400 text-xs">Sicher ausloggen</div>
               </div>
             </button>
           </div>
@@ -427,19 +348,19 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: UserProfile
   );
 }
 
-// Modern Guest Actions - Clean Dark
-function ModernGuestActions() {
+// 🎯 VEREINFACHTE Guest Actions
+function OptimizedGuestActions() {
   return (
     <div className="flex items-center gap-3">
       <Link
         href="/auth/signin"
-        className="text-gray-300 hover:text-white font-medium text-sm transition-colors px-3 py-2 rounded-lg hover:bg-gray-800/30"
+        className="text-gray-300 hover:text-white font-medium text-sm transition-colors px-3 py-2 rounded-lg hover:bg-gray-800/50"
       >
         Anmelden
       </Link>
       <Link
         href="/auth/signup"
-        className="bg-gray-100 hover:bg-white text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+        className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all duration-200 hover:scale-105"
       >
         Registrieren
       </Link>
@@ -447,11 +368,40 @@ function ModernGuestActions() {
   );
 }
 
-export default function ModernDarkNavbar() {
+// Navigation Links (unverändert)
+const navLinks = [
+  { href: '/news', label: 'News' },
+]
+
+const productLinks = [
+  { 
+    href: '/analyse', 
+    label: 'Aktien-Analyse',
+    description: 'Tiefgehende Analyse von 10.000+ Aktien'
+  },
+  { 
+    href: '/superinvestor', 
+    label: 'Super-Investoren',
+    description: 'Portfolios der besten Investoren der Welt'
+  },
+  { 
+    href: '/analyse/watchlist', 
+    label: 'Watchlist',
+    description: 'Verfolge deine Lieblings-Aktien'
+  },
+  { 
+    href: '/analyse/heatmap', 
+    label: 'Markt Heatmap',
+    description: 'Visualisiere Marktbewegungen'
+  },
+]
+
+export default function OptimizedNavbar() {
   const [user, setUser] = useState<any>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  // Auth logic (unverändert)
   useEffect(() => {
     let mounted = true;
 
@@ -487,17 +437,14 @@ export default function ModernDarkNavbar() {
       try {
         const { data: profileData, error } = await supabase
           .from('profiles')
-          .select('user_id, is_premium, subscription_status, stripe_customer_id, stripe_subscription_id, subscription_end_date, first_name, last_name, email_verified')
+          .select('user_id, is_premium, subscription_status, first_name, last_name, email_verified')
           .eq('user_id', userId)
           .maybeSingle();
         
         if (mounted) {
           if (error) {
             console.warn('Profile error:', error);
-            setProfile({
-              user_id: userId,
-              is_premium: false
-            });
+            setProfile({ user_id: userId, is_premium: false });
           } else {
             setProfile(profileData);
           }
@@ -505,10 +452,7 @@ export default function ModernDarkNavbar() {
       } catch (error) {
         console.warn('Profile loading error:', error);
         if (mounted) {
-          setProfile({
-            user_id: userId,
-            is_premium: false
-          });
+          setProfile({ user_id: userId, is_premium: false });
         }
       }
     }
@@ -538,16 +482,17 @@ export default function ModernDarkNavbar() {
   const isHomePage = pathname === '/'
   
   return (
-    <Disclosure as="header" className={`sticky top-0 z-50 backdrop-blur-md border-b border-gray-800/30 ${
+    <Disclosure as="header" className={`sticky top-0 z-50 border-b ${
       isHomePage 
-        ? 'bg-gray-950/40' // Subtiler für Homepage
-        : 'bg-gray-950/80' // Stärker für andere Pages
-    }`}>
+        ? 'bg-gray-950/40 border-gray-800/50' // Homepage
+        : 'bg-gray-950/80 border-gray-800' // Other pages
+    } backdrop-blur-xl`}>
       {({ open, close }) => (
         <>
           <div className="max-w-7xl mx-auto">
             <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-              {/* Logo - Modernisiert */}
+              
+              {/* Logo */}
               <div className="flex items-center gap-8">
                 <Link href="/" className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
@@ -562,25 +507,24 @@ export default function ModernDarkNavbar() {
                   </span>
                 </Link>
 
-                {/* Desktop Navigation - Clean */}
+                {/* 🎯 VEREINFACHTE Desktop Navigation */}
                 <nav className="hidden lg:flex items-center space-x-1">
-             
-                  {/* Products Dropdown - Modern Dark */}
+                  
+                  {/* Products Dropdown */}
                   <div className="relative group">
-                    <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/30 rounded-lg transition-all">
+                    <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all">
                       Produkte
                       <ChevronDownIcon className="w-4 h-4 transition-transform group-hover:rotate-180" />
                     </button>
                     
-                    {/* Clean Dark Dropdown */}
-                    <div className="absolute left-0 mt-2 w-[600px] bg-gray-900/95 border border-gray-700/50 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    {/* 🎯 VEREINFACHTE Dropdown */}
+                    <div className="absolute left-0 mt-2 w-[600px] bg-gray-900/95 border border-gray-700 rounded-xl shadow-xl backdrop-blur-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                       <div className="p-6">
                         <div className="grid grid-cols-2 gap-6">
                           
-                          {/* Aktien-Analyse Tool */}
                           <Link
                             href="/analyse"
-                            className="block p-4 rounded-xl hover:bg-gray-800/30 transition-all group/item border border-transparent hover:border-gray-700/30"
+                            className="block p-4 rounded-xl hover:bg-gray-800/30 transition-all group/item border border-transparent hover:border-gray-700"
                           >
                             <div className="relative mb-4 h-32 w-full rounded-lg overflow-hidden bg-gray-800">
                               <Image
@@ -595,7 +539,7 @@ export default function ModernDarkNavbar() {
                                 <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
                                   Aktien-Analyse
                                 </h3>
-                                <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
+                                <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors">→</span>
                               </div>
                               <p className="text-sm text-gray-400 leading-relaxed">
                                 Tiefgehende Analyse von 10.000+ Aktien mit historischen Daten und erweiterten Kennzahlen.
@@ -603,10 +547,9 @@ export default function ModernDarkNavbar() {
                             </div>
                           </Link>
 
-                          {/* Super-Investor Portfolios */}
                           <Link
                             href="/superinvestor"
-                            className="block p-4 rounded-xl hover:bg-gray-800/30 transition-all group/item border border-transparent hover:border-gray-700/30"
+                            className="block p-4 rounded-xl hover:bg-gray-800/30 transition-all group/item border border-transparent hover:border-gray-700"
                           >
                             <div className="relative mb-4 h-32 w-full rounded-lg overflow-hidden bg-gray-800">
                               <Image
@@ -621,7 +564,7 @@ export default function ModernDarkNavbar() {
                                 <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
                                   Super-Investoren
                                 </h3>
-                                <span className="text-xs text-gray-500 group-hover/item:text-green-400 transition-colors">→</span>
+                                <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors">→</span>
                               </div>
                               <p className="text-sm text-gray-400 leading-relaxed">
                                 Verfolge die Portfolios der erfolgreichsten Investoren der Welt in Echtzeit.
@@ -638,16 +581,15 @@ export default function ModernDarkNavbar() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/30 rounded-lg transition-all"
+                      className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
                     >
                       {link.label}
                     </Link>
                   ))}
 
-                  {/* Pricing Link */}
                   <Link
                     href="/pricing"
-                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/30 rounded-lg transition-all"
+                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
                   >
                     Preise
                   </Link>
@@ -658,33 +600,35 @@ export default function ModernDarkNavbar() {
               <div className="flex items-center gap-4">
                 {/* Search */}
                 <div className="hidden lg:block w-64">
-                  <ModernSearchBar />
+                  <OptimizedSearchBar />
                 </div>
+
+                {/* ❌ ENTFERNT: Theme Switcher */}
 
                 {/* User Menu */}
                 <div className="hidden md:block">
                   {loading ? (
                     <div className="w-8 h-8 rounded-full bg-gray-800 animate-pulse"></div>
                   ) : user ? (
-                    <ModernUserDropdown user={user} profile={profile} />
+                    <OptimizedUserDropdown user={user} profile={profile} />
                   ) : (
-                    <ModernGuestActions />
+                    <OptimizedGuestActions />
                   )}
                 </div>
 
                 {/* Mobile Menu Toggle */}
-                <Disclosure.Button className="lg:hidden p-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800/30 rounded-lg transition-all">
+                <Disclosure.Button className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all">
                   {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
                 </Disclosure.Button>
               </div>
             </div>
 
-            {/* Mobile Panel - Modern Dark */}
-            <Disclosure.Panel className="lg:hidden border-t border-gray-800/30 bg-gray-950/95 backdrop-blur-xl">
+            {/* 🎯 VEREINFACHTE Mobile Panel */}
+            <Disclosure.Panel className="lg:hidden border-t border-gray-700 bg-gray-900/95 backdrop-blur-xl">
               <div className="px-4 py-3 space-y-1">
                 {/* Mobile Search */}
                 <div className="mb-4">
-                  <ModernSearchBar onNavigate={close} />
+                  <OptimizedSearchBar onNavigate={close} />
                 </div>
 
                 {/* Mobile Products Section */}
@@ -697,7 +641,7 @@ export default function ModernDarkNavbar() {
                       key={product.href}
                       href={product.href}
                       onClick={() => close()}
-                      className="block px-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/30 rounded-lg transition-all"
+                      className="block px-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
                     >
                       {product.label}
                     </Link>
@@ -710,29 +654,28 @@ export default function ModernDarkNavbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => close()}
-                    className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/30 rounded-lg transition-all"
+                    className="block px-3 py-2 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
                   >
                     {link.label}
                   </Link>
                 ))}
 
-                {/* Mobile Pricing Link */}
                 <Link
                   href="/pricing"
                   onClick={() => close()}
-                  className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800/30 rounded-lg transition-all"
+                  className="block px-3 py-2 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
                 >
                   Preise
                 </Link>
 
                 {/* Mobile User Menu */}
-                <div className="pt-4 border-t border-gray-800/30">
+                <div className="pt-4 border-t border-gray-700">
                   {loading ? (
                     <div className="w-full h-12 rounded-lg bg-gray-800 animate-pulse"></div>
                   ) : user ? (
-                    <ModernUserDropdown user={user} profile={profile} />
+                    <OptimizedUserDropdown user={user} profile={profile} />
                   ) : (
-                    <ModernGuestActions />
+                    <OptimizedGuestActions />
                   )}
                 </div>
               </div>

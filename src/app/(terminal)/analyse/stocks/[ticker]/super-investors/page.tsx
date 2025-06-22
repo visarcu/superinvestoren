@@ -1,4 +1,4 @@
-// src/app/analyse/stocks/[ticker]/super-investors/page.tsx - MIT THEME SUPPORT
+// src/app/analyse/stocks/[ticker]/super-investors/page.tsx - THEME-OPTIMIERTE VERSION
 import React from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -15,7 +15,8 @@ import {
   UserGroupIcon,
   ArrowRightIcon,
   ArrowUpIcon,
-  ArrowDownIcon
+  ArrowDownIcon,
+  CurrencyDollarIcon
 } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 
@@ -79,9 +80,8 @@ function extractQuarter(data: any): string {
   return `${year}-Q${quarter}`;
 }
 
-// ✅ KORRIGIERTE FUNKTION - gibt das BERICHTETE Quartal zurück (nicht Filing-Quartal)
 function getLatestQuarterFromData(): string {
-  let latestQuarter = 'Q1'; // Korrigierter Fallback
+  let latestQuarter = 'Q1';
   let latestDate = '';
   
   Object.values(holdingsHistory).forEach(snaps => {
@@ -92,7 +92,6 @@ function getLatestQuarterFromData(): string {
       
       if (normalizedData.date > latestDate) {
         latestDate = normalizedData.date;
-        // ✅ KORREKTUR: 13F-Filings beziehen sich auf das VORHERIGE Quartal
         const [year, quarterPart] = filingQuarter.split('-');
         const filingQ = parseInt(quarterPart.replace('Q', ''));
         
@@ -112,7 +111,6 @@ function getLatestQuarterFromData(): string {
   return latestQuarter;
 }
 
-// ✅ DEUTSCHE WÄHRUNGSFORMATIERUNG hinzufügen
 function formatCurrencyGerman(amount: number): string {
   if (amount >= 1_000_000_000) {
     return `${(amount / 1_000_000_000).toFixed(1)} Mrd.`;
@@ -278,50 +276,48 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
 
   investorHoldings.sort((a, b) => b.value - a.value)
 
-  // ✅ NEUE: Separate Listen für Käufer und Verkäufer
+  // Separate Listen für Käufer und Verkäufer
   const recentBuyers = investorHoldings.filter(inv => inv.change?.type === 'buy')
   const recentSellers = investorHoldings.filter(inv => inv.change?.type === 'sell')
 
   // Stats berechnen
   const holdingCount = investorHoldings.length
   const totalValue = investorHoldings.reduce((sum, inv) => sum + inv.value, 0)
-
-  // ✅ KORRIGIERTES Quartal
   const currentQuarter = getLatestQuarterFromData()
 
   return (
-    <div className="min-h-screen bg-theme-primary noise-bg">
-      {/* Header Section - Theme-aware */}
-      <div className="bg-theme-primary noise-bg pt-24 pb-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+    <div className="min-h-screen bg-theme-primary">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* ✅ REDESIGNED Header - Theme-aware */}
+        <div className="mb-8">
           <Link 
-            href="/" 
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors text-sm mb-8 group"
+            href="/analyse" 
+            className="inline-flex items-center gap-2 text-theme-muted hover:text-theme-secondary transition-colors text-sm mb-6 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Zurück
+            Zurück zum Dashboard
           </Link>
 
-          <div className="bg-theme-card/70 border border-theme rounded-xl p-8 backdrop-blur-sm">
-            <div className="flex flex-col lg:flex-row items-start gap-8">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex flex-col lg:flex-row items-start gap-6">
               
-              <div className="flex items-center gap-6 flex-1">
-                <div className="w-20 h-20 bg-theme-secondary/50 rounded-xl flex items-center justify-center">
+              <div className="flex items-center gap-4 flex-1">
+                <div className="w-16 h-16 bg-theme-tertiary rounded-xl flex items-center justify-center">
                   <Logo
                     ticker={ticker}
                     alt={`${stock.name} Logo`}
-                    className="w-16 h-16"
+                    className="w-12 h-12"
                   />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-theme-primary mb-2">
+                  <h1 className="text-2xl font-bold text-theme-primary mb-1">
                     {stock.name}
                   </h1>
-                  <div className="flex items-center gap-4 mb-3">
+                  <div className="flex items-center gap-3 mb-2">
                     <span className="text-lg text-theme-secondary font-medium">{ticker}</span>
                     {livePrice && (
-                      <span className="text-2xl font-bold text-theme-primary">
+                      <span className="text-xl font-bold text-theme-primary">
                         {formatPrice(livePrice)}
                       </span>
                     )}
@@ -335,117 +331,118 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
                       </span>
                     )}
                   </div>
+                  <p className="text-theme-muted text-sm">Super-Investoren Analyse</p>
                 </div>
               </div>
 
-              <div className="flex flex-col items-end gap-4">
-                {changePercent !== null ? (
-                  <>
-                    <div className="text-sm text-theme-secondary">{performancePeriod} Performance</div>
-                    <div className={`text-lg font-semibold ${
-                      changePercent >= 0 ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {formatPercent(changePercent)}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="text-sm text-theme-secondary">Live-Daten</div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-green-400 font-medium">Aktuell</span>
-                    </div>
-                  </>
-                )}
-                
-                <div className="flex items-center gap-3">
-                  <WatchlistButton ticker={ticker} />
-                  <Link
-                    href={`/analyse/stocks/${ticker.toLowerCase()}`}
-                    className="px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all text-sm"
-                  >
-                    Detaillierte Analyse
-                  </Link>
-                </div>
+              <div className="flex items-center gap-3">
+                <WatchlistButton ticker={ticker} />
+                <Link
+                  href={`/analyse/stocks/${ticker.toLowerCase()}`}
+                  className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all text-sm"
+                >
+                  Vollständige Analyse
+                </Link>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        
-        {/* ✅ KORRIGIERTE Stats mit deutschem Währungsformat - Theme-aware */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-theme-card/50 border border-theme rounded-lg p-6 backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-2">
-              <UserGroupIcon className="w-5 h-5 text-green-400" />
-              <span className="text-sm text-theme-secondary">Holdings</span>
+        {/* ✅ REDESIGNED Stats Grid - Theme-aware */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <UserGroupIcon className="w-4 h-4 text-blue-400" />
+              </div>
+              <div>
+                <span className="text-sm text-theme-muted">Holdings</span>
+                <div className="text-xl font-bold text-theme-primary">{holdingCount}</div>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-theme-primary">{holdingCount}</div>
             <div className="text-xs text-theme-muted">Super-Investoren</div>
           </div>
           
-          <div className="bg-theme-card/50 border border-theme rounded-lg p-6 backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-2">
-              <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
-              <span className="text-sm text-theme-secondary">Käufer {currentQuarter}</span>
+          <div className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+              </div>
+              <div>
+                <span className="text-sm text-theme-muted">Käufer {currentQuarter}</span>
+                <div className="text-xl font-bold text-green-400">{recentBuyers.length}</div>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-blue-400">{recentBuyers.length}</div>
             <div className="text-xs text-theme-muted">Neue Positionen</div>
           </div>
           
-          <div className="bg-theme-card/50 border border-theme rounded-lg p-6 backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-2">
-              <ChartBarIcon className="w-5 h-5 text-yellow-400" />
-              <span className="text-sm text-theme-secondary">Smart Money</span>
-            </div>
-            <div className="text-2xl font-bold text-theme-primary">
-              {formatCurrencyGerman(totalValue)}
+          <div className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <CurrencyDollarIcon className="w-4 h-4 text-yellow-400" />
+              </div>
+              <div>
+                <span className="text-sm text-theme-muted">Smart Money</span>
+                <div className="text-xl font-bold text-theme-primary">
+                  {formatCurrencyGerman(totalValue)}
+                </div>
+              </div>
             </div>
             <div className="text-xs text-theme-muted">Gesamtwert</div>
           </div>
           
-          <div className="bg-theme-card/50 border border-theme rounded-lg p-6 backdrop-blur-sm">
-            <div className="flex items-center gap-3 mb-2">
-              <StarIcon className="w-5 h-5 text-purple-400" />
-              <span className="text-sm text-theme-secondary">Verkäufer {currentQuarter}</span>
+          <div className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                <ArrowDownIcon className="w-4 h-4 text-red-400" />
+              </div>
+              <div>
+                <span className="text-sm text-theme-muted">Verkäufer {currentQuarter}</span>
+                <div className="text-xl font-bold text-red-400">{recentSellers.length}</div>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-red-400">{recentSellers.length}</div>
             <div className="text-xs text-theme-muted">Reduzierte Positionen</div>
           </div>
         </div>
 
-        {/* ✅ NEUE: Käufer/Verkäufer-Sektion - Theme-aware */}
+        {/* ✅ REDESIGNED Käufer/Verkäufer-Sektion */}
         {(recentBuyers.length > 0 || recentSellers.length > 0) && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-theme-primary mb-6">
-              Portfolio-Bewegungen {currentQuarter} 2025
-            </h2>
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                <ArrowTrendingUpIcon className="w-4 h-4 text-purple-400" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-theme-primary">
+                  Portfolio-Bewegungen {currentQuarter} 2025
+                </h2>
+                <p className="text-theme-muted text-sm">Aktuelle Käufe und Verkäufe</p>
+              </div>
+            </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               
               {/* Käufer */}
               {recentBuyers.length > 0 && (
-                <div className="bg-theme-card/50 border border-theme rounded-xl p-6 backdrop-blur-sm">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                      <ArrowUpIcon className="w-5 h-5 text-green-400" />
+                <div className="bg-theme-secondary border border-theme rounded-xl p-6 hover:bg-theme-tertiary/30 transition-colors">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                      <ArrowUpIcon className="w-4 h-4 text-green-400" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-theme-primary">Käufer</h3>
-                      <p className="text-sm text-theme-secondary">Neue oder erhöhte Positionen</p>
+                      <p className="text-sm text-theme-muted">Neue oder erhöhte Positionen</p>
                     </div>
                   </div>
                   
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {recentBuyers.map((buyer) => (
                       <Link 
                         key={buyer.slug} 
                         href={`/superinvestor/${buyer.slug}`}
                         className="group block"
                       >
-                        <div className="bg-theme-secondary/50 border border-theme rounded-lg p-4 hover:bg-theme-secondary/70 hover:border-border-hover transition-all">
+                        <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                               <InvestorAvatar 
@@ -454,16 +451,16 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
                                 size="md"
                               />
                               <div>
-                                <h4 className="font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                                <h4 className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors text-sm">
                                   {buyer.name.split('–')[0].trim()}
                                 </h4>
-                                <p className="text-sm text-theme-secondary">
+                                <p className="text-xs text-theme-muted">
                                   {(buyer.weight * 100).toFixed(1)}% Portfolio-Anteil
                                 </p>
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="text-green-400 font-semibold">
+                              <div className="text-green-400 font-medium text-sm">
                                 +{(buyer.change!.shares / 1000000).toFixed(1)}M
                               </div>
                               <div className="text-xs text-theme-muted">Aktien</div>
@@ -478,25 +475,25 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
 
               {/* Verkäufer */}
               {recentSellers.length > 0 && (
-                <div className="bg-theme-card/50 border border-theme rounded-xl p-6 backdrop-blur-sm">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
-                      <ArrowDownIcon className="w-5 h-5 text-red-400" />
+                <div className="bg-theme-secondary border border-theme rounded-xl p-6 hover:bg-theme-tertiary/30 transition-colors">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                      <ArrowDownIcon className="w-4 h-4 text-red-400" />
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-theme-primary">Verkäufer</h3>
-                      <p className="text-sm text-theme-secondary">Reduzierte oder verkaufte Positionen</p>
+                      <p className="text-sm text-theme-muted">Reduzierte oder verkaufte Positionen</p>
                     </div>
                   </div>
                   
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {recentSellers.map((seller) => (
                       <Link 
                         key={seller.slug} 
                         href={`/superinvestor/${seller.slug}`}
                         className="group block"
                       >
-                        <div className="bg-theme-secondary/50 border border-theme rounded-lg p-4 hover:bg-theme-secondary/70 hover:border-border-hover transition-all">
+                        <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-red-500/30 transition-all">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                               <InvestorAvatar 
@@ -505,16 +502,16 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
                                 size="md"
                               />
                               <div>
-                                <h4 className="font-bold text-theme-primary group-hover:text-red-400 transition-colors">
+                                <h4 className="font-semibold text-theme-primary group-hover:text-red-400 transition-colors text-sm">
                                   {seller.name.split('–')[0].trim()}
                                 </h4>
-                                <p className="text-sm text-theme-secondary">
+                                <p className="text-xs text-theme-muted">
                                   {(seller.weight * 100).toFixed(1)}% Portfolio-Anteil
                                 </p>
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="text-red-400 font-semibold">
+                              <div className="text-red-400 font-medium text-sm">
                                 -{(seller.change!.shares / 1000000).toFixed(1)}M
                               </div>
                               <div className="text-xs text-theme-muted">Aktien</div>
@@ -530,67 +527,74 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
           </div>
         )}
 
-        {/* Bestehende Investor Holdings - Theme-aware */}
-        <div className="space-y-8">
+        {/* ✅ REDESIGNED Investor Holdings Grid */}
+        <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-theme-primary">
-              Super-Investoren Holdings
-            </h2>
-            <div className="text-sm text-theme-secondary">
-              Live 13F-Daten • {currentQuarter} 2025
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <ChartBarIcon className="w-4 h-4 text-blue-400" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-theme-primary">
+                  Alle Super-Investoren Holdings
+                </h2>
+                <p className="text-theme-muted text-sm">13F-Daten • {currentQuarter} 2025</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-theme-muted">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span>Live Daten</span>
             </div>
           </div>
 
-          {/* Top Investors Grid */}
+          {/* Holdings Grid */}
           {investorHoldings.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {investorHoldings.slice(0, 6).map((investor) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {investorHoldings.slice(0, 9).map((investor) => (
                 <Link 
                   key={investor.slug} 
                   href={`/superinvestor/${investor.slug}`}
                   className="group"
                 >
-                  <div className="bg-theme-card/50 border border-theme rounded-lg p-6 hover:bg-theme-card/70 hover:border-border-hover transition-all backdrop-blur-sm">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-4">
-                        <InvestorAvatar 
-                          name={investor.name} 
-                          imageUrl={investor.imageUrl} 
-                          size="lg"
-                          className="ring-2 ring-theme group-hover:ring-green-500/50 transition-all"
-                        />
-                        <div>
-                          <h3 className="font-bold text-theme-primary group-hover:text-green-400 transition-colors">
-                            {investor.name.split('–')[0].trim()}
-                          </h3>
-                          <p className="text-sm text-theme-secondary">
-                            {investor.name.includes('–') ? investor.name.split('–')[1].trim() : ''}
-                          </p>
-                        </div>
+                  <div className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all">
+                    <div className="flex items-center gap-3 mb-4">
+                      <InvestorAvatar 
+                        name={investor.name} 
+                        imageUrl={investor.imageUrl} 
+                        size="md"
+                        className="ring-2 ring-theme group-hover:ring-green-500/50 transition-all"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors text-sm truncate">
+                          {investor.name.split('–')[0].trim()}
+                        </h3>
+                        <p className="text-xs text-theme-muted truncate">
+                          {investor.name.includes('–') ? investor.name.split('–')[1].trim() : ''}
+                        </p>
                       </div>
                     </div>
                     
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-theme-secondary">Portfolio-Anteil</span>
-                        <span className="text-green-400 font-medium">
+                        <span className="text-xs text-theme-muted">Portfolio-Anteil</span>
+                        <span className="text-green-400 font-medium text-sm">
                           {(investor.weight * 100).toFixed(1)}%
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-theme-secondary">Positionswert</span>
-                        <span className="text-theme-primary font-medium">
+                        <span className="text-xs text-theme-muted">Positionswert</span>
+                        <span className="text-theme-primary font-medium text-sm">
                           {formatCurrencyGerman(investor.value)}
                         </span>
                       </div>
                       {investor.change && (
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-theme-secondary">Letzte Änderung</span>
-                          <span className={`text-sm font-medium ${
+                          <span className="text-xs text-theme-muted">Letzte Änderung</span>
+                          <span className={`text-xs font-medium ${
                             investor.change.type === 'buy' ? 'text-green-400' : 'text-red-400'
                           }`}>
                             {investor.change.type === 'buy' ? '+' : '-'}
-                            {(investor.change.shares / 1000000).toFixed(1)}M Aktien
+                            {(investor.change.shares / 1000000).toFixed(1)}M
                           </span>
                         </div>
                       )}
@@ -600,18 +604,18 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
               ))}
             </div>
           ) : (
-            <div className="bg-theme-card/30 border border-theme rounded-xl p-12 text-center">
-              <UserGroupIcon className="w-16 h-16 text-theme-muted mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-theme-secondary mb-2">
+            <div className="bg-theme-secondary border border-theme rounded-xl p-8 text-center">
+              <UserGroupIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-theme-secondary mb-2">
                 Keine Super-Investoren Holdings gefunden
               </h3>
-              <p className="text-theme-muted mb-6">
+              <p className="text-theme-muted mb-4 max-w-md mx-auto">
                 {ticker} wird aktuell von keinem der verfolgten Super-Investoren gehalten, 
                 oder die Daten sind noch nicht verfügbar.
               </p>
               <Link
                 href="/superinvestor"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary font-medium rounded-lg transition-all border border-theme"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-theme-tertiary hover:bg-theme-secondary text-theme-primary font-medium rounded-lg transition-all border border-theme"
               >
                 <UserGroupIcon className="w-4 h-4" />
                 Alle Super-Investoren ansehen
@@ -619,29 +623,28 @@ export default async function ModernStockPage({ params }: { params: { ticker: st
             </div>
           )}
 
-          {/* CTA Section - Theme-aware */}
-          <div className="bg-theme-card/30 border border-theme rounded-xl p-8 text-center backdrop-blur-sm">
-            <h3 className="text-xl font-bold text-theme-primary mb-3">
-              Professionelle Analyse benötigt?
+          {/* CTA Section */}
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 text-center">
+            <h3 className="text-lg font-bold text-theme-primary mb-2">
+              Vollständige Analyse von {ticker}
             </h3>
-            <p className="text-theme-secondary mb-6 max-w-2xl mx-auto">
-              Erweiterte Charts, technische Indikatoren, Fundamentaldaten, 
-              Dividenden-Historie und detaillierte Kennzahlen-Analyse für {ticker}.
+            <p className="text-theme-muted mb-4 max-w-xl mx-auto">
+              Charts, Fundamentaldaten, Dividenden-Historie, Bewertung und technische Analyse.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href={`/analyse/stocks/${ticker.toLowerCase()}`}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all"
               >
                 <ChartBarIcon className="w-4 h-4" />
-                Zur Analyse-Zentrale
+                Zur Analyse
                 <ArrowRightIcon className="w-4 h-4" />
               </Link>
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary font-medium rounded-lg transition-all border border-theme"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-theme-tertiary hover:bg-theme-secondary text-theme-primary font-medium rounded-lg transition-all border border-theme"
               >
-                Premium Features entdecken
+                Premium Features
               </Link>
             </div>
           </div>

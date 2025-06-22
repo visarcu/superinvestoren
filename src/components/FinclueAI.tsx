@@ -1,4 +1,4 @@
-// src/components/FinclueAI.tsx - FIXED VERSION mit grünem Button
+// src/components/FinclueAI.tsx - THEME-AWARE VERSION
 import React, { useState, useRef, useEffect } from 'react'
 import {
   PaperAirplaneIcon,
@@ -30,8 +30,8 @@ interface Message {
   timestamp: Date
   charts?: ChartData[]
   actions?: QuickAction[]
-  ragSources?: string[] // NEW: RAG sources
-  ragEnabled?: boolean   // NEW: Whether RAG was used
+  ragSources?: string[]
+  ragEnabled?: boolean
 }
 
 interface ChartData {
@@ -107,7 +107,7 @@ const quickPrompts: QuickPrompt[] = [
   }
 ]
 
-// NEW: RAG Sources Display Component
+// RAG Sources Display Component
 function RAGSourcesDisplay({ sources, ragEnabled }: { sources?: string[], ragEnabled?: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -115,40 +115,7 @@ function RAGSourcesDisplay({ sources, ragEnabled }: { sources?: string[], ragEna
     return null
   }
 
-  return (
-    <div className="mt-3 p-3 bg-blue-600/10 border border-blue-600/20 rounded-lg">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <DocumentDuplicateIcon className="w-4 h-4 text-blue-400" />
-          <span className="text-sm text-blue-400 font-medium">
-            {sources && sources.length > 0 
-              ? `${sources.length} Dokument${sources.length > 1 ? 'e' : ''} verwendet`
-              : 'RAG-System aktiv'
-            }
-          </span>
-        </div>
-        {sources && sources.length > 0 && (
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
-          >
-            {isExpanded ? 'Weniger' : 'Details'}
-          </button>
-        )}
-      </div>
-      
-      {isExpanded && sources && sources.length > 0 && (
-        <div className="mt-2 space-y-1">
-          {sources.map((source, index) => (
-            <div key={index} className="flex items-center gap-2 text-xs text-blue-300">
-              <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
-              <span>{source}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
+
 }
 
 // Chart Komponente
@@ -170,8 +137,8 @@ function AIChart({ chart }: { chart: ChartData }) {
 
   if (chart.type === 'line') {
     return (
-      <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-theme-secondary border border-theme rounded-lg p-4">
+        <h3 className="text-theme-primary font-semibold mb-4 flex items-center gap-2">
           <ChartBarIcon className="w-4 h-4 text-green-400" />
           {chart.title}
         </h3>
@@ -188,10 +155,10 @@ function AIChart({ chart }: { chart: ChartData }) {
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: '#1f2937', 
-                border: '1px solid #374151',
+                backgroundColor: 'var(--theme-secondary)', 
+                border: '1px solid var(--theme-border)',
                 borderRadius: '8px',
-                color: '#fff'
+                color: 'var(--theme-primary)'
               }}
               labelFormatter={(value) => formatDate(value as string)}
               formatter={(value) => [formatValue(value), 'Kurs']}
@@ -212,8 +179,8 @@ function AIChart({ chart }: { chart: ChartData }) {
 
   if (chart.type === 'volume') {
     return (
-      <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="bg-theme-secondary border border-theme rounded-lg p-4">
+        <h3 className="text-theme-primary font-semibold mb-4 flex items-center gap-2">
           <ChartBarIcon className="w-4 h-4 text-blue-400" />
           {chart.title}
         </h3>
@@ -230,10 +197,10 @@ function AIChart({ chart }: { chart: ChartData }) {
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: '#1f2937', 
-                border: '1px solid #374151',
+                backgroundColor: 'var(--theme-secondary)', 
+                border: '1px solid var(--theme-border)',
                 borderRadius: '8px',
-                color: '#fff'
+                color: 'var(--theme-primary)'
               }}
               formatter={(value) => [`${(Number(value) / 1000000).toFixed(1)}M`, 'Volumen']}
             />
@@ -245,9 +212,9 @@ function AIChart({ chart }: { chart: ChartData }) {
   }
 
   return (
-    <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
-      <h3 className="text-white font-semibold mb-4">{chart.title}</h3>
-      <p className="text-gray-400">Chart type: {chart.type} (Coming soon)</p>
+    <div className="bg-theme-secondary border border-theme rounded-lg p-4">
+      <h3 className="text-theme-primary font-semibold mb-4">{chart.title}</h3>
+      <p className="text-theme-secondary">Chart type: {chart.type} (Coming soon)</p>
     </div>
   )
 }
@@ -257,7 +224,7 @@ function ActionButton({ action, onExecute }: { action: QuickAction, onExecute: (
   return (
     <button
       onClick={() => onExecute(action.prompt)}
-      className="flex items-center gap-2 px-3 py-2 bg-green-600/20 hover:bg-green-600/30 border border-green-600/30 text-green-400 hover:text-green-300 rounded-lg transition-all duration-200 text-sm font-medium"
+      className="flex items-center gap-2 px-3 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-400 hover:text-green-300 rounded-lg transition-all duration-200 text-sm font-medium"
     >
       <SparklesIcon className="w-3 h-3" />
       {action.label}
@@ -289,11 +256,11 @@ function MultiTickerSelector({
   }
 
   return (
-    <div className="border-t border-gray-700 pt-3 mt-3">
+    <div className="border-t border-theme pt-3 mt-3">
       <div className="flex items-center gap-2 mb-2">
-        <span className="text-xs text-gray-400">Vergleiche mit:</span>
+        <span className="text-xs text-theme-muted">Vergleiche mit:</span>
         {compareTickers.map(ticker => (
-          <div key={ticker} className="flex items-center gap-1 px-2 py-1 bg-blue-600/20 border border-blue-600/30 rounded text-xs text-blue-400">
+          <div key={ticker} className="flex items-center gap-1 px-2 py-1 bg-blue-500/20 border border-blue-500/30 rounded text-xs text-blue-400">
             {ticker}
             <button onClick={() => removeTicker(ticker)} className="hover:text-blue-300">
               <XMarkIcon className="w-3 h-3" />
@@ -308,11 +275,11 @@ function MultiTickerSelector({
           value={newTicker}
           onChange={(e) => setNewTicker(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && addTicker()}
-          className="flex-1 px-2 py-1 text-xs bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+          className="flex-1 px-2 py-1 text-xs bg-theme-tertiary border border-theme rounded text-theme-primary placeholder-theme-muted focus:outline-none focus:border-blue-500"
         />
         <button
           onClick={addTicker}
-          className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs transition-colors"
+          className="px-2 py-1 bg-blue-500 hover:bg-blue-400 text-white rounded text-xs transition-colors"
         >
           <PlusIcon className="w-3 h-3" />
         </button>
@@ -393,8 +360,8 @@ Stelle mir Fragen zu:
           role: m.type === 'user' ? 'user' : 'assistant',
           content: m.content
         })).slice(-6), // Last 6 messages for context
-        analysisType: ticker ? 'stock' : 'general', // ✅ Set based on ticker presence
-        ticker: ticker || undefined, // ✅ Use actual ticker prop
+        analysisType: ticker ? 'stock' : 'general',
+        ticker: ticker || undefined,
         compareWith: compareTickers.length > 0 ? compareTickers : undefined
       }
 
@@ -406,7 +373,7 @@ Stelle mir Fragen zu:
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session.access_token}`,
         },
-        body: JSON.stringify(requestBody) // ✅ USE THE CORRECT REQUEST BODY!
+        body: JSON.stringify(requestBody)
       })
 
       if (!response.ok) {
@@ -484,18 +451,16 @@ Stelle mir Fragen zu:
 
   if (!isPremium) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-950">
+      <div className="h-full flex items-center justify-center bg-theme-primary">
         <div className="text-center max-w-md mx-auto p-8">
-          {/* ✅ UPDATED: Grüner Button statt Orange */}
-          <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <SparklesIcon className="w-8 h-8 text-black" />
           </div>
-          <h3 className="text-2xl font-bold text-white mb-4">Premium Feature</h3>
-          <p className="text-gray-400 mb-6 leading-relaxed">
+          <h3 className="text-2xl font-bold text-theme-primary mb-4">Premium Feature</h3>
+          <p className="text-theme-secondary mb-6 leading-relaxed">
             FinClue AI ist ein Premium-Feature. Upgrade jetzt und erhalte Zugang zu unserem 
             KI-Finanzassistenten für detaillierte Aktienanalysen.
           </p>
-          {/* ✅ UPDATED: Grüner Button statt Orange/Gelb Gradient */}
           <button 
             onClick={() => window.location.href = '/pricing'}
             className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
@@ -509,26 +474,26 @@ Stelle mir Fragen zu:
   }
 
   return (
-    <div className="h-full flex flex-col bg-gray-950">
+    <div className="h-full flex flex-col bg-theme-primary">
       {/* Header */}
-      <div className="flex-shrink-0 border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm">
+      <div className="flex-shrink-0 border-b border-theme bg-theme-secondary">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-green-500 rounded-xl flex items-center justify-center">
                 <SparklesIcon className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-theme-primary flex items-center gap-2">
                   FinClue AI
                   {ragStatus.enabled && (
-                    <div className="flex items-center gap-1 px-2 py-1 bg-blue-600/20 border border-blue-600/30 rounded-full">
+                    <div className="flex items-center gap-1 px-2 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full">
                       <DocumentDuplicateIcon className="w-3 h-3 text-blue-400" />
                       <span className="text-xs text-blue-400">RAG</span>
                     </div>
                   )}
                 </h2>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-theme-secondary">
                   {ticker ? `Aktienanalyse für ${ticker.toUpperCase()}` : 'KI-Finanzassistent'}
                   {compareTickers.length > 0 && ` • Vergleich mit ${compareTickers.join(', ')}`}
                   {ragStatus.enabled && ` • Dokumentenbasierte Analyse`}
@@ -540,7 +505,7 @@ Stelle mir Fragen zu:
                 setMessages(messages.slice(0, 1))
                 setCompareTickers([])
               }}
-              className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary rounded-lg transition-colors"
             >
               <ArrowPathIcon className="w-4 h-4" />
               <span className="text-sm">Neuer Chat</span>
@@ -551,9 +516,9 @@ Stelle mir Fragen zu:
 
       {/* Quick Prompts */}
       {messages.length <= 1 && (
-        <div className="flex-shrink-0 border-b border-gray-800 bg-gray-900/30">
+        <div className="flex-shrink-0 border-b border-theme bg-theme-secondary/50">
           <div className="px-6 py-4">
-            <h3 className="text-sm font-medium text-gray-300 mb-3">Schnellstart:</h3>
+            <h3 className="text-sm font-medium text-theme-primary mb-3">Schnellstart:</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {quickPrompts.map((prompt) => {
                 const Icon = prompt.icon
@@ -561,13 +526,13 @@ Stelle mir Fragen zu:
                   <button
                     key={prompt.id}
                     onClick={() => handleQuickPrompt(prompt)}
-                    className="flex items-center gap-3 p-3 bg-gray-800/50 hover:bg-gray-800 border border-gray-700 hover:border-gray-600 rounded-lg transition-all duration-200 text-left group"
+                    className="flex items-center gap-3 p-3 bg-theme-tertiary/50 hover:bg-theme-tertiary border border-theme hover:border-green-500/30 rounded-lg transition-all duration-200 text-left group"
                   >
-                    <div className="w-8 h-8 bg-gray-700 group-hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors">
-                      <Icon className="w-4 h-4 text-gray-300" />
+                    <div className="w-8 h-8 bg-theme-tertiary group-hover:bg-green-500/20 rounded-lg flex items-center justify-center transition-colors">
+                      <Icon className="w-4 h-4 text-theme-muted group-hover:text-green-400" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-white group-hover:text-green-400 transition-colors">
+                      <div className="text-sm font-medium text-theme-primary group-hover:text-green-400 transition-colors">
                         {prompt.title}
                       </div>
                     </div>
@@ -588,7 +553,7 @@ Stelle mir Fragen zu:
               className={`flex gap-4 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {message.type === 'assistant' && (
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
                   <SparklesIcon className="w-4 h-4 text-white" />
                 </div>
               )}
@@ -598,15 +563,15 @@ Stelle mir Fragen zu:
                 <div
                   className={`rounded-lg px-4 py-3 mb-4 ${
                     message.type === 'user'
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-800 text-gray-100 border border-gray-700'
+                      ? 'bg-green-500 text-black'
+                      : 'bg-theme-secondary text-theme-primary border border-theme'
                   }`}
                 >
                   <div className="whitespace-pre-wrap leading-relaxed">
                     {message.content}
                   </div>
                   <div className={`text-xs mt-2 ${
-                    message.type === 'user' ? 'text-green-100' : 'text-gray-500'
+                    message.type === 'user' ? 'text-black/70' : 'text-theme-muted'
                   }`}>
                     {message.timestamp.toLocaleTimeString('de-DE', { 
                       hour: '2-digit', 
@@ -647,19 +612,19 @@ Stelle mir Fragen zu:
               </div>
               
               {message.type === 'user' && (
-                <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm font-semibold">Du</span>
+                <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-black text-sm font-semibold">Du</span>
                 </div>
               )}
             </div>
           ))}
           {isLoading && (
             <div className="flex gap-4 justify-start">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-green-500 rounded-lg flex items-center justify-center">
                 <SparklesIcon className="w-4 h-4 text-white" />
               </div>
-              <div className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-3">
-                <div className="flex items-center gap-2 text-gray-400">
+              <div className="bg-theme-secondary border border-theme rounded-lg px-4 py-3">
+                <div className="flex items-center gap-2 text-theme-secondary">
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
@@ -675,7 +640,7 @@ Stelle mir Fragen zu:
       </div>
 
       {/* Input */}
-      <div className="flex-shrink-0 border-t border-gray-800 bg-gray-900/50 backdrop-blur-sm">
+      <div className="flex-shrink-0 border-t border-theme bg-theme-secondary">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="relative">
             <textarea
@@ -690,14 +655,14 @@ Stelle mir Fragen zu:
                 ? `Frage etwas über ${ticker.toUpperCase()}...`
                 : "Stelle eine Frage zu Aktien, Märkten oder Unternehmen..."
               }
-              className="w-full px-4 py-3 pr-12 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 resize-none min-h-[48px] max-h-[120px]"
+              className="w-full px-4 py-3 pr-12 bg-theme-tertiary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 resize-none min-h-[48px] max-h-[120px]"
               rows={1}
               disabled={isLoading}
             />
             <button
               onClick={() => sendMessage()}
               disabled={!input.trim() || isLoading}
-              className="absolute right-2 bottom-2 w-8 h-8 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg flex items-center justify-center transition-colors"
+              className="absolute right-2 bottom-2 w-8 h-8 bg-green-500 hover:bg-green-400 disabled:bg-theme-muted disabled:cursor-not-allowed rounded-lg flex items-center justify-center transition-colors"
             >
               <PaperAirplaneIcon className="w-4 h-4 text-white" />
             </button>
@@ -711,7 +676,7 @@ Stelle mir Fragen zu:
               />
             )}
           </div>
-          <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+          <div className="flex items-center justify-between mt-2 text-xs text-theme-muted">
             <span>Shift + Enter für neue Zeile</span>
             <div className="flex items-center gap-3">
               {ragStatus.enabled && (

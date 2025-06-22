@@ -1,4 +1,4 @@
-// src/app/terminal/analyse/stocks/ticker dividends.tsx - Ticker-spezifische Dividenden-Analyse mit Theme Support
+// src/app/analyse/stocks/[ticker]/dividends/page.tsx - THEME-OPTIMIERTE VERSION
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -6,12 +6,15 @@ import { supabase } from '@/lib/supabaseClient'
 import { 
   BanknotesIcon, 
   ArrowTrendingUpIcon, 
+  ArrowTrendingDownIcon, 
   CalendarIcon,
   ShieldCheckIcon,
   ChartBarIcon,
   ClockIcon,
   InformationCircleIcon,
-  ExclamationTriangleIcon
+  ExclamationTriangleIcon,
+  CurrencyDollarIcon,
+
 } from '@heroicons/react/24/outline'
 import { 
   LineChart, 
@@ -191,14 +194,14 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
   
         setDividendData(combinedData)
   
-        // ✅ FIX: Ex-Date nur setzen wenn es in der Zukunft liegt
+        // Ex-Date nur setzen wenn es in der Zukunft liegt
         const apiExDate = keyMetrics.exDividendDate
         const isExDateInFuture = apiExDate && new Date(apiExDate) > new Date()
         
         setCurrentDividend({
           yield: keyMetrics.dividendYield || 0.006,
           payoutRatio: keyMetrics.payoutRatio || 0.24,
-          exDate: isExDateInFuture ? apiExDate : null, // Nur zukünftige Daten
+          exDate: isExDateInFuture ? apiExDate : null,
           declaredDate: keyMetrics.declaredDividendDate || null,
           ttm: keyMetrics.dividendPerShareTTM || 1.00
         })
@@ -254,12 +257,12 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-theme-background">
-        <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-theme-primary">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <LoadingSpinner />
-              <p className="text-theme-secondary mt-4">Lade Dividendendaten für {ticker}...</p>
+              <p className="text-theme-muted mt-4">Lade Dividendendaten für {ticker}...</p>
             </div>
           </div>
         </div>
@@ -268,24 +271,24 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
   }
 
   return (
-    <div className="min-h-screen bg-theme-background">
-      <div className="container mx-auto px-4 py-8 space-y-8">
+    <div className="min-h-screen bg-theme-primary">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        {/* Header */}
+        {/* ✅ REDESIGNED Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
-              <BanknotesIcon className="w-7 h-7 text-white" />
+              <BanknotesIcon className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-theme-primary to-theme-secondary bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold text-theme-primary">
                 {ticker} Dividenden-Analyse
               </h1>
-              <p className="text-theme-secondary text-lg">Dividendenwachstum, Sicherheit und Historie</p>
+              <p className="text-theme-muted">Dividendenwachstum, Sicherheit und Historie</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-xl text-sm">
+          <div className="flex items-center gap-2 px-3 py-2 bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             <span>Live Daten</span>
           </div>
@@ -293,104 +296,109 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
 
         {/* Error Message */}
         {error && (
-          <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 flex items-center gap-3">
+          <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-xl p-4 flex items-center gap-3">
             <ExclamationTriangleIcon className="w-5 h-5 text-yellow-400" />
             <span className="text-yellow-200">{error}</span>
           </div>
         )}
 
-        {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme hover:border-border-hover transition-all duration-300">
+        {/* ✅ REDESIGNED Key Metrics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-all">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <BanknotesIcon className="w-5 h-5 text-blue-400" />
+              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <CurrencyDollarIcon className="w-4 h-4 text-blue-400" />
               </div>
-              <span className="text-sm text-theme-secondary font-medium">Aktuelle Rendite</span>
+              <span className="text-sm text-theme-muted font-medium">Aktuelle Rendite</span>
             </div>
-            <div className="text-3xl font-bold text-theme-primary mb-1">
+            <div className="text-2xl font-bold text-theme-primary mb-1">
               {currentDividend?.yield ? `${(currentDividend.yield * 100).toFixed(2)}%` : 'N/A'}
             </div>
-            <div className="text-sm text-theme-secondary">TTM: {currentDividend?.ttm ? formatCurrency(currentDividend.ttm) : 'N/A'}</div>
+            <div className="text-sm text-theme-muted">TTM: {currentDividend?.ttm ? formatCurrency(currentDividend.ttm) : 'N/A'}</div>
           </div>
 
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme hover:border-border-hover transition-all duration-300">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-all">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
               </div>
-              <span className="text-sm text-theme-secondary font-medium">Ø Wachstum</span>
+              <span className="text-sm text-theme-muted font-medium">Ø Wachstum</span>
             </div>
-            <div className="text-3xl font-bold text-theme-primary mb-1">
+            <div className="text-2xl font-bold text-theme-primary mb-1">
               {dividendData.length > 1 
                 ? `${dividendData.filter(d => d.growth !== 0).reduce((sum: number, d: DividendData) => sum + d.growth, 0) / Math.max(1, dividendData.filter(d => d.growth !== 0).length) > 0 ? '+' : ''}${(dividendData.filter(d => d.growth !== 0).reduce((sum: number, d: DividendData) => sum + d.growth, 0) / Math.max(1, dividendData.filter(d => d.growth !== 0).length)).toFixed(1)}%`
                 : 'N/A'
               }
             </div>
-            <div className="text-sm text-theme-secondary">Durchschnittlich p.a.</div>
+            <div className="text-sm text-theme-muted">Durchschnittlich p.a.</div>
           </div>
 
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme hover:border-border-hover transition-all duration-300">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-all">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                <ShieldCheckIcon className="w-5 h-5 text-yellow-400" />
+              <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <ShieldCheckIcon className="w-4 h-4 text-yellow-400" />
               </div>
-              <span className="text-sm text-theme-secondary font-medium">Sicherheits-Score</span>
+              <span className="text-sm text-theme-muted font-medium">Sicherheits-Score</span>
             </div>
-            <div className={`text-3xl font-bold mb-1 ${safetyScore ? getScoreColor(safetyScore) : 'text-theme-muted'}`}>
+            <div className={`text-2xl font-bold mb-1 ${safetyScore ? getScoreColor(safetyScore) : 'text-theme-muted'}`}>
               {safetyScore || 'N/A'}
             </div>
-            <div className="text-sm text-theme-secondary">
+            <div className="text-sm text-theme-muted">
               {safetyScore ? getScoreLabel(safetyScore) : 'Keine Daten'}
             </div>
           </div>
 
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme hover:border-border-hover transition-all duration-300">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-all">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                <CalendarIcon className="w-5 h-5 text-purple-400" />
+              <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-4 h-4 text-purple-400" />
               </div>
-              <span className="text-sm text-theme-secondary font-medium">Nächste Ex-Date</span>
+              <span className="text-sm text-theme-muted font-medium">Nächste Ex-Date</span>
             </div>
-            <div className="text-3xl font-bold text-theme-primary mb-1">
+            <div className="text-2xl font-bold text-theme-primary mb-1">
               {currentDividend?.exDate ? 
                 new Date(currentDividend.exDate).toLocaleDateString('de-DE') : 
                 'TBA'
               }
             </div>
-            <div className="text-sm text-theme-secondary">
+            <div className="text-sm text-theme-muted">
               {currentDividend?.exDate ? 'Bestätigt' : 'Noch nicht angekündigt'}
             </div>
           </div>
         </div>
 
-        <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme hover:border-border-hover transition-all duration-300">
+        {/* ✅ ADDITIONAL Metric Card */}
+        <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-all">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-              <ShieldCheckIcon className="w-5 h-5 text-indigo-400" />
+            <div className="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+              <ShieldCheckIcon className="w-4 h-4 text-indigo-400" />
             </div>
-            <span className="text-sm text-theme-secondary font-medium">Jahre ohne Kürzung</span>
+            <span className="text-sm text-theme-muted font-medium">Jahre ohne Kürzung</span>
           </div>
-          <div className="text-3xl font-bold text-theme-primary mb-1">
+          <div className="text-2xl font-bold text-theme-primary mb-1">
             {yearsWithoutCut}
           </div>
-          <div className="text-sm text-theme-secondary">
+          <div className="text-sm text-theme-muted">
             {yearsWithoutCut === 1 ? 'Letztes Jahr stabil' : `${yearsWithoutCut} Jahre in Folge`}
           </div>
         </div>
 
-        {/* Charts Grid - nur anzeigen wenn Daten vorhanden */}
+        {/* ✅ REDESIGNED Charts Grid */}
         {dividendData.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Dividenden-Entwicklung Chart */}
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 hover:bg-theme-tertiary/30 transition-colors">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-theme-primary">Dividende je Aktie</h3>
-              <ChartBarIcon className="w-5 h-5 text-theme-secondary" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-4 h-4 text-blue-400" />
+                </div>
+                <h3 className="text-lg font-bold text-theme-primary">Dividende je Aktie</h3>
+              </div>
             </div>
             
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={dividendData}>
                 <XAxis 
                   dataKey="year" 
@@ -398,7 +406,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <YAxis 
                   stroke="currentColor" 
@@ -406,17 +414,17 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => formatCurrency(value)}
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'var(--theme-card)', 
-                    border: '1px solid var(--theme-border)',
+                    backgroundColor: 'rgb(55, 65, 81)', 
+                    border: '1px solid rgb(75, 85, 99)',
                     borderRadius: '12px',
                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                    color: 'var(--theme-primary)'
+                    color: 'rgb(243, 244, 246)'
                   }}
-                  labelStyle={{ color: 'var(--theme-primary)', fontWeight: 'bold' }}
+                  labelStyle={{ color: 'rgb(243, 244, 246)', fontWeight: 'bold' }}
                   formatter={(value: number) => [formatCurrency(value), 'Dividende']}
                 />
                 <defs>
@@ -437,13 +445,17 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
           </div>
 
           {/* Dividenden-Wachstum Chart */}
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 hover:bg-theme-tertiary/30 transition-colors">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-theme-primary">Jährliches Wachstum</h3>
-              <ArrowTrendingUpIcon className="w-5 h-5 text-theme-secondary" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+                </div>
+                <h3 className="text-lg font-bold text-theme-primary">Jährliches Wachstum</h3>
+              </div>
             </div>
             
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart data={dividendData.slice(1)}>
                 <XAxis 
                   dataKey="year" 
@@ -451,7 +463,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <YAxis 
                   stroke="currentColor" 
@@ -459,20 +471,20 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `${value}%`} 
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'var(--theme-card)', 
-                    border: '1px solid var(--theme-border)',
+                    backgroundColor: 'rgb(55, 65, 81)', 
+                    border: '1px solid rgb(75, 85, 99)',
                     borderRadius: '12px',
                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                    color: 'var(--theme-primary)'
+                    color: 'rgb(243, 244, 246)'
                   }}
-                  labelStyle={{ color: 'var(--theme-primary)', fontWeight: 'bold' }}
+                  labelStyle={{ color: 'rgb(243, 244, 246)', fontWeight: 'bold' }}
                   formatter={(value: number) => [`${value.toFixed(1)}%`, 'Wachstum']}
                 />
-                <ReferenceLine y={0} stroke="var(--theme-secondary)" strokeDasharray="3 3" />
+                <ReferenceLine y={0} stroke="rgb(156, 163, 175)" strokeDasharray="3 3" />
                 <Bar dataKey="growth" radius={[4, 4, 0, 0]}>
                   {dividendData.slice(1).map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={getBarColor(entry.growth)} />
@@ -483,16 +495,21 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
           </div>
 
           {/* Dividendenrendite Chart */}
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 hover:bg-theme-tertiary/30 transition-colors">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-theme-primary">Dividendenrendite</h3>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingDownIcon className="w-4 h-4 text-purple-400" />
+                </div>
+                <h3 className="text-lg font-bold text-theme-primary">Dividendenrendite</h3>
+              </div>
               <div className="flex items-center gap-1">
-                <InformationCircleIcon className="w-4 h-4 text-theme-secondary" />
-                <span className="text-xs text-theme-secondary">Basiert auf historischen Kursen</span>
+                <InformationCircleIcon className="w-4 h-4 text-theme-muted" />
+                <span className="text-xs text-theme-muted">Basiert auf historischen Kursen</span>
               </div>
             </div>
             
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width="100%" height={300}>
               <LineChart data={dividendData}>
                 <XAxis 
                   dataKey="year" 
@@ -500,7 +517,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <YAxis 
                   stroke="currentColor" 
@@ -508,17 +525,17 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `${value}%`} 
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'var(--theme-card)', 
-                    border: '1px solid var(--theme-border)',
+                    backgroundColor: 'rgb(55, 65, 81)', 
+                    border: '1px solid rgb(75, 85, 99)',
                     borderRadius: '12px',
                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                    color: 'var(--theme-primary)'
+                    color: 'rgb(243, 244, 246)'
                   }}
-                  labelStyle={{ color: 'var(--theme-primary)', fontWeight: 'bold' }}
+                  labelStyle={{ color: 'rgb(243, 244, 246)', fontWeight: 'bold' }}
                   formatter={(value: number) => [`${value}%`, 'Rendite']}
                 />
                 <Line 
@@ -526,21 +543,25 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   dataKey="dividendYield" 
                   stroke="#8B5CF6" 
                   strokeWidth={3}
-                  dot={{ fill: '#8B5CF6', strokeWidth: 2, r: 5 }}
-                  activeDot={{ r: 7, fill: '#8B5CF6' }}
+                  dot={{ fill: '#8B5CF6', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: '#8B5CF6' }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
           {/* Payout Ratio Chart */}
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-6 border border-theme">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 hover:bg-theme-tertiary/30 transition-colors">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-theme-primary">Payout Ratio</h3>
-              <ClockIcon className="w-5 h-5 text-theme-secondary" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                  <ClockIcon className="w-4 h-4 text-orange-400" />
+                </div>
+                <h3 className="text-lg font-bold text-theme-primary">Payout Ratio</h3>
+              </div>
             </div>
             
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={dividendData}>
                 <XAxis 
                   dataKey="year" 
@@ -548,7 +569,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <YAxis 
                   stroke="currentColor" 
@@ -557,17 +578,17 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
                   axisLine={false}
                   tickFormatter={(value) => `${value}%`} 
                   domain={[0, 100]} 
-                  className="text-theme-secondary"
+                  className="text-theme-muted"
                 />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'var(--theme-card)', 
-                    border: '1px solid var(--theme-border)',
+                    backgroundColor: 'rgb(55, 65, 81)', 
+                    border: '1px solid rgb(75, 85, 99)',
                     borderRadius: '12px',
                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                    color: 'var(--theme-primary)'
+                    color: 'rgb(243, 244, 246)'
                   }}
-                  labelStyle={{ color: 'var(--theme-primary)', fontWeight: 'bold' }}
+                  labelStyle={{ color: 'rgb(243, 244, 246)', fontWeight: 'bold' }}
                   formatter={(value: number) => [`${value}%`, 'Payout Ratio']}
                 />
                 <ReferenceLine y={50} stroke="#F59E0B" strokeDasharray="5 5" label={{ value: "Ziel: 50%", position: "insideTopRight" }} />
@@ -590,44 +611,49 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
           </div>
         </div>
         ) : (
-          <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-8 border border-theme text-center">
-            <ExclamationTriangleIcon className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
+          <div className="bg-theme-secondary border border-theme rounded-xl p-8 text-center">
+            <ExclamationTriangleIcon className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-theme-primary mb-2">Keine Dividendendaten verfügbar</h3>
-            <p className="text-theme-secondary">
+            <p className="text-theme-muted">
               Für {ticker} sind momentan keine historischen Dividendendaten verfügbar.
             </p>
           </div>
         )}
 
-        {/* Dividenden-Historie Tabelle - nur anzeigen wenn Daten vorhanden */}
+        {/* ✅ REDESIGNED Dividenden-Historie Tabelle */}
         {dividendData.length > 0 && (
-        <div className="bg-theme-card/70 backdrop-blur-sm rounded-2xl p-8 border border-theme">
-          <h3 className="text-2xl font-bold text-theme-primary mb-8">Dividenden-Historie</h3>
+        <div className="bg-theme-secondary border border-theme rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-green-400" />
+            </div>
+            <h3 className="text-xl font-bold text-theme-primary">Dividenden-Historie</h3>
+          </div>
           
-          <div className="overflow-hidden rounded-xl border border-theme">
+          <div className="overflow-hidden rounded-lg border border-theme">
             <table className="w-full">
-              <thead className="bg-theme-secondary/50">
+              <thead className="bg-theme-tertiary/50">
                 <tr>
-                  <th className="text-left py-4 px-6 text-theme-secondary font-semibold">Jahr</th>
-                  <th className="text-right py-4 px-6 text-theme-secondary font-semibold">Dividende/Aktie</th>
-                  <th className="text-right py-4 px-6 text-theme-secondary font-semibold">Wachstum</th>
-                  <th className="text-right py-4 px-6 text-theme-secondary font-semibold">Rendite</th>
-                  <th className="text-right py-4 px-6 text-theme-secondary font-semibold">Payout Ratio</th>
+                  <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Jahr</th>
+                  <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Dividende/Aktie</th>
+                  <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Wachstum</th>
+                  <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Rendite</th>
+                  <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Payout Ratio</th>
                 </tr>
               </thead>
               <tbody>
                 {dividendData.map((row, index) => (
-                  <tr key={row.year} className={`hover:bg-theme-secondary/30 transition-colors ${index !== dividendData.length - 1 ? 'border-b border-theme/50' : ''}`}>
-                    <td className="py-4 px-6 text-theme-primary font-semibold">{row.year}</td>
-                    <td className="py-4 px-6 text-right text-theme-primary font-medium">{formatCurrency(row.dividendPerShare)}</td>
-                    <td className={`py-4 px-6 text-right font-semibold ${
+                  <tr key={row.year} className={`hover:bg-theme-tertiary/30 transition-colors ${index !== dividendData.length - 1 ? 'border-b border-theme/50' : ''}`}>
+                    <td className="py-3 px-4 text-theme-primary font-semibold">{row.year}</td>
+                    <td className="py-3 px-4 text-right text-theme-primary font-medium">{formatCurrency(row.dividendPerShare)}</td>
+                    <td className={`py-3 px-4 text-right font-semibold ${
                       row.growth > 0 ? 'text-green-400' : 
                       row.growth < 0 ? 'text-red-400' : 'text-theme-muted'
                     }`}>
                       {row.growth > 0 ? '+' : ''}{row.growth.toFixed(1)}%
                     </td>
-                    <td className="py-4 px-6 text-right text-theme-primary font-medium">{row.dividendYield}%</td>
-                    <td className={`py-4 px-6 text-right font-semibold ${
+                    <td className="py-3 px-4 text-right text-theme-primary font-medium">{row.dividendYield}%</td>
+                    <td className={`py-3 px-4 text-right font-semibold ${
                       row.payoutRatio > 80 ? 'text-red-400' : 
                       row.payoutRatio > 50 ? 'text-yellow-400' : 'text-green-400'
                     }`}>
@@ -641,18 +667,18 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
         </div>
         )}
 
-        {/* Premium Hinweis */}
+        {/* ✅ REDESIGNED Premium Hinweis */}
         {!user?.isPremium && (
-          <div className="bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-theme rounded-2xl p-8 text-center backdrop-blur-sm">
-            <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
-              <BanknotesIcon className="w-10 h-10 text-white" />
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+              <BanknotesIcon className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-theme-primary mb-4">Erweiterte Dividenden-Analyse</h3>
-            <p className="text-theme-secondary mb-8 max-w-2xl mx-auto text-lg">
+            <h3 className="text-xl font-bold text-theme-primary mb-3">Erweiterte Dividenden-Analyse</h3>
+            <p className="text-theme-muted mb-6 max-w-xl mx-auto">
               Vergleiche {ticker} Dividenden mit Sektor-Durchschnitt, erhalte Dividenden-Prognosen, 
               Risiko-Analyse und exklusive Insights für bessere Investment-Entscheidungen.
             </p>
-            <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl hover:from-blue-400 hover:to-purple-400 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <button className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:from-blue-400 hover:to-purple-400 transition-all">
               Premium freischalten
             </button>
           </div>

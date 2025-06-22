@@ -1,4 +1,4 @@
-// src/app/superinvestor/insights/page.tsx - KORREKT mit .data!
+// src/app/superinvestor/insights/page.tsx - FIXED VERSION
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
@@ -21,6 +21,7 @@ import {
 import { investors } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
+import Logo from '@/components/Logo'  // ✅ Import der Logo-Komponente
 
 // Animation Hook
 const useIntersectionObserver = (threshold = 0.1) => {
@@ -143,6 +144,7 @@ interface QuarterOption {
   description: string
 }
 
+// ✅ FIXED POSITION: QuarterSelector ohne Portal - löst alle z-index Probleme
 function QuarterSelector({ 
   options, 
   selected, 
@@ -153,43 +155,99 @@ function QuarterSelector({
   onSelect: (id: string) => void 
 }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 })
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const selectedOption = options.find(opt => opt.id === selected)
   
+  // Position berechnen wenn Dropdown öffnet
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY + 8, // Scroll berücksichtigen
+        left: rect.left + window.scrollX,
+        width: 256 // w-64 = 256px
+      })
+    }
+  }, [isOpen])
+
+  // Schließen bei Escape oder Scroll
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false)
+    }
+    
+    const handleScroll = () => setIsOpen(false)
+    const handleResize = () => setIsOpen(false)
+
+    document.addEventListener('keydown', handleEscape)
+    window.addEventListener('scroll', handleScroll, true)
+    window.addEventListener('resize', handleResize)
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      window.removeEventListener('scroll', handleScroll, true)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isOpen])
+
   return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm text-gray-300 transition-colors hover:scale-105"
-      >
-        <CalendarIcon className="w-4 h-4" />
-        <span>{selectedOption?.label || 'Wählen'}</span>
-        <ChevronDownIcon className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-      </button>
-      
+    <>
+      <div className="relative">
+        <button
+          ref={buttonRef}
+          onClick={() => setIsOpen(!isOpen)}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg text-sm text-gray-300 transition-colors hover:scale-105"
+        >
+          <CalendarIcon className="w-4 h-4" />
+          <span>{selectedOption?.label || 'Wählen'}</span>
+          <ChevronDownIcon className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+      </div>
+
+      {/* Fixed Position Dropdown - außerhalb des normalen Flows */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 border border-gray-600 rounded-xl shadow-xl z-[99999] backdrop-blur-sm">
-          <div className="p-2 space-y-1">
-            {options.map(option => (
-              <button
-                key={option.id}
-                onClick={() => {
-                  onSelect(option.id)
-                  setIsOpen(false)
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                  selected === option.id 
-                    ? 'bg-green-600 text-white' 
-                    : 'text-gray-300 hover:bg-gray-700'
-                }`}
-              >
-                <div className="font-medium">{option.label}</div>
-                <div className="text-xs text-gray-400">{option.description}</div>
-              </button>
-            ))}
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 z-[9998]" 
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Dropdown */}
+          <div 
+            className="fixed bg-gray-800 border border-gray-600 rounded-xl shadow-xl backdrop-blur-sm z-[9999]"
+            style={{
+              top: `${dropdownPosition.top}px`,
+              left: `${dropdownPosition.left}px`,
+              width: `${dropdownPosition.width}px`
+            }}
+          >
+            <div className="p-2 space-y-1">
+              {options.map(option => (
+                <button
+                  key={option.id}
+                  onClick={() => {
+                    onSelect(option.id)
+                    setIsOpen(false)
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                    selected === option.id 
+                      ? 'bg-green-600 text-white' 
+                      : 'text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  <div className="font-medium">{option.label}</div>
+                  <div className="text-xs text-gray-400">{option.description}</div>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        </>
       )}
-    </div>
+    </>
   )
 }
 
@@ -223,7 +281,7 @@ export default function MarketInsightsPage() {
   const [heroRef, heroVisible] = useIntersectionObserver(0.3);
   const [statsRef, statsVisible] = useIntersectionObserver(0.3);
   const [chartsRef, chartsVisible] = useIntersectionObserver(0.3);
-  const [sectorsRef, sectorsVisible] = useIntersectionObserver(0.3);
+  const [sectorsRef, sectorsVisible] = useIntersectionObserver(0.1); // ✅ Früher triggern
 
   // Alle verfügbaren Quartale ermitteln - KORREKT (mit .data!)
   const latestDatesPerInvestor = Object.values(holdingsHistory)
@@ -539,8 +597,8 @@ export default function MarketInsightsPage() {
             statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`} style={{ transitionDelay: '200ms' }}>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                <FireIcon className="w-6 h-6 text-blue-400" />
+              <div className="w-12 h-12 bg-gray-600/20 rounded-xl flex items-center justify-center">
+                <FireIcon className="w-6 h-6 text-gray-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
@@ -556,8 +614,8 @@ export default function MarketInsightsPage() {
             statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`} style={{ transitionDelay: '400ms' }}>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
-                <CurrencyDollarIcon className="w-6 h-6 text-purple-400" />
+              <div className="w-12 h-12 bg-gray-600/20 rounded-xl flex items-center justify-center">
+                <CurrencyDollarIcon className="w-6 h-6 text-gray-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
@@ -573,8 +631,8 @@ export default function MarketInsightsPage() {
             statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`} style={{ transitionDelay: '600ms' }}>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
-                <BuildingOfficeIcon className="w-6 h-6 text-yellow-400" />
+              <div className="w-12 h-12 bg-gray-600/20 rounded-xl flex items-center justify-center">
+                <BuildingOfficeIcon className="w-6 h-6 text-gray-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
@@ -587,13 +645,13 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Main Charts Grid */}
+        {/* Main Charts Grid - ✅ FIXED: z-index über Portal-Ansatz */}
         <div ref={chartsRef} className={`grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 transform transition-all duration-1000 ${
           chartsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           
-          {/* Top Käufe */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
+          {/* Top Käufe - ✅ MIT LOGOS */}
+          <div className="relative bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
@@ -629,12 +687,18 @@ export default function MarketInsightsPage() {
                 topBuys.slice(0, 15).map((item, idx) => (
                   <Link
                     key={item.ticker}
-                    href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                    href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
                     className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">{item.ticker.charAt(0)}</span>
+                      {/* ✅ LOGO STATT BUCHSTABE */}
+                      <div className="w-8 h-8 relative">
+                        <Logo
+                          ticker={item.ticker}
+                          alt={`${item.ticker} Logo`}
+                          className="w-full h-full"
+                          padding="none"
+                        />
                       </div>
                       <div>
                         <p className="text-white font-medium group-hover:text-green-400 transition-colors">
@@ -662,11 +726,11 @@ export default function MarketInsightsPage() {
             </div>
           </div>
 
-          {/* Beliebteste Aktien */}
+          {/* Beliebteste Aktien - ✅ MIT LOGOS */}
           <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                <FireIcon className="w-5 h-5 text-blue-400" />
+              <div className="w-10 h-10 bg-gray-600/20 rounded-xl flex items-center justify-center">
+                <FireIcon className="w-5 h-5 text-gray-400" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-white">Beliebteste Aktien</h3>
@@ -678,15 +742,21 @@ export default function MarketInsightsPage() {
               {topOwned.slice(0, 15).map((item, idx) => (
                 <Link
                   key={item.ticker}
-                  href={`/analyse/${item.ticker.toLowerCase()}`}
+                  href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
                   className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">{item.ticker.charAt(0)}</span>
+                    {/* ✅ LOGO STATT BUCHSTABE */}
+                    <div className="w-8 h-8 relative">
+                      <Logo
+                        ticker={item.ticker}
+                        alt={`${item.ticker} Logo`}
+                        className="w-full h-full"
+                        padding="none"
+                      />
                     </div>
                     <div>
-                      <p className="text-white font-medium group-hover:text-blue-400 transition-colors">
+                      <p className="text-white font-medium group-hover:text-green-400 transition-colors">
                         {item.ticker}
                       </p>
                       <p className="text-gray-500 text-xs truncate max-w-[120px]">
@@ -695,7 +765,7 @@ export default function MarketInsightsPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-blue-400 text-sm font-semibold bg-blue-500/20 px-2 py-1 rounded">
+                    <span className="text-gray-300 text-sm font-semibold bg-gray-600/20 px-2 py-1 rounded">
                       {item.count}
                     </span>
                     <p className="text-xs text-gray-500">Portfolios</p>
@@ -705,11 +775,11 @@ export default function MarketInsightsPage() {
             </div>
           </div>
 
-          {/* Größte Investments - MIT DEUTSCHER WÄHRUNG */}
+          {/* Größte Investments - ✅ MIT LOGOS UND DEUTSCHER WÄHRUNG */}
           <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center">
-                <CurrencyDollarIcon className="w-5 h-5 text-purple-400" />
+              <div className="w-10 h-10 bg-gray-600/20 rounded-xl flex items-center justify-center">
+                <CurrencyDollarIcon className="w-5 h-5 text-gray-400" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-white">Größte Investments</h3>
@@ -721,15 +791,21 @@ export default function MarketInsightsPage() {
               {biggestInvestments.slice(0, 15).map((item, idx) => (
                 <Link
                   key={item.ticker}
-                  href={`/analyse/${item.ticker.toLowerCase()}`}
+                  href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
                   className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">{item.ticker.charAt(0)}</span>
+                    {/* ✅ LOGO STATT BUCHSTABE */}
+                    <div className="w-8 h-8 relative">
+                      <Logo
+                        ticker={item.ticker}
+                        alt={`${item.ticker} Logo`}
+                        className="w-full h-full"
+                        padding="none"
+                      />
                     </div>
                     <div>
-                      <p className="text-white font-medium group-hover:text-purple-400 transition-colors">
+                      <p className="text-white font-medium group-hover:text-green-400 transition-colors">
                         {item.ticker}
                       </p>
                       <p className="text-gray-500 text-xs truncate max-w-[120px]">
@@ -738,7 +814,7 @@ export default function MarketInsightsPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-purple-400 text-sm font-semibold">
+                    <span className="text-gray-300 text-sm font-semibold">
                       {formatCurrencyGerman(item.value, false)}
                     </span>
                     <p className="text-xs text-gray-500">Wert</p>
@@ -754,16 +830,16 @@ export default function MarketInsightsPage() {
           sectorsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
           
-          {/* Portfolio Concentration Analysis */}
+          {/* Portfolio Concentration Analysis - ✅ MEHR INVESTOREN */}
           <section>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 border border-orange-500/20 text-orange-400 rounded-full text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
                 <ShieldCheckIcon className="w-4 h-4" />
                 Portfolio Concentration
               </div>
               <h2 className="text-3xl font-bold text-white mb-4">
                 Konzentration vs.
-                <span className="bg-gradient-to-r from-orange-400 to-orange-300 bg-clip-text text-transparent"> Diversifikation</span>
+                <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Diversifikation</span>
               </h2>
               <p className="text-gray-400">
                 Wer setzt auf wenige große Positionen vs. breite Diversifikation?
@@ -780,7 +856,8 @@ export default function MarketInsightsPage() {
                   type: 'high' | 'medium' | 'low';
                 }> = [];
 
-                ['buffett', 'ackman', 'smith', 'gates', 'marks', 'icahn'].forEach(slug => {
+                // ✅ MEHR INVESTOREN HINZUGEFÜGT
+                ['buffett', 'ackman', 'smith', 'gates', 'marks', 'icahn', 'einhorn', 'loeb', 'cooperman'].forEach(slug => {
                   const snaps = holdingsHistory[slug];
                   if (!snaps || snaps.length === 0) return;
 
@@ -811,13 +888,17 @@ export default function MarketInsightsPage() {
                   else if (herfindahl > 0.1) type = 'medium';
                   else type = 'low';
 
+                  // ✅ ERWEITERTE INVESTOREN-NAMEN
                   const investorNames: Record<string, string> = {
                     buffett: 'Warren Buffett',
                     ackman: 'Bill Ackman', 
                     smith: 'Terry Smith',
                     gates: 'Bill Gates',
                     marks: 'Howard Marks',
-                    icahn: 'Carl Icahn'
+                    icahn: 'Carl Icahn',
+                    einhorn: 'David Einhorn',
+                    loeb: 'Daniel Loeb',
+                    cooperman: 'Leon Cooperman'
                   };
 
                   concentrationData.push({
@@ -840,9 +921,9 @@ export default function MarketInsightsPage() {
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-bold text-white">{data.investor}</h3>
                       <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        data.type === 'high' ? 'bg-red-500/20 text-red-400' :
-                        data.type === 'medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                        'bg-green-500/20 text-green-400'
+                        data.type === 'high' ? 'bg-green-500/20 text-green-400' :
+                        data.type === 'medium' ? 'bg-gray-500/20 text-gray-400' :
+                        'bg-gray-600/20 text-gray-300'
                       }`}>
                         {data.type === 'high' ? 'Konzentriert' :
                          data.type === 'medium' ? 'Ausgewogen' : 'Diversifiziert'}
@@ -857,8 +938,8 @@ export default function MarketInsightsPage() {
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
                           className={`h-2 rounded-full transition-all duration-1000 ${
-                            data.type === 'high' ? 'bg-red-500' :
-                            data.type === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                            data.type === 'high' ? 'bg-green-500' :
+                            data.type === 'medium' ? 'bg-gray-500' : 'bg-gray-600'
                           }`}
                           style={{ width: `${Math.min(data.concentration * 100 * 5, 100)}%` }}
                         ></div>
@@ -869,8 +950,8 @@ export default function MarketInsightsPage() {
                       <div className="flex justify-between items-center">
                         <span className="text-gray-400 text-sm">Top 3 Holdings:</span>
                         <span className={`font-semibold ${
-                          data.top3Percentage > 60 ? 'text-red-400' :
-                          data.top3Percentage > 40 ? 'text-yellow-400' : 'text-green-400'
+                          data.top3Percentage > 60 ? 'text-green-400' :
+                          data.top3Percentage > 40 ? 'text-gray-400' : 'text-gray-300'
                         }`}>
                           {data.top3Percentage.toFixed(1)}%
                         </span>
@@ -886,16 +967,16 @@ export default function MarketInsightsPage() {
             </div>
           </section>
 
-          {/* Sektor-Analyse - MIT DEUTSCHER WÄHRUNG */}
+          {/* Sektor-Analyse - CLEANER */}
           <section>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-600/10 border border-gray-600/20 text-gray-400 rounded-full text-sm font-medium mb-6">
                 <BuildingOfficeIcon className="w-4 h-4" />
                 Sektor-Analyse
               </div>
               <h2 className="text-3xl font-bold text-white mb-4">
                 Investment
-                <span className="bg-gradient-to-r from-yellow-400 to-yellow-300 bg-clip-text text-transparent"> Sektoren</span>
+                <span className="bg-gradient-to-r from-gray-400 to-gray-300 bg-clip-text text-transparent"> Sektoren</span>
               </h2>
               <p className="text-gray-400">
                 Wie die Super-Investoren ihr Kapital auf verschiedene Wirtschaftssektoren verteilen
@@ -911,12 +992,12 @@ export default function MarketInsightsPage() {
                 >
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-bold text-white">{sector.sector}</h3>
-                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-400 text-sm">Gesamt-Wert:</span>
-                      <span className="text-yellow-400 font-semibold">
+                      <span className="text-gray-300 font-semibold">
                         {formatCurrencyGerman(sector.value)}
                       </span>
                     </div>
@@ -930,16 +1011,16 @@ export default function MarketInsightsPage() {
             </div>
           </section>
 
-          {/* Konsensus vs. Contrarian */}
+          {/* Konsensus vs. Contrarian - CLEANER */}
           <section>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-full text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-600/10 border border-gray-600/20 text-gray-400 rounded-full text-sm font-medium mb-6">
                 <EyeIcon className="w-4 h-4" />
                 Investment-Strategie
               </div>
               <h2 className="text-3xl font-bold text-white mb-4">
                 Konsensus vs.
-                <span className="bg-gradient-to-r from-cyan-400 to-cyan-300 bg-clip-text text-transparent"> Contrarian</span>
+                <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Contrarian</span>
               </h2>
               <p className="text-gray-400">
                 Aktien mit breitem Konsensus vs. unentdeckte Gems nur weniger Investoren
@@ -950,8 +1031,8 @@ export default function MarketInsightsPage() {
               
               <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
-                    <StarIcon className="w-5 h-5 text-green-400" />
+                  <div className="w-10 h-10 bg-gray-600/20 rounded-xl flex items-center justify-center">
+                    <StarIcon className="w-5 h-5 text-gray-400" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">Konsensus Picks</h3>
@@ -969,7 +1050,7 @@ export default function MarketInsightsPage() {
                           <p className="text-gray-500 text-xs">{nameMap[item.ticker]}</p>
                         </div>
                       </div>
-                      <span className="text-green-400 text-sm font-semibold">
+                      <span className="text-gray-300 text-sm font-semibold">
                         {item.count} Investoren
                       </span>
                     </div>
@@ -979,8 +1060,8 @@ export default function MarketInsightsPage() {
 
               <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-cyan-500/20 rounded-xl flex items-center justify-center">
-                    <BoltIcon className="w-5 h-5 text-cyan-400" />
+                  <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+                    <BoltIcon className="w-5 h-5 text-green-400" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">Contrarian Picks</h3>
@@ -998,7 +1079,7 @@ export default function MarketInsightsPage() {
                           <p className="text-gray-500 text-xs">{nameMap[item.ticker]}</p>
                         </div>
                       </div>
-                      <span className="text-cyan-400 text-sm font-semibold">
+                      <span className="text-green-400 text-sm font-semibold">
                         {item.count} Investoren
                       </span>
                     </div>
@@ -1008,16 +1089,16 @@ export default function MarketInsightsPage() {
             </div>
           </section>
 
-          {/* Geographic Exposure - MIT DEUTSCHER WÄHRUNG */}
+          {/* Geographic Exposure - CLEANER */}
           <section>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-600/10 border border-gray-600/20 text-gray-400 rounded-full text-sm font-medium mb-6">
                 <GlobeAltIcon className="w-4 h-4" />
                 Geographic Exposure
               </div>
               <h2 className="text-3xl font-bold text-white mb-4">
                 Globale
-                <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent"> Diversifikation</span>
+                <span className="bg-gradient-to-r from-gray-400 to-gray-300 bg-clip-text text-transparent"> Diversifikation</span>
               </h2>
               <p className="text-gray-400">
                 Verteilung zwischen US-amerikanischen und internationalen Investments
@@ -1040,17 +1121,17 @@ export default function MarketInsightsPage() {
                         <path
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                           fill="none"
-                          stroke="#3b82f6"
+                          stroke="#6b7280"
                           strokeWidth="3"
                           strokeDasharray={`${usPercentage}, 100`}
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl font-bold text-blue-400">{usPercentage.toFixed(0)}%</span>
+                        <span className="text-2xl font-bold text-gray-400">{usPercentage.toFixed(0)}%</span>
                       </div>
                     </div>
                     <h3 className="text-lg font-bold text-white mb-2">🇺🇸 US-Märkte</h3>
-                    <p className="text-blue-400 font-semibold">
+                    <p className="text-gray-400 font-semibold">
                       {formatCurrencyGerman(usValue)}
                     </p>
                   </div>

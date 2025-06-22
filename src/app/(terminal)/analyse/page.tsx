@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
   ClockIcon, 
   ArrowTrendingUpIcon, 
@@ -12,51 +13,88 @@ import {
   ArrowTrendingDownIcon,
   XMarkIcon,
   ArrowRightIcon,
-  FireIcon,
-  EyeIcon,
-  CalendarIcon,
-  NewspaperIcon
+  BookmarkIcon,
+  MapIcon,
+  CalendarIcon
 } from '@heroicons/react/24/outline'
 
-// Clean Search Component (only improved search, rest stays same)
-function CleanSearchTickerInput({ 
+// ===== TYPES =====
+type Quote = {
+  price: number
+  changePct: number
+  perf1M?: number | null
+  perfYTD?: number | null
+  source?: string
+  quality?: 'HIGH' | 'MEDIUM' | 'LOW'
+}
+
+// ===== SMART LOGO COMPONENT =====
+function StockLogo({ ticker, className = "w-8 h-8" }: { ticker: string; className?: string }) {
+  const [logoError, setLogoError] = useState(false)
+  
+  const HAS_LOGO = new Set([
+    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX', 
+    'ADBE', 'CRM', 'ORCL', 'INTC', 'SAP', 'ASML'
+  ])
+  
+  const logoUrl = `/logos/${ticker.toLowerCase()}.png`
+  const shouldUseLogo = HAS_LOGO.has(ticker.toUpperCase()) && !logoError
+  
+  if (shouldUseLogo) {
+    return (
+      <div className={`${className} bg-white rounded-lg overflow-hidden flex items-center justify-center`}>
+        <Image
+          src={logoUrl}
+          alt={`${ticker} Logo`}
+          width={32}
+          height={32}
+          className="object-contain p-1"
+          onError={() => setLogoError(true)}
+        />
+      </div>
+    )
+  }
+  
+  return (
+    <div className={`${className} bg-theme-tertiary rounded-lg flex items-center justify-center group-hover:bg-green-500/20 transition-colors`}>
+      <span className="text-theme-primary font-bold text-sm">{ticker[0]}</span>
+    </div>
+  )
+}
+
+// ===== TERMINAL SEARCH COMPONENT =====
+function TerminalSearchInput({ 
   placeholder, 
-  onSelect, 
-  className 
+  onSelect 
 }: { 
   placeholder: string
   onSelect: (ticker: string) => void
-  className?: string 
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [filteredStocks, setFilteredStocks] = useState<any[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Mock popular stocks for search suggestions
-  const POPULAR_STOCKS = [
-    { ticker: 'AAPL', name: 'Apple Inc.', price: 185.25, change: 2.15 },
-    { ticker: 'MSFT', name: 'Microsoft Corp.', price: 377.40, change: 0.89 },
-    { ticker: 'GOOGL', name: 'Alphabet Inc.', price: 166.64, change: 3.85 },
-    { ticker: 'AMZN', name: 'Amazon.com Inc.', price: 209.88, change: -1.23 },
-    { ticker: 'TSLA', name: 'Tesla Inc.', price: 242.18, change: -2.45 },
-    { ticker: 'NVDA', name: 'NVIDIA Corp.', price: 142.95, change: 4.12 },
-    { ticker: 'META', name: 'Meta Platforms', price: 532.35, change: -0.78 },
-    { ticker: 'NFLX', name: 'Netflix Inc.', price: 691.41, change: 1.67 },
-    { ticker: 'SAP', name: 'SAP SE', price: 178.20, change: 1.25 }
+  const STOCKS_DATA = [
+    { ticker: 'AAPL', name: 'Apple Inc.', market: 'NASDAQ' },
+    { ticker: 'MSFT', name: 'Microsoft Corp.', market: 'NASDAQ' },
+    { ticker: 'GOOGL', name: 'Alphabet Inc.', market: 'NASDAQ' },
+    { ticker: 'AMZN', name: 'Amazon.com Inc.', market: 'NASDAQ' },
+    { ticker: 'TSLA', name: 'Tesla Inc.', market: 'NASDAQ' },
+    { ticker: 'NVDA', name: 'NVIDIA Corp.', market: 'NASDAQ' },
+    { ticker: 'META', name: 'Meta Platforms', market: 'NASDAQ' },
+    { ticker: 'SAP', name: 'SAP SE', market: 'XETRA' }
   ]
-
-  const RECENT_SEARCHES = ['AAPL', 'TSLA', 'NVDA', 'SAP']
 
   useEffect(() => {
     if (query) {
-      const filtered = POPULAR_STOCKS.filter(stock => 
+      const filtered = STOCKS_DATA.filter(stock => 
         stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
         stock.name.toLowerCase().includes(query.toLowerCase())
       )
       setFilteredStocks(filtered)
     } else {
-      setFilteredStocks(POPULAR_STOCKS.slice(0, 6))
+      setFilteredStocks(STOCKS_DATA.slice(0, 6))
     }
   }, [query])
 
@@ -77,15 +115,10 @@ function CleanSearchTickerInput({
 
   return (
     <div className="relative">
-      {/* Clean Search Input */}
-      <div className="relative group">
-        {/* Subtle glow effect */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-green-500/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-500"></div>
-        
-        {/* Search Container */}
-        <div className={`relative bg-theme-card/80 backdrop-blur-sm border border-theme rounded-2xl group-hover:border-purple-500/30 group-focus-within:border-green-500/50 group-focus-within:shadow-lg group-focus-within:shadow-green-500/5 transition-all duration-300 ${className}`}>
-          <div className="flex items-center px-8 py-6">
-            <MagnifyingGlassIcon className="w-7 h-7 text-theme-muted group-focus-within:text-green-400 transition-colors mr-6 flex-shrink-0" />
+      <div className="relative">
+        <div className="bg-theme-secondary border border-theme rounded-lg hover:border-green-500/50 focus-within:border-green-500 focus-within:ring-2 focus-within:ring-green-500/20 transition-all duration-200">
+          <div className="flex items-center px-4 py-3">
+            <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted mr-3 flex-shrink-0" />
             
             <input
               ref={inputRef}
@@ -95,67 +128,41 @@ function CleanSearchTickerInput({
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsOpen(true)}
               onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted text-xl focus:outline-none"
+              className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted text-sm focus:outline-none"
             />
             
-            {/* Command Hint */}
-            <div className="hidden md:flex items-center gap-3 text-theme-muted text-sm ml-4">
-              <kbd className="px-3 py-1.5 bg-theme-secondary border border-theme rounded-lg text-xs font-mono">⌘K</kbd>
-              <span>Erweiterte Suche</span>
+            <div className="hidden md:flex items-center gap-2 text-theme-muted text-xs ml-3">
+              <kbd className="px-2 py-1 bg-theme-tertiary border border-theme rounded text-xs">⌘K</kbd>
             </div>
 
-            {/* Clear Button */}
             {query && (
               <button
                 onClick={() => {
                   setQuery('')
                   inputRef.current?.focus()
                 }}
-                className="ml-3 p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-secondary rounded-lg transition-colors"
+                className="ml-2 p-1 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary rounded transition-colors"
               >
-                <XMarkIcon className="w-5 h-5" />
+                <XMarkIcon className="w-4 h-4" />
               </button>
             )}
           </div>
         </div>
       </div>
 
-      {/* Clean Search Overlay */}
       {isOpen && (
         <>
           <div 
             className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute top-full left-0 right-0 mt-3 bg-theme-card/95 backdrop-blur-xl border border-theme rounded-2xl shadow-2xl z-50 max-h-[500px] overflow-hidden">
+          <div className="absolute top-full left-0 right-0 mt-2 bg-theme-card border border-theme rounded-lg shadow-xl z-50 max-h-96 overflow-hidden">
             
-            {/* Recent Searches */}
-            {!query && (
-              <div className="p-6 border-b border-theme">
-                <div className="flex items-center gap-2 mb-4">
-                  <ClockIcon className="w-4 h-4 text-theme-muted" />
-                  <h3 className="text-sm font-medium text-theme-muted">Zuletzt gesucht</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {RECENT_SEARCHES.map((ticker) => (
-                    <button
-                      key={ticker}
-                      onClick={() => handleSelect(ticker)}
-                      className="px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary border border-theme rounded-lg text-theme-primary text-sm font-medium transition-colors"
-                    >
-                      {ticker}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Search Results */}
             <div className="max-h-80 overflow-y-auto">
               {filteredStocks.length > 0 ? (
-                <div className="p-3">
+                <div className="p-2">
                   {query && (
-                    <div className="px-3 py-2 text-xs text-theme-muted font-medium mb-2">
+                    <div className="px-3 py-2 text-xs text-theme-muted font-medium">
                       {filteredStocks.length} Ergebnis{filteredStocks.length !== 1 ? 'se' : ''} für "{query}"
                     </div>
                   )}
@@ -164,46 +171,34 @@ function CleanSearchTickerInput({
                       <button
                         key={stock.ticker}
                         onClick={() => handleSelect(stock.ticker)}
-                        className="w-full flex items-center gap-4 p-4 hover:bg-theme-secondary rounded-xl transition-all duration-200 text-left group"
+                        className="w-full flex items-center gap-3 p-3 hover:bg-theme-secondary rounded-lg transition-all duration-200 text-left group"
                       >
-                        {/* Logo Placeholder */}
-                        <div className="w-12 h-12 bg-theme-tertiary rounded-xl flex items-center justify-center group-hover:bg-theme-tertiary/70 transition-colors">
-                          <span className="text-theme-primary font-bold text-sm">{stock.ticker[0]}</span>
-                        </div>
+                        <StockLogo ticker={stock.ticker} className="w-10 h-10" />
                         
-                        {/* Stock Info */}
                         <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-1">
-                            <span className="text-theme-primary font-bold text-lg">{stock.ticker}</span>
-                            <span className="text-theme-muted text-sm">{stock.name}</span>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-theme-primary font-semibold text-sm">{stock.ticker}</span>
+                            <span className="text-xs px-1.5 py-0.5 bg-theme-tertiary text-theme-muted rounded">{stock.market}</span>
                           </div>
-                          <div className="flex items-center gap-3 text-xs text-theme-muted">
-                            <span>${stock.price.toFixed(2)}</span>
-                            <span className={stock.change >= 0 ? 'text-green-400' : 'text-red-400'}>
-                              {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)}%
-                            </span>
-                          </div>
+                          <div className="text-xs text-theme-muted truncate">{stock.name}</div>
                         </div>
                         
-                        {/* Arrow */}
-                        <ArrowRightIcon className="w-5 h-5 text-theme-muted group-hover:text-green-400 group-hover:translate-x-1 transition-all duration-200" />
+                        <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 group-hover:translate-x-1 transition-all duration-200" />
                       </button>
                     ))}
                   </div>
                 </div>
               ) : (
-                <div className="p-12 text-center text-theme-muted">
-                  <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-4 opacity-30" />
-                  <p>Keine Ergebnisse für "{query}"</p>
-                  <p className="text-sm mt-1">Versuche es mit einem Ticker-Symbol wie AAPL oder Tesla</p>
+                <div className="p-8 text-center text-theme-muted">
+                  <MagnifyingGlassIcon className="w-8 h-8 mx-auto mb-3 opacity-30" />
+                  <p className="text-sm">Keine Ergebnisse für "{query}"</p>
                 </div>
               )}
             </div>
             
-            {/* Footer */}
-            <div className="p-4 border-t border-theme bg-theme-secondary/30">
+            <div className="p-3 border-t border-theme bg-theme-secondary/50">
               <div className="flex items-center justify-between text-xs text-theme-muted">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <kbd className="px-1.5 py-0.5 bg-theme-tertiary border border-theme rounded text-xs">↵</kbd>
                     <span>Auswählen</span>
@@ -213,9 +208,6 @@ function CleanSearchTickerInput({
                     <span>Schließen</span>
                   </div>
                 </div>
-                <span className="flex items-center gap-1">
-                  Powered by FinClue
-                </span>
               </div>
             </div>
           </div>
@@ -225,35 +217,133 @@ function CleanSearchTickerInput({
   )
 }
 
-// Quick Market Stats Component (same as before)
-function MarketOverview() {
+// ===== MARKET OVERVIEW =====
+function ProfessionalMarketOverview() {
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const getMarketStatus = (timezone: string, openHour: number, closeHour: number) => {
+    const now = new Date()
+    const marketTime = new Date(now.toLocaleString("en-US", { timeZone: timezone }))
+    const day = marketTime.getDay()
+    const hour = marketTime.getHours()
+    const minute = marketTime.getMinutes()
+    const currentMinutes = hour * 60 + minute
+    
+    if (day === 0 || day === 6) {
+      return { status: 'CLOSED', reason: 'Weekend' }
+    }
+    
+    const marketOpenMinutes = openHour * 60
+    const marketCloseMinutes = closeHour * 60
+    
+    if (currentMinutes >= marketOpenMinutes && currentMinutes < marketCloseMinutes) {
+      return { status: 'OPEN', reason: '' }
+    } else {
+      return { status: 'CLOSED', reason: 'After Hours' }
+    }
+  }
+
   const marketData = [
-    { name: 'S&P 500', value: '5,968.34', change: '+0.85%', positive: true },
-    { name: 'NASDAQ', value: '19,447.41', change: '+1.25%', positive: true },
-    { name: 'DAX', value: '8,774.65', change: '-0.32%', positive: false },
-    { name: 'Dow Jones', value: '42,208.61', change: '+0.68%', positive: true }
+    { 
+      name: 'S&P 500', 
+      flag: '🇺🇸',
+      value: '5,968.34', 
+      change: '+0.85%', 
+      positive: true, 
+      volume: '4.2B',
+      ...getMarketStatus("America/New_York", 9.5, 16)
+    },
+    { 
+      name: 'NASDAQ', 
+      flag: '🇺🇸',
+      value: '19,447.41', 
+      change: '+1.25%', 
+      positive: true, 
+      volume: '5.1B',
+      ...getMarketStatus("America/New_York", 9.5, 16)
+    },
+    { 
+      name: 'DAX', 
+      flag: '🇩🇪',
+      value: '8,774.65', 
+      change: '-0.32%', 
+      positive: false, 
+      volume: '2.8B',
+      ...getMarketStatus("Europe/Berlin", 9, 17.5)
+    },
+    { 
+      name: 'Dow Jones', 
+      flag: '🇺🇸',
+      value: '42,208.61', 
+      change: '+0.68%', 
+      positive: true, 
+      volume: '320M',
+      ...getMarketStatus("America/New_York", 9.5, 16)
+    }
   ]
 
   return (
-    <div className="mb-16">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-          <ChartBarIcon className="w-5 h-5 text-blue-400" />
+    <div className="mb-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-4 h-4 text-blue-400" />
+          </div>
+          <div>
+            <h2 className="text-lg font-semibold text-theme-primary">Marktübersicht</h2>
+            <p className="text-theme-muted text-xs">
+              Live-Kurse • 
+              Deutschland: {currentTime.toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' })} • 
+              USA: {currentTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' })} EST
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-2xl font-bold text-theme-primary">Marktübersicht</h2>
-          <p className="text-theme-secondary text-sm">Aktuelle Indizes in Echtzeit</p>
+        
+        <div className="flex items-center gap-2 text-xs text-theme-muted">
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span>Live</span>
         </div>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {marketData.map((market) => (
-          <div key={market.name} className="bg-theme-card/70 border border-theme rounded-xl p-4 backdrop-blur-sm">
-            <div className="text-center">
-              <h3 className="text-theme-primary font-semibold text-sm mb-2">{market.name}</h3>
-              <div className="text-lg font-bold text-theme-primary mb-1">{market.value}</div>
-              <div className={`text-sm font-medium ${market.positive ? 'text-green-400' : 'text-red-400'}`}>
-                {market.change}
+          <div key={market.name} className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 transition-colors">
+            
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{market.flag}</span>
+                <h3 className="text-theme-primary font-medium text-sm">{market.name}</h3>
+              </div>
+              <div className={`text-xs px-2 py-1 rounded-full ${
+                market.status === 'OPEN' 
+                  ? 'bg-green-500/20 text-green-400' 
+                  : 'bg-gray-500/20 text-gray-400'
+              }`}>
+                {market.status}
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="text-lg font-bold text-theme-primary">{market.value}</div>
+              <div className="flex items-center justify-between">
+                <div className={`flex items-center gap-1 text-sm font-medium ${
+                  market.positive ? 'text-green-400' : 'text-red-400'
+                }`}>
+                  {market.positive ? (
+                    <ArrowTrendingUpIcon className="w-3 h-3" />
+                  ) : (
+                    <ArrowTrendingDownIcon className="w-3 h-3" />
+                  )}
+                  <span>{market.change}</span>
+                </div>
+                <div className="text-xs text-theme-muted">Vol: {market.volume}</div>
               </div>
             </div>
           </div>
@@ -263,166 +353,229 @@ function MarketOverview() {
   )
 }
 
-// — Hilfsfunktionen — (gleich wie vorher)
-async function fetchQuote(ticker: string) {
-  try {
-    const res = await fetch(
-      `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-    )
-    if (!res.ok) throw new Error('Quote fetch failed')
-    const [data] = await res.json()
-    return {
-      price: data.price as number,
-      changePct: parseFloat(data.changesPercentage as string),
-    }
-  } catch {
-    return null
-  }
+// ===== STOCK GRID =====
+function ProfessionalStockGrid({ 
+  quotes, 
+  loading, 
+  onSelect 
+}: { 
+  quotes: Record<string, Quote>
+  loading: boolean
+  onSelect: (ticker: string) => void 
+}) {
+  const POPULAR_STOCKS = [
+    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
+    'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
+  ]
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+      {POPULAR_STOCKS.map((ticker) => {
+        const quote = quotes[ticker.toLowerCase()]
+        const isLoading = loading && !quote
+
+        return (
+          <button
+            key={ticker}
+            onClick={() => onSelect(ticker)}
+            className="group text-left"
+          >
+            <div className="bg-theme-secondary border border-theme rounded-lg p-3 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 hover:scale-[1.02]">
+              
+              <div className="flex items-center justify-between mb-3">
+                <StockLogo ticker={ticker} className="w-8 h-8" />
+                {quote && (
+                  <div className="flex items-center gap-1">
+                    <div className={`w-2 h-2 rounded-full ${
+                      quote.quality === 'HIGH' ? 'bg-green-400' : 'bg-yellow-400'
+                    }`} title={`Data from ${quote.source}`}></div>
+                    <div className={`w-2 h-2 rounded-full ${
+                      quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
+                    }`}></div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mb-3">
+                <h3 className="text-sm font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                  {ticker}
+                </h3>
+              </div>
+                            
+              {isLoading ? (
+                <div className="space-y-2">
+                  <div className="h-5 bg-theme-tertiary/50 rounded animate-pulse"></div>
+                  <div className="h-4 bg-theme-tertiary/50 rounded w-2/3 animate-pulse"></div>
+                </div>
+              ) : quote ? (
+                <div className="space-y-2">
+                  <div className="text-sm font-bold text-theme-primary">
+                    ${quote.price.toFixed(2)}
+                  </div>
+                  
+                  <div className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded ${
+                    quote.changePct >= 0
+                      ? 'text-green-400 bg-green-500/20'
+                      : 'text-red-400 bg-red-500/20'
+                  }`}>
+                    {quote.changePct >= 0 ? (
+                      <ArrowTrendingUpIcon className="w-3 h-3" />
+                    ) : (
+                      <ArrowTrendingDownIcon className="w-3 h-3" />
+                    )}
+                    <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
+              )}
+
+              {quote && (
+                <div className="mt-3 pt-3 border-t border-theme/50 space-y-1">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-theme-muted">1M:</span>
+                    {quote.perf1M !== null && quote.perf1M !== undefined ? (
+                      <span className={`font-medium ${
+                        quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {quote.perf1M >= 0 ? '+' : ''}{quote.perf1M.toFixed(1)}%
+                      </span>
+                    ) : (
+                      <span className="text-theme-muted">–</span>
+                    )}
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-theme-muted">YTD:</span>
+                    {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
+                      <span className={`font-medium ${
+                        quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {quote.perfYTD >= 0 ? '+' : ''}{quote.perfYTD.toFixed(1)}%
+                      </span>
+                    ) : (
+                      <span className="text-theme-muted">–</span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </button>
+        )
+      })}
+    </div>
+  )
 }
 
-async function fetchHistorical(ticker: string): Promise<Array<{ date: string; close: number }> | null> {
-  try {
-    const res = await fetch(
-      `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-    )
-    if (!res.ok) throw new Error('History fetch failed')
-    const json = await res.json()
-    return (json.historical as any[])
-      .map(h => ({ date: h.date as string, close: h.close as number }))
-      .reverse()
-  } catch {
-    return null
-  }
-}
-
-function pctChange(newVal: number, oldVal: number) {
-  return ((newVal - oldVal) / oldVal) * 100
-}
-
-type Quote = {
-  price: number
-  changePct: number
-  perf1M?: number
-  perfYTD?: number
-}
-
-// ✨ ERWEITERT: 12 statt 8 Aktien
-const POPULAR_STOCKS = [
-  'aapl', 'msft', 'googl', 'amzn', 'tsla', 'nvda', 'meta', 'nflx',
-  'adbe', 'crm', 'orcl', 'intc' // 4 neue hinzugefügt
-]
-
-export default function AnalyseDashboard() {
+// ===== MAIN DASHBOARD COMPONENT =====
+export default function DashboardWithAPIRoute() {
   const router = useRouter()
   const [lastTicker, setLastTicker] = useState<string | null>(null)
   const [quotes, setQuotes] = useState<Record<string, Quote>>({})
   const [loading, setLoading] = useState(false)
+  const [dataSourceInfo, setDataSourceInfo] = useState<Record<string, string>>({})
 
-  // Last ticker aus localStorage
+  const POPULAR_STOCKS = [
+    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
+    'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
+  ]
+
+  // Last ticker from localStorage
   useEffect(() => {
-    const stored = localStorage.getItem('lastTicker')
-    if (stored) setLastTicker(stored.toUpperCase())
-  }, [])
-
-  // Quotes laden
-  useEffect(() => {
-    setLoading(true)
-        
-    const loadQuotes = async () => {
-      const promises = POPULAR_STOCKS.map(async (ticker) => {
-        try {
-          const quote = await fetchQuote(ticker)
-          if (!quote) return null
-
-          const hist = await fetchHistorical(ticker)
-          if (!hist) return { ticker, quote }
-
-          const now = new Date()
-          const oneMonthAgo = new Date(now)
-          oneMonthAgo.setMonth(now.getMonth() - 1)
-          const h1m = hist.find(h => new Date(h.date) >= oneMonthAgo)?.close
-          const startY = hist.find(h => h.date.startsWith(now.getFullYear().toString()))?.close
-
-          const perf1M = h1m != null ? pctChange(quote.price, h1m) : undefined
-          const perfYTD = startY != null ? pctChange(quote.price, startY) : undefined
-
-          return {
-            ticker,
-            quote: { ...quote, perf1M, perfYTD }
-          }
-        } catch {
-          return null
-        }
-      })
-
-      const results = await Promise.all(promises)
-      const newQuotes: Record<string, Quote> = {}
-            
-      results.forEach(result => {
-        if (result) {
-          newQuotes[result.ticker] = result.quote
-        }
-      })
-
-      setQuotes(newQuotes)
-      setLoading(false)
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('lastTicker')
+      if (stored) setLastTicker(stored.toUpperCase())
     }
-
-    loadQuotes()
   }, [])
 
-  // Aktie auswählen und weiterleitung
+  // ✅ LOAD QUOTES VIA API ROUTE
+  useEffect(() => {
+    async function loadQuotesFromAPI() {
+      console.log('🚀 Loading quotes from Dashboard API...')
+      setLoading(true)
+      
+      try {
+        const tickers = POPULAR_STOCKS.join(',')
+        const response = await fetch(`/api/dashboard-quotes?tickers=${tickers}`)
+        
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`)
+        }
+        
+        const data = await response.json()
+        
+        if (data.quotes) {
+          setQuotes(data.quotes)
+          
+          // Data source info für debugging
+          const sourceInfo: Record<string, string> = {}
+          Object.keys(data.quotes).forEach(ticker => {
+            sourceInfo[ticker] = data.quotes[ticker].source || 'Unknown'
+          })
+          setDataSourceInfo(sourceInfo)
+          
+          console.log(`📊 Loaded ${Object.keys(data.quotes).length} quotes successfully`)
+          
+          // Debug Sample
+          Object.entries(data.quotes).slice(0, 3).forEach(([ticker, quote]: [string, any]) => {
+            console.log(`  ${ticker.toUpperCase()}: $${quote.price.toFixed(2)} | 1M: ${quote.perf1M?.toFixed(2)}% | YTD: ${quote.perfYTD?.toFixed(2)}%`)
+          })
+          
+          if (data.errors) {
+            console.warn('⚠️ Some quotes failed:', data.errors)
+          }
+        }
+        
+      } catch (error: any) {
+        console.error('Failed to load quotes from API:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    loadQuotesFromAPI()
+  }, [])
+
   const handleTickerSelect = (ticker: string) => {
-    localStorage.setItem('lastTicker', ticker.toUpperCase())
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lastTicker', ticker.toUpperCase())
+    }
     router.push(`/analyse/stocks/${ticker.toLowerCase()}`)
   }
 
   return (
-    <div className="min-h-screen bg-theme noise-bg">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-theme noise-bg pt-24 pb-16">
-        {/* Background Effects */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-green-500/8 via-theme to-theme"></div>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/4 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-blue-500/3 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm mb-6">
-              <ChartBarIcon className="w-4 h-4" />
-              Professionelle Investment-Analyse
+    <div className="min-h-screen bg-theme-primary">
+      {/* Professional Header */}
+      <div className="bg-theme-primary border-b border-theme py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-theme-primary">Dashboard</h1>
+              <p className="text-theme-secondary text-sm">
+                Server-Side Performance-Daten • FMP API
+              </p>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-theme-primary tracking-tight leading-tight">
-              Aktien-Dashboard
-            </h1>
-            
-            <p className="text-xl text-theme-secondary max-w-2xl mx-auto leading-relaxed">
-              Analysiere deine Lieblingsaktien mit professionellen Tools, gestützt durch eigene KI – und 
-              inspiriert von den Portfolios der besten Investoren der Welt.
-            </p>
+       
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
         {/* Market Overview */}
-        <MarketOverview />
+        <ProfessionalMarketOverview />
         
         {/* Recently Analyzed */}
         {lastTicker && (
-          <div className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <ClockIcon className="w-5 h-5 text-blue-400" />
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-4 h-4 text-blue-400" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-theme-primary">Zuletzt analysiert</h2>
-                <p className="text-theme-secondary text-sm">Setze deine Analyse fort</p>
+                <h2 className="text-lg font-semibold text-theme-primary">Zuletzt analysiert</h2>
+                <p className="text-theme-muted text-xs">Setze deine Analyse fort</p>
               </div>
             </div>
                         
@@ -430,211 +583,153 @@ export default function AnalyseDashboard() {
               href={`/analyse/stocks/${lastTicker.toLowerCase()}`}
               className="group block"
             >
-              <div className="bg-theme-card/80 border border-theme rounded-2xl p-6 backdrop-blur-sm hover:bg-theme-card hover:border-border-hover transition-all duration-200 hover:scale-[1.02]">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 bg-theme-secondary/50 rounded-full flex items-center justify-center">
-                    <span className="text-theme-primary font-bold text-xl">{lastTicker[0]}</span>
-                  </div>
+              <div className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200">
+                <div className="flex items-center gap-4">
+                  <StockLogo ticker={lastTicker} className="w-12 h-12" />
                   
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-theme-primary group-hover:text-green-400 transition-colors duration-200 mb-1">
+                    <h3 className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors">
                       {lastTicker}
                     </h3>
-                    <p className="text-theme-secondary group-hover:text-theme-primary transition-colors">
-                      Zur detaillierten Analyse →
+                    <p className="text-theme-muted text-sm">
+                      Zur detaillierten Analyse
                     </p>
                   </div>
                   
-                  <div className="text-green-400 group-hover:translate-x-1 transition-transform duration-200">
-                    <ArrowTrendingUpIcon className="w-6 h-6" />
-                  </div>
+                  <ArrowRightIcon className="w-5 h-5 text-theme-muted group-hover:text-green-400 group-hover:translate-x-1 transition-all duration-200" />
                 </div>
               </div>
             </Link>
           </div>
         )}
 
-        {/* Enhanced Search Section */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-              <MagnifyingGlassIcon className="w-5 h-5 text-purple-400" />
+        {/* Search */}
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+              <MagnifyingGlassIcon className="w-4 h-4 text-purple-400" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-theme-primary">Aktie suchen</h2>
-              <p className="text-theme-secondary text-sm">Finde und analysiere jede Aktie weltweit</p>
+              <h2 className="text-lg font-semibold text-theme-primary">Aktie suchen</h2>
+              <p className="text-theme-muted text-xs">Analysiere jede Aktie weltweit</p>
             </div>
           </div>
           
-          {/* Clean search container */}
-          <div className="max-w-4xl mx-auto">
-            <CleanSearchTickerInput
-              placeholder="Nach Unternehmen oder Ticker suchen (AAPL, Tesla, SAP...)"
-              onSelect={handleTickerSelect}
-            />
-          </div>
-          
-          {/* Trending hint */}
-          <div className="max-w-4xl mx-auto mt-4">
-            <div className="flex items-center justify-center gap-2 text-theme-muted text-sm">
-              <FireIcon className="w-4 h-4" />
-              <span>Trending heute: NVDA (+4.2%), TSLA (-2.1%), AAPL (+1.8%)</span>
-            </div>
-          </div>
+          <TerminalSearchInput
+            placeholder="Ticker oder Unternehmen suchen (AAPL, Tesla, SAP...)"
+            onSelect={handleTickerSelect}
+          />
         </div>
 
-        {/* Popular Stocks - KOMPAKTER GRID mit 12 Aktien */}
-        <div className="mb-16">
-          <div className="flex items-center justify-between mb-8">
+        {/* Popular Stocks */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-theme-primary">Beliebte Aktien</h2>
-                <p className="text-theme-secondary text-sm">Marktführer und Wachstumswerte • 12 Top-Unternehmen</p>
+                <h2 className="text-lg font-semibold text-theme-primary">Beliebte Aktien</h2>
+                <p className="text-theme-muted text-xs">
+                  Server-Side API • Sichere API Keys • Korrekte Performance-Daten
+                </p>
               </div>
             </div>
             
             {loading && (
-              <div className="flex items-center gap-3 text-sm text-theme-secondary">
-                <div className="w-4 h-4 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
-                Lade Kursdaten...
+              <div className="flex items-center gap-2 text-xs text-theme-muted">
+                <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
+                Lade von API...
               </div>
             )}
           </div>
 
-          {/* ✨ KOMPAKTERES GRID: 3 auf Desktop, 2 auf Tablet, 1 auf Mobile */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
-            {POPULAR_STOCKS.map((ticker) => {
-              const quote = quotes[ticker]
-              const isLoading = loading && !quote
+          <ProfessionalStockGrid 
+            quotes={quotes}
+            loading={loading}
+            onSelect={handleTickerSelect}
+          />
 
-              return (
-                <button
-                  key={ticker}
-                  onClick={() => handleTickerSelect(ticker)}
-                  className="group text-left"
-                >
-                  {/* KOMPAKTE Card */}
-                  <div className="bg-theme-card/70 border border-theme rounded-xl p-4 backdrop-blur-sm hover:bg-theme-card hover:border-border-hover transition-all duration-200 hover:scale-[1.02] cursor-pointer">
-                    
-                    {/* Company Logo - KLEINER */}
-                    <div className="flex justify-center mb-4">
-                      <div className="w-12 h-12 bg-theme-secondary/50 rounded-lg flex items-center justify-center group-hover:bg-theme-tertiary/50 transition-colors duration-200">
-                        <span className="text-theme-primary font-bold text-sm">{ticker[0].toUpperCase()}</span>
-                      </div>
-                    </div>
-
-                    {/* Ticker Symbol - KOMPAKTER */}
-                    <div className="text-center mb-4">
-                      <h3 className="text-lg font-bold text-theme-primary mb-2 group-hover:text-green-400 transition-colors">
-                        {ticker.toUpperCase()}
-                      </h3>
-                                        
-                      {/* Current Price - KOMPAKTER */}
-                      {isLoading ? (
-                        <div className="space-y-2">
-                          <div className="h-6 bg-theme-secondary/50 rounded-lg animate-pulse"></div>
-                          <div className="h-5 bg-theme-secondary/50 rounded-lg animate-pulse w-2/3 mx-auto"></div>
-                        </div>
-                      ) : quote ? (
-                        <div className="space-y-2">
-                          <p className="text-lg font-bold text-theme-primary">
-                            {quote.price.toLocaleString('de-DE', {
-                              style: 'currency',
-                              currency: 'USD',
-                            })}
-                          </p>
-                          
-                          <div className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full ${
-                            quote.changePct >= 0
-                              ? 'text-green-400 bg-green-500/20 border border-green-500/30'
-                              : 'text-red-400 bg-red-500/20 border border-red-500/30'
-                          }`}>
-                            {quote.changePct >= 0 ? (
-                              <ArrowTrendingUpIcon className="w-3 h-3" />
-                            ) : (
-                              <ArrowTrendingDownIcon className="w-3 h-3" />
-                            )}
-                            <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="text-theme-muted text-lg">–</div>
-                      )}
-                    </div>
-
-                    {/* Performance Metrics - KOMPAKTER */}
-                    {quote && (
-                      <div className="space-y-2 pt-3 border-t border-theme/50">
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-theme-secondary font-medium">1M:</span>
-                          <span className={`font-semibold ${
-                            quote.perf1M && quote.perf1M >= 0
-                              ? 'text-green-400'
-                              : 'text-red-400'
-                          }`}>
-                            {quote.perf1M != null
-                              ? `${quote.perf1M >= 0 ? '+' : ''}${quote.perf1M.toFixed(1)}%`
-                              : '–'}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-theme-secondary font-medium">YTD:</span>
-                          <span className={`font-semibold ${
-                            quote.perfYTD && quote.perfYTD >= 0
-                              ? 'text-green-400'
-                              : 'text-red-400'
-                          }`}>
-                            {quote.perfYTD != null
-                              ? `${quote.perfYTD >= 0 ? '+' : ''}${quote.perfYTD.toFixed(1)}%`
-                              : '–'}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Info Text */}
           <div className="mt-6 text-center">
             <p className="text-sm text-theme-muted">
-              Alle Kurse in Echtzeit • Klicke auf eine Aktie für die detaillierte Analyse
+              YTD basiert auf letztem Handelstag des Vorjahres • 
+              1M basiert auf ~21 Handelstagen
             </p>
           </div>
         </div>
 
-        {/* Premium CTA */}
+        {/* Quick Actions */}
         <div>
-          <div className="bg-theme-card/80 border border-theme rounded-3xl p-12 backdrop-blur-sm text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
-              <SparklesIcon className="w-10 h-10 text-green-400" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center">
+              <SparklesIcon className="w-4 h-4 text-orange-400" />
             </div>
-            
-            <h3 className="text-3xl font-bold text-theme-primary mb-4">
-              Professionelle Aktienanalyse
-            </h3>
-            
-            <p className="text-theme-secondary mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
-              Nutze erweiterte Charts, Fundamentaldaten, Dividenden-Tracking und 
-              KI-gestützte Analysen für bessere Investment-Entscheidungen.
-            </p>
-                        
+            <div>
+              <h2 className="text-lg font-semibold text-theme-primary">Schnellzugriff</h2>
+              <p className="text-theme-muted text-xs">Häufig verwendete Features</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25"
+              href="/analyse/watchlist"
+              className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 group"
             >
-              <SparklesIcon className="w-5 h-5" />
-              Premium Features entdecken
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
+                  <BookmarkIcon className="w-4 h-4 text-blue-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-theme-primary">Watchlist</h3>
+                  <p className="text-xs text-theme-muted">Gespeicherte Aktien</p>
+                </div>
+              </div>
             </Link>
             
-            <div className="mt-6 text-sm text-theme-muted">
-              Erste 14 Tage kostenlos • Dann 9€/Monat • Jederzeit kündbar
-            </div>
+            <Link
+              href="/analyse/heatmap"
+              className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors">
+                  <MapIcon className="w-4 h-4 text-red-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-theme-primary">Heatmap</h3>
+                  <p className="text-xs text-theme-muted">Markt-Übersicht</p>
+                </div>
+              </div>
+            </Link>
+            
+            <Link
+              href="/analyse/earnings"
+              className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
+                  <CalendarIcon className="w-4 h-4 text-green-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-theme-primary">Earnings</h3>
+                  <p className="text-xs text-theme-muted">Termine</p>
+                </div>
+              </div>
+            </Link>
+            
+            <Link
+              href="/analyse/ai"
+              className="bg-theme-secondary border border-theme rounded-lg p-4 hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
+                  <SparklesIcon className="w-4 h-4 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-theme-primary">FinClue AI</h3>
+                  <p className="text-xs text-theme-muted">KI-Analyse</p>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

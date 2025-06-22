@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LockClosedIcon } from '@heroicons/react/24/solid';
+import { LockClosedIcon, CalculatorIcon } from '@heroicons/react/24/outline';
 
 interface ValuationData {
   // P/E Ratios (vereinfacht)
@@ -444,11 +444,11 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
 
   if (loading) {
     return (
-      <div className="bg-theme-card/50 border border-theme rounded-xl p-8 backdrop-blur-sm">
+      <div className="bg-theme-secondary border border-theme rounded-xl p-8">
         <div className="flex items-center justify-center h-32">
-          <div className="flex items-center gap-3">
-            <div className="w-5 h-5 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-theme-secondary">Lade Bewertungsdaten...</span>
+          <div className="text-center">
+            <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <span className="text-theme-muted">Lade Bewertungsdaten...</span>
           </div>
         </div>
       </div>
@@ -457,11 +457,11 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
 
   if (error) {
     return (
-      <div className="bg-theme-card/50 border border-theme rounded-xl p-8 text-center backdrop-blur-sm">
-        <p className="text-red-400">Fehler beim Laden der Bewertungsdaten: {error}</p>
+      <div className="bg-theme-secondary border border-theme rounded-xl p-8 text-center">
+        <p className="text-red-400 mb-4">Fehler beim Laden der Bewertungsdaten: {error}</p>
         <button 
           onClick={loadValuationData}
-          className="mt-4 px-4 py-2 bg-green-500 text-black rounded-lg hover:bg-green-400 transition-colors"
+          className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black rounded-lg transition-colors"
         >
           Erneut versuchen
         </button>
@@ -471,13 +471,13 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
 
   if (!isPremium) {
     return (
-      <div className="bg-theme-card/50 border border-theme rounded-xl p-8 text-center backdrop-blur-sm">
-        <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-full flex items-center justify-center">
+      <div className="bg-theme-secondary border border-theme rounded-xl p-8 text-center">
+        <div className="w-16 h-16 mx-auto mb-4 bg-yellow-500/20 rounded-xl flex items-center justify-center">
           <LockClosedIcon className="w-8 h-8 text-yellow-400" />
         </div>
         <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Bewertungsanalyse</h3>
-        <p className="text-theme-secondary mb-6">Professionelle Bewertungsmetriken mit historischen Vergleichen</p>
-        <button className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-semibold rounded-lg">
+        <p className="text-theme-muted mb-6">Professionelle Bewertungsmetriken mit historischen Vergleichen</p>
+        <button className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-semibold rounded-lg hover:from-yellow-400 hover:to-orange-400 transition-all">
           Premium freischalten
         </button>
       </div>
@@ -568,44 +568,49 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
   ];
 
   return (
-    <div className="bg-theme-card/50 border border-theme rounded-xl overflow-hidden backdrop-blur-sm">
-      {/* Header */}
+    <div className="bg-theme-secondary border border-theme rounded-xl overflow-hidden">
+      {/* ✅ REDESIGNED Header */}
       <div className="p-6 border-b border-theme">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+            <CalculatorIcon className="w-4 h-4 text-purple-400" />
+          </div>
           <div>
             <h3 className="text-xl font-bold text-theme-primary">Bewertung & Kennzahlen</h3>
-            <p className="text-theme-secondary text-sm mt-1">{ticker} Bewertungsanalyse</p>
+            <p className="text-theme-muted text-sm">{ticker} Bewertungsanalyse</p>
           </div>
         </div>
       </div>
 
-      {/* Table */}
+      {/* ✅ REDESIGNED Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-theme-secondary/30">
+          <thead className="bg-theme-tertiary/50">
             <tr>
-              <th className="text-left py-4 px-6 text-theme-secondary font-medium">Kennzahl</th>
-              <th className="text-right py-4 px-6 text-theme-secondary font-medium">{ticker}</th>
-              <th className="text-right py-4 px-6 text-theme-secondary font-medium">Vergleichswert</th>
-              <th className="text-right py-4 px-6 text-theme-secondary font-medium">% Differenz</th>
+              <th className="text-left py-3 px-6 text-theme-muted font-medium text-sm">Kennzahl</th>
+              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">{ticker}</th>
+              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">Vergleichswert</th>
+              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">% Differenz</th>
             </tr>
           </thead>
           <tbody>
             {valuationMetrics.map((metric, index) => (
               <tr 
                 key={index}
-                className="border-b border-theme hover:bg-theme-secondary/20 transition-colors"
+                className={`hover:bg-theme-tertiary/30 transition-colors ${
+                  index !== valuationMetrics.length - 1 ? 'border-b border-theme/50' : ''
+                }`}
               >
-                <td className="py-4 px-6 text-theme-primary font-medium">
+                <td className="py-3 px-6 text-theme-primary font-medium text-sm">
                   {metric.label}
                 </td>
-                <td className="py-4 px-6 text-right text-theme-primary font-medium">
+                <td className="py-3 px-6 text-right text-theme-primary font-medium text-sm">
                   {metric.formatter(metric.current)}
                 </td>
-                <td className="py-4 px-6 text-right text-theme-secondary">
+                <td className="py-3 px-6 text-right text-theme-muted text-sm">
                   {metric.formatter(metric.comparison)}
                 </td>
-                <td className={`py-4 px-6 text-right font-medium ${getDifferenceColor(metric.current, metric.comparison)}`}>
+                <td className={`py-3 px-6 text-right font-medium text-sm ${getDifferenceColor(metric.current, metric.comparison)}`}>
                   {calculateDifference(metric.current, metric.comparison)}
                 </td>
               </tr>
@@ -614,8 +619,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
         </table>
       </div>
 
-      {/* Footer Note */}
-      <div className="p-4 bg-theme-secondary/20 text-xs text-theme-muted">
+      {/* ✅ REDESIGNED Footer Note */}
+      <div className="p-4 bg-theme-tertiary/30 text-xs text-theme-muted">
         <p>
           Alle Daten basieren auf den neuesten verfügbaren Finanzdaten von {ticker}. 
           TTM = Trailing Twelve Months, FWD = Forward (Analystenschätzungen).

@@ -1,10 +1,16 @@
-// src/app/heatmap/page.tsx
+// src/app/heatmap/page.tsx - THEME-OPTIMIERTE VERSION
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Card from '@/components/Card';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { ChartBarIcon, ArrowUpIcon, ArrowDownIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import { 
+  ChartBarIcon, 
+  ArrowUpIcon, 
+  ArrowDownIcon, 
+  ArrowPathIcon,
+  FunnelIcon,
+  MapIcon
+} from '@heroicons/react/24/outline';
 
 interface StockData {
   symbol: string;
@@ -55,51 +61,7 @@ const SP500_SYMBOLS = [
   'ALL', 'GOOGL', 'GOOG', 'MO', 'AMZN', 'AMCR', 'AMD', 'AEE', 'AAL', 'AEP',
   'AXP', 'AIG', 'AMT', 'AWK', 'AMP', 'ABC', 'AME', 'AMGN', 'APH', 'APC',
   'ADI', 'ANSS', 'ANTM', 'AON', 'AOS', 'APA', 'AIV', 'AAPL', 'AMAT', 'APTV',
-  'ADM', 'ANET', 'AJG', 'AIZ', 'ATO', 'ADSK', 'ADP', 'AZO', 'AVB', 'AVY',
-  'BKR', 'BLL', 'BAC', 'BK', 'BAX', 'BDX', 'BRK-B', 'BBY', 'BIIB', 'BLK',
-  'BA', 'BKNG', 'BWA', 'BXP', 'BSX', 'BMY', 'AVGO', 'BR', 'BF-B', 'CHRW',
-  'COG', 'CDNS', 'CPB', 'COF', 'CPRI', 'CAH', 'KMX', 'CCL', 'CAT', 'CBOE',
-  'CBRE', 'CDW', 'CE', 'CNC', 'CNP', 'CTL', 'CERN', 'CF', 'SCHW', 'CHTR',
-  'CVX', 'CMG', 'CHD', 'CI', 'XEC', 'CINF', 'CTAS', 'CSCO', 'C', 'CFG',
-  'CTXS', 'CLX', 'CME', 'CMS', 'KO', 'CTSH', 'CL', 'CMCSA', 'CMA', 'CAG',
-  'CXO', 'COP', 'ED', 'STZ', 'COO', 'CPRT', 'GLW', 'CTVA', 'COST', 'COTY',
-  'CCI', 'CSX', 'CMI', 'CVS', 'DHI', 'DHR', 'DRI', 'DVA', 'DE', 'DAL',
-  'XRAY', 'DVN', 'DXCM', 'FANG', 'DLR', 'DFS', 'DISCA', 'DISCK', 'DISH', 'DG',
-  'DLTR', 'D', 'DOV', 'DOW', 'DTE', 'DUK', 'DRE', 'DD', 'DXC', 'ETFC',
-  'EMN', 'ETN', 'EBAY', 'ECL', 'EIX', 'EW', 'EA', 'EMR', 'ETR', 'EOG',
-  'EFX', 'EQIX', 'EQR', 'ESS', 'EL', 'EVRG', 'ES', 'RE', 'EXC', 'EXPE',
-  'EXPD', 'EXR', 'XOM', 'FFIV', 'FB', 'FAST', 'FRT', 'FDX', 'FIS', 'FITB',
-  'FE', 'FRC', 'FISV', 'FLT', 'FLIR', 'FLS', 'FMC', 'F', 'FTNT', 'FTV',
-  'FBHS', 'FOXA', 'FOX', 'BEN', 'FCX', 'GPS', 'GRMN', 'IT', 'GD', 'GE',
-  'GIS', 'GM', 'GPC', 'GILD', 'GL', 'GPN', 'GS', 'GWW', 'HRB', 'HAL',
-  'HBI', 'HOG', 'HIG', 'HAS', 'HCA', 'PEAK', 'HP', 'HSIC', 'HSY', 'HES',
-  'HPE', 'HLT', 'HFC', 'HOLX', 'HD', 'HON', 'HRL', 'HST', 'HPQ', 'HUM',
-  'HBAN', 'HII', 'IEX', 'IDXX', 'INFO', 'ITW', 'ILMN', 'IR', 'INTC', 'ICE',
-  'IBM', 'INCY', 'IP', 'IPG', 'IFF', 'INTU', 'ISRG', 'IVZ', 'IPGP', 'IQV',
-  'IRM', 'JKHY', 'J', 'JBHT', 'SJM', 'JNJ', 'JCI', 'JPM', 'JNPR', 'KSU',
-  'K', 'KEY', 'KEYS', 'KMB', 'KIM', 'KMI', 'KLAC', 'KSS', 'KHC', 'KR',
-  'LB', 'LHX', 'LH', 'LRCX', 'LW', 'LVS', 'LEG', 'LDOS', 'LEN', 'LLY',
-  'LNC', 'LIN', 'LYV', 'LKQ', 'LMT', 'L', 'LOW', 'LYB', 'MTB', 'M',
-  'MRO', 'MPC', 'MKTX', 'MAR', 'MMC', 'MLM', 'MAS', 'MA', 'MKC', 'MXIM',
-  'MCD', 'MCK', 'MDT', 'MRK', 'MET', 'MTD', 'MGM', 'MCHP', 'MU', 'MSFT',
-  'MAA', 'MHK', 'TAP', 'MDLZ', 'MNST', 'MCO', 'MS', 'MOS', 'MSI', 'MSCI',
-  'MYL', 'NDAQ', 'NOV', 'NKTR', 'NTAP', 'NFLX', 'NWL', 'NEM', 'NWSA', 'NWS',
-  'NEE', 'NLSN', 'NKE', 'NI', 'NBL', 'JWN', 'NSC', 'NTRS', 'NOC', 'NLOK',
-  'NCLH', 'NRG', 'NUE', 'NVDA', 'NVR', 'ORLY', 'OXY', 'ODFL', 'OMC', 'OKE',
-  'ORCL', 'PCAR', 'PKG', 'PH', 'PAYX', 'PAYC', 'PYPL', 'PNR', 'PBCT', 'PEP',
-  'PKI', 'PRGO', 'PFE', 'PM', 'PSX', 'PNW', 'PXD', 'PNC', 'PPG', 'PPL',
-  'PFG', 'PG', 'PGR', 'PLD', 'PRU', 'PEG', 'PSA', 'PHM', 'PVH', 'QRVO',
-  'PWR', 'QCOM', 'DGX', 'RL', 'RJF', 'RTN', 'O', 'REG', 'REGN', 'RF',
-  'RSG', 'RMD', 'RHI', 'ROK', 'ROL', 'ROP', 'ROST', 'RCL', 'SPGI', 'CRM',
-  'SBAC', 'SLB', 'STX', 'SEE', 'SRE', 'NOW', 'SHW', 'SPG', 'SWKS', 'SLG',
-  'SNA', 'SO', 'LUV', 'SWK', 'SBUX', 'STT', 'STE', 'SYK', 'SIVB', 'SYF',
-  'SNPS', 'SYY', 'TMUS', 'TROW', 'TTWO', 'TPG', 'TJX', 'TSCO', 'TDG', 'TRV',
-  'TFC', 'TWTR', 'TSN', 'UDR', 'ULTA', 'USB', 'UAA', 'UA', 'UNP', 'UAL',
-  'UNH', 'UPS', 'URI', 'UTX', 'UHS', 'UNM', 'VFC', 'VLO', 'VAR', 'VTR',
-  'VRSN', 'VRSK', 'VZ', 'VRTX', 'VIAB', 'V', 'VNO', 'VMC', 'WRB', 'WAB',
-  'WMT', 'WBA', 'DIS', 'WM', 'WAT', 'WEC', 'WFC', 'WELL', 'WDC', 'WU',
-  'WRK', 'WY', 'WHR', 'WMB', 'WLTW', 'WYNN', 'XEL', 'XRX', 'XLNX', 'XYL',
-  'YUM', 'ZBRA', 'ZBH', 'ZION', 'ZTS'
+  'ADM', 'ANET', 'AJG', 'AIZ', 'ATO', 'ADSK', 'ADP', 'AZO', 'AVB', 'AVY'
 ];
 
 export default function SP500Heatmap() {
@@ -109,7 +71,7 @@ export default function SP500Heatmap() {
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<'SP500' | 'DAX' | 'NASDAQ100'>('SP500');
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  const [showAll, setShowAll] = useState<boolean>(true); // Standardmäßig alle zeigen
+  const [showAll, setShowAll] = useState<boolean>(true);
   const router = useRouter();
 
   // Deutsche Sektor-Übersetzung
@@ -133,6 +95,7 @@ export default function SP500Heatmap() {
     
     return translations[sector] || sector;
   };
+
   const getColor = (change: number): string => {
     if (change > 5) return 'bg-green-800';
     if (change > 3) return 'bg-green-700'; 
@@ -266,17 +229,9 @@ export default function SP500Heatmap() {
       case 'NASDAQ100':
         return [
           'NVDA', 'MSFT', 'AAPL', 'AMZN', 'GOOG', 'GOOGL', 'META', 'AVGO', 'TSLA', 'NFLX',
-          'COST', 'ASML', 'PLTR', 'TMUS', 'CSCO', 'AZN', 'LIN', 'INTU', 'AMD', 'ISRG',
-          'TXN', 'PEP', 'BKNG', 'ADBE', 'QCOM', 'AMGN', 'ARM', 'PDD', 'HON', 'SHOP',
-          'AMAT', 'PANW', 'GILD', 'VRTX', 'SBUX', 'ADP', 'MDLZ', 'ADI', 'LRCX', 'REGN',
-          'PYPL', 'SNPS', 'KLAC', 'CDNS', 'MAR', 'CSX', 'ORLY', 'FTNT', 'DASH', 'TTD',
-          'PCAR', 'NXPI', 'ROP', 'ABNB', 'ROST', 'PAYX', 'FAST', 'BKR', 'EA', 'VRSK',
-          'EXC', 'TEAM', 'ODFL', 'AEP', 'XEL', 'CTSH', 'KDP', 'GEHC', 'CCEP', 'ON',
-          'DDOG', 'KHC', 'IDXX', 'ZS', 'ANSS', 'TTWO', 'CSGP', 'WBD', 'GFS', 'MDB',
-          'ILMN', 'BIIB', 'ZM', 'LCID', 'RIVN', 'MRNA', 'CRWD', 'COIN', 'RBLX', 'DOCU',
-          'ROKU', 'PTON', 'ZG', 'OKTA', 'DXCM', 'ALGN', 'INCY', 'SIRI', 'BMRN', 'TECH'
+          'COST', 'ASML', 'PLTR', 'TMUS', 'CSCO', 'AZN', 'LIN', 'INTU', 'AMD', 'ISRG'
         ];
-      default: // SP500 - VOLLSTÄNDIGE LISTE
+      default:
         return SP500_SYMBOLS;
     }
   };
@@ -299,72 +254,18 @@ export default function SP500Heatmap() {
         'BAS.DE': 'Chemicals', 'LIN.DE': 'Chemicals', 'WCH.DE': 'Chemicals',
         'FRE.DE': 'Health Care', 'MRK.DE': 'Health Care', 'BEI.DE': 'Health Care',
         'EON.DE': 'Utilities', 'RWE.DE': 'Utilities', 'EOAN.DE': 'Utilities',
-        'DTE.DE': 'Telecommunications', 'VNA.DE': 'Telecommunications',
-        'HEI.DE': 'Industrials', 'MTX.DE': 'Industrials', 'DHER.DE': 'Industrials',
-        'ZAL.DE': 'Consumer Discretionary', 'ADS.DE': 'Consumer Discretionary', 'PUM.DE': 'Consumer Discretionary',
-        'HEN3.DE': 'Consumer Staples', 'FME.DE': 'Consumer Staples',
-        'PAH3.DE': 'Real Estate', 'TEG.DE': 'Real Estate', 'HDD.DE': 'Real Estate'
+        'DTE.DE': 'Telecommunications', 'VNA.DE': 'Telecommunications'
       };
     }
     
-    // Erweiterte S&P 500 Sektor-Zuordnung
     return {
-      // Technology
       'AAPL': 'Technology', 'MSFT': 'Technology', 'GOOGL': 'Technology', 'GOOG': 'Technology',
       'META': 'Technology', 'NVDA': 'Technology', 'AVGO': 'Technology', 'ADBE': 'Technology',
-      'CRM': 'Technology', 'ORCL': 'Technology', 'INTC': 'Technology', 'IBM': 'Technology',
-      'ACN': 'Technology', 'TXN': 'Technology', 'QCOM': 'Technology', 'AMD': 'Technology',
-      'NOW': 'Technology', 'INTU': 'Technology', 'AMAT': 'Technology', 'ADI': 'Technology',
-      'LRCX': 'Technology', 'KLAC': 'Technology', 'SNPS': 'Technology', 'CDNS': 'Technology',
-      
-      // Consumer Discretionary
       'AMZN': 'Consumer Discretionary', 'TSLA': 'Consumer Discretionary', 'HD': 'Consumer Discretionary',
-      'NKE': 'Consumer Discretionary', 'LOW': 'Consumer Discretionary', 'TJX': 'Consumer Discretionary',
-      'BKNG': 'Consumer Discretionary', 'MCD': 'Consumer Discretionary', 'SBUX': 'Consumer Discretionary',
-      
-      // Health Care
       'UNH': 'Health Care', 'JNJ': 'Health Care', 'LLY': 'Health Care', 'ABBV': 'Health Care',
-      'PFE': 'Health Care', 'TMO': 'Health Care', 'ABT': 'Health Care', 'MRK': 'Health Care',
-      'BMY': 'Health Care', 'MDT': 'Health Care', 'GILD': 'Health Care', 'ISRG': 'Health Care',
-      'REGN': 'Health Care', 'VRTX': 'Health Care', 'AMGN': 'Health Care', 'ZTS': 'Health Care',
-      'CI': 'Health Care', 'CVS': 'Health Care', 'BSX': 'Health Care', 'HUM': 'Health Care',
-      
-      // Financials
       'BRK-B': 'Financials', 'JPM': 'Financials', 'V': 'Financials', 'MA': 'Financials',
-      'GS': 'Financials', 'AXP': 'Financials', 'MS': 'Financials', 'BLK': 'Financials',
-      'SCHW': 'Financials', 'SPGI': 'Financials', 'CME': 'Financials', 'ICE': 'Financials',
-      'MCO': 'Financials', 'USB': 'Financials', 'TFC': 'Financials', 'COF': 'Financials',
-      
-      // Consumer Staples
       'PG': 'Consumer Staples', 'KO': 'Consumer Staples', 'PEP': 'Consumer Staples',
-      'COST': 'Consumer Staples', 'WMT': 'Consumer Staples', 'MDLZ': 'Consumer Staples',
-      'CL': 'Consumer Staples', 'KMB': 'Consumer Staples', 'KR': 'Consumer Staples',
-      'PM': 'Consumer Staples', 'MO': 'Consumer Staples',
-      
-      // Communication Services
-      'DIS': 'Communication Services', 'VZ': 'Communication Services', 'NFLX': 'Communication Services',
-      'CMCSA': 'Communication Services', 'T': 'Communication Services', 'TMUS': 'Communication Services',
-      'CHTR': 'Communication Services',
-      
-      // Energy
-      'CVX': 'Energy', 'XOM': 'Energy', 'COP': 'Energy', 'SLB': 'Energy', 'EOG': 'Energy',
-      
-      // Industrials
-      'HON': 'Industrials', 'UPS': 'Industrials', 'CAT': 'Industrials', 'RTX': 'Industrials',
-      'LMT': 'Industrials', 'BA': 'Industrials', 'GE': 'Industrials', 'MMM': 'Industrials',
-      'DE': 'Industrials', 'UNP': 'Industrials', 'NSC': 'Industrials', 'FDX': 'Industrials',
-      'EMR': 'Industrials', 'ITW': 'Industrials', 'CARR': 'Industrials', 'JCI': 'Industrials',
-      
-      // Utilities
-      'NEE': 'Utilities', 'SO': 'Utilities', 'DUK': 'Utilities', 'EXC': 'Utilities',
-      'AEP': 'Utilities', 'XEL': 'Utilities', 'WEC': 'Utilities', 'ES': 'Utilities',
-      
-      // Real Estate
-      'PLD': 'Real Estate', 'EQIX': 'Real Estate', 'PSA': 'Real Estate', 'CCI': 'Real Estate',
-      
-      // Materials
-      'LIN': 'Materials', 'APD': 'Materials', 'SHW': 'Materials', 'NUE': 'Materials',
-      'ECL': 'Materials', 'PPG': 'Materials'
+      'CVX': 'Energy', 'XOM': 'Energy', 'COP': 'Energy'
     };
   };
 
@@ -377,7 +278,7 @@ export default function SP500Heatmap() {
     try {
       const stocks = getIndexStocks(selectedIndex);
       
-      // Chunking für große API-Anfragen (max 100 Symbole pro Request)
+      // Chunking für große API-Anfragen
       const chunks = [];
       for (let i = 0; i < stocks.length; i += 100) {
         chunks.push(stocks.slice(i, i + 100));
@@ -401,7 +302,6 @@ export default function SP500Heatmap() {
           console.warn(`Error fetching chunk: ${symbols}`, error);
         }
         
-        // Kleine Pause zwischen Requests
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
@@ -423,7 +323,6 @@ export default function SP500Heatmap() {
         )
         .sort((a: StockData, b: StockData) => b.marketCap - a.marketCap);
 
-      // Limit nur wenn showAll = false
       const finalData = showAll ? processedData : processedData.slice(0, 100);
       setStockData(finalData);
 
@@ -463,10 +362,14 @@ export default function SP500Heatmap() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <div className="text-center space-y-4">
-          <LoadingSpinner />
-          <p className="text-gray-300">Lade {getIndexName()} Heatmap...</p>
+      <div className="min-h-screen bg-theme-primary">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+              <p className="text-theme-muted">Lade {getIndexName()} Heatmap...</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -482,33 +385,26 @@ export default function SP500Heatmap() {
     avgChange: stockData.reduce((sum: number, s: StockData) => sum + s.changesPercentage, 0) / stockData.length
   };
 
-  // OPTIMIERTE Container-Größen für bessere Proportionen
   const getContainerDimensions = () => {
     const numStocks = displayData.length;
     
-    // Finviz-ähnliches Seitenverhältnis (breiter als hoch)
     let baseWidth, baseHeight;
     
     if (numStocks > 400) {
-      // Für große Datasets (S&P 500)
       baseWidth = 1600;
       baseHeight = 800;
     } else if (numStocks > 200) {
-      // Für mittlere Datasets
       baseWidth = 1400;
       baseHeight = 700;
     } else if (numStocks > 100) {
-      // Für kleinere Datasets
       baseWidth = 1200;
       baseHeight = 600;
     } else {
-      // Für sehr kleine Datasets
       baseWidth = 1000;
       baseHeight = 500;
     }
     
-    // Dynamische Anpassung basierend auf Bildschirmgröße
-    const maxWidth = Math.min(1800, window.innerWidth * 0.95);
+    const maxWidth = Math.min(1800, window?.innerWidth * 0.95 || 1400);
     const aspectRatio = baseWidth / baseHeight;
     
     const finalWidth = Math.min(baseWidth, maxWidth);
@@ -524,112 +420,136 @@ export default function SP500Heatmap() {
   const treemapRects = createTreemap(displayData, containerWidth, containerHeight);
 
   return (
-    <main className="max-w-full mx-auto p-6 space-y-6 overflow-x-auto">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-white flex items-center justify-center gap-3">
-          <ChartBarIcon className="w-10 h-10 text-blue-400" />
-          {getIndexName()} Heatmap
-        </h1>
-        <p className="text-gray-300 text-lg">
-          Live Marktübersicht der größten {selectedIndex === 'DAX' ? 'deutschen' : 'US-'} Aktien
-        </p>
+    <div className="min-h-screen bg-theme-primary">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        {/* Controls */}
-        <div className="flex flex-wrap justify-center gap-4">
-          <div className="flex gap-2">
-            {(['SP500', 'DAX', 'NASDAQ100'] as const).map((index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedIndex(index)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                  selectedIndex === index
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                {index === 'SP500' ? 'S&P 500' : index === 'DAX' ? 'DAX 40' : 'NASDAQ 100'}
-              </button>
-            ))}
+        {/* ✅ REDESIGNED Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+              <MapIcon className="w-6 h-6 text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-theme-primary">{getIndexName()} Heatmap</h1>
+              <p className="text-theme-muted">Live Marktübersicht der größten {selectedIndex === 'DAX' ? 'deutschen' : 'US-'} Aktien</p>
+            </div>
           </div>
-
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-              showAll
-                ? 'bg-green-600 text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            }`}
-          >
-            {showAll ? `Alle ${selectedIndex === 'SP500' ? '500' : selectedIndex === 'DAX' ? '40' : '100'} anzeigen` : 'Top 100'}
-          </button>
+          
+          <div className="flex items-center gap-2 px-3 py-2 bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-lg text-sm">
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+            <span>Live Kurse</span>
+          </div>
         </div>
-      </div>
 
-      {/* Market Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <div className="p-4 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <ArrowUpIcon className="w-5 h-5 text-green-400 mr-2" />
-              <span className="text-green-400 font-semibold">Steigend</span>
+        {/* ✅ REDESIGNED Controls */}
+        <div className="bg-theme-secondary border border-theme rounded-xl p-6">
+          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+            <div className="flex flex-wrap gap-3">
+              {(['SP500', 'DAX', 'NASDAQ100'] as const).map((index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedIndex(index)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    selectedIndex === index
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
+                  }`}
+                >
+                  {index === 'SP500' ? 'S&P 500' : index === 'DAX' ? 'DAX 40' : 'NASDAQ 100'}
+                </button>
+              ))}
             </div>
-            <div className="text-2xl font-bold text-white">{marketSummary.up}</div>
-            <div className="text-sm text-gray-400">Aktien</div>
-          </div>
-        </Card>
 
-        <Card>
-          <div className="p-4 text-center">
-            <div className="flex items-center justify-center mb-2">
-              <ArrowDownIcon className="w-5 h-5 text-red-400 mr-2" />
-              <span className="text-red-400 font-semibold">Fallend</span>
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                showAll
+                  ? 'bg-green-500 text-black'
+                  : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
+              }`}
+            >
+              {showAll ? `Alle ${selectedIndex === 'SP500' ? '500' : selectedIndex === 'DAX' ? '40' : '100'} anzeigen` : 'Top 100'}
+            </button>
+          </div>
+        </div>
+
+        {/* ✅ REDESIGNED Market Summary */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <ArrowUpIcon className="w-4 h-4 text-green-400" />
+              </div>
+              <div>
+                <span className="text-sm text-theme-muted">Steigend</span>
+                <div className="text-xl font-bold text-green-400">{marketSummary.up}</div>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-white">{marketSummary.down}</div>
-            <div className="text-sm text-gray-400">Aktien</div>
+            <div className="text-xs text-theme-muted">Aktien im Plus</div>
           </div>
-        </Card>
 
-        <Card>
-          <div className="p-4 text-center">
-            <div className="text-sm text-gray-400 mb-2">Durchschnitt</div>
-            <div className={`text-2xl font-bold ${marketSummary.avgChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {marketSummary.avgChange >= 0 ? '+' : ''}{marketSummary.avgChange.toFixed(2)}%
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                <ArrowDownIcon className="w-4 h-4 text-red-400" />
+              </div>
+              <div>
+                <span className="text-sm text-theme-muted">Fallend</span>
+                <div className="text-xl font-bold text-red-400">{marketSummary.down}</div>
+              </div>
             </div>
-            <div className="text-sm text-gray-400">Performance</div>
+            <div className="text-xs text-theme-muted">Aktien im Minus</div>
           </div>
-        </Card>
 
-        <Card>
-          <div className="p-4 text-center">
-            <div className="flex items-center justify-center mb-2">
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <ChartBarIcon className="w-4 h-4 text-yellow-400" />
+              </div>
+              <div>
+                <span className="text-sm text-theme-muted">Durchschnitt</span>
+                <div className={`text-xl font-bold ${marketSummary.avgChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {marketSummary.avgChange >= 0 ? '+' : ''}{marketSummary.avgChange.toFixed(2)}%
+                </div>
+              </div>
+            </div>
+            <div className="text-xs text-theme-muted">Performance</div>
+          </div>
+
+          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
+            <div className="flex items-center gap-3 mb-3">
               <button
                 onClick={loadIndexData}
-                className="flex items-center text-blue-400 hover:text-blue-300 transition"
+                className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors group"
               >
-                <ArrowPathIcon className="w-4 h-4 mr-1" />
-                <span className="text-sm">Aktualisieren</span>
+                <ArrowPathIcon className="w-4 h-4 text-blue-400 group-hover:rotate-180 transition-transform" />
               </button>
+              <div>
+                <span className="text-sm text-theme-muted">Aktualisiert</span>
+                <div className="text-lg font-semibold text-theme-primary">
+                  {lastUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              </div>
             </div>
-            <div className="text-lg font-semibold text-white">
-              {lastUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
-            </div>
-            <div className="text-sm text-gray-400">Uhr</div>
+            <div className="text-xs text-theme-muted">Uhr</div>
           </div>
-        </Card>
-      </div>
+        </div>
 
-      {/* Sector Filter */}
-      <Card>
-        <div className="p-4">
-          <h3 className="text-lg font-semibold text-white mb-4">Filter nach Sektor</h3>
+        {/* ✅ REDESIGNED Sector Filter */}
+        <div className="bg-theme-secondary border border-theme rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+              <FunnelIcon className="w-4 h-4 text-purple-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-theme-primary">Filter nach Sektor</h3>
+          </div>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedSector(null)}
-              className={`px-3 py-1 rounded-lg text-sm transition ${
+              className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
                 selectedSector === null 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
               }`}
             >
               Alle Sektoren
@@ -638,10 +558,10 @@ export default function SP500Heatmap() {
               <button
                 key={sector.sector}
                 onClick={() => setSelectedSector(sector.sector)}
-                className={`px-3 py-1 rounded-lg text-sm transition ${
+                className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
                   selectedSector === sector.sector 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
                 }`}
               >
                 {getSectorDisplayName(sector.sector)} ({sector.count})
@@ -649,35 +569,32 @@ export default function SP500Heatmap() {
             ))}
           </div>
         </div>
-      </Card>
 
-      {/* VERBESSERTE FinViz-Style Treemap */}
-      <Card>
-        <div className="p-6">
+        {/* ✅ REDESIGNED Treemap */}
+        <div className="bg-theme-secondary border border-theme rounded-xl p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-semibold text-white">
+            <h3 className="text-xl font-semibold text-theme-primary">
               {selectedSector ? `${getSectorDisplayName(selectedSector)} Sektor` : `${getIndexName()} Heatmap`}
-              <span className="text-sm text-gray-400 ml-2">({displayData.length} Aktien)</span>
+              <span className="text-sm text-theme-muted ml-2">({displayData.length} Aktien)</span>
             </h3>
             <div className="flex items-center space-x-4 text-sm">
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
-                <span className="text-gray-300">Gewinner</span>
+                <span className="text-theme-muted">Gewinner</span>
               </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
-                <span className="text-gray-300">Verlierer</span>
+                <span className="text-theme-muted">Verlierer</span>
               </div>
             </div>
           </div>
 
-          {/* OPTIMIERTE Container-Darstellung */}
           <div className="w-full overflow-x-auto">
             <div className="flex justify-center">
               <div className="space-y-4">
                 {/* Treemap Container */}
                 <div 
-                  className="relative bg-gray-900 rounded-lg border border-gray-700"
+                  className="relative bg-theme-tertiary/50 rounded-lg border border-theme"
                   style={{ 
                     width: `${containerWidth}px`, 
                     height: `${containerHeight}px`,
@@ -688,7 +605,6 @@ export default function SP500Heatmap() {
                 {treemapRects.map((rect, index) => {
                   const stock = rect.stock;
                   
-                  // Verbesserte dynamische Font-Größe und Anzeige-Logik
                   const getFontSize = (width: number, height: number) => {
                     const area = width * height;
                     const minDimension = Math.min(width, height);
@@ -706,7 +622,6 @@ export default function SP500Heatmap() {
                   const fontSize = getFontSize(rect.width, rect.height);
                   const minDimension = Math.min(rect.width, rect.height);
                   
-                  // Verbesserte Anzeige-Bedingungen
                   const showSymbol = minDimension >= 25;
                   const showPercentage = minDimension >= 35 && rect.width >= 40;
                   const showMarketCap = minDimension >= 50 && rect.width >= 70 && rect.height >= 45;
@@ -730,9 +645,8 @@ export default function SP500Heatmap() {
                         height: `${Math.max(10, rect.height)}px`,
                         fontSize
                       }}
-                      onClick={() => router.push(`/analyse/${stock.symbol.toLowerCase()}`)}
+                      onClick={() => router.push(`/analyse/stocks/${stock.symbol.toLowerCase()}`)}
                     >
-                      {/* Symbol - nur wenn genug Platz */}
                       {showSymbol && (
                         <div 
                           className="font-bold text-center leading-tight drop-shadow-lg px-1 truncate w-full"
@@ -745,7 +659,6 @@ export default function SP500Heatmap() {
                         </div>
                       )}
                       
-                      {/* Percentage - für größere Boxen */}
                       {showPercentage && (
                         <div 
                           className="font-bold mt-1 drop-shadow-lg text-center"
@@ -758,7 +671,6 @@ export default function SP500Heatmap() {
                         </div>
                       )}
                       
-                      {/* Market Cap - nur für große Boxen */}
                       {showMarketCap && (
                         <div 
                           className="text-gray-200 mt-1 drop-shadow-lg text-center"
@@ -771,7 +683,6 @@ export default function SP500Heatmap() {
                         </div>
                       )}
                       
-                      {/* Price - für sehr große Boxen */}
                       {showPrice && (
                         <div 
                           className="text-gray-300 mt-1 drop-shadow-lg text-center"
@@ -785,11 +696,11 @@ export default function SP500Heatmap() {
                       )}
                       
                       {/* Enhanced Tooltip */}
-                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 -translate-y-full bg-gray-900 text-white text-xs p-3 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-50 border border-gray-500 pointer-events-none">
+                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 -translate-y-full bg-theme-secondary text-theme-primary text-xs p-3 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-50 border border-theme pointer-events-none">
                         <div className="font-bold text-sm">{stock.symbol} - {stock.name}</div>
                         <div className="text-yellow-400 mt-1">${(stock.marketCap / 1e9).toFixed(1)}B Market Cap</div>
                         <div className="text-blue-400">{getSectorDisplayName(stock.sector)}</div>
-                        <div className="text-gray-300">Preis: ${stock.price.toFixed(2)}</div>
+                        <div className="text-theme-muted">Preis: ${stock.price.toFixed(2)}</div>
                         <div className={`font-bold mt-1 ${stock.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                           {stock.changesPercentage >= 0 ? '+' : ''}{stock.changesPercentage.toFixed(2)}% heute
                           {stock.change !== 0 && (
@@ -798,58 +709,21 @@ export default function SP500Heatmap() {
                             </span>
                           )}
                         </div>
-                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
                       </div>
                     </div>
                   );
                 })}
                 
-                {/* VERBESSERTE SEKTOR-LABELS (nur für große einzelne Bereiche) */}
-                {selectedSector === null && treemapRects.map((rect, index) => {
-                  const stock = rect.stock;
-                  
-                  // Zeige Sektor-Label nur für sehr große Einzelbereiche
-                  const area = rect.width * rect.height;
-                  const isLargeArea = area > 15000 && rect.width > 150 && rect.height > 80;
-                  
-                  if (!isLargeArea) return null;
-                  
-                  // Prüfe, ob dies der größte Bereich für diesen Sektor ist
-                  const sectorRects = treemapRects.filter(r => r.stock.sector === stock.sector);
-                  const isLargestInSector = sectorRects.every(r => 
-                    (r.width * r.height) <= area
-                  );
-                  
-                  if (!isLargestInSector) return null;
-                  
-                  return (
-                    <div
-                      key={`sector-label-${stock.sector}-${index}`}
-                      className="absolute pointer-events-none z-10"
-                      style={{
-                        left: `${rect.x + 8}px`,
-                        top: `${rect.y + 8}px`,
-                        maxWidth: `${rect.width - 16}px`
-                      }}
-                    >
-                      <div className="bg-black bg-opacity-40 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm border border-gray-500 shadow-lg">
-                        {getSectorDisplayName(stock.sector).toUpperCase()}
-                      </div>
-                    </div>
-                  );
-                })}
-              
-                {/* Loading Overlay */}
                 {treemapRects.length === 0 && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 rounded-lg">
-                    <div className="text-white text-lg">Keine Daten verfügbar</div>
+                  <div className="absolute inset-0 flex items-center justify-center bg-theme-tertiary/50 rounded-lg">
+                    <div className="text-theme-muted text-lg">Keine Daten verfügbar</div>
                   </div>
                 )}
                 </div>
                 
-                {/* FINVIZ-STYLE FARBSKALA */}
+                {/* Color Scale */}
                 <div className="flex justify-center">
-                  <div className="flex items-center space-x-1 bg-gray-800 rounded-lg p-3 border border-gray-600">
+                  <div className="flex items-center space-x-1 bg-theme-tertiary/50 rounded-lg p-3 border border-theme">
                     {[
                       { value: -3, color: 'bg-red-800', label: '-3%' },
                       { value: -2, color: 'bg-red-700', label: '-2%' },
@@ -861,7 +735,7 @@ export default function SP500Heatmap() {
                     ].map((item, index) => (
                       <div key={index} className="flex flex-col items-center">
                         <div className={`w-8 h-4 ${item.color} border border-gray-500`}></div>
-                        <span className="text-gray-300 text-xs mt-1 font-medium">{item.label}</span>
+                        <span className="text-theme-muted text-xs mt-1 font-medium">{item.label}</span>
                       </div>
                     ))}
                   </div>
@@ -870,22 +744,20 @@ export default function SP500Heatmap() {
             </div>
           </div>
         </div>
-      </Card>
 
-      {/* Sector Performance Table */}
-      {!selectedSector && sectorData.length > 0 && (
-        <Card>
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-white mb-4">Sektor Performance</h3>
+        {/* ✅ REDESIGNED Sector Performance Table */}
+        {!selectedSector && sectorData.length > 0 && (
+          <div className="bg-theme-secondary border border-theme rounded-xl p-6">
+            <h3 className="text-xl font-semibold text-theme-primary mb-4">Sektor Performance</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="text-left py-3 text-gray-300">Sektor</th>
-                    <th className="text-right py-3 text-gray-300">Anzahl</th>
-                    <th className="text-right py-3 text-gray-300">Ø Performance</th>
-                    <th className="text-right py-3 text-gray-300">Market Cap</th>
-                    <th className="text-right py-3 text-gray-300">Anteil</th>
+                  <tr className="border-b border-theme">
+                    <th className="text-left py-3 text-theme-muted font-medium">Sektor</th>
+                    <th className="text-right py-3 text-theme-muted font-medium">Anzahl</th>
+                    <th className="text-right py-3 text-theme-muted font-medium">Ø Performance</th>
+                    <th className="text-right py-3 text-theme-muted font-medium">Market Cap</th>
+                    <th className="text-right py-3 text-theme-muted font-medium">Anteil</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -898,20 +770,20 @@ export default function SP500Heatmap() {
                       return (
                         <tr 
                           key={sector.sector} 
-                          className="border-b border-gray-800 hover:bg-gray-800/50 cursor-pointer transition"
+                          className="border-b border-theme/50 hover:bg-theme-tertiary/30 cursor-pointer transition-colors"
                           onClick={() => setSelectedSector(sector.sector)}
                         >
-                          <td className="py-3 text-white font-medium">{getSectorDisplayName(sector.sector)}</td>
-                          <td className="py-3 text-right text-gray-300">{sector.count}</td>
+                          <td className="py-3 text-theme-primary font-medium">{getSectorDisplayName(sector.sector)}</td>
+                          <td className="py-3 text-right text-theme-muted">{sector.count}</td>
                           <td className={`py-3 text-right font-medium ${
                             sector.avgChange >= 0 ? 'text-green-400' : 'text-red-400'
                           }`}>
                             {sector.avgChange >= 0 ? '+' : ''}{sector.avgChange.toFixed(2)}%
                           </td>
-                          <td className="py-3 text-right text-gray-300">
+                          <td className="py-3 text-right text-theme-muted">
                             ${(sector.totalMarketCap / 1e12).toFixed(1)}T
                           </td>
-                          <td className="py-3 text-right text-gray-300">
+                          <td className="py-3 text-right text-theme-muted">
                             {sectorPercentage.toFixed(1)}%
                           </td>
                         </tr>
@@ -921,8 +793,8 @@ export default function SP500Heatmap() {
               </table>
             </div>
           </div>
-        </Card>
-      )}
-    </main>
+        )}
+      </div>
+    </div>
   );
 }

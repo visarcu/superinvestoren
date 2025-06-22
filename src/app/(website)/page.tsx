@@ -1,4 +1,4 @@
-// Homepage mit optimiertem Noise Pattern - VERBESSERTE VERSION + FINCLUE AI
+// Homepage - Dezent verbessert, behält dein Design bei
 'use client'
 
 import React, { useEffect, useState, useRef } from 'react'
@@ -47,7 +47,7 @@ const getRealPortfolioData = () => {
 
     const latest = snapshots[snapshots.length - 1].data;
     
-    // Helper function to merge positions (same logic as in investor page)
+    // Helper function to merge positions
     const mergePositions = (raw: { cusip: string; shares: number; value: number; ticker?: string; name?: string }[]) => {
       const map = new Map<string, { shares: number; value: number; ticker?: string; name?: string }>();
       raw.forEach(p => {
@@ -82,12 +82,11 @@ const getRealPortfolioData = () => {
           value
         };
       })
-      .sort((a, b) => b.value - a.value) // Sort by value descending
-      .slice(0, 5); // Top 5 holdings
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 5);
 
     const totalValue = latest.positions.reduce((sum, p) => sum + p.value, 0);
 
-    // Map slug to proper names and info
     const investorInfo = {
       buffett: {
         name: 'Berkshire Hathaway Inc',
@@ -141,7 +140,6 @@ const useCountUp = (end: number, duration = 2000, shouldStart = false) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       
-      // Easing function für smoothe Animation
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       setCount(Math.floor(end * easeOutQuart));
       
@@ -190,7 +188,7 @@ const useIntersectionObserver = (threshold = 0.1) => {
   return [ref, isVisible] as const;
 };
 
-export default function OptimizedHomePage() {
+export default function SubtleCleanHomePage() {
   const router = useRouter()
 
   // Animation Refs
@@ -198,15 +196,11 @@ export default function OptimizedHomePage() {
   const [chartRef, chartVisible] = useIntersectionObserver(0.3);
   const [marketChartRef, marketChartVisible] = useIntersectionObserver(0.3);
   const [watchlistRef, watchlistVisible] = useIntersectionObserver(0.3);
-  const [aiRef, aiVisible] = useIntersectionObserver(0.3); // Neue AI Section
+  const [aiRef, aiVisible] = useIntersectionObserver(0.3);
 
-  // Kartenstack State
-  const [activeCard, setActiveCard] = useState(0);
-
-  // Echte Investor Data aus Holdings History mit Fallback
+  // Echte Investor Data mit Fallback
   const investorData = getRealPortfolioData();
   
-  // Fallback falls keine Daten verfügbar sind
   const safeInvestorData = investorData.length > 0 ? investorData : [
     {
       name: 'Berkshire Hathaway Inc',
@@ -237,18 +231,16 @@ export default function OptimizedHomePage() {
   return (
     <div className="min-h-screen bg-gray-950 noise-bg">
       
-      {/* Hero Section - Optimiert wie Pricing Page */}
+      {/* Hero Section - DEIN DESIGN BEIBEHALTEN */}
       <div className="bg-gray-950 noise-bg pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           
-          {/* Subtiler Background Glow - Positioniert wie auf Pricing */}
+          {/* Dezenter Background Glow - wie vorher */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
           
           <div className="relative text-center space-y-8">
             
-     
-            
-            {/* Main Heading - Konsistent mit Pricing */}
+            {/* Main Heading - wie vorher */}
             <div className="space-y-4">
               <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
                 Smart Analysieren
@@ -260,12 +252,12 @@ export default function OptimizedHomePage() {
               </h2>
             </div>
             
-            {/* Subtitle */}
+            {/* Subtitle - wie vorher */}
             <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
             Nutze ein leistungsstarkes Terminal zur Aktienanalyse, gestützt durch eigene KI – und inspiriert von den Portfolios der besten Investoren der Welt.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - wie vorher */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/analyse"
@@ -284,11 +276,11 @@ export default function OptimizedHomePage() {
         </div>
       </div>
 
-      {/* Platform Preview */}
+      {/* Platform Preview - DEIN DESIGN BEIBEHALTEN */}
       <div className="bg-gray-950 noise-bg py-20 border-t border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Stats Grid - Mit Animation */}
+          {/* Stats Grid - wie vorher */}
           <div ref={statsRef} className="grid grid-cols-3 gap-8 text-center mb-20">
             <div className={`p-4 transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
@@ -316,7 +308,7 @@ export default function OptimizedHomePage() {
             </div>
           </div>
 
-          {/* Platform Preview Section */}
+          {/* Platform Preview Section - wie vorher */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left: Content */}
@@ -342,31 +334,30 @@ export default function OptimizedHomePage() {
               </Link>
             </div>
 
-            {/* Right: Platform Preview Mockup - Mit Animation */}
+            {/* Right: Platform Preview Mockup - wie vorher */}
             <div ref={chartRef} className="relative">
-              {/* Main Dashboard Preview */}
               <div className={`bg-gray-900/80 border border-gray-800 rounded-xl p-6 backdrop-blur-sm transform transition-all duration-1000 ${
                 chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}>
                 
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-lg overflow-hidden">
-  <Image
-    src="/logos/aapl.png"
-    alt="Apple Logo"
-    width={32}
-    height={32}
-    className="object-contain"
-  />
-</div>
+                  <div className="w-8 h-8 rounded-lg overflow-hidden">
+                    <Image
+                      src="/logos/aapl.png"
+                      alt="Apple Logo"
+                      width={32}
+                      height={32}
+                      className="object-contain"
+                    />
+                  </div>
                   <div>
                     <h3 className="text-white font-semibold">Apple Inc.</h3>
                     <p className="text-green-400 text-sm">$185.24 (+2.1%)</p>
                   </div>
                 </div>
 
-                {/* Mini Chart - Mit animierten Bars */}
+                {/* Mini Chart */}
                 <div className="bg-gray-800/50 rounded-lg p-4 mb-4">
                   <div className="flex items-end gap-1 h-16">
                     {[40, 45, 35, 50, 65, 55, 70, 60, 75, 85, 80, 90].map((height, i) => (
@@ -385,30 +376,23 @@ export default function OptimizedHomePage() {
 
                 {/* Key Metrics */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className={`bg-gray-800/30 rounded-lg p-3 transform transition-all duration-500 ${
-                    chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                  }`} style={{ transitionDelay: '1500ms' }}>
-                    <div className="text-xs text-gray-500">Market Cap</div>
-                    <div className="text-white font-semibold numeric">$2.85T</div>
-                  </div>
-                  <div className={`bg-gray-800/30 rounded-lg p-3 transform transition-all duration-500 ${
-                    chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                  }`} style={{ transitionDelay: '1600ms' }}>
-                    <div className="text-xs text-gray-500">P/E Ratio</div>
-                    <div className="text-white font-semibold numeric">28.4</div>
-                  </div>
-                  <div className={`bg-gray-800/30 rounded-lg p-3 transform transition-all duration-500 ${
-                    chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                  }`} style={{ transitionDelay: '1700ms' }}>
-                    <div className="text-xs text-gray-500">Revenue</div>
-                    <div className="text-white font-semibold numeric">$394B</div>
-                  </div>
-                  <div className={`bg-gray-800/30 rounded-lg p-3 transform transition-all duration-500 ${
-                    chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                  }`} style={{ transitionDelay: '1800ms' }}>
-                    <div className="text-xs text-gray-500">Dividend</div>
-                    <div className="text-white font-semibold numeric">0.89%</div>
-                  </div>
+                  {[
+                    { label: 'Market Cap', value: '$2.85T' },
+                    { label: 'P/E Ratio', value: '28.4' },
+                    { label: 'Revenue', value: '$394B' },
+                    { label: 'Dividend', value: '0.89%' }
+                  ].map((metric, index) => (
+                    <div 
+                      key={metric.label}
+                      className={`bg-gray-800/30 rounded-lg p-3 transform transition-all duration-500 ${
+                        chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                      }`} 
+                      style={{ transitionDelay: `${1500 + index * 100}ms` }}
+                    >
+                      <div className="text-xs text-gray-500">{metric.label}</div>
+                      <div className="text-white font-semibold numeric">{metric.value}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -416,16 +400,16 @@ export default function OptimizedHomePage() {
               <div className={`absolute -right-4 -bottom-4 bg-gray-900/90 border border-gray-700 rounded-lg p-4 backdrop-blur-sm transform transition-all duration-1000 ${
                 chartVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'
               }`} style={{ transitionDelay: '1000ms' }}>
-               <div className="flex items-center gap-2 mb-2">
-  <Image
-    src="/images/buffett-cartoon.png"
-    alt="Warren Buffett"
-    width={24}
-    height={24}
-    className="rounded-full object-cover"
-  />
-  <span className="text-white text-sm font-medium">Warren Buffett</span>
-</div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Image
+                    src="/images/buffett-cartoon.png"
+                    alt="Warren Buffett"
+                    width={24}
+                    height={24}
+                    className="rounded-full object-cover"
+                  />
+                  <span className="text-white text-sm font-medium">Warren Buffett</span>
+                </div>
                 <div className="text-xs text-gray-400">Berkshire besitzt</div>
                 <div className="text-green-400 font-semibold">915M Aktien</div>
               </div>
@@ -437,8 +421,8 @@ export default function OptimizedHomePage() {
         </div>
       </div>
 
-      {/* Stock Analysis Section - Neue animierte Chart Sektion */}
-      <section className="bg-gray-950 noise-bg py-24">
+      {/* Stock Analysis Section - DEIN DESIGN BEIBEHALTEN */}
+      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -451,15 +435,15 @@ export default function OptimizedHomePage() {
                 {/* Chart Header */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg overflow-hidden">
-  <Image
-    src="/logos/msft.png"
-    alt="Microsoft Logo"
-    width={40}
-    height={40}
-    className="object-contain"
-  />
-</div>
+                    <div className="w-10 h-10 rounded-lg overflow-hidden">
+                      <Image
+                        src="/logos/msft.png"
+                        alt="Microsoft Logo"
+                        width={40}
+                        height={40}
+                        className="object-contain"
+                      />
+                    </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">Microsoft Corp.</h3>
                       <p className="text-sm text-gray-400">Umsatzentwicklung 5 Jahre</p>
@@ -482,7 +466,7 @@ export default function OptimizedHomePage() {
                     </defs>
                     <rect width="100%" height="100%" fill="url(#grid2)" />
                     
-                    {/* Chart Line - wird animiert eingezeichnet */}
+                    {/* Chart Line */}
                     <path
                       d="M 20 120 L 80 110 L 140 95 L 200 75 L 260 65 L 320 50 L 380 45"
                       fill="none"
@@ -631,8 +615,8 @@ export default function OptimizedHomePage() {
         </div>
       </section>
 
-      {/* 🎯 NEUE FINCLUE AI SECTION */}
-      <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
+      {/* 🤖 Finclue AI Section - Nur minimal verbessert */}
+      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -645,7 +629,7 @@ export default function OptimizedHomePage() {
               
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                 Dein persönlicher
-                <span className="block bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
                   Investment-Assistent
                 </span>
               </h2>
@@ -668,22 +652,18 @@ export default function OptimizedHomePage() {
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">Natürliche Sprach-Interaktion</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Individuelle Investment-Empfehlungen</span>
-                </div>
               </div>
               
               <Link
                 href="/analyse/ai" 
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 text-white font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25"
               >
                 Mit Finclue AI chatten
                 <SparklesIcon className="w-4 h-4" />
               </Link>
             </div>
 
-            {/* Right: AI Chat Preview */}
+            {/* Right: AI Chat Preview - dezent verbessert */}
             <div ref={aiRef} className="relative">
               <div className={`bg-gray-900/80 border border-gray-800 rounded-xl p-6 backdrop-blur-sm transform transition-all duration-1000 ${
                 aiVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
@@ -691,7 +671,7 @@ export default function OptimizedHomePage() {
                 
                 {/* Chat Header */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-400 rounded-lg flex items-center justify-center">
                     <CpuChipIcon className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -699,7 +679,7 @@ export default function OptimizedHomePage() {
                     <p className="text-sm text-gray-400">Dein Investment-Assistent</p>
                   </div>
                   <div className="ml-auto">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                       <span className="text-xs text-gray-500">Online</span>
                     </div>
@@ -723,7 +703,7 @@ export default function OptimizedHomePage() {
                   }`} style={{ transitionDelay: '800ms' }}>
                     <div className="bg-gray-800/50 border border-gray-700 p-4 rounded-lg max-w-md">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-4 h-4 bg-gradient-to-r from-green-500 to-teal-500 rounded-full"></div>
+                        <div className="w-4 h-4 bg-gradient-to-r from-green-500 to-green-400 rounded-full"></div>
                         <span className="text-xs text-green-400 font-medium">Finclue AI</span>
                       </div>
                       <p className="text-sm text-gray-300 mb-3">
@@ -760,7 +740,7 @@ export default function OptimizedHomePage() {
                 <div className={`flex items-center gap-2 text-gray-500 transform transition-all duration-500 ${
                   aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                 }`} style={{ transitionDelay: '1500ms' }}>
-                  <div className="w-4 h-4 bg-gradient-to-r from-green-500 to-teal-500 rounded-full"></div>
+                  <div className="w-4 h-4 bg-gradient-to-r from-green-500 to-green-400 rounded-full"></div>
                   <span className="text-xs">Analysiere Apple Q3 2024 Filings...</span>
                   <div className="flex gap-1">
                     <div className="w-1 h-1 bg-green-400 rounded-full animate-bounce"></div>
@@ -787,8 +767,9 @@ export default function OptimizedHomePage() {
         </div>
       </section>
 
+      {/* Alle anderen Sektionen - DEIN DESIGN BEIBEHALTEN */}
       {/* Schnäppchen-Radar Section */}
-      <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
+      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -865,15 +846,15 @@ export default function OptimizedHomePage() {
                       style={{ transitionDelay: `${index * 150}ms` }}
                     >
                       <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-white flex items-center justify-center">
-  <Image
-    src={`/logos/${stock.symbol.toLowerCase()}.png`}
-    alt={`${stock.name} Logo`}
-    width={32}
-    height={32}
-    className="object-contain"
-  />
-</div>
+                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-white flex items-center justify-center">
+                          <Image
+                            src={`/logos/${stock.symbol.toLowerCase()}.png`}
+                            alt={`${stock.name} Logo`}
+                            width={32}
+                            height={32}
+                            className="object-contain"
+                          />
+                        </div>
                         <div>
                           <div className="font-semibold text-white text-sm flex items-center gap-2">
                             {stock.symbol}
@@ -918,8 +899,8 @@ export default function OptimizedHomePage() {
         </div>
       </section>
 
-      {/* Super Investors Showcase - Interaktiver Kartenstack */}
-      <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
+      {/* Super Investors Showcase */}
+      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
             <UserGroupIcon className="w-4 h-4" />
@@ -937,13 +918,12 @@ export default function OptimizedHomePage() {
             Entdecke die Portfolios, Strategien und größten Positionen der Top-Investoren.
           </p>
 
-          {/* ✨ Neue Card-Komponente */}
           <InvestorCardStack investors={safeInvestorData} />
         </div>
       </section>
 
-      {/* 🎯 ÜBERARBEITETE KOMBINIERTE SEKTION - BROKER + NEWSLETTER */}
-      <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
+      {/* BROKER + NEWSLETTER */}
+      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Broker Section */}
