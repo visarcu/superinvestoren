@@ -1,0 +1,161 @@
+{
+  "form": "NPORT-P",
+  "date": "2020-05-19",
+  "period": "2020-05-19",
+  "positions": [
+    {
+      "name": "Alphabet Inc. ",
+      "cusip": "02079K107",
+      "shares": 7746,
+      "value": 9007126260,
+      "pctOfPortfolio": 415.65645936
+    },
+    {
+      "name": "CenturyLink, Inc.",
+      "cusip": "156700106",
+      "shares": 1963645,
+      "value": 18576081700,
+      "pctOfPortfolio": 857.23993707
+    },
+    {
+      "name": "CK Asset Holdings Limited",
+      "cusip": "BYZQ07700",
+      "shares": 1661029,
+      "value": 9012226900,
+      "pctOfPortfolio": 415.89184121000005
+    },
+    {
+      "name": "CK Hutchison Holdings Limited ",
+      "cusip": "BW9P81600",
+      "shares": 1660529,
+      "value": 11067690570,
+      "pctOfPortfolio": 510.7463738
+    },
+    {
+      "name": "CNH Industrial N.V. ",
+      "cusip": "BDSV2V000",
+      "shares": 760751,
+      "value": 4332703060,
+      "pctOfPortfolio": 199.9434627
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 1595291,
+      "value": 8486948119.999999,
+      "pctOfPortfolio": 391.65153286000003
+    },
+    {
+      "name": "Comcast Corporation ",
+      "cusip": "20030N101",
+      "shares": 238502,
+      "value": 8199698760,
+      "pctOfPortfolio": 378.39568982000003
+    },
+    {
+      "name": "DuPont de Nemours, Inc.",
+      "cusip": "26614N102",
+      "shares": 268499,
+      "value": 9155815900,
+      "pctOfPortfolio": 422.51811618
+    },
+    {
+      "name": "EXOR N.V.",
+      "cusip": "BYSLCX900",
+      "shares": 336882,
+      "value": 17362630020,
+      "pctOfPortfolio": 801.24216216
+    },
+    {
+      "name": "Fairfax Financial Holdings Limited",
+      "cusip": "303901102",
+      "shares": 27634,
+      "value": 8471638330,
+      "pctOfPortfolio": 390.94502415
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 126139,
+      "value": 15295615140,
+      "pctOfPortfolio": 705.85456997
+    },
+    {
+      "name": "General Electric Company",
+      "cusip": "369604103",
+      "shares": 1627422,
+      "value": 12921730680,
+      "pctOfPortfolio": 596.30571042
+    },
+    {
+      "name": "LafargeHolcim Ltd ",
+      "cusip": "711075300",
+      "shares": 44291,
+      "value": 1616334260,
+      "pctOfPortfolio": 74.58980326
+    },
+    {
+      "name": "LafargeHolcim Ltd ",
+      "cusip": "BZ3DNX400",
+      "shares": 175293,
+      "value": 6314980490,
+      "pctOfPortfolio": 291.42063247
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 17014000,
+      "value": 17014000000,
+      "pctOfPortfolio": 785.15375443
+    },
+    {
+      "name": "Melco International Development Limited",
+      "cusip": "B092QP300",
+      "shares": 7393388,
+      "value": 10597474610,
+      "pctOfPortfolio": 489.04707755
+    },
+    {
+      "name": "Millicom International Cellular S.A.",
+      "cusip": "B00L2M800",
+      "shares": 121914,
+      "value": 3387202650,
+      "pctOfPortfolio": 156.310972
+    },
+    {
+      "name": "MinebeaMitsumi Inc.",
+      "cusip": "664240600",
+      "shares": 605600,
+      "value": 8944986270,
+      "pctOfPortfolio": 412.78885348000006
+    },
+    {
+      "name": "OCI N.V. ",
+      "cusip": "BD4TZK800",
+      "shares": 341481,
+      "value": 4080728450,
+      "pctOfPortfolio": 188.31546158
+    },
+    {
+      "name": "Prosus N.V.",
+      "cusip": "BJDS7L300",
+      "shares": 143011,
+      "value": 9960455110,
+      "pctOfPortfolio": 459.65021308
+    },
+    {
+      "name": "United Technologies Corporation",
+      "cusip": "913017109",
+      "shares": 94137,
+      "value": 8879943210,
+      "pctOfPortfolio": 409.78727814999996
+    },
+    {
+      "name": "The Williams Companies, Inc.",
+      "cusip": "969457100",
+      "shares": 902954,
+      "value": 12776799100,
+      "pctOfPortfolio": 589.61747872
+    }
+  ]
+}

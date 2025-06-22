@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-15",
+  "period": "2016-08-15",
+  "accession": "0000921895-16-005488",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "OUTERWALL INC",
+      "cusip": "690070107",
+      "shares": 2431170,
+      "value": 102109
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 2428221,
+      "value": 51357
+    },
+    {
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 2450000,
+      "value": 38318
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 737465,
+      "value": 24535
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 3852974,
+      "value": 21808
+    },
+    {
+      "name": "JAMBA INC",
+      "cusip": "47023A309",
+      "shares": 1830767,
+      "value": 18839
+    },
+    {
+      "name": "TRIMAS CORP",
+      "cusip": "896215209",
+      "shares": 679067,
+      "value": 12223
+    },
+    {
+      "name": "LIBBEY INC",
+      "cusip": "529898108",
+      "shares": 293064,
+      "value": 4657
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 39569,
+      "value": 4550
+    },
+    {
+      "name": "BIODELIVERY SCIENCES INTL IN",
+      "cusip": "09060J106",
+      "shares": 1876550,
+      "value": 4429
+    },
+    {
+      "name": "AMAG PHARMACEUTICALS INC",
+      "cusip": "00163U106",
+      "shares": 50174,
+      "value": 1200
+    }
+  ],
+  "totalValue": 284025,
+  "positionsCount": 11
+}

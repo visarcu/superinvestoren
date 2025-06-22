@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001420506-22-000950",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 4162903,
+      "value": 496593
+    },
+    {
+      "name": "HILTON GRAND VACATIONS INC",
+      "cusip": "43283X105",
+      "shares": 7727165,
+      "value": 401890
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 5416116,
+      "value": 297778
+    },
+    {
+      "name": "WORLD ACCEP CORPORATION",
+      "cusip": "981419104",
+      "shares": 755768,
+      "value": 144987
+    },
+    {
+      "name": "HERBALIFE NUTRITION LTD",
+      "cusip": "G4412G101",
+      "shares": 2907762,
+      "value": 88280
+    },
+    {
+      "name": "PARTY CITY HOLDCO INC",
+      "cusip": "702149105",
+      "shares": 18051623,
+      "value": 64625
+    }
+  ],
+  "totalValue": 1494153,
+  "positionsCount": 6
+}

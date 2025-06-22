@@ -1,0 +1,361 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-03-15",
+  "period": "2022-03-15",
+  "accession": "0001145549-22-016042",
+  "quarterKey": "2022-Q1",
+  "positions": [
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 156888,
+      "value": 25905346.56,
+      "pctOfPortfolio": 5.5370748023
+    },
+    {
+      "name": "Arthur J Gallagher & Co",
+      "cusip": "363576109",
+      "shares": 97870,
+      "value": 15482055.3,
+      "pctOfPortfolio": 3.3091739611
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 79909,
+      "value": 13743548.91,
+      "pctOfPortfolio": 2.9375811741
+    },
+    {
+      "name": "Costco Wholesale Corp",
+      "cusip": "22160K105",
+      "shares": 23700,
+      "value": 12306225,
+      "pctOfPortfolio": 2.6303638981
+    },
+    {
+      "name": "NextEra Energy Inc",
+      "cusip": "65339F101",
+      "shares": 155116,
+      "value": 12140929.32,
+      "pctOfPortfolio": 2.5950331781
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 150786,
+      "value": 11824638.12,
+      "pctOfPortfolio": 2.5274282909
+    },
+    {
+      "name": "EOG Resources Inc",
+      "cusip": "26875P101",
+      "shares": 101700,
+      "value": 11687364,
+      "pctOfPortfolio": 2.4980869706
+    },
+    {
+      "name": "Analog Devices Inc",
+      "cusip": "032654105",
+      "shares": 72499,
+      "value": 11620864.71,
+      "pctOfPortfolio": 2.4838732428
+    },
+    {
+      "name": "STERIS PLC",
+      "cusip": "G8473T100",
+      "shares": 48327,
+      "value": 11598480,
+      "pctOfPortfolio": 2.4790886779
+    },
+    {
+      "name": "Atmos Energy Corp",
+      "cusip": "049560105",
+      "shares": 102300,
+      "value": 11233563,
+      "pctOfPortfolio": 2.4010903882
+    },
+    {
+      "name": "Watsco Inc",
+      "cusip": "942622200",
+      "shares": 40000,
+      "value": 10922400,
+      "pctOfPortfolio": 2.3345816154
+    },
+    {
+      "name": "Tractor Supply Co",
+      "cusip": "892356106",
+      "shares": 53000,
+      "value": 10800870,
+      "pctOfPortfolio": 2.3086054835
+    },
+    {
+      "name": "Intuit Inc",
+      "cusip": "461202103",
+      "shares": 21500,
+      "value": 10198955,
+      "pctOfPortfolio": 2.1799506372
+    },
+    {
+      "name": "Fidelity Government Portfolio",
+      "cusip": "316175108",
+      "shares": 10095194.73,
+      "value": 10095194.73,
+      "pctOfPortfolio": 2.1577726526
+    },
+    {
+      "name": "Republic Services Inc",
+      "cusip": "760759100",
+      "shares": 83500,
+      "value": 10043380,
+      "pctOfPortfolio": 2.1466976402
+    },
+    {
+      "name": "Automatic Data Processing Inc",
+      "cusip": "053015103",
+      "shares": 48500,
+      "value": 9915340,
+      "pctOfPortfolio": 2.1193300442
+    },
+    {
+      "name": "Sherwin-Williams Co/The",
+      "cusip": "824348106",
+      "shares": 37500,
+      "value": 9867375,
+      "pctOfPortfolio": 2.1090778829
+    },
+    {
+      "name": "Fastenal Co",
+      "cusip": "311900104",
+      "shares": 188270,
+      "value": 9688374.2,
+      "pctOfPortfolio": 2.0708177956
+    },
+    {
+      "name": "Carrier Global Corp",
+      "cusip": "14448C104",
+      "shares": 215200,
+      "value": 9658176,
+      "pctOfPortfolio": 2.0643631554
+    },
+    {
+      "name": "Accenture PLC",
+      "cusip": "G1151C101",
+      "shares": 30454,
+      "value": 9624073.08,
+      "pctOfPortfolio": 2.0570739103
+    },
+    {
+      "name": "AbbVie Inc",
+      "cusip": "00287Y109",
+      "shares": 65100,
+      "value": 9619827,
+      "pctOfPortfolio": 2.0561663424
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 26510,
+      "value": 9565338.2,
+      "pctOfPortfolio": 2.0445197674
+    },
+    {
+      "name": "Home Depot Inc/The",
+      "cusip": "437076102",
+      "shares": 30000,
+      "value": 9474900,
+      "pctOfPortfolio": 2.025189276
+    },
+    {
+      "name": "Glacier Bancorp Inc",
+      "cusip": "37637Q105",
+      "shares": 170555,
+      "value": 9448747,
+      "pctOfPortfolio": 2.0195992671
+    },
+    {
+      "name": "S&P Global Inc",
+      "cusip": "78409V104",
+      "shares": 24688,
+      "value": 9275281.6,
+      "pctOfPortfolio": 1.9825223304
+    },
+    {
+      "name": "Snap-on Inc",
+      "cusip": "833034101",
+      "shares": 43510,
+      "value": 9144931.8,
+      "pctOfPortfolio": 1.9546610319
+    },
+    {
+      "name": "Abbott Laboratories",
+      "cusip": "002824100",
+      "shares": 72500,
+      "value": 8744950,
+      "pctOfPortfolio": 1.8691679025
+    },
+    {
+      "name": "Casey's General Stores Inc",
+      "cusip": "147528103",
+      "shares": 45500,
+      "value": 8557640,
+      "pctOfPortfolio": 1.8291317857
+    },
+    {
+      "name": "American Tower Corp",
+      "cusip": "03027X100",
+      "shares": 36300,
+      "value": 8235381,
+      "pctOfPortfolio": 1.7602513256
+    },
+    {
+      "name": "Illinois Tool Works Inc",
+      "cusip": "452308109",
+      "shares": 37598,
+      "value": 8133951.32,
+      "pctOfPortfolio": 1.7385714873
+    },
+    {
+      "name": "Equinix Inc",
+      "cusip": "29444U700",
+      "shares": 11460,
+      "value": 8133505.8,
+      "pctOfPortfolio": 1.7384762607
+    },
+    {
+      "name": "WEC Energy Group Inc",
+      "cusip": "92939U106",
+      "shares": 89357,
+      "value": 8120764.16,
+      "pctOfPortfolio": 1.7357528301
+    },
+    {
+      "name": "McCormick & Co Inc/MD",
+      "cusip": "579780206",
+      "shares": 84419,
+      "value": 8034156.23,
+      "pctOfPortfolio": 1.7172410304
+    },
+    {
+      "name": "McDonald's Corp",
+      "cusip": "580135101",
+      "shares": 32793,
+      "value": 8026742.61,
+      "pctOfPortfolio": 1.7156564243
+    },
+    {
+      "name": "AptarGroup Inc",
+      "cusip": "038336103",
+      "shares": 65000,
+      "value": 7922200,
+      "pctOfPortfolio": 1.6933112204
+    },
+    {
+      "name": "Nasdaq Inc",
+      "cusip": "631103108",
+      "shares": 45830,
+      "value": 7843804.5,
+      "pctOfPortfolio": 1.6765547664
+    },
+    {
+      "name": "T Rowe Price Group Inc",
+      "cusip": "74144T108",
+      "shares": 52940,
+      "value": 7653006.4,
+      "pctOfPortfolio": 1.6357730942
+    },
+    {
+      "name": "Jack Henry & Associates Inc",
+      "cusip": "426281101",
+      "shares": 41235,
+      "value": 7290348,
+      "pctOfPortfolio": 1.5582575634
+    },
+    {
+      "name": "Xcel Energy Inc",
+      "cusip": "98389B100",
+      "shares": 107673,
+      "value": 7249623.09,
+      "pctOfPortfolio": 1.5495529174
+    },
+    {
+      "name": "Becton Dickinson and Co",
+      "cusip": "075887109",
+      "shares": 26708,
+      "value": 7245346.24,
+      "pctOfPortfolio": 1.5486387726
+    },
+    {
+      "name": "Dollar General Corp",
+      "cusip": "256677105",
+      "shares": 36000,
+      "value": 7140240,
+      "pctOfPortfolio": 1.5261730969
+    },
+    {
+      "name": "Air Products and Chemicals Inc",
+      "cusip": "009158106",
+      "shares": 29786,
+      "value": 7038431.8,
+      "pctOfPortfolio": 1.5044123528
+    },
+    {
+      "name": "Clorox Co/The",
+      "cusip": "189054109",
+      "shares": 47595,
+      "value": 6938875.05,
+      "pctOfPortfolio": 1.4831328393
+    },
+    {
+      "name": "Digital Realty Trust Inc",
+      "cusip": "253868103",
+      "shares": 48000,
+      "value": 6476160,
+      "pctOfPortfolio": 1.3842309451
+    },
+    {
+      "name": "Verizon Communications Inc",
+      "cusip": "92343V104",
+      "shares": 117100,
+      "value": 6284757,
+      "pctOfPortfolio": 1.34331998
+    },
+    {
+      "name": "Kimberly-Clark Corp",
+      "cusip": "494368103",
+      "shares": 47500,
+      "value": 6182125,
+      "pctOfPortfolio": 1.3213831547
+    },
+    {
+      "name": "Merck & Co Inc",
+      "cusip": "58933Y105",
+      "shares": 77920,
+      "value": 5967113.6,
+      "pctOfPortfolio": 1.2754260701
+    },
+    {
+      "name": "Gilead Sciences Inc",
+      "cusip": "375558103",
+      "shares": 92000,
+      "value": 5556800,
+      "pctOfPortfolio": 1.1877245954
+    },
+    {
+      "name": "John B Sanfilippo & Son Inc",
+      "cusip": "800422107",
+      "shares": 62179,
+      "value": 4944474.08,
+      "pctOfPortfolio": 1.0568444925
+    },
+    {
+      "name": "Fidelity National Information",
+      "cusip": "31620M106",
+      "shares": 49000,
+      "value": 4666270,
+      "pctOfPortfolio": 0.9973804434
+    }
+  ],
+  "totalValue": 467272844.41,
+  "positionsCount": 50
+}

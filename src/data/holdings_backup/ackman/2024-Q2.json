@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001172661-24-002519",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 743984,
+      "value": 2162590372
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 9181180,
+      "value": 1958437506
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 23348135,
+      "value": 1855009326
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 9377195,
+      "value": 1427771711
+    },
+    {
+      "name": "HOWARD HUGHES HOLDINGS INC",
+      "cusip": "44267T102",
+      "shares": 18852064,
+      "value": 1369036888
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 15095528,
+      "value": 1330972704
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 4354824,
+      "value": 657273586
+    }
+  ],
+  "totalValue": 10761092093,
+  "positionsCount": 7
+}

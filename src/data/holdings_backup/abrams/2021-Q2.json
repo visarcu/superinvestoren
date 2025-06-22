@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2021-05-14",
+  "period": "2021-05-14",
+  "accession": "0001172661-21-001154",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2351068,
+      "value": 917128
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2118216,
+      "value": 416229
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1205043,
+      "value": 354921
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 561258,
+      "value": 343827
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 539305,
+      "value": 317068
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 146440,
+      "value": 302035
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 24046356,
+      "value": 277495
+    },
+    {
+      "name": "CHANGE HEALTHCARE INC",
+      "cusip": "15912K100",
+      "shares": 12400000,
+      "value": 274040
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 22745008,
+      "value": 266344
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 1094001,
+      "value": 250395
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 12476200,
+      "value": 207729
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 185858
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 22124322,
+      "value": 169915
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 6934144,
+      "value": 102209
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 33989
+    },
+    {
+      "name": "USA TECHNOLOGIES INC",
+      "cusip": "90328S500",
+      "shares": 2090000,
+      "value": 22279
+    }
+  ],
+  "totalValue": 4441461,
+  "positionsCount": 16
+}

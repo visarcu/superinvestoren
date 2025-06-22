@@ -1,0 +1,329 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-14",
+  "period": "2017-08-14",
+  "accession": "0001103804-17-000049",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 19606249,
+      "value": 1351459
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 9578765,
+      "value": 1183840
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 6186895,
+      "value": 934097
+    },
+    {
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 3347913,
+      "value": 780231
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 7868000,
+      "value": 737861
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 12297209,
+      "value": 681388
+    },
+    {
+      "name": "ENCANA CORP",
+      "cusip": "292505104",
+      "shares": 72773415,
+      "value": 640406
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 682304,
+      "value": 634324
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 22350523,
+      "value": 633414
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 618046,
+      "value": 598269
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 2620061,
+      "value": 485812
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229854",
+      "shares": 12000000,
+      "value": 439440
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 4730124,
+      "value": 409629
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 9126849,
+      "value": 357955
+    },
+    {
+      "name": "CABOT OIL & GAS CORP",
+      "cusip": "127097103",
+      "shares": 14176114,
+      "value": 355537
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 3871318,
+      "value": 326701
+    },
+    {
+      "name": "RICE ENERGY INC",
+      "cusip": "762760106",
+      "shares": 12028939,
+      "value": 320331
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 1821890,
+      "value": 292978
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 5365456,
+      "value": 286086
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 1680581,
+      "value": 251096
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 3012489,
+      "value": 235908
+    },
+    {
+      "name": "UNIVERSAL HLTH SVCS INC",
+      "cusip": "913903100",
+      "shares": 1742195,
+      "value": 212687
+    },
+    {
+      "name": "PARKER HANNIFIN CORP",
+      "cusip": "701094104",
+      "shares": 1292171,
+      "value": 206515
+    },
+    {
+      "name": "ANADARKO PETE CORP",
+      "cusip": "032511107",
+      "shares": 3964984,
+      "value": 179772
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 5104313,
+      "value": 176456
+    },
+    {
+      "name": "AFLAC INC",
+      "cusip": "001055102",
+      "shares": 2133804,
+      "value": 165754
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1100913,
+      "value": 155119
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 992901,
+      "value": 154396
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 533860,
+      "value": 143539
+    },
+    {
+      "name": "NUVASIVE INC",
+      "cusip": "670704105",
+      "shares": 1800463,
+      "value": 138492
+    },
+    {
+      "name": "SHIRE PLC",
+      "cusip": "82481R106",
+      "shares": 797053,
+      "value": 131729
+    },
+    {
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 1476832,
+      "value": 102167
+    },
+    {
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 1430369,
+      "value": 92745
+    },
+    {
+      "name": "GW PHARMACEUTICALS PLC",
+      "cusip": "36197T103",
+      "shares": 873308,
+      "value": 87549
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 345907,
+      "value": 83232
+    },
+    {
+      "name": "DOW CHEM CO",
+      "cusip": "260543103",
+      "shares": 1263602,
+      "value": 79695
+    },
+    {
+      "name": "RAYMOND JAMES FINANCIAL INC",
+      "cusip": "754730109",
+      "shares": 956318,
+      "value": 76716
+    },
+    {
+      "name": "AVEXIS INC",
+      "cusip": "05366U100",
+      "shares": 893258,
+      "value": 73390
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 474690,
+      "value": 68455
+    },
+    {
+      "name": "NORFOLK SOUTHERN CORP",
+      "cusip": "655844108",
+      "shares": 470075,
+      "value": 57208
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 736048,
+      "value": 57066
+    },
+    {
+      "name": "MARSH & MCLENNAN COS INC",
+      "cusip": "571748102",
+      "shares": 698142,
+      "value": 54427
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 286680,
+      "value": 53933
+    },
+    {
+      "name": "ZIMMER BIOMET HLDGS INC",
+      "cusip": "98956P102",
+      "shares": 397654,
+      "value": 51059
+    },
+    {
+      "name": "KITE PHARMA INC",
+      "cusip": "49803L109",
+      "shares": 480155,
+      "value": 49778
+    },
+    {
+      "name": "EXPEDIA INC DEL",
+      "cusip": "30212P303",
+      "shares": 319974,
+      "value": 47660
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 451554,
+      "value": 39272
+    },
+    {
+      "name": "EXTRACTION OIL AND GAS INC",
+      "cusip": "30227M105",
+      "shares": 2839191,
+      "value": 38187
+    },
+    {
+      "name": "CALITHERA BIOSCIENCES INC",
+      "cusip": "13089P101",
+      "shares": 2420317,
+      "value": 35942
+    },
+    {
+      "name": "EDITAS MEDICINE INC",
+      "cusip": "28106W103",
+      "shares": 1709401,
+      "value": 28684
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 208496,
+      "value": 25322
+    },
+    {
+      "name": "BIOMARIN PHARMACEUTICAL INC",
+      "cusip": "09061G101",
+      "shares": 259656,
+      "value": 23582
+    },
+    {
+      "name": "NEURODERM LTD",
+      "cusip": "M74231107",
+      "shares": 708898,
+      "value": 21196
+    }
+  ],
+  "totalValue": 14848486,
+  "positionsCount": 53
+}

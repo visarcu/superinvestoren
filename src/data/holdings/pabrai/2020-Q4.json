@@ -1,0 +1,23 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-13",
+  "period": "2020-11-13",
+  "accession": "0001549575-20-000012",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1820322,
+      "value": 85482
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 4733118,
+      "value": 63661
+    }
+  ],
+  "totalValue": 149143,
+  "positionsCount": 2
+}

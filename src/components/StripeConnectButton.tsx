@@ -1,4 +1,4 @@
-// src/components/StripeConnectButton.tsx - AUFGERÄUMT (keine Verwirrung mehr)
+// src/components/StripeConnectButton.tsx - FINAL VERSION mit optimierter UX
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -15,6 +15,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [isTrialStart, setIsTrialStart] = useState(false);
 
   const { premiumStatus, loading: premiumLoading, refetch } = usePremiumStatus(user?.id);
 
@@ -22,35 +23,33 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     checkAuth();
   }, []);
 
-  // Stripe Success Handling - NUR KURZ anzeigen wenn Premium NICHT aktiv ist
+  // Trial Success Handling
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const hasStripeSuccess = urlParams.get('stripe_success') === 'true';
+    const isTrial = urlParams.get('trial') === 'true';
     
-    if (hasStripeSuccess && !premiumStatus.isPremium) {
-      console.log('🎉 StripeConnectButton: Handling Stripe success');
+    if (hasStripeSuccess) {
+      console.log('🎉 StripeConnectButton: Handling Stripe success', { isTrial });
       
       // URL sofort bereinigen
       const newUrl = window.location.pathname;
       window.history.replaceState({}, '', newUrl);
       
-      // Zeige Success Message nur KURZ
+      setIsTrialStart(isTrial);
       setShowSuccessMessage(true);
       
-      // Warte 2 Sekunden, dann refresh und verstecke Message
+      // Warte 3 Sekunden, dann refresh
       const timeout = setTimeout(() => {
         console.log('🔄 StripeConnectButton: Refreshing status...');
         refetch();
         setShowSuccessMessage(false);
-      }, 2000);
+        setIsTrialStart(false);
+      }, 3000);
       
       return () => clearTimeout(timeout);
-    } else if (hasStripeSuccess && premiumStatus.isPremium) {
-      // Premium ist bereits aktiv, URL nur bereinigen
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, '', newUrl);
     }
-  }, [premiumStatus.isPremium]);
+  }, []);
 
   async function checkAuth() {
     try {
@@ -67,7 +66,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     }
   }
 
-  async function handleStripeCheckout() {
+  async function handleStripeCheckout(withTrial = true) {
     if (!user || !session) {
       alert('Bitte loggen Sie sich zuerst ein.');
       return;
@@ -84,6 +83,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
         body: JSON.stringify({
           userId: user.id,
           sessionToken: session.access_token,
+          withTrial,
         }),
       });
 
@@ -134,6 +134,22 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     }
   }
 
+  // Berechne Trial-Tage
+  function getTrialInfo() {
+    if (!premiumStatus.endDate || premiumStatus.status !== 'trialing') return null;
+    
+    const now = new Date();
+    const endDate = premiumStatus.endDate;
+    const daysLeft = Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    
+    return {
+      daysLeft: Math.max(0, daysLeft),
+      isTrialing: true
+    };
+  }
+
+  const trialInfo = getTrialInfo();
+
   // Loading State
   if (loading || premiumLoading) {
     return (
@@ -148,21 +164,25 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
   if (!user) {
     return (
       <div className="text-center p-4">
-        <p className="text-gray-300">Loggen Sie sich ein, um Premium zu abonnieren.</p>
+        <p className="text-gray-300">Loggen Sie sich ein, um Premium zu testen.</p>
       </div>
     );
   }
 
-  // Success Message - NUR anzeigen wenn Premium NICHT aktiv ist
-  if (showSuccessMessage && !premiumStatus.isPremium) {
+  // Success Message für Trial Start
+  if (showSuccessMessage) {
     return (
       <div className="bg-green-900/20 border border-green-500/50 backdrop-blur-md p-4 rounded-xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="text-green-400 mr-3">✅</div>
+            <div className="text-green-400 mr-3">🎉</div>
             <div>
-              <h3 className="text-green-400 font-semibold">Zahlung erfolgreich!</h3>
-              <p className="text-green-300 text-sm">Premium wird aktiviert...</p>
+              <h3 className="text-green-400 font-semibold">
+                {isTrialStart ? '14-Tage Trial gestartet!' : 'Zahlung erfolgreich!'}
+              </h3>
+              <p className="text-green-300 text-sm">
+                {isTrialStart ? 'Premium Features sind jetzt freigeschaltet' : 'Premium wird aktiviert...'}
+              </p>
             </div>
           </div>
           <button
@@ -176,7 +196,87 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     );
   }
 
-  // PREMIUM AKTIV - Vereinfachte Darstellung
+  // TRIAL AKTIV
+  if (trialInfo?.isTrialing) {
+    return (
+      <div className="space-y-4">
+        {/* Trial Status */}
+        <div className="bg-gradient-to-br from-blue-900/20 to-green-900/20 border border-blue-500/50 rounded-xl p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🚀</span>
+              <div>
+                <h3 className="text-blue-400 font-semibold">14-Tage Trial aktiv</h3>
+                <div className="space-y-1">
+                  <p className="text-blue-300 text-sm">
+                    Noch <span className="font-bold text-white">{trialInfo.daysLeft} Tage</span> kostenlos
+                  </p>
+                  <p className="text-gray-400 text-xs">
+                    Danach 9€/Monat • Jederzeit kündbar
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={refetch}
+                disabled={actionLoading}
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-600 transition text-sm"
+              >
+                {actionLoading ? '...' : 'Aktualisieren'}
+              </button>
+              <button
+                onClick={handleCustomerPortal}
+                disabled={actionLoading}
+                className="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-600 transition text-sm"
+              >
+                {actionLoading ? '...' : 'Verwalten'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Trial Features - alle verfügbar */}
+        <div className="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
+          <h5 className="text-green-400 font-medium mb-2 text-sm">✨ Alle Premium Features freigeschaltet:</h5>
+          <div className="grid grid-cols-2 gap-1 text-xs text-green-300">
+            <div className="flex items-center gap-1">
+              <span>✓</span> Erweiterte Analysen
+            </div>
+            <div className="flex items-center gap-1">
+              <span>✓</span> Interaktive Charts
+            </div>
+            <div className="flex items-center gap-1">
+              <span>✓</span> Historische Daten
+            </div>
+            <div className="flex items-center gap-1">
+              <span>✓</span> Priority Support
+            </div>
+          </div>
+        </div>
+
+        {/* Trial Reminder */}
+        {trialInfo.daysLeft <= 3 && (
+          <div className="bg-orange-900/20 border border-orange-500/50 rounded-lg p-3">
+            <div className="flex items-center gap-2">
+              <span className="text-orange-400">⏰</span>
+              <div>
+                <p className="text-orange-300 text-sm font-medium">
+                  Trial endet in {trialInfo.daysLeft} Tagen
+                </p>
+                <p className="text-orange-400 text-xs">
+                  Nutze den Verwalten-Button um dein Abo anzupassen
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // PREMIUM AKTIV (nach Trial)
   if (premiumStatus.isPremium) {
     return (
       <div className="space-y-4">
@@ -226,7 +326,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           </div>
         </div>
 
-        {/* Premium Features - Kompakt */}
+        {/* Premium Features */}
         <div className="bg-gray-700/30 rounded-lg p-3">
           <h5 className="text-white font-medium mb-2 text-sm">Premium Features aktiv:</h5>
           <div className="grid grid-cols-2 gap-1 text-xs text-green-300">
@@ -248,21 +348,21 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     );
   }
 
-  // KEIN PREMIUM - Einfache Upgrade-Option
+  // KEIN PREMIUM - Standard Trial mit optionalem Skip
   return (
     <div className="space-y-4">
-      {/* Upgrade Call-to-Action */}
+      {/* Hauptsächlicher Trial Call-to-Action */}
       <div className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-xl p-4">
         <div className="text-center space-y-3">
-          <div className="text-3xl">🎯</div>
+          <div className="text-3xl">🚀</div>
           <div>
-            <h3 className="text-white font-semibold">Premium Features freischalten</h3>
+            <h3 className="text-white font-semibold">Premium kostenlos testen</h3>
             <p className="text-gray-300 text-sm">
-              Erweiterte Analysen, alle Charts & mehr für nur 9€/Monat
+              14 Tage alle Features gratis • Danach 9€/Monat • Jederzeit kündbar
             </p>
           </div>
           <button
-            onClick={handleStripeCheckout}
+            onClick={() => handleStripeCheckout(true)} // MIT Trial
             disabled={actionLoading}
             className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:bg-gray-600 transition font-semibold flex items-center justify-center gap-2"
           >
@@ -270,29 +370,41 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
             ) : (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             )}
-            Premium abonnieren
+            Kostenlos anmelden
+          </button>
+          <p className="text-xs text-gray-400">
+            Kreditkarte erforderlich • Erste 14 Tage kostenlos • Jederzeit kündbar
+          </p>
+          
+          {/* Dezenter Skip-Link */}
+          <button
+            onClick={() => handleStripeCheckout(false)} // OHNE Trial
+            disabled={actionLoading}
+            className="text-xs text-gray-500 hover:text-gray-300 underline transition"
+          >
+            Ohne Trial direkt abonnieren
           </button>
         </div>
       </div>
 
-      {/* Was ist enthalten - Kompakt */}
+      {/* Was ist enthalten */}
       <div className="bg-gray-700/20 rounded-lg p-3">
-        <h5 className="text-white font-medium mb-2 text-sm">Was ist enthalten?</h5>
+        <h5 className="text-white font-medium mb-2 text-sm">14 Tage kostenlos enthalten:</h5>
         <div className="grid grid-cols-2 gap-1 text-xs text-gray-300">
           <div className="flex items-center gap-1">
-            <span className="text-green-400">✓</span> Alle Kennzahlen
+            <span className="text-green-400">✓</span> Alle Analysen
           </div>
           <div className="flex items-center gap-1">
             <span className="text-green-400">✓</span> Interaktive Charts  
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-green-400">✓</span> Keine Werbung
+            <span className="text-green-400">✓</span> Historische Daten
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-green-400">✓</span> Jederzeit kündbar
+            <span className="text-green-400">✓</span> Priority Support
           </div>
         </div>
       </div>

@@ -1,0 +1,41 @@
+{
+  "form": "13F-HR",
+  "date": "2021-07-28",
+  "period": "2021-07-28",
+  "accession": "0001172661-21-001557",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 221495,
+      "value": 100583
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 333700,
+      "value": 96866
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 214600,
+      "value": 74619
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 219513,
+      "value": 53620
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 1088058,
+      "value": 48201
+    }
+  ],
+  "totalValue": 373889,
+  "positionsCount": 5
+}

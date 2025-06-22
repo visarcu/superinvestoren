@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-14",
+  "period": "2024-08-14",
+  "accession": "0000921895-24-001811",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 12851018,
+      "value": 78776740
+    },
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 4111458,
+      "value": 78611077
+    },
+    {
+      "name": "NCR VOYIX CORPORATION",
+      "cusip": "62886E108",
+      "shares": 6286029,
+      "value": 77632458
+    },
+    {
+      "name": "V F CORP",
+      "cusip": "918204108",
+      "shares": 5341368,
+      "value": 72108468
+    },
+    {
+      "name": "NCR ATLEOS CORPORATION",
+      "cusip": "63001N106",
+      "shares": 2509256,
+      "value": 67800097
+    },
+    {
+      "name": "ENVESTNET INC",
+      "cusip": "29404K106",
+      "shares": 692483,
+      "value": 43342511
+    },
+    {
+      "name": "UPBOUND GROUP INC",
+      "cusip": "76009N100",
+      "shares": 1167051,
+      "value": 35828466
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 1703512,
+      "value": 33491046
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 671496,
+      "value": 29599544
+    },
+    {
+      "name": "PORTILLOS INC",
+      "cusip": "73642K106",
+      "shares": 2760443,
+      "value": 26831506
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 266883,
+      "value": 24019470
+    },
+    {
+      "name": "NEVRO CORP",
+      "cusip": "64157F103",
+      "shares": 1885956,
+      "value": 15879750
+    }
+  ],
+  "totalValue": 583921133,
+  "positionsCount": 12
+}

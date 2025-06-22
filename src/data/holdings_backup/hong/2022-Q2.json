@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001606587-22-001169",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44891N208",
+      "shares": 3316227,
+      "value": 332551
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1894553,
+      "value": 226949
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 7040110,
+      "value": 124469
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 7520104,
+      "value": 42865
+    }
+  ],
+  "totalValue": 726834,
+  "positionsCount": 4
+}

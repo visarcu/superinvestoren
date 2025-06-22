@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2017-11-14",
+  "period": "2017-11-14",
+  "accession": "0001172661-17-001998",
+  "quarterKey": "2017-Q4",
+  "positions": [
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 7143220,
+      "value": 312444
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 1388992,
+      "value": 307731
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412101",
+      "shares": 2918273,
+      "value": 232265
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480120",
+      "shares": 6970629,
+      "value": 227940
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 11172897,
+      "value": 222341
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 2023336,
+      "value": 193249
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 3865381,
+      "value": 159640
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 1485192,
+      "value": 121117
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "0750108",
+      "shares": 3764629,
+      "value": 108873
+    },
+    {
+      "name": "QUINTILES IMS HOLDINGS INC",
+      "cusip": "74876101",
+      "shares": 950121,
+      "value": 90328
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "7902106",
+      "shares": 1663465,
+      "value": 79963
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480104",
+      "shares": 256814,
+      "value": 8709
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 32194,
+      "value": 1239
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 368
+    }
+  ],
+  "totalValue": 2066207,
+  "positionsCount": 14
+}

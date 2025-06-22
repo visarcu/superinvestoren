@@ -1,4 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2022-01-26",
-  "positions": []
+  "period": "2022-01-26",
+  "accession": "0001821168-22-000001",
+  "quarterKey": "2022-Q1",
+  "positions": [
+    {
+      "name": "Berkshire Hathaway Class B",
+      "cusip": "084670702",
+      "shares": 152275,
+      "value": 45530225
+    },
+    {
+      "name": "Applied Materials",
+      "cusip": "038222105",
+      "shares": 110499,
+      "value": 17388122
+    },
+    {
+      "name": "Zoetis Inc Class A",
+      "cusip": "98978V103",
+      "shares": 51771,
+      "value": 12633677
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 250964,
+      "value": 12041252
+    },
+    {
+      "name": "U S Bancorp",
+      "cusip": "902973304",
+      "shares": 201822,
+      "value": 11429179
+    },
+    {
+      "name": "Brown & Brown Inc",
+      "cusip": "115236101",
+      "shares": 150354,
+      "value": 10566879
+    },
+    {
+      "name": "Progressive Co",
+      "cusip": "743315103",
+      "shares": 93307,
+      "value": 9577963
+    },
+    {
+      "name": "Pepsico Inc",
+      "cusip": "713448108",
+      "shares": 41084,
+      "value": 7180867
+    },
+    {
+      "name": "Alphabet Inc Class A",
+      "cusip": "02079K305",
+      "shares": 2286,
+      "value": 6622633
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 12108,
+      "value": 6079911
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 65191,
+      "value": 5685307
+    },
+    {
+      "name": "Martin Marietta Matr",
+      "cusip": "573284106",
+      "shares": 12743,
+      "value": 5613546
+    },
+    {
+      "name": "Lowes Companies Inc",
+      "cusip": "548661107",
+      "shares": 17936,
+      "value": 4636097
+    },
+    {
+      "name": "Splunk Inc",
+      "cusip": "848637104",
+      "shares": 34629,
+      "value": 4007267
+    },
+    {
+      "name": "Bank Of NY Mellon Co",
+      "cusip": "064058100",
+      "shares": 67355,
+      "value": 3911978
+    },
+    {
+      "name": "Lab Co Of Amer HLDG",
+      "cusip": "50540R409",
+      "shares": 10294,
+      "value": 3234477
+    },
+    {
+      "name": "Mohawk Industries",
+      "cusip": "608190104",
+      "shares": 9266,
+      "value": 1688079
+    },
+    {
+      "name": "Abbott Laboratories",
+      "cusip": "002824100",
+      "shares": 8825,
+      "value": 1242030
+    },
+    {
+      "name": "W S F S Finl Co",
+      "cusip": "929328102",
+      "shares": 19000,
+      "value": 952280
+    },
+    {
+      "name": "Yum Brands Inc",
+      "cusip": "988498101",
+      "shares": 5616,
+      "value": 779837
+    },
+    {
+      "name": "Aon PLC F Class A",
+      "cusip": "G0403H108",
+      "shares": 1900,
+      "value": 571064
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 7700,
+      "value": 471163
+    },
+    {
+      "name": "Berkshire Hathaway Class A 1/100",
+      "cusip": "084990175",
+      "shares": 100,
+      "value": 450662
+    },
+    {
+      "name": "Abbvie Inc",
+      "cusip": "00287Y109",
+      "shares": 3300,
+      "value": 446820
+    },
+    {
+      "name": "Greif Inc Class A",
+      "cusip": "397624107",
+      "shares": 6400,
+      "value": 389312
+    },
+    {
+      "name": "Fairfax Finl HL F",
+      "cusip": "303901102",
+      "shares": 738,
+      "value": 363244
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 1051,
+      "value": 353472
+    },
+    {
+      "name": "Alphabet Inc Class C",
+      "cusip": "02079K107",
+      "shares": 93,
+      "value": 269103
+    },
+    {
+      "name": "Yum China Holdings Inc",
+      "cusip": "98850P109",
+      "shares": 4616,
+      "value": 230061
+    },
+    {
+      "name": "Essential Utils Inc",
+      "cusip": "29670G102",
+      "shares": 4191,
+      "value": 225014
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 1237,
+      "value": 211613
+    },
+    {
+      "name": "IBM Corp",
+      "cusip": "459200101",
+      "shares": 1500,
+      "value": 200490
+    }
+  ],
+  "totalValue": 174983624,
+  "positionsCount": 32
 }

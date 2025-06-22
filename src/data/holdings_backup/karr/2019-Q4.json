@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001172661-19-002215",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 3445134,
+      "value": 176219
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 893000,
+      "value": 124154
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 688471,
+      "value": 115133
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 614000,
+      "value": 97626
+    },
+    {
+      "name": "LIVENT CORP",
+      "cusip": "53814L108",
+      "shares": 2473989,
+      "value": 16551
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 143217,
+      "value": 16327
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 1016507,
+      "value": 8783
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 108121,
+      "value": 5312
+    },
+    {
+      "name": "FOUR SEASONS ED CAYMAN INC",
+      "cusip": "35101A101",
+      "shares": 1584015,
+      "value": 2883
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 12222,
+      "value": 2432
+    },
+    {
+      "name": "THE REALREAL INC",
+      "cusip": "88339P101",
+      "shares": 36400,
+      "value": 814
+    }
+  ],
+  "totalValue": 566234,
+  "positionsCount": 11
+}

@@ -1,0 +1,347 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-05-12",
+  "period": "2025-05-12",
+  "accession": "0001145549-25-029488",
+  "quarterKey": "2025-Q4",
+  "positions": [
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 1315000,
+      "value": 493637850,
+      "pctOfPortfolio": 9.6403478959
+    },
+    {
+      "name": "NVIDIA Corp",
+      "cusip": "67066G104",
+      "shares": 3385338,
+      "value": 366902932.44,
+      "pctOfPortfolio": 7.1653174746
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 1672000,
+      "value": 318114720,
+      "pctOfPortfolio": 6.2125231515
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 578000,
+      "value": 302727500,
+      "pctOfPortfolio": 5.912023192
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 1228000,
+      "value": 301228400,
+      "pctOfPortfolio": 5.8827469817
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 973800,
+      "value": 216310194,
+      "pctOfPortfolio": 4.2243631107
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 873395,
+      "value": 192871817.85,
+      "pctOfPortfolio": 3.7666305843
+    },
+    {
+      "name": "Graco Inc",
+      "cusip": "384109104",
+      "shares": 2059774,
+      "value": 172011726.74,
+      "pctOfPortfolio": 3.3592498791
+    },
+    {
+      "name": "Visa Inc",
+      "cusip": "92826C839",
+      "shares": 459000,
+      "value": 160861140,
+      "pctOfPortfolio": 3.1414879401
+    },
+    {
+      "name": "Toro Co/The",
+      "cusip": "891092108",
+      "shares": 1999523,
+      "value": 145465298.25,
+      "pctOfPortfolio": 2.8408196047
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 849897,
+      "value": 132779408.31,
+      "pctOfPortfolio": 2.5930744361
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "771195104",
+      "shares": 3192509,
+      "value": 131371745.35,
+      "pctOfPortfolio": 2.5655839172
+    },
+    {
+      "name": "Motorola Solutions Inc",
+      "cusip": "620076307",
+      "shares": 288500,
+      "value": 126308185,
+      "pctOfPortfolio": 2.4666966796
+    },
+    {
+      "name": "Eli Lilly & Co",
+      "cusip": "532457108",
+      "shares": 152539,
+      "value": 125983485.49,
+      "pctOfPortfolio": 2.4603555608
+    },
+    {
+      "name": "Alliant Energy Corp",
+      "cusip": "018802108",
+      "shares": 1948000,
+      "value": 125353800,
+      "pctOfPortfolio": 2.4480583125
+    },
+    {
+      "name": "WEC Energy Group Inc",
+      "cusip": "92939U106",
+      "shares": 1105500,
+      "value": 120477390,
+      "pctOfPortfolio": 2.3528259699
+    },
+    {
+      "name": "Fastenal Co",
+      "cusip": "311900104",
+      "shares": 1462000,
+      "value": 113378100,
+      "pctOfPortfolio": 2.2141825789
+    },
+    {
+      "name": "Verizon Communications Inc",
+      "cusip": "92343V104",
+      "shares": 2421000,
+      "value": 109816560,
+      "pctOfPortfolio": 2.1446285837
+    },
+    {
+      "name": "Sherwin-Williams Co/The",
+      "cusip": "824348106",
+      "shares": 314000,
+      "value": 109645660,
+      "pctOfPortfolio": 2.141291045
+    },
+    {
+      "name": "Littelfuse Inc",
+      "cusip": "537008104",
+      "shares": 473000,
+      "value": 93058020,
+      "pctOfPortfolio": 1.8173478539
+    },
+    {
+      "name": "Bio-Techne Corp",
+      "cusip": "09073M104",
+      "shares": 1393800,
+      "value": 81718494,
+      "pctOfPortfolio": 1.5958960839
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 506000,
+      "value": 77726660,
+      "pctOfPortfolio": 1.517938795
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1035500,
+      "value": 74338545,
+      "pctOfPortfolio": 1.4517716498
+    },
+    {
+      "name": "HB Fuller Co",
+      "cusip": "359694106",
+      "shares": 1262674,
+      "value": 70861264.88,
+      "pctOfPortfolio": 1.3838631819
+    },
+    {
+      "name": "Ecolab Inc",
+      "cusip": "278865100",
+      "shares": 278015,
+      "value": 70482362.8,
+      "pctOfPortfolio": 1.3764635307
+    },
+    {
+      "name": "nVent Electric PLC",
+      "cusip": null,
+      "shares": 1318919,
+      "value": 69137733.98,
+      "pctOfPortfolio": 1.3502040176
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 405725,
+      "value": 67285434,
+      "pctOfPortfolio": 1.3140300973
+    },
+    {
+      "name": "Hormel Foods Corp",
+      "cusip": "440452100",
+      "shares": 2171592,
+      "value": 67189056.48,
+      "pctOfPortfolio": 1.3121479223
+    },
+    {
+      "name": "Rockwell Automation Inc",
+      "cusip": "773903109",
+      "shares": 250000,
+      "value": 64595000,
+      "pctOfPortfolio": 1.2614880977
+    },
+    {
+      "name": "Tennant Co",
+      "cusip": "880345103",
+      "shares": 786000,
+      "value": 62683500,
+      "pctOfPortfolio": 1.2241580489
+    },
+    {
+      "name": "Kraft Heinz Co/The",
+      "cusip": "500754106",
+      "shares": 2015000,
+      "value": 61316450,
+      "pctOfPortfolio": 1.1974606683
+    },
+    {
+      "name": "TSMC",
+      "cusip": "874039100",
+      "shares": 342000,
+      "value": 56772000,
+      "pctOfPortfolio": 1.1087112359
+    },
+    {
+      "name": "CH Robinson Worldwide Inc",
+      "cusip": "12541W209",
+      "shares": 525000,
+      "value": 53760000,
+      "pctOfPortfolio": 1.0498893123
+    },
+    {
+      "name": "Best Buy Co Inc",
+      "cusip": "086516101",
+      "shares": 655700,
+      "value": 48266077,
+      "pctOfPortfolio": 0.9425974403
+    },
+    {
+      "name": "Piper Sandler Cos",
+      "cusip": "724078100",
+      "shares": 168000,
+      "value": 41606880,
+      "pctOfPortfolio": 0.8125487097
+    },
+    {
+      "name": "Salesforce Inc",
+      "cusip": "79466L302",
+      "shares": 131277,
+      "value": 35229495.72,
+      "pctOfPortfolio": 0.6880035535
+    },
+    {
+      "name": "Entegris Inc",
+      "cusip": "29362U104",
+      "shares": 397000,
+      "value": 34729560,
+      "pctOfPortfolio": 0.6782402133
+    },
+    {
+      "name": "Workiva Inc",
+      "cusip": "98139A105",
+      "shares": 432857,
+      "value": 32858174.87,
+      "pctOfPortfolio": 0.6416935755
+    },
+    {
+      "name": "Principal Financial Group Inc",
+      "cusip": "74251V102",
+      "shares": 385000,
+      "value": 32482450,
+      "pctOfPortfolio": 0.6343559727
+    },
+    {
+      "name": "Abbott Laboratories",
+      "cusip": "002824100",
+      "shares": 228338,
+      "value": 30289035.7,
+      "pctOfPortfolio": 0.5915203657
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 586660,
+      "value": 24768785.2,
+      "pctOfPortfolio": 0.4837143389
+    },
+    {
+      "name": "Donaldson Co Inc",
+      "cusip": "257651109",
+      "shares": 364481,
+      "value": 24442095.86,
+      "pctOfPortfolio": 0.4773343604
+    },
+    {
+      "name": "Ulta Beauty Inc",
+      "cusip": "90384S303",
+      "shares": 54900,
+      "value": 20123046,
+      "pctOfPortfolio": 0.3929868104
+    },
+    {
+      "name": "Casey's General Stores Inc",
+      "cusip": "147528103",
+      "shares": 42748,
+      "value": 18554341.92,
+      "pctOfPortfolio": 0.3623512887
+    },
+    {
+      "name": "Clearfield Inc",
+      "cusip": "18482P103",
+      "shares": 440447,
+      "value": 13090084.84,
+      "pctOfPortfolio": 0.2556387681
+    },
+    {
+      "name": "First American Government Obli",
+      "cusip": "31846V336",
+      "shares": 12911714.06,
+      "value": 12911714.06,
+      "pctOfPortfolio": 0.252155331
+    },
+    {
+      "name": "Target Corp",
+      "cusip": "87612E106",
+      "shares": 75870,
+      "value": 7917793.2,
+      "pctOfPortfolio": 0.1546280963
+    },
+    {
+      "name": "Charles Schwab Corp/The",
+      "cusip": "808513105",
+      "shares": 32100,
+      "value": 2512788,
+      "pctOfPortfolio": 0.049072717
+    }
+  ],
+  "totalValue": 5115952756.94,
+  "positionsCount": 48
+}

@@ -1,0 +1,173 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-14",
+  "period": "2020-05-14",
+  "accession": "0001172661-20-001226",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 204421,
+      "value": 37374
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 84,
+      "value": 22848
+    },
+    {
+      "name": "NEWMONT CORP",
+      "cusip": "651639106",
+      "shares": 312084,
+      "value": 14131
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 122482,
+      "value": 8052
+    },
+    {
+      "name": "OLIN CORP",
+      "cusip": "680665205",
+      "shares": 689403,
+      "value": 8045
+    },
+    {
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 190647,
+      "value": 7763
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 76171,
+      "value": 7358
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 19316,
+      "value": 5508
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 144269,
+      "value": 5478
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 1200925,
+      "value": 4780
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 52674,
+      "value": 4368
+    },
+    {
+      "name": "CUMMINS INC",
+      "cusip": "231021106",
+      "shares": 31165,
+      "value": 4217
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 24568,
+      "value": 3710
+    },
+    {
+      "name": "MERCK & CO. INC",
+      "cusip": "58933Y105",
+      "shares": 44044,
+      "value": 3389
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 72432,
+      "value": 2694
+    },
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 93227,
+      "value": 2654
+    },
+    {
+      "name": "GENUINE PARTS CO",
+      "cusip": "372460105",
+      "shares": 31278,
+      "value": 2106
+    },
+    {
+      "name": "ALLEGHANY CORP DEL",
+      "cusip": "017175100",
+      "shares": 3731,
+      "value": 2061
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 23303,
+      "value": 1995
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20000,
+      "value": 1987
+    },
+    {
+      "name": "EQUINOR ASA",
+      "cusip": "29446M102",
+      "shares": 141453,
+      "value": 1723
+    },
+    {
+      "name": "WASHINGTON FED INC",
+      "cusip": "938824109",
+      "shares": 64755,
+      "value": 1681
+    },
+    {
+      "name": "SEACOR MARINE HLDGS INC",
+      "cusip": "78413P101",
+      "shares": 262373,
+      "value": 1149
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 142607,
+      "value": 1132
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 13678,
+      "value": 1132
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 24000,
+      "value": 1062
+    },
+    {
+      "name": "MEDTRONIC PLC",
+      "cusip": "G5960L103",
+      "shares": 3056,
+      "value": 276
+    }
+  ],
+  "totalValue": 158673,
+  "positionsCount": 27
+}

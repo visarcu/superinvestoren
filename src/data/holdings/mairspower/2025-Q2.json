@@ -1,0 +1,207 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-04-22",
+  "period": "2025-04-22",
+  "accession": "0001145549-25-025937",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 28431,
+      "value": 6875753.04,
+      "pctOfPortfolio": 7.3921251675
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 16837,
+      "value": 6684120.63,
+      "pctOfPortfolio": 7.1861010779
+    },
+    {
+      "name": "Accenture PLC",
+      "cusip": null,
+      "shares": 19012,
+      "value": 6625682,
+      "pctOfPortfolio": 7.1232736806
+    },
+    {
+      "name": "Marsh & McLennan Cos Inc",
+      "cusip": "571748102",
+      "shares": 26620,
+      "value": 6331300.8,
+      "pctOfPortfolio": 6.8067843209
+    },
+    {
+      "name": "Stryker Corp",
+      "cusip": "863667101",
+      "shares": 14989,
+      "value": 5788601.91,
+      "pctOfPortfolio": 6.2233285016
+    },
+    {
+      "name": "Intuit Inc",
+      "cusip": "461202103",
+      "shares": 8349,
+      "value": 5124950.16,
+      "pctOfPortfolio": 5.5098362084
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 27922,
+      "value": 4754558.16,
+      "pctOfPortfolio": 5.1116276036
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 8234,
+      "value": 4745336.54,
+      "pctOfPortfolio": 5.1017134358
+    },
+    {
+      "name": "Automatic Data Processing Inc",
+      "cusip": "053015103",
+      "shares": 13887,
+      "value": 4376904.66,
+      "pctOfPortfolio": 4.7056121569
+    },
+    {
+      "name": "Broadridge Financial Solutions",
+      "cusip": "11133T103",
+      "shares": 13982,
+      "value": 3372738.04,
+      "pctOfPortfolio": 3.6260321748
+    },
+    {
+      "name": "KLA Corp",
+      "cusip": "482480100",
+      "shares": 4694,
+      "value": 3327294.96,
+      "pctOfPortfolio": 3.5771762992
+    },
+    {
+      "name": "PepsiCo Inc",
+      "cusip": "713448108",
+      "shares": 21447,
+      "value": 3291471.09,
+      "pctOfPortfolio": 3.5386620405
+    },
+    {
+      "name": "Zoetis Inc",
+      "cusip": "98978V103",
+      "shares": 18249,
+      "value": 3051962.76,
+      "pctOfPortfolio": 3.2811665278
+    },
+    {
+      "name": "Waste Management Inc",
+      "cusip": "94106L109",
+      "shares": 12983,
+      "value": 3022182.74,
+      "pctOfPortfolio": 3.249150015
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 6171,
+      "value": 2930978.16,
+      "pctOfPortfolio": 3.1510959303
+    },
+    {
+      "name": "Procter & Gamble Co/The",
+      "cusip": "742718109",
+      "shares": 14976,
+      "value": 2603427.84,
+      "pctOfPortfolio": 2.7989464348
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 13199,
+      "value": 2586872.01,
+      "pctOfPortfolio": 2.7811472546
+    },
+    {
+      "name": "Equifax Inc",
+      "cusip": "294429105",
+      "shares": 9810,
+      "value": 2405412,
+      "pctOfPortfolio": 2.5860595167
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 13456,
+      "value": 2220509.12,
+      "pctOfPortfolio": 2.3872703477
+    },
+    {
+      "name": "NIKE Inc",
+      "cusip": "654106103",
+      "shares": 23026,
+      "value": 1828955.18,
+      "pctOfPortfolio": 1.9663105318
+    },
+    {
+      "name": "Sherwin-Williams Co/The",
+      "cusip": "824348106",
+      "shares": 4724,
+      "value": 1711363.48,
+      "pctOfPortfolio": 1.8398876425
+    },
+    {
+      "name": "Copart Inc",
+      "cusip": "217204106",
+      "shares": 28955,
+      "value": 1586734,
+      "pctOfPortfolio": 1.7058984328
+    },
+    {
+      "name": "Home Depot Inc/The",
+      "cusip": "437076102",
+      "shares": 3993,
+      "value": 1583623.8,
+      "pctOfPortfolio": 1.7025546554
+    },
+    {
+      "name": "McDonald's Corp",
+      "cusip": "580135101",
+      "shares": 5082,
+      "value": 1566933.06,
+      "pctOfPortfolio": 1.6846104334
+    },
+    {
+      "name": "Amphenol Corp",
+      "cusip": "032095101",
+      "shares": 20521,
+      "value": 1366698.6,
+      "pctOfPortfolio": 1.4693382759
+    },
+    {
+      "name": "Verisk Analytics Inc",
+      "cusip": "92345Y106",
+      "shares": 4376,
+      "value": 1299278.16,
+      "pctOfPortfolio": 1.3968545307
+    },
+    {
+      "name": "First American Treasury Obliga",
+      "cusip": "31846V328",
+      "shares": 980461.44,
+      "value": 980461.44,
+      "pctOfPortfolio": 1.0540945325
+    },
+    {
+      "name": "Cadence Design Systems Inc",
+      "cusip": "127387108",
+      "shares": 3730,
+      "value": 934365,
+      "pctOfPortfolio": 1.0045362293
+    }
+  ],
+  "totalValue": 92978469.34,
+  "positionsCount": 28
+}

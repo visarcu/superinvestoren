@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-12",
+  "period": "2022-05-12",
+  "accession": "0001454502-22-000004",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 317529,
+      "value": 173218000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 46671,
+      "value": 130352000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 554983,
+      "value": 123079000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 146400,
+      "value": 95385000
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 20767,
+      "value": 67699000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 209404,
+      "value": 64561000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 132353,
+      "value": 44657000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 172072,
+      "value": 38262000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 376070,
+      "value": 35584000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 157525,
+      "value": 35043000
+    }
+  ],
+  "totalValue": 807840000,
+  "positionsCount": 10
+}

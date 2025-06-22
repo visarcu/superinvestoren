@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-13",
+  "period": "2022-05-13",
+  "accession": "0001398344-22-009480",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 755957,
+      "value": 168095
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 3009153,
+      "value": 164841
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 1566047,
+      "value": 163589
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 739610,
+      "value": 101445
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 738996,
+      "value": 85465
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 677215,
+      "value": 84835
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 1292392,
+      "value": 74002
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 23582,
+      "value": 65864
+    },
+    {
+      "name": "POSHMARK INC",
+      "cusip": "73739W104",
+      "shares": 4193327,
+      "value": 53088
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 3445361,
+      "value": 41138
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 1558109,
+      "value": 36210
+    }
+  ],
+  "totalValue": 1038572,
+  "positionsCount": 11
+}

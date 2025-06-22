@@ -1,0 +1,179 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-03",
+  "period": "2021-02-03",
+  "accession": "0000891092-21-000828",
+  "quarterKey": "2021-Q1",
+  "positions": [
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 3064188,
+      "value": 808057
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 18388356,
+      "value": 765691
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 9540545,
+      "value": 653814
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 7543842,
+      "value": 575067
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2782407,
+      "value": 502197
+    },
+    {
+      "name": "Deere & Co (DE)",
+      "cusip": "244199105",
+      "shares": 1430372,
+      "value": 384842
+    },
+    {
+      "name": "Citigroup (C)",
+      "cusip": "172967424",
+      "shares": 4649084,
+      "value": 286663
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 5358107,
+      "value": 232917
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 3316040,
+      "value": 228541
+    },
+    {
+      "name": "Ford Motor Co (F)",
+      "cusip": "345370860",
+      "shares": 19458550,
+      "value": 171041
+    },
+    {
+      "name": "CF Industries Holdings, Inc (CF)",
+      "cusip": "125269100",
+      "shares": 3398261,
+      "value": 131547
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 1746417,
+      "value": 92630
+    },
+    {
+      "name": "Berkshire Hathaway Inc Class B (BRK/B)",
+      "cusip": "084670702",
+      "shares": 395417,
+      "value": 91685
+    },
+    {
+      "name": "PulteGroup (PHM)",
+      "cusip": "745867101",
+      "shares": 1909140,
+      "value": 82322
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 513221,
+      "value": 81618
+    },
+    {
+      "name": "Bunge Ltd (BG)",
+      "cusip": "G16962105",
+      "shares": 1086161,
+      "value": 71230
+    },
+    {
+      "name": "Adient PLC (ADNT)",
+      "cusip": "G0084W101",
+      "shares": 1460196,
+      "value": 50771
+    },
+    {
+      "name": "Owens Corning, Inc (OC)",
+      "cusip": "690742101",
+      "shares": 435496,
+      "value": 32993
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 455624,
+      "value": 27884
+    },
+    {
+      "name": "Quanta Services Inc (PWR)",
+      "cusip": "74762E102",
+      "shares": 218595,
+      "value": 15743
+    },
+    {
+      "name": "Proshares Short QQQ (PSQ)",
+      "cusip": "74347B714",
+      "shares": 814000,
+      "value": 11730
+    },
+    {
+      "name": "Autoliv, Inc (ALV)",
+      "cusip": "052800109",
+      "shares": 69700,
+      "value": 6419
+    },
+    {
+      "name": "M.D.C. Holdings, Inc (MDC)",
+      "cusip": "552676108",
+      "shares": 34400,
+      "value": 1672
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1268
+    },
+    {
+      "name": "Fedex Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 2500,
+      "value": 649
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 5000,
+      "value": 635
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2500,
+      "value": 437
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 423
+    }
+  ],
+  "totalValue": 5310486,
+  "positionsCount": 28
+}

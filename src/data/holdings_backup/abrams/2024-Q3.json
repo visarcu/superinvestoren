@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-09",
+  "period": "2024-08-09",
+  "accession": "0001172661-24-003200",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "LOAR HOLDINGS INC",
+      "cusip": "53947R105",
+      "shares": 38434378,
+      "value": 2052780129
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2391188,
+      "value": 603655411
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2108540,
+      "value": 480473010
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2067195,
+      "value": 376539569
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 620547,
+      "value": 312892208
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 17834322,
+      "value": 289272703
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13017964,
+      "value": 272726346
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586506",
+      "shares": 3545220,
+      "value": 212784104
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 720779,
+      "value": 188945007
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 3600000,
+      "value": 170424000
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 91243311
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 7180000,
+      "value": 47388000
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 11129618
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586100",
+      "shares": 75005,
+      "value": 4630059
+    }
+  ],
+  "totalValue": 5114883475,
+  "positionsCount": 14
+}

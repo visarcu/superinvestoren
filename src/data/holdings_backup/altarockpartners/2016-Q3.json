@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-15",
+  "period": "2016-08-15",
+  "accession": "0001144204-16-119573",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16119P108",
+      "shares": 547937,
+      "value": 125280
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 439148,
+      "value": 115799
+    },
+    {
+      "name": "LIBERTY GLOBAL CL C",
+      "cusip": "G5480U120",
+      "shares": 3527133,
+      "value": 101052
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 992019,
+      "value": 92962
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 315375,
+      "value": 45663
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 403690,
+      "value": 35549
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 282516,
+      "value": 20954
+    },
+    {
+      "name": "LIBERTY LILAC GROUP - C",
+      "cusip": "G5480U153",
+      "shares": 398745,
+      "value": 12955
+    },
+    {
+      "name": "INTERACTIVE BROKERS",
+      "cusip": "45841N107",
+      "shares": 7201,
+      "value": 255
+    }
+  ],
+  "totalValue": 550469,
+  "positionsCount": 9
+}

@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-13",
+  "period": "2023-11-13",
+  "accession": "0001549575-23-000017",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "ALPHA METALLURGICAL RESOUR I",
+      "cusip": "020764106",
+      "shares": 441510,
+      "value": 114673440
+    },
+    {
+      "name": "CONSOL ENERGY INC NEW",
+      "cusip": "20854L108",
+      "shares": 396570,
+      "value": 41604159
+    },
+    {
+      "name": "ARCH RESOURCES INC",
+      "cusip": "03940R107",
+      "shares": 78238,
+      "value": 13352097
+    }
+  ],
+  "totalValue": 169629696,
+  "positionsCount": 3
+}

@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001345471-19-000052",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 36630557,
+      "value": 4556109
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 23671603,
+      "value": 1879525
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 18828318,
+      "value": 1041583
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 64226906,
+      "value": 574189
+    },
+    {
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 12154366,
+      "value": 549499
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 26630629,
+      "value": 532080
+    },
+    {
+      "name": "nVent Electric Plc",
+      "cusip": "G6700G107",
+      "shares": 13551961,
+      "value": 298685
+    },
+    {
+      "name": "Legg Mason Inc",
+      "cusip": "524901105",
+      "shares": 3881704,
+      "value": 148242
+    }
+  ],
+  "totalValue": 9579912,
+  "positionsCount": 8
+}

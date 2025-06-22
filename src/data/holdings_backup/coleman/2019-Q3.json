@@ -1,0 +1,455 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0000919574-19-005381",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 15280500,
+      "value": 2046976
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 8975100,
+      "value": 1732194
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 52850366,
+      "value": 1600838
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 704112,
+      "value": 1333328
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 94248728,
+      "value": 1302517
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT LLC",
+      "cusip": "037612306",
+      "shares": 37663500,
+      "value": 1291858
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 2066000,
+      "value": 999531
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 2146813,
+      "value": 788567
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 4329245,
+      "value": 733591
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 4161135,
+      "value": 608441
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 1727100,
+      "value": 485056
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 13598500,
+      "value": 451742
+    },
+    {
+      "name": "SUNRUN INC",
+      "cusip": "86771W105",
+      "shares": 21868400,
+      "value": 410251
+    },
+    {
+      "name": "TAL EDUCATION GROUP",
+      "cusip": "874080104",
+      "shares": 9424023,
+      "value": 359055
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2286739,
+      "value": 346967
+    },
+    {
+      "name": "RINGCENTRAL INC",
+      "cusip": "76680R206",
+      "shares": 3003000,
+      "value": 345105
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 6664323,
+      "value": 309091
+    },
+    {
+      "name": "ZENDESK INC",
+      "cusip": "98936J101",
+      "shares": 2702000,
+      "value": 240559
+    },
+    {
+      "name": "MERCADOLIBRE INC",
+      "cusip": "58733R102",
+      "shares": 389500,
+      "value": 238284
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP I",
+      "cusip": "647581107",
+      "shares": 2353600,
+      "value": 227311
+    },
+    {
+      "name": "SVMK INC",
+      "cusip": "78489X103",
+      "shares": 13584284,
+      "value": 224277
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 799600,
+      "value": 219546
+    },
+    {
+      "name": "GDS HLDGS LTD",
+      "cusip": "36165L108",
+      "shares": 5730659,
+      "value": 215301
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 714000,
+      "value": 210380
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 2830769,
+      "value": 177178
+    },
+    {
+      "name": "TWILIO INC",
+      "cusip": "90138F102",
+      "shares": 1079000,
+      "value": 147122
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 549932,
+      "value": 145474
+    },
+    {
+      "name": "EVENTBRITE INC",
+      "cusip": "29975E109",
+      "shares": 8347422,
+      "value": 135228
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 9256550,
+      "value": 128573
+    },
+    {
+      "name": "8X8 INC NEW",
+      "cusip": "282914100",
+      "shares": 4730000,
+      "value": 113993
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 2255000,
+      "value": 109142
+    },
+    {
+      "name": "ZOOM VIDEO COMMUNICATIONS IN",
+      "cusip": "98980L101",
+      "shares": 1200000,
+      "value": 106548
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 519906,
+      "value": 68025
+    },
+    {
+      "name": "MONGODB INC",
+      "cusip": "60937P106",
+      "shares": 397000,
+      "value": 60380
+    },
+    {
+      "name": "STONECO LTD",
+      "cusip": "G85158106",
+      "shares": 1955624,
+      "value": 57847
+    },
+    {
+      "name": "ELASTIC N V",
+      "cusip": "N14506104",
+      "shares": 738000,
+      "value": 55099
+    },
+    {
+      "name": "TENCENT MUSIC ENTMT GROUP",
+      "cusip": "88034P109",
+      "shares": 2700000,
+      "value": 40473
+    },
+    {
+      "name": "SWITCH INC",
+      "cusip": "87105L104",
+      "shares": 2470000,
+      "value": 32332
+    },
+    {
+      "name": "LINX S A",
+      "cusip": "53619W101",
+      "shares": 3350000,
+      "value": 30552
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 163000,
+      "value": 28289
+    },
+    {
+      "name": "CHEWY INC",
+      "cusip": "16679L109",
+      "shares": 800000,
+      "value": 28000
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06746P621",
+      "shares": 881575,
+      "value": 22921
+    },
+    {
+      "name": "PINDUODUO INC",
+      "cusip": "722304102",
+      "shares": 1088000,
+      "value": 22445
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 70000,
+      "value": 21011
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 1167656,
+      "value": 20994
+    },
+    {
+      "name": "IQIYI INC",
+      "cusip": "46267X108",
+      "shares": 1000000,
+      "value": 20650
+    },
+    {
+      "name": "ZTO EXPRESS CAYMAN INC",
+      "cusip": "98980A105",
+      "shares": 994400,
+      "value": 19013
+    },
+    {
+      "name": "CROWDSTRIKE HLDGS INC",
+      "cusip": "22788C105",
+      "shares": 250000,
+      "value": 17073
+    },
+    {
+      "name": "PURE STORAGE INC",
+      "cusip": "74624M102",
+      "shares": 1000000,
+      "value": 15270
+    },
+    {
+      "name": "DOCUSIGN INC",
+      "cusip": "256163106",
+      "shares": 300000,
+      "value": 14913
+    },
+    {
+      "name": "PIVOTAL SOFTWARE INC",
+      "cusip": "72582H107",
+      "shares": 1300000,
+      "value": 13728
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 500000,
+      "value": 10400
+    },
+    {
+      "name": "HUYA INC",
+      "cusip": "44852D108",
+      "shares": 362000,
+      "value": 8945
+    },
+    {
+      "name": "CERIDIAN HCM HLDG INC",
+      "cusip": "15677J108",
+      "shares": 170000,
+      "value": 8534
+    },
+    {
+      "name": "FASTLY INC",
+      "cusip": "31188V100",
+      "shares": 400000,
+      "value": 8112
+    },
+    {
+      "name": "OKTA INC",
+      "cusip": "679295105",
+      "shares": 60000,
+      "value": 7411
+    },
+    {
+      "name": "AVALARA INC",
+      "cusip": "05338G106",
+      "shares": 100000,
+      "value": 7220
+    },
+    {
+      "name": "PAGERDUTY INC",
+      "cusip": "69553P100",
+      "shares": 150000,
+      "value": 7058
+    },
+    {
+      "name": "LUCKIN COFFEE INC",
+      "cusip": "54951L109",
+      "shares": 300000,
+      "value": 5847
+    },
+    {
+      "name": "DROPBOX INC",
+      "cusip": "26210C104",
+      "shares": 200000,
+      "value": 5010
+    },
+    {
+      "name": "RISE ED CAYMAN LTD",
+      "cusip": "76761L102",
+      "shares": 500000,
+      "value": 4765
+    },
+    {
+      "name": "TENABLE HLDGS INC",
+      "cusip": "88025T102",
+      "shares": 150000,
+      "value": 4281
+    },
+    {
+      "name": "SOLARWINDS CORP",
+      "cusip": "83417Q105",
+      "shares": 200000,
+      "value": 3668
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 2962
+    },
+    {
+      "name": "ONESMART INTL ED GROUP LTD",
+      "cusip": "68276W103",
+      "shares": 320000,
+      "value": 2547
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 500000,
+      "value": 2200
+    },
+    {
+      "name": "THE REALREAL INC",
+      "cusip": "88339P101",
+      "shares": 70000,
+      "value": 2023
+    },
+    {
+      "name": "BILIBILI INC",
+      "cusip": "090040106",
+      "shares": 100000,
+      "value": 1627
+    },
+    {
+      "name": "PENNEY J C CORP INC",
+      "cusip": "708160106",
+      "shares": 850000,
+      "value": 969
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 902
+    },
+    {
+      "name": "SUNLANDS TECHNOLOGY GROUP",
+      "cusip": "86740P108",
+      "shares": 300000,
+      "value": 717
+    },
+    {
+      "name": "SOGOU INC",
+      "cusip": "83409V104",
+      "shares": 150000,
+      "value": 615
+    },
+    {
+      "name": "FARMLAND PARTNERS INC",
+      "cusip": "31154R109",
+      "shares": 44502,
+      "value": 314
+    },
+    {
+      "name": "CLOUDERA INC",
+      "cusip": "18914U100",
+      "shares": 50000,
+      "value": 263
+    }
+  ],
+  "totalValue": 18469429,
+  "positionsCount": 74
+}

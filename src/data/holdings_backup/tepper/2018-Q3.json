@@ -1,0 +1,305 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0001656456-18-000006",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 40527800,
+      "value": 2125278
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 5075000,
+      "value": 986174
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 3390000,
+      "value": 565181
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2642974,
+      "value": 490351
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 6412700,
+      "value": 469474
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 331000,
+      "value": 369280
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 4000000,
+      "value": 239000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 1380000,
+      "value": 238533
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 7243695,
+      "value": 204200
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 3256261,
+      "value": 180527
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686103",
+      "shares": 15774344,
+      "value": 168785
+    },
+    {
+      "name": "XPO LOGISTICS INC",
+      "cusip": "983793100",
+      "shares": 1645045,
+      "value": 164801
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 529390,
+      "value": 129881
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 4817993,
+      "value": 126569
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 1025916,
+      "value": 126403
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 585000,
+      "value": 121177
+    },
+    {
+      "name": "ENERGY TRANSFER PARTNERS LP",
+      "cusip": "29278N103",
+      "shares": 5551581,
+      "value": 105702
+    },
+    {
+      "name": "UBS GROUP AG",
+      "cusip": "H42097107",
+      "shares": 6828480,
+      "value": 105698
+    },
+    {
+      "name": "KEYCORP NEW",
+      "cusip": "493267108",
+      "shares": 5351561,
+      "value": 104570
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY L P",
+      "cusip": "29273V100",
+      "shares": 5975672,
+      "value": 103080
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 3109041,
+      "value": 90784
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 918719,
+      "value": 90586
+    },
+    {
+      "name": "OWENS CORNING NEW",
+      "cusip": "690742101",
+      "shares": 1409164,
+      "value": 89299
+    },
+    {
+      "name": "WILLIAMS PARTNERS L P NEW",
+      "cusip": "96949L105",
+      "shares": 2119775,
+      "value": 86042
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 1099500,
+      "value": 85112
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686AA1",
+      "shares": 48992834,
+      "value": 84464
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 2528138,
+      "value": 82670
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 1229741,
+      "value": 80167
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377508",
+      "shares": 2572442,
+      "value": 78974
+    },
+    {
+      "name": "SYMANTEC CORP",
+      "cusip": "871503108",
+      "shares": 3800000,
+      "value": 78470
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 1793967,
+      "value": 76351
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 2017257,
+      "value": 72420
+    },
+    {
+      "name": "ATLANTICA YIELD PLC",
+      "cusip": "G0751N103",
+      "shares": 3461464,
+      "value": 69852
+    },
+    {
+      "name": "SUMMIT MATLS INC",
+      "cusip": "86614U100",
+      "shares": 2580314,
+      "value": 67733
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 316000,
+      "value": 53360
+    },
+    {
+      "name": "PLATFORM SPECIALTY PRODS COR",
+      "cusip": "72766Q105",
+      "shares": 4338801,
+      "value": 50330
+    },
+    {
+      "name": "CITIZENS FINL GROUP INC",
+      "cusip": "174610105",
+      "shares": 1257694,
+      "value": 48924
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 440000,
+      "value": 48079
+    },
+    {
+      "name": "BOYD GAMING CORP",
+      "cusip": "103304101",
+      "shares": 1354896,
+      "value": 46961
+    },
+    {
+      "name": "VISTRA ENERGY CORP",
+      "cusip": "92840M102",
+      "shares": 1870951,
+      "value": 44267
+    },
+    {
+      "name": "KNIGHT SWIFT TRANSN HLDGS IN",
+      "cusip": "499049104",
+      "shares": 1100700,
+      "value": 42058
+    },
+    {
+      "name": "TERRAFORM PWR INC",
+      "cusip": "88104R209",
+      "shares": 3404955,
+      "value": 39838
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 525276,
+      "value": 36627
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP I",
+      "cusip": "647581107",
+      "shares": 360189,
+      "value": 34095
+    },
+    {
+      "name": "VENATOR MATLS PLC",
+      "cusip": "G9329Z100",
+      "shares": 1751541,
+      "value": 28655
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 219272,
+      "value": 23960
+    },
+    {
+      "name": "MGM RESORTS INTERNATIONAL",
+      "cusip": "552953101",
+      "shares": 793504,
+      "value": 23035
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 500000,
+      "value": 5050
+    },
+    {
+      "name": "WMIH CORP",
+      "cusip": "92936P100",
+      "shares": 1355646,
+      "value": 1817
+    }
+  ],
+  "totalValue": 8784644,
+  "positionsCount": 49
+}

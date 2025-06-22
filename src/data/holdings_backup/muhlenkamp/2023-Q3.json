@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2023-07-14",
+  "period": "2023-07-14",
+  "accession": "0001133219-23-000004",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 445715,
+      "value": 18332258
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 38325,
+      "value": 16376656
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 311735,
+      "value": 15312423
+    },
+    {
+      "name": "MASTEC INC",
+      "cusip": "576323109",
+      "shares": 127819,
+      "value": 15078807
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 239731,
+      "value": 14561261
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 16035,
+      "value": 13909240
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 232872,
+      "value": 13692874
+    },
+    {
+      "name": "KIRBY CORP",
+      "cusip": "497266106",
+      "shares": 167205,
+      "value": 12866425
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 37646,
+      "value": 12837286
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 24730,
+      "value": 11886227
+    },
+    {
+      "name": "NMI HLDGS INC",
+      "cusip": "629209305",
+      "shares": 455821,
+      "value": 11769298
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 60370,
+      "value": 11709969
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 217893,
+      "value": 11604981
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 30892,
+      "value": 10519875
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78464A698",
+      "shares": 249235,
+      "value": 10176265
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "595017104",
+      "shares": 111744,
+      "value": 10011145
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 129569,
+      "value": 8285938
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 110695,
+      "value": 7652345
+    },
+    {
+      "name": "BGC PARTNERS INC",
+      "cusip": "05541T101",
+      "shares": 1567592,
+      "value": 6944433
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 174555,
+      "value": 6844302
+    },
+    {
+      "name": "FRANCO NEV CORP",
+      "cusip": "351858105",
+      "shares": 47783,
+      "value": 6813856
+    },
+    {
+      "name": "ROYAL GOLD INC",
+      "cusip": "780287108",
+      "shares": 56859,
+      "value": 6526276
+    },
+    {
+      "name": "WABTEC",
+      "cusip": "929740108",
+      "shares": 55327,
+      "value": 6067712
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "H8817H100",
+      "shares": 855992,
+      "value": 6000504
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 54519,
+      "value": 4235036
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 85789,
+      "value": 4183930
+    },
+    {
+      "name": "TEGNA INC",
+      "cusip": "87901J105",
+      "shares": 209438,
+      "value": 3401273
+    },
+    {
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 18485,
+      "value": 3295321
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 24855,
+      "value": 654929
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 6335,
+      "value": 431160
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 1952,
+      "value": 209352
+    }
+  ],
+  "totalValue": 282191357,
+  "positionsCount": 31
+}

@@ -1,0 +1,131 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-13",
+  "period": "2025-02-13",
+  "accession": "0001427119-25-000002",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "TRANSUNION",
+      "cusip": "89400J107",
+      "shares": 4278373,
+      "value": 396647961
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 996211,
+      "value": 357799143
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 1138082,
+      "value": 336382897
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 1291132,
+      "value": 333150790
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1485984,
+      "value": 326010030
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 3773482,
+      "value": 273061256
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 1276707,
+      "value": 227662392
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 3301689,
+      "value": 215204089
+    },
+    {
+      "name": "PROCORE TECHNOLOGIES INC",
+      "cusip": "74275K108",
+      "shares": 2745504,
+      "value": 205720615
+    },
+    {
+      "name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "shares": 1231708,
+      "value": 205436578
+    },
+    {
+      "name": "CHARLES RIV LABS INTL INC",
+      "cusip": "159864107",
+      "shares": 1074120,
+      "value": 198282552
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 1334958,
+      "value": 179338257
+    },
+    {
+      "name": "AIRBNB INC",
+      "cusip": "009066101",
+      "shares": 1269499,
+      "value": 166824864
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 300755,
+      "value": 152139924
+    },
+    {
+      "name": "CRH PLC",
+      "cusip": "G25508105",
+      "shares": 1633095,
+      "value": 151093950
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "595017104",
+      "shares": 2528909,
+      "value": 145032931
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 620444,
+      "value": 131819532
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 94478,
+      "value": 119730080
+    },
+    {
+      "name": "PERIMETER SOLUTIONS INC",
+      "cusip": "71385M107",
+      "shares": 3916272,
+      "value": 50049956
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 313506,
+      "value": 23494140
+    }
+  ],
+  "totalValue": 4194881937,
+  "positionsCount": 20
+}

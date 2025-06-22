@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0000919574-24-003016",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 6854000,
+      "value": 260520540
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 700000,
+      "value": 210602000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 7120000,
+      "value": 201496000
+    },
+    {
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 527424,
+      "value": 154129116
+    },
+    {
+      "name": "YANDEX N V",
+      "cusip": "N97284108",
+      "shares": 5500000,
+      "value": 59446164
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 5913199,
+      "value": 19277029
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "P3311R259",
+      "shares": 1242313,
+      "value": 666625
+    }
+  ],
+  "totalValue": 906137474,
+  "positionsCount": 7
+}

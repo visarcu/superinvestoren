@@ -1,0 +1,485 @@
+{
+  "form": "13F-HR",
+  "date": "2017-11-13",
+  "period": "2017-11-13",
+  "accession": "0001133219-17-000007",
+  "quarterKey": "2017-Q4",
+  "positions": [
+    {
+      "name": "Apple Computer Inc",
+      "cusip": "037833100",
+      "shares": 147401,
+      "value": 22717
+    },
+    {
+      "name": "ON SEMICONDUCTOR CORP COM",
+      "cusip": "682189105",
+      "shares": 1211925,
+      "value": 22384
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 224147,
+      "value": 18160
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 231413,
+      "value": 17238
+    },
+    {
+      "name": "ALLIANCE DATA SYS CORP COM",
+      "cusip": "018581108",
+      "shares": 69782,
+      "value": 15460
+    },
+    {
+      "name": "HANESBRANDS INC COM",
+      "cusip": "410345102",
+      "shares": 483137,
+      "value": 11904
+    },
+    {
+      "name": "Rush Enterprises CLA",
+      "cusip": "781846209",
+      "shares": 252012,
+      "value": 11666
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 58699,
+      "value": 11496
+    },
+    {
+      "name": "CELANESE CORP-SERIES A",
+      "cusip": "150870103",
+      "shares": 109335,
+      "value": 11400
+    },
+    {
+      "name": "BRISTOL-MEYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 177169,
+      "value": 11293
+    },
+    {
+      "name": "MCKESSON CORP COM",
+      "cusip": "58155Q103",
+      "shares": 70956,
+      "value": 10900
+    },
+    {
+      "name": "TENCENT HOLDINGS LTD-UNS ADR",
+      "cusip": "88032Q109",
+      "shares": 242998,
+      "value": 10671
+    },
+    {
+      "name": "CELGENE CORP COM",
+      "cusip": "151020104",
+      "shares": 71455,
+      "value": 10420
+    },
+    {
+      "name": "SPDR GOLD TRUST GOLD SHS",
+      "cusip": "78463V107",
+      "shares": 82630,
+      "value": 10046
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY COM",
+      "cusip": "595017104",
+      "shares": 98815,
+      "value": 8872
+    },
+    {
+      "name": "Federated Invs. PA CL B",
+      "cusip": "314211103",
+      "shares": 291886,
+      "value": 8669
+    },
+    {
+      "name": "LANNETT INC COM",
+      "cusip": "516012101",
+      "shares": 454873,
+      "value": 8392
+    },
+    {
+      "name": "CAMECO CORP COM",
+      "cusip": "13321L108",
+      "shares": 865258,
+      "value": 8367
+    },
+    {
+      "name": "DOWDUPONT INC",
+      "cusip": "26078J100",
+      "shares": 116895,
+      "value": 8093
+    },
+    {
+      "name": "BIOGEN IDEC INC COM",
+      "cusip": "09062X103",
+      "shares": 24547,
+      "value": 7686
+    },
+    {
+      "name": "COGNIZANT TECH SOLUTIONS - A",
+      "cusip": "192446102",
+      "shares": 92220,
+      "value": 6690
+    },
+    {
+      "name": "Delta Air Lines",
+      "cusip": "247361702",
+      "shares": 130145,
+      "value": 6276
+    },
+    {
+      "name": "GOLAR LNG PARTNERS LP COM UNIT",
+      "cusip": "Y2745C102",
+      "shares": 253435,
+      "value": 5887
+    },
+    {
+      "name": "UNIVERSAL DISPLAY CORP COM",
+      "cusip": "91347P105",
+      "shares": 42435,
+      "value": 5468
+    },
+    {
+      "name": "GAMESTOP CORP NEW CL A",
+      "cusip": "36467W109",
+      "shares": 254700,
+      "value": 5262
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG COM",
+      "cusip": "30219G108",
+      "shares": 61215,
+      "value": 3876
+    },
+    {
+      "name": "NASPERS LTD SPON ADR SA",
+      "cusip": "631512209",
+      "shares": 86013,
+      "value": 3776
+    },
+    {
+      "name": "GASLOG PARTNERS LP UNIT LTD PT",
+      "cusip": "Y2687W108",
+      "shares": 140220,
+      "value": 3260
+    },
+    {
+      "name": "DYNAGAS LNG PARTNERS L COM UNI",
+      "cusip": "Y2188B108",
+      "shares": 198922,
+      "value": 2773
+    },
+    {
+      "name": "Annaly Capital Management",
+      "cusip": "035710409",
+      "shares": 226875,
+      "value": 2766
+    },
+    {
+      "name": "SPDR TR Series 1",
+      "cusip": "78462F103",
+      "shares": 6800,
+      "value": 1708
+    },
+    {
+      "name": "POWERSHARES BUYBACK ACHIEVERS",
+      "cusip": "73935X286",
+      "shares": 30515,
+      "value": 1697
+    },
+    {
+      "name": "Ford Motor Company",
+      "cusip": "345370860",
+      "shares": 110000,
+      "value": 1317
+    },
+    {
+      "name": "ALLY FINACIAL INC",
+      "cusip": "02005N100",
+      "shares": 46800,
+      "value": 1135
+    },
+    {
+      "name": "TESLA MOTORS INC",
+      "cusip": "88160R101",
+      "shares": 3000,
+      "value": 1023
+    },
+    {
+      "name": "GENERAL GROWTH PROPERTIES",
+      "cusip": "370023103",
+      "shares": 47500,
+      "value": 987
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 27494,
+      "value": 982
+    },
+    {
+      "name": "BIOGEN IDEC INC COM",
+      "cusip": "09062X103",
+      "shares": 3000,
+      "value": 939
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 10800,
+      "value": 875
+    },
+    {
+      "name": "CANADIAN NAT RES LTD COM",
+      "cusip": "136385101",
+      "shares": 25000,
+      "value": 837
+    },
+    {
+      "name": "BOARDWALK PIPELIN PTNR UT LTD",
+      "cusip": "096627104",
+      "shares": 54200,
+      "value": 797
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 30000,
+      "value": 760
+    },
+    {
+      "name": "DIANA SHIPPING INC PERP PFD SE",
+      "cusip": "Y2066G112",
+      "shares": 31400,
+      "value": 755
+    },
+    {
+      "name": "Rush Enterprises CLB",
+      "cusip": "781846308",
+      "shares": 15706,
+      "value": 685
+    },
+    {
+      "name": "BIOVERATIV INC",
+      "cusip": "09075E100",
+      "shares": 11137,
+      "value": 636
+    },
+    {
+      "name": "NAVIENT CORP COM",
+      "cusip": "63938C108",
+      "shares": 39000,
+      "value": 586
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 6800,
+      "value": 551
+    },
+    {
+      "name": "PLAINS ALL AMERN PIPEL UNIT LT",
+      "cusip": "726503105",
+      "shares": 26000,
+      "value": 551
+    },
+    {
+      "name": "HCP INC COM",
+      "cusip": "40414L109",
+      "shares": 18000,
+      "value": 501
+    },
+    {
+      "name": "ENERGY TRANSFER PARTNERS LP",
+      "cusip": "29278N103",
+      "shares": 24960,
+      "value": 457
+    },
+    {
+      "name": "Williams Cos. Inc",
+      "cusip": "969457100",
+      "shares": 15000,
+      "value": 450
+    },
+    {
+      "name": "SPRINT NEXTEL CORP",
+      "cusip": "852061100",
+      "shares": 57000,
+      "value": 443
+    },
+    {
+      "name": "CELGENE CORP COM",
+      "cusip": "151020104",
+      "shares": 3000,
+      "value": 437
+    },
+    {
+      "name": "LENNAR CORP CL A",
+      "cusip": "526057104",
+      "shares": 8100,
+      "value": 428
+    },
+    {
+      "name": "CABOT OIL & GAS CORP",
+      "cusip": "127097103",
+      "shares": 15510,
+      "value": 415
+    },
+    {
+      "name": "GOLAR LNG LTD",
+      "cusip": "G9456A100",
+      "shares": 17510,
+      "value": 396
+    },
+    {
+      "name": "VIACOM INC-CLASS B",
+      "cusip": "92553P201",
+      "shares": 14000,
+      "value": 390
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 4600,
+      "value": 373
+    },
+    {
+      "name": "AK Steel Holding Corp",
+      "cusip": "001547108",
+      "shares": 57000,
+      "value": 319
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "617446448",
+      "shares": 6505,
+      "value": 313
+    },
+    {
+      "name": "ALLIANCEBERNSTEIN HLDG UNIT LT",
+      "cusip": "01881G106",
+      "shares": 12050,
+      "value": 293
+    },
+    {
+      "name": "AMERICAN AXLE & MFG COM",
+      "cusip": "024061103",
+      "shares": 16300,
+      "value": 287
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTR SHS - A",
+      "cusip": "N53745100",
+      "shares": 2900,
+      "value": 287
+    },
+    {
+      "name": "TRI POINTE GROUP INC COM",
+      "cusip": "87265H109",
+      "shares": 20800,
+      "value": 287
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 3200,
+      "value": 259
+    },
+    {
+      "name": "General Motors Co.",
+      "cusip": "37045V100",
+      "shares": 6400,
+      "value": 258
+    },
+    {
+      "name": "GOLAR LNG LTD",
+      "cusip": "G9456A100",
+      "shares": 11000,
+      "value": 249
+    },
+    {
+      "name": "AMERIPRISE FINANCIAL INC",
+      "cusip": "03076C106",
+      "shares": 1600,
+      "value": 238
+    },
+    {
+      "name": "MACROGENICS INC COM",
+      "cusip": "556099109",
+      "shares": 12752,
+      "value": 236
+    },
+    {
+      "name": "SPIRIT AIRLS INC COM",
+      "cusip": "848577102",
+      "shares": 7035,
+      "value": 235
+    },
+    {
+      "name": "PENNEY J C INC COM",
+      "cusip": "708160106",
+      "shares": 60000,
+      "value": 229
+    },
+    {
+      "name": "TEVA PHARMACEUTCL INDS ADR",
+      "cusip": "881624209",
+      "shares": 13000,
+      "value": 229
+    },
+    {
+      "name": "WEATHERFORD INTL PLC ORD SHS",
+      "cusip": "G48833100",
+      "shares": 44500,
+      "value": 204
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 6000,
+      "value": 202
+    },
+    {
+      "name": "ELDORADO GOLD CORP NEW COM",
+      "cusip": "284902103",
+      "shares": 77340,
+      "value": 170
+    },
+    {
+      "name": "AFFIMED NV",
+      "cusip": "N01045108",
+      "shares": 62535,
+      "value": 141
+    },
+    {
+      "name": "Avon Products, Inc",
+      "cusip": "054303102",
+      "shares": 57000,
+      "value": 133
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 200,
+      "value": 16
+    },
+    {
+      "name": "TEVA PHARMACEUTCL INDS ADR",
+      "cusip": "881624209",
+      "shares": 700,
+      "value": 12
+    }
+  ],
+  "totalValue": 317576,
+  "positionsCount": 79
+}

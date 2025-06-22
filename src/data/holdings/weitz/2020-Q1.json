@@ -1,266 +1,270 @@
 {
   "form": "NPORT-P",
-  "date": "2020-01-30",
-  "period": "2020-01-30",
+  "date": "2020-05-05",
+  "period": "2020-05-05",
+  "accession": "0001752724-20-085675",
+  "quarterKey": "2020-Q1",
   "positions": [
     {
-      "name": "Liberty Latin America Ltd",
-      "cusip": "000000000",
-      "shares": 375000,
-      "value": 7297500000,
-      "pctOfPortfolio": 293.599003942
+      "name": "United States Treasury",
+      "cusip": "9128284J6",
+      "shares": 20000000,
+      "value": 20036714.8,
+      "pctOfPortfolio": 27.69000361385
     },
     {
-      "name": "Liberty Media Corp-Liberty SiriusXM",
-      "cusip": "531229409",
-      "shares": 50000,
-      "value": 2417000000,
-      "pctOfPortfolio": 97.2427259373
+      "name": "United States Treasury",
+      "cusip": "912828L32",
+      "shares": 12000000,
+      "value": 12063281.28,
+      "pctOfPortfolio": 16.67101146931
     },
     {
-      "name": "Marvell Technology Group Ltd",
-      "cusip": "000000000",
-      "shares": 175000,
-      "value": 4648000000,
-      "pctOfPortfolio": 187.0021473549
+      "name": "United States Treasury",
+      "cusip": "9128282Z2",
+      "shares": 11000000,
+      "value": 11088730.51,
+      "pctOfPortfolio": 15.32421811458
     },
     {
-      "name": "Liberty Media Corp-Liberty SiriusXM",
-      "cusip": "531229607",
-      "shares": 180000,
-      "value": 8665200000,
-      "pctOfPortfolio": 348.6254318545
+      "name": "United States Treasury",
+      "cusip": "912828M98",
+      "shares": 7000000,
+      "value": 7070410.13,
+      "pctOfPortfolio": 9.771047000736
     },
     {
-      "name": "Vulcan Materials Co",
-      "cusip": "929160109",
-      "shares": 35000,
-      "value": 5039650000,
-      "pctOfPortfolio": 202.75933130750002
+      "name": "United States Treasury",
+      "cusip": "9128283Q1",
+      "shares": 4000000,
+      "value": 4060312.48,
+      "pctOfPortfolio": 5.611202653071
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828XY1",
+      "shares": 2000000,
+      "value": 2011962.16,
+      "pctOfPortfolio": 2.780457776508
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912828VZ0",
+      "shares": 1000000,
+      "value": 1009316.41,
+      "pctOfPortfolio": 1.394838191759
+    },
+    {
+      "name": "DISCOVERY COMMUNICATIONS",
+      "cusip": "25470DAY5",
+      "shares": 1000000,
+      "value": 997697.44,
+      "pctOfPortfolio": 1.378781202152
     },
     {
       "name": "State Street Global Advisors",
       "cusip": "857492706",
-      "shares": 5270255.97,
-      "value": 5270255970,
-      "pctOfPortfolio": 212.0372597892
+      "shares": 915594.36,
+      "value": 915594.36,
+      "pctOfPortfolio": 1.265317762432
     },
     {
-      "name": "EVERARC HOLDINGS LTD",
-      "cusip": "000000000",
-      "shares": 500000,
-      "value": 187500000,
-      "pctOfPortfolio": 7.5436537497
+      "name": "CCG Receivables Trust",
+      "cusip": "12508UAC9",
+      "shares": 900000,
+      "value": 899662.14,
+      "pctOfPortfolio": 1.243300019814
     },
     {
-      "name": "Everarc Holdings Ltd",
-      "cusip": "000000000",
-      "shares": 500000,
-      "value": 6750000000,
-      "pctOfPortfolio": 271.5715349926
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36255GAA8",
+      "shares": 825573.33,
+      "value": 822322.8,
+      "pctOfPortfolio": 1.136419893732
     },
     {
-      "name": "Liberty Global PLC",
-      "cusip": "000000000",
-      "shares": 250000,
-      "value": 5448750000,
-      "pctOfPortfolio": 219.218577969
-    },
-    {
-      "name": "Box Inc",
-      "cusip": "10316T104",
-      "shares": 300000,
-      "value": 5034000000,
-      "pctOfPortfolio": 202.53201587450002
-    },
-    {
-      "name": "Guidewire Software Inc",
-      "cusip": "40171V100",
-      "shares": 70000,
-      "value": 7683900000,
-      "pctOfPortfolio": 309.1449655896
-    },
-    {
-      "name": "GCI Liberty Inc",
-      "cusip": "36164V305",
-      "shares": 120000,
-      "value": 8502000000,
-      "pctOfPortfolio": 342.05943563069997
-    },
-    {
-      "name": "Gardner Denver Holdings Inc",
-      "cusip": "36555P107",
-      "shares": 230000,
-      "value": 8436400000,
-      "pctOfPortfolio": 339.4201626388
-    },
-    {
-      "name": "ACI Worldwide Inc",
-      "cusip": "004498101",
-      "shares": 250000,
-      "value": 9471250000,
-      "pctOfPortfolio": 381.0550964147
-    },
-    {
-      "name": "Black Knight Inc",
-      "cusip": "09215C105",
-      "shares": 140000,
-      "value": 9027200000,
-      "pctOfPortfolio": 363.18971269409997
-    },
-    {
-      "name": "Qurate Retail Inc",
-      "cusip": "74915M100",
-      "shares": 600000,
-      "value": 5058000000,
-      "pctOfPortfolio": 203.49760355450002
-    },
-    {
-      "name": "Liberty Media Corp-Liberty Formula One",
-      "cusip": "531229870",
-      "shares": 27500,
-      "value": 1203950000,
-      "pctOfPortfolio": 48.4383036376
-    },
-    {
-      "name": "Redwood Trust Inc",
-      "cusip": "758075402",
-      "shares": 580000,
-      "value": 9593200000,
-      "pctOfPortfolio": 385.9614888135
-    },
-    {
-      "name": "Markel Corp",
-      "cusip": "570535104",
-      "shares": 5500,
-      "value": 6287435000,
-      "pctOfPortfolio": 252.96124060979997
-    },
-    {
-      "name": "Fortune Brands Home & Security Inc",
-      "cusip": "34964C106",
-      "shares": 75000,
-      "value": 4900500000,
-      "pctOfPortfolio": 197.1609344046
-    },
-    {
-      "name": "Liberty Media Corp-Liberty Braves",
-      "cusip": "531229888",
-      "shares": 105000,
-      "value": 3101700000,
-      "pctOfPortfolio": 124.7901377906
-    },
-    {
-      "name": "Axalta Coating Systems Ltd",
-      "cusip": "000000000",
-      "shares": 300000,
-      "value": 9120000000,
-      "pctOfPortfolio": 366.92331838999996
-    },
-    {
-      "name": "Liberty Media Corp-Liberty Braves",
-      "cusip": "531229706",
-      "shares": 11000,
-      "value": 326150000,
-      "pctOfPortfolio": 13.1219342426
-    },
-    {
-      "name": "Equity Commonwealth",
-      "cusip": "294628102",
-      "shares": 250000,
-      "value": 8207500000,
-      "pctOfPortfolio": 330.210870141
-    },
-    {
-      "name": "First Hawaiian Inc",
-      "cusip": "32051X108",
-      "shares": 160000,
-      "value": 4616000000,
-      "pctOfPortfolio": 185.71469711490002
-    },
-    {
-      "name": "Liberty Broadband Corp",
-      "cusip": "530307107",
-      "shares": 27500,
-      "value": 3425400000,
-      "pctOfPortfolio": 137.8135016242
-    },
-    {
-      "name": "LKQ Corp",
-      "cusip": "501889208",
-      "shares": 225000,
-      "value": 8032500000,
-      "pctOfPortfolio": 323.1701266412
-    },
-    {
-      "name": "Laboratory Corp of America Holdings",
-      "cusip": "50540R409",
-      "shares": 63000,
-      "value": 10657710000,
-      "pctOfPortfolio": 428.7897280306
-    },
-    {
-      "name": "Expedia Group Inc",
-      "cusip": "30212P303",
-      "shares": 85000,
-      "value": 9191900000,
-      "pctOfPortfolio": 369.81605814799997
-    },
-    {
-      "name": "Perspecta Inc",
-      "cusip": "715347100",
-      "shares": 200000,
-      "value": 5288000000,
-      "pctOfPortfolio": 212.75115215419999
-    },
-    {
-      "name": "Liberty Broadband Corp",
-      "cusip": "530307305",
-      "shares": 145000,
-      "value": 18233750000,
-      "pctOfPortfolio": 733.5951816551
+      "name": "Enterprise Fleet Financing LLC",
+      "cusip": "29372EBW7",
+      "shares": 760000,
+      "value": 758345.78,
+      "pctOfPortfolio": 1.048006002897
     },
     {
       "name": "United States Treasury",
-      "cusip": "912796WP0",
-      "shares": 5000000,
-      "value": 4996134050,
-      "pctOfPortfolio": 201.008561924
+      "cusip": "9128283G3",
+      "shares": 750000,
+      "value": 757719.73,
+      "pctOfPortfolio": 1.047140824801
     },
     {
-      "name": "Liberty Media Corp-Liberty Formula One",
-      "cusip": "531229854",
-      "shares": 50000,
-      "value": 2298250000,
-      "pctOfPortfolio": 92.4650785625
+      "name": "GREAT AMERICA LEASING RECEIVABLES",
+      "cusip": "39154TBB3",
+      "shares": 737000,
+      "value": 731593.96,
+      "pctOfPortfolio": 1.011035970641
     },
     {
-      "name": "Summit Materials Inc",
-      "cusip": "86614U100",
-      "shares": 325000,
-      "value": 7767500000,
-      "pctOfPortfolio": 312.5084293415
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324PCM2",
+      "shares": 700000,
+      "value": 700109.29,
+      "pctOfPortfolio": 0.96752531359
     },
     {
-      "name": "Colfax Corp",
-      "cusip": "194014106",
-      "shares": 280000,
-      "value": 10186400000,
-      "pctOfPortfolio": 409.8275976369
+      "name": "Wm Wrigley Jr Co",
+      "cusip": "982526AQ8",
+      "shares": 700000,
+      "value": 695763.9,
+      "pctOfPortfolio": 0.961520144279
     },
     {
-      "name": "CarMax Inc",
-      "cusip": "143130102",
-      "shares": 100000,
-      "value": 8767000000,
-      "pctOfPortfolio": 352.7211329304
+      "name": "ARI Fleet Lease Trust",
+      "cusip": "04033JAB7",
+      "shares": 690000,
+      "value": 683265.95,
+      "pctOfPortfolio": 0.944248436611
     },
     {
-      "name": "LICT Corp",
-      "cusip": "50187G104",
-      "shares": 765,
-      "value": 13693500000,
-      "pctOfPortfolio": 550.9281206551
+      "name": "Verizon Owner Trust 2018-1",
+      "cusip": "92349FAA1",
+      "shares": 650000,
+      "value": 651431.11,
+      "pctOfPortfolio": 0.900253857487
+    },
+    {
+      "name": "CATERPILLAR FINL SERVICE",
+      "cusip": "14913Q2J7",
+      "shares": 650000,
+      "value": 650385.13,
+      "pctOfPortfolio": 0.898808351561
+    },
+    {
+      "name": "Drive Auto Receivables Trust",
+      "cusip": "26208JAF0",
+      "shares": 579067.27,
+      "value": 581401.49,
+      "pctOfPortfolio": 0.803475495853
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "23341JAD0",
+      "shares": 549921.86,
+      "value": 549641.51,
+      "pctOfPortfolio": 0.759584370499
+    },
+    {
+      "name": "ARI Fleet Lease Trust 2018-A",
+      "cusip": "00217EAB4",
+      "shares": 528279.09,
+      "value": 527078.21,
+      "pctOfPortfolio": 0.728402718976
+    },
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cusip": "084670BQ0",
+      "shares": 500000,
+      "value": 503622.84,
+      "pctOfPortfolio": 0.695988259493
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02529VAA7",
+      "shares": 479592.31,
+      "value": 473651.17,
+      "pctOfPortfolio": 0.654568512848
+    },
+    {
+      "name": "Exeter Automobile Receivables Trust",
+      "cusip": "30167HAA6",
+      "shares": 436938.07,
+      "value": 432655.73,
+      "pctOfPortfolio": 0.597914321126
+    },
+    {
+      "name": "DT Auto Owner Trust",
+      "cusip": "23343JAA4",
+      "shares": 392939.98,
+      "value": 389787.23,
+      "pctOfPortfolio": 0.538671629309
+    },
+    {
+      "name": "Social Professional Loan Program LLC",
+      "cusip": "83406EAB1",
+      "shares": 317623.94,
+      "value": 317847.2,
+      "pctOfPortfolio": 0.439253151252
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109HAA0",
+      "shares": 283357.98,
+      "value": 272430.82,
+      "pctOfPortfolio": 0.376489382896
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74362DAA6",
+      "shares": 259006.84,
+      "value": 248938.93,
+      "pctOfPortfolio": 0.344024454115
+    },
+    {
+      "name": "MMAF Equipment Finance LLC",
+      "cusip": "55315FAD2",
+      "shares": 230058.12,
+      "value": 228564.31,
+      "pctOfPortfolio": 0.315867477931
+    },
+    {
+      "name": "ENTERPRISE PRODUCTS OPER",
+      "cusip": "29379VBP7",
+      "shares": 200000,
+      "value": 199783.31,
+      "pctOfPortfolio": 0.276093193475
+    },
+    {
+      "name": "GLS Auto Receivables Trust",
+      "cusip": "36258AAA8",
+      "shares": 170200.3,
+      "value": 168700.29,
+      "pctOfPortfolio": 0.233137601966
+    },
+    {
+      "name": "Prosper Marketplace Issuance Trust",
+      "cusip": "74361PAA0",
+      "shares": 171629.16,
+      "value": 167542.6,
+      "pctOfPortfolio": 0.231537716925
+    },
+    {
+      "name": "American Credit Acceptance Receivables Trust",
+      "cusip": "02530DAA4",
+      "shares": 166136.5,
+      "value": 164899.71,
+      "pctOfPortfolio": 0.227885340057
+    },
+    {
+      "name": "Upgrade Receivables Trust",
+      "cusip": "91532HAA6",
+      "shares": 110316.02,
+      "value": 109479,
+      "pctOfPortfolio": 0.151295955245
+    },
+    {
+      "name": "Upgrade Receivables Trust",
+      "cusip": "91532UAA7",
+      "shares": 59095.31,
+      "value": 58539.05,
+      "pctOfPortfolio": 0.080898816109
+    },
+    {
+      "name": "Marlette Funding Trust",
+      "cusip": "57109FAA4",
+      "shares": 56186.47,
+      "value": 55829.57,
+      "pctOfPortfolio": 0.077154414308
     }
-  ]
+  ],
+  "totalValue": 72055012.33000003,
+  "positionsCount": 37
 }

@@ -1,0 +1,191 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-12",
+  "period": "2023-05-12",
+  "accession": "0001567619-23-006061",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 47504310,
+      "value": 968138000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 5851780,
+      "value": 608585000
+    },
+    {
+      "name": "VIASAT INC",
+      "cusip": "92552V100",
+      "shares": 16288959,
+      "value": 551218000
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 4649504,
+      "value": 472250000
+    },
+    {
+      "name": "VERITIV CORP",
+      "cusip": "923454102",
+      "shares": 3324324,
+      "value": 449249000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229607",
+      "shares": 14851048,
+      "value": 415681000
+    },
+    {
+      "name": "WARNER BROS DISCOVERY INC",
+      "cusip": "934423104",
+      "shares": 25235094,
+      "value": 381050000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 4841549,
+      "value": 263041000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229409",
+      "shares": 8177656,
+      "value": 229710000
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505204",
+      "shares": 25480292,
+      "value": 226520000
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECHNOLOGY",
+      "cusip": "647581206",
+      "shares": 5418784,
+      "value": 209219000
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 858667,
+      "value": 199537000
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 3274430,
+      "value": 184907000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 7194276,
+      "value": 140288000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "G8807B106",
+      "shares": 10419226,
+      "value": 113049000
+    },
+    {
+      "name": "SKYWORKS SOLUTIONS INC",
+      "cusip": "83088M102",
+      "shares": 703865,
+      "value": 83042000
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 478696,
+      "value": 70048000
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 533382,
+      "value": 60288000
+    },
+    {
+      "name": "GRAY TELEVISION INC",
+      "cusip": "389375106",
+      "shares": 3760000,
+      "value": 32787000
+    },
+    {
+      "name": "HERBALIFE NUTRITION LTD",
+      "cusip": "G4412G101",
+      "shares": 1954200,
+      "value": 31463000
+    },
+    {
+      "name": "COINBASE GLOBAL INC",
+      "cusip": "19260QAB3",
+      "shares": 45250000,
+      "value": 28960000
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505105",
+      "shares": 3575000,
+      "value": 27385000
+    },
+    {
+      "name": "ATARA BIOTHERAPEUTICS INC",
+      "cusip": "046513107",
+      "shares": 9123616,
+      "value": 26458000
+    },
+    {
+      "name": "ADVANTAGE SOLUTIONS INC",
+      "cusip": "00791N102",
+      "shares": 11001624,
+      "value": 17032000
+    },
+    {
+      "name": "ALTICE USA INC",
+      "cusip": "02156K103",
+      "shares": 4774615,
+      "value": 16329000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 65043,
+      "value": 14890000
+    },
+    {
+      "name": "DIGITALBRIDGE GROUP INC",
+      "cusip": "25401T603",
+      "shares": 1233914,
+      "value": 14795000
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 136077,
+      "value": 8997000
+    },
+    {
+      "name": "TRILOGY METALS INC NEW",
+      "cusip": "89621C105",
+      "shares": 4271542,
+      "value": 2277000
+    },
+    {
+      "name": "FINCH THERAPEUTICS GROUP INC",
+      "cusip": "31773D101",
+      "shares": 2019008,
+      "value": 793000
+    }
+  ],
+  "totalValue": 5847986000,
+  "positionsCount": 30
+}

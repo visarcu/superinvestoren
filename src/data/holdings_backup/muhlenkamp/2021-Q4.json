@@ -1,0 +1,203 @@
+{
+  "form": "13F-HR",
+  "date": "2021-12-10",
+  "period": "2021-12-10",
+  "accession": "0001133219-21-000007",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 130575,
+      "value": 15058
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "595017104",
+      "shares": 94911,
+      "value": 14568
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 317711,
+      "value": 14348
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 65548,
+      "value": 13069
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 124920,
+      "value": 12603
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 44701,
+      "value": 12602
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 217319,
+      "value": 12509
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 24370,
+      "value": 11818
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 79609,
+      "value": 11265
+    },
+    {
+      "name": "MASTEC INC",
+      "cusip": "576323109",
+      "shares": 128634,
+      "value": 11099
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 36975,
+      "value": 10092
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 24412,
+      "value": 9539
+    },
+    {
+      "name": "MERITAGE HOMES CORP",
+      "cusip": "59001A102",
+      "shares": 96637,
+      "value": 9374
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 280436,
+      "value": 9347
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 108645,
+      "value": 9220
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 310376,
+      "value": 9200
+    },
+    {
+      "name": "TENNECO INC",
+      "cusip": "880349105",
+      "shares": 575419,
+      "value": 8211
+    },
+    {
+      "name": "CAMECO CORP",
+      "cusip": "13321L108",
+      "shares": 375775,
+      "value": 8166
+    },
+    {
+      "name": "KIRBY CORP",
+      "cusip": "497266106",
+      "shares": 164851,
+      "value": 7906
+    },
+    {
+      "name": "NMI HLDGS INC",
+      "cusip": "629209305",
+      "shares": 330061,
+      "value": 7463
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 125419,
+      "value": 7421
+    },
+    {
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 41512,
+      "value": 6817
+    },
+    {
+      "name": "LOCKHEED MARTIN CORP",
+      "cusip": "539830109",
+      "shares": 19319,
+      "value": 6667
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 68294,
+      "value": 6398
+    },
+    {
+      "name": "WABTEC",
+      "cusip": "929740108",
+      "shares": 55276,
+      "value": 4765
+    },
+    {
+      "name": "EQUITY COMWLTH",
+      "cusip": "294628102",
+      "shares": 112943,
+      "value": 2934
+    },
+    {
+      "name": "FRANCO NEV CORP",
+      "cusip": "351858105",
+      "shares": 20853,
+      "value": 2709
+    },
+    {
+      "name": "ROYAL GOLD INC",
+      "cusip": "780287108",
+      "shares": 24350,
+      "value": 2325
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 10805,
+      "value": 1051
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 24379,
+      "value": 1049
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 24855,
+      "value": 538
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 6742,
+      "value": 309
+    }
+  ],
+  "totalValue": 260440,
+  "positionsCount": 32
+}

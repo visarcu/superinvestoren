@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2014-02-14",
+  "period": "2014-02-14",
+  "accession": "0001172661-14-000523",
+  "quarterKey": "2014-Q1",
+  "positions": [
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911102",
+      "shares": 6113227,
+      "value": 717693
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219108",
+      "shares": 3958387,
+      "value": 278037
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389105",
+      "shares": 7070613,
+      "value": 270522
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 4747513,
+      "value": 240936
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 7954268,
+      "value": 206811
+    },
+    {
+      "name": "VISTAPRINT N V",
+      "cusip": "93540107",
+      "shares": 3189305,
+      "value": 181312
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3960893,
+      "value": 148177
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 3389761,
+      "value": 145455
+    },
+    {
+      "name": "KINDER MORGAN MANAGEMENT LLC",
+      "cusip": "49455100",
+      "shares": 1822469,
+      "value": 137888
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030200",
+      "shares": 1830521,
+      "value": 91306
+    },
+    {
+      "name": "HIGHER ONE HLDGS INC",
+      "cusip": "42983104",
+      "shares": 2294480,
+      "value": 22394
+    },
+    {
+      "name": "TIDEWATER INC",
+      "cusip": "886423102",
+      "shares": 19625,
+      "value": 1163
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 15547,
+      "value": 808
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 226
+    }
+  ],
+  "totalValue": 2442728,
+  "positionsCount": 14
+}

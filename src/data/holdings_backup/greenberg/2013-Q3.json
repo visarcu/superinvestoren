@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2013-08-14",
+  "period": "2013-08-14",
+  "accession": "0001172661-13-001136",
+  "quarterKey": "2013-Q3",
+  "positions": [
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911102",
+      "shares": 6657451,
+      "value": 573073
+    },
+    {
+      "name": "VISTAPRINT N V",
+      "cusip": "93540107",
+      "shares": 5750690,
+      "value": 283912
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219108",
+      "shares": 4194400,
+      "value": 258962
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 9363034,
+      "value": 198777
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389105",
+      "shares": 6115172,
+      "value": 187797
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 4394875,
+      "value": 183354
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 3335976,
+      "value": 124899
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030200",
+      "shares": 2759871,
+      "value": 109484
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 1122181,
+      "value": 98090
+    },
+    {
+      "name": "HIGHER ONE HLDGS INC",
+      "cusip": "42983104",
+      "shares": 6319325,
+      "value": 73557
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259508",
+      "shares": 77016,
+      "value": 67803
+    }
+  ],
+  "totalValue": 2159708,
+  "positionsCount": 11
+}

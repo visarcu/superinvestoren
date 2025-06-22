@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-02",
+  "period": "2024-05-02",
+  "accession": "0001172661-24-001979",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 198383,
+      "value": 96330817
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 137688,
+      "value": 75941816
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 847531,
+      "value": 74506450
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 431280,
+      "value": 59292374
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 309947,
+      "value": 34624179
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 290400,
+      "value": 33759000
+    }
+  ],
+  "totalValue": 374454636,
+  "positionsCount": 6
+}

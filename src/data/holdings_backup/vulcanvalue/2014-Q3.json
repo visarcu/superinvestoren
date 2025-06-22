@@ -1,0 +1,623 @@
+{
+  "form": "13F-HR",
+  "date": "2014-08-13",
+  "period": "2014-08-13",
+  "accession": "0001556785-14-000005",
+  "quarterKey": "2014-Q3",
+  "positions": [
+    {
+      "name": "ORACLE CORPORATION",
+      "cusip": "68389X105",
+      "shares": 7704677,
+      "value": 312271
+    },
+    {
+      "name": "NASDAQ STOCK MKT INC",
+      "cusip": "631103108",
+      "shares": 7344784,
+      "value": 283656
+    },
+    {
+      "name": "DISCOVERY COMMUNICATIONS - C",
+      "cusip": "25470F302",
+      "shares": 3794575,
+      "value": 275448
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2791979,
+      "value": 259459
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1190175,
+      "value": 250782
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 4991303,
+      "value": 249865
+    },
+    {
+      "name": "EVEREST RE GROUP LTD",
+      "cusip": "G3223R108",
+      "shares": 1528698,
+      "value": 245341
+    },
+    {
+      "name": "FRANKLIN RESOURCES INC",
+      "cusip": "354613101",
+      "shares": 4136130,
+      "value": 239234
+    },
+    {
+      "name": "STARWOOD HOTELS & RESORTS WORLDWIDE INC",
+      "cusip": "85590A401",
+      "shares": 2859190,
+      "value": 231080
+    },
+    {
+      "name": "WELLPOINT INC",
+      "cusip": "94973V107",
+      "shares": 1993097,
+      "value": 214477
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 2869895,
+      "value": 210851
+    },
+    {
+      "name": "CONVERSANT INC",
+      "cusip": "21249J105",
+      "shares": 7474765,
+      "value": 189859
+    },
+    {
+      "name": "BANK OF NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 4853002,
+      "value": 181891
+    },
+    {
+      "name": "CISCO SYSTEMS INC",
+      "cusip": "17275R102",
+      "shares": 7291952,
+      "value": 181205
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 2179425,
+      "value": 172610
+    },
+    {
+      "name": "DISNEY (WALT) COMPANY",
+      "cusip": "254687106",
+      "shares": 1834197,
+      "value": 157264
+    },
+    {
+      "name": "CHUBB CORP",
+      "cusip": "171232101",
+      "shares": 1649386,
+      "value": 152024
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC",
+      "cusip": "92343V104",
+      "shares": 2987522,
+      "value": 146179
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 2068600,
+      "value": 145319
+    },
+    {
+      "name": "INTERCONTINENTAL HOTELS GROUP PLC (ADR)",
+      "cusip": "45857P400",
+      "shares": 3330897,
+      "value": 138266
+    },
+    {
+      "name": "STATE STREET CORPORATION",
+      "cusip": "857477103",
+      "shares": 1957149,
+      "value": 131638
+    },
+    {
+      "name": "EATON VANCE CORP",
+      "cusip": "278265103",
+      "shares": 3307706,
+      "value": 124998
+    },
+    {
+      "name": "ACI WORLDWIDE INC",
+      "cusip": "004498101",
+      "shares": 2068049,
+      "value": 115459
+    },
+    {
+      "name": "MARRIOTT INTERNATIONAL INC",
+      "cusip": "571903202",
+      "shares": 1751669,
+      "value": 112282
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 1480225,
+      "value": 105022
+    },
+    {
+      "name": "DOVER CORP",
+      "cusip": "260003108",
+      "shares": 1152017,
+      "value": 104776
+    },
+    {
+      "name": "SABRE CORPORATION",
+      "cusip": "78573M104",
+      "shares": 5058124,
+      "value": 101415
+    },
+    {
+      "name": "AETNA INC",
+      "cusip": "00817Y108",
+      "shares": 1221425,
+      "value": 99033
+    },
+    {
+      "name": "UNILEVER N.V. (ADR)",
+      "cusip": "904784709",
+      "shares": 2006108,
+      "value": 87787
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECHNOLOGIES LTD",
+      "cusip": "M22465104",
+      "shares": 1295395,
+      "value": 86830
+    },
+    {
+      "name": "NAVIGATORS GROUP INC",
+      "cusip": "638904102",
+      "shares": 1290201,
+      "value": 86508
+    },
+    {
+      "name": "NU SKIN ENTERPRISES INC",
+      "cusip": "67018T105",
+      "shares": 1145536,
+      "value": 84724
+    },
+    {
+      "name": "ROVI CORPORATION",
+      "cusip": "779376102",
+      "shares": 3373343,
+      "value": 80825
+    },
+    {
+      "name": "CHEMED CORP",
+      "cusip": "16359R103",
+      "shares": 757841,
+      "value": 71025
+    },
+    {
+      "name": "INSPERITY INC",
+      "cusip": "45778Q107",
+      "shares": 1985716,
+      "value": 65529
+    },
+    {
+      "name": "LINDSAY CORPORATION",
+      "cusip": "535555106",
+      "shares": 732884,
+      "value": 61907
+    },
+    {
+      "name": "MONTPELIER RE HOLDINGS LTD",
+      "cusip": "G62185106",
+      "shares": 1819075,
+      "value": 58119
+    },
+    {
+      "name": "CURTISS-WRIGHT CORP",
+      "cusip": "231561101",
+      "shares": 885867,
+      "value": 58077
+    },
+    {
+      "name": "EXPRESS SCRIPTS HOLDING COMPANY",
+      "cusip": "30219G108",
+      "shares": 821661,
+      "value": 56966
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 846381,
+      "value": 53965
+    },
+    {
+      "name": "VIRTUS INVESTMENT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 250813,
+      "value": 53110
+    },
+    {
+      "name": "ENERSYS",
+      "cusip": "29275Y102",
+      "shares": 736382,
+      "value": 50656
+    },
+    {
+      "name": "TUPPERWARE BRANDS CORPORATION",
+      "cusip": "899896104",
+      "shares": 580747,
+      "value": 48609
+    },
+    {
+      "name": "ITURAN LOCATION & CONTROL LTD",
+      "cusip": "M6158M104",
+      "shares": 1980049,
+      "value": 48214
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT INC",
+      "cusip": "538034109",
+      "shares": 1777620,
+      "value": 43889
+    },
+    {
+      "name": "UNIVERSAL TECHNICAL INSTITUTE INC",
+      "cusip": "913915104",
+      "shares": 3469530,
+      "value": 42120
+    },
+    {
+      "name": "COCA-COLA CO",
+      "cusip": "191216100",
+      "shares": 985128,
+      "value": 41730
+    },
+    {
+      "name": "NAVIGANT CONSULTING INC",
+      "cusip": "63935N107",
+      "shares": 2380009,
+      "value": 41531
+    },
+    {
+      "name": "PARKER HANNIFIN CORP",
+      "cusip": "701094104",
+      "shares": 321825,
+      "value": 40463
+    },
+    {
+      "name": "FORWARD AIR CORP",
+      "cusip": "349853101",
+      "shares": 802917,
+      "value": 38420
+    },
+    {
+      "name": "PROASSURANCE CORP",
+      "cusip": "74267C106",
+      "shares": 840012,
+      "value": 37297
+    },
+    {
+      "name": "HEARTLAND PMT SYS",
+      "cusip": "42235N108",
+      "shares": 885362,
+      "value": 36486
+    },
+    {
+      "name": "WOODWARD INC",
+      "cusip": "980745103",
+      "shares": 726264,
+      "value": 36444
+    },
+    {
+      "name": "SAFETY INSURANCE GROUP INC",
+      "cusip": "78648T100",
+      "shares": 608485,
+      "value": 31264
+    },
+    {
+      "name": "OMNICELL, INC",
+      "cusip": "68213N109",
+      "shares": 1043553,
+      "value": 29960
+    },
+    {
+      "name": "GENPACT LIMITED",
+      "cusip": "G3922B107",
+      "shares": 1624216,
+      "value": 28473
+    },
+    {
+      "name": "KMG CHEMICALS I",
+      "cusip": "482564101",
+      "shares": 1492067,
+      "value": 26827
+    },
+    {
+      "name": "DONALDSON CO",
+      "cusip": "257651109",
+      "shares": 620226,
+      "value": 26248
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 423523,
+      "value": 19419
+    },
+    {
+      "name": "ALBEMARLE CORPORATION",
+      "cusip": "012653101",
+      "shares": 268352,
+      "value": 19187
+    },
+    {
+      "name": "EXPONENT INC",
+      "cusip": "30214U102",
+      "shares": 250191,
+      "value": 18542
+    },
+    {
+      "name": "SELECT COMFORT CORPORATION",
+      "cusip": "81616X103",
+      "shares": 717956,
+      "value": 14833
+    },
+    {
+      "name": "NOVARTIS AG (ADR)",
+      "cusip": "66987V109",
+      "shares": 580,
+      "value": 53
+    },
+    {
+      "name": "AVISTA CORPORATION",
+      "cusip": "05379B107",
+      "shares": 1525,
+      "value": 51
+    },
+    {
+      "name": "THE PNC FINANCIAL SERVICES GROUP INC",
+      "cusip": "693475105",
+      "shares": 574,
+      "value": 51
+    },
+    {
+      "name": "BECTON DICKINSON AND COMPANY",
+      "cusip": "075887109",
+      "shares": 425,
+      "value": 50
+    },
+    {
+      "name": "CONSOLIDATED EDISON INC",
+      "cusip": "209115104",
+      "shares": 840,
+      "value": 49
+    },
+    {
+      "name": "EMC CORPORATION",
+      "cusip": "268648102",
+      "shares": 1855,
+      "value": 49
+    },
+    {
+      "name": "INTEL CORPORATION",
+      "cusip": "458140100",
+      "shares": 1570,
+      "value": 49
+    },
+    {
+      "name": "PROCTER & GAMBLE",
+      "cusip": "742718109",
+      "shares": 598,
+      "value": 47
+    },
+    {
+      "name": "U.S. BANCORP",
+      "cusip": "902973304",
+      "shares": 1030,
+      "value": 45
+    },
+    {
+      "name": "WELLS FARGO & COMPANY",
+      "cusip": "949746101",
+      "shares": 860,
+      "value": 45
+    },
+    {
+      "name": "ABBVIE INC",
+      "cusip": "00287Y109",
+      "shares": 785,
+      "value": 44
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 1240,
+      "value": 44
+    },
+    {
+      "name": "STRYKER CORPORATION",
+      "cusip": "863667101",
+      "shares": 515,
+      "value": 43
+    },
+    {
+      "name": "FORD MOTOR CO.",
+      "cusip": "345370860",
+      "shares": 2440,
+      "value": 42
+    },
+    {
+      "name": "KUBOTA CORPORATION (ADR)",
+      "cusip": "501173207",
+      "shares": 590,
+      "value": 42
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 370,
+      "value": 41
+    },
+    {
+      "name": "PORTLAND GENERAL ELECTRIC COMPANY",
+      "cusip": "736508847",
+      "shares": 1195,
+      "value": 41
+    },
+    {
+      "name": "BANK OF MONTREAL",
+      "cusip": "063671101",
+      "shares": 545,
+      "value": 40
+    },
+    {
+      "name": "DEERE & COMPANY",
+      "cusip": "244199105",
+      "shares": 430,
+      "value": 39
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 480,
+      "value": 39
+    },
+    {
+      "name": "CVS CAREMARK CORPORATION",
+      "cusip": "126650100",
+      "shares": 475,
+      "value": 36
+    },
+    {
+      "name": "HONDA MOTOR CO LTD",
+      "cusip": "438128308",
+      "shares": 1035,
+      "value": 36
+    },
+    {
+      "name": "CERNER CORPORATION",
+      "cusip": "156782104",
+      "shares": 650,
+      "value": 34
+    },
+    {
+      "name": "GENERAL MILLS, INC",
+      "cusip": "370334104",
+      "shares": 650,
+      "value": 34
+    },
+    {
+      "name": "SYMANTEC CORPORATION",
+      "cusip": "871503108",
+      "shares": 1500,
+      "value": 34
+    },
+    {
+      "name": "XEROX CORPORATION",
+      "cusip": "984121103",
+      "shares": 2750,
+      "value": 34
+    },
+    {
+      "name": "UNITED NATURAL FOODS INC",
+      "cusip": "911163103",
+      "shares": 505,
+      "value": 33
+    },
+    {
+      "name": "ABBOTT LABS",
+      "cusip": "002824100",
+      "shares": 785,
+      "value": 32
+    },
+    {
+      "name": "SAPIENT CORPORATION",
+      "cusip": "803062108",
+      "shares": 1930,
+      "value": 31
+    },
+    {
+      "name": "KYOCERA CORP (ADR)",
+      "cusip": "501556203",
+      "shares": 555,
+      "value": 26
+    },
+    {
+      "name": "GOOGLE INC - CLASS C",
+      "cusip": "38259P706",
+      "shares": 40,
+      "value": 23
+    },
+    {
+      "name": "GOOGLE INC - CLASS A",
+      "cusip": "38259P508",
+      "shares": 40,
+      "value": 23
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 1235,
+      "value": 23
+    },
+    {
+      "name": "AMERICAN EAGLE OUTFITTERS INC",
+      "cusip": "02553E106",
+      "shares": 1690,
+      "value": 19
+    },
+    {
+      "name": "EPIQ SYSTEMS INC",
+      "cusip": "26882D109",
+      "shares": 1320,
+      "value": 19
+    },
+    {
+      "name": "CELGENE CORPORATION",
+      "cusip": "151020104",
+      "shares": 205,
+      "value": 18
+    },
+    {
+      "name": "FOUNDATION MEDICINE INC",
+      "cusip": "350465100",
+      "shares": 600,
+      "value": 16
+    },
+    {
+      "name": "ALIGN TECHNOLOGY INC",
+      "cusip": "016255101",
+      "shares": 260,
+      "value": 15
+    },
+    {
+      "name": "TIME INC",
+      "cusip": "887228104",
+      "shares": 517,
+      "value": 13
+    },
+    {
+      "name": "ALLOT COMMUNICATIONS LTD",
+      "cusip": "M0854Q105",
+      "shares": 640,
+      "value": 8
+    }
+  ],
+  "totalValue": 6759099,
+  "positionsCount": 102
+}

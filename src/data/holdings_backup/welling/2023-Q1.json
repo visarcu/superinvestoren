@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0000921895-23-000547",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 2607819,
+      "value": 147211383
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 5252456,
+      "value": 122959995
+    },
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 13351450,
+      "value": 81577360
+    },
+    {
+      "name": "RENT A CTR INC NEW",
+      "cusip": "76009N100",
+      "shares": 3604216,
+      "value": 81275071
+    },
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 2786042,
+      "value": 78232059
+    },
+    {
+      "name": "BELLRING BRANDS INC",
+      "cusip": "07831C103",
+      "shares": 1561083,
+      "value": 40026168
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 8107150,
+      "value": 27807525
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 1070678,
+      "value": 9036522
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 18800,
+      "value": 3277968
+    }
+  ],
+  "totalValue": 591404051,
+  "positionsCount": 9
+}

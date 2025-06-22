@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001172661-19-001345",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 4192887,
+      "value": 172831
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 727621,
+      "value": 132754
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 1911741,
+      "value": 97231
+    },
+    {
+      "name": "FARFETCH LTD",
+      "cusip": "30744W107",
+      "shares": 2767848,
+      "value": 74483
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 408000,
+      "value": 48120
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 220000,
+      "value": 30536
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 423053,
+      "value": 29258
+    },
+    {
+      "name": "FOUR SEASONS ED CAYMAN INC",
+      "cusip": "35101A101",
+      "shares": 1900148,
+      "value": 3382
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 16462,
+      "value": 2725
+    },
+    {
+      "name": "TJX COS INC NEW",
+      "cusip": "872540109",
+      "shares": 35614,
+      "value": 1895
+    }
+  ],
+  "totalValue": 593215,
+  "positionsCount": 10
+}

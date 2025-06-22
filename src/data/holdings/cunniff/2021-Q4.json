@@ -1,0 +1,186 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-02-22",
+  "period": "2022-02-22",
+  "accession": "0001752724-22-037792",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 654267,
+      "value": 328533631.38,
+      "pctOfPortfolio": 6.704345647831
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 2375390,
+      "value": 309347039.7,
+      "pctOfPortfolio": 6.312807217241
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 914274,
+      "value": 307516059.9,
+      "pctOfPortfolio": 6.275442636325
+    },
+    {
+      "name": "TSMC",
+      "cusip": "874039100",
+      "shares": 2444634,
+      "value": 294113916.54,
+      "pctOfPortfolio": 6.001946735373
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 100042,
+      "value": 289825675.68,
+      "pctOfPortfolio": 5.914437128439
+    },
+    {
+      "name": "Anthem Inc",
+      "cusip": "036752103",
+      "shares": 603667,
+      "value": 279823801.18,
+      "pctOfPortfolio": 5.710330098384
+    },
+    {
+      "name": "CHARLES SCHWAB CORP/THE",
+      "cusip": "808513105",
+      "shares": 2944803,
+      "value": 247657932.3,
+      "pctOfPortfolio": 5.053925144868
+    },
+    {
+      "name": "Micron Technology Inc",
+      "cusip": "595112103",
+      "shares": 2653239,
+      "value": 247149212.85,
+      "pctOfPortfolio": 5.04354376925
+    },
+    {
+      "name": "LIBERTY MEDIA CORP-LIBERTY FORMULA ONE",
+      "cusip": "531229854",
+      "shares": 3785286,
+      "value": 239381486.64,
+      "pctOfPortfolio": 4.885028730194
+    },
+    {
+      "name": "Constellation Software Inc/Can",
+      "cusip": "21037X100",
+      "shares": 124074,
+      "value": 230202168.91,
+      "pctOfPortfolio": 4.697707515575
+    },
+    {
+      "name": "CREDIT ACCEPTANCE CORP",
+      "cusip": "225310101",
+      "shares": 306828,
+      "value": 210999479.04,
+      "pctOfPortfolio": 4.30584057119
+    },
+    {
+      "name": "Universal Music Group NV",
+      "cusip": "000000000",
+      "shares": 7303152,
+      "value": 206036743.32,
+      "pctOfPortfolio": 4.204566630115
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 1079369,
+      "value": 205047728.93,
+      "pctOfPortfolio": 4.184383934378
+    },
+    {
+      "name": "Eurofins Scientific SE",
+      "cusip": "000000000",
+      "shares": 1508166,
+      "value": 186814712.62,
+      "pctOfPortfolio": 3.812304999776
+    },
+    {
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 1237843,
+      "value": 169299787.11,
+      "pctOfPortfolio": 3.454880056334
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "000000000",
+      "shares": 1973651,
+      "value": 165222032.32,
+      "pctOfPortfolio": 3.371665812895
+    },
+    {
+      "name": "Netflix Inc",
+      "cusip": "64110L106",
+      "shares": 269101,
+      "value": 162117206.44,
+      "pctOfPortfolio": 3.30830601077
+    },
+    {
+      "name": "Walt Disney Co/The",
+      "cusip": "254687106",
+      "shares": 985048,
+      "value": 152574084.72,
+      "pctOfPortfolio": 3.113560692607
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 893831,
+      "value": 143996174.1,
+      "pctOfPortfolio": 2.938512319352
+    },
+    {
+      "name": "JACOBS ENGINEERING GROUP INC",
+      "cusip": "469814107",
+      "shares": 1020323,
+      "value": 142059571.29,
+      "pctOfPortfolio": 2.898992302585
+    },
+    {
+      "name": "Rolls-Royce Holdings PLC",
+      "cusip": "000000000",
+      "shares": 71249483,
+      "value": 118505149.7,
+      "pctOfPortfolio": 2.418320101048
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 39680,
+      "value": 114817651.2,
+      "pctOfPortfolio": 2.343069770006
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307107",
+      "shares": 350539,
+      "value": 56401725.1,
+      "pctOfPortfolio": 1.150983108231
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 153616,
+      "value": 45931184,
+      "pctOfPortfolio": 0.937312056171
+    },
+    {
+      "name": "LIBERTY MEDIA CORP-LIBERTY FORMULA ONE",
+      "cusip": "531229870",
+      "shares": 43481,
+      "value": 2580162.54,
+      "pctOfPortfolio": 0.052653061493
+    }
+  ],
+  "totalValue": 4855954317.509999,
+  "positionsCount": 25
+}

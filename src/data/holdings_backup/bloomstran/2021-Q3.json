@@ -1,0 +1,227 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-16",
+  "period": "2021-08-16",
+  "accession": "0001172661-21-001835",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 205808,
+      "value": 57198
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 85,
+      "value": 35581
+    },
+    {
+      "name": "OLIN CORP",
+      "cusip": "680665205",
+      "shares": 733900,
+      "value": 33950
+    },
+    {
+      "name": "VIACOMCBS INC",
+      "cusip": "92556H206",
+      "shares": 602081,
+      "value": 27214
+    },
+    {
+      "name": "NEWMONT CORP",
+      "cusip": "651639106",
+      "shares": 360539,
+      "value": 22851
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 1771994,
+      "value": 11252
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 164340,
+      "value": 10367
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 84602,
+      "value": 9459
+    },
+    {
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 143390,
+      "value": 9313
+    },
+    {
+      "name": "VALERO ENERGY CORP",
+      "cusip": "91913Y100",
+      "shares": 107671,
+      "value": 8407
+    },
+    {
+      "name": "HOLLYFRONTIER CORP",
+      "cusip": "436106108",
+      "shares": 249735,
+      "value": 8216
+    },
+    {
+      "name": "CUMMINS INC",
+      "cusip": "231021106",
+      "shares": 29172,
+      "value": 7112
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 38702,
+      "value": 6803
+    },
+    {
+      "name": "ALLEGHANY CORP MD",
+      "cusip": "017175100",
+      "shares": 8509,
+      "value": 5676
+    },
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 88700,
+      "value": 5349
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 23293,
+      "value": 4792
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 71146,
+      "value": 4440
+    },
+    {
+      "name": "EQUINOR ASA",
+      "cusip": "29446M102",
+      "shares": 188807,
+      "value": 4003
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599162",
+      "shares": 266717,
+      "value": 3710
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 22231,
+      "value": 3673
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 44073,
+      "value": 3428
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20000,
+      "value": 2994
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 6750,
+      "value": 2671
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 10640,
+      "value": 2302
+    },
+    {
+      "name": "WASHINGTON FED INC",
+      "cusip": "938824109",
+      "shares": 64559,
+      "value": 2052
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 142607,
+      "value": 1919
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 10675,
+      "value": 1649
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 25500,
+      "value": 1380
+    },
+    {
+      "name": "SEACOR MARINE HLDGS INC",
+      "cusip": "78413P101",
+      "shares": 260735,
+      "value": 1150
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 21000,
+      "value": 657
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 3288,
+      "value": 344
+    },
+    {
+      "name": "PERSHING SQUARE TONTINE HLDG",
+      "cusip": "71531R109",
+      "shares": 14000,
+      "value": 319
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 900,
+      "value": 313
+    },
+    {
+      "name": "RENT A CTR INC NEW",
+      "cusip": "76009N100",
+      "shares": 4600,
+      "value": 244
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 1582,
+      "value": 234
+    },
+    {
+      "name": "SYNCHRONY FINANCIAL",
+      "cusip": "87165B103",
+      "shares": 4437,
+      "value": 215
+    }
+  ],
+  "totalValue": 301237,
+  "positionsCount": 36
+}

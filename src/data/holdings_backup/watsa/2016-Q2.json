@@ -1,0 +1,191 @@
+{
+  "form": "13F-HR",
+  "date": "2016-05-13",
+  "period": "2016-05-13",
+  "accession": "0001104659-16-120738",
+  "quarterKey": "2016-Q2",
+  "positions": [
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "C10268AA5",
+      "shares": 500000000,
+      "value": 533700
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 46724700,
+      "value": 378769
+    },
+    {
+      "name": "INTL BUSINESS MACHS CORP",
+      "cusip": "459200101",
+      "shares": 1362500,
+      "value": 206351
+    },
+    {
+      "name": "KENNEDY-WILSON HLDGS INC",
+      "cusip": "489398107",
+      "shares": 8954948,
+      "value": 196024
+    },
+    {
+      "name": "RESOLUTE FOREST PRODUCTS INC",
+      "cusip": "76117W109",
+      "shares": 29048190,
+      "value": 159765
+    },
+    {
+      "name": "OVERSTOCK.COM INC",
+      "cusip": "690370101",
+      "shares": 3184677,
+      "value": 45796
+    },
+    {
+      "name": "EXCO RESOURCES INC",
+      "cusip": "269279402",
+      "shares": 25538912,
+      "value": 25261
+    },
+    {
+      "name": "BALDWIN & LYONS INC",
+      "cusip": "057755209",
+      "shares": 969875,
+      "value": 23840
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 349974,
+      "value": 20547
+    },
+    {
+      "name": "BCE INC",
+      "cusip": "05534B760",
+      "shares": 268300,
+      "value": 12265
+    },
+    {
+      "name": "ICICI BK LTD",
+      "cusip": "45104G104",
+      "shares": 1500000,
+      "value": 10740
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 191879,
+      "value": 9076
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 82850,
+      "value": 8962
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 210000,
+      "value": 6220
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 300000,
+      "value": 4845
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 69300,
+      "value": 3351
+    },
+    {
+      "name": "TURQUOISE HILL RES LTD",
+      "cusip": "900435108",
+      "shares": 1150400,
+      "value": 2922
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 19500,
+      "value": 2765
+    },
+    {
+      "name": "EROS INTL PLC",
+      "cusip": "G3788M114",
+      "shares": 116200,
+      "value": 1337
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 6,
+      "value": 1276
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 23200,
+      "value": 941
+    },
+    {
+      "name": "U S G CORP",
+      "cusip": "903293405",
+      "shares": 32800,
+      "value": 813
+    },
+    {
+      "name": "RAYONIER ADVANCED MATLS INC",
+      "cusip": "75508B104",
+      "shares": 70000,
+      "value": 664
+    },
+    {
+      "name": "STARWOOD HOTELS & RESORTS WRLD",
+      "cusip": "85590A401",
+      "shares": 6700,
+      "value": 559
+    },
+    {
+      "name": "THE ADT CORPORATION",
+      "cusip": "00101J106",
+      "shares": 12500,
+      "value": 515
+    },
+    {
+      "name": "CLECO CORP",
+      "cusip": "12561W105",
+      "shares": 9200,
+      "value": 508
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 16300,
+      "value": 466
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP INC",
+      "cusip": "647581107",
+      "shares": 11100,
+      "value": 384
+    },
+    {
+      "name": "K12 INC",
+      "cusip": "48273U102",
+      "shares": 33133,
+      "value": 328
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 9800,
+      "value": 252
+    }
+  ],
+  "totalValue": 1659242,
+  "positionsCount": 30
+}

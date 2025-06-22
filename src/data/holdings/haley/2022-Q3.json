@@ -1,4 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2022-08-16",
-  "positions": []
+  "period": "2022-08-16",
+  "accession": "0001858353-22-000006",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "HASBRO INC",
+      "cusip": "418056107",
+      "shares": 3142133,
+      "value": 257278
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 330018,
+      "value": 83000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 8250,
+      "value": 17979
+    },
+    {
+      "name": "FUNKO INC",
+      "cusip": "361008105",
+      "shares": 759421,
+      "value": 16950
+    },
+    {
+      "name": "XPEL INC",
+      "cusip": "98379L100",
+      "shares": 368833,
+      "value": 16940
+    },
+    {
+      "name": "NEOGAMES S A",
+      "cusip": "L6673X107",
+      "shares": 1224314,
+      "value": 16418
+    },
+    {
+      "name": "DASEKE INC",
+      "cusip": "23753F107",
+      "shares": 2228664,
+      "value": 14241
+    },
+    {
+      "name": "CALLAWAY GOLF CO",
+      "cusip": "131193104",
+      "shares": 678612,
+      "value": 13844
+    },
+    {
+      "name": "EVERBRIDGE INC",
+      "cusip": "29978A104",
+      "shares": 425000,
+      "value": 11853
+    },
+    {
+      "name": "XPONENTIAL FITNESS INC",
+      "cusip": "98422X101",
+      "shares": 678509,
+      "value": 8522
+    },
+    {
+      "name": "FRANKLIN COVEY CO",
+      "cusip": "353469109",
+      "shares": 175558,
+      "value": 8107
+    },
+    {
+      "name": "PURE CYCLE CORP",
+      "cusip": "746228303",
+      "shares": 290547,
+      "value": 3062
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 55000,
+      "value": 2954
+    },
+    {
+      "name": "MAMAMANCINI S HLDGS INC",
+      "cusip": "56146T103",
+      "shares": 1686799,
+      "value": 2362
+    },
+    {
+      "name": "JOINT CORP",
+      "cusip": "47973J102",
+      "shares": 111500,
+      "value": 1707
+    },
+    {
+      "name": "LIQUIDITY SVCS INC",
+      "cusip": "53635B107",
+      "shares": 59300,
+      "value": 797
+    }
+  ],
+  "totalValue": 476014,
+  "positionsCount": 16
 }

@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2014-02-13",
+  "period": "2014-02-13",
+  "accession": "0001172661-14-000374",
+  "quarterKey": "2014-Q1",
+  "positions": [
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 284486,
+      "value": 28790
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 231785,
+      "value": 27480
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 86,
+      "value": 15299
+    },
+    {
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 261360,
+      "value": 12992
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 287625,
+      "value": 8151
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 287680,
+      "value": 7467
+    },
+    {
+      "name": "NEWMONT MINING CORP",
+      "cusip": "651639106",
+      "shares": 302328,
+      "value": 6963
+    },
+    {
+      "name": "MERCK & CO INC NEW",
+      "cusip": "58933Y105",
+      "shares": 137754,
+      "value": 6895
+    },
+    {
+      "name": "WASHINGTON FED INC",
+      "cusip": "938824109",
+      "shares": 237640,
+      "value": 5535
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 146505,
+      "value": 5481
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 58005,
+      "value": 5313
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 88540,
+      "value": 4748
+    },
+    {
+      "name": "GOLDCORP INC NEW",
+      "cusip": "380956409",
+      "shares": 212050,
+      "value": 4595
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 150321,
+      "value": 4213
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 49730,
+      "value": 4125
+    },
+    {
+      "name": "STATOIL ASA",
+      "cusip": "85771P102",
+      "shares": 168480,
+      "value": 4065
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 842878,
+      "value": 3692
+    },
+    {
+      "name": "AVX CORP NEW",
+      "cusip": "002444107",
+      "shares": 219022,
+      "value": 3051
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 20502,
+      "value": 2440
+    },
+    {
+      "name": "VALIDUS HOLDINGS LTD",
+      "cusip": "G9319H102",
+      "shares": 57531,
+      "value": 2318
+    },
+    {
+      "name": "RITCHIE BROS AUCTIONEERS",
+      "cusip": "767744105",
+      "shares": 95700,
+      "value": 2194
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 50000,
+      "value": 2066
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20000,
+      "value": 1811
+    },
+    {
+      "name": "CNA FINL CORP",
+      "cusip": "126117100",
+      "shares": 38155,
+      "value": 1636
+    },
+    {
+      "name": "SPDR GOLD TRUST",
+      "cusip": "78463V107",
+      "shares": 10000,
+      "value": 1161
+    },
+    {
+      "name": "CHUBB CORP",
+      "cusip": "171232101",
+      "shares": 10000,
+      "value": 966
+    },
+    {
+      "name": "ROYAL DUTCH SHELL PLC",
+      "cusip": "780259206",
+      "shares": 12868,
+      "value": 917
+    },
+    {
+      "name": "CONTAINER STORE GROUP INC",
+      "cusip": "210751103",
+      "shares": 12000,
+      "value": 559
+    },
+    {
+      "name": "VICAL INC",
+      "cusip": "925602104",
+      "shares": 408421,
+      "value": 482
+    },
+    {
+      "name": "MEDTRONIC INC",
+      "cusip": "585055106",
+      "shares": 5000,
+      "value": 287
+    },
+    {
+      "name": "MOLSON COORS BREWING CO",
+      "cusip": "60871R100",
+      "shares": 5000,
+      "value": 281
+    }
+  ],
+  "totalValue": 175973,
+  "positionsCount": 31
+}

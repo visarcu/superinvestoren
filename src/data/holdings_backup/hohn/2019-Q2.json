@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001647251-19-000004",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 9878803,
+      "value": 3427056
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2392176,
+      "value": 2806764
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 17491574,
+      "value": 2062956
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 9818894,
+      "value": 2024562
+    },
+    {
+      "name": "UNION PACIFIC CORP",
+      "cusip": "907818108",
+      "shares": 7683577,
+      "value": 1284694
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 12857534,
+      "value": 1151538
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 6022912,
+      "value": 1090689
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1982414,
+      "value": 417397
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L105",
+      "shares": 11050164,
+      "value": 405652
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 195681,
+      "value": 230295
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1634083,
+      "value": 193639
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L204",
+      "shares": 3516883,
+      "value": 126186
+    },
+    {
+      "name": "UNIVAR INC",
+      "cusip": "91336L107",
+      "shares": 3616902,
+      "value": 80151
+    }
+  ],
+  "totalValue": 15301579,
+  "positionsCount": 13
+}

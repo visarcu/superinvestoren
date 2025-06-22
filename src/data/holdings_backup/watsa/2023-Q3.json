@@ -1,0 +1,377 @@
+{
+  "form": "13F-HR",
+  "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0001104659-23-090742",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 6020418,
+      "value": 353940374
+    },
+    {
+      "name": "BLACKBERRY LIMITED",
+      "cusip": "09228FAK9",
+      "shares": 330000000,
+      "value": 350946752
+    },
+    {
+      "name": "BLACKBERRY LIMITED",
+      "cusip": "09228F103",
+      "shares": 46724700,
+      "value": 258387591
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 3886649,
+      "value": 245169819
+    },
+    {
+      "name": "KENNEDY-WILSON HOLDINGS INC",
+      "cusip": "489398107",
+      "shares": 13322009,
+      "value": 217281967
+    },
+    {
+      "name": "ORLA MINING LTD",
+      "cusip": "68634K106",
+      "shares": 19916550,
+      "value": 82932319
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 334620,
+      "value": 40054014
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908363",
+      "shares": 84000,
+      "value": 34203960
+    },
+    {
+      "name": "CRESCENT CAP BDC INC",
+      "cusip": "225655109",
+      "shares": 2092698,
+      "value": 31641594
+    },
+    {
+      "name": "FRANKLIN RESOURCES INC",
+      "cusip": "354613101",
+      "shares": 1000000,
+      "value": 26700000
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 752500,
+      "value": 25133500
+    },
+    {
+      "name": "ALIBABA GROUP HOLDING LTD",
+      "cusip": "01609W102",
+      "shares": 292800,
+      "value": 24404880
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 172900,
+      "value": 19940557
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 555105,
+      "value": 19678472
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 460900,
+      "value": 16901203
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 375965,
+      "value": 14493451
+    },
+    {
+      "name": "BANK OF NOVA SCOTIA",
+      "cusip": "064149107",
+      "shares": 289100,
+      "value": 14471296
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 73400,
+      "value": 12141094
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 98862,
+      "value": 10859991
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 93700,
+      "value": 9453393
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 21600,
+      "value": 6195960
+    },
+    {
+      "name": "DICE THERAPEUTICS INC",
+      "cusip": "23345J104",
+      "shares": 130000,
+      "value": 6038500
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 59700,
+      "value": 5032710
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 43500,
+      "value": 3370531
+    },
+    {
+      "name": "AUTOHOME INC",
+      "cusip": "05278C107",
+      "shares": 93000,
+      "value": 2710020
+    },
+    {
+      "name": "TFI INTL INC",
+      "cusip": "87241L109",
+      "shares": 23600,
+      "value": 2686646
+    },
+    {
+      "name": "GENTEX CORP",
+      "cusip": "371901109",
+      "shares": 85000,
+      "value": 2487100
+    },
+    {
+      "name": "OSISKO GOLD ROYALTIES LTD",
+      "cusip": "68827L101",
+      "shares": 160000,
+      "value": 2449726
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 25000,
+      "value": 2444360
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 40000,
+      "value": 2240000
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505105",
+      "shares": 285760,
+      "value": 2163203
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 14500,
+      "value": 2143245
+    },
+    {
+      "name": "IMAX CORP",
+      "cusip": "45245E109",
+      "shares": 125000,
+      "value": 2122500
+    },
+    {
+      "name": "ATS CORPORATION",
+      "cusip": "00217Y104",
+      "shares": 40000,
+      "value": 1840922
+    },
+    {
+      "name": "BRP INC",
+      "cusip": "05577W200",
+      "shares": 21200,
+      "value": 1788122
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 50000,
+      "value": 1682500
+    },
+    {
+      "name": "U S SILICA HLDGS INC",
+      "cusip": "90346E103",
+      "shares": 130000,
+      "value": 1575600
+    },
+    {
+      "name": "FIRST HORIZON CORPORATION",
+      "cusip": "320517105",
+      "shares": 139300,
+      "value": 1568518
+    },
+    {
+      "name": "EPAM SYSTEMS INC",
+      "cusip": "29414B104",
+      "shares": 6950,
+      "value": 1560692
+    },
+    {
+      "name": "DENNYS CORP",
+      "cusip": "24869P104",
+      "shares": 125000,
+      "value": 1538750
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311206",
+      "shares": 229000,
+      "value": 1536590
+    },
+    {
+      "name": "CREDO TECHNOLOGY GROUP HOLDING",
+      "cusip": "G25457105",
+      "shares": 87566,
+      "value": 1518394
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 125000,
+      "value": 1393750
+    },
+    {
+      "name": "JACOBS SOLUTIONS INC",
+      "cusip": "46982L108",
+      "shares": 11000,
+      "value": 1307020
+    },
+    {
+      "name": "MGM RESORTS INTERNATIONAL",
+      "cusip": "552953101",
+      "shares": 29500,
+      "value": 1295050
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 15000,
+      "value": 1210202
+    },
+    {
+      "name": "DINE BRANDS GLOBAL INC",
+      "cusip": "254423106",
+      "shares": 20000,
+      "value": 1159400
+    },
+    {
+      "name": "INDEPENDENCE CONTRACT DRILLING",
+      "cusip": "453415606",
+      "shares": 390294,
+      "value": 1065503
+    },
+    {
+      "name": "LIBERTY TRIPADVISOR HLDGS INC",
+      "cusip": "531465102",
+      "shares": 1650000,
+      "value": 1056165
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 15000,
+      "value": 1036950
+    },
+    {
+      "name": "DARLING INGREDIENTS INC",
+      "cusip": "237266101",
+      "shares": 16200,
+      "value": 1033074
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78468R663",
+      "shares": 10000,
+      "value": 918200
+    },
+    {
+      "name": "PNM RES INC",
+      "cusip": "69349H107",
+      "shares": 17000,
+      "value": 766700
+    },
+    {
+      "name": "DELEK US HLDGS INC",
+      "cusip": "24665A103",
+      "shares": 32000,
+      "value": 765760
+    },
+    {
+      "name": "ARCO PLATFORM LTD",
+      "cusip": "G04553106",
+      "shares": 63156,
+      "value": 763556
+    },
+    {
+      "name": "TELESAT CORP",
+      "cusip": "879512309",
+      "shares": 76000,
+      "value": 717355
+    },
+    {
+      "name": "TEGNA INC",
+      "cusip": "87901J105",
+      "shares": 32000,
+      "value": 519360
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 518600
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 6380,
+      "value": 511102
+    },
+    {
+      "name": "XERIS BIOPHARMA HOLDINGS INC",
+      "cusip": "98422E103",
+      "shares": 151395,
+      "value": 395141
+    },
+    {
+      "name": "CONSOLIDATED COMM HLDGS INC",
+      "cusip": "209034107",
+      "shares": 78850,
+      "value": 301996
+    }
+  ],
+  "totalValue": 1882165700,
+  "positionsCount": 61
+}

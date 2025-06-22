@@ -1,4 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
-  "positions": []
+  "period": "2022-11-14",
+  "accession": "0001858353-22-000009",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "HASBRO INC",
+      "cusip": "418056107",
+      "shares": 3162133,
+      "value": 213191
+    },
+    {
+      "name": "FUNKO INC",
+      "cusip": "361008105",
+      "shares": 1185054,
+      "value": 23962
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 649681,
+      "value": 16132
+    },
+    {
+      "name": "NEOGAMES S A",
+      "cusip": "L6673X107",
+      "shares": 1022314,
+      "value": 13188
+    },
+    {
+      "name": "TOPGOLF CALLAWAY BRANDS CORP",
+      "cusip": "131193104",
+      "shares": 490564,
+      "value": 9448
+    },
+    {
+      "name": "XPONENTIAL FITNESS INC",
+      "cusip": "98422X101",
+      "shares": 514069,
+      "value": 9387
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 203333,
+      "value": 8743
+    },
+    {
+      "name": "INTERNATIONAL BUSINESS MACHS",
+      "cusip": "459200951",
+      "shares": 63000,
+      "value": 7485
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 60000,
+      "value": 5739
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 46000,
+      "value": 5198
+    },
+    {
+      "name": "VERRA MOBILITY CORP",
+      "cusip": "92511U102",
+      "shares": 325000,
+      "value": 4995
+    },
+    {
+      "name": "DAKTRONICS INC",
+      "cusip": "234264109",
+      "shares": 1748098,
+      "value": 4737
+    },
+    {
+      "name": "EVERBRIDGE INC",
+      "cusip": "29978A104",
+      "shares": 118799,
+      "value": 3669
+    },
+    {
+      "name": "PURE CYCLE CORP",
+      "cusip": "746228303",
+      "shares": 290547,
+      "value": 2426
+    },
+    {
+      "name": "JOINT CORP",
+      "cusip": "47973J102",
+      "shares": 111885,
+      "value": 1758
+    },
+    {
+      "name": "MAMAMANCINI S HLDGS INC",
+      "cusip": "56146T103",
+      "shares": 1210868,
+      "value": 1320
+    }
+  ],
+  "totalValue": 331378,
+  "positionsCount": 16
 }

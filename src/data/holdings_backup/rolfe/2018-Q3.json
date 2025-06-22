@@ -1,0 +1,323 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0000859804-18-000007",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "APPLE INC COM",
+      "cusip": "037833100",
+      "shares": 842957,
+      "value": 156039
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL CL",
+      "cusip": "084670702",
+      "shares": 762175,
+      "value": 142259
+    },
+    {
+      "name": "VISA INC COM CL A",
+      "cusip": "92826C839",
+      "shares": 920590,
+      "value": 121932
+    },
+    {
+      "name": "FACEBOOK INC CL A",
+      "cusip": "30303M102",
+      "shares": 614214,
+      "value": 119354
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP COM",
+      "cusip": "28176E108",
+      "shares": 749910,
+      "value": 109164
+    },
+    {
+      "name": "TRACTOR SUPPLY CO COM",
+      "cusip": "892356106",
+      "shares": 1371295,
+      "value": 104890
+    },
+    {
+      "name": "BOOKING HLDGS INC COM",
+      "cusip": "09857L108",
+      "shares": 49298,
+      "value": 99931
+    },
+    {
+      "name": "ALPHABET INC CAP STK CL A",
+      "cusip": "02079K305",
+      "shares": 79940,
+      "value": 90267
+    },
+    {
+      "name": "ROSS STORES INC COM",
+      "cusip": "778296103",
+      "shares": 974713,
+      "value": 82607
+    },
+    {
+      "name": "QUALCOMM INC COM",
+      "cusip": "747525103",
+      "shares": 1458829,
+      "value": 81869
+    },
+    {
+      "name": "SCHLUMBERGER LTD COM",
+      "cusip": "806857108",
+      "shares": 1198853,
+      "value": 80359
+    },
+    {
+      "name": "CORE LABORATORIES N V COM",
+      "cusip": "N22717107",
+      "shares": 608494,
+      "value": 76798
+    },
+    {
+      "name": "PAYPAL HLDGS INC COM",
+      "cusip": "70450Y103",
+      "shares": 869739,
+      "value": 72423
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW COM",
+      "cusip": "808513105",
+      "shares": 1356474,
+      "value": 69315
+    },
+    {
+      "name": "FASTENAL CO COM",
+      "cusip": "311900104",
+      "shares": 1307457,
+      "value": 62927
+    },
+    {
+      "name": "KRAFT HEINZ CO COM",
+      "cusip": "500754106",
+      "shares": 938426,
+      "value": 58951
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 709661,
+      "value": 56056
+    },
+    {
+      "name": "CELGENE CORP COM",
+      "cusip": "151020104",
+      "shares": 685236,
+      "value": 54421
+    },
+    {
+      "name": "APPLE INC COM",
+      "cusip": "037833100",
+      "shares": 151655,
+      "value": 28072
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL CL",
+      "cusip": "084670702",
+      "shares": 149200,
+      "value": 27848
+    },
+    {
+      "name": "FACEBOOK INC CL A",
+      "cusip": "30303M102",
+      "shares": 119375,
+      "value": 23196
+    },
+    {
+      "name": "VISA INC COM CL A",
+      "cusip": "92826C839",
+      "shares": 163500,
+      "value": 21655
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP COM",
+      "cusip": "28176E108",
+      "shares": 141500,
+      "value": 20598
+    },
+    {
+      "name": "TRACTOR SUPPLY CO COM",
+      "cusip": "892356106",
+      "shares": 265600,
+      "value": 20315
+    },
+    {
+      "name": "BOOKING HLDGS INC COM",
+      "cusip": "09857L108",
+      "shares": 9650,
+      "value": 19561
+    },
+    {
+      "name": "SCHLUMBERGER LTD COM",
+      "cusip": "806857108",
+      "shares": 270500,
+      "value": 18131
+    },
+    {
+      "name": "ALPHABET INC CAP STK CL A",
+      "cusip": "02079K305",
+      "shares": 15800,
+      "value": 17841
+    },
+    {
+      "name": "QUALCOMM INC COM",
+      "cusip": "747525103",
+      "shares": 313000,
+      "value": 17565
+    },
+    {
+      "name": "KRAFT HEINZ CO COM",
+      "cusip": "500754106",
+      "shares": 250500,
+      "value": 15736
+    },
+    {
+      "name": "ROSS STORES INC COM",
+      "cusip": "778296103",
+      "shares": 184500,
+      "value": 15636
+    },
+    {
+      "name": "CORE LABORATORIES N V COM",
+      "cusip": "N22717107",
+      "shares": 115000,
+      "value": 14514
+    },
+    {
+      "name": "CELGENE CORP COM",
+      "cusip": "151020104",
+      "shares": 179000,
+      "value": 14216
+    },
+    {
+      "name": "PAYPAL HLDGS INC COM",
+      "cusip": "70450Y103",
+      "shares": 166500,
+      "value": 13864
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW COM",
+      "cusip": "808513105",
+      "shares": 261400,
+      "value": 13357
+    },
+    {
+      "name": "FASTENAL CO COM",
+      "cusip": "311900104",
+      "shares": 255500,
+      "value": 12297
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 123600,
+      "value": 9763
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079107",
+      "shares": 5427,
+      "value": 6054
+    },
+    {
+      "name": "US BANCORP DEL COM NEW",
+      "cusip": "902973304",
+      "shares": 67638,
+      "value": 3383
+    },
+    {
+      "name": "BLACKSTONE GROUP L P COM UNIT",
+      "cusip": "09253U108",
+      "shares": 38700,
+      "value": 1244
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC COM",
+      "cusip": "92343V104",
+      "shares": 18375,
+      "value": 924
+    },
+    {
+      "name": "JOHNSON & JOHNSON COM",
+      "cusip": "478160104",
+      "shares": 6050,
+      "value": 734
+    },
+    {
+      "name": "AMEREN CORP COM",
+      "cusip": "023608102",
+      "shares": 8650,
+      "value": 526
+    },
+    {
+      "name": "CONSOLIDATED EDISON INC COM",
+      "cusip": "209115104",
+      "shares": 6700,
+      "value": 522
+    },
+    {
+      "name": "PAYCHEX INC COM",
+      "cusip": "704326107",
+      "shares": 7400,
+      "value": 505
+    },
+    {
+      "name": "BP PLC SPONSORED ADR",
+      "cusip": "055622104",
+      "shares": 10175,
+      "value": 464
+    },
+    {
+      "name": "AT&T INC COM",
+      "cusip": "00206R102",
+      "shares": 13950,
+      "value": 447
+    },
+    {
+      "name": "BOEING CO COM",
+      "cusip": "097023105",
+      "shares": 1250,
+      "value": 419
+    },
+    {
+      "name": "ECOLAB INC COM",
+      "cusip": "278865100",
+      "shares": 2500,
+      "value": 350
+    },
+    {
+      "name": "TORONTO DOMINION BK ONT COM NE",
+      "cusip": "891160509",
+      "shares": 5425,
+      "value": 313
+    },
+    {
+      "name": "PIMCO ETF TRUST ETF ENHANCED S",
+      "cusip": "72201R833",
+      "shares": 2780,
+      "value": 282
+    },
+    {
+      "name": "ANNALY CAP MGMT INC COM",
+      "cusip": "035710409",
+      "shares": 22625,
+      "value": 232
+    },
+    {
+      "name": "MANNING & NAPIER INC CL A",
+      "cusip": "56382Q102",
+      "shares": 27321,
+      "value": 84
+    }
+  ],
+  "totalValue": 1980210,
+  "positionsCount": 52
+}

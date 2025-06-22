@@ -1,4 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2023-11-14",
-  "positions": []
+  "period": "2023-11-14",
+  "accession": "0001858353-23-000007",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "DAKTRONICS INC",
+      "cusip": "234264109",
+      "shares": 1682857,
+      "value": 15011084
+    },
+    {
+      "name": "PATHWARD FINANCIAL INC",
+      "cusip": "59100U108",
+      "shares": 185303,
+      "value": 8540615
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 56122,
+      "value": 8428402
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 41400,
+      "value": 8137584
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 22400,
+      "value": 7072800
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 51600,
+      "value": 6929880
+    },
+    {
+      "name": "WILLSCOT MOBIL MINI HLDNG CO",
+      "cusip": "971378104",
+      "shares": 160200,
+      "value": 6662718
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 50252,
+      "value": 6388034
+    },
+    {
+      "name": "GXO LOGISTICS INCORPORATED",
+      "cusip": "36262G101",
+      "shares": 79599,
+      "value": 4668481
+    },
+    {
+      "name": "DOLE PLC",
+      "cusip": "G27907107",
+      "shares": 399249,
+      "value": 4623303
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 56460,
+      "value": 3477936
+    },
+    {
+      "name": "CHUBB LIMITED",
+      "cusip": "H1467J104",
+      "shares": 16700,
+      "value": 3476606
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25200,
+      "value": 3297672
+    },
+    {
+      "name": "MYT NETHERLANDS PARENT B V",
+      "cusip": "55406W103",
+      "shares": 510132,
+      "value": 1734449
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 4200,
+      "value": 1662822
+    },
+    {
+      "name": "GRINDR INC",
+      "cusip": "39854F101",
+      "shares": 202038,
+      "value": 1161719
+    }
+  ],
+  "totalValue": 91274105,
+  "positionsCount": 16
 }

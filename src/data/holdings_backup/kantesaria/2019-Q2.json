@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001697868-19-000003",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 333078,
+      "value": 90474
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 407407,
+      "value": 85780
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 420915,
+      "value": 76223
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 449922,
+      "value": 70273
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 94641,
+      "value": 24740
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 108050,
+      "value": 16836
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 35750,
+      "value": 8417
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 3306
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1000,
+      "value": 1781
+    }
+  ],
+  "totalValue": 377830,
+  "positionsCount": 9
+}

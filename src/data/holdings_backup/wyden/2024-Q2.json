@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001420506-24-000970",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 5950000,
+      "value": 233656500
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 2296944,
+      "value": 104189380
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 1650000,
+      "value": 56925000
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 934592,
+      "value": 54206336
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 1050000,
+      "value": 47628000
+    },
+    {
+      "name": "FAT BRANDS INC",
+      "cusip": "30258N105",
+      "shares": 587400,
+      "value": 4464240
+    }
+  ],
+  "totalValue": 501069456,
+  "positionsCount": 6
+}

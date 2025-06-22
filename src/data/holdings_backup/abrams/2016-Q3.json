@@ -1,0 +1,113 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-12",
+  "period": "2016-08-12",
+  "accession": "0001172661-16-003729",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 21608707,
+      "value": 414455
+    },
+    {
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 7945023,
+      "value": 265125
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 4980000,
+      "value": 254827
+    },
+    {
+      "name": "MANITOWOC FOODSERVICE INC",
+      "cusip": "563568104",
+      "shares": 11255323,
+      "value": 198319
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 2770000,
+      "value": 131104
+    },
+    {
+      "name": "BARNES & NOBLE INC",
+      "cusip": "067774109",
+      "shares": 10418774,
+      "value": 118253
+    },
+    {
+      "name": "NORTHSTAR ASSET MGMT GROUP I",
+      "cusip": "66705Y104",
+      "shares": 10908145,
+      "value": 111372
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 8771492,
+      "value": 89031
+    },
+    {
+      "name": "VIMPELCOM LTD",
+      "cusip": "92719A106",
+      "shares": 18770950,
+      "value": 72831
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U105",
+      "shares": 15384269,
+      "value": 58460
+    },
+    {
+      "name": "KERYX BIOPHARMACEUTICALS INC",
+      "cusip": "492515101",
+      "shares": 5719176,
+      "value": 37861
+    },
+    {
+      "name": "NORTHSTAR RLTY FIN CORP",
+      "cusip": "66704R803",
+      "shares": 3279651,
+      "value": 37486
+    },
+    {
+      "name": "OPUS BK IRVINE CALIF",
+      "cusip": "684000102",
+      "shares": 1052433,
+      "value": 35572
+    },
+    {
+      "name": "MONEYGRAM INTL INC",
+      "cusip": "60935Y208",
+      "shares": 5130000,
+      "value": 35141
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 5000000,
+      "value": 33200
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 20864
+    },
+    {
+      "name": "TICC CAPITAL CORP",
+      "cusip": "87244T109",
+      "shares": 59105,
+      "value": 311
+    }
+  ],
+  "totalValue": 1914212,
+  "positionsCount": 17
+}

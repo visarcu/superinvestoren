@@ -1,0 +1,293 @@
+{
+  "form": "13F-HR",
+  "date": "2017-11-14",
+  "period": "2017-11-14",
+  "accession": "0000919574-17-008069",
+  "quarterKey": "2017-Q4",
+  "positions": [
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 1041006,
+      "value": 1905895
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 49100000,
+      "value": 1875620
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1537700,
+      "value": 1478268
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT LLC",
+      "cusip": "037612306",
+      "shares": 34049807,
+      "value": 1024899
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 30204172,
+      "value": 966534
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 3260000,
+      "value": 833419
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 4536745,
+      "value": 783541
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 10487500,
+      "value": 781214
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 3053747,
+      "value": 553797
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2328000,
+      "value": 462224
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 24820000,
+      "value": 444526
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 2794524,
+      "value": 432508
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 990710,
+      "value": 360044
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 9854436,
+      "value": 332193
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1807000,
+      "value": 308762
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 7250000,
+      "value": 278980
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP I",
+      "cusip": "647581107",
+      "shares": 2251615,
+      "value": 198728
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 7690091,
+      "value": 192944
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2500000,
+      "value": 159700
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1053341,
+      "value": 148732
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 1222000,
+      "value": 137182
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 7603723,
+      "value": 128351
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1142000,
+      "value": 120184
+    },
+    {
+      "name": "NETSHOES CAYMAN LTD",
+      "cusip": "G6455X107",
+      "shares": 8865903,
+      "value": 116587
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 59700,
+      "value": 109300
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 1779431,
+      "value": 91196
+    },
+    {
+      "name": "WEIBO CORP",
+      "cusip": "948596101",
+      "shares": 910000,
+      "value": 90035
+    },
+    {
+      "name": "EHI CAR SVCS LTD",
+      "cusip": "26853A100",
+      "shares": 8334863,
+      "value": 81682
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 531301,
+      "value": 62444
+    },
+    {
+      "name": "SINA CORP",
+      "cusip": "G81477104",
+      "shares": 529107,
+      "value": 60662
+    },
+    {
+      "name": "TELADOC INC",
+      "cusip": "87918A105",
+      "shares": 1792799,
+      "value": 59431
+    },
+    {
+      "name": "ROKU INC",
+      "cusip": "77543R102",
+      "shares": 1500000,
+      "value": 39810
+    },
+    {
+      "name": "ALTICE USA INC",
+      "cusip": "02156K103",
+      "shares": 1150000,
+      "value": 31407
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 500000,
+      "value": 17575
+    },
+    {
+      "name": "PURE STORAGE INC",
+      "cusip": "74624M102",
+      "shares": 1000000,
+      "value": 15990
+    },
+    {
+      "name": "ZTO EXPRESS CAYMAN INC",
+      "cusip": "98980A105",
+      "shares": 994400,
+      "value": 13961
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06746L422",
+      "shares": 304136,
+      "value": 11919
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 70000,
+      "value": 8154
+    },
+    {
+      "name": "JUMEI INTL HLDG LTD",
+      "cusip": "48138L107",
+      "shares": 2479085,
+      "value": 7189
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 500000,
+      "value": 3480
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 3354
+    },
+    {
+      "name": "PENNEY J C INC",
+      "cusip": "708160106",
+      "shares": 850000,
+      "value": 3239
+    },
+    {
+      "name": "OKTA INC",
+      "cusip": "679295105",
+      "shares": 60000,
+      "value": 1693
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 1675
+    },
+    {
+      "name": "RYB ED INC",
+      "cusip": "74979W101",
+      "shares": 35000,
+      "value": 998
+    },
+    {
+      "name": "CLOUDERA INC",
+      "cusip": "18914U100",
+      "shares": 50000,
+      "value": 831
+    },
+    {
+      "name": "FARMLAND PARTNERS INC",
+      "cusip": "31154R109",
+      "shares": 44502,
+      "value": 402
+    }
+  ],
+  "totalValue": 14741259,
+  "positionsCount": 47
+}

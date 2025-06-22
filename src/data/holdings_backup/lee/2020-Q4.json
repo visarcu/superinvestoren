@@ -1,0 +1,127 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "positions": [
+    {
+      "name": "ADVANSIX INC",
+      "cusip": "00773T101",
+      "shares": 719884,
+      "value": 9272000000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 21460,
+      "value": 31538000000
+    },
+    {
+      "name": "BED BATH & BEYOND INC",
+      "cusip": "075896100",
+      "shares": 200000,
+      "value": 2996000000
+    },
+    {
+      "name": "BENEFITFOCUS INC",
+      "cusip": "08180D106",
+      "shares": 667157,
+      "value": 7472000000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 1119191,
+      "value": 36508000000
+    },
+    {
+      "name": "CANADA GOOSE HLDGS INC",
+      "cusip": "135086106",
+      "shares": 618768,
+      "value": 19906000000
+    },
+    {
+      "name": "CUSHMAN WAKEFIELD PLC",
+      "cusip": "G2717B108",
+      "shares": 951064,
+      "value": 9996000000
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 3189574,
+      "value": 20286000000
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 1787716,
+      "value": 21846000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1889915,
+      "value": 91340000000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229870",
+      "shares": 2416895,
+      "value": 80990000000
+    },
+    {
+      "name": "LYFT INC",
+      "cusip": "55087P104",
+      "shares": 527914,
+      "value": 14544000000
+    },
+    {
+      "name": "PURPLE INNOVATION INC",
+      "cusip": "74640Y106",
+      "shares": 16208,
+      "value": 403000000
+    },
+    {
+      "name": "STITCH FIX INC",
+      "cusip": "860897107",
+      "shares": 157977,
+      "value": 4286000000
+    },
+    {
+      "name": "TEEKAY LNG PARTNERS L P",
+      "cusip": "Y8564M105",
+      "shares": 1155323,
+      "value": 12131000000
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 1598705,
+      "value": 71142000000
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 408238,
+      "value": 14893000000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 5169133,
+      "value": 90150000000
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 2565000,
+      "value": 60303000000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M101",
+      "shares": 1270147,
+      "value": 128971000000
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-16",
+  "period": "2021-02-16",
+  "accession": "0001172661-21-000591",
+  "quarterKey": "2021-Q1",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1341118,
+      "value": 310965
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "0403108",
+      "shares": 1429997,
+      "value": 302115
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 2118122,
+      "value": 269150
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412101",
+      "shares": 1537332,
+      "value": 252830
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 730335,
+      "value": 234503
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 1592048,
+      "value": 213223
+    },
+    {
+      "name": "RAYMOND JAMES FINL INC",
+      "cusip": "754730109",
+      "shares": 1954764,
+      "value": 187012
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 1577100,
+      "value": 155944
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 434376,
+      "value": 150355
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 2210943,
+      "value": 117268
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 63466,
+      "value": 111233
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 927527,
+      "value": 100210
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303102",
+      "shares": 240406,
+      "value": 65669
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324102",
+      "shares": 155822,
+      "value": 54644
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676102",
+      "shares": 5161899,
+      "value": 39798
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 204975,
+      "value": 22543
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "0403108",
+      "shares": 67637,
+      "value": 14290
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 110400,
+      "value": 14029
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412101",
+      "shares": 84844,
+      "value": 13953
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 40800,
+      "value": 13100
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 54420,
+      "value": 12618
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 77962,
+      "value": 10441
+    },
+    {
+      "name": "RAYMOND JAMES FINL INC",
+      "cusip": "754730109",
+      "shares": 104937,
+      "value": 10039
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 20986,
+      "value": 7264
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 72900,
+      "value": 7208
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 108054,
+      "value": 5731
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 3080,
+      "value": 5398
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 47494,
+      "value": 5131
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303102",
+      "shares": 13219,
+      "value": 3611
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324102",
+      "shares": 7292,
+      "value": 2557
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676102",
+      "shares": 236494,
+      "value": 1823
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 31094,
+      "value": 1629
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 3279,
+      "value": 952
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079107",
+      "shares": 524,
+      "value": 918
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 440
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 2897,
+      "value": 382
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 69,
+      "value": 225
+    }
+  ],
+  "totalValue": 2719201,
+  "positionsCount": 37
+}

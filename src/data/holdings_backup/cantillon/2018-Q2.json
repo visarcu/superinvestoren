@@ -1,0 +1,395 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-08",
+  "period": "2018-05-08",
+  "accession": "0001279936-18-000009",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1665313,
+      "value": 318175
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1484747,
+      "value": 283676
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 3016423,
+      "value": 274887
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 2673837,
+      "value": 243667
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2472573,
+      "value": 238109
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PUB LTD",
+      "cusip": "G96629103",
+      "shares": 1424942,
+      "value": 216862
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 204978,
+      "value": 212591
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2197744,
+      "value": 211643
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 893963,
+      "value": 199524
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 2705285,
+      "value": 196187
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PUB LTD",
+      "cusip": "G96629103",
+      "shares": 1266278,
+      "value": 192715
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1577665,
+      "value": 188720
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 181602,
+      "value": 188347
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1348117,
+      "value": 184786
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 1263618,
+      "value": 183654
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 2189583,
+      "value": 182852
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 1117070,
+      "value": 180675
+    },
+    {
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 757380,
+      "value": 178477
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 792071,
+      "value": 176782
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 2400174,
+      "value": 174061
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 3667522,
+      "value": 173180
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1397556,
+      "value": 167176
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1196040,
+      "value": 163941
+    },
+    {
+      "name": "SERVICEMASTER GLOBAL HLDGS I",
+      "cusip": "81761R109",
+      "shares": 3204404,
+      "value": 162944
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 1120810,
+      "value": 162899
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1945094,
+      "value": 162435
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 991660,
+      "value": 160391
+    },
+    {
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 673544,
+      "value": 158721
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 3255911,
+      "value": 153744
+    },
+    {
+      "name": "SERVICEMASTER GLOBAL HLDGS I",
+      "cusip": "81761R109",
+      "shares": 2842643,
+      "value": 144548
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 2054318,
+      "value": 137434
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDNG P",
+      "cusip": "G8060N102",
+      "shares": 2632654,
+      "value": 136450
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 604953,
+      "value": 131093
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 118219,
+      "value": 121977
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 1820617,
+      "value": 121799
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDNG P",
+      "cusip": "G8060N102",
+      "shares": 2335796,
+      "value": 121064
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1013775,
+      "value": 119433
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 537227,
+      "value": 116417
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 105476,
+      "value": 108829
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 697413,
+      "value": 107890
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 898381,
+      "value": 105838
+    },
+    {
+      "name": "TRINET GROUP INC",
+      "cusip": "896288107",
+      "shares": 2185868,
+      "value": 101249
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 2305219,
+      "value": 100876
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 616196,
+      "value": 95326
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1346876,
+      "value": 90564
+    },
+    {
+      "name": "TRINET GROUP INC",
+      "cusip": "896288107",
+      "shares": 1954737,
+      "value": 90543
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 535849,
+      "value": 90178
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 2046155,
+      "value": 89540
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 1501665,
+      "value": 80549
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1194368,
+      "value": 80309
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 474907,
+      "value": 79922
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 647823,
+      "value": 76806
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 1332800,
+      "value": 71491
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0408V102",
+      "shares": 484390,
+      "value": 67974
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 572369,
+      "value": 67860
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 383851,
+      "value": 61336
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0408V102",
+      "shares": 427739,
+      "value": 60025
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 177323,
+      "value": 58589
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 341058,
+      "value": 54498
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 157500,
+      "value": 52040
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 483669,
+      "value": 46722
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 428077,
+      "value": 41352
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 1873081,
+      "value": 39616
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 1676919,
+      "value": 35467
+    }
+  ],
+  "totalValue": 8797425,
+  "positionsCount": 64
+}

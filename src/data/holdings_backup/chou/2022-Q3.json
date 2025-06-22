@@ -1,0 +1,125 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-15",
+  "period": "2022-08-15",
+  "accession": "0001104659-22-090265",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 100,
+      "value": 40895
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 3096460,
+      "value": 39511
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W909",
+      "shares": 2425000,
+      "value": 30943
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 715000,
+      "value": 5977
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734907",
+      "shares": 600000,
+      "value": 5016
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 24275,
+      "value": 2734
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 2653
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 199530,
+      "value": 2464
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 7100,
+      "value": 2109
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 382900,
+      "value": 2064
+    },
+    {
+      "name": "OVERSTOCK COM INC",
+      "cusip": "690370101",
+      "shares": 44021,
+      "value": 1101
+    },
+    {
+      "name": "POSCO HOLDINGS INC",
+      "cusip": "693483109",
+      "shares": 21000,
+      "value": 935
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 19542,
+      "value": 765
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 647
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 549
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 30000,
+      "value": 371
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 308
+    },
+    {
+      "name": "GENIUS BRANDS INTL INC",
+      "cusip": "37229T301",
+      "shares": 341303,
+      "value": 258
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 12000,
+      "value": 253
+    }
+  ],
+  "totalValue": 139553,
+  "positionsCount": 19
+}

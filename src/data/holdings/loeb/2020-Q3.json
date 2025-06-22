@@ -1,4 +1,227 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-17",
-  "positions": []
+  "period": "2020-08-17",
+  "accession": "0001085146-20-002333",
+  "quarterKey": "2020-Q3",
+  "positions": [
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5500000,
+      "value": 613305
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 210000,
+      "value": 579352
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 3000000,
+      "value": 530490
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2000000,
+      "value": 431400
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3200000,
+      "value": 429088
+    },
+    {
+      "name": "IAA INC",
+      "cusip": "449253103",
+      "shares": 10585000,
+      "value": 408263
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 750000,
+      "value": 382530
+    },
+    {
+      "name": "BAXTER INTL INC",
+      "cusip": "071813109",
+      "shares": 4000000,
+      "value": 344400
+    },
+    {
+      "name": "RAYTHEON TECHNOLOGIES CORP",
+      "cusip": "75513E101",
+      "shares": 5265000,
+      "value": 324429
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 665000,
+      "value": 289481
+    },
+    {
+      "name": "BURLINGTON STORES INC",
+      "cusip": "122017106",
+      "shares": 1400000,
+      "value": 275702
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 1900000,
+      "value": 269572
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 1425000,
+      "value": 266945
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 775000,
+      "value": 255347
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1250000,
+      "value": 241462
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 3250000,
+      "value": 195585
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 850000,
+      "value": 193010
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 1085000,
+      "value": 185546
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W109",
+      "shares": 15692500,
+      "value": 160691
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 1250000,
+      "value": 122562
+    },
+    {
+      "name": "TE CONNECTIVITY LTD",
+      "cusip": "H84989104",
+      "shares": 1450000,
+      "value": 118248
+    },
+    {
+      "name": "EVERGY INC",
+      "cusip": "30034W106",
+      "shares": 1500000,
+      "value": 88935
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 1125429,
+      "value": 85420
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 800000,
+      "value": 83952
+    },
+    {
+      "name": "EQUITRANS MIDSTREAM CORP",
+      "cusip": "294600101",
+      "shares": 10000000,
+      "value": 83100
+    },
+    {
+      "name": "TAKE-TWO INTERACTIVE SOFTWAR",
+      "cusip": "874054109",
+      "shares": 500000,
+      "value": 69785
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 200000,
+      "value": 59238
+    },
+    {
+      "name": "FAR PT ACQUISITION CORP",
+      "cusip": "30734W208",
+      "shares": 4000000,
+      "value": 41800
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 7601115,
+      "value": 38918
+    },
+    {
+      "name": "GAP INC",
+      "cusip": "364760108",
+      "shares": 3000000,
+      "value": 37860
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 444482,
+      "value": 32252
+    },
+    {
+      "name": "DISH NETWORK CORPORATION",
+      "cusip": "25470MAB5",
+      "shares": 25000000,
+      "value": 23027
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122157",
+      "shares": 6000000,
+      "value": 21480
+    },
+    {
+      "name": "REPLAY ACQUISITION CORP",
+      "cusip": "G75130123",
+      "shares": 1000000,
+      "value": 10631
+    },
+    {
+      "name": "CANNAE HLDGS INC",
+      "cusip": "13765N107",
+      "shares": 181000,
+      "value": 7439
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287457",
+      "shares": 38744,
+      "value": 3356
+    }
+  ],
+  "totalValue": 7304601,
+  "positionsCount": 36
 }

@@ -1,0 +1,245 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0000919574-24-001349",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 7465139,
+      "value": 2642360600
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 5344165,
+      "value": 2009619807
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M106",
+      "shares": 12285193,
+      "value": 1144857136
+    },
+    {
+      "name": "TAKE-TWO INTERACTIVE SOFTWAR",
+      "cusip": "874054109",
+      "shares": 5156174,
+      "value": 829886205
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4882480,
+      "value": 741844011
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 14320168,
+      "value": 579966804
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 4056925,
+      "value": 566711853
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 1981237,
+      "value": 546940286
+    },
+    {
+      "name": "ELI LILLY & CO",
+      "cusip": "532457108",
+      "shares": 890000,
+      "value": 518798800
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 968355,
+      "value": 479548763
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 579655,
+      "value": 409520461
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 1303691,
+      "value": 368436114
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 3044990,
+      "value": 316678960
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 402983,
+      "value": 315640465
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 8803991,
+      "value": 254347300
+    },
+    {
+      "name": "CROWDSTRIKE HLDGS INC",
+      "cusip": "22788C105",
+      "shares": 900000,
+      "value": 229788000
+    },
+    {
+      "name": "DOORDASH INC",
+      "cusip": "25809K105",
+      "shares": 2196013,
+      "value": 217163726
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 182300,
+      "value": 203492375
+    },
+    {
+      "name": "ELASTIC N V",
+      "cusip": "N14506104",
+      "shares": 1690700,
+      "value": 190541890
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 3046700,
+      "value": 187585319
+    },
+    {
+      "name": "GRAB HOLDINGS LIMITED",
+      "cusip": "G4124C109",
+      "shares": 51301788,
+      "value": 172887026
+    },
+    {
+      "name": "NU HLDGS LTD",
+      "cusip": "G6683N103",
+      "shares": 20602704,
+      "value": 171620524
+    },
+    {
+      "name": "DEXCOM INC",
+      "cusip": "252131107",
+      "shares": 1152806,
+      "value": 143051697
+    },
+    {
+      "name": "ZOOMINFO TECHNOLOGIES INC",
+      "cusip": "98980F104",
+      "shares": 7150728,
+      "value": 132216961
+    },
+    {
+      "name": "NOVO-NORDISK A S",
+      "cusip": "670100205",
+      "shares": 1269000,
+      "value": 131278050
+    },
+    {
+      "name": "DATADOG INC",
+      "cusip": "23804L103",
+      "shares": 979400,
+      "value": 118879572
+    },
+    {
+      "name": "PROCORE TECHNOLOGIES INC",
+      "cusip": "74275K108",
+      "shares": 1600500,
+      "value": 110786610
+    },
+    {
+      "name": "ATLASSIAN CORPORATION",
+      "cusip": "049468101",
+      "shares": 400545,
+      "value": 95273634
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 625300,
+      "value": 91487643
+    },
+    {
+      "name": "ALTC ACQUISITION CORP",
+      "cusip": "02156V109",
+      "shares": 3056992,
+      "value": 32281836
+    },
+    {
+      "name": "ARM HOLDINGS PLC",
+      "cusip": "042068205",
+      "shares": 300000,
+      "value": 22543500
+    },
+    {
+      "name": "ATRENEW INC",
+      "cusip": "00138L108",
+      "shares": 11481218,
+      "value": 22043939
+    },
+    {
+      "name": "TOAST INC",
+      "cusip": "888787108",
+      "shares": 1095761,
+      "value": 20008596
+    },
+    {
+      "name": "FRESHWORKS INC",
+      "cusip": "358054104",
+      "shares": 727041,
+      "value": 17078193
+    },
+    {
+      "name": "STONECO LTD",
+      "cusip": "G85158106",
+      "shares": 682000,
+      "value": 12296460
+    },
+    {
+      "name": "MAPLEBEAR INC",
+      "cusip": "565394103",
+      "shares": 175000,
+      "value": 4107250
+    },
+    {
+      "name": "KLAVIYO INC",
+      "cusip": "49845K101",
+      "shares": 35000,
+      "value": 972300
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 2561,
+      "value": 481238
+    },
+    {
+      "name": "DINGDONG CAYMAN LTD",
+      "cusip": "25445D101",
+      "shares": 118539,
+      "value": 177809
+    }
+  ],
+  "totalValue": 14053201713,
+  "positionsCount": 39
+}

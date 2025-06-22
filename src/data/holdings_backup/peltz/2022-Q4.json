@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001345471-22-000089",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 55758634,
+      "value": 763893
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 6840306,
+      "value": 704073
+    },
+    {
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y214",
+      "shares": 31867800,
+      "value": 647235
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 7177540,
+      "value": 507524
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 25333339,
+      "value": 473480
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 4377875,
+      "value": 450615
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4027274,
+      "value": 249329
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 16239,
+      "value": 890
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 5589,
+      "value": 706
+    }
+  ],
+  "totalValue": 3797745,
+  "positionsCount": 9
+}

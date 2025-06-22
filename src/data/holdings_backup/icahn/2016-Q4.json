@@ -1,0 +1,239 @@
+{
+  "form": "13F-HR",
+  "date": "2016-11-14",
+  "period": "2016-11-14",
+  "accession": "0001140361-16-086390",
+  "quarterKey": "2016-Q4",
+  "positions": [
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 56712516,
+      "value": 2866818
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 36515986,
+      "value": 2166859
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 30961273,
+      "value": 1565092
+    },
+    {
+      "name": "FEDERAL MOGUL HOLDINGS CORP",
+      "cusip": "313549404",
+      "shares": 138590141,
+      "value": 1331851
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 26144391,
+      "value": 1139895
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 27117922,
+      "value": 1111021
+    },
+    {
+      "name": "CVR ENERGY INC",
+      "cusip": "12662P108",
+      "shares": 71198718,
+      "value": 980406
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 15689223,
+      "value": 972575
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 18812937,
+      "value": 950994
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 83199999,
+      "value": 903552
+    },
+    {
+      "name": "XEROX CORP",
+      "cusip": "984121103",
+      "shares": 79224021,
+      "value": 802539
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 15354535,
+      "value": 776172
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 9128996,
+      "value": 541715
+    },
+    {
+      "name": "AMERICAN RAILCAR INDS INC",
+      "cusip": "02916P103",
+      "shares": 11871268,
+      "value": 492301
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 10350877,
+      "value": 415691
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 13018020,
+      "value": 297982
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 6536099,
+      "value": 284974
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 6779231,
+      "value": 277745
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 5231586,
+      "value": 264457
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 3922306,
+      "value": 243144
+    },
+    {
+      "name": "NUANCE COMMUNICATIONS INC",
+      "cusip": "67020Y100",
+      "shares": 15741669,
+      "value": 228254
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 20800001,
+      "value": 225888
+    },
+    {
+      "name": "XEROX CORP",
+      "cusip": "984121103",
+      "shares": 19806005,
+      "value": 200635
+    },
+    {
+      "name": "MANITOWOC FOODSERVICE INC",
+      "cusip": "563568104",
+      "shares": 8466129,
+      "value": 137321
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 3450289,
+      "value": 116275
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 2587719,
+      "value": 103923
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 340350,
+      "value": 78386
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 3254504,
+      "value": 74496
+    },
+    {
+      "name": "NUANCE COMMUNICATIONS INC",
+      "cusip": "67020Y100",
+      "shares": 3935419,
+      "value": 57064
+    },
+    {
+      "name": "MANITOWOC INC",
+      "cusip": "563571108",
+      "shares": 8466129,
+      "value": 40553
+    },
+    {
+      "name": "MANITOWOC FOODSERVICE INC",
+      "cusip": "563568104",
+      "shares": 2116531,
+      "value": 34330
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 3750000,
+      "value": 32888
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 862571,
+      "value": 29069
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 85088,
+      "value": 19597
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 2000000,
+      "value": 17540
+    },
+    {
+      "name": "VOLTARI CORP",
+      "cusip": "92870X309",
+      "shares": 4040772,
+      "value": 10668
+    },
+    {
+      "name": "MANITOWOC INC",
+      "cusip": "563571108",
+      "shares": 2116531,
+      "value": 10138
+    },
+    {
+      "name": "VOLTARI CORP",
+      "cusip": "92870X309",
+      "shares": 698848,
+      "value": 1845
+    }
+  ],
+  "totalValue": 19804653,
+  "positionsCount": 38
+}

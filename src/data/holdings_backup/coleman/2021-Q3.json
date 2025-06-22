@@ -1,0 +1,857 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-16",
+  "period": "2021-08-16",
+  "accession": "0000919574-21-005372",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 51594753,
+      "value": 4117777
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 13131734,
+      "value": 3557387
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 10148500,
+      "value": 2786778
+    },
+    {
+      "name": "ROBLOX CORP",
+      "cusip": "771049103",
+      "shares": 27392297,
+      "value": 2464759
+    },
+    {
+      "name": "DOCUSIGN INC",
+      "cusip": "256163106",
+      "shares": 7280000,
+      "value": 2035270
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 567870,
+      "value": 1953564
+    },
+    {
+      "name": "DOORDASH INC",
+      "cusip": "25809K105",
+      "shares": 10913734,
+      "value": 1946246
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03768E105",
+      "shares": 31052476,
+      "value": 1931464
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 6355107,
+      "value": 1918098
+    },
+    {
+      "name": "CROWDSTRIKE HLDGS INC",
+      "cusip": "22788C105",
+      "shares": 7537000,
+      "value": 1894123
+    },
+    {
+      "name": "PINDUODUO INC",
+      "cusip": "722304102",
+      "shares": 14053066,
+      "value": 1785020
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 5053137,
+      "value": 1757026
+    },
+    {
+      "name": "ZOOM VIDEO COMMUNICATIONS IN",
+      "cusip": "98980L101",
+      "shares": 4283073,
+      "value": 1657678
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 872300,
+      "value": 1274413
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 2206240,
+      "value": 1212439
+    },
+    {
+      "name": "RINGCENTRAL INC",
+      "cusip": "76680R206",
+      "shares": 3940000,
+      "value": 1144885
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1757245,
+      "value": 1137447
+    },
+    {
+      "name": "PELOTON INTERACTIVE INC",
+      "cusip": "70614W100",
+      "shares": 8826164,
+      "value": 1094621
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 20747855,
+      "value": 1039882
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 4189254,
+      "value": 1012962
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 4127450,
+      "value": 985387
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 4219678,
+      "value": 956939
+    },
+    {
+      "name": "PROCORE TECHNOLOGIES INC",
+      "cusip": "74275K108",
+      "shares": 9525439,
+      "value": 904440
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 3158195,
+      "value": 870367
+    },
+    {
+      "name": "UIPATH INC",
+      "cusip": "90364P105",
+      "shares": 10423632,
+      "value": 708077
+    },
+    {
+      "name": "COINBASE GLOBAL INC",
+      "cusip": "19260Q107",
+      "shares": 2625294,
+      "value": 664987
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 2465400,
+      "value": 633263
+    },
+    {
+      "name": "FUTU HLDGS LTD",
+      "cusip": "36118L106",
+      "shares": 3468000,
+      "value": 621084
+    },
+    {
+      "name": "DOUBLEVERIFY HLDGS INC",
+      "cusip": "25862V105",
+      "shares": 13842494,
+      "value": 586091
+    },
+    {
+      "name": "ELASTIC N V",
+      "cusip": "N14506104",
+      "shares": 4019843,
+      "value": 585932
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 1086490,
+      "value": 573895
+    },
+    {
+      "name": "DATADOG INC",
+      "cusip": "23804L103",
+      "shares": 4992437,
+      "value": 519613
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 737500,
+      "value": 431910
+    },
+    {
+      "name": "SUNRUN INC",
+      "cusip": "86771W105",
+      "shares": 7073257,
+      "value": 394546
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266L106",
+      "shares": 1499000,
+      "value": 392903
+    },
+    {
+      "name": "YATSEN HLDG LTD",
+      "cusip": "985194109",
+      "shares": 28213701,
+      "value": 264362
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 724000,
+      "value": 264325
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 896001,
+      "value": 261166
+    },
+    {
+      "name": "1LIFE HEALTHCARE INC",
+      "cusip": "68269G107",
+      "shares": 7620000,
+      "value": 251917
+    },
+    {
+      "name": "8X8 INC NEW",
+      "cusip": "282914100",
+      "shares": 9000000,
+      "value": 249840
+    },
+    {
+      "name": "IRONSOURCE LTD",
+      "cusip": "M5R75Y101",
+      "shares": 20500000,
+      "value": 215250
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 872000,
+      "value": 212594
+    },
+    {
+      "name": "BRIGHT HEALTH GROUP INC",
+      "cusip": "10920V107",
+      "shares": 11847808,
+      "value": 203308
+    },
+    {
+      "name": "GDS HLDGS LTD",
+      "cusip": "36165L108",
+      "shares": 2572811,
+      "value": 201940
+    },
+    {
+      "name": "ASANA INC",
+      "cusip": "04342Y104",
+      "shares": 2881202,
+      "value": 178721
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 647662,
+      "value": 165840
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 3571428,
+      "value": 149357
+    },
+    {
+      "name": "QUALTRICS INTL INC",
+      "cusip": "747601201",
+      "shares": 3615750,
+      "value": 138302
+    },
+    {
+      "name": "DLOCAL LTD",
+      "cusip": "G29018101",
+      "shares": 2602000,
+      "value": 136683
+    },
+    {
+      "name": "OSCAR HEALTH INC",
+      "cusip": "687793109",
+      "shares": 6179409,
+      "value": 132857
+    },
+    {
+      "name": "PLAYTIKA HLDG CORP",
+      "cusip": "72815L107",
+      "shares": 5500000,
+      "value": 131120
+    },
+    {
+      "name": "KE HLDGS INC",
+      "cusip": "482497104",
+      "shares": 2500000,
+      "value": 119200
+    },
+    {
+      "name": "SUMO LOGIC INC",
+      "cusip": "86646P103",
+      "shares": 5533367,
+      "value": 114264
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 217920,
+      "value": 106818
+    },
+    {
+      "name": "ZENDESK INC",
+      "cusip": "98936J101",
+      "shares": 714000,
+      "value": 103059
+    },
+    {
+      "name": "AIRBNB INC",
+      "cusip": "009066101",
+      "shares": 650000,
+      "value": 99541
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 387700,
+      "value": 94703
+    },
+    {
+      "name": "DIGITALOCEAN HLDGS INC",
+      "cusip": "25402D102",
+      "shares": 1700000,
+      "value": 94503
+    },
+    {
+      "name": "JAMF HLDG CORP",
+      "cusip": "47074L105",
+      "shares": 2778778,
+      "value": 93284
+    },
+    {
+      "name": "BIGCOMMERCE HLDGS INC",
+      "cusip": "08975P108",
+      "shares": 1350000,
+      "value": 87642
+    },
+    {
+      "name": "GOODRX HLDGS INC",
+      "cusip": "38246G108",
+      "shares": 2345000,
+      "value": 84443
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECHNOLOGY",
+      "cusip": "647581107",
+      "shares": 9217500,
+      "value": 75491
+    },
+    {
+      "name": "AGORA INC",
+      "cusip": "00851L103",
+      "shares": 1726123,
+      "value": 72428
+    },
+    {
+      "name": "TUYA INC",
+      "cusip": "90114C107",
+      "shares": 2850000,
+      "value": 69825
+    },
+    {
+      "name": "APPLOVIN CORP",
+      "cusip": "03831W108",
+      "shares": 928000,
+      "value": 69758
+    },
+    {
+      "name": "ANAPLAN INC",
+      "cusip": "03272L108",
+      "shares": 1280868,
+      "value": 68270
+    },
+    {
+      "name": "SENTINELONE INC",
+      "cusip": "81730H109",
+      "shares": 1511801,
+      "value": 64252
+    },
+    {
+      "name": "C3 AI INC",
+      "cusip": "12468P104",
+      "shares": 1000000,
+      "value": 62530
+    },
+    {
+      "name": "JUST EAT TAKEAWAY COM N V",
+      "cusip": "48214T305",
+      "shares": 3197957,
+      "value": 58395
+    },
+    {
+      "name": "BUMBLE INC",
+      "cusip": "12047B105",
+      "shares": 1000000,
+      "value": 57600
+    },
+    {
+      "name": "TAL EDUCATION GROUP",
+      "cusip": "874080104",
+      "shares": 2282649,
+      "value": 57591
+    },
+    {
+      "name": "ON24 INC",
+      "cusip": "68339B104",
+      "shares": 1600000,
+      "value": 56768
+    },
+    {
+      "name": "KATAPULT HOLDINGS INC",
+      "cusip": "485859102",
+      "shares": 5000000,
+      "value": 54050
+    },
+    {
+      "name": "STONECO LTD",
+      "cusip": "G85158106",
+      "shares": 773281,
+      "value": 51856
+    },
+    {
+      "name": "JFROG LTD",
+      "cusip": "M6191J100",
+      "shares": 1000000,
+      "value": 45520
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 200000,
+      "value": 44718
+    },
+    {
+      "name": "OZON HLDGS PLC",
+      "cusip": "69269L104",
+      "shares": 750000,
+      "value": 43965
+    },
+    {
+      "name": "DOXIMITY INC",
+      "cusip": "26622P107",
+      "shares": 750000,
+      "value": 43650
+    },
+    {
+      "name": "SQUARESPACE INC",
+      "cusip": "85225A107",
+      "shares": 730777,
+      "value": 43415
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 3201170,
+      "value": 42287
+    },
+    {
+      "name": "DATTO HLDG CORP",
+      "cusip": "23821D100",
+      "shares": 1500000,
+      "value": 41760
+    },
+    {
+      "name": "KANZHUN LIMITED",
+      "cusip": "48553T106",
+      "shares": 1050000,
+      "value": 41633
+    },
+    {
+      "name": "AIHUISHOU INTL CO LTD",
+      "cusip": "00138L108",
+      "shares": 2750000,
+      "value": 41113
+    },
+    {
+      "name": "DINGDONG CAYMAN LTD",
+      "cusip": "25445D101",
+      "shares": 1050000,
+      "value": 40215
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 163000,
+      "value": 38113
+    },
+    {
+      "name": "ROOT INC",
+      "cusip": "77664L108",
+      "shares": 3106976,
+      "value": 33617
+    },
+    {
+      "name": "MONGODB INC",
+      "cusip": "60937P106",
+      "shares": 82000,
+      "value": 29645
+    },
+    {
+      "name": "TWILIO INC",
+      "cusip": "90138F102",
+      "shares": 74701,
+      "value": 29444
+    },
+    {
+      "name": "DYNATRACE INC",
+      "cusip": "268150109",
+      "shares": 500000,
+      "value": 29210
+    },
+    {
+      "name": "XPENG INC",
+      "cusip": "98422D105",
+      "shares": 650000,
+      "value": 28873
+    },
+    {
+      "name": "DIDI GLOBAL INC",
+      "cusip": "23292E108",
+      "shares": 2000000,
+      "value": 28280
+    },
+    {
+      "name": "CHINDATA GROUP HLDGS LTD",
+      "cusip": "16955F107",
+      "shares": 1850000,
+      "value": 27917
+    },
+    {
+      "name": "LOGISTICS INNOVTN TECHNLGS C",
+      "cusip": "54141L209",
+      "shares": 2800000,
+      "value": 27860
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 360000,
+      "value": 26035
+    },
+    {
+      "name": "SOARING EAGLE ACQUISITION CO",
+      "cusip": "G8354H100",
+      "shares": 2425000,
+      "value": 25681
+    },
+    {
+      "name": "OLO INC",
+      "cusip": "68134L109",
+      "shares": 681000,
+      "value": 25463
+    },
+    {
+      "name": "TCV ACQUISITION CORP",
+      "cusip": "G8704C124",
+      "shares": 2500000,
+      "value": 24775
+    },
+    {
+      "name": "REVOLUTION HEALTHCAR AQ CORP",
+      "cusip": "76155Y207",
+      "shares": 2250000,
+      "value": 22568
+    },
+    {
+      "name": "ALTIMETER GROWTH CORP",
+      "cusip": "G0370L124",
+      "shares": 1800000,
+      "value": 22140
+    },
+    {
+      "name": "REINVENT TECHNOLOGY PARTNERS",
+      "cusip": "G7483N111",
+      "shares": 2000000,
+      "value": 20900
+    },
+    {
+      "name": "AJAX I",
+      "cusip": "G0190X118",
+      "shares": 2000000,
+      "value": 20880
+    },
+    {
+      "name": "ALTIMETER GROWTH CORP 2",
+      "cusip": "G0371B109",
+      "shares": 1996000,
+      "value": 20459
+    },
+    {
+      "name": "SVF INVESTMENT CORP",
+      "cusip": "G8601L110",
+      "shares": 2000000,
+      "value": 20350
+    },
+    {
+      "name": "CONFLUENT INC",
+      "cusip": "20717M103",
+      "shares": 400000,
+      "value": 19000
+    },
+    {
+      "name": "CLOUDFLARE INC",
+      "cusip": "18915M107",
+      "shares": 175000,
+      "value": 18522
+    },
+    {
+      "name": "LIBERTY MEDIA ACQUISITION CO",
+      "cusip": "53073L203",
+      "shares": 1700000,
+      "value": 18003
+    },
+    {
+      "name": "17 ED & TECHNOLOGY GROUP INC",
+      "cusip": "81807M106",
+      "shares": 4681244,
+      "value": 17087
+    },
+    {
+      "name": "NCINO INC",
+      "cusip": "63947U107",
+      "shares": 275000,
+      "value": 16478
+    },
+    {
+      "name": "AVALARA INC",
+      "cusip": "05338G106",
+      "shares": 100000,
+      "value": 16180
+    },
+    {
+      "name": "DUCK CREEK TECHNOLOGIES INC",
+      "cusip": "264120106",
+      "shares": 350000,
+      "value": 15229
+    },
+    {
+      "name": "MOMENTIVE GLOBAL INC",
+      "cusip": "60878Y108",
+      "shares": 698871,
+      "value": 14725
+    },
+    {
+      "name": "AFFIRM HLDGS INC",
+      "cusip": "00827B106",
+      "shares": 200000,
+      "value": 13470
+    },
+    {
+      "name": "LI AUTO INC",
+      "cusip": "50202M102",
+      "shares": 350000,
+      "value": 12229
+    },
+    {
+      "name": "ENDEAVOR GROUP HLDGS INC",
+      "cusip": "29260Y109",
+      "shares": 400000,
+      "value": 11084
+    },
+    {
+      "name": "SVF INVESTMENT CORP 3",
+      "cusip": "G8601N108",
+      "shares": 1100000,
+      "value": 10934
+    },
+    {
+      "name": "KNOWBE4 INC",
+      "cusip": "49926T104",
+      "shares": 325000,
+      "value": 10163
+    },
+    {
+      "name": "LEAD EDGE GROWTH OPRTUNTS LT",
+      "cusip": "G54085124",
+      "shares": 1000000,
+      "value": 10000
+    },
+    {
+      "name": "LDH GROWTH CORP I",
+      "cusip": "G54094118",
+      "shares": 960000,
+      "value": 9600
+    },
+    {
+      "name": "XP INC",
+      "cusip": "G98239109",
+      "shares": 200000,
+      "value": 8710
+    },
+    {
+      "name": "PROVIDENT ACQUISITION CORP",
+      "cusip": "G7282L118",
+      "shares": 800000,
+      "value": 8024
+    },
+    {
+      "name": "ZOOMINFO TECHNOLOGIES INC",
+      "cusip": "98980F104",
+      "shares": 150000,
+      "value": 7826
+    },
+    {
+      "name": "SVF INVESTMENT CORP 2",
+      "cusip": "G8601M100",
+      "shares": 775000,
+      "value": 7711
+    },
+    {
+      "name": "VERTEX INC",
+      "cusip": "92538J106",
+      "shares": 325000,
+      "value": 7131
+    },
+    {
+      "name": "SPLUNK INC",
+      "cusip": "848637104",
+      "shares": 45228,
+      "value": 6539
+    },
+    {
+      "name": "HUYA INC",
+      "cusip": "44852D108",
+      "shares": 362000,
+      "value": 6389
+    },
+    {
+      "name": "PAGERDUTY INC",
+      "cusip": "69553P100",
+      "shares": 150000,
+      "value": 6387
+    },
+    {
+      "name": "DROPBOX INC",
+      "cusip": "26210C104",
+      "shares": 200000,
+      "value": 6062
+    },
+    {
+      "name": "ALKAMI TECHNOLOGY INC",
+      "cusip": "01644J108",
+      "shares": 150000,
+      "value": 5351
+    },
+    {
+      "name": "AMERICAN WELL CORP",
+      "cusip": "03044L105",
+      "shares": 400000,
+      "value": 5032
+    },
+    {
+      "name": "SOLARWINDS CORP",
+      "cusip": "83417Q105",
+      "shares": 200000,
+      "value": 3378
+    },
+    {
+      "name": "HEALTH CATALYST INC",
+      "cusip": "42225T107",
+      "shares": 50000,
+      "value": 2776
+    },
+    {
+      "name": "OUTSET MED INC",
+      "cusip": "690145107",
+      "shares": 55000,
+      "value": 2749
+    },
+    {
+      "name": "DOUYU INTL HLDGS LTD",
+      "cusip": "25985W105",
+      "shares": 400000,
+      "value": 2736
+    },
+    {
+      "name": "MEDALLIA INC",
+      "cusip": "584021109",
+      "shares": 50000,
+      "value": 1688
+    },
+    {
+      "name": "OAK STR HEALTH INC",
+      "cusip": "67181A107",
+      "shares": 25000,
+      "value": 1464
+    },
+    {
+      "name": "DADA NEXUS LTD",
+      "cusip": "23344D108",
+      "shares": 50000,
+      "value": 1451
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 16981,
+      "value": 1077
+    },
+    {
+      "name": "FARMLAND PARTNERS INC",
+      "cusip": "31154R109",
+      "shares": 44502,
+      "value": 536
+    },
+    {
+      "name": "ONESMART INTL ED GROUP LTD",
+      "cusip": "68276W103",
+      "shares": 320000,
+      "value": 394
+    },
+    {
+      "name": "KINGSOFT CLOUD HLDGS LTD",
+      "cusip": "49639K101",
+      "shares": 10000,
+      "value": 339
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 10000,
+      "value": 230
+    }
+  ],
+  "totalValue": 53762296,
+  "positionsCount": 141
+}

@@ -1,180 +1,173 @@
 {
-  "date": "2025-06-05",
+  "form": "13F-HR",
+  "date": "2025-02-12",
+  "period": "2025-02-12",
+  "accession": "0001376879-25-000002",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
-      "name": "Alcon Inc.",
-      "cusip": "ALC00000",
-      "shares": 7115571,
-      "value": 672563771,
-      "ticker": "ALC"
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1757145,
+      "value": 555328
     },
     {
-      "name": "Flutter Entertainment Plc",
-      "cusip": "FLUT00000",
-      "shares": 2590673,
-      "value": 571761531,
-      "ticker": "FLUT"
+      "name": "ALCON AG",
+      "cusip": "H01301128",
+      "shares": 5876280,
+      "value": 498585
     },
     {
-      "name": "Marsh & McLennan",
-      "cusip": "MMC00000",
-      "shares": 2121730,
-      "value": 517765772,
-      "ticker": "MMC"
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1142735,
+      "value": 481663
     },
     {
-      "name": "GE Aerospace",
-      "cusip": "GE00000",
-      "shares": 2466267,
-      "value": 493623340,
-      "ticker": "GE"
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 1311465,
+      "value": 461360
     },
     {
-      "name": "Microsoft Corp.",
-      "cusip": "MSFT00000",
-      "shares": 1250718,
-      "value": 469507030,
-      "ticker": "MSFT"
+      "name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "shares": 2693057,
+      "value": 449175
     },
     {
-      "name": "Intercontinental Exchange Inc.",
-      "cusip": "ICE00000",
-      "shares": 2282427,
-      "value": 393718658,
-      "ticker": "ICE"
+      "name": "MARSH & MCLENNAN COS INC",
+      "cusip": "571748102",
+      "shares": 2062828,
+      "value": 438165
     },
     {
-      "name": "Accenture",
-      "cusip": "ACN00000",
-      "shares": 1238638,
-      "value": 386504602,
-      "ticker": "ACN"
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 2605657,
+      "value": 388269
     },
     {
-      "name": "Moodys Corp.",
-      "cusip": "MCO00000",
-      "shares": 826734,
-      "value": 385001756,
-      "ticker": "MCO"
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 594479,
+      "value": 373630
     },
     {
-      "name": "Intuit Inc.",
-      "cusip": "INTU00000",
-      "shares": 555811,
-      "value": 341262396,
-      "ticker": "INTU"
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 72470,
+      "value": 360061
     },
     {
-      "name": "Booking Holdings Inc.",
-      "cusip": "BKNG00000",
-      "shares": 72052,
-      "value": 331937079,
-      "ticker": "BKNG"
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 653387,
+      "value": 309294
     },
     {
-      "name": "Waters Corp.",
-      "cusip": "WAT00000",
-      "shares": 887215,
-      "value": 327000833,
-      "ticker": "WAT"
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1408315,
+      "value": 308970
     },
     {
-      "name": "Copart Inc.",
-      "cusip": "CPRT00000",
-      "shares": 5081145,
-      "value": 287541996,
-      "ticker": "CPRT"
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 815379,
+      "value": 302489
     },
     {
-      "name": "Fair Isaac Corp.",
-      "cusip": "FICO00000",
-      "shares": 150660,
-      "value": 277841146,
-      "ticker": "FICO"
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 148602,
+      "value": 295856
     },
     {
-      "name": "Amazon.com Inc.",
-      "cusip": "AMZN00000",
-      "shares": 1437908,
-      "value": 273576376,
-      "ticker": "AMZN"
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 619722,
+      "value": 264138
     },
     {
-      "name": "Zoetis Inc.",
-      "cusip": "ZTS00000",
-      "shares": 1523960,
-      "value": 250920014,
-      "ticker": "ZTS"
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 4391462,
+      "value": 252026
     },
     {
-      "name": "Analog Devices",
-      "cusip": "ADI00000",
-      "shares": 1243847,
-      "value": 250846624,
-      "ticker": "ADI"
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 1167224,
+      "value": 247988
     },
     {
-      "name": "Ferrari NV",
-      "cusip": "RACE00000",
-      "shares": 585118,
-      "value": 248669299,
-      "ticker": "RACE"
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1505938,
+      "value": 245362
     },
     {
-      "name": "Equifax Inc.",
-      "cusip": "EFX00000",
-      "shares": 762905,
-      "value": 185813142,
-      "ticker": "EFX"
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1172423,
+      "value": 196557
     },
     {
-      "name": "Thermo Fisher Scientific",
-      "cusip": "TMO00000",
-      "shares": 332845,
-      "value": 165623672,
-      "ticker": "TMO"
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 726246,
+      "value": 185084
     },
     {
-      "name": "Salesforce.com",
-      "cusip": "CRM00000",
-      "shares": 359908,
-      "value": 96584911,
-      "ticker": "CRM"
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 313784,
+      "value": 163240
     },
     {
-      "name": "Illumina Inc.",
-      "cusip": "ILMN00000",
-      "shares": 889714,
-      "value": 70589909,
-      "ticker": "ILMN"
+      "name": "WARNER MUSIC GROUP CORP",
+      "cusip": "934550203",
+      "shares": 4323994,
+      "value": 134044
     },
     {
-      "name": "Linde plc",
-      "cusip": "LIN00000",
-      "shares": 84991,
-      "value": 39575209,
-      "ticker": "LIN"
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 208903,
+      "value": 125344
     },
     {
-      "name": "Cadence Design Systems",
-      "cusip": "CDNS00000",
-      "shares": 137409,
-      "value": 34947231,
-      "ticker": "CDNS"
+      "name": "CADENCE DESIGN SYSTEM INC",
+      "cusip": "127387108",
+      "shares": 223944,
+      "value": 67286
     },
     {
-      "name": "Booz Allen Hamilton Hldg Corp.",
-      "cusip": "BAH00000",
-      "shares": 93472,
-      "value": 9775302,
-      "ticker": "BAH"
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 495286,
+      "value": 66185
     },
     {
-      "name": "Canadian Natl Railway Co.",
-      "cusip": "CNI00000",
-      "shares": 19073,
-      "value": 1859045,
-      "ticker": "CNI"
+      "name": "LINDE PLC",
+      "cusip": "G54950103",
+      "shares": 128062,
+      "value": 53616
+    },
+    {
+      "name": "BOOZ ALLEN HAMILTON HLDG COR",
+      "cusip": "099502106",
+      "shares": 92490,
+      "value": 11903
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 10992,
+      "value": 1116
     }
-  ]
+  ],
+  "totalValue": 7236734,
+  "positionsCount": 27
 }

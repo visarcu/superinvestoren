@@ -1,0 +1,1610 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-08-26",
+  "period": "2022-08-26",
+  "positions": [
+    {
+      "name": "Alibaba Group Holding, Ltd.",
+      "cusip": "01609W102",
+      "shares": 67841,
+      "value": 7712164880,
+      "pctOfPortfolio": 475.50148363
+    },
+    {
+      "name": "Baidu, Inc.",
+      "cusip": "056752108",
+      "shares": 36344,
+      "value": 5405443120,
+      "pctOfPortfolio": 333.27817328
+    },
+    {
+      "name": "Prudential PLC",
+      "cusip": "N/A",
+      "shares": 188887,
+      "value": 2336111120,
+      "pctOfPortfolio": 144.03534167
+    },
+    {
+      "name": "Cemex SAB de CV",
+      "cusip": "151290889",
+      "shares": 494514,
+      "value": 1938494880,
+      "pctOfPortfolio": 119.51990210000001
+    },
+    {
+      "name": "Fomento Economico Mexicano SAB de CV",
+      "cusip": "N/A",
+      "shares": 22743,
+      "value": 153504930,
+      "pctOfPortfolio": 9.46450486
+    },
+    {
+      "name": "Centrais Eletricas Brasileiras SA",
+      "cusip": "230844003",
+      "shares": 10000,
+      "value": 89233680,
+      "pctOfPortfolio": 5.50179462
+    },
+    {
+      "name": "Embotelladora Andina SA",
+      "cusip": "N/A",
+      "shares": 36500,
+      "value": 65136380,
+      "pctOfPortfolio": 4.01605072
+    },
+    {
+      "name": "Ferreycorp SAA",
+      "cusip": "N/A",
+      "shares": 158436,
+      "value": 87318780,
+      "pctOfPortfolio": 5.3837294799999995
+    },
+    {
+      "name": "Grupo Televisa SAB",
+      "cusip": "N/A",
+      "shares": 1503614,
+      "value": 2463715220,
+      "pctOfPortfolio": 151.90290412000002
+    },
+    {
+      "name": "Promotora y Operadora de Infraestructura SAB de CV",
+      "cusip": "N/A",
+      "shares": 10138,
+      "value": 74542120,
+      "pctOfPortfolio": 4.59597133
+    },
+    {
+      "name": "Grupo Financiero Banorte SAB de CV",
+      "cusip": "N/A",
+      "shares": 22236,
+      "value": 124285850,
+      "pctOfPortfolio": 7.66297233
+    },
+    {
+      "name": "America Movil SAB de CV",
+      "cusip": "N/A",
+      "shares": 706200,
+      "value": 722722890,
+      "pctOfPortfolio": 44.56022554
+    },
+    {
+      "name": "Petroleo Brasileiro SA",
+      "cusip": "N/A",
+      "shares": 201143,
+      "value": 1173777760,
+      "pctOfPortfolio": 72.37047898
+    },
+    {
+      "name": "Arca Continental SAB de CV",
+      "cusip": "N/A",
+      "shares": 12271,
+      "value": 80932030,
+      "pctOfPortfolio": 4.98994782
+    },
+    {
+      "name": "JOYY, Inc.",
+      "cusip": "46591M109",
+      "shares": 3728,
+      "value": 111318080,
+      "pctOfPortfolio": 6.86343109
+    },
+    {
+      "name": "KE Holdings, Inc.",
+      "cusip": "482497104",
+      "shares": 35700,
+      "value": 640815000,
+      "pctOfPortfolio": 39.510110059999995
+    },
+    {
+      "name": "Banca Transilvania SA",
+      "cusip": "N/A",
+      "shares": 314511,
+      "value": 148626180,
+      "pctOfPortfolio": 9.16370049
+    },
+    {
+      "name": "Loma Negra Cia Industrial Argentina SA",
+      "cusip": "54150E104",
+      "shares": 5686,
+      "value": 28884880,
+      "pctOfPortfolio": 1.7809270799999999
+    },
+    {
+      "name": "Bank Polska Kasa Opieki SA",
+      "cusip": "N/A",
+      "shares": 13621,
+      "value": 247836910,
+      "pctOfPortfolio": 15.28064042
+    },
+    {
+      "name": "Asseco Poland SA",
+      "cusip": "N/A",
+      "shares": 32953,
+      "value": 555172830,
+      "pctOfPortfolio": 34.229753699999996
+    },
+    {
+      "name": "Motor Oil (Hellas) Corinth Refineries SA",
+      "cusip": "N/A",
+      "shares": 40635,
+      "value": 751597860,
+      "pctOfPortfolio": 46.34054161
+    },
+    {
+      "name": "Anhui Conch Cement Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 112700,
+      "value": 488326450,
+      "pctOfPortfolio": 30.10827116
+    },
+    {
+      "name": "Guangzhou Baiyunshan Pharmaceutical Holdings Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 154786,
+      "value": 453698070,
+      "pctOfPortfolio": 27.97322266
+    },
+    {
+      "name": "Bharat Petroleum Corp., Ltd.",
+      "cusip": "N/A",
+      "shares": 104933,
+      "value": 408716840,
+      "pctOfPortfolio": 25.199858510000002
+    },
+    {
+      "name": "IndusInd Bank, Ltd.",
+      "cusip": "N/A",
+      "shares": 39893,
+      "value": 400053960,
+      "pctOfPortfolio": 24.66573971
+    },
+    {
+      "name": "Hindustan Petroleum Corp., Ltd.",
+      "cusip": "N/A",
+      "shares": 165127,
+      "value": 452689170,
+      "pctOfPortfolio": 27.91101789
+    },
+    {
+      "name": "China Resources Land, Ltd.",
+      "cusip": "N/A",
+      "shares": 149129,
+      "value": 695585640,
+      "pctOfPortfolio": 42.88705039
+    },
+    {
+      "name": "Lenovo Group, Ltd.",
+      "cusip": "N/A",
+      "shares": 621271,
+      "value": 580353320,
+      "pctOfPortfolio": 35.78228279
+    },
+    {
+      "name": "PT United Tractors Tbk",
+      "cusip": "N/A",
+      "shares": 261586,
+      "value": 498677120,
+      "pctOfPortfolio": 30.746452400000003
+    },
+    {
+      "name": "ELAN Microelectronics Corp.",
+      "cusip": "N/A",
+      "shares": 77000,
+      "value": 361259190,
+      "pctOfPortfolio": 22.27380813
+    },
+    {
+      "name": "Commercial International Bank (Egypt) SAE",
+      "cusip": "N/A",
+      "shares": 206050,
+      "value": 408625850,
+      "pctOfPortfolio": 25.19424843
+    },
+    {
+      "name": "DL Holdings Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 11921,
+      "value": 367252000,
+      "pctOfPortfolio": 22.64330102
+    },
+    {
+      "name": "Nanya Technology Corp.",
+      "cusip": "N/A",
+      "shares": 242286,
+      "value": 402540180,
+      "pctOfPortfolio": 24.81903017
+    },
+    {
+      "name": "Sterlite Technologies, Ltd.",
+      "cusip": "N/A",
+      "shares": 211013,
+      "value": 393849960,
+      "pctOfPortfolio": 24.28322569
+    },
+    {
+      "name": "TravelSky Technology, Ltd.",
+      "cusip": "N/A",
+      "shares": 338000,
+      "value": 656461230,
+      "pctOfPortfolio": 40.47479452
+    },
+    {
+      "name": "Feng Tay Enterprise Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 66286,
+      "value": 391248690,
+      "pctOfPortfolio": 24.1228417
+    },
+    {
+      "name": "KunLun Energy Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 382900,
+      "value": 313764460,
+      "pctOfPortfolio": 19.345471550000003
+    },
+    {
+      "name": "Novatek Microelectronics Corp.",
+      "cusip": "N/A",
+      "shares": 60857,
+      "value": 618118080,
+      "pctOfPortfolio": 38.11070804
+    },
+    {
+      "name": "LG H&H Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 829,
+      "value": 208463110,
+      "pctOfPortfolio": 12.85300815
+    },
+    {
+      "name": "GFPT PCL",
+      "cusip": "N/A",
+      "shares": 727529,
+      "value": 351880810,
+      "pctOfPortfolio": 21.69557444
+    },
+    {
+      "name": "Kasikornbank PCL",
+      "cusip": "N/A",
+      "shares": 103043,
+      "value": 438635880,
+      "pctOfPortfolio": 27.0445478
+    },
+    {
+      "name": "Grape King Bio, Ltd.",
+      "cusip": "N/A",
+      "shares": 74714,
+      "value": 335457280,
+      "pctOfPortfolio": 20.68296475
+    },
+    {
+      "name": "Shinhan Financial Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 23301,
+      "value": 664896830,
+      "pctOfPortfolio": 40.99490014
+    },
+    {
+      "name": "HEG, Ltd.",
+      "cusip": "N/A",
+      "shares": 14177,
+      "value": 178638550,
+      "pctOfPortfolio": 11.01414413
+    },
+    {
+      "name": "Hang Lung Group, Ltd.",
+      "cusip": "N/A",
+      "shares": 168129,
+      "value": 317111330,
+      "pctOfPortfolio": 19.55182627
+    },
+    {
+      "name": "Dr. Reddy's Laboratories, Ltd.",
+      "cusip": "N/A",
+      "shares": 7152,
+      "value": 395747470,
+      "pctOfPortfolio": 24.40021862
+    },
+    {
+      "name": "NetEase, Inc.",
+      "cusip": "64110W102",
+      "shares": 25914,
+      "value": 2419331040,
+      "pctOfPortfolio": 149.16635171
+    },
+    {
+      "name": "Hyundai Mobis Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 4186,
+      "value": 641569620,
+      "pctOfPortfolio": 39.556636940000004
+    },
+    {
+      "name": "SK hynix, Inc.",
+      "cusip": "N/A",
+      "shares": 9335,
+      "value": 654255240,
+      "pctOfPortfolio": 40.33878193
+    },
+    {
+      "name": "International Container Terminal Services, Inc.",
+      "cusip": "N/A",
+      "shares": 89120,
+      "value": 298228240,
+      "pctOfPortfolio": 18.38756987
+    },
+    {
+      "name": "China Gas Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 282357,
+      "value": 436122600,
+      "pctOfPortfolio": 26.88958892
+    },
+    {
+      "name": "Galaxy Entertainment Group, Ltd.",
+      "cusip": "N/A",
+      "shares": 143243,
+      "value": 854332010,
+      "pctOfPortfolio": 52.67472164
+    },
+    {
+      "name": "Noah Holdings, Ltd.",
+      "cusip": "65487X102",
+      "shares": 9871,
+      "value": 199690330,
+      "pctOfPortfolio": 12.312113349999999
+    },
+    {
+      "name": "Megaworld Corp.",
+      "cusip": "N/A",
+      "shares": 10460943,
+      "value": 410941840,
+      "pctOfPortfolio": 25.337043180000002
+    },
+    {
+      "name": "Powertech Technology, Inc.",
+      "cusip": "N/A",
+      "shares": 192714,
+      "value": 569064830,
+      "pctOfPortfolio": 35.08627929
+    },
+    {
+      "name": "Naspers, Ltd.",
+      "cusip": "N/A",
+      "shares": 8260,
+      "value": 1202143200,
+      "pctOfPortfolio": 74.11937945
+    },
+    {
+      "name": "China Water Affairs Group, Ltd.",
+      "cusip": "N/A",
+      "shares": 218000,
+      "value": 202808790,
+      "pctOfPortfolio": 12.50438522
+    },
+    {
+      "name": "Korea Investment Holdings Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 8642,
+      "value": 383378930,
+      "pctOfPortfolio": 23.63762353
+    },
+    {
+      "name": "Pou Chen Corp.",
+      "cusip": "N/A",
+      "shares": 390143,
+      "value": 387079170,
+      "pctOfPortfolio": 23.86576564
+    },
+    {
+      "name": "Aurobindo Pharma, Ltd.",
+      "cusip": "N/A",
+      "shares": 29333,
+      "value": 190173740,
+      "pctOfPortfolio": 11.72535817
+    },
+    {
+      "name": "PT Bank Rakyat Indonesia (Persero) Tbk",
+      "cusip": "N/A",
+      "shares": 2443613,
+      "value": 680717840,
+      "pctOfPortfolio": 41.97036084
+    },
+    {
+      "name": "Samsung Electro-Mechanics Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 9516,
+      "value": 547477820,
+      "pctOfPortfolio": 33.75530992
+    },
+    {
+      "name": "Samsung Electronics Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 148713,
+      "value": 5955850280,
+      "pctOfPortfolio": 367.21409468
+    },
+    {
+      "name": "Taiwan Semiconductor Manufacturing Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 374143,
+      "value": 5989609970,
+      "pctOfPortfolio": 369.2955832
+    },
+    {
+      "name": "Tenaga Nasional BHD",
+      "cusip": "N/A",
+      "shares": 253643,
+      "value": 459233380,
+      "pctOfPortfolio": 28.314507909999996
+    },
+    {
+      "name": "Yageo Corp.",
+      "cusip": "N/A",
+      "shares": 39857,
+      "value": 412866160,
+      "pctOfPortfolio": 25.455689120000002
+    },
+    {
+      "name": "OTP Bank Nyrt.",
+      "cusip": "N/A",
+      "shares": 9310,
+      "value": 207247670,
+      "pctOfPortfolio": 12.778068949999998
+    },
+    {
+      "name": "State Street Institutional US",
+      "cusip": "N/A",
+      "shares": 654136.66,
+      "value": 654136660,
+      "pctOfPortfolio": 40.33147076
+    },
+    {
+      "name": "Fixed Income Clearing Corporation",
+      "cusip": "N/A",
+      "shares": 5258000,
+      "value": 5258000000,
+      "pctOfPortfolio": 324.18741557000004
+    },
+    {
+      "name": "Trip.com Group, Ltd.",
+      "cusip": "89677Q107",
+      "shares": 31500,
+      "value": 864675000,
+      "pctOfPortfolio": 53.31242936
+    },
+    {
+      "name": "Vipshop Holdings, Ltd.",
+      "cusip": "92763W103",
+      "shares": 22447,
+      "value": 222000830,
+      "pctOfPortfolio": 13.687690250000001
+    },
+    {
+      "name": "New Oriental Education & Technology Group, Inc.",
+      "cusip": "N/A",
+      "shares": 288743,
+      "value": 582137210,
+      "pctOfPortfolio": 35.89227037
+    },
+    {
+      "name": "PT Bank Tabungan Negara (Persero) Tbk",
+      "cusip": "N/A",
+      "shares": 5898614,
+      "value": 576102260,
+      "pctOfPortfolio": 35.520179299999995
+    },
+    {
+      "name": "Yum China Holdings, Inc.",
+      "cusip": "98850P109",
+      "shares": 11343,
+      "value": 550135500,
+      "pctOfPortfolio": 33.919171920000004
+    },
+    {
+      "name": "PT Indofood CBP Sukses Makmur Tbk",
+      "cusip": "N/A",
+      "shares": 640914,
+      "value": 410856100,
+      "pctOfPortfolio": 25.3317568
+    },
+    {
+      "name": "China Suntien Green Energy Corp., Ltd.",
+      "cusip": "N/A",
+      "shares": 460000,
+      "value": 234490490,
+      "pctOfPortfolio": 14.45775312
+    },
+    {
+      "name": "PTT Global Chemical PCL",
+      "cusip": "N/A",
+      "shares": 302343,
+      "value": 389099320,
+      "pctOfPortfolio": 23.990320070000003
+    },
+    {
+      "name": "Alrosa PJSC",
+      "cusip": "N/A",
+      "shares": 215620,
+      "value": 39200,
+      "pctOfPortfolio": 0.00241692
+    },
+    {
+      "name": "Corporacion Inmobiliaria Vesta SAB de CV",
+      "cusip": "N/A",
+      "shares": 34257,
+      "value": 63882120,
+      "pctOfPortfolio": 3.93871803
+    },
+    {
+      "name": "Prologis Property Mexico SA de CV",
+      "cusip": "N/A",
+      "shares": 32400,
+      "value": 84989680,
+      "pctOfPortfolio": 5.24012642
+    },
+    {
+      "name": "Axis Bank, Ltd.",
+      "cusip": "N/A",
+      "shares": 295100,
+      "value": 2372458640,
+      "pctOfPortfolio": 146.27638552
+    },
+    {
+      "name": "Engie Brasil Energia SA",
+      "cusip": "N/A",
+      "shares": 11300,
+      "value": 89174450,
+      "pctOfPortfolio": 5.4981427300000005
+    },
+    {
+      "name": "Anheuser-Busch InBev SA/NV",
+      "cusip": "N/A",
+      "shares": 53748,
+      "value": 2892863130,
+      "pctOfPortfolio": 178.36246134
+    },
+    {
+      "name": "Detsky Mir PJSC",
+      "cusip": "N/A",
+      "shares": 148750,
+      "value": 27050,
+      "pctOfPortfolio": 0.0016677999999999999
+    },
+    {
+      "name": "Cuckoo Homesys Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 11282,
+      "value": 245903110,
+      "pctOfPortfolio": 15.16140999
+    },
+    {
+      "name": "X5 Retail Group NV",
+      "cusip": "98387E205",
+      "shares": 35486,
+      "value": 6450,
+      "pctOfPortfolio": 0.00039768
+    },
+    {
+      "name": "ASE Technology Holding Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 175000,
+      "value": 449661160,
+      "pctOfPortfolio": 27.72432281
+    },
+    {
+      "name": "Country Garden Services Holdings Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 102000,
+      "value": 454312590,
+      "pctOfPortfolio": 28.01111153
+    },
+    {
+      "name": "Orbia Advance Corp. SAB de CV",
+      "cusip": "N/A",
+      "shares": 37900,
+      "value": 88956960,
+      "pctOfPortfolio": 5.48473316
+    },
+    {
+      "name": "DL E&C Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 6306,
+      "value": 139874310,
+      "pctOfPortfolio": 8.62409492
+    },
+    {
+      "name": "Globaltrans Investment PLC",
+      "cusip": "37949E204",
+      "shares": 62160,
+      "value": 11300,
+      "pctOfPortfolio": 0.00069671
+    },
+    {
+      "name": "N/A",
+      "cusip": "N/A",
+      "shares": 106,
+      "value": -18265920,
+      "pctOfPortfolio": -1.12620415
+    },
+    {
+      "name": "Millicom International Cellular SA",
+      "cusip": "N/A",
+      "shares": 51770,
+      "value": 738866540,
+      "pctOfPortfolio": 45.555578940000004
+    },
+    {
+      "name": "Gulf Warehousing Co.",
+      "cusip": "N/A",
+      "shares": 100097,
+      "value": 112307640,
+      "pctOfPortfolio": 6.92444343
+    },
+    {
+      "name": "Larsen & Toubro, Ltd.",
+      "cusip": "N/A",
+      "shares": 14154,
+      "value": 278877130,
+      "pctOfPortfolio": 17.19445722
+    },
+    {
+      "name": "Ping An Insurance (Group) Co. of China, Ltd.",
+      "cusip": "N/A",
+      "shares": 174157,
+      "value": 1184084720,
+      "pctOfPortfolio": 73.00596523
+    },
+    {
+      "name": "Korean Reinsurance Co.",
+      "cusip": "N/A",
+      "shares": 69760,
+      "value": 451312380,
+      "pctOfPortfolio": 27.82613048
+    },
+    {
+      "name": "NTPC, Ltd.",
+      "cusip": "Y6421X116",
+      "shares": 167887,
+      "value": 303152190,
+      "pctOfPortfolio": 18.69116109
+    },
+    {
+      "name": "Itau Unibanco Holding SA",
+      "cusip": "N/A",
+      "shares": 1035700,
+      "value": 4486394060,
+      "pctOfPortfolio": 276.61325514000004
+    },
+    {
+      "name": "Anadolu Efes Biracilik Ve Malt",
+      "cusip": "N/A",
+      "shares": 101345,
+      "value": 164908570,
+      "pctOfPortfolio": 10.16760805
+    },
+    {
+      "name": "KOC Holding AS",
+      "cusip": "N/A",
+      "shares": 214289,
+      "value": 469885560,
+      "pctOfPortfolio": 28.97127906
+    },
+    {
+      "name": "BIM Birlesik Magazalar AS",
+      "cusip": "N/A",
+      "shares": 81234,
+      "value": 393485740,
+      "pctOfPortfolio": 24.260769330000002
+    },
+    {
+      "name": "Kossan Rubber Industries BHD",
+      "cusip": "N/A",
+      "shares": 842500,
+      "value": 252319910,
+      "pctOfPortfolio": 15.557044410000001
+    },
+    {
+      "name": "UPL, Ltd.",
+      "cusip": "N/A",
+      "shares": 54503,
+      "value": 437280080,
+      "pctOfPortfolio": 26.96095455
+    },
+    {
+      "name": "Sanlam, Ltd.",
+      "cusip": "N/A",
+      "shares": 199357,
+      "value": 647868130,
+      "pctOfPortfolio": 39.94497807
+    },
+    {
+      "name": "Aramex PJSC",
+      "cusip": "N/A",
+      "shares": 568121,
+      "value": 587748710,
+      "pctOfPortfolio": 36.238253199999996
+    },
+    {
+      "name": "Hancom, Inc.",
+      "cusip": "N/A",
+      "shares": 36761,
+      "value": 509625690,
+      "pctOfPortfolio": 31.421497780000003
+    },
+    {
+      "name": "Hyundai Glovis Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 4704,
+      "value": 650314230,
+      "pctOfPortfolio": 40.09579489
+    },
+    {
+      "name": "Nine Dragons Paper Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 341600,
+      "value": 289063570,
+      "pctOfPortfolio": 17.82251268
+    },
+    {
+      "name": "Equity Group Holdings PLC",
+      "cusip": "N/A",
+      "shares": 1408729,
+      "value": 516175510,
+      "pctOfPortfolio": 31.8253337
+    },
+    {
+      "name": "INPEX Corp.",
+      "cusip": "N/A",
+      "shares": 69000,
+      "value": 747567810,
+      "pctOfPortfolio": 46.092064719999996
+    },
+    {
+      "name": "Sun TV Network, Ltd.",
+      "cusip": "N/A",
+      "shares": 46215,
+      "value": 243444740,
+      "pctOfPortfolio": 15.00983665
+    },
+    {
+      "name": "Saudia Dairy & Foodstuff Co.",
+      "cusip": "N/A",
+      "shares": 5588,
+      "value": 243053650,
+      "pctOfPortfolio": 14.98572359
+    },
+    {
+      "name": "PTT Exploration & Production PCL",
+      "cusip": "N/A",
+      "shares": 161600,
+      "value": 729039740,
+      "pctOfPortfolio": 44.94969744
+    },
+    {
+      "name": "HumanSoft Holding Co. KSCC",
+      "cusip": "N/A",
+      "shares": 64213,
+      "value": 647781100,
+      "pctOfPortfolio": 39.939612149999995
+    },
+    {
+      "name": "Amorepacific Corp.",
+      "cusip": "N/A",
+      "shares": 4942,
+      "value": 193356130,
+      "pctOfPortfolio": 11.921571709999998
+    },
+    {
+      "name": "Vietnam Dairy Products JSC",
+      "cusip": "N/A",
+      "shares": 94700,
+      "value": 293889530,
+      "pctOfPortfolio": 18.120062230000002
+    },
+    {
+      "name": "Mondi PLC",
+      "cusip": "N/A",
+      "shares": 23458,
+      "value": 415481500,
+      "pctOfPortfolio": 25.61694061
+    },
+    {
+      "name": "China Merchants Bank Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 76800,
+      "value": 513840040,
+      "pctOfPortfolio": 31.681337879999997
+    },
+    {
+      "name": "Brac Bank, Ltd.",
+      "cusip": "N/A",
+      "shares": 531234,
+      "value": 235851410,
+      "pctOfPortfolio": 14.541662050000001
+    },
+    {
+      "name": "Cia de Saneamento Basico do Estado de Sao Paulo",
+      "cusip": "N/A",
+      "shares": 11143,
+      "value": 89787870,
+      "pctOfPortfolio": 5.5359637699999995
+    },
+    {
+      "name": "Fosun International, Ltd.",
+      "cusip": "N/A",
+      "shares": 323314,
+      "value": 298723870,
+      "pctOfPortfolio": 18.418128449999998
+    },
+    {
+      "name": "Aboitiz Power Corp.",
+      "cusip": "N/A",
+      "shares": 628514,
+      "value": 337204020,
+      "pctOfPortfolio": 20.7906618
+    },
+    {
+      "name": "Ecopetrol SA",
+      "cusip": "N/A",
+      "shares": 146199,
+      "value": 79344010,
+      "pctOfPortfolio": 4.8920368100000005
+    },
+    {
+      "name": "Habib Bank, Ltd.",
+      "cusip": "N/A",
+      "shares": 357035,
+      "value": 158779160,
+      "pctOfPortfolio": 9.78969295
+    },
+    {
+      "name": "Megacable Holdings SAB de CV",
+      "cusip": "N/A",
+      "shares": 32914,
+      "value": 79905590,
+      "pctOfPortfolio": 4.9266616
+    },
+    {
+      "name": "AEON Credit Service (M) BHD",
+      "cusip": "N/A",
+      "shares": 91300,
+      "value": 287519910,
+      "pctOfPortfolio": 17.72733673
+    },
+    {
+      "name": "PT Indo Tambangraya Megah Tbk",
+      "cusip": "N/A",
+      "shares": 255686,
+      "value": 526475449.99999994,
+      "pctOfPortfolio": 32.46038712
+    },
+    {
+      "name": "Cebu Air, Inc.",
+      "cusip": "N/A",
+      "shares": 278296,
+      "value": 210297330,
+      "pctOfPortfolio": 12.966098879999999
+    },
+    {
+      "name": "China Pacific Insurance (Group) Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 129800,
+      "value": 317271240,
+      "pctOfPortfolio": 19.56168568
+    },
+    {
+      "name": "Safaricom PLC",
+      "cusip": "N/A",
+      "shares": 2098914,
+      "value": 443282090,
+      "pctOfPortfolio": 27.33101467
+    },
+    {
+      "name": "Hartalega Holdings BHD",
+      "cusip": "N/A",
+      "shares": 308500,
+      "value": 214182640,
+      "pctOfPortfolio": 13.205651679999999
+    },
+    {
+      "name": "Hypera SA",
+      "cusip": "N/A",
+      "shares": 34508,
+      "value": 250825810,
+      "pctOfPortfolio": 15.464924139999999
+    },
+    {
+      "name": "Adcock Ingram Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 174120,
+      "value": 531497449.99999994,
+      "pctOfPortfolio": 32.770023720000005
+    },
+    {
+      "name": "Tisco Financial Group PCL",
+      "cusip": "N/A",
+      "shares": 141900,
+      "value": 355201530,
+      "pctOfPortfolio": 21.900316850000003
+    },
+    {
+      "name": "Sinopharm Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 668214,
+      "value": 1619695960,
+      "pctOfPortfolio": 99.86402573
+    },
+    {
+      "name": "Grupo Comercial Chedraui SAB de CV",
+      "cusip": "N/A",
+      "shares": 42400,
+      "value": 114657850,
+      "pctOfPortfolio": 7.06934805
+    },
+    {
+      "name": "Glencore PLC",
+      "cusip": "N/A",
+      "shares": 1122898,
+      "value": 6084089890,
+      "pctOfPortfolio": 375.12084016
+    },
+    {
+      "name": "Chailease Holding Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 57330,
+      "value": 402014730,
+      "pctOfPortfolio": 24.78663301
+    },
+    {
+      "name": "Magnit PJSC",
+      "cusip": "N/A",
+      "shares": 52229,
+      "value": 9500,
+      "pctOfPortfolio": 0.00058573
+    },
+    {
+      "name": "Xinjiang Goldwind Science & Technology Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 257600,
+      "value": 481924860,
+      "pctOfPortfolio": 29.71357453
+    },
+    {
+      "name": "Novatek PJSC",
+      "cusip": "N/A",
+      "shares": 30294,
+      "value": 5510,
+      "pctOfPortfolio": 0.00033972
+    },
+    {
+      "name": "Lukoil PJSC",
+      "cusip": "N/A",
+      "shares": 7143,
+      "value": 1300,
+      "pctOfPortfolio": 0.00008015
+    },
+    {
+      "name": "Sands China, Ltd.",
+      "cusip": "N/A",
+      "shares": 248843,
+      "value": 593661230,
+      "pctOfPortfolio": 36.602795719999996
+    },
+    {
+      "name": "Severstal PAO",
+      "cusip": "N/A",
+      "shares": 16182,
+      "value": 2940,
+      "pctOfPortfolio": 0.00018127
+    },
+    {
+      "name": "BizLink Holding, Inc.",
+      "cusip": "N/A",
+      "shares": 20000,
+      "value": 207510050,
+      "pctOfPortfolio": 12.79424626
+    },
+    {
+      "name": "BDO Unibank, Inc.",
+      "cusip": "N/A",
+      "shares": 247271,
+      "value": 496925440,
+      "pctOfPortfolio": 30.63845077
+    },
+    {
+      "name": "Man Wah Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 428800,
+      "value": 463402150,
+      "pctOfPortfolio": 28.571537730000003
+    },
+    {
+      "name": "Cielo SA",
+      "cusip": "N/A",
+      "shares": 300129,
+      "value": 215055790,
+      "pctOfPortfolio": 13.25948664
+    },
+    {
+      "name": "Zhongsheng Group Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 72300,
+      "value": 509991970,
+      "pctOfPortfolio": 31.44408116
+    },
+    {
+      "name": "NEXON Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 32827,
+      "value": 672121210,
+      "pctOfPortfolio": 41.44032674
+    },
+    {
+      "name": "Military Commercial Joint Stock Bank",
+      "cusip": "N/A",
+      "shares": 467555,
+      "value": 486345630,
+      "pctOfPortfolio": 29.986141659999998
+    },
+    {
+      "name": "Beijing Tong Ren Tang Chinese Medicine Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 261700,
+      "value": 422225880,
+      "pctOfPortfolio": 26.032772310000002
+    },
+    {
+      "name": "Astro Malaysia Holdings BHD",
+      "cusip": "N/A",
+      "shares": 453314,
+      "value": 93079790,
+      "pctOfPortfolio": 5.7389305
+    },
+    {
+      "name": "PT Astra International Tbk",
+      "cusip": "N/A",
+      "shares": 1349800,
+      "value": 600263470,
+      "pctOfPortfolio": 37.00986364
+    },
+    {
+      "name": "Macquarie Mexico Real Estate Management SA de CV",
+      "cusip": "N/A",
+      "shares": 57000,
+      "value": 72222580,
+      "pctOfPortfolio": 4.45295769
+    },
+    {
+      "name": "Alpek SAB de CV",
+      "cusip": "N/A",
+      "shares": 62314,
+      "value": 85772970,
+      "pctOfPortfolio": 5.28842097
+    },
+    {
+      "name": "Alupar Investimento SA",
+      "cusip": "N/A",
+      "shares": 11956,
+      "value": 59283680,
+      "pctOfPortfolio": 3.65519646
+    },
+    {
+      "name": "China Yongda Automobiles Services Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 211200,
+      "value": 199712490,
+      "pctOfPortfolio": 12.31347965
+    },
+    {
+      "name": "Chicony Power Technology Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 125000,
+      "value": 293860460,
+      "pctOfPortfolio": 18.11826989
+    },
+    {
+      "name": "BB Seguridade Participacoes SA",
+      "cusip": "N/A",
+      "shares": 17100,
+      "value": 84822820,
+      "pctOfPortfolio": 5.229838490000001
+    },
+    {
+      "name": "PTG Energy PCL",
+      "cusip": "N/A",
+      "shares": 862586,
+      "value": 329370980,
+      "pctOfPortfolio": 20.30770764
+    },
+    {
+      "name": "JB Financial Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 68902,
+      "value": 390041360,
+      "pctOfPortfolio": 24.04840252
+    },
+    {
+      "name": "Chinasoft International, Ltd.",
+      "cusip": "N/A",
+      "shares": 535100,
+      "value": 547593030,
+      "pctOfPortfolio": 33.76241331
+    },
+    {
+      "name": "Mahanagar Gas, Ltd.",
+      "cusip": "N/A",
+      "shares": 42961,
+      "value": 410719620,
+      "pctOfPortfolio": 25.323341980000002
+    },
+    {
+      "name": "Enerjisa Enerji AS",
+      "cusip": "N/A",
+      "shares": 384255,
+      "value": 313090270,
+      "pctOfPortfolio": 19.30390367
+    },
+    {
+      "name": "Greentown Service Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 1353871,
+      "value": 1532137240,
+      "pctOfPortfolio": 94.4655025
+    },
+    {
+      "name": "Movida Participacoes SA",
+      "cusip": "N/A",
+      "shares": 38200,
+      "value": 95254560,
+      "pctOfPortfolio": 5.87301819
+    },
+    {
+      "name": "Suofeiya Home Collection Co., Ltd",
+      "cusip": "N/A",
+      "shares": 173700,
+      "value": 713741400,
+      "pctOfPortfolio": 44.00646251
+    },
+    {
+      "name": "Zhejiang NHU Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 100976,
+      "value": 344153210,
+      "pctOfPortfolio": 21.21912128
+    },
+    {
+      "name": "37 Interactive Entertainment Network Technology Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 130500,
+      "value": 413970010,
+      "pctOfPortfolio": 25.52374813
+    },
+    {
+      "name": "Gree Electric Appliances, Inc. of Zhuhai",
+      "cusip": "N/A",
+      "shares": 253314,
+      "value": 1276306950,
+      "pctOfPortfolio": 78.69202199
+    },
+    {
+      "name": "Midea Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 82371,
+      "value": 743271950,
+      "pctOfPortfolio": 45.827199039999996
+    },
+    {
+      "name": "Ping An Bank Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 224900,
+      "value": 503395870,
+      "pctOfPortfolio": 31.0373918
+    },
+    {
+      "name": "LB Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 100229,
+      "value": 300272910,
+      "pctOfPortfolio": 18.51363611
+    },
+    {
+      "name": "Sinocare, Inc.",
+      "cusip": "N/A",
+      "shares": 113357,
+      "value": 475951870,
+      "pctOfPortfolio": 29.34530367
+    },
+    {
+      "name": "MOL Hungarian Oil & Gas PLC",
+      "cusip": "N/A",
+      "shares": 83567,
+      "value": 644532530,
+      "pctOfPortfolio": 39.73931821
+    },
+    {
+      "name": "Westports Holdings BHD",
+      "cusip": "Y95440106",
+      "shares": 93900,
+      "value": 75631310,
+      "pctOfPortfolio": 4.66312646
+    },
+    {
+      "name": "China Isotope & Radiation Corp.",
+      "cusip": "N/A",
+      "shares": 83400,
+      "value": 201942190,
+      "pctOfPortfolio": 12.4509541
+    },
+    {
+      "name": "Motus Holdings, Ltd.",
+      "cusip": "N/A",
+      "shares": 33157,
+      "value": 218074470,
+      "pctOfPortfolio": 13.44560647
+    },
+    {
+      "name": "Old Mutual, Ltd.",
+      "cusip": "N/A",
+      "shares": 761921,
+      "value": 516572490,
+      "pctOfPortfolio": 31.849809909999998
+    },
+    {
+      "name": "Cia de Saneamento do Parana",
+      "cusip": "N/A",
+      "shares": 23200,
+      "value": 80858320,
+      "pctOfPortfolio": 4.98540315
+    },
+    {
+      "name": "Leejam Sports Co. JSC",
+      "cusip": "N/A",
+      "shares": 17626,
+      "value": 420438420,
+      "pctOfPortfolio": 25.92256462
+    },
+    {
+      "name": "Emaar Development PJSC",
+      "cusip": "N/A",
+      "shares": 763063,
+      "value": 880832840,
+      "pctOfPortfolio": 54.30865766
+    },
+    {
+      "name": "Ser Educacional SA",
+      "cusip": "N/A",
+      "shares": 38200,
+      "value": 45838980,
+      "pctOfPortfolio": 2.82624961
+    },
+    {
+      "name": "IGG, Inc.",
+      "cusip": "N/A",
+      "shares": 451600,
+      "value": 195677220,
+      "pctOfPortfolio": 12.06468091
+    },
+    {
+      "name": "A-Living Smart City Services Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 160421,
+      "value": 258004920,
+      "pctOfPortfolio": 15.907559569999998
+    },
+    {
+      "name": "Vietnam Technological & Commercial Joint Stock Bank",
+      "cusip": "N/A",
+      "shares": 215900,
+      "value": 329905220,
+      "pctOfPortfolio": 20.34064676
+    },
+    {
+      "name": "China Tower Corp., Ltd.",
+      "cusip": "N/A",
+      "shares": 3364800,
+      "value": 433099860,
+      "pctOfPortfolio": 26.70321877
+    },
+    {
+      "name": "Weimob, Inc.",
+      "cusip": "N/A",
+      "shares": 628000,
+      "value": 428974870,
+      "pctOfPortfolio": 26.448888259999997
+    },
+    {
+      "name": "Haidilao International Holding, Ltd.",
+      "cusip": "N/A",
+      "shares": 237400,
+      "value": 553654990,
+      "pctOfPortfolio": 34.136169710000004
+    },
+    {
+      "name": "Sonoscape Medical Corp.",
+      "cusip": "N/A",
+      "shares": 85600,
+      "value": 384093960,
+      "pctOfPortfolio": 23.681709440000002
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "N/A",
+      "shares": 169099,
+      "value": 11071911920,
+      "pctOfPortfolio": 682.6501542
+    },
+    {
+      "name": "China Feihe, Ltd.",
+      "cusip": "N/A",
+      "shares": 397557,
+      "value": 456997010,
+      "pctOfPortfolio": 28.17662221
+    },
+    {
+      "name": "TCS Group Holding PLC",
+      "cusip": "87238U203",
+      "shares": 2173,
+      "value": 400,
+      "pctOfPortfolio": 0.00002466
+    },
+    {
+      "name": "XD, Inc.",
+      "cusip": "N/A",
+      "shares": 73800,
+      "value": 192334450,
+      "pctOfPortfolio": 11.858578979999999
+    },
+    {
+      "name": "JD.com, Inc.",
+      "cusip": "N/A",
+      "shares": 180821,
+      "value": 5825501960,
+      "pctOfPortfolio": 359.17733450000003
+    },
+    {
+      "name": "Haier Smart Home Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 158200,
+      "value": 585679510,
+      "pctOfPortfolio": 36.11067453
+    },
+    {
+      "name": "WH Group, Ltd.",
+      "cusip": "N/A",
+      "shares": 1072027,
+      "value": 827915030,
+      "pctOfPortfolio": 51.04595548
+    },
+    {
+      "name": "Century Pacific Food, Inc.",
+      "cusip": "N/A",
+      "shares": 700743,
+      "value": 280373670,
+      "pctOfPortfolio": 17.28672793
+    },
+    {
+      "name": "Huazhu Group, Ltd.",
+      "cusip": "N/A",
+      "shares": 71240,
+      "value": 275997350,
+      "pctOfPortfolio": 17.01690141
+    },
+    {
+      "name": "DL E&C Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 6306,
+      "value": 170714650,
+      "pctOfPortfolio": 10.5255879
+    },
+    {
+      "name": "Grupo de Inversiones Suramericana SA",
+      "cusip": "N/A",
+      "shares": 15849,
+      "value": 150420370,
+      "pctOfPortfolio": 9.27432313
+    },
+    {
+      "name": "Shandong Pharmaceutical Glass Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 91800,
+      "value": 383383020,
+      "pctOfPortfolio": 23.6378757
+    },
+    {
+      "name": "Kaspi.kz JSC",
+      "cusip": "48581R205",
+      "shares": 1739,
+      "value": 79124500,
+      "pctOfPortfolio": 4.87850269
+    },
+    {
+      "name": "Jiangsu Hengrui Medicine Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 71494,
+      "value": 396218550,
+      "pctOfPortfolio": 24.429263549999998
+    },
+    {
+      "name": "Wanhua Chemical Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 22000,
+      "value": 318829150,
+      "pctOfPortfolio": 19.65774023
+    },
+    {
+      "name": "China Tourism Group Duty Free Corp., Ltd.",
+      "cusip": "N/A",
+      "shares": 21457,
+      "value": 746797410,
+      "pctOfPortfolio": 46.044564910000005
+    },
+    {
+      "name": "Yonghui Superstores Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 752200,
+      "value": 481044740,
+      "pctOfPortfolio": 29.65930982
+    },
+    {
+      "name": "Angel Yeast Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 80400,
+      "value": 585651210,
+      "pctOfPortfolio": 36.10892967
+    },
+    {
+      "name": "Vibra Energia SA",
+      "cusip": "N/A",
+      "shares": 20329,
+      "value": 64908920,
+      "pctOfPortfolio": 4.00202644
+    },
+    {
+      "name": "Semirara Mining & Power Corp.",
+      "cusip": "N/A",
+      "shares": 694514,
+      "value": 442084020,
+      "pctOfPortfolio": 27.257146430000002
+    },
+    {
+      "name": "ICICI Bank, Ltd.",
+      "cusip": "N/A",
+      "shares": 641716,
+      "value": 5738451220,
+      "pctOfPortfolio": 353.81013129999997
+    },
+    {
+      "name": "Wal-Mart de Mexico SAB de CV",
+      "cusip": "N/A",
+      "shares": 22757,
+      "value": 78310470,
+      "pctOfPortfolio": 4.82831283
+    },
+    {
+      "name": "Fuyao Glass Industry Group Co., Ltd.",
+      "cusip": "N/A",
+      "shares": 91529,
+      "value": 464247110,
+      "pctOfPortfolio": 28.62363461
+    },
+    {
+      "name": "Engie Energia Chile SA",
+      "cusip": "N/A",
+      "shares": 112409,
+      "value": 43731280,
+      "pctOfPortfolio": 2.69629719
+    },
+    {
+      "name": "Legend Holdings Corp.",
+      "cusip": "N/A",
+      "shares": 452686,
+      "value": 594212390,
+      "pctOfPortfolio": 36.636778060000005
+    },
+    {
+      "name": "TPI Polene Power PCL",
+      "cusip": "N/A",
+      "shares": 3038771,
+      "value": 309420890,
+      "pctOfPortfolio": 19.07766426
+    },
+    {
+      "name": "Doosan Bobcat, Inc.",
+      "cusip": "N/A",
+      "shares": 16888,
+      "value": 375895870,
+      "pctOfPortfolio": 23.17624774
+    },
+    {
+      "name": "BOC Aviation, Ltd.",
+      "cusip": "N/A",
+      "shares": 53200,
+      "value": 447130040,
+      "pctOfPortfolio": 27.568264
+    },
+    {
+      "name": "Banco BTG Pactual SA",
+      "cusip": "P1R8ZJ253",
+      "shares": 15838,
+      "value": 67516800,
+      "pctOfPortfolio": 4.16281797
+    },
+    {
+      "name": "Afya, Ltd.",
+      "cusip": "G01125106",
+      "shares": 3943,
+      "value": 39232850,
+      "pctOfPortfolio": 2.41894185
+    },
+    {
+      "name": "Credicorp, Ltd.",
+      "cusip": "G2519Y108",
+      "shares": 21443,
+      "value": 2571230130,
+      "pctOfPortfolio": 158.53184684
+    },
+    {
+      "name": "Geopark Ltd",
+      "cusip": "G38327105",
+      "shares": 4114,
+      "value": 53152880,
+      "pctOfPortfolio": 3.27719566
+    },
+    {
+      "name": "Alpha & Omega Semiconductor, Ltd.",
+      "cusip": "G6331P104",
+      "shares": 1800,
+      "value": 60012000,
+      "pctOfPortfolio": 3.7001017800000002
+    },
+    {
+      "name": "National Energy Services Reunited Corp.",
+      "cusip": "G6375R107",
+      "shares": 35543,
+      "value": 240981540,
+      "pctOfPortfolio": 14.857965510000001
+    },
+    {
+      "name": "XP, Inc.",
+      "cusip": "G98239109",
+      "shares": 112696,
+      "value": 2024020160,
+      "pctOfPortfolio": 124.79305149
+    },
+    {
+      "name": "Copa Holdings SA",
+      "cusip": "P31076105",
+      "shares": 486,
+      "value": 30797820,
+      "pctOfPortfolio": 1.89887137
+    },
+    {
+      "name": "Intercorp Financial Services, Inc.",
+      "cusip": "P5626F128",
+      "shares": 1657,
+      "value": 38773800,
+      "pctOfPortfolio": 2.39063865
+    }
+  ]
+}

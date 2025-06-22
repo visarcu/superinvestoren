@@ -1,0 +1,137 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-07",
+  "period": "2023-02-07",
+  "accession": "0001581811-23-000002",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 20333183,
+      "value": 1516652120
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 10981983,
+      "value": 1305538139
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 9498276,
+      "value": 790826460
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 3783314,
+      "value": 786021317
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 8252943,
+      "value": 732283632
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 2001206,
+      "value": 695879362
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 11013635,
+      "value": 588788927
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2427056,
+      "value": 582056570
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1064026,
+      "value": 564125305
+    },
+    {
+      "name": "CENOVUS ENERGY INC",
+      "cusip": "15135U109",
+      "shares": 28728187,
+      "value": 557614110
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 710382,
+      "value": 538725294
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 2278825,
+      "value": 454033093
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 216818,
+      "value": 436948979
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 11396059,
+      "value": 430998951
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 1968657,
+      "value": 322918808
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 1228244,
+      "value": 265509505
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 2469856,
+      "value": 240514577
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 7574429,
+      "value": 234655810
+    },
+    {
+      "name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "shares": 10214980,
+      "value": 223605912
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 4407842,
+      "value": 204612026
+    },
+    {
+      "name": "EVEREST RE GROUP LTD",
+      "cusip": "G3223R108",
+      "shares": 449301,
+      "value": 148839942
+    }
+  ],
+  "totalValue": 11621148839,
+  "positionsCount": 21
+}

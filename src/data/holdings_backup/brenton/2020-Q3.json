@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2020-08-14",
+  "period": "2020-08-14",
+  "accession": "0000950123-20-008713",
+  "quarterKey": "2020-Q3",
+  "positions": [
+    {
+      "name": "BERRY GLOBAL GROUP",
+      "cusip": "08579W103",
+      "shares": 5511440,
+      "value": 244267
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 2065946,
+      "value": 163086
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
+      "cusip": "78467J100",
+      "shares": 2088093,
+      "value": 117935
+    },
+    {
+      "name": "TFI INTERNATIONAL INC",
+      "cusip": "87241L109",
+      "shares": 3133439,
+      "value": 111080
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 7116102,
+      "value": 110228
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 2972524,
+      "value": 104930
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 2297612,
+      "value": 88826
+    },
+    {
+      "name": "MAGNA INTERNATIONAL INC",
+      "cusip": "559222401",
+      "shares": 1914700,
+      "value": 85262
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 1840066,
+      "value": 78166
+    },
+    {
+      "name": "INGERSOLL-RAND INC",
+      "cusip": "45687V106",
+      "shares": 2699506,
+      "value": 75910
+    },
+    {
+      "name": "DISCOVER FINANCIAL SERVICES",
+      "cusip": "254709108",
+      "shares": 1473525,
+      "value": 73809
+    },
+    {
+      "name": "URBAN OUTFITTERS INC",
+      "cusip": "917047102",
+      "shares": 4757365,
+      "value": 72407
+    },
+    {
+      "name": "SERVICE CORP INTERNATIONAL",
+      "cusip": "817565104",
+      "shares": 1635498,
+      "value": 63605
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 1386132,
+      "value": 62542
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 361068,
+      "value": 32334
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORTATION",
+      "cusip": "499049104",
+      "shares": 223227,
+      "value": 9311
+    },
+    {
+      "name": "PRESTIGE CONSUMER HEALTHCARE INC",
+      "cusip": "74112D101",
+      "shares": 83050,
+      "value": 3119
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 17900,
+      "value": 2497
+    },
+    {
+      "name": "FLOWSERVE",
+      "cusip": "34354P105",
+      "shares": 86950,
+      "value": 2480
+    },
+    {
+      "name": "HD SUPPLY HOLDINGS INC",
+      "cusip": "40416M105",
+      "shares": 52400,
+      "value": 1816
+    },
+    {
+      "name": "SMITH (A.O.) CORP",
+      "cusip": "831865209",
+      "shares": 33893,
+      "value": 1597
+    },
+    {
+      "name": "POLARIS INDUSTRIES INC",
+      "cusip": "731068102",
+      "shares": 14800,
+      "value": 1370
+    },
+    {
+      "name": "BRP INC",
+      "cusip": "05577W200",
+      "shares": 24050,
+      "value": 1024
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 18938,
+      "value": 958
+    }
+  ],
+  "totalValue": 1508559,
+  "positionsCount": 24
+}

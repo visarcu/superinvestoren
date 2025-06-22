@@ -1,0 +1,270 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-04-27",
+  "period": "2023-04-27",
+  "accession": "0001145549-23-025405",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "Visa Inc",
+      "cusip": "92826C839",
+      "shares": 6000,
+      "value": 1319640,
+      "pctOfPortfolio": 5.7068479372
+    },
+    {
+      "name": "NVIDIA Corp",
+      "cusip": "67066G104",
+      "shares": 5500,
+      "value": 1276880,
+      "pctOfPortfolio": 5.5219302189
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 5100,
+      "value": 1272042,
+      "pctOfPortfolio": 5.5010080504
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 7500,
+      "value": 1105575,
+      "pctOfPortfolio": 4.7811133401
+    },
+    {
+      "name": "Costco Wholesale Corp",
+      "cusip": "22160K105",
+      "shares": 2025,
+      "value": 980464.5,
+      "pctOfPortfolio": 4.2400668434
+    },
+    {
+      "name": "Ares Management Corp",
+      "cusip": "03990B101",
+      "shares": 12000,
+      "value": 967560,
+      "pctOfPortfolio": 4.1842607
+    },
+    {
+      "name": "Progressive Corp/The",
+      "cusip": "743315103",
+      "shares": 6500,
+      "value": 932880,
+      "pctOfPortfolio": 4.0342853381
+    },
+    {
+      "name": "TJX Cos Inc/The",
+      "cusip": "872540109",
+      "shares": 12000,
+      "value": 919200,
+      "pctOfPortfolio": 3.9751255068
+    },
+    {
+      "name": "Accenture PLC",
+      "cusip": null,
+      "shares": 3000,
+      "value": 796650,
+      "pctOfPortfolio": 3.4451520181
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 8500,
+      "value": 767550,
+      "pctOfPortfolio": 3.3193076401
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 8000,
+      "value": 753840,
+      "pctOfPortfolio": 3.2600180723
+    },
+    {
+      "name": "Tetra Tech Inc",
+      "cusip": "88162G103",
+      "shares": 5400,
+      "value": 739206,
+      "pctOfPortfolio": 3.1967326212
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 1500,
+      "value": 713910,
+      "pctOfPortfolio": 3.0873388279
+    },
+    {
+      "name": "Zoetis Inc",
+      "cusip": "98978V103",
+      "shares": 4200,
+      "value": 701400,
+      "pctOfPortfolio": 3.033238719
+    },
+    {
+      "name": "Crown Castle Inc",
+      "cusip": "22822V101",
+      "shares": 5250,
+      "value": 686437.5,
+      "pctOfPortfolio": 2.9685326535
+    },
+    {
+      "name": "Danaher Corp",
+      "cusip": "235851102",
+      "shares": 2750,
+      "value": 680707.5,
+      "pctOfPortfolio": 2.9437529873
+    },
+    {
+      "name": "Regeneron Pharmaceuticals Inc",
+      "cusip": "75886F107",
+      "shares": 875,
+      "value": 665367.5,
+      "pctOfPortfolio": 2.8774144046
+    },
+    {
+      "name": "McDonald's Corp",
+      "cusip": "580135101",
+      "shares": 2500,
+      "value": 659775,
+      "pctOfPortfolio": 2.8532293639
+    },
+    {
+      "name": "Stryker Corp",
+      "cusip": "863667101",
+      "shares": 2500,
+      "value": 657200,
+      "pctOfPortfolio": 2.84209365
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 4300,
+      "value": 616405,
+      "pctOfPortfolio": 2.6656736706
+    },
+    {
+      "name": "Starbucks Corp",
+      "cusip": "855244109",
+      "shares": 5500,
+      "value": 561495,
+      "pctOfPortfolio": 2.4282126811
+    },
+    {
+      "name": "First Republic Bank/CA",
+      "cusip": "33616C100",
+      "shares": 4500,
+      "value": 553545,
+      "pctOfPortfolio": 2.393832516
+    },
+    {
+      "name": "Walt Disney Co/The",
+      "cusip": "254687106",
+      "shares": 5000,
+      "value": 498050,
+      "pctOfPortfolio": 2.1538416652
+    },
+    {
+      "name": "Thermo Fisher Scientific Inc",
+      "cusip": "883556102",
+      "shares": 900,
+      "value": 487584,
+      "pctOfPortfolio": 2.1085809346
+    },
+    {
+      "name": "Ecolab Inc",
+      "cusip": "278865100",
+      "shares": 3000,
+      "value": 478110,
+      "pctOfPortfolio": 2.0676101567
+    },
+    {
+      "name": "Merck & Co Inc",
+      "cusip": "58933Y105",
+      "shares": 4000,
+      "value": 424960,
+      "pctOfPortfolio": 1.8377603736
+    },
+    {
+      "name": "PayPal Holdings Inc",
+      "cusip": "70450Y103",
+      "shares": 5750,
+      "value": 423200,
+      "pctOfPortfolio": 1.8301491672
+    },
+    {
+      "name": "EnerSys",
+      "cusip": "29275Y102",
+      "shares": 4000,
+      "value": 362760,
+      "pctOfPortfolio": 1.5687734213
+    },
+    {
+      "name": "Fair Isaac Corp",
+      "cusip": "303250104",
+      "shares": 500,
+      "value": 338695,
+      "pctOfPortfolio": 1.4647031479
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 4000,
+      "value": 298280,
+      "pctOfPortfolio": 1.2899264971
+    },
+    {
+      "name": "Adobe Inc",
+      "cusip": "00724F101",
+      "shares": 900,
+      "value": 291555,
+      "pctOfPortfolio": 1.2608439046
+    },
+    {
+      "name": "Roper Technologies Inc",
+      "cusip": "776696106",
+      "shares": 600,
+      "value": 258120,
+      "pctOfPortfolio": 1.1162526064
+    },
+    {
+      "name": "Fidelity National Information",
+      "cusip": "31620M106",
+      "shares": 4000,
+      "value": 253480,
+      "pctOfPortfolio": 1.0961866987
+    },
+    {
+      "name": "Fidelity Government Portfolio",
+      "cusip": "316175108",
+      "shares": 223164.74,
+      "value": 223164.74,
+      "pctOfPortfolio": 0.9650868692
+    },
+    {
+      "name": "TransUnion",
+      "cusip": "89400J107",
+      "shares": 3000,
+      "value": 196290,
+      "pctOfPortfolio": 0.8488657373
+    },
+    {
+      "name": "BlackRock Inc",
+      "cusip": "09247X101",
+      "shares": 200,
+      "value": 137886,
+      "pctOfPortfolio": 0.5962947733
+    },
+    {
+      "name": "AutoZone Inc",
+      "cusip": "053332102",
+      "shares": 50,
+      "value": 124327,
+      "pctOfPortfolio": 0.5376582125
+    }
+  ],
+  "totalValue": 23124191.740000002,
+  "positionsCount": 37
+}

@@ -1,0 +1,41 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001420506-22-002186",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "HILTON GRAND VACATIONS INC",
+      "cusip": "43283X105",
+      "shares": 7727165,
+      "value": 254146
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 6827803,
+      "value": 138604
+    },
+    {
+      "name": "WORLD ACCEP CORPORATION",
+      "cusip": "981419104",
+      "shares": 755768,
+      "value": 73173
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 5416116,
+      "value": 50911
+    },
+    {
+      "name": "PARTY CITY HOLDCO INC",
+      "cusip": "702149105",
+      "shares": 19557248,
+      "value": 30900
+    }
+  ],
+  "totalValue": 547734,
+  "positionsCount": 5
+}

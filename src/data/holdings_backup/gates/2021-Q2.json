@@ -1,0 +1,113 @@
+{
+  "form": "13F-HR",
+  "date": "2021-05-17",
+  "period": "2021-05-17",
+  "accession": "0001104659-21-068010",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 37104399,
+      "value": 9479061
+    },
+    {
+      "name": "WASTE MGMT INC DEL",
+      "cusip": "94106L109",
+      "shares": 18633672,
+      "value": 2404116
+    },
+    {
+      "name": "CATERPILLAR INC",
+      "cusip": "149123101",
+      "shares": 10156756,
+      "value": 2355047
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 13907283,
+      "value": 1612967
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 7600706,
+      "value": 1032404
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366426,
+      "value": 934721
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 5086680,
+      "value": 875570
+    },
+    {
+      "name": "SCHRODINGER INC",
+      "cusip": "80810D103",
+      "shares": 6981664,
+      "value": 532631
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 2801790,
+      "value": 476276
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 1493712,
+      "value": 424274
+    },
+    {
+      "name": "COCA-COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 287120
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 5714285,
+      "value": 282000
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 16879104,
+      "value": 149549
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 21491,
+      "value": 44457
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 21554,
+      "value": 44456
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 507517,
+      "value": 12962
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 380772,
+      "value": 9771
+    }
+  ],
+  "totalValue": 20957382,
+  "positionsCount": 17
+}

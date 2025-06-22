@@ -1,4 +1,215 @@
 {
+  "form": "13F-HR",
   "date": "2017-08-08",
-  "positions": []
+  "period": "2017-08-08",
+  "accession": "0001039565-17-000005",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967101",
+      "shares": 1026581,
+      "value": 68657737
+    },
+    {
+      "name": "NY TIMES CL A",
+      "cusip": "650111107",
+      "shares": 3436195,
+      "value": 60820651
+    },
+    {
+      "name": "MERCK",
+      "cusip": "589331107",
+      "shares": 932840,
+      "value": 59785750
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 1398700,
+      "value": 48464955
+    },
+    {
+      "name": "GLAXOSMITHKLINE",
+      "cusip": "37733W105",
+      "shares": 1055085,
+      "value": 45495265
+    },
+    {
+      "name": "BLACKBERRY",
+      "cusip": "09228F103",
+      "shares": 4520660,
+      "value": 45161393
+    },
+    {
+      "name": "MBIA",
+      "cusip": "55262C100",
+      "shares": 4483598,
+      "value": 42280330
+    },
+    {
+      "name": "HOLOGIC",
+      "cusip": "436440101",
+      "shares": 799465,
+      "value": 36279721
+    },
+    {
+      "name": "SEABOARD CORP",
+      "cusip": "811543107",
+      "shares": 8277,
+      "value": 33066615
+    },
+    {
+      "name": "ASSURED GUARANTY",
+      "cusip": "G0585R106",
+      "shares": 776705,
+      "value": 32419667
+    },
+    {
+      "name": "STRAIGHT PATH COMM",
+      "cusip": "862578101",
+      "shares": 173186,
+      "value": 31112864
+    },
+    {
+      "name": "NEW YORK COMMUNITY",
+      "cusip": "649445103",
+      "shares": 1962891,
+      "value": 25772765
+    },
+    {
+      "name": "STERLING BANCORP",
+      "cusip": "85917A100",
+      "shares": 918779,
+      "value": 21364512
+    },
+    {
+      "name": "PFIZER",
+      "cusip": "717081103",
+      "shares": 577616,
+      "value": 19402121
+    },
+    {
+      "name": "VOXX INTERNATIONAL",
+      "cusip": "91829F104",
+      "shares": 2308302,
+      "value": 18928076
+    },
+    {
+      "name": "PATTERSON ENERGY",
+      "cusip": "703481101",
+      "shares": 922906,
+      "value": 18633471
+    },
+    {
+      "name": "NAM TAI PPTY",
+      "cusip": "G63907102",
+      "shares": 1979060,
+      "value": 15832480
+    },
+    {
+      "name": "IDT CORP CL B",
+      "cusip": "448847309",
+      "shares": 536039,
+      "value": 7702880
+    },
+    {
+      "name": "TRINITY PLACE HOLDINGS",
+      "cusip": "89656D101",
+      "shares": 1049050,
+      "value": 7458745
+    },
+    {
+      "name": "IDW MEDIA",
+      "cusip": "44951N106",
+      "shares": 77840,
+      "value": 3775240
+    },
+    {
+      "name": "GENIE ENERGY",
+      "cusip": "903514344",
+      "shares": 401716,
+      "value": 3061076
+    },
+    {
+      "name": "NOVARTIS ADR",
+      "cusip": "66987V109",
+      "shares": 26211,
+      "value": 2187832
+    },
+    {
+      "name": "EXXON MOBILE",
+      "cusip": "30231G102",
+      "shares": 17234,
+      "value": 1391301
+    },
+    {
+      "name": "NAVIENT",
+      "cusip": "63938C108",
+      "shares": 72738,
+      "value": 1211087
+    },
+    {
+      "name": "BRISTOL MYERS SQUIBB",
+      "cusip": "110122108",
+      "shares": 19583,
+      "value": 1091165
+    },
+    {
+      "name": "OLD REPUBLIC",
+      "cusip": "680223104",
+      "shares": 48000,
+      "value": 937440
+    },
+    {
+      "name": "COMCAST CL A",
+      "cusip": "20030N101",
+      "shares": 20896,
+      "value": 813284
+    },
+    {
+      "name": "BANK OF AMERICA",
+      "cusip": "060505104",
+      "shares": 27624,
+      "value": 670158
+    },
+    {
+      "name": "IBM",
+      "cusip": "459200101",
+      "shares": 3323,
+      "value": 511177
+    },
+    {
+      "name": "CHEVRONTEXACO",
+      "cusip": "166764100",
+      "shares": 4048,
+      "value": 422328
+    },
+    {
+      "name": "ZEDGE INC",
+      "cusip": "98923T104",
+      "shares": 155236,
+      "value": 343702
+    },
+    {
+      "name": "MONSANTO",
+      "cusip": "66166W101",
+      "shares": 2386,
+      "value": 282407
+    },
+    {
+      "name": "ASTORIA FINANCIAL",
+      "cusip": "046265104",
+      "shares": 11185,
+      "value": 225378
+    },
+    {
+      "name": "AMERICAN TEL & TEL",
+      "cusip": "030177109",
+      "shares": 4944,
+      "value": 186537
+    }
+  ],
+  "totalValue": 655750110,
+  "positionsCount": 34
 }

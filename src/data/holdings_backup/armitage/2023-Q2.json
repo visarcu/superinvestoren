@@ -1,0 +1,161 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-09",
+  "period": "2023-05-09",
+  "accession": "0001581811-23-000004",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 17587143,
+      "value": 1353154782
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 8710030,
+      "value": 1027522239
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 4184668,
+      "value": 943475247
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 603018,
+      "value": 586796816
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 9905496,
+      "value": 486359854
+    },
+    {
+      "name": "CENOVUS ENERGY INC",
+      "cusip": "15135U109",
+      "shares": 25134420,
+      "value": 438846973
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 3499199,
+      "value": 395514463
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1327478,
+      "value": 382711907
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1755537,
+      "value": 372068512
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 999181,
+      "value": 363112367
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 9936175,
+      "value": 362670388
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 1796504,
+      "value": 354306519
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 2722141,
+      "value": 334360579
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2892080,
+      "value": 300776320
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 1119576,
+      "value": 223881613
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 1019727,
+      "value": 206392745
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 3851728,
+      "value": 202292755
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 72543,
+      "value": 192413779
+    },
+    {
+      "name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "shares": 7644873,
+      "value": 164976359
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 2347386,
+      "value": 156500225
+    },
+    {
+      "name": "EVEREST RE GROUP LTD",
+      "cusip": "G3223R108",
+      "shares": 406646,
+      "value": 145587401
+    },
+    {
+      "name": "RENAISSANCERE HLDGS LTD",
+      "cusip": "G7496G103",
+      "shares": 623152,
+      "value": 124842272
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 106751,
+      "value": 61528074
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G54950103",
+      "shares": 119255,
+      "value": 42387997
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 89364,
+      "value": 42232533
+    }
+  ],
+  "totalValue": 9264712719,
+  "positionsCount": 25
+}

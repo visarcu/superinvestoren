@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-16",
+  "period": "2016-02-16",
+  "accession": "0001418812-16-000098",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 56623770,
+      "value": 3141487
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 14994261,
+      "value": 1524167
+    },
+    {
+      "name": "ADOBE SYSTEMS INC",
+      "cusip": "00724F101",
+      "shares": 14010739,
+      "value": 1316169
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX INC",
+      "cusip": "90130A200",
+      "shares": 47326334,
+      "value": 1288696
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 17588576,
+      "value": 1203938
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 31327405,
+      "value": 1083302
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 23246700,
+      "value": 1072835
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC",
+      "cusip": "G96666105",
+      "shares": 18423835,
+      "value": 894846
+    },
+    {
+      "name": "AGRIUM INC",
+      "cusip": "008916108",
+      "shares": 10003451,
+      "value": 893708
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 16504295,
+      "value": 561806
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 19125204,
+      "value": 495152
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 6327311,
+      "value": 456389
+    },
+    {
+      "name": "ARMSTRONG WORLD INDUSTRIES",
+      "cusip": "04247X102",
+      "shares": 9200000,
+      "value": 420716
+    },
+    {
+      "name": "TOWERS WATSON & CO",
+      "cusip": "891894107",
+      "shares": 725000,
+      "value": 93134
+    }
+  ],
+  "totalValue": 14446345,
+  "positionsCount": 14
+}

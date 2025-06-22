@@ -1,0 +1,196 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-08-24",
+  "period": "2022-08-24",
+  "positions": [
+    {
+      "name": "WH Group Limited",
+      "cusip": "BLLHKZ100",
+      "shares": 46665022,
+      "value": 36118053830,
+      "pctOfPortfolio": 499.34983664
+    },
+    {
+      "name": "BNP Parabis",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 305500000,
+      "pctOfPortfolio": 4.22368757
+    },
+    {
+      "name": "Prosus N.V.",
+      "cusip": "BJDS7L300",
+      "shares": 537961,
+      "value": 34834935490,
+      "pctOfPortfolio": 481.61009528000005
+    },
+    {
+      "name": "Melco International Development Limited",
+      "cusip": "B092QP300",
+      "shares": 36221700,
+      "value": 26832917930,
+      "pctOfPortfolio": 370.97827164
+    },
+    {
+      "name": "Premier Foods plc",
+      "cusip": "B7N0K0500",
+      "shares": 22538242,
+      "value": 30947584640,
+      "pctOfPortfolio": 427.86556018
+    },
+    {
+      "name": "Millicom International Cellular S.A.",
+      "cusip": "B00L2M800",
+      "shares": 1849634,
+      "value": 26508410610,
+      "pctOfPortfolio": 366.49179854
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 33769000,
+      "value": 33769000000,
+      "pctOfPortfolio": 466.87301350999996
+    },
+    {
+      "name": "Lazard Ltd ",
+      "cusip": "G54050102",
+      "shares": 1046387,
+      "value": 33913402670,
+      "pctOfPortfolio": 468.86945134999996
+    },
+    {
+      "name": "LANXESS AG",
+      "cusip": "B05M8B700",
+      "shares": 682962,
+      "value": 24650633650,
+      "pctOfPortfolio": 340.80711946
+    },
+    {
+      "name": "Kering",
+      "cusip": "550507200",
+      "shares": 33096,
+      "value": 17151239489.999998,
+      "pctOfPortfolio": 237.12431123000002
+    },
+    {
+      "name": "Juventus Football Club S.p.A.",
+      "cusip": "726480900",
+      "shares": 52817126,
+      "value": 20060726480,
+      "pctOfPortfolio": 277.34939811000004
+    },
+    {
+      "name": "Gruma, S.A.B. DE C.V.",
+      "cusip": "239254500",
+      "shares": 3153015,
+      "value": 34815732900,
+      "pctOfPortfolio": 481.34461004
+    },
+    {
+      "name": "Jollibee Foods Corporation",
+      "cusip": "647449400",
+      "shares": 6818370,
+      "value": 25263053880,
+      "pctOfPortfolio": 349.27412998
+    },
+    {
+      "name": "Housing Development Finance Corporation Ltd.",
+      "cusip": "617190000",
+      "shares": 587667,
+      "value": 16258814360,
+      "pctOfPortfolio": 224.78609542
+    },
+    {
+      "name": "Gree Electric Appliances, Inc. of Zhuhai",
+      "cusip": "BD5CPN900",
+      "shares": 6037046,
+      "value": 30481669580,
+      "pctOfPortfolio": 421.4240556
+    },
+    {
+      "name": "Glanbia plc",
+      "cusip": "006695000",
+      "shares": 3606597,
+      "value": 39159982900,
+      "pctOfPortfolio": 541.40600034
+    },
+    {
+      "name": "flatexDegiro AG",
+      "cusip": "BYVQYG800",
+      "shares": 1785100,
+      "value": 17063953480,
+      "pctOfPortfolio": 235.91753927000002
+    },
+    {
+      "name": "Fairfax Financial Holdings Limited",
+      "cusip": "303901102",
+      "shares": 56881,
+      "value": 30141803990,
+      "pctOfPortfolio": 416.72524686
+    },
+    {
+      "name": "EXOR N.V.",
+      "cusip": "BYSLCX900",
+      "shares": 774171,
+      "value": 48377919360,
+      "pctOfPortfolio": 668.84850007
+    },
+    {
+      "name": "Compagnie Financiere Richemont SA",
+      "cusip": "BCRWZ1800",
+      "shares": 250792,
+      "value": 26975985880,
+      "pctOfPortfolio": 372.95625633
+    },
+    {
+      "name": "Domino's Pizza Group PLC",
+      "cusip": "BYN591300",
+      "shares": 8503380,
+      "value": 28900451210,
+      "pctOfPortfolio": 399.56293488
+    },
+    {
+      "name": "CK Hutchison Holdings Limited ",
+      "cusip": "BW9P81600",
+      "shares": 5180500,
+      "value": 35144517150,
+      "pctOfPortfolio": 485.89021381000003
+    },
+    {
+      "name": "Compagnie Financiere Richemont SA Warrants ",
+      "cusip": "BN2BT8200",
+      "shares": 1311288,
+      "value": 714261520,
+      "pctOfPortfolio": 9.87501638
+    },
+    {
+      "name": "Applus Services, S.A.",
+      "cusip": "BM677T600",
+      "shares": 5090281,
+      "value": 35206775830,
+      "pctOfPortfolio": 486.75097064
+    },
+    {
+      "name": "Alibaba Group Holding Limited",
+      "cusip": "BK6YZP500",
+      "shares": 1508800,
+      "value": 21523625380,
+      "pctOfPortfolio": 297.57469403
+    },
+    {
+      "name": "adidas AG",
+      "cusip": "403197600",
+      "shares": 102581,
+      "value": 18221564210,
+      "pctOfPortfolio": 251.92207627
+    },
+    {
+      "name": "Accor S.A.",
+      "cusip": "585284200",
+      "shares": 1230878,
+      "value": 33580266920,
+      "pctOfPortfolio": 464.26368596
+    }
+  ]
+}

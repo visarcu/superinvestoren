@@ -1,0 +1,119 @@
+{
+  "date": "2017-11-14",
+  "positions": [
+    {
+      "name": "ARCOS DORADOS HOLDINGS INC",
+      "cusip": "G0457F107",
+      "shares": 3060500,
+      "value": 30758000
+    },
+    {
+      "name": "AUTONATION INC",
+      "cusip": "05329W102",
+      "shares": 1898717,
+      "value": 90113000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 68569972,
+      "value": 12570247000
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 17126874,
+      "value": 1418962000
+    },
+    {
+      "name": "CATERPILLAR INC DEL",
+      "cusip": "149123101",
+      "shares": 11260857,
+      "value": 1404341000
+    },
+    {
+      "name": "COCA COLA FEMSA S A B DE C V",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 479341000
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 5332900,
+      "value": 533183000
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366426,
+      "value": 561566000
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 3024999,
+      "value": 682379000
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 16879104,
+      "value": 416407000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 2119515,
+      "value": 71873000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 3639349,
+      "value": 119007000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U138",
+      "shares": 370424,
+      "value": 8801000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U153",
+      "shares": 636044,
+      "value": 14820000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 56000000,
+      "value": 4171440000
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 4525329,
+      "value": 543447000
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 3475398,
+      "value": 268370000
+    },
+    {
+      "name": "WAL-MART STORES INC",
+      "cusip": "931142103",
+      "shares": 11603000,
+      "value": 906658000
+    },
+    {
+      "name": "WASTE MGMT INC DEL",
+      "cusip": "94106L109",
+      "shares": 18633672,
+      "value": 1458458000
+    }
+  ]
+}

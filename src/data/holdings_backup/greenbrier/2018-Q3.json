@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-13",
+  "period": "2018-08-13",
+  "accession": "0001635925-18-000006",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 500000,
+      "value": 97160
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 400000,
+      "value": 74044
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1260000,
+      "value": 64109
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 35000,
+      "value": 59493
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 250000,
+      "value": 52245
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 500000,
+      "value": 41635
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 32285,
+      "value": 35008
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25828,
+      "value": 29165
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25898,
+      "value": 28893
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 1000000,
+      "value": 28750
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 100000,
+      "value": 18665
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 200000,
+      "value": 10500
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 100000,
+      "value": 10481
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 20000,
+      "value": 3902
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 1500,
+      "value": 3041
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905100",
+      "shares": 344790,
+      "value": 1641
+    }
+  ],
+  "totalValue": 558732,
+  "positionsCount": 16
+}

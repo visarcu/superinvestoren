@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2015-11-13",
+  "period": "2015-11-13",
+  "accession": "0001345471-15-000088",
+  "quarterKey": "2015-Q4",
+  "positions": [
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 90565555,
+      "value": 2284063
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 48028087,
+      "value": 2010936
+    },
+    {
+      "name": "PepsiCo Inc",
+      "cusip": "713448108",
+      "shares": 18316211,
+      "value": 1727219
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 41412900,
+      "value": 1613861
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co.",
+      "cusip": "263534109",
+      "shares": 25801884,
+      "value": 1243651
+    },
+    {
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 30228703,
+      "value": 1183454
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "G7500T104",
+      "shares": 13005377,
+      "value": 663794
+    },
+    {
+      "name": "Legg Mason Inc",
+      "cusip": "524901105",
+      "shares": 11039896,
+      "value": 459370
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 40792537,
+      "value": 352855
+    },
+    {
+      "name": "Ingersoll-Rand PLC",
+      "cusip": "G47791101",
+      "shares": 2835302,
+      "value": 143948
+    },
+    {
+      "name": "Chemours Co.",
+      "cusip": "163851108",
+      "shares": 4879376,
+      "value": 31570
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 14260,
+      "value": 1101
+    }
+  ],
+  "totalValue": 11715822,
+  "positionsCount": 12
+}

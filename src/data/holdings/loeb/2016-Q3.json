@@ -1,245 +1,251 @@
 {
+  "form": "13F-HR",
   "date": "2016-08-12",
+  "period": "2016-08-12",
+  "accession": "0001085146-16-004282",
+  "quarterKey": "2016-Q3",
   "positions": [
     {
-      "name": "ACTIVISION BLIZZARD INC",
-      "cusip": "00507V109",
-      "shares": 3000000,
-      "value": 118890000
+      "name": "BAXTER INTL INC",
+      "cusip": "071813109",
+      "shares": 51901767,
+      "value": 2346998
     },
     {
       "name": "ALLERGAN PLC",
       "cusip": "G0177J108",
       "shares": 4900000,
-      "value": 1132341000
-    },
-    {
-      "name": "ALLERGAN PLC",
-      "cusip": "G0177J108",
-      "shares": 500000,
-      "value": 115545000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 400000,
-      "value": 281412000
-    },
-    {
-      "name": "AMETEK INC NEW",
-      "cusip": "031100100",
-      "shares": 2700000,
-      "value": 124821000
-    },
-    {
-      "name": "ANHEUSER BUSCH INBEV SA/NV",
-      "cusip": "03524A108",
-      "shares": 1900000,
-      "value": 250192000
-    },
-    {
-      "name": "APIGEE CORP",
-      "cusip": "03765N108",
-      "shares": 3166551,
-      "value": 38695000
-    },
-    {
-      "name": "BAXTER INTL INC",
-      "cusip": "071813109",
-      "shares": 51901767,
-      "value": 2346998000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 1450000,
-      "value": 331528000
-    },
-    {
-      "name": "CHUBB LIMITED",
-      "cusip": "H1467J104",
-      "shares": 2350000,
-      "value": 307168000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967226",
-      "shares": 20000000,
-      "value": 1176000
-    },
-    {
-      "name": "COCA COLA EUROPEAN PARTNERS",
-      "cusip": "G25839104",
-      "shares": 2700000,
-      "value": 96363000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 2000000,
-      "value": 330800000
-    },
-    {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 3850000,
-      "value": 388850000
-    },
-    {
-      "name": "DEVON ENERGY CORP NEW",
-      "cusip": "25179M103",
-      "shares": 1150000,
-      "value": 41688000
+      "value": 1132341
     },
     {
       "name": "DOW CHEM CO",
       "cusip": "260543103",
       "shares": 20000000,
-      "value": 994200000
-    },
-    {
-      "name": "E M C CORP MASS",
-      "cusip": "268648102",
-      "shares": 6000000,
-      "value": 163020000
-    },
-    {
-      "name": "ENPHASE ENERGY INC",
-      "cusip": "29355A107",
-      "shares": 6248987,
-      "value": 12435000
+      "value": 994200
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 3750000,
-      "value": 428550000
+      "value": 428550
     },
     {
-      "name": "GENERAL DYNAMICS CORP",
-      "cusip": "369550108",
-      "shares": 355100,
-      "value": 49444000
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 3850000,
+      "value": 388850
     },
     {
-      "name": "GREEN BRICK PARTNERS INC",
-      "cusip": "392709101",
-      "shares": 8083022,
-      "value": 58764000
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1450000,
+      "value": 331528
     },
     {
-      "name": "GRUPO SUPERVIELLE S A",
-      "cusip": "40054A108",
-      "shares": 4500000,
-      "value": 57555000
-    },
-    {
-      "name": "HARRIS CORP DEL",
-      "cusip": "413875105",
-      "shares": 1000000,
-      "value": 83440000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
       "shares": 2000000,
-      "value": 58120000
+      "value": 330800
     },
     {
-      "name": "LOWES COS INC",
-      "cusip": "548661107",
-      "shares": 3000000,
-      "value": 237510000
-    },
-    {
-      "name": "MARATHON OIL CORP",
-      "cusip": "565849106",
-      "shares": 4000000,
-      "value": 60040000
-    },
-    {
-      "name": "MOHAWK INDS INC",
-      "cusip": "608190104",
-      "shares": 1500000,
-      "value": 284640000
-    },
-    {
-      "name": "MOLSON COORS BREWING CO",
-      "cusip": "60871R209",
-      "shares": 1000000,
-      "value": 101130000
-    },
-    {
-      "name": "MONSANTO CO NEW",
-      "cusip": "61166W101",
-      "shares": 2000000,
-      "value": 206820000
-    },
-    {
-      "name": "NOMAD HLDGS LTD",
-      "cusip": "G6564A105",
-      "shares": 12650000,
-      "value": 100947000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 1600000,
-      "value": 171616000
-    },
-    {
-      "name": "SEALED AIR CORP NEW",
-      "cusip": "81211K100",
-      "shares": 4500000,
-      "value": 206865000
-    },
-    {
-      "name": "SHERWIN WILLIAMS CO",
-      "cusip": "824348106",
-      "shares": 700000,
-      "value": 205569000
-    },
-    {
-      "name": "SHIRE PLC",
-      "cusip": "82481R106",
-      "shares": 950000,
-      "value": 174876000
-    },
-    {
-      "name": "SOTHEBYS",
-      "cusip": "835898107",
-      "shares": 6660925,
-      "value": 182509000
-    },
-    {
-      "name": "TESORO CORP",
-      "cusip": "881609101",
-      "shares": 650000,
-      "value": 48698000
+      "name": "CHUBB LIMITED",
+      "cusip": "H1467J104",
+      "shares": 2350000,
+      "value": 307168
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 1131000,
-      "value": 298233000
+      "value": 298233
     },
     {
-      "name": "UNION PAC CORP",
-      "cusip": "907818108",
-      "shares": 1350000,
-      "value": 117788000
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1500000,
+      "value": 284640
     },
     {
-      "name": "WHITING PETE CORP NEW",
-      "cusip": "966387102",
-      "shares": 8200000,
-      "value": 75932000
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 400000,
+      "value": 281412
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 1900000,
+      "value": 250192
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 3000000,
+      "value": 237510
     },
     {
       "name": "YUM BRANDS INC",
       "cusip": "988498101",
       "shares": 2500000,
-      "value": 207300000
+      "value": 207300
+    },
+    {
+      "name": "SEALED AIR CORP NEW",
+      "cusip": "81211K100",
+      "shares": 4500000,
+      "value": 206865
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 2000000,
+      "value": 206820
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 700000,
+      "value": 205569
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 6660925,
+      "value": 182509
+    },
+    {
+      "name": "SHIRE PLC",
+      "cusip": "82481R106",
+      "shares": 950000,
+      "value": 174876
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1600000,
+      "value": 171616
+    },
+    {
+      "name": "E M C CORP MASS",
+      "cusip": "268648102",
+      "shares": 6000000,
+      "value": 163020
+    },
+    {
+      "name": "AMETEK INC NEW",
+      "cusip": "031100100",
+      "shares": 2700000,
+      "value": 124821
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 3000000,
+      "value": 118890
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 1350000,
+      "value": 117788
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 500000,
+      "value": 115545
+    },
+    {
+      "name": "MOLSON COORS BREWING CO",
+      "cusip": "60871R209",
+      "shares": 1000000,
+      "value": 101130
+    },
+    {
+      "name": "NOMAD HLDGS LTD",
+      "cusip": "G6564A105",
+      "shares": 12650000,
+      "value": 100947
+    },
+    {
+      "name": "COCA COLA EUROPEAN PARTNERS",
+      "cusip": "G25839104",
+      "shares": 2700000,
+      "value": 96363
+    },
+    {
+      "name": "HARRIS CORP DEL",
+      "cusip": "413875105",
+      "shares": 1000000,
+      "value": 83440
+    },
+    {
+      "name": "WHITING PETE CORP NEW",
+      "cusip": "966387102",
+      "shares": 8200000,
+      "value": 75932
+    },
+    {
+      "name": "MARATHON OIL CORP",
+      "cusip": "565849106",
+      "shares": 4000000,
+      "value": 60040
+    },
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 8083022,
+      "value": 58764
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 2000000,
+      "value": 58120
+    },
+    {
+      "name": "GRUPO SUPERVIELLE S A",
+      "cusip": "40054A108",
+      "shares": 4500000,
+      "value": 57555
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 355100,
+      "value": 49444
+    },
+    {
+      "name": "TESORO CORP",
+      "cusip": "881609101",
+      "shares": 650000,
+      "value": 48698
+    },
+    {
+      "name": "DEVON ENERGY CORP NEW",
+      "cusip": "25179M103",
+      "shares": 1150000,
+      "value": 41688
+    },
+    {
+      "name": "APIGEE CORP",
+      "cusip": "03765N108",
+      "shares": 3166551,
+      "value": 38695
+    },
+    {
+      "name": "ENPHASE ENERGY INC",
+      "cusip": "29355A107",
+      "shares": 6248987,
+      "value": 12435
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967226",
+      "shares": 20000000,
+      "value": 1176
     }
-  ]
+  ],
+  "totalValue": 10492468,
+  "positionsCount": 40
 }

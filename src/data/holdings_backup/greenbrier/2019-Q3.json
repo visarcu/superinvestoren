@@ -1,0 +1,101 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-09",
+  "period": "2019-08-09",
+  "accession": "0001532262-19-000003",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 450000,
+      "value": 86850
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 400000,
+      "value": 79168
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 35000,
+      "value": 66277
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 250000,
+      "value": 66065
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1260000,
+      "value": 63983
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 500000,
+      "value": 57230
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 32285,
+      "value": 35178
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 1000000,
+      "value": 31620
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 26000,
+      "value": 28153
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 26000,
+      "value": 28104
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 100000,
+      "value": 21317
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 100000,
+      "value": 13964
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 80000,
+      "value": 10717
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 50000,
+      "value": 7311
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905100",
+      "shares": 344790,
+      "value": 1024
+    }
+  ],
+  "totalValue": 596961,
+  "positionsCount": 15
+}

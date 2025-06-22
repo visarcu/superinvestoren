@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0000905718-19-000454",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 4248816,
+      "value": 80642528
+    },
+    {
+      "name": "EASTMAN CHEMICAL CO",
+      "cusip": "277432100",
+      "shares": 743279,
+      "value": 56400011
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 2495475,
+      "value": 56123233
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 1095641,
+      "value": 47517950
+    },
+    {
+      "name": "DXC TECHNOLOGY CO",
+      "cusip": "23355L106",
+      "shares": 721968,
+      "value": 46429762
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 491464,
+      "value": 36923690
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 831800,
+      "value": 36283116
+    },
+    {
+      "name": "DIEBOLD NXDF INC",
+      "cusip": "253651103",
+      "shares": 500000,
+      "value": 5535000
+    },
+    {
+      "name": "ADT INC",
+      "cusip": "00090Q103",
+      "shares": 592072,
+      "value": 3783340
+    },
+    {
+      "name": "INTERNATIONAL GAME TECHNOLOG",
+      "cusip": "G4863A108",
+      "shares": 276019,
+      "value": 3585487
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 28000,
+      "value": 3360280
+    },
+    {
+      "name": "CONAGRA BRANDS INC",
+      "cusip": "205887102",
+      "shares": 106500,
+      "value": 2954310
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 67800,
+      "value": 2600130
+    },
+    {
+      "name": "CABOT CORP",
+      "cusip": "127055101",
+      "shares": 61669,
+      "value": 2567280
+    },
+    {
+      "name": "CRANE CO",
+      "cusip": "224399105",
+      "shares": 23500,
+      "value": 1988570
+    },
+    {
+      "name": "NAVISTAR INTL CORP",
+      "cusip": "63934E108",
+      "shares": 60000,
+      "value": 1938000
+    },
+    {
+      "name": "ANIXTER INTL INC",
+      "cusip": "035290105",
+      "shares": 30000,
+      "value": 1683300
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 7136,
+      "value": 968427
+    }
+  ],
+  "totalValue": 391284414,
+  "positionsCount": 18
+}

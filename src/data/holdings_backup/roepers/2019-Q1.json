@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0000905718-19-000190",
+  "quarterKey": "2019-Q1",
+  "positions": [
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 7234175,
+      "value": 124717
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 2677697,
+      "value": 51653
+    },
+    {
+      "name": "COMMSCOPE HLDG CO INC",
+      "cusip": "20337X109",
+      "shares": 2942961,
+      "value": 48235
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 1201114,
+      "value": 43360
+    },
+    {
+      "name": "DXC TECHNOLOGY CO",
+      "cusip": "23355L106",
+      "shares": 775756,
+      "value": 41247
+    },
+    {
+      "name": "OSHKOSH ORD",
+      "cusip": "688239201",
+      "shares": 483025,
+      "value": 29614
+    },
+    {
+      "name": "DIEBOLD NXDF INC",
+      "cusip": "253651103",
+      "shares": 3300506,
+      "value": 8218
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 100000,
+      "value": 7311
+    },
+    {
+      "name": "CABOT CORP",
+      "cusip": "127055101",
+      "shares": 67000,
+      "value": 2877
+    },
+    {
+      "name": "INTERNATIONAL GAME TECHNOLOG",
+      "cusip": "G4863A108",
+      "shares": 193764,
+      "value": 2835
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 130000,
+      "value": 2653
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 69500,
+      "value": 2594
+    },
+    {
+      "name": "CROWN HOLDINGS INC",
+      "cusip": "228368106",
+      "shares": 57762,
+      "value": 2401
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 190000,
+      "value": 2109
+    },
+    {
+      "name": "ADT INC",
+      "cusip": "00090Q103",
+      "shares": 350657,
+      "value": 2107
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 80000,
+      "value": 2076
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 180000,
+      "value": 2070
+    },
+    {
+      "name": "TIFFANY & CO NEW",
+      "cusip": "886547108",
+      "shares": 13855,
+      "value": 1115
+    },
+    {
+      "name": "GARDNER DENVER HLDGS INC",
+      "cusip": "36555P107",
+      "shares": 53494,
+      "value": 1094
+    },
+    {
+      "name": "GRAPHIC PACKAGING HLDG CO",
+      "cusip": "388689101",
+      "shares": 101778,
+      "value": 1083
+    },
+    {
+      "name": "VENATOR MATLS PLC",
+      "cusip": "G9329Z100",
+      "shares": 241900,
+      "value": 1014
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 4203,
+      "value": 516
+    }
+  ],
+  "totalValue": 380899,
+  "positionsCount": 22
+}

@@ -1,0 +1,149 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-10",
+  "period": "2022-11-10",
+  "accession": "0001581811-22-000008",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 22489266,
+      "value": 1500484
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 11172896,
+      "value": 1206561
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 4830871,
+      "value": 1125110
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 10331491,
+      "value": 993373
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 11652564,
+      "value": 837470
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 3687681,
+      "value": 655117
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 773574,
+      "value": 616871
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 2161091,
+      "value": 614485
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1149499,
+      "value": 580543
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 4009625,
+      "value": 558701
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 5863402,
+      "value": 480389
+    },
+    {
+      "name": "CENOVUS ENERGY INC",
+      "cusip": "15135U109",
+      "shares": 29233630,
+      "value": 449321
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 2305196,
+      "value": 432939
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 16138538,
+      "value": 429931
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 11983140,
+      "value": 364407
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 209311,
+      "value": 343942
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 4708096,
+      "value": 317090
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 2787947,
+      "value": 315038
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 1094168,
+      "value": 294977
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 1214524,
+      "value": 265349
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 3460517,
+      "value": 237253
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 4763059,
+      "value": 204812
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 2331170,
+      "value": 54410
+    }
+  ],
+  "totalValue": 12878573,
+  "positionsCount": 23
+}

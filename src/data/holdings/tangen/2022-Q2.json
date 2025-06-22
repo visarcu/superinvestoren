@@ -1,4 +1,161 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-04",
-  "positions": []
+  "period": "2022-05-04",
+  "accession": "0001376879-22-000003",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 387435,
+      "value": 909872
+    },
+    {
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 2283374,
+      "value": 770022
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 1206538,
+      "value": 712642
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 1991704,
+      "value": 639219
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 176616,
+      "value": 493287
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 2057417,
+      "value": 487814
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE INC",
+      "cusip": "45866F104",
+      "shares": 3668867,
+      "value": 484731
+    },
+    {
+      "name": "ALCON INC",
+      "cusip": "H01301128",
+      "shares": 5347787,
+      "value": 426077
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 2745126,
+      "value": 369384
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 1293422,
+      "value": 352225
+    },
+    {
+      "name": "DIAGEO PLC",
+      "cusip": "25243Q205",
+      "shares": 1681674,
+      "value": 341615
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 735652,
+      "value": 335178
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1738652,
+      "value": 327892
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1963031,
+      "value": 299951
+    },
+    {
+      "name": "OTIS WORLDWIDE CORP",
+      "cusip": "68902V107",
+      "shares": 3889448,
+      "value": 299293
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1313661,
+      "value": 291331
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 4802031,
+      "value": 274964
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 665538,
+      "value": 224559
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 951880,
+      "value": 209103
+    },
+    {
+      "name": "ALLEGION PLC",
+      "cusip": "G0176J109",
+      "shares": 1792835,
+      "value": 196817
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 860433,
+      "value": 191558
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 388211,
+      "value": 181085
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 304258,
+      "value": 165979
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 505822,
+      "value": 160674
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 672505,
+      "value": 118193
+    }
+  ],
+  "totalValue": 9263465,
+  "positionsCount": 25
 }

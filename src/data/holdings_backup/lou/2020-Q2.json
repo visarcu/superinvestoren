@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0001398344-20-010559",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 367,
+      "value": 99824
+    },
+    {
+      "name": "WINNEBAGO INDS INC",
+      "cusip": "974637100",
+      "shares": 2385740,
+      "value": 66347
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 1783553,
+      "value": 25737
+    },
+    {
+      "name": "NVR INC",
+      "cusip": "62944T105",
+      "shares": 2531,
+      "value": 6502
+    }
+  ],
+  "totalValue": 198410,
+  "positionsCount": 4
+}

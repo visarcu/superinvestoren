@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0001172661-18-001558",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 1730900,
+      "value": 403646
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 307422,
+      "value": 347138
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 5838562,
+      "value": 298351
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412101",
+      "shares": 2710384,
+      "value": 278085
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 10911600,
+      "value": 232963
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480120",
+      "shares": 8727552,
+      "value": 232240
+    },
+    {
+      "name": "NIELSEN HLDGS PLC",
+      "cusip": "6518108",
+      "shares": 6527131,
+      "value": 201884
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 1786500,
+      "value": 186153
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 1577925,
+      "value": 157161
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219108",
+      "shares": 1249627,
+      "value": 96484
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480104",
+      "shares": 250292,
+      "value": 6893
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 31094,
+      "value": 1020
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 410
+    }
+  ],
+  "totalValue": 2442428,
+  "positionsCount": 13
+}

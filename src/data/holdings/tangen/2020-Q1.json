@@ -1,4 +1,137 @@
 {
+  "form": "13F-HR",
   "date": "2020-02-13",
-  "positions": []
+  "period": "2020-02-13",
+  "accession": "0001376879-20-000002",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 2618845,
+      "value": 559817
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 2451075,
+      "value": 406535
+    },
+    {
+      "name": "GRIFOLS S A",
+      "cusip": "398438408",
+      "shares": 12406546,
+      "value": 288948
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 1849238,
+      "value": 276942
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 2545308,
+      "value": 257865
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1366044,
+      "value": 256680
+    },
+    {
+      "name": "ALLEGION PLC",
+      "cusip": "G0176J109",
+      "shares": 1961829,
+      "value": 244326
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 182168,
+      "value": 243562
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 855748,
+      "value": 220278
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1609115,
+      "value": 200978
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 939113,
+      "value": 193964
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 828423,
+      "value": 193263
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 39091941,
+      "value": 182168
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1207618,
+      "value": 159828
+    },
+    {
+      "name": "ALCON INC",
+      "cusip": "H01301128",
+      "shares": 2808902,
+      "value": 158994
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1266793,
+      "value": 157703
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 409508,
+      "value": 153434
+    },
+    {
+      "name": "CME GROUP INV",
+      "cusip": "12572Q105",
+      "shares": 735840,
+      "value": 147698
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 974198,
+      "value": 145487
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 478322,
+      "value": 113558
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH LT",
+      "cusip": "M22465104",
+      "shares": 781478,
+      "value": 86713
+    }
+  ],
+  "totalValue": 4648741,
+  "positionsCount": 21
 }

@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2024-04-18",
+  "period": "2024-04-18",
+  "accession": "0001953324-24-000003",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 140600,
+      "value": 59125000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 210000,
+      "value": 47815000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 65750,
+      "value": 31663000
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 767845,
+      "value": 29117000
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 60000,
+      "value": 26155000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 200000,
+      "value": 23578000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 19033000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 27000,
+      "value": 10612000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 500000,
+      "value": 4825000
+    },
+    {
+      "name": "DAILY JOURNAL CORP",
+      "cusip": "233912104",
+      "shares": 11500,
+      "value": 4159000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 47500,
+      "value": 3437000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 16000,
+      "value": 2415000
+    }
+  ],
+  "totalValue": 261934000,
+  "positionsCount": 12
+}

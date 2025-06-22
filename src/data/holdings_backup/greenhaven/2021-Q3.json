@@ -1,0 +1,131 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-02",
+  "period": "2021-08-02",
+  "accession": "0000891092-21-005820",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2643577,
+      "value": 1003317
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 7022487,
+      "value": 697684
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 10417814,
+      "value": 616422
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2738105,
+      "value": 596962
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 5143716,
+      "value": 297358
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 775945,
+      "value": 70122
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 454101,
+      "value": 36987
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 152210,
+      "value": 26679
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 276290,
+      "value": 25333
+    },
+    {
+      "name": "Proshares Short QQQ (PSQ)",
+      "cusip": "74347B714",
+      "shares": 1005000,
+      "value": 12452
+    },
+    {
+      "name": "Proshares Short S&P500 (SH)",
+      "cusip": "74347B425",
+      "shares": 695000,
+      "value": 10696
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 144227,
+      "value": 10501
+    },
+    {
+      "name": "Berkshire Hathaway Inc Class B (BRK/B)",
+      "cusip": "084670702",
+      "shares": 25991,
+      "value": 7223
+    },
+    {
+      "name": "Bunge Ltd (BG)",
+      "cusip": "G16962105",
+      "shares": 40500,
+      "value": 3165
+    },
+    {
+      "name": "CF Industries Holdings, Inc (CF)",
+      "cusip": "125269100",
+      "shares": 48500,
+      "value": 2495
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1582
+    },
+    {
+      "name": "M.D.C. Holdings, Inc (MDC)",
+      "cusip": "552676108",
+      "shares": 25000,
+      "value": 1265
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 5000,
+      "value": 778
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2500,
+      "value": 497
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 447
+    }
+  ],
+  "totalValue": 3421965,
+  "positionsCount": 20
+}

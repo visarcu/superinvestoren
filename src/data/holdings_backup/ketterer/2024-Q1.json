@@ -1,0 +1,545 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0000943663-24-000054",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 3407180,
+      "value": 454381471
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY LTD",
+      "cusip": "13646K108",
+      "shares": 5561777,
+      "value": 442109910
+    },
+    {
+      "name": "BANCO BRADESCO SA",
+      "cusip": "059460303",
+      "shares": 52618058,
+      "value": 184163194
+    },
+    {
+      "name": "UBS GROUP AG",
+      "cusip": "H42097107",
+      "shares": 4809753,
+      "value": 149125298
+    },
+    {
+      "name": "WALT DISNEY CO/THE",
+      "cusip": "254687106",
+      "shares": 1102237,
+      "value": 99520929
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 657517,
+      "value": 96201312
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 661944,
+      "value": 93287767
+    },
+    {
+      "name": "TD SYNNEX CORP",
+      "cusip": "87162W100",
+      "shares": 798400,
+      "value": 85915737
+    },
+    {
+      "name": "GENPACT LTD",
+      "cusip": "G3922B107",
+      "shares": 2382617,
+      "value": 82700568
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1529941,
+      "value": 78700119
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS & FRAGRANCES INC",
+      "cusip": "459506101",
+      "shares": 964184,
+      "value": 78069907
+    },
+    {
+      "name": "ZEBRA TECHNOLOGIES CORP",
+      "cusip": "989207105",
+      "shares": 280774,
+      "value": 76743905
+    },
+    {
+      "name": "ALIBABA GROUP HOLDING LTD",
+      "cusip": "01609W102",
+      "shares": 935720,
+      "value": 72527657
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 540050,
+      "value": 71740140
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 367362,
+      "value": 69383667
+    },
+    {
+      "name": "ZIMMER BIOMET HOLDINGS INC",
+      "cusip": "98956P102",
+      "shares": 564669,
+      "value": 68720199
+    },
+    {
+      "name": "QUEST DIAGNOSTICS INC",
+      "cusip": "74834L100",
+      "shares": 492707,
+      "value": 67934466
+    },
+    {
+      "name": "ABBVIE INC",
+      "cusip": "00287Y109",
+      "shares": 402866,
+      "value": 62432052
+    },
+    {
+      "name": "PETROLEO BRASILEIRO SA",
+      "cusip": "71654V101",
+      "shares": 4058598,
+      "value": 62015377
+    },
+    {
+      "name": "AVANTOR INC",
+      "cusip": "05352A100",
+      "shares": 2559572,
+      "value": 58435004
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 3177705,
+      "value": 57293988
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 1611661,
+      "value": 55876252
+    },
+    {
+      "name": "TYSON FOODS INC",
+      "cusip": "902494103",
+      "shares": 1000568,
+      "value": 53780470
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 150405,
+      "value": 53237246
+    },
+    {
+      "name": "VIPSHOP HOLDINGS LTD",
+      "cusip": "92763W103",
+      "shares": 2986610,
+      "value": 53042193
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 263109,
+      "value": 52242809
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD",
+      "cusip": "874039100",
+      "shares": 462769,
+      "value": 48127976
+    },
+    {
+      "name": "CITIZENS FINANCIAL GROUP INC",
+      "cusip": "174610105",
+      "shares": 1428581,
+      "value": 47343157
+    },
+    {
+      "name": "BERRY GLOBAL GROUP INC",
+      "cusip": "08579W103",
+      "shares": 656814,
+      "value": 44262695
+    },
+    {
+      "name": "CONCENTRIX CORP",
+      "cusip": "20602D101",
+      "shares": 417788,
+      "value": 41030912
+    },
+    {
+      "name": "BARCLAYS PLC",
+      "cusip": "06738E204",
+      "shares": 4969641,
+      "value": 39160772
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HOLDINGS PLC",
+      "cusip": "G7997R103",
+      "shares": 458070,
+      "value": 39105428
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 1070719,
+      "value": 37903448
+    },
+    {
+      "name": "GERDAU SA",
+      "cusip": "373737105",
+      "shares": 7358971,
+      "value": 35691009
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "803054204",
+      "shares": 219972,
+      "value": 34005538
+    },
+    {
+      "name": "SHELL PLC",
+      "cusip": "780259305",
+      "shares": 508567,
+      "value": 33463717
+    },
+    {
+      "name": "PRUDENTIAL PLC",
+      "cusip": "74435K204",
+      "shares": 1481760,
+      "value": 33265516
+    },
+    {
+      "name": "APTIV PLC",
+      "cusip": "G6095L109",
+      "shares": 363303,
+      "value": 32595496
+    },
+    {
+      "name": "KONINKLIJKE PHILIPS NV",
+      "cusip": "500472303",
+      "shares": 1392617,
+      "value": 32489761
+    },
+    {
+      "name": "ASTRAZENECA PLC",
+      "cusip": "046353108",
+      "shares": 460722,
+      "value": 31029651
+    },
+    {
+      "name": "JINKOSOLAR HOLDING CO LTD",
+      "cusip": "47759T100",
+      "shares": 826558,
+      "value": 30533052
+    },
+    {
+      "name": "GSK PLC",
+      "cusip": "37733W204",
+      "shares": 795441,
+      "value": 29479046
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 381075,
+      "value": 29319878
+    },
+    {
+      "name": "DIAGEO PLC",
+      "cusip": "25243Q205",
+      "shares": 199977,
+      "value": 29128595
+    },
+    {
+      "name": "VANGUARD FTSE DEVELOPED ETF",
+      "cusip": "921943858",
+      "shares": 582680,
+      "value": 27910358
+    },
+    {
+      "name": "ANHEUSER-BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 413645,
+      "value": 26729753
+    },
+    {
+      "name": "RELX PLC",
+      "cusip": "759530108",
+      "shares": 622977,
+      "value": 24707264
+    },
+    {
+      "name": "ING GROEP NV",
+      "cusip": "456837103",
+      "shares": 1644818,
+      "value": 24705174
+    },
+    {
+      "name": "SANOFI SA",
+      "cusip": "80105N105",
+      "shares": 442269,
+      "value": 21994047
+    },
+    {
+      "name": "NOVARTIS AG",
+      "cusip": "66987V109",
+      "shares": 209089,
+      "value": 21111748
+    },
+    {
+      "name": "FINVOLUTION GROUP",
+      "cusip": "31810T101",
+      "shares": 3938932,
+      "value": 19300767
+    },
+    {
+      "name": "TAKEDA PHARMACEUTICAL CO LTD",
+      "cusip": "874060205",
+      "shares": 1345645,
+      "value": 19202354
+    },
+    {
+      "name": "QIFU TECHNOLOGY INC",
+      "cusip": "88557W101",
+      "shares": 1132917,
+      "value": 17922747
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 189973,
+      "value": 17697885
+    },
+    {
+      "name": "BRITISH AMERICAN TOBACCO PLC",
+      "cusip": "110448107",
+      "shares": 556299,
+      "value": 16294005
+    },
+    {
+      "name": "SABRE CORP",
+      "cusip": "78573M104",
+      "shares": 3332673,
+      "value": 14663750
+    },
+    {
+      "name": "UNILEVER PLC",
+      "cusip": "904767704",
+      "shares": 293724,
+      "value": 14239719
+    },
+    {
+      "name": "VISTA ENERGY SAB DE CV",
+      "cusip": "92837L109",
+      "shares": 459950,
+      "value": 13573124
+    },
+    {
+      "name": "AUTOHOME INC",
+      "cusip": "05278C107",
+      "shares": 479488,
+      "value": 13454433
+    },
+    {
+      "name": "IQIYI INC",
+      "cusip": "46267X108",
+      "shares": 2753628,
+      "value": 13437705
+    },
+    {
+      "name": "DAQO NEW ENERGY CORP",
+      "cusip": "23703Q203",
+      "shares": 467194,
+      "value": 12427360
+    },
+    {
+      "name": "CEMEX SAB DE CV",
+      "cusip": "151290889",
+      "shares": 1580203,
+      "value": 12246573
+    },
+    {
+      "name": "COCA-COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 122367,
+      "value": 11580813
+    },
+    {
+      "name": "ICICI BANK LTD",
+      "cusip": "45104G104",
+      "shares": 449264,
+      "value": 10710454
+    },
+    {
+      "name": "VANGUARD FTSE ALL WORLD EX-US SMALL-CAP ETF",
+      "cusip": "922042718",
+      "shares": 89168,
+      "value": 10256995
+    },
+    {
+      "name": "XTRACKERS HARVEST CSI 300 CHINA A-SHARES ETF",
+      "cusip": "233051879",
+      "shares": 423574,
+      "value": 10127654
+    },
+    {
+      "name": "INFOSYS LTD",
+      "cusip": "456788108",
+      "shares": 541426,
+      "value": 9951410
+    },
+    {
+      "name": "SUMITOMO MITSUI FINANCIAL GROUP INC",
+      "cusip": "86562M209",
+      "shares": 988309,
+      "value": 9566828
+    },
+    {
+      "name": "NATWEST GROUP PLC",
+      "cusip": "639057207",
+      "shares": 1647757,
+      "value": 9276873
+    },
+    {
+      "name": "MAKEMYTRIP LTD",
+      "cusip": "V5633W109",
+      "shares": 192127,
+      "value": 9026126
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 216129,
+      "value": 8580321
+    },
+    {
+      "name": "ISHARES MSCI SAUDI ARABIA ETF",
+      "cusip": "46434V423",
+      "shares": 192689,
+      "value": 8156525
+    },
+    {
+      "name": "MINISO GROUP HOLDING LTD",
+      "cusip": "66981J102",
+      "shares": 395971,
+      "value": 8077808
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 119596,
+      "value": 8026088
+    },
+    {
+      "name": "DR REDDY'S LABORATORIES LTD",
+      "cusip": "256135203",
+      "shares": 115238,
+      "value": 8018260
+    },
+    {
+      "name": "RIO TINTO PLC",
+      "cusip": "767204100",
+      "shares": 105426,
+      "value": 7850034
+    },
+    {
+      "name": "HELLO GROUP INC",
+      "cusip": "423403104",
+      "shares": 1036348,
+      "value": 7202619
+    },
+    {
+      "name": "CELESTICA INC",
+      "cusip": "15101Q108",
+      "shares": 233872,
+      "value": 6883492
+    },
+    {
+      "name": "ISHARES MSCI INDIA SMALL-CAP ETF",
+      "cusip": "46429B614",
+      "shares": 88992,
+      "value": 6210752
+    },
+    {
+      "name": "ISHARES MSCI INDIA ETF",
+      "cusip": "46429B598",
+      "shares": 85090,
+      "value": 4153243
+    },
+    {
+      "name": "ADECOAGRO SA",
+      "cusip": "L00849106",
+      "shares": 370517,
+      "value": 4112739
+    },
+    {
+      "name": "ENERPLUS CORP",
+      "cusip": "292766102",
+      "shares": 154569,
+      "value": 2380780
+    },
+    {
+      "name": "VERMILION ENERGY INC",
+      "cusip": "923725105",
+      "shares": 187071,
+      "value": 2265679
+    },
+    {
+      "name": "UNITED MICROELECTRONICS CORP",
+      "cusip": "910873405",
+      "shares": 220778,
+      "value": 1867782
+    },
+    {
+      "name": "KB FINANCIAL GROUP INC",
+      "cusip": "48241A105",
+      "shares": 36022,
+      "value": 1490230
+    },
+    {
+      "name": "ISHARES MSCI ACWI ETF",
+      "cusip": "464288257",
+      "shares": 12347,
+      "value": 1256546
+    },
+    {
+      "name": "VANGUARD FTSE ALL-WORLD EX-US ETF",
+      "cusip": "922042775",
+      "shares": 10961,
+      "value": 615373
+    },
+    {
+      "name": "TORM PLC",
+      "cusip": "G89479102",
+      "shares": 11720,
+      "value": 354638
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 10975,
+      "value": 317068
+    }
+  ],
+  "totalValue": 3927453180,
+  "positionsCount": 89
+}

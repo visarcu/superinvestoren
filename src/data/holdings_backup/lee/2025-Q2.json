@@ -1,0 +1,79 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 286629,
+      "value": 37900953000000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 1008399,
+      "value": 36776312000000
+    },
+    {
+      "name": "CONTROLADORA VUELA COMP DE A",
+      "cusip": "21240E105",
+      "shares": 1816225,
+      "value": 9480695000000
+    },
+    {
+      "name": "FRONTIER GROUP HLDGS INC",
+      "cusip": "35909R108",
+      "shares": 4530833,
+      "value": 19663815000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 410909,
+      "value": 68042421000000
+    },
+    {
+      "name": "ISHARES BITCOIN TRUST ETF",
+      "cusip": "46438F101",
+      "shares": 134000,
+      "value": 6272540000000
+    },
+    {
+      "name": "LOMA NEGRA C I A S A MTN 14",
+      "cusip": "54150E104",
+      "shares": 1435809,
+      "value": 15779541000000
+    },
+    {
+      "name": "OSCAR HEALTH INC",
+      "cusip": "687793109",
+      "shares": 2950753,
+      "value": 38684372000000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 3349412,
+      "value": 37546909000000
+    },
+    {
+      "name": "TAMBORAN RES CORP",
+      "cusip": "87507T101",
+      "shares": 437142,
+      "value": 10487037000000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 3782135,
+      "value": 49356862000000
+    },
+    {
+      "name": "VITAL ENERGY INC",
+      "cusip": "516806205",
+      "shares": 335000,
+      "value": 7108700000000
+    }
+  ]
+}

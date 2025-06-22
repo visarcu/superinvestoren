@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0000921895-23-002613",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 5018513,
+      "value": 135349296
+    },
+    {
+      "name": "UPBOUND GROUP INC",
+      "cusip": "76009N100",
+      "shares": 3667373,
+      "value": 108004135
+    },
+    {
+      "name": "V F CORP",
+      "cusip": "918204108",
+      "shares": 5196284,
+      "value": 91818338
+    },
+    {
+      "name": "SHAKE SHACK INC",
+      "cusip": "819047101",
+      "shares": 1367231,
+      "value": 79395104
+    },
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 2832810,
+      "value": 77137416
+    },
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 12451018,
+      "value": 44699155
+    },
+    {
+      "name": "PRIMO WATER CORPORATION",
+      "cusip": "74167P108",
+      "shares": 878751,
+      "value": 12126764
+    }
+  ],
+  "totalValue": 548530208,
+  "positionsCount": 7
+}

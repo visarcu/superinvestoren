@@ -1,0 +1,23 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-14",
+  "period": "2020-05-14",
+  "accession": "0001549575-20-000005",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1804199,
+      "value": 75885
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 680045,
+      "value": 4889
+    }
+  ],
+  "totalValue": 80774,
+  "positionsCount": 2
+}

@@ -1,4 +1,125 @@
 {
+  "form": "13F-HR",
   "date": "2018-02-02",
-  "positions": []
+  "period": "2018-02-02",
+  "accession": "0001376879-18-000003",
+  "quarterKey": "2018-Q1",
+  "positions": [
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 4245476,
+      "value": 434095
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 652529,
+      "value": 83028
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 616476,
+      "value": 70291
+    },
+    {
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 424312,
+      "value": 65633
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 458992,
+      "value": 62299
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 56850,
+      "value": 59488
+    },
+    {
+      "name": "ALLEGION PUB LTD CO",
+      "cusip": "G0176J109",
+      "shares": 746227,
+      "value": 59370
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 763152,
+      "value": 54199
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 353446,
+      "value": 54148
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 979476,
+      "value": 52480
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 312447,
+      "value": 46120
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 607372,
+      "value": 45826
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 293914,
+      "value": 43379
+    },
+    {
+      "name": "CME GROUP INV",
+      "cusip": "12572Q105",
+      "shares": 291077,
+      "value": 42512
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 327146,
+      "value": 41734
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 480674,
+      "value": 30066
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 205311,
+      "value": 27549
+    },
+    {
+      "name": "GRIFOLS S A",
+      "cusip": "398438408",
+      "shares": 11352661,
+      "value": 15622
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 5379268,
+      "value": 339
+    }
+  ],
+  "totalValue": 1288178,
+  "positionsCount": 19
 }

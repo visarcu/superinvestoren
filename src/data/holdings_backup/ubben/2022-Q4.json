@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001418812-22-000068",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 14647776,
+      "value": 1370592
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 26456563,
+      "value": 1137632
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 13437070,
+      "value": 715255
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 9234964,
+      "value": 623452
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 12552751,
+      "value": 591862
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 10992637,
+      "value": 458063
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 4421951,
+      "value": 364413
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 11614741,
+      "value": 333924
+    },
+    {
+      "name": "TOPBUILD CORP",
+      "cusip": "89055F103",
+      "shares": 1546253,
+      "value": 254792
+    },
+    {
+      "name": "ALTUS POWER INC",
+      "cusip": "02217A102",
+      "shares": 4000020,
+      "value": 44040
+    },
+    {
+      "name": "ROCKET COS INC",
+      "cusip": "77311W101",
+      "shares": 1296027,
+      "value": 8191
+    },
+    {
+      "name": "ALTUS POWER INC",
+      "cusip": "02217A110",
+      "shares": 18417,
+      "value": 56
+    }
+  ],
+  "totalValue": 5902272,
+  "positionsCount": 12
+}

@@ -1,0 +1,684 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "Walt Disney Co.",
+      "cusip": "DIS00000",
+      "shares": 139500,
+      "value": 13768650,
+      "ticker": "DIS"
+    },
+    {
+      "name": "LKQ Corp.",
+      "cusip": "LKQ00000",
+      "shares": 261000,
+      "value": 11102940,
+      "ticker": "LKQ"
+    },
+    {
+      "name": "Sensata Technologies Holding",
+      "cusip": "ST00000",
+      "shares": 446000,
+      "value": 10824420,
+      "ticker": "ST"
+    },
+    {
+      "name": "Baxter International Inc.",
+      "cusip": "BAX00000",
+      "shares": 311000,
+      "value": 10645530,
+      "ticker": "BAX"
+    },
+    {
+      "name": "Schlumberger Ltd.",
+      "cusip": "SLB00000",
+      "shares": 252000,
+      "value": 10533600,
+      "ticker": "SLB"
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "JNJ00000",
+      "shares": 61000,
+      "value": 10116240,
+      "ticker": "JNJ"
+    },
+    {
+      "name": "Becton Dickinson",
+      "cusip": "BDX00000",
+      "shares": 43000,
+      "value": 9850010,
+      "ticker": "BDX"
+    },
+    {
+      "name": "Vontier Corp.",
+      "cusip": "VNT00000",
+      "shares": 292000,
+      "value": 9592200,
+      "ticker": "VNT"
+    },
+    {
+      "name": "Corteva Inc.",
+      "cusip": "CTVA00000",
+      "shares": 148000,
+      "value": 9313640,
+      "ticker": "CTVA"
+    },
+    {
+      "name": "ABM Industries",
+      "cusip": "ABM00000",
+      "shares": 196000,
+      "value": 9282560,
+      "ticker": "ABM"
+    },
+    {
+      "name": "Avantor arinc.",
+      "cusip": "AVTR00000",
+      "shares": 568000,
+      "value": 9207280,
+      "ticker": "AVTR"
+    },
+    {
+      "name": "Zimmer Biomet Holdings",
+      "cusip": "ZBH00000",
+      "shares": 80000,
+      "value": 9054400,
+      "ticker": "ZBH"
+    },
+    {
+      "name": "General Dynamics",
+      "cusip": "GD00000",
+      "shares": 33000,
+      "value": 8995140,
+      "ticker": "GD"
+    },
+    {
+      "name": "Fidelity National Information Services",
+      "cusip": "FIS00000",
+      "shares": 117000,
+      "value": 8737560,
+      "ticker": "FIS"
+    },
+    {
+      "name": "Dine Brands Global Inc.",
+      "cusip": "DIN00000",
+      "shares": 356000,
+      "value": 8284120,
+      "ticker": "DIN"
+    },
+    {
+      "name": "United Parcel Service",
+      "cusip": "UPS00000",
+      "shares": 75000,
+      "value": 8249250,
+      "ticker": "UPS"
+    },
+    {
+      "name": "Omnicom Group",
+      "cusip": "OMC00000",
+      "shares": 99000,
+      "value": 8208090,
+      "ticker": "OMC"
+    },
+    {
+      "name": "Aptiv PLC",
+      "cusip": "APTV00000",
+      "shares": 137000,
+      "value": 8151500,
+      "ticker": "APTV"
+    },
+    {
+      "name": "International Flavors & Fragrances Inc.",
+      "cusip": "IFF00000",
+      "shares": 105000,
+      "value": 8149050,
+      "ticker": "IFF"
+    },
+    {
+      "name": "Mohawk Industries",
+      "cusip": "MHK00000",
+      "shares": 70582,
+      "value": 8059053,
+      "ticker": "MHK"
+    },
+    {
+      "name": "Travelers Companies Inc.",
+      "cusip": "TRV00000",
+      "shares": 30000,
+      "value": 7934100,
+      "ticker": "TRV"
+    },
+    {
+      "name": "Kulicke & Soffa Ind.",
+      "cusip": "KLIC00000",
+      "shares": 240400,
+      "value": 7928392,
+      "ticker": "KLIC"
+    },
+    {
+      "name": "Target Corp.",
+      "cusip": "TGT00000",
+      "shares": 75000,
+      "value": 7827000,
+      "ticker": "TGT"
+    },
+    {
+      "name": "Quest Diagnostics",
+      "cusip": "DGX00000",
+      "shares": 46000,
+      "value": 7783200,
+      "ticker": "DGX"
+    },
+    {
+      "name": "Delta Air Lines Inc.",
+      "cusip": "DAL00000",
+      "shares": 176000,
+      "value": 7673600,
+      "ticker": "DAL"
+    },
+    {
+      "name": "L3Harris Technologies Inc.",
+      "cusip": "LHX00000",
+      "shares": 36500,
+      "value": 7640180,
+      "ticker": "LHX"
+    },
+    {
+      "name": "Citizens Financial Group Inc.",
+      "cusip": "CFG00000",
+      "shares": 185300,
+      "value": 7591741,
+      "ticker": "CFG"
+    },
+    {
+      "name": "FedEx Corp.",
+      "cusip": "FDX00000",
+      "shares": 31000,
+      "value": 7556870,
+      "ticker": "FDX"
+    },
+    {
+      "name": "Medtronic plc",
+      "cusip": "MDT00000",
+      "shares": 84000,
+      "value": 7548240,
+      "ticker": "MDT"
+    },
+    {
+      "name": "CVS Health Corp.",
+      "cusip": "CVS00000",
+      "shares": 110000,
+      "value": 7452500,
+      "ticker": "CVS"
+    },
+    {
+      "name": "United Health Group Inc.",
+      "cusip": "UNH00000",
+      "shares": 14000,
+      "value": 7333060,
+      "ticker": "UNH"
+    },
+    {
+      "name": "Reynolds Consumer Products Inc.",
+      "cusip": "REYN00000",
+      "shares": 304850,
+      "value": 7273721,
+      "ticker": "REYN"
+    },
+    {
+      "name": "Hologic Inc.",
+      "cusip": "HOLX00000",
+      "shares": 115000,
+      "value": 7103550,
+      "ticker": "HOLX"
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "USB00000",
+      "shares": 168000,
+      "value": 7092960,
+      "ticker": "USB"
+    },
+    {
+      "name": "Nasdaq Inc.",
+      "cusip": "NDAQ00000",
+      "shares": 92000,
+      "value": 6979120,
+      "ticker": "NDAQ"
+    },
+    {
+      "name": "Henry Schein Inc.",
+      "cusip": "HSIC00000",
+      "shares": 99343,
+      "value": 6804002,
+      "ticker": "HSIC"
+    },
+    {
+      "name": "General Motors",
+      "cusip": "GM00000",
+      "shares": 144000,
+      "value": 6772320,
+      "ticker": "GM"
+    },
+    {
+      "name": "Kimberly-Clark",
+      "cusip": "KMB00000",
+      "shares": 47000,
+      "value": 6683870,
+      "ticker": "KMB"
+    },
+    {
+      "name": "Cisco Systems",
+      "cusip": "CSCO00000",
+      "shares": 106000,
+      "value": 6541260,
+      "ticker": "CSCO"
+    },
+    {
+      "name": "Stanley Black & Decker Inc.",
+      "cusip": "SWK00000",
+      "shares": 84000,
+      "value": 6457920,
+      "ticker": "SWK"
+    },
+    {
+      "name": "Southwest Airlines",
+      "cusip": "LUV00000",
+      "shares": 192000,
+      "value": 6447360,
+      "ticker": "LUV"
+    },
+    {
+      "name": "WESCO International Inc.",
+      "cusip": "WCC00000",
+      "shares": 41000,
+      "value": 6366890,
+      "ticker": "WCC"
+    },
+    {
+      "name": "ON Semiconductor Corp.",
+      "cusip": "ON00000",
+      "shares": 154000,
+      "value": 6266260,
+      "ticker": "ON"
+    },
+    {
+      "name": "Eastman Chemical",
+      "cusip": "EMN00000",
+      "shares": 71000,
+      "value": 6255810,
+      "ticker": "EMN"
+    },
+    {
+      "name": "Comcast Corp.",
+      "cusip": "CMCSA0000",
+      "shares": 167000,
+      "value": 6162300,
+      "ticker": "CMCSA"
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "WFC00000",
+      "shares": 85716,
+      "value": 6154409,
+      "ticker": "WFC"
+    },
+    {
+      "name": "Willis Towers Watson plc",
+      "cusip": "WTW00000",
+      "shares": 17500,
+      "value": 5913950,
+      "ticker": "WTW"
+    },
+    {
+      "name": "CBRE Group",
+      "cusip": "CBRE00000",
+      "shares": 45000,
+      "value": 5885100,
+      "ticker": "CBRE"
+    },
+    {
+      "name": "Middleby Corp.",
+      "cusip": "MIDD00000",
+      "shares": 38500,
+      "value": 5850845,
+      "ticker": "MIDD"
+    },
+    {
+      "name": "Fortive Corp.",
+      "cusip": "FTV00000",
+      "shares": 79500,
+      "value": 5817810,
+      "ticker": "FTV"
+    },
+    {
+      "name": "NIKE Inc.",
+      "cusip": "NKE00000",
+      "shares": 91000,
+      "value": 5776680,
+      "ticker": "NKE"
+    },
+    {
+      "name": "Invesco Ltd",
+      "cusip": "IVZ00000",
+      "shares": 380020,
+      "value": 5764903,
+      "ticker": "IVZ"
+    },
+    {
+      "name": "Sysco Corp.",
+      "cusip": "SYY00000",
+      "shares": 75000,
+      "value": 5628000,
+      "ticker": "SYY"
+    },
+    {
+      "name": "Jones Lang Lasalle Inc.",
+      "cusip": "JLL00000",
+      "shares": 22350,
+      "value": 5541012,
+      "ticker": "JLL"
+    },
+    {
+      "name": "Fifth Third Bancorp",
+      "cusip": "FITB00000",
+      "shares": 141000,
+      "value": 5527200,
+      "ticker": "FITB"
+    },
+    {
+      "name": "SS&C Technologies Holdings Inc.",
+      "cusip": "SSNC00000",
+      "shares": 63281,
+      "value": 5285862,
+      "ticker": "SSNC"
+    },
+    {
+      "name": "Apple Inc.",
+      "cusip": "AAPL00000",
+      "shares": 23000,
+      "value": 5108990,
+      "ticker": "AAPL"
+    },
+    {
+      "name": "Deere & Co.",
+      "cusip": "DE00000",
+      "shares": 10500,
+      "value": 4927965,
+      "ticker": "DE"
+    },
+    {
+      "name": "Alphabet Inc. CL C",
+      "cusip": "GOOG00000",
+      "shares": 31500,
+      "value": 4920930,
+      "ticker": "GOOG"
+    },
+    {
+      "name": "Corning Inc.",
+      "cusip": "GLW00000",
+      "shares": 107000,
+      "value": 4898460,
+      "ticker": "GLW"
+    },
+    {
+      "name": "Korn Ferry",
+      "cusip": "KFY00000",
+      "shares": 71000,
+      "value": 4815930,
+      "ticker": "KFY"
+    },
+    {
+      "name": "Berkshire Hathaway CL B",
+      "cusip": "BRK.B0000",
+      "shares": 8750,
+      "value": 4659988,
+      "ticker": "BRK.B"
+    },
+    {
+      "name": "Dover Corp.",
+      "cusip": "DOV00000",
+      "shares": 26518,
+      "value": 4658947,
+      "ticker": "DOV"
+    },
+    {
+      "name": "Goldman Sachs Group",
+      "cusip": "GS00000",
+      "shares": 8000,
+      "value": 4370000,
+      "ticker": "GS"
+    },
+    {
+      "name": "RTX Corp.",
+      "cusip": "RTX00000",
+      "shares": 32392,
+      "value": 4290968,
+      "ticker": "RTX"
+    },
+    {
+      "name": "Fiserv Inc.",
+      "cusip": "FI00000",
+      "shares": 19000,
+      "value": 4195960,
+      "ticker": "FI"
+    },
+    {
+      "name": "Texas Instruments",
+      "cusip": "TXN00000",
+      "shares": 23000,
+      "value": 4133100,
+      "ticker": "TXN"
+    },
+    {
+      "name": "Honeywell Intl Inc.",
+      "cusip": "HON00000",
+      "shares": 19500,
+      "value": 4128930,
+      "ticker": "HON"
+    },
+    {
+      "name": "Cummins Inc.",
+      "cusip": "CMI00000",
+      "shares": 12000,
+      "value": 3761040,
+      "ticker": "CMI"
+    },
+    {
+      "name": "Microsoft Corp.",
+      "cusip": "MSFT00000",
+      "shares": 10000,
+      "value": 3754000,
+      "ticker": "MSFT"
+    },
+    {
+      "name": "Equifax Inc.",
+      "cusip": "EFX00000",
+      "shares": 15000,
+      "value": 3652950,
+      "ticker": "EFX"
+    },
+    {
+      "name": "Dennys Corp.",
+      "cusip": "DENN00000",
+      "shares": 973000,
+      "value": 3570910,
+      "ticker": "DENN"
+    },
+    {
+      "name": "PepsiCo Inc.",
+      "cusip": "PEP00000",
+      "shares": 21000,
+      "value": 3148950,
+      "ticker": "PEP"
+    },
+    {
+      "name": "S&P Global Inc.",
+      "cusip": "SPGI00000",
+      "shares": 5400,
+      "value": 2744010,
+      "ticker": "SPGI"
+    },
+    {
+      "name": "Chubb Limited",
+      "cusip": "CB00000",
+      "shares": 9000,
+      "value": 2718000,
+      "ticker": "CB"
+    },
+    {
+      "name": "eBay Inc.",
+      "cusip": "EBAY00000",
+      "shares": 40000,
+      "value": 2709200,
+      "ticker": "EBAY"
+    },
+    {
+      "name": "Meta Platforms Inc.",
+      "cusip": "META00000",
+      "shares": 4000,
+      "value": 2305000,
+      "ticker": "META"
+    },
+    {
+      "name": "Integra LifeSciences Holdings",
+      "cusip": "IART00000",
+      "shares": 98000,
+      "value": 2155020,
+      "ticker": "IART"
+    },
+    {
+      "name": "Blue Bird Corp.",
+      "cusip": "BLBD00000",
+      "shares": 65000,
+      "value": 2104050,
+      "ticker": "BLBD"
+    },
+    {
+      "name": "Gates Industrial Corp.",
+      "cusip": "GTES00000",
+      "shares": 114000,
+      "value": 2098740,
+      "ticker": "GTES"
+    },
+    {
+      "name": "Central Garden & Pet",
+      "cusip": "CENTA0000",
+      "shares": 60000,
+      "value": 1963800,
+      "ticker": "CENTA"
+    },
+    {
+      "name": "Shyft Group Inc.",
+      "cusip": "SHYF00000",
+      "shares": 225799,
+      "value": 1826714,
+      "ticker": "SHYF"
+    },
+    {
+      "name": "Vishay Intertechnology",
+      "cusip": "VSH00000",
+      "shares": 112000,
+      "value": 1780800,
+      "ticker": "VSH"
+    },
+    {
+      "name": "Cushman & Wakefield Plc",
+      "cusip": "CWK00000",
+      "shares": 140000,
+      "value": 1430800,
+      "ticker": "CWK"
+    },
+    {
+      "name": "Home Bancshares Inc.",
+      "cusip": "HOMB00000",
+      "shares": 50000,
+      "value": 1414000,
+      "ticker": "HOMB"
+    },
+    {
+      "name": "Douglas Dynamics",
+      "cusip": "PLOW00000",
+      "shares": 60000,
+      "value": 1393800,
+      "ticker": "PLOW"
+    },
+    {
+      "name": "Prestige Consumer Healthcare",
+      "cusip": "PBH00000",
+      "shares": 15000,
+      "value": 1290000,
+      "ticker": "PBH"
+    },
+    {
+      "name": "First Hawaiian Inc.",
+      "cusip": "FHB00000",
+      "shares": 51000,
+      "value": 1245930,
+      "ticker": "FHB"
+    },
+    {
+      "name": "AGCO Corp.",
+      "cusip": "AGCO00000",
+      "shares": 12500,
+      "value": 1157000,
+      "ticker": "AGCO"
+    },
+    {
+      "name": "Brady Corp.",
+      "cusip": "BRC00000",
+      "shares": 15000,
+      "value": 1060050,
+      "ticker": "BRC"
+    },
+    {
+      "name": "Timken Co.",
+      "cusip": "TKR00000",
+      "shares": 13000,
+      "value": 934050,
+      "ticker": "TKR"
+    },
+    {
+      "name": "Prosperity Bancshares Inc.",
+      "cusip": "PB00000",
+      "shares": 13000,
+      "value": 927940,
+      "ticker": "PB"
+    },
+    {
+      "name": "Miller Industries Inc.",
+      "cusip": "MLR00000",
+      "shares": 21500,
+      "value": 910955,
+      "ticker": "MLR"
+    },
+    {
+      "name": "Tennant Co.",
+      "cusip": "TNC00000",
+      "shares": 11300,
+      "value": 900949,
+      "ticker": "TNC"
+    },
+    {
+      "name": "First Advantage Corp",
+      "cusip": "FA00000",
+      "shares": 63000,
+      "value": 888300,
+      "ticker": "FA"
+    },
+    {
+      "name": "Graham Corp.",
+      "cusip": "GHM00000",
+      "shares": 20840,
+      "value": 601026,
+      "ticker": "GHM"
+    },
+    {
+      "name": "Progyny Inc.",
+      "cusip": "PGNY00000",
+      "shares": 21000,
+      "value": 468930,
+      "ticker": "PGNY"
+    }
+  ]
+}

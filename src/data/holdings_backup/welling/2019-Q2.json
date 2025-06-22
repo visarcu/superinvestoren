@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0000921895-19-001485",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 16861212,
+      "value": 389831
+    },
+    {
+      "name": "RENT A CTR INC NEW",
+      "cusip": "76009N100",
+      "shares": 5333609,
+      "value": 111312
+    },
+    {
+      "name": "APOGEE ENTERPRISES INC",
+      "cusip": "037598109",
+      "shares": 1689332,
+      "value": 63333
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 8731907,
+      "value": 30212
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 1076463,
+      "value": 29377
+    },
+    {
+      "name": "TIVO CORP",
+      "cusip": "88870P106",
+      "shares": 2525000,
+      "value": 23533
+    },
+    {
+      "name": "DEL FRISCOS RESTAURANT GROUP",
+      "cusip": "245077102",
+      "shares": 3328000,
+      "value": 21332
+    },
+    {
+      "name": "MAGELLAN HEALTH INC",
+      "cusip": "559079207",
+      "shares": 227558,
+      "value": 15001
+    },
+    {
+      "name": "INNERWORKINGS INC",
+      "cusip": "45773Y105",
+      "shares": 2582346,
+      "value": 9348
+    },
+    {
+      "name": "BENCHMARK ELECTRS INC",
+      "cusip": "08160H101",
+      "shares": 343873,
+      "value": 9027
+    },
+    {
+      "name": "ARATANA THERAPEUTICS INC",
+      "cusip": "03874P101",
+      "shares": 2417149,
+      "value": 8702
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 11242,
+      "value": 1434
+    }
+  ],
+  "totalValue": 712442,
+  "positionsCount": 12
+}

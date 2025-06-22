@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0001345471-20-000067",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 24379843,
+      "value": 1516914
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 10128875,
+      "value": 1407812
+    },
+    {
+      "name": "Comcast Class A Ord",
+      "cusip": "20030N101",
+      "shares": 15628146,
+      "value": 722958
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 12241559,
+      "value": 703278
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 26630629,
+      "value": 593863
+    },
+    {
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 36739343,
+      "value": 419196
+    },
+    {
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y904",
+      "shares": 17666612,
+      "value": 383719
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 32183233,
+      "value": 200502
+    },
+    {
+      "name": "nVent Electric Plc",
+      "cusip": "G6700G107",
+      "shares": 5827483,
+      "value": 103088
+    }
+  ],
+  "totalValue": 6051330,
+  "positionsCount": 9
+}

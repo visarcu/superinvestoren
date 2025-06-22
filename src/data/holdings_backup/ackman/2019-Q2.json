@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001172661-19-001365",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 1862710,
+      "value": 1323102
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 18342703,
+      "value": 1194293
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 9315033,
+      "value": 1019717
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 10966251,
+      "value": 911405
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 5819203,
+      "value": 750037
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 9994049,
+      "value": 742958
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 4029526,
+      "value": 643676
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 1194793,
+      "value": 131427
+    }
+  ],
+  "totalValue": 6716615,
+  "positionsCount": 8
+}

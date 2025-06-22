@@ -1,4 +1,263 @@
 {
+  "form": "13F-HR",
   "date": "2023-11-14",
-  "positions": []
+  "period": "2023-11-14",
+  "accession": "0001085146-23-004511",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 56860000,
+      "value": 917151800
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2225000,
+      "value": 702543750
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 2450000,
+      "value": 607845000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4680000,
+      "value": 594921600
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 13850000,
+      "value": 468130000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1100000,
+      "value": 330231000
+    },
+    {
+      "name": "DUPONT DE NEMOURS INC",
+      "cusip": "26614N102",
+      "shares": 4150000,
+      "value": 309548500
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 2389934,
+      "value": 262940539
+    },
+    {
+      "name": "JACOBS SOLUTIONS INC",
+      "cusip": "46982L108",
+      "shares": 1800000,
+      "value": 245700000
+    },
+    {
+      "name": "FERGUSON PLC NEW",
+      "cusip": "G3421J106",
+      "shares": 1275000,
+      "value": 208727700
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 4200000,
+      "value": 193158000
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 2950000,
+      "value": 178770000
+    },
+    {
+      "name": "OPTION CARE HEALTH INC",
+      "cusip": "68404L201",
+      "shares": 5450659,
+      "value": 176328819
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS&FRAGRA",
+      "cusip": "459506101",
+      "shares": 2475000,
+      "value": 168720750
+    },
+    {
+      "name": "UNITED STATES STL CORP NEW",
+      "cusip": "912909108",
+      "shares": 4750000,
+      "value": 154280000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 1775000,
+      "value": 154247500
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 1000000,
+      "value": 140050000
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 3604252,
+      "value": 119589081
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 900000,
+      "value": 117774000
+    },
+    {
+      "name": "REGAL REXNORD CORPORATION",
+      "cusip": "758750103",
+      "shares": 650000,
+      "value": 92872000
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J700",
+      "shares": 7494821,
+      "value": 91811557
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 625000,
+      "value": 89887500
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700107",
+      "shares": 8387601,
+      "value": 50996614
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M304",
+      "shares": 900000,
+      "value": 49590000
+    },
+    {
+      "name": "TELEPHONE & DATA SYS INC",
+      "cusip": "879433829",
+      "shares": 2136832,
+      "value": 39125394
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y886",
+      "shares": 500000,
+      "value": 29465000
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 3970000,
+      "value": 24296400
+    },
+    {
+      "name": "UNITED STATES CELLULAR CORP",
+      "cusip": "911684108",
+      "shares": 545344,
+      "value": 23433432
+    },
+    {
+      "name": "TELEPHONE & DATA SYS INC",
+      "cusip": "879433829",
+      "shares": 1000000,
+      "value": 18310000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 300000,
+      "value": 16581000
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A100",
+      "shares": 952000,
+      "value": 10148320
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774107",
+      "shares": 1032463,
+      "value": 2426288
+    },
+    {
+      "name": "NET POWER INC",
+      "cusip": "64107A113",
+      "shares": 500000,
+      "value": 2170000
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774115",
+      "shares": 1835000,
+      "value": 587200
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700115",
+      "shares": 1333333,
+      "value": 506667
+    },
+    {
+      "name": "PROPETRO HLDG CORP",
+      "cusip": "74347M108",
+      "shares": 15000,
+      "value": 159450
+    },
+    {
+      "name": "TMC THE METALS COMPANY INC",
+      "cusip": "87261Y114",
+      "shares": 1000000,
+      "value": 110100
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A118",
+      "shares": 367499,
+      "value": 62769
+    },
+    {
+      "name": "JAWS MUSTANG ACQUISITION COR",
+      "cusip": "G50737124",
+      "shares": 1000000,
+      "value": 40000
+    },
+    {
+      "name": "DISRUPTIVE ACQUISITION CORP",
+      "cusip": "G2770Y128",
+      "shares": 333333,
+      "value": 15733
+    },
+    {
+      "name": "SOCIAL LEVERAGE ACQUISN CORP",
+      "cusip": "83363K110",
+      "shares": 250000,
+      "value": 11275
+    },
+    {
+      "name": "BLUESCAPE OPPORTUNITIES ACQU",
+      "cusip": "G1195N113",
+      "shares": 1000000,
+      "value": 8700
+    }
+  ],
+  "totalValue": 6593273438,
+  "positionsCount": 42
 }

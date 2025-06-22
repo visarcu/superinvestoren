@@ -1,0 +1,221 @@
+{
+  "form": "13F-HR",
+  "date": "2022-02-04",
+  "period": "2022-02-04",
+  "accession": "0000950123-22-001006",
+  "quarterKey": "2022-Q1",
+  "positions": [
+    {
+      "name": "Vistra Corp",
+      "cusip": "92840M102",
+      "shares": 7117469,
+      "value": 162065
+    },
+    {
+      "name": "Flex Ltd",
+      "cusip": "Y2573F102",
+      "shares": 8608400,
+      "value": 157792
+    },
+    {
+      "name": "CIGNA Corporation",
+      "cusip": "125523100",
+      "shares": 655051,
+      "value": 150419
+    },
+    {
+      "name": "Wells Fargo & Company",
+      "cusip": "949746101",
+      "shares": 2954471,
+      "value": 141756
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 2312985,
+      "value": 136582
+    },
+    {
+      "name": "Perrigo Company plc",
+      "cusip": "G97822103",
+      "shares": 3458782,
+      "value": 134547
+    },
+    {
+      "name": "Alleghany Corporation",
+      "cusip": "017175100",
+      "shares": 196048,
+      "value": 130880
+    },
+    {
+      "name": "Merck & Co. Inc",
+      "cusip": "58933Y105",
+      "shares": 1633518,
+      "value": 125193
+    },
+    {
+      "name": "NXP Semiconductors NV",
+      "cusip": "N6596X109",
+      "shares": 538838,
+      "value": 122737
+    },
+    {
+      "name": "PACCAR, Inc",
+      "cusip": "693718108",
+      "shares": 1316017,
+      "value": 116152
+    },
+    {
+      "name": "Organon & Company",
+      "cusip": "68622V106",
+      "shares": 3814277,
+      "value": 116145
+    },
+    {
+      "name": "Conagra Brands, Inc",
+      "cusip": "205887102",
+      "shares": 3255317,
+      "value": 111169
+    },
+    {
+      "name": "Magna International Inc",
+      "cusip": "559222401",
+      "shares": 1365824,
+      "value": 110550
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "617446448",
+      "shares": 1106867,
+      "value": 108650
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 1230911,
+      "value": 107348
+    },
+    {
+      "name": "Bank of America Corporation",
+      "cusip": "060505104",
+      "shares": 2403431,
+      "value": 106929
+    },
+    {
+      "name": "Sensata Technologies Holdings plc",
+      "cusip": "G8060N102",
+      "shares": 1702468,
+      "value": 105025
+    },
+    {
+      "name": "Dentsply Sirona Inc",
+      "cusip": "24906P109",
+      "shares": 1857985,
+      "value": 103657
+    },
+    {
+      "name": "Anthem, Inc",
+      "cusip": "036752103",
+      "shares": 218453,
+      "value": 101262
+    },
+    {
+      "name": "Henry Schein Inc",
+      "cusip": "806407102",
+      "shares": 1301783,
+      "value": 100927
+    },
+    {
+      "name": "RenaissanceRe Holdings",
+      "cusip": "G7496G103",
+      "shares": 578595,
+      "value": 97973
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 658457,
+      "value": 95536
+    },
+    {
+      "name": "Vontier Corporation",
+      "cusip": "928881101",
+      "shares": 3072396,
+      "value": 94415
+    },
+    {
+      "name": "Berkshire Hathaway, Inc Cl B",
+      "cusip": "084670702",
+      "shares": 314449,
+      "value": 94020
+    },
+    {
+      "name": "Elanco Animal Health Inc",
+      "cusip": "28414H103",
+      "shares": 2943890,
+      "value": 83548
+    },
+    {
+      "name": "SVB Financial Group",
+      "cusip": "78486Q101",
+      "shares": 120500,
+      "value": 81728
+    },
+    {
+      "name": "Baker Hughes Company",
+      "cusip": "05722G100",
+      "shares": 3385692,
+      "value": 81460
+    },
+    {
+      "name": "EOG Resources, Inc",
+      "cusip": "26875P101",
+      "shares": 864704,
+      "value": 76812
+    },
+    {
+      "name": "Coterra Energy, Inc",
+      "cusip": "127097103",
+      "shares": 4004221,
+      "value": 76080
+    },
+    {
+      "name": "Lennar Corporation",
+      "cusip": "526057104",
+      "shares": 645629,
+      "value": 74996
+    },
+    {
+      "name": "Verizon Communications Inc",
+      "cusip": "92343V104",
+      "shares": 1438759,
+      "value": 74758
+    },
+    {
+      "name": "Alphabet Inc Cl A",
+      "cusip": "02079K305",
+      "shares": 25800,
+      "value": 74744
+    },
+    {
+      "name": "International Paper Company",
+      "cusip": "460146103",
+      "shares": 1580688,
+      "value": 74261
+    },
+    {
+      "name": "Wabtec Corporation",
+      "cusip": "929740108",
+      "shares": 777031,
+      "value": 71572
+    },
+    {
+      "name": "Fiserv, Inc",
+      "cusip": "337738108",
+      "shares": 10755,
+      "value": 1116
+    }
+  ],
+  "totalValue": 3602804,
+  "positionsCount": 35
+}

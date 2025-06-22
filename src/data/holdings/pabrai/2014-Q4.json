@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2014-11-12",
+  "period": "2014-11-12",
+  "accession": "0001549575-14-000010",
+  "quarterKey": "2014-Q4",
+  "positions": [
+    {
+      "name": "HORSEHEAD HLDG CORP",
+      "cusip": "440694305",
+      "shares": 6333296,
+      "value": 104689
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 5935015,
+      "value": 85820
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 4504000,
+      "value": 76793
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1420000,
+      "value": 73584
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 932634,
+      "value": 70787
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 7025,
+      "value": 970
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 23305,
+      "value": 744
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D104",
+      "shares": 41144,
+      "value": 407
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D203",
+      "shares": 14711,
+      "value": 157
+    }
+  ],
+  "totalValue": 413951,
+  "positionsCount": 9
+}

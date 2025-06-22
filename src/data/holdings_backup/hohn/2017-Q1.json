@@ -1,0 +1,41 @@
+{
+  "form": "13F-HR",
+  "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0001647251-17-000004",
+  "quarterKey": "2017-Q1",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 12679234,
+      "value": 3650605
+    },
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 86224273,
+      "value": 3334293
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 35780552,
+      "value": 2470647
+    },
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 44680
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 10428,
+      "value": 983
+    }
+  ],
+  "totalValue": 9501208,
+  "positionsCount": 5
+}

@@ -1,4 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2019-05-06",
-  "positions": []
+  "period": "2019-05-06",
+  "accession": "0001039565-19-000002",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "MERCK",
+      "cusip": "589331107",
+      "shares": 831385,
+      "value": 69146317
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 1370997,
+      "value": 59939988
+    },
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967101",
+      "shares": 920627,
+      "value": 57281426
+    },
+    {
+      "name": "ASSURED GUARANTY",
+      "cusip": "G0585R106",
+      "shares": 1239520,
+      "value": 55071874
+    },
+    {
+      "name": "GLAXOSMITHKLINE",
+      "cusip": "37733W105",
+      "shares": 1276550,
+      "value": 53347024
+    },
+    {
+      "name": "NEW YORK COMMUNITY",
+      "cusip": "649445103",
+      "shares": 4286931,
+      "value": 49599798
+    },
+    {
+      "name": "BLACKBERRY",
+      "cusip": "09228F103",
+      "shares": 4561825,
+      "value": 46028815
+    },
+    {
+      "name": "MBIA",
+      "cusip": "55262C100",
+      "shares": 4412482,
+      "value": 42006829
+    },
+    {
+      "name": "SEABOARD CORP",
+      "cusip": "811543107",
+      "shares": 7325,
+      "value": 31385427
+    },
+    {
+      "name": "BRISTOL MYERS SQUIBB",
+      "cusip": "110122108",
+      "shares": 504350,
+      "value": 24062538
+    },
+    {
+      "name": "PATTERSON ENERGY",
+      "cusip": "703481101",
+      "shares": 1709129,
+      "value": 23961988
+    },
+    {
+      "name": "PFIZER",
+      "cusip": "717081103",
+      "shares": 533589,
+      "value": 22661525
+    },
+    {
+      "name": "NY TIMES CL A",
+      "cusip": "650111107",
+      "shares": 672512,
+      "value": 22092019
+    },
+    {
+      "name": "NAM TAI PPTY",
+      "cusip": "G63907102",
+      "shares": 1876529,
+      "value": 18486529
+    },
+    {
+      "name": "HOLOGIC",
+      "cusip": "436440101",
+      "shares": 340444,
+      "value": 16477490
+    },
+    {
+      "name": "VOXX INTERNATIONAL",
+      "cusip": "91829F104",
+      "shares": 3537757,
+      "value": 16344437
+    },
+    {
+      "name": "STERLING BANCORP",
+      "cusip": "85917A100",
+      "shares": 452549,
+      "value": 8430987
+    },
+    {
+      "name": "IDT CORP CL B",
+      "cusip": "448847309",
+      "shares": 631154,
+      "value": 4190862
+    },
+    {
+      "name": "RAFAEL HOLDING",
+      "cusip": "75062E106",
+      "shares": 312035,
+      "value": 3947243
+    },
+    {
+      "name": "TRINITY PLACE HOLDINGS",
+      "cusip": "89656D101",
+      "shares": 951732,
+      "value": 3806928
+    },
+    {
+      "name": "GENIE ENERGY",
+      "cusip": "903514344",
+      "shares": 391274,
+      "value": 3325829
+    },
+    {
+      "name": "NOVARTIS ADR",
+      "cusip": "66987V109",
+      "shares": 22744,
+      "value": 2186608
+    },
+    {
+      "name": "IDW MEDIA",
+      "cusip": "44951N106",
+      "shares": 72722,
+      "value": 1810050
+    },
+    {
+      "name": "EXXON MOBILE",
+      "cusip": "30231G102",
+      "shares": 19574,
+      "value": 1581579
+    },
+    {
+      "name": "OLD REPUBLIC",
+      "cusip": "680223104",
+      "shares": 48900,
+      "value": 1022988
+    },
+    {
+      "name": "CHEVRONTEXACO",
+      "cusip": "166764100",
+      "shares": 4148,
+      "value": 510951
+    },
+    {
+      "name": "AMERICAN TEL & TEL",
+      "cusip": "030177109",
+      "shares": 12587,
+      "value": 394728
+    },
+    {
+      "name": "BANK OF AMERICA",
+      "cusip": "060505104",
+      "shares": 12098,
+      "value": 333784
+    },
+    {
+      "name": "NAVIENT",
+      "cusip": "63938C108",
+      "shares": 25456,
+      "value": 294526
+    },
+    {
+      "name": "ZEDGE INC",
+      "cusip": "98923T104",
+      "shares": 132738,
+      "value": 236273
+    },
+    {
+      "name": "COMCAST CL A",
+      "cusip": "20030N101",
+      "shares": 1664,
+      "value": 65807
+    },
+    {
+      "name": "CREW ENERGY",
+      "cusip": "226533107",
+      "shares": 7500,
+      "value": 6315
+    }
+  ],
+  "totalValue": 640039482,
+  "positionsCount": 32
 }

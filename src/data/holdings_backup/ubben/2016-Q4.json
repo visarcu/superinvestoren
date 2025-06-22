@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2016-11-15",
+  "period": "2016-11-15",
+  "accession": "0001418812-16-000209",
+  "quarterKey": "2016-Q4",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 38624678,
+      "value": 2224781
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 29886200,
+      "value": 1508357
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 41900000,
+      "value": 1343314
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX INC",
+      "cusip": "90130A200",
+      "shares": 50326334,
+      "value": 1245074
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PUB LTD",
+      "cusip": "G96629103",
+      "shares": 8108015,
+      "value": 1076501
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 5000000,
+      "value": 1072650
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 34620054,
+      "value": 968669
+    },
+    {
+      "name": "ALLISON TRANSMISSION HLDGS I",
+      "cusip": "01973R101",
+      "shares": 19125204,
+      "value": 548511
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 9200000,
+      "value": 380144
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 14994261,
+      "value": 368109
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 9539490,
+      "value": 367747
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 12421000,
+      "value": 300340
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 4600000,
+      "value": 86848
+    }
+  ],
+  "totalValue": 11491045,
+  "positionsCount": 13
+}

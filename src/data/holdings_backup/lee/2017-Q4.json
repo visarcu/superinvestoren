@@ -1,0 +1,73 @@
+{
+  "form": "13F-HR",
+  "date": "2017-11-14",
+  "period": "2017-11-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 156315,
+      "value": 149923000000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 89914,
+      "value": 33709000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 96685,
+      "value": 35137000000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 306547,
+      "value": 85885000000
+    },
+    {
+      "name": "FOSSIL GROUP INC",
+      "cusip": "34988V106",
+      "shares": 1565938,
+      "value": 14610000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3410316,
+      "value": 153601000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1102395,
+      "value": 36048000000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229870",
+      "shares": 96840,
+      "value": 3534000000
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 294451,
+      "value": 12844000000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M101",
+      "shares": 120923,
+      "value": 4855000000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M200",
+      "shares": 86290,
+      "value": 3470000000
+    }
+  ]
+}

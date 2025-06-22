@@ -1,0 +1,101 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-13",
+  "period": "2023-11-13",
+  "accession": "0001172661-23-003805",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2391188,
+      "value": 706189552
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2108540,
+      "value": 485111798
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2322340,
+      "value": 303901412
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 928474,
+      "value": 278737180
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 17834322,
+      "value": 250215538
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13017964,
+      "value": 221305388
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586506",
+      "shares": 3663243,
+      "value": 191917301
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 806836,
+      "value": 168596451
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 3600000,
+      "value": 156024000
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 104270771
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 7966433,
+      "value": 81257617
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 7180000,
+      "value": 44875000
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586100",
+      "shares": 407027,
+      "value": 22211463
+    },
+    {
+      "name": "USCB FINANCIAL HOLDINGS INC",
+      "cusip": "90355N101",
+      "shares": 649085,
+      "value": 6821883
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 5107427
+    }
+  ],
+  "totalValue": 3026542781,
+  "positionsCount": 15
+}

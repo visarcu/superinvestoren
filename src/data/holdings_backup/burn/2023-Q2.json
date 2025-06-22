@@ -1,0 +1,221 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-05",
+  "period": "2023-05-05",
+  "accession": "0000950123-23-003826",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "Flex Ltd",
+      "cusip": "Y2573F102",
+      "shares": 4973423,
+      "value": 114438463
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 1211799,
+      "value": 112600363
+    },
+    {
+      "name": "Vistra Corp",
+      "cusip": "92840M102",
+      "shares": 4510462,
+      "value": 108251088
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 2440068,
+      "value": 99554774
+    },
+    {
+      "name": "NXP Semiconductors NV",
+      "cusip": "N6596X109",
+      "shares": 532452,
+      "value": 99288987
+    },
+    {
+      "name": "PVH Corp",
+      "cusip": "693656100",
+      "shares": 1075295,
+      "value": 95873302
+    },
+    {
+      "name": "Berkshire Hathaway, Inc Cl B",
+      "cusip": "084670702",
+      "shares": 303359,
+      "value": 93668159
+    },
+    {
+      "name": "Wells Fargo & Company",
+      "cusip": "949746101",
+      "shares": 2379177,
+      "value": 88933636
+    },
+    {
+      "name": "Lennar Corporation",
+      "cusip": "526057104",
+      "shares": 840931,
+      "value": 88390258
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 881619,
+      "value": 84776483
+    },
+    {
+      "name": "GE HealthCare Technologies",
+      "cusip": "36266G107",
+      "shares": 1005085,
+      "value": 82447123
+    },
+    {
+      "name": "Avantor, Inc",
+      "cusip": "05352A100",
+      "shares": 3890403,
+      "value": 82243120
+    },
+    {
+      "name": "Organon & Company",
+      "cusip": "68622V106",
+      "shares": 3334283,
+      "value": 78422336
+    },
+    {
+      "name": "Cardinal Health, Inc",
+      "cusip": "14149Y108",
+      "shares": 1020501,
+      "value": 77047826
+    },
+    {
+      "name": "General Motors Company",
+      "cusip": "37045V100",
+      "shares": 2080711,
+      "value": 76320479
+    },
+    {
+      "name": "TotalEnergies SE ADR",
+      "cusip": "89151E109",
+      "shares": 1229303,
+      "value": 72590342
+    },
+    {
+      "name": "Constellation Energy Corporation",
+      "cusip": "21037T109",
+      "shares": 923818,
+      "value": 72519713
+    },
+    {
+      "name": "Kinder Morgan, Inc",
+      "cusip": "49456B101",
+      "shares": 4075742,
+      "value": 71366243
+    },
+    {
+      "name": "Merck & Co. Inc",
+      "cusip": "58933Y105",
+      "shares": 669280,
+      "value": 71204699
+    },
+    {
+      "name": "Huntington Ingalls Industries, Inc",
+      "cusip": "446413106",
+      "shares": 342569,
+      "value": 70918634
+    },
+    {
+      "name": "Boeing Company",
+      "cusip": "097023105",
+      "shares": 331675,
+      "value": 70457720
+    },
+    {
+      "name": "Cleveland-Cliffs Inc",
+      "cusip": "185899101",
+      "shares": 3834810,
+      "value": 70292068
+    },
+    {
+      "name": "Applied Materials, Inc",
+      "cusip": "038222105",
+      "shares": 568971,
+      "value": 69886708
+    },
+    {
+      "name": "Victoria's Secret & Co",
+      "cusip": "926400102",
+      "shares": 1986788,
+      "value": 67848810
+    },
+    {
+      "name": "Lam Research Corporation",
+      "cusip": "512807108",
+      "shares": 123375,
+      "value": 65403555
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 279968,
+      "value": 63969888
+    },
+    {
+      "name": "Baker Hughes Company",
+      "cusip": "05722G100",
+      "shares": 2190302,
+      "value": 63212116
+    },
+    {
+      "name": "Conagra Brands, Inc",
+      "cusip": "205887102",
+      "shares": 1636384,
+      "value": 61462583
+    },
+    {
+      "name": "Robert Half International, Inc",
+      "cusip": "770323103",
+      "shares": 724151,
+      "value": 58344846
+    },
+    {
+      "name": "PACCAR Inc",
+      "cusip": "693718108",
+      "shares": 772100,
+      "value": 56517720
+    },
+    {
+      "name": "Cisco Systems, Inc",
+      "cusip": "17275R102",
+      "shares": 1057542,
+      "value": 55283008
+    },
+    {
+      "name": "The Kraft Heinz Company",
+      "cusip": "500754106",
+      "shares": 1410919,
+      "value": 54560238
+    },
+    {
+      "name": "Centene Corporation",
+      "cusip": "15135B101",
+      "shares": 856468,
+      "value": 54137343
+    },
+    {
+      "name": "Hologic Inc",
+      "cusip": "436440101",
+      "shares": 664673,
+      "value": 53639111
+    },
+    {
+      "name": "Micron Technology, Inc",
+      "cusip": "595112103",
+      "shares": 857637,
+      "value": 51749816
+    }
+  ],
+  "totalValue": 2657621558,
+  "positionsCount": 35
+}

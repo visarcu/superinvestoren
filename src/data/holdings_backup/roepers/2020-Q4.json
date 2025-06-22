@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0000905718-20-001103",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 4774071,
+      "value": 50557
+    },
+    {
+      "name": "DXC TECHNOLOGY CO",
+      "cusip": "23355L106",
+      "shares": 2227665,
+      "value": 39764
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 1122615,
+      "value": 39000
+    },
+    {
+      "name": "UNIVAR SOLUTIONS USA INC",
+      "cusip": "91336L107",
+      "shares": 1554573,
+      "value": 26241
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 634806,
+      "value": 25576
+    },
+    {
+      "name": "EDGEWELL PERS CARE CO",
+      "cusip": "28035Q102",
+      "shares": 877180,
+      "value": 24456
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 307000,
+      "value": 20867
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 100000,
+      "value": 7812
+    }
+  ],
+  "totalValue": 234273,
+  "positionsCount": 8
+}

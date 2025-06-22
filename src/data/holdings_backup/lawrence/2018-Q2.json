@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-14",
+  "period": "2018-05-14",
+  "accession": "0001657335-18-000003",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 244496,
+      "value": 16439
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1654387,
+      "value": 15468
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 49000,
+      "value": 15249
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 49106,
+      "value": 15072
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 236776,
+      "value": 14665
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 64387,
+      "value": 13705
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 12300,
+      "value": 12691
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 43100,
+      "value": 9619
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 398362,
+      "value": 2736
+    },
+    {
+      "name": "ALLIANCE HOLDINGS GP LP",
+      "cusip": "01861G100",
+      "shares": 48784,
+      "value": 1220
+    }
+  ],
+  "totalValue": 116864,
+  "positionsCount": 10
+}

@@ -1,0 +1,209 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-14",
+  "period": "2017-08-14",
+  "accession": "0001140361-17-031963",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 72872071,
+      "value": 3764571
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 34400000,
+      "value": 2150688
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 33679445,
+      "value": 1739880
+    },
+    {
+      "name": "CVR ENERGY INC",
+      "cusip": "12662P108",
+      "shares": 71198718,
+      "value": 1549284
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 18297859,
+      "value": 1305186
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 26144391,
+      "value": 1273493
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 20464576,
+      "value": 1057200
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 73270352,
+      "value": 879977
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 16702551,
+      "value": 862854
+    },
+    {
+      "name": "XEROX CORP",
+      "cusip": "984121103",
+      "shares": 19806002,
+      "value": 569026
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 8600000,
+      "value": 537672
+    },
+    {
+      "name": "AMERICAN RAILCAR INDS INC",
+      "cusip": "02916P103",
+      "shares": 11871268,
+      "value": 454670
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 8000200,
+      "value": 429371
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 13383969,
+      "value": 351062
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 4574465,
+      "value": 326297
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 6536099,
+      "value": 318373
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 5557411,
+      "value": 287096
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 23411096,
+      "value": 269228
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 15844800,
+      "value": 252566
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 18317588,
+      "value": 219994
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 8466129,
+      "value": 159587
+    },
+    {
+      "name": "XEROX CORP",
+      "cusip": "984121103",
+      "shares": 4951500,
+      "value": 142257
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 3450289,
+      "value": 135665
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 1999800,
+      "value": 107329
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 3345991,
+      "value": 87765
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 5852773,
+      "value": 67307
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 3961200,
+      "value": 63142
+    },
+    {
+      "name": "MANITOWOC INC",
+      "cusip": "563571108",
+      "shares": 8466129,
+      "value": 50881
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 2116531,
+      "value": 39897
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 3750000,
+      "value": 35625
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 862571,
+      "value": 33916
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 2000000,
+      "value": 19000
+    },
+    {
+      "name": "MANITOWOC INC",
+      "cusip": "563571108",
+      "shares": 2116531,
+      "value": 12720
+    }
+  ],
+  "totalValue": 19553579,
+  "positionsCount": 33
+}

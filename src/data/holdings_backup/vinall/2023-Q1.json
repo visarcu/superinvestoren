@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-03",
+  "period": "2023-02-03",
+  "accession": "0001172661-23-000424",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 195246,
+      "value": 92624702
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 303243,
+      "value": 40206989
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 455800,
+      "value": 35019114
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 210400,
+      "value": 25319536
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 709835,
+      "value": 3364618
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 25000,
+      "value": 1188250
+    }
+  ],
+  "totalValue": 197723209,
+  "positionsCount": 6
+}

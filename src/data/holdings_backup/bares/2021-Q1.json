@@ -1,0 +1,167 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-16",
+  "period": "2021-02-16",
+  "accession": "0001340807-21-000002",
+  "quarterKey": "2021-Q1",
+  "positions": [
+    {
+      "name": "Square Inc",
+      "cusip": "852234103",
+      "shares": 5304676,
+      "value": 1154510
+    },
+    {
+      "name": "Pegasystems Inc",
+      "cusip": "705573103",
+      "shares": 5207286,
+      "value": 693923
+    },
+    {
+      "name": "Workday, Inc",
+      "cusip": "98138H101",
+      "shares": 2737230,
+      "value": 655868
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 2586224,
+      "value": 583995
+    },
+    {
+      "name": "Align Technology Inc",
+      "cusip": "016255101",
+      "shares": 804411,
+      "value": 429861
+    },
+    {
+      "name": "Alteryx Inc",
+      "cusip": "02156B103",
+      "shares": 3360792,
+      "value": 409311
+    },
+    {
+      "name": "Gartner Inc",
+      "cusip": "366651107",
+      "shares": 2412029,
+      "value": 386383
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 5496555,
+      "value": 334850
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 346053,
+      "value": 319850
+    },
+    {
+      "name": "Farfetch Ltd",
+      "cusip": "30744W107",
+      "shares": 853207,
+      "value": 54443
+    },
+    {
+      "name": "Twilio Inc",
+      "cusip": "90138F102",
+      "shares": 141061,
+      "value": 47749
+    },
+    {
+      "name": "Guidewire Software, Inc",
+      "cusip": "40171V100",
+      "shares": 368215,
+      "value": 47400
+    },
+    {
+      "name": "Middleby Corp",
+      "cusip": "596278101",
+      "shares": 320970,
+      "value": 41379
+    },
+    {
+      "name": "National Instruments Corp",
+      "cusip": "636518102",
+      "shares": 853602,
+      "value": 37507
+    },
+    {
+      "name": "Alarm.com Holdings, Inc",
+      "cusip": "011642105",
+      "shares": 351558,
+      "value": 36369
+    },
+    {
+      "name": "Tyler Technologies, Inc",
+      "cusip": "902252105",
+      "shares": 74557,
+      "value": 32546
+    },
+    {
+      "name": "Stitch Fix",
+      "cusip": "860897107",
+      "shares": 467202,
+      "value": 27434
+    },
+    {
+      "name": "Pagerduty Inc",
+      "cusip": "69553P100",
+      "shares": 656354,
+      "value": 27370
+    },
+    {
+      "name": "Element Solutions Inc",
+      "cusip": "28618M106",
+      "shares": 1246079,
+      "value": 22093
+    },
+    {
+      "name": "Box, Inc",
+      "cusip": "10316T104",
+      "shares": 986781,
+      "value": 17811
+    },
+    {
+      "name": "Mimecast Limited",
+      "cusip": "G14838109",
+      "shares": 294234,
+      "value": 16724
+    },
+    {
+      "name": "Cimpress NV",
+      "cusip": "G2143T103",
+      "shares": 102708,
+      "value": 9012
+    },
+    {
+      "name": "Despegar.com Corp",
+      "cusip": "G27358103",
+      "shares": 600164,
+      "value": 7688
+    },
+    {
+      "name": "Papa John's International Inc",
+      "cusip": "698813102",
+      "shares": 73232,
+      "value": 6214
+    },
+    {
+      "name": "Zuora Inc",
+      "cusip": "98983V106",
+      "shares": 332673,
+      "value": 4634
+    },
+    {
+      "name": "Astronics Corporation",
+      "cusip": "046433108",
+      "shares": 204502,
+      "value": 2706
+    }
+  ],
+  "totalValue": 5407630,
+  "positionsCount": 26
+}

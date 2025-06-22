@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0001647251-23-000005",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 22268951,
+      "value": 5340539829
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 54540690,
+      "value": 4839395424
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 36699825,
+      "value": 4357886581
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 55860385,
+      "value": 4162157208
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 19936821,
+      "value": 4142073931
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 9184573,
+      "value": 3076280881
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 9212287,
+      "value": 2566727404
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 15961420,
+      "value": 1408276087
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 63770,
+      "value": 35117501
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 5191,
+      "value": 1074900
+    }
+  ],
+  "totalValue": 29929529746,
+  "positionsCount": 10
+}

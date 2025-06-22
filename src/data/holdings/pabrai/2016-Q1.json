@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-12",
+  "period": "2016-02-12",
+  "accession": "0001549575-16-000012",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 13787920,
+      "value": 192893
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 5986448,
+      "value": 97543
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 69188,
+      "value": 52505
+    },
+    {
+      "name": "HORSEHEAD HLDG CORP",
+      "cusip": "440694305",
+      "shares": 6333296,
+      "value": 12983
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 87006,
+      "value": 11488
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D203",
+      "shares": 895374,
+      "value": 9178
+    },
+    {
+      "name": "WL ROSS HLDG CORP",
+      "cusip": "92939D104",
+      "shares": 247870,
+      "value": 2469
+    }
+  ],
+  "totalValue": 379059,
+  "positionsCount": 7
+}

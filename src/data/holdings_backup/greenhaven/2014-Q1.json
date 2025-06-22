@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2014-01-14",
+  "period": "2014-01-14",
+  "accession": "0000891092-14-000275",
+  "quarterKey": "2014-Q1",
+  "positions": [
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 4478795,
+      "value": 643916
+    },
+    {
+      "name": "Lowe's Companies, Inc (LOW)",
+      "cusip": "548661107",
+      "shares": 11151174,
+      "value": 552541
+    },
+    {
+      "name": "Baker Hughes Inc (BHI)",
+      "cusip": "057224107",
+      "shares": 9201336,
+      "value": 508466
+    },
+    {
+      "name": "United Parcel Service (UPS)",
+      "cusip": "911312106",
+      "shares": 4273499,
+      "value": 449059
+    },
+    {
+      "name": "Air Products & Chemicals (APD)",
+      "cusip": "009158106",
+      "shares": 3708920,
+      "value": 414583
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2566611,
+      "value": 359967
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2294066,
+      "value": 359847
+    },
+    {
+      "name": "TE Connectivity Ltd (TEL)",
+      "cusip": "H84989104",
+      "shares": 4817318,
+      "value": 265482
+    },
+    {
+      "name": "Southwest Airlines (LUV)",
+      "cusip": "844741108",
+      "shares": 11360294,
+      "value": 214028
+    },
+    {
+      "name": "Boeing Company (BA)",
+      "cusip": "097023105",
+      "shares": 1548043,
+      "value": 211292
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 3684599,
+      "value": 210722
+    },
+    {
+      "name": "Devon Energy Corp (DVN)",
+      "cusip": "25179M103",
+      "shares": 3049938,
+      "value": 188700
+    },
+    {
+      "name": "Superior Energy Services Inc (SPN)",
+      "cusip": "868157108",
+      "shares": 3687195,
+      "value": 98116
+    },
+    {
+      "name": "Microsoft Corp (MSFT)",
+      "cusip": "594918104",
+      "shares": 1987475,
+      "value": 74351
+    },
+    {
+      "name": "Praxair Inc (PX)",
+      "cusip": "74005P104",
+      "shares": 566080,
+      "value": 73607
+    },
+    {
+      "name": "Perkinelmer, Inc (PKI)",
+      "cusip": "714046109",
+      "shares": 1208635,
+      "value": 49832
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 795850,
+      "value": 32407
+    },
+    {
+      "name": "Avnet Inc (AVT)",
+      "cusip": "053807103",
+      "shares": 640170,
+      "value": 28238
+    },
+    {
+      "name": "Arrow Electronics (ARW)",
+      "cusip": "042735100",
+      "shares": 435605,
+      "value": 23632
+    },
+    {
+      "name": "RHJ International (RHJI)",
+      "cusip": "749561205",
+      "shares": 1856194,
+      "value": 9429
+    },
+    {
+      "name": "Plains All Amer Pipeline LP (PAA)",
+      "cusip": "726503105",
+      "shares": 83000,
+      "value": 4297
+    },
+    {
+      "name": "American Independence Corp (AMIC)",
+      "cusip": "026760405",
+      "shares": 102798,
+      "value": 1236
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 16330,
+      "value": 500
+    },
+    {
+      "name": "Pall Corporation (PLL)",
+      "cusip": "696429307",
+      "shares": 3500,
+      "value": 299
+    }
+  ],
+  "totalValue": 4774547,
+  "positionsCount": 24
+}

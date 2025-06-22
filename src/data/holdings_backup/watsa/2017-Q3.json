@@ -1,0 +1,185 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-11",
+  "period": "2017-08-11",
+  "accession": "0001104659-17-051250",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 46724700,
+      "value": 466167
+    },
+    {
+      "name": "KENNEDY-WILSON HLDGS INC",
+      "cusip": "489398107",
+      "shares": 12321921,
+      "value": 234116
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 30548190,
+      "value": 132885
+    },
+    {
+      "name": "INTL BUSINESS MACHS CORP",
+      "cusip": "459200101",
+      "shares": 661900,
+      "value": 101820
+    },
+    {
+      "name": "U S G CORP",
+      "cusip": "903293405",
+      "shares": 1530522,
+      "value": 44416
+    },
+    {
+      "name": "INTREPID POTASH INC",
+      "cusip": "46121Y102",
+      "shares": 16666667,
+      "value": 37500
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 408000,
+      "value": 21187
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 151250,
+      "value": 20012
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 349974,
+      "value": 19014
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 191879,
+      "value": 12010
+    },
+    {
+      "name": "EXCO RESOURCES INC",
+      "cusip": "269279501",
+      "shares": 3493250,
+      "value": 9257
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 300000,
+      "value": 7845
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 210000,
+      "value": 7054
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 55800,
+      "value": 3092
+    },
+    {
+      "name": "TURQUOISE HILL RES LTD",
+      "cusip": "900435108",
+      "shares": 1150400,
+      "value": 3049
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 14000,
+      "value": 2372
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 7,
+      "value": 1774
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 3000,
+      "value": 902
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 15000,
+      "value": 818
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 6200,
+      "value": 734
+    },
+    {
+      "name": "K12 INC",
+      "cusip": "48273U102",
+      "shares": 33133,
+      "value": 594
+    },
+    {
+      "name": "RAYONIER ADVANCED MATLS INC",
+      "cusip": "75508B104",
+      "shares": 35000,
+      "value": 550
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 10000,
+      "value": 394
+    },
+    {
+      "name": "NEW ORIENTAL ED & TECH GRP INC",
+      "cusip": "647581107",
+      "shares": 5000,
+      "value": 352
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 1500,
+      "value": 297
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 683,
+      "value": 240
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 1344,
+      "value": 235
+    },
+    {
+      "name": "DESTINATION MATERNITY CORP",
+      "cusip": "25065D100",
+      "shares": 70000,
+      "value": 226
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 6400,
+      "value": 211
+    }
+  ],
+  "totalValue": 1129123,
+  "positionsCount": 29
+}

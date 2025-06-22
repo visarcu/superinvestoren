@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2013-08-09",
+  "period": "2013-08-09",
+  "accession": "0001532262-13-000010",
+  "quarterKey": "2013-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 200000,
+      "value": 22384
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 56000,
+      "value": 22206
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 200000,
+      "value": 22114
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 24000,
+      "value": 21129
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 1000000,
+      "value": 18970
+    },
+    {
+      "name": "WPP PLC NEW",
+      "cusip": "92937A102",
+      "shares": 197535,
+      "value": 16868
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1200000,
+      "value": 15468
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 600000,
+      "value": 14928
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 300000,
+      "value": 13848
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 25000,
+      "value": 13174
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 200000,
+      "value": 13102
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 250000,
+      "value": 12930
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505104",
+      "shares": 800000,
+      "value": 10288
+    },
+    {
+      "name": "MCDONALDS CORP",
+      "cusip": "580135101",
+      "shares": 100000,
+      "value": 9900
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 100000,
+      "value": 9880
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 150000,
+      "value": 9473
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 150000,
+      "value": 9164
+    },
+    {
+      "name": "INFINERA CORPORATION",
+      "cusip": "45667G103",
+      "shares": 514800,
+      "value": 5493
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905100",
+      "shares": 344790,
+      "value": 4737
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 24297,
+      "value": 3517
+    },
+    {
+      "name": "EOG RES INC",
+      "cusip": "26875P101",
+      "shares": 20000,
+      "value": 2634
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 50000,
+      "value": 1802
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 80000,
+      "value": 1702
+    },
+    {
+      "name": "EXCO RESOURCES INC",
+      "cusip": "269279402",
+      "shares": 175000,
+      "value": 1337
+    }
+  ],
+  "totalValue": 277048,
+  "positionsCount": 24
+}

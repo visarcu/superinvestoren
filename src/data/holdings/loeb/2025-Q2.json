@@ -1,4 +1,281 @@
 {
+  "form": "13F-HR",
   "date": "2025-05-15",
-  "positions": []
+  "period": "2025-05-15",
+  "accession": "0001085146-25-003337",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 51100000,
+      "value": 877898000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 2350000,
+      "value": 447111000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 1780000,
+      "value": 295480000
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 2100000,
+      "value": 274218000
+    },
+    {
+      "name": "TELEPHONE & DATA SYS INC",
+      "cusip": "879433829",
+      "shares": 6760000,
+      "value": 261882400
+    },
+    {
+      "name": "CRH PLC",
+      "cusip": "G25508105",
+      "shares": 2715000,
+      "value": 238838550
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 4240000,
+      "value": 222218400
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 970000,
+      "value": 214903500
+    },
+    {
+      "name": "KENVUE INC",
+      "cusip": "49177J102",
+      "shares": 8900000,
+      "value": 213422000
+    },
+    {
+      "name": "CORPAY INC",
+      "cusip": "219948106",
+      "shares": 610000,
+      "value": 212719200
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M106",
+      "shares": 1500000,
+      "value": 205410000
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 625000,
+      "value": 204462500
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 1100000,
+      "value": 189750000
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 1050000,
+      "value": 188265000
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F953",
+      "shares": 330000,
+      "value": 184478085
+    },
+    {
+      "name": "JACOBS SOLUTIONS INC",
+      "cusip": "46982L108",
+      "shares": 1400000,
+      "value": 169246000
+    },
+    {
+      "name": "CARPENTER TECHNOLOGY CORP",
+      "cusip": "144285103",
+      "shares": 870000,
+      "value": 157626600
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 2950000,
+      "value": 157618500
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 1450000,
+      "value": 157151000
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 1975000,
+      "value": 156479250
+    },
+    {
+      "name": "UNITED STATES STL CORP NEW",
+      "cusip": "912909108",
+      "shares": 3625000,
+      "value": 153192500
+    },
+    {
+      "name": "FORTIVE CORP",
+      "cusip": "34959J108",
+      "shares": 1900000,
+      "value": 139042000
+    },
+    {
+      "name": "CASEYS GEN STORES INC",
+      "cusip": "147528103",
+      "shares": 300000,
+      "value": 130212000
+    },
+    {
+      "name": "DISCOVER FINL SVCS",
+      "cusip": "254709108",
+      "shares": 740000,
+      "value": 126318000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 315000,
+      "value": 118247850
+    },
+    {
+      "name": "TALEN ENERGY CORP",
+      "cusip": "87422Q109",
+      "shares": 585000,
+      "value": 116806950
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 3775000,
+      "value": 105637713
+    },
+    {
+      "name": "HESS CORP",
+      "cusip": "42809H107",
+      "shares": 625000,
+      "value": 99831250
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 850000,
+      "value": 99824000
+    },
+    {
+      "name": "PRIMO BRANDS CORPORATION",
+      "cusip": "741623102",
+      "shares": 2775000,
+      "value": 98484750
+    },
+    {
+      "name": "RB GLOBAL INC",
+      "cusip": "74935Q107",
+      "shares": 950000,
+      "value": 95285000
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M304",
+      "shares": 900000,
+      "value": 65781000
+    },
+    {
+      "name": "SHARKNINJA INC",
+      "cusip": "G8068L108",
+      "shares": 550000,
+      "value": 45875500
+    },
+    {
+      "name": "SOHO HOUSE & CO INC",
+      "cusip": "586001109",
+      "shares": 5200000,
+      "value": 32136000
+    },
+    {
+      "name": "PINTEREST INC",
+      "cusip": "72352L106",
+      "shares": 1000000,
+      "value": 31000000
+    },
+    {
+      "name": "SEADRILL LTD",
+      "cusip": "G7997W102",
+      "shares": 1025000,
+      "value": 25625000
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331CAL2",
+      "shares": 10000000,
+      "value": 10577312
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 3970000,
+      "value": 8972200
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774107",
+      "shares": 1032463,
+      "value": 6943314
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C306",
+      "shares": 140000,
+      "value": 6263600
+    },
+    {
+      "name": "FLYEXCLUSIVE INC",
+      "cusip": "343928107",
+      "shares": 1022000,
+      "value": 3178420
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774115",
+      "shares": 1835000,
+      "value": 2587167
+    },
+    {
+      "name": "NET POWER INC",
+      "cusip": "64107A113",
+      "shares": 500000,
+      "value": 152500
+    },
+    {
+      "name": "FLYEXCLUSIVE INC",
+      "cusip": "343928115",
+      "shares": 367499,
+      "value": 36750
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700115",
+      "shares": 1333333,
+      "value": 29600
+    }
+  ],
+  "totalValue": 6551218361,
+  "positionsCount": 45
 }

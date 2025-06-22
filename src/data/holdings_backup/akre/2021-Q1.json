@@ -1,0 +1,179 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-10",
+  "period": "2021-02-10",
+  "accession": "0001112520-21-000003",
+  "quarterKey": "2021-Q1",
+  "positions": [
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 5880205,
+      "value": 2098880
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 5632705,
+      "value": 1634836
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 7130558,
+      "value": 1600525
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 5242558,
+      "value": 1146705
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 965961,
+      "value": 892818
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 1839744,
+      "value": 832613
+    },
+    {
+      "name": "ROPER INDS INC NEW",
+      "cusip": "776696106",
+      "shares": 1913007,
+      "value": 824678
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 7479242,
+      "value": 706489
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78410G104",
+      "shares": 2465000,
+      "value": 695450
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48251W104",
+      "shares": 14726448,
+      "value": 596274
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 1140000,
+      "value": 570137
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 13040575,
+      "value": 538185
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 2450461,
+      "value": 508691
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 4526552,
+      "value": 489049
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 5469400,
+      "value": 401892
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 1655300,
+      "value": 367708
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 310600,
+      "value": 320943
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 609764,
+      "value": 221832
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 1981858,
+      "value": 205023
+    },
+    {
+      "name": "COLONY CAP INC NEW",
+      "cusip": "19626G108",
+      "shares": 10704800,
+      "value": 51490
+    },
+    {
+      "name": "OLLIES BARGAIN OUTLT HLDGS I",
+      "cusip": "681116109",
+      "shares": 500000,
+      "value": 40885
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 243366,
+      "value": 30362
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 207300,
+      "value": 12123
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 18614,
+      "value": 4316
+    },
+    {
+      "name": "LAMAR ADVERTISING CO",
+      "cusip": "512816109",
+      "shares": 48530,
+      "value": 4039
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 3,
+      "value": 1043
+    },
+    {
+      "name": "PRIMO WTR CORP",
+      "cusip": "74167P108",
+      "shares": 29899,
+      "value": 469
+    },
+    {
+      "name": "THE TRADE DESK INC",
+      "cusip": "88339J105",
+      "shares": 445,
+      "value": 356
+    }
+  ],
+  "totalValue": 14797811,
+  "positionsCount": 28
+}

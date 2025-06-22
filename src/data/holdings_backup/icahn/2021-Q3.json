@@ -1,0 +1,137 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-13",
+  "period": "2021-08-13",
+  "accession": "0001567619-21-015525",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 114191150,
+      "value": 6279371
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 55373010,
+      "value": 3044962
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 32610335,
+      "value": 1793242
+    },
+    {
+      "name": "Occidental Petroleum Corp",
+      "cusip": "674599105",
+      "shares": 49125346,
+      "value": 1536150
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 26615539,
+      "value": 1463588
+    },
+    {
+      "name": "Cheniere Energy Inc",
+      "cusip": "16411R208",
+      "shares": 16168606,
+      "value": 1402465
+    },
+    {
+      "name": "CVR Energy Inc",
+      "cusip": "12662P108",
+      "shares": 71198718,
+      "value": 1278729
+    },
+    {
+      "name": "Newell Brands, Inc",
+      "cusip": "651229106",
+      "shares": 43704616,
+      "value": 1200566
+    },
+    {
+      "name": "Bausch Health Companies Inc",
+      "cusip": "071734107",
+      "shares": 34109152,
+      "value": 1000080
+    },
+    {
+      "name": "Cloudera Inc",
+      "cusip": "18914U100",
+      "shares": 52327391,
+      "value": 829912
+    },
+    {
+      "name": "Navistar International Corporation",
+      "cusip": "63934E108",
+      "shares": 16729960,
+      "value": 744483
+    },
+    {
+      "name": "Xerox Holdings Corporation",
+      "cusip": "98421M106",
+      "shares": 31142681,
+      "value": 731542
+    },
+    {
+      "name": "FirstEnergy Corp",
+      "cusip": "337932107",
+      "shares": 18967757,
+      "value": 705790
+    },
+    {
+      "name": "Herc Holdings Inc",
+      "cusip": "42704L104",
+      "shares": 4494789,
+      "value": 503731
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 8855736,
+      "value": 486977
+    },
+    {
+      "name": "Conduent Inc",
+      "cusip": "206787103",
+      "shares": 38149336,
+      "value": 286120
+    },
+    {
+      "name": "Dana Inc",
+      "cusip": "235825205",
+      "shares": 12036505,
+      "value": 285987
+    },
+    {
+      "name": "Occidental Petroleum Corp Warrants",
+      "cusip": "674599162",
+      "shares": 19304913,
+      "value": 268531
+    },
+    {
+      "name": "Welbilt Inc",
+      "cusip": "949090104",
+      "shares": 11150368,
+      "value": 258131
+    },
+    {
+      "name": "Delek US Holdings, Inc",
+      "cusip": "24665A103",
+      "shares": 7461625,
+      "value": 161320
+    },
+    {
+      "name": "SandRidge Energy, Inc",
+      "cusip": "80007P869",
+      "shares": 4818832,
+      "value": 30262
+    }
+  ],
+  "totalValue": 24291939,
+  "positionsCount": 21
+}

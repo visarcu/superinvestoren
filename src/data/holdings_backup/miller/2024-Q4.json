@@ -1,0 +1,191 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001085146-24-005777",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "BREAD FINANCIAL HOLDINGS INC",
+      "cusip": "018581108",
+      "shares": 258530,
+      "value": 12300857
+    },
+    {
+      "name": "LINCOLN NATL CORP IND",
+      "cusip": "534187109",
+      "shares": 383215,
+      "value": 12075105
+    },
+    {
+      "name": "JACKSON FINANCIAL INC",
+      "cusip": "46817M107",
+      "shares": 130335,
+      "value": 11890462
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 533000,
+      "value": 11726000
+    },
+    {
+      "name": "WESTERN ALLIANCE BANCORP",
+      "cusip": "957638109",
+      "shares": 132945,
+      "value": 11498413
+    },
+    {
+      "name": "NABORS INDUSTRIES LTD",
+      "cusip": "G6359F137",
+      "shares": 140965,
+      "value": 9088014
+    },
+    {
+      "name": "QUAD / GRAPHICS INC",
+      "cusip": "747301109",
+      "shares": 1883815,
+      "value": 8552520
+    },
+    {
+      "name": "MICROSTRATEGY INC",
+      "cusip": "594972408",
+      "shares": 50250,
+      "value": 8472150
+    },
+    {
+      "name": "GRAY TELEVISION INC",
+      "cusip": "389375106",
+      "shares": 1458120,
+      "value": 7815523
+    },
+    {
+      "name": "GANNETT CO INC",
+      "cusip": "36472T109",
+      "shares": 1371435,
+      "value": 7707465
+    },
+    {
+      "name": "CTO RLTY GROWTH INC NEW",
+      "cusip": "22948Q101",
+      "shares": 383900,
+      "value": 7301778
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 619000,
+      "value": 7186590
+    },
+    {
+      "name": "ONEMAIN HLDGS INC",
+      "cusip": "68268W103",
+      "shares": 149000,
+      "value": 7013430
+    },
+    {
+      "name": "CHORD ENERGY CORPORATION",
+      "cusip": "674215207",
+      "shares": 52766,
+      "value": 6871716
+    },
+    {
+      "name": "BOISE CASCADE CO DEL",
+      "cusip": "09739D100",
+      "shares": 40000,
+      "value": 5639200
+    },
+    {
+      "name": "BUCKLE INC",
+      "cusip": "118440106",
+      "shares": 125000,
+      "value": 5496250
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 390000,
+      "value": 5479500
+    },
+    {
+      "name": "BUILD-A-BEAR WORKSHOP INC",
+      "cusip": "120076104",
+      "shares": 150000,
+      "value": 5155500
+    },
+    {
+      "name": "UGI CORP NEW",
+      "cusip": "902681105",
+      "shares": 202000,
+      "value": 5054040
+    },
+    {
+      "name": "UNITED NAT FOODS INC",
+      "cusip": "911163103",
+      "shares": 271115,
+      "value": 4560154
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 80000,
+      "value": 4139200
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 900935,
+      "value": 3630768
+    },
+    {
+      "name": "ALLIANCE RESOURCE PARTNERS L",
+      "cusip": "01877R108",
+      "shares": 117000,
+      "value": 2925000
+    },
+    {
+      "name": "FOSSIL GROUP INC",
+      "cusip": "34988V106",
+      "shares": 1333200,
+      "value": 1559844
+    },
+    {
+      "name": "TUTOR PERINI CORP",
+      "cusip": "901109108",
+      "shares": 54800,
+      "value": 1488368
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 233640,
+      "value": 1443895
+    },
+    {
+      "name": "TOTALENERGIES SE",
+      "cusip": "89151E109",
+      "shares": 7650,
+      "value": 494343
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "G87110105",
+      "shares": 8185,
+      "value": 214693
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 10950,
+      "value": 197319
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479100",
+      "shares": 24259,
+      "value": 172967
+    }
+  ],
+  "totalValue": 177151064,
+  "positionsCount": 30
+}

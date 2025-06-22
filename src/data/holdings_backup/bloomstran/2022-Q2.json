@@ -1,0 +1,203 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001172661-22-001444",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 210746,
+      "value": 74374
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 80,
+      "value": 42314
+    },
+    {
+      "name": "OLIN CORP",
+      "cusip": "680665205",
+      "shares": 751253,
+      "value": 39276
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 906403,
+      "value": 34271
+    },
+    {
+      "name": "NEWMONT CORP",
+      "cusip": "651639106",
+      "shares": 390240,
+      "value": 31005
+    },
+    {
+      "name": "ALLEGHANY CORP MD",
+      "cusip": "017175100",
+      "shares": 32757,
+      "value": 27745
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 2488764,
+      "value": 14634
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 159094,
+      "value": 13140
+    },
+    {
+      "name": "VALERO ENERGY CORP",
+      "cusip": "91913Y100",
+      "shares": 119079,
+      "value": 12091
+    },
+    {
+      "name": "HF SINCLAIR",
+      "cusip": "403949100",
+      "shares": 279185,
+      "value": 11126
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 68469,
+      "value": 10965
+    },
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 154305,
+      "value": 8951
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 88073,
+      "value": 8012
+    },
+    {
+      "name": "MERCURY GENL CORP NEW",
+      "cusip": "589400100",
+      "shares": 142768,
+      "value": 7852
+    },
+    {
+      "name": "EQUINOR ASA",
+      "cusip": "29446M102",
+      "shares": 196752,
+      "value": 7380
+    },
+    {
+      "name": "CUMMINS INC",
+      "cusip": "231021106",
+      "shares": 35382,
+      "value": 7257
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 49107,
+      "value": 6736
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 26957,
+      "value": 4989
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 71490,
+      "value": 4252
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 20624,
+      "value": 3857
+    },
+    {
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 20000,
+      "value": 3655
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 44073,
+      "value": 3616
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 15095,
+      "value": 3361
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 5166,
+      "value": 2975
+    },
+    {
+      "name": "SEACOR MARINE HLDGS INC",
+      "cusip": "78413P101",
+      "shares": 254744,
+      "value": 2056
+    },
+    {
+      "name": "WASHINGTON FED INC",
+      "cusip": "938824109",
+      "shares": 61190,
+      "value": 2008
+    },
+    {
+      "name": "GENERAL ELECTRIC",
+      "cusip": "369604301",
+      "shares": 17821,
+      "value": 1631
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 10639,
+      "value": 1432
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 22000,
+      "value": 1364
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 3288,
+      "value": 535
+    },
+    {
+      "name": "SHELL PLC",
+      "cusip": "780259305",
+      "shares": 4868,
+      "value": 267
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 1582,
+      "value": 265
+    }
+  ],
+  "totalValue": 393392,
+  "positionsCount": 32
+}

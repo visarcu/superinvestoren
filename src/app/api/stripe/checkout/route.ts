@@ -1,4 +1,4 @@
-// src/app/api/stripe/checkout/route.ts - EINFACHE FUNKTIONIERENDE VERSION
+// src/app/api/stripe/checkout/route.ts - FINAL VERSION mit Trial + Customer Fix
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabaseClient';
@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('🔍 Stripe Checkout POST: Starting...');
+    console.log('🔍 Stripe Checkout POST with Trial: Starting...');
     
     // 1. Environment Check
     console.log('🔧 Environment Check:', {
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     });
     
     // 2. Parse request body
-    const { userId, sessionToken } = await request.json();
+    const { userId, sessionToken, withTrial = true } = await request.json();
 
     if (!userId || !sessionToken) {
       return NextResponse.json(
@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    console.log('🎯 Trial requested:', withTrial);
 
     // 3. Validiere Session-Token
     const { data: { user }, error: authError } = await supabase.auth.getUser(sessionToken);
@@ -53,7 +55,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 5. Check/Create Customer (vereinfacht)
+    // 5. Check/Create Customer mit robuster Fehlerbehandlung
     console.log('👤 Managing Stripe customer...');
     let customerId = '';
     
@@ -64,8 +66,30 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (profile?.stripe_customer_id) {
-      customerId = profile.stripe_customer_id;
-      console.log('✅ Using existing customer:', customerId);
+      // Prüfe ob Customer in Stripe existiert
+      try {
+        await stripe.customers.retrieve(profile.stripe_customer_id);
+        customerId = profile.stripe_customer_id;
+        console.log('✅ Using existing customer:', customerId);
+      } catch (customerError) {
+        console.log('⚠️ Customer not found in Stripe, creating new one...');
+        // Customer existiert nicht mehr in Stripe, erstelle neuen
+        const customer = await stripe.customers.create({
+          email: user.email,
+          metadata: {
+            supabase_user_id: userId,
+          },
+        });
+        customerId = customer.id;
+        
+        // Update mit neuer Customer ID
+        await supabase
+          .from('profiles')
+          .update({ stripe_customer_id: customerId })
+          .eq('user_id', userId);
+        
+        console.log('✅ New customer created and saved:', customerId);
+      }
     } else {
       console.log('📝 Creating new customer...');
       const customer = await stripe.customers.create({
@@ -85,10 +109,10 @@ export async function POST(request: NextRequest) {
       console.log('✅ Customer created and saved:', customerId);
     }
 
-    // 6. Create Checkout Session (mit expliziten Typen)
-    console.log('🛒 Creating checkout session...');
+    // 6. Create Checkout Session (MIT oder OHNE Trial)
+    console.log(`🛒 Creating checkout session ${withTrial ? 'with 14-day trial' : 'without trial'}...`);
     
-    const session = await stripe.checkout.sessions.create({
+    const sessionData: any = {
       customer: customerId,
       payment_method_types: ['card'],
       mode: 'subscription',
@@ -99,12 +123,25 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/profile?stripe_success=true`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/profile?stripe_success=true${withTrial ? '&trial=true' : ''}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/profile?stripe_canceled=true`,
       metadata: {
         supabase_user_id: userId,
       },
-    } as any); // Type-Cast um TypeScript-Probleme zu umgehen
+    };
+
+    // Trial nur hinzufügen wenn gewünscht
+    if (withTrial) {
+      sessionData.subscription_data = {
+        trial_period_days: 14,
+        metadata: {
+          supabase_user_id: userId,
+        },
+      };
+      sessionData.metadata.trial_days = '14';
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionData);
 
     console.log('✅ Session created:', { id: session.id, hasUrl: !!session.url });
     
@@ -112,7 +149,10 @@ export async function POST(request: NextRequest) {
       throw new Error('No checkout URL returned from Stripe');
     }
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({ 
+      url: session.url,
+      trial_days: withTrial ? 14 : 0
+    });
 
   } catch (error: any) {
     console.error('❌ Checkout error:', error);
@@ -157,7 +197,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ url: session.url });
     }
 
-    // Status check (vereinfacht)
     return NextResponse.json({ 
       message: 'Status check not implemented yet',
       userId 

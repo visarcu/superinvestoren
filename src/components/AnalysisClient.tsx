@@ -1,4 +1,4 @@
-// src/components/AnalysisClient.tsx
+// src/components/AnalysisClient.tsx - PROFESSIONELLES FINCHAT-STYLE GRAU DESIGN
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -35,25 +35,57 @@ const WallStreetRatingDonut = dynamic(
   { ssr: false }
 )
 
-// ─── Premium Lock Component ─────────────────────────────────────────────────
-const PremiumLockOverlay = ({ title, description }: { title: string; description: string }) => (
+// ✨ Bulls/Bears Integration
+const BullsBearsSection = dynamic(
+  () => import('@/components/BullsBearsSection'),
+  { ssr: false, loading: () => <LoadingSpinner /> }
+)
+
+// ─── Premium Components - PROFESSIONELLES DESIGN ─────────────────────────────────────────────────
+
+// Prominenter CTA für Haupt-Features
+const PremiumCTA = ({ title, description }: { title: string; description: string }) => (
+  <div className="professional-card p-8 text-center">
+    <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+      <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    </div>
+    <h3 className="text-xl font-semibold text-theme-primary mb-3">{title}</h3>
+    <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">{description}</p>
+    
+    <Link
+      href="/pricing"
+      className="btn-primary inline-flex items-center gap-2 px-6 py-3"
+    >
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      14 Tage kostenlos testen
+    </Link>
+  </div>
+)
+
+// INTELLIGENTE Premium Blur - zeigt echte Daten verschwommen an
+const PremiumBlur = ({ 
+  children, 
+  featureName 
+}: { 
+  children: React.ReactNode; 
+  featureName: string 
+}) => (
   <div className="relative">
-    <div className="bg-gray-800/70 backdrop-blur-xl border border-gray-700 rounded-2xl p-8 text-center">
-      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-full flex items-center justify-center">
-        <LockClosedIcon className="w-8 h-8 text-yellow-400" />
+    {/* Echte Daten verschwommen darstellen */}
+    <div className="filter blur-sm opacity-60 pointer-events-none select-none">
+      {children}
+    </div>
+    {/* Premium Lock Overlay */}
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="bg-theme-card/90 backdrop-blur-sm border border-amber-500/30 rounded-lg p-3 text-center shadow-lg">
+        <LockClosedIcon className="w-5 h-5 text-amber-500 mx-auto mb-1" />
+        <p className="text-theme-secondary text-xs font-medium">{featureName}</p>
+        <p className="text-theme-muted text-xs">Premium erforderlich</p>
       </div>
-      <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
-      <p className="text-gray-300 mb-6 max-w-md mx-auto">{description}</p>
-      <Link
-        href="/pricing"
-        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-semibold rounded-lg hover:from-yellow-400 hover:to-orange-400 transition"
-      >
-        <LockClosedIcon className="w-4 h-4 mr-2" />
-        Premium freischalten
-      </Link>
-      <p className="text-sm text-gray-400 mt-3">
-        Jederzeit kündbar.
-      </p>
     </div>
   </div>
 )
@@ -61,11 +93,19 @@ const PremiumLockOverlay = ({ title, description }: { title: string; description
 // ─── Formatierungshilfen ────────────────────────────────────────────────────
 const fmtB = (n: number) =>
   `$${(n / 1e9).toLocaleString('de-DE', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })} Mrd`
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  })}B`
+
+const fmtM = (n: number) =>
+  `${(n / 1e6).toLocaleString('de-DE', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  })}M`
+
 const fmtP = (n?: number) =>
-  typeof n === 'number' ? `${(n * 100).toFixed(2).replace('.', ',')} %` : '–'
+  typeof n === 'number' ? `${(n * 100).toFixed(1).replace('.', ',')} %` : '–'
+
 const fmtPrice = (n?: number) =>
   typeof n === 'number'
     ? n.toLocaleString('de-DE', {
@@ -75,7 +115,11 @@ const fmtPrice = (n?: number) =>
         maximumFractionDigits: 2,
       })
     : '–'
+
 const fmtDate = (d?: string | null) => d ?? '–'
+
+const fmtNum = (n?: number, decimals = 1) =>
+  typeof n === 'number' ? n.toFixed(decimals) : '–'
 
 // ─── Typdefinitionen ────────────────────────────────────────────────────────
 type Profile = {
@@ -100,7 +144,6 @@ type SegmentEntry = {
   [key: string]: number | string
 }
 
-// User Interface
 interface User {
   id: string
   email: string
@@ -112,7 +155,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // 1) Suchen der Aktie
   const stock = stocks.find((s) => s.ticker === ticker)
 
-  // 2) User State (wird vom Layout bereitgestellt)
+  // 2) User State
   const [user, setUser] = useState<User | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
 
@@ -168,14 +211,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   const [currentShares, setCurrentShares] = useState<number | null>(null)
   const [forwardPE, setForwardPE] = useState<number | null>(null)
 
-  // ✅ User-Daten laden (vereinfacht, da Layout bereits Auth sicherstellt)
+  // ✅ User-Daten laden
   useEffect(() => {
     async function loadUser() {
       try {
         const { data: { session } } = await supabase.auth.getSession()
         
         if (session?.user) {
-          // Premium Status holen
           const { data: profile } = await supabase
             .from('profiles')
             .select('is_premium')
@@ -297,7 +339,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       // Current Shares
       try {
         const res = await fetch(
-          `https://financialmodelingprep.com/stable/shares-float?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+          `https://financialmodelingprep.com/api/v3/stable/shares-float?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
         )
         if (res.ok) {
           const sharesData = (await res.json()) as any[]
@@ -309,7 +351,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] CurrentShares für ${ticker} fehlgeschlagen.`)
       }
 
-      // Company Outlook (Bewertungskennzahlen)
+      // Company Outlook
       try {
         const res = await fetch(
           `https://financialmodelingprep.com/api/v4/company-outlook?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -426,247 +468,266 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
   // Aktie nicht gefunden
   if (!stock) {
-    return <p className="text-white">Aktie nicht gefunden.</p>
+    return <p className="text-theme-primary">Aktie nicht gefunden.</p>
   }
 
   return (
     <div className="space-y-8">
-      {/* ─── Header mit Watchlist Button ─── */}
+      {/* ─── HEADER ─── */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <div>
-          <h2 className="text-3xl font-bold text-white">Kennzahlen-Analyse</h2>
-          <p className="text-gray-400 text-lg">Detaillierte Finanzdaten für {stock.name} ({ticker})</p>
+          <h2 className="text-3xl font-bold text-theme-primary">Kennzahlen-Analyse</h2>
+          <p className="text-theme-secondary mt-1">Detaillierte Finanzdaten für {stock.name} ({ticker})</p>
         </div>
-        
-        {/* Watchlist Button */}
         <div className="flex items-center space-x-4">
           <WatchlistButton ticker={ticker} />
         </div>
       </div>
 
-      {/* ─── Key Metrics Grid ─── */}
+      {/* ─── ÜBERSICHT - PROFESSIONELL ─── */}
       {hasKeyMetrics ? (
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
-          <h3 className="text-xl font-bold text-white mb-6">Übersicht</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="professional-card p-6">
+          <h3 className="text-xl font-bold text-theme-primary mb-6">Übersicht</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
-            {/* Marktdaten */}
+            {/* MARKTDATEN - Kostenlos */}
             <div className="space-y-4">
-              <h4 className="text-white font-semibold text-lg flex items-center">
-                <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+              <h4 className="text-theme-primary font-semibold text-sm flex items-center">
+                <div className="w-3 h-3 bg-green-400 rounded-full mr-3"></div>
                 Marktdaten
               </h4>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Marktkapitalisierung</span>
-                  <span className="text-white font-medium">
+                  <span className="text-theme-secondary text-sm">Marktkapitalisierung</span>
+                  <span className="text-theme-primary font-semibold">
                     {liveMarketCap != null ? fmtB(liveMarketCap) : '–'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Volumen</span>
-                  <span className="text-white font-medium">
-                    {volume != null ? volume.toLocaleString('de-DE') : '–'}
+                  <span className="text-theme-secondary text-sm">Volumen</span>
+                  <span className="text-theme-primary font-semibold">
+                    {volume != null ? fmtM(volume) : '–'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Beta</span>
-                  <span className="text-white font-medium">
+                  <span className="text-theme-secondary text-sm">Beta</span>
+                  <span className="text-theme-primary font-semibold">
                     {profileData?.beta != null ? profileData.beta.toFixed(2) : '–'}
                   </span>
                 </div>
                 {currentShares && (
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Outstanding Shares</span>
-                    <span className="text-white font-medium">
-                      {(currentShares / 1e9).toFixed(2)} Mrd
+                    <span className="text-theme-secondary text-sm">Ausstehende Aktien</span>
+                    <span className="text-theme-primary font-semibold">
+                      {(currentShares / 1e9).toFixed(1)}B
                     </span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Bilanz */}
-            <div className="space-y-4">
-              <h4 className="text-white font-semibold text-lg flex items-center">
-                <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
-                Bilanz
-              </h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Cash</span>
-                  <span className="text-white font-medium">
-                    {cashBS != null ? fmtB(cashBS) : '–'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Debt</span>
-                  <span className="text-white font-medium">
-                    {debtBS != null ? fmtB(debtBS) : '–'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Net Debt</span>
-                  <span className="text-white font-medium">
-                    {netDebtBS != null ? fmtB(netDebtBS) : '–'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Dividende */}
-            <div className="space-y-4">
-              <h4 className="text-white font-semibold text-lg flex items-center">
-                <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+            {/* DIVIDENDE - Premium Blur */}
+            <div className="space-y-4 relative">
+              <h4 className="text-theme-primary font-semibold text-sm flex items-center">
+                <div className="w-3 h-3 bg-purple-400 rounded-full mr-3"></div>
                 Dividende
               </h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Rendite</span>
-                  <span className="text-white font-medium">
-                    {keyMetrics.dividendYield != null ? fmtP(keyMetrics.dividendYield) : '–'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">Payout Ratio</span>
-                  <span className="text-white font-medium">
-                    {keyMetrics.payoutRatio != null ? fmtP(keyMetrics.payoutRatio) : '–'}
-                  </span>
-                </div>
-              </div>
               {user?.isPremium ? (
-                <span className="text-gray-400 italic text-sm">
-                  Mehr zur Dividende: Coming soon…
-                </span>
-              ) : (
-                <Link
-                  href="/pricing"
-                  className="inline-flex items-center text-yellow-400 hover:underline text-sm"
-                >
-                  <LockClosedIcon className="w-4 h-4 mr-1" /> Mehr zur Dividende
-                </Link>
-              )}
-            </div>
-
-            {/* Bewertung - Premium */}
-            <div className="space-y-4 relative">
-              <h4 className="text-white font-semibold text-lg flex items-center">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
-                Bewertung
-              </h4>
-              <div className={`space-y-3 ${!user?.isPremium ? 'filter blur-sm' : ''}`}>
-                <div className="flex justify-between items-center group relative">
-                  <span className="text-gray-400 text-sm">KGV (TTM|Erw.)</span>
-                  <div className="flex items-center">
-                    <span className="text-white font-medium">
-                      {peTTM != null ? peTTM.toFixed(2) : '–'} | {forwardPE != null ? forwardPE.toFixed(2) : '–'}
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Rendite</span>
+                    <span className="text-theme-primary font-semibold">
+                      {keyMetrics.dividendYield != null ? fmtP(keyMetrics.dividendYield) : '–'}
                     </span>
-                    {forwardPE != null && (
-                      <div className="relative ml-2">
-                        <InformationCircleIcon className="w-4 h-4 text-gray-400 cursor-help" />
-                        <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10 pointer-events-none">
-                          Erwartetes KGV basiert auf Analysten-Schätzungen
-                          <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-                        </div>
-                      </div>
-                    )}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Payout Ratio</span>
+                    <span className="text-theme-primary font-semibold">
+                      {keyMetrics.payoutRatio != null ? fmtP(keyMetrics.payoutRatio) : '–'}
+                    </span>
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">PEG TTM</span>
-                  <span className="text-white font-medium">
-                    {pegTTM != null ? pegTTM.toFixed(2) : '–'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">KBV TTM</span>
-                  <span className="text-white font-medium">
-                    {pbTTM != null ? pbTTM.toFixed(2) : '–'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">KUV TTM</span>
-                  <span className="text-white font-medium">
-                    {psTTM != null ? psTTM.toFixed(2) : '–'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 text-sm">EV/EBIT</span>
-                  <span className="text-white font-medium">
-                    {evEbit != null ? evEbit.toFixed(2) : '–'}
-                  </span>
-                </div>
-              </div>
-              {!user?.isPremium && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <LockClosedIcon className="w-6 h-6 text-yellow-400" />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Margins Row - nur bei Premium */}
-          {user?.isPremium && (
-            <div className="mt-8 pt-6 border-t border-gray-700">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="space-y-4">
-                  <h4 className="text-white font-semibold text-lg flex items-center">
-                    <div className="w-2 h-2 bg-orange-400 rounded-full mr-3"></div>
-                    Margen
-                  </h4>
+              ) : (
+                <PremiumBlur featureName="Dividende">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400 text-sm">Bruttomarge</span>
-                      <span className="text-white font-medium">
+                      <span className="text-theme-secondary text-sm">Rendite</span>
+                      <span className="text-theme-primary font-semibold">
+                        {keyMetrics.dividendYield != null ? fmtP(keyMetrics.dividendYield) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">Payout Ratio</span>
+                      <span className="text-theme-primary font-semibold">
+                        {keyMetrics.payoutRatio != null ? fmtP(keyMetrics.payoutRatio) : '–'}
+                      </span>
+                    </div>
+                  </div>
+                </PremiumBlur>
+              )}
+            </div>
+
+            {/* BEWERTUNG - Premium Blur */}
+            <div className="space-y-4 relative">
+              <h4 className="text-theme-primary font-semibold text-sm flex items-center">
+                <div className="w-3 h-3 bg-yellow-400 rounded-full mr-3"></div>
+                Bewertung
+              </h4>
+              {user?.isPremium ? (
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">KGV TTM</span>
+                    <span className="text-theme-primary font-semibold">
+                      {peTTM != null ? fmtNum(peTTM, 1) : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">KGV Erw.</span>
+                    <span className="text-theme-primary font-semibold">
+                      {forwardPE != null ? fmtNum(forwardPE, 1) : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">KBV TTM</span>
+                    <span className="text-theme-primary font-semibold">
+                      {pbTTM != null ? fmtNum(pbTTM, 1) : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">EV/EBIT</span>
+                    <span className="text-theme-primary font-semibold">
+                      {evEbit != null ? fmtNum(evEbit, 1) : '–'}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <PremiumBlur featureName="Bewertung">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">KGV TTM</span>
+                      <span className="text-theme-primary font-semibold">
+                        {peTTM != null ? fmtNum(peTTM, 1) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">KGV Erw.</span>
+                      <span className="text-theme-primary font-semibold">
+                        {forwardPE != null ? fmtNum(forwardPE, 1) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">KBV TTM</span>
+                      <span className="text-theme-primary font-semibold">
+                        {pbTTM != null ? fmtNum(pbTTM, 1) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">EV/EBIT</span>
+                      <span className="text-theme-primary font-semibold">
+                        {evEbit != null ? fmtNum(evEbit, 1) : '–'}
+                      </span>
+                    </div>
+                  </div>
+                </PremiumBlur>
+              )}
+            </div>
+
+            {/* MARGEN - Premium Blur */}
+            <div className="space-y-4 relative">
+              <h4 className="text-theme-primary font-semibold text-sm flex items-center">
+                <div className="w-3 h-3 bg-orange-400 rounded-full mr-3"></div>
+                Margen
+              </h4>
+              {user?.isPremium ? (
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Bruttomarge</span>
+                    <span className="text-theme-primary font-semibold">
+                      {grossMargin != null ? fmtP(grossMargin) : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Op. Marge</span>
+                    <span className="text-theme-primary font-semibold">
+                      {operatingMargin != null ? fmtP(operatingMargin) : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Nettomarge</span>
+                    <span className="text-theme-primary font-semibold">
+                      {profitMargin != null ? fmtP(profitMargin) : '–'}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <PremiumBlur featureName="Margen">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">Bruttomarge</span>
+                      <span className="text-theme-primary font-semibold">
                         {grossMargin != null ? fmtP(grossMargin) : '–'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400 text-sm">Operative Marge</span>
-                      <span className="text-white font-medium">
+                      <span className="text-theme-secondary text-sm">Op. Marge</span>
+                      <span className="text-theme-primary font-semibold">
                         {operatingMargin != null ? fmtP(operatingMargin) : '–'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400 text-sm">Nettogewinnmarge</span>
-                      <span className="text-white font-medium">
+                      <span className="text-theme-secondary text-sm">Nettomarge</span>
+                      <span className="text-theme-primary font-semibold">
                         {profitMargin != null ? fmtP(profitMargin) : '–'}
                       </span>
                     </div>
                   </div>
-                </div>
+                </PremiumBlur>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="professional-card p-6 text-center">
+          <LoadingSpinner />
+          <p className="text-theme-secondary mt-3">Key Metrics werden geladen...</p>
+        </div>
+      )}
+
+      {/* ✨ BULLS/BEARS + CHART SEKTION - GLEICHE HÖHE */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* BULLS/BEARS SEKTION */}
+        <div className="lg:col-span-1">
+          <BullsBearsSection 
+            ticker={ticker}
+            isPremium={user?.isPremium || false}
+          />
+        </div>
+
+        {/* HISTORISCHER KURSVERLAUF */}
+        <div className="lg:col-span-2">
+          {history.length > 0 ? (
+            <div className="professional-card p-6 h-[500px] flex flex-col">
+              <h3 className="text-xl font-bold text-theme-primary mb-4">Historischer Kursverlauf</h3>
+              <div className="flex-1">
+                <WorkingStockChart ticker={ticker} data={history} />
+              </div>
+            </div>
+          ) : (
+            <div className="professional-card p-6 h-[500px] flex flex-col">
+              <h3 className="text-xl font-bold text-theme-primary mb-4">Historischer Kursverlauf</h3>
+              <div className="flex-1 flex items-center justify-center">
+                <LoadingSpinner />
               </div>
             </div>
           )}
         </div>
-      ) : (
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 text-center">
-          <p className="text-gray-400">Key Metrics werden geladen...</p>
-        </div>
-      )}
+      </div>
 
-      {/* Chart */}
-      {history.length > 0 ? (
-        <WorkingStockChart 
-          ticker={ticker} 
-          data={history}
-        />
-      ) : (
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
-          <h3 className="text-2xl font-bold text-white mb-6">
-            Historischer Kursverlauf
-          </h3>
-          <div className="flex items-center justify-center h-64">
-            <LoadingSpinner />
-          </div>
-        </div>
-      )}
-
-      {/* Kennzahlen-Charts */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
-        <h3 className="text-2xl font-bold text-white mb-6">
-          Kennzahlen-Charts
-        </h3>
+      {/* ─── KENNZAHLEN-CHARTS ─── */}
+      <div className="professional-card p-6">
+        <h3 className="text-xl font-bold text-theme-primary mb-4">Kennzahlen-Charts</h3>
         {user?.isPremium ? (
           <FinancialAnalysisClient 
             ticker={ticker} 
@@ -674,222 +735,392 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             userId={user?.id}
           />
         ) : (
-          <PremiumLockOverlay
+          <PremiumCTA
             title="Interaktive Kennzahlen-Charts"
-            description="Analysiere detaillierte Finanzkennzahlen mit interaktiven Charts und Zeitraumauswahl. Verfügbar mit Premium."
+            description="Analysiere detaillierte Finanzkennzahlen mit interaktiven Charts und Zeitraumauswahl."
           />
         )}
       </div>
 
-      {/* Estimates */}
-      {estimates.length > 0 && (
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
-          <h3 className="text-2xl font-bold text-white mb-6">
-            Analysten Schätzungen (ab {new Date().getFullYear()})
-          </h3>
-          {user?.isPremium ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Revenue Estimates */}
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">Umsatzschätzungen</h4>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-gray-100">
-                    <thead>
-                      <tr className="border-b border-gray-700">
-                        <th className="text-left py-3 font-medium text-gray-300">FY</th>
-                        <th className="text-right py-3 font-medium text-gray-300">Avg</th>
-                        <th className="text-right py-3 font-medium text-gray-300">Low</th>
-                        <th className="text-right py-3 font-medium text-gray-300">High</th>
-                        <th className="text-right py-3 font-medium text-gray-300">YoY</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {estimates
-                        .slice()
-                        .reverse()
-                        .map((e, idx, arr) => {
-                          const fy = e.date.slice(0, 4)
-                          let yoy: number | null = null
-                          if (idx > 0) {
-                            const prev = arr[idx - 1].estimatedRevenueAvg
-                            if (prev > 0) {
-                              yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
-                            }
-                          }
-                          const formattedYoY =
-                            yoy == null
-                              ? '–'
-                              : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)} %`
-                          const yoyClass =
-                            yoy == null
-                              ? ''
-                              : yoy >= 0
-                              ? 'text-green-400'
-                              : 'text-red-400'
-
-                          return (
-                            <tr
-                              key={e.date}
-                              className="border-b border-gray-800/50 hover:bg-gray-800/30"
-                            >
-                              <td className="py-3 text-white font-medium">{fy}</td>
-                              <td className="py-3 text-right text-white">
-                                {fmtB(e.estimatedRevenueAvg)}
-                              </td>
-                              <td className="py-3 text-right text-gray-300">
-                                {fmtB(e.estimatedRevenueLow)}
-                              </td>
-                              <td className="py-3 text-right text-gray-300">
-                                {fmtB(e.estimatedRevenueHigh)}
-                              </td>
-                              <td className={`py-3 text-right font-medium ${yoyClass}`}>
-                                {formattedYoY}
-                              </td>
-                            </tr>
-                          )
-                        })}
-                    </tbody>
-                  </table>
+      {/* ─── WALL STREET + ESTIMATES ─── */}
+      {(estimates.length > 0 || recs) && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* WALL STREET RATINGS */}
+          {recs && (
+            <div className="professional-card p-6">
+              <h3 className="text-lg font-bold text-theme-primary mb-4">Wall Street Bewertungen</h3>
+              {user?.isPremium ? (
+                <div className="space-y-4 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-green-400 flex items-center gap-2">
+                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                      Strong Buy
+                    </span>
+                    <span className="text-theme-primary font-bold">{recs.strongBuy}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-green-300 flex items-center gap-2">
+                      <div className="w-3 h-3 bg-green-300 rounded-full"></div>
+                      Buy
+                    </span>
+                    <span className="text-theme-primary font-bold">{recs.buy}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-yellow-400 flex items-center gap-2">
+                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                      Hold
+                    </span>
+                    <span className="text-theme-primary font-bold">{recs.hold}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-red-300 flex items-center gap-2">
+                      <div className="w-3 h-3 bg-red-300 rounded-full"></div>
+                      Sell
+                    </span>
+                    <span className="text-theme-primary font-bold">{recs.sell}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-red-400 flex items-center gap-2">
+                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                      Strong Sell
+                    </span>
+                    <span className="text-theme-primary font-bold">{recs.strongSell}</span>
+                  </div>
+                  
+                  {/* Summary */}
+                  <div className="mt-6 pt-4 border-t border-theme">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-theme-secondary">Gesamt Analysten:</span>
+                      <span className="text-theme-primary font-medium">
+                        {recs.strongBuy + recs.buy + recs.hold + recs.sell + recs.strongSell}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm mt-2">
+                      <span className="text-theme-secondary">Bullish:</span>
+                      <span className="text-green-400 font-medium">
+                        {Math.round(((recs.strongBuy + recs.buy) / Math.max(1, recs.strongBuy + recs.buy + recs.hold + recs.sell + recs.strongSell)) * 100)}%
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-
-              {/* Earnings Estimates */}
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">Gewinnschätzungen</h4>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-gray-100">
-                    <thead>
-                      <tr className="border-b border-gray-700">
-                        <th className="text-left py-3 font-medium text-gray-300">FY</th>
-                        <th className="text-right py-3 font-medium text-gray-300">EPS Avg</th>
-                        <th className="text-right py-3 font-medium text-gray-300">Low</th>
-                        <th className="text-right py-3 font-medium text-gray-300">High</th>
-                        <th className="text-right py-3 font-medium text-gray-300">YoY</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {estimates
-                        .slice()
-                        .reverse()
-                        .map((e, idx, arr) => {
-                          const fy = e.date.slice(0, 4)
-                          let yoy: number | null = null
-                          if (idx > 0) {
-                            const prev = arr[idx - 1].estimatedEpsAvg
-                            if (prev !== 0) {
-                              yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
-                            }
-                          }
-                          const formattedYoY =
-                            yoy == null
-                              ? '–'
-                              : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)} %`
-                          const yoyClass =
-                            yoy == null
-                              ? ''
-                              : yoy >= 0
-                              ? 'text-green-400'
-                              : 'text-red-400'
-
-                          return (
-                            <tr
-                              key={e.date}
-                              className="border-b border-gray-800/50 hover:bg-gray-800/30"
-                            >
-                              <td className="py-3 text-white font-medium">{fy}</td>
-                              <td className="py-3 text-right text-white">
-                                {e.estimatedEpsAvg.toFixed(2)}
-                              </td>
-                              <td className="py-3 text-right text-gray-300">
-                                {e.estimatedEpsLow.toFixed(2)}
-                              </td>
-                              <td className="py-3 text-right text-gray-300">
-                                {e.estimatedEpsHigh.toFixed(2)}
-                              </td>
-                              <td className={`py-3 text-right font-medium ${yoyClass}`}>
-                                {formattedYoY}
-                              </td>
-                            </tr>
-                          )
-                        })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              ) : (
+                <PremiumBlur featureName="Wall Street">
+                  <div className="space-y-4 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-green-400 flex items-center gap-2">
+                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                        Strong Buy
+                      </span>
+                      <span className="text-theme-primary font-bold">{recs.strongBuy}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-green-300 flex items-center gap-2">
+                        <div className="w-3 h-3 bg-green-300 rounded-full"></div>
+                        Buy
+                      </span>
+                      <span className="text-theme-primary font-bold">{recs.buy}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-yellow-400 flex items-center gap-2">
+                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                        Hold
+                      </span>
+                      <span className="text-theme-primary font-bold">{recs.hold}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-red-300 flex items-center gap-2">
+                        <div className="w-3 h-3 bg-red-300 rounded-full"></div>
+                        Sell
+                      </span>
+                      <span className="text-theme-primary font-bold">{recs.sell}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-red-400 flex items-center gap-2">
+                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                        Strong Sell
+                      </span>
+                      <span className="text-theme-primary font-bold">{recs.strongSell}</span>
+                    </div>
+                  </div>
+                </PremiumBlur>
+              )}
             </div>
-          ) : (
-            <PremiumLockOverlay
-              title="Analysten Schätzungen"
-              description="Erhalte Zugang zu detaillierten Umsatz- und Gewinnschätzungen von Wall Street Analysten."
-            />
+          )}
+
+          {/* ESTIMATES - Mit professioneller Tabelle */}
+          {estimates.length > 0 && (
+            <div className="lg:col-span-2 professional-card p-6">
+              <h3 className="text-lg font-bold text-theme-primary mb-4">
+                Analysten Schätzungen (ab {new Date().getFullYear()})
+              </h3>
+              {user?.isPremium ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  
+                  {/* Revenue Estimates */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-theme-primary mb-4">Umsatzschätzungen</h4>
+                    <div className="overflow-x-auto">
+                      <table className="professional-table">
+                        <thead>
+                          <tr>
+                            <th>FY</th>
+                            <th className="text-right">Avg</th>
+                            <th className="text-right">Low</th>
+                            <th className="text-right">High</th>
+                            <th className="text-right">YoY</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {estimates.slice().reverse().map((e, idx, arr) => {
+                            const fy = e.date.slice(0, 4)
+                            let yoy: number | null = null
+                            if (idx > 0) {
+                              const prev = arr[idx - 1].estimatedRevenueAvg
+                              if (prev > 0) {
+                                yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
+                              }
+                            }
+                            const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+
+                            return (
+                              <tr key={e.date}>
+                                <td className="font-medium">{fy}</td>
+                                <td className="text-right">{fmtB(e.estimatedRevenueAvg)}</td>
+                                <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueLow)}</td>
+                                <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueHigh)}</td>
+                                <td className={`text-right font-medium ${yoyClass}`}>
+                                  {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                                </td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Earnings Estimates */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-theme-primary mb-4">Gewinnschätzungen</h4>
+                    <div className="overflow-x-auto">
+                      <table className="professional-table">
+                        <thead>
+                          <tr>
+                            <th>FY</th>
+                            <th className="text-right">EPS Avg</th>
+                            <th className="text-right">Low</th>
+                            <th className="text-right">High</th>
+                            <th className="text-right">YoY</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {estimates.slice().reverse().map((e, idx, arr) => {
+                            const fy = e.date.slice(0, 4)
+                            let yoy: number | null = null
+                            if (idx > 0) {
+                              const prev = arr[idx - 1].estimatedEpsAvg
+                              if (prev !== 0) {
+                                yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
+                              }
+                            }
+                            const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+
+                            return (
+                              <tr key={e.date}>
+                                <td className="font-medium">{fy}</td>
+                                <td className="text-right">${e.estimatedEpsAvg.toFixed(2)}</td>
+                                <td className="text-right text-theme-secondary">${e.estimatedEpsLow.toFixed(2)}</td>
+                                <td className="text-right text-theme-secondary">${e.estimatedEpsHigh.toFixed(2)}</td>
+                                <td className={`text-right font-medium ${yoyClass}`}>
+                                  {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                                </td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <PremiumBlur featureName="Schätzungen">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                      <h4 className="text-sm font-semibold text-theme-primary mb-4">Umsatzschätzungen</h4>
+                      <div className="overflow-x-auto">
+                        <table className="professional-table">
+                          <thead>
+                            <tr>
+                              <th>FY</th>
+                              <th className="text-right">Avg</th>
+                              <th className="text-right">Low</th>
+                              <th className="text-right">High</th>
+                              <th className="text-right">YoY</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {estimates.slice().reverse().map((e, idx, arr) => {
+                              const fy = e.date.slice(0, 4)
+                              let yoy: number | null = null
+                              if (idx > 0) {
+                                const prev = arr[idx - 1].estimatedRevenueAvg
+                                if (prev > 0) {
+                                  yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
+                                }
+                              }
+                              const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+
+                              return (
+                                <tr key={e.date}>
+                                  <td className="font-medium">{fy}</td>
+                                  <td className="text-right">{fmtB(e.estimatedRevenueAvg)}</td>
+                                  <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueLow)}</td>
+                                  <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueHigh)}</td>
+                                  <td className={`text-right font-medium ${yoyClass}`}>
+                                    {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                                  </td>
+                                </tr>
+                              )
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-sm font-semibold text-theme-primary mb-4">Gewinnschätzungen</h4>
+                      <div className="overflow-x-auto">
+                        <table className="professional-table">
+                          <thead>
+                            <tr>
+                              <th>FY</th>
+                              <th className="text-right">EPS Avg</th>
+                              <th className="text-right">Low</th>
+                              <th className="text-right">High</th>
+                              <th className="text-right">YoY</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {estimates.slice().reverse().map((e, idx, arr) => {
+                              const fy = e.date.slice(0, 4)
+                              let yoy: number | null = null
+                              if (idx > 0) {
+                                const prev = arr[idx - 1].estimatedEpsAvg
+                                if (prev !== 0) {
+                                  yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
+                                }
+                              }
+                              const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+
+                              return (
+                                <tr key={e.date}>
+                                  <td className="font-medium">{fy}</td>
+                                  <td className="text-right">${e.estimatedEpsAvg.toFixed(2)}</td>
+                                  <td className="text-right text-theme-secondary">${e.estimatedEpsLow.toFixed(2)}</td>
+                                  <td className="text-right text-theme-secondary">${e.estimatedEpsHigh.toFixed(2)}</td>
+                                  <td className={`text-right font-medium ${yoyClass}`}>
+                                    {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                                  </td>
+                                </tr>
+                              )
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </PremiumBlur>
+              )}
+            </div>
           )}
         </div>
       )}
 
-      {/* Wall Street Ratings */}
-      {recs && (
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
-          <h3 className="text-2xl font-bold text-white mb-6">Wall Street Bewertungen</h3>
-          {user?.isPremium ? (
-            <WallStreetRatingDonut recs={recs} />
-          ) : (
-            <PremiumLockOverlay
-              title="Wall Street Analystenbewertungen"
-              description="Sieh dir an, wie Wall Street Analysten diese Aktie bewerten - von Strong Buy bis Strong Sell."
-            />
-          )}
-        </div>
-      )}
-
-      {/* Company Profile */}
+      {/* ─── COMPANY PROFILE ─── */}
       {profileData && (
-        <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 hover:bg-gray-900/70 hover:border-gray-700 transition-all duration-300">
-          <h3 className="text-2xl font-bold text-white mb-6">Company Profile</h3>
-          <p className="text-gray-300 mb-6 leading-relaxed">
-            {profileData.description}
-          </p>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="professional-card p-6">
+          <h3 className="text-xl font-bold text-theme-primary mb-6">Company Profile</h3>
+          
+          {/* Info-Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-6">
+            
+            {/* Basis-Info */}
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Sector</span>
-                <span className="text-white font-medium">{profileData.sector ?? '–'}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Industry</span>
-                <span className="text-white font-medium">{profileData.industry ?? '–'}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Employees</span>
-                <span className="text-white font-medium">{profileData.fullTimeEmployees ?? '–'}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">IPO Date</span>
-                <span className="text-white font-medium">{fmtDate(profileData.ipoDate)}</span>
+              <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Basics</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-theme-secondary">Sektor</span>
+                  <span className="text-theme-primary font-medium">{profileData.sector ?? '–'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-theme-secondary">Branche</span>
+                  <span className="text-theme-primary font-medium">{profileData.industry ?? '–'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-theme-secondary">IPO</span>
+                  <span className="text-theme-primary font-medium">{profileData.ipoDate?.slice(0, 4) ?? '–'}</span>
+                </div>
               </div>
             </div>
+
+            {/* Größe */}
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Address</span>
-                <span className="text-white font-medium text-right">
-                  {`${profileData.address}, ${profileData.city}, ${profileData.state} ${profileData.zip}, ${profileData.country}`}
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Phone</span>
-                <span className="text-white font-medium">{profileData.phone ?? '–'}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Website</span>
-                <a
-                  href={profileData.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-400 hover:text-green-300 transition-colors font-medium"
-                >
-                  {profileData.website}
-                </a>
+              <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Größe</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-theme-secondary">Mitarbeiter</span>
+                  <span className="text-theme-primary font-medium">
+                    {profileData.fullTimeEmployees ? 
+                      `${(Number(profileData.fullTimeEmployees) / 1000).toFixed(0)}k` : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-theme-secondary">Land</span>
+                  <span className="text-theme-primary font-medium">{profileData.country ?? '–'}</span>
+                </div>
               </div>
             </div>
+
+            {/* Kontakt */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Kontakt</h4>
+              <div className="space-y-2 text-sm">
+                <div>
+                  <span className="text-theme-secondary block mb-1">Website</span>
+                  <a
+                    href={profileData.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:text-green-300 transition-colors text-sm font-medium"
+                  >
+                    {profileData.website?.replace(/^https?:\/\//, '') ?? '–'}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Hauptsitz */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Hauptsitz</h4>
+              <div className="text-sm text-theme-primary">
+                {profileData.city}, {profileData.state}
+                <br />
+                {profileData.country}
+              </div>
+            </div>
+          </div>
+
+          {/* Beschreibung */}
+          <div>
+            <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide mb-3">Über das Unternehmen</h4>
+            <p className="text-theme-secondary leading-relaxed">
+              {profileData.description ? 
+                profileData.description.length > 500 ? 
+                  profileData.description.substring(0, 500) + '...' : 
+                  profileData.description 
+                : 'Keine Beschreibung verfügbar.'}
+            </p>
           </div>
         </div>
       )}

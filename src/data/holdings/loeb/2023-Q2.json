@@ -1,4 +1,287 @@
 {
+  "form": "13F-HR",
   "date": "2023-05-15",
-  "positions": []
+  "period": "2023-05-15",
+  "accession": "0001085146-23-002451",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 59250000,
+      "value": 958072500
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 11050000,
+      "value": 830407500
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 2750000,
+      "value": 693110000
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 13751100,
+      "value": 503015238
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 4750000,
+      "value": 492717500
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1050000,
+      "value": 302715000
+    },
+    {
+      "name": "DUPONT DE NEMOURS INC",
+      "cusip": "26614N102",
+      "shares": 4000000,
+      "value": 287080000
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS&FRAGRA",
+      "cusip": "459506101",
+      "shares": 2550000,
+      "value": 234498000
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 860000,
+      "value": 226764800
+    },
+    {
+      "name": "FERGUSON PLC NEW",
+      "cusip": "G3421J106",
+      "shares": 1275000,
+      "value": 170531250
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 800000,
+      "value": 159824000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 335000,
+      "value": 158317650
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 2950000,
+      "value": 148562000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 1326450,
+      "value": 135536661
+    },
+    {
+      "name": "NATIONAL INSTRS CORP",
+      "cusip": "636518102",
+      "shares": 2000000,
+      "value": 104820000
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J700",
+      "shares": 6350000,
+      "value": 103441500
+    },
+    {
+      "name": "ADVANCED MICRO DEVICES INC",
+      "cusip": "007903107",
+      "shares": 1000000,
+      "value": 98010000
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 472968,
+      "value": 73092475
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1200000,
+      "value": 72261960
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 471000,
+      "value": 67037430
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700107",
+      "shares": 8537601,
+      "value": 51225606
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 2115000,
+      "value": 50760000
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 1150000,
+      "value": 41975000
+    },
+    {
+      "name": "DENBURY INC",
+      "cusip": "24790A101",
+      "shares": 250000,
+      "value": 21907500
+    },
+    {
+      "name": "JACOBS SOLUTIONS INC",
+      "cusip": "46982L108",
+      "shares": 185765,
+      "value": 21829245
+    },
+    {
+      "name": "KHOSLA VENTURES ACQUT CO III",
+      "cusip": "482506102",
+      "shares": 2000000,
+      "value": 20300000
+    },
+    {
+      "name": "BLUE WHALE ACQUISITION CORP",
+      "cusip": "G1330M103",
+      "shares": 2000000,
+      "value": 19880000
+    },
+    {
+      "name": "RICE ACQUISITION CORP II",
+      "cusip": "G75529100",
+      "shares": 1500000,
+      "value": 15352500
+    },
+    {
+      "name": "CATALENT INC",
+      "cusip": "148806102",
+      "shares": 200000,
+      "value": 13142000
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A100",
+      "shares": 1102500,
+      "value": 11223450
+    },
+    {
+      "name": "LOGISTICS INNOVTN TECHNLGS C",
+      "cusip": "54141L100",
+      "shares": 1000000,
+      "value": 10157700
+    },
+    {
+      "name": "JAWS HURRICANE ACQUISITN COR",
+      "cusip": "47201B103",
+      "shares": 992739,
+      "value": 10096156
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774107",
+      "shares": 1032463,
+      "value": 1435124
+    },
+    {
+      "name": "RICE ACQUISITION CORP II",
+      "cusip": "G75529126",
+      "shares": 500000,
+      "value": 732400
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700115",
+      "shares": 1333333,
+      "value": 502667
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774115",
+      "shares": 1835000,
+      "value": 376542
+    },
+    {
+      "name": "COMPUTE HEALTH ACQUISITIN CO",
+      "cusip": "204833115",
+      "shares": 625000,
+      "value": 250000
+    },
+    {
+      "name": "BLUESCAPE OPPORTUNITIES ACQU",
+      "cusip": "G1195N113",
+      "shares": 1000000,
+      "value": 150000
+    },
+    {
+      "name": "TMC THE METALS COMPANY INC",
+      "cusip": "87261Y114",
+      "shares": 1000000,
+      "value": 119000
+    },
+    {
+      "name": "JAWS MUSTANG ACQUISITION COR",
+      "cusip": "G50737124",
+      "shares": 1000000,
+      "value": 108700
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A118",
+      "shares": 367499,
+      "value": 64312
+    },
+    {
+      "name": "JAWS HURRICANE ACQUISITN COR",
+      "cusip": "47201B111",
+      "shares": 248184,
+      "value": 38493
+    },
+    {
+      "name": "BLUE WHALE ACQUISITION CORP",
+      "cusip": "G1330M129",
+      "shares": 500000,
+      "value": 38000
+    },
+    {
+      "name": "LOGISTICS INNOVTN TECHNLGS C",
+      "cusip": "54141L118",
+      "shares": 333332,
+      "value": 36700
+    },
+    {
+      "name": "SOCIAL LEVERAGE ACQUISN CORP",
+      "cusip": "83363K110",
+      "shares": 250000,
+      "value": 26750
+    },
+    {
+      "name": "DISRUPTIVE ACQUISITION CORP",
+      "cusip": "G2770Y128",
+      "shares": 333333,
+      "value": 26700
+    }
+  ],
+  "totalValue": 6111570009,
+  "positionsCount": 46
 }

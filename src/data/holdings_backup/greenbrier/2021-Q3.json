@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-11",
+  "period": "2021-08-11",
+  "accession": "0001532262-21-000003",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1552848,
+      "value": 212678
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 436738,
+      "value": 151858
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 450000,
+      "value": 131166
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 33968,
+      "value": 116855
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 242632,
+      "value": 96002
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1222866,
+      "value": 64922
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 25234,
+      "value": 63244
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25234,
+      "value": 61616
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 889764,
+      "value": 48554
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 250000,
+      "value": 43943
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 31333,
+      "value": 37183
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 100000,
+      "value": 27090
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 97053,
+      "value": 26973
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 38526,
+      "value": 10617
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 8000,
+      "value": 4226
+    },
+    {
+      "name": "DISCOVERY INC",
+      "cusip": "25470F302",
+      "shares": 20000,
+      "value": 580
+    }
+  ],
+  "totalValue": 1097507,
+  "positionsCount": 16
+}

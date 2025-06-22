@@ -1,0 +1,323 @@
+{
+  "form": "13F-HR",
+  "date": "2014-11-14",
+  "period": "2014-11-14",
+  "accession": "0001140361-14-042204",
+  "quarterKey": "2014-Q4",
+  "positions": [
+    {
+      "name": "Actuant Corporation",
+      "cusip": "00508X203",
+      "shares": 3500556,
+      "value": 106837
+    },
+    {
+      "name": "Colfax Corporation",
+      "cusip": "194014106",
+      "shares": 1723461,
+      "value": 98186
+    },
+    {
+      "name": "The Middleby Corporation",
+      "cusip": "596278101",
+      "shares": 1022890,
+      "value": 90147
+    },
+    {
+      "name": "Heico CP CL A",
+      "cusip": "422806208",
+      "shares": 1895941,
+      "value": 76406
+    },
+    {
+      "name": "RealD Inc",
+      "cusip": "75604L105",
+      "shares": 7969080,
+      "value": 74670
+    },
+    {
+      "name": "Platform Specialty Products Corpora",
+      "cusip": "72766Q105",
+      "shares": 2627380,
+      "value": 65737
+    },
+    {
+      "name": "US Ecology, Inc",
+      "cusip": "91732J102",
+      "shares": 1360337,
+      "value": 63609
+    },
+    {
+      "name": "Interactive Intelligence Group",
+      "cusip": "45841V109",
+      "shares": 1437220,
+      "value": 60076
+    },
+    {
+      "name": "Corporate Executive Board Co.",
+      "cusip": "21988R102",
+      "shares": 981791,
+      "value": 58976
+    },
+    {
+      "name": "America's Car-Mart Inc",
+      "cusip": "03062T105",
+      "shares": 1253425,
+      "value": 49623
+    },
+    {
+      "name": "Papa John's International Inc",
+      "cusip": "698813102",
+      "shares": 829791,
+      "value": 33183
+    },
+    {
+      "name": "Brookfield Asset Management Inc",
+      "cusip": "112585104",
+      "shares": 54660,
+      "value": 2458
+    },
+    {
+      "name": "Vanguard Emerging Markets VIPER",
+      "cusip": "922042858",
+      "shares": 58493,
+      "value": 2440
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 30000,
+      "value": 2296
+    },
+    {
+      "name": "Berkshire Hathaway Inc 'B'",
+      "cusip": "084670702",
+      "shares": 14625,
+      "value": 2020
+    },
+    {
+      "name": "Berkshire Hathaway Inc 'A'",
+      "cusip": "084670108",
+      "shares": 9,
+      "value": 1862
+    },
+    {
+      "name": "Brookfield Property Partners",
+      "cusip": "G16249107",
+      "shares": 81521,
+      "value": 1718
+    },
+    {
+      "name": "White Mountains Insurance Group",
+      "cusip": "G9618E107",
+      "shares": 2503,
+      "value": 1577
+    },
+    {
+      "name": "Post Holdings Inc",
+      "cusip": "737446104",
+      "shares": 44040,
+      "value": 1461
+    },
+    {
+      "name": "Expeditors International of Washing",
+      "cusip": "302130109",
+      "shares": 35248,
+      "value": 1430
+    },
+    {
+      "name": "Capital Southwest Corporation",
+      "cusip": "140501107",
+      "shares": 37892,
+      "value": 1355
+    },
+    {
+      "name": "Phillips 66 Common Stock",
+      "cusip": "718546104",
+      "shares": 15000,
+      "value": 1220
+    },
+    {
+      "name": "Special Opportunities Fund, Inc",
+      "cusip": "84741T104",
+      "shares": 72383,
+      "value": 1207
+    },
+    {
+      "name": "Greenlight Capital Re, Ltd",
+      "cusip": "G4095J109",
+      "shares": 36650,
+      "value": 1188
+    },
+    {
+      "name": "Occidental Petroleum",
+      "cusip": "674599105",
+      "shares": 12000,
+      "value": 1154
+    },
+    {
+      "name": "Alleghany Corp",
+      "cusip": "017175100",
+      "shares": 2754,
+      "value": 1152
+    },
+    {
+      "name": "Morningstar, Inc",
+      "cusip": "617700109",
+      "shares": 16695,
+      "value": 1134
+    },
+    {
+      "name": "Leucadia National Corp",
+      "cusip": "527288104",
+      "shares": 44240,
+      "value": 1055
+    },
+    {
+      "name": "Ultra Petroleum Corp",
+      "cusip": "903914109",
+      "shares": 40702,
+      "value": 947
+    },
+    {
+      "name": "Kinder Morgan Management LLC",
+      "cusip": "49455U100",
+      "shares": 10052,
+      "value": 946
+    },
+    {
+      "name": "Weyehaeuser Company",
+      "cusip": "962166104",
+      "shares": 28520,
+      "value": 909
+    },
+    {
+      "name": "Kinder Morgan Energy Partners",
+      "cusip": "494550106",
+      "shares": 9600,
+      "value": 895
+    },
+    {
+      "name": "Zimmer Holdings, Inc",
+      "cusip": "98956P102",
+      "shares": 8551,
+      "value": 860
+    },
+    {
+      "name": "Automatic Data Processing, Inc",
+      "cusip": "053015103",
+      "shares": 9738,
+      "value": 809
+    },
+    {
+      "name": "American Express Company",
+      "cusip": "025816109",
+      "shares": 9032,
+      "value": 791
+    },
+    {
+      "name": "XCEL Energy Inc",
+      "cusip": "98389B100",
+      "shares": 26000,
+      "value": 790
+    },
+    {
+      "name": "SPDR Lehman Intl Treasury Bond ETF",
+      "cusip": "78464A516",
+      "shares": 12639,
+      "value": 725
+    },
+    {
+      "name": "Vanguard ST Corp Bond ETF",
+      "cusip": "92206C409",
+      "shares": 8518,
+      "value": 680
+    },
+    {
+      "name": "SPDR S&P Middle East & Africa ETF",
+      "cusip": "78463X806",
+      "shares": 9704,
+      "value": 675
+    },
+    {
+      "name": "Ascent Capital Group",
+      "cusip": "043632108",
+      "shares": 11084,
+      "value": 667
+    },
+    {
+      "name": "Choice Hotels International Inc",
+      "cusip": "169905106",
+      "shares": 10000,
+      "value": 520
+    },
+    {
+      "name": "Vanguard FTSE All-Wld ex-US SmCp Id",
+      "cusip": "922042718",
+      "shares": 5067,
+      "value": 517
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 16579,
+      "value": 490
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 10440,
+      "value": 484
+    },
+    {
+      "name": "National Retail Properties, Inc",
+      "cusip": "637417106",
+      "shares": 14000,
+      "value": 484
+    },
+    {
+      "name": "Emerson Electric Co.",
+      "cusip": "291011104",
+      "shares": 7705,
+      "value": 482
+    },
+    {
+      "name": "VCA Inc",
+      "cusip": "918194101",
+      "shares": 9802,
+      "value": 386
+    },
+    {
+      "name": "Conagra Food Inc",
+      "cusip": "205887102",
+      "shares": 10000,
+      "value": 330
+    },
+    {
+      "name": "UGI Corp",
+      "cusip": "902681105",
+      "shares": 9240,
+      "value": 315
+    },
+    {
+      "name": "Merck & Company, Inc",
+      "cusip": "58933Y105",
+      "shares": 3794,
+      "value": 225
+    },
+    {
+      "name": "Vanguard MBS ETF",
+      "cusip": "92206C771",
+      "shares": 4196,
+      "value": 221
+    },
+    {
+      "name": "Pizza Inn Holdings",
+      "cusip": "725846109",
+      "shares": 26530,
+      "value": 212
+    }
+  ],
+  "totalValue": 818537,
+  "positionsCount": 52
+}

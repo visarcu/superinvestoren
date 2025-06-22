@@ -1,4 +1,167 @@
 {
+  "form": "13F-HR",
   "date": "2021-08-06",
-  "positions": []
+  "period": "2021-08-06",
+  "accession": "0001376879-21-000004",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 4181943,
+      "value": 1206998
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 243649,
+      "value": 533126
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 211422,
+      "value": 529891
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 7192688,
+      "value": 504999
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 984437,
+      "value": 496619
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 3193614,
+      "value": 493381
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1986005,
+      "value": 464368
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 2432203,
+      "value": 453265
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 1391558,
+      "value": 442627
+    },
+    {
+      "name": "ALCON INC",
+      "cusip": "H01301128",
+      "shares": 5981583,
+      "value": 419489
+    },
+    {
+      "name": "OTIS WORLDWIDE CORP",
+      "cusip": "68902V107",
+      "shares": 4960493,
+      "value": 405620
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 953868,
+      "value": 345653
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1362775,
+      "value": 326398
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 472488,
+      "value": 276708
+    },
+    {
+      "name": "ALLEGION PLC",
+      "cusip": "G0176J109",
+      "shares": 1947997,
+      "value": 271356
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1905362,
+      "value": 257090
+    },
+    {
+      "name": "DIAGEO PLC",
+      "cusip": "25243Q205",
+      "shares": 1282189,
+      "value": 245783
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE INC",
+      "cusip": "45866F104",
+      "shares": 1927293,
+      "value": 228770
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 1067322,
+      "value": 220012
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 257401,
+      "value": 129390
+    },
+    {
+      "name": "PINTEREST INC",
+      "cusip": "72352L106",
+      "shares": 1553499,
+      "value": 122649
+    },
+    {
+      "name": "LYFT INC",
+      "cusip": "55087P104",
+      "shares": 1953088,
+      "value": 118123
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 850598,
+      "value": 116124
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 33058851,
+      "value": 113722
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 289706,
+      "value": 100545
+    },
+    {
+      "name": "CORE LABORATORIES N V",
+      "cusip": "N22717107",
+      "shares": 1365005,
+      "value": 53167
+    }
+  ],
+  "totalValue": 8875873,
+  "positionsCount": 26
 }

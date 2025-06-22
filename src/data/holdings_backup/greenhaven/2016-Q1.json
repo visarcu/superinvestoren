@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-04",
+  "period": "2016-02-04",
+  "accession": "0000891092-16-012050",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "Lowe's Companies, Inc (LOW)",
+      "cusip": "548661107",
+      "shares": 9498819,
+      "value": 722290
+    },
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 4525104,
+      "value": 674195
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 3360493,
+      "value": 605662
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 9065935,
+      "value": 598624
+    },
+    {
+      "name": "Airbus Group NV (EADSY)",
+      "cusip": "009279100",
+      "shares": 31041937,
+      "value": 522591
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2615096,
+      "value": 384079
+    },
+    {
+      "name": "Citigroup [C]",
+      "cusip": "172967424",
+      "shares": 6427149,
+      "value": 332605
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 1853735,
+      "value": 279247
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 6298245,
+      "value": 201733
+    },
+    {
+      "name": "Lennar Corporation (LEN)",
+      "cusip": "526057104",
+      "shares": 4086652,
+      "value": 199878
+    },
+    {
+      "name": "United Parcel Service (UPS)",
+      "cusip": "911312106",
+      "shares": 2044758,
+      "value": 196767
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 3427436,
+      "value": 161192
+    },
+    {
+      "name": "USG Corp (USG)",
+      "cusip": "903293405",
+      "shares": 3418778,
+      "value": 83042
+    },
+    {
+      "name": "Masco Corp (MAS)",
+      "cusip": "574599106",
+      "shares": 2739970,
+      "value": 77541
+    },
+    {
+      "name": "Wells Fargo & Co (WFC)",
+      "cusip": "949746101",
+      "shares": 1206904,
+      "value": 65607
+    },
+    {
+      "name": "TRI Pointe (TPH)",
+      "cusip": "87265H109",
+      "shares": 4462399,
+      "value": 56539
+    },
+    {
+      "name": "Electrolux AB (ELUXY)",
+      "cusip": "010198208",
+      "shares": 1038106,
+      "value": 50037
+    },
+    {
+      "name": "PulteGroup, Inc (PHM)",
+      "cusip": "745867101",
+      "shares": 1623368,
+      "value": 28928
+    },
+    {
+      "name": "Praxair Inc (PX)",
+      "cusip": "74005P104",
+      "shares": 66441,
+      "value": 6804
+    },
+    {
+      "name": "Airgas, Inc (ARG)",
+      "cusip": "009363102",
+      "shares": 40200,
+      "value": 5560
+    },
+    {
+      "name": "Calatlantic Group, Inc (CAA)",
+      "cusip": "128195104",
+      "shares": 84700,
+      "value": 3212
+    },
+    {
+      "name": "American Independence Corp (AMIC)",
+      "cusip": "026760405",
+      "shares": 99012,
+      "value": 849
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 447
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 6940,
+      "value": 241
+    }
+  ],
+  "totalValue": 5257670,
+  "positionsCount": 24
+}

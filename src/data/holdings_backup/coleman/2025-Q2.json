@@ -1,0 +1,281 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0000919574-25-003217",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 7465139,
+      "value": 4302607514
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 6240865,
+      "value": 2342758312
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 16041335,
+      "value": 2093233804
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 10308800,
+      "value": 1594152832
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 6588488,
+      "value": 1253525727
+    },
+    {
+      "name": "TAKE-TWO INTERACTIVE SOFTWAR",
+      "cusip": "874054109",
+      "shares": 5839256,
+      "value": 1210185806
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 10967550,
+      "value": 1188663069
+    },
+    {
+      "name": "ELI LILLY & CO",
+      "cusip": "532457108",
+      "shares": 1334960,
+      "value": 1102556814
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M106",
+      "shares": 6209496,
+      "value": 850328382
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 3377392,
+      "value": 748261198
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 4241474,
+      "value": 704084684
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 1261461,
+      "value": 693841394
+    },
+    {
+      "name": "VEEVA SYS INC",
+      "cusip": "922475108",
+      "shares": 2420500,
+      "value": 560660415
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 4415681,
+      "value": 522595846
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 579655,
+      "value": 461486532
+    },
+    {
+      "name": "APPLOVIN CORP",
+      "cusip": "03831W108",
+      "shares": 1668240,
+      "value": 442033553
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 1880237,
+      "value": 439091747
+    },
+    {
+      "name": "CORPAY INC",
+      "cusip": "219948106",
+      "shares": 1247577,
+      "value": 435055051
+    },
+    {
+      "name": "GRAB HOLDINGS LIMITED",
+      "cusip": "G4124C109",
+      "shares": 92923788,
+      "value": 420944760
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 1204175,
+      "value": 420485868
+    },
+    {
+      "name": "DOORDASH INC",
+      "cusip": "25809K105",
+      "shares": 2196013,
+      "value": 401365296
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 2271500,
+      "value": 380317245
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M200",
+      "shares": 5215000,
+      "value": 357540400
+    },
+    {
+      "name": "REDDIT INC",
+      "cusip": "75734B100",
+      "shares": 3249600,
+      "value": 340883040
+    },
+    {
+      "name": "ZSCALER INC",
+      "cusip": "98980G102",
+      "shares": 1679000,
+      "value": 333147180
+    },
+    {
+      "name": "GE VERNOVA INC",
+      "cusip": "36828A101",
+      "shares": 1055294,
+      "value": 322160152
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807306",
+      "shares": 4424700,
+      "value": 321675690
+    },
+    {
+      "name": "CROWDSTRIKE HLDGS INC",
+      "cusip": "22788C105",
+      "shares": 900000,
+      "value": 317322000
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13328319,
+      "value": 292290036
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 3245109,
+      "value": 257109986
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229755",
+      "shares": 2682000,
+      "value": 241406820
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 438800,
+      "value": 229821500
+    },
+    {
+      "name": "PROCORE TECHNOLOGIES INC",
+      "cusip": "74275K108",
+      "shares": 2339500,
+      "value": 154453790
+    },
+    {
+      "name": "ELASTIC N V",
+      "cusip": "N14506104",
+      "shares": 1690700,
+      "value": 150641370
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 895200,
+      "value": 129911424
+    },
+    {
+      "name": "SERVICETITAN INC",
+      "cusip": "81764X103",
+      "shares": 1301398,
+      "value": 123775964
+    },
+    {
+      "name": "NU HLDGS LTD",
+      "cusip": "G6683N103",
+      "shares": 11032555,
+      "value": 112973363
+    },
+    {
+      "name": "BLOCK INC",
+      "cusip": "852234103",
+      "shares": 1884867,
+      "value": 102404824
+    },
+    {
+      "name": "NOVO-NORDISK A S",
+      "cusip": "670100205",
+      "shares": 1269000,
+      "value": 88119360
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M101",
+      "shares": 902643,
+      "value": 60350711
+    },
+    {
+      "name": "ATRENEW INC",
+      "cusip": "00138L108",
+      "shares": 11481218,
+      "value": 33754781
+    },
+    {
+      "name": "ZKH GROUP LTD",
+      "cusip": "98877R104",
+      "shares": 8195453,
+      "value": 27454768
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 344309,
+      "value": 14157986
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 151178,
+      "value": 11014829
+    },
+    {
+      "name": "PONY AI INC",
+      "cusip": "732908108",
+      "shares": 370000,
+      "value": 3263400
+    }
+  ],
+  "totalValue": 26593869223,
+  "positionsCount": 45
+}

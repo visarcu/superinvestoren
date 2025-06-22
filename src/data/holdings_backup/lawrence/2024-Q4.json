@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001172661-24-004818",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 302647,
+      "value": 42176886
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 21424,
+      "value": 30574833
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 615399,
+      "value": 28991447
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 124435,
+      "value": 22764139
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 118880,
+      "value": 19875547
+    },
+    {
+      "name": "NATURAL RESOURCE PARTNERS L",
+      "cusip": "63900P608",
+      "shares": 154866,
+      "value": 15145895
+    },
+    {
+      "name": "LGI HOMES INC",
+      "cusip": "50187T106",
+      "shares": 117088,
+      "value": 13877269
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1105928,
+      "value": 12983595
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 38474,
+      "value": 12468654
+    }
+  ],
+  "totalValue": 198858265,
+  "positionsCount": 9
+}

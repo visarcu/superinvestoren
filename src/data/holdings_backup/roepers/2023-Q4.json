@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0001493152-23-041046",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 520093,
+      "value": 38221635
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 337701,
+      "value": 30504531
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 195900,
+      "value": 28174338
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 329257,
+      "value": 25260597
+    },
+    {
+      "name": "FLOWSERVE CORP",
+      "cusip": "34354P105",
+      "shares": 613882,
+      "value": 24414087
+    },
+    {
+      "name": "ASHLAND INC",
+      "cusip": "044186104",
+      "shares": 280112,
+      "value": 22879548
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 379838,
+      "value": 21886266
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 200000,
+      "value": 4880000
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 360000,
+      "value": 4474800
+    }
+  ],
+  "totalValue": 200695802,
+  "positionsCount": 9
+}

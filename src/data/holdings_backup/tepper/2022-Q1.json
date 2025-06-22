@@ -1,0 +1,275 @@
+{
+  "form": "13F-HR",
+  "date": "2022-02-14",
+  "period": "2022-02-14",
+  "accession": "0001656456-22-000001",
+  "quarterKey": "2022-Q1",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 135000,
+      "value": 390635
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1100000,
+      "value": 369985
+    },
+    {
+      "name": "MACYS INC",
+      "cusip": "55616P104",
+      "shares": 10096160,
+      "value": 264317
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 2750000,
+      "value": 256163
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 70000,
+      "value": 233404
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 6600000,
+      "value": 191334
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 12500000,
+      "value": 151750
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 1275992,
+      "value": 147990
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 2250000,
+      "value": 131918
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y506",
+      "shares": 2150000,
+      "value": 119325
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 1100000,
+      "value": 119295
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 5150000,
+      "value": 109798
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 4889853,
+      "value": 106648
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 12391098,
+      "value": 101979
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 297500,
+      "value": 100055
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78468R556",
+      "shares": 1000000,
+      "value": 95870
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 2400000,
+      "value": 94296
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 179000,
+      "value": 89883
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 1450000,
+      "value": 82882
+    },
+    {
+      "name": "KOHLS CORP",
+      "cusip": "500255104",
+      "shares": 1650000,
+      "value": 81494
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 1850000,
+      "value": 77201
+    },
+    {
+      "name": "SYSCO CORP",
+      "cusip": "871829107",
+      "shares": 840000,
+      "value": 65982
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 391500,
+      "value": 50985
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674X106",
+      "shares": 2845263,
+      "value": 49792
+    },
+    {
+      "name": "ALIGHT INC",
+      "cusip": "01626W101",
+      "shares": 4294795,
+      "value": 46427
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 1961623,
+      "value": 43077
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 1155000,
+      "value": 37815
+    },
+    {
+      "name": "NORDSTROM INC",
+      "cusip": "655664100",
+      "shares": 1369907,
+      "value": 30987
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 400000,
+      "value": 25808
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167172",
+      "shares": 694957,
+      "value": 24956
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167164",
+      "shares": 600000,
+      "value": 23976
+    },
+    {
+      "name": "ISHARES INC",
+      "cusip": "464286772",
+      "shares": 298000,
+      "value": 23205
+    },
+    {
+      "name": "APA CORPORATION",
+      "cusip": "03743Q108",
+      "shares": 818000,
+      "value": 21996
+    },
+    {
+      "name": "DICKS SPORTING GOODS INC",
+      "cusip": "253393102",
+      "shares": 178072,
+      "value": 20476
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 519706,
+      "value": 15378
+    },
+    {
+      "name": "ALTIMETER GROWTH CORP 2",
+      "cusip": "G0371B109",
+      "shares": 1500000,
+      "value": 14790
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 565117,
+      "value": 12585
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167180",
+      "shares": 386087,
+      "value": 12501
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 165117,
+      "value": 10992
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 225000,
+      "value": 9434
+    },
+    {
+      "name": "GAP INC",
+      "cusip": "364760108",
+      "shares": 494032,
+      "value": 8720
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 75000,
+      "value": 8676
+    },
+    {
+      "name": "FOOT LOCKER INC",
+      "cusip": "344849104",
+      "shares": 165938,
+      "value": 7240
+    },
+    {
+      "name": "TCV ACQUISITION CORP",
+      "cusip": "G8704C124",
+      "shares": 600000,
+      "value": 5916
+    }
+  ],
+  "totalValue": 3887936,
+  "positionsCount": 44
+}

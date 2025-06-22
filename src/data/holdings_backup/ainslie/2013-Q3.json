@@ -1,0 +1,359 @@
+{
+  "form": "13F-HR",
+  "date": "2013-08-14",
+  "period": "2013-08-14",
+  "accession": "0000947871-13-000590",
+  "quarterKey": "2013-Q3",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 784412,
+      "value": 311043
+    },
+    {
+      "name": "PRICELINE COM INC",
+      "cusip": "741503403",
+      "shares": 342676,
+      "value": 283280
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 6891870,
+      "value": 281877
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 4579252,
+      "value": 279747
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 2895391,
+      "value": 250393
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 3367493,
+      "value": 247477
+    },
+    {
+      "name": "CITRIX SYS INC",
+      "cusip": "177376100",
+      "shares": 4069082,
+      "value": 245610
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP",
+      "cusip": "228227104",
+      "shares": 3367352,
+      "value": 243763
+    },
+    {
+      "name": "MACYS INC",
+      "cusip": "55616P104",
+      "shares": 4884925,
+      "value": 234476
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 4428248,
+      "value": 223317
+    },
+    {
+      "name": "NETAPP INC",
+      "cusip": "64110D104",
+      "shares": 5635578,
+      "value": 212912
+    },
+    {
+      "name": "FORTINET INC",
+      "cusip": "34959E109",
+      "shares": 11925970,
+      "value": 208704
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 5745514,
+      "value": 207183
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 3010888,
+      "value": 207149
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1223819,
+      "value": 191858
+    },
+    {
+      "name": "REALOGY HLDGS CORP",
+      "cusip": "75605Y106",
+      "shares": 3938523,
+      "value": 189207
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 2825162,
+      "value": 176968
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3988069,
+      "value": 170849
+    },
+    {
+      "name": "SOLARWINDS INC",
+      "cusip": "83416B109",
+      "shares": 4222171,
+      "value": 163862
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 2487317,
+      "value": 162870
+    },
+    {
+      "name": "NVR INC",
+      "cusip": "62944T105",
+      "shares": 164320,
+      "value": 151503
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 262431,
+      "value": 150767
+    },
+    {
+      "name": "VMWARE INC",
+      "cusip": "928563402",
+      "shares": 2207055,
+      "value": 147851
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 2154402,
+      "value": 135318
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 1707944,
+      "value": 132314
+    },
+    {
+      "name": "FOMENTO ECONOMICO MEXICANO S",
+      "cusip": "344419106",
+      "shares": 1270372,
+      "value": 131090
+    },
+    {
+      "name": "COMMUNITY HEALTH SYS INC NEW",
+      "cusip": "203668108",
+      "shares": 2489332,
+      "value": 116700
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620R105",
+      "shares": 4869622,
+      "value": 115946
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 3019873,
+      "value": 115299
+    },
+    {
+      "name": "CAMERON INTERNATIONAL CORP",
+      "cusip": "13342B105",
+      "shares": 1801306,
+      "value": 110168
+    },
+    {
+      "name": "PALO ALTO NETWORKS INC",
+      "cusip": "697435105",
+      "shares": 2564265,
+      "value": 108109
+    },
+    {
+      "name": "TEAM HEALTH HOLDINGS INC",
+      "cusip": "87817A107",
+      "shares": 2385485,
+      "value": 97972
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219G108",
+      "shares": 1530056,
+      "value": 94466
+    },
+    {
+      "name": "QLIK TECHNOLOGIES INC",
+      "cusip": "74733T105",
+      "shares": 3265682,
+      "value": 92321
+    },
+    {
+      "name": "MGIC INVT CORP WIS",
+      "cusip": "552848103",
+      "shares": 14785000,
+      "value": 89745
+    },
+    {
+      "name": "WHOLE FOODS MKT INC",
+      "cusip": "966837106",
+      "shares": 1730042,
+      "value": 89063
+    },
+    {
+      "name": "METLIFE INC",
+      "cusip": "59156R108",
+      "shares": 1937351,
+      "value": 88653
+    },
+    {
+      "name": "COLFAX CORP",
+      "cusip": "194014106",
+      "shares": 1639418,
+      "value": 85430
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 933964,
+      "value": 84300
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 1637817,
+      "value": 72621
+    },
+    {
+      "name": "FAMILY DLR STORES INC",
+      "cusip": "307000109",
+      "shares": 1124365,
+      "value": 70059
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 1012894,
+      "value": 69788
+    },
+    {
+      "name": "NIELSEN HOLDINGS N V",
+      "cusip": "N63218106",
+      "shares": 1838867,
+      "value": 61768
+    },
+    {
+      "name": "E M C CORP MASS",
+      "cusip": "268648102",
+      "shares": 2521892,
+      "value": 59567
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 1312077,
+      "value": 58597
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 334127,
+      "value": 58051
+    },
+    {
+      "name": "NOVARTIS A G",
+      "cusip": "66987V109",
+      "shares": 741689,
+      "value": 52445
+    },
+    {
+      "name": "NEWS CORP",
+      "cusip": "65248E104",
+      "shares": 1490672,
+      "value": 48566
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 561601,
+      "value": 48343
+    },
+    {
+      "name": "COMPANHIA DE BEBIDAS DAS AME",
+      "cusip": "20441W203",
+      "shares": 1262247,
+      "value": 47145
+    },
+    {
+      "name": "TIBCO SOFTWARE INC",
+      "cusip": "88632Q103",
+      "shares": 1777517,
+      "value": 38048
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620RAE5",
+      "shares": 20000000,
+      "value": 26369
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 254530,
+      "value": 20693
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 247326,
+      "value": 19566
+    },
+    {
+      "name": "PACIFIC BIOSCIENCES CALIF IN",
+      "cusip": "69404D108",
+      "shares": 3531953,
+      "value": 8936
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H139",
+      "shares": 115900,
+      "value": 2808
+    },
+    {
+      "name": "DECKERS OUTDOOR CORP",
+      "cusip": "243537107",
+      "shares": 42274,
+      "value": 2135
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097770",
+      "shares": 70895,
+      "value": 1492
+    }
+  ],
+  "totalValue": 7396557,
+  "positionsCount": 58
+}

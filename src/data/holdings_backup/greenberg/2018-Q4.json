@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2018-11-14",
+  "period": "2018-11-14",
+  "accession": "0001172661-18-002076",
+  "quarterKey": "2018-Q4",
+  "positions": [
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 1732523,
+      "value": 409153
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 301615,
+      "value": 364073
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 5839273,
+      "value": 287000
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 1789772,
+      "value": 201958
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 11138139,
+      "value": 197256
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480120",
+      "shares": 6903175,
+      "value": 194393
+    },
+    {
+      "name": "RAYMOND JAMES FINANCIAL INC",
+      "cusip": "754730109",
+      "shares": 2074489,
+      "value": 190957
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 1452198,
+      "value": 175062
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 2215308,
+      "value": 103433
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1387683,
+      "value": 99552
+    },
+    {
+      "name": "NIELSEN HLDGS PLC",
+      "cusip": "6518108",
+      "shares": 2899426,
+      "value": 80198
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331109",
+      "shares": 796400,
+      "value": 33592
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480104",
+      "shares": 248493,
+      "value": 7189
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079107",
+      "shares": 1056,
+      "value": 1260
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 31094,
+      "value": 1101
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 5069,
+      "value": 848
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412101",
+      "shares": 3896,
+      "value": 542
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 428
+    }
+  ],
+  "totalValue": 2347995,
+  "positionsCount": 18
+}

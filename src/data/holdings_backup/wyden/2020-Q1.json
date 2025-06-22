@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001387131-20-001604",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 117000,
+      "value": 24014
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 705800,
+      "value": 21696
+    },
+    {
+      "name": "EVI INDUSTRIES INC",
+      "cusip": "26929N102",
+      "shares": 620000,
+      "value": 16765
+    }
+  ],
+  "totalValue": 62475,
+  "positionsCount": 3
+}

@@ -1,0 +1,327 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "Microsoft Corp.",
+      "cusip": "MSFT00000",
+      "shares": 1315000,
+      "value": 493637850,
+      "ticker": "MSFT"
+    },
+    {
+      "name": "NVIDIA Corp.",
+      "cusip": "NVDA00000",
+      "shares": 3385338,
+      "value": 366902932,
+      "ticker": "NVDA"
+    },
+    {
+      "name": "Amazon.com Inc.",
+      "cusip": "AMZN00000",
+      "shares": 1672000,
+      "value": 318114720,
+      "ticker": "AMZN"
+    },
+    {
+      "name": "United Health Group Inc.",
+      "cusip": "UNH00000",
+      "shares": 578000,
+      "value": 302727500,
+      "ticker": "UNH"
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "JPM00000",
+      "shares": 1228000,
+      "value": 301228400,
+      "ticker": "JPM"
+    },
+    {
+      "name": "Apple Inc.",
+      "cusip": "AAPL00000",
+      "shares": 973800,
+      "value": 216310194,
+      "ticker": "AAPL"
+    },
+    {
+      "name": "Fiserv Inc.",
+      "cusip": "FI00000",
+      "shares": 873395,
+      "value": 192871818,
+      "ticker": "FI"
+    },
+    {
+      "name": "Graco Inc.",
+      "cusip": "GGG00000",
+      "shares": 2059774,
+      "value": 172011727,
+      "ticker": "GGG"
+    },
+    {
+      "name": "Toro Co.",
+      "cusip": "TTC00000",
+      "shares": 1999523,
+      "value": 145465298,
+      "ticker": "TTC"
+    },
+    {
+      "name": "Alphabet Inc. CL C",
+      "cusip": "GOOG00000",
+      "shares": 849897,
+      "value": 132779408,
+      "ticker": "GOOG"
+    },
+    {
+      "name": "Roche Holding AG ADR",
+      "cusip": "RHHBY0000",
+      "shares": 3192509,
+      "value": 131371745,
+      "ticker": "RHHBY"
+    },
+    {
+      "name": "Motorola Solutions Inc.",
+      "cusip": "MSI00000",
+      "shares": 288500,
+      "value": 126308185,
+      "ticker": "MSI"
+    },
+    {
+      "name": "Eli Lilly & Co.",
+      "cusip": "LLY00000",
+      "shares": 152539,
+      "value": 125983485,
+      "ticker": "LLY"
+    },
+    {
+      "name": "Alliant Energy",
+      "cusip": "LNT00000",
+      "shares": 1948000,
+      "value": 125353800,
+      "ticker": "LNT"
+    },
+    {
+      "name": "WEC Energy Group",
+      "cusip": "WEC00000",
+      "shares": 1105500,
+      "value": 120477390,
+      "ticker": "WEC"
+    },
+    {
+      "name": "Fastenal",
+      "cusip": "FAST00000",
+      "shares": 2924000,
+      "value": 113392720,
+      "ticker": "FAST"
+    },
+    {
+      "name": "Verizon Communications",
+      "cusip": "VZ00000",
+      "shares": 2421000,
+      "value": 109816560,
+      "ticker": "VZ"
+    },
+    {
+      "name": "Sherwin-Williams",
+      "cusip": "SHW00000",
+      "shares": 314000,
+      "value": 109645660,
+      "ticker": "SHW"
+    },
+    {
+      "name": "Littelfuse Inc.",
+      "cusip": "LFUS00000",
+      "shares": 473000,
+      "value": 93058020,
+      "ticker": "LFUS"
+    },
+    {
+      "name": "Bio-Techne Corp.",
+      "cusip": "TECH00000",
+      "shares": 1393800,
+      "value": 81718494,
+      "ticker": "TECH"
+    },
+    {
+      "name": "QUALCOMM Inc.",
+      "cusip": "QCOM00000",
+      "shares": 506000,
+      "value": 77726660,
+      "ticker": "QCOM"
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "WFC00000",
+      "shares": 1035500,
+      "value": 74338545,
+      "ticker": "WFC"
+    },
+    {
+      "name": "H.B. Fuller Co.",
+      "cusip": "FUL00000",
+      "shares": 1262674,
+      "value": 70861265,
+      "ticker": "FUL"
+    },
+    {
+      "name": "Ecolab Inc.",
+      "cusip": "ECL00000",
+      "shares": 278015,
+      "value": 70482363,
+      "ticker": "ECL"
+    },
+    {
+      "name": "nVent Electric plc",
+      "cusip": "NVT00000",
+      "shares": 1318919,
+      "value": 69137734,
+      "ticker": "NVT"
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "JNJ00000",
+      "shares": 405725,
+      "value": 67285434,
+      "ticker": "JNJ"
+    },
+    {
+      "name": "Hormel Foods Corp.",
+      "cusip": "HRL00000",
+      "shares": 2171592,
+      "value": 67189056,
+      "ticker": "HRL"
+    },
+    {
+      "name": "Rockwell Automation Inc.",
+      "cusip": "ROK00000",
+      "shares": 250000,
+      "value": 64595000,
+      "ticker": "ROK"
+    },
+    {
+      "name": "Tennant Co.",
+      "cusip": "TNC00000",
+      "shares": 786000,
+      "value": 62683500,
+      "ticker": "TNC"
+    },
+    {
+      "name": "Kraft Heinz Co.",
+      "cusip": "KHC00000",
+      "shares": 2015000,
+      "value": 61316450,
+      "ticker": "KHC"
+    },
+    {
+      "name": "Taiwan Semiconductor S.A.",
+      "cusip": "TSM00000",
+      "shares": 342000,
+      "value": 56772000,
+      "ticker": "TSM"
+    },
+    {
+      "name": "C.H. Robinson Worldwide",
+      "cusip": "CHRW00000",
+      "shares": 525000,
+      "value": 53760000,
+      "ticker": "CHRW"
+    },
+    {
+      "name": "Best Buy Co. Inc.",
+      "cusip": "BBY00000",
+      "shares": 655700,
+      "value": 48266077,
+      "ticker": "BBY"
+    },
+    {
+      "name": "Piper Sandler Companies",
+      "cusip": "PIPR00000",
+      "shares": 168000,
+      "value": 41606880,
+      "ticker": "PIPR"
+    },
+    {
+      "name": "Salesforce.com",
+      "cusip": "CRM00000",
+      "shares": 131277,
+      "value": 35229496,
+      "ticker": "CRM"
+    },
+    {
+      "name": "Entegris Inc.",
+      "cusip": "ENTG00000",
+      "shares": 397000,
+      "value": 34729560,
+      "ticker": "ENTG"
+    },
+    {
+      "name": "Workiva Inc.",
+      "cusip": "WK00000",
+      "shares": 432857,
+      "value": 32858175,
+      "ticker": "WK"
+    },
+    {
+      "name": "Principal Financial Group",
+      "cusip": "PFG00000",
+      "shares": 385000,
+      "value": 32482450,
+      "ticker": "PFG"
+    },
+    {
+      "name": "Abbott Labs",
+      "cusip": "ABT00000",
+      "shares": 228338,
+      "value": 30289036,
+      "ticker": "ABT"
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "USB00000",
+      "shares": 586660,
+      "value": 24768785,
+      "ticker": "USB"
+    },
+    {
+      "name": "Donaldson Co.",
+      "cusip": "DCI00000",
+      "shares": 364481,
+      "value": 24442096,
+      "ticker": "DCI"
+    },
+    {
+      "name": "Ulta Beauty Inc.",
+      "cusip": "ULTA00000",
+      "shares": 54900,
+      "value": 20123046,
+      "ticker": "ULTA"
+    },
+    {
+      "name": "Caseys Genl Stores",
+      "cusip": "CASY00000",
+      "shares": 42748,
+      "value": 18553914,
+      "ticker": "CASY"
+    },
+    {
+      "name": "Clearfield Inc.",
+      "cusip": "CLFD00000",
+      "shares": 440447,
+      "value": 13090085,
+      "ticker": "CLFD"
+    },
+    {
+      "name": "Target Corp.",
+      "cusip": "TGT00000",
+      "shares": 75870,
+      "value": 7917793,
+      "ticker": "TGT"
+    },
+    {
+      "name": "Charles Schwab Corp.",
+      "cusip": "SCHW00000",
+      "shares": 32100,
+      "value": 2513109,
+      "ticker": "SCHW"
+    }
+  ]
+}

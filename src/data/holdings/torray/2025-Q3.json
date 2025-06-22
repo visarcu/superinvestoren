@@ -1,0 +1,1229 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-04-29",
+  "period": "2025-04-29",
+  "accession": "0001145549-25-027969",
+  "quarterKey": "2025-Q3",
+  "positions": [
+    {
+      "name": "U.S. Bank Money Market Deposit Account",
+      "cusip": "8AMMF0A92",
+      "shares": 351418.7,
+      "value": 351418.7,
+      "pctOfPortfolio": 2.133779267
+    },
+    {
+      "name": "BAWAG Group AG",
+      "cusip": null,
+      "shares": 2053,
+      "value": 206792.91,
+      "pctOfPortfolio": 1.255625907
+    },
+    {
+      "name": "StoneX Group Inc",
+      "cusip": "861896108",
+      "shares": 1569,
+      "value": 189331.23,
+      "pctOfPortfolio": 1.1496003291
+    },
+    {
+      "name": "Burberry Group PLC",
+      "cusip": null,
+      "shares": 12881,
+      "value": 175963.75,
+      "pctOfPortfolio": 1.0684343249
+    },
+    {
+      "name": "Erste Group Bank AG",
+      "cusip": null,
+      "shares": 2528,
+      "value": 169514.12,
+      "pctOfPortfolio": 1.0292728153
+    },
+    {
+      "name": "Securitas AB",
+      "cusip": null,
+      "shares": 10651,
+      "value": 154218.95,
+      "pctOfPortfolio": 0.9364020699
+    },
+    {
+      "name": "Dundee Precious Metals Inc",
+      "cusip": "265269209",
+      "shares": 12705,
+      "value": 148938.52,
+      "pctOfPortfolio": 0.904339826
+    },
+    {
+      "name": "HCI Group Inc",
+      "cusip": "40416E103",
+      "shares": 1112,
+      "value": 146405.92,
+      "pctOfPortfolio": 0.8889621317
+    },
+    {
+      "name": "Fifth Third Bancorp",
+      "cusip": "316773100",
+      "shares": 3333,
+      "value": 144885.51,
+      "pctOfPortfolio": 0.8797303539
+    },
+    {
+      "name": "Beazley PLC",
+      "cusip": null,
+      "shares": 13046,
+      "value": 143837.82,
+      "pctOfPortfolio": 0.8733688848
+    },
+    {
+      "name": "Manulife Financial Corp",
+      "cusip": "56501R106",
+      "shares": 4615,
+      "value": 143737.27,
+      "pctOfPortfolio": 0.8727583552
+    },
+    {
+      "name": "Wintrust Financial Corp",
+      "cusip": "97650W108",
+      "shares": 1135,
+      "value": 141273.45,
+      "pctOfPortfolio": 0.8577982862
+    },
+    {
+      "name": "KT Corp",
+      "cusip": "48268K101",
+      "shares": 8214,
+      "value": 140952.24,
+      "pctOfPortfolio": 0.8558479311
+    },
+    {
+      "name": "Imperial Brands PLC",
+      "cusip": "45262P102",
+      "shares": 3975,
+      "value": 139681.5,
+      "pctOfPortfolio": 0.8481321247
+    },
+    {
+      "name": "Zions Bancorp NA",
+      "cusip": "989701107",
+      "shares": 2551,
+      "value": 137856.04,
+      "pctOfPortfolio": 0.8370481138
+    },
+    {
+      "name": "Banco Santander SA",
+      "cusip": null,
+      "shares": 21146,
+      "value": 136485.25,
+      "pctOfPortfolio": 0.8287248137
+    },
+    {
+      "name": "Energy Transfer LP",
+      "cusip": "29273V100",
+      "shares": 6994,
+      "value": 134914.26,
+      "pctOfPortfolio": 0.8191859193
+    },
+    {
+      "name": "General Motors Co",
+      "cusip": "37045V100",
+      "shares": 2702,
+      "value": 132749.26,
+      "pctOfPortfolio": 0.8060402554
+    },
+    {
+      "name": "Volvo AB",
+      "cusip": "928856301",
+      "shares": 4291,
+      "value": 132710.11,
+      "pctOfPortfolio": 0.8058025405
+    },
+    {
+      "name": "Alliance Resource Partners LP",
+      "cusip": "01877R108",
+      "shares": 4938,
+      "value": 129573.12,
+      "pctOfPortfolio": 0.7867550503
+    },
+    {
+      "name": "SAF-Holland SE",
+      "cusip": null,
+      "shares": 7153,
+      "value": 128369.49,
+      "pctOfPortfolio": 0.7794467291
+    },
+    {
+      "name": "Eurazeo SE",
+      "cusip": null,
+      "shares": 1617,
+      "value": 127566.52,
+      "pctOfPortfolio": 0.7745711755
+    },
+    {
+      "name": "Svenska Handelsbanken AB",
+      "cusip": "W9112U104",
+      "shares": 10175,
+      "value": 127434.38,
+      "pctOfPortfolio": 0.7737688346
+    },
+    {
+      "name": "U-Haul Holding Co",
+      "cusip": "023586506",
+      "shares": 2053,
+      "value": 126362.15,
+      "pctOfPortfolio": 0.767258361
+    },
+    {
+      "name": "PNC Financial Services Group I",
+      "cusip": "693475105",
+      "shares": 653,
+      "value": 125323.76,
+      "pctOfPortfolio": 0.7609533606
+    },
+    {
+      "name": "CIBC",
+      "cusip": "136069101",
+      "shares": 2067,
+      "value": 125255.84,
+      "pctOfPortfolio": 0.7605409571
+    },
+    {
+      "name": "Hyundai Glovis Co Ltd",
+      "cusip": null,
+      "shares": 1407,
+      "value": 125128.65,
+      "pctOfPortfolio": 0.7597686722
+    },
+    {
+      "name": "Employers Holdings Inc",
+      "cusip": "292218104",
+      "shares": 2399,
+      "value": 124268.2,
+      "pctOfPortfolio": 0.7545441057
+    },
+    {
+      "name": "JET2 PLC",
+      "cusip": null,
+      "shares": 6994,
+      "value": 123607.76,
+      "pctOfPortfolio": 0.7505339799
+    },
+    {
+      "name": "OSB Group PLC",
+      "cusip": null,
+      "shares": 21783,
+      "value": 121659.06,
+      "pctOfPortfolio": 0.738701668
+    },
+    {
+      "name": "United Overseas Bank Ltd",
+      "cusip": null,
+      "shares": 4255,
+      "value": 120271.56,
+      "pctOfPortfolio": 0.7302769065
+    },
+    {
+      "name": "Peyto Exploration & Developmen",
+      "cusip": "717046106",
+      "shares": 10800,
+      "value": 118842.92,
+      "pctOfPortfolio": 0.7216023471
+    },
+    {
+      "name": "Billerud Aktiebolag",
+      "cusip": null,
+      "shares": 10668,
+      "value": 118499.21,
+      "pctOfPortfolio": 0.7195153743
+    },
+    {
+      "name": "Skandinaviska Enskilda Banken",
+      "cusip": null,
+      "shares": 7312,
+      "value": 117247.62,
+      "pctOfPortfolio": 0.7119158447
+    },
+    {
+      "name": "DNB Bank ASA",
+      "cusip": null,
+      "shares": 5088,
+      "value": 116998.75,
+      "pctOfPortfolio": 0.7104047309
+    },
+    {
+      "name": "HUGO BOSS AG",
+      "cusip": null,
+      "shares": 2539,
+      "value": 116442.28,
+      "pctOfPortfolio": 0.7070259006
+    },
+    {
+      "name": "OTP Bank Nyrt",
+      "cusip": null,
+      "shares": 1895,
+      "value": 116058.68,
+      "pctOfPortfolio": 0.7046967197
+    },
+    {
+      "name": "Harvey Norman Holdings Ltd",
+      "cusip": null,
+      "shares": 35782,
+      "value": 115898.51,
+      "pctOfPortfolio": 0.7037241835
+    },
+    {
+      "name": "AutoNation Inc",
+      "cusip": "05329W102",
+      "shares": 635,
+      "value": 115804.95,
+      "pctOfPortfolio": 0.7031560965
+    },
+    {
+      "name": "Blue Owl Capital Corp",
+      "cusip": "69121K104",
+      "shares": 7472,
+      "value": 115517.12,
+      "pctOfPortfolio": 0.7014084214
+    },
+    {
+      "name": "Bankinter SA",
+      "cusip": null,
+      "shares": 11915,
+      "value": 115369.05,
+      "pctOfPortfolio": 0.7005093552
+    },
+    {
+      "name": "Simmons First National Corp",
+      "cusip": "828730200",
+      "shares": 5245,
+      "value": 115232.65,
+      "pctOfPortfolio": 0.699681148
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": null,
+      "shares": 8904,
+      "value": 114683.52,
+      "pctOfPortfolio": 0.6963468855
+    },
+    {
+      "name": "IG Group Holdings PLC",
+      "cusip": null,
+      "shares": 9539,
+      "value": 114230.9,
+      "pctOfPortfolio": 0.693598622
+    },
+    {
+      "name": "Pirelli & C SpA",
+      "cusip": null,
+      "shares": 17953,
+      "value": 112375.03,
+      "pctOfPortfolio": 0.6823299646
+    },
+    {
+      "name": "Bread Financial Holdings Inc",
+      "cusip": "018581108",
+      "shares": 2067,
+      "value": 111618,
+      "pctOfPortfolio": 0.677733354
+    },
+    {
+      "name": "Wendel SE",
+      "cusip": null,
+      "shares": 1111,
+      "value": 111331.65,
+      "pctOfPortfolio": 0.6759946654
+    },
+    {
+      "name": "Boliden AB",
+      "cusip": null,
+      "shares": 3165,
+      "value": 110525.58,
+      "pctOfPortfolio": 0.6711002888
+    },
+    {
+      "name": "British American Tobacco PLC",
+      "cusip": null,
+      "shares": 2846,
+      "value": 110513.5,
+      "pctOfPortfolio": 0.6710269403
+    },
+    {
+      "name": "Television Francaise 1 SA",
+      "cusip": null,
+      "shares": 13206,
+      "value": 109936.98,
+      "pctOfPortfolio": 0.6675263684
+    },
+    {
+      "name": "First Commonwealth Financial C",
+      "cusip": "319829107",
+      "shares": 6677,
+      "value": 109769.88,
+      "pctOfPortfolio": 0.6665117539
+    },
+    {
+      "name": "Breedon Group PLC",
+      "cusip": null,
+      "shares": 19710,
+      "value": 108593.68,
+      "pctOfPortfolio": 0.6593699849
+    },
+    {
+      "name": "Power Corp of Canada",
+      "cusip": "739239101",
+      "shares": 3179,
+      "value": 107889.34,
+      "pctOfPortfolio": 0.6550933027
+    },
+    {
+      "name": "AGCO Corp",
+      "cusip": "001084102",
+      "shares": 1112,
+      "value": 107830.64,
+      "pctOfPortfolio": 0.6547368822
+    },
+    {
+      "name": "Gestamp Automocion SA",
+      "cusip": null,
+      "shares": 39114,
+      "value": 107726.92,
+      "pctOfPortfolio": 0.6541071047
+    },
+    {
+      "name": "Tyson Foods Inc",
+      "cusip": "902494103",
+      "shares": 1748,
+      "value": 107222.32,
+      "pctOfPortfolio": 0.6510432239
+    },
+    {
+      "name": "Altri SGPS SA",
+      "cusip": null,
+      "shares": 17013,
+      "value": 106861.81,
+      "pctOfPortfolio": 0.6488542431
+    },
+    {
+      "name": "Semirara Mining & Power Corp",
+      "cusip": null,
+      "shares": 164800,
+      "value": 106139.24,
+      "pctOfPortfolio": 0.6444668702
+    },
+    {
+      "name": "National Bank of Canada",
+      "cusip": "633067103",
+      "shares": 1272,
+      "value": 105865.92,
+      "pctOfPortfolio": 0.6428072985
+    },
+    {
+      "name": "Weis Markets Inc",
+      "cusip": "948849104",
+      "shares": 1431,
+      "value": 105865.38,
+      "pctOfPortfolio": 0.6428040196
+    },
+    {
+      "name": "DHL Group",
+      "cusip": null,
+      "shares": 2701,
+      "value": 105603.47,
+      "pctOfPortfolio": 0.6412137283
+    },
+    {
+      "name": "Coface SA",
+      "cusip": null,
+      "shares": 6199,
+      "value": 105589.87,
+      "pctOfPortfolio": 0.6411311504
+    },
+    {
+      "name": "Brembo NV",
+      "cusip": null,
+      "shares": 10483,
+      "value": 104885.46,
+      "pctOfPortfolio": 0.6368540432
+    },
+    {
+      "name": "FS KKR Capital Corp",
+      "cusip": "302635206",
+      "shares": 4452,
+      "value": 104532.96,
+      "pctOfPortfolio": 0.6347136984
+    },
+    {
+      "name": "Atco Ltd/Canada",
+      "cusip": "046789400",
+      "shares": 3179,
+      "value": 103450.71,
+      "pctOfPortfolio": 0.6281423844
+    },
+    {
+      "name": "Jyske Bank A/S",
+      "cusip": null,
+      "shares": 1273,
+      "value": 102699.13,
+      "pctOfPortfolio": 0.6235788657
+    },
+    {
+      "name": "Acerinox SA",
+      "cusip": null,
+      "shares": 8744,
+      "value": 102588.87,
+      "pctOfPortfolio": 0.622909378
+    },
+    {
+      "name": "First Interstate BancSystem In",
+      "cusip": "32055Y201",
+      "shares": 3339,
+      "value": 102507.3,
+      "pctOfPortfolio": 0.6224140931
+    },
+    {
+      "name": "Befesa SA",
+      "cusip": null,
+      "shares": 4294,
+      "value": 100758.6,
+      "pctOfPortfolio": 0.6117961612
+    },
+    {
+      "name": "Matador Resources Co",
+      "cusip": "576485205",
+      "shares": 1917,
+      "value": 100335.78,
+      "pctOfPortfolio": 0.6092288404
+    },
+    {
+      "name": "Johnson Matthey PLC",
+      "cusip": null,
+      "shares": 5565,
+      "value": 100102.52,
+      "pctOfPortfolio": 0.607812509
+    },
+    {
+      "name": "Drax Group PLC",
+      "cusip": null,
+      "shares": 13036,
+      "value": 100027.17,
+      "pctOfPortfolio": 0.6073549913
+    },
+    {
+      "name": "Metropole Television SA",
+      "cusip": null,
+      "shares": 7471,
+      "value": 99976.04,
+      "pctOfPortfolio": 0.607044535
+    },
+    {
+      "name": "Shell PLC",
+      "cusip": null,
+      "shares": 3012,
+      "value": 99872.1,
+      "pctOfPortfolio": 0.6064134217
+    },
+    {
+      "name": "Bank of Montreal",
+      "cusip": "063671101",
+      "shares": 960,
+      "value": 98710.63,
+      "pctOfPortfolio": 0.5993610918
+    },
+    {
+      "name": "Stella-Jones Inc",
+      "cusip": "85853F105",
+      "shares": 2057,
+      "value": 98360.64,
+      "pctOfPortfolio": 0.5972359875
+    },
+    {
+      "name": "Vodafone Group PLC",
+      "cusip": null,
+      "shares": 109854,
+      "value": 96977.96,
+      "pctOfPortfolio": 0.5888404926
+    },
+    {
+      "name": "Ligand Pharmaceuticals Inc",
+      "cusip": "53220K504",
+      "shares": 793,
+      "value": 96928.39,
+      "pctOfPortfolio": 0.5885395085
+    },
+    {
+      "name": "Sanlorenzo SpA/Ameglia",
+      "cusip": null,
+      "shares": 2861,
+      "value": 96307.48,
+      "pctOfPortfolio": 0.5847694049
+    },
+    {
+      "name": "Pets at Home Group Plc",
+      "cusip": null,
+      "shares": 32443,
+      "value": 95984.72,
+      "pctOfPortfolio": 0.5828096384
+    },
+    {
+      "name": "DB Insurance Co Ltd",
+      "cusip": null,
+      "shares": 1536,
+      "value": 95967.19,
+      "pctOfPortfolio": 0.582703198
+    },
+    {
+      "name": "Malibu Boats Inc",
+      "cusip": "56117J100",
+      "shares": 2856,
+      "value": 95333.28,
+      "pctOfPortfolio": 0.5788541598
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 959,
+      "value": 95084.85,
+      "pctOfPortfolio": 0.5773457176
+    },
+    {
+      "name": "Crocs Inc",
+      "cusip": "227046109",
+      "shares": 952,
+      "value": 94790.64,
+      "pctOfPortfolio": 0.5755593039
+    },
+    {
+      "name": "Resideo Technologies Inc",
+      "cusip": "76118Y104",
+      "shares": 4928,
+      "value": 94666.88,
+      "pctOfPortfolio": 0.5748078455
+    },
+    {
+      "name": "Bank of Nova Scotia/The",
+      "cusip": "064149107",
+      "shares": 1894,
+      "value": 94022.52,
+      "pctOfPortfolio": 0.5708953559
+    },
+    {
+      "name": "LG Uplus Corp",
+      "cusip": null,
+      "shares": 12996,
+      "value": 93989.8,
+      "pctOfPortfolio": 0.5706966833
+    },
+    {
+      "name": "Mullen Group Ltd",
+      "cusip": "625284104",
+      "shares": 10176,
+      "value": 92563.44,
+      "pctOfPortfolio": 0.5620359678
+    },
+    {
+      "name": "Persimmon PLC",
+      "cusip": null,
+      "shares": 6043,
+      "value": 91597.46,
+      "pctOfPortfolio": 0.5561706336
+    },
+    {
+      "name": "Rubis SCA",
+      "cusip": null,
+      "shares": 3328,
+      "value": 91486.43,
+      "pctOfPortfolio": 0.5554964706
+    },
+    {
+      "name": "Howden Joinery Group PLC",
+      "cusip": null,
+      "shares": 9379,
+      "value": 91196.85,
+      "pctOfPortfolio": 0.5537381697
+    },
+    {
+      "name": "Nutrien Ltd",
+      "cusip": "67077M108",
+      "shares": 1734,
+      "value": 90873.95,
+      "pctOfPortfolio": 0.5517775531
+    },
+    {
+      "name": "GSK PLC",
+      "cusip": null,
+      "shares": 4925,
+      "value": 90851.5,
+      "pctOfPortfolio": 0.551641239
+    },
+    {
+      "name": "Lamb Weston Holdings Inc",
+      "cusip": "513272104",
+      "shares": 1747,
+      "value": 90616.89,
+      "pctOfPortfolio": 0.5502167105
+    },
+    {
+      "name": "Tamarack Valley Energy Ltd",
+      "cusip": "87505Y409",
+      "shares": 30050,
+      "value": 88690.86,
+      "pctOfPortfolio": 0.5385220486
+    },
+    {
+      "name": "Whitecap Resources Inc",
+      "cusip": "96467A200",
+      "shares": 13038,
+      "value": 88587.21,
+      "pctOfPortfolio": 0.5378926961
+    },
+    {
+      "name": "Heartland Express Inc",
+      "cusip": "422347104",
+      "shares": 8584,
+      "value": 88586.88,
+      "pctOfPortfolio": 0.5378906924
+    },
+    {
+      "name": "KB Financial Group Inc",
+      "cusip": null,
+      "shares": 1646,
+      "value": 88100.21,
+      "pctOfPortfolio": 0.5349356808
+    },
+    {
+      "name": "MFE-MediaForEurope NV",
+      "cusip": null,
+      "shares": 19045,
+      "value": 87995.13,
+      "pctOfPortfolio": 0.5342976455
+    },
+    {
+      "name": "Bouygues SA",
+      "cusip": null,
+      "shares": 2543,
+      "value": 87159.33,
+      "pctOfPortfolio": 0.5292227513
+    },
+    {
+      "name": "MTN Group Ltd",
+      "cusip": null,
+      "shares": 13675,
+      "value": 86406.12,
+      "pctOfPortfolio": 0.5246493354
+    },
+    {
+      "name": "Colruyt Group N.V",
+      "cusip": null,
+      "shares": 2224,
+      "value": 85777.16,
+      "pctOfPortfolio": 0.520830353
+    },
+    {
+      "name": "Volkswagen AG",
+      "cusip": null,
+      "shares": 794,
+      "value": 85743.01,
+      "pctOfPortfolio": 0.5206229977
+    },
+    {
+      "name": "Helmerich & Payne Inc",
+      "cusip": "423452101",
+      "shares": 3207,
+      "value": 85017.57,
+      "pctOfPortfolio": 0.5162181984
+    },
+    {
+      "name": "Winpak Ltd",
+      "cusip": "97535P104",
+      "shares": 3020,
+      "value": 84833.45,
+      "pctOfPortfolio": 0.5151002401
+    },
+    {
+      "name": "Eni SpA",
+      "cusip": null,
+      "shares": 5883,
+      "value": 84547.64,
+      "pctOfPortfolio": 0.5133648303
+    },
+    {
+      "name": "Norion Bank AB",
+      "cusip": null,
+      "shares": 22100,
+      "value": 84154.51,
+      "pctOfPortfolio": 0.5109777842
+    },
+    {
+      "name": "Hana Financial Group Inc",
+      "cusip": null,
+      "shares": 2069,
+      "value": 84151.69,
+      "pctOfPortfolio": 0.5109606615
+    },
+    {
+      "name": "CVS Health Corp",
+      "cusip": "126650100",
+      "shares": 1271,
+      "value": 83530.12,
+      "pctOfPortfolio": 0.5071865505
+    },
+    {
+      "name": "Prudential PLC",
+      "cusip": null,
+      "shares": 9126,
+      "value": 83502.13,
+      "pctOfPortfolio": 0.507016598
+    },
+    {
+      "name": "ProSiebenSat.1 Media SE",
+      "cusip": null,
+      "shares": 13675,
+      "value": 83199.9,
+      "pctOfPortfolio": 0.5051814876
+    },
+    {
+      "name": "KT&G Corp",
+      "cusip": null,
+      "shares": 1238,
+      "value": 83187.78,
+      "pctOfPortfolio": 0.5051078962
+    },
+    {
+      "name": "MOL Hungarian Oil & Gas PLC",
+      "cusip": null,
+      "shares": 11103,
+      "value": 82320.28,
+      "pctOfPortfolio": 0.4998405228
+    },
+    {
+      "name": "Douglas AG",
+      "cusip": null,
+      "shares": 4838,
+      "value": 82307.08,
+      "pctOfPortfolio": 0.4997603737
+    },
+    {
+      "name": "HighPeak Energy Inc",
+      "cusip": "43114Q105",
+      "shares": 6358,
+      "value": 82145.36,
+      "pctOfPortfolio": 0.498778426
+    },
+    {
+      "name": "Sealed Air Corp",
+      "cusip": "81211K100",
+      "shares": 2384,
+      "value": 81485.12,
+      "pctOfPortfolio": 0.4947695146
+    },
+    {
+      "name": "Tourmaline Oil Corp",
+      "cusip": "89156V106",
+      "shares": 1748,
+      "value": 80649.04,
+      "pctOfPortfolio": 0.4896929203
+    },
+    {
+      "name": "Berkeley Group Holdings PLC",
+      "cusip": null,
+      "shares": 1775,
+      "value": 80379.38,
+      "pctOfPortfolio": 0.4880555717
+    },
+    {
+      "name": "UMS Integration Ltd",
+      "cusip": "Y9050L106",
+      "shares": 105685,
+      "value": 79765.22,
+      "pctOfPortfolio": 0.4843264535
+    },
+    {
+      "name": "Piaggio & C SpA",
+      "cusip": null,
+      "shares": 35783,
+      "value": 79361.88,
+      "pctOfPortfolio": 0.4818774133
+    },
+    {
+      "name": "Repsol SA",
+      "cusip": null,
+      "shares": 6200,
+      "value": 79173.02,
+      "pctOfPortfolio": 0.4807306742
+    },
+    {
+      "name": "Mercedes-Benz Group AG",
+      "cusip": null,
+      "shares": 1272,
+      "value": 78867.46,
+      "pctOfPortfolio": 0.4788753444
+    },
+    {
+      "name": "Black Stone Minerals LP",
+      "cusip": "09225M101",
+      "shares": 5247,
+      "value": 78495.12,
+      "pctOfPortfolio": 0.4766145331
+    },
+    {
+      "name": "Acciona SA",
+      "cusip": null,
+      "shares": 635,
+      "value": 78190.13,
+      "pctOfPortfolio": 0.4747626642
+    },
+    {
+      "name": "Computacenter PLC",
+      "cusip": null,
+      "shares": 2863,
+      "value": 77284.94,
+      "pctOfPortfolio": 0.4692664409
+    },
+    {
+      "name": "Samsung Electronics Co Ltd",
+      "cusip": null,
+      "shares": 2067,
+      "value": 77005.61,
+      "pctOfPortfolio": 0.467570377
+    },
+    {
+      "name": "Cenovus Energy Inc",
+      "cusip": "15135U109",
+      "shares": 5566,
+      "value": 76983.35,
+      "pctOfPortfolio": 0.4674352165
+    },
+    {
+      "name": "Sirius XM Holdings Inc",
+      "cusip": "829933100",
+      "shares": 3180,
+      "value": 76924.2,
+      "pctOfPortfolio": 0.4670760636
+    },
+    {
+      "name": "BFF Bank SpA",
+      "cusip": null,
+      "shares": 9062,
+      "value": 75721.13,
+      "pctOfPortfolio": 0.4597711427
+    },
+    {
+      "name": "Consensus Cloud Solutions Inc",
+      "cusip": "20848V105",
+      "shares": 2860,
+      "value": 74846.2,
+      "pctOfPortfolio": 0.4544586551
+    },
+    {
+      "name": "Prospect Capital Corp",
+      "cusip": "74348T102",
+      "shares": 17007,
+      "value": 74830.8,
+      "pctOfPortfolio": 0.4543651478
+    },
+    {
+      "name": "Brenntag SE",
+      "cusip": null,
+      "shares": 1123,
+      "value": 74347.1,
+      "pctOfPortfolio": 0.4514281697
+    },
+    {
+      "name": "Ionis Pharmaceuticals Inc",
+      "cusip": "462222100",
+      "shares": 2236,
+      "value": 74212.84,
+      "pctOfPortfolio": 0.4506129564
+    },
+    {
+      "name": "Beazer Homes USA Inc",
+      "cusip": "07556Q881",
+      "shares": 3327,
+      "value": 74192.1,
+      "pctOfPortfolio": 0.4504870252
+    },
+    {
+      "name": "Magellan Financial Group Ltd",
+      "cusip": null,
+      "shares": 14787,
+      "value": 74045.1,
+      "pctOfPortfolio": 0.4495944558
+    },
+    {
+      "name": "Centene Corp",
+      "cusip": "15135B101",
+      "shares": 1272,
+      "value": 73979.52,
+      "pctOfPortfolio": 0.4491962606
+    },
+    {
+      "name": "Zignago Vetro SpA",
+      "cusip": null,
+      "shares": 7315,
+      "value": 73833.7,
+      "pctOfPortfolio": 0.4483108561
+    },
+    {
+      "name": "Wilmar International Ltd",
+      "cusip": null,
+      "shares": 30679,
+      "value": 72869.58,
+      "pctOfPortfolio": 0.4424568157
+    },
+    {
+      "name": "Conduit Holdings Ltd",
+      "cusip": null,
+      "shares": 14626,
+      "value": 72855.87,
+      "pctOfPortfolio": 0.44237357
+    },
+    {
+      "name": "Verallia SA",
+      "cusip": null,
+      "shares": 2543,
+      "value": 70751,
+      "pctOfPortfolio": 0.4295930095
+    },
+    {
+      "name": "Cleveland-Cliffs Inc",
+      "cusip": "185899101",
+      "shares": 6375,
+      "value": 69105,
+      "pctOfPortfolio": 0.4195986618
+    },
+    {
+      "name": "Embecta Corp",
+      "cusip": "29082K105",
+      "shares": 5087,
+      "value": 68674.5,
+      "pctOfPortfolio": 0.4169847088
+    },
+    {
+      "name": "Schaeffler AG",
+      "cusip": null,
+      "shares": 13674,
+      "value": 68335.25,
+      "pctOfPortfolio": 0.4149248166
+    },
+    {
+      "name": "Deutsche Lufthansa AG",
+      "cusip": null,
+      "shares": 9221,
+      "value": 66059.01,
+      "pctOfPortfolio": 0.4011037146
+    },
+    {
+      "name": "X-Fab Silicon Foundries SE",
+      "cusip": null,
+      "shares": 13675,
+      "value": 64829.25,
+      "pctOfPortfolio": 0.3936367346
+    },
+    {
+      "name": "Devon Energy Corp",
+      "cusip": "25179M103",
+      "shares": 1748,
+      "value": 63312.56,
+      "pctOfPortfolio": 0.3844275443
+    },
+    {
+      "name": "LG H&H Co Ltd",
+      "cusip": null,
+      "shares": 289,
+      "value": 63118.12,
+      "pctOfPortfolio": 0.383246924
+    },
+    {
+      "name": "HF Sinclair Corp",
+      "cusip": "403949100",
+      "shares": 1762,
+      "value": 62145.74,
+      "pctOfPortfolio": 0.3773427297
+    },
+    {
+      "name": "Teleperformance SE",
+      "cusip": null,
+      "shares": 635,
+      "value": 61037.04,
+      "pctOfPortfolio": 0.370610814
+    },
+    {
+      "name": "Interfor Corp",
+      "cusip": "45868C109",
+      "shares": 5087,
+      "value": 60266.93,
+      "pctOfPortfolio": 0.365934783
+    },
+    {
+      "name": "New Hope Corp Ltd",
+      "cusip": null,
+      "shares": 23852,
+      "value": 59496.8,
+      "pctOfPortfolio": 0.3612586305
+    },
+    {
+      "name": "Advance Auto Parts Inc",
+      "cusip": "00751Y106",
+      "shares": 1590,
+      "value": 58671,
+      "pctOfPortfolio": 0.3562444553
+    },
+    {
+      "name": "Orion SA",
+      "cusip": null,
+      "shares": 4135,
+      "value": 57807.3,
+      "pctOfPortfolio": 0.3510001551
+    },
+    {
+      "name": "Umicore SA",
+      "cusip": null,
+      "shares": 6354,
+      "value": 57740.27,
+      "pctOfPortfolio": 0.3505931557
+    },
+    {
+      "name": "Parex Resources Inc",
+      "cusip": "69946Q104",
+      "shares": 5884,
+      "value": 57345.36,
+      "pctOfPortfolio": 0.3481953016
+    },
+    {
+      "name": "Volvo Car AB",
+      "cusip": null,
+      "shares": 26869,
+      "value": 56647.22,
+      "pctOfPortfolio": 0.3439562652
+    },
+    {
+      "name": "Dr Ing hc F Porsche AG",
+      "cusip": null,
+      "shares": 968,
+      "value": 56634.61,
+      "pctOfPortfolio": 0.3438796985
+    },
+    {
+      "name": "LG Electronics Inc",
+      "cusip": null,
+      "shares": 990,
+      "value": 53394.63,
+      "pctOfPortfolio": 0.3242068634
+    },
+    {
+      "name": "ProFrac Holding Corp",
+      "cusip": "74319N100",
+      "shares": 6996,
+      "value": 50301.24,
+      "pctOfPortfolio": 0.3054241081
+    },
+    {
+      "name": "LG Innotek Co Ltd",
+      "cusip": null,
+      "shares": 441,
+      "value": 48956.46,
+      "pctOfPortfolio": 0.2972587382
+    },
+    {
+      "name": "Capri Holdings Ltd",
+      "cusip": null,
+      "shares": 2227,
+      "value": 48949.46,
+      "pctOfPortfolio": 0.2972162349
+    },
+    {
+      "name": "Dorian LPG Ltd",
+      "cusip": null,
+      "shares": 2384,
+      "value": 48538.24,
+      "pctOfPortfolio": 0.2947193481
+    },
+    {
+      "name": "AMN Healthcare Services Inc",
+      "cusip": "001744101",
+      "shares": 1908,
+      "value": 48310.56,
+      "pctOfPortfolio": 0.2933368978
+    },
+    {
+      "name": "Paramount Resources Ltd",
+      "cusip": "699320206",
+      "shares": 4127,
+      "value": 47096.44,
+      "pctOfPortfolio": 0.2859648824
+    },
+    {
+      "name": "Herbalife Ltd",
+      "cusip": null,
+      "shares": 5405,
+      "value": 44861.5,
+      "pctOfPortfolio": 0.2723945498
+    },
+    {
+      "name": "JD Sports Fashion PLC",
+      "cusip": "G5144Y120",
+      "shares": 44518,
+      "value": 43712.74,
+      "pctOfPortfolio": 0.2654193938
+    },
+    {
+      "name": "AMG Critical Materials NV",
+      "cusip": null,
+      "shares": 2227,
+      "value": 38279.85,
+      "pctOfPortfolio": 0.232431428
+    },
+    {
+      "name": "Bayer AG",
+      "cusip": null,
+      "shares": 1590,
+      "value": 37457.75,
+      "pctOfPortfolio": 0.2274397189
+    },
+    {
+      "name": "Albemarle Corp",
+      "cusip": "012653101",
+      "shares": 476,
+      "value": 36666.28,
+      "pctOfPortfolio": 0.222633992
+    },
+    {
+      "name": "Sibanye Stillwater Ltd",
+      "cusip": null,
+      "shares": 46111,
+      "value": 34700.31,
+      "pctOfPortfolio": 0.2106968185
+    },
+    {
+      "name": "Intrum AB",
+      "cusip": null,
+      "shares": 11567,
+      "value": 31820.5,
+      "pctOfPortfolio": 0.1932108996
+    },
+    {
+      "name": "Verbio SE",
+      "cusip": null,
+      "shares": 1908,
+      "value": 17486.88,
+      "pctOfPortfolio": 0.1061785898
+    },
+    {
+      "name": "Polestar Automotive Holding UK",
+      "cusip": "731105201",
+      "shares": 5723,
+      "value": 6238.07,
+      "pctOfPortfolio": 0.0378769383
+    },
+    {
+      "name": "KT Corp",
+      "cusip": null,
+      "shares": 91,
+      "value": 2923.64,
+      "pctOfPortfolio": 0.0177520502
+    }
+  ],
+  "totalValue": 16538534.150000002,
+  "positionsCount": 174
+}

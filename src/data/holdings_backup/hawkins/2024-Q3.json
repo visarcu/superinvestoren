@@ -1,0 +1,168 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-08-27",
+  "period": "2024-08-27",
+  "positions": [
+    {
+      "name": "Glanbia PLC",
+      "cusip": "G39021103",
+      "shares": 488686,
+      "value": 9527675630,
+      "pctOfPortfolio": 385.3056540746
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 192394,
+      "value": 8549989359.999999,
+      "pctOfPortfolio": 345.7673592826
+    },
+    {
+      "name": "Delivery Hero SE",
+      "cusip": "D1T0KZ103",
+      "shares": 365075,
+      "value": 8674539840,
+      "pctOfPortfolio": 350.80426503219996
+    },
+    {
+      "name": "Warner Bros. Discovery Inc.",
+      "cusip": "934423104",
+      "shares": 1201969,
+      "value": 8942649360,
+      "pctOfPortfolio": 361.6467955695
+    },
+    {
+      "name": "Bio-Rad Laboratories, Inc.",
+      "cusip": "090572207",
+      "shares": 36155,
+      "value": 9874292050,
+      "pctOfPortfolio": 399.32305680829995
+    },
+    {
+      "name": "Millicom International Cellular SA",
+      "cusip": "L6388F128",
+      "shares": 603684,
+      "value": 14661254970,
+      "pctOfPortfolio": 592.9110787508
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 607534,
+      "value": 14763076200,
+      "pctOfPortfolio": 597.0287982395
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 271062,
+      "value": 12699254700,
+      "pctOfPortfolio": 513.5664592776
+    },
+    {
+      "name": "Compagnie Financiere Richemont Sa",
+      "cusip": "H25662182",
+      "shares": 77572,
+      "value": 12124801080,
+      "pctOfPortfolio": 490.33516589759995
+    },
+    {
+      "name": "Exor Nv",
+      "cusip": "N3140A107",
+      "shares": 141869,
+      "value": 14823183300,
+      "pctOfPortfolio": 599.4595700646
+    },
+    {
+      "name": "Eurofins Scientific SE",
+      "cusip": "L31839134",
+      "shares": 223991,
+      "value": 11217998840,
+      "pctOfPortfolio": 453.6634692773
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "N7163R103",
+      "shares": 406140,
+      "value": 14445598390,
+      "pctOfPortfolio": 584.1897806252999
+    },
+    {
+      "name": "Vivendi SE",
+      "cusip": "F97982106",
+      "shares": 943647,
+      "value": 9865289070,
+      "pctOfPortfolio": 398.95897020079997
+    },
+    {
+      "name": "Affiliated Managers Group, Inc.",
+      "cusip": "008252108",
+      "shares": 89245,
+      "value": 13942746350,
+      "pctOfPortfolio": 563.854103625
+    },
+    {
+      "name": "Live Nation Entertainment, Inc.",
+      "cusip": "538034109",
+      "shares": 100914,
+      "value": 9459678360,
+      "pctOfPortfolio": 382.555798432
+    },
+    {
+      "name": "Fidelity National Information Services Inc",
+      "cusip": "31620M106",
+      "shares": 159851,
+      "value": 12046371360,
+      "pctOfPortfolio": 487.1634149127
+    },
+    {
+      "name": "Mattel, Inc.",
+      "cusip": "577081102",
+      "shares": 505258,
+      "value": 8215495080,
+      "pctOfPortfolio": 332.240184099
+    },
+    {
+      "name": "Accor SA",
+      "cusip": "F00189120",
+      "shares": 135139,
+      "value": 5531236230,
+      "pctOfPortfolio": 223.68693857830002
+    },
+    {
+      "name": "Kellanova",
+      "cusip": "487836108",
+      "shares": 219961,
+      "value": 12687350480,
+      "pctOfPortfolio": 513.0850445599
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "N/A",
+      "shares": 7964000,
+      "value": 7964000000,
+      "pctOfPortfolio": 322.0695527657
+    },
+    {
+      "name": "Entain PLC",
+      "cusip": "G3167C109",
+      "shares": 809555,
+      "value": 6419575590,
+      "pctOfPortfolio": 259.6119838293
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 56696,
+      "value": 16999728640,
+      "pctOfPortfolio": 687.4805374463999
+    },
+    {
+      "name": "Warner Music Group Corporation",
+      "cusip": "934550203",
+      "shares": 133467,
+      "value": 4090763550,
+      "pctOfPortfolio": 165.4332479933
+    }
+  ]
+}

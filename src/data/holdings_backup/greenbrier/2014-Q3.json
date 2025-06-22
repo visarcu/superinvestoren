@@ -1,0 +1,137 @@
+{
+  "form": "13F-HR",
+  "date": "2014-08-11",
+  "period": "2014-08-11",
+  "accession": "0001532262-14-000009",
+  "quarterKey": "2014-Q3",
+  "positions": [
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 700000,
+      "value": 47103
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 455000,
+      "value": 42283
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 1500000,
+      "value": 40290
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 200000,
+      "value": 25312
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 200000,
+      "value": 23032
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 35000,
+      "value": 22947
+    },
+    {
+      "name": "WPP PLC NEW",
+      "cusip": "92937A102",
+      "shares": 197535,
+      "value": 21529
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 1000000,
+      "value": 20160
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 400000,
+      "value": 20024
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 28000,
+      "value": 16371
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 28000,
+      "value": 16108
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 300000,
+      "value": 15603
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 200000,
+      "value": 15476
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 150000,
+      "value": 12861
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 100000,
+      "value": 12474
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505104",
+      "shares": 800000,
+      "value": 12296
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 150000,
+      "value": 11880
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 49297,
+      "value": 11329
+    },
+    {
+      "name": "INFINERA CORPORATION",
+      "cusip": "45667G103",
+      "shares": 514800,
+      "value": 4736
+    },
+    {
+      "name": "EOG RES INC",
+      "cusip": "26875P101",
+      "shares": 40000,
+      "value": 4674
+    },
+    {
+      "name": "VALHI INC NEW",
+      "cusip": "918905100",
+      "shares": 344790,
+      "value": 2214
+    }
+  ],
+  "totalValue": 398702,
+  "positionsCount": 21
+}

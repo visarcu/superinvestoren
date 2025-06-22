@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-15",
+  "period": "2021-11-15",
+  "accession": "0001398344-21-021455",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 575491,
+      "value": 195316
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 2773894,
+      "value": 190899
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 847847,
+      "value": 166153
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 568745,
+      "value": 147993
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 777753,
+      "value": 131572
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 1658432,
+      "value": 115543
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 1619966,
+      "value": 72947
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 24909,
+      "value": 66390
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 2550725,
+      "value": 58820
+    }
+  ],
+  "totalValue": 1145633,
+  "positionsCount": 9
+}

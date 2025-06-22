@@ -1,0 +1,233 @@
+{
+  "form": "13F-HR",
+  "date": "2019-02-13",
+  "period": "2019-02-13",
+  "accession": "0001567619-19-003764",
+  "quarterKey": "2019-Q1",
+  "positions": [
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 51281167,
+      "value": 2467650000
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 14196135,
+      "value": 840269000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 17040922,
+      "value": 814215000
+    },
+    {
+      "name": "VIASAT INC",
+      "cusip": "92552V100",
+      "shares": 13732068,
+      "value": 809505000
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 10681181,
+      "value": 648668000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 4755495,
+      "value": 635619000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 29742795,
+      "value": 613891000
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 4500000,
+      "value": 591840000
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 21000000,
+      "value": 589470000
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 15474483,
+      "value": 367519000
+    },
+    {
+      "name": "TESLA INC",
+      "cusip": "88160RAD3",
+      "shares": 300000000,
+      "value": 364125000
+    },
+    {
+      "name": "SYNCHRONY FINL",
+      "cusip": "87165B103",
+      "shares": 14553557,
+      "value": 341426000
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674X106",
+      "shares": 28587791,
+      "value": 268439000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "G8807B106",
+      "shares": 9309168,
+      "value": 238222000
+    },
+    {
+      "name": "COLONY CAP INC NEW",
+      "cusip": "19626G108",
+      "shares": 49687370,
+      "value": 232537000
+    },
+    {
+      "name": "ATARA BIOTHERAPEUTICS INC",
+      "cusip": "046513107",
+      "shares": 6254632,
+      "value": 217286000
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1720011,
+      "value": 190010000
+    },
+    {
+      "name": "UNIVAR INC",
+      "cusip": "91336L107",
+      "shares": 9500000,
+      "value": 168530000
+    },
+    {
+      "name": "AMERISOURCEBERGEN CORP",
+      "cusip": "03073E105",
+      "shares": 2014299,
+      "value": 149864000
+    },
+    {
+      "name": "AKEBIA THERAPEUTICS INC",
+      "cusip": "00972D105",
+      "shares": 24471453,
+      "value": 135327000
+    },
+    {
+      "name": "CBS CORP NEW",
+      "cusip": "124857202",
+      "shares": 2547059,
+      "value": 111357000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 4957205,
+      "value": 105787000
+    },
+    {
+      "name": "VERITIV CORP",
+      "cusip": "923454102",
+      "shares": 3564439,
+      "value": 89004000
+    },
+    {
+      "name": "YPF SOCIEDAD ANONIMA",
+      "cusip": "984245100",
+      "shares": 6000000,
+      "value": 80340000
+    },
+    {
+      "name": "SHIRE PLC",
+      "cusip": "82481R106",
+      "shares": 460473,
+      "value": 80141000
+    },
+    {
+      "name": "SINCLAIR BROADCAST GROUP INC",
+      "cusip": "829226109",
+      "shares": 3000000,
+      "value": 79020000
+    },
+    {
+      "name": "NEXSTAR MEDIA GROUP INC",
+      "cusip": "65336K103",
+      "shares": 950000,
+      "value": 74708000
+    },
+    {
+      "name": "CARDINAL HEALTH INC",
+      "cusip": "14149Y108",
+      "shares": 1467652,
+      "value": 65457000
+    },
+    {
+      "name": "TRANSLATE BIO INC",
+      "cusip": "89374L104",
+      "shares": 6491287,
+      "value": 47136000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "88339KAA0",
+      "shares": 30000000,
+      "value": 30863000
+    },
+    {
+      "name": "TRILOGY METALS INC NEW",
+      "cusip": "89621C105",
+      "shares": 13050758,
+      "value": 22494000
+    },
+    {
+      "name": "AMC ENTMT HLDGS INC",
+      "cusip": "00165C104",
+      "shares": 1458002,
+      "value": 17904000
+    },
+    {
+      "name": "SENTINEL ENERGY SVCS INC",
+      "cusip": "81728P204",
+      "shares": 1600000,
+      "value": 16480000
+    },
+    {
+      "name": "PARATEK PHARMACEUTICALS INC",
+      "cusip": "699374302",
+      "shares": 2394498,
+      "value": 12284000
+    },
+    {
+      "name": "NEXEO SOLUTIONS INC",
+      "cusip": "65342H110",
+      "shares": 10000000,
+      "value": 4000000
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "G4182A128",
+      "shares": 1466666,
+      "value": 1143000
+    },
+    {
+      "name": "SABAN CAP ACQUISITION CORP",
+      "cusip": "78516C114",
+      "shares": 1163250,
+      "value": 698000
+    }
+  ],
+  "totalValue": 11523228000,
+  "positionsCount": 37
+}

@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2014-11-13",
+  "period": "2014-11-13",
+  "accession": "0001172661-14-001736",
+  "quarterKey": "2014-Q4",
+  "positions": [
+    {
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 21608707,
+      "value": 346604
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 4801276,
+      "value": 259365
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 4980000,
+      "value": 230873
+    },
+    {
+      "name": "COVIDIEN PLC",
+      "cusip": "G2554F113",
+      "shares": 2620000,
+      "value": 226656
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 2770000,
+      "value": 143680
+    },
+    {
+      "name": "CST BRANDS INC",
+      "cusip": "12646R105",
+      "shares": 3740304,
+      "value": 134464
+    },
+    {
+      "name": "RAYONIER ADVANCED MATLS INC",
+      "cusip": "75508B104",
+      "shares": 2500000,
+      "value": 82275
+    },
+    {
+      "name": "BARNES & NOBLE INC",
+      "cusip": "067774109",
+      "shares": 4114389,
+      "value": 81218
+    },
+    {
+      "name": "OPUS BK IRVINE CALIF",
+      "cusip": "684000102",
+      "shares": 2270265,
+      "value": 69039
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 5000000,
+      "value": 56100
+    },
+    {
+      "name": "INTERXION HOLDING N.V",
+      "cusip": "N47279109",
+      "shares": 820269,
+      "value": 22713
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 22609
+    },
+    {
+      "name": "PENNEY J C INC",
+      "cusip": "708160106",
+      "shares": 1500000,
+      "value": 15060
+    }
+  ],
+  "totalValue": 1690656,
+  "positionsCount": 13
+}

@@ -1,0 +1,185 @@
+{
+  "form": "13F-HR",
+  "date": "2024-01-08",
+  "period": "2024-01-08",
+  "accession": "0001133219-24-000001",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 367713,
+      "value": 18495964
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 38482,
+      "value": 17816396
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 15631,
+      "value": 17448104
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 447752,
+      "value": 17310092
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 313245,
+      "value": 16301270
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 235119,
+      "value": 14038955
+    },
+    {
+      "name": "NMI HLDGS INC",
+      "cusip": "629209305",
+      "shares": 459533,
+      "value": 13638939
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 37849,
+      "value": 13499224
+    },
+    {
+      "name": "KIRBY CORP",
+      "cusip": "497266106",
+      "shares": 168207,
+      "value": 13200885
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 24919,
+      "value": 13119106
+    },
+    {
+      "name": "BGC GROUP INC",
+      "cusip": "088929104",
+      "shares": 1711927,
+      "value": 12360113
+    },
+    {
+      "name": "DOW INC",
+      "cusip": "260557103",
+      "shares": 221932,
+      "value": 12170751
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 60434,
+      "value": 11635358
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 30928,
+      "value": 11630123
+    },
+    {
+      "name": "TEGNA INC",
+      "cusip": "87901J105",
+      "shares": 677641,
+      "value": 10367907
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "595017104",
+      "shares": 111635,
+      "value": 10067244
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 96568,
+      "value": 9967749
+    },
+    {
+      "name": "MASTEC INC",
+      "cusip": "576323109",
+      "shares": 131009,
+      "value": 9920001
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 15040,
+      "value": 8624237
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 152532,
+      "value": 8137582
+    },
+    {
+      "name": "WABTEC",
+      "cusip": "929740108",
+      "shares": 61962,
+      "value": 7862978
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 174555,
+      "value": 7422079
+    },
+    {
+      "name": "ROYAL GOLD INC",
+      "cusip": "780287108",
+      "shares": 57485,
+      "value": 6953386
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 131760,
+      "value": 6760606
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "H8817H100",
+      "shares": 976758,
+      "value": 6202413
+    },
+    {
+      "name": "NEWMONT CORP",
+      "cusip": "651639106",
+      "shares": 143601,
+      "value": 5943645
+    },
+    {
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 19121,
+      "value": 3655362
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 24855,
+      "value": 654929
+    },
+    {
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 9501,
+      "value": 503363
+    }
+  ],
+  "totalValue": 305708761,
+  "positionsCount": 29
+}

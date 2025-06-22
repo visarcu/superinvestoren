@@ -1,4 +1,293 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-13",
-  "positions": []
+  "period": "2020-11-13",
+  "accession": "0001085146-20-002962",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 84935257,
+      "value": 797542
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2525000,
+      "value": 742300
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5300000,
+      "value": 657624
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 3000000,
+      "value": 645990
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 205000,
+      "value": 645490
+    },
+    {
+      "name": "IAA INC",
+      "cusip": "449253103",
+      "shares": 10535000,
+      "value": 548557
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3200000,
+      "value": 471072
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 750000,
+      "value": 468255
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 1425000,
+      "value": 358131
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 4450000,
+      "value": 345364
+    },
+    {
+      "name": "BURLINGTON STORES INC",
+      "cusip": "122017106",
+      "shares": 1670000,
+      "value": 344170
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 640000,
+      "value": 313875
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1550000,
+      "value": 309954
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1125000,
+      "value": 294638
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 1810400,
+      "value": 285373
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 775000,
+      "value": 279465
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1100000,
+      "value": 231363
+    },
+    {
+      "name": "FORTIVE CORP",
+      "cusip": "34959J108",
+      "shares": 3000000,
+      "value": 228630
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 435000,
+      "value": 206677
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 1085000,
+      "value": 199738
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 1750000,
+      "value": 152338
+    },
+    {
+      "name": "TE CONNECTIVITY LTD",
+      "cusip": "H84989104",
+      "shares": 1550000,
+      "value": 151497
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 1625000,
+      "value": 148996
+    },
+    {
+      "name": "PINTEREST INC",
+      "cusip": "72352L106",
+      "shares": 3577500,
+      "value": 148502
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 800000,
+      "value": 130040
+    },
+    {
+      "name": "AVANTOR INC",
+      "cusip": "05352A100",
+      "shares": 5000000,
+      "value": 112450
+    },
+    {
+      "name": "EQUITRANS MIDSTREAM CORP",
+      "cusip": "294600101",
+      "shares": 13000000,
+      "value": 109980
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 300000,
+      "value": 97863
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 800000,
+      "value": 78472
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700107",
+      "shares": 10421052,
+      "value": 72426
+    },
+    {
+      "name": "CAESARS ENTERTAINMENT INC NE",
+      "cusip": "12769G100",
+      "shares": 1000000,
+      "value": 56060
+    },
+    {
+      "name": "FOLEY TRASIMENE ACQUISITION",
+      "cusip": "344328208",
+      "shares": 5000000,
+      "value": 51000
+    },
+    {
+      "name": "PLANET FITNESS INC",
+      "cusip": "72703H101",
+      "shares": 772200,
+      "value": 47583
+    },
+    {
+      "name": "DISH NETWORK CORPORATION",
+      "cusip": "25470MAB5",
+      "shares": 45000000,
+      "value": 41479
+    },
+    {
+      "name": "REINVENT TECHNOLOGY PARTNERS",
+      "cusip": "G7483N111",
+      "shares": 3000000,
+      "value": 34470
+    },
+    {
+      "name": "GO ACQUISITION CORP",
+      "cusip": "362019200",
+      "shares": 3000000,
+      "value": 30240
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 7601115,
+      "value": 29796
+    },
+    {
+      "name": "GOODRX HLDGS INC",
+      "cusip": "38246G108",
+      "shares": 500000,
+      "value": 27800
+    },
+    {
+      "name": "COHN ROBBINS HOLDINGS CORP",
+      "cusip": "G23726121",
+      "shares": 2500000,
+      "value": 25225
+    },
+    {
+      "name": "PALANTIR TECHNOLOGIES INC",
+      "cusip": "69608A108",
+      "shares": 2356991,
+      "value": 21272
+    },
+    {
+      "name": "10X GENOMICS INC",
+      "cusip": "88025U109",
+      "shares": 123268,
+      "value": 15369
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122157",
+      "shares": 6000000,
+      "value": 13500
+    },
+    {
+      "name": "REPLAY ACQUISITION CORP",
+      "cusip": "G75130123",
+      "shares": 1000000,
+      "value": 10530
+    },
+    {
+      "name": "PACTIV EVERGREEN INC",
+      "cusip": "69526K105",
+      "shares": 500000,
+      "value": 6350
+    },
+    {
+      "name": "CHINDATA GROUP HLDGS LTD",
+      "cusip": "16955F107",
+      "shares": 350000,
+      "value": 5680
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287457",
+      "shares": 48027,
+      "value": 4155
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700115",
+      "shares": 1333333,
+      "value": 852
+    }
+  ],
+  "totalValue": 9998133,
+  "positionsCount": 47
 }

@@ -1,0 +1,221 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001172661-25-002393",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "ELEVANCE HEALTH INC",
+      "cusip": "036752103",
+      "shares": 1577570,
+      "value": 686179847
+    },
+    {
+      "name": "TD SYNNEX CORPORATION",
+      "cusip": "87162W100",
+      "shares": 4076466,
+      "value": 423789405
+    },
+    {
+      "name": "ONEMAIN HLDGS INC",
+      "cusip": "68268W103",
+      "shares": 7343636,
+      "value": 358956928
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 9455374,
+      "value": 277704334
+    },
+    {
+      "name": "DISCOVER FINL SVCS",
+      "cusip": "254709108",
+      "shares": 1608880,
+      "value": 274635816
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 2189608,
+      "value": 251323206
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 834654,
+      "value": 237484103
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 4364086,
+      "value": 233565883
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 5476889,
+      "value": 232055787
+    },
+    {
+      "name": "FIDELITY NATIONAL FINANCIAL",
+      "cusip": "31620R303",
+      "shares": 3533961,
+      "value": 229990182
+    },
+    {
+      "name": "MILLROSE PPTYS INC",
+      "cusip": "601137102",
+      "shares": 7958813,
+      "value": 210988133
+    },
+    {
+      "name": "F&G ANNUITIES & LIFE INC",
+      "cusip": "30190A104",
+      "shares": 5289163,
+      "value": 190674326
+    },
+    {
+      "name": "AUTONATION INC",
+      "cusip": "05329W102",
+      "shares": 1130055,
+      "value": 182978506
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 1241578,
+      "value": 155122755
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 1174997,
+      "value": 149377369
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 631553,
+      "value": 113237453
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 381889,
+      "value": 112099697
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676B102",
+      "shares": 1918528,
+      "value": 34533504
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 21858,
+      "value": 3380121
+    },
+    {
+      "name": "JPMORGAN CHASE & CO.",
+      "cusip": "46625H100",
+      "shares": 5643,
+      "value": 1384228
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 31094,
+      "value": 1147369
+    },
+    {
+      "name": "ICON PLC",
+      "cusip": "G4705A100",
+      "shares": 5000,
+      "value": 874950
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 1923,
+      "value": 664493
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 606420
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3790,
+      "value": 592112
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 1746,
+      "value": 494135
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1275,
+      "value": 478622
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 10000,
+      "value": 364700
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 1194,
+      "value": 284411
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1400,
+      "value": 266364
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 499,
+      "value": 261351
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 422,
+      "value": 231307
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 471,
+      "value": 219340
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 618,
+      "value": 216584
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 401,
+      "value": 203748
+    }
+  ],
+  "totalValue": 4366367489,
+  "positionsCount": 35
+}

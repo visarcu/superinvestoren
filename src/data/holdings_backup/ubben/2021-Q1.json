@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-16",
+  "period": "2021-02-16",
+  "accession": "0001418812-21-000008",
+  "quarterKey": "2021-Q1",
+  "positions": [
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 30146673,
+      "value": 1873917
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 27025500,
+      "value": 1666392
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 38050000,
+      "value": 1540645
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 21547746,
+      "value": 759343
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 27005855,
+      "value": 712685
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 10229820,
+      "value": 641614
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 8283722,
+      "value": 567683
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 32294254,
+      "value": 400126
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 17941603,
+      "value": 373185
+    },
+    {
+      "name": "CDW CORP",
+      "cusip": "12514G108",
+      "shares": 368116,
+      "value": 48514
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 328281,
+      "value": 37378
+    }
+  ],
+  "totalValue": 8621482,
+  "positionsCount": 11
+}

@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-13",
+  "period": "2024-11-13",
+  "accession": "0001172661-24-004670",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "SHIFT4 PMTS INC",
+      "cusip": "82452J109",
+      "shares": 1319879,
+      "value": 116941279
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 350530,
+      "value": 97366718
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 943179,
+      "value": 88922916
+    },
+    {
+      "name": "PROCORE TECHNOLOGIES INC",
+      "cusip": "74275K108",
+      "shares": 1438082,
+      "value": 88758421
+    },
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 1579928,
+      "value": 85031725
+    },
+    {
+      "name": "NCINO INC",
+      "cusip": "63947X101",
+      "shares": 2653687,
+      "value": 83829972
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 2963346,
+      "value": 72750144
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 289420,
+      "value": 66711310
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 106952,
+      "value": 66417192
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 6629990,
+      "value": 24862463
+    }
+  ],
+  "totalValue": 791592140,
+  "positionsCount": 10
+}

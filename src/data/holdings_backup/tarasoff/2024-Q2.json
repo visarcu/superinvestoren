@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001420506-24-000906",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 483850,
+      "value": 87276863
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 1547135,
+      "value": 64778542
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 71,
+      "value": 45045240
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 89165,
+      "value": 37513499
+    },
+    {
+      "name": "MARKEL GROUP INC",
+      "cusip": "570535104",
+      "shares": 22135,
+      "value": 33677960
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 259940,
+      "value": 20059570
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 86165,
+      "value": 19462089
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 112780,
+      "value": 17021885
+    },
+    {
+      "name": "BURFORD CAP LTD",
+      "cusip": "G17977110",
+      "shares": 1035380,
+      "value": 16535019
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 425070,
+      "value": 11736183
+    }
+  ],
+  "totalValue": 353106850,
+  "positionsCount": 10
+}

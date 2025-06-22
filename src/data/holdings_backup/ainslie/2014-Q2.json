@@ -1,0 +1,311 @@
+{
+  "form": "13F-HR",
+  "date": "2014-05-15",
+  "period": "2014-05-15",
+  "accession": "0000947871-14-000324",
+  "quarterKey": "2014-Q2",
+  "positions": [
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 2014928,
+      "value": 324262
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 2421778,
+      "value": 319263
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1680460,
+      "value": 311221
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 7575749,
+      "value": 308409
+    },
+    {
+      "name": "PALO ALTO NETWORKS INC",
+      "cusip": "697435105",
+      "shares": 4277369,
+      "value": 293428
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 3572412,
+      "value": 282685
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP",
+      "cusip": "228227104",
+      "shares": 3771422,
+      "value": 278256
+    },
+    {
+      "name": "SOLARWINDS INC",
+      "cusip": "83416B109",
+      "shares": 6448024,
+      "value": 274879
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 4876540,
+      "value": 256018
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 3255257,
+      "value": 251176
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1590534,
+      "value": 242191
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 3593247,
+      "value": 236220
+    },
+    {
+      "name": "CALPINE CORP",
+      "cusip": "131347304",
+      "shares": 11225032,
+      "value": 234715
+    },
+    {
+      "name": "CATAMARAN CORP",
+      "cusip": "148887102",
+      "shares": 5063889,
+      "value": 226660
+    },
+    {
+      "name": "CITRIX SYS INC",
+      "cusip": "177376100",
+      "shares": 3943633,
+      "value": 226522
+    },
+    {
+      "name": "ASHLAND INC NEW",
+      "cusip": "044209104",
+      "shares": 2218776,
+      "value": 220724
+    },
+    {
+      "name": "FORTINET INC",
+      "cusip": "34959E109",
+      "shares": 8796192,
+      "value": 193780
+    },
+    {
+      "name": "AVAGO TECHNOLOGIES LTD",
+      "cusip": "Y0486S104",
+      "shares": 2800615,
+      "value": 180388
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 1492200,
+      "value": 169768
+    },
+    {
+      "name": "RADIAN GROUP INC",
+      "cusip": "750236101",
+      "shares": 11206584,
+      "value": 168435
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 1945891,
+      "value": 153453
+    },
+    {
+      "name": "QLIK TECHNOLOGIES INC",
+      "cusip": "74733T105",
+      "shares": 5408908,
+      "value": 143823
+    },
+    {
+      "name": "MGIC INVT CORP WIS",
+      "cusip": "552848103",
+      "shares": 16500000,
+      "value": 140580
+    },
+    {
+      "name": "YANDEX N V",
+      "cusip": "N97284108",
+      "shares": 4397460,
+      "value": 132759
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 1704351,
+      "value": 132718
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 4044666,
+      "value": 129308
+    },
+    {
+      "name": "CUBIST PHARMACEUTICALS INC",
+      "cusip": "229678107",
+      "shares": 1739818,
+      "value": 127268
+    },
+    {
+      "name": "CTRIP COM INTL LTD",
+      "cusip": "22943F100",
+      "shares": 2426732,
+      "value": 122356
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 15872472,
+      "value": 117615
+    },
+    {
+      "name": "SANTANDER CONSUMER USA HDG I",
+      "cusip": "80283M101",
+      "shares": 4602987,
+      "value": 110840
+    },
+    {
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 2487682,
+      "value": 104955
+    },
+    {
+      "name": "COLUMBIA PPTY TR INC",
+      "cusip": "198287203",
+      "shares": 3787286,
+      "value": 103204
+    },
+    {
+      "name": "TEXTRON INC",
+      "cusip": "883203101",
+      "shares": 2553219,
+      "value": 100316
+    },
+    {
+      "name": "COMMUNITY HEALTH SYS INC NEW",
+      "cusip": "203668108",
+      "shares": 2505134,
+      "value": 98126
+    },
+    {
+      "name": "ALLSCRIPTS HEALTHCARE SOLUTN",
+      "cusip": "01988P108",
+      "shares": 5255290,
+      "value": 94753
+    },
+    {
+      "name": "FOMENTO ECONOMICO MEXICANO S",
+      "cusip": "344419106",
+      "shares": 864051,
+      "value": 80564
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 370931,
+      "value": 39059
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 899319,
+      "value": 37412
+    },
+    {
+      "name": "PACIFIC BIOSCIENCES CALIF IN",
+      "cusip": "69404D108",
+      "shares": 6459784,
+      "value": 34560
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 737850,
+      "value": 34531
+    },
+    {
+      "name": "NOVARTIS A G",
+      "cusip": "66987V109",
+      "shares": 351580,
+      "value": 29891
+    },
+    {
+      "name": "SOUFUN HLDGS LTD",
+      "cusip": "836034108",
+      "shares": 415080,
+      "value": 28400
+    },
+    {
+      "name": "RADIAN GROUP INC",
+      "cusip": "750236AK7",
+      "shares": 15000000,
+      "value": 22252
+    },
+    {
+      "name": "CASTLIGHT HEALTH INC",
+      "cusip": "14862Q100",
+      "shares": 450000,
+      "value": 8684
+    },
+    {
+      "name": "BURGER KING WORLDWIDE INC",
+      "cusip": "121220107",
+      "shares": 312307,
+      "value": 8292
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 62941,
+      "value": 7245
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H139",
+      "shares": 149900,
+      "value": 5299
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097739",
+      "shares": 47881,
+      "value": 1106
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097754",
+      "shares": 31954,
+      "value": 754
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097762",
+      "shares": 10115,
+      "value": 225
+    }
+  ],
+  "totalValue": 7149348,
+  "positionsCount": 50
+}

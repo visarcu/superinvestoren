@@ -1,0 +1,131 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-15",
+  "period": "2016-08-15",
+  "accession": "0000919574-16-014985",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1464127,
+      "value": 1047759
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 4253394,
+      "value": 972496
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 750000,
+      "value": 936308
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 44005044,
+      "value": 934227
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 3259626,
+      "value": 466550
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 1874271,
+      "value": 165048
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1379797,
+      "value": 131909
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 11091426,
+      "value": 106367
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2496213,
+      "value": 103842
+    },
+    {
+      "name": "EHI CAR SVCS LTD",
+      "cusip": "26853A100",
+      "shares": 8334863,
+      "value": 84265
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 602500,
+      "value": 37391
+    },
+    {
+      "name": "ON DECK CAP INC",
+      "cusip": "682163100",
+      "shares": 5473759,
+      "value": 28190
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 500000,
+      "value": 12950
+    },
+    {
+      "name": "PURE STORAGE INC",
+      "cusip": "74624M102",
+      "shares": 1000000,
+      "value": 10900
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 1182237,
+      "value": 10699
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 500000,
+      "value": 6110
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 3294
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 70000,
+      "value": 2153
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 1183
+    },
+    {
+      "name": "AMERICAN FARMLAND CO",
+      "cusip": "02589Y100",
+      "shares": 60000,
+      "value": 362
+    }
+  ],
+  "totalValue": 5062003,
+  "positionsCount": 20
+}

@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001567619-20-003530",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "GAMESTOP CORP NEW",
+      "cusip": "36467W109",
+      "shares": 2350000,
+      "value": 14288
+    },
+    {
+      "name": "TAILORED BRANDS INC",
+      "cusip": "87403A107",
+      "shares": 3300000,
+      "value": 13662
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 8000,
+      "value": 10696
+    },
+    {
+      "name": "MAXAR TECHNOLOGIES INC",
+      "cusip": "57778K105",
+      "shares": 650000,
+      "value": 10186
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 75000,
+      "value": 8717
+    },
+    {
+      "name": "COVETRUS INC",
+      "cusip": "22304C100",
+      "shares": 555900,
+      "value": 7338
+    },
+    {
+      "name": "CENOVUS ENERGY INC",
+      "cusip": "15135U109",
+      "shares": 600000,
+      "value": 6090
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 900000,
+      "value": 5778
+    },
+    {
+      "name": "SPORTSMANS WHSE HLDGS INC",
+      "cusip": "84920Y106",
+      "shares": 690294,
+      "value": 5543
+    }
+  ],
+  "totalValue": 82298,
+  "positionsCount": 9
+}

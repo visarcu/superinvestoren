@@ -1,0 +1,125 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001172661-19-001743",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 295782,
+      "value": 320273
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1259424,
+      "value": 268471
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 2038845,
+      "value": 227943
+    },
+    {
+      "name": "RAYMOND JAMES FINANCIAL INC",
+      "cusip": "754730109",
+      "shares": 2432568,
+      "value": 205674
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 3374497,
+      "value": 163528
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATI",
+      "cusip": "808513105",
+      "shares": 3404870,
+      "value": 136842
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480120",
+      "shares": 4665619,
+      "value": 123779
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303102",
+      "shares": 577756,
+      "value": 111507
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1388318,
+      "value": 97224
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 758386,
+      "value": 90968
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 11752158,
+      "value": 64989
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331109",
+      "shares": 1267087,
+      "value": 54649
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676102",
+      "shares": 667759,
+      "value": 7653
+    },
+    {
+      "name": "FRONTDOOR INC",
+      "cusip": "35905109",
+      "shares": 41368,
+      "value": 1802
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 6875,
+      "value": 1343
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 31094,
+      "value": 1315
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079107",
+      "shares": 1100,
+      "value": 1189
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057302",
+      "shares": 18920,
+      "value": 729
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 421
+    }
+  ],
+  "totalValue": 1880299,
+  "positionsCount": 19
+}

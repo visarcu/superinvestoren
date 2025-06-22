@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001398344-24-020708",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 232669,
+      "value": 133189042
+    },
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332102",
+      "shares": 29458,
+      "value": 92793878
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 553894,
+      "value": 92594460
+    },
+    {
+      "name": "APPLOVIN CORP",
+      "cusip": "03831W108",
+      "shares": 698796,
+      "value": 91227818
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 1162523,
+      "value": 90711670
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 297492,
+      "value": 82708726
+    },
+    {
+      "name": "SMARTSHEET INC",
+      "cusip": "83200N103",
+      "shares": 1493286,
+      "value": 82668313
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 451618,
+      "value": 75506013
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 426060,
+      "value": 67926746
+    },
+    {
+      "name": "SPROUT SOCIAL INC",
+      "cusip": "85209W109",
+      "shares": 1975994,
+      "value": 57442146
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 2113947,
+      "value": 33210107
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 2647145,
+      "value": 27662665
+    }
+  ],
+  "totalValue": 927641584,
+  "positionsCount": 12
+}

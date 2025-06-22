@@ -1,4 +1,167 @@
 {
+  "form": "13F-HR",
   "date": "2015-11-12",
-  "positions": []
+  "period": "2015-11-12",
+  "accession": "0001641864-15-000005",
+  "quarterKey": "2015-Q4",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY",
+      "cusip": "84670702",
+      "shares": 588473,
+      "value": 76737
+    },
+    {
+      "name": "BANK OF THE OZARKS INC",
+      "cusip": "63904106",
+      "shares": 922350,
+      "value": 40362
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 652834,
+      "value": 38726
+    },
+    {
+      "name": "DISNEY WALT COMPANY",
+      "cusip": "254687106",
+      "shares": 351442,
+      "value": 35917
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 1142142,
+      "value": 32391
+    },
+    {
+      "name": "WELLS FARGO CO",
+      "cusip": "949746101",
+      "shares": 564969,
+      "value": 29011
+    },
+    {
+      "name": "VALEANT PHARMA INTL",
+      "cusip": "91911K102",
+      "shares": 125361,
+      "value": 22362
+    },
+    {
+      "name": "M & T BANK CORP",
+      "cusip": "55261F104",
+      "shares": 176398,
+      "value": 21512
+    },
+    {
+      "name": "UNION PACIFIC CORP",
+      "cusip": "907818108",
+      "shares": 232473,
+      "value": 20553
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 293148,
+      "value": 20421
+    },
+    {
+      "name": "MARKEL CORP HOLDING",
+      "cusip": "570535104",
+      "shares": 24936,
+      "value": 19995
+    },
+    {
+      "name": "O'REILLY AUTOMOTIVE",
+      "cusip": "67103H107",
+      "shares": 79362,
+      "value": 19819
+    },
+    {
+      "name": "AMETEK INC",
+      "cusip": "31100100",
+      "shares": 328355,
+      "value": 17180
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 83190,
+      "value": 15123
+    },
+    {
+      "name": "KNIGHT TRANSPORTATION INC",
+      "cusip": "499064103",
+      "shares": 596809,
+      "value": 14323
+    },
+    {
+      "name": "INTL BUSINESS MACHINES",
+      "cusip": "459200101",
+      "shares": 96634,
+      "value": 14009
+    },
+    {
+      "name": "BUFFALO WILD WINGS INC",
+      "cusip": "119848109",
+      "shares": 71656,
+      "value": 13860
+    },
+    {
+      "name": "CABELAS INC CL-A",
+      "cusip": "126804301",
+      "shares": 240142,
+      "value": 10950
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 192654,
+      "value": 10195
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 257451,
+      "value": 9425
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 13137,
+      "value": 7993
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 6230,
+      "value": 3970
+    },
+    {
+      "name": "STANTEC INC",
+      "cusip": "85472N109",
+      "shares": 56352,
+      "value": 1234
+    },
+    {
+      "name": "STERICYCLE INC",
+      "cusip": "858912108",
+      "shares": 4200,
+      "value": 585
+    },
+    {
+      "name": "BROOKFIELD ASSET MGT",
+      "cusip": "112585104",
+      "shares": 13914,
+      "value": 437
+    },
+    {
+      "name": "MASTERCARD INC CL-A",
+      "cusip": "57636Q104",
+      "shares": 1504,
+      "value": 136
+    }
+  ],
+  "totalValue": 497226,
+  "positionsCount": 26
 }

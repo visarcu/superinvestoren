@@ -1,0 +1,329 @@
+{
+  "form": "13F-HR",
+  "date": "2014-08-14",
+  "period": "2014-08-14",
+  "accession": "0000902664-14-003546",
+  "quarterKey": "2014-Q3",
+  "positions": [
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 8923393,
+      "value": 1666979
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 29509835,
+      "value": 1443326
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 10089450,
+      "value": 1272481
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 26347204,
+      "value": 1098678
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 12503547,
+      "value": 1038170
+    },
+    {
+      "name": "MICHAEL KORS HLDGS LTD",
+      "cusip": "G60754101",
+      "shares": 11525497,
+      "value": 1021735
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 8700738,
+      "value": 890085
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 11766312,
+      "value": 864471
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 11889484,
+      "value": 860323
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 691646,
+      "value": 832050
+    },
+    {
+      "name": "GAP INC DEL",
+      "cusip": "364760108",
+      "shares": 19265265,
+      "value": 800857
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 6038616,
+      "value": 795890
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 15806512,
+      "value": 668774
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 12151289,
+      "value": 652281
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 3403713,
+      "value": 642961
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 3509269,
+      "value": 635669
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP",
+      "cusip": "228227104",
+      "shares": 8425071,
+      "value": 625646
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 16045522,
+      "value": 564000
+    },
+    {
+      "name": "ACTAVIS PLC",
+      "cusip": "G0083B108",
+      "shares": 2478628,
+      "value": 552858
+    },
+    {
+      "name": "REALOGY HLDGS CORP",
+      "cusip": "75605Y106",
+      "shares": 13652898,
+      "value": 514851
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U502",
+      "shares": 2299216,
+      "value": 483042
+    },
+    {
+      "name": "ULTA SALON COSMETCS & FRAG I",
+      "cusip": "90384S303",
+      "shares": 5202611,
+      "value": 475571
+    },
+    {
+      "name": "WYNN RESORTS LTD",
+      "cusip": "983134107",
+      "shares": 2071053,
+      "value": 429868
+    },
+    {
+      "name": "TIFFANY & CO NEW",
+      "cusip": "886547108",
+      "shares": 4238872,
+      "value": 424947
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 8518366,
+      "value": 423704
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 7109343,
+      "value": 407792
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 3516060,
+      "value": 315953
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 2087127,
+      "value": 306829
+    },
+    {
+      "name": "AUTONATION INC",
+      "cusip": "05329W102",
+      "shares": 5067310,
+      "value": 302417
+    },
+    {
+      "name": "OCEANEERING INTL INC",
+      "cusip": "675232102",
+      "shares": 3809894,
+      "value": 297667
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 6519720,
+      "value": 288302
+    },
+    {
+      "name": "WILLIAMS COS INC DEL",
+      "cusip": "969457100",
+      "shares": 4895000,
+      "value": 284938
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311107",
+      "shares": 4748964,
+      "value": 282516
+    },
+    {
+      "name": "SOLARWINDS INC",
+      "cusip": "83416B109",
+      "shares": 6516396,
+      "value": 251924
+    },
+    {
+      "name": "SOUFUN HLDGS LTD",
+      "cusip": "836034108",
+      "shares": 25361965,
+      "value": 248294
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 8405200,
+      "value": 239632
+    },
+    {
+      "name": "SPIRIT AIRLS INC",
+      "cusip": "848577102",
+      "shares": 3500760,
+      "value": 221388
+    },
+    {
+      "name": "LUMBER LIQUIDATORS HLDGS INC",
+      "cusip": "55003T107",
+      "shares": 2619839,
+      "value": 198977
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06742E711",
+      "shares": 6300000,
+      "value": 180180
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 979395,
+      "value": 163814
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 780000,
+      "value": 145712
+    },
+    {
+      "name": "TRIPADVISOR INC",
+      "cusip": "896945201",
+      "shares": 1094087,
+      "value": 118883
+    },
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 2684674,
+      "value": 115334
+    },
+    {
+      "name": "WILLIAMS SONOMA INC",
+      "cusip": "969904101",
+      "shares": 1483179,
+      "value": 106463
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 2504400,
+      "value": 100076
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 1830000,
+      "value": 98234
+    },
+    {
+      "name": "CTRIP COM INTL LTD",
+      "cusip": "22943F100",
+      "shares": 1158913,
+      "value": 74217
+    },
+    {
+      "name": "GAP INC DEL",
+      "cusip": "364760108",
+      "shares": 1741200,
+      "value": 72382
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 2320000,
+      "value": 71688
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1400000,
+      "value": 58380
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 567600,
+      "value": 40697
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 529120,
+      "value": 33012
+    },
+    {
+      "name": "ICICI BK LTD",
+      "cusip": "45104G104",
+      "shares": 659729,
+      "value": 32920
+    }
+  ],
+  "totalValue": 24737838,
+  "positionsCount": 53
+}

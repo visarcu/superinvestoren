@@ -1,4 +1,323 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-15",
-  "positions": []
+  "period": "2024-05-15",
+  "accession": "0001039565-24-000005",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "ASSURED GUARANTY",
+      "cusip": "G0585R106",
+      "shares": 970580,
+      "value": 84683134
+    },
+    {
+      "name": "MERCK",
+      "cusip": "58933Y105",
+      "shares": 613815,
+      "value": 80992904
+    },
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967424",
+      "shares": 1199446,
+      "value": 75852750
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 1665620,
+      "value": 62761015
+    },
+    {
+      "name": "GSK PLC",
+      "cusip": "37733W105",
+      "shares": 1253644,
+      "value": 53743386
+    },
+    {
+      "name": "BRISTOL MYERS SQUIBB",
+      "cusip": "110122108",
+      "shares": 831991,
+      "value": 45118723
+    },
+    {
+      "name": "MBIA",
+      "cusip": "55262C100",
+      "shares": 5176613,
+      "value": 34993451
+    },
+    {
+      "name": "PATTERSON ENERGY",
+      "cusip": "703481101",
+      "shares": 2652332,
+      "value": 31668850
+    },
+    {
+      "name": "SEABOARD CORP",
+      "cusip": "811543107",
+      "shares": 9052,
+      "value": 29182639
+    },
+    {
+      "name": "PFIZER",
+      "cusip": "717081103",
+      "shares": 1022719,
+      "value": 28380203
+    },
+    {
+      "name": "BAYER AG SPONS ADR",
+      "cusip": "072730302",
+      "shares": 3099140,
+      "value": 23739224
+    },
+    {
+      "name": "VOXX INTERNATIONAL",
+      "cusip": "91829F104",
+      "shares": 2849526,
+      "value": 23251636
+    },
+    {
+      "name": "ORGANON",
+      "cusip": "68622V106",
+      "shares": 1180204,
+      "value": 22187575
+    },
+    {
+      "name": "NEW YORK COMMUNITY",
+      "cusip": "649445103",
+      "shares": 6213289,
+      "value": 20006593
+    },
+    {
+      "name": "IDT CORP CL B",
+      "cusip": "448947507",
+      "shares": 345548,
+      "value": 13065647
+    },
+    {
+      "name": "DISNEY",
+      "cusip": "254687106",
+      "shares": 93932,
+      "value": 11493269
+    },
+    {
+      "name": "WEBSTER FINL",
+      "cusip": "947890109",
+      "shares": 97935,
+      "value": 4971912
+    },
+    {
+      "name": "GENIE ENERGY",
+      "cusip": "372284208",
+      "shares": 293690,
+      "value": 4429311
+    },
+    {
+      "name": "HALEON",
+      "cusip": "405552100",
+      "shares": 474281,
+      "value": 4026865
+    },
+    {
+      "name": "HOLOGIC",
+      "cusip": "436440101",
+      "shares": 26491,
+      "value": 2064995
+    },
+    {
+      "name": "CSX",
+      "cusip": "126408103",
+      "shares": 50320,
+      "value": 1865000
+    },
+    {
+      "name": "EXXON MOBIL",
+      "cusip": "30231G102",
+      "shares": 14167,
+      "value": 1647000
+    },
+    {
+      "name": "NOVARTIS ADR",
+      "cusip": "66987V109",
+      "shares": 15413,
+      "value": 1491076
+    },
+    {
+      "name": "BANK OF AMERICA",
+      "cusip": "060505104",
+      "shares": 33901,
+      "value": 1285043
+    },
+    {
+      "name": "FAIRFAX FINANCIAL",
+      "cusip": "303901102",
+      "shares": 1018,
+      "value": 1098000
+    },
+    {
+      "name": "FIRST NATL BK OF ALASKA",
+      "cusip": "32112J106",
+      "shares": 4770,
+      "value": 954000
+    },
+    {
+      "name": "ANTERO RESOURCES",
+      "cusip": "03674X106",
+      "shares": 30156,
+      "value": 875000
+    },
+    {
+      "name": "MICROSOFT",
+      "cusip": "594918104",
+      "shares": 1902,
+      "value": 800684
+    },
+    {
+      "name": "JP MORGAN CHASE",
+      "cusip": "44625H100",
+      "shares": 3867,
+      "value": 775000
+    },
+    {
+      "name": "CREW ENERGY",
+      "cusip": "226533107",
+      "shares": 145780,
+      "value": 501000
+    },
+    {
+      "name": "RAFAEL HOLDING",
+      "cusip": "75062E106",
+      "shares": 270363,
+      "value": 464734
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2492,
+      "value": 427000
+    },
+    {
+      "name": "VERIZON",
+      "cusip": "92343V104",
+      "shares": 10022,
+      "value": 421000
+    },
+    {
+      "name": "VIATRIS",
+      "cusip": "92556V106",
+      "shares": 33590,
+      "value": 401300
+    },
+    {
+      "name": "CIGNA GROUP",
+      "cusip": "125523100",
+      "shares": 1101,
+      "value": 400326
+    },
+    {
+      "name": "NAVIENT",
+      "cusip": "63938C108",
+      "shares": 22421,
+      "value": 390125
+    },
+    {
+      "name": "NAM TAI PROPERTY INC F",
+      "cusip": "G63907102",
+      "shares": 85330,
+      "value": 366000
+    },
+    {
+      "name": "PEPSICO",
+      "cusip": "713448108",
+      "shares": 1900,
+      "value": 333000
+    },
+    {
+      "name": "PROCTOR & GAMBLE",
+      "cusip": "742718109",
+      "shares": 2000,
+      "value": 324675
+    },
+    {
+      "name": "ZEDGE INC",
+      "cusip": "98923T104",
+      "shares": 114844,
+      "value": 318161
+    },
+    {
+      "name": "PNC BANK",
+      "cusip": "693475105",
+      "shares": 1925,
+      "value": 311000
+    },
+    {
+      "name": "PUBLIC SERVICE ENTERPRISE",
+      "cusip": "744573106",
+      "shares": 4500,
+      "value": 301000
+    },
+    {
+      "name": "CHEVRONTEXACO",
+      "cusip": "166764100",
+      "shares": 1800,
+      "value": 284000
+    },
+    {
+      "name": "EAGLE BULK SHIPPING",
+      "cusip": "Y2187A150",
+      "shares": 4460,
+      "value": 279000
+    },
+    {
+      "name": "GLACIER BANCORP",
+      "cusip": "37637Q105",
+      "shares": 6264,
+      "value": 252000
+    },
+    {
+      "name": "ANTERO MIDSTREAM",
+      "cusip": "03676B102",
+      "shares": 17806,
+      "value": 250000
+    },
+    {
+      "name": "TRINITY PLACE HOLDINGS",
+      "cusip": "89656D101",
+      "shares": 1525684,
+      "value": 229010
+    },
+    {
+      "name": "GARRETT MOTION",
+      "cusip": "366505105",
+      "shares": 21481,
+      "value": 214000
+    },
+    {
+      "name": "PEYTO EXP & DEV",
+      "cusip": "717046106",
+      "shares": 17807,
+      "value": 196000
+    },
+    {
+      "name": "LIFEWAY FOODS",
+      "cusip": "531914109",
+      "shares": 10000,
+      "value": 172000
+    },
+    {
+      "name": "PINE CLIFF ENERGY",
+      "cusip": "722524105",
+      "shares": 129731,
+      "value": 96000
+    },
+    {
+      "name": "IDW MEDIA",
+      "cusip": "44951N106",
+      "shares": 65644,
+      "value": 25754
+    }
+  ],
+  "totalValue": 674361970,
+  "positionsCount": 52
 }

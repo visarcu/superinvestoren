@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2015-08-14",
+  "period": "2015-08-14",
+  "accession": "0001454502-15-000007",
+  "quarterKey": "2015-Q3",
+  "positions": [
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 2500000,
+      "value": 81625000
+    },
+    {
+      "name": "CHARTER COMMUNICATION INC D",
+      "cusip": "16117M305",
+      "shares": 400000,
+      "value": 68500000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 275000,
+      "value": 61784000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1000000,
+      "value": 50630000
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1610000,
+      "value": 44806000
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS INC",
+      "cusip": "23918K108",
+      "shares": 550000,
+      "value": 43709000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 375000,
+      "value": 40485000
+    }
+  ],
+  "totalValue": 391539000,
+  "positionsCount": 7
+}

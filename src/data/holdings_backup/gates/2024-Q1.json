@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0001104659-24-023662",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 38210869,
+      "value": 14368815179
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 19916349,
+      "value": 7103365034
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 54826786,
+      "value": 6887889125
+    },
+    {
+      "name": "WASTE MGMT INC DEL",
+      "cusip": "94106L109",
+      "shares": 35234344,
+      "value": 6310471010
+    },
+    {
+      "name": "CATERPILLAR INC",
+      "cusip": "149123101",
+      "shares": 7353614,
+      "value": 2174243051
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 3557378,
+      "value": 1422488741
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 5218044,
+      "value": 1034999027
+    },
+    {
+      "name": "COCA-COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 588161006
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 3030159,
+      "value": 477704566
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 1534362,
+      "value": 388147555
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 2149175,
+      "value": 320807352
+    },
+    {
+      "name": "SCHRODINGER INC",
+      "cusip": "80810D103",
+      "shares": 6981664,
+      "value": 249943571
+    },
+    {
+      "name": "CROWN CASTLE INC",
+      "cusip": "22822V101",
+      "shares": 1420072,
+      "value": 163578094
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 9248045,
+      "value": 149725849
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 755089,
+      "value": 118722643
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 1703000,
+      "value": 110047860
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 592406,
+      "value": 107717183
+    },
+    {
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 2622600,
+      "value": 96983748
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 373000,
+      "value": 86289820
+    },
+    {
+      "name": "HORMEL FOODS CORP",
+      "cusip": "440452100",
+      "shares": 2195290,
+      "value": 70490762
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 520000,
+      "value": 27528800
+    },
+    {
+      "name": "ON HLDG AG",
+      "cusip": "H5919C104",
+      "shares": 500000,
+      "value": 13485000
+    },
+    {
+      "name": "VERALTO CORP",
+      "cusip": "92338C103",
+      "shares": 124333,
+      "value": 10227633
+    },
+    {
+      "name": "VROOM INC",
+      "cusip": "92918V109",
+      "shares": 2500000,
+      "value": 1506250
+    }
+  ],
+  "totalValue": 42283338859,
+  "positionsCount": 24
+}

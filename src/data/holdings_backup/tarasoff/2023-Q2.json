@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-15",
+  "period": "2023-05-15",
+  "accession": "0001420506-23-001048",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 554510,
+      "value": 57275338
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 943600,
+      "value": 30751924
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 284650,
+      "value": 29526745
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 90870,
+      "value": 26197821
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 119595,
+      "value": 23892689
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 152985,
+      "value": 20441856
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 342990,
+      "value": 16442941
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 114285,
+      "value": 16314184
+    },
+    {
+      "name": "BURFORD CAP LTD",
+      "cusip": "G17977110",
+      "shares": 803268,
+      "value": 8884144
+    },
+    {
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 6230,
+      "value": 7958264
+    },
+    {
+      "name": "BROOKFIELD ASSET MANAGMT LTD",
+      "cusip": "113004105",
+      "shares": 215923,
+      "value": 7065001
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 135665,
+      "value": 5818672
+    }
+  ],
+  "totalValue": 250569579,
+  "positionsCount": 12
+}

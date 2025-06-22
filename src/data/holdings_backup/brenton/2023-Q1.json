@@ -1,0 +1,209 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0000950123-23-002107",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "BERRY GLOBAL GROUP",
+      "cusip": "08579W103",
+      "shares": 6230910,
+      "value": 376533891
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 2919939,
+      "value": 177795086
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 1228822,
+      "value": 164539266
+    },
+    {
+      "name": "BREAD FINANCIAL HOLDINGS INC",
+      "cusip": "018581108",
+      "shares": 4266381,
+      "value": 160671908
+    },
+    {
+      "name": "TFI INTERNATIONAL INC",
+      "cusip": "87241L109",
+      "shares": 1576486,
+      "value": 158026957
+    },
+    {
+      "name": "INGERSOLL-RAND INC",
+      "cusip": "45687V106",
+      "shares": 2759656,
+      "value": 144192026
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
+      "cusip": "78467J100",
+      "shares": 2615894,
+      "value": 136183442
+    },
+    {
+      "name": "JELD-WEN HOLDINGS INC",
+      "cusip": "47580P103",
+      "shares": 13759220,
+      "value": 132776473
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 4695997,
+      "value": 128670318
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 4254559,
+      "value": 126105129
+    },
+    {
+      "name": "URBAN OUTFITTERS INC",
+      "cusip": "917047102",
+      "shares": 5250543,
+      "value": 125225451
+    },
+    {
+      "name": "MAGNA INTERNATIONAL INC",
+      "cusip": "559222401",
+      "shares": 2156679,
+      "value": 121162226
+    },
+    {
+      "name": "BRUNSWICK CORP",
+      "cusip": "117043109",
+      "shares": 1563386,
+      "value": 112688863
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 2701024,
+      "value": 108716216
+    },
+    {
+      "name": "DISCOVER FINANCIAL SERVICES",
+      "cusip": "254709108",
+      "shares": 998105,
+      "value": 97644612
+    },
+    {
+      "name": "SERVICE CORP INTERNATIONAL",
+      "cusip": "817565104",
+      "shares": 1364446,
+      "value": 94337796
+    },
+    {
+      "name": "COLLIERS INTERNATIONAL GROUP INC",
+      "cusip": "194693107",
+      "shares": 987954,
+      "value": 90931286
+    },
+    {
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 904524,
+      "value": 85368975
+    },
+    {
+      "name": "FLOOR & DECOR",
+      "cusip": "339750101",
+      "shares": 1095060,
+      "value": 76249028
+    },
+    {
+      "name": "ENCORE CAPITAL GROUP INC",
+      "cusip": "292554102",
+      "shares": 1507560,
+      "value": 72272426
+    },
+    {
+      "name": "CELANESE",
+      "cusip": "150870103",
+      "shares": 658100,
+      "value": 67284144
+    },
+    {
+      "name": "JOHN BEAN TECHNOLOGIES CORP",
+      "cusip": "477839104",
+      "shares": 697449,
+      "value": 63698017
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORTATION",
+      "cusip": "499049104",
+      "shares": 70813,
+      "value": 3711309
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 35800,
+      "value": 3157202
+    },
+    {
+      "name": "REVOLVE GROUP INC",
+      "cusip": "76156B107",
+      "shares": 128299,
+      "value": 2855936
+    },
+    {
+      "name": "BRP INC",
+      "cusip": "05577W200",
+      "shares": 19800,
+      "value": 1511730
+    },
+    {
+      "name": "WEST FRASER TIMBER CO. LTD",
+      "cusip": "952845105",
+      "shares": 15950,
+      "value": 1153026
+    },
+    {
+      "name": "VONTIER",
+      "cusip": "928881101",
+      "shares": 57500,
+      "value": 1111475
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 14750,
+      "value": 956980
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 5450,
+      "value": 507886
+    },
+    {
+      "name": "PRESTIGE CONSUMER HEALTHCARE",
+      "cusip": "74112D101",
+      "shares": 5600,
+      "value": 350560
+    },
+    {
+      "name": "FISERV",
+      "cusip": "337738108",
+      "shares": 2700,
+      "value": 272889
+    },
+    {
+      "name": "SYNCHRONY FINANCIAL",
+      "cusip": "87165B103",
+      "shares": 6800,
+      "value": 223448
+    }
+  ],
+  "totalValue": 2836885977,
+  "positionsCount": 33
+}

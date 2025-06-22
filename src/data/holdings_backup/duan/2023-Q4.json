@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0001085146-23-004335",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 61019951,
+      "value": 10447225811
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 5006102,
+      "value": 1753637531
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 5376100,
+      "value": 708838785
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3040500,
+      "value": 263732970
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 799700,
+      "value": 64815685
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 150000,
+      "value": 14710500
+    },
+    {
+      "name": "JOYY INC",
+      "cusip": "46591M109",
+      "shares": 302500,
+      "value": 11528275
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 104000,
+      "value": 10742160
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 72100,
+      "value": 1974098
+    }
+  ],
+  "totalValue": 13277205815,
+  "positionsCount": 9
+}

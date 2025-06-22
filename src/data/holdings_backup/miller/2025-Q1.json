@@ -1,0 +1,209 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0001085146-25-001536",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "BREAD FINANCIAL HOLDINGS INC",
+      "cusip": "018581108",
+      "shares": 304050,
+      "value": 18565291
+    },
+    {
+      "name": "QUAD / GRAPHICS INC",
+      "cusip": "747301109",
+      "shares": 2518130,
+      "value": 17551366
+    },
+    {
+      "name": "NABORS INDUSTRIES LTD",
+      "cusip": "G6359F137",
+      "shares": 281195,
+      "value": 16075919
+    },
+    {
+      "name": "LINCOLN NATL CORP IND",
+      "cusip": "534187109",
+      "shares": 493685,
+      "value": 15654751
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 533000,
+      "value": 12136410
+    },
+    {
+      "name": "GANNETT CO INC",
+      "cusip": "36472T109",
+      "shares": 2396625,
+      "value": 12126921
+    },
+    {
+      "name": "JACKSON FINANCIAL INC",
+      "cusip": "46817M107",
+      "shares": 137370,
+      "value": 11962179
+    },
+    {
+      "name": "WESTERN ALLIANCE BANCORP",
+      "cusip": "957638109",
+      "shares": 141110,
+      "value": 11788328
+    },
+    {
+      "name": "UNITED NAT FOODS INC",
+      "cusip": "911163103",
+      "shares": 412500,
+      "value": 11265373
+    },
+    {
+      "name": "GRAY TELEVISION INC",
+      "cusip": "389375106",
+      "shares": 3384450,
+      "value": 10661016
+    },
+    {
+      "name": "UGI CORP NEW",
+      "cusip": "902681105",
+      "shares": 292000,
+      "value": 8243160
+    },
+    {
+      "name": "ONEMAIN HLDGS INC",
+      "cusip": "68268W103",
+      "shares": 149000,
+      "value": 7767370
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 619000,
+      "value": 7706550
+    },
+    {
+      "name": "CTO RLTY GROWTH INC NEW",
+      "cusip": "22948Q101",
+      "shares": 383900,
+      "value": 7566669
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 1549260,
+      "value": 6259010
+    },
+    {
+      "name": "CHORD ENERGY CORPORATION",
+      "cusip": "674215207",
+      "shares": 52766,
+      "value": 6169401
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122108",
+      "shares": 108000,
+      "value": 6108480
+    },
+    {
+      "name": "BUCKLE INC",
+      "cusip": "118440106",
+      "shares": 105000,
+      "value": 5335050
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 390000,
+      "value": 5089500
+    },
+    {
+      "name": "BOISE CASCADE CO DEL",
+      "cusip": "09739D100",
+      "shares": 40000,
+      "value": 4754400
+    },
+    {
+      "name": "MICROSTRATEGY INC",
+      "cusip": "594972408",
+      "shares": 15250,
+      "value": 4416705
+    },
+    {
+      "name": "BUILD-A-BEAR WORKSHOP INC",
+      "cusip": "120076104",
+      "shares": 95000,
+      "value": 4373800
+    },
+    {
+      "name": "FOSSIL GROUP INC",
+      "cusip": "34988V106",
+      "shares": 2571080,
+      "value": 4293702
+    },
+    {
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 70000,
+      "value": 3534300
+    },
+    {
+      "name": "ALLIANCE RESOURCE PARTNERS L",
+      "cusip": "01877R108",
+      "shares": 127000,
+      "value": 3338830
+    },
+    {
+      "name": "ATKORE INC",
+      "cusip": "047649108",
+      "shares": 37000,
+      "value": 3087650
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 529590,
+      "value": 3087507
+    },
+    {
+      "name": "SEMLER SCIENTIFIC INC",
+      "cusip": "81684M104",
+      "shares": 43000,
+      "value": 2322000
+    },
+    {
+      "name": "TUTOR PERINI CORP",
+      "cusip": "901109108",
+      "shares": 76040,
+      "value": 1840168
+    },
+    {
+      "name": "TOTALENERGIES SE",
+      "cusip": "89151E109",
+      "shares": 7650,
+      "value": 416925
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 10950,
+      "value": 241338
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "G87110105",
+      "shares": 8185,
+      "value": 236874
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479100",
+      "shares": 24259,
+      "value": 175635
+    }
+  ],
+  "totalValue": 234152578,
+  "positionsCount": 33
+}

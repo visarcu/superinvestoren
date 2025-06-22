@@ -1,0 +1,605 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-13",
+  "period": "2023-11-13",
+  "accession": "0001172661-23-003726",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 37398151,
+      "value": 4754052902
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 19492288,
+      "value": 2570058190
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 6437255,
+      "value": 2430707540
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 7151377,
+      "value": 2258047416
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 3994534,
+      "value": 2232784659
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 4324053,
+      "value": 2204834451
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 4798026,
+      "value": 1899586591
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 7569168,
+      "value": 1740984299
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 7660386,
+      "value": 1553373082
+    },
+    {
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 4989956,
+      "value": 1532465482
+    },
+    {
+      "name": "AIRBNB INC",
+      "cusip": "009066101",
+      "shares": 11071064,
+      "value": 1519060652
+    },
+    {
+      "name": "ABBOTT LABS",
+      "cusip": "002824100",
+      "shares": 13480736,
+      "value": 1305609294
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 2538134,
+      "value": 1279701925
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 21685665,
+      "value": 1267743983
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 5349776,
+      "value": 1106922223
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 2151028,
+      "value": 1088785598
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 5163881,
+      "value": 898412091
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 3950320,
+      "value": 848726169
+    },
+    {
+      "name": "NOVO-NORDISK A S",
+      "cusip": "670100205",
+      "shares": 7906255,
+      "value": 718994845
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 5126614,
+      "value": 703781508
+    },
+    {
+      "name": "GARTNER INC",
+      "cusip": "366651107",
+      "shares": 1915189,
+      "value": 658077925
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 6157296,
+      "value": 588760668
+    },
+    {
+      "name": "ALIGN TECHNOLOGY INC",
+      "cusip": "016255101",
+      "shares": 1544171,
+      "value": 471466405
+    },
+    {
+      "name": "ELI LILLY & CO",
+      "cusip": "532457108",
+      "shares": 623812,
+      "value": 335068242
+    },
+    {
+      "name": "ICON PLC",
+      "cusip": "G4705A100",
+      "shares": 1222961,
+      "value": 301154200
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2171266,
+      "value": 284131888
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 815290,
+      "value": 264333486
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "803054204",
+      "shares": 1262674,
+      "value": 163289024
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 500514,
+      "value": 120413571
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 299494,
+      "value": 79662406
+    },
+    {
+      "name": "GLOBANT S A",
+      "cusip": "L44385109",
+      "shares": 368492,
+      "value": 72906110
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 139245,
+      "value": 71443638
+    },
+    {
+      "name": "MEDTRONIC PLC",
+      "cusip": "G5960L103",
+      "shares": 794789,
+      "value": 62279667
+    },
+    {
+      "name": "MERCADOLIBRE INC",
+      "cusip": "58733R102",
+      "shares": 48488,
+      "value": 61476437
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 802650,
+      "value": 43800589
+    },
+    {
+      "name": "UNILEVER PLC",
+      "cusip": "904767704",
+      "shares": 782535,
+      "value": 38657224
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 65222,
+      "value": 38393417
+    },
+    {
+      "name": "DLOCAL LTD",
+      "cusip": "G29018101",
+      "shares": 1923273,
+      "value": 36869143
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 473113,
+      "value": 27918389
+    },
+    {
+      "name": "FORUM ENERGY TECHNOLOGIES IN",
+      "cusip": "34984VAC4",
+      "shares": 25153000,
+      "value": 24684720
+    },
+    {
+      "name": "TENCENT MUSIC ENTMT GROUP",
+      "cusip": "88034P109",
+      "shares": 3518249,
+      "value": 22446429
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 135734,
+      "value": 19620286
+    },
+    {
+      "name": "GOOSEHEAD INS INC",
+      "cusip": "38267D109",
+      "shares": 221873,
+      "value": 16536221
+    },
+    {
+      "name": "LAS VEGAS SANDS CORP",
+      "cusip": "517834107",
+      "shares": 318881,
+      "value": 14617505
+    },
+    {
+      "name": "EPAM SYS INC",
+      "cusip": "29414B104",
+      "shares": 55925,
+      "value": 14299463
+    },
+    {
+      "name": "HOULIHAN LOKEY INC",
+      "cusip": "441593100",
+      "shares": 128967,
+      "value": 13814983
+    },
+    {
+      "name": "AUTOHOME INC",
+      "cusip": "05278C107",
+      "shares": 452923,
+      "value": 13746213
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 77428,
+      "value": 12458120
+    },
+    {
+      "name": "ALIGHT INC",
+      "cusip": "01626W101",
+      "shares": 1694077,
+      "value": 12011006
+    },
+    {
+      "name": "PROGYNY INC",
+      "cusip": "74340E103",
+      "shares": 349163,
+      "value": 11878542
+    },
+    {
+      "name": "YUM CHINA HLDGS INC",
+      "cusip": "98850P109",
+      "shares": 210827,
+      "value": 11747280
+    },
+    {
+      "name": "YETI HLDGS INC",
+      "cusip": "98585X104",
+      "shares": 236217,
+      "value": 11390404
+    },
+    {
+      "name": "HAMILTON LANE INC",
+      "cusip": "407497106",
+      "shares": 114795,
+      "value": 10382048
+    },
+    {
+      "name": "CCC INTELLIGENT SOLUTIONS HL",
+      "cusip": "12510Q100",
+      "shares": 731683,
+      "value": 9767968
+    },
+    {
+      "name": "FOX FACTORY HLDG CORP",
+      "cusip": "35138V102",
+      "shares": 90372,
+      "value": 8954025
+    },
+    {
+      "name": "QUALYS INC",
+      "cusip": "74758T303",
+      "shares": 58692,
+      "value": 8953519
+    },
+    {
+      "name": "WINGSTOP INC",
+      "cusip": "974155103",
+      "shares": 49140,
+      "value": 8837303
+    },
+    {
+      "name": "ALARM COM HLDGS INC",
+      "cusip": "011642105",
+      "shares": 141435,
+      "value": 8647312
+    },
+    {
+      "name": "REVOLVE GROUP INC",
+      "cusip": "76156B107",
+      "shares": 483103,
+      "value": 6575026
+    },
+    {
+      "name": "BUMBLE INC",
+      "cusip": "12047B105",
+      "shares": 430530,
+      "value": 6423513
+    },
+    {
+      "name": "BLACKLINE INC",
+      "cusip": "09239B109",
+      "shares": 115799,
+      "value": 6423374
+    },
+    {
+      "name": "APPFOLIO INC",
+      "cusip": "03783C100",
+      "shares": 34652,
+      "value": 6328571
+    },
+    {
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 74498,
+      "value": 5913657
+    },
+    {
+      "name": "CLEARWATER ANALYTICS HLDGS I",
+      "cusip": "185123106",
+      "shares": 304600,
+      "value": 5890963
+    },
+    {
+      "name": "FIRSTSERVICE CORP NEW",
+      "cusip": "33767E202",
+      "shares": 40159,
+      "value": 5844756
+    },
+    {
+      "name": "ENDAVA PLC",
+      "cusip": "29260V105",
+      "shares": 99427,
+      "value": 5702111
+    },
+    {
+      "name": "DYNATRACE INC",
+      "cusip": "268150109",
+      "shares": 108156,
+      "value": 5054130
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464288257",
+      "shares": 54287,
+      "value": 5014488
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 56381,
+      "value": 4899509
+    },
+    {
+      "name": "WARBY PARKER INC",
+      "cusip": "93403J106",
+      "shares": 369840,
+      "value": 4867096
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 18404,
+      "value": 4865301
+    },
+    {
+      "name": "TYLER TECHNOLOGIES INC",
+      "cusip": "902252105",
+      "shares": 12460,
+      "value": 4811304
+    },
+    {
+      "name": "XPEL INC",
+      "cusip": "98379L100",
+      "shares": 61710,
+      "value": 4758496
+    },
+    {
+      "name": "DOXIMITY INC",
+      "cusip": "26622P107",
+      "shares": 215037,
+      "value": 4563075
+    },
+    {
+      "name": "PAYCOM SOFTWARE INC",
+      "cusip": "70432V102",
+      "shares": 17334,
+      "value": 4494186
+    },
+    {
+      "name": "SITIME CORP",
+      "cusip": "82982T106",
+      "shares": 34492,
+      "value": 3940752
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 42517,
+      "value": 3847789
+    },
+    {
+      "name": "SITEONE LANDSCAPE SUPPLY INC",
+      "cusip": "82982L103",
+      "shares": 23461,
+      "value": 3834677
+    },
+    {
+      "name": "MORNINGSTAR INC",
+      "cusip": "617700109",
+      "shares": 14061,
+      "value": 3293649
+    },
+    {
+      "name": "AMN HEALTHCARE SVCS INC",
+      "cusip": "001744101",
+      "shares": 32620,
+      "value": 2778580
+    },
+    {
+      "name": "THE TRADE DESK INC",
+      "cusip": "88339J105",
+      "shares": 35478,
+      "value": 2772606
+    },
+    {
+      "name": "EXLSERVICE HOLDINGS INC",
+      "cusip": "302081104",
+      "shares": 97083,
+      "value": 2722196
+    },
+    {
+      "name": "HELEN OF TROY LTD",
+      "cusip": "G4388N106",
+      "shares": 22075,
+      "value": 2573097
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908736",
+      "shares": 6937,
+      "value": 1889116
+    },
+    {
+      "name": "DOCUSIGN INC",
+      "cusip": "256163106",
+      "shares": 43366,
+      "value": 1821383
+    },
+    {
+      "name": "TREX CO INC",
+      "cusip": "89531P105",
+      "shares": 29462,
+      "value": 1815743
+    },
+    {
+      "name": "EVERTEC INC",
+      "cusip": "30040P103",
+      "shares": 44100,
+      "value": 1639638
+    },
+    {
+      "name": "SKILLSOFT CORP",
+      "cusip": "83066P200",
+      "shares": 1768064,
+      "value": 1567212
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "29109X106",
+      "shares": 7529,
+      "value": 1537874
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 18724,
+      "value": 1209196
+    },
+    {
+      "name": "KAROOOOO LTD",
+      "cusip": "Y4600W108",
+      "shares": 58641,
+      "value": 1167542
+    },
+    {
+      "name": "MONOLITHIC PWR SYS INC",
+      "cusip": "609839105",
+      "shares": 2489,
+      "value": 1149918
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464288240",
+      "shares": 23094,
+      "value": 1085649
+    },
+    {
+      "name": "CHARLES RIV LABS INTL INC",
+      "cusip": "159864107",
+      "shares": 5005,
+      "value": 980880
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 871,
+      "value": 756490
+    },
+    {
+      "name": "MARKEL GROUP INC",
+      "cusip": "570535104",
+      "shares": 500,
+      "value": 736245
+    },
+    {
+      "name": "TIMOTHY PLAN",
+      "cusip": "887432359",
+      "shares": 16025,
+      "value": 552382
+    },
+    {
+      "name": "GLOBAL X FDS",
+      "cusip": "37954Y889",
+      "shares": 6905,
+      "value": 361132
+    },
+    {
+      "name": "TIMOTHY PLAN",
+      "cusip": "887432334",
+      "shares": 14794,
+      "value": 354627
+    }
+  ],
+  "totalValue": 38026346605,
+  "positionsCount": 99
+}

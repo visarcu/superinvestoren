@@ -1,0 +1,23 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-14",
+  "period": "2018-05-14",
+  "accession": "0001549575-18-000005",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 13109310,
+      "value": 269003
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 398138,
+      "value": 47760
+    }
+  ],
+  "totalValue": 316763,
+  "positionsCount": 2
+}

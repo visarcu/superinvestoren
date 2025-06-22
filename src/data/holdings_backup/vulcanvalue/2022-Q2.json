@@ -1,0 +1,221 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001556785-22-000032",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "TransDigm Group Inc",
+      "cusip": "893641100",
+      "shares": 2024890,
+      "value": 1319297
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 361179,
+      "value": 1177426
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 3225519,
+      "value": 1152736
+    },
+    {
+      "name": "Salesforce Inc",
+      "cusip": "79466L302",
+      "shares": 3815394,
+      "value": 810084
+    },
+    {
+      "name": "Upstart Holdings Inc",
+      "cusip": "91680M107",
+      "shares": 7241207,
+      "value": 789944
+    },
+    {
+      "name": "Carlyle Group Inc/The",
+      "cusip": "14316J108",
+      "shares": 16121237,
+      "value": 788489
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 13285497,
+      "value": 776803
+    },
+    {
+      "name": "Visa Inc",
+      "cusip": "92826C839",
+      "shares": 3373017,
+      "value": 748034
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 249902,
+      "value": 697974
+    },
+    {
+      "name": "Skyworks Solutions Inc",
+      "cusip": "83088M102",
+      "shares": 5176990,
+      "value": 689989
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 2201508,
+      "value": 678747
+    },
+    {
+      "name": "Qorvo Inc",
+      "cusip": "74736K101",
+      "shares": 5429719,
+      "value": 673828
+    },
+    {
+      "name": "Applied Materials Inc",
+      "cusip": "038222105",
+      "shares": 4755011,
+      "value": 626710
+    },
+    {
+      "name": "Splunk Inc",
+      "cusip": "848637104",
+      "shares": 4116216,
+      "value": 611711
+    },
+    {
+      "name": "AppLovin Corp",
+      "cusip": "03831W108",
+      "shares": 10488722,
+      "value": 577614
+    },
+    {
+      "name": "NVIDIA Corp",
+      "cusip": "67066G104",
+      "shares": 2094230,
+      "value": 571432
+    },
+    {
+      "name": "Meta Platforms Inc",
+      "cusip": "30303M102",
+      "shares": 2247374,
+      "value": 499726
+    },
+    {
+      "name": "HEICO Corp",
+      "cusip": "422806208",
+      "shares": 3881273,
+      "value": 492262
+    },
+    {
+      "name": "CoStar Group Inc",
+      "cusip": "22160N109",
+      "shares": 6926459,
+      "value": 461372
+    },
+    {
+      "name": "Lam Research Corp",
+      "cusip": "512807108",
+      "shares": 857239,
+      "value": 460860
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 3928113,
+      "value": 435156
+    },
+    {
+      "name": "Cushman & Wakefield PLC",
+      "cusip": "G2717B108",
+      "shares": 10884814,
+      "value": 223248
+    },
+    {
+      "name": "Cerence Inc",
+      "cusip": "156727109",
+      "shares": 2633556,
+      "value": 95071
+    },
+    {
+      "name": "Park Hotels & Resorts Inc",
+      "cusip": "700517105",
+      "shares": 4726749,
+      "value": 92313
+    },
+    {
+      "name": "Medpace Holdings Inc",
+      "cusip": "58506Q109",
+      "shares": 561643,
+      "value": 91879
+    },
+    {
+      "name": "Littelfuse Inc",
+      "cusip": "537008104",
+      "shares": 362255,
+      "value": 90350
+    },
+    {
+      "name": "Porch Group Inc",
+      "cusip": "733245104",
+      "shares": 12871645,
+      "value": 89394
+    },
+    {
+      "name": "Virtus Investment Partners Inc",
+      "cusip": "92828Q109",
+      "shares": 368251,
+      "value": 88377
+    },
+    {
+      "name": "SmartRent Inc",
+      "cusip": "83193G107",
+      "shares": 15903987,
+      "value": 80474
+    },
+    {
+      "name": "PROG Holdings Inc",
+      "cusip": "74319R101",
+      "shares": 2769804,
+      "value": 79687
+    },
+    {
+      "name": "EnerSys",
+      "cusip": "29275Y102",
+      "shares": 1068441,
+      "value": 79674
+    },
+    {
+      "name": "Ituran Location and Control Lt",
+      "cusip": "M6158M104",
+      "shares": 3246397,
+      "value": 74732
+    },
+    {
+      "name": "ABM Industries Inc",
+      "cusip": "000957100",
+      "shares": 1321430,
+      "value": 60839
+    },
+    {
+      "name": "Colliers International Group I",
+      "cusip": "194693107",
+      "shares": 419739,
+      "value": 54734
+    },
+    {
+      "name": "MillerKnoll Inc",
+      "cusip": "600544100",
+      "shares": 1571297,
+      "value": 54304
+    }
+  ],
+  "totalValue": 16295270,
+  "positionsCount": 35
+}

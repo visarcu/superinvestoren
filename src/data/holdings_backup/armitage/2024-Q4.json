@@ -1,0 +1,191 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-05",
+  "period": "2024-11-05",
+  "accession": "0001581811-24-000009",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1720051,
+      "value": 740137945
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 2823894,
+      "value": 716591341
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 7855661,
+      "value": 671973242
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1028489,
+      "value": 588748243
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3068090,
+      "value": 571677210
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3264022,
+      "value": 545711838
+    },
+    {
+      "name": "GE HEALTHCARE TECHNOLOGIES I",
+      "cusip": "36266G107",
+      "shares": 5680021,
+      "value": 533069971
+    },
+    {
+      "name": "RENAISSANCERE HLDGS LTD",
+      "cusip": "G7496G103",
+      "shares": 1894412,
+      "value": 516037829
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3382513,
+      "value": 471387012
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 2578485,
+      "value": 463224830
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 248807,
+      "value": 458041247
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 1815550,
+      "value": 430793704
+    },
+    {
+      "name": "CRH PLC",
+      "cusip": "G25508105",
+      "shares": 4415658,
+      "value": 409508123
+    },
+    {
+      "name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "shares": 1956819,
+      "value": 369016927
+    },
+    {
+      "name": "ARCH CAP GROUP LTD",
+      "cusip": "G0450A105",
+      "shares": 3171222,
+      "value": 354796317
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1180075,
+      "value": 324461621
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 634704,
+      "value": 313416835
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 64312,
+      "value": 270889861
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 3380958,
+      "value": 254112803
+    },
+    {
+      "name": "GE VERNOVA INC",
+      "cusip": "36828A101",
+      "shares": 597858,
+      "value": 152441833
+    },
+    {
+      "name": "EMBRAER S.A.",
+      "cusip": "29082A107",
+      "shares": 3707524,
+      "value": 131135124
+    },
+    {
+      "name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "shares": 3963625,
+      "value": 118314206
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 204674,
+      "value": 110165781
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 405318,
+      "value": 93425799
+    },
+    {
+      "name": "FIRST SOLAR INC",
+      "cusip": "336433107",
+      "shares": 348161,
+      "value": 86845280
+    },
+    {
+      "name": "VERTEX PHARMACEUTICALS INC",
+      "cusip": "92532F100",
+      "shares": 124045,
+      "value": 57690849
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 201738,
+      "value": 47004954
+    },
+    {
+      "name": "ARAMARK",
+      "cusip": "03852U106",
+      "shares": 1182142,
+      "value": 45784360
+    },
+    {
+      "name": "CHUBB LIMITED",
+      "cusip": "H1467J104",
+      "shares": 148764,
+      "value": 42902050
+    },
+    {
+      "name": "SHARKNINJA INC",
+      "cusip": "G8068L108",
+      "shares": 177193,
+      "value": 19262651
+    }
+  ],
+  "totalValue": 9908569786,
+  "positionsCount": 30
+}

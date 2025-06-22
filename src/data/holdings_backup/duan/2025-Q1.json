@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0001085146-25-001521",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 40864577,
+      "value": 10233307372
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 3621100,
+      "value": 1641372208
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3766500,
+      "value": 717292260
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 7228700,
+      "value": 701111613
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 13577000,
+      "value": 670839570
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 5450830,
+      "value": 462175876
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 746000,
+      "value": 83067100
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 163000,
+      "value": 6777540
+    }
+  ],
+  "totalValue": 14515943539,
+  "positionsCount": 8
+}

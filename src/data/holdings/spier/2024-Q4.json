@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2024-10-16",
+  "period": "2024-10-16",
+  "accession": "0001953324-24-000005",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 140600,
+      "value": 64713000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 210000,
+      "value": 56952000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 65750,
+      "value": 32467000
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 767845,
+      "value": 30468000
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 60000,
+      "value": 28040000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 200000,
+      "value": 20742000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 20735000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 27000,
+      "value": 12814000
+    },
+    {
+      "name": "DAILY JOURNAL CORP",
+      "cusip": "233912104",
+      "shares": 11500,
+      "value": 5636000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 47500,
+      "value": 5041000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 16000,
+      "value": 2654000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 500000,
+      "value": 2325000
+    },
+    {
+      "name": "ALPHA METALLURGICAL RESOUR I",
+      "cusip": "020764106",
+      "shares": 8000,
+      "value": 1889000
+    },
+    {
+      "name": "ARCH RESOURCES INC",
+      "cusip": "03940R107",
+      "shares": 8100,
+      "value": 1119000
+    }
+  ],
+  "totalValue": 285595000,
+  "positionsCount": 14
+}

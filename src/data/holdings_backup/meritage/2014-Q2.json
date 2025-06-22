@@ -1,0 +1,161 @@
+{
+  "form": "13F-HR",
+  "date": "2014-05-09",
+  "period": "2014-05-09",
+  "accession": "0001427119-14-000005",
+  "quarterKey": "2014-Q2",
+  "positions": [
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 3130200,
+      "value": 585379
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 1633049,
+      "value": 244920
+    },
+    {
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F302",
+      "shares": 2901137,
+      "value": 223562
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 3936198,
+      "value": 218380
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 385169,
+      "value": 206736
+    },
+    {
+      "name": "SALLY BEAUTY HLDGS INC",
+      "cusip": "79546E104",
+      "shares": 7520765,
+      "value": 206069
+    },
+    {
+      "name": "INTERCONTINENTALEXCHANGE GRO",
+      "cusip": "45866F104",
+      "shares": 1039240,
+      "value": 205593
+    },
+    {
+      "name": "LIBERTY INTERACTIVE CORP",
+      "cusip": "53071M104",
+      "shares": 7083378,
+      "value": 204497
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 3600386,
+      "value": 204106
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 2341133,
+      "value": 185699
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 1373567,
+      "value": 181077
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 5539394,
+      "value": 177094
+    },
+    {
+      "name": "COCA COLA ENTERPRISES INC NE",
+      "cusip": "19122T109",
+      "shares": 3530242,
+      "value": 168604
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 2154403,
+      "value": 160934
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 1961853,
+      "value": 160617
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 2950877,
+      "value": 153977
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 1867520,
+      "value": 152894
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 1412960,
+      "value": 107809
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 641341,
+      "value": 97657
+    },
+    {
+      "name": "POWERSHARES QQQ TRUST",
+      "cusip": "73935A104",
+      "shares": 1000000,
+      "value": 87670
+    },
+    {
+      "name": "CARTER INC",
+      "cusip": "146229109",
+      "shares": 1062092,
+      "value": 82471
+    },
+    {
+      "name": "GENPACT LIMITED",
+      "cusip": "G3922B107",
+      "shares": 4573270,
+      "value": 79666
+    },
+    {
+      "name": "ULTRA PETROLEUM CORP",
+      "cusip": "903914109",
+      "shares": 2440681,
+      "value": 65630
+    },
+    {
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F104",
+      "shares": 731950,
+      "value": 60532
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y605",
+      "shares": 2000000,
+      "value": 44680
+    }
+  ],
+  "totalValue": 4266253,
+  "positionsCount": 25
+}

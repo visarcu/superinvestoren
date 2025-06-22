@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0000919574-23-004811",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 23780448,
+      "value": 1149546856
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 4413200,
+      "value": 116287820
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 65920,
+      "value": 22478720
+    },
+    {
+      "name": "BERKLEY W R CORP",
+      "cusip": "084423102",
+      "shares": 131200,
+      "value": 7814272
+    },
+    {
+      "name": "COMMERCIAL METALS CO",
+      "cusip": "201723103",
+      "shares": 128800,
+      "value": 6782608
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 268700,
+      "value": 3412490
+    },
+    {
+      "name": "COMERICA INC",
+      "cusip": "200340107",
+      "shares": 61700,
+      "value": 2613612
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 73600,
+      "value": 2431744
+    },
+    {
+      "name": "KEYCORP",
+      "cusip": "493267108",
+      "shares": 257900,
+      "value": 2382996
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 4260,
+      "value": 826312
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 517810
+    }
+  ],
+  "totalValue": 1315095240,
+  "positionsCount": 11
+}

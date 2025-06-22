@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-13",
+  "period": "2019-11-13",
+  "accession": "0001549575-19-000010",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 8757463,
+      "value": 113409
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1793935,
+      "value": 76870
+    },
+    {
+      "name": "GRAFTECH INTL LTD",
+      "cusip": "384313508",
+      "shares": 5547101,
+      "value": 71003
+    }
+  ],
+  "totalValue": 261282,
+  "positionsCount": 3
+}

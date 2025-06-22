@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001420506-22-000958",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 20683,
+      "value": 67426
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 303197,
+      "value": 64375
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 944388,
+      "value": 53424
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 61876,
+      "value": 41826
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 10869,
+      "value": 30230
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 65725,
+      "value": 24620
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 159885,
+      "value": 24146
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 261124,
+      "value": 23271
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 83020,
+      "value": 13123
+    },
+    {
+      "name": "PELOTON INTERACTIVE INC",
+      "cusip": "70614W100",
+      "shares": 432593,
+      "value": 11429
+    },
+    {
+      "name": "BURFORD CAP LTD",
+      "cusip": "G17977110",
+      "shares": 548724,
+      "value": 5043
+    }
+  ],
+  "totalValue": 358913,
+  "positionsCount": 11
+}

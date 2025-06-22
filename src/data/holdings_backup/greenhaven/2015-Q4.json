@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2015-10-13",
+  "period": "2015-10-13",
+  "accession": "0000891092-15-008984",
+  "quarterKey": "2015-Q4",
+  "positions": [
+    {
+      "name": "Lowe's Companies, Inc (LOW)",
+      "cusip": "548661107",
+      "shares": 9842271,
+      "value": 678329
+    },
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 4523445,
+      "value": 651286
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 3323250,
+      "value": 577448
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 9004895,
+      "value": 549028
+    },
+    {
+      "name": "United Parcel Service (UPS)",
+      "cusip": "911312106",
+      "shares": 4629131,
+      "value": 456849
+    },
+    {
+      "name": "Airbus Group NV (EADSY)",
+      "cusip": "009279100",
+      "shares": 28609415,
+      "value": 420041
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2599318,
+      "value": 382776
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2251149,
+      "value": 319145
+    },
+    {
+      "name": "Citigroup [C]",
+      "cusip": "172967424",
+      "shares": 5699322,
+      "value": 282743
+    },
+    {
+      "name": "Airgas, Inc (ARG)",
+      "cusip": "009363102",
+      "shares": 1667730,
+      "value": 148978
+    },
+    {
+      "name": "Owens Corning (OC)",
+      "cusip": "690742101",
+      "shares": 3437349,
+      "value": 144059
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 3807390,
+      "value": 111785
+    },
+    {
+      "name": "Praxair Inc (PX)",
+      "cusip": "74005P104",
+      "shares": 757493,
+      "value": 77158
+    },
+    {
+      "name": "Masco Corp (MAS)",
+      "cusip": "574599106",
+      "shares": 2761900,
+      "value": 69545
+    },
+    {
+      "name": "Wells Fargo & Co (WFC)",
+      "cusip": "949746101",
+      "shares": 1205700,
+      "value": 61913
+    },
+    {
+      "name": "Electrolux AB (ELUXY)",
+      "cusip": "010198208",
+      "shares": 1046010,
+      "value": 58843
+    },
+    {
+      "name": "USG Corp (USG)",
+      "cusip": "903293405",
+      "shares": 494200,
+      "value": 13156
+    },
+    {
+      "name": "Boeing Company (BA)",
+      "cusip": "097023105",
+      "shares": 12400,
+      "value": 1624
+    },
+    {
+      "name": "American Independence Corp (AMIC)",
+      "cusip": "026760405",
+      "shares": 99012,
+      "value": 970
+    },
+    {
+      "name": "Baker Hughes Inc (BHI)",
+      "cusip": "057224107",
+      "shares": 11165,
+      "value": 581
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 367
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 6940,
+      "value": 221
+    }
+  ],
+  "totalValue": 5006845,
+  "positionsCount": 22
+}

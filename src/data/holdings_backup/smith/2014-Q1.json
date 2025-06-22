@@ -1,0 +1,101 @@
+{
+  "form": "13F-HR",
+  "date": "2014-01-21",
+  "period": "2014-01-21",
+  "accession": "0001387131-14-000234",
+  "quarterKey": "2014-Q1",
+  "positions": [
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 2114386,
+      "value": 158875
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "580135101",
+      "shares": 4142263,
+      "value": 154962
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2134570,
+      "value": 148673
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 3036706,
+      "value": 147948
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "75887109",
+      "shares": 1176328,
+      "value": 129972
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 835096,
+      "value": 117122
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING INC",
+      "cusip": "53015103",
+      "shares": 1408541,
+      "value": 113796
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1301833,
+      "value": 105982
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 1229894,
+      "value": 102007
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 1119353,
+      "value": 97529
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 1040791,
+      "value": 95326
+    },
+    {
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 1411382,
+      "value": 69313
+    },
+    {
+      "name": "BARD CR INC",
+      "cusip": "826552101",
+      "shares": 443414,
+      "value": 59298
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 248634,
+      "value": 55366
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 841004,
+      "value": 54842
+    }
+  ],
+  "totalValue": 1611011,
+  "positionsCount": 15
+}

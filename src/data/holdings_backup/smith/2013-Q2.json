@@ -1,0 +1,113 @@
+{
+  "form": "13F-HR",
+  "date": "2013-05-24",
+  "period": "2013-05-24",
+  "accession": "0001387131-13-002055",
+  "quarterKey": "2013-Q2",
+  "positions": [
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 14676,
+      "value": 122042
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 15170,
+      "value": 121440
+    },
+    {
+      "name": "DOMINO S PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 11769,
+      "value": 112476
+    },
+    {
+      "name": "BECTON DICKINSON AND CO",
+      "cusip": "75887109",
+      "shares": 8730,
+      "value": 99882
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING",
+      "cusip": "53015103",
+      "shares": 13239,
+      "value": 91083
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 23934,
+      "value": 90329
+    },
+    {
+      "name": "PROCTER + GAMBLE CO/THE",
+      "cusip": "742718109",
+      "shares": 10611,
+      "value": 88136
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 8475,
+      "value": 86267
+    },
+    {
+      "name": "JOHNSON + JOHNSON",
+      "cusip": "478160104",
+      "shares": 9071,
+      "value": 76589
+    },
+    {
+      "name": "PHILIP MORRIS INTERNATIONAL",
+      "cusip": "718172109",
+      "shares": 7133,
+      "value": 67090
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 10203,
+      "value": 66143
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 6951,
+      "value": 55252
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 4668,
+      "value": 42769
+    },
+    {
+      "name": "CHOICE HOTELS INTL INC",
+      "cusip": "169905106",
+      "shares": 14067,
+      "value": 42645
+    },
+    {
+      "name": "SIGMA ALDRICH",
+      "cusip": "826552101",
+      "shares": 8263,
+      "value": 31933
+    },
+    {
+      "name": "MCDONALD S CORP",
+      "cusip": "580135101",
+      "shares": 1670,
+      "value": 31504
+    },
+    {
+      "name": "VISA INC CLASS A SHARES",
+      "cusip": "92826C839",
+      "shares": 1964,
+      "value": 20940
+    }
+  ],
+  "totalValue": 1246520,
+  "positionsCount": 17
+}

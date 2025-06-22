@@ -1,0 +1,41 @@
+{
+  "form": "13F-HR",
+  "date": "2022-04-11",
+  "period": "2022-04-11",
+  "accession": "0001437749-22-008649",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 2300000,
+      "value": 94806
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1591800,
+      "value": 77139
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "01609W102",
+      "shares": 300000,
+      "value": 32640
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 140000,
+      "value": 7441
+    },
+    {
+      "name": "Posco ADR",
+      "cusip": "693483109",
+      "shares": 9745,
+      "value": 577
+    }
+  ],
+  "totalValue": 212603,
+  "positionsCount": 5
+}

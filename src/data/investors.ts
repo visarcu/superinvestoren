@@ -81,7 +81,7 @@ export const investors: Investor[] = [
   {
     name: 'David Einhorn',
     slug: 'einhorn',       
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/einhorn.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },
@@ -95,7 +95,7 @@ export const investors: Investor[] = [
   {
     name: 'Guy Spier',
     slug: 'spier',    
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/spier.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -123,7 +123,7 @@ export const investors: Investor[] = [
   {
     name: 'Seth Klarman - Baupost Group',
     slug: 'klarman',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/klarman.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -152,14 +152,14 @@ export const investors: Investor[] = [
   {
     name: 'Dodge & Cox',
     slug: 'dodgecox',  
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/dodgecox.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
   {
     name: 'Edgar Wachenheim - Greenhaven Associates',
     slug: 'greenhaven',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/greenhaven.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -212,7 +212,7 @@ export const investors: Investor[] = [
   {
     name: 'Glenn Greenberg (Brave Warrior Advisors)',
     slug: 'greenberg',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/greenberg.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -276,7 +276,7 @@ export const investors: Investor[] = [
   {
     name: 'William Von Mueffling - Cantillon Capital Management',
     slug: 'cantillon',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/cantillon.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -324,7 +324,7 @@ export const investors: Investor[] = [
   {
     name: 'John Armitage - Egerton Capital',
     slug: 'armitage',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/armitage.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -332,7 +332,7 @@ export const investors: Investor[] = [
   {
     name: 'Carl Icahn - Icahn Capital Management',
     slug: 'icahn',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/icahn.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -340,7 +340,7 @@ export const investors: Investor[] = [
   {
     name: 'David Abrams - Abrams Capital Management',
     slug: 'abrams',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/abrams.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -364,7 +364,7 @@ export const investors: Investor[] = [
   {
     name: 'Andrew Brenton - Turtle Creek Asset Management',
     slug: 'brenton',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/brenton.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -380,7 +380,7 @@ export const investors: Investor[] = [
   {
     name: 'Pat Dorsey - Dorsey Asset Management',
     slug: 'dorsey',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/dorsey.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -488,7 +488,7 @@ export const investors: Investor[] = [
   {
     name: 'Brian Bares - Bares Capital Management',
     slug: 'bares',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/bares.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -521,7 +521,7 @@ export const investors: Investor[] = [
   {
     name: 'Nathaniel Simons - Meritage Group',
     slug: 'meritage',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/meritage.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -538,7 +538,7 @@ export const investors: Investor[] = [
   {
     name: 'C.T. Fitzpatrick - Vulcan Value Partners',
     slug: 'vulcanvalue',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/vulcanvalue.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -546,7 +546,7 @@ export const investors: Investor[] = [
   {
     name: 'Christopher Davis - Clipper Fund',
     slug: 'davis',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/davis.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -594,7 +594,7 @@ export const investors: Investor[] = [
   {
     name: 'Jeffrey Ubben - Valueact Holdings',
     slug: 'ubben',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/ubben.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -602,7 +602,7 @@ export const investors: Investor[] = [
   {
     name: 'Donald Smith & Co.',
     slug: 'donaldsmith',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/donaldsmith.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -626,7 +626,7 @@ export const investors: Investor[] = [
   {
     name: 'Nelson Peltz - Trian Fund Management',
     slug: 'peltz',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/peltz.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
@@ -634,7 +634,7 @@ export const investors: Investor[] = [
   {
     name: 'Dev Kantesaria - Valley Forge Capital Management',
     slug: 'kantesaria',
-    imageUrl: '/images/neuer-investor.png',
+    imageUrl: '/images/kantesaria.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 

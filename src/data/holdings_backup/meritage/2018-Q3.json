@@ -1,0 +1,161 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-13",
+  "period": "2018-08-13",
+  "accession": "0001427119-18-000005",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 4250000,
+      "value": 1152940
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 3071448,
+      "value": 900579
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 827550,
+      "value": 337285
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 194261,
+      "value": 330205
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3004321,
+      "value": 318548
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 1890078,
+      "value": 247770
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1785620,
+      "value": 236505
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1142552,
+      "value": 222021
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 2610478,
+      "value": 210770
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 2756720,
+      "value": 201819
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 963429,
+      "value": 199565
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 928360,
+      "value": 189283
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 1140134,
+      "value": 188259
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 541540,
+      "value": 186907
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 153600,
+      "value": 173444
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 2871252,
+      "value": 173136
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 980119,
+      "value": 167169
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 59616,
+      "value": 120847
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 106516,
+      "value": 118835
+    },
+    {
+      "name": "ELLIE MAE INC",
+      "cusip": "28849P100",
+      "shares": 1116510,
+      "value": 115938
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 920000,
+      "value": 115101
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 469516,
+      "value": 41684
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287556",
+      "shares": 200000,
+      "value": 21964
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 9494,
+      "value": 2576
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 100,
+      "value": 29
+    }
+  ],
+  "totalValue": 5973179,
+  "positionsCount": 25
+}

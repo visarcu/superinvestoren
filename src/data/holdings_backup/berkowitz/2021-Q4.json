@@ -1,0 +1,101 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-15",
+  "period": "2021-11-15",
+  "accession": "0000919574-21-007132",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 25243090,
+      "value": 1062734
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 1593400,
+      "value": 34481
+    },
+    {
+      "name": "COMMERCIAL METALS CO",
+      "cusip": "201723103",
+      "shares": 1130200,
+      "value": 34426
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 418600,
+      "value": 22303
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 934900,
+      "value": 15641
+    },
+    {
+      "name": "ENBRIDGE INC",
+      "cusip": "29250N105",
+      "shares": 390800,
+      "value": 15554
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 1489200,
+      "value": 14267
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 49960,
+      "value": 13636
+    },
+    {
+      "name": "WILLIAMS COS INC",
+      "cusip": "969457100",
+      "shares": 331700,
+      "value": 8604
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 375800,
+      "value": 7877
+    },
+    {
+      "name": "OLD REP INTL CORP",
+      "cusip": "680223104",
+      "shares": 331100,
+      "value": 7658
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 14060,
+      "value": 1989
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 10580,
+      "value": 1566
+    },
+    {
+      "name": "NUTRIEN LTD",
+      "cusip": "67077M108",
+      "shares": 20000,
+      "value": 1297
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 411
+    }
+  ],
+  "totalValue": 1242444,
+  "positionsCount": 15
+}

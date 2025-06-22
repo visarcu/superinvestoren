@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2014-11-12",
+  "period": "2014-11-12",
+  "accession": "0001140361-14-041335",
+  "quarterKey": "2014-Q4",
+  "positions": [
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 4117259,
+      "value": 72234
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 300,
+      "value": 69627
+    },
+    {
+      "name": "NOKIA CORP",
+      "cusip": "654902204",
+      "shares": 5000000,
+      "value": 47450
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 410000,
+      "value": 25953
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 1126347,
+      "value": 25409
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 410000,
+      "value": 23833
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 803526,
+      "value": 22741
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 997500,
+      "value": 22547
+    },
+    {
+      "name": "SEARS HOMETOWN & OUTLET STOR",
+      "cusip": "812362101",
+      "shares": 890170,
+      "value": 15478
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 75000,
+      "value": 15444
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 1080797,
+      "value": 11130
+    },
+    {
+      "name": "OVERSTOCK COM INC DEL",
+      "cusip": "690370101",
+      "shares": 582271,
+      "value": 11012
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505146",
+      "shares": 836825,
+      "value": 7040
+    },
+    {
+      "name": "LANDS END INC",
+      "cusip": "51509F105",
+      "shares": 151696,
+      "value": 6997
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 529040,
+      "value": 5263
+    },
+    {
+      "name": "CHUNGHWA TELECOM CO LTD",
+      "cusip": "17133Q502",
+      "shares": 132088,
+      "value": 4441
+    },
+    {
+      "name": "ASTRAZENECA PLC",
+      "cusip": "046353108",
+      "shares": 13000,
+      "value": 1703
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513104",
+      "shares": 17000,
+      "value": 1076
+    },
+    {
+      "name": "GLAXOSMITHKLINE PLC",
+      "cusip": "37733W105",
+      "shares": 18000,
+      "value": 750
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 25537,
+      "value": 531
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 10000,
+      "value": 493
+    },
+    {
+      "name": "UTSTARCOM HOLDINGS CORP",
+      "cusip": "G9310A114",
+      "shares": 113627,
+      "value": 390
+    },
+    {
+      "name": "VODAFONE GROUP PLC NEW",
+      "cusip": "92857W308",
+      "shares": 5454,
+      "value": 201
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC",
+      "cusip": "92343V104",
+      "shares": 2630,
+      "value": 147
+    }
+  ],
+  "totalValue": 391890,
+  "positionsCount": 24
+}

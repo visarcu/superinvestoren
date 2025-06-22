@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001709323-24-000004",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 18081133,
+      "value": 685637
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3044000,
+      "value": 463479
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2543300,
+      "value": 383860
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 897749,
+      "value": 377521
+    },
+    {
+      "name": "EAST WEST BANCORP INC",
+      "cusip": "27579R104",
+      "shares": 2776351,
+      "value": 219637
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 759600,
+      "value": 130256
+    }
+  ],
+  "totalValue": 2260390,
+  "positionsCount": 6
+}

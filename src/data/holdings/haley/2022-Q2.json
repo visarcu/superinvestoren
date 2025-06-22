@@ -1,4 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2022-05-16",
-  "positions": []
+  "period": "2022-05-16",
+  "accession": "0001858353-22-000003",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "HASBRO INC",
+      "cusip": "418056107",
+      "shares": 3612133,
+      "value": 295906
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 8750,
+      "value": 24337
+    },
+    {
+      "name": "DASEKE INC",
+      "cusip": "23753F107",
+      "shares": 1871911,
+      "value": 18850
+    },
+    {
+      "name": "HOUGHTON MIFFLIN HARCOURT CO",
+      "cusip": "44157R109",
+      "shares": 725000,
+      "value": 15232
+    },
+    {
+      "name": "NEOGAMES S A",
+      "cusip": "L6673X107",
+      "shares": 698526,
+      "value": 10778
+    },
+    {
+      "name": "FUNKO INC",
+      "cusip": "361008105",
+      "shares": 610000,
+      "value": 10523
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 288605,
+      "value": 9839
+    },
+    {
+      "name": "XPEL INC",
+      "cusip": "98379L100",
+      "shares": 152620,
+      "value": 8029
+    },
+    {
+      "name": "EVERBRIDGE INC",
+      "cusip": "29978A104",
+      "shares": 125000,
+      "value": 5455
+    },
+    {
+      "name": "JOINT CORP",
+      "cusip": "47973J102",
+      "shares": 100000,
+      "value": 3539
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 875,
+      "value": 2852
+    },
+    {
+      "name": "MAMAMANCINI S HLDGS INC",
+      "cusip": "56146T103",
+      "shares": 1686799,
+      "value": 2817
+    },
+    {
+      "name": "CALLAWAY GOLF CO",
+      "cusip": "131193104",
+      "shares": 53612,
+      "value": 1256
+    }
+  ],
+  "totalValue": 409413,
+  "positionsCount": 13
 }

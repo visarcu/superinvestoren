@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001398344-24-020870",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 349,
+      "value": 241221820
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "46436E718",
+      "shares": 581100,
+      "value": 58528392
+    },
+    {
+      "name": "WINNEBAGO INDS INC",
+      "cusip": "974637100",
+      "shares": 411480,
+      "value": 23911103
+    },
+    {
+      "name": "SMITH & WESSON BRANDS INC",
+      "cusip": "831754106",
+      "shares": 840038,
+      "value": 10903693
+    }
+  ],
+  "totalValue": 334565008,
+  "positionsCount": 4
+}

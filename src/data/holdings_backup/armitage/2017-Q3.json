@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2017-07-28",
+  "period": "2017-07-28",
+  "accession": "0001581811-17-000005",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 3080627,
+      "value": 1037709
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 21531346,
+      "value": 838000
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 4163964,
+      "value": 607897
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 9917066,
+      "value": 570925
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 13734934,
+      "value": 567390
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 2717567,
+      "value": 526474
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 3923766,
+      "value": 476541
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 7592802,
+      "value": 471817
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 10721871,
+      "value": 460612
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 1967865,
+      "value": 438007
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 16592052,
+      "value": 402523
+    },
+    {
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 2729517,
+      "value": 361797
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 3407571,
+      "value": 311452
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1873245,
+      "value": 282823
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3968166,
+      "value": 273526
+    },
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 2952345,
+      "value": 265002
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 4859286,
+      "value": 264734
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 1842059,
+      "value": 217805
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 1329343,
+      "value": 213772
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 855589,
+      "value": 206787
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 2255115,
+      "value": 196127
+    },
+    {
+      "name": "BROADCOM LTD",
+      "cusip": "Y09827109",
+      "shares": 701564,
+      "value": 163499
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 3306055,
+      "value": 147318
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 997743,
+      "value": 141121
+    },
+    {
+      "name": "ALLEGION PUB LTD CO",
+      "cusip": "G0176J109",
+      "shares": 1264263,
+      "value": 102557
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 106044,
+      "value": 96365
+    },
+    {
+      "name": "TRANSUNION",
+      "cusip": "89400J107",
+      "shares": 2129642,
+      "value": 92235
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U700",
+      "shares": 193331,
+      "value": 82970
+    },
+    {
+      "name": "ALTICE USA INC",
+      "cusip": "02156K103",
+      "shares": 2000000,
+      "value": 64600
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1503795,
+      "value": 47520
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0408V102",
+      "shares": 339177,
+      "value": 45094
+    }
+  ],
+  "totalValue": 9974999,
+  "positionsCount": 31
+}

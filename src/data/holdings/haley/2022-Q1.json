@@ -1,4 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2022-02-14",
-  "positions": []
+  "period": "2022-02-14",
+  "accession": "0001858353-22-000002",
+  "quarterKey": "2022-Q1",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 7750,
+      "value": 22452
+    },
+    {
+      "name": "DASEKE INC",
+      "cusip": "23753F107",
+      "shares": 1450659,
+      "value": 14565
+    },
+    {
+      "name": "XPEL INC",
+      "cusip": "98379L100",
+      "shares": 174441,
+      "value": 11911
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 235692,
+      "value": 10408
+    },
+    {
+      "name": "RED VIOLET INC",
+      "cusip": "75704L104",
+      "shares": 245207,
+      "value": 9732
+    },
+    {
+      "name": "CALLAWAY GOLF CO",
+      "cusip": "131193104",
+      "shares": 347800,
+      "value": 9544
+    },
+    {
+      "name": "SYLVAMO CORP",
+      "cusip": "871332102",
+      "shares": 300000,
+      "value": 8367
+    },
+    {
+      "name": "EMBRAER S.A.",
+      "cusip": "29082A107",
+      "shares": 460502,
+      "value": 8174
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1775,
+      "value": 5918
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSN HLDGS IN",
+      "cusip": "499049104",
+      "shares": 79556,
+      "value": 4848
+    },
+    {
+      "name": "NEOGAMES S A",
+      "cusip": "L6673X107",
+      "shares": 132314,
+      "value": 3676
+    },
+    {
+      "name": "MAMAMANCINI S HLDGS INC",
+      "cusip": "56146T103",
+      "shares": 1686799,
+      "value": 3390
+    },
+    {
+      "name": "XPONENTIAL FITNESS INC",
+      "cusip": "98422X101",
+      "shares": 124522,
+      "value": 2545
+    }
+  ],
+  "totalValue": 115530,
+  "positionsCount": 13
 }

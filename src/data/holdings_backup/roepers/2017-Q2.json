@@ -1,0 +1,131 @@
+{
+  "form": "13F-HR",
+  "date": "2017-05-15",
+  "period": "2017-05-15",
+  "accession": "0000905718-17-000559",
+  "quarterKey": "2017-Q2",
+  "positions": [
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 9800000,
+      "value": 199724
+    },
+    {
+      "name": "COMMSCOPE HOLDING CO INC",
+      "cusip": "20337X109",
+      "shares": 3773756,
+      "value": 157403
+    },
+    {
+      "name": "DIEBOLD NXDF INC",
+      "cusip": "253651103",
+      "shares": 5108702,
+      "value": 156837
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 1563430,
+      "value": 126325
+    },
+    {
+      "name": "HARMAN INTL INDS INC",
+      "cusip": "413086109",
+      "shares": 1030435,
+      "value": 114894
+    },
+    {
+      "name": "ARRIS INTL INC",
+      "cusip": "G0551A103",
+      "shares": 2737358,
+      "value": 72403
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 1718983,
+      "value": 44264
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 321902,
+      "value": 13893
+    },
+    {
+      "name": "GOODYEAR TIRE AND RUBBER",
+      "cusip": "382550101",
+      "shares": 330000,
+      "value": 11880
+    },
+    {
+      "name": "BABCOCK & WILCOX ENTERPRISES",
+      "cusip": "05614L100",
+      "shares": 1040000,
+      "value": 9714
+    },
+    {
+      "name": "COMPUTER SCIENCES CORP",
+      "cusip": "205363104",
+      "shares": 138000,
+      "value": 9523
+    },
+    {
+      "name": "STEELCASE INC",
+      "cusip": "858155203",
+      "shares": 512148,
+      "value": 8578
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 89709,
+      "value": 7322
+    },
+    {
+      "name": "OFFICE DEPOT INC",
+      "cusip": "676220106",
+      "shares": 1233821,
+      "value": 5756
+    },
+    {
+      "name": "BELDEN INC",
+      "cusip": "077454106",
+      "shares": 67886,
+      "value": 4697
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 153122,
+      "value": 4425
+    },
+    {
+      "name": "LSC COMMUNICATIONS INC",
+      "cusip": "50218P107",
+      "shares": 149087,
+      "value": 3751
+    },
+    {
+      "name": "NOMAD HLDGS LTD",
+      "cusip": "G6564A105",
+      "shares": 247768,
+      "value": 2837
+    },
+    {
+      "name": "INTERNATIONAL GAME TECHNOLOGY",
+      "cusip": "G4863A108",
+      "shares": 115000,
+      "value": 2725
+    },
+    {
+      "name": "ZTO EXPRESS CAYMAN INC",
+      "cusip": "98980A105",
+      "shares": 50000,
+      "value": 656
+    }
+  ],
+  "totalValue": 957607,
+  "positionsCount": 20
+}

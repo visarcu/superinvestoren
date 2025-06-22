@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-17",
+  "period": "2015-02-17",
+  "accession": "0000919574-15-002087",
+  "quarterKey": "2015-Q1",
+  "positions": [
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 51283896,
+      "value": 2872411
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 94304965,
+      "value": 1687116
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 26545273,
+      "value": 875463
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874156",
+      "shares": 24471763,
+      "value": 602495
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 24779398,
+      "value": 455693
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 14480743,
+      "value": 324658
+    },
+    {
+      "name": "SEARS CDA INC",
+      "cusip": "81234D109",
+      "shares": 14095696,
+      "value": 135460
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350155",
+      "shares": 6413656,
+      "value": 132442
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505146",
+      "shares": 12363428,
+      "value": 87039
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 280450,
+      "value": 42110
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 1295465,
+      "value": 27671
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 753300,
+      "value": 15669
+    },
+    {
+      "name": "CANADIAN NAT RES LTD",
+      "cusip": "136385101",
+      "shares": 503600,
+      "value": 15551
+    },
+    {
+      "name": "LINCOLN NATL CORP IND",
+      "cusip": "534187117",
+      "shares": 181610,
+      "value": 8990
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 149600,
+      "value": 8201
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 54560,
+      "value": 2952
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505153",
+      "shares": 1455701,
+      "value": 1038
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 3,
+      "value": 678
+    }
+  ],
+  "totalValue": 7295637,
+  "positionsCount": 18
+}

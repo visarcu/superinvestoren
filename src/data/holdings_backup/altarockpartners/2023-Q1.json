@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-13",
+  "period": "2023-02-13",
+  "accession": "0001104659-23-019687",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1409724,
+      "value": 887632717
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2560129,
+      "value": 613970137
+    },
+    {
+      "name": "ALPHABET INC CAP STK CL A",
+      "cusip": "02079K305",
+      "shares": 6430417,
+      "value": 567355692
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 5644370,
+      "value": 474127080
+    },
+    {
+      "name": "VISA INC COM CL A",
+      "cusip": "92826C839",
+      "shares": 1674124,
+      "value": 347816002
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC NEW CL A",
+      "cusip": "16119P108",
+      "shares": 334465,
+      "value": 113417082
+    },
+    {
+      "name": "MASTERCARD INCORPORATED CL A",
+      "cusip": "57636Q104",
+      "shares": 301010,
+      "value": 104670207
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 261534,
+      "value": 72868603
+    }
+  ],
+  "totalValue": 3181857520,
+  "positionsCount": 8
+}

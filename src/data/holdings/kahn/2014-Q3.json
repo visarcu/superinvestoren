@@ -1,4 +1,269 @@
 {
+  "form": "13F-HR",
   "date": "2014-08-06",
-  "positions": []
+  "period": "2014-08-06",
+  "accession": "0001039565-14-000005",
+  "quarterKey": "2014-Q3",
+  "positions": [
+    {
+      "name": "NY TIMES CL A",
+      "cusip": "650111107",
+      "shares": 4511896,
+      "value": 68625939
+    },
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967101",
+      "shares": 1385144,
+      "value": 65240282
+    },
+    {
+      "name": "MERCK",
+      "cusip": "589331107",
+      "shares": 1120074,
+      "value": 64796308
+    },
+    {
+      "name": "PFIZER",
+      "cusip": "717081103",
+      "shares": 2124489,
+      "value": 62164438
+    },
+    {
+      "name": "NEW YORK COMMUNITY",
+      "cusip": "649445103",
+      "shares": 3725163,
+      "value": 59528111
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "55622104",
+      "shares": 906415,
+      "value": 47813391
+    },
+    {
+      "name": "HOLOGIC",
+      "cusip": "436440101",
+      "shares": 1541729,
+      "value": 39082831
+    },
+    {
+      "name": "OLD REPUBLIC",
+      "cusip": "680223104",
+      "shares": 2265645,
+      "value": 34473760
+    },
+    {
+      "name": "SEABOARD CORP",
+      "cusip": "811543107",
+      "shares": 11360,
+      "value": 34310267
+    },
+    {
+      "name": "PATTERSON ENERGY",
+      "cusip": "703481101",
+      "shares": 903754,
+      "value": 31577165
+    },
+    {
+      "name": "NAM TAI PPTY",
+      "cusip": "G63907102",
+      "shares": 3774517,
+      "value": 28459862
+    },
+    {
+      "name": "MBIA",
+      "cusip": "55262C100",
+      "shares": 2522739,
+      "value": 27851039
+    },
+    {
+      "name": "VOXX INTERNATIONAL",
+      "cusip": "91829F104",
+      "shares": 2063944,
+      "value": 19421713
+    },
+    {
+      "name": "BLACKBERRY",
+      "cusip": "09228F103",
+      "shares": 1670450,
+      "value": 17105408
+    },
+    {
+      "name": "STERLING BANCORP",
+      "cusip": "85917A100",
+      "shares": 1396823,
+      "value": 16761876
+    },
+    {
+      "name": "NAVIENT",
+      "cusip": "63938C108",
+      "shares": 912085,
+      "value": 16153026
+    },
+    {
+      "name": "IDT CORP CL B",
+      "cusip": "448847309",
+      "shares": 665144,
+      "value": 11586808
+    },
+    {
+      "name": "TRINITY PLACE HOLDINGS",
+      "cusip": "89656D101",
+      "shares": 1199563,
+      "value": 7797160
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78443P106",
+      "shares": 911685,
+      "value": 7576103
+    },
+    {
+      "name": "GENIE ELECTRIC",
+      "cusip": "903514344",
+      "shares": 655127,
+      "value": 5155849
+    },
+    {
+      "name": "STRAIGHT PATH COMM",
+      "cusip": "862578101",
+      "shares": 334084,
+      "value": 3407657
+    },
+    {
+      "name": "NOVARTIS ADR",
+      "cusip": "66987V109",
+      "shares": 26368,
+      "value": 2387095
+    },
+    {
+      "name": "EXXON MOBILE",
+      "cusip": "30231G102",
+      "shares": 17684,
+      "value": 1780425
+    },
+    {
+      "name": "LANDMARK SAVINGS BANK",
+      "cusip": "514928100",
+      "shares": 70486,
+      "value": 1400557
+    },
+    {
+      "name": "BRISTOL MYERS SQUIBB",
+      "cusip": "110122108",
+      "shares": 27650,
+      "value": 1341302
+    },
+    {
+      "name": "COMCAST CL A",
+      "cusip": "20030N101",
+      "shares": 24253,
+      "value": 1301909
+    },
+    {
+      "name": "PHI INC NON-VOTING",
+      "cusip": "716604202",
+      "shares": 28280,
+      "value": 1260439
+    },
+    {
+      "name": "FIRST NIAGARA FINANCIAL",
+      "cusip": "33582V108",
+      "shares": 138084,
+      "value": 1206854
+    },
+    {
+      "name": "MONSANTO",
+      "cusip": "66166W101",
+      "shares": 8888,
+      "value": 1108695
+    },
+    {
+      "name": "BANK OF AMERICA",
+      "cusip": "60505104",
+      "shares": 55463,
+      "value": 852466
+    },
+    {
+      "name": "CHEVRONTEXACO",
+      "cusip": "166764100",
+      "shares": 6388,
+      "value": 833953
+    },
+    {
+      "name": "CTM MEDIA CL A",
+      "cusip": "22944D104",
+      "shares": 10341,
+      "value": 701119
+    },
+    {
+      "name": "IBM",
+      "cusip": "459200101",
+      "shares": 3258,
+      "value": 590578
+    },
+    {
+      "name": "USG INC",
+      "cusip": "903293405",
+      "shares": 19000,
+      "value": 572470
+    },
+    {
+      "name": "AMERICAN TEL & TEL",
+      "cusip": "30177109",
+      "shares": 15889,
+      "value": 561835
+    },
+    {
+      "name": "ASTEC INDUS",
+      "cusip": "46224101",
+      "shares": 12000,
+      "value": 526560
+    },
+    {
+      "name": "QUESTAR CORP",
+      "cusip": "748356102",
+      "shares": 15950,
+      "value": 395560
+    },
+    {
+      "name": "GENERAL ELECTRIC",
+      "cusip": "369604103",
+      "shares": 15000,
+      "value": 394200
+    },
+    {
+      "name": "NEWMARKET GROUP",
+      "cusip": "651587107",
+      "shares": 950,
+      "value": 372505
+    },
+    {
+      "name": "KEYCORP NEW",
+      "cusip": "493267108",
+      "shares": 18569,
+      "value": 266094
+    },
+    {
+      "name": "ASTORIA FINANCIAL",
+      "cusip": "46265104",
+      "shares": 17685,
+      "value": 237863
+    },
+    {
+      "name": "FLUSHING FINANCIAL",
+      "cusip": "343873105",
+      "shares": 10119,
+      "value": 207945
+    },
+    {
+      "name": "VOLVO",
+      "cusip": "928856400",
+      "shares": 10000,
+      "value": 137690
+    }
+  ],
+  "totalValue": 687327107,
+  "positionsCount": 43
 }

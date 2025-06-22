@@ -1,7 +1,18 @@
-// src/app/api/admin/newsletter/send/route.ts - FIXED VERSION
+// src/app/api/admin/newsletter/send/route.ts - DATENSCHUTZ-KORREKTE VERSION
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseClient'
 import { resend } from '@/lib/resend'
+
+interface Subscriber {
+  email: string
+}
+
+interface SendResult {
+  success: boolean
+  email: string
+  error?: any
+  data?: any
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,43 +40,71 @@ export async function POST(request: NextRequest) {
     // Newsletter-HTML generieren
     const newsletterHtml = generateNewsletterHtml(subject, content)
 
-    // Newsletter an alle senden (in Batches für bessere Performance)
-    const batchSize = 50
+    // 🔒 EINZELVERSAND - Jede E-Mail individuell senden
     let sentCount = 0
-    const errors = []
+    const errors: Array<{ email: string; error: any }> = []
+    const batchSize = 10 // Reduziert für bessere Rate-Limiting
 
     for (let i = 0; i < subscribers.length; i += batchSize) {
       const batch = subscribers.slice(i, i + batchSize)
       
-      try {
-        const { data, error } = await resend.emails.send({
-          from: 'FinClue Newsletter <team@finclue.de>',
-          to: batch.map(sub => sub.email),
-          subject: subject,
-          html: newsletterHtml,
-        })
+      // Promise.allSettled für parallelen Versand mit Fehlerbehandlung
+      const promises = batch.map(async (subscriber: Subscriber): Promise<SendResult> => {
+        try {
+          // Personalisierte E-Mail für jeden Empfänger
+          const personalizedHtml = newsletterHtml.replace(
+            'EMAIL_PLACEHOLDER', 
+            encodeURIComponent(subscriber.email)
+          )
 
-        if (error) {
-          console.error('Batch send error:', error)
-          errors.push(error)
-        } else {
-          sentCount += batch.length
-          console.log(`✅ Batch ${Math.floor(i/batchSize) + 1} sent successfully to ${batch.length} recipients`)
+          const { data, error } = await resend.emails.send({
+            from: 'FinClue Newsletter <team@finclue.de>',
+            to: [subscriber.email], // ✅ Nur ein Empfänger pro E-Mail
+            subject: subject,
+            html: personalizedHtml,
+          })
+
+          if (error) {
+            console.error(`Failed to send to ${subscriber.email}:`, error)
+            return { success: false, email: subscriber.email, error }
+          }
+
+          return { success: true, email: subscriber.email, data }
+        } catch (error) {
+          console.error(`Exception sending to ${subscriber.email}:`, error)
+          return { success: false, email: subscriber.email, error }
         }
-      } catch (error) {
-        console.error('Batch send exception:', error)
-        errors.push(error)
-      }
+      })
 
-      // Kurze Pause zwischen Batches
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Warten auf alle E-Mails des Batches
+      const results = await Promise.allSettled(promises)
+      
+      // Ergebnisse auswerten
+      results.forEach((result, index) => {
+        if (result.status === 'fulfilled' && result.value.success) {
+          sentCount++
+        } else {
+          const email = batch[index].email
+          const error = result.status === 'rejected' ? result.reason : result.value?.error
+          errors.push({ email, error })
+          console.error(`Failed for ${email}:`, error)
+        }
+      })
+
+      console.log(`✅ Batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(subscribers.length/batchSize)} completed: ${sentCount}/${i + batch.length} sent`)
+
+      // Pause zwischen Batches (wichtig für Rate-Limiting)
+      if (i + batchSize < subscribers.length) {
+        await new Promise(resolve => setTimeout(resolve, 2000))
+      }
     }
 
     return NextResponse.json({ 
       success: true, 
       sentCount,
       totalSubscribers: subscribers.length,
-      errors: errors.length > 0 ? errors : undefined
+      errors: errors.length > 0 ? errors : undefined,
+      failedCount: errors.length
     })
 
   } catch (error) {

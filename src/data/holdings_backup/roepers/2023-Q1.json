@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0001493152-23-004837",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "FLOWSERVE CORP",
+      "cusip": "34354P105",
+      "shares": 865619,
+      "value": 26557191
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 248982,
+      "value": 26309928
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 318657,
+      "value": 25951426
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 671433,
+      "value": 23607584
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 305342,
+      "value": 21578519
+    },
+    {
+      "name": "UNIVAR SOLUTIONS INC",
+      "cusip": "91336L107",
+      "shares": 661988,
+      "value": 21051218
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 495707,
+      "value": 20611497
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 655000,
+      "value": 10853350
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 300000,
+      "value": 8244000
+    }
+  ],
+  "totalValue": 184764713,
+  "positionsCount": 9
+}

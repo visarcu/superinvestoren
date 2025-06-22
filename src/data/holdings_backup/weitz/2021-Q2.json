@@ -1,0 +1,210 @@
+{
+  "form": "NPORT-P",
+  "date": "2021-05-05",
+  "period": "2021-05-05",
+  "positions": [
+    {
+      "name": "salesforce.com Inc",
+      "cusip": "79466L302",
+      "shares": 120000,
+      "value": 25424400000,
+      "pctOfPortfolio": 274.033656344
+    },
+    {
+      "name": "State Street Global Advisors",
+      "cusip": "857492706",
+      "shares": 13534201.25,
+      "value": 13534201250,
+      "pctOfPortfolio": 145.8766639226
+    },
+    {
+      "name": "Accenture PLC",
+      "cusip": "000000000",
+      "shares": 95000,
+      "value": 26243750000,
+      "pctOfPortfolio": 282.8649159342
+    },
+    {
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307305",
+      "shares": 280000,
+      "value": 42042000000,
+      "pctOfPortfolio": 453.14434087009994
+    },
+    {
+      "name": "Thermo Fisher Scientific Inc",
+      "cusip": "883556102",
+      "shares": 75000,
+      "value": 34228500000,
+      "pctOfPortfolio": 368.9275265561
+    },
+    {
+      "name": "Linde PLC",
+      "cusip": "000000000",
+      "shares": 75000,
+      "value": 21010500000,
+      "pctOfPortfolio": 226.4589975227
+    },
+    {
+      "name": "Comcast Corp",
+      "cusip": "20030N101",
+      "shares": 550000,
+      "value": 29760500000,
+      "pctOfPortfolio": 320.769757777
+    },
+    {
+      "name": "Vulcan Materials Co",
+      "cusip": "929160109",
+      "shares": 220000,
+      "value": 37125000000,
+      "pctOfPortfolio": 400.1470827934
+    },
+    {
+      "name": "Visa Inc",
+      "cusip": "92826C839",
+      "shares": 170000,
+      "value": 35994100000,
+      "pctOfPortfolio": 387.95782121950003
+    },
+    {
+      "name": "Liberty Media Corp-Liberty SiriusXM",
+      "cusip": "531229607",
+      "shares": 700000,
+      "value": 30877000000,
+      "pctOfPortfolio": 332.8038107855
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 30000,
+      "value": 62058900000,
+      "pctOfPortfolio": 668.8939473769001
+    },
+    {
+      "name": "CoStar Group Inc",
+      "cusip": "22160N109",
+      "shares": 37500,
+      "value": 30820875000,
+      "pctOfPortfolio": 332.1988746233
+    },
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cusip": "084670702",
+      "shares": 200000,
+      "value": 51094000000,
+      "pctOfPortfolio": 550.7101696498
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 100000,
+      "value": 35605000000,
+      "pctOfPortfolio": 383.7639564407
+    },
+    {
+      "name": "Fidelity National Information Services Inc",
+      "cusip": "31620M106",
+      "shares": 250000,
+      "value": 35152500000,
+      "pctOfPortfolio": 378.8867428389
+    },
+    {
+      "name": "Analog Devices Inc",
+      "cusip": "032654105",
+      "shares": 225000,
+      "value": 34893000000,
+      "pctOfPortfolio": 376.0897551491
+    },
+    {
+      "name": "Charles Schwab Corp/The",
+      "cusip": "808513105",
+      "shares": 680000,
+      "value": 44322400000,
+      "pctOfPortfolio": 477.72334174819997
+    },
+    {
+      "name": "Facebook Inc",
+      "cusip": "30303M102",
+      "shares": 140000,
+      "value": 41234200000,
+      "pctOfPortfolio": 444.4375714834
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 500000,
+      "value": 35085000000,
+      "pctOfPortfolio": 378.1592026884
+    },
+    {
+      "name": "CarMax Inc",
+      "cusip": "143130102",
+      "shares": 250000,
+      "value": 33165000000,
+      "pctOfPortfolio": 357.4647272954
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "912796A33",
+      "shares": 10000000,
+      "value": 9999883300,
+      "pctOfPortfolio": 107.7824681688
+    },
+    {
+      "name": "Aon PLC",
+      "cusip": "000000000",
+      "shares": 200000,
+      "value": 46022000000,
+      "pctOfPortfolio": 496.04226381999996
+    },
+    {
+      "name": "Laboratory Corp of America Holdings",
+      "cusip": "50540R409",
+      "shares": 150000,
+      "value": 38254500000,
+      "pctOfPortfolio": 412.32125464570004
+    },
+    {
+      "name": "AutoZone Inc",
+      "cusip": "053332102",
+      "shares": 17500,
+      "value": 24575250000,
+      "pctOfPortfolio": 264.88120125029997
+    },
+    {
+      "name": "Danaher Corp",
+      "cusip": "235851102",
+      "shares": 150000,
+      "value": 33762000000,
+      "pctOfPortfolio": 363.8994157379
+    },
+    {
+      "name": "United States Treasury",
+      "cusip": "9127964Z9",
+      "shares": 3000000,
+      "value": 2999988330,
+      "pctOfPortfolio": 32.334992017800005
+    },
+    {
+      "name": "S&P Global Inc",
+      "cusip": "78409V104",
+      "shares": 62500,
+      "value": 22054375000,
+      "pctOfPortfolio": 237.71027122100003
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 162500,
+      "value": 24737375000,
+      "pctOfPortfolio": 266.6286449082
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 8500,
+      "value": 26299680000,
+      "pctOfPortfolio": 283.46775031379997
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-16",
+  "period": "2021-08-16",
+  "accession": "0001420506-21-001179",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 224468,
+      "value": 54831
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 412175,
+      "value": 47441
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 779081,
+      "value": 39718
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 143673,
+      "value": 39595
+    },
+    {
+      "name": "HUBSPOT INC",
+      "cusip": "443573100",
+      "shares": 58008,
+      "value": 33802
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 9437,
+      "value": 32465
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 371250,
+      "value": 25546
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 43413,
+      "value": 22931
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 8963,
+      "value": 21886
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 329002,
+      "value": 14575
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT REINS",
+      "cusip": "G16169107",
+      "shares": 5371,
+      "value": 279
+    }
+  ],
+  "totalValue": 333069,
+  "positionsCount": 11
+}

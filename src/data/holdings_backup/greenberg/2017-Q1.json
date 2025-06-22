@@ -1,0 +1,131 @@
+{
+  "form": "13F-HR",
+  "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0001172661-17-000573",
+  "quarterKey": "2017-Q1",
+  "positions": [
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 8204928,
+      "value": 323849
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412101",
+      "shares": 3617751,
+      "value": 267786
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 9647226,
+      "value": 228157
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 2560143,
+      "value": 220915
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 6683668,
+      "value": 220628
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480120",
+      "shares": 6761270,
+      "value": 200810
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219108",
+      "shares": 1889317,
+      "value": 129966
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "0750108",
+      "shares": 4443376,
+      "value": 120860
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "7902106",
+      "shares": 2973093,
+      "value": 115802
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 1608035,
+      "value": 111196
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634114",
+      "shares": 1640094,
+      "value": 72607
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480153",
+      "shares": 1831055,
+      "value": 38763
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480104",
+      "shares": 1157104,
+      "value": 35396
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480138",
+      "shares": 151869,
+      "value": 3335
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "20146101",
+      "shares": 31697,
+      "value": 2904
+    },
+    {
+      "name": "LIBERTY INTERACTIVE CORP",
+      "cusip": "53071856",
+      "shares": 54767,
+      "value": 2019
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 16097,
+      "value": 1111
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 321
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206102",
+      "shares": 4994,
+      "value": 212
+    },
+    {
+      "name": "TIDEWATER INC",
+      "cusip": "886423102",
+      "shares": 19625,
+      "value": 67
+    }
+  ],
+  "totalValue": 2096704,
+  "positionsCount": 20
+}

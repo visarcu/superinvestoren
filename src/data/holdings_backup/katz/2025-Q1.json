@@ -1,0 +1,726 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "Microsoft Corp.",
+      "cusip": "MSFT00000",
+      "shares": 143085,
+      "value": 53712678,
+      "ticker": "MSFT"
+    },
+    {
+      "name": "Matrix Advisors Value ETF",
+      "cusip": "MAVF00000",
+      "shares": 422381,
+      "value": 40772438,
+      "ticker": "MAVF"
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "JPM00000",
+      "shares": 144561,
+      "value": 35460813,
+      "ticker": "JPM"
+    },
+    {
+      "name": "Bank of New York Mellon Corp.",
+      "cusip": "BK00000",
+      "shares": 402272,
+      "value": 33738553,
+      "ticker": "BK"
+    },
+    {
+      "name": "Medtronic plc",
+      "cusip": "MDT00000",
+      "shares": 362252,
+      "value": 32551965,
+      "ticker": "MDT"
+    },
+    {
+      "name": "Apple Inc.",
+      "cusip": "AAPL00000",
+      "shares": 142117,
+      "value": 31568449,
+      "ticker": "AAPL"
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "MS00000",
+      "shares": 260351,
+      "value": 30375151,
+      "ticker": "MS"
+    },
+    {
+      "name": "Amgen",
+      "cusip": "AMGN00000",
+      "shares": 97314,
+      "value": 30318177,
+      "ticker": "AMGN"
+    },
+    {
+      "name": "PNC Financial Services",
+      "cusip": "PNC00000",
+      "shares": 168140,
+      "value": 29553968,
+      "ticker": "PNC"
+    },
+    {
+      "name": "QUALCOMM Inc.",
+      "cusip": "QCOM00000",
+      "shares": 190697,
+      "value": 29292966,
+      "ticker": "QCOM"
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "USB00000",
+      "shares": 662406,
+      "value": 27966781,
+      "ticker": "USB"
+    },
+    {
+      "name": "Comcast Corp.",
+      "cusip": "CMCSA0000",
+      "shares": 728041,
+      "value": 26864713,
+      "ticker": "CMCSA"
+    },
+    {
+      "name": "American Electric Power",
+      "cusip": "AEP00000",
+      "shares": 229597,
+      "value": 25088064,
+      "ticker": "AEP"
+    },
+    {
+      "name": "Alphabet Inc. CL C",
+      "cusip": "GOOG00000",
+      "shares": 159189,
+      "value": 24870097,
+      "ticker": "GOOG"
+    },
+    {
+      "name": "Amazon.com Inc.",
+      "cusip": "AMZN00000",
+      "shares": 119490,
+      "value": 22734167,
+      "ticker": "AMZN"
+    },
+    {
+      "name": "PepsiCo Inc.",
+      "cusip": "PEP00000",
+      "shares": 138122,
+      "value": 20710013,
+      "ticker": "PEP"
+    },
+    {
+      "name": "NextEra Energy Inc.",
+      "cusip": "NEE00000",
+      "shares": 254623,
+      "value": 18050224,
+      "ticker": "NEE"
+    },
+    {
+      "name": "Cisco Systems",
+      "cusip": "CSCO00000",
+      "shares": 278277,
+      "value": 17172474,
+      "ticker": "CSCO"
+    },
+    {
+      "name": "Home Depot",
+      "cusip": "HD00000",
+      "shares": 46771,
+      "value": 17141104,
+      "ticker": "HD"
+    },
+    {
+      "name": "Texas Instruments",
+      "cusip": "TXN00000",
+      "shares": 94988,
+      "value": 17069344,
+      "ticker": "TXN"
+    },
+    {
+      "name": "Meta Platforms Inc.",
+      "cusip": "META00000",
+      "shares": 29531,
+      "value": 17021078,
+      "ticker": "META"
+    },
+    {
+      "name": "Goldman Sachs Group",
+      "cusip": "GS00000",
+      "shares": 30429,
+      "value": 16623058,
+      "ticker": "GS"
+    },
+    {
+      "name": "Union Pacific",
+      "cusip": "UNP00000",
+      "shares": 69410,
+      "value": 16396724,
+      "ticker": "UNP"
+    },
+    {
+      "name": "Starbucks Corp.",
+      "cusip": "SBUX00000",
+      "shares": 162861,
+      "value": 15975035,
+      "ticker": "SBUX"
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "WFC00000",
+      "shares": 221785,
+      "value": 15921945,
+      "ticker": "WFC"
+    },
+    {
+      "name": "M&T Bank Corp.",
+      "cusip": "MTB00000",
+      "shares": 86827,
+      "value": 15520326,
+      "ticker": "MTB"
+    },
+    {
+      "name": "Zimmer Biomet Holdings",
+      "cusip": "ZBH00000",
+      "shares": 131096,
+      "value": 14837445,
+      "ticker": "ZBH"
+    },
+    {
+      "name": "PayPal Holdings Inc.",
+      "cusip": "PYPL00000",
+      "shares": 225281,
+      "value": 14699585,
+      "ticker": "PYPL"
+    },
+    {
+      "name": "TE Connectivity plc",
+      "cusip": "TEL00000",
+      "shares": 88985,
+      "value": 12575360,
+      "ticker": "TEL"
+    },
+    {
+      "name": "Tyson Foods",
+      "cusip": "TSN00000",
+      "shares": 197054,
+      "value": 12574016,
+      "ticker": "TSN"
+    },
+    {
+      "name": "FedEx Corp.",
+      "cusip": "FDX00000",
+      "shares": 48633,
+      "value": 11856239,
+      "ticker": "FDX"
+    },
+    {
+      "name": "L3Harris Technologies Inc.",
+      "cusip": "LHX00000",
+      "shares": 56360,
+      "value": 11797275,
+      "ticker": "LHX"
+    },
+    {
+      "name": "Dollar General",
+      "cusip": "DG00000",
+      "shares": 131801,
+      "value": 11589262,
+      "ticker": "DG"
+    },
+    {
+      "name": "Vanguard S&P 500 ETF",
+      "cusip": "VOO00000",
+      "shares": 22355,
+      "value": 11488905,
+      "ticker": "VOO"
+    },
+    {
+      "name": "Vanguard FTSE Developed ETF",
+      "cusip": "VEA00000",
+      "shares": 210131,
+      "value": 10680959,
+      "ticker": "VEA"
+    },
+    {
+      "name": "Vanguard High Dvd Yield ETF",
+      "cusip": "VYM00000",
+      "shares": 77860,
+      "value": 10040826,
+      "ticker": "VYM"
+    },
+    {
+      "name": "General Dynamics",
+      "cusip": "GD00000",
+      "shares": 33644,
+      "value": 9171018,
+      "ticker": "GD"
+    },
+    {
+      "name": "Lowes Cos.",
+      "cusip": "LOW00000",
+      "shares": 39070,
+      "value": 9111905,
+      "ticker": "LOW"
+    },
+    {
+      "name": "United Health Group Inc.",
+      "cusip": "UNH00000",
+      "shares": 17384,
+      "value": 9105044,
+      "ticker": "UNH"
+    },
+    {
+      "name": "AbbVie Inc.",
+      "cusip": "ABBV00000",
+      "shares": 39119,
+      "value": 8195822,
+      "ticker": "ABBV"
+    },
+    {
+      "name": "Pfizer Inc.",
+      "cusip": "PFE00000",
+      "shares": 318813,
+      "value": 8078721,
+      "ticker": "PFE"
+    },
+    {
+      "name": "Thermo Fisher Scientific",
+      "cusip": "TMO00000",
+      "shares": 15712,
+      "value": 7817977,
+      "ticker": "TMO"
+    },
+    {
+      "name": "iShares Russell 1000 Growth ETF",
+      "cusip": "IWF00000",
+      "shares": 20850,
+      "value": 7528935,
+      "ticker": "IWF"
+    },
+    {
+      "name": "Target Corp.",
+      "cusip": "TGT00000",
+      "shares": 59175,
+      "value": 6174911,
+      "ticker": "TGT"
+    },
+    {
+      "name": "Berkshire Hathaway CL B",
+      "cusip": "BRK.B0000",
+      "shares": 11591,
+      "value": 6173019,
+      "ticker": "BRK.B"
+    },
+    {
+      "name": "Ishares Core S&P  Small Cap E",
+      "cusip": "IJR00000",
+      "shares": 48668,
+      "value": 5089213,
+      "ticker": "IJR"
+    },
+    {
+      "name": "Ishares Russell Mid Cap ETF",
+      "cusip": "IWR00000",
+      "shares": 57382,
+      "value": 4882061,
+      "ticker": "IWR"
+    },
+    {
+      "name": "SPDR S&P  Midcap 400 ETF Trst",
+      "cusip": "MDY00000",
+      "shares": 6469,
+      "value": 3451017,
+      "ticker": "MDY"
+    },
+    {
+      "name": "Generac Holdings Inc.",
+      "cusip": "GNRC00000",
+      "shares": 23390,
+      "value": 2962110,
+      "ticker": "GNRC"
+    },
+    {
+      "name": "Bank of America Corp.",
+      "cusip": "BAC00000",
+      "shares": 57932,
+      "value": 2418082,
+      "ticker": "BAC"
+    },
+    {
+      "name": "T Rowe Price Blue Chip Growth ETF",
+      "cusip": "TCHP00000",
+      "shares": 62124,
+      "value": 2366303,
+      "ticker": "TCHP"
+    },
+    {
+      "name": "iShares Russell 2000 ETF",
+      "cusip": "IWM00000",
+      "shares": 10715,
+      "value": 2137964,
+      "ticker": "IWM"
+    },
+    {
+      "name": "Vanguard FTSE Emerging Marke",
+      "cusip": "VWO00000",
+      "shares": 40129,
+      "value": 1815837,
+      "ticker": "VWO"
+    },
+    {
+      "name": "Ishares Core S&P  500 ETF",
+      "cusip": "IVV00000",
+      "shares": 3143,
+      "value": 1765989,
+      "ticker": "IVV"
+    },
+    {
+      "name": "Vanguard Value ETF",
+      "cusip": "VTV00000",
+      "shares": 9494,
+      "value": 1639994,
+      "ticker": "VTV"
+    },
+    {
+      "name": "iShares MSCI EAFE ETF",
+      "cusip": "EFA00000",
+      "shares": 14764,
+      "value": 1206957,
+      "ticker": "EFA"
+    },
+    {
+      "name": "NVIDIA Corp.",
+      "cusip": "NVDA00000",
+      "shares": 10896,
+      "value": 1181017,
+      "ticker": "NVDA"
+    },
+    {
+      "name": "Ishares Russell 1000 Value E",
+      "cusip": "IWD00000",
+      "shares": 6200,
+      "value": 1167026,
+      "ticker": "IWD"
+    },
+    {
+      "name": "Vanguard Growth ETF",
+      "cusip": "VUG00000",
+      "shares": 3069,
+      "value": 1137985,
+      "ticker": "VUG"
+    },
+    {
+      "name": "American Express",
+      "cusip": "AXP00000",
+      "shares": 3187,
+      "value": 856984,
+      "ticker": "AXP"
+    },
+    {
+      "name": "Vanguard Total Stock Mkt ETF",
+      "cusip": "VTI00000",
+      "shares": 3084,
+      "value": 848007,
+      "ticker": "VTI"
+    },
+    {
+      "name": "AFLAC Inc.",
+      "cusip": "AFL00000",
+      "shares": 6211,
+      "value": 690974,
+      "ticker": "AFL"
+    },
+    {
+      "name": "Vanguard Dividend Apprec ETF",
+      "cusip": "VIG00000",
+      "shares": 3467,
+      "value": 673014,
+      "ticker": "VIG"
+    },
+    {
+      "name": "Invesco Qqq Trust Series 1",
+      "cusip": "QQQ00000",
+      "shares": 1348,
+      "value": 631996,
+      "ticker": "QQQ"
+    },
+    {
+      "name": "SPDR S&P  500 Fossil Fuel Res",
+      "cusip": "SPYX00000",
+      "shares": 13348,
+      "value": 610938,
+      "ticker": "SPYX"
+    },
+    {
+      "name": "Exxon Mobil Corp.",
+      "cusip": "XOM00000",
+      "shares": 4762,
+      "value": 566011,
+      "ticker": "XOM"
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "JNJ00000",
+      "shares": 3375,
+      "value": 560014,
+      "ticker": "JNJ"
+    },
+    {
+      "name": "Schwab Us Dvd Equity ETF",
+      "cusip": "SCHD00000",
+      "shares": 19557,
+      "value": 547009,
+      "ticker": "SCHD"
+    },
+    {
+      "name": "Costco Co.",
+      "cusip": "COST00000",
+      "shares": 573,
+      "value": 542001,
+      "ticker": "COST"
+    },
+    {
+      "name": "Ishares Trust Ishares Esg Aw",
+      "cusip": "ESGD00000",
+      "shares": 6523,
+      "value": 532994,
+      "ticker": "ESGD"
+    },
+    {
+      "name": "SPDR S&P  Dividend ETF",
+      "cusip": "SDY00000",
+      "shares": 3817,
+      "value": 518005,
+      "ticker": "SDY"
+    },
+    {
+      "name": "Alphabet Inc.",
+      "cusip": "GOOGL0000",
+      "shares": 3307,
+      "value": 510998,
+      "ticker": "GOOGL"
+    },
+    {
+      "name": "Capital One Financial",
+      "cusip": "COF00000",
+      "shares": 2414,
+      "value": 432999,
+      "ticker": "COF"
+    },
+    {
+      "name": "Procter & Gamble",
+      "cusip": "PG00000",
+      "shares": 2495,
+      "value": 424998,
+      "ticker": "PG"
+    },
+    {
+      "name": "CVS Health Corp.",
+      "cusip": "CVS00000",
+      "shares": 6175,
+      "value": 417986,
+      "ticker": "CVS"
+    },
+    {
+      "name": "Vanguard Mid Cap ETF",
+      "cusip": "VO00000",
+      "shares": 1483,
+      "value": 383993,
+      "ticker": "VO"
+    },
+    {
+      "name": "Walmart Inc.",
+      "cusip": "WMT00000",
+      "shares": 4241,
+      "value": 372021,
+      "ticker": "WMT"
+    },
+    {
+      "name": "Danaher Corp.",
+      "cusip": "DHR00000",
+      "shares": 1703,
+      "value": 348996,
+      "ticker": "DHR"
+    },
+    {
+      "name": "McDonalds Corp.",
+      "cusip": "MCD00000",
+      "shares": 1080,
+      "value": 337003,
+      "ticker": "MCD"
+    },
+    {
+      "name": "Nucor Corp.",
+      "cusip": "NUE00000",
+      "shares": 2698,
+      "value": 325001,
+      "ticker": "NUE"
+    },
+    {
+      "name": "Invesco Nasdaq 100 ETF",
+      "cusip": "QQQM00000",
+      "shares": 1520,
+      "value": 292995,
+      "ticker": "QQQM"
+    },
+    {
+      "name": "Eli Lilly & Co.",
+      "cusip": "LLY00000",
+      "shares": 340,
+      "value": 281000,
+      "ticker": "LLY"
+    },
+    {
+      "name": "International Business Machines",
+      "cusip": "IBM00000",
+      "shares": 1129,
+      "value": 280997,
+      "ticker": "IBM"
+    },
+    {
+      "name": "Intuit Inc.",
+      "cusip": "INTU00000",
+      "shares": 450,
+      "value": 275999,
+      "ticker": "INTU"
+    },
+    {
+      "name": "Paramount Global CL B",
+      "cusip": "PARA00000",
+      "shares": 24555,
+      "value": 274034,
+      "ticker": "PARA"
+    },
+    {
+      "name": "Ishares Russell 2000 Value E",
+      "cusip": "IWN00000",
+      "shares": 1765,
+      "value": 266003,
+      "ticker": "IWN"
+    },
+    {
+      "name": "Docgo Inc",
+      "cusip": "DCGO00000",
+      "shares": 100000,
+      "value": 264000,
+      "ticker": "DCGO"
+    },
+    {
+      "name": "Merck & Co.",
+      "cusip": "MRK00000",
+      "shares": 2946,
+      "value": 263991,
+      "ticker": "MRK"
+    },
+    {
+      "name": "iShares Core MSCI Emerging Markets ETF",
+      "cusip": "IEMG00000",
+      "shares": 4827,
+      "value": 260996,
+      "ticker": "IEMG"
+    },
+    {
+      "name": "Vanguard Small Cap ETF",
+      "cusip": "VB00000",
+      "shares": 1169,
+      "value": 259004,
+      "ticker": "VB"
+    },
+    {
+      "name": "Aon Plc",
+      "cusip": "AON00000",
+      "shares": 648,
+      "value": 258999,
+      "ticker": "AON"
+    },
+    {
+      "name": "SPDR Portfolio S&P  500 Growt",
+      "cusip": "SPYG00000",
+      "shares": 3138,
+      "value": 252013,
+      "ticker": "SPYG"
+    },
+    {
+      "name": "Bristol-Myers Squibb",
+      "cusip": "BMY00000",
+      "shares": 4092,
+      "value": 249980,
+      "ticker": "BMY"
+    },
+    {
+      "name": "Accenture",
+      "cusip": "ACN00000",
+      "shares": 795,
+      "value": 248000,
+      "ticker": "ACN"
+    },
+    {
+      "name": "Colgate-Palmolive",
+      "cusip": "CL00000",
+      "shares": 2549,
+      "value": 238994,
+      "ticker": "CL"
+    },
+    {
+      "name": "Technology Select Sect SPDR",
+      "cusip": "XLK00000",
+      "shares": 1150,
+      "value": 237004,
+      "ticker": "XLK"
+    },
+    {
+      "name": "Eaton Corp.",
+      "cusip": "ETN00000",
+      "shares": 862,
+      "value": 233999,
+      "ticker": "ETN"
+    },
+    {
+      "name": "SPDR Gold Trust",
+      "cusip": "GLD00000",
+      "shares": 808,
+      "value": 233003,
+      "ticker": "GLD"
+    },
+    {
+      "name": "Ishares Russell 1000 ETF",
+      "cusip": "IWB00000",
+      "shares": 722,
+      "value": 222001,
+      "ticker": "IWB"
+    },
+    {
+      "name": "Philip Morris Intl.",
+      "cusip": "PM00000",
+      "shares": 1362,
+      "value": 216000,
+      "ticker": "PM"
+    },
+    {
+      "name": "Amphenol Corp.",
+      "cusip": "APH00000",
+      "shares": 3056,
+      "value": 200015,
+      "ticker": "APH"
+    },
+    {
+      "name": "Skyx Platforms Corp",
+      "cusip": "SKYX00000",
+      "shares": 158333,
+      "value": 180500,
+      "ticker": "SKYX"
+    },
+    {
+      "name": "Compugen Ltd",
+      "cusip": "CGEN00000",
+      "shares": 93833,
+      "value": 136996,
+      "ticker": "CGEN"
+    }
+  ]
+}

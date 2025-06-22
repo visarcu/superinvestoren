@@ -1,0 +1,291 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-11-28",
+  "period": "2023-11-28",
+  "accession": "0001145549-23-072363",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "First American Treasury Obliga",
+      "cusip": "31846V328",
+      "shares": 4024077.57,
+      "value": 4024077.57,
+      "pctOfPortfolio": 5.8335427256
+    },
+    {
+      "name": "Pearl Holdings Acquisition Cor",
+      "cusip": null,
+      "shares": 298622,
+      "value": 3201227.84,
+      "pctOfPortfolio": 4.6406907059
+    },
+    {
+      "name": "Screaming Eagle Acquisition Co",
+      "cusip": null,
+      "shares": 305436,
+      "value": 3194860.56,
+      "pctOfPortfolio": 4.6314603172
+    },
+    {
+      "name": "Keen Vision Acquisition Corp",
+      "cusip": null,
+      "shares": 312367,
+      "value": 3179896.06,
+      "pctOfPortfolio": 4.609766886
+    },
+    {
+      "name": "Enphys Acquisition Corp",
+      "cusip": null,
+      "shares": 298257,
+      "value": 3131698.5,
+      "pctOfPortfolio": 4.5398968299
+    },
+    {
+      "name": "CARTESIAN GROWTH CORP II",
+      "cusip": null,
+      "shares": 281873,
+      "value": 3044228.4,
+      "pctOfPortfolio": 4.4130949587
+    },
+    {
+      "name": "TortoiseEcofin Acquisition Cor",
+      "cusip": null,
+      "shares": 287007,
+      "value": 3007833.36,
+      "pctOfPortfolio": 4.3603345392
+    },
+    {
+      "name": "Israel Acquisitions Corp",
+      "cusip": null,
+      "shares": 273375,
+      "value": 2884106.25,
+      "pctOfPortfolio": 4.180972345
+    },
+    {
+      "name": "Bowen Acquisition Corp",
+      "cusip": null,
+      "shares": 280680,
+      "value": 2862936,
+      "pctOfPortfolio": 4.1502826886
+    },
+    {
+      "name": "Mars Acquisition Corp",
+      "cusip": null,
+      "shares": 259107,
+      "value": 2723214.57,
+      "pctOfPortfolio": 3.9477341748
+    },
+    {
+      "name": "Oak Woods Acquisition Corp",
+      "cusip": "67190B104",
+      "shares": 255000,
+      "value": 2666025,
+      "pctOfPortfolio": 3.8648287649
+    },
+    {
+      "name": "Four Leaf Acquisition Corp",
+      "cusip": "35088F107",
+      "shares": 250000,
+      "value": 2620000,
+      "pctOfPortfolio": 3.7981081813
+    },
+    {
+      "name": "Bukit Jalil Global Acquisition",
+      "cusip": null,
+      "shares": 250000,
+      "value": 2582500,
+      "pctOfPortfolio": 3.7437459459
+    },
+    {
+      "name": "Trailblazer Merger Corp I",
+      "cusip": "89278D109",
+      "shares": 250000,
+      "value": 2582500,
+      "pctOfPortfolio": 3.7437459459
+    },
+    {
+      "name": "Inflection Point Acquisition C",
+      "cusip": null,
+      "shares": 250460,
+      "value": 2557196.6,
+      "pctOfPortfolio": 3.7070646289
+    },
+    {
+      "name": "Haymaker Acquisition Corp 4",
+      "cusip": null,
+      "shares": 250000,
+      "value": 2542500,
+      "pctOfPortfolio": 3.6857595615
+    },
+    {
+      "name": "Alchemy Investments Acquisitio",
+      "cusip": null,
+      "shares": 236120,
+      "value": 2436758.4,
+      "pctOfPortfolio": 3.5324702347
+    },
+    {
+      "name": "Pono Capital Three Inc",
+      "cusip": null,
+      "shares": 219270,
+      "value": 2314394.85,
+      "pctOfPortfolio": 3.3550847384
+    },
+    {
+      "name": "Infinite Acquisition Corp",
+      "cusip": null,
+      "shares": 173680,
+      "value": 1876612.4,
+      "pctOfPortfolio": 2.7204492022
+    },
+    {
+      "name": "TMT Acquisition Corp",
+      "cusip": null,
+      "shares": 151544,
+      "value": 1580603.92,
+      "pctOfPortfolio": 2.2913376641
+    },
+    {
+      "name": "ESH Acquisition Corp",
+      "cusip": "296424104",
+      "shares": 150000,
+      "value": 1518000,
+      "pctOfPortfolio": 2.2005832898
+    },
+    {
+      "name": "Ares Acquisition Corp II",
+      "cusip": null,
+      "shares": 131200,
+      "value": 1347424,
+      "pctOfPortfolio": 1.953306152
+    },
+    {
+      "name": "SDCL EDGE Acquisition Corp",
+      "cusip": null,
+      "shares": 113680,
+      "value": 1205008,
+      "pctOfPortfolio": 1.7468514288
+    },
+    {
+      "name": "Distoken Acquisition Corp",
+      "cusip": null,
+      "shares": 99604,
+      "value": 1049826.16,
+      "pctOfPortfolio": 1.5218905829
+    },
+    {
+      "name": "Golden Star Acquisition Corp",
+      "cusip": null,
+      "shares": 100000,
+      "value": 1030000,
+      "pctOfPortfolio": 1.4931493995
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29277FX48",
+      "shares": 1000000,
+      "value": 999204.44,
+      "pctOfPortfolio": 1.44850632
+    },
+    {
+      "name": "GENERAL MOTORS FINL CO",
+      "cusip": "37046UXB2",
+      "shares": 1000000,
+      "value": 998148,
+      "pctOfPortfolio": 1.4469748416
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE",
+      "cusip": "93142XXD8",
+      "shares": 1000000,
+      "value": 997673.67,
+      "pctOfPortfolio": 1.4462872246
+    },
+    {
+      "name": "GLENCORE FUNDING LLC",
+      "cusip": "37790BXH9",
+      "shares": 1000000,
+      "value": 997205.5,
+      "pctOfPortfolio": 1.4456085374
+    },
+    {
+      "name": "TARGA RESOURCES CORP",
+      "cusip": "87613LXP9",
+      "shares": 1000000,
+      "value": 996520.67,
+      "pctOfPortfolio": 1.444615767
+    },
+    {
+      "name": "NUTRIEN FINANCIAL US LLC",
+      "cusip": "67080UXP5",
+      "shares": 1000000,
+      "value": 996310.67,
+      "pctOfPortfolio": 1.4443113385
+    },
+    {
+      "name": "CROWN CASTLE INC",
+      "cusip": "22823QY21",
+      "shares": 1000000,
+      "value": 994488.22,
+      "pctOfPortfolio": 1.4416694063
+    },
+    {
+      "name": "99 Acquisition Group Inc",
+      "cusip": "65445K200",
+      "shares": 37250,
+      "value": 386282.5,
+      "pctOfPortfolio": 0.5599781388
+    },
+    {
+      "name": "Nabors Energy Transition Corp",
+      "cusip": null,
+      "shares": 20000,
+      "value": 203600,
+      "pctOfPortfolio": 0.2951506968
+    },
+    {
+      "name": "AP Acquisition Corp",
+      "cusip": null,
+      "shares": 15775,
+      "value": 173288.38,
+      "pctOfPortfolio": 0.2512091656
+    },
+    {
+      "name": "Innovative International Acqui",
+      "cusip": null,
+      "shares": 8966,
+      "value": 99791.58,
+      "pctOfPortfolio": 0.1446638231
+    },
+    {
+      "name": "HIRO METAVERSE AC-CLASS A-DI",
+      "cusip": null,
+      "shares": 22500,
+      "value": 4255.12,
+      "pctOfPortfolio": 0.0061684756
+    },
+    {
+      "name": "REVELSTONE CAPITAL ACQUISI-A",
+      "cusip": "76137R114",
+      "shares": 6000,
+      "value": 388.2,
+      "pctOfPortfolio": 0.0005627579
+    },
+    {
+      "name": "FINANCIALS ACQUISITIO-DI",
+      "cusip": null,
+      "shares": 8777,
+      "value": 321.27,
+      "pctOfPortfolio": 0.0004657321
+    },
+    {
+      "name": "SMX SECURITY MATTERS PLC",
+      "cusip": null,
+      "shares": 425,
+      "value": 6.14,
+      "pctOfPortfolio": 0.0000089009
+    }
+  ],
+  "totalValue": 69010912.80000001,
+  "positionsCount": 40
+}

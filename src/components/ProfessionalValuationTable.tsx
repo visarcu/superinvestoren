@@ -233,7 +233,6 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
       };
 
       // 8. ✅ Forward P/E + PEG Berechnung (NACH getValue Definition)
-      // 8. ✅ Forward P/E + PEG Berechnung (NACH getValue Definition)
       let calculatedPEG = 0;
       
       try {
@@ -405,28 +404,6 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
       };
 
       console.log('✅ Final Valuation Data:', valuationData);
-      
-      // ✅ ERWEITERTE Debug-Ausgabe
-      console.log('🔍 FINAL DEBUG - Einzelne Werte:');
-      console.log(`- KGV (TTM): ${valuationData.peRatioTTM}`);
-      console.log(`- KGV Erwartet: ${valuationData.forwardPE}`);
-      console.log(`- PEG (TTM): ${valuationData.pegRatioTTM} ${calculatedPEG > 0 ? '(berechnet)' : '(von FMP)'}`);
-      console.log(`- Dividendenrendite: ${valuationData.dividendYieldTTM}`);
-      
-      console.log(`\n💰 CASH FLOW RATIOS:`);
-      console.log(`- Operating CF per Share: ${operatingCashFlowPerShare} ${operatingCashFlowPerShare === 0 ? '❌ FEHLT' : '✅'}`);
-      console.log(`- Free CF per Share: ${freeCashFlowPerShare} ${freeCashFlowPerShare === 0 ? '❌ FEHLT' : '✅'}`);
-      console.log(`- Price/Cash Flow: ${valuationData.priceToCashFlowRatio} ${valuationData.priceToCashFlowRatio === 0 ? '❌ FEHLT' : '✅'}`);
-      console.log(`- Price/FCF: ${valuationData.priceToFreeCashFlowsRatio} ${valuationData.priceToFreeCashFlowsRatio === 0 ? '❌ FEHLT' : '✅'}`);
-      
-      if (valuationData.priceToFreeCashFlowsRatio === 0) {
-        console.log(`\n🚨 Price/FCF PROBLEM ANALYSIS:`);
-        console.log(`- Current Price: ${currentPrice} ${currentPrice === 0 ? '❌' : '✅'}`);
-        console.log(`- FCF per Share: ${freeCashFlowPerShare} ${freeCashFlowPerShare === 0 ? '❌' : '✅'}`);
-        console.log(`- Calculation: ${currentPrice} / ${freeCashFlowPerShare} = ${currentPrice && freeCashFlowPerShare ? (currentPrice / freeCashFlowPerShare).toFixed(2) : 'CANNOT CALCULATE'}`);
-        console.log(`- FMP Ratio Fallback tried: ${getValue([currentRatios, keyMetrics], ['priceToFreeCashFlowsRatio', 'pfcfRatio'])}`);
-      }
-      
       setData(valuationData);
       
     } catch (err) {
@@ -461,17 +438,17 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
   };
 
   const getDifferenceColor = (current: number, comparison: number): string => {
-    if (!current || !comparison || isNaN(current) || isNaN(comparison)) return 'text-gray-400';
+    if (!current || !comparison || isNaN(current) || isNaN(comparison)) return 'text-theme-muted';
     return current > comparison ? 'text-red-400' : 'text-green-400';
   };
 
   if (loading) {
     return (
-      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
+      <div className="bg-theme-card/50 border border-theme rounded-xl p-8 backdrop-blur-sm">
         <div className="flex items-center justify-center h-32">
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-gray-400">Lade Bewertungsdaten...</span>
+            <span className="text-theme-secondary">Lade Bewertungsdaten...</span>
           </div>
         </div>
       </div>
@@ -480,7 +457,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
 
   if (error) {
     return (
-      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 text-center">
+      <div className="bg-theme-card/50 border border-theme rounded-xl p-8 text-center backdrop-blur-sm">
         <p className="text-red-400">Fehler beim Laden der Bewertungsdaten: {error}</p>
         <button 
           onClick={loadValuationData}
@@ -494,12 +471,12 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
 
   if (!isPremium) {
     return (
-      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 text-center">
+      <div className="bg-theme-card/50 border border-theme rounded-xl p-8 text-center backdrop-blur-sm">
         <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-full flex items-center justify-center">
           <LockClosedIcon className="w-8 h-8 text-yellow-400" />
         </div>
-        <h3 className="text-xl font-semibold text-white mb-3">Premium Bewertungsanalyse</h3>
-        <p className="text-gray-300 mb-6">Professionelle Bewertungsmetriken mit historischen Vergleichen</p>
+        <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Bewertungsanalyse</h3>
+        <p className="text-theme-secondary mb-6">Professionelle Bewertungsmetriken mit historischen Vergleichen</p>
         <button className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-semibold rounded-lg">
           Premium freischalten
         </button>
@@ -591,13 +568,13 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
   ];
 
   return (
-    <div className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
+    <div className="bg-theme-card/50 border border-theme rounded-xl overflow-hidden backdrop-blur-sm">
       {/* Header */}
-      <div className="p-6 border-b border-gray-700">
+      <div className="p-6 border-b border-theme">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold text-white">Bewertung & Kennzahlen</h3>
-            <p className="text-gray-400 text-sm mt-1">{ticker} Bewertungsanalyse</p>
+            <h3 className="text-xl font-bold text-theme-primary">Bewertung & Kennzahlen</h3>
+            <p className="text-theme-secondary text-sm mt-1">{ticker} Bewertungsanalyse</p>
           </div>
         </div>
       </div>
@@ -605,27 +582,27 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-800/50">
+          <thead className="bg-theme-secondary/30">
             <tr>
-              <th className="text-left py-4 px-6 text-gray-300 font-medium">Kennzahl</th>
-              <th className="text-right py-4 px-6 text-gray-300 font-medium">{ticker}</th>
-              <th className="text-right py-4 px-6 text-gray-300 font-medium">Vergleichswert</th>
-              <th className="text-right py-4 px-6 text-gray-300 font-medium">% Differenz</th>
+              <th className="text-left py-4 px-6 text-theme-secondary font-medium">Kennzahl</th>
+              <th className="text-right py-4 px-6 text-theme-secondary font-medium">{ticker}</th>
+              <th className="text-right py-4 px-6 text-theme-secondary font-medium">Vergleichswert</th>
+              <th className="text-right py-4 px-6 text-theme-secondary font-medium">% Differenz</th>
             </tr>
           </thead>
           <tbody>
             {valuationMetrics.map((metric, index) => (
               <tr 
                 key={index}
-                className="border-b border-gray-800/50 hover:bg-gray-800/20 transition-colors"
+                className="border-b border-theme hover:bg-theme-secondary/20 transition-colors"
               >
-                <td className="py-4 px-6 text-white font-medium">
+                <td className="py-4 px-6 text-theme-primary font-medium">
                   {metric.label}
                 </td>
-                <td className="py-4 px-6 text-right text-white font-medium">
+                <td className="py-4 px-6 text-right text-theme-primary font-medium">
                   {metric.formatter(metric.current)}
                 </td>
-                <td className="py-4 px-6 text-right text-gray-300">
+                <td className="py-4 px-6 text-right text-theme-secondary">
                   {metric.formatter(metric.comparison)}
                 </td>
                 <td className={`py-4 px-6 text-right font-medium ${getDifferenceColor(metric.current, metric.comparison)}`}>
@@ -638,7 +615,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, isPremium = false
       </div>
 
       {/* Footer Note */}
-      <div className="p-4 bg-gray-800/30 text-xs text-gray-400">
+      <div className="p-4 bg-theme-secondary/20 text-xs text-theme-muted">
         <p>
           Alle Daten basieren auf den neuesten verfügbaren Finanzdaten von {ticker}. 
           TTM = Trailing Twelve Months, FWD = Forward (Analystenschätzungen).

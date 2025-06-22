@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-02",
+  "period": "2019-05-02",
+  "accession": "0001484150-19-000002",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "MONDELEZ INTERNATIONAL INC",
+      "cusip": "609207105",
+      "shares": 31844522,
+      "value": 1589042
+    },
+    {
+      "name": "PAYPAL INC",
+      "cusip": "70450Y103",
+      "shares": 6465007,
+      "value": 671262
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5271199,
+      "value": 585261
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 2194979,
+      "value": 573789
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 4263183,
+      "value": 522325
+    },
+    {
+      "name": "WORLD WRESTLING ENTMT INC",
+      "cusip": "98156Q108",
+      "shares": 5963182,
+      "value": 517425
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 8873900,
+      "value": 329399
+    },
+    {
+      "name": "MANCHESTER UNITED PLC",
+      "cusip": "G5784H106",
+      "shares": 10942172,
+      "value": 210309
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637100",
+      "shares": 2096302,
+      "value": 107373
+    },
+    {
+      "name": "INTERNATIONAL SPEEDWAY A CLASS",
+      "cusip": "460335201",
+      "shares": 1077100,
+      "value": 46994
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637209",
+      "shares": 291502,
+      "value": 15380
+    }
+  ],
+  "totalValue": 5168559,
+  "positionsCount": 11
+}

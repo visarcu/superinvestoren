@@ -1,103 +1,95 @@
 {
-  "date": "2025-06-05",
+  "form": "13F-HR",
+  "date": "2025-01-24",
+  "period": "2025-01-24",
+  "accession": "0001953324-25-000001",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
-      "name": "Berkshire Hathaway CL B",
-      "cusip": "BRK.B0000",
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
       "shares": 140600,
-      "value": 74880748,
-      "ticker": "BRK.B"
+      "value": 63731000
     },
     {
-      "name": "American Express",
-      "cusip": "AXP00000",
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
       "shares": 210000,
-      "value": 56500500,
-      "ticker": "AXP"
+      "value": 62326000
     },
     {
-      "name": "Mastercard Inc.",
-      "cusip": "MA00000",
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
       "shares": 65750,
-      "value": 36038890,
-      "ticker": "MA"
+      "value": 34622000
     },
     {
-      "name": "Bank of America Corp.",
-      "cusip": "BAC00000",
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
       "shares": 767845,
-      "value": 32042172,
-      "ticker": "BAC"
+      "value": 33747000
     },
     {
-      "name": "Berkshire Hathaway CL A",
-      "cusip": "BRK.A0000",
-      "shares": 30,
-      "value": 23953000,
-      "ticker": "BRK.A"
-    },
-    {
-      "name": "Ferrari NV",
-      "cusip": "RACE00000",
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
       "shares": 60000,
-      "value": 23532000,
-      "ticker": "RACE"
+      "value": 24744000
     },
     {
-      "name": "Micron Technology Inc.",
-      "cusip": "MU00000",
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 20428000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
       "shares": 200000,
-      "value": 17378000,
-      "ticker": "MU"
+      "value": 16832000
     },
     {
-      "name": "Moodys Corp.",
-      "cusip": "MCO00000",
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
       "shares": 27000,
-      "value": 12573900,
-      "ticker": "MCO"
+      "value": 12781000
     },
     {
-      "name": "Alibaba Group Holdings",
-      "cusip": "BABA00000",
-      "shares": 47500,
-      "value": 6280925,
-      "ticker": "BABA"
-    },
-    {
-      "name": "Daily Journal Corp.",
-      "cusip": "DJCO00000",
+      "name": "DAILY JOURNAL CORP",
+      "cusip": "233912104",
       "shares": 11500,
-      "value": 4574010,
-      "ticker": "DJCO"
+      "value": 6532000
     },
     {
-      "name": "Alphabet Inc.",
-      "cusip": "GOOGL0000",
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 47500,
+      "value": 4028000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
       "shares": 16000,
-      "value": 2474080,
-      "ticker": "GOOGL"
+      "value": 3029000
     },
     {
-      "name": "Seritage Growth Properties",
-      "cusip": "SRG00000",
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
       "shares": 500000,
-      "value": 1615000,
-      "ticker": "SRG"
+      "value": 2060000
     },
     {
-      "name": "Alpha Metallurgical Resources Inc.",
-      "cusip": "AMR00000",
+      "name": "ALPHA METALLURGICAL RESOUR I",
+      "cusip": "020764106",
       "shares": 8000,
-      "value": 1002000,
-      "ticker": "AMR"
+      "value": 1601000
     },
     {
-      "name": "Core Natural Resources Inc.",
-      "cusip": "CNR00000",
+      "name": "ARCH RESOURCES INC",
+      "cusip": "03940R107",
       "shares": 8100,
-      "value": 827982,
-      "ticker": "CNR"
+      "value": 1144000
     }
-  ]
+  ],
+  "totalValue": 287605000,
+  "positionsCount": 14
 }

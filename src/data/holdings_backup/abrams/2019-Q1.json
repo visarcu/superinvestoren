@@ -1,0 +1,125 @@
+{
+  "form": "13F-HR",
+  "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0001172661-19-000623",
+  "quarterKey": "2019-Q1",
+  "positions": [
+    {
+      "name": "FRANKLIN RES INC",
+      "cusip": "354613101",
+      "shares": 10037706,
+      "value": 297718
+    },
+    {
+      "name": "O REILLY AUTOMOTIVE INC NEW",
+      "cusip": "67103H107",
+      "shares": 859981,
+      "value": 296117
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 18522372,
+      "value": 285615
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 576045,
+      "value": 189006
+    },
+    {
+      "name": "WESTERN UN CO",
+      "cusip": "959802109",
+      "shares": 10434763,
+      "value": 178017
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2300000,
+      "value": 175559
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PUB LTD",
+      "cusip": "G96629103",
+      "shares": 1109811,
+      "value": 168536
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 8761405,
+      "value": 134750
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 999649,
+      "value": 131044
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 124117,
+      "value": 129697
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 1902528,
+      "value": 126823
+    },
+    {
+      "name": "PACIFIC DRILLING SA LUXEMBOU",
+      "cusip": "L7257P205",
+      "shares": 7414537,
+      "value": 98984
+    },
+    {
+      "name": "SUBURBAN PROPANE PARTNERS L",
+      "cusip": "864482104",
+      "shares": 2988346,
+      "value": 57585
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 3858808,
+      "value": 44261
+    },
+    {
+      "name": "AKEBIA THERAPEUTICS INC",
+      "cusip": "00972D105",
+      "shares": 5656462,
+      "value": 31280
+    },
+    {
+      "name": "BARNES & NOBLE ED INC",
+      "cusip": "06777U101",
+      "shares": 5872465,
+      "value": 23549
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U105",
+      "shares": 22238592,
+      "value": 20460
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18451C109",
+      "shares": 3354390,
+      "value": 17409
+    },
+    {
+      "name": "GLOBAL EAGLE ENTMT INC",
+      "cusip": "37951D102",
+      "shares": 6069147,
+      "value": 13534
+    }
+  ],
+  "totalValue": 2419944,
+  "positionsCount": 19
+}

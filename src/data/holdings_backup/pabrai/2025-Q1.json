@@ -1,0 +1,33 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "Warrior Met Coal Inc.",
+      "cusip": "HCC00000",
+      "shares": 1799580,
+      "value": 85875958,
+      "ticker": "HCC"
+    },
+    {
+      "name": "Valaris plc",
+      "cusip": "VAL00000",
+      "shares": 1427564,
+      "value": 56046163,
+      "ticker": "VAL"
+    },
+    {
+      "name": "Alpha Metallurgical Resources Inc.",
+      "cusip": "AMR00000",
+      "shares": 414616,
+      "value": 51930654,
+      "ticker": "AMR"
+    },
+    {
+      "name": "Noble Corp.",
+      "cusip": "NE00000",
+      "shares": 1728744,
+      "value": 40971233,
+      "ticker": "NE"
+    }
+  ]
+}

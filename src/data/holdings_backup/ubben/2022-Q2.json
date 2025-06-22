@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001418812-22-000034",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 13035201,
+      "value": 1321769
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 22605349,
+      "value": 1321735
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 13437070,
+      "value": 1207993
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 9232609,
+      "value": 844968
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 17550411,
+      "value": 796964
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 13846107,
+      "value": 739382
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 3543143,
+      "value": 380250
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 14430901,
+      "value": 329746
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 13901031,
+      "value": 255223
+    },
+    {
+      "name": "TOPBUILD CORP",
+      "cusip": "89055F103",
+      "shares": 214371,
+      "value": 38885
+    },
+    {
+      "name": "ALTUS POWER INC",
+      "cusip": "02217A102",
+      "shares": 4000000,
+      "value": 29720
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 90847,
+      "value": 3122
+    },
+    {
+      "name": "ALTUS POWER INC",
+      "cusip": "02217A110",
+      "shares": 18417,
+      "value": 30
+    }
+  ],
+  "totalValue": 7269787,
+  "positionsCount": 13
+}

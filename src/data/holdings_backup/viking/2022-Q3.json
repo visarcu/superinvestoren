@@ -1,0 +1,503 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-15",
+  "period": "2022-08-15",
+  "accession": "0001103804-22-000004",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 9170393,
+      "value": 1233785
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 8104902,
+      "value": 860822
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2963179,
+      "value": 761033
+    },
+    {
+      "name": "PARKER-HANNIFIN CORP",
+      "cusip": "701094104",
+      "shares": 3070691,
+      "value": 755544
+    },
+    {
+      "name": "CHUBB LIMITED",
+      "cusip": "H1467J104",
+      "shares": 3774226,
+      "value": 741937
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 2302305,
+      "value": 726331
+    },
+    {
+      "name": "ELEVANCE HEALTH INC",
+      "cusip": "036752103",
+      "shares": 1464485,
+      "value": 706731
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 8293867,
+      "value": 701744
+    },
+    {
+      "name": "FORTIVE CORP",
+      "cusip": "34959J108",
+      "shares": 11798954,
+      "value": 641627
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS&FRAGRA",
+      "cusip": "459506101",
+      "shares": 5121603,
+      "value": 610085
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 8750301,
+      "value": 557132
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 14653954,
+      "value": 546153
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 12131195,
+      "value": 539474
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1625515,
+      "value": 530259
+    },
+    {
+      "name": "ROYALTY PHARMA PLC",
+      "cusip": "G7709Q104",
+      "shares": 12370694,
+      "value": 520064
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 10108715,
+      "value": 516859
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 9182277,
+      "value": 504658
+    },
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 33634813,
+      "value": 503513
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 2555860,
+      "value": 503223
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 862587,
+      "value": 468626
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 2865864,
+      "value": 462121
+    },
+    {
+      "name": "MARSH & MCLENNAN COS INC",
+      "cusip": "571748102",
+      "shares": 2828603,
+      "value": 439141
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 1115487,
+      "value": 429953
+    },
+    {
+      "name": "BIOMARIN PHARMACEUTICAL INC",
+      "cusip": "09061G101",
+      "shares": 5052593,
+      "value": 418708
+    },
+    {
+      "name": "ROIVANT SCIENCES LTD",
+      "cusip": "G76279101",
+      "shares": 88238700,
+      "value": 359132
+    },
+    {
+      "name": "BLOCK INC",
+      "cusip": "852234103",
+      "shares": 5603207,
+      "value": 344373
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 16583623,
+      "value": 339301
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 694026,
+      "value": 295759
+    },
+    {
+      "name": "AMERIPRISE FINL INC",
+      "cusip": "03076C106",
+      "shares": 1183896,
+      "value": 281388
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 1110174,
+      "value": 272481
+    },
+    {
+      "name": "TAKE-TWO INTERACTIVE SOFTWAR",
+      "cusip": "874054109",
+      "shares": 1999669,
+      "value": 245019
+    },
+    {
+      "name": "ADAPTIVE BIOTECHNOLOGIES COR",
+      "cusip": "00650F109",
+      "shares": 29993708,
+      "value": 242649
+    },
+    {
+      "name": "BRIDGEBIO PHARMA INC",
+      "cusip": "10806X102",
+      "shares": 26620991,
+      "value": 241719
+    },
+    {
+      "name": "ACADIA HEALTHCARE COMPANY IN",
+      "cusip": "00404A109",
+      "shares": 3478476,
+      "value": 235249
+    },
+    {
+      "name": "CATALENT INC",
+      "cusip": "148806102",
+      "shares": 1961249,
+      "value": 210422
+    },
+    {
+      "name": "AVANTOR INC",
+      "cusip": "05352A100",
+      "shares": 6168685,
+      "value": 191846
+    },
+    {
+      "name": "BOEING CO",
+      "cusip": "097023105",
+      "shares": 1391238,
+      "value": 190210
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 704639,
+      "value": 190027
+    },
+    {
+      "name": "KE HLDGS INC",
+      "cusip": "482497104",
+      "shares": 10410507,
+      "value": 186869
+    },
+    {
+      "name": "GUARDANT HEALTH INC",
+      "cusip": "40131M109",
+      "shares": 4479020,
+      "value": 180684
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 1741500,
+      "value": 164398
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 89251,
+      "value": 156099
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 1068804,
+      "value": 149184
+    },
+    {
+      "name": "UNUM GROUP",
+      "cusip": "91529Y106",
+      "shares": 4310548,
+      "value": 146645
+    },
+    {
+      "name": "KARUNA THERAPEUTICS INC",
+      "cusip": "48576A100",
+      "shares": 1119360,
+      "value": 141610
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 297495,
+      "value": 141465
+    },
+    {
+      "name": "AMYLYX PHARMACEUTICALS INC",
+      "cusip": "03237H101",
+      "shares": 7170536,
+      "value": 138105
+    },
+    {
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 475158,
+      "value": 132859
+    },
+    {
+      "name": "CHARLES RIV LABS INTL INC",
+      "cusip": "159864107",
+      "shares": 553409,
+      "value": 118413
+    },
+    {
+      "name": "INTELLIA THERAPEUTICS INC",
+      "cusip": "45826J105",
+      "shares": 2228383,
+      "value": 115341
+    },
+    {
+      "name": "ZAI LAB LTD",
+      "cusip": "98887Q104",
+      "shares": 3299598,
+      "value": 114430
+    },
+    {
+      "name": "INSULET CORP",
+      "cusip": "45784P101",
+      "shares": 503401,
+      "value": 109711
+    },
+    {
+      "name": "INSPIRE MED SYS INC",
+      "cusip": "457730109",
+      "shares": 595193,
+      "value": 108724
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 901744,
+      "value": 104846
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 508639,
+      "value": 104118
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 1966376,
+      "value": 88153
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 401230,
+      "value": 85165
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1470600,
+      "value": 81295
+    },
+    {
+      "name": "COUPA SOFTWARE INC",
+      "cusip": "22266L106",
+      "shares": 1414833,
+      "value": 80787
+    },
+    {
+      "name": "GUARDANT HEALTH INC",
+      "cusip": "40131MAB5",
+      "shares": 120000000,
+      "value": 74700
+    },
+    {
+      "name": "GINKGO BIOWORKS HOLDINGS INC",
+      "cusip": "37611X100",
+      "shares": 27084126,
+      "value": 64460
+    },
+    {
+      "name": "CELLDEX THERAPEUTICS INC NEW",
+      "cusip": "15117B202",
+      "shares": 2337854,
+      "value": 63029
+    },
+    {
+      "name": "GLOBAL E ONLINE LTD",
+      "cusip": "M5216V106",
+      "shares": 3044726,
+      "value": 61412
+    },
+    {
+      "name": "INHIBRX INC",
+      "cusip": "45720L107",
+      "shares": 5305866,
+      "value": 60222
+    },
+    {
+      "name": "ZENTALIS PHARMACEUTICALS INC",
+      "cusip": "98943L107",
+      "shares": 2026656,
+      "value": 56949
+    },
+    {
+      "name": "PHARVARIS N V",
+      "cusip": "N69605108",
+      "shares": 2491923,
+      "value": 55071
+    },
+    {
+      "name": "SHOCKWAVE MED INC",
+      "cusip": "82489T104",
+      "shares": 284000,
+      "value": 54292
+    },
+    {
+      "name": "PROCEPT BIOROBOTICS CORP",
+      "cusip": "74276L105",
+      "shares": 1545000,
+      "value": 50506
+    },
+    {
+      "name": "RIVIAN AUTOMOTIVE INC",
+      "cusip": "76954A103",
+      "shares": 1602193,
+      "value": 41240
+    },
+    {
+      "name": "AVIS BUDGET GROUP",
+      "cusip": "053774105",
+      "shares": 278673,
+      "value": 40987
+    },
+    {
+      "name": "ORION ACQUISITION CORP",
+      "cusip": "68626A207",
+      "shares": 3703693,
+      "value": 36333
+    },
+    {
+      "name": "DAY ONE BIOPHARMACEUTICALS I",
+      "cusip": "23954D109",
+      "shares": 1857424,
+      "value": 33248
+    },
+    {
+      "name": "LAS VEGAS SANDS CORP",
+      "cusip": "517834107",
+      "shares": 964915,
+      "value": 32411
+    },
+    {
+      "name": "RALLYBIO CORP",
+      "cusip": "75120L100",
+      "shares": 4194777,
+      "value": 31671
+    },
+    {
+      "name": "4D MOLECULAR THERAPEUTICS IN",
+      "cusip": "35104E100",
+      "shares": 3937914,
+      "value": 27487
+    },
+    {
+      "name": "KINNATE BIOPHARMA INC",
+      "cusip": "49705R105",
+      "shares": 1820462,
+      "value": 22956
+    },
+    {
+      "name": "EDGEWISE THERAPEUTICS INC",
+      "cusip": "28036F105",
+      "shares": 2727249,
+      "value": 21709
+    },
+    {
+      "name": "PEPGEN INC",
+      "cusip": "713317105",
+      "shares": 1793923,
+      "value": 17814
+    },
+    {
+      "name": "NUVALENT INC",
+      "cusip": "670703107",
+      "shares": 1110170,
+      "value": 15054
+    },
+    {
+      "name": "TALARIS THERAPEUTICS INC",
+      "cusip": "87410C104",
+      "shares": 3289617,
+      "value": 14836
+    },
+    {
+      "name": "VERASTEM INC",
+      "cusip": "92337C104",
+      "shares": 9224000,
+      "value": 10700
+    },
+    {
+      "name": "LIANBIO",
+      "cusip": "53000N108",
+      "shares": 3564173,
+      "value": 7699
+    }
+  ],
+  "totalValue": 21862785,
+  "positionsCount": 82
+}

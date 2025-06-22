@@ -1,0 +1,67 @@
+{
+  "form": "13F-HR",
+  "date": "2018-11-14",
+  "period": "2018-11-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 114565,
+      "value": 136730000000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 470771,
+      "value": 6911000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 267581,
+      "value": 87199000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1469316,
+      "value": 81268000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1100095,
+      "value": 30979000000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229870",
+      "shares": 1962428,
+      "value": 69823000000
+    },
+    {
+      "name": "PURPLE INNOVATION INC",
+      "cusip": "74640Y106",
+      "shares": 201446,
+      "value": 1168000000
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 1478407,
+      "value": 27646000000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M101",
+      "shares": 811980,
+      "value": 35890000000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M200",
+      "shares": 621270,
+      "value": 27491000000
+    }
+  ]
+}

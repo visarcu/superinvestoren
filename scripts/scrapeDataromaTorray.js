@@ -337,15 +337,15 @@ async function scrapeTorrayHoldings() {
     
     // 9) Ergebnis zusammenstellen
     const result = {
-      form: 'DATAROMA',
+      form: 'DATAROMA',                              // ← HINZUFÜGEN
       date: new Date().toISOString().split('T')[0],
-      period: quarterKey,
-      quarterKey,
-      positions: holdings,
-      totalValue,
-      positionsCount: holdings.length,
-      source: 'dataroma.com',
-      url: TORRAY_URL
+      period: new Date().toISOString().split('T')[0], // ← HINZUFÜGEN  
+      accession: null,                               // ← HINZUFÜGEN
+      quarterKey: quarterKey,                        // ← HINZUFÜGEN (quarterKey hast du schon!)
+      positions: holdings.sort((a, b) => b.value - a.value),
+      totalValue: holdings.reduce((sum, h) => sum + h.value, 0), // ← HINZUFÜGEN
+      positionsCount: holdings.length,               // ← HINZUFÜGEN
+      source: 'dataroma'                             // ← HINZUFÜGEN
     }
     
     console.log(`  ✓ Torray Holdings erfolgreich gescraped:`)

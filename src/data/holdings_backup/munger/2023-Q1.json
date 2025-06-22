@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2023-01-05",
+  "period": "2023-01-05",
+  "accession": "0001437749-23-000377",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 2300000,
+      "value": 76176
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1591800,
+      "value": 65726
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "01609W102",
+      "shares": 300000,
+      "value": 26427
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 140000,
+      "value": 6105
+    }
+  ],
+  "totalValue": 174434,
+  "positionsCount": 4
+}

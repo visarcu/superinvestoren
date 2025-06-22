@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-15",
+  "period": "2018-05-15",
+  "accession": "0001697868-18-000003",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 302232,
+      "value": 57744
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 351415,
+      "value": 56683
+    },
+    {
+      "name": "MONSTER BEVERAGE CORP NEW",
+      "cusip": "61174X109",
+      "shares": 608230,
+      "value": 34797
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 270003,
+      "value": 31809
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 58500,
+      "value": 10141
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 82000,
+      "value": 9809
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 34750,
+      "value": 6087
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 25000,
+      "value": 3995
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "045327103",
+      "shares": 31713,
+      "value": 2502
+    }
+  ],
+  "totalValue": 213567,
+  "positionsCount": 9
+}

@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-12",
+  "period": "2022-08-12",
+  "accession": "0001172661-22-001829",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2351068,
+      "value": 646097
+    },
+    {
+      "name": "CHANGE HEALTHCARE INC",
+      "cusip": "15912K100",
+      "shares": 16978220,
+      "value": 391518
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2118216,
+      "value": 358699
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 146440,
+      "value": 319131
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 539305,
+      "value": 289429
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 22124322,
+      "value": 220801
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 1068745,
+      "value": 210960
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 12476200,
+      "value": 209101
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 422917,
+      "value": 202252
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1205043,
+      "value": 194313
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 24046356,
+      "value": 180829
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13603071,
+      "value": 173439
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 110299
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 6934144,
+      "value": 97078
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 3600000,
+      "value": 76932
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 3090000,
+      "value": 17304
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 12349
+    },
+    {
+      "name": "USCB FINANCIAL HOLDINGS INC",
+      "cusip": "90355N101",
+      "shares": 859354,
+      "value": 9917
+    }
+  ],
+  "totalValue": 3720448,
+  "positionsCount": 18
+}

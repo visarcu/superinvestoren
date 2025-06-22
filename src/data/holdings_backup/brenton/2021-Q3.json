@@ -1,0 +1,167 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-13",
+  "period": "2021-08-13",
+  "accession": "0000950123-21-010668",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "BERRY GLOBAL GROUP",
+      "cusip": "08579W103",
+      "shares": 5320231,
+      "value": 346985
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 1141273,
+      "value": 197737
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 4912152,
+      "value": 181357
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
+      "cusip": "78467J100",
+      "shares": 2054515,
+      "value": 148048
+    },
+    {
+      "name": "SERVICE CORP INTERNATIONAL",
+      "cusip": "817565104",
+      "shares": 2406145,
+      "value": 128945
+    },
+    {
+      "name": "DISCOVER FINANCIAL SERVICES",
+      "cusip": "254709108",
+      "shares": 1079025,
+      "value": 127638
+    },
+    {
+      "name": "INGERSOLL-RAND INC",
+      "cusip": "45687V106",
+      "shares": 2611156,
+      "value": 127451
+    },
+    {
+      "name": "MAGNA INTERNATIONAL INC",
+      "cusip": "559222401",
+      "shares": 1301300,
+      "value": 120552
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 2474374,
+      "value": 120106
+    },
+    {
+      "name": "TFI INTERNATIONAL INC",
+      "cusip": "87241L109",
+      "shares": 1200839,
+      "value": 109505
+    },
+    {
+      "name": "PRESTIGE CONSUMER HEALTHCARE INC",
+      "cusip": "74112D101",
+      "shares": 2055607,
+      "value": 107097
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 2068816,
+      "value": 105096
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 2656968,
+      "value": 102214
+    },
+    {
+      "name": "URBAN OUTFITTERS INC",
+      "cusip": "917047102",
+      "shares": 2386345,
+      "value": 98365
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 921719,
+      "value": 96034
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 533368,
+      "value": 68884
+    },
+    {
+      "name": "ENCORE CAPITAL GROUP INC",
+      "cusip": "292554102",
+      "shares": 1443812,
+      "value": 68422
+    },
+    {
+      "name": "FLOWSERVE",
+      "cusip": "34354P105",
+      "shares": 1684062,
+      "value": 67901
+    },
+    {
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 273900,
+      "value": 37072
+    },
+    {
+      "name": "JOHN BEAN TECHNOLOGIES CORP",
+      "cusip": "477839104",
+      "shares": 24000,
+      "value": 3423
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 8950,
+      "value": 1671
+    },
+    {
+      "name": "POLARIS INC",
+      "cusip": "731068102",
+      "shares": 9800,
+      "value": 1342
+    },
+    {
+      "name": "ULTA BEAUTY INC",
+      "cusip": "90384S303",
+      "shares": 3450,
+      "value": 1193
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORTATION",
+      "cusip": "499049104",
+      "shares": 15713,
+      "value": 714
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 8838,
+      "value": 596
+    },
+    {
+      "name": "BRP INC",
+      "cusip": "05577W200",
+      "shares": 3200,
+      "value": 251
+    }
+  ],
+  "totalValue": 2368599,
+  "positionsCount": 26
+}

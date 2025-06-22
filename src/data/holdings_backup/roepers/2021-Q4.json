@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-15",
+  "period": "2021-11-15",
+  "accession": "0000905718-21-001495",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 1872035,
+      "value": 55394
+    },
+    {
+      "name": "UNIVAR SOLUTIONS INC",
+      "cusip": "91336L107",
+      "shares": 2050786,
+      "value": 48850
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 940875,
+      "value": 46884
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 1776180,
+      "value": 31438
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 197111,
+      "value": 30844
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 820945,
+      "value": 30350
+    },
+    {
+      "name": "BERRY GLOBAL GROUP INC",
+      "cusip": "08579W103",
+      "shares": 432609,
+      "value": 26337
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 100000,
+      "value": 10074
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 655000,
+      "value": 9347
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 100000,
+      "value": 5174
+    },
+    {
+      "name": "NOMAD FOODS LTD",
+      "cusip": "G6564A105",
+      "shares": 110000,
+      "value": 3032
+    }
+  ],
+  "totalValue": 297724,
+  "positionsCount": 11
+}

@@ -1,4 +1,125 @@
 {
+  "form": "13F-HR",
   "date": "2018-08-09",
-  "positions": []
+  "period": "2018-08-09",
+  "accession": "0001376879-18-000005",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 3657381,
+      "value": 496400
+    },
+    {
+      "name": "GRIFOLS S A",
+      "cusip": "398438408",
+      "shares": 10759637,
+      "value": 231332
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 717459,
+      "value": 102374
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 740305,
+      "value": 98053
+    },
+    {
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 510405,
+      "value": 80721
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 403978,
+      "value": 78097
+    },
+    {
+      "name": "ALLEGION PUB LTD CO",
+      "cusip": "G0176J109",
+      "shares": 968660,
+      "value": 74936
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 939647,
+      "value": 74223
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 904412,
+      "value": 72064
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 565220,
+      "value": 70669
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 551342,
+      "value": 69800
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 60790,
+      "value": 67820
+    },
+    {
+      "name": "CME GROUP INV",
+      "cusip": "12572Q105",
+      "shares": 387999,
+      "value": 63601
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 310638,
+      "value": 54107
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 1001075,
+      "value": 50074
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 754259,
+      "value": 48884
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 267966,
+      "value": 45704
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 243336,
+      "value": 35422
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 7356066,
+      "value": 34059
+    }
+  ],
+  "totalValue": 1848340,
+  "positionsCount": 19
 }

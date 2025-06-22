@@ -1,0 +1,251 @@
+{
+  "form": "13F-HR",
+  "date": "2021-05-17",
+  "period": "2021-05-17",
+  "accession": "0001556785-21-000027",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 3677184,
+      "value": 1309261
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 2033895,
+      "value": 1195768
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 24202394,
+      "value": 1182287
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 366266,
+      "value": 1133256
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 4484904,
+      "value": 949589
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 4222384,
+      "value": 894597
+    },
+    {
+      "name": "WAYFAIR INC",
+      "cusip": "94419L101",
+      "shares": 2596246,
+      "value": 817168
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 4373653,
+      "value": 799066
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 1415791,
+      "value": 755933
+    },
+    {
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 19666965,
+      "value": 722958
+    },
+    {
+      "name": "SKYWORKS SOLUTIONS INC",
+      "cusip": "83088M102",
+      "shares": 3894461,
+      "value": 714556
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 331548,
+      "value": 685850
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2852769,
+      "value": 672597
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2282486,
+      "value": 672261
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "803054204",
+      "shares": 4497599,
+      "value": 552001
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 663575,
+      "value": 545386
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 4263689,
+      "value": 484355
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 2627447,
+      "value": 470418
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 1299779,
+      "value": 466556
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 5842794,
+      "value": 408236
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 28752051,
+      "value": 377514
+    },
+    {
+      "name": "CUSHMAN WAKEFIELD PLC",
+      "cusip": "G2717B108",
+      "shares": 11509353,
+      "value": 187833
+    },
+    {
+      "name": "UPSTART HLDGS INC",
+      "cusip": "91680M107",
+      "shares": 983088,
+      "value": 126681
+    },
+    {
+      "name": "CERENCE INC",
+      "cusip": "156727109",
+      "shares": 1049229,
+      "value": 93990
+    },
+    {
+      "name": "ABM INDS INC",
+      "cusip": "000957100",
+      "shares": 1421791,
+      "value": 72526
+    },
+    {
+      "name": "VIRTUS INVT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 278640,
+      "value": 65620
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 640878,
+      "value": 62960
+    },
+    {
+      "name": "CARLISLE COS INC",
+      "cusip": "142339100",
+      "shares": 345754,
+      "value": 56904
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 301024,
+      "value": 49669
+    },
+    {
+      "name": "KNOLL INC",
+      "cusip": "498904200",
+      "shares": 2977324,
+      "value": 49156
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 401501,
+      "value": 48549
+    },
+    {
+      "name": "MILLER HERMAN INC",
+      "cusip": "600544100",
+      "shares": 1149897,
+      "value": 47318
+    },
+    {
+      "name": "CURTISS WRIGHT CORP",
+      "cusip": "231561101",
+      "shares": 391637,
+      "value": 46448
+    },
+    {
+      "name": "PROG HOLDINGS INC",
+      "cusip": "74319R101",
+      "shares": 1064240,
+      "value": 46071
+    },
+    {
+      "name": "ITURAN LOCATION AND CONTROL",
+      "cusip": "M6158M104",
+      "shares": 2150866,
+      "value": 45663
+    },
+    {
+      "name": "ENERSYS",
+      "cusip": "29275Y102",
+      "shares": 486481,
+      "value": 44172
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 140780,
+      "value": 37228
+    },
+    {
+      "name": "PARK HOTELS & RESORTS INC",
+      "cusip": "700517105",
+      "shares": 1330362,
+      "value": 28709
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 380253,
+      "value": 13902
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 8751,
+      "value": 658
+    }
+  ],
+  "totalValue": 16933670,
+  "positionsCount": 40
+}

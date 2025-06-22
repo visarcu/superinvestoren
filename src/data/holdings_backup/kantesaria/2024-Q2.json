@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001697868-24-000005",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 880748,
+      "value": 1100591508
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1484772,
+      "value": 715021652
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1655561,
+      "value": 704358428
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1218410,
+      "value": 478871682
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 444881,
+      "value": 289172650
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 912017,
+      "value": 254525705
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "29109X106",
+      "shares": 295485,
+      "value": 63021041
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 62903,
+      "value": 61045474
+    }
+  ],
+  "totalValue": 3666608140,
+  "positionsCount": 8
+}

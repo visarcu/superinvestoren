@@ -274,5 +274,14 @@ export async function GET(
     ) / 1_000_000,
   }
 })
-  return NextResponse.json({ data, keyMetrics })
+return NextResponse.json({ 
+  data, 
+  keyMetrics,
+  // ✅ NEU: Raw Statements für Financials Page
+  rawStatements: {
+    income: incData,
+    balance: bsData,
+    cashflow: cfData
+  }
+})
 }

@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-12",
+  "period": "2016-08-12",
+  "accession": "0001549575-16-000018",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 13784930,
+      "value": 84364
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 5984447,
+      "value": 62657
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 69188,
+      "value": 47885
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 1069038,
+      "value": 43527
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 529113,
+      "value": 26371
+    },
+    {
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 624160,
+      "value": 20966
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 72500,
+      "value": 10497
+    }
+  ],
+  "totalValue": 296267,
+  "positionsCount": 7
+}

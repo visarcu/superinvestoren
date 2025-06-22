@@ -1,243 +1,198 @@
-// src/app/auth/signin/page.tsx - MODERNISIERTE VERSION
+// src/app/auth/signin/page.tsx - KOMPAKTE SIGNIN FORM
 'use client'
-import React, { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+
+import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import GoogleSignInButton from '@/components/GoogleSignInButton'
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { EyeIcon, EyeSlashIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline'
 
-// Deutsche Fehlermeldungen
-function translateAuthError(error: string): string {
-  const errorMap: { [key: string]: string } = {
-    'Invalid login credentials': 'E-Mail oder Passwort ist falsch',
-    'invalid login credentials': 'E-Mail oder Passwort ist falsch',
-    'Email not confirmed': 'Bitte bestätigen Sie Ihre E-Mail-Adresse',
-    'Invalid email': 'Ungültige E-Mail-Adresse',
-    'Password should be at least 6 characters': 'Passwort muss mindestens 6 Zeichen lang sein',
-    'Too many requests': 'Zu viele Anmeldeversuche. Bitte warten Sie einen Moment',
-    'Rate limit exceeded': 'Zu viele Versuche. Bitte warten Sie einen Moment',
-    'User not found': 'Kein Benutzer mit dieser E-Mail-Adresse gefunden',
-    'fetch': 'Verbindungsfehler. Prüfen Sie Ihre Internetverbindung',
-    'network': 'Netzwerkfehler. Bitte versuchen Sie es erneut',
-    'timeout': 'Zeitüberschreitung. Bitte versuchen Sie es erneut',
-  };
-
-  for (const [englishError, germanTranslation] of Object.entries(errorMap)) {
-    if (error.toLowerCase().includes(englishError.toLowerCase())) {
-      return germanTranslation;
-    }
-  }
-
-  return error; // Fallback
-}
-
-// Moderne Message Komponenten
-function MessageBox({ message, type }: { message: string; type: 'error' | 'success' }) {
-  if (type === 'error') {
-    return (
-      <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
-            <span className="text-red-400 text-sm">!</span>
-          </div>
-          <p className="text-red-300 text-sm font-medium">{message}</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 backdrop-blur-sm">
-      <div className="flex items-center gap-3">
-        <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-          <span className="text-green-400 text-sm">✓</span>
-        </div>
-        <p className="text-green-300 text-sm font-medium">{message}</p>
-      </div>
-    </div>
-  );
-}
-
-export default function ModernSigninPage() {
+export default function SignInPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [info, setInfo] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const router = useRouter()
-  const params = useSearchParams()
 
-  useEffect(() => {
-    if (params?.get('registered') === '1') {
-      setInfo('Dein Account wurde erstellt! Bitte logge dich ein.')
-    }
-    if (params?.get('verified') === '1') {
-      setInfo('E-Mail bestätigt! Du kannst dich jetzt einloggen.')
-    }
-  }, [params])
-
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError(null)
     setLoading(true)
+    setError('')
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
-      
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
       if (error) {
-        const translatedError = translateAuthError(error.message)
-        setError(translatedError)
-      } else {
-        router.push('/')
+        setError('E-Mail oder Passwort ungültig')
+        return
       }
-    } catch (err) {
-      setError('Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.')
+
+      router.push('/analyse')
+    } catch (error) {
+      setError('Ein unerwarteter Fehler ist aufgetreten')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/analyse`
+        }
+      })
+      if (error) {
+        setError('Google-Anmeldung fehlgeschlagen')
+      }
+    } catch (error) {
+      setError('Ein unerwarteter Fehler ist aufgetreten')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-950 noise-bg px-4">
-      {/* Subtle background effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-500/3 rounded-full blur-3xl"></div>
-      </div>
-      
-      <div className="relative w-full max-w-md">
-        {/* Main Form Card */}
-        <div className="bg-gray-900/70 border border-gray-800 rounded-lg p-8 backdrop-blur-sm">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
-              Willkommen zurück
-            </h1>
-            <p className="text-gray-400 text-sm">
-              Melde dich an, um fortzufahren
-            </p>
-          </div>
+    <>
+      {/* ✅ KOMPAKTE Error Message */}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
+          <p className="text-red-400 text-sm text-center">{error}</p>
+        </div>
+      )}
 
-          {/* Messages */}
-          <div className="space-y-4 mb-6">
-            {info && <MessageBox message={info} type="success" />}
-            {error && <MessageBox message={error} type="error" />}
-          </div>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                E-Mail-Adresse
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                <input
-                  type="email"
-                  placeholder="name@beispiel.de"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
-                  required
-                  disabled={loading}
-                />
-              </div>
+      {/* ✅ KOMPAKTE Sign In Form */}
+      <form onSubmit={handleSignIn} className="space-y-4">
+        
+        {/* ✅ KOMPAKTE Email Field */}
+        <div className="space-y-1.5">
+          <label htmlFor="email" className="text-sm font-medium text-theme-primary">
+            E-Mail-Adresse
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <EnvelopeIcon className="h-4 w-4 text-theme-muted" />
             </div>
-            
-            {/* Password Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Passwort
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Dein Passwort"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
-                  required
-                  disabled={loading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full pl-9 pr-3 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              placeholder="name@beispiel.de"
+            />
+          </div>
+        </div>
 
-            {/* Sign In Button */}
+        {/* ✅ KOMPAKTE Password Field */}
+        <div className="space-y-1.5">
+          <label htmlFor="password" className="text-sm font-medium text-theme-primary">
+            Passwort
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <LockClosedIcon className="h-4 w-4 text-theme-muted" />
+            </div>
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full pl-9 pr-10 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              placeholder="Dein Passwort"
+            />
             <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-green-500 text-black font-semibold rounded-lg hover:bg-green-400 disabled:bg-gray-600 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-muted hover:text-theme-secondary transition-colors"
             >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
-                  Anmelden...
-                </>
+              {showPassword ? (
+                <EyeSlashIcon className="h-4 w-4" />
               ) : (
-                'Anmelden'
+                <EyeIcon className="h-4 w-4" />
               )}
             </button>
-
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-700"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-gray-900 px-2 text-gray-500">oder</span>
-              </div>
-            </div>
-
-            {/* Google Sign In */}
-            <GoogleSignInButton />
-          </form>
-
-          {/* Footer Links */}
-          <div className="mt-8 space-y-4">
-            {/* Forgot Password */}
-            <div className="text-center">
-              <a 
-                href="/auth/forgot-password"
-                className="text-sm text-gray-400 hover:text-green-400 transition-colors"
-              >
-                Passwort vergessen?
-              </a>
-            </div>
-
-            {/* Sign Up Link */}
-            <div className="text-center text-sm text-gray-400">
-              Noch keinen Account?{' '}
-              <a href="/auth/signup" className="text-green-400 hover:text-green-300 font-medium transition-colors">
-                Jetzt registrieren
-              </a>
-            </div>
           </div>
         </div>
 
-        {/* Trust Indicators */}
-        <div className="mt-8 text-center">
-          <div className="flex items-center justify-center gap-6 text-xs text-gray-600">
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Sicher verschlüsselt</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>DSGVO-konform</span>
-            </div>
-          </div>
+        {/* ✅ KOMPAKTE Forgot Password Link */}
+        <div className="text-right">
+          <Link 
+            href="/auth/forgot-password" 
+            className="text-xs text-green-400 hover:text-green-300 transition-colors"
+          >
+            Passwort vergessen?
+          </Link>
         </div>
+
+        {/* ✅ KOMPAKTE Sign In Button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-2.5 bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+        >
+          {loading ? (
+            <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+          ) : (
+            'Anmelden'
+          )}
+        </button>
+      </form>
+
+      {/* ✅ KOMPAKTE Divider */}
+      <div className="flex items-center gap-3 my-4">
+        <div className="flex-1 h-px bg-theme"></div>
+        <span className="text-xs text-theme-muted">oder</span>
+        <div className="flex-1 h-px bg-theme"></div>
       </div>
-    </div>
+
+      {/* ✅ KOMPAKTE Google Sign In */}
+      <button
+        onClick={handleGoogleSignIn}
+        disabled={loading}
+        className="w-full py-2.5 bg-theme-secondary hover:bg-theme-tertiary border border-theme text-theme-primary font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+      >
+        <svg className="w-4 h-4" viewBox="0 0 24 24">
+          <path
+            fill="#4285F4"
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+          />
+          <path
+            fill="#34A853"
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+          />
+          <path
+            fill="#FBBC05"
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+          />
+          <path
+            fill="#EA4335"
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+          />
+        </svg>
+        Mit Google anmelden
+      </button>
+
+      {/* ✅ KOMPAKTE Sign Up Link */}
+      <div className="text-center mt-4">
+        <p className="text-theme-secondary text-xs">
+          Noch kein Account?{' '}
+          <Link 
+            href="/auth/signup" 
+            className="text-green-400 hover:text-green-300 font-medium transition-colors"
+          >
+            Jetzt registrieren
+          </Link>
+        </p>
+      </div>
+    </>
   )
 }

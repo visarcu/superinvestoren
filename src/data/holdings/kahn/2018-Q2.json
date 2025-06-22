@@ -1,4 +1,197 @@
 {
+  "form": "13F-HR",
   "date": "2018-05-01",
-  "positions": []
+  "period": "2018-05-01",
+  "accession": "0001039565-18-000005",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967101",
+      "shares": 948482,
+      "value": 64022560
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 1405605,
+      "value": 56983227
+    },
+    {
+      "name": "NY TIMES CL A",
+      "cusip": "650111107",
+      "shares": 2257362,
+      "value": 54402424
+    },
+    {
+      "name": "BLACKBERRY",
+      "cusip": "09228F103",
+      "shares": 4463510,
+      "value": 51330365
+    },
+    {
+      "name": "MERCK",
+      "cusip": "589331107",
+      "shares": 904387,
+      "value": 49261964
+    },
+    {
+      "name": "GLAXOSMITHKLINE",
+      "cusip": "37733W105",
+      "shares": 1230642,
+      "value": 48081183
+    },
+    {
+      "name": "ASSURED GUARANTY",
+      "cusip": "G0585R106",
+      "shares": 1240092,
+      "value": 44891330
+    },
+    {
+      "name": "MBIA",
+      "cusip": "55262C100",
+      "shares": 4625960,
+      "value": 42836390
+    },
+    {
+      "name": "SEABOARD CORP",
+      "cusip": "811543107",
+      "shares": 7789,
+      "value": 33220085
+    },
+    {
+      "name": "NEW YORK COMMUNITY",
+      "cusip": "649445103",
+      "shares": 2203594,
+      "value": 28712823
+    },
+    {
+      "name": "HOLOGIC",
+      "cusip": "436440101",
+      "shares": 657997,
+      "value": 24582768
+    },
+    {
+      "name": "PATTERSON ENERGY",
+      "cusip": "703481101",
+      "shares": 1365612,
+      "value": 23911866
+    },
+    {
+      "name": "NAM TAI PPTY",
+      "cusip": "G63907102",
+      "shares": 1820255,
+      "value": 22662175
+    },
+    {
+      "name": "STERLING BANCORP",
+      "cusip": "85917A100",
+      "shares": 870635,
+      "value": 19632819
+    },
+    {
+      "name": "PFIZER",
+      "cusip": "717081103",
+      "shares": 549944,
+      "value": 19517513
+    },
+    {
+      "name": "VOXX INTERNATIONAL",
+      "cusip": "91829F104",
+      "shares": 3658725,
+      "value": 18110689
+    },
+    {
+      "name": "TRINITY PLACE HOLDINGS",
+      "cusip": "89656D101",
+      "shares": 968129,
+      "value": 6292839
+    },
+    {
+      "name": "IDT CORP CL B",
+      "cusip": "448847309",
+      "shares": 640743,
+      "value": 4017458
+    },
+    {
+      "name": "IDW MEDIA",
+      "cusip": "44951N106",
+      "shares": 75408,
+      "value": 3384310
+    },
+    {
+      "name": "GENIE ENERGY",
+      "cusip": "903514344",
+      "shares": 400085,
+      "value": 1996424
+    },
+    {
+      "name": "NOVARTIS ADR",
+      "cusip": "66987V109",
+      "shares": 22010,
+      "value": 1779509
+    },
+    {
+      "name": "RAFAEL HOLDING",
+      "cusip": "75062E106",
+      "shares": 320326,
+      "value": 1553581
+    },
+    {
+      "name": "EXXON MOBILE",
+      "cusip": "30231G102",
+      "shares": 16934,
+      "value": 1263446
+    },
+    {
+      "name": "BRISTOL MYERS SQUIBB",
+      "cusip": "110122108",
+      "shares": 19750,
+      "value": 1249188
+    },
+    {
+      "name": "OLD REPUBLIC",
+      "cusip": "680223104",
+      "shares": 48000,
+      "value": 1029600
+    },
+    {
+      "name": "BANK OF AMERICA",
+      "cusip": "060505104",
+      "shares": 26127,
+      "value": 783549
+    },
+    {
+      "name": "CHEVRONTEXACO",
+      "cusip": "166764100",
+      "shares": 5048,
+      "value": 575674
+    },
+    {
+      "name": "NAVIENT",
+      "cusip": "63938C108",
+      "shares": 39150,
+      "value": 513648
+    },
+    {
+      "name": "ZEDGE INC",
+      "cusip": "98923T104",
+      "shares": 138264,
+      "value": 442445
+    },
+    {
+      "name": "AMERICAN TEL & TEL",
+      "cusip": "030177109",
+      "shares": 11300,
+      "value": 402845
+    },
+    {
+      "name": "COMCAST CL A",
+      "cusip": "20030N101",
+      "shares": 8924,
+      "value": 304933
+    }
+  ],
+  "totalValue": 627749630,
+  "positionsCount": 31
 }

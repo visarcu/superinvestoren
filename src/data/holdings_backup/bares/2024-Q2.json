@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001340807-24-000005",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "Pegasystems Inc",
+      "cusip": "705573103",
+      "shares": 5576826,
+      "value": 360486033
+    },
+    {
+      "name": "Block Inc",
+      "cusip": "852234103",
+      "shares": 3985479,
+      "value": 337091814
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 2810131,
+      "value": 313919734
+    },
+    {
+      "name": "Workday Inc",
+      "cusip": "98138H101",
+      "shares": 1124956,
+      "value": 306831749
+    },
+    {
+      "name": "Align Technology Inc",
+      "cusip": "016255101",
+      "shares": 819930,
+      "value": 268871446
+    },
+    {
+      "name": "Etsy Inc",
+      "cusip": "29786A106",
+      "shares": 3858217,
+      "value": 265136672
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 1578735,
+      "value": 152505801
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 1836082,
+      "value": 124633246
+    },
+    {
+      "name": "Alarm.com Holdings Inc",
+      "cusip": "011642105",
+      "shares": 593911,
+      "value": 43040730
+    },
+    {
+      "name": "XPEL Inc",
+      "cusip": "98379L100",
+      "shares": 726082,
+      "value": 39222950
+    },
+    {
+      "name": "Veeva Systems Inc",
+      "cusip": "922475108",
+      "shares": 108504,
+      "value": 25139292
+    },
+    {
+      "name": "Despegar.com Corp",
+      "cusip": "G27358103",
+      "shares": 1739460,
+      "value": 20803942
+    },
+    {
+      "name": "Triumph Financial Inc",
+      "cusip": "89679E300",
+      "shares": 256235,
+      "value": 20324560
+    },
+    {
+      "name": "Cimpress NV",
+      "cusip": "G2143T103",
+      "shares": 225031,
+      "value": 19917494
+    },
+    {
+      "name": "FRANKLIN COVEY CO COM",
+      "cusip": "353469109",
+      "shares": 461661,
+      "value": 18124811
+    },
+    {
+      "name": "Element Solutions Inc",
+      "cusip": "28618M106",
+      "shares": 691389,
+      "value": 17270897
+    },
+    {
+      "name": "Astronics Corporation",
+      "cusip": "046433108",
+      "shares": 899351,
+      "value": 17123643
+    },
+    {
+      "name": "Model N Inc",
+      "cusip": "607525102",
+      "shares": 565000,
+      "value": 16085550
+    },
+    {
+      "name": "Zuora Inc",
+      "cusip": "98983V106",
+      "shares": 1746292,
+      "value": 15926183
+    },
+    {
+      "name": "Twilio Inc",
+      "cusip": "90138F102",
+      "shares": 258730,
+      "value": 15821340
+    },
+    {
+      "name": "AGILYSYS INC COM",
+      "cusip": "00847J105",
+      "shares": 180000,
+      "value": 15166800
+    },
+    {
+      "name": "Onto Innovation Inc",
+      "cusip": "683344105",
+      "shares": 79000,
+      "value": 14305320
+    },
+    {
+      "name": "Upwork Inc",
+      "cusip": "91688F104",
+      "shares": 1070000,
+      "value": 13118200
+    },
+    {
+      "name": "Evertec Inc",
+      "cusip": "30040P103",
+      "shares": 322449,
+      "value": 12865715
+    },
+    {
+      "name": "Soundthinking Inc",
+      "cusip": "82536T107",
+      "shares": 775400,
+      "value": 12313352
+    },
+    {
+      "name": "IRADIMED CORP",
+      "cusip": "46266A109",
+      "shares": 279000,
+      "value": 12273210
+    },
+    {
+      "name": "Pagerduty Inc",
+      "cusip": "69553P100",
+      "shares": 519286,
+      "value": 11777406
+    },
+    {
+      "name": "WideOpenWest Inc",
+      "cusip": "96758W101",
+      "shares": 3169204,
+      "value": 11472518
+    },
+    {
+      "name": "StoneX Group Inc",
+      "cusip": "861896108",
+      "shares": 112500,
+      "value": 7904250
+    },
+    {
+      "name": "ThredUp Inc - Ordinary Shares - Class A",
+      "cusip": "88556E102",
+      "shares": 3548800,
+      "value": 7097600
+    },
+    {
+      "name": "Health Catalyst Inc",
+      "cusip": "42225T107",
+      "shares": 450000,
+      "value": 3388500
+    }
+  ],
+  "totalValue": 2519960758,
+  "positionsCount": 31
+}

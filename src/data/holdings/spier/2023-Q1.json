@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2023-01-27",
+  "period": "2023-01-27",
+  "accession": "0001953324-23-000001",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 140600,
+      "value": 43431000
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 210000,
+      "value": 31028000
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 767845,
+      "value": 25431000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 65750,
+      "value": 22863000
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 80000,
+      "value": 17145000
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 14061000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 200000,
+      "value": 9996000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 27000,
+      "value": 7523000
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 500000,
+      "value": 5915000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 47500,
+      "value": 4184000
+    },
+    {
+      "name": "DAILY JOURNAL CORP",
+      "cusip": "233912104",
+      "shares": 11500,
+      "value": 2881000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 16000,
+      "value": 1412000
+    }
+  ],
+  "totalValue": 185870000,
+  "positionsCount": 12
+}

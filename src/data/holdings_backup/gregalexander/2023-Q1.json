@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-13",
+  "period": "2023-02-13",
+  "accession": "0000919574-23-001110",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 17200031,
+      "value": 244240440
+    },
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 7600000,
+      "value": 218120000
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 2000000,
+      "value": 129760000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 500000,
+      "value": 102370000
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 1600000,
+      "value": 38992000
+    },
+    {
+      "name": "YANDEX N V",
+      "cusip": "N97284108",
+      "shares": 5500000,
+      "value": 33629630
+    },
+    {
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 131547,
+      "value": 23727132
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 4919848,
+      "value": 18744621
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 100000,
+      "value": 9296000
+    },
+    {
+      "name": "EVI INDS INC",
+      "cusip": "26929N102",
+      "shares": 116341,
+      "value": 2777060
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "P3311R259",
+      "shares": 1242313,
+      "value": 385117
+    }
+  ],
+  "totalValue": 822042000,
+  "positionsCount": 11
+}

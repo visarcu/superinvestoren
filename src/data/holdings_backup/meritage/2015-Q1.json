@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-13",
+  "period": "2015-02-13",
+  "accession": "0001427119-15-000003",
+  "quarterKey": "2015-Q1",
+  "positions": [
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 3700000,
+      "value": 760498
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2698400,
+      "value": 297849
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 3734010,
+      "value": 263995
+    },
+    {
+      "name": "SALLY BEAUTY HLDGS INC",
+      "cusip": "79546E104",
+      "shares": 7859186,
+      "value": 241591
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 2616602,
+      "value": 232825
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 868190,
+      "value": 227639
+    },
+    {
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F104",
+      "shares": 6391335,
+      "value": 220181
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 1000000,
+      "value": 205540
+    },
+    {
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F302",
+      "shares": 5895924,
+      "value": 198811
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 1869060,
+      "value": 184757
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 2402546,
+      "value": 169091
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 4372916,
+      "value": 167942
+    },
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332102",
+      "shares": 266694,
+      "value": 165113
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 981293,
+      "value": 163503
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 1084304,
+      "value": 155175
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 686370,
+      "value": 150514
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 2817364,
+      "value": 147658
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 1716840,
+      "value": 130823
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 567477,
+      "value": 129368
+    },
+    {
+      "name": "SPDR GOLD TRUST",
+      "cusip": "78463V107",
+      "shares": 1000000,
+      "value": 113580
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1159592,
+      "value": 111101
+    },
+    {
+      "name": "NOW INC",
+      "cusip": "67011P100",
+      "shares": 4299225,
+      "value": 110619
+    },
+    {
+      "name": "NORTHSTAR ASSET MGMT GROUP I",
+      "cusip": "66705Y104",
+      "shares": 4076694,
+      "value": 92011
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 241701,
+      "value": 46529
+    },
+    {
+      "name": "ULTRA PETROLEUM CORP",
+      "cusip": "903914109",
+      "shares": 2442681,
+      "value": 32146
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 468000,
+      "value": 16984
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 600000,
+      "value": 14952
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 144751,
+      "value": 9682
+    },
+    {
+      "name": "AMERICAN AIRLS GROUP INC",
+      "cusip": "02376R102",
+      "shares": 170196,
+      "value": 9128
+    },
+    {
+      "name": "JETBLUE AIRWAYS CORP",
+      "cusip": "477143101",
+      "shares": 560034,
+      "value": 8882
+    },
+    {
+      "name": "DIAMONDBACK ENERGY INC",
+      "cusip": "25278X109",
+      "shares": 69400,
+      "value": 4149
+    }
+  ],
+  "totalValue": 4782636,
+  "positionsCount": 31
+}

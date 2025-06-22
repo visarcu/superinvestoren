@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2017-05-11",
+  "period": "2017-05-11",
+  "accession": "0000950123-17-004380",
+  "quarterKey": "2017-Q2",
+  "positions": [
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 7259863,
+      "value": 196307
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 4303119,
+      "value": 142648
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 1800000,
+      "value": 75222
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 2111036,
+      "value": 71796
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
+      "cusip": "78467J100",
+      "shares": 1965900,
+      "value": 69593
+    },
+    {
+      "name": "NETSCOUT SYSTEMS INC",
+      "cusip": "64115T104",
+      "shares": 1503109,
+      "value": 57043
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 612700,
+      "value": 48452
+    },
+    {
+      "name": "MITEL NETWORKS CORP",
+      "cusip": "60671Q104",
+      "shares": 6958847,
+      "value": 48225
+    },
+    {
+      "name": "URBAN OUTFITTERS, INC",
+      "cusip": "917047102",
+      "shares": 1993500,
+      "value": 47366
+    },
+    {
+      "name": "CIMPRESS NV",
+      "cusip": "N20146101",
+      "shares": 492653,
+      "value": 42462
+    },
+    {
+      "name": "TRACTOR SUPPLY CO",
+      "cusip": "892356106",
+      "shares": 540000,
+      "value": 37244
+    },
+    {
+      "name": "CLEAN HARBORS INC",
+      "cusip": "184496107",
+      "shares": 263754,
+      "value": 14670
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 120447,
+      "value": 7227
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 900,
+      "value": 21
+    }
+  ],
+  "totalValue": 858276,
+  "positionsCount": 14
+}

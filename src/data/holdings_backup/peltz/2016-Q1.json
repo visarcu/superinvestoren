@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-16",
+  "period": "2016-02-16",
+  "accession": "0001345471-16-000099",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 77781541,
+      "value": 2422895
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 48028124,
+      "value": 2153581
+    },
+    {
+      "name": "PepsiCo Inc",
+      "cusip": "713448108",
+      "shares": 18316211,
+      "value": 1830156
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 42685607,
+      "value": 1750110
+    },
+    {
+      "name": "Du Pont E I De Nemours & Co.",
+      "cusip": "263534109",
+      "shares": 20224075,
+      "value": 1346923
+    },
+    {
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 30935516,
+      "value": 1275162
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "G7500T104",
+      "shares": 13681877,
+      "value": 677663
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 40792537,
+      "value": 439336
+    },
+    {
+      "name": "Legg Mason Inc",
+      "cusip": "524901105",
+      "shares": 11039896,
+      "value": 433095
+    },
+    {
+      "name": "Tiffany & Co. NEW",
+      "cusip": "886547108",
+      "shares": 14260,
+      "value": 1088
+    }
+  ],
+  "totalValue": 12330009,
+  "positionsCount": 10
+}

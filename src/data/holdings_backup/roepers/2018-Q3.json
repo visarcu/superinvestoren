@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0000905718-18-000747",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 9532000,
+      "value": 160233
+    },
+    {
+      "name": "ARRIS INTL INC",
+      "cusip": "G0551A103",
+      "shares": 3961700,
+      "value": 96844
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 3142275,
+      "value": 91754
+    },
+    {
+      "name": "COMMSCOPE HLDG CO INC",
+      "cusip": "20337X109",
+      "shares": 3018810,
+      "value": 88164
+    },
+    {
+      "name": "DIEBOLD NXDF INC",
+      "cusip": "253651103",
+      "shares": 6902696,
+      "value": 82487
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 528721,
+      "value": 52851
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 871133,
+      "value": 37363
+    },
+    {
+      "name": "CROWN HOLDINGS INC",
+      "cusip": "228368106",
+      "shares": 128262,
+      "value": 5741
+    },
+    {
+      "name": "ADT INC",
+      "cusip": "00090Q103",
+      "shares": 549063,
+      "value": 4749
+    },
+    {
+      "name": "BELDEN INC",
+      "cusip": "077454106",
+      "shares": 74339,
+      "value": 4544
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 62100,
+      "value": 4367
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS INC",
+      "cusip": "024061103",
+      "shares": 274738,
+      "value": 4275
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 180000,
+      "value": 3528
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 80840,
+      "value": 3292
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 103587,
+      "value": 3106
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 33000,
+      "value": 1882
+    }
+  ],
+  "totalValue": 645180,
+  "positionsCount": 16
+}

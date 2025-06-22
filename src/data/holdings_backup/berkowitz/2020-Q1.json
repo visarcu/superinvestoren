@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0000919574-20-001672",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 26317917,
+      "value": 521884
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 16295,
+      "value": 3691
+    },
+    {
+      "name": "VISTA OUTDOOR INC",
+      "cusip": "928377100",
+      "shares": 258300,
+      "value": 1932
+    }
+  ],
+  "totalValue": 527507,
+  "positionsCount": 3
+}

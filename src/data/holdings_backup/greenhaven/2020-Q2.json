@@ -1,0 +1,173 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-07",
+  "period": "2020-05-07",
+  "accession": "0000891092-20-006289",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2907897,
+      "value": 449532
+    },
+    {
+      "name": "Lennar Corporation 0 A (LEN)",
+      "cusip": "526057104",
+      "shares": 9630790,
+      "value": 367896
+    },
+    {
+      "name": "Citigroup (C)",
+      "cusip": "172967424",
+      "shares": 8462940,
+      "value": 356459
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 8190844,
+      "value": 278489
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2760802,
+      "value": 236877
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "37045V100",
+      "shares": 10095386,
+      "value": 209782
+    },
+    {
+      "name": "Ford Motor Co (F)",
+      "cusip": "345370860",
+      "shares": 34245326,
+      "value": 165405
+    },
+    {
+      "name": "Deere & Co (DE)",
+      "cusip": "244199105",
+      "shares": 1011572,
+      "value": 139759
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 2915100,
+      "value": 99113
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 4970396,
+      "value": 95680
+    },
+    {
+      "name": "PulteGroup (PHM)",
+      "cusip": "745867101",
+      "shares": 3338743,
+      "value": 74521
+    },
+    {
+      "name": "American Express Co (AXP)",
+      "cusip": "025816109",
+      "shares": 563900,
+      "value": 48275
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 465100,
+      "value": 41873
+    },
+    {
+      "name": "Quanta Services Inc (PWR)",
+      "cusip": "74762E102",
+      "shares": 850642,
+      "value": 26991
+    },
+    {
+      "name": "KB Home(KBH)",
+      "cusip": "48666K109",
+      "shares": 1183300,
+      "value": 21418
+    },
+    {
+      "name": "Lennar Corporation 0 B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 576484,
+      "value": 16672
+    },
+    {
+      "name": "Adient PLC (ADNT)",
+      "cusip": "G0084W101",
+      "shares": 1716901,
+      "value": 15572
+    },
+    {
+      "name": "Mohawk Industries, Inc (MHK)",
+      "cusip": "608190104",
+      "shares": 197296,
+      "value": 15042
+    },
+    {
+      "name": "Levi Strauss & Co (LEVI)",
+      "cusip": "52736R102",
+      "shares": 796160,
+      "value": 9896
+    },
+    {
+      "name": "Owens Corning, Inc(OC)",
+      "cusip": "690742101",
+      "shares": 192900,
+      "value": 7486
+    },
+    {
+      "name": "Ralph Lauren Corp (RL)",
+      "cusip": "751212101",
+      "shares": 105736,
+      "value": 7066
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 12800,
+      "value": 1747
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 766
+    },
+    {
+      "name": "Taylor Morrison Home Corp (TMHC)",
+      "cusip": "87724P106",
+      "shares": 43983,
+      "value": 484
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 287
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 5170,
+      "value": 179
+    },
+    {
+      "name": "Tri Pointe Group, Inc (TPH)",
+      "cusip": "87265H109",
+      "shares": 16400,
+      "value": 144
+    }
+  ],
+  "totalValue": 2687411,
+  "positionsCount": 27
+}

@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-15",
+  "period": "2022-08-15",
+  "accession": "0001420506-22-001634",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 540555,
+      "value": 57412
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 280255,
+      "value": 46253
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 872765,
+      "value": 38812
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 13390,
+      "value": 29180
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 678550,
+      "value": 21198
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 95855,
+      "value": 16762
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 240159,
+      "value": 14472
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 147770,
+      "value": 13865
+    },
+    {
+      "name": "MONDAY COM LTD",
+      "cusip": "M7S64H106",
+      "shares": 76395,
+      "value": 7881
+    },
+    {
+      "name": "BURFORD CAP LTD",
+      "cusip": "G17977110",
+      "shares": 526705,
+      "value": 5314
+    }
+  ],
+  "totalValue": 251149,
+  "positionsCount": 10
+}

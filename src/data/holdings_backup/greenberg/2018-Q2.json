@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-15",
+  "period": "2018-05-15",
+  "accession": "0001172661-18-001190",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 1723950,
+      "value": 366960
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 5875485,
+      "value": 306818
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 269388,
+      "value": 279393
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412101",
+      "shares": 2722358,
+      "value": 264069
+    },
+    {
+      "name": "NIELSEN HLDGS PLC",
+      "cusip": "6518108",
+      "shares": 7442501,
+      "value": 236597
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 10988904,
+      "value": 218130
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480120",
+      "shares": 6420856,
+      "value": 195387
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 1490036,
+      "value": 163859
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 1399165,
+      "value": 135159
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 2557509,
+      "value": 99743
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "5480104",
+      "shares": 251373,
+      "value": 7870
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 31861,
+      "value": 1089
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 436
+    }
+  ],
+  "totalValue": 2275510,
+  "positionsCount": 13
+}

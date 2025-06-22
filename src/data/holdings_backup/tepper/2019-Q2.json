@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001656456-19-000005",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 19250000,
+      "value": 795603
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 3133864,
+      "value": 458829
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 23099000,
+      "value": 411162
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2000000,
+      "value": 333380
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 165000,
+      "value": 293824
+    },
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 2350000,
+      "value": 174182
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 145000,
+      "value": 170130
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 700000,
+      "value": 127715
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686103",
+      "shares": 13747240,
+      "value": 119464
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 6697763,
+      "value": 102945
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 7500000,
+      "value": 75225
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 899548,
+      "value": 62159
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 250000,
+      "value": 61815
+    },
+    {
+      "name": "VISTRA ENERGY CORP",
+      "cusip": "92840M102",
+      "shares": 2260970,
+      "value": 58853
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 300000,
+      "value": 54735
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 586655,
+      "value": 40104
+    },
+    {
+      "name": "CAESARS ENTMT CORP",
+      "cusip": "127686AA1",
+      "shares": 24408230,
+      "value": 35364
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 200000,
+      "value": 31674
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 100000,
+      "value": 26649
+    },
+    {
+      "name": "MR COOPER GROUP INC",
+      "cusip": "62482R107",
+      "shares": 2610000,
+      "value": 25030
+    },
+    {
+      "name": "CLEARWAY ENERGY INC",
+      "cusip": "18539C204",
+      "shares": 850000,
+      "value": 12844
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y506",
+      "shares": 100000,
+      "value": 6612
+    },
+    {
+      "name": "SPDR SERIES TRUST",
+      "cusip": "78464A730",
+      "shares": 200000,
+      "value": 6148
+    },
+    {
+      "name": "CLEARWAY ENERGY INC",
+      "cusip": "18539C105",
+      "shares": 250000,
+      "value": 3635
+    }
+  ],
+  "totalValue": 3488081,
+  "positionsCount": 24
+}

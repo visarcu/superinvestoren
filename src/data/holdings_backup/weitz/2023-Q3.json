@@ -1,0 +1,734 @@
+{
+  "form": "NPORT-P",
+  "groupingDate": "2023-09-30",
+  "positions": [
+    {
+      "name": "LINCOLN-LANCASTER CNTY NEB PUB BLDG COMMN",
+      "cusip": "533735JS6",
+      "shares": 500000,
+      "value": 486494050,
+      "pctOfPortfolio": 184.75644231770002
+    },
+    {
+      "name": "CASS CNTY NEB SCH DIST NO 022",
+      "cusip": "148010FS5",
+      "shares": 375000,
+      "value": 353247230,
+      "pctOfPortfolio": 134.1531339867
+    },
+    {
+      "name": "METROPOLITAN UTIL DIST OMAHA NEB GAS REV",
+      "cusip": "592625AJ6",
+      "shares": 450000,
+      "value": 451283180,
+      "pctOfPortfolio": 171.3843670125
+    },
+    {
+      "name": "SEWARD CNTY NEB",
+      "cusip": "818468BK5",
+      "shares": 605000,
+      "value": 555023910,
+      "pctOfPortfolio": 210.782111339
+    },
+    {
+      "name": "AUSTIN TEX ARPT SYS REV",
+      "cusip": "052398FG4",
+      "shares": 250000,
+      "value": 254033780,
+      "pctOfPortfolio": 96.474720341
+    },
+    {
+      "name": "OMAHA NEB PUB FACS CORP LEASE REV",
+      "cusip": "681785KW0",
+      "shares": 500000,
+      "value": 460472250,
+      "pctOfPortfolio": 174.8741114018
+    },
+    {
+      "name": "PORT SEATTLE WASH REV",
+      "cusip": "735389ZN1",
+      "shares": 200000,
+      "value": 203135200,
+      "pctOfPortfolio": 77.1449041596
+    },
+    {
+      "name": "GRAND IS NEB COMBINED UTILS REV",
+      "cusip": "385630BJ6",
+      "shares": 125000,
+      "value": 121671450,
+      "pctOfPortfolio": 46.2073158626
+    },
+    {
+      "name": "OMAHA NEB",
+      "cusip": "6817126N0",
+      "shares": 100000,
+      "value": 86149470,
+      "pctOfPortfolio": 32.717089931
+    },
+    {
+      "name": "NEBRASKA PUB PWR DIST REV",
+      "cusip": "63968AP74",
+      "shares": 65000,
+      "value": 65982920,
+      "pctOfPortfolio": 25.058414492199997
+    },
+    {
+      "name": "COLUMBUS NEB COMBINED REV",
+      "cusip": "199437MF8",
+      "shares": 100000,
+      "value": 100551740,
+      "pctOfPortfolio": 38.1866576811
+    },
+    {
+      "name": "FLORIDA ST BRD ED PUB ED",
+      "cusip": "34153QBY1",
+      "shares": 200000,
+      "value": 199146300,
+      "pctOfPortfolio": 75.6300347121
+    },
+    {
+      "name": "UPPER REPUBLICAN NAT RES DIST NEB OCCUPATION TAX SUPPORTED",
+      "cusip": "916425BA8",
+      "shares": 245000,
+      "value": 245030380,
+      "pctOfPortfolio": 93.05548807539999
+    },
+    {
+      "name": "DAWSON NEB PUB PWR DIST ELEC SYS REV",
+      "cusip": "239421KS8",
+      "shares": 355000,
+      "value": 336974380,
+      "pctOfPortfolio": 127.97317377470002
+    },
+    {
+      "name": "DOUGLAS CNTY NEB SCH DIST NO 001",
+      "cusip": "259291MM1",
+      "shares": 130000,
+      "value": 131526920.00000001,
+      "pctOfPortfolio": 49.9501397976
+    },
+    {
+      "name": "OMAHA NEB PUB FACS CORP LEASE REV",
+      "cusip": "681785LJ8",
+      "shares": 155000,
+      "value": 155636120,
+      "pctOfPortfolio": 59.1061202646
+    },
+    {
+      "name": "OMAHA NEB SAN SEW REV",
+      "cusip": "681810LK1",
+      "shares": 350000,
+      "value": 347797700,
+      "pctOfPortfolio": 132.08355929180001
+    },
+    {
+      "name": "UNIVERSITY NEB UNIV REVS",
+      "cusip": "914646AG9",
+      "shares": 100000,
+      "value": 98622770,
+      "pctOfPortfolio": 37.4540903773
+    },
+    {
+      "name": "BLAIR NEB WTR SYS REV",
+      "cusip": "093030FP4",
+      "shares": 100000,
+      "value": 92845620,
+      "pctOfPortfolio": 35.260095032900004
+    },
+    {
+      "name": "NEBRASKA EDL HEALTH CULTURAL & SOCIAL SVCS FIN AUTH REV",
+      "cusip": "63967UAB8",
+      "shares": 110000,
+      "value": 107444280,
+      "pctOfPortfolio": 40.804246054299995
+    },
+    {
+      "name": "OMAHA PUB PWR DIST NEB ELEC REV",
+      "cusip": "682001EQ1",
+      "shares": 150000,
+      "value": 150851370,
+      "pctOfPortfolio": 57.289009885999995
+    },
+    {
+      "name": "DOUGLAS CNTY NEB HOSP AUTH NO 2 HOSP REV",
+      "cusip": "25923PAL9",
+      "shares": 500000,
+      "value": 490613200,
+      "pctOfPortfolio": 186.3207769676
+    },
+    {
+      "name": "SALINE CNTY NEB EDL FACS REV",
+      "cusip": "79517YBV6",
+      "shares": 200000,
+      "value": 177392020,
+      "pctOfPortfolio": 67.368385103
+    },
+    {
+      "name": "NEBRASKA COOP REPUBLICAN PLATTE ENHANCEMENT PROJ RIV FLOW ENHANCEMENT REV",
+      "cusip": "639662CW3",
+      "shares": 250000,
+      "value": 212001150,
+      "pctOfPortfolio": 80.51193687
+    },
+    {
+      "name": "OMAHA NEB SPL TAX REV",
+      "cusip": "68189PHR8",
+      "shares": 260000,
+      "value": 261373060,
+      "pctOfPortfolio": 99.2619677122
+    },
+    {
+      "name": "DOUGLAS CNTY NEB SCH DIST NO 001",
+      "cusip": "259291NE8",
+      "shares": 350000,
+      "value": 361812750,
+      "pctOfPortfolio": 137.4060720274
+    },
+    {
+      "name": "BLAIR NEB WTR SYS REV",
+      "cusip": "093030FQ2",
+      "shares": 100000,
+      "value": 91858020,
+      "pctOfPortfolio": 34.8850329691
+    },
+    {
+      "name": "LANCASTER CNTY NEB SCH DIST NO 001",
+      "cusip": "514014QL6",
+      "shares": 250000,
+      "value": 250096930,
+      "pctOfPortfolio": 94.9796179858
+    },
+    {
+      "name": "COLORADO BRDG ENTERPRISE REV",
+      "cusip": "19633SAC7",
+      "shares": 100000,
+      "value": 99933420,
+      "pctOfPortfolio": 37.951837536
+    },
+    {
+      "name": "UNIVERSITY NEB UNIV REVS",
+      "cusip": "914646AH7",
+      "shares": 210000,
+      "value": 203362890,
+      "pctOfPortfolio": 77.2313742703
+    },
+    {
+      "name": "OMAHA NEB SAN SEW REV",
+      "cusip": "681810LE5",
+      "shares": 250000,
+      "value": 257206080,
+      "pctOfPortfolio": 97.6794686045
+    },
+    {
+      "name": "OMAHA NEB",
+      "cusip": "6817126M2",
+      "shares": 100000,
+      "value": 87648560,
+      "pctOfPortfolio": 33.2864011797
+    },
+    {
+      "name": "LINCOLN NEB ARPT AUTH",
+      "cusip": "534247QP9",
+      "shares": 150000,
+      "value": 153684870,
+      "pctOfPortfolio": 58.365091657799994
+    },
+    {
+      "name": "DOUGLAS CNTY NEB HOSP AUTH NO 2 REV",
+      "cusip": "259230MN7",
+      "shares": 140000,
+      "value": 143619970,
+      "pctOfPortfolio": 54.5427322348
+    },
+    {
+      "name": "MUNICIPAL ENERGY AGY OF NEB PWR SUPPLY SYS REV",
+      "cusip": "625914JS6",
+      "shares": 350000,
+      "value": 361442340,
+      "pctOfPortfolio": 137.2654009671
+    },
+    {
+      "name": "BLAIR NEB WTR SYS REV",
+      "cusip": "093030FN9",
+      "shares": 100000,
+      "value": 94181960,
+      "pctOfPortfolio": 35.7675985145
+    },
+    {
+      "name": "PAPILLION-LA VISTA NEB SCH DIST NO 27 SARPY CNTY",
+      "cusip": "698873YF7",
+      "shares": 150000,
+      "value": 145504950,
+      "pctOfPortfolio": 55.25859340230001
+    },
+    {
+      "name": "COLUMBUS NEB",
+      "cusip": "199432VE2",
+      "shares": 150000,
+      "value": 137371700,
+      "pctOfPortfolio": 52.16981907
+    },
+    {
+      "name": "PAPILLION-LA VISTA NEB SCH DIST NO 27 SARPY CNTY",
+      "cusip": "698873YH3",
+      "shares": 275000,
+      "value": 259255150,
+      "pctOfPortfolio": 98.4576464327
+    },
+    {
+      "name": "SALT LAKE CITY UTAH PUB UTILS REV",
+      "cusip": "795604BG1",
+      "shares": 100000,
+      "value": 106493820,
+      "pctOfPortfolio": 40.4432886939
+    },
+    {
+      "name": "DOUGLAS CNTY NEB SCH DIST NO 059",
+      "cusip": "259353LQ1",
+      "shares": 100000,
+      "value": 86709240,
+      "pctOfPortfolio": 32.9296744707
+    },
+    {
+      "name": "BLAIR NEB",
+      "cusip": "093005NJ1",
+      "shares": 360000,
+      "value": 374482870,
+      "pctOfPortfolio": 142.21781904649998
+    },
+    {
+      "name": "GRETNA NEB CTFS PARTN",
+      "cusip": "397806AD2",
+      "shares": 500000,
+      "value": 497924950,
+      "pctOfPortfolio": 189.0975692369
+    },
+    {
+      "name": "PAPILLION-LA VISTA NEB SCH DIST NO 27 SARPY CNTY",
+      "cusip": "698873E93",
+      "shares": 400000,
+      "value": 400113720,
+      "pctOfPortfolio": 151.9516784012
+    },
+    {
+      "name": "SAUNDERS CNTY NEB SCH DIST NO 1 ASHLAND-GREENWOOD",
+      "cusip": "804494GN6",
+      "shares": 100000,
+      "value": 73014940,
+      "pctOfPortfolio": 27.728973356199997
+    },
+    {
+      "name": "DAWSON NEB PUB PWR DIST ELEC SYS REV",
+      "cusip": "239421KR0",
+      "shares": 245000,
+      "value": 233827460,
+      "pctOfPortfolio": 88.8009414006
+    },
+    {
+      "name": "MADISON CNTY NEB HOSP AUTH NO 001 HOSP REV",
+      "cusip": "557352FQ9",
+      "shares": 140000,
+      "value": 140834790,
+      "pctOfPortfolio": 53.485001008599994
+    },
+    {
+      "name": "OMAHA PUB PWR DIST NEB ELEC REV",
+      "cusip": "682001CQ3",
+      "shares": 500000,
+      "value": 474190500,
+      "pctOfPortfolio": 180.0839080372
+    },
+    {
+      "name": "COLUMBUS NEB COMBINED REV",
+      "cusip": "199437NN0",
+      "shares": 200000,
+      "value": 198765220,
+      "pctOfPortfolio": 75.4853114929
+    },
+    {
+      "name": "NEBRASKA INVT FIN AUTH SINGLE FAMILY HSG REV",
+      "cusip": "63968MWM7",
+      "shares": 200000,
+      "value": 183433880,
+      "pctOfPortfolio": 69.6629096889
+    },
+    {
+      "name": "DOUGLAS CNTY NEB HOSP AUTH NO 2 REV",
+      "cusip": "259230MQ0",
+      "shares": 700000,
+      "value": 674620100,
+      "pctOfPortfolio": 256.20130316499996
+    },
+    {
+      "name": "BELLEVUE NEB",
+      "cusip": "0792126H4",
+      "shares": 500000,
+      "value": 453504850,
+      "pctOfPortfolio": 172.2280933545
+    },
+    {
+      "name": "DODGE CNTY NEB SCH DIST NO 595",
+      "cusip": "256449CL1",
+      "shares": 200000,
+      "value": 159508680,
+      "pctOfPortfolio": 60.5768071276
+    },
+    {
+      "name": "NORFOLK NEB",
+      "cusip": "655762K50",
+      "shares": 500000,
+      "value": 452023050,
+      "pctOfPortfolio": 171.6653483503
+    },
+    {
+      "name": "DAWSON NEB PUB PWR DIST ELEC SYS REV",
+      "cusip": "239421JX9",
+      "shares": 170000,
+      "value": 159334050,
+      "pctOfPortfolio": 60.5104876782
+    },
+    {
+      "name": "LANCASTER CNTY NEB SCH DIST NO 001",
+      "cusip": "514014NY1",
+      "shares": 50000,
+      "value": 50147250,
+      "pctOfPortfolio": 19.0444826653
+    },
+    {
+      "name": "COLUMBUS NEB",
+      "cusip": "199432VD4",
+      "shares": 150000,
+      "value": 139558790,
+      "pctOfPortfolio": 53.0004129229
+    },
+    {
+      "name": "NEBRASKA ST COLLEGE FACS CORP",
+      "cusip": "639684EX3",
+      "shares": 250000,
+      "value": 252146500,
+      "pctOfPortfolio": 95.7579856996
+    },
+    {
+      "name": "DAWSON NEB PUB PWR DIST ELEC SYS REV",
+      "cusip": "239421JY7",
+      "shares": 105000,
+      "value": 97380030,
+      "pctOfPortfolio": 36.9821334826
+    },
+    {
+      "name": "GRAND ISLAND NEB",
+      "cusip": "385622PV1",
+      "shares": 150000,
+      "value": 138027200,
+      "pctOfPortfolio": 52.4187591093
+    },
+    {
+      "name": "UNIVERSITY NEB UNIV REVS",
+      "cusip": "914646AJ3",
+      "shares": 100000,
+      "value": 97908740,
+      "pctOfPortfolio": 37.182922328000004
+    },
+    {
+      "name": "NEW MEXICO FIN AUTH REV",
+      "cusip": "64711NF83",
+      "shares": 365000,
+      "value": 359434740,
+      "pctOfPortfolio": 136.50297225170002
+    },
+    {
+      "name": "GRAND ISLAND NEB",
+      "cusip": "385622PS8",
+      "shares": 150000,
+      "value": 143371980,
+      "pctOfPortfolio": 54.448552768199995
+    },
+    {
+      "name": "SAN DIEGO CNTY CALIF REGL ARPT AUTH ARPT REV",
+      "cusip": "79739GFZ4",
+      "shares": 200000,
+      "value": 202042340,
+      "pctOfPortfolio": 76.7298673764
+    },
+    {
+      "name": "MUNICIPAL ENERGY AGY OF NEB PWR SUPPLY SYS REV",
+      "cusip": "625914JT4",
+      "shares": 225000,
+      "value": 232355790,
+      "pctOfPortfolio": 88.2420434789
+    },
+    {
+      "name": "AUSTIN TEX ELEC UTIL SYS REV",
+      "cusip": "052414TY5",
+      "shares": 100000,
+      "value": 106856790,
+      "pctOfPortfolio": 40.5811342562
+    },
+    {
+      "name": "NEBRASKA INVT FIN AUTH SINGLE FAMILY HSG REV",
+      "cusip": "63968MXA2",
+      "shares": 325000,
+      "value": 247872660,
+      "pctOfPortfolio": 94.1349042386
+    },
+    {
+      "name": "CASS CNTY NEB SCH DIST NO 022",
+      "cusip": "148010FT3",
+      "shares": 250000,
+      "value": 231407180,
+      "pctOfPortfolio": 87.8817886952
+    },
+    {
+      "name": "PIERCE CNTY WASH SCH DIST NO 010 TACOMA",
+      "cusip": "720424C24",
+      "shares": 100000,
+      "value": 98890460,
+      "pctOfPortfolio": 37.555751337
+    },
+    {
+      "name": "NEBRASKA ST CTFS PARTN",
+      "cusip": "63968HG61",
+      "shares": 60000,
+      "value": 58433080,
+      "pctOfPortfolio": 22.1912024915
+    },
+    {
+      "name": "COLUMBUS NEB COMBINED REV",
+      "cusip": "199437ME1",
+      "shares": 100000,
+      "value": 100959030,
+      "pctOfPortfolio": 38.341334704199994
+    },
+    {
+      "name": "PUBLIC PWR GENERATION AGY NEB REV",
+      "cusip": "744434DL2",
+      "shares": 500000,
+      "value": 504440150,
+      "pctOfPortfolio": 191.5718547354
+    },
+    {
+      "name": "WAYNE CNTY NEB SCH DIST NO 595",
+      "cusip": "945815AD0",
+      "shares": 350000,
+      "value": 281738800,
+      "pctOfPortfolio": 106.9962897817
+    },
+    {
+      "name": "NEBRASKA INVT FIN AUTH SINGLE FAMILY HSG REV",
+      "cusip": "63968MR50",
+      "shares": 180000,
+      "value": 166540450,
+      "pctOfPortfolio": 63.2472710488
+    },
+    {
+      "name": "SARPY CNTY NEB SCH DIST NO 001",
+      "cusip": "80381LAN4",
+      "shares": 550000,
+      "value": 579493640,
+      "pctOfPortfolio": 220.0750107265
+    },
+    {
+      "name": "BLAIR NEB WTR SYS REV",
+      "cusip": "093030FL3",
+      "shares": 100000,
+      "value": 97266610,
+      "pctOfPortfolio": 36.93905983
+    },
+    {
+      "name": "OMAHA NEB PUB FACS CORP LEASE REV",
+      "cusip": "681785KV2",
+      "shares": 340000,
+      "value": 341460840,
+      "pctOfPortfolio": 129.677002194
+    },
+    {
+      "name": "BOYS TOWN VLG NEB REV",
+      "cusip": "103627AA3",
+      "shares": 700000,
+      "value": 665101710,
+      "pctOfPortfolio": 252.58649251519998
+    },
+    {
+      "name": "JPMorgan Trust II: JPMorgan US Government Money Market Fund; Institutional Shares",
+      "cusip": "4812C2684",
+      "shares": 1200640.2,
+      "value": 1200640200,
+      "pctOfPortfolio": 455.9686019914
+    },
+    {
+      "name": "UNIVERSITY NEB UNIV REVS",
+      "cusip": "914646BF0",
+      "shares": 100000,
+      "value": 105442290,
+      "pctOfPortfolio": 40.0439478555
+    },
+    {
+      "name": "PUBLIC PWR GENERATION AGY NEB REV",
+      "cusip": "744434ED9",
+      "shares": 140000,
+      "value": 143071150,
+      "pctOfPortfolio": 54.3343061899
+    },
+    {
+      "name": "BOYS TOWN VLG NEB REV",
+      "cusip": "103627AC9",
+      "shares": 325000,
+      "value": 279515280,
+      "pctOfPortfolio": 106.15186086290001
+    },
+    {
+      "name": "SARPY CNTY NEB CTFS PARTN",
+      "cusip": "80374RAK6",
+      "shares": 500000,
+      "value": 461304100,
+      "pctOfPortfolio": 175.190024097
+    },
+    {
+      "name": "DOUGLAS CNTY NEB SCH DIST NO 001",
+      "cusip": "259291NG3",
+      "shares": 135000,
+      "value": 138818840,
+      "pctOfPortfolio": 52.719401203500006
+    },
+    {
+      "name": "DAWSON CNTY NEB SCH DIST NO 011 COZAD",
+      "cusip": "239325EX7",
+      "shares": 250000,
+      "value": 250397530,
+      "pctOfPortfolio": 95.0937772167
+    },
+    {
+      "name": "BUFFALO CNTY NEB SCH DIST NO 007 KEARNEY",
+      "cusip": "119475KG5",
+      "shares": 250000,
+      "value": 245555850,
+      "pctOfPortfolio": 93.2550464621
+    },
+    {
+      "name": "OMAHA NEB SAN SEW REV",
+      "cusip": "681810MV6",
+      "shares": 100000,
+      "value": 100399810,
+      "pctOfPortfolio": 38.1289590386
+    },
+    {
+      "name": "NEBRASKA INVT FIN AUTH SINGLE FAMILY HSG REV",
+      "cusip": "63968MSV2",
+      "shares": 120000,
+      "value": 117510140,
+      "pctOfPortfolio": 44.626970057799994
+    },
+    {
+      "name": "UNIVERSITY NEB FACS CORP",
+      "cusip": "914638GY1",
+      "shares": 380000,
+      "value": 389848950,
+      "pctOfPortfolio": 148.053414103
+    },
+    {
+      "name": "OMAHA NEB PUB FACS CORP LEASE REV",
+      "cusip": "681785GN5",
+      "shares": 585000,
+      "value": 587765880,
+      "pctOfPortfolio": 223.2165694617
+    },
+    {
+      "name": "OMAHA-DOUGLAS NEB PUB BLDG COMMN",
+      "cusip": "681669FF9",
+      "shares": 550000,
+      "value": 581974640,
+      "pctOfPortfolio": 221.01722314079998
+    },
+    {
+      "name": "NEBRASKA ST CTFS PARTN",
+      "cusip": "63968HG20",
+      "shares": 150000,
+      "value": 139899860,
+      "pctOfPortfolio": 53.1299414953
+    },
+    {
+      "name": "PAPILLION NEB MUN FACS CORP",
+      "cusip": "698864JG1",
+      "shares": 200000,
+      "value": 153550360,
+      "pctOfPortfolio": 58.3140086301
+    },
+    {
+      "name": "BEXAR CNTY TEX",
+      "cusip": "088281WW6",
+      "shares": 500000,
+      "value": 474242050,
+      "pctOfPortfolio": 180.10348524399998
+    },
+    {
+      "name": "KEARNEY NEB",
+      "cusip": "4868907J9",
+      "shares": 220000,
+      "value": 209519510,
+      "pctOfPortfolio": 79.5694814022
+    },
+    {
+      "name": "NEBRASKA PUB PWR DIST REV",
+      "cusip": "63968AQ24",
+      "shares": 480000,
+      "value": 485005150,
+      "pctOfPortfolio": 184.1910009378
+    },
+    {
+      "name": "UPPER REPUBLICAN NAT RES DIST NEB OCCUPATION TAX SUPPORTED",
+      "cusip": "916425BC4",
+      "shares": 395000,
+      "value": 395091440,
+      "pctOfPortfolio": 150.044360963
+    },
+    {
+      "name": "LINCOLN NEB ELEC SYS REV",
+      "cusip": "534272F87",
+      "shares": 30000,
+      "value": 28262130,
+      "pctOfPortfolio": 10.7331437889
+    },
+    {
+      "name": "BLAIR NEB WTR SYS REV",
+      "cusip": "093030FM1",
+      "shares": 100000,
+      "value": 95628760,
+      "pctOfPortfolio": 36.3170515258
+    },
+    {
+      "name": "DAWSON NEB PUB PWR DIST ELEC SYS REV",
+      "cusip": "239421KQ2",
+      "shares": 135000,
+      "value": 126445400,
+      "pctOfPortfolio": 48.020324711899995
+    },
+    {
+      "name": "PAPILLION-LA VISTA NEB SCH DIST NO 27 SARPY CNTY",
+      "cusip": "698873YG5",
+      "shares": 150000,
+      "value": 142976300,
+      "pctOfPortfolio": 54.2982848891
+    },
+    {
+      "name": "DOUGLAS CNTY NEB HOSP AUTH NO 3 REV",
+      "cusip": "259234CD2",
+      "shares": 250000,
+      "value": 253305100,
+      "pctOfPortfolio": 96.19798864330001
+    },
+    {
+      "name": "GRAND IS NEB COMBINED UTILS REV",
+      "cusip": "385630BH0",
+      "shares": 205000,
+      "value": 202770970,
+      "pctOfPortfolio": 77.00658008559999
+    },
+    {
+      "name": "PAPILLION NEB MUN FACS CORP",
+      "cusip": "698864JE6",
+      "shares": 100000,
+      "value": 79924030,
+      "pctOfPortfolio": 30.352846943299998
+    }
+  ]
+}

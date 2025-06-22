@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-14",
+  "period": "2017-08-14",
+  "accession": "0001398344-17-010316",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 373,
+      "value": 95003
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 227159,
+      "value": 40630
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746119",
+      "shares": 982224,
+      "value": 21805
+    }
+  ],
+  "totalValue": 157438,
+  "positionsCount": 3
+}

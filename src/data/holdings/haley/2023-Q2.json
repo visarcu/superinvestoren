@@ -1,4 +1,71 @@
 {
+  "form": "13F-HR",
   "date": "2023-05-15",
-  "positions": []
+  "period": "2023-05-15",
+  "accession": "0001858353-23-000004",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "TOPGOLF CALLAWAY BRANDS CORP",
+      "cusip": "131193104",
+      "shares": 773664,
+      "value": 16726616
+    },
+    {
+      "name": "PATHWARD FINANCIAL INC",
+      "cusip": "59100U108",
+      "shares": 392105,
+      "value": 16268436
+    },
+    {
+      "name": "BANCORP INC DEL",
+      "cusip": "05969A105",
+      "shares": 562500,
+      "value": 15665625
+    },
+    {
+      "name": "DAKTRONICS INC",
+      "cusip": "234264109",
+      "shares": 2744283,
+      "value": 15560085
+    },
+    {
+      "name": "ARES MANAGEMENT CORPORATION",
+      "cusip": "03990B101",
+      "shares": 142368,
+      "value": 11879186
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 313431,
+      "value": 8080251
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 133460,
+      "value": 7009319
+    },
+    {
+      "name": "JOINT CORP",
+      "cusip": "47973J102",
+      "shares": 301725,
+      "value": 5078032
+    },
+    {
+      "name": "HORIZON THERAPEUTICS PUB L",
+      "cusip": "G46188101",
+      "shares": 44500,
+      "value": 4856730
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 137260,
+      "value": 4677821
+    }
+  ],
+  "totalValue": 105802101,
+  "positionsCount": 10
 }

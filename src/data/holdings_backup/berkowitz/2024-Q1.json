@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0000919574-24-001481",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 22679148,
+      "value": 1364831127
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 5208400,
+      "value": 137241340
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 122958,
+      "value": 43854200
+    },
+    {
+      "name": "WR BERKLEY CORP",
+      "cusip": "084423102",
+      "shares": 126600,
+      "value": 8953152
+    },
+    {
+      "name": "BANK OZK",
+      "cusip": "06417N103",
+      "shares": 51200,
+      "value": 2551296
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 542625
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2400,
+      "value": 462072
+    }
+  ],
+  "totalValue": 1558435812,
+  "positionsCount": 7
+}

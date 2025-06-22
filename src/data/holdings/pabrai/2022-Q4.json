@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001549575-22-000016",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1593384,
+      "value": 79829
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 230428,
+      "value": 11544
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 180303,
+      "value": 7373
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 3375,
+      "value": 30
+    }
+  ],
+  "totalValue": 98776,
+  "positionsCount": 4
+}

@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-12",
+  "period": "2023-05-12",
+  "accession": "0001549575-23-000008",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1592134,
+      "value": 96069366
+    },
+    {
+      "name": "BROOKFIELD CORP",
+      "cusip": "11271J107",
+      "shares": 772579,
+      "value": 25178350
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 3375,
+      "value": 26561
+    }
+  ],
+  "totalValue": 121274277,
+  "positionsCount": 3
+}

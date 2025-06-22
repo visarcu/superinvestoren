@@ -1,0 +1,251 @@
+{
+  "form": "NPORT-P",
+  "groupingDate": "2024-06-30",
+  "positions": [
+    {
+      "name": "VULCAN MATERIALS COMPANY",
+      "cusip": "929160109",
+      "shares": 70000,
+      "value": 17407600000,
+      "pctOfPortfolio": 317.0641697882
+    },
+    {
+      "name": "LIBERTY SIRIUS XM",
+      "cusip": "531229789",
+      "shares": 575000,
+      "value": 12742000000,
+      "pctOfPortfolio": 232.0843569155
+    },
+    {
+      "name": "LIBERTY BROADBAND CORPORATION",
+      "cusip": "530307107",
+      "shares": 100000,
+      "value": 5460000000,
+      "pctOfPortfolio": 99.4491122868
+    },
+    {
+      "name": "ALPHABET INC.",
+      "cusip": "02079K107",
+      "shares": 235000,
+      "value": 43103700000,
+      "pctOfPortfolio": 785.096099135
+    },
+    {
+      "name": "HEICO CORPORATION",
+      "cusip": "422806208",
+      "shares": 160000,
+      "value": 28403200000,
+      "pctOfPortfolio": 517.3393820704999
+    },
+    {
+      "name": "COSTAR GROUP, INC.",
+      "cusip": "22160N109",
+      "shares": 300000,
+      "value": 22242000000,
+      "pctOfPortfolio": 405.11852664530005
+    },
+    {
+      "name": "LKQ CORPORATION",
+      "cusip": "501889208",
+      "shares": 450000,
+      "value": 18715500000,
+      "pctOfPortfolio": 340.8864214293
+    },
+    {
+      "name": "VERALTO CORPORATION",
+      "cusip": "92338C103",
+      "shares": 70000,
+      "value": 6682900000,
+      "pctOfPortfolio": 121.72316346180001
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 75000,
+      "value": 18738750000,
+      "pctOfPortfolio": 341.309899792
+    },
+    {
+      "name": "LABCORP HOLDINGS INC.",
+      "cusip": "504922105",
+      "shares": 82000,
+      "value": 16687820000,
+      "pctOfPortfolio": 303.9540082421
+    },
+    {
+      "name": "CarMax, Inc.",
+      "cusip": "143130102",
+      "shares": 260000,
+      "value": 19068400000,
+      "pctOfPortfolio": 347.31418548159996
+    },
+    {
+      "name": "LICT CORPORATION",
+      "cusip": "50187G104",
+      "shares": 394,
+      "value": 5476600000,
+      "pctOfPortfolio": 99.7514667307
+    },
+    {
+      "name": "MASTERCARD INCORPORATED.",
+      "cusip": "57636Q104",
+      "shares": 50000,
+      "value": 22058000000,
+      "pctOfPortfolio": 401.76712798949995
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912797KP1",
+      "shares": 2000000,
+      "value": 1995625000,
+      "pctOfPortfolio": 36.3485594702
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE, INC.",
+      "cusip": "40171V100",
+      "shares": 100000,
+      "value": 13789000000,
+      "pctOfPortfolio": 251.15454383200003
+    },
+    {
+      "name": "VISA INC.",
+      "cusip": "92826C839",
+      "shares": 92500,
+      "value": 24278475000,
+      "pctOfPortfolio": 442.2111330453
+    },
+    {
+      "name": "IDEX CORPORATION",
+      "cusip": "45167R104",
+      "shares": 80000,
+      "value": 16096000000,
+      "pctOfPortfolio": 293.1745258916
+    },
+    {
+      "name": "Perimeter Solutions SA",
+      "cusip": "L7579L106",
+      "shares": 2000000,
+      "value": 15660000000,
+      "pctOfPortfolio": 285.23316820720004
+    },
+    {
+      "name": "PERIMETER SOLUTIONS SA",
+      "cusip": "N/A",
+      "shares": 500000,
+      "value": 10,
+      "pctOfPortfolio": 1.821e-7
+    },
+    {
+      "name": "JPMorgan Trust II: JPMorgan US Government Money Market Fund; Institutional Shares",
+      "cusip": "4812C2684",
+      "shares": 10527129.21,
+      "value": 10527129210,
+      "pctOfPortfolio": 191.74242763060002
+    },
+    {
+      "name": "EQUIFAX INC.",
+      "cusip": "294429105",
+      "shares": 55000,
+      "value": 13335300000,
+      "pctOfPortfolio": 242.89079616819998
+    },
+    {
+      "name": "Aon plc",
+      "cusip": "G0403H108",
+      "shares": 67500,
+      "value": 19816650000,
+      "pctOfPortfolio": 360.9429031133
+    },
+    {
+      "name": "LIBERTY BROADBAND CORPORATION",
+      "cusip": "530307305",
+      "shares": 200000,
+      "value": 10964000000,
+      "pctOfPortfolio": 199.6996459913
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE, INC.",
+      "cusip": "679580100",
+      "shares": 65000,
+      "value": 11479000000,
+      "pctOfPortfolio": 209.07991940300002
+    },
+    {
+      "name": "ACI WORLDWIDE, INC.",
+      "cusip": "004498101",
+      "shares": 365000,
+      "value": 14450350000,
+      "pctOfPortfolio": 263.2004541637
+    },
+    {
+      "name": "Liberty Global Ltd.",
+      "cusip": "G61188127",
+      "shares": 695000,
+      "value": 12405750000,
+      "pctOfPortfolio": 225.95985801320003
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS, INC.",
+      "cusip": "16119P108",
+      "shares": 25000,
+      "value": 7474000000,
+      "pctOfPortfolio": 136.1323562695
+    },
+    {
+      "name": "LIBERTY SIRIUS XM",
+      "cusip": "531229813",
+      "shares": 190000,
+      "value": 4208500000,
+      "pctOfPortfolio": 76.65413719029999
+    },
+    {
+      "name": "META PLATFORMS, INC.",
+      "cusip": "30303M102",
+      "shares": 70000,
+      "value": 35295400000,
+      "pctOfPortfolio": 642.8747615033
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC.",
+      "cusip": "084670702",
+      "shares": 90000,
+      "value": 36612000000,
+      "pctOfPortfolio": 666.8554760155
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912797LA3",
+      "shares": 5000000,
+      "value": 4953457800,
+      "pctOfPortfolio": 90.2228902857
+    },
+    {
+      "name": "TEXAS INSTRUMENTS INCORPORATED",
+      "cusip": "882508104",
+      "shares": 85000,
+      "value": 16535050000,
+      "pctOfPortfolio": 301.1714366516
+    },
+    {
+      "name": "GARTNER, INC.",
+      "cusip": "366651107",
+      "shares": 24000,
+      "value": 10777440000,
+      "pctOfPortfolio": 196.3016191803
+    },
+    {
+      "name": "MARTIN MARIETTA MATERIALS, INC.",
+      "cusip": "573284106",
+      "shares": 31200,
+      "value": 16904160000,
+      "pctOfPortfolio": 307.8944516399
+    },
+    {
+      "name": "VERISIGN, INC.",
+      "cusip": "92343E102",
+      "shares": 85000,
+      "value": 15113000000,
+      "pctOfPortfolio": 275.2700428554
+    }
+  ]
+}

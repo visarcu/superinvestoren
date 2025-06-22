@@ -1,0 +1,79 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 149565,
+      "value": 166862000000
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 13499,
+      "value": 4808000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 267581,
+      "value": 78457000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1409320,
+      "value": 90774000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1102395,
+      "value": 29335000000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229870",
+      "shares": 1519428,
+      "value": 53651000000
+    },
+    {
+      "name": "PURPLE INNOVATION INC",
+      "cusip": "74640Y106",
+      "shares": 201446,
+      "value": 1712000000
+    },
+    {
+      "name": "PURPLE INNOVATION INC",
+      "cusip": "74640Y114",
+      "shares": 100000,
+      "value": 63000000
+    },
+    {
+      "name": "REDFIN CORP",
+      "cusip": "75737F108",
+      "shares": 991593,
+      "value": 22896000000
+    },
+    {
+      "name": "TRUECAR INC",
+      "cusip": "89785L107",
+      "shares": 362325,
+      "value": 3656000000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M101",
+      "shares": 725142,
+      "value": 43327000000
+    },
+    {
+      "name": "ZILLOW GROUP INC",
+      "cusip": "98954M200",
+      "shares": 615522,
+      "value": 36353000000
+    }
+  ]
+}

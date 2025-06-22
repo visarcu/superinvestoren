@@ -1,0 +1,665 @@
+{
+  "form": "13F-HR",
+  "date": "2015-08-11",
+  "period": "2015-08-11",
+  "accession": "0000860643-15-000004",
+  "quarterKey": "2015-Q3",
+  "positions": [
+    {
+      "name": "Nestle SA-Spons ADR",
+      "cusip": "641069406",
+      "shares": 15842688,
+      "value": 1144275
+    },
+    {
+      "name": "Berkshire Hathaway Inc Cl A",
+      "cusip": "084670108",
+      "shares": 5102,
+      "value": 1045145
+    },
+    {
+      "name": "Mastercard Inc Cl A",
+      "cusip": "57636104",
+      "shares": 10032175,
+      "value": 937808
+    },
+    {
+      "name": "Philip Morris International In",
+      "cusip": "718172109",
+      "shares": 10428329,
+      "value": 836039
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "949746101",
+      "shares": 14675054,
+      "value": 825325
+    },
+    {
+      "name": "Heineken Holding NV",
+      "cusip": "39338194",
+      "shares": 10903597,
+      "value": 764770
+    },
+    {
+      "name": "Compagnie Financiere Richemont",
+      "cusip": "25662182",
+      "shares": 8378806,
+      "value": 681834
+    },
+    {
+      "name": "Pernod Ricard",
+      "cusip": "72027109",
+      "shares": 5573710,
+      "value": 643383
+    },
+    {
+      "name": "SABMiller PLC",
+      "cusip": "77395104",
+      "shares": 12110171,
+      "value": 629268
+    },
+    {
+      "name": "Anheuser-Busch InBev ADR",
+      "cusip": "03524108",
+      "shares": 5205103,
+      "value": 628100
+    },
+    {
+      "name": "Unilever NV ADR",
+      "cusip": "904784709",
+      "shares": 14334418,
+      "value": 599752
+    },
+    {
+      "name": "Berkshire Hathaway Inc Cl B",
+      "cusip": "084670702",
+      "shares": 2472536,
+      "value": 336537
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209103",
+      "shares": 6500066,
+      "value": 317918
+    },
+    {
+      "name": "Brown-Forman Corp Cl A",
+      "cusip": "115637100",
+      "shares": 2718726,
+      "value": 302920
+    },
+    {
+      "name": "Martin Marietta Materials",
+      "cusip": "573284106",
+      "shares": 2096408,
+      "value": 296663
+    },
+    {
+      "name": "Diageo PLC",
+      "cusip": "42089113",
+      "shares": 9276448,
+      "value": 268584
+    },
+    {
+      "name": "British American Tobacco PLC",
+      "cusip": "1510102",
+      "shares": 4983288,
+      "value": 267641
+    },
+    {
+      "name": "Comcast Corp Special Cl A",
+      "cusip": "20030200",
+      "shares": 4164417,
+      "value": 249615
+    },
+    {
+      "name": "JC Decaux SA ACT",
+      "cusip": "5333100",
+      "shares": 2870395,
+      "value": 119709
+    },
+    {
+      "name": "Scripps Networks Interactive C",
+      "cusip": "811065101",
+      "shares": 1265716,
+      "value": 82740
+    },
+    {
+      "name": "Diageo PLC Sponsored ADR",
+      "cusip": "25243205",
+      "shares": 464807,
+      "value": 53936
+    },
+    {
+      "name": "Brown-Forman Corp Cl B",
+      "cusip": "115637209",
+      "shares": 517433,
+      "value": 51836
+    },
+    {
+      "name": "The Swatch Group AG-BR",
+      "cusip": "83949141",
+      "shares": 105010,
+      "value": 40912
+    },
+    {
+      "name": "Visa Inc Cl A",
+      "cusip": "92826839",
+      "shares": 543124,
+      "value": 36471
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231102",
+      "shares": 163466,
+      "value": 13600
+    },
+    {
+      "name": "Markel Corp",
+      "cusip": "570535104",
+      "shares": 16128,
+      "value": 12913
+    },
+    {
+      "name": "American Express",
+      "cusip": "025816109",
+      "shares": 153088,
+      "value": 11898
+    },
+    {
+      "name": "Fomento Economico Mex Sp ADR",
+      "cusip": "344419106",
+      "shares": 127035,
+      "value": 11318
+    },
+    {
+      "name": "Crane",
+      "cusip": "224399105",
+      "shares": 165742,
+      "value": 9734
+    },
+    {
+      "name": "Herman Miller Inc",
+      "cusip": "600544100",
+      "shares": 319577,
+      "value": 9245
+    },
+    {
+      "name": "Swedish Match AB",
+      "cusip": "92277115",
+      "shares": 314674,
+      "value": 8942
+    },
+    {
+      "name": "Coca-Cola",
+      "cusip": "191216100",
+      "shares": 227487,
+      "value": 8924
+    },
+    {
+      "name": "Procter & Gamble",
+      "cusip": "742718109",
+      "shares": 103172,
+      "value": 8072
+    },
+    {
+      "name": "Precision Castparts Corp",
+      "cusip": "740189105",
+      "shares": 31465,
+      "value": 6289
+    },
+    {
+      "name": "Danone ADR",
+      "cusip": "23636T100",
+      "shares": 471330,
+      "value": 6091
+    },
+    {
+      "name": "Hormel Foods Corp",
+      "cusip": "440452100",
+      "shares": 105769,
+      "value": 5962
+    },
+    {
+      "name": "AbbVie Inc",
+      "cusip": "00287Y109",
+      "shares": 86718,
+      "value": 5827
+    },
+    {
+      "name": "Dover Corp",
+      "cusip": "260003108",
+      "shares": 72206,
+      "value": 5067
+    },
+    {
+      "name": "JP Morgan Chase & Co WTS Exp 1",
+      "cusip": "46634114",
+      "shares": 200750,
+      "value": 4969
+    },
+    {
+      "name": "Wells Fargo WTS Exp 10/28/18",
+      "cusip": "949746119",
+      "shares": 202750,
+      "value": 4560
+    },
+    {
+      "name": "Abbott Labs",
+      "cusip": "002824100",
+      "shares": 85400,
+      "value": 4191
+    },
+    {
+      "name": "Royal Dutch Shell PLC ADR A",
+      "cusip": "780259206",
+      "shares": 71385,
+      "value": 4070
+    },
+    {
+      "name": "Chevron Corp",
+      "cusip": "166764100",
+      "shares": 41973,
+      "value": 4049
+    },
+    {
+      "name": "Heineken NV",
+      "cusip": "39427211",
+      "shares": 49991,
+      "value": 3792
+    },
+    {
+      "name": "Pepsico Inc",
+      "cusip": "713448108",
+      "shares": 39892,
+      "value": 3723
+    },
+    {
+      "name": "M&T Bank Corp Wts Exp 12/23/1",
+      "cusip": "55261112",
+      "shares": 67600,
+      "value": 3519
+    },
+    {
+      "name": "McCormick Inc",
+      "cusip": "579780206",
+      "shares": 42505,
+      "value": 3441
+    },
+    {
+      "name": "BIC",
+      "cusip": "10080103",
+      "shares": 20000,
+      "value": 3187
+    },
+    {
+      "name": "Nestle SA-REG",
+      "cusip": "57312649",
+      "shares": 41310,
+      "value": 2984
+    },
+    {
+      "name": "Reckitt Benckiser Group PLC",
+      "cusip": "74079107",
+      "shares": 30917,
+      "value": 2668
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 54450,
+      "value": 2404
+    },
+    {
+      "name": "Du Pont E I De Nemours",
+      "cusip": "263534109",
+      "shares": 37048,
+      "value": 2369
+    },
+    {
+      "name": "Outfront Media Inc",
+      "cusip": "69007106",
+      "shares": 89847,
+      "value": 2268
+    },
+    {
+      "name": "Goldman Sachs Group Inc",
+      "cusip": "38141104",
+      "shares": 10393,
+      "value": 2170
+    },
+    {
+      "name": "Lindt & Spruengli AG - Reg",
+      "cusip": "49983176",
+      "shares": 33,
+      "value": 2065
+    },
+    {
+      "name": "Comcast Corp New Cl A",
+      "cusip": "20030101",
+      "shares": 31926,
+      "value": 1920
+    },
+    {
+      "name": "Heineken NV Spons ADR",
+      "cusip": "423012301",
+      "shares": 50337,
+      "value": 1909
+    },
+    {
+      "name": "Anheuser-Busch InBev",
+      "cusip": "6399107",
+      "shares": 15000,
+      "value": 1797
+    },
+    {
+      "name": "Eaton Vance Sr Income TR SF",
+      "cusip": "27826103",
+      "shares": 279947,
+      "value": 1738
+    },
+    {
+      "name": "PNC Bank Corp",
+      "cusip": "693475105",
+      "shares": 17944,
+      "value": 1716
+    },
+    {
+      "name": "BB&T Corp",
+      "cusip": "054937107",
+      "shares": 42408,
+      "value": 1709
+    },
+    {
+      "name": "SABMiller PLC Sponsored ADR",
+      "cusip": "78572105",
+      "shares": 30600,
+      "value": 1590
+    },
+    {
+      "name": "CIE Financiere Richemont-Unsp",
+      "cusip": "204319107",
+      "shares": 192350,
+      "value": 1565
+    },
+    {
+      "name": "Unilever NV",
+      "cusip": "8981271",
+      "shares": 37500,
+      "value": 1561
+    },
+    {
+      "name": "I B M",
+      "cusip": "459200101",
+      "shares": 9524,
+      "value": 1549
+    },
+    {
+      "name": "Pernod-Ricard SA-Unspon ADR",
+      "cusip": "714264207",
+      "shares": 63275,
+      "value": 1461
+    },
+    {
+      "name": "Praxair Inc",
+      "cusip": "74005104",
+      "shares": 11575,
+      "value": 1384
+    },
+    {
+      "name": "Wal Mart Stores Inc",
+      "cusip": "931142103",
+      "shares": 19474,
+      "value": 1381
+    },
+    {
+      "name": "Pargesa Holding AG - B",
+      "cusip": "60477207",
+      "shares": 20250,
+      "value": 1363
+    },
+    {
+      "name": "Loreal SA",
+      "cusip": "58149133",
+      "shares": 6400,
+      "value": 1141
+    },
+    {
+      "name": "Lamar Advertising Co-A",
+      "cusip": "512816109",
+      "shares": 17285,
+      "value": 994
+    },
+    {
+      "name": "A P Moller-Maersk A/S",
+      "cusip": "0514135",
+      "shares": 554,
+      "value": 972
+    },
+    {
+      "name": "Bank Amer Corp",
+      "cusip": "060505104",
+      "shares": 51100,
+      "value": 870
+    },
+    {
+      "name": "Costco Whsl Corp",
+      "cusip": "22160105",
+      "shares": 5655,
+      "value": 764
+    },
+    {
+      "name": "British Amern Tob PLC ADR",
+      "cusip": "110448107",
+      "shares": 6925,
+      "value": 750
+    },
+    {
+      "name": "Google Inc Cl A",
+      "cusip": "38259508",
+      "shares": 1233,
+      "value": 666
+    },
+    {
+      "name": "Google Inc Cl C",
+      "cusip": "38259706",
+      "shares": 1168,
+      "value": 608
+    },
+    {
+      "name": "Disney Walt Productions",
+      "cusip": "254687106",
+      "shares": 4850,
+      "value": 554
+    },
+    {
+      "name": "Chicago Bridge & Iron Co NV",
+      "cusip": "167250109",
+      "shares": 10575,
+      "value": 529
+    },
+    {
+      "name": "Fulton Finl Corp",
+      "cusip": "360271100",
+      "shares": 37030,
+      "value": 484
+    },
+    {
+      "name": "Conocophillips",
+      "cusip": "20825104",
+      "shares": 7288,
+      "value": 448
+    },
+    {
+      "name": "Mylan NV",
+      "cusip": "59465109",
+      "shares": 5850,
+      "value": 397
+    },
+    {
+      "name": "Pioneer Nat Res",
+      "cusip": "723787107",
+      "shares": 2700,
+      "value": 374
+    },
+    {
+      "name": "American Intl Group Inc",
+      "cusip": "026874784",
+      "shares": 6000,
+      "value": 371
+    },
+    {
+      "name": "Carlisle Inc",
+      "cusip": "142339100",
+      "shares": 3500,
+      "value": 350
+    },
+    {
+      "name": "McDonalds Corp",
+      "cusip": "580135101",
+      "shares": 3645,
+      "value": 347
+    },
+    {
+      "name": "BP PLC ADR",
+      "cusip": "055622104",
+      "shares": 7814,
+      "value": 312
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389105",
+      "shares": 7500,
+      "value": 302
+    },
+    {
+      "name": "General Electric",
+      "cusip": "369604103",
+      "shares": 10546,
+      "value": 280
+    },
+    {
+      "name": "Heartland Express Inc",
+      "cusip": "422347104",
+      "shares": 12499,
+      "value": 253
+    },
+    {
+      "name": "Nielsen NV",
+      "cusip": "63218106",
+      "shares": 5450,
+      "value": 244
+    },
+    {
+      "name": "Union Pac Corp",
+      "cusip": "907818108",
+      "shares": 2510,
+      "value": 239
+    },
+    {
+      "name": "Groupe Danone",
+      "cusip": "12033134",
+      "shares": 3700,
+      "value": 239
+    },
+    {
+      "name": "General Dynamics Corp",
+      "cusip": "369550108",
+      "shares": 1600,
+      "value": 227
+    },
+    {
+      "name": "Graham Holdings Co",
+      "cusip": "384637104",
+      "shares": 203,
+      "value": 218
+    },
+    {
+      "name": "Merck Inc",
+      "cusip": "58933Y105",
+      "shares": 3836,
+      "value": 218
+    },
+    {
+      "name": "Schlumberger LTD",
+      "cusip": "806857108",
+      "shares": 2525,
+      "value": 218
+    },
+    {
+      "name": "WABCO Holdings Inc",
+      "cusip": "92927102",
+      "shares": 1703,
+      "value": 211
+    },
+    {
+      "name": "Spectrum Brands Hldgs Inc",
+      "cusip": "84763101",
+      "shares": 2000,
+      "value": 204
+    },
+    {
+      "name": "Susquehanna Bancshrs Inc",
+      "cusip": "869099101",
+      "shares": 14000,
+      "value": 198
+    },
+    {
+      "name": "Hanjaya Mandala Sampoerna",
+      "cusip": "7121146",
+      "shares": 34500,
+      "value": 186
+    },
+    {
+      "name": "Bollore",
+      "cusip": "10659260",
+      "shares": 30000,
+      "value": 160
+    },
+    {
+      "name": "Centerstate BKS FLA Inc",
+      "cusip": "15201109",
+      "shares": 11004,
+      "value": 149
+    },
+    {
+      "name": "Templeton Global Bond FD",
+      "cusip": "880208400",
+      "shares": 11714,
+      "value": 143
+    },
+    {
+      "name": "Cir SPA",
+      "cusip": "28980125",
+      "shares": 125000,
+      "value": 133
+    },
+    {
+      "name": "Indivior PLC",
+      "cusip": "4766108",
+      "shares": 28907,
+      "value": 102
+    },
+    {
+      "name": "Pimco High Yield Fun-Instl",
+      "cusip": "693390841",
+      "shares": 11116,
+      "value": 101
+    },
+    {
+      "name": "PZ Cussons PLC",
+      "cusip": "6850109",
+      "shares": 15000,
+      "value": 85
+    },
+    {
+      "name": "LT Group Inc",
+      "cusip": "5342100",
+      "shares": 150000,
+      "value": 46
+    }
+  ],
+  "totalValue": 11379222,
+  "positionsCount": 109
+}

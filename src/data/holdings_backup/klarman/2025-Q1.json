@@ -1,0 +1,159 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "Willis Towers Watson plc",
+      "cusip": "WTW00000",
+      "shares": 1525667,
+      "value": 515599163,
+      "ticker": "WTW"
+    },
+    {
+      "name": "Alphabet Inc. CL C",
+      "cusip": "GOOG00000",
+      "shares": 2077988,
+      "value": 324644065,
+      "ticker": "GOOG"
+    },
+    {
+      "name": "WESCO International Inc.",
+      "cusip": "WCC00000",
+      "shares": 2005601,
+      "value": 311469835,
+      "ticker": "WCC"
+    },
+    {
+      "name": "Liberty Global Ltd CL C",
+      "cusip": "LBTYK0000",
+      "shares": 24657803,
+      "value": 295153902,
+      "ticker": "LBTYK"
+    },
+    {
+      "name": "Fidelity National Information Services",
+      "cusip": "FIS00000",
+      "shares": 3492947,
+      "value": 260853282,
+      "ticker": "FIS"
+    },
+    {
+      "name": "Restaurant Brands International",
+      "cusip": "QSR00000",
+      "shares": 3886562,
+      "value": 259000492,
+      "ticker": "QSR"
+    },
+    {
+      "name": "CRH plc",
+      "cusip": "CRH00000",
+      "shares": 2694395,
+      "value": 237025928,
+      "ticker": "CRH"
+    },
+    {
+      "name": "Eagle Materials Inc.",
+      "cusip": "EXP00000",
+      "shares": 909633,
+      "value": 201874852,
+      "ticker": "EXP"
+    },
+    {
+      "name": "Dollar General",
+      "cusip": "DG00000",
+      "shares": 2104876,
+      "value": 185081747,
+      "ticker": "DG"
+    },
+    {
+      "name": "Ferguson Enterprises Inc.",
+      "cusip": "FERG00000",
+      "shares": 1132000,
+      "value": 181380360,
+      "ticker": "FERG"
+    },
+    {
+      "name": "GDS Holdings Ltd",
+      "cusip": "GDS00000",
+      "shares": 4249952,
+      "value": 107651284,
+      "ticker": "GDS"
+    },
+    {
+      "name": "Elevance Health Inc.",
+      "cusip": "ELV00000",
+      "shares": 246000,
+      "value": 107000160,
+      "ticker": "ELV"
+    },
+    {
+      "name": "Viasat Inc.",
+      "cusip": "VSAT00000",
+      "shares": 10190728,
+      "value": 106187386,
+      "ticker": "VSAT"
+    },
+    {
+      "name": "Solventum Corp",
+      "cusip": "SOLV00000",
+      "shares": 1053240,
+      "value": 80088370,
+      "ticker": "SOLV"
+    },
+    {
+      "name": "ICON plc",
+      "cusip": "ICLR00000",
+      "shares": 405000,
+      "value": 70870950,
+      "ticker": "ICLR"
+    },
+    {
+      "name": "Herbalife Nutrition Ltd.",
+      "cusip": "HLF00000",
+      "shares": 7600526,
+      "value": 65592539,
+      "ticker": "HLF"
+    },
+    {
+      "name": "Liberty Global Ltd CL A",
+      "cusip": "LBTYA0000",
+      "shares": 5076762,
+      "value": 58433531,
+      "ticker": "LBTYA"
+    },
+    {
+      "name": "Clarivate Plc",
+      "cusip": "CLVT00000",
+      "shares": 10777863,
+      "value": 42357002,
+      "ticker": "CLVT"
+    },
+    {
+      "name": "Somnigroup International Inc.",
+      "cusip": "SGI00000",
+      "shares": 703349,
+      "value": 42116538,
+      "ticker": "SGI"
+    },
+    {
+      "name": "Liberty Broadband Corp. CL C",
+      "cusip": "LBRDK0000",
+      "shares": 170610,
+      "value": 14510381,
+      "ticker": "LBRDK"
+    },
+    {
+      "name": "Tamboran Resources Corp",
+      "cusip": "TBN00000",
+      "shares": 570833,
+      "value": 13694284,
+      "ticker": "TBN"
+    },
+    {
+      "name": "Liberty Broadband Corp. CL A",
+      "cusip": "LBRDA0000",
+      "shares": 7560,
+      "value": 642978,
+      "ticker": "LBRDA"
+    }
+  ]
+}

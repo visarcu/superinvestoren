@@ -1,0 +1,109 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-14",
+  "period": "2023-11-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 35000,
+      "value": 3035900000000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 1552802,
+      "value": 41428757000000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 225000,
+      "value": 28602000000000
+    },
+    {
+      "name": "CONTROLADORA VUELA COMP DE A",
+      "cusip": "21240E105",
+      "shares": 412248,
+      "value": 2799164000000
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 3622243,
+      "value": 26261262000000
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 27995,
+      "value": 38635900000000
+    },
+    {
+      "name": "FRONTIER GROUP HLDGS INC",
+      "cusip": "35909R108",
+      "shares": 7961321,
+      "value": 38532794000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 550174,
+      "value": 47623061000000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 85112,
+      "value": 25551474000000
+    },
+    {
+      "name": "OSCAR HEALTH INC",
+      "cusip": "687793109",
+      "shares": 2793141,
+      "value": 15557795000000
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 3655670,
+      "value": 31073195000000
+    },
+    {
+      "name": "SPIRIT AIRLS INC",
+      "cusip": "848577102",
+      "shares": 1384963,
+      "value": 22851890000000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 2983135,
+      "value": 57067373000000
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586506",
+      "shares": 8938,
+      "value": 468262000000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 5857915,
+      "value": 66545914000000
+    },
+    {
+      "name": "VITAL ENERGY INC",
+      "cusip": "516806205",
+      "shares": 316703,
+      "value": 17551680000000
+    },
+    {
+      "name": "WEWORK INC",
+      "cusip": "96209A401",
+      "shares": 726549,
+      "value": 2186912000000
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2018-02-12",
+  "period": "2018-02-12",
+  "accession": "0001454502-18-000002",
+  "quarterKey": "2018-Q1",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 606029,
+      "value": 203602000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1034075,
+      "value": 152640000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 2500000,
+      "value": 128425000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 674676,
+      "value": 110215000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 389998,
+      "value": 107101000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 2835333,
+      "value": 95948000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 500000,
+      "value": 57010000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 186000,
+      "value": 28153000
+    }
+  ],
+  "totalValue": 883094000,
+  "positionsCount": 8
+}

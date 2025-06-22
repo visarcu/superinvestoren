@@ -1,0 +1,497 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-14",
+  "period": "2024-08-14",
+  "accession": "0001172661-24-003549",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 8664693,
+      "value": 495967027
+    },
+    {
+      "name": "CONSOL ENERGY INC NEW",
+      "cusip": "20854L108",
+      "shares": 1388407,
+      "value": 141659166
+    },
+    {
+      "name": "BRIGHTHOUSE FINL INC",
+      "cusip": "10922N103",
+      "shares": 2395903,
+      "value": 103838436
+    },
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 1802690,
+      "value": 103185976
+    },
+    {
+      "name": "KYNDRYL HLDGS INC",
+      "cusip": "50155Q100",
+      "shares": 3829845,
+      "value": 100763222
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 2753720,
+      "value": 96435274
+    },
+    {
+      "name": "PENN ENTERTAINMENT INC",
+      "cusip": "707569109",
+      "shares": 4204670,
+      "value": 81381388
+    },
+    {
+      "name": "THE ODP CORP",
+      "cusip": "88337F105",
+      "shares": 1921909,
+      "value": 75473366
+    },
+    {
+      "name": "TENET HEALTHCARE CORP",
+      "cusip": "88033G407",
+      "shares": 513920,
+      "value": 68366778
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 6383690,
+      "value": 67858625
+    },
+    {
+      "name": "ALIGHT INC",
+      "cusip": "01626W101",
+      "shares": 8898960,
+      "value": 65674325
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 934423,
+      "value": 44758862
+    },
+    {
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 193181,
+      "value": 41535847
+    },
+    {
+      "name": "ROIVANT SCIENCES LTD",
+      "cusip": "G76279101",
+      "shares": 3819400,
+      "value": 40371058
+    },
+    {
+      "name": "DHT HOLDINGS INC",
+      "cusip": "Y2065G121",
+      "shares": 3400730,
+      "value": 39346446
+    },
+    {
+      "name": "GRAPHIC PACKAGING HLDG CO",
+      "cusip": "388689101",
+      "shares": 1194860,
+      "value": 31317281
+    },
+    {
+      "name": "LIBERTY GLOBAL LTD",
+      "cusip": "G61188101",
+      "shares": 1782060,
+      "value": 31061306
+    },
+    {
+      "name": "LIVANOVA PLC",
+      "cusip": "G5509L101",
+      "shares": 556188,
+      "value": 30490226
+    },
+    {
+      "name": "CONSOL ENERGY INC NEW",
+      "cusip": "20854L108",
+      "shares": 252343,
+      "value": 25746556
+    },
+    {
+      "name": "SEADRILL 2021 LTD",
+      "cusip": "G7997W102",
+      "shares": 482105,
+      "value": 24828408
+    },
+    {
+      "name": "HP INC",
+      "cusip": "40434L105",
+      "shares": 619310,
+      "value": 21688236
+    },
+    {
+      "name": "PELOTON INTERACTIVE INC",
+      "cusip": "70614W100",
+      "shares": 5859990,
+      "value": 19806766
+    },
+    {
+      "name": "CAPRI HOLDINGS LIMITED",
+      "cusip": "G1890L107",
+      "shares": 591270,
+      "value": 19559212
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 151539,
+      "value": 18555951
+    },
+    {
+      "name": "BRIGHTHOUSE FINL INC",
+      "cusip": "10922N103",
+      "shares": 411426,
+      "value": 17831203
+    },
+    {
+      "name": "KYNDRYL HLDGS INC",
+      "cusip": "50155Q100",
+      "shares": 605974,
+      "value": 15943176
+    },
+    {
+      "name": "INVESCO EXCHANGE TRADED FD T",
+      "cusip": "46137V100",
+      "shares": 154261,
+      "value": 15845690
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78464A631",
+      "shares": 107817,
+      "value": 15092224
+    },
+    {
+      "name": "PENN ENTERTAINMENT INC",
+      "cusip": "707569109",
+      "shares": 675730,
+      "value": 13078754
+    },
+    {
+      "name": "ALIGHT INC",
+      "cusip": "01626W101",
+      "shares": 1630960,
+      "value": 12036485
+    },
+    {
+      "name": "THE ODP CORP",
+      "cusip": "88337F105",
+      "shares": 300561,
+      "value": 11803030
+    },
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 251720,
+      "value": 11793082
+    },
+    {
+      "name": "TENET HEALTHCARE CORP",
+      "cusip": "88033G407",
+      "shares": 83757,
+      "value": 11142194
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 1016120,
+      "value": 10801356
+    },
+    {
+      "name": "TECK RESOURCES LTD",
+      "cusip": "878742204",
+      "shares": 152240,
+      "value": 7292296
+    },
+    {
+      "name": "DHT HOLDINGS INC",
+      "cusip": "Y2065G121",
+      "shares": 623610,
+      "value": 7215168
+    },
+    {
+      "name": "BRIGHTHOUSE FINL INC",
+      "cusip": "10922N103",
+      "shares": 165702,
+      "value": 7181525
+    },
+    {
+      "name": "ROIVANT SCIENCES LTD",
+      "cusip": "G76279101",
+      "shares": 649700,
+      "value": 6867329
+    },
+    {
+      "name": "COYA THERAPEUTICS INC",
+      "cusip": "22407B108",
+      "shares": 1034925,
+      "value": 6271646
+    },
+    {
+      "name": "GRAPHIC PACKAGING HLDG CO",
+      "cusip": "388689101",
+      "shares": 201270,
+      "value": 5275287
+    },
+    {
+      "name": "GALAPAGOS NV",
+      "cusip": "36315X101",
+      "shares": 203728,
+      "value": 5048380
+    },
+    {
+      "name": "LIVANOVA PLC",
+      "cusip": "G5509L101",
+      "shares": 88081,
+      "value": 4828600
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 284480,
+      "value": 4622800
+    },
+    {
+      "name": "LIBERTY GLOBAL LTD",
+      "cusip": "G61188101",
+      "shares": 259520,
+      "value": 4523434
+    },
+    {
+      "name": "SEADRILL 2021 LTD",
+      "cusip": "G7997W102",
+      "shares": 87300,
+      "value": 4495950
+    },
+    {
+      "name": "PENN ENTERTAINMENT INC",
+      "cusip": "707569109",
+      "shares": 214940,
+      "value": 4160164
+    },
+    {
+      "name": "ALIGHT INC",
+      "cusip": "01626W101",
+      "shares": 544170,
+      "value": 4015975
+    },
+    {
+      "name": "ROIVANT SCIENCES LTD",
+      "cusip": "G76279101",
+      "shares": 341860,
+      "value": 3613460
+    },
+    {
+      "name": "GOPRO INC",
+      "cusip": "38268T103",
+      "shares": 2458940,
+      "value": 3491695
+    },
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189F106",
+      "shares": 98450,
+      "value": 3340409
+    },
+    {
+      "name": "SOTERA HEALTH CO",
+      "cusip": "83601L102",
+      "shares": 277621,
+      "value": 3295361
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 25800,
+      "value": 3159210
+    },
+    {
+      "name": "PELOTON INTERACTIVE INC",
+      "cusip": "70614W100",
+      "shares": 929150,
+      "value": 3140527
+    },
+    {
+      "name": "CAPRI HOLDINGS LIMITED",
+      "cusip": "G1890L107",
+      "shares": 93500,
+      "value": 3092980
+    },
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189H607",
+      "shares": 9490,
+      "value": 3000548
+    },
+    {
+      "name": "INVESCO EXCHANGE TRADED FD T",
+      "cusip": "46137V100",
+      "shares": 28250,
+      "value": 2901840
+    },
+    {
+      "name": "SPDR SER TR",
+      "cusip": "78464A631",
+      "shares": 19740,
+      "value": 2763205
+    },
+    {
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 9150,
+      "value": 1967342
+    },
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 39740,
+      "value": 1861819
+    },
+    {
+      "name": "FIRST TR EXCHANGE-TRADED FD",
+      "cusip": "33733E807",
+      "shares": 59900,
+      "value": 1574172
+    },
+    {
+      "name": "COYA THERAPEUTICS INC",
+      "cusip": "22407B108",
+      "shares": 239101,
+      "value": 1448952
+    },
+    {
+      "name": "DANIMER SCIENTIFIC INC",
+      "cusip": "236272100",
+      "shares": 2335484,
+      "value": 1408764
+    },
+    {
+      "name": "INVESCO ACTVELY MNGD ETC FD",
+      "cusip": "46090F100",
+      "shares": 99250,
+      "value": 1394463
+    },
+    {
+      "name": "TALIS BIOMEDICAL CORP",
+      "cusip": "87424L207",
+      "shares": 129616,
+      "value": 1122708
+    },
+    {
+      "name": "GALAPAGOS NV",
+      "cusip": "36315X101",
+      "shares": 31100,
+      "value": 770658
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 40370,
+      "value": 656013
+    },
+    {
+      "name": "GAIN THERAPEUTICS INC",
+      "cusip": "36269B105",
+      "shares": 492130,
+      "value": 629926
+    },
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189H607",
+      "shares": 1730,
+      "value": 546991
+    },
+    {
+      "name": "GOPRO INC",
+      "cusip": "38268T103",
+      "shares": 364160,
+      "value": 517107
+    },
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189F106",
+      "shares": 12940,
+      "value": 439054
+    },
+    {
+      "name": "FIRST TR EXCHANGE-TRADED FD",
+      "cusip": "33733E807",
+      "shares": 10930,
+      "value": 287240
+    },
+    {
+      "name": "SOTERA HEALTH CO",
+      "cusip": "83601L102",
+      "shares": 22489,
+      "value": 266944
+    },
+    {
+      "name": "INVESCO ACTVELY MNGD ETC FD",
+      "cusip": "46090F100",
+      "shares": 18110,
+      "value": 254446
+    },
+    {
+      "name": "DANIMER SCIENTIFIC INC",
+      "cusip": "236272100",
+      "shares": 365196,
+      "value": 220286
+    },
+    {
+      "name": "TALIS BIOMEDICAL CORP",
+      "cusip": "87424L207",
+      "shares": 19436,
+      "value": 168351
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 34995,
+      "value": 102185
+    },
+    {
+      "name": "GAIN THERAPEUTICS INC",
+      "cusip": "36269B105",
+      "shares": 74000,
+      "value": 94720
+    },
+    {
+      "name": "DANIMER SCIENTIFIC INC",
+      "cusip": "236272100",
+      "shares": 33900,
+      "value": 20448
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N119",
+      "shares": 100000,
+      "value": 16000
+    },
+    {
+      "name": "KATAPULT HOLDINGS INC",
+      "cusip": "485859110",
+      "shares": 226627,
+      "value": 2606
+    },
+    {
+      "name": "KATAPULT HOLDINGS INC",
+      "cusip": "485859110",
+      "shares": 35600,
+      "value": 409
+    }
+  ],
+  "totalValue": 2044406325,
+  "positionsCount": 81
+}

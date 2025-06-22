@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-16",
+  "period": "2023-05-16",
+  "accession": "0001709323-23-000004",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 18081133,
+      "value": 517120
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 6826079,
+      "value": 411886
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3044000,
+      "value": 316576
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 897749,
+      "value": 277198
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2543300,
+      "value": 263817
+    },
+    {
+      "name": "EAST WEST BANCORP INC",
+      "cusip": "27579R104",
+      "shares": 2296300,
+      "value": 127445
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 759600,
+      "value": 125258
+    }
+  ],
+  "totalValue": 2039300,
+  "positionsCount": 7
+}

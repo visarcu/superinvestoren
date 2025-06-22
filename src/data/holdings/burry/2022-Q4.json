@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001567619-22-019784",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 2019150,
+      "value": 15547
+    },
+    {
+      "name": "QURATE RETAIL INC",
+      "cusip": "74915M100",
+      "shares": 5000000,
+      "value": 10050
+    },
+    {
+      "name": "CORECIVIC INC",
+      "cusip": "21871N101",
+      "shares": 724895,
+      "value": 6408
+    },
+    {
+      "name": "AEROJET ROCKETDYNE HLDGS INC",
+      "cusip": "007800105",
+      "shares": 132561,
+      "value": 5301
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 10000,
+      "value": 3034
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E128",
+      "shares": 155761,
+      "value": 958
+    }
+  ],
+  "totalValue": 41298,
+  "positionsCount": 6
+}

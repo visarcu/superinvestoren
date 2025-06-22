@@ -1,0 +1,257 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-14",
+  "period": "2023-02-14",
+  "accession": "0001556785-23-000003",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 835344,
+      "value": 525814
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2061353,
+      "value": 494331
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1402068,
+      "value": 487498
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 5620658,
+      "value": 471248
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 5067724,
+      "value": 426038
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 8943284,
+      "value": 415234
+    },
+    {
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 12637553,
+      "value": 377194
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 2751250,
+      "value": 364990
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1741498,
+      "value": 361787
+    },
+    {
+      "name": "SKYWORKS SOLUTIONS INC",
+      "cusip": "83088M102",
+      "shares": 3948502,
+      "value": 359733
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3948765,
+      "value": 350552
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 2728901,
+      "value": 247119
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 3134136,
+      "value": 241416
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 1353727,
+      "value": 216024
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 2183113,
+      "value": 212499
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 2693423,
+      "value": 208215
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 1399966,
+      "value": 167694
+    },
+    {
+      "name": "NICE LTD",
+      "cusip": "653656108",
+      "shares": 868097,
+      "value": 166868
+    },
+    {
+      "name": "ELEVANCE HEALTH INC",
+      "cusip": "036752103",
+      "shares": 313598,
+      "value": 160626
+    },
+    {
+      "name": "ARES MANAGEMENT CORPORATION",
+      "cusip": "03990B101",
+      "shares": 2250911,
+      "value": 154039
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 332094,
+      "value": 139450
+    },
+    {
+      "name": "BALL CORP",
+      "cusip": "058498106",
+      "shares": 2404041,
+      "value": 123089
+    },
+    {
+      "name": "ABBOTT LABS",
+      "cusip": "002824100",
+      "shares": 897863,
+      "value": 98563
+    },
+    {
+      "name": "CUSHMAN WAKEFIELD PLC",
+      "cusip": "G2717B108",
+      "shares": 7581137,
+      "value": 94461
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 400345,
+      "value": 88156
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 580542,
+      "value": 53433
+    },
+    {
+      "name": "ABM INDS INC",
+      "cusip": "000957100",
+      "shares": 1196683,
+      "value": 53157
+    },
+    {
+      "name": "ITURAN LOCATION AND CONTROL",
+      "cusip": "M6158M104",
+      "shares": 2429641,
+      "value": 51338
+    },
+    {
+      "name": "PARK HOTELS & RESORTS INC",
+      "cusip": "700517105",
+      "shares": 3848236,
+      "value": 45371
+    },
+    {
+      "name": "VIRTUS INVT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 222436,
+      "value": 42583
+    },
+    {
+      "name": "ENERSYS",
+      "cusip": "29275Y102",
+      "shares": 486784,
+      "value": 35944
+    },
+    {
+      "name": "SMARTRENT INC",
+      "cusip": "83193G107",
+      "shares": 13467254,
+      "value": 32725
+    },
+    {
+      "name": "MEDPACE HLDGS INC",
+      "cusip": "58506Q109",
+      "shares": 153342,
+      "value": 32571
+    },
+    {
+      "name": "MILLERKNOLL INC",
+      "cusip": "600544100",
+      "shares": 1226649,
+      "value": 25772
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 339918,
+      "value": 24022
+    },
+    {
+      "name": "FORWARD AIR CORP",
+      "cusip": "349853101",
+      "shares": 227069,
+      "value": 23817
+    },
+    {
+      "name": "SLEEP NUMBER CORP",
+      "cusip": "83125X103",
+      "shares": 708050,
+      "value": 18395
+    },
+    {
+      "name": "PROG HOLDINGS INC",
+      "cusip": "74319R101",
+      "shares": 1072777,
+      "value": 18119
+    },
+    {
+      "name": "CERENCE INC",
+      "cusip": "156727109",
+      "shares": 828025,
+      "value": 15343
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 33614,
+      "value": 12803
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 29752,
+      "value": 5034
+    }
+  ],
+  "totalValue": 7443065,
+  "positionsCount": 41
+}

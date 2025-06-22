@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2013-07-12",
+  "period": "2013-07-12",
+  "accession": "0000950123-13-004626",
+  "quarterKey": "2013-Q3",
+  "positions": [
+    {
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 910635,
+      "value": 102428000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 2977160,
+      "value": 63205000
+    },
+    {
+      "name": "CARNIVAL CORPORATION",
+      "cusip": "143658300",
+      "shares": 1391435,
+      "value": 47712000
+    },
+    {
+      "name": "RENAISSANCERE HOLDING LTD",
+      "cusip": "G7496G103",
+      "shares": 425089,
+      "value": 36893000
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513104",
+      "shares": 684180,
+      "value": 35256000
+    },
+    {
+      "name": "HCC INS HLDGS INC",
+      "cusip": "404132102",
+      "shares": 800000,
+      "value": 34488000
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1000000,
+      "value": 25420000
+    },
+    {
+      "name": "CRH P L C",
+      "cusip": "12626K203",
+      "shares": 563456,
+      "value": 11444000
+    }
+  ],
+  "totalValue": 356846000,
+  "positionsCount": 8
+}

@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-09",
+  "period": "2019-08-09",
+  "accession": "0001520023-19-000010",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "PAYPAL HOLDINGS INC",
+      "cusip": "70450Y103",
+      "shares": 15391028,
+      "value": 1761657
+    },
+    {
+      "name": "MICROSOFT",
+      "cusip": "594918104",
+      "shares": 12171134,
+      "value": 1630445
+    },
+    {
+      "name": "FACEBOOK",
+      "cusip": "30303M102",
+      "shares": 6475057,
+      "value": 1249686
+    },
+    {
+      "name": "IDEXX LABORATORIES",
+      "cusip": "45168D104",
+      "shares": 4470038,
+      "value": 1230736
+    },
+    {
+      "name": "ESTEE LAUDER",
+      "cusip": "518439104",
+      "shares": 6660785,
+      "value": 1219656
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 4651847,
+      "value": 1215667
+    },
+    {
+      "name": "PHILIP MORRIS INTERNATIONAL",
+      "cusip": "718172109",
+      "shares": 15268507,
+      "value": 1199036
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 5801440,
+      "value": 1192660
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 5114006,
+      "value": 1100739
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 8275341,
+      "value": 1085145
+    },
+    {
+      "name": "VISA INC CLASS A SHARES",
+      "cusip": "92826C839",
+      "shares": 6123530,
+      "value": 1062739
+    },
+    {
+      "name": "MCCORMICK & CO NON VTG SHRS",
+      "cusip": "579780206",
+      "shares": 6803450,
+      "value": 1054603
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING",
+      "cusip": "053015103",
+      "shares": 6129753,
+      "value": 1013432
+    },
+    {
+      "name": "BECTON DICKINSON AND CO",
+      "cusip": "075887109",
+      "shares": 3812171,
+      "value": 960705
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 5400131,
+      "value": 752130
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 3529691,
+      "value": 611837
+    },
+    {
+      "name": "MASIMO",
+      "cusip": "574795100",
+      "shares": 574963,
+      "value": 85566
+    },
+    {
+      "name": "EQUIFAX",
+      "cusip": "294429105",
+      "shares": 620821,
+      "value": 83960
+    },
+    {
+      "name": "SABRE",
+      "cusip": "78573M104",
+      "shares": 3630918,
+      "value": 80606
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345Y106",
+      "shares": 526010,
+      "value": 77039
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH",
+      "cusip": "M22465104",
+      "shares": 623478,
+      "value": 72080
+    },
+    {
+      "name": "ANSYS",
+      "cusip": "03662Q105",
+      "shares": 323777,
+      "value": 66316
+    },
+    {
+      "name": "VERISIGN",
+      "cusip": "92343E102",
+      "shares": 272873,
+      "value": 57074
+    },
+    {
+      "name": "COGNEX",
+      "cusip": "192422103",
+      "shares": 1167817,
+      "value": 56032
+    },
+    {
+      "name": "CDK GBL.",
+      "cusip": "12508E101",
+      "shares": 1111332,
+      "value": 54944
+    },
+    {
+      "name": "IPG PHOTONICS",
+      "cusip": "44980X109",
+      "shares": 338819,
+      "value": 52263
+    },
+    {
+      "name": "MSCI",
+      "cusip": "55354G100",
+      "shares": 194770,
+      "value": 46509
+    },
+    {
+      "name": "AO SMITH",
+      "cusip": "831865209",
+      "shares": 848563,
+      "value": 40018
+    },
+    {
+      "name": "PAYCOM SOFTWARE",
+      "cusip": "70432V102",
+      "shares": 170928,
+      "value": 38753
+    },
+    {
+      "name": "MARRIOTT INTERNATIONAL CL A",
+      "cusip": "571903202",
+      "shares": 176682,
+      "value": 24787
+    },
+    {
+      "name": "MERCADOLIBRE",
+      "cusip": "58733R102",
+      "shares": 23644,
+      "value": 14465
+    }
+  ],
+  "totalValue": 19191285,
+  "positionsCount": 31
+}

@@ -1,0 +1,401 @@
+{
+  "form": "13F-HR",
+  "date": "2020-08-13",
+  "period": "2020-08-13",
+  "accession": "0000814375-20-000025",
+  "quarterKey": "2020-Q3",
+  "positions": [
+    {
+      "name": "IAMGOLD CORP",
+      "cusip": "450913108",
+      "shares": 41937466,
+      "value": 165653
+    },
+    {
+      "name": "GOLD FIELDS LTD",
+      "cusip": "38059T106",
+      "shares": 16870687,
+      "value": 158584
+    },
+    {
+      "name": "AERCAP HOLDINGS",
+      "cusip": "N00985106",
+      "shares": 4695616,
+      "value": 144625
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 6715093,
+      "value": 129534
+    },
+    {
+      "name": "JETBLUE AIRWAYS",
+      "cusip": "477143101",
+      "shares": 10114462,
+      "value": 110248
+    },
+    {
+      "name": "UNUM GROUP",
+      "cusip": "91529Y106",
+      "shares": 6478877,
+      "value": 107485
+    },
+    {
+      "name": "MICRON TECHNOLOGY",
+      "cusip": "595112103",
+      "shares": 1672164,
+      "value": 86150
+    },
+    {
+      "name": "AIR FRANCE-KLM",
+      "cusip": "009119108",
+      "shares": 16336657,
+      "value": 74495
+    },
+    {
+      "name": "ATLAS AIR WORLDWIDE HOLDINGS",
+      "cusip": "049164205",
+      "shares": 1570065,
+      "value": 67560
+    },
+    {
+      "name": "THE MOSAIC COMPANY",
+      "cusip": "61945C103",
+      "shares": 5345539,
+      "value": 66873
+    },
+    {
+      "name": "CNA FINANCIAL CORP",
+      "cusip": "126117100",
+      "shares": 1835929,
+      "value": 59025
+    },
+    {
+      "name": "JEFFERIES FINANCIAL GROUP",
+      "cusip": "47233W109",
+      "shares": 3532231,
+      "value": 54926
+    },
+    {
+      "name": "EQUINOX GOLD CORP",
+      "cusip": "29446Y502",
+      "shares": 4881016,
+      "value": 54765
+    },
+    {
+      "name": "M/I HOMES",
+      "cusip": "55305B101",
+      "shares": 1225261,
+      "value": 42198
+    },
+    {
+      "name": "AMERICAN INTERNATIONAL GROUP",
+      "cusip": "026874784",
+      "shares": 1247706,
+      "value": 38903
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 5081271,
+      "value": 36687
+    },
+    {
+      "name": "TUTOR PERINI CORP",
+      "cusip": "901109108",
+      "shares": 2893436,
+      "value": 35242
+    },
+    {
+      "name": "LOEWS CORP",
+      "cusip": "540424108",
+      "shares": 978301,
+      "value": 33546
+    },
+    {
+      "name": "DOMTAR CORP",
+      "cusip": "257559203",
+      "shares": 1554469,
+      "value": 32815
+    },
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967424",
+      "shares": 633733,
+      "value": 32384
+    },
+    {
+      "name": "BEAZER HOMES USA INC",
+      "cusip": "07556Q881",
+      "shares": 2920042,
+      "value": 29405
+    },
+    {
+      "name": "INTERNATIONAL SEAWAYS",
+      "cusip": "Y41053102",
+      "shares": 1791882,
+      "value": 29279
+    },
+    {
+      "name": "GALIANO GOLD INC",
+      "cusip": "36352H100",
+      "shares": 20406415,
+      "value": 27141
+    },
+    {
+      "name": "FLY LEASING",
+      "cusip": "34407D109",
+      "shares": 3045725,
+      "value": 25005
+    },
+    {
+      "name": "AMERICAN NATIONAL",
+      "cusip": "028591105",
+      "shares": 344063,
+      "value": 24797
+    },
+    {
+      "name": "CELESTICA",
+      "cusip": "15101Q108",
+      "shares": 3458602,
+      "value": 23622
+    },
+    {
+      "name": "COREPOINT LODGING INC",
+      "cusip": "21872L104",
+      "shares": 5085561,
+      "value": 21410
+    },
+    {
+      "name": "DIAMOND S SHIPPING",
+      "cusip": "Y20676105",
+      "shares": 2576413,
+      "value": 20586
+    },
+    {
+      "name": "KOREA ELECTRIC POWER CORP",
+      "cusip": "500631106",
+      "shares": 2266033,
+      "value": 18083
+    },
+    {
+      "name": "ELDORADO GOLD",
+      "cusip": "284902509",
+      "shares": 1853595,
+      "value": 17980
+    },
+    {
+      "name": "PHOTRONICS",
+      "cusip": "719405102",
+      "shares": 1572685,
+      "value": 17504
+    },
+    {
+      "name": "ALCOA CORP",
+      "cusip": "013872106",
+      "shares": 1507824,
+      "value": 16948
+    },
+    {
+      "name": "SANMINA CORPORATION",
+      "cusip": "801056102",
+      "shares": 659003,
+      "value": 16501
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP",
+      "cusip": "38141G104",
+      "shares": 79520,
+      "value": 15715
+    },
+    {
+      "name": "FIFTH THIRD BANCORP",
+      "cusip": "316773100",
+      "shares": 786079,
+      "value": 15156
+    },
+    {
+      "name": "BONANZA CREEK ENERGY INC",
+      "cusip": "097793400",
+      "shares": 948512,
+      "value": 14057
+    },
+    {
+      "name": "VERSO CORP",
+      "cusip": "92531L207",
+      "shares": 1084779,
+      "value": 12974
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 241252,
+      "value": 12533
+    },
+    {
+      "name": "PARK HOTELS & RESORTS INC",
+      "cusip": "700517105",
+      "shares": 1255588,
+      "value": 12418
+    },
+    {
+      "name": "FLEX LNG LTD",
+      "cusip": "G35947202",
+      "shares": 2628517,
+      "value": 12144
+    },
+    {
+      "name": "EVEREST RE GROUP",
+      "cusip": "G3223R108",
+      "shares": 52041,
+      "value": 10731
+    },
+    {
+      "name": "ADVANTAGE OIL & GAS",
+      "cusip": "00765F101",
+      "shares": 8378711,
+      "value": 10545
+    },
+    {
+      "name": "TOLL BROTHERS INC",
+      "cusip": "889478103",
+      "shares": 320584,
+      "value": 10448
+    },
+    {
+      "name": "RESOLUTE FOREST PRODUCTS",
+      "cusip": "76117W109",
+      "shares": 4813419,
+      "value": 10156
+    },
+    {
+      "name": "CAPITAL PRODUCT PARTNERS LP",
+      "cusip": "Y11082206",
+      "shares": 1076009,
+      "value": 8694
+    },
+    {
+      "name": "ARDMORE SHIPPING CORP",
+      "cusip": "Y0207T100",
+      "shares": 1862326,
+      "value": 8082
+    },
+    {
+      "name": "ALIO GOLD INC",
+      "cusip": "01627X108",
+      "shares": 6241258,
+      "value": 7864
+    },
+    {
+      "name": "CAI INTERNATIONAL INC",
+      "cusip": "12477X106",
+      "shares": 405004,
+      "value": 6747
+    },
+    {
+      "name": "TRITON INTERNATIONAL",
+      "cusip": "G9078F107",
+      "shares": 212603,
+      "value": 6429
+    },
+    {
+      "name": "HAWAIIAN HOLDINGS INC",
+      "cusip": "419879101",
+      "shares": 429098,
+      "value": 6025
+    },
+    {
+      "name": "KB HOME",
+      "cusip": "48666K109",
+      "shares": 175410,
+      "value": 5382
+    },
+    {
+      "name": "BRISTOW GROUP INC",
+      "cusip": "11040G103",
+      "shares": 327828,
+      "value": 4567
+    },
+    {
+      "name": "KIMBALL ELECTRONICS",
+      "cusip": "49428J109",
+      "shares": 314348,
+      "value": 4256
+    },
+    {
+      "name": "GREAT PANTHER MINING LTD",
+      "cusip": "39115V101",
+      "shares": 7493907,
+      "value": 3747
+    },
+    {
+      "name": "EURONAV",
+      "cusip": "B38564108",
+      "shares": 311643,
+      "value": 2540
+    },
+    {
+      "name": "MFA FINANCIAL INC",
+      "cusip": "55272X102",
+      "shares": 1016357,
+      "value": 2531
+    },
+    {
+      "name": "WPX ENERGY INC",
+      "cusip": "98212B103",
+      "shares": 256849,
+      "value": 1639
+    },
+    {
+      "name": "VERITIV CORP",
+      "cusip": "923454102",
+      "shares": 84211,
+      "value": 1428
+    },
+    {
+      "name": "PLATINUM GROUP METALS",
+      "cusip": "72765Q601",
+      "shares": 871277,
+      "value": 1272
+    },
+    {
+      "name": "HUDBAY MINERALS INC",
+      "cusip": "443628102",
+      "shares": 332360,
+      "value": 1007
+    },
+    {
+      "name": "BLUE CAPITAL REINSURANCE",
+      "cusip": "G1190F107",
+      "shares": 559751,
+      "value": 705
+    },
+    {
+      "name": "AVIANCA HOLDINGS",
+      "cusip": "05367G100",
+      "shares": 780323,
+      "value": 273
+    },
+    {
+      "name": "HG HOLDINGS",
+      "cusip": "854305208",
+      "shares": 120892,
+      "value": 78
+    },
+    {
+      "name": "GREAT PANTHER MINING WTS $1.3166 6/27/22",
+      "cusip": "362995391",
+      "shares": 2258112,
+      "value": 51
+    },
+    {
+      "name": "GREAT PANTHER MINING WTS $1.3166 5/17/22",
+      "cusip": "362995409",
+      "shares": 1270188,
+      "value": 25
+    }
+  ],
+  "totalValue": 2030178,
+  "positionsCount": 65
+}

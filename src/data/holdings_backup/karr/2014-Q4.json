@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2014-11-14",
+  "period": "2014-11-14",
+  "accession": "0001172661-14-001848",
+  "quarterKey": "2014-Q4",
+  "positions": [
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 689550,
+      "value": 150480
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 2493530,
+      "value": 87124
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 112964,
+      "value": 65221
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 85964,
+      "value": 50582
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION CO",
+      "cusip": "582839106",
+      "shares": 459900,
+      "value": 44252
+    },
+    {
+      "name": "VIPSHOP HLDGS LTD",
+      "cusip": "92763W103",
+      "shares": 211700,
+      "value": 40013
+    },
+    {
+      "name": "VEECO INSTRS INC DEL",
+      "cusip": "922417100",
+      "shares": 1093387,
+      "value": 38214
+    },
+    {
+      "name": "QUNAR CAYMAN IS LTD",
+      "cusip": "74906P104",
+      "shares": 1011591,
+      "value": 27970
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 625469,
+      "value": 24831
+    },
+    {
+      "name": "21VIANET GROUP INC",
+      "cusip": "90138A103",
+      "shares": 1165292,
+      "value": 20975
+    },
+    {
+      "name": "TARENA INTL INC",
+      "cusip": "876108101",
+      "shares": 1574328,
+      "value": 20356
+    },
+    {
+      "name": "YELP INC",
+      "cusip": "985817105",
+      "shares": 190677,
+      "value": 13014
+    },
+    {
+      "name": "58 COM INC",
+      "cusip": "31680Q104",
+      "shares": 190747,
+      "value": 7105
+    }
+  ],
+  "totalValue": 590137,
+  "positionsCount": 13
+}

@@ -1,4 +1,281 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-14",
-  "positions": []
+  "period": "2023-08-14",
+  "accession": "0001085146-23-003432",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 54000000,
+      "value": 933120000
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 2600000,
+      "value": 624000000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4100000,
+      "value": 534476000
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 13850000,
+      "value": 519375000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1520000,
+      "value": 517620800
+    },
+    {
+      "name": "DUPONT DE NEMOURS INC",
+      "cusip": "26614N102",
+      "shares": 4600000,
+      "value": 328624000
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 2450000,
+      "value": 247254000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2950000,
+      "value": 245882500
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 500000,
+      "value": 211510000
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS&FRAGRA",
+      "cusip": "459506101",
+      "shares": 2650000,
+      "value": 210913500
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 1850000,
+      "value": 209198000
+    },
+    {
+      "name": "FERGUSON PLC NEW",
+      "cusip": "G3421J106",
+      "shares": 1275000,
+      "value": 200570250
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 600000,
+      "value": 182088000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 1425000,
+      "value": 170572500
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 2950000,
+      "value": 169743000
+    },
+    {
+      "name": "JACOBS SOLUTIONS INC",
+      "cusip": "46982L108",
+      "shares": 1354982,
+      "value": 161093810
+    },
+    {
+      "name": "DENBURY INC",
+      "cusip": "24790A101",
+      "shares": 1675000,
+      "value": 144485500
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 1650000,
+      "value": 139095000
+    },
+    {
+      "name": "ADVANCED MICRO DEVICES INC",
+      "cusip": "007903107",
+      "shares": 1200000,
+      "value": 136692000
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J700",
+      "shares": 7319727,
+      "value": 134609780
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 2775000,
+      "value": 119796750
+    },
+    {
+      "name": "OPTION CARE HEALTH INC",
+      "cusip": "68404L201",
+      "shares": 3500000,
+      "value": 113715000
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 625000,
+      "value": 111912500
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1550000,
+      "value": 97636825
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 3318600,
+      "value": 87113250
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 471000,
+      "value": 70419210
+    },
+    {
+      "name": "HORIZON THERAPEUTICS PUB L",
+      "cusip": "G46188101",
+      "shares": 500000,
+      "value": 51425000
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700107",
+      "shares": 8487601,
+      "value": 41419493
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 3000000,
+      "value": 30270000
+    },
+    {
+      "name": "BLACK KNIGHT INC",
+      "cusip": "09215C105",
+      "shares": 455632,
+      "value": 27214899
+    },
+    {
+      "name": "BLUE WHALE ACQUISITION CORP",
+      "cusip": "G1330M103",
+      "shares": 2000000,
+      "value": 20320000
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 300000,
+      "value": 16410000
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A100",
+      "shares": 952000,
+      "value": 9758000
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774107",
+      "shares": 1032463,
+      "value": 3035441
+    },
+    {
+      "name": "NET POWER INC",
+      "cusip": "64107A113",
+      "shares": 500000,
+      "value": 1680000
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774115",
+      "shares": 1835000,
+      "value": 917500
+    },
+    {
+      "name": "COMPUTE HEALTH ACQUISITIN CO",
+      "cusip": "204833115",
+      "shares": 625000,
+      "value": 312500
+    },
+    {
+      "name": "TMC THE METALS COMPANY INC",
+      "cusip": "87261Y114",
+      "shares": 1000000,
+      "value": 195900
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700115",
+      "shares": 1333333,
+      "value": 150000
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A118",
+      "shares": 367499,
+      "value": 111756
+    },
+    {
+      "name": "BLUESCAPE OPPORTUNITIES ACQU",
+      "cusip": "G1195N113",
+      "shares": 1000000,
+      "value": 54000
+    },
+    {
+      "name": "JAWS MUSTANG ACQUISITION COR",
+      "cusip": "G50737124",
+      "shares": 1000000,
+      "value": 50000
+    },
+    {
+      "name": "BLUE WHALE ACQUISITION CORP",
+      "cusip": "G1330M129",
+      "shares": 500000,
+      "value": 48150
+    },
+    {
+      "name": "SOCIAL LEVERAGE ACQUISN CORP",
+      "cusip": "83363K110",
+      "shares": 250000,
+      "value": 47500
+    },
+    {
+      "name": "DISRUPTIVE ACQUISITION CORP",
+      "cusip": "G2770Y128",
+      "shares": 333333,
+      "value": 30600
+    }
+  ],
+  "totalValue": 6824967914,
+  "positionsCount": 45
 }

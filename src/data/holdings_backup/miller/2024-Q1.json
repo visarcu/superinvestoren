@@ -1,0 +1,263 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0001085146-24-001377",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 496000,
+      "value": 11566720
+    },
+    {
+      "name": "WESTERN ALLIANCE BANCORP",
+      "cusip": "957638109",
+      "shares": 174640,
+      "value": 11489566
+    },
+    {
+      "name": "PROSHARES TR",
+      "cusip": "74347X864",
+      "shares": 186950,
+      "value": 10233643
+    },
+    {
+      "name": "JACKSON FINANCIAL INC",
+      "cusip": "46817M107",
+      "shares": 199755,
+      "value": 10227456
+    },
+    {
+      "name": "BREAD FINANCIAL HOLDINGS INC",
+      "cusip": "018581108",
+      "shares": 307865,
+      "value": 10141073
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 552000,
+      "value": 9262560
+    },
+    {
+      "name": "QUAD / GRAPHICS INC",
+      "cusip": "747301109",
+      "shares": 1600750,
+      "value": 8676065
+    },
+    {
+      "name": "ONEMAIN HLDGS INC",
+      "cusip": "68268W103",
+      "shares": 162000,
+      "value": 7970400
+    },
+    {
+      "name": "BUCKLE INC",
+      "cusip": "118440106",
+      "shares": 165000,
+      "value": 7840800
+    },
+    {
+      "name": "VIATRIS INC",
+      "cusip": "92556V106",
+      "shares": 711500,
+      "value": 7705545
+    },
+    {
+      "name": "CTO RLTY GROWTH INC NEW",
+      "cusip": "22948Q101",
+      "shares": 428900,
+      "value": 7432837
+    },
+    {
+      "name": "GANNETT CO INC",
+      "cusip": "36472T109",
+      "shares": 2494025,
+      "value": 5736257
+    },
+    {
+      "name": "NABORS INDUSTRIES LTD",
+      "cusip": "G6359F137",
+      "shares": 65611,
+      "value": 5355826
+    },
+    {
+      "name": "ENCORE WIRE CORP",
+      "cusip": "292562105",
+      "shares": 24300,
+      "value": 5190480
+    },
+    {
+      "name": "MICROSTRATEGY INC",
+      "cusip": "594972AC5",
+      "shares": 3100000,
+      "value": 5103530
+    },
+    {
+      "name": "MEDICAL PPTYS TRUST INC",
+      "cusip": "58463J304",
+      "shares": 991000,
+      "value": 4865810
+    },
+    {
+      "name": "GEO GROUP INC NEW",
+      "cusip": "36162J106",
+      "shares": 383000,
+      "value": 4147890
+    },
+    {
+      "name": "GRAY TELEVISION INC",
+      "cusip": "389375106",
+      "shares": 404048,
+      "value": 3620270
+    },
+    {
+      "name": "ALLIANCE RESOURCE PARTNERS L",
+      "cusip": "01877R108",
+      "shares": 149000,
+      "value": 3155820
+    },
+    {
+      "name": "BLOCK H & R INC",
+      "cusip": "093671105",
+      "shares": 63000,
+      "value": 3047310
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 42100,
+      "value": 2829962
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 724600,
+      "value": 2644790
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 13000,
+      "value": 2170220
+    },
+    {
+      "name": "TUTOR PERINI CORP",
+      "cusip": "901109108",
+      "shares": 228715,
+      "value": 2081306
+    },
+    {
+      "name": "CROCS INC",
+      "cusip": "227046109",
+      "shares": 20500,
+      "value": 1914905
+    },
+    {
+      "name": "AMERICAN AXLE & MFG HLDGS IN",
+      "cusip": "024061103",
+      "shares": 208565,
+      "value": 1837458
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 22000,
+      "value": 1632620
+    },
+    {
+      "name": "MASTERBRAND INC",
+      "cusip": "57638P104",
+      "shares": 105000,
+      "value": 1559250
+    },
+    {
+      "name": "FOSSIL GROUP INC",
+      "cusip": "34988V106",
+      "shares": 997825,
+      "value": 1456824
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "G87110105",
+      "shares": 43585,
+      "value": 877802
+    },
+    {
+      "name": "AIRBNB INC",
+      "cusip": "009066101",
+      "shares": 6000,
+      "value": 816840
+    },
+    {
+      "name": "BEAZER HOMES USA INC",
+      "cusip": "07556Q881",
+      "shares": 23000,
+      "value": 777170
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 5000,
+      "value": 758950
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2000,
+      "value": 658560
+    },
+    {
+      "name": "BOISE CASCADE CO DEL",
+      "cusip": "09739D100",
+      "shares": 5000,
+      "value": 646800
+    },
+    {
+      "name": "ATKORE INC",
+      "cusip": "047649108",
+      "shares": 4000,
+      "value": 640000
+    },
+    {
+      "name": "PERDOCEO ED CORP",
+      "cusip": "71363P106",
+      "shares": 35000,
+      "value": 614600
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 14000,
+      "value": 511000
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 4500,
+      "value": 427860
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 6100,
+      "value": 404186
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479100",
+      "shares": 42834,
+      "value": 188470
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 13400,
+      "value": 139896
+    }
+  ],
+  "totalValue": 168359327,
+  "positionsCount": 42
+}

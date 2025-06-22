@@ -1,0 +1,239 @@
+{
+  "form": "13F-HR",
+  "date": "2015-11-04",
+  "period": "2015-11-04",
+  "accession": "0001352269-15-000009",
+  "quarterKey": "2015-Q4",
+  "positions": [
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 518013,
+      "value": 323851
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 4695086,
+      "value": 314946
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 4367734,
+      "value": 246384
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P706",
+      "shares": 370365,
+      "value": 231544
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 3364576,
+      "value": 225696
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1895392,
+      "value": 207962
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PUBLIC",
+      "cusip": "G96666105",
+      "shares": 4843582,
+      "value": 198442
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 3533342,
+      "value": 193980
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1290403,
+      "value": 177314
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 3132139,
+      "value": 176684
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 3475532,
+      "value": 154105
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1359405,
+      "value": 149154
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 618440,
+      "value": 145327
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PUBLIC",
+      "cusip": "G96666105",
+      "shares": 3477903,
+      "value": 142490
+    },
+    {
+      "name": "HARLEY DAVIDSON INC",
+      "cusip": "412822108",
+      "shares": 2530491,
+      "value": 138924
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 926724,
+      "value": 127341
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 1330149,
+      "value": 124156
+    },
+    {
+      "name": "SENSATA TECHNOLOGIES HLDG NV",
+      "cusip": "N7902X106",
+      "shares": 2493970,
+      "value": 110583
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 440700,
+      "value": 103560
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 480120,
+      "value": 103231
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 1115638,
+      "value": 96503
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1233950,
+      "value": 91473
+    },
+    {
+      "name": "SIRONA DENTAL SYSTEMS INC",
+      "cusip": "82966C103",
+      "shares": 951378,
+      "value": 88802
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 934206,
+      "value": 86638
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 1317225,
+      "value": 80390
+    },
+    {
+      "name": "GRAINGER W W INC",
+      "cusip": "384802104",
+      "shares": 343808,
+      "value": 73922
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 802361,
+      "value": 69404
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 909031,
+      "value": 69186
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 881000,
+      "value": 65309
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 665831,
+      "value": 61749
+    },
+    {
+      "name": "MSC INDL DIRECT INC",
+      "cusip": "553530106",
+      "shares": 944319,
+      "value": 57632
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 257930,
+      "value": 50779
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "N20146101",
+      "shares": 651172,
+      "value": 49561
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 183668,
+      "value": 36159
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 7172369,
+      "value": 35145
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 1160089,
+      "value": 34536
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 5128209,
+      "value": 25128
+    },
+    {
+      "name": "BITAUTO HLDGS LTD",
+      "cusip": "091727107",
+      "shares": 830785,
+      "value": 24732
+    }
+  ],
+  "totalValue": 4692722,
+  "positionsCount": 38
+}

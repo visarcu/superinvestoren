@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001387131-19-008675",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 364700,
+      "value": 19362
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 360170,
+      "value": 19121
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 7920,
+      "value": 13748
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 7820,
+      "value": 13575
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 44485,
+      "value": 11905
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 43890,
+      "value": 11746
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 381275,
+      "value": 10237
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 376625,
+      "value": 10112
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 317700,
+      "value": 8076
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 313772,
+      "value": 7976
+    },
+    {
+      "name": "ALPHABET INC CAP STK",
+      "cusip": "02079KAB3",
+      "shares": 6415,
+      "value": 7834
+    },
+    {
+      "name": "ALPHABET INC CAP STK",
+      "cusip": "02079KAB3",
+      "shares": 6320,
+      "value": 7718
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 26305,
+      "value": 4684
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 25975,
+      "value": 4626
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 25900,
+      "value": 2953
+    },
+    {
+      "name": "STITCH FIX INC",
+      "cusip": "860897107",
+      "shares": 153200,
+      "value": 2949
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 25605,
+      "value": 2919
+    },
+    {
+      "name": "STITCH FIX INC",
+      "cusip": "860897107",
+      "shares": 151280,
+      "value": 2912
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC COM",
+      "cusip": "83088V102",
+      "shares": 120925,
+      "value": 2870
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC COM",
+      "cusip": "83088V102",
+      "shares": 119120,
+      "value": 2827
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184LAD4",
+      "shares": 44700,
+      "value": 1842
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184LAD4",
+      "shares": 44050,
+      "value": 1815
+    }
+  ],
+  "totalValue": 171807,
+  "positionsCount": 22
+}

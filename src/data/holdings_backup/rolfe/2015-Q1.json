@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-17",
+  "period": "2015-02-17",
+  "accession": "0000859804-15-000005",
+  "quarterKey": "2015-Q1",
+  "positions": [
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 8253896,
+      "value": 613512
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 3997425,
+      "value": 600213
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219108",
+      "shares": 6620076,
+      "value": 560522
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 9901736,
+      "value": 521425
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 4314062,
+      "value": 476186
+    },
+    {
+      "name": "M&T BANK",
+      "cusip": "55261104",
+      "shares": 3043781,
+      "value": 382360
+    },
+    {
+      "name": "COACH",
+      "cusip": "189754104",
+      "shares": 9961501,
+      "value": 374154
+    },
+    {
+      "name": "STERICYCLE",
+      "cusip": "858912108",
+      "shares": 2835367,
+      "value": 371660
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 4138543,
+      "value": 353473
+    },
+    {
+      "name": "NATIONAL-OILWELL VARCO",
+      "cusip": "637071101",
+      "shares": 4746336,
+      "value": 311027
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826839",
+      "shares": 1114817,
+      "value": 292305
+    },
+    {
+      "name": "VARIAN MEDICAL SYSTEMS",
+      "cusip": "92220105",
+      "shares": 3186216,
+      "value": 275640
+    },
+    {
+      "name": "CORE LABORATORIES N V F",
+      "cusip": "22717107",
+      "shares": 2220875,
+      "value": 267260
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 9422474,
+      "value": 264960
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345106",
+      "shares": 4107630,
+      "value": 263094
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 2615792,
+      "value": 262992
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 222481,
+      "value": 253675
+    },
+    {
+      "name": "PERRIGO",
+      "cusip": "97822103",
+      "shares": 1455681,
+      "value": 243332
+    },
+    {
+      "name": "EMC CORP",
+      "cusip": "268648102",
+      "shares": 7995923,
+      "value": 237799
+    },
+    {
+      "name": "CUMMINS",
+      "cusip": "231021106",
+      "shares": 1563820,
+      "value": 225456
+    },
+    {
+      "name": "GOOGLE INC CLASS A VTG VOTING",
+      "cusip": "38259508",
+      "shares": 311757,
+      "value": 165437
+    },
+    {
+      "name": "GOOGLE",
+      "cusip": "38259706",
+      "shares": 190850,
+      "value": 100463
+    }
+  ],
+  "totalValue": 7416945,
+  "positionsCount": 22
+}

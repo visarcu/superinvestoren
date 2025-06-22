@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2021-05-17",
+  "period": "2021-05-17",
+  "accession": "0001647251-21-000005",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 10252881,
+      "value": 6326233
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2952307,
+      "value": 6107231
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 20483405,
+      "value": 4829372
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 11172077,
+      "value": 4260709
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 14057890,
+      "value": 2976477
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 20773418,
+      "value": 2410839
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 5853460,
+      "value": 2065510
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 6562790,
+      "value": 1959715
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 6016539,
+      "value": 1326105
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 618021,
+      "value": 1274681
+    },
+    {
+      "name": "BOSTON PROPERTIES INC",
+      "cusip": "101121101",
+      "shares": 8753638,
+      "value": 886393
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 17300,
+      "value": 10298
+    },
+    {
+      "name": "KLA CORP",
+      "cusip": "482480100",
+      "shares": 30600,
+      "value": 10110
+    }
+  ],
+  "totalValue": 34443673,
+  "positionsCount": 13
+}

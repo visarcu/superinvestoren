@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2014-08-14",
+  "period": "2014-08-14",
+  "accession": "0001418812-14-000047",
+  "quarterKey": "2014-Q3",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 74236642,
+      "value": 3095668
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 18923877,
+      "value": 2386679
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 28907623,
+      "value": 1924380
+    },
+    {
+      "name": "ADOBE SYSTEMS INC",
+      "cusip": "00724F101",
+      "shares": 24560116,
+      "value": 1777170
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 32165849,
+      "value": 1030594
+    },
+    {
+      "name": "ROCKWELL COLLINS INC",
+      "cusip": "774341101",
+      "shares": 12011700,
+      "value": 938594
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC",
+      "cusip": "G96666105",
+      "shares": 18422600,
+      "value": 797699
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 18025204,
+      "value": 560584
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 9341288,
+      "value": 428298
+    },
+    {
+      "name": "DRESSER-RAND GROUP INC",
+      "cusip": "261608103",
+      "shares": 4358408,
+      "value": 277761
+    },
+    {
+      "name": "ARMSTRONG WORLD INDUSTRIES",
+      "cusip": "04247X102",
+      "shares": 2700000,
+      "value": 155061
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX",
+      "cusip": "90130A200",
+      "shares": 2663083,
+      "value": 91157
+    },
+    {
+      "name": "EXPEDITORS INTL WASH INC",
+      "cusip": "302130109",
+      "shares": 905364,
+      "value": 39981
+    },
+    {
+      "name": "KAR AUCTION SERVICES INC",
+      "cusip": "48238T109",
+      "shares": 803628,
+      "value": 25612
+    }
+  ],
+  "totalValue": 13529238,
+  "positionsCount": 14
+}

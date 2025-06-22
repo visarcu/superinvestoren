@@ -1,0 +1,455 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-09",
+  "period": "2025-05-09",
+  "accession": "0001085146-25-002887",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 3967911,
+      "value": 664347339
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1140469,
+      "value": 579472299
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1266415,
+      "value": 443827801
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2738238,
+      "value": 423441124
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 2338963,
+      "value": 391612575
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 2897602,
+      "value": 378948390
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 2168419,
+      "value": 374052278
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 2072261,
+      "value": 343145699
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 672295,
+      "value": 341593090
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 1470785,
+      "value": 325852417
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 807526,
+      "value": 322275551
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 819809,
+      "value": 307748101
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 1837896,
+      "value": 305090736
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 1408914,
+      "value": 284135686
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 567328,
+      "value": 282302413
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 1931720,
+      "value": 280331206
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1119896,
+      "value": 272761870
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 1021831,
+      "value": 271081546
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 746557,
+      "value": 261638366
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 1188544,
+      "value": 258627174
+    },
+    {
+      "name": "BLACKROCK INC",
+      "cusip": "09290D101",
+      "shares": 270919,
+      "value": 256419415
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 1614190,
+      "value": 249618342
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 3339827,
+      "value": 243339795
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 1816963,
+      "value": 237259029
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 2023984,
+      "value": 236765648
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 3009779,
+      "value": 233408361
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 2766334,
+      "value": 231071879
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 1708163,
+      "value": 223393557
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 1261056,
+      "value": 222324173
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 1278277,
+      "value": 220502783
+    },
+    {
+      "name": "FERGUSON ENTERPRISES INC",
+      "cusip": "31488V107",
+      "shares": 1289346,
+      "value": 206591910
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1221565,
+      "value": 202278948
+    },
+    {
+      "name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "shares": 867013,
+      "value": 192086730
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 500831,
+      "value": 192083713
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 476022,
+      "value": 189975620
+    },
+    {
+      "name": "BLACKROCK INC",
+      "cusip": "09290D101",
+      "shares": 196935,
+      "value": 186395039
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 483281,
+      "value": 181418855
+    },
+    {
+      "name": "YUM BRANDS INC",
+      "cusip": "988498101",
+      "shares": 1147871,
+      "value": 180628981
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 1083440,
+      "value": 179851040
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 709065,
+      "value": 179762159
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 830547,
+      "value": 167496413
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 334445,
+      "value": 166419832
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 1138710,
+      "value": 165249595
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 660171,
+      "value": 160791249
+    },
+    {
+      "name": "TENCENT MUSIC ENTMT GROUP",
+      "cusip": "88034P109",
+      "shares": 11141434,
+      "value": 160548064
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 602375,
+      "value": 159804064
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 2273278,
+      "value": 159606848
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 700646,
+      "value": 152460570
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 1968632,
+      "value": 143434528
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 1071109,
+      "value": 139865413
+    },
+    {
+      "name": "ENTEGRIS INC",
+      "cusip": "29362U104",
+      "shares": 1596825,
+      "value": 139690251
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 1193085,
+      "value": 139567083
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 1774269,
+      "value": 137594561
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 1630813,
+      "value": 136221810
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 289313,
+      "value": 134730171
+    },
+    {
+      "name": "TRIP COM GROUP LTD",
+      "cusip": "89677Q107",
+      "shares": 2071095,
+      "value": 131680220
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 743378,
+      "value": 131057541
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 789221,
+      "value": 129945238
+    },
+    {
+      "name": "FERGUSON ENTERPRISES INC",
+      "cusip": "31488V107",
+      "shares": 760065,
+      "value": 121785215
+    },
+    {
+      "name": "TENCENT MUSIC ENTMT GROUP",
+      "cusip": "88034P109",
+      "shares": 8098885,
+      "value": 116704933
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 296055,
+      "value": 113545974
+    },
+    {
+      "name": "TRADEWEB MKTS INC",
+      "cusip": "892672106",
+      "shares": 731789,
+      "value": 108641395
+    },
+    {
+      "name": "YUM BRANDS INC",
+      "cusip": "988498101",
+      "shares": 676693,
+      "value": 106484410
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 418011,
+      "value": 105974149
+    },
+    {
+      "name": "TRIP COM GROUP LTD",
+      "cusip": "89677Q107",
+      "shares": 1505718,
+      "value": 95733550
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 1340114,
+      "value": 94089404
+    },
+    {
+      "name": "ALCON AG",
+      "cusip": "H01301128",
+      "shares": 921312,
+      "value": 87460148
+    },
+    {
+      "name": "ENTEGRIS INC",
+      "cusip": "29362U104",
+      "shares": 941350,
+      "value": 82349298
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 170544,
+      "value": 79420635
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 559163,
+      "value": 78176579
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 465244,
+      "value": 76602425
+    },
+    {
+      "name": "TRADEWEB MKTS INC",
+      "cusip": "892672106",
+      "shares": 431411,
+      "value": 64047277
+    },
+    {
+      "name": "ALCON AG",
+      "cusip": "H01301128",
+      "shares": 543221,
+      "value": 51567970
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 329632,
+      "value": 46085850
+    }
+  ],
+  "totalValue": 15442294301,
+  "positionsCount": 74
+}

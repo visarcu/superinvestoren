@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-16",
+  "period": "2016-02-16",
+  "accession": "0000859804-16-000016",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 4192862,
+      "value": 553625
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 4835680,
+      "value": 509003
+    },
+    {
+      "name": "EXPRESS SCRIPTS",
+      "cusip": "30219108",
+      "shares": 5120114,
+      "value": 447549
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 8444517,
+      "value": 422099
+    },
+    {
+      "name": "M&T BANK",
+      "cusip": "55261104",
+      "shares": 3071234,
+      "value": 372172
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 6024952,
+      "value": 361617
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 4757412,
+      "value": 331829
+    },
+    {
+      "name": "PERRIGO",
+      "cusip": "97822103",
+      "shares": 2113216,
+      "value": 305782
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 230990,
+      "value": 294500
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345106",
+      "shares": 3562860,
+      "value": 273912
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 8962062,
+      "value": 265545
+    },
+    {
+      "name": "STERICYCLE",
+      "cusip": "858912108",
+      "shares": 2161249,
+      "value": 260646
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 3137622,
+      "value": 247715
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826839",
+      "shares": 3193704,
+      "value": 247671
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079305",
+      "shares": 310914,
+      "value": 241894
+    },
+    {
+      "name": "KRAFT HEINZ",
+      "cusip": "500754106",
+      "shares": 3280187,
+      "value": 238666
+    },
+    {
+      "name": "CORE LABS",
+      "cusip": "22717107",
+      "shares": 1935874,
+      "value": 210506
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450103",
+      "shares": 4782121,
+      "value": 173112
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079107",
+      "shares": 68508,
+      "value": 51989
+    },
+    {
+      "name": "COACH",
+      "cusip": "189754104",
+      "shares": 115651,
+      "value": 3785
+    },
+    {
+      "name": "EMC CORP",
+      "cusip": "268648102",
+      "shares": 128440,
+      "value": 3298
+    },
+    {
+      "name": "VARIAN MEDICAL SYSTEMS",
+      "cusip": "92220P105",
+      "shares": 31700,
+      "value": 2561
+    },
+    {
+      "name": "NATIONAL-OILWELL VARCO",
+      "cusip": "637071101",
+      "shares": 69450,
+      "value": 2325
+    },
+    {
+      "name": "CUMMINS",
+      "cusip": "231021106",
+      "shares": 17175,
+      "value": 1511
+    }
+  ],
+  "totalValue": 5823312,
+  "positionsCount": 24
+}

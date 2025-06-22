@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2023-02-13",
+  "period": "2023-02-13",
+  "accession": "0001172661-23-000762",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 4031749,
+      "value": 179009656
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 2733045,
+      "value": 142200331
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 6328272,
+      "value": 93088896
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 622680,
+      "value": 78681845
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 195381,
+      "value": 76046193
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 322082,
+      "value": 46231650
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 9928162,
+      "value": 14296553
+    }
+  ],
+  "totalValue": 629555124,
+  "positionsCount": 7
+}

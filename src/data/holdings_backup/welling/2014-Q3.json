@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2014-08-14",
+  "period": "2014-08-14",
+  "accession": "0000921895-14-001879",
+  "quarterKey": "2014-Q3",
+  "positions": [
+    {
+      "name": "VOLCANO CORPORATION",
+      "cusip": "928645100",
+      "shares": 2017403,
+      "value": 35526
+    },
+    {
+      "name": "RENTECH INC",
+      "cusip": "760112102",
+      "shares": 7442412,
+      "value": 19276
+    },
+    {
+      "name": "MEDIFAST INC",
+      "cusip": "58470H101",
+      "shares": 558000,
+      "value": 16969
+    },
+    {
+      "name": "OPLINK COMMUNICATIONS INC",
+      "cusip": "68375Q403",
+      "shares": 863468,
+      "value": 14653
+    },
+    {
+      "name": "ABERCROMBIE & FITCH CO",
+      "cusip": "002896207",
+      "shares": 296296,
+      "value": 12815
+    },
+    {
+      "name": "PAREXEL INTL CORP",
+      "cusip": "699462107",
+      "shares": 232157,
+      "value": 12267
+    },
+    {
+      "name": "SILICON IMAGE INC",
+      "cusip": "82705T102",
+      "shares": 2100227,
+      "value": 10585
+    },
+    {
+      "name": "ROVI CORP",
+      "cusip": "779376102",
+      "shares": 389472,
+      "value": 9332
+    },
+    {
+      "name": "JAMBA INC",
+      "cusip": "47023A309",
+      "shares": 712464,
+      "value": 8621
+    },
+    {
+      "name": "GLOBAL BRASS & COPPR HLDGS I",
+      "cusip": "37953G103",
+      "shares": 100380,
+      "value": 1696
+    },
+    {
+      "name": "UTI WORLDWIDE INC",
+      "cusip": "G87210103",
+      "shares": 155011,
+      "value": 1603
+    },
+    {
+      "name": "AEROVIRONMENT INC",
+      "cusip": "008073108",
+      "shares": 25000,
+      "value": 795
+    }
+  ],
+  "totalValue": 144138,
+  "positionsCount": 12
+}

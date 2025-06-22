@@ -1,4 +1,83 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-15",
-  "positions": []
+  "period": "2024-05-15",
+  "accession": "0001858353-24-000003",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "FIRSTCASH HOLDINGS INC",
+      "cusip": "33768G107",
+      "shares": 280945,
+      "value": 35831725
+    },
+    {
+      "name": "DAKTRONICS INC",
+      "cusip": "234264109",
+      "shares": 1468557,
+      "value": 14626828
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 77400,
+      "value": 11681982
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 66515,
+      "value": 11441245
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 249741,
+      "value": 9442707
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 51852,
+      "value": 9353064
+    },
+    {
+      "name": "WILLSCOT MOBIL MINI HLDNG CO",
+      "cusip": "971378104",
+      "shares": 190500,
+      "value": 8858250
+    },
+    {
+      "name": "REV GROUP INC",
+      "cusip": "749527107",
+      "shares": 285084,
+      "value": 6297506
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 13000,
+      "value": 6260410
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 14600,
+      "value": 6142512
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 25922,
+      "value": 5529422
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 21200,
+      "value": 5348972
+    }
+  ],
+  "totalValue": 130814623,
+  "positionsCount": 12
 }

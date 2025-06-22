@@ -1,0 +1,137 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-15",
+  "period": "2023-05-15",
+  "accession": "0001539497-23-000903",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 144151837,
+      "value": 7454091
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 69901393,
+      "value": 3614601
+    },
+    {
+      "name": "CVR Energy Inc",
+      "cusip": "12662P108",
+      "shares": 71198718,
+      "value": 2333894
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 41166410,
+      "value": 2128715
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 33598742,
+      "value": 1737391
+    },
+    {
+      "name": "FirstEnergy Corp",
+      "cusip": "337932107",
+      "shares": 18967757,
+      "value": 759848
+    },
+    {
+      "name": "Occidental Petroleum Corp Wts",
+      "cusip": "674599162",
+      "shares": 16485432,
+      "value": 675903
+    },
+    {
+      "name": "Southwest Gas Holdings Inc",
+      "cusip": "844895102",
+      "shares": 10520600,
+      "value": 657011
+    },
+    {
+      "name": "Icahn Enterprises LP",
+      "cusip": "451100101",
+      "shares": 11179242,
+      "value": 578079
+    },
+    {
+      "name": "Xerox Holdings Corp",
+      "cusip": "98421M106",
+      "shares": 34245314,
+      "value": 527378
+    },
+    {
+      "name": "Newell Brands, Inc",
+      "cusip": "651229106",
+      "shares": 29985763,
+      "value": 373023
+    },
+    {
+      "name": "Bausch Health Companies Inc",
+      "cusip": "071734107",
+      "shares": 34721118,
+      "value": 281241
+    },
+    {
+      "name": "Dana Inc",
+      "cusip": "235825205",
+      "shares": 14286505,
+      "value": 215012
+    },
+    {
+      "name": "Cheniere Energy Inc",
+      "cusip": "16411R208",
+      "shares": 1000000,
+      "value": 157600
+    },
+    {
+      "name": "Conduent Inc",
+      "cusip": "206787103",
+      "shares": 38149336,
+      "value": 130852
+    },
+    {
+      "name": "Illumina Inc",
+      "cusip": "452327109",
+      "shares": 430000,
+      "value": 99997
+    },
+    {
+      "name": "Crown Holdings Inc",
+      "cusip": "228368106",
+      "shares": 1040100,
+      "value": 86027
+    },
+    {
+      "name": "SandRidge Energy, Inc",
+      "cusip": "80007P869",
+      "shares": 4818832,
+      "value": 69439
+    },
+    {
+      "name": "Bausch Plus Lomb Corp",
+      "cusip": "071705107",
+      "shares": 3500000,
+      "value": 60935
+    },
+    {
+      "name": "International Flavors and Fragrances Inc",
+      "cusip": "459506101",
+      "shares": 644510,
+      "value": 59269
+    },
+    {
+      "name": "Herc Holdings Inc",
+      "cusip": "42704L104",
+      "shares": 230160,
+      "value": 26215
+    }
+  ],
+  "totalValue": 22026521,
+  "positionsCount": 21
+}

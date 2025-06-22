@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001567619-19-021303",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "GAMESTOP CORP NEW",
+      "cusip": "36467W109",
+      "shares": 3000000,
+      "value": 16560
+    },
+    {
+      "name": "TAILORED BRANDS INC",
+      "cusip": "87403A107",
+      "shares": 2875000,
+      "value": 12650
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 8000,
+      "value": 9752
+    },
+    {
+      "name": "SPORTSMANS WHSE HLDGS INC",
+      "cusip": "84920Y106",
+      "shares": 1625000,
+      "value": 8418
+    },
+    {
+      "name": "BED BATH & BEYOND INC",
+      "cusip": "075896100",
+      "shares": 750000,
+      "value": 7980
+    },
+    {
+      "name": "CANADIAN NAT RES LTD",
+      "cusip": "136385101",
+      "shares": 150000,
+      "value": 3995
+    },
+    {
+      "name": "NUVECTRA CORP",
+      "cusip": "67075N108",
+      "shares": 193491,
+      "value": 263
+    }
+  ],
+  "totalValue": 59618,
+  "positionsCount": 7
+}

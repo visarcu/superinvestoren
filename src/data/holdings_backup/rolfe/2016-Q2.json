@@ -1,0 +1,233 @@
+{
+  "form": "13F-HR",
+  "date": "2016-05-16",
+  "period": "2016-05-16",
+  "accession": "0000859804-16-000020",
+  "quarterKey": "2016-Q2",
+  "positions": [
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 4972136,
+      "value": 541913
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 3762367,
+      "value": 533804
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 6018418,
+      "value": 377354
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 280581,
+      "value": 361657
+    },
+    {
+      "name": "STERICYCLE",
+      "cusip": "858912108",
+      "shares": 2697212,
+      "value": 340361
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 4374627,
+      "value": 322628
+    },
+    {
+      "name": "KRAFT HEINZ",
+      "cusip": "500754106",
+      "shares": 4051880,
+      "value": 318315
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 5949806,
+      "value": 304273
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 8613464,
+      "value": 275027
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345106",
+      "shares": 3436385,
+      "value": 274635
+    },
+    {
+      "name": "EXPRESS SCRIPTS",
+      "cusip": "30219108",
+      "shares": 3987074,
+      "value": 273872
+    },
+    {
+      "name": "PERRIGO",
+      "cusip": "97822103",
+      "shares": 2077826,
+      "value": 265816
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 2859884,
+      "value": 243004
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826839",
+      "shares": 3080283,
+      "value": 235580
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079305",
+      "shares": 291498,
+      "value": 222384
+    },
+    {
+      "name": "CORE LABS",
+      "cusip": "22717107",
+      "shares": 1953265,
+      "value": 219566
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450103",
+      "shares": 4764395,
+      "value": 183905
+    },
+    {
+      "name": "CHARLES SCHWAB",
+      "cusip": "808513105",
+      "shares": 5745873,
+      "value": 160999
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079107",
+      "shares": 53196,
+      "value": 39628
+    },
+    {
+      "name": "US BANCORP DEL COM NEW",
+      "cusip": "902973304",
+      "shares": 113760,
+      "value": 4617
+    },
+    {
+      "name": "COACH",
+      "cusip": "189754104",
+      "shares": 63925,
+      "value": 2562
+    },
+    {
+      "name": "NATIONAL-OILWELL VARCO",
+      "cusip": "637071101",
+      "shares": 65625,
+      "value": 2040
+    },
+    {
+      "name": "AMEREN CORP",
+      "cusip": "023608102",
+      "shares": 32529,
+      "value": 1629
+    },
+    {
+      "name": "BLACKSTONE GROUP LP COMUNIT LT",
+      "cusip": "09253108",
+      "shares": 39925,
+      "value": 1119
+    },
+    {
+      "name": "CONSOLIDATED EDISON INC",
+      "cusip": "209115104",
+      "shares": 14250,
+      "value": 1091
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS",
+      "cusip": "92343104",
+      "shares": 19200,
+      "value": 1038
+    },
+    {
+      "name": "PAYCHEX INC COM",
+      "cusip": "704326107",
+      "shares": 18150,
+      "value": 980
+    },
+    {
+      "name": "EMC CORP",
+      "cusip": "268648102",
+      "shares": 31200,
+      "value": 831
+    },
+    {
+      "name": "ANNALY CAP MGMT INC COM",
+      "cusip": "035710409",
+      "shares": 75750,
+      "value": 777
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 5650,
+      "value": 630
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 5250,
+      "value": 568
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206102",
+      "shares": 11416,
+      "value": 447
+    },
+    {
+      "name": "VARIAN MEDICAL SYSTEMS",
+      "cusip": "92220P105",
+      "shares": 5075,
+      "value": 406
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 3300,
+      "value": 338
+    },
+    {
+      "name": "M&T BANK",
+      "cusip": "55261F104",
+      "shares": 2711,
+      "value": 301
+    },
+    {
+      "name": "MANNING & NAPIER INC CL A",
+      "cusip": "56382102",
+      "shares": 33750,
+      "value": 272
+    },
+    {
+      "name": "JACOBS ENGR GROUP INC DEL COM",
+      "cusip": "469814107",
+      "shares": 5000,
+      "value": 217
+    }
+  ],
+  "totalValue": 5514584,
+  "positionsCount": 37
+}

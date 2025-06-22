@@ -1,0 +1,191 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-15",
+  "period": "2022-08-15",
+  "accession": "0000902664-22-003974",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 8977525,
+      "value": 953503
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3481673,
+      "value": 894198
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 5009631,
+      "value": 807803
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 8934961,
+      "value": 730433
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 5019190,
+      "value": 700579
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 1292399,
+      "value": 614562
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 22221713,
+      "value": 598209
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 932292,
+      "value": 506496
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1544912,
+      "value": 487389
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 2161028,
+      "value": 425485
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 2289151,
+      "value": 422303
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 237161,
+      "value": 414792
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 800312,
+      "value": 411064
+    },
+    {
+      "name": "DICKS SPORTING GOODS INC",
+      "cusip": "253393102",
+      "shares": 5015154,
+      "value": 377992
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 1773069,
+      "value": 376352
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 171991,
+      "value": 374813
+    },
+    {
+      "name": "EPAM SYS INC",
+      "cusip": "29414B104",
+      "shares": 1266683,
+      "value": 373393
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 1619172,
+      "value": 303433
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 4289025,
+      "value": 299546
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 6352146,
+      "value": 218514
+    },
+    {
+      "name": "MARQETA INC",
+      "cusip": "57142B104",
+      "shares": 16609826,
+      "value": 134706
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 91634,
+      "value": 59908
+    },
+    {
+      "name": "SWEETGREEN INC",
+      "cusip": "87043Q108",
+      "shares": 4556503,
+      "value": 53083
+    },
+    {
+      "name": "AVIDXCHANGE HOLDINGS INC",
+      "cusip": "05368X102",
+      "shares": 5080632,
+      "value": 31195
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 42616,
+      "value": 17085
+    },
+    {
+      "name": "VTEX",
+      "cusip": "G9470A102",
+      "shares": 5274887,
+      "value": 16247
+    },
+    {
+      "name": "GROVE COLLABORATIVE HOLD INC",
+      "cusip": "39957D102",
+      "shares": 500000,
+      "value": 2315
+    },
+    {
+      "name": "PROSHARES TR II",
+      "cusip": "74347Y854",
+      "shares": 100000,
+      "value": 1825
+    },
+    {
+      "name": "BLOCK INC",
+      "cusip": "852234103",
+      "shares": 23787,
+      "value": 1462
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 25000,
+      "value": 781
+    }
+  ],
+  "totalValue": 10609466,
+  "positionsCount": 30
+}

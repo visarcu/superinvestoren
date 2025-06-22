@@ -1,0 +1,185 @@
+{
+  "form": "13F-HR",
+  "date": "2023-05-15",
+  "period": "2023-05-15",
+  "accession": "0000902664-23-003075",
+  "quarterKey": "2023-Q2",
+  "positions": [
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 4266760,
+      "value": 881256610
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2679232,
+      "value": 772422586
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 8183930,
+      "value": 761269169
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 19565935,
+      "value": 715721902
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 6605311,
+      "value": 682262573
+    },
+    {
+      "name": "DICKS SPORTING GOODS INC",
+      "cusip": "253393102",
+      "shares": 4566026,
+      "value": 647873429
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 204600,
+      "value": 542683086
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 698848,
+      "value": 515085918
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 1773069,
+      "value": 431830955
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 891167,
+      "value": 421156613
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 2035296,
+      "value": 406611435
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1049009,
+      "value": 381220361
+    },
+    {
+      "name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "shares": 1859641,
+      "value": 376391338
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 6564382,
+      "value": 344761343
+    },
+    {
+      "name": "PTC INC",
+      "cusip": "69370C100",
+      "shares": 2681447,
+      "value": 343841949
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1482970,
+      "value": 334350416
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 461133,
+      "value": 313897844
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 3024737,
+      "value": 297089668
+    },
+    {
+      "name": "EPAM SYS INC",
+      "cusip": "29414B104",
+      "shares": 965588,
+      "value": 288710812
+    },
+    {
+      "name": "ADVANCED MICRO DEVICES INC",
+      "cusip": "007903107",
+      "shares": 2833633,
+      "value": 277724370
+    },
+    {
+      "name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "shares": 12042263,
+      "value": 259872036
+    },
+    {
+      "name": "MODERNA INC",
+      "cusip": "60770K107",
+      "shares": 1529618,
+      "value": 234918732
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 2990549,
+      "value": 199379902
+    },
+    {
+      "name": "BILL HOLDINGS INC",
+      "cusip": "090043100",
+      "shares": 1823538,
+      "value": 147961873
+    },
+    {
+      "name": "VALARIS LIMITED",
+      "cusip": "G9460G101",
+      "shares": 1912363,
+      "value": 124418337
+    },
+    {
+      "name": "AVIDXCHANGE HOLDINGS INC",
+      "cusip": "05368X102",
+      "shares": 5080632,
+      "value": 39628930
+    },
+    {
+      "name": "SWEETGREEN INC",
+      "cusip": "87043Q108",
+      "shares": 4556503,
+      "value": 35722984
+    },
+    {
+      "name": "MARQETA INC",
+      "cusip": "57142B104",
+      "shares": 4902192,
+      "value": 22403017
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 8338,
+      "value": 1314069
+    }
+  ],
+  "totalValue": 10801782257,
+  "positionsCount": 29
+}

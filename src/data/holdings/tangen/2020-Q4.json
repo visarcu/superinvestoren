@@ -1,4 +1,161 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-02",
-  "positions": []
+  "period": "2020-11-02",
+  "accession": "0001376879-20-000005",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 3710988,
+      "value": 879413
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 9047389,
+      "value": 471369
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 2095062,
+      "value": 418950
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 1622834,
+      "value": 354184
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 1806853,
+      "value": 331991
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 2150144,
+      "value": 298849
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 2361535,
+      "value": 296467
+    },
+    {
+      "name": "OTIS WORLDWIDE CORP",
+      "cusip": "68902V107",
+      "shares": 4539922,
+      "value": 283382
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 188817,
+      "value": 277485
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1549534,
+      "value": 256246
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH LT",
+      "cusip": "M22465104",
+      "shares": 1903996,
+      "value": 229127
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 449390,
+      "value": 220394
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 620518,
+      "value": 203052
+    },
+    {
+      "name": "ALLEGION PLC",
+      "cusip": "G0176J109",
+      "shares": 2016118,
+      "value": 199414
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 2142372,
+      "value": 198341
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 435377,
+      "value": 192228
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 107470,
+      "value": 183847
+    },
+    {
+      "name": "ALCON INC",
+      "cusip": "H01301128",
+      "shares": 3212557,
+      "value": 182744
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 974606,
+      "value": 180604
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 572594,
+      "value": 165966
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 361713,
+      "value": 153865
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE INC",
+      "cusip": "45866F104",
+      "shares": 1472385,
+      "value": 147312
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311107",
+      "shares": 10112291,
+      "value": 113561
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 49493482,
+      "value": 111855
+    },
+    {
+      "name": "CORE LABORATORIES N V",
+      "cusip": "N22717107",
+      "shares": 1470753,
+      "value": 22444
+    }
+  ],
+  "totalValue": 6373090,
+  "positionsCount": 25
 }

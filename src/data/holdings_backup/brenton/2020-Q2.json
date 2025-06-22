@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0000950123-20-005048",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "BERRY GLOBAL GROUP",
+      "cusip": "08579W103",
+      "shares": 6579968,
+      "value": 221811
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 3933624,
+      "value": 95862
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
+      "cusip": "78467J100",
+      "shares": 2033943,
+      "value": 89127
+    },
+    {
+      "name": "TFI INTERNATIONAL INC",
+      "cusip": "87241L109",
+      "shares": 3713339,
+      "value": 82028
+    },
+    {
+      "name": "INGERSOLL-RAND INC",
+      "cusip": "45687V106",
+      "shares": 3264056,
+      "value": 80949
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 1412496,
+      "value": 80343
+    },
+    {
+      "name": "URBAN OUTFITTERS INC",
+      "cusip": "917047102",
+      "shares": 5390158,
+      "value": 76756
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 1888066,
+      "value": 65931
+    },
+    {
+      "name": "MAGNA INTERNATIONAL INC",
+      "cusip": "559222401",
+      "shares": 2015900,
+      "value": 64348
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 5022702,
+      "value": 64090
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 2259412,
+      "value": 62631
+    },
+    {
+      "name": "DISCOVER FINANCIAL SERVICES",
+      "cusip": "254709108",
+      "shares": 1536125,
+      "value": 54794
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 1299232,
+      "value": 43719
+    },
+    {
+      "name": "SERVICE CORP INTERNATIONAL",
+      "cusip": "817565104",
+      "shares": 1001594,
+      "value": 39172
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 517868,
+      "value": 27877
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORTATION",
+      "cusip": "499049104",
+      "shares": 389577,
+      "value": 12778
+    },
+    {
+      "name": "PRESTIGE CONSUMER HEALTHCARE INC",
+      "cusip": "74112D101",
+      "shares": 90650,
+      "value": 3325
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 26700,
+      "value": 2847
+    },
+    {
+      "name": "SMITH (A.O.) CORP",
+      "cusip": "831865209",
+      "shares": 55593,
+      "value": 2102
+    },
+    {
+      "name": "FLOWSERVE",
+      "cusip": "34354P105",
+      "shares": 84450,
+      "value": 2018
+    },
+    {
+      "name": "HD SUPPLY HOLDINGS INC",
+      "cusip": "40416M105",
+      "shares": 56100,
+      "value": 1595
+    },
+    {
+      "name": "POLARIS INDUSTRIES INC",
+      "cusip": "731068102",
+      "shares": 29500,
+      "value": 1420
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 18538,
+      "value": 886
+    },
+    {
+      "name": "BRP INC",
+      "cusip": "05577W200",
+      "shares": 36800,
+      "value": 603
+    }
+  ],
+  "totalValue": 1177012,
+  "positionsCount": 24
+}

@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001647251-25-000005",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "shares": 47570947,
+      "value": 9521325042
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 17299881,
+      "value": 6494202329
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 13163107,
+      "value": 6129927299
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 16637562,
+      "value": 5830799979
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 10361269,
+      "value": 5264560779
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 54913285,
+      "value": 3854575745
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 26899078,
+      "value": 2619619831
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 13855735,
+      "value": 2164681479
+    },
+    {
+      "name": "FERROVIAL SE",
+      "cusip": "N3168P101",
+      "shares": 19333428,
+      "value": 861116451
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 4085110,
+      "value": 631721410
+    }
+  ],
+  "totalValue": 43372530344,
+  "positionsCount": 10
+}

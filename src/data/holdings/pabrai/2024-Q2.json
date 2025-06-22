@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-14",
+  "period": "2024-05-14",
+  "accession": "0001549575-24-000007",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "ALPHA METALLURGICAL RESOUR I",
+      "cusip": "020764106",
+      "shares": 404357,
+      "value": 133910969
+    },
+    {
+      "name": "CONSOL ENERGY INC NEW",
+      "cusip": "20854L108",
+      "shares": 366007,
+      "value": 30656746
+    },
+    {
+      "name": "WARRIOR MET COAL INC",
+      "cusip": "93627C101",
+      "shares": 470763,
+      "value": 28575314
+    },
+    {
+      "name": "ARCH RESOURCES INC",
+      "cusip": "03940R107",
+      "shares": 140308,
+      "value": 22560123
+    }
+  ],
+  "totalValue": 215703152,
+  "positionsCount": 4
+}

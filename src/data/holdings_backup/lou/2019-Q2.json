@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-15",
+  "period": "2019-05-15",
+  "accession": "0001398344-19-008980",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 373,
+      "value": 112353
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 266295,
+      "value": 43899
+    },
+    {
+      "name": "WINNEBAGO INDS INC",
+      "cusip": "974637100",
+      "shares": 1068193,
+      "value": 33274
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 1257938,
+      "value": 22391
+    }
+  ],
+  "totalValue": 211917,
+  "positionsCount": 4
+}

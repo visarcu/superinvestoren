@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-12",
+  "period": "2022-08-12",
+  "accession": "0001606587-22-001757",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "IAC INTERACTIVECORP",
+      "cusip": "44891N208",
+      "shares": 3068629,
+      "value": 233124
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 1947612,
+      "value": 130217
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 6741064,
+      "value": 85949
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 543825,
+      "value": 60604
+    },
+    {
+      "name": "SNOWFLAKE INC",
+      "cusip": "833445109",
+      "shares": 250000,
+      "value": 34765
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 8534033,
+      "value": 20140
+    }
+  ],
+  "totalValue": 564799,
+  "positionsCount": 6
+}

@@ -1,10 +1,18 @@
-// src/app/auth/signup/page.tsx - MODERNISIERTE VERSION
+// src/app/auth/signup/page.tsx - MODERNISIERTE KOMPAKTE VERSION
 'use client'
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+
+import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import GoogleSignInButton from '@/components/GoogleSignInButton'
-import { Eye, EyeOff, Mail, Lock, User, CheckCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { 
+  EyeIcon, 
+  EyeSlashIcon, 
+  EnvelopeIcon, 
+  LockClosedIcon, 
+  UserIcon,
+  CheckCircleIcon 
+} from '@heroicons/react/24/outline'
 
 // Deutsche Fehlermeldungen
 function translateAuthError(error: string): string {
@@ -18,73 +26,46 @@ function translateAuthError(error: string): string {
     'fetch': 'Verbindungsfehler. Prüfen Sie Ihre Internetverbindung',
     'network': 'Netzwerkfehler. Bitte versuchen Sie es erneut',
     'timeout': 'Zeitüberschreitung. Bitte versuchen Sie es erneut',
-  };
+  }
 
   for (const [englishError, germanTranslation] of Object.entries(errorMap)) {
     if (error.toLowerCase().includes(englishError.toLowerCase())) {
-      return germanTranslation;
+      return germanTranslation
     }
   }
 
-  return error; // Fallback
+  return error
 }
 
-// Moderne Message Komponenten
-function MessageBox({ message, type }: { message: string; type: 'error' | 'success' }) {
-  if (type === 'error') {
-    return (
-      <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
-            <span className="text-red-400 text-sm">!</span>
-          </div>
-          <p className="text-red-300 text-sm font-medium">{message}</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 backdrop-blur-sm">
-      <div className="flex items-center gap-3">
-        <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-          <span className="text-green-400 text-sm">✓</span>
-        </div>
-        <p className="text-green-300 text-sm font-medium">{message}</p>
-      </div>
-    </div>
-  );
-}
-
-// Password Strength Indicator
+// ✅ KOMPAKTE Password Strength Indicator
 function PasswordStrength({ password }: { password: string }) {
   const requirements = [
     { text: 'Mindestens 6 Zeichen', met: password.length >= 6 },
     { text: 'Ein Großbuchstabe', met: /[A-Z]/.test(password) },
     { text: 'Eine Zahl', met: /\d/.test(password) },
-  ];
+  ]
 
-  if (password.length === 0) return null;
+  if (password.length === 0) return null
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {requirements.map((req, index) => (
         <div key={index} className="flex items-center gap-2 text-xs">
           {req.met ? (
-            <CheckCircle className="w-3 h-3 text-green-500" />
+            <CheckCircleIcon className="w-3 h-3 text-green-500" />
           ) : (
-            <div className="w-3 h-3 rounded-full border border-gray-600"></div>
+            <div className="w-3 h-3 rounded-full border border-theme"></div>
           )}
-          <span className={req.met ? 'text-green-400' : 'text-gray-500'}>
+          <span className={req.met ? 'text-green-400' : 'text-theme-muted'}>
             {req.text}
           </span>
         </div>
       ))}
     </div>
-  );
+  )
 }
 
-export default function ModernSignupPage() {
+export default function SignUpPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -97,6 +78,25 @@ export default function ModernSignupPage() {
   const [success, setSuccess] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+
+  const handleGoogleSignUp = async () => {
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/analyse`
+        }
+      })
+      if (error) {
+        setError('Google-Registrierung fehlgeschlagen')
+      }
+    } catch (error) {
+      setError('Ein unerwarteter Fehler ist aufgetreten')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -138,7 +138,6 @@ export default function ModernSignupPage() {
         setError(translatedError)
       } else {
         setSuccess('Account erstellt! Bitte überprüfen Sie Ihre E-Mails zur Bestätigung.')
-        // Weiterleitung nach kurzer Verzögerung
         setTimeout(() => {
           router.push('/auth/signin?registered=1')
         }, 2000)
@@ -151,223 +150,274 @@ export default function ModernSignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-950 noise-bg px-4 py-8">
-      {/* Subtle background effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-500/3 rounded-full blur-3xl"></div>
+    <>
+      {/* ✅ Update Header Text */}
+      <div className="text-center mb-">
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <div className="flex items-end gap-0.5">
+            <div className="w-1 h-2 bg-green-500 rounded-sm"></div>
+            <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
+            <div className="w-1 h-4 bg-green-500 rounded-sm"></div>
+          </div>
+          <span className="text-base font-bold text-theme-primary">FinClue</span>
+        </div>
+        <h1 className="text-xl font-bold text-theme-primary mb-1">
+          Account erstellen
+        </h1>
+        <p className="text-theme-secondary text-sm">
+          Starte deine Investment-Reise
+        </p>
       </div>
-      
-      <div className="relative w-full max-w-md">
-        {/* Main Form Card */}
-        <div className="bg-gray-900/70 border border-gray-800 rounded-lg p-8 backdrop-blur-sm">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
-              Account erstellen
-            </h1>
-            <p className="text-gray-400 text-sm">
-              Starte deine Investment-Reise mit Finclue
-            </p>
+
+      {/* ✅ KOMPAKTE Messages */}
+      {success && (
+        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 mb-4">
+          <div className="flex items-center gap-2">
+            <CheckCircleIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+            <p className="text-green-400 text-sm">{success}</p>
           </div>
+        </div>
+      )}
 
-          {/* Messages */}
-          <div className="space-y-4 mb-6">
-            {success && <MessageBox message={success} type="success" />}
-            {error && <MessageBox message={error} type="error" />}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-red-400 text-xs">!</span>
+            </div>
+            <p className="text-red-400 text-sm">{error}</p>
           </div>
+        </div>
+      )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Vollständiger Name
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Max Mustermann"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
-                  required
-                  disabled={loading}
-                />
-              </div>
+      {/* ✅ KOMPAKTE Form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        
+        {/* ✅ Name Field */}
+        <div className="space-y-1.5">
+          <label htmlFor="name" className="text-sm font-medium text-theme-primary">
+            Vollständiger Name
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <UserIcon className="h-4 w-4 text-theme-muted" />
             </div>
-
-            {/* Email Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                E-Mail-Adresse
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                <input
-                  type="email"
-                  placeholder="name@beispiel.de"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
-                  required
-                  disabled={loading}
-                />
-              </div>
-            </div>
-            
-            {/* Password Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Passwort
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Sicheres Passwort wählen"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
-                  required
-                  disabled={loading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-              {/* Password Strength */}
-              <PasswordStrength password={password} />
-            </div>
-
-            {/* Confirm Password Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Passwort bestätigen
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Passwort wiederholen"
-                  value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
-                  required
-                  disabled={loading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
-                >
-                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Checkboxes */}
-            <div className="space-y-4">
-              {/* Terms & Conditions */}
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={acceptTerms}
-                  onChange={e => setAcceptTerms(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 text-green-500 bg-gray-800 border-gray-700 rounded focus:ring-green-500 focus:ring-2"
-                  required
-                />
-                <span className="text-sm text-gray-300">
-                  Ich akzeptiere die{' '}
-                  <a href="/terms" target="_blank" className="text-green-400 hover:text-green-300 underline">
-                    Nutzungsbedingungen
-                  </a>
-                  {' '}und{' '}
-                  <a href="/privacy" target="_blank" className="text-green-400 hover:text-green-300 underline">
-                    Datenschutzerklärung
-                  </a>
-                </span>
-              </label>
-
-              {/* Newsletter Opt-in */}
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={newsletterOptIn}
-                  onChange={e => setNewsletterOptIn(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 text-green-500 bg-gray-800 border-gray-700 rounded focus:ring-green-500 focus:ring-2"
-                />
-                <span className="text-sm text-gray-300">
-                  Ja, ich möchte über neue Features und Investment-Insights informiert werden (optional)
-                </span>
-              </label>
-            </div>
-
-            {/* Sign Up Button */}
-            <button
-              type="submit"
+            <input
+              id="name"
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full pl-9 pr-3 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              placeholder="Max Mustermann"
               disabled={loading}
-              className="w-full py-3 bg-green-500 text-black font-semibold rounded-lg hover:bg-green-400 disabled:bg-gray-600 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            />
+          </div>
+        </div>
+
+        {/* ✅ Email Field */}
+        <div className="space-y-1.5">
+          <label htmlFor="email" className="text-sm font-medium text-theme-primary">
+            E-Mail-Adresse
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <EnvelopeIcon className="h-4 w-4 text-theme-muted" />
+            </div>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full pl-9 pr-3 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              placeholder="name@beispiel.de"
+              disabled={loading}
+            />
+          </div>
+        </div>
+        
+        {/* ✅ Password Field */}
+        <div className="space-y-1.5">
+          <label htmlFor="password" className="text-sm font-medium text-theme-primary">
+            Passwort
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <LockClosedIcon className="h-4 w-4 text-theme-muted" />
+            </div>
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full pl-9 pr-10 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              placeholder="Passwort wählen"
+              disabled={loading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-muted hover:text-theme-secondary transition-colors"
             >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
-                  Account wird erstellt...
-                </>
+              {showPassword ? (
+                <EyeSlashIcon className="h-4 w-4" />
               ) : (
-                'Account erstellen'
+                <EyeIcon className="h-4 w-4" />
               )}
             </button>
+          </div>
+          <PasswordStrength password={password} />
+        </div>
 
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-700"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-gray-900 px-2 text-gray-500">oder</span>
-              </div>
+        {/* ✅ Confirm Password Field */}
+        <div className="space-y-1.5">
+          <label htmlFor="confirmPassword" className="text-sm font-medium text-theme-primary">
+            Passwort bestätigen
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <LockClosedIcon className="h-4 w-4 text-theme-muted" />
             </div>
-
-            {/* Google Sign Up */}
-            <GoogleSignInButton />
-          </form>
-
-          {/* Footer Links */}
-          <div className="mt-8">
-            {/* Sign In Link */}
-            <div className="text-center text-sm text-gray-400">
-              Bereits einen Account?{' '}
-              <a href="/auth/signin" className="text-green-400 hover:text-green-300 font-medium transition-colors">
-                Jetzt anmelden
-              </a>
-            </div>
+            <input
+              id="confirmPassword"
+              type={showConfirmPassword ? 'text' : 'password'}
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full pl-9 pr-10 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              placeholder="Passwort wiederholen"
+              disabled={loading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-muted hover:text-theme-secondary transition-colors"
+            >
+              {showConfirmPassword ? (
+                <EyeSlashIcon className="h-4 w-4" />
+              ) : (
+                <EyeIcon className="h-4 w-4" />
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Trust Indicators */}
-        <div className="mt-8 text-center">
-          <div className="flex items-center justify-center gap-6 text-xs text-gray-600">
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Kostenlos starten</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Jederzeit kündbar</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>DSGVO-konform</span>
-            </div>
+        {/* ✅ KOMPAKTE Checkboxes */}
+        <div className="space-y-3">
+          {/* Terms & Conditions */}
+          <label className="flex items-start gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+              className="mt-0.5 w-4 h-4 text-green-500 bg-theme-secondary border-theme rounded focus:ring-green-500 focus:ring-2"
+              required
+            />
+            <span className="text-sm text-theme-secondary">
+              Ich akzeptiere die{' '}
+              <Link href="/terms" target="_blank" className="text-green-400 hover:text-green-300 underline">
+                Nutzungsbedingungen
+              </Link>
+              {' '}und{' '}
+              <Link href="/privacy" target="_blank" className="text-green-400 hover:text-green-300 underline">
+                Datenschutzerklärung
+              </Link>
+            </span>
+          </label>
+
+          {/* Newsletter Opt-in */}
+          <label className="flex items-start gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={newsletterOptIn}
+              onChange={(e) => setNewsletterOptIn(e.target.checked)}
+              className="mt-0.5 w-4 h-4 text-green-500 bg-theme-secondary border-theme rounded focus:ring-green-500 focus:ring-2"
+            />
+            <span className="text-sm text-theme-secondary">
+              Ja, ich möchte über neue Features informiert werden (optional)
+            </span>
+          </label>
+        </div>
+
+        {/* ✅ KOMPAKTE Sign Up Button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-2.5 bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+        >
+          {loading ? (
+            <>
+              <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+              Account wird erstellt...
+            </>
+          ) : (
+            'Account erstellen'
+          )}
+        </button>
+      </form>
+
+      {/* ✅ KOMPAKTE Divider */}
+      <div className="flex items-center gap-3 my-4">
+        <div className="flex-1 h-px bg-theme"></div>
+        <span className="text-xs text-theme-muted">oder</span>
+        <div className="flex-1 h-px bg-theme"></div>
+      </div>
+
+      {/* ✅ KOMPAKTE Google Sign Up */}
+      <button
+        onClick={handleGoogleSignUp}
+        disabled={loading}
+        className="w-full py-2.5 bg-theme-secondary hover:bg-theme-tertiary border border-theme text-theme-primary font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+      >
+        <svg className="w-4 h-4" viewBox="0 0 24 24">
+          <path
+            fill="#4285F4"
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+          />
+          <path
+            fill="#34A853"
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+          />
+          <path
+            fill="#FBBC05"
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+          />
+          <path
+            fill="#EA4335"
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+          />
+        </svg>
+        Mit Google registrieren
+      </button>
+
+      {/* ✅ KOMPAKTE Sign In Link */}
+      <div className="text-center mt-4">
+        <p className="text-theme-secondary text-xs">
+          Bereits einen Account?{' '}
+          <Link 
+            href="/auth/signin" 
+            className="text-green-400 hover:text-green-300 font-medium transition-colors"
+          >
+            Jetzt anmelden
+          </Link>
+        </p>
+      </div>
+
+      {/* ✅ KOMPAKTE Trust Indicators */}
+      <div className="mt-6 text-center">
+        <div className="flex items-center justify-center gap-4 text-xs text-theme-muted">
+          <div className="flex items-center gap-1">
+            <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+            <span>Kostenlos starten</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+            <span>DSGVO-konform</span>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

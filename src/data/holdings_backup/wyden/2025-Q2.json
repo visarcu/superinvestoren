@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001420506-25-001230",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 2597229,
+      "value": 159314027
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 1010000,
+      "value": 48793100
+    },
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 1066922,
+      "value": 38153131
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 886468,
+      "value": 38064936
+    },
+    {
+      "name": "ACUREN CORP",
+      "cusip": "00510N102",
+      "shares": 1994518,
+      "value": 22179040
+    },
+    {
+      "name": "FAT BRANDS INC",
+      "cusip": "30258N105",
+      "shares": 587400,
+      "value": 1691712
+    }
+  ],
+  "totalValue": 308195946,
+  "positionsCount": 6
+}

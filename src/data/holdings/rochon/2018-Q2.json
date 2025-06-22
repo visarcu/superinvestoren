@@ -1,4 +1,221 @@
 {
+  "form": "13F-HR",
   "date": "2018-05-11",
-  "positions": []
+  "period": "2018-05-11",
+  "accession": "0001641864-18-000002",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY-B-NEW",
+      "cusip": "084670702",
+      "shares": 739628,
+      "value": 147541
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 1091588,
+      "value": 67613
+    },
+    {
+      "name": "BANK OF THE OZARKS INC",
+      "cusip": "063904106",
+      "shares": 1240848,
+      "value": 59896
+    },
+    {
+      "name": "AMETEK INC",
+      "cusip": "031100100",
+      "shares": 699243,
+      "value": 53121
+    },
+    {
+      "name": "VISA INC CLASS-A",
+      "cusip": "92826C839",
+      "shares": 338076,
+      "value": 40441
+    },
+    {
+      "name": "MARKEL CORP HOLDING",
+      "cusip": "570535104",
+      "shares": 31666,
+      "value": 37057
+    },
+    {
+      "name": "UNION PACIFIC CORP",
+      "cusip": "907818108",
+      "shares": 268271,
+      "value": 36064
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 945522,
+      "value": 35883
+    },
+    {
+      "name": "ALPHABET INC CL-C",
+      "cusip": "02079K107",
+      "shares": 29320,
+      "value": 30252
+    },
+    {
+      "name": "DISNEY WALT COMPANY",
+      "cusip": "254687106",
+      "shares": 285311,
+      "value": 28657
+    },
+    {
+      "name": "HEICO CORP CLASS A",
+      "cusip": "422806208",
+      "shares": 367927,
+      "value": 26104
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 106911,
+      "value": 24827
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 171166,
+      "value": 23881
+    },
+    {
+      "name": "O'REILLY AUTOMOTIVE",
+      "cusip": "67103H107",
+      "shares": 93822,
+      "value": 23210
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 63981,
+      "value": 21140
+    },
+    {
+      "name": "M & T BANK CORP",
+      "cusip": "55261F104",
+      "shares": 111504,
+      "value": 20557
+    },
+    {
+      "name": "LIBERTY MEDIA-C LIB FORM",
+      "cusip": "531229854",
+      "shares": 652986,
+      "value": 20145
+    },
+    {
+      "name": "FORTUNE BRNDS HME&SEC",
+      "cusip": "34964C106",
+      "shares": 308299,
+      "value": 18156
+    },
+    {
+      "name": "WELLS FARGO CO",
+      "cusip": "949746101",
+      "shares": 338232,
+      "value": 17727
+    },
+    {
+      "name": "ALPHABET INC CL-A",
+      "cusip": "02079K305",
+      "shares": 5737,
+      "value": 5950
+    },
+    {
+      "name": "JP MORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 14757,
+      "value": 1623
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 5302,
+      "value": 1395
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY-A-NEW",
+      "cusip": "084670108",
+      "shares": 3,
+      "value": 897
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 11009,
+      "value": 807
+    },
+    {
+      "name": "MASTERCARD INC CL-A",
+      "cusip": "57636Q104",
+      "shares": 3204,
+      "value": 561
+    },
+    {
+      "name": "STANTEC INC",
+      "cusip": "85472N109",
+      "shares": 21329,
+      "value": 526
+    },
+    {
+      "name": "BROOKFIELD ASSET MGT-A LV",
+      "cusip": "112585104",
+      "shares": 12938,
+      "value": 505
+    },
+    {
+      "name": "TJX COMPANIES INC CM",
+      "cusip": "872540109",
+      "shares": 5467,
+      "value": 446
+    },
+    {
+      "name": "LULULEMON ATHLETICA INC CO",
+      "cusip": "550021109",
+      "shares": 4600,
+      "value": 410
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 1523,
+      "value": 317
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513203",
+      "shares": 2500,
+      "value": 307
+    },
+    {
+      "name": "SOUTHWEST AIRLINES CO",
+      "cusip": "844741108",
+      "shares": 3961,
+      "value": 227
+    },
+    {
+      "name": "HANESBRANDS INC",
+      "cusip": "410345102",
+      "shares": 12264,
+      "value": 226
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 4077,
+      "value": 223
+    },
+    {
+      "name": "BALCHEM CORP",
+      "cusip": "057665200",
+      "shares": 2266,
+      "value": 185
+    }
+  ],
+  "totalValue": 746877,
+  "positionsCount": 35
 }

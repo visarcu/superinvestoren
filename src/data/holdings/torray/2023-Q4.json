@@ -1,0 +1,200 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-08-29",
+  "period": "2023-08-29",
+  "accession": "0001145549-23-053755",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cusip": "084670702",
+      "shares": 61790,
+      "value": 21070390,
+      "pctOfPortfolio": 6.6988010554
+    },
+    {
+      "name": "Marsh & McLennan Cos Inc",
+      "cusip": "571748102",
+      "shares": 84956,
+      "value": 15978524.48,
+      "pctOfPortfolio": 5.0799703589
+    },
+    {
+      "name": "Eaton Corp PLC",
+      "cusip": null,
+      "shares": 69210,
+      "value": 13918131,
+      "pctOfPortfolio": 4.4249200244
+    },
+    {
+      "name": "American Express Co",
+      "cusip": "025816109",
+      "shares": 72253,
+      "value": 12586472.6,
+      "pctOfPortfolio": 4.0015526973
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 26108,
+      "value": 12548549.12,
+      "pctOfPortfolio": 3.9894958797
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 98950,
+      "value": 12482542.5,
+      "pctOfPortfolio": 3.9685107335
+    },
+    {
+      "name": "Lennar Corp",
+      "cusip": "526057302",
+      "shares": 108610,
+      "value": 12270757.8,
+      "pctOfPortfolio": 3.9011791097
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 72950,
+      "value": 12074684,
+      "pctOfPortfolio": 3.8388423718
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 100570,
+      "value": 12038229,
+      "pctOfPortfolio": 3.8272524206
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 81910,
+      "value": 11912990.4,
+      "pctOfPortfolio": 3.7874359547
+    },
+    {
+      "name": "General Dynamics Corp",
+      "cusip": "369550108",
+      "shares": 55255,
+      "value": 11888113.25,
+      "pctOfPortfolio": 3.7795268899
+    },
+    {
+      "name": "Honeywell International Inc",
+      "cusip": "438516106",
+      "shares": 56265,
+      "value": 11674987.5,
+      "pctOfPortfolio": 3.711768913
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209S103",
+      "shares": 255850,
+      "value": 11590005,
+      "pctOfPortfolio": 3.6847508625
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 63980,
+      "value": 11517679.6,
+      "pctOfPortfolio": 3.6617568189
+    },
+    {
+      "name": "Home Depot Inc/The",
+      "cusip": "437076102",
+      "shares": 36120,
+      "value": 11220316.8,
+      "pctOfPortfolio": 3.5672177887
+    },
+    {
+      "name": "Applied Materials Inc",
+      "cusip": "038222105",
+      "shares": 75295,
+      "value": 10883139.3,
+      "pctOfPortfolio": 3.4600206749
+    },
+    {
+      "name": "T Rowe Price Group Inc",
+      "cusip": "74144T108",
+      "shares": 95310,
+      "value": 10676626.2,
+      "pctOfPortfolio": 3.3943650239
+    },
+    {
+      "name": "Phillips 66",
+      "cusip": "718546104",
+      "shares": 111080,
+      "value": 10594810.4,
+      "pctOfPortfolio": 3.3683537462
+    },
+    {
+      "name": "Fidelity Government Portfolio",
+      "cusip": "316175108",
+      "shares": 10352920.28,
+      "value": 10352920.28,
+      "pctOfPortfolio": 3.2914508606
+    },
+    {
+      "name": "Chubb Ltd",
+      "cusip": null,
+      "shares": 52650,
+      "value": 10138284,
+      "pctOfPortfolio": 3.2232126486
+    },
+    {
+      "name": "EOG Resources Inc",
+      "cusip": "26875P101",
+      "shares": 88309,
+      "value": 10106081.96,
+      "pctOfPortfolio": 3.2129748192
+    },
+    {
+      "name": "General Motors Co",
+      "cusip": "37045V100",
+      "shares": 259708,
+      "value": 10014340.48,
+      "pctOfPortfolio": 3.1838079208
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 82970,
+      "value": 9876748.8,
+      "pctOfPortfolio": 3.1400641035
+    },
+    {
+      "name": "Schlumberger NV",
+      "cusip": "806857108",
+      "shares": 197085,
+      "value": 9680815.2,
+      "pctOfPortfolio": 3.0777719387
+    },
+    {
+      "name": "W R Berkley Corp",
+      "cusip": "084423102",
+      "shares": 160635,
+      "value": 9567420.6,
+      "pctOfPortfolio": 3.0417209749
+    },
+    {
+      "name": "Kraft Heinz Co/The",
+      "cusip": "500754106",
+      "shares": 266344,
+      "value": 9455212,
+      "pctOfPortfolio": 3.0060470701
+    },
+    {
+      "name": "Royalty Pharma PLC",
+      "cusip": null,
+      "shares": 270835,
+      "value": 8325467.9,
+      "pctOfPortfolio": 2.6468733211
+    }
+  ],
+  "totalValue": 314444240.17,
+  "positionsCount": 27
+}

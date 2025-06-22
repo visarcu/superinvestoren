@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0001647251-20-000008",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 10410705,
+      "value": 6499820
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2953720,
+      "value": 4340787
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 11172077,
+      "value": 3398174
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 14314499,
+      "value": 3010769
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 14057890,
+      "value": 2811156
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 20802265,
+      "value": 2214569
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 6553490,
+      "value": 1899529
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 6016539,
+      "value": 1184476
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 618021,
+      "value": 905772
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 2362294,
+      "value": 851843
+    },
+    {
+      "name": "BOSTON PROPERTIES INC",
+      "cusip": "101121101",
+      "shares": 5186802,
+      "value": 416500
+    },
+    {
+      "name": "VORNADO RLTY TR",
+      "cusip": "929042109",
+      "shares": 9926516,
+      "value": 334623
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 2800,
+      "value": 8816
+    }
+  ],
+  "totalValue": 27876834,
+  "positionsCount": 13
+}

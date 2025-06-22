@@ -1,0 +1,131 @@
+{
+  "form": "13F-HR",
+  "date": "2020-01-10",
+  "period": "2020-01-10",
+  "accession": "0000891092-20-000545",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "Citigroup (C)",
+      "cusip": "172967424",
+      "shares": 11914989,
+      "value": 951888
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 3290616,
+      "value": 756611
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 19981145,
+      "value": 731310
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 9097972,
+      "value": 507576
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 8113813,
+      "value": 428004
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2758402,
+      "value": 406947
+    },
+    {
+      "name": "Ford Motor Co (F)",
+      "cusip": "345370860",
+      "shares": 34190726,
+      "value": 317974
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 3720350,
+      "value": 146991
+    },
+    {
+      "name": "Quanta Services Inc (PWR)",
+      "cusip": "74762E102",
+      "shares": 1754249,
+      "value": 71415
+    },
+    {
+      "name": "PulteGroup (PHM)",
+      "cusip": "745867101",
+      "shares": 1537489,
+      "value": 59655
+    },
+    {
+      "name": "Adient PLC (ADNT)",
+      "cusip": "G0084W101",
+      "shares": 1791001,
+      "value": 38059
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 573014,
+      "value": 25614
+    },
+    {
+      "name": "Tri Pointe Group, Inc (TPH)",
+      "cusip": "87265H109",
+      "shares": 1221742,
+      "value": 19035
+    },
+    {
+      "name": "Taylor Morrison Home Corp (TMHC)",
+      "cusip": "87724P106",
+      "shares": 453555,
+      "value": 9915
+    },
+    {
+      "name": "FedEx Corp (FDX)",
+      "cusip": "31428X106",
+      "shares": 35200,
+      "value": 5323
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 25000,
+      "value": 4411
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 913
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 5000,
+      "value": 697
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 367
+    },
+    {
+      "name": "TD Ameritrade (AMTD)",
+      "cusip": "87236Y108",
+      "shares": 5170,
+      "value": 257
+    }
+  ],
+  "totalValue": 4482962,
+  "positionsCount": 20
+}

@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-13",
+  "period": "2024-02-13",
+  "accession": "0001172661-24-000844",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "IAC INC",
+      "cusip": "44891N208",
+      "shares": 3586605,
+      "value": 187866370
+    },
+    {
+      "name": "SEA LTD",
+      "cusip": "81141R100",
+      "shares": 2705314,
+      "value": 109565217
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 588222,
+      "value": 107109344
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 6311192,
+      "value": 102178198
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 147577,
+      "value": 92240052
+    },
+    {
+      "name": "BLEND LABS INC",
+      "cusip": "09352U108",
+      "shares": 4000769,
+      "value": 10201961
+    }
+  ],
+  "totalValue": 609161142,
+  "positionsCount": 6
+}

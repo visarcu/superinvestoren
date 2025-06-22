@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2021-08-13",
+  "period": "2021-08-13",
+  "accession": "0001172661-21-001680",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2351068,
+      "value": 807921
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1205043,
+      "value": 419006
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2118216,
+      "value": 362999
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 146440,
+      "value": 357576
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 539305,
+      "value": 349087
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 561258,
+      "value": 330805
+    },
+    {
+      "name": "CHANGE HEALTHCARE INC",
+      "cusip": "15912K100",
+      "shares": 13943869,
+      "value": 321267
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 1094001,
+      "value": 251642
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 24046356,
+      "value": 238059
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 22124322,
+      "value": 235182
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 12476200,
+      "value": 227441
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 21177838,
+      "value": 215379
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 209410
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 6934144,
+      "value": 113235
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 35485
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 2090000,
+      "value": 24787
+    }
+  ],
+  "totalValue": 4499281,
+  "positionsCount": 16
+}

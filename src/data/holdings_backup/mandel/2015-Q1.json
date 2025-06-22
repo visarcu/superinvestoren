@@ -1,0 +1,299 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-17",
+  "period": "2015-02-17",
+  "accession": "0000902664-15-001107",
+  "quarterKey": "2015-Q1",
+  "positions": [
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 20030460,
+      "value": 1725824434
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 7030580,
+      "value": 1602761323
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 1398233,
+      "value": 1594279249
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 8250886,
+      "value": 1180784295
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 13502615,
+      "value": 1053474022
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 6435620,
+      "value": 957041050
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 12918112,
+      "value": 913310518
+    },
+    {
+      "name": "ADOBE SYS INC",
+      "cusip": "00724F101",
+      "shares": 12179247,
+      "value": 885431257
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U502",
+      "shares": 3890489,
+      "value": 882090571
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 14463336,
+      "value": 868667960
+    },
+    {
+      "name": "MICHAEL KORS HLDGS LTD",
+      "cusip": "G60754101",
+      "shares": 11075555,
+      "value": 831774181
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 7293202,
+      "value": 807795054
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 3585666,
+      "value": 690921982
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 7369142,
+      "value": 655706255
+    },
+    {
+      "name": "TIFFANY & CO NEW",
+      "cusip": "886547108",
+      "shares": 6047197,
+      "value": 646203471
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 12229864,
+      "value": 644024638
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 8818922,
+      "value": 620852109
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 3269032,
+      "value": 544686112
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1771519,
+      "value": 464492282
+    },
+    {
+      "name": "REALOGY HLDGS CORP",
+      "cusip": "75605Y106",
+      "shares": 10406478,
+      "value": 462984206
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 5836872,
+      "value": 428368036
+    },
+    {
+      "name": "ULTA SALON COSMETCS & FRAG I",
+      "cusip": "90384S303",
+      "shares": 3344991,
+      "value": 427623649
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 2466482,
+      "value": 383192644
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1786836,
+      "value": 350845249
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 1883654,
+      "value": 308410669
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 3940169,
+      "value": 298428400
+    },
+    {
+      "name": "COOPER COS INC",
+      "cusip": "216648402",
+      "shares": 1750283,
+      "value": 283703371
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 2902557,
+      "value": 276874912
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 1911536,
+      "value": 274553916
+    },
+    {
+      "name": "VIPSHOP HLDGS LTD",
+      "cusip": "92763W103",
+      "shares": 13935727,
+      "value": 272304106
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 3553779,
+      "value": 270797960
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 779647,
+      "value": 266335212
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 5449944,
+      "value": 253149899
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 1142789,
+      "value": 250602200
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2184122,
+      "value": 241083386
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 8817652,
+      "value": 204040467
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06742E711",
+      "shares": 6300000,
+      "value": 198513000
+    },
+    {
+      "name": "SOLARWINDS INC",
+      "cusip": "83416B109",
+      "shares": 2386428,
+      "value": 118915707
+    },
+    {
+      "name": "CDK GLOBAL INC",
+      "cusip": "12508E101",
+      "shares": 2894255,
+      "value": 117969834
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311107",
+      "shares": 1560114,
+      "value": 105931741
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 2320000,
+      "value": 84192800
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 1325646,
+      "value": 80546251
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 2163100,
+      "value": 71339038
+    },
+    {
+      "name": "COMMVAULT SYSTEMS INC",
+      "cusip": "204166102",
+      "shares": 1321288,
+      "value": 68297377
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 240000,
+      "value": 52629600
+    },
+    {
+      "name": "WALGREENS BOOTS ALLIANCE INC",
+      "cusip": "931427108",
+      "shares": 600000,
+      "value": 45720000
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 527482,
+      "value": 43047806
+    },
+    {
+      "name": "WYNN RESORTS LTD",
+      "cusip": "983134107",
+      "shares": 285023,
+      "value": 42400021
+    }
+  ],
+  "totalValue": 23852922220,
+  "positionsCount": 48
+}

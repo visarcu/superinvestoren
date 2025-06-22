@@ -1,233 +1,239 @@
 {
+  "form": "13F-HR",
   "date": "2016-11-10",
+  "period": "2016-11-10",
+  "accession": "0001085146-16-004738",
+  "quarterKey": "2016-Q4",
   "positions": [
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 2600000,
-      "value": 275054000
-    },
-    {
-      "name": "ALLERGAN PLC",
-      "cusip": "G0177J108",
-      "shares": 3785000,
-      "value": 871723000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 550000,
-      "value": 442233000
-    },
-    {
-      "name": "AMETEK INC NEW",
-      "cusip": "031100100",
-      "shares": 1250000,
-      "value": 59725000
-    },
-    {
-      "name": "ANHEUSER BUSCH INBEV SA/NV",
-      "cusip": "03524A108",
-      "shares": 1600000,
-      "value": 210256000
-    },
-    {
-      "name": "APIGEE CORP",
-      "cusip": "03765N108",
-      "shares": 3166551,
-      "value": 55098000
-    },
-    {
-      "name": "APPLE INC",
-      "cusip": "037833100",
-      "shares": 2500000,
-      "value": 282625000
-    },
     {
       "name": "BAXTER INTL INC",
       "cusip": "071813109",
       "shares": 51901767,
-      "value": 2470524000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 1000000,
-      "value": 269970000
-    },
-    {
-      "name": "CHUBB LIMITED",
-      "cusip": "H1467J104",
-      "shares": 1800000,
-      "value": 226170000
-    },
-    {
-      "name": "CITIGROUP INC",
-      "cusip": "172967226",
-      "shares": 20000000,
-      "value": 1044000
-    },
-    {
-      "name": "CONAGRA FOODS INC",
-      "cusip": "205887102",
-      "shares": 4250000,
-      "value": 200218000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 2200000,
-      "value": 366278000
-    },
-    {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 4500000,
-      "value": 352755000
-    },
-    {
-      "name": "DELL TECHNOLOGIES INC",
-      "cusip": "24703L103",
-      "shares": 2300000,
-      "value": 109940000
+      "value": 2470524
     },
     {
       "name": "DOW CHEM CO",
       "cusip": "260543103",
       "shares": 20000000,
-      "value": 1036600000
+      "value": 1036600
     },
     {
-      "name": "ENPHASE ENERGY INC",
-      "cusip": "29355A107",
-      "shares": 6248987,
-      "value": 7374000
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 3785000,
+      "value": 871723
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 5450000,
-      "value": 699072000
+      "value": 699072
     },
     {
-      "name": "GENERAL DYNAMICS CORP",
-      "cusip": "369550108",
-      "shares": 1350000,
-      "value": 209466000
-    },
-    {
-      "name": "GREEN BRICK PARTNERS INC",
-      "cusip": "392709101",
-      "shares": 8083022,
-      "value": 66766000
-    },
-    {
-      "name": "GRUPO SUPERVIELLE S A",
-      "cusip": "40054A108",
-      "shares": 4500000,
-      "value": 66645000
-    },
-    {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 1400000,
-      "value": 247646000
-    },
-    {
-      "name": "KADMON HLDGS INC",
-      "cusip": "48283N106",
-      "shares": 7919650,
-      "value": 56679000
-    },
-    {
-      "name": "LIBERTY GLOBAL PLC",
-      "cusip": "G5480U104",
-      "shares": 3000000,
-      "value": 102540000
-    },
-    {
-      "name": "MOHAWK INDS INC",
-      "cusip": "608190104",
-      "shares": 900000,
-      "value": 180306000
-    },
-    {
-      "name": "MOLSON COORS BREWING CO",
-      "cusip": "60871R209",
-      "shares": 1700000,
-      "value": 186660000
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 550000,
+      "value": 442233
     },
     {
       "name": "MONSANTO CO NEW",
       "cusip": "61166W101",
       "shares": 3700000,
-      "value": 378140000
+      "value": 378140
     },
     {
-      "name": "NOMAD HLDGS LTD",
-      "cusip": "G6564A105",
-      "shares": 12650000,
-      "value": 149523000
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 2200000,
+      "value": 366278
     },
     {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 2000000,
-      "value": 253120000
-    },
-    {
-      "name": "SHERWIN WILLIAMS CO",
-      "cusip": "824348106",
-      "shares": 875000,
-      "value": 242078000
-    },
-    {
-      "name": "SHIRE PLC",
-      "cusip": "82481R106",
-      "shares": 900000,
-      "value": 174474000
-    },
-    {
-      "name": "SOTHEBYS",
-      "cusip": "835898107",
-      "shares": 6661604,
-      "value": 253274000
-    },
-    {
-      "name": "ST JUDE MED INC",
-      "cusip": "790849103",
-      "shares": 2600000,
-      "value": 207376000
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 4500000,
+      "value": 352755
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 1131000,
-      "value": 326995000
+      "value": 326995
     },
     {
-      "name": "UNION PAC CORP",
-      "cusip": "907818108",
-      "shares": 1250000,
-      "value": 121912000
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2500000,
+      "value": 282625
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2600000,
+      "value": 275054
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1000000,
+      "value": 269970
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 6661604,
+      "value": 253274
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 2000000,
+      "value": 253120
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 1400000,
+      "value": 247646
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 875000,
+      "value": 242078
+    },
+    {
+      "name": "CHUBB LIMITED",
+      "cusip": "H1467J104",
+      "shares": 1800000,
+      "value": 226170
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 1600000,
+      "value": 210256
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 1350000,
+      "value": 209466
+    },
+    {
+      "name": "ST JUDE MED INC",
+      "cusip": "790849103",
+      "shares": 2600000,
+      "value": 207376
+    },
+    {
+      "name": "CONAGRA FOODS INC",
+      "cusip": "205887102",
+      "shares": 4250000,
+      "value": 200218
+    },
+    {
+      "name": "MOLSON COORS BREWING CO",
+      "cusip": "60871R209",
+      "shares": 1700000,
+      "value": 186660
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 900000,
+      "value": 180306
+    },
+    {
+      "name": "SHIRE PLC",
+      "cusip": "82481R106",
+      "shares": 900000,
+      "value": 174474
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 2100000,
-      "value": 173670000
+      "value": 173670
+    },
+    {
+      "name": "NOMAD HLDGS LTD",
+      "cusip": "G6564A105",
+      "shares": 12650000,
+      "value": 149523
     },
     {
       "name": "WILLIAMS COS INC DEL",
       "cusip": "969457100",
       "shares": 4000000,
-      "value": 122920000
+      "value": 122920
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 1250000,
+      "value": 121912
+    },
+    {
+      "name": "DELL TECHNOLOGIES INC",
+      "cusip": "24703L103",
+      "shares": 2300000,
+      "value": 109940
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 3000000,
+      "value": 102540
+    },
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 8083022,
+      "value": 66766
+    },
+    {
+      "name": "GRUPO SUPERVIELLE S A",
+      "cusip": "40054A108",
+      "shares": 4500000,
+      "value": 66645
+    },
+    {
+      "name": "AMETEK INC NEW",
+      "cusip": "031100100",
+      "shares": 1250000,
+      "value": 59725
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 7919650,
+      "value": 56679
+    },
+    {
+      "name": "APIGEE CORP",
+      "cusip": "03765N108",
+      "shares": 3166551,
+      "value": 55098
     },
     {
       "name": "YUM BRANDS INC",
       "cusip": "988498101",
       "shares": 500000,
-      "value": 45405000
+      "value": 45405
+    },
+    {
+      "name": "ENPHASE ENERGY INC",
+      "cusip": "29355A107",
+      "shares": 6248987,
+      "value": 7374
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967226",
+      "shares": 20000000,
+      "value": 1044
     }
-  ]
+  ],
+  "totalValue": 11502254,
+  "positionsCount": 38
 }

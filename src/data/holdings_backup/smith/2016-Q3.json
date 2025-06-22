@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-12",
+  "period": "2016-08-12",
+  "accession": "0001387131-16-006514",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "SMUCKER J M CO",
+      "cusip": "832696405",
+      "shares": 3450789,
+      "value": 525935
+    },
+    {
+      "name": "BARD C R INC",
+      "cusip": "067383109",
+      "shares": 2197626,
+      "value": 516220
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 3932735,
+      "value": 471260
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 8837391,
+      "value": 452209
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 3704693,
+      "value": 449379
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 4367647,
+      "value": 444277
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 4469336,
+      "value": 415023
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 3540086,
+      "value": 375037
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 9896155,
+      "value": 361309
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 3601159,
+      "value": 347980
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 2441318,
+      "value": 343371
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 1936501,
+      "value": 339120
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 4517080,
+      "value": 335032
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 3336791,
+      "value": 306551
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 1793493,
+      "value": 304158
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 1384087,
+      "value": 100785
+    }
+  ],
+  "totalValue": 6087646,
+  "positionsCount": 16
+}

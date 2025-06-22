@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2017-05-15",
+  "period": "2017-05-15",
+  "accession": "0001647251-17-000007",
+  "quarterKey": "2017-Q2",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC",
+      "cusip": "16119P108",
+      "shares": 12679234,
+      "value": 4150167
+    },
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 86224273,
+      "value": 4001669
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 90848233,
+      "value": 3414985
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 666569,
+      "value": 74682
+    },
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 37452
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 182929,
+      "value": 23916
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 52000,
+      "value": 5081
+    }
+  ],
+  "totalValue": 11707952,
+  "positionsCount": 7
+}

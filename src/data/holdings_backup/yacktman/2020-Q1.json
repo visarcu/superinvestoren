@@ -1,0 +1,311 @@
+{
+  "form": "13F-HR",
+  "date": "2020-02-04",
+  "period": "2020-02-04",
+  "accession": "0000905567-20-000002",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "Procter & Gamble",
+      "cusip": "742718109",
+      "shares": 4979559,
+      "value": 621947
+    },
+    {
+      "name": "PepsiCo, Inc",
+      "cusip": "713448108",
+      "shares": 4443169,
+      "value": 607248
+    },
+    {
+      "name": "Walt Disney Company",
+      "cusip": "254687106",
+      "shares": 3786745,
+      "value": 547677
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 3720231,
+      "value": 542670
+    },
+    {
+      "name": "Coca-Cola Co.",
+      "cusip": "191216100",
+      "shares": 9414745,
+      "value": 521106
+    },
+    {
+      "name": "Booking Hldgs Inc Com",
+      "cusip": "09857L108",
+      "shares": 212162,
+      "value": 435723
+    },
+    {
+      "name": "Macy's Inc",
+      "cusip": "55616P104",
+      "shares": 24445989,
+      "value": 415582
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 2611570,
+      "value": 411845
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 7547120,
+      "value": 399846
+    },
+    {
+      "name": "Sysco Corporation",
+      "cusip": "871829107",
+      "shares": 3803650,
+      "value": 325364
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 3977073,
+      "value": 314586
+    },
+    {
+      "name": "Fox Corp B",
+      "cusip": "35137L204",
+      "shares": 8379718,
+      "value": 305022
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "902973304",
+      "shares": 4511591,
+      "value": 267492
+    },
+    {
+      "name": "News Corp Cl A",
+      "cusip": "65249B109",
+      "shares": 17384012,
+      "value": 245810
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 181297,
+      "value": 242398
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 4484881,
+      "value": 215095
+    },
+    {
+      "name": "Anthem Inc",
+      "cusip": "036752103",
+      "shares": 638112,
+      "value": 192729
+    },
+    {
+      "name": "BNY Mellon Corp",
+      "cusip": "064058100",
+      "shares": 3603582,
+      "value": 181368
+    },
+    {
+      "name": "Cognizant Technology Solutions",
+      "cusip": "192446102",
+      "shares": 2706022,
+      "value": 167827
+    },
+    {
+      "name": "Fox Corp A",
+      "cusip": "35137L105",
+      "shares": 4135190,
+      "value": 153291
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 2017531,
+      "value": 108543
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 1429605,
+      "value": 92967
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 1289440,
+      "value": 89977
+    },
+    {
+      "name": "Colgate-Palmolive",
+      "cusip": "194162103",
+      "shares": 1256900,
+      "value": 86525
+    },
+    {
+      "name": "Comcast Cl A",
+      "cusip": "20030N101",
+      "shares": 1505300,
+      "value": 67693
+    },
+    {
+      "name": "Amerco",
+      "cusip": "023586100",
+      "shares": 177540,
+      "value": 66723
+    },
+    {
+      "name": "Goldman Sachs Grp",
+      "cusip": "38141G104",
+      "shares": 224100,
+      "value": 51527
+    },
+    {
+      "name": "Corning Inc",
+      "cusip": "219350105",
+      "shares": 1219987,
+      "value": 35514
+    },
+    {
+      "name": "Berkshire Hath B",
+      "cusip": "084670702",
+      "shares": 132589,
+      "value": 30031
+    },
+    {
+      "name": "Graftech International LTD",
+      "cusip": "384313508",
+      "shares": 2277100,
+      "value": 26460
+    },
+    {
+      "name": "Micron Technology Inc",
+      "cusip": "595112103",
+      "shares": 489787,
+      "value": 26341
+    },
+    {
+      "name": "Berkshire Hath A",
+      "cusip": "084670108",
+      "shares": 63,
+      "value": 21394
+    },
+    {
+      "name": "ARCOSA INC",
+      "cusip": "039653100",
+      "shares": 421554,
+      "value": 18780
+    },
+    {
+      "name": "Infosys Ltd",
+      "cusip": "456788108",
+      "shares": 1599789,
+      "value": 16510
+    },
+    {
+      "name": "Unilever N.V.",
+      "cusip": "904784709",
+      "shares": 259197,
+      "value": 14893
+    },
+    {
+      "name": "MSC Industrial Direct Co.",
+      "cusip": "553530106",
+      "shares": 184377,
+      "value": 14468
+    },
+    {
+      "name": "Clorox Company",
+      "cusip": "189054109",
+      "shares": 59097,
+      "value": 9074
+    },
+    {
+      "name": "Stryker Corporation",
+      "cusip": "863667101",
+      "shares": 25734,
+      "value": 5403
+    },
+    {
+      "name": "Reading International, Inc",
+      "cusip": "755408101",
+      "shares": 318000,
+      "value": 3558
+    },
+    {
+      "name": "SPDR S&P 500 ETF",
+      "cusip": "78462F103",
+      "shares": 7007,
+      "value": 2255
+    },
+    {
+      "name": "Philip Morris Intl",
+      "cusip": "718172109",
+      "shares": 23501,
+      "value": 2000
+    },
+    {
+      "name": "Charles Schwab Corp",
+      "cusip": "808513105",
+      "shares": 34200,
+      "value": 1627
+    },
+    {
+      "name": "Hershey Co.",
+      "cusip": "427866108",
+      "shares": 9200,
+      "value": 1352
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209S103",
+      "shares": 22500,
+      "value": 1123
+    },
+    {
+      "name": "Spark Networks SE",
+      "cusip": "846517100",
+      "shares": 220000,
+      "value": 997
+    },
+    {
+      "name": "America's CAR MART Inc",
+      "cusip": "03062T105",
+      "shares": 3300,
+      "value": 362
+    },
+    {
+      "name": "Otelco Inc",
+      "cusip": "688823301",
+      "shares": 34031,
+      "value": 341
+    },
+    {
+      "name": "CH Robinson WW",
+      "cusip": "12541W209",
+      "shares": 3700,
+      "value": 289
+    },
+    {
+      "name": "PepsiCo, Inc",
+      "cusip": "713448108",
+      "shares": 1800,
+      "value": 246
+    },
+    {
+      "name": "Philip Morris Intl",
+      "cusip": "718172109",
+      "shares": 1325,
+      "value": 113
+    }
+  ],
+  "totalValue": 7911712,
+  "positionsCount": 50
+}

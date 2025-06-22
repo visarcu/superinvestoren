@@ -1,4 +1,101 @@
 {
+  "form": "13F-HR",
   "date": "2024-02-14",
-  "positions": []
+  "period": "2024-02-14",
+  "accession": "0001858353-24-000002",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "FIRSTCASH HOLDINGS INC",
+      "cusip": "33768G107",
+      "shares": 246245,
+      "value": 26690496
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 86700,
+      "value": 17401557
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 395300,
+      "value": 14428450
+    },
+    {
+      "name": "GRINDR INC",
+      "cusip": "39854F101",
+      "shares": 1597555,
+      "value": 14026533
+    },
+    {
+      "name": "DAKTRONICS INC",
+      "cusip": "234264109",
+      "shares": 1468557,
+      "value": 12453363
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 81600,
+      "value": 12180432
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 52622,
+      "value": 9581940
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 38200,
+      "value": 8614482
+    },
+    {
+      "name": "WILLSCOT MOBIL MINI HLDNG CO",
+      "cusip": "971378104",
+      "shares": 190500,
+      "value": 8477250
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 21500,
+      "value": 8084860
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 51852,
+      "value": 7878393
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 193566,
+      "value": 6598665
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 56460,
+      "value": 4677711
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25200,
+      "value": 3520188
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 4200,
+      "value": 1791342
+    }
+  ],
+  "totalValue": 156405662,
+  "positionsCount": 15
 }

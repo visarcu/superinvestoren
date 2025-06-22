@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001387131-19-008662",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "SELECT INTERIOR CONCEPTS INC",
+      "cusip": "816120307",
+      "shares": 2579000,
+      "value": 33450
+    },
+    {
+      "name": "EVI INDUSTRIES INC",
+      "cusip": "26929N102",
+      "shares": 1005961,
+      "value": 32110
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 1123000,
+      "value": 26694
+    }
+  ],
+  "totalValue": 92254,
+  "positionsCount": 3
+}

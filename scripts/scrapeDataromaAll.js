@@ -430,10 +430,16 @@ async function scrapeDataromaInvestor(investorConfig) {
     
     // 7) Ergebnis im gewünschten Format
     const result = {
+      form: 'DATAROMA',                              // ← HINZUFÜGEN
       date: new Date().toISOString().split('T')[0],
-      positions: holdings // Nur die für HoldingsFile Interface nötigen Felder
+      period: new Date().toISOString().split('T')[0], // ← HINZUFÜGEN  
+      accession: null,                               // ← HINZUFÜGEN
+      quarterKey: quarterKey,                        // ← HINZUFÜGEN (quarterKey hast du schon!)
+      positions: holdings.sort((a, b) => b.value - a.value),
+      totalValue: holdings.reduce((sum, h) => sum + h.value, 0), // ← HINZUFÜGEN
+      positionsCount: holdings.length,               // ← HINZUFÜGEN
+      source: 'dataroma'                             // ← HINZUFÜGEN
     }
-    
     console.log(`  ✓ ${investorConfig.name} erfolgreich gescraped:`)
     console.log(`    • ${holdings.length} Positionen`)
     console.log(`    • Gesamtwert: $${(totalValue / 1000000).toFixed(1)}M`)

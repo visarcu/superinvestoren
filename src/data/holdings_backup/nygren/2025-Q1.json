@@ -1,0 +1,159 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "IQVIA Holdings Inc.",
+      "cusip": "IQV00000",
+      "shares": 2636400,
+      "value": 464797320,
+      "ticker": "IQV"
+    },
+    {
+      "name": "Alphabet Inc.",
+      "cusip": "GOOGL0000",
+      "shares": 2839420,
+      "value": 439087909,
+      "ticker": "GOOGL"
+    },
+    {
+      "name": "First Citizens Bancshares",
+      "cusip": "FCNCA0000",
+      "shares": 228643,
+      "value": 423931559,
+      "ticker": "FCNCA"
+    },
+    {
+      "name": "Deere & Co.",
+      "cusip": "DE00000",
+      "shares": 842700,
+      "value": 395521245,
+      "ticker": "DE"
+    },
+    {
+      "name": "Phillips 66",
+      "cusip": "PSX00000",
+      "shares": 3187000,
+      "value": 393530760,
+      "ticker": "PSX"
+    },
+    {
+      "name": "Keurig Dr Pepper Inc.",
+      "cusip": "KDP00000",
+      "shares": 11260000,
+      "value": 385317200,
+      "ticker": "KDP"
+    },
+    {
+      "name": "Lithia Motors Inc.",
+      "cusip": "LAD00000",
+      "shares": 1309100,
+      "value": 384273214,
+      "ticker": "LAD"
+    },
+    {
+      "name": "Charles Schwab Corp.",
+      "cusip": "SCHW00000",
+      "shares": 4865940,
+      "value": 380905783,
+      "ticker": "SCHW"
+    },
+    {
+      "name": "Paycom Software Inc.",
+      "cusip": "PAYC00000",
+      "shares": 1560200,
+      "value": 340872496,
+      "ticker": "PAYC"
+    },
+    {
+      "name": "Airbnb Inc.",
+      "cusip": "ABNB00000",
+      "shares": 2826000,
+      "value": 337593960,
+      "ticker": "ABNB"
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "COP00000",
+      "shares": 3199912,
+      "value": 336054758,
+      "ticker": "COP"
+    },
+    {
+      "name": "Intercontinental Exchange Inc.",
+      "cusip": "ICE00000",
+      "shares": 1910853,
+      "value": 329622143,
+      "ticker": "ICE"
+    },
+    {
+      "name": "Capital One Financial",
+      "cusip": "COF00000",
+      "shares": 1808097,
+      "value": 324191792,
+      "ticker": "COF"
+    },
+    {
+      "name": "CBRE Group",
+      "cusip": "CBRE00000",
+      "shares": 2445352,
+      "value": 319803135,
+      "ticker": "CBRE"
+    },
+    {
+      "name": "Equifax Inc.",
+      "cusip": "EFX00000",
+      "shares": 1183000,
+      "value": 288131480,
+      "ticker": "EFX"
+    },
+    {
+      "name": "Ally Financial Inc.",
+      "cusip": "ALLY00000",
+      "shares": 6047800,
+      "value": 220563266,
+      "ticker": "ALLY"
+    },
+    {
+      "name": "Warner Bros. Discovery Inc.",
+      "cusip": "WBD00000",
+      "shares": 20021000,
+      "value": 214825330,
+      "ticker": "WBD"
+    },
+    {
+      "name": "APA Corp.",
+      "cusip": "APA00000",
+      "shares": 8190800,
+      "value": 172170616,
+      "ticker": "APA"
+    },
+    {
+      "name": "Centene Corp.",
+      "cusip": "CNC00000",
+      "shares": 2334104,
+      "value": 141703454,
+      "ticker": "CNC"
+    },
+    {
+      "name": "Molina Healthcare Inc.",
+      "cusip": "MOH00000",
+      "shares": 400436,
+      "value": 131899614,
+      "ticker": "MOH"
+    },
+    {
+      "name": "Liberty Broadband Corp. CL C",
+      "cusip": "LBRDK0000",
+      "shares": 1398600,
+      "value": 118950930,
+      "ticker": "LBRDK"
+    },
+    {
+      "name": "Charter Communications",
+      "cusip": "CHTR00000",
+      "shares": 182500,
+      "value": 67256725,
+      "ticker": "CHTR"
+    }
+  ]
+}

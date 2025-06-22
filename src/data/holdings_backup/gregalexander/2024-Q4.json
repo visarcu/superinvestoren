@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0000919574-24-006475",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 6000000,
+      "value": 252180000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 700000,
+      "value": 222348000
+    },
+    {
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 568424,
+      "value": 217729129
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 9000000,
+      "value": 126450000
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 5500000,
+      "value": 44000000
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 5913199,
+      "value": 10939418
+    }
+  ],
+  "totalValue": 873646547,
+  "positionsCount": 6
+}

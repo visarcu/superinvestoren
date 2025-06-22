@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001879202-25-000025",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 900000,
+      "value": 97542000
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 200000,
+      "value": 26446000
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 200000,
+      "value": 23670000
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 400000,
+      "value": 16448000
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 200000,
+      "value": 13200000
+    },
+    {
+      "name": "TRIP COM GROUP LTD",
+      "cusip": "89677Q107",
+      "shares": 200000,
+      "value": 12716000
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 100000,
+      "value": 9203000
+    }
+  ],
+  "totalValue": 199225000,
+  "positionsCount": 7
+}

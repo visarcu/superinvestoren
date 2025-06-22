@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-15",
+  "period": "2017-08-15",
+  "accession": "0001454502-17-000006",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 387654,
+      "value": 130581000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 479998,
+      "value": 129057000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1034075,
+      "value": 125826000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 824676,
+      "value": 111249000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 3333333,
+      "value": 103933000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 2000000,
+      "value": 85920000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 500000,
+      "value": 46890000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 186000,
+      "value": 22590000
+    },
+    {
+      "name": "NORD ANGLIA EDUCATION INC",
+      "cusip": "G6583A102",
+      "shares": 188073,
+      "value": 6126000
+    }
+  ],
+  "totalValue": 762172000,
+  "positionsCount": 9
+}

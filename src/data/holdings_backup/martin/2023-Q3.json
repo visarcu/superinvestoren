@@ -1,0 +1,395 @@
+{
+  "form": "13F-HR",
+  "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0001050442-23-000012",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "SUPER MICRO COMPUTER INC COM",
+      "cusip": "86800U104",
+      "shares": 2955521,
+      "value": 736663609
+    },
+    {
+      "name": "PURE STORAGE INC CL A",
+      "cusip": "74624M102",
+      "shares": 5794393,
+      "value": 213349550
+    },
+    {
+      "name": "PLEXUS CORP COM",
+      "cusip": "729132100",
+      "shares": 2065732,
+      "value": 202937512
+    },
+    {
+      "name": "POWER INTEGRATIONS INC COM",
+      "cusip": "739276103",
+      "shares": 2103568,
+      "value": 199144783
+    },
+    {
+      "name": "SOUTHWESTERN ENERGY CO COM",
+      "cusip": "845467109",
+      "shares": 29157714,
+      "value": 175237861
+    },
+    {
+      "name": "ALIGN TECHNOLOGY INC",
+      "cusip": "016255101",
+      "shares": 456190,
+      "value": 161327032
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC COM",
+      "cusip": "595017104",
+      "shares": 1776457,
+      "value": 159152783
+    },
+    {
+      "name": "GARMIN LTD SHS",
+      "cusip": "H2906T109",
+      "shares": 1376808,
+      "value": 143587306
+    },
+    {
+      "name": "AKAMAI TECHNOLOGIES COM",
+      "cusip": "00971T101",
+      "shares": 1419042,
+      "value": 127529305
+    },
+    {
+      "name": "COTERRA ENERGY INC COM",
+      "cusip": "127097103",
+      "shares": 4954476,
+      "value": 125348243
+    },
+    {
+      "name": "GENTEX CORP COM",
+      "cusip": "371901109",
+      "shares": 4223172,
+      "value": 123570013
+    },
+    {
+      "name": "INTUIT COM",
+      "cusip": "461202103",
+      "shares": 266871,
+      "value": 122277623
+    },
+    {
+      "name": "DOLBY LABORATORIES INC COM CL",
+      "cusip": "25659T107",
+      "shares": 1413180,
+      "value": 118254902
+    },
+    {
+      "name": "VIASAT INC COM",
+      "cusip": "92552V100",
+      "shares": 2849003,
+      "value": 117549864
+    },
+    {
+      "name": "COGNEX CORP COM",
+      "cusip": "192422103",
+      "shares": 1996647,
+      "value": 111852165
+    },
+    {
+      "name": "ARISTA NETWORKS INC COM",
+      "cusip": "040413106",
+      "shares": 657647,
+      "value": 106578273
+    },
+    {
+      "name": "SNAP ON INC COM",
+      "cusip": "833034101",
+      "shares": 363480,
+      "value": 104751301
+    },
+    {
+      "name": "INTUITIVE SURGICAL INC",
+      "cusip": "46120E602",
+      "shares": 277131,
+      "value": 94762174
+    },
+    {
+      "name": "ALARM COM HLDGS INC COM",
+      "cusip": "011642105",
+      "shares": 1750412,
+      "value": 90461292
+    },
+    {
+      "name": "LANDSTAR SYS INC COM",
+      "cusip": "515098101",
+      "shares": 445967,
+      "value": 85866486
+    },
+    {
+      "name": "ROYAL CARIBBEAN GROUP",
+      "cusip": "V7780T103",
+      "shares": 764630,
+      "value": 79322716
+    },
+    {
+      "name": "AUTODESK INC COM",
+      "cusip": "052769106",
+      "shares": 380524,
+      "value": 77859016
+    },
+    {
+      "name": "LGI HOMES INC COM",
+      "cusip": "50187T106",
+      "shares": 507454,
+      "value": 68450470
+    },
+    {
+      "name": "INTERDIGITAL INC COM",
+      "cusip": "45867G101",
+      "shares": 682315,
+      "value": 65877513
+    },
+    {
+      "name": "GENTHERM INC COM",
+      "cusip": "37253A103",
+      "shares": 1117038,
+      "value": 63123817
+    },
+    {
+      "name": "PROTO LABS INC COM",
+      "cusip": "743713109",
+      "shares": 1746115,
+      "value": 61044180
+    },
+    {
+      "name": "IPG PHOTONICS CORP COM",
+      "cusip": "44980X109",
+      "shares": 423108,
+      "value": 57466529
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC CL A",
+      "cusip": "339750101",
+      "shares": 526448,
+      "value": 54729534
+    },
+    {
+      "name": "SLEEP NUMBER CORPORATION",
+      "cusip": "83125X103",
+      "shares": 1932529,
+      "value": 52719391
+    },
+    {
+      "name": "MYRIAD GENETICS INC COM",
+      "cusip": "62855J104",
+      "shares": 2009802,
+      "value": 46587210
+    },
+    {
+      "name": "GRACO INC COM",
+      "cusip": "384109104",
+      "shares": 452595,
+      "value": 39081546
+    },
+    {
+      "name": "UNDER ARMOUR INC CL A",
+      "cusip": "904311107",
+      "shares": 5169000,
+      "value": 37320180
+    },
+    {
+      "name": "SPS COMM INC COM",
+      "cusip": "78463M107",
+      "shares": 193879,
+      "value": 37236401
+    },
+    {
+      "name": "STRATEGIC ED INC COM",
+      "cusip": "86272C103",
+      "shares": 481895,
+      "value": 32691757
+    },
+    {
+      "name": "TREX CO INC COM",
+      "cusip": "89531P105",
+      "shares": 430055,
+      "value": 28194406
+    },
+    {
+      "name": "MSC INDL DIRECT INC CL A COM",
+      "cusip": "553530106",
+      "shares": 275704,
+      "value": 26269077
+    },
+    {
+      "name": "STITCH FIX INC COM CL A",
+      "cusip": "860897107",
+      "shares": 6133004,
+      "value": 23612065
+    },
+    {
+      "name": "GENERAC HLDGS INC COM",
+      "cusip": "368736104",
+      "shares": 152038,
+      "value": 22673427
+    },
+    {
+      "name": "OPEN TEXT CORP COM",
+      "cusip": "683715106",
+      "shares": 527487,
+      "value": 21917085
+    },
+    {
+      "name": "PAYCHEX INC COM",
+      "cusip": "704326107",
+      "shares": 164698,
+      "value": 18424765
+    },
+    {
+      "name": "CORE LABORATORIES INC",
+      "cusip": "21867A105",
+      "shares": 759192,
+      "value": 17651214
+    },
+    {
+      "name": "TAKE-TWO INTERACTIVE SOFTWARE",
+      "cusip": "874054109",
+      "shares": 113053,
+      "value": 16636879
+    },
+    {
+      "name": "PROS HOLDINGS INC COM",
+      "cusip": "74346Y103",
+      "shares": 518904,
+      "value": 15982243
+    },
+    {
+      "name": "MIX TELEMATICS LTD SPONSORED A",
+      "cusip": "60688N102",
+      "shares": 2505740,
+      "value": 15836277
+    },
+    {
+      "name": "IROBOT CORP COM",
+      "cusip": "462726100",
+      "shares": 340448,
+      "value": 15405272
+    },
+    {
+      "name": "VIZIO HLDG CORP CL A COM",
+      "cusip": "92858V101",
+      "shares": 2031209,
+      "value": 13710661
+    },
+    {
+      "name": "SEMTECH CORP COM",
+      "cusip": "816850101",
+      "shares": 506631,
+      "value": 12898825
+    },
+    {
+      "name": "SURMODICS INC COM",
+      "cusip": "868873100",
+      "shares": 407080,
+      "value": 12745675
+    },
+    {
+      "name": "CEVA INC COM",
+      "cusip": "157210105",
+      "shares": 457838,
+      "value": 11697761
+    },
+    {
+      "name": "GEOSPACE TECHNOLOGIES CORP COM",
+      "cusip": "37364X109",
+      "shares": 1505390,
+      "value": 11696880
+    },
+    {
+      "name": "KORNIT DIGITAL LTD SHS",
+      "cusip": "M6372Q113",
+      "shares": 307853,
+      "value": 9041643
+    },
+    {
+      "name": "EGAIN CORP COM NEW",
+      "cusip": "28225C806",
+      "shares": 1051716,
+      "value": 7877353
+    },
+    {
+      "name": "DULUTH HLDGS INC COM CL B",
+      "cusip": "26443V101",
+      "shares": 1026499,
+      "value": 6446414
+    },
+    {
+      "name": "COHERUS BIOSCIENCES INC COM",
+      "cusip": "19249H103",
+      "shares": 1179685,
+      "value": 5037255
+    },
+    {
+      "name": "CARA THERAPEUTICS INC COM",
+      "cusip": "140755109",
+      "shares": 1764201,
+      "value": 4992689
+    },
+    {
+      "name": "MILLERKNOLL INC COM",
+      "cusip": "600544100",
+      "shares": 313257,
+      "value": 4629938
+    },
+    {
+      "name": "STONERIDGE INC COM",
+      "cusip": "86183P102",
+      "shares": 219848,
+      "value": 4144135
+    },
+    {
+      "name": "EVERBRIDGE INC COM",
+      "cusip": "29978A104",
+      "shares": 116857,
+      "value": 3143453
+    },
+    {
+      "name": "ZUMIEZ INC COM",
+      "cusip": "989817101",
+      "shares": 180155,
+      "value": 3001382
+    },
+    {
+      "name": "MIMEDX GROUP INC COM",
+      "cusip": "602496101",
+      "shares": 323505,
+      "value": 2138368
+    },
+    {
+      "name": "FLOTEK INDS INC DEL COM",
+      "cusip": "343389102",
+      "shares": 753101,
+      "value": 552776
+    },
+    {
+      "name": "APPLE INC COM",
+      "cusip": "037833100",
+      "shares": 2106,
+      "value": 408501
+    },
+    {
+      "name": "MICROSOFT CORP COM",
+      "cusip": "594918104",
+      "shares": 982,
+      "value": 334410
+    },
+    {
+      "name": "CHEVRON CORP NEW COM",
+      "cusip": "166764100",
+      "shares": 1295,
+      "value": 203768
+    }
+  ],
+  "totalValue": 4431016934,
+  "positionsCount": 64
+}

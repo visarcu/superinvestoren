@@ -1,0 +1,257 @@
+{
+  "form": "13F-HR",
+  "date": "2016-05-16",
+  "period": "2016-05-16",
+  "accession": "0001140361-16-065692",
+  "quarterKey": "2016-Q2",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 25771549,
+      "value": 1423363
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 11413508,
+      "value": 1302281
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1986368,
+      "value": 1179187
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 791637,
+      "value": 1020388
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 11606484,
+      "value": 957071
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 4588878,
+      "value": 928927
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 5896221,
+      "value": 890860
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 5904403,
+      "value": 878280
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U700",
+      "shares": 2324330,
+      "value": 768679
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 11996379,
+      "value": 737417
+    },
+    {
+      "name": "ULTA SALON COSMETICS & FRAG I",
+      "cusip": "90384S303",
+      "shares": 3362968,
+      "value": 651541
+    },
+    {
+      "name": "NORTHROP GRUMMAN CORP",
+      "cusip": "666807102",
+      "shares": 3249789,
+      "value": 643133
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 22079215,
+      "value": 585099
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 778888,
+      "value": 580233
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 7485352,
+      "value": 572480
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 645859,
+      "value": 492726
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 5076587,
+      "value": 479737
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 1789239,
+      "value": 479570
+    },
+    {
+      "name": "ADBOE SYS INC",
+      "cusip": "00724F101",
+      "shares": 5073108,
+      "value": 475858
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 2117859,
+      "value": 466649
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 12884676,
+      "value": 435889
+    },
+    {
+      "name": "BAXALTA INC",
+      "cusip": "07177M103",
+      "shares": 10591296,
+      "value": 427888
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 10430118,
+      "value": 402603
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 5878093,
+      "value": 362267
+    },
+    {
+      "name": "LULULEMON ATHLETICA INC",
+      "cusip": "550021109",
+      "shares": 5186084,
+      "value": 351150
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1818269,
+      "value": 347108
+    },
+    {
+      "name": "VULCAN MATLS CO",
+      "cusip": "929160109",
+      "shares": 3246782,
+      "value": 342763
+    },
+    {
+      "name": "DIAGEO P L C",
+      "cusip": "25243Q205",
+      "shares": 2850000,
+      "value": 307430
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 1675158,
+      "value": 271560
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 1877804,
+      "value": 234087
+    },
+    {
+      "name": "HORIZON PHARMA PLC",
+      "cusip": "G4617B105",
+      "shares": 13997232,
+      "value": 231934
+    },
+    {
+      "name": "PIONEER NAT RES CO",
+      "cusip": "723787107",
+      "shares": 1329480,
+      "value": 187111
+    },
+    {
+      "name": "MONSTER BEVERAGE CORP NEW",
+      "cusip": "61174X109",
+      "shares": 1114561,
+      "value": 148660
+    },
+    {
+      "name": "ELECTRONIC ARTS INC",
+      "cusip": "285512109",
+      "shares": 1910643,
+      "value": 126313
+    },
+    {
+      "name": "YUM BRANDS INC",
+      "cusip": "988498101",
+      "shares": 1512569,
+      "value": 123804
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 1871465,
+      "value": 118089
+    },
+    {
+      "name": "PROSHARES TR II",
+      "cusip": "74347W312",
+      "shares": 3000000,
+      "value": 57990
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06742E711",
+      "shares": 3000000,
+      "value": 52860
+    },
+    {
+      "name": "SEARS HLDS CORP",
+      "cusip": "812350106",
+      "shares": 2010000,
+      "value": 30773
+    },
+    {
+      "name": "COMMSCOPE HOLDING CO INC",
+      "cusip": "20337X109",
+      "shares": 852986,
+      "value": 23815
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 25000,
+      "value": 1535
+    }
+  ],
+  "totalValue": 20099108,
+  "positionsCount": 41
+}

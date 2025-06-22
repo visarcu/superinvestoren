@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2014-02-14",
+  "period": "2014-02-14",
+  "accession": "0001140361-14-007872",
+  "quarterKey": "2014-Q1",
+  "positions": [
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 4765000,
+      "value": 263314
+    },
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 6677860,
+      "value": 238934
+    },
+    {
+      "name": "HARMAN INTL INDS INC",
+      "cusip": "413086109",
+      "shares": 2550485,
+      "value": 208757
+    },
+    {
+      "name": "OIL STS INTL INC",
+      "cusip": "678026105",
+      "shares": 1919004,
+      "value": 195201
+    },
+    {
+      "name": "CAMERON INTERNATIONAL CORP",
+      "cusip": "13342B105",
+      "shares": 2657000,
+      "value": 158171
+    },
+    {
+      "name": "ASHLAND INC NEW",
+      "cusip": "044209104",
+      "shares": 762401,
+      "value": 73983
+    },
+    {
+      "name": "COOPER TIRE & RUBR CO",
+      "cusip": "216831107",
+      "shares": 1004409,
+      "value": 24146
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 919169,
+      "value": 21922
+    },
+    {
+      "name": "AGCO CORP",
+      "cusip": "001084102",
+      "shares": 300000,
+      "value": 17757
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 204760,
+      "value": 15576
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 383375,
+      "value": 13058
+    },
+    {
+      "name": "CYTEC INDS INC",
+      "cusip": "232820100",
+      "shares": 130000,
+      "value": 12111
+    },
+    {
+      "name": "TAMINCO CORP",
+      "cusip": "87509U106",
+      "shares": 550000,
+      "value": 11116
+    },
+    {
+      "name": "NEWS CORP NEW",
+      "cusip": "65249B109",
+      "shares": 608986,
+      "value": 10974
+    },
+    {
+      "name": "CURTISS WRIGHT CORP",
+      "cusip": "231561101",
+      "shares": 155865,
+      "value": 9699
+    },
+    {
+      "name": "AXIALL CORP",
+      "cusip": "05463D100",
+      "shares": 204259,
+      "value": 9690
+    }
+  ],
+  "totalValue": 1284409,
+  "positionsCount": 16
+}

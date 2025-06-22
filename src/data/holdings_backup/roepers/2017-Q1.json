@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0000905718-17-000239",
+  "quarterKey": "2017-Q1",
+  "positions": [
+    {
+      "name": "OWENS ILL UNC",
+      "cusip": "690768403",
+      "shares": 8365905,
+      "value": 145650
+    },
+    {
+      "name": "HARMAN INTL INDS INC",
+      "cusip": "413086109",
+      "shares": 1125026,
+      "value": 125058
+    },
+    {
+      "name": "COMMSCOPE HLDC CO INC",
+      "cusip": "20337X109",
+      "shares": 3117127,
+      "value": 115957
+    },
+    {
+      "name": "DIEBOLD NXDF INC",
+      "cusip": "253651103",
+      "shares": 4161677,
+      "value": 104666
+    },
+    {
+      "name": "GOODYEAR TIRE AND RUBBER CO",
+      "cusip": "382550101",
+      "shares": 2984730,
+      "value": 92139
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 1211395,
+      "value": 91109
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 2419525,
+      "value": 64117
+    },
+    {
+      "name": "ARRIS INTL INC",
+      "cusip": "G0551A103",
+      "shares": 310157,
+      "value": 9345
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 201457,
+      "value": 8743
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 137881,
+      "value": 8507
+    },
+    {
+      "name": "STEELCASE INC",
+      "cusip": "858155203",
+      "shares": 454614,
+      "value": 8138
+    },
+    {
+      "name": "OFFICE DEPOT INC",
+      "cusip": "676220106",
+      "shares": 1680297,
+      "value": 7595
+    },
+    {
+      "name": "STAPLES INC",
+      "cusip": "855030102",
+      "shares": 745236,
+      "value": 6744
+    },
+    {
+      "name": "VERIFONE SYS INC",
+      "cusip": "92342Y109",
+      "shares": 347836,
+      "value": 6167
+    },
+    {
+      "name": "COOPER TIRE & RUBR CO",
+      "cusip": "216831107",
+      "shares": 100000,
+      "value": 3885
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 60000,
+      "value": 3877
+    },
+    {
+      "name": "COMPUTER SCIENCES CORP",
+      "cusip": "205363104",
+      "shares": 65000,
+      "value": 3862
+    },
+    {
+      "name": "BABCOCK & WILCOX ENTERPRIS I",
+      "cusip": "05614L100",
+      "shares": 230000,
+      "value": 3816
+    }
+  ],
+  "totalValue": 809375,
+  "positionsCount": 18
+}

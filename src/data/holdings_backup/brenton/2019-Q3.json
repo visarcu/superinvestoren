@@ -1,0 +1,167 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0000950123-19-007864",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "BERRY GLOBAL GROUP",
+      "cusip": "08579W103",
+      "shares": 3887149,
+      "value": 204425
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 886440,
+      "value": 120290
+    },
+    {
+      "name": "PRA GROUP INC",
+      "cusip": "69354N106",
+      "shares": 4074670,
+      "value": 114661
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HOLDINGS INC",
+      "cusip": "78467J100",
+      "shares": 1855395,
+      "value": 106889
+    },
+    {
+      "name": "OPEN TEXT CORP",
+      "cusip": "683715106",
+      "shares": 2446066,
+      "value": 100778
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 2310451,
+      "value": 96993
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 2282802,
+      "value": 88299
+    },
+    {
+      "name": "GARDNER DENVER HOLDINGS INC",
+      "cusip": "36555P107",
+      "shares": 1953350,
+      "value": 73387
+    },
+    {
+      "name": "MAGNA INTERNATIONAL INC",
+      "cusip": "559222401",
+      "shares": 1453500,
+      "value": 72239
+    },
+    {
+      "name": "SERVICE CORP INTERNATIONAL",
+      "cusip": "817565104",
+      "shares": 1487650,
+      "value": 69592
+    },
+    {
+      "name": "URBAN OUTFITTERS INC",
+      "cusip": "917047102",
+      "shares": 2762850,
+      "value": 62855
+    },
+    {
+      "name": "DISCOVER FINANCIAL SERVICES",
+      "cusip": "254709108",
+      "shares": 592300,
+      "value": 45957
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORTATION",
+      "cusip": "499049104",
+      "shares": 1384319,
+      "value": 45461
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 310332,
+      "value": 43487
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 477700,
+      "value": 41479
+    },
+    {
+      "name": "WABCO HOLDINGS INC",
+      "cusip": "92927K102",
+      "shares": 126750,
+      "value": 16807
+    },
+    {
+      "name": "NETSCOUT SYSTEMS INC",
+      "cusip": "64115T104",
+      "shares": 546057,
+      "value": 13864
+    },
+    {
+      "name": "POLARIS INDUSTRIES INC",
+      "cusip": "731068102",
+      "shares": 24250,
+      "value": 2212
+    },
+    {
+      "name": "F5 NETWORKS INC",
+      "cusip": "315616102",
+      "shares": 14500,
+      "value": 2112
+    },
+    {
+      "name": "SMITH (A.O.) CORP",
+      "cusip": "831865209",
+      "shares": 43250,
+      "value": 2040
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 36988,
+      "value": 1956
+    },
+    {
+      "name": "HD SUPPLY HOLDINGS INC",
+      "cusip": "40416M105",
+      "shares": 45600,
+      "value": 1837
+    },
+    {
+      "name": "COGENT COMMUNICATIONS HOLDINGS INC",
+      "cusip": "19239V302",
+      "shares": 22900,
+      "value": 1359
+    },
+    {
+      "name": "FASTENAL CORPORATION",
+      "cusip": "311900104",
+      "shares": 29450,
+      "value": 960
+    },
+    {
+      "name": "FLOWSERVE",
+      "cusip": "34354P105",
+      "shares": 6450,
+      "value": 340
+    },
+    {
+      "name": "DESCARTES SYS GROUP INC",
+      "cusip": "249906108",
+      "shares": 1900,
+      "value": 70
+    }
+  ],
+  "totalValue": 1330349,
+  "positionsCount": 26
+}

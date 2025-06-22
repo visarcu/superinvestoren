@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-14",
+  "period": "2024-08-14",
+  "accession": "0001104659-24-089315",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 90,
+      "value": 55101666
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 82390,
+      "value": 15111974
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 44000,
+      "value": 9267280
+    },
+    {
+      "name": "SYNCHRONY FINANCIAL",
+      "cusip": "87165B103",
+      "shares": 193202,
+      "value": 9117199
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 456388,
+      "value": 9059301
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 225525,
+      "value": 8946573
+    },
+    {
+      "name": "NAVIENT CORPORATION",
+      "cusip": "63938C108",
+      "shares": 264245,
+      "value": 3847406
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 57695,
+      "value": 3661323
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 59542,
+      "value": 3536199
+    },
+    {
+      "name": "POOL CORP",
+      "cusip": "73278L105",
+      "shares": 10636,
+      "value": 3268762
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 5899,
+      "value": 2483066
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 41000,
+      "value": 2379230
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G61188101",
+      "shares": 121823,
+      "value": 2123374
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 50000,
+      "value": 1988500
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 321000,
+      "value": 1762290
+    },
+    {
+      "name": "PATHWARD FINANCIAL INC",
+      "cusip": "59100U108",
+      "shares": 27389,
+      "value": 1549395
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W902",
+      "shares": 38500,
+      "value": 962500
+    },
+    {
+      "name": "ASSURED GUARANTY LTD",
+      "cusip": "G0585R106",
+      "shares": 10990,
+      "value": 847879
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 667612
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229789",
+      "shares": 28282,
+      "value": 626729
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 242217,
+      "value": 590926
+    },
+    {
+      "name": "JEFFERIES FINL GROUP INC",
+      "cusip": "47233W109",
+      "shares": 10987,
+      "value": 546713
+    },
+    {
+      "name": "LOUISIANA PAC CORP",
+      "cusip": "546347105",
+      "shares": 5886,
+      "value": 484594
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 4000,
+      "value": 456840
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 10000,
+      "value": 419000
+    },
+    {
+      "name": "IMPERIAL OIL LTD",
+      "cusip": "453038408",
+      "shares": 5000,
+      "value": 340923
+    },
+    {
+      "name": "RYANAIR HOLDINGS PLC",
+      "cusip": "783513203",
+      "shares": 2375,
+      "value": 276545
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 3400,
+      "value": 244800
+    },
+    {
+      "name": "METHANEX CORP",
+      "cusip": "59151K108",
+      "shares": 4000,
+      "value": 193121
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 262,
+      "value": 134846
+    },
+    {
+      "name": "VITESSE ENERGY INC",
+      "cusip": "92852X103",
+      "shares": 1293,
+      "value": 30644
+    }
+  ],
+  "totalValue": 140027210,
+  "positionsCount": 31
+}

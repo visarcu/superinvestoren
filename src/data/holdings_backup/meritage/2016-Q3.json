@@ -1,0 +1,161 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-12",
+  "period": "2016-08-12",
+  "accession": "0001427119-16-000021",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 3100000,
+      "value": 649373
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1962910,
+      "value": 448800
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 12359163,
+      "value": 334315
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 3109613,
+      "value": 318891
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP",
+      "cusip": "78388J106",
+      "shares": 2496869,
+      "value": 269512
+    },
+    {
+      "name": "DUNKIN BRANDS GROUP INC",
+      "cusip": "265504100",
+      "shares": 4961112,
+      "value": 216404
+    },
+    {
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 1108162,
+      "value": 206838
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 775779,
+      "value": 179275
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 689042,
+      "value": 176367
+    },
+    {
+      "name": "SALLY BEAUTY HLDGS INC",
+      "cusip": "79546E104",
+      "shares": 5175752,
+      "value": 152219
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1319478,
+      "value": 141527
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1471253,
+      "value": 137871
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 348247,
+      "value": 102270
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1316845,
+      "value": 97670
+    },
+    {
+      "name": "HANESBRANDS INC",
+      "cusip": "410345102",
+      "shares": 3673626,
+      "value": 92318
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 1656010,
+      "value": 88712
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 2516821,
+      "value": 79783
+    },
+    {
+      "name": "VMWARE INC",
+      "cusip": "928563402",
+      "shares": 526600,
+      "value": 30132
+    },
+    {
+      "name": "TESLA MTRS INC",
+      "cusip": "88160R101",
+      "shares": 141808,
+      "value": 30103
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 623200,
+      "value": 29496
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 819300,
+      "value": 23186
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 400100,
+      "value": 18937
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 222800,
+      "value": 12062
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT LLC",
+      "cusip": "037612306",
+      "shares": 376850,
+      "value": 5709
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 52237,
+      "value": 2828
+    }
+  ],
+  "totalValue": 3844598,
+  "positionsCount": 25
+}

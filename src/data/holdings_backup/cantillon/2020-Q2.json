@@ -1,0 +1,443 @@
+{
+  "form": "13F-HR",
+  "date": "2020-04-30",
+  "period": "2020-04-30",
+  "accession": "0001279936-20-000006",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1336899,
+      "value": 327607
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1275558,
+      "value": 312575
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 2072989,
+      "value": 252158
+    },
+    {
+      "name": "FIDELITY NATL INFORMATION SV",
+      "cusip": "31620M106",
+      "shares": 1981518,
+      "value": 241032
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 1064509,
+      "value": 231797
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 2529715,
+      "value": 226789
+    },
+    {
+      "name": "AMERICAN TOWER CORP NEW",
+      "cusip": "03027X100",
+      "shares": 1015152,
+      "value": 221049
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 2412614,
+      "value": 216291
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1325846,
+      "value": 213620
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 1202309,
+      "value": 204212
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1264521,
+      "value": 203740
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 171958,
+      "value": 199807
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 1146248,
+      "value": 194690
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 163928,
+      "value": 190476
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 2269004,
+      "value": 183222
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1496230,
+      "value": 176091
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1129105,
+      "value": 175948
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 2161836,
+      "value": 174568
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1427735,
+      "value": 168030
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 1077170,
+      "value": 167855
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 939055,
+      "value": 162372
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 895354,
+      "value": 154816
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 2106556,
+      "value": 150872
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 2008326,
+      "value": 143836
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 615870,
+      "value": 141508
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 595610,
+      "value": 141219
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 497161,
+      "value": 140995
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1173703,
+      "value": 140199
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 758682,
+      "value": 136631
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 588019,
+      "value": 135109
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 567366,
+      "value": 134522
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 473364,
+      "value": 134246
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1121043,
+      "value": 133909
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 725097,
+      "value": 130583
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 3451134,
+      "value": 130142
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 3290719,
+      "value": 124093
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0408V102",
+      "shares": 715247,
+      "value": 118044
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0408V102",
+      "shares": 682928,
+      "value": 112710
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 659405,
+      "value": 102933
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 86145,
+      "value": 100170
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 3155653,
+      "value": 98614
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 627713,
+      "value": 97986
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 82236,
+      "value": 95625
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 3009992,
+      "value": 94062
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 2115510,
+      "value": 92702
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 1938642,
+      "value": 92648
+    },
+    {
+      "name": "SS&C TECHNOLOGIES HLDGS INC",
+      "cusip": "78467J100",
+      "shares": 2016026,
+      "value": 88342
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 1846332,
+      "value": 88236
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 524222,
+      "value": 87440
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 500800,
+      "value": 83533
+    },
+    {
+      "name": "TRINET GROUP INC",
+      "cusip": "896288107",
+      "shares": 2058911,
+      "value": 77539
+    },
+    {
+      "name": "TRINET GROUP INC",
+      "cusip": "896288107",
+      "shares": 1970058,
+      "value": 74192
+    },
+    {
+      "name": "BRUNSWICK CORP",
+      "cusip": "117043109",
+      "shares": 1925923,
+      "value": 68120
+    },
+    {
+      "name": "BRUNSWICK CORP",
+      "cusip": "117043109",
+      "shares": 1835714,
+      "value": 64929
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 303906,
+      "value": 64276
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 291198,
+      "value": 61588
+    },
+    {
+      "name": "ENTEGRIS INC",
+      "cusip": "29362U104",
+      "shares": 1349412,
+      "value": 60413
+    },
+    {
+      "name": "ENTEGRIS INC",
+      "cusip": "29362U104",
+      "shares": 1293950,
+      "value": 57930
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 1247147,
+      "value": 57144
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1271540,
+      "value": 54892
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 1192090,
+      "value": 54622
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 342445,
+      "value": 54007
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 1223750,
+      "value": 52829
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC",
+      "cusip": "04247X102",
+      "shares": 648802,
+      "value": 51528
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 325015,
+      "value": 51258
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC",
+      "cusip": "04247X102",
+      "shares": 617950,
+      "value": 49078
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 505762,
+      "value": 44750
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 482551,
+      "value": 42696
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 147594,
+      "value": 37738
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 141634,
+      "value": 36214
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 852772,
+      "value": 30359
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 810328,
+      "value": 28848
+    }
+  ],
+  "totalValue": 9044604,
+  "positionsCount": 72
+}

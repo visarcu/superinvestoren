@@ -1,0 +1,395 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-02",
+  "period": "2022-05-02",
+  "accession": "0000905567-22-000003",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "Canadian Natural Resources Ltd",
+      "cusip": "136385101",
+      "shares": 16953969,
+      "value": 1050807
+    },
+    {
+      "name": "PepsiCo, Inc",
+      "cusip": "713448108",
+      "shares": 4274418,
+      "value": 715452
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 1942026,
+      "value": 598746
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 207138,
+      "value": 578534
+    },
+    {
+      "name": "Cognizant Technology Solutions",
+      "cusip": "192446102",
+      "shares": 5487021,
+      "value": 492021
+    },
+    {
+      "name": "Procter & Gamble",
+      "cusip": "742718109",
+      "shares": 3079402,
+      "value": 470533
+    },
+    {
+      "name": "Amerco",
+      "cusip": "023586100",
+      "shares": 711679,
+      "value": 424830
+    },
+    {
+      "name": "Coca-Cola Co.",
+      "cusip": "191216100",
+      "shares": 6338531,
+      "value": 392989
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 2167250,
+      "value": 384102
+    },
+    {
+      "name": "Sysco Corporation",
+      "cusip": "871829107",
+      "shares": 4658542,
+      "value": 380370
+    },
+    {
+      "name": "Booking Hldgs Inc Com",
+      "cusip": "09857L108",
+      "shares": 155626,
+      "value": 365480
+    },
+    {
+      "name": "News Corp Cl A",
+      "cusip": "65249B109",
+      "shares": 16228818,
+      "value": 359468
+    },
+    {
+      "name": "Fox Corp B",
+      "cusip": "35137L204",
+      "shares": 8551091,
+      "value": 310234
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 3494210,
+      "value": 304416
+    },
+    {
+      "name": "Charles Schwab Corp",
+      "cusip": "808513105",
+      "shares": 3464581,
+      "value": 292099
+    },
+    {
+      "name": "Tyson Foods Inc",
+      "cusip": "902494103",
+      "shares": 2910000,
+      "value": 260823
+    },
+    {
+      "name": "Berkshire Hathaway B",
+      "cusip": "084670702",
+      "shares": 715628,
+      "value": 252552
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "902973304",
+      "shares": 4703163,
+      "value": 249973
+    },
+    {
+      "name": "Walt Disney Company",
+      "cusip": "254687106",
+      "shares": 1768517,
+      "value": 242570
+    },
+    {
+      "name": "Reliance Steel & Aluminum Co.",
+      "cusip": "759509102",
+      "shares": 1263336,
+      "value": 231633
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 4504758,
+      "value": 218301
+    },
+    {
+      "name": "Ingredion Inc",
+      "cusip": "457187102",
+      "shares": 2384971,
+      "value": 207850
+    },
+    {
+      "name": "Northrop Grumman Corp",
+      "cusip": "666807102",
+      "shares": 435159,
+      "value": 194612
+    },
+    {
+      "name": "Weatherford International PLC",
+      "cusip": "G48833118",
+      "shares": 5735000,
+      "value": 190975
+    },
+    {
+      "name": "Anthem Inc",
+      "cusip": "036752103",
+      "shares": 386577,
+      "value": 189894
+    },
+    {
+      "name": "BNY Mellon Corp",
+      "cusip": "064058100",
+      "shares": 3794759,
+      "value": 188334
+    },
+    {
+      "name": "L3Harris Technologies",
+      "cusip": "502431109",
+      "shares": 686443,
+      "value": 170560
+    },
+    {
+      "name": "Lockheed Martin Corp",
+      "cusip": "539830109",
+      "shares": 358122,
+      "value": 158075
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 1426134,
+      "value": 117984
+    },
+    {
+      "name": "MSC Industrial Direct Co.",
+      "cusip": "553530106",
+      "shares": 1247303,
+      "value": 106283
+    },
+    {
+      "name": "Fox Corp A",
+      "cusip": "35137L105",
+      "shares": 2692789,
+      "value": 106231
+    },
+    {
+      "name": "Armstrong World Industries",
+      "cusip": "04247X102",
+      "shares": 1108512,
+      "value": 99777
+    },
+    {
+      "name": "Colgate-Palmolive",
+      "cusip": "194162103",
+      "shares": 1292300,
+      "value": 97995
+    },
+    {
+      "name": "Ebay Inc",
+      "cusip": "278642103",
+      "shares": 1699065,
+      "value": 97288
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 1512820,
+      "value": 84355
+    },
+    {
+      "name": "Comcast Cl A",
+      "cusip": "20030N101",
+      "shares": 1475200,
+      "value": 69069
+    },
+    {
+      "name": "Goldman Sachs Grp",
+      "cusip": "38141G104",
+      "shares": 197460,
+      "value": 65182
+    },
+    {
+      "name": "First Hawaiian Inc",
+      "cusip": "32051X108",
+      "shares": 2177265,
+      "value": 60724
+    },
+    {
+      "name": "Micron Technology Inc",
+      "cusip": "595112103",
+      "shares": 682375,
+      "value": 53150
+    },
+    {
+      "name": "Graftech International LTD",
+      "cusip": "384313508",
+      "shares": 5160328,
+      "value": 49642
+    },
+    {
+      "name": "Macy's Inc",
+      "cusip": "55616P104",
+      "shares": 1924200,
+      "value": 46874
+    },
+    {
+      "name": "Corning Inc",
+      "cusip": "219350105",
+      "shares": 1182000,
+      "value": 43628
+    },
+    {
+      "name": "Firstcash Holdings Inc",
+      "cusip": "33768G107",
+      "shares": 612851,
+      "value": 43108
+    },
+    {
+      "name": "Berkshire Hathaway A",
+      "cusip": "084670108",
+      "shares": 51,
+      "value": 26975
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 268050,
+      "value": 26805
+    },
+    {
+      "name": "Arcosa Inc",
+      "cusip": "039653100",
+      "shares": 412290,
+      "value": 23604
+    },
+    {
+      "name": "Ambev SSA",
+      "cusip": "02319V103",
+      "shares": 6000000,
+      "value": 19380
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 233700,
+      "value": 19301
+    },
+    {
+      "name": "Trecora Resources",
+      "cusip": "894648104",
+      "shares": 1628000,
+      "value": 13773
+    },
+    {
+      "name": "Unilever PLC ADR",
+      "cusip": "904767704",
+      "shares": 292748,
+      "value": 13341
+    },
+    {
+      "name": "News Corp CL B",
+      "cusip": "65249B208",
+      "shares": 538895,
+      "value": 12136
+    },
+    {
+      "name": "Huntsman Corporation",
+      "cusip": "447011107",
+      "shares": 216000,
+      "value": 8102
+    },
+    {
+      "name": "Legacy Housing Corporation",
+      "cusip": "52472M101",
+      "shares": 232100,
+      "value": 4981
+    },
+    {
+      "name": "Clorox Company",
+      "cusip": "189054109",
+      "shares": 29100,
+      "value": 4046
+    },
+    {
+      "name": "Mastercard Inc",
+      "cusip": "57636Q104",
+      "shares": 9980,
+      "value": 3567
+    },
+    {
+      "name": "Reading International, Inc",
+      "cusip": "755408101",
+      "shares": 741100,
+      "value": 3172
+    },
+    {
+      "name": "Hershey Co.",
+      "cusip": "427866108",
+      "shares": 10200,
+      "value": 2210
+    },
+    {
+      "name": "Philip Morris Intl",
+      "cusip": "718172109",
+      "shares": 21001,
+      "value": 1973
+    },
+    {
+      "name": "Cato Corp",
+      "cusip": "149205106",
+      "shares": 128445,
+      "value": 1883
+    },
+    {
+      "name": "Evolution Petroleum Corporatio",
+      "cusip": "30049A107",
+      "shares": 205000,
+      "value": 1392
+    },
+    {
+      "name": "Amplify Energy Corp",
+      "cusip": "03212B103",
+      "shares": 240000,
+      "value": 1320
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209S103",
+      "shares": 13300,
+      "value": 695
+    },
+    {
+      "name": "Spark Networks SE",
+      "cusip": "846517100",
+      "shares": 86000,
+      "value": 240
+    },
+    {
+      "name": "Spdr S&P 500 ETF",
+      "cusip": "78462F103",
+      "shares": 494,
+      "value": 223
+    }
+  ],
+  "totalValue": 11206642,
+  "positionsCount": 64
+}

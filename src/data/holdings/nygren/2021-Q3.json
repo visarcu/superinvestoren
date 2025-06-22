@@ -1,0 +1,438 @@
+{
+  "form": "NPORT-P",
+  "date": "2021-11-24",
+  "period": "2021-11-24",
+  "accession": "0001752724-21-253862",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "Julius Baer Group Ltd",
+      "cusip": "000000000",
+      "shares": 941420,
+      "value": 62547655.89,
+      "pctOfPortfolio": 3.805119201019
+    },
+    {
+      "name": "Konecranes Oyj",
+      "cusip": "000000000",
+      "shares": 1557820,
+      "value": 62332465.44,
+      "pctOfPortfolio": 3.79202797799
+    },
+    {
+      "name": "Azimut Holding SpA",
+      "cusip": "000000000",
+      "shares": 2228836,
+      "value": 61055630.92,
+      "pctOfPortfolio": 3.714351085396
+    },
+    {
+      "name": "BNK Financial Group Inc",
+      "cusip": "000000000",
+      "shares": 7968792,
+      "value": 59055377.36,
+      "pctOfPortfolio": 3.592664618977
+    },
+    {
+      "name": "Software AG",
+      "cusip": "000000000",
+      "shares": 1103000,
+      "value": 51265193.16,
+      "pctOfPortfolio": 3.118744708516
+    },
+    {
+      "name": "Kimberly-Clark de Mexico SAB de CV",
+      "cusip": "000000000",
+      "shares": 29109100,
+      "value": 47933450.04,
+      "pctOfPortfolio": 2.916056381698
+    },
+    {
+      "name": "Applus Services SA",
+      "cusip": "000000000",
+      "shares": 4898000,
+      "value": 46693710.28,
+      "pctOfPortfolio": 2.840636168136
+    },
+    {
+      "name": "Incitec Pivot Ltd",
+      "cusip": "000000000",
+      "shares": 21720144,
+      "value": 45180337.19,
+      "pctOfPortfolio": 2.748569328521
+    },
+    {
+      "name": "Pirelli & C SpA",
+      "cusip": "000000000",
+      "shares": 7451233,
+      "value": 43591720.22,
+      "pctOfPortfolio": 2.651924988304
+    },
+    {
+      "name": "Talanx AG",
+      "cusip": "000000000",
+      "shares": 1018600,
+      "value": 43331382.78,
+      "pctOfPortfolio": 2.636087224641
+    },
+    {
+      "name": "Loomis AB",
+      "cusip": "000000000",
+      "shares": 1536400,
+      "value": 41698875.99,
+      "pctOfPortfolio": 2.53677282438
+    },
+    {
+      "name": "Atea ASA",
+      "cusip": "000000000",
+      "shares": 2283149,
+      "value": 39307841.06,
+      "pctOfPortfolio": 2.391312969922
+    },
+    {
+      "name": "Duerr AG",
+      "cusip": "000000000",
+      "shares": 902900,
+      "value": 38729488.84,
+      "pctOfPortfolio": 2.356128611596
+    },
+    {
+      "name": "Abrdn Plc",
+      "cusip": "000000000",
+      "shares": 10799535,
+      "value": 36933938.24,
+      "pctOfPortfolio": 2.246895356293
+    },
+    {
+      "name": "Babcock International Group PLC",
+      "cusip": "000000000",
+      "shares": 7302740,
+      "value": 36408405.23,
+      "pctOfPortfolio": 2.214924282099
+    },
+    {
+      "name": "Fixed Income Clearing Corp",
+      "cusip": "000000000",
+      "shares": 35473809.69,
+      "value": 35473809.69,
+      "pctOfPortfolio": 2.158067675983
+    },
+    {
+      "name": "Metso Outotec Oyj",
+      "cusip": "000000000",
+      "shares": 3873115,
+      "value": 35346480.78,
+      "pctOfPortfolio": 2.15032155547
+    },
+    {
+      "name": "Wynn Macau Ltd",
+      "cusip": "000000000",
+      "shares": 40862500,
+      "value": 34385610.16,
+      "pctOfPortfolio": 2.091866491186
+    },
+    {
+      "name": "NOS SGPS SA",
+      "cusip": "000000000",
+      "shares": 8421500,
+      "value": 33928042.15,
+      "pctOfPortfolio": 2.064030103142
+    },
+    {
+      "name": "ISS A/S",
+      "cusip": "000000000",
+      "shares": 1593400,
+      "value": 33679439.42,
+      "pctOfPortfolio": 2.048906226669
+    },
+    {
+      "name": "Element Fleet Management Corp",
+      "cusip": "000000000",
+      "shares": 3317500,
+      "value": 33473590.72,
+      "pctOfPortfolio": 2.036383313864
+    },
+    {
+      "name": "oOh!media Ltd",
+      "cusip": "000000000",
+      "shares": 25642865,
+      "value": 32568738.44,
+      "pctOfPortfolio": 1.981336154451
+    },
+    {
+      "name": "Megacable Holdings SAB de CV",
+      "cusip": "000000000",
+      "shares": 10648128,
+      "value": 32550777.65,
+      "pctOfPortfolio": 1.980243500443
+    },
+    {
+      "name": "Autoliv Inc",
+      "cusip": "052800109",
+      "shares": 375100,
+      "value": 32153572,
+      "pctOfPortfolio": 1.956079287986
+    },
+    {
+      "name": "DGB Financial Group Inc",
+      "cusip": "000000000",
+      "shares": 3546568,
+      "value": 29565410.97,
+      "pctOfPortfolio": 1.798627164634
+    },
+    {
+      "name": "Nihon Unisys Ltd",
+      "cusip": "000000000",
+      "shares": 1127100,
+      "value": 29189213.5,
+      "pctOfPortfolio": 1.775740995743
+    },
+    {
+      "name": "Travis Perkins PLC",
+      "cusip": "000000000",
+      "shares": 1407224,
+      "value": 28933378.31,
+      "pctOfPortfolio": 1.760177128801
+    },
+    {
+      "name": "EFG International AG",
+      "cusip": "000000000",
+      "shares": 3957628,
+      "value": 28520740.98,
+      "pctOfPortfolio": 1.73507412206
+    },
+    {
+      "name": "Ansell Ltd",
+      "cusip": "000000000",
+      "shares": 1139200,
+      "value": 27679555.89,
+      "pctOfPortfolio": 1.683900189288
+    },
+    {
+      "name": "LSL Property Services PLC",
+      "cusip": "000000000",
+      "shares": 4500293,
+      "value": 26437713.03,
+      "pctOfPortfolio": 1.608352032543
+    },
+    {
+      "name": "DS Smith PLC",
+      "cusip": "000000000",
+      "shares": 4541200,
+      "value": 25079689.77,
+      "pctOfPortfolio": 1.525735980693
+    },
+    {
+      "name": "Mitie Group PLC",
+      "cusip": "000000000",
+      "shares": 26051702,
+      "value": 24922468.46,
+      "pctOfPortfolio": 1.516171340469
+    },
+    {
+      "name": "St James's Place PLC",
+      "cusip": "000000000",
+      "shares": 1232217,
+      "value": 24856651.17,
+      "pctOfPortfolio": 1.512167311375
+    },
+    {
+      "name": "Hays PLC",
+      "cusip": "000000000",
+      "shares": 11153900,
+      "value": 24301516.23,
+      "pctOfPortfolio": 1.478395388362
+    },
+    {
+      "name": "Link Administration Holdings Ltd",
+      "cusip": "000000000",
+      "shares": 7730347,
+      "value": 24241232.62,
+      "pctOfPortfolio": 1.474728003571
+    },
+    {
+      "name": "ConvaTec Group PLC",
+      "cusip": "000000000",
+      "shares": 8256423,
+      "value": 24029364.81,
+      "pctOfPortfolio": 1.461838915076
+    },
+    {
+      "name": "Randstad NV",
+      "cusip": "000000000",
+      "shares": 351987,
+      "value": 23698246.24,
+      "pctOfPortfolio": 1.441695144529
+    },
+    {
+      "name": "Softwareone Holding AG",
+      "cusip": "000000000",
+      "shares": 1074100,
+      "value": 23486623.62,
+      "pctOfPortfolio": 1.428820972295
+    },
+    {
+      "name": "Hakuhodo DY Holdings Inc",
+      "cusip": "000000000",
+      "shares": 1230200,
+      "value": 21170440.56,
+      "pctOfPortfolio": 1.287914770308
+    },
+    {
+      "name": "SThree PLC",
+      "cusip": "000000000",
+      "shares": 2659618,
+      "value": 20784704.85,
+      "pctOfPortfolio": 1.264448337621
+    },
+    {
+      "name": "JDE Peet's NV",
+      "cusip": "000000000",
+      "shares": 644600,
+      "value": 19257307.87,
+      "pctOfPortfolio": 1.17152834736
+    },
+    {
+      "name": "Sarana Menara Nusantara Tbk PT",
+      "cusip": "000000000",
+      "shares": 190446200,
+      "value": 17552511.11,
+      "pctOfPortfolio": 1.067816149149
+    },
+    {
+      "name": "Strauss Group Ltd",
+      "cusip": "000000000",
+      "shares": 517899,
+      "value": 15166129.93,
+      "pctOfPortfolio": 0.922639407994
+    },
+    {
+      "name": "Gildan Activewear Inc",
+      "cusip": "000000000",
+      "shares": 389100,
+      "value": 14217233.54,
+      "pctOfPortfolio": 0.864912802225
+    },
+    {
+      "name": "Sulzer AG",
+      "cusip": "000000000",
+      "shares": 144970,
+      "value": 13758959.2,
+      "pctOfPortfolio": 0.837033444227
+    },
+    {
+      "name": "IWG PLC",
+      "cusip": "000000000",
+      "shares": 3435768,
+      "value": 13452158.74,
+      "pctOfPortfolio": 0.818369078559
+    },
+    {
+      "name": "Pagegroup PLC",
+      "cusip": "000000000",
+      "shares": 1591459,
+      "value": 13316302.72,
+      "pctOfPortfolio": 0.810104206871
+    },
+    {
+      "name": "Titan Cement International SA",
+      "cusip": "000000000",
+      "shares": 777655,
+      "value": 12971471,
+      "pctOfPortfolio": 0.789126189706
+    },
+    {
+      "name": "Sugi Holdings Co Ltd",
+      "cusip": "000000000",
+      "shares": 151500,
+      "value": 11045272.18,
+      "pctOfPortfolio": 0.671944881939
+    },
+    {
+      "name": "Nordic Entertainment Group AB",
+      "cusip": "000000000",
+      "shares": 183100,
+      "value": 9886817.97,
+      "pctOfPortfolio": 0.601469717119
+    },
+    {
+      "name": "Healius Ltd",
+      "cusip": "000000000",
+      "shares": 2719992,
+      "value": 9284507.27,
+      "pctOfPortfolio": 0.564827832192
+    },
+    {
+      "name": "Autogrill SpA",
+      "cusip": "000000000",
+      "shares": 1005500,
+      "value": 8145624.22,
+      "pctOfPortfolio": 0.495543289077
+    },
+    {
+      "name": "Wickes Group PLC",
+      "cusip": "000000000",
+      "shares": 2380277,
+      "value": 7299554.62,
+      "pctOfPortfolio": 0.444072204597
+    },
+    {
+      "name": "Medmix AG",
+      "cusip": "000000000",
+      "shares": 144970,
+      "value": 6844444.44,
+      "pctOfPortfolio": 0.416385339919
+    },
+    {
+      "name": "Vitesco Technologies Group AG",
+      "cusip": "000000000",
+      "shares": 115600,
+      "value": 6829167.71,
+      "pctOfPortfolio": 0.415455972099
+    },
+    {
+      "name": "Elekta AB",
+      "cusip": "000000000",
+      "shares": 592700,
+      "value": 6637662.56,
+      "pctOfPortfolio": 0.403805656623
+    },
+    {
+      "name": "dormakaba Holding AG",
+      "cusip": "000000000",
+      "shares": 8500,
+      "value": 6166559.31,
+      "pctOfPortfolio": 0.375145845209
+    },
+    {
+      "name": "Howden Joinery Group PLC",
+      "cusip": "000000000",
+      "shares": 380500,
+      "value": 4580743.82,
+      "pctOfPortfolio": 0.278671934486
+    },
+    {
+      "name": "TIS Inc",
+      "cusip": "000000000",
+      "shares": 38700,
+      "value": 1056281.54,
+      "pctOfPortfolio": 0.064259437261
+    },
+    {
+      "name": "Goldman Sachs Bank USA",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 736524.26,
+      "pctOfPortfolio": 0.044806836704
+    },
+    {
+      "name": "Dometic Group AB",
+      "cusip": "000000000",
+      "shares": 44900,
+      "value": 678016.92,
+      "pctOfPortfolio": 0.041247512224
+    }
+  ],
+  "totalValue": 1625405735.5900004,
+  "positionsCount": 61
+}

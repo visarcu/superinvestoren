@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-15",
+  "period": "2021-11-15",
+  "accession": "0001172661-21-002300",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 73874,
+      "value": 53748
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 55698,
+      "value": 34787
+    },
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 91428,
+      "value": 27569
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 9135,
+      "value": 24348
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 271447,
+      "value": 22785
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 144425,
+      "value": 17168
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 261847,
+      "value": 16324
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 195347,
+      "value": 14280
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1305167,
+      "value": 13300
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 527140,
+      "value": 1560
+    }
+  ],
+  "totalValue": 225869,
+  "positionsCount": 10
+}

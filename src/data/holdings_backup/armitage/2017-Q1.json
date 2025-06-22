@@ -1,0 +1,173 @@
+{
+  "form": "13F-HR",
+  "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0001581811-17-000002",
+  "quarterKey": "2017-Q1",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 3998257,
+      "value": 1151178
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 11460014,
+      "value": 791314
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 5737993,
+      "value": 617064
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 731674,
+      "value": 564721
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 20364278,
+      "value": 450051
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 4010984,
+      "value": 414134
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 10006516,
+      "value": 394957
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 4258568,
+      "value": 367472
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 2451042,
+      "value": 349935
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 2250976,
+      "value": 345097
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2979618,
+      "value": 342805
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 6762598,
+      "value": 337048
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1389794,
+      "value": 277514
+    },
+    {
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 2122688,
+      "value": 248758
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 166407,
+      "value": 243963
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3614385,
+      "value": 224598
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 759553,
+      "value": 168264
+    },
+    {
+      "name": "ALBEMARLE CORP",
+      "cusip": "012653101",
+      "shares": 1710656,
+      "value": 147253
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 3751106,
+      "value": 135452
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1694331,
+      "value": 132192
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 1670658,
+      "value": 123746
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 2225381,
+      "value": 94022
+    },
+    {
+      "name": "NVIDIA CORP",
+      "cusip": "67066G104",
+      "shares": 807118,
+      "value": 86152
+    },
+    {
+      "name": "POPULAR INC",
+      "cusip": "733174700",
+      "shares": 1877197,
+      "value": 82259
+    },
+    {
+      "name": "ADVANCE AUTO PARTS INC",
+      "cusip": "00751Y106",
+      "shares": 428284,
+      "value": 72431
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1572203,
+      "value": 47276
+    },
+    {
+      "name": "LIBERTY EXPEDIA HOLDINGS",
+      "cusip": "53046P109",
+      "shares": 360075,
+      "value": 14284
+    }
+  ],
+  "totalValue": 8223940,
+  "positionsCount": 27
+}

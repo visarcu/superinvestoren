@@ -1,4 +1,119 @@
 {
+  "form": "13F-HR",
   "date": "2018-05-02",
-  "positions": []
+  "period": "2018-05-02",
+  "accession": "0001376879-18-000004",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 3961719,
+      "value": 476499
+    },
+    {
+      "name": "GRIFOLS S A",
+      "cusip": "398438408",
+      "shares": 11649634,
+      "value": 246972
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 628095,
+      "value": 94038
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 678544,
+      "value": 81167
+    },
+    {
+      "name": "ALLEGION PUB LTD CO",
+      "cusip": "G0176J109",
+      "shares": 860768,
+      "value": 73415
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 861254,
+      "value": 69331
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 505344,
+      "value": 68717
+    },
+    {
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 467823,
+      "value": 67507
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 491686,
+      "value": 61864
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 351926,
+      "value": 59606
+    },
+    {
+      "name": "CME GROUP INV",
+      "cusip": "12572Q105",
+      "shares": 355630,
+      "value": 57520
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 1079914,
+      "value": 54536
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 52604,
+      "value": 54276
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 691332,
+      "value": 49555
+    },
+    {
+      "name": "AMBEV SA",
+      "cusip": "02319V103",
+      "shares": 6742367,
+      "value": 49017
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 294293,
+      "value": 47469
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 284795,
+      "value": 44625
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 529964,
+      "value": 35211
+    }
+  ],
+  "totalValue": 1691325,
+  "positionsCount": 18
 }

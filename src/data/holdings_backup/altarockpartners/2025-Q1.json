@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0001104659-25-014306",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1000604,
+      "value": 1268045437
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 5278320,
+      "value": 1158010625
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1891641,
+      "value": 797326682
+    },
+    {
+      "name": "ALPHABET INC-CL A",
+      "cusip": "02079K305",
+      "shares": 3480801,
+      "value": 658915629
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 950905,
+      "value": 450129900
+    },
+    {
+      "name": "MASTERCARD INC-CLASS A",
+      "cusip": "57636Q104",
+      "shares": 586254,
+      "value": 308703769
+    },
+    {
+      "name": "VISA INC-CLASS A SHRS",
+      "cusip": "92826C839",
+      "shares": 874912,
+      "value": 276507188
+    },
+    {
+      "name": "HILTON WORLDWIDE",
+      "cusip": "43300A203",
+      "shares": 91328,
+      "value": 22572628
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC-A",
+      "cusip": "16119P108",
+      "shares": 6025,
+      "value": 2065189
+    },
+    {
+      "name": "FAIR ISAAC INC",
+      "cusip": "303250104",
+      "shares": 670,
+      "value": 1333923
+    }
+  ],
+  "totalValue": 4943610970,
+  "positionsCount": 10
+}

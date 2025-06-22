@@ -1,0 +1,203 @@
+{
+  "form": "13F-HR",
+  "date": "2023-01-10",
+  "period": "2023-01-10",
+  "accession": "0001213900-23-001958",
+  "quarterKey": "2023-Q1",
+  "positions": [
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 9264265,
+      "value": 838415983
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2180876,
+      "value": 748869201
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 4795784,
+      "value": 643114634
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 15319003,
+      "value": 515331261
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2708575,
+      "value": 383155020
+    },
+    {
+      "name": "Westrock CO (WRK)",
+      "cusip": "96145D105",
+      "shares": 9934524,
+      "value": 349297864
+    },
+    {
+      "name": "Citigroup Inc (C)",
+      "cusip": "172967424",
+      "shares": 7682300,
+      "value": 347470429
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 3762023,
+      "value": 335346730
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 5354869,
+      "value": 267315060
+    },
+    {
+      "name": "PulteGroup Inc (PHM)",
+      "cusip": "745867101",
+      "shares": 5623990,
+      "value": 256060265
+    },
+    {
+      "name": "International Paper Co (IP)",
+      "cusip": "460146103",
+      "shares": 6081825,
+      "value": 210613600
+    },
+    {
+      "name": "Oshkosh Corp (OSK)",
+      "cusip": "688239201",
+      "shares": 1737674,
+      "value": 153245470
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 1035050,
+      "value": 128366901
+    },
+    {
+      "name": "Stanley Black & Decker INC (SWK)",
+      "cusip": "854502101",
+      "shares": 1289757,
+      "value": 96886546
+    },
+    {
+      "name": "Meritage Homes Corp (MTH)",
+      "cusip": "59001A102",
+      "shares": 819751,
+      "value": 75581042
+    },
+    {
+      "name": "CRH PLC - Sponsored ADR (CRH)",
+      "cusip": "12626K203",
+      "shares": 1808045,
+      "value": 71942111
+    },
+    {
+      "name": "Avnet Inc (AVT)",
+      "cusip": "053807103",
+      "shares": 1340170,
+      "value": 55724269
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 579464,
+      "value": 43332318
+    },
+    {
+      "name": "Bank of America Corp (BAC)",
+      "cusip": "060505104",
+      "shares": 1254500,
+      "value": 41549040
+    },
+    {
+      "name": "Gildan Activewear Inc (GIL)",
+      "cusip": "375916103",
+      "shares": 1123600,
+      "value": 30786640
+    },
+    {
+      "name": "Proshares Short QQQ (PSQ)",
+      "cusip": "74347B714",
+      "shares": 1005000,
+      "value": 14793600
+    },
+    {
+      "name": "Proshares Short S&P500 (SH)",
+      "cusip": "74347B425",
+      "shares": 695000,
+      "value": 11140850
+    },
+    {
+      "name": "Autoliv Inc (ALV)",
+      "cusip": "052800109",
+      "shares": 78040,
+      "value": 5976303
+    },
+    {
+      "name": "M.D.C. Holdings, Inc (MDC)",
+      "cusip": "552676108",
+      "shares": 66559,
+      "value": 2103264
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 20000,
+      "value": 1665200
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1601255
+    },
+    {
+      "name": "SPDR Bloomberg 1-3 Month T-B (BIL)",
+      "cusip": "78468R663",
+      "shares": 11655,
+      "value": 1066083
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 10000,
+      "value": 850200
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 420766
+    },
+    {
+      "name": "Berkshire Hathaway Inc Class B (BRK/B)",
+      "cusip": "084670702",
+      "shares": 1001,
+      "value": 309209
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2368,
+      "value": 283971
+    },
+    {
+      "name": "Technipfmc PLC (FTI)",
+      "cusip": "G87110105",
+      "shares": 15500,
+      "value": 188945
+    }
+  ],
+  "totalValue": 5632804030,
+  "positionsCount": 32
+}

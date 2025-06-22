@@ -1,0 +1,161 @@
+{
+  "form": "13F-HR",
+  "date": "2015-04-13",
+  "period": "2015-04-13",
+  "accession": "0001140361-15-015192",
+  "quarterKey": "2015-Q2",
+  "positions": [
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 4081218,
+      "value": 70407
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 300,
+      "value": 65256
+    },
+    {
+      "name": "NOKIA CORP",
+      "cusip": "654902204",
+      "shares": 5000000,
+      "value": 37903
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 896088,
+      "value": 37083
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 1126347,
+      "value": 24793
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 410000,
+      "value": 21125
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 997500,
+      "value": 20441
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 410000,
+      "value": 20272
+    },
+    {
+      "name": "OVERSTOCK COM INC DEL",
+      "cusip": "690370101",
+      "shares": 582271,
+      "value": 14104
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 75000,
+      "value": 14099
+    },
+    {
+      "name": "SEARS HOMETOWN & OUTLET STOR",
+      "cusip": "812362101",
+      "shares": 1322209,
+      "value": 10208
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 1080797,
+      "value": 10052
+    },
+    {
+      "name": "SEARS CDA INC",
+      "cusip": "81234D109",
+      "shares": 775149,
+      "value": 7149
+    },
+    {
+      "name": "ASCENT CAP GROUP INC",
+      "cusip": "043632108",
+      "shares": 140000,
+      "value": 5574
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505146",
+      "shares": 836825,
+      "value": 4913
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 529040,
+      "value": 4710
+    },
+    {
+      "name": "CHUNGHWA TELECOM CO LTD",
+      "cusip": "17133Q502",
+      "shares": 132088,
+      "value": 4236
+    },
+    {
+      "name": "CHICAGO BRIDGE & IRON CO N C",
+      "cusip": "167250109",
+      "shares": 67446,
+      "value": 3323
+    },
+    {
+      "name": "ASCENT CAP GROUP INC",
+      "cusip": "043632AA6",
+      "shares": 2683000,
+      "value": 2046
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513104",
+      "shares": 17000,
+      "value": 1135
+    },
+    {
+      "name": "ASTRAZENECA PLC",
+      "cusip": "046353108",
+      "shares": 13000,
+      "value": 893
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 25537,
+      "value": 504
+    },
+    {
+      "name": "GLAXOSMITHKLINE PLC",
+      "cusip": "37733W105",
+      "shares": 18000,
+      "value": 413
+    },
+    {
+      "name": "BP PLC",
+      "cusip": "055622104",
+      "shares": 10000,
+      "value": 391
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350155",
+      "shares": 581,
+      "value": 15
+    }
+  ],
+  "totalValue": 381045,
+  "positionsCount": 25
+}

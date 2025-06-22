@@ -1,0 +1,179 @@
+{
+  "form": "13F-HR",
+  "date": "2013-11-13",
+  "period": "2013-11-13",
+  "accession": "0001427119-13-000010",
+  "quarterKey": "2013-Q4",
+  "positions": [
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 2700900,
+      "value": 453778
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 2626966,
+      "value": 265455
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 2831632,
+      "value": 245191
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 1966758,
+      "value": 242604
+    },
+    {
+      "name": "LIBERTY INTERACTIVE CORP",
+      "cusip": "53071M104",
+      "shares": 10036564,
+      "value": 235558
+    },
+    {
+      "name": "DISCOVERY COMMUNICATNS NEW",
+      "cusip": "25470F302",
+      "shares": 2740000,
+      "value": 214049
+    },
+    {
+      "name": "SALLY BEAUTY HLDGS INC",
+      "cusip": "79546E104",
+      "shares": 7810676,
+      "value": 204327
+    },
+    {
+      "name": "INTERCONTINENTALEXCHANGE INC",
+      "cusip": "45865V100",
+      "shares": 1109322,
+      "value": 201253
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 3124895,
+      "value": 178619
+    },
+    {
+      "name": "WILLIAMS COS INC DEL",
+      "cusip": "969457100",
+      "shares": 4574532,
+      "value": 166330
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 4800055,
+      "value": 160850
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 194096,
+      "value": 130584
+    },
+    {
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 1079285,
+      "value": 129741
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 1185229,
+      "value": 123655
+    },
+    {
+      "name": "PERKINELMER INC",
+      "cusip": "714046109",
+      "shares": 3221792,
+      "value": 121623
+    },
+    {
+      "name": "COCA COLA ENTERPRISES INC NE",
+      "cusip": "19122T109",
+      "shares": 2791912,
+      "value": 112263
+    },
+    {
+      "name": "ISHARES",
+      "cusip": "464287655",
+      "shares": 500000,
+      "value": 53305
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 722330,
+      "value": 50801
+    },
+    {
+      "name": "ULTRA PETROLEUM CORP",
+      "cusip": "903914109",
+      "shares": 2442327,
+      "value": 50239
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 610493,
+      "value": 40042
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219G108",
+      "shares": 531450,
+      "value": 32844
+    },
+    {
+      "name": "ISHARES",
+      "cusip": "464287234",
+      "shares": 800000,
+      "value": 32604
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 889800,
+      "value": 23980
+    },
+    {
+      "name": "TESLA MTRS INC",
+      "cusip": "88160R101",
+      "shares": 80000,
+      "value": 15470
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 254000,
+      "value": 12758
+    },
+    {
+      "name": "FORD MTR CO DEL",
+      "cusip": "345370860",
+      "shares": 498300,
+      "value": 8406
+    },
+    {
+      "name": "GOLDCORP INC NEW",
+      "cusip": "380956409",
+      "shares": 100000,
+      "value": 2601
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y506",
+      "shares": 25793,
+      "value": 2138
+    }
+  ],
+  "totalValue": 3511068,
+  "positionsCount": 28
+}

@@ -1,4 +1,185 @@
 {
+  "form": "13F-HR",
   "date": "2024-02-15",
-  "positions": []
+  "period": "2024-02-15",
+  "accession": "0001376879-24-000002",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "ALCON INC",
+      "cusip": "H01301128",
+      "shares": 6597064,
+      "value": 515316
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1648924,
+      "value": 429297
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1115552,
+      "value": 419492
+    },
+    {
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 1188447,
+      "value": 417038
+    },
+    {
+      "name": "BOOKING HLDGS INC",
+      "cusip": "09857L108",
+      "shares": 116063,
+      "value": 411701
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE INC",
+      "cusip": "45866F104",
+      "shares": 3199759,
+      "value": 410945
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 971461,
+      "value": 352524
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 279510,
+      "value": 325352
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "shares": 2461395,
+      "value": 314148
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 499418,
+      "value": 312151
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 712793,
+      "value": 278388
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 1871074,
+      "value": 273645
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 771922,
+      "value": 254140
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 1226892,
+      "value": 242152
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 697604,
+      "value": 235668
+    },
+    {
+      "name": "MARSH & MCLENNAN COS",
+      "cusip": "571748102",
+      "shares": 1181242,
+      "value": 223810
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G54950103",
+      "shares": 542993,
+      "value": 223013
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 1866456,
+      "value": 202641
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 666628,
+      "value": 164850
+    },
+    {
+      "name": "CADENCE DESIGN SYSTEM INC",
+      "cusip": "127387108",
+      "shares": 602490,
+      "value": 164100
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 253099,
+      "value": 145132
+    },
+    {
+      "name": "WARNER MUSIC GROUP CORP",
+      "cusip": "934550203",
+      "shares": 3729554,
+      "value": 133481
+    },
+    {
+      "name": "OTIS WORLDWIDE CORP",
+      "cusip": "68902V107",
+      "shares": 1471409,
+      "value": 131647
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 785965,
+      "value": 115175
+    },
+    {
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 2117112,
+      "value": 103738
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 163937,
+      "value": 87016
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 259324,
+      "value": 58480
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 91012,
+      "value": 51481
+    },
+    {
+      "name": "ALLEGION PLC",
+      "cusip": "G0176J109",
+      "shares": 234045,
+      "value": 29651
+    }
+  ],
+  "totalValue": 7026172,
+  "positionsCount": 29
 }

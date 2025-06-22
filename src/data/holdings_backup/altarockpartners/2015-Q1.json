@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-17",
+  "period": "2015-02-17",
+  "accession": "0001144204-15-009538",
+  "quarterKey": "2015-Q1",
+  "positions": [
+    {
+      "name": "TRANSDIGM",
+      "cusip": "893641100",
+      "shares": 155084,
+      "value": 30451
+    },
+    {
+      "name": "LIBERTY GLOBAL INC-SERIES C",
+      "cusip": "G5480U120",
+      "shares": 474707,
+      "value": 22933
+    },
+    {
+      "name": "MASTERCARD INC - CLASS A",
+      "cusip": "57636Q104",
+      "shares": 259690,
+      "value": 22375
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 217416,
+      "value": 20831
+    },
+    {
+      "name": "VISA INC - CLASS A",
+      "cusip": "92826C839",
+      "shares": 65344,
+      "value": 17133
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 76498,
+      "value": 7204
+    }
+  ],
+  "totalValue": 120927,
+  "positionsCount": 6
+}

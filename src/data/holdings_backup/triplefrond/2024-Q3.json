@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-14",
+  "period": "2024-08-14",
+  "accession": "0001387292-24-000016",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 627525,
+      "value": 187605000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 718260,
+      "value": 131743000
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 541901,
+      "value": 104722000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 228654,
+      "value": 102197000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 62239,
+      "value": 79517000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 150787,
+      "value": 63471000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 219329,
+      "value": 57567000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 52530,
+      "value": 55937000
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 57920,
+      "value": 27903000
+    },
+    {
+      "name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "shares": 314734,
+      "value": 24779000
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 74500,
+      "value": 16856000
+    }
+  ],
+  "totalValue": 852297000,
+  "positionsCount": 11
+}

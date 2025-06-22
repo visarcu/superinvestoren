@@ -1,0 +1,395 @@
+{
+  "form": "13F-HR",
+  "date": "2018-11-14",
+  "period": "2018-11-14",
+  "accession": "0001103804-18-000045",
+  "quarterKey": "2018-Q4",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 9474297,
+      "value": 1560985
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 132429795,
+      "value": 1495132
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 4782799,
+      "value": 1310726
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 10868535,
+      "value": 1270966
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 10268044,
+      "value": 1174356
+    },
+    {
+      "name": "ENCANA CORP",
+      "cusip": "292505104",
+      "shares": 74173665,
+      "value": 972417
+    },
+    {
+      "name": "UNITED TECHNOLOGIES CORP",
+      "cusip": "913017109",
+      "shares": 5889164,
+      "value": 823364
+    },
+    {
+      "name": "DOWDUPONT INC",
+      "cusip": "26078J100",
+      "shares": 10386445,
+      "value": 667952
+    },
+    {
+      "name": "MARATHON PETE CORP",
+      "cusip": "56585A102",
+      "shares": 7151101,
+      "value": 571874
+    },
+    {
+      "name": "PARSLEY ENERGY INC",
+      "cusip": "701877102",
+      "shares": 16619741,
+      "value": 486127
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 1877820,
+      "value": 458338
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229854",
+      "shares": 11240566,
+      "value": 418037
+    },
+    {
+      "name": "BIOMARIN PHARMACEUTICAL INC",
+      "cusip": "09061G101",
+      "shares": 4128941,
+      "value": 400383
+    },
+    {
+      "name": "RAYMOND JAMES FINANCIAL INC",
+      "cusip": "754730109",
+      "shares": 4172954,
+      "value": 384120
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 185101,
+      "value": 370757
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 2183952,
+      "value": 347314
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1244682,
+      "value": 331135
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 2407948,
+      "value": 311468
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1780817,
+      "value": 292873
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 5728092,
+      "value": 263550
+    },
+    {
+      "name": "BERRY GLOBAL GROUP INC",
+      "cusip": "08579W103",
+      "shares": 5182628,
+      "value": 250787
+    },
+    {
+      "name": "LINCOLN NATL CORP IND",
+      "cusip": "534187109",
+      "shares": 3313701,
+      "value": 224205
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 587973,
+      "value": 219978
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 1519056,
+      "value": 208274
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 2921390,
+      "value": 205023
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1249775,
+      "value": 187579
+    },
+    {
+      "name": "OLIN CORP",
+      "cusip": "680665205",
+      "shares": 7186045,
+      "value": 184538
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 1139317,
+      "value": 177859
+    },
+    {
+      "name": "WYNN RESORTS LTD",
+      "cusip": "983134107",
+      "shares": 1378053,
+      "value": 175095
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 950281,
+      "value": 159771
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 3397819,
+      "value": 158644
+    },
+    {
+      "name": "ILLUMINA INC",
+      "cusip": "452327109",
+      "shares": 385190,
+      "value": 141388
+    },
+    {
+      "name": "MYLAN N V",
+      "cusip": "N59465109",
+      "shares": 3755930,
+      "value": 137467
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 3156001,
+      "value": 121506
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 1115228,
+      "value": 103114
+    },
+    {
+      "name": "EXACT SCIENCES CORP",
+      "cusip": "30063P105",
+      "shares": 1294650,
+      "value": 102174
+    },
+    {
+      "name": "SYNEOS HEALTH INC",
+      "cusip": "87166B102",
+      "shares": 1804104,
+      "value": 93002
+    },
+    {
+      "name": "GALLAGHER ARTHUR J & CO",
+      "cusip": "363576109",
+      "shares": 1235849,
+      "value": 91997
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1286070,
+      "value": 91362
+    },
+    {
+      "name": "CENTENE CORP DEL",
+      "cusip": "15135B101",
+      "shares": 609107,
+      "value": 88187
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 864744,
+      "value": 81372
+    },
+    {
+      "name": "TORONTO DOMINION BK ONT",
+      "cusip": "891160509",
+      "shares": 1314465,
+      "value": 79876
+    },
+    {
+      "name": "PATTERSON UTI ENERGY INC",
+      "cusip": "703481101",
+      "shares": 4563526,
+      "value": 78082
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0408V102",
+      "shares": 482868,
+      "value": 74255
+    },
+    {
+      "name": "TENARIS S A",
+      "cusip": "88031M109",
+      "shares": 2192701,
+      "value": 73499
+    },
+    {
+      "name": "CHILDRENS PL INC",
+      "cusip": "168905107",
+      "shares": 547200,
+      "value": 69932
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 57912,
+      "value": 69904
+    },
+    {
+      "name": "WPX ENERGY INC",
+      "cusip": "98212B103",
+      "shares": 3412803,
+      "value": 68666
+    },
+    {
+      "name": "CATALENT INC",
+      "cusip": "148806102",
+      "shares": 1502719,
+      "value": 68449
+    },
+    {
+      "name": "ANAPTYSBIO INC",
+      "cusip": "032724106",
+      "shares": 609939,
+      "value": 60854
+    },
+    {
+      "name": "IQIYI INC",
+      "cusip": "46267X108",
+      "shares": 1578000,
+      "value": 42716
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 590509,
+      "value": 41034
+    },
+    {
+      "name": "PINDUODUO INC",
+      "cusip": "722304102",
+      "shares": 1412260,
+      "value": 37128
+    },
+    {
+      "name": "AMNEAL PHARMACEUTICALS INC",
+      "cusip": "03168L105",
+      "shares": 1537575,
+      "value": 34119
+    },
+    {
+      "name": "EDITAS MEDICINE INC",
+      "cusip": "28106W103",
+      "shares": 931401,
+      "value": 29637
+    },
+    {
+      "name": "DECIPHERA PHARMACEUTICALS IN",
+      "cusip": "24344T101",
+      "shares": 735898,
+      "value": 28494
+    },
+    {
+      "name": "ELANCO ANIMAL HEALTH INC",
+      "cusip": "28414H103",
+      "shares": 652140,
+      "value": 22753
+    },
+    {
+      "name": "HARTFORD FINL SVCS GROUP INC",
+      "cusip": "416515104",
+      "shares": 400000,
+      "value": 19984
+    },
+    {
+      "name": "EIDOS THERAPEUTICS INC",
+      "cusip": "28249H104",
+      "shares": 1986201,
+      "value": 19822
+    },
+    {
+      "name": "ABEONA THERAPEUTICS INC",
+      "cusip": "00289Y107",
+      "shares": 776319,
+      "value": 9937
+    },
+    {
+      "name": "BLUEPRINT MEDICINES CORP",
+      "cusip": "09627Y109",
+      "shares": 111100,
+      "value": 8672
+    },
+    {
+      "name": "LIVANOVA PLC",
+      "cusip": "G5509L101",
+      "shares": 43880,
+      "value": 5440
+    },
+    {
+      "name": "ATYR PHARMA INC",
+      "cusip": "002120103",
+      "shares": 1384300,
+      "value": 1125
+    },
+    {
+      "name": "JIANPU TECHNOLOGY INC",
+      "cusip": "47738D101",
+      "shares": 169161,
+      "value": 827
+    }
+  ],
+  "totalValue": 18060401,
+  "positionsCount": 64
+}

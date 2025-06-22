@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-10",
+  "period": "2022-11-10",
+  "accession": "0001454502-22-000006",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 381748,
+      "value": 115803000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 466776,
+      "value": 82923000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 822900,
+      "value": 79122000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 146291,
+      "value": 76776000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 229654,
+      "value": 53486000
+    },
+    {
+      "name": "AMAZON.COM INC",
+      "cusip": "023135106",
+      "shares": 468776,
+      "value": 52972000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 157998,
+      "value": 38411000
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 164004,
+      "value": 28488000
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 62060,
+      "value": 22714000
+    },
+    {
+      "name": "GUIDEWIRE SOFTWARE INC",
+      "cusip": "40171V100",
+      "shares": 277612,
+      "value": 17095000
+    }
+  ],
+  "totalValue": 567790000,
+  "positionsCount": 10
+}

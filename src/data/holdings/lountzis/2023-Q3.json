@@ -1,4 +1,281 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-15",
-  "positions": []
+  "period": "2023-08-15",
+  "accession": "0001821168-23-000003",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "Berkshire Hathaway Class B",
+      "cusip": "084670702",
+      "shares": 141106,
+      "value": 50584
+    },
+    {
+      "name": "Applied Materials",
+      "cusip": "038222105",
+      "shares": 107829,
+      "value": 15300
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 254533,
+      "value": 11223
+    },
+    {
+      "name": "Progressive Co",
+      "cusip": "743315103",
+      "shares": 82692,
+      "value": 10413
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 253963,
+      "value": 9833
+    },
+    {
+      "name": "Brown & Brown Inc",
+      "cusip": "115236101",
+      "shares": 130277,
+      "value": 9298
+    },
+    {
+      "name": "Zoetis Inc Class A",
+      "cusip": "98978V103",
+      "shares": 45659,
+      "value": 8677
+    },
+    {
+      "name": "Splunk Inc",
+      "cusip": "848637104",
+      "shares": 79434,
+      "value": 7832
+    },
+    {
+      "name": "Pepsico Inc",
+      "cusip": "713448108",
+      "shares": 39099,
+      "value": 7179
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 61535,
+      "value": 7112
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 107675,
+      "value": 6652
+    },
+    {
+      "name": "Alphabet Inc Class A",
+      "cusip": "02079K305",
+      "shares": 47034,
+      "value": 6177
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 11574,
+      "value": 5913
+    },
+    {
+      "name": "Martin Marietta Matr",
+      "cusip": "573284106",
+      "shares": 9875,
+      "value": 4535
+    },
+    {
+      "name": "Lowes Companies Inc",
+      "cusip": "548661107",
+      "shares": 17836,
+      "value": 4029
+    },
+    {
+      "name": "Lab Co Of Amer HLDG",
+      "cusip": "50540R409",
+      "shares": 9536,
+      "value": 2086
+    },
+    {
+      "name": "Mohawk Industries",
+      "cusip": "608190104",
+      "shares": 9045,
+      "value": 918
+    },
+    {
+      "name": "Cloudflare Inc",
+      "cusip": "18915M107",
+      "shares": 13569,
+      "value": 891
+    },
+    {
+      "name": "Alphabet Inc Class C",
+      "cusip": "02079K107",
+      "shares": 6520,
+      "value": 860
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 7433,
+      "value": 832
+    },
+    {
+      "name": "W S F S Finl Co",
+      "cusip": "929328102",
+      "shares": 19000,
+      "value": 821
+    },
+    {
+      "name": "Abbott Laboratories",
+      "cusip": "002824100",
+      "shares": 7625,
+      "value": 809
+    },
+    {
+      "name": "Yum Brands Inc",
+      "cusip": "988498101",
+      "shares": 5336,
+      "value": 719
+    },
+    {
+      "name": "Aon PLC F Class A",
+      "cusip": "G0403H108",
+      "shares": 1900,
+      "value": 612
+    },
+    {
+      "name": "Constellation Softwr F",
+      "cusip": "21037X100",
+      "shares": 278,
+      "value": 558
+    },
+    {
+      "name": "Berkshire Hathaway Class A 1/100",
+      "cusip": "084990175",
+      "shares": 100,
+      "value": 543
+    },
+    {
+      "name": "Abbvie Inc",
+      "cusip": "00287Y109",
+      "shares": 3300,
+      "value": 502
+    },
+    {
+      "name": "Charles Schwab Corp",
+      "cusip": "808513105",
+      "shares": 8019,
+      "value": 497
+    },
+    {
+      "name": "Carmax Inc",
+      "cusip": "143130102",
+      "shares": 5597,
+      "value": 478
+    },
+    {
+      "name": "Bioventus Inc Class A",
+      "cusip": "09075A108",
+      "shares": 100000,
+      "value": 474
+    },
+    {
+      "name": "Greif Inc Class A",
+      "cusip": "397624107",
+      "shares": 6400,
+      "value": 463
+    },
+    {
+      "name": "Eurofins Scientifi Ordf",
+      "cusip": "L31839134",
+      "shares": 6518,
+      "value": 410
+    },
+    {
+      "name": "Meta Platforms",
+      "cusip": "30303M102",
+      "shares": 1301,
+      "value": 398
+    },
+    {
+      "name": "Bank Of NY Mellon Co",
+      "cusip": "064058100",
+      "shares": 8400,
+      "value": 380
+    },
+    {
+      "name": "Inercontinental Exchange",
+      "cusip": "45866F104",
+      "shares": 3278,
+      "value": 377
+    },
+    {
+      "name": "Elevance Health Inc",
+      "cusip": "036752103",
+      "shares": 755,
+      "value": 356
+    },
+    {
+      "name": "Liberty Media Corp",
+      "cusip": "531229755",
+      "shares": 5090,
+      "value": 355
+    },
+    {
+      "name": "Fairfax Finl HL F",
+      "cusip": "303901102",
+      "shares": 409,
+      "value": 344
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 963,
+      "value": 312
+    },
+    {
+      "name": "Jacobs Solutions Inc",
+      "cusip": "46982L108",
+      "shares": 2269,
+      "value": 311
+    },
+    {
+      "name": "Credit Accept Corp",
+      "cusip": "225310101",
+      "shares": 489,
+      "value": 241
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 1381,
+      "value": 240
+    },
+    {
+      "name": "Fortrea Holdings Inc",
+      "cusip": "34965K107",
+      "shares": 8486,
+      "value": 228
+    },
+    {
+      "name": "IBM Corp",
+      "cusip": "459200101",
+      "shares": 1500,
+      "value": 215
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 1340,
+      "value": 207
+    }
+  ],
+  "totalValue": 181194,
+  "positionsCount": 45
 }

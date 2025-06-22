@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2015-11-16",
+  "period": "2015-11-16",
+  "accession": "0000919574-15-008247",
+  "quarterKey": "2015-Q4",
+  "positions": [
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 26650148,
+      "value": 602293
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874156",
+      "shares": 23593673,
+      "value": 535576
+    },
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 24454440,
+      "value": 467813
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 27523418,
+      "value": 428815
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 10208903,
+      "value": 206832
+    },
+    {
+      "name": "CANADIAN NAT RES LTD",
+      "cusip": "136385101",
+      "shares": 9710500,
+      "value": 188869
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 3010000,
+      "value": 149326
+    },
+    {
+      "name": "SERITAGE GROWTH PPTYS",
+      "cusip": "81752R100",
+      "shares": 3367250,
+      "value": 125430
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350155",
+      "shares": 6736391,
+      "value": 117887
+    },
+    {
+      "name": "SEARS CDA INC",
+      "cusip": "81234D109",
+      "shares": 17901955,
+      "value": 116721
+    },
+    {
+      "name": "INTERNATIONAL BUSINESS MACHS",
+      "cusip": "459200101",
+      "shares": 754400,
+      "value": 109365
+    },
+    {
+      "name": "NOW INC",
+      "cusip": "67011P100",
+      "shares": 6752400,
+      "value": 99936
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505146",
+      "shares": 14028188,
+      "value": 80382
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 1653800,
+      "value": 62266
+    },
+    {
+      "name": "MRC GLOBAL INC",
+      "cusip": "55345K103",
+      "shares": 5331400,
+      "value": 59445
+    },
+    {
+      "name": "LANDS END INC NEW",
+      "cusip": "51509F105",
+      "shares": 1863327,
+      "value": 50328
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 742936,
+      "value": 42214
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 143892,
+      "value": 18764
+    },
+    {
+      "name": "ASA GOLD AND PRECIOUS MTLS L",
+      "cusip": "G3156P103",
+      "shares": 578000,
+      "value": 4520
+    },
+    {
+      "name": "SEARS HOMETOWN & OUTLET STOR",
+      "cusip": "812362101",
+      "shares": 409800,
+      "value": 3282
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 3,
+      "value": 586
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505153",
+      "shares": 1455701,
+      "value": 408
+    }
+  ],
+  "totalValue": 3471058,
+  "positionsCount": 22
+}

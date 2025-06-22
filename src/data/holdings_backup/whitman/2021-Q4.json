@@ -1,0 +1,365 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-12",
+  "period": "2021-11-12",
+  "accession": "0001099281-21-000012",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "Five Point Holdings LLC - CL A",
+      "cusip": "33833Q106",
+      "shares": 8898419,
+      "value": 69675
+    },
+    {
+      "name": "Brookfield Asset Mgmt. CL A",
+      "cusip": "112585104",
+      "shares": 828596,
+      "value": 44339
+    },
+    {
+      "name": "Warrior Met Coal Inc",
+      "cusip": "93627C101",
+      "shares": 1730328,
+      "value": 40265
+    },
+    {
+      "name": "Lennar Corp - Class B",
+      "cusip": "526057302",
+      "shares": 484684,
+      "value": 37607
+    },
+    {
+      "name": "Prologis Inc",
+      "cusip": "74340W103",
+      "shares": 255401,
+      "value": 32035
+    },
+    {
+      "name": "Comerica Inc",
+      "cusip": "200340107",
+      "shares": 371544,
+      "value": 29910
+    },
+    {
+      "name": "Weyerhaeuser Company",
+      "cusip": "962166104",
+      "shares": 829843,
+      "value": 29518
+    },
+    {
+      "name": "Rayonier Inc",
+      "cusip": "754907103",
+      "shares": 824502,
+      "value": 29419
+    },
+    {
+      "name": "Tidewater Inc",
+      "cusip": "88642R109",
+      "shares": 2347512,
+      "value": 28311
+    },
+    {
+      "name": "Amerco",
+      "cusip": "023586100",
+      "shares": 42470,
+      "value": 27437
+    },
+    {
+      "name": "Old Republic International Corp",
+      "cusip": "680223104",
+      "shares": 1110301,
+      "value": 25682
+    },
+    {
+      "name": "Lowe's Companies Inc",
+      "cusip": "548661107",
+      "shares": 116979,
+      "value": 23731
+    },
+    {
+      "name": "Hawaiian Holdings Inc",
+      "cusip": "419879101",
+      "shares": 994055,
+      "value": 21532
+    },
+    {
+      "name": "American Homes 4 Rent",
+      "cusip": "02665T306",
+      "shares": 505645,
+      "value": 19276
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 368858,
+      "value": 16894
+    },
+    {
+      "name": "CBRE Group, Inc",
+      "cusip": "12504L109",
+      "shares": 167076,
+      "value": 16267
+    },
+    {
+      "name": "JBG Smith Properties",
+      "cusip": "46590V100",
+      "shares": 527851,
+      "value": 15630
+    },
+    {
+      "name": "UMB Financial Corporation",
+      "cusip": "902788108",
+      "shares": 146136,
+      "value": 14133
+    },
+    {
+      "name": "Trinity Place Holdings",
+      "cusip": "89656D101",
+      "shares": 6080226,
+      "value": 11918
+    },
+    {
+      "name": "Mohawk Industries Inc",
+      "cusip": "608190104",
+      "shares": 66464,
+      "value": 11791
+    },
+    {
+      "name": "FNF Group",
+      "cusip": "31620R303",
+      "shares": 253673,
+      "value": 11502
+    },
+    {
+      "name": "Valaris Ltd",
+      "cusip": "G9460G101",
+      "shares": 310047,
+      "value": 10815
+    },
+    {
+      "name": "First Industrial Realty Trust, Inc",
+      "cusip": "32054K103",
+      "shares": 202857,
+      "value": 10565
+    },
+    {
+      "name": "MYR Group Inc",
+      "cusip": "55405W104",
+      "shares": 101309,
+      "value": 10081
+    },
+    {
+      "name": "Essex Property Trust, Inc",
+      "cusip": "297178105",
+      "shares": 30334,
+      "value": 9699
+    },
+    {
+      "name": "Washington Trust Bancorp.",
+      "cusip": "940610108",
+      "shares": 182745,
+      "value": 9682
+    },
+    {
+      "name": "Seaboard Corp",
+      "cusip": "811543107",
+      "shares": 2336,
+      "value": 9578
+    },
+    {
+      "name": "FRP Holdings Inc",
+      "cusip": "30292L107",
+      "shares": 152435,
+      "value": 8525
+    },
+    {
+      "name": "Vornado Realty Trust",
+      "cusip": "929042109",
+      "shares": 193011,
+      "value": 8109
+    },
+    {
+      "name": "Prosperity Bancshares Inc",
+      "cusip": "743606105",
+      "shares": 107928,
+      "value": 7677
+    },
+    {
+      "name": "ICF International, Inc",
+      "cusip": "44925C103",
+      "shares": 83673,
+      "value": 7472
+    },
+    {
+      "name": "Proassurance Corp",
+      "cusip": "74267C106",
+      "shares": 297038,
+      "value": 7064
+    },
+    {
+      "name": "Southside Bancshares Inc",
+      "cusip": "84470P109",
+      "shares": 164220,
+      "value": 6288
+    },
+    {
+      "name": "Kaiser Aluminum Corp",
+      "cusip": "483007704",
+      "shares": 52160,
+      "value": 5684
+    },
+    {
+      "name": "EMCOR Group, Inc",
+      "cusip": "29084Q100",
+      "shares": 45788,
+      "value": 5284
+    },
+    {
+      "name": "Brightsphere Investment Group",
+      "cusip": "10948W103",
+      "shares": 193259,
+      "value": 5050
+    },
+    {
+      "name": "Cal-Maine Foods, Inc",
+      "cusip": "128030202",
+      "shares": 139635,
+      "value": 5050
+    },
+    {
+      "name": "Tri Pointe Group Inc",
+      "cusip": "87265H109",
+      "shares": 232961,
+      "value": 4897
+    },
+    {
+      "name": "Central Securities Corporation",
+      "cusip": "155123102",
+      "shares": 111210,
+      "value": 4699
+    },
+    {
+      "name": "Liberty Media Corp - Braves A",
+      "cusip": "531229706",
+      "shares": 174128,
+      "value": 4686
+    },
+    {
+      "name": "Stratus Properties Inc",
+      "cusip": "863167201",
+      "shares": 141118,
+      "value": 4550
+    },
+    {
+      "name": "Alamo Group, Inc",
+      "cusip": "011311107",
+      "shares": 31880,
+      "value": 4449
+    },
+    {
+      "name": "Hamilton Beach Brand",
+      "cusip": "40701T104",
+      "shares": 282436,
+      "value": 4426
+    },
+    {
+      "name": "ATN International Inc",
+      "cusip": "00215F107",
+      "shares": 93903,
+      "value": 4400
+    },
+    {
+      "name": "Comfort Systems USA Inc",
+      "cusip": "199908104",
+      "shares": 52390,
+      "value": 3737
+    },
+    {
+      "name": "UniFirst Corporation",
+      "cusip": "904708104",
+      "shares": 14942,
+      "value": 3177
+    },
+    {
+      "name": "Preferred Apartment Communities",
+      "cusip": "74039L103",
+      "shares": 257713,
+      "value": 3152
+    },
+    {
+      "name": "Visteon Corp",
+      "cusip": "92839U206",
+      "shares": 31848,
+      "value": 3007
+    },
+    {
+      "name": "Seritage Growth Properties",
+      "cusip": "81752R100",
+      "shares": 202271,
+      "value": 3000
+    },
+    {
+      "name": "Dorman Products, Inc",
+      "cusip": "258278100",
+      "shares": 26078,
+      "value": 2469
+    },
+    {
+      "name": "Madison Square Garden Entertainment",
+      "cusip": "55826T102",
+      "shares": 27448,
+      "value": 1995
+    },
+    {
+      "name": "Retail Opportunity Investments Corp",
+      "cusip": "76131N101",
+      "shares": 75000,
+      "value": 1307
+    },
+    {
+      "name": "Stewart Information Services Corp",
+      "cusip": "860372101",
+      "shares": 17000,
+      "value": 1076
+    },
+    {
+      "name": "CTO Realty Growth, Inc",
+      "cusip": "22948Q101",
+      "shares": 19293,
+      "value": 1038
+    },
+    {
+      "name": "Potlatchdeltic Corp",
+      "cusip": "737630103",
+      "shares": 20000,
+      "value": 1032
+    },
+    {
+      "name": "NexPoint Residential Trust, Inc",
+      "cusip": "65341D102",
+      "shares": 13000,
+      "value": 805
+    },
+    {
+      "name": "The RMR Group Inc",
+      "cusip": "74967R106",
+      "shares": 23000,
+      "value": 770
+    },
+    {
+      "name": "Monmouth Real Estate Investment Corp",
+      "cusip": "609720107",
+      "shares": 30000,
+      "value": 560
+    },
+    {
+      "name": "Green Brick Partners",
+      "cusip": "392709101",
+      "shares": 16000,
+      "value": 329
+    }
+  ],
+  "totalValue": 743056,
+  "positionsCount": 59
+}

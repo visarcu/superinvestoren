@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-15",
+  "period": "2022-08-15",
+  "accession": "0000921895-22-002461",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 6154821,
+      "value": 189015
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 4452456,
+      "value": 138516
+    },
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 2430370,
+      "value": 121640
+    },
+    {
+      "name": "BRC INC",
+      "cusip": "05601U105",
+      "shares": 11125000,
+      "value": 90780
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 6091919,
+      "value": 47395
+    },
+    {
+      "name": "RENT A CTR INC NEW",
+      "cusip": "76009N100",
+      "shares": 2355730,
+      "value": 45819
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 6107150,
+      "value": 18138
+    }
+  ],
+  "totalValue": 651303,
+  "positionsCount": 7
+}

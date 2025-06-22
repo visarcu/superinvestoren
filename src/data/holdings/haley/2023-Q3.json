@@ -1,4 +1,107 @@
 {
+  "form": "13F-HR",
   "date": "2023-08-14",
-  "positions": []
+  "period": "2023-08-14",
+  "accession": "0001858353-23-000005",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 88900,
+      "value": 16330041
+    },
+    {
+      "name": "PATHWARD FINANCIAL INC",
+      "cusip": "59100U108",
+      "shares": 332505,
+      "value": 15414932
+    },
+    {
+      "name": "TOPGOLF CALLAWAY BRANDS CORP",
+      "cusip": "131193104",
+      "shares": 660964,
+      "value": 13120135
+    },
+    {
+      "name": "DAKTRONICS INC",
+      "cusip": "234264109",
+      "shares": 2046083,
+      "value": 13094931
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 87700,
+      "value": 12764735
+    },
+    {
+      "name": "BANCORP INC DEL",
+      "cusip": "05969A105",
+      "shares": 276735,
+      "value": 9035398
+    },
+    {
+      "name": "JOINT CORP",
+      "cusip": "47973J102",
+      "shares": 664978,
+      "value": 8977203
+    },
+    {
+      "name": "DOLE PLC",
+      "cusip": "G27907107",
+      "shares": 449249,
+      "value": 6073846
+    },
+    {
+      "name": "WASTE CONNECTIONS INC",
+      "cusip": "94106B101",
+      "shares": 36300,
+      "value": 5188359
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 38852,
+      "value": 5064747
+    },
+    {
+      "name": "ARES MANAGEMENT CORPORATION",
+      "cusip": "03990B101",
+      "shares": 49368,
+      "value": 4756607
+    },
+    {
+      "name": "GXO LOGISTICS INCORPORATED",
+      "cusip": "36262G101",
+      "shares": 57000,
+      "value": 3580740
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "47973J102",
+      "shares": 56460,
+      "value": 3161760
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 25200,
+      "value": 3016440
+    },
+    {
+      "name": "WILLSCOT MOBIL MINI HLDNG CO",
+      "cusip": "971378104",
+      "shares": 33900,
+      "value": 1620081
+    },
+    {
+      "name": "BRAGG GAMING GROUP INC",
+      "cusip": "104833306",
+      "shares": 153200,
+      "value": 470324
+    }
+  ],
+  "totalValue": 121670279,
+  "positionsCount": 16
 }

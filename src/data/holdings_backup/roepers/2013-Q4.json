@@ -1,0 +1,101 @@
+{
+  "form": "13F-HR",
+  "date": "2013-11-14",
+  "period": "2013-11-14",
+  "accession": "0001140361-13-042358",
+  "quarterKey": "2013-Q4",
+  "positions": [
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 4600000,
+      "value": 225860
+    },
+    {
+      "name": "OIL STS INTL INC",
+      "cusip": "678026105",
+      "shares": 2050000,
+      "value": 212093
+    },
+    {
+      "name": "OWENS ILL INC",
+      "cusip": "690768403",
+      "shares": 6900000,
+      "value": 207138
+    },
+    {
+      "name": "HARMAN INTL INDS INC",
+      "cusip": "413086109",
+      "shares": 2500000,
+      "value": 165575
+    },
+    {
+      "name": "ASHLAND INC NEW",
+      "cusip": "044209104",
+      "shares": 1556093,
+      "value": 143907
+    },
+    {
+      "name": "ROCKWOOD HLDGS INC",
+      "cusip": "774415103",
+      "shares": 1177380,
+      "value": 78767
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 900000,
+      "value": 20206
+    },
+    {
+      "name": "AGCO CORP",
+      "cusip": "001084102",
+      "shares": 330895,
+      "value": 19993
+    },
+    {
+      "name": "CURTISS WRIGHT CORP",
+      "cusip": "231561101",
+      "shares": 350000,
+      "value": 16436
+    },
+    {
+      "name": "CAMERON INTERNATIONAL CORP",
+      "cusip": "13342B105",
+      "shares": 280000,
+      "value": 16344
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 250000,
+      "value": 10755
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 140000,
+      "value": 9831
+    },
+    {
+      "name": "NEWS CORP NEW",
+      "cusip": "65249B109",
+      "shares": 600000,
+      "value": 9636
+    },
+    {
+      "name": "AXIALL CORP",
+      "cusip": "05463D100",
+      "shares": 213800,
+      "value": 8080
+    },
+    {
+      "name": "MRC GLOBAL INC",
+      "cusip": "55345K103",
+      "shares": 300000,
+      "value": 8040
+    }
+  ],
+  "totalValue": 1152661,
+  "positionsCount": 15
+}

@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2022-08-15",
+  "period": "2022-08-15",
+  "accession": "0001418812-22-000053",
+  "quarterKey": "2022-Q3",
+  "positions": [
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 14647776,
+      "value": 1303213
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 26456563,
+      "value": 1224674
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 13437070,
+      "value": 959944
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 9234964,
+      "value": 679786
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 12552751,
+      "value": 616215
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 10992637,
+      "value": 505551
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 4099226,
+      "value": 353681
+    },
+    {
+      "name": "TOPBUILD CORP",
+      "cusip": "89055F103",
+      "shares": 1204908,
+      "value": 201412
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 10886031,
+      "value": 173523
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 14341265,
+      "value": 119893
+    },
+    {
+      "name": "NEW YORK TIMES CO",
+      "cusip": "650111107",
+      "shares": 3095000,
+      "value": 86351
+    },
+    {
+      "name": "ALTUS POWER INC",
+      "cusip": "02217A102",
+      "shares": 4000020,
+      "value": 25240
+    },
+    {
+      "name": "ROCKET COS INC",
+      "cusip": "77311W101",
+      "shares": 2000000,
+      "value": 14720
+    },
+    {
+      "name": "UNIVAR SOLUTIONS INC",
+      "cusip": "91336L107",
+      "shares": 340000,
+      "value": 8456
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 90847,
+      "value": 2200
+    },
+    {
+      "name": "ALTUS POWER INC",
+      "cusip": "02217A110",
+      "shares": 18417,
+      "value": 24
+    }
+  ],
+  "totalValue": 6274883,
+  "positionsCount": 16
+}

@@ -1,0 +1,215 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-12",
+  "period": "2021-02-12",
+  "accession": "0001581811-21-000003",
+  "quarterKey": "2021-Q1",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 675668,
+      "value": 1183689
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1729752,
+      "value": 1144317
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 3198063,
+      "value": 1108736
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 4960604,
+      "value": 1103338
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 7430187,
+      "value": 1001961
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 4194576,
+      "value": 917480
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 1513056,
+      "value": 818155
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 3689194,
+      "value": 794726
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 242897,
+      "value": 791099
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 2867696,
+      "value": 755667
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2723375,
+      "value": 743917
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 10562410,
+      "value": 727961
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 2943394,
+      "value": 689343
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1798110,
+      "value": 630561
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 6545374,
+      "value": 593993
+    },
+    {
+      "name": "L BRANDS INC",
+      "cusip": "501797104",
+      "shares": 15819746,
+      "value": 588336
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 10618001,
+      "value": 556383
+    },
+    {
+      "name": "MATCH GROUP INC NEW",
+      "cusip": "57667L107",
+      "shares": 3252451,
+      "value": 491738
+    },
+    {
+      "name": "YANDEX N V",
+      "cusip": "N97284108",
+      "shares": 4701472,
+      "value": 327128
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 7499395,
+      "value": 303651
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 3015521,
+      "value": 298175
+    },
+    {
+      "name": "STONECO LTD",
+      "cusip": "G85158106",
+      "shares": 3504985,
+      "value": 294138
+    },
+    {
+      "name": "ALTICE USA INC",
+      "cusip": "02156K103",
+      "shares": 7251731,
+      "value": 274623
+    },
+    {
+      "name": "VULCAN MATLS CO",
+      "cusip": "929160109",
+      "shares": 1686639,
+      "value": 250145
+    },
+    {
+      "name": "NVR INC",
+      "cusip": "62944T105",
+      "shares": 56278,
+      "value": 229606
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 171150,
+      "value": 193733
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 499350,
+      "value": 178238
+    },
+    {
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 786400,
+      "value": 116175
+    },
+    {
+      "name": "HOWMET AEROSPACE INC",
+      "cusip": "443201108",
+      "shares": 3970624,
+      "value": 113322
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 373200,
+      "value": 105978
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 3816708,
+      "value": 105074
+    },
+    {
+      "name": "BLACKSTONE GROUP INC",
+      "cusip": "09260D107",
+      "shares": 1450021,
+      "value": 93976
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 450249,
+      "value": 81968
+    },
+    {
+      "name": "AVERY DENNISON CORP",
+      "cusip": "053611109",
+      "shares": 371651,
+      "value": 57647
+    }
+  ],
+  "totalValue": 17664977,
+  "positionsCount": 34
+}

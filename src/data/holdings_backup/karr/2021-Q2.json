@@ -1,0 +1,137 @@
+{
+  "form": "13F-HR",
+  "date": "2021-05-17",
+  "period": "2021-05-17",
+  "accession": "0001172661-21-001202",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 743200,
+      "value": 175224
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 570891,
+      "value": 129438
+    },
+    {
+      "name": "GLOBAL PMTS INC",
+      "cusip": "37940X102",
+      "shares": 595455,
+      "value": 120032
+    },
+    {
+      "name": "LIVENT CORP",
+      "cusip": "53814L108",
+      "shares": 3777080,
+      "value": 65419
+    },
+    {
+      "name": "EURONET WORLDWIDE INC",
+      "cusip": "298736109",
+      "shares": 469939,
+      "value": 64993
+    },
+    {
+      "name": "DYNATRACE INC",
+      "cusip": "268150109",
+      "shares": 734600,
+      "value": 35437
+    },
+    {
+      "name": "CERIDIAN HCM HLDG INC",
+      "cusip": "15677J108",
+      "shares": 185037,
+      "value": 15593
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1740,
+      "value": 5384
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 27850,
+      "value": 3772
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 16435,
+      "value": 3747
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 12230,
+      "value": 3602
+    },
+    {
+      "name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "shares": 52940,
+      "value": 3492
+    },
+    {
+      "name": "SERVICENOW INC",
+      "cusip": "81762P102",
+      "shares": 6690,
+      "value": 3346
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 5610,
+      "value": 2667
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 8907,
+      "value": 2591
+    },
+    {
+      "name": "PERFORMANCE FOOD GROUP CO",
+      "cusip": "71377A103",
+      "shares": 39500,
+      "value": 2276
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 6470,
+      "value": 1793
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 7720,
+      "value": 1653
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 700,
+      "value": 1444
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 20950,
+      "value": 1142
+    },
+    {
+      "name": "SIMON PPTY GROUP INC NEW",
+      "cusip": "828806109",
+      "shares": 8100,
+      "value": 922
+    }
+  ],
+  "totalValue": 643967,
+  "positionsCount": 21
+}

@@ -1,0 +1,125 @@
+{
+  "form": "13F-HR",
+  "date": "2021-05-14",
+  "period": "2021-05-14",
+  "accession": "0001104659-21-066764",
+  "quarterKey": "2021-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 150,
+      "value": 40800
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 1558992,
+      "value": 24164
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 209542,
+      "value": 6014
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 4571960,
+      "value": 5761
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 652531,
+      "value": 4659
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 20000,
+      "value": 3092
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 34275,
+      "value": 3086
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 67695,
+      "value": 2851
+    },
+    {
+      "name": "DAVITA INC",
+      "cusip": "23918K108",
+      "shares": 32743,
+      "value": 2490
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 529040,
+      "value": 2169
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 20000,
+      "value": 874
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 789
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 21000,
+      "value": 686
+    },
+    {
+      "name": "SPIRIT AIRLS INC",
+      "cusip": "848577102",
+      "shares": 50000,
+      "value": 645
+    },
+    {
+      "name": "MAGNA INTL INC",
+      "cusip": "559222401",
+      "shares": 20000,
+      "value": 638
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 18376,
+      "value": 390
+    },
+    {
+      "name": "ALLEGIANT TRAVEL CO",
+      "cusip": "01748X102",
+      "shares": 4317,
+      "value": 353
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513203",
+      "shares": 4575,
+      "value": 243
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 30000,
+      "value": 216
+    }
+  ],
+  "totalValue": 99920,
+  "positionsCount": 19
+}

@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-13",
+  "period": "2019-08-13",
+  "accession": "0001454502-19-000004",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 620029,
+      "value": 245023000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 875628,
+      "value": 171019000
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATION",
+      "cusip": "808513105",
+      "shares": 2627611,
+      "value": 105604000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 607300,
+      "value": 105397000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 212162,
+      "value": 102644000
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 766579,
+      "value": 79893000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 271300,
+      "value": 71767000
+    },
+    {
+      "name": "FOX CORP",
+      "cusip": "35137L105",
+      "shares": 1728594,
+      "value": 63318000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1668979,
+      "value": 44278000
+    }
+  ],
+  "totalValue": 988943000,
+  "positionsCount": 9
+}

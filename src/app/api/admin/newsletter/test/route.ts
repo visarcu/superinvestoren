@@ -1,37 +1,80 @@
-// src/app/api/admin/newsletter/test/route.ts
+// src/app/api/admin/newsletter/test/route.ts - ERWEITERTE TEST-VERSION
 import { NextRequest, NextResponse } from 'next/server'
 import { resend } from '@/lib/resend'
 
+interface TestEmail {
+  email: string
+  name?: string
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { subject, content, testEmail } = await request.json()
+    const { subject, content, testEmails, singleEmail } = await request.json()
 
-    if (!subject?.trim() || !content?.trim() || !testEmail?.trim()) {
-      return NextResponse.json({ 
-        error: 'Betreff, Inhalt und Test-E-Mail sind erforderlich' 
-      }, { status: 400 })
+    if (!subject?.trim() || !content?.trim()) {
+      return NextResponse.json({ error: 'Betreff und Inhalt sind erforderlich' }, { status: 400 })
     }
 
     // Newsletter-HTML generieren
     const newsletterHtml = generateNewsletterHtml(subject, content)
 
-    // Test-Newsletter senden
-    const { data, error } = await resend.emails.send({
-      from: 'FinClue Newsletter <team@finclue.de>',
-      to: [testEmail],
-      subject: `[TEST] ${subject}`,
-      html: newsletterHtml,
-    })
+    // Test-Modus bestimmen
+    let recipients: TestEmail[] = []
+    
+    if (singleEmail) {
+      // Einzelner Test (wie bisher)
+      recipients = [{ email: singleEmail }]
+    } else if (testEmails && Array.isArray(testEmails)) {
+      // Multi-Test für Datenschutz-Check
+      recipients = testEmails
+    } else {
+      return NextResponse.json({ error: 'Keine Test-E-Mails angegeben' }, { status: 400 })
+    }
 
-    if (error) {
-      console.error('Test newsletter send error:', error)
-      return NextResponse.json({ error: 'Fehler beim Senden der Test-E-Mail' }, { status: 500 })
+    console.log(`🧪 Teste Newsletter an ${recipients.length} E-Mail(s)`)
+
+    // Einzelversand-Test (gleiche Logik wie im echten Versand)
+    let sentCount = 0
+    const errors: Array<{ email: string; error: any }> = []
+
+    for (const recipient of recipients) {
+      try {
+        // Personalisierte E-Mail für jeden Empfänger
+        const personalizedHtml = newsletterHtml.replace(
+          'EMAIL_PLACEHOLDER', 
+          encodeURIComponent(recipient.email)
+        )
+
+        const { data, error } = await resend.emails.send({
+          from: 'FinClue Newsletter <team@finclue.de>',
+          to: [recipient.email], // ✅ Nur ein Empfänger pro E-Mail
+          subject: `[TEST] ${subject}`,
+          html: personalizedHtml,
+        })
+
+        if (error) {
+          console.error(`Test failed for ${recipient.email}:`, error)
+          errors.push({ email: recipient.email, error })
+        } else {
+          sentCount++
+          console.log(`✅ Test erfolgreich an ${recipient.email}`)
+        }
+
+        // Kurze Pause zwischen E-Mails
+        await new Promise(resolve => setTimeout(resolve, 500))
+
+      } catch (error) {
+        console.error(`Test exception for ${recipient.email}:`, error)
+        errors.push({ email: recipient.email, error })
+      }
     }
 
     return NextResponse.json({ 
       success: true, 
-      message: `Test-Newsletter erfolgreich an ${testEmail} gesendet`,
-      messageId: data?.id
+      sentCount,
+      totalRecipients: recipients.length,
+      errors: errors.length > 0 ? errors : undefined,
+      message: `Test-Newsletter erfolgreich an ${sentCount}/${recipients.length} E-Mail(s) gesendet`
     })
 
   } catch (error) {
@@ -41,7 +84,7 @@ export async function POST(request: NextRequest) {
 }
 
 function generateNewsletterHtml(subject: string, content: string): string {
-  // Vereinfachte Markdown-Ersetzungen
+  // Vereinfachte Markdown-Ersetzungen (ES5 kompatibel)
   let htmlContent = content
     // Headers
     .replace(/# (.*$)/gm, '<h1 style="color: #1f2937; font-size: 24px; font-weight: 700; margin: 20px 0 10px;">$1</h1>')
@@ -52,7 +95,7 @@ function generateNewsletterHtml(subject: string, content: string): string {
     .replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 600;">$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     
-    // Lists
+    // Lists (vereinfacht)
     .replace(/^- (.*$)/gm, '• $1<br>')
     
     // Paragraphs
@@ -67,7 +110,7 @@ function generateNewsletterHtml(subject: string, content: string): string {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${subject}</title>
+        <title>[TEST] ${subject}</title>
     </head>
     <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
         <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc;">
@@ -77,12 +120,12 @@ function generateNewsletterHtml(subject: string, content: string): string {
                         
                         <!-- Header -->
                         <tr>
-                            <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%); border-radius: 12px 12px 0 0;">
+                            <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); border-radius: 12px 12px 0 0;">
                                 <div style="display: inline-block; width: 50px; height: 50px; background-color: rgba(255,255,255,0.2); border-radius: 10px; margin-bottom: 15px; line-height: 50px;">
-                                    <span style="color: white; font-size: 20px; font-weight: bold;">F</span>
+                                    <span style="color: white; font-size: 20px; font-weight: bold;">🧪</span>
                                 </div>
-                                <h1 style="margin: 0; color: white; font-size: 24px; font-weight: 700;">FinClue Newsletter [TEST]</h1>
-                                <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px;">${new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                <h1 style="margin: 0; color: white; font-size: 24px; font-weight: 700;">TEST - FinClue Newsletter</h1>
+                                <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px;">⚠️ Dies ist ein Test • ${new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                             </td>
                         </tr>
 
@@ -99,6 +142,7 @@ function generateNewsletterHtml(subject: string, content: string): string {
                         <tr>
                             <td style="padding: 30px; border-top: 1px solid #e5e7eb; text-align: center; background-color: #f9fafb;">
                                 <p style="margin: 0 0 10px; color: #6b7280; font-size: 14px;">
+                                    🧪 TEST-VERSION<br>
                                     Viele Grüße,<br>
                                     Dein FinClue Team
                                 </p>
@@ -107,9 +151,6 @@ function generateNewsletterHtml(subject: string, content: string): string {
                                     <span style="color: #d1d5db; margin: 0 8px;">•</span>
                                     <a href="https://finclue.de/api/newsletter/unsubscribe?email=EMAIL_PLACEHOLDER" style="color: #6b7280; text-decoration: none; font-size: 12px;">Abmelden</a>
                                 </div>
-                                <p style="margin: 10px 0 0; color: #ef4444; font-size: 12px; font-weight: 600;">
-                                    ⚠️ DIES IST EINE TEST-E-MAIL
-                                </p>
                             </td>
                         </tr>
                     </table>

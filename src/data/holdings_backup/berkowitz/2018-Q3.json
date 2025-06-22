@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0000919574-18-005648",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "ST JOE CO",
+      "cusip": "790148100",
+      "shares": 27444119,
+      "value": 492622
+    },
+    {
+      "name": "VISTA OUTDOOR INC",
+      "cusip": "928377100",
+      "shares": 5055300,
+      "value": 78307
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 17428147,
+      "value": 41305
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 1227300,
+      "value": 39409
+    },
+    {
+      "name": "VISTRA ENERGY CORP",
+      "cusip": "92840M102",
+      "shares": 1037500,
+      "value": 24547
+    },
+    {
+      "name": "HRG GROUP INC",
+      "cusip": "40434J100",
+      "shares": 1553250,
+      "value": 20332
+    },
+    {
+      "name": "SPECTRUM BRANDS HLDGS INC",
+      "cusip": "84763R101",
+      "shares": 243500,
+      "value": 19874
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 235000,
+      "value": 15726
+    },
+    {
+      "name": "OAKTREE CAP GROUP LLC",
+      "cusip": "674001201",
+      "shares": 181000,
+      "value": 7358
+    },
+    {
+      "name": "CLIPPER RLTY INC",
+      "cusip": "18885T306",
+      "shares": 280000,
+      "value": 2391
+    },
+    {
+      "name": "JEFFERIES FINL GROUP INC",
+      "cusip": "47233W109",
+      "shares": 66000,
+      "value": 1501
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350155",
+      "shares": 5566341,
+      "value": 835
+    }
+  ],
+  "totalValue": 744207,
+  "positionsCount": 12
+}

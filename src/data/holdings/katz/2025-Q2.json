@@ -1,0 +1,242 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-02-12",
+  "period": "2025-02-12",
+  "accession": "0001145549-25-006905",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 28425,
+      "value": 5413257,
+      "pctOfPortfolio": 7.6751266601
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 12150,
+      "value": 5121225,
+      "pctOfPortfolio": 7.2610723137
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 16300,
+      "value": 4081846,
+      "pctOfPortfolio": 5.7874002762
+    },
+    {
+      "name": "Meta Platforms Inc",
+      "cusip": "30303M102",
+      "shares": 6600,
+      "value": 3864366,
+      "pctOfPortfolio": 5.4790486598
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 17450,
+      "value": 3828355.5,
+      "pctOfPortfolio": 5.42799157
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 14000,
+      "value": 3355940,
+      "pctOfPortfolio": 4.7581824701
+    },
+    {
+      "name": "Goldman Sachs Group Inc/The",
+      "cusip": "38141G104",
+      "shares": 5850,
+      "value": 3349827,
+      "pctOfPortfolio": 4.7495152206
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "617446448",
+      "shares": 24550,
+      "value": 3086426,
+      "pctOfPortfolio": 4.3760550214
+    },
+    {
+      "name": "Bank of New York Mellon Corp/T",
+      "cusip": "064058100",
+      "shares": 37800,
+      "value": 2904174,
+      "pctOfPortfolio": 4.1176510358
+    },
+    {
+      "name": "PayPal Holdings Inc",
+      "cusip": "70450Y103",
+      "shares": 32700,
+      "value": 2790945,
+      "pctOfPortfolio": 3.9571105485
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 34800,
+      "value": 2444352,
+      "pctOfPortfolio": 3.4656974908
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 47120,
+      "value": 2253749.6,
+      "pctOfPortfolio": 3.1954539827
+    },
+    {
+      "name": "PNC Financial Services Group I",
+      "cusip": "693475105",
+      "shares": 11400,
+      "value": 2198490,
+      "pctOfPortfolio": 3.1171047691
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 37100,
+      "value": 2196320,
+      "pctOfPortfolio": 3.1140280585
+    },
+    {
+      "name": "TE Connectivity PLC",
+      "cusip": null,
+      "shares": 15200,
+      "value": 2173144,
+      "pctOfPortfolio": 3.0811682229
+    },
+    {
+      "name": "FedEx Corp",
+      "cusip": "31428X106",
+      "shares": 7700,
+      "value": 2166241,
+      "pctOfPortfolio": 3.0713808806
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 12800,
+      "value": 1966336,
+      "pctOfPortfolio": 2.7879477838
+    },
+    {
+      "name": "Comcast Corp",
+      "cusip": "20030N101",
+      "shares": 47000,
+      "value": 1763910,
+      "pctOfPortfolio": 2.500940315
+    },
+    {
+      "name": "L3Harris Technologies Inc",
+      "cusip": "502431109",
+      "shares": 8000,
+      "value": 1682240,
+      "pctOfPortfolio": 2.3851454074
+    },
+    {
+      "name": "RTX Corp",
+      "cusip": "75513E101",
+      "shares": 13900,
+      "value": 1608508,
+      "pctOfPortfolio": 2.2806053054
+    },
+    {
+      "name": "AbbVie Inc",
+      "cusip": "00287Y109",
+      "shares": 9000,
+      "value": 1599300,
+      "pctOfPortfolio": 2.2675498443
+    },
+    {
+      "name": "Thermo Fisher Scientific Inc",
+      "cusip": "883556102",
+      "shares": 3000,
+      "value": 1560690,
+      "pctOfPortfolio": 2.2128070822
+    },
+    {
+      "name": "Zimmer Biomet Holdings Inc",
+      "cusip": "98956P102",
+      "shares": 12600,
+      "value": 1330938,
+      "pctOfPortfolio": 1.8870557461
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 2600,
+      "value": 1315236,
+      "pctOfPortfolio": 1.8647928388
+    },
+    {
+      "name": "Tyson Foods Inc",
+      "cusip": "902494103",
+      "shares": 20025,
+      "value": 1150236,
+      "pctOfPortfolio": 1.6308494108
+    },
+    {
+      "name": "Medtronic PLC",
+      "cusip": null,
+      "shares": 14000,
+      "value": 1118320,
+      "pctOfPortfolio": 1.5855976627
+    },
+    {
+      "name": "Amgen Inc",
+      "cusip": "031162100",
+      "shares": 3800,
+      "value": 990432,
+      "pctOfPortfolio": 1.4042730741
+    },
+    {
+      "name": "Dollar General Corp",
+      "cusip": "256677105",
+      "shares": 12450,
+      "value": 943959,
+      "pctOfPortfolio": 1.3383818442
+    },
+    {
+      "name": "Lowe's Cos Inc",
+      "cusip": "548661107",
+      "shares": 3250,
+      "value": 802100,
+      "pctOfPortfolio": 1.1372486276
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 3500,
+      "value": 718970,
+      "pctOfPortfolio": 1.0193836751
+    },
+    {
+      "name": "Humana Inc",
+      "cusip": "444859102",
+      "shares": 1650,
+      "value": 418621.5,
+      "pctOfPortfolio": 0.593537871
+    },
+    {
+      "name": "American Electric Power Co Inc",
+      "cusip": "025537101",
+      "shares": 3000,
+      "value": 276690,
+      "pctOfPortfolio": 0.3923018611
+    },
+    {
+      "name": "First American Government Obli",
+      "cusip": "31846V336",
+      "shares": 65948.5,
+      "value": 65948.5,
+      "pctOfPortfolio": 0.0935043525
+    }
+  ],
+  "totalValue": 70541093.1,
+  "positionsCount": 33
+}

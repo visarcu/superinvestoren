@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-07",
+  "period": "2024-08-07",
+  "accession": "0001172661-24-003132",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 819631,
+      "value": 105502902
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 183083,
+      "value": 92314110
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 137688,
+      "value": 70865260
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 396280,
+      "value": 63036260
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 317689,
+      "value": 42236753
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 309947,
+      "value": 37999502
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 5001,
+      "value": 1868524
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 7000,
+      "value": 1799700
+    }
+  ],
+  "totalValue": 415623011,
+  "positionsCount": 8
+}

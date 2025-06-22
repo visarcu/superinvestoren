@@ -1,0 +1,287 @@
+{
+  "form": "13F-HR",
+  "date": "2016-11-01",
+  "period": "2016-11-01",
+  "accession": "0000905567-16-000010",
+  "quarterKey": "2016-Q4",
+  "positions": [
+    {
+      "name": "Procter & Gamble",
+      "cusip": "742718109",
+      "shares": 16032753,
+      "value": 1438940
+    },
+    {
+      "name": "TwentyFirst Cen Fox A",
+      "cusip": "90130A101",
+      "shares": 47597094,
+      "value": 1152802
+    },
+    {
+      "name": "PepsiCo, Inc",
+      "cusip": "713448108",
+      "shares": 8801906,
+      "value": 957383
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 25699440,
+      "value": 815186
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 19941583,
+      "value": 783305
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 6143753,
+      "value": 725762
+    },
+    {
+      "name": "Coca-Cola Co.",
+      "cusip": "191216100",
+      "shares": 16823205,
+      "value": 711958
+    },
+    {
+      "name": "Sysco Corporation",
+      "cusip": "871829107",
+      "shares": 14293893,
+      "value": 700544
+    },
+    {
+      "name": "TwentyFirst Cen Fox B",
+      "cusip": "90130A200",
+      "shares": 27874093,
+      "value": 689605
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 11659480,
+      "value": 671586
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "902973304",
+      "shares": 6954083,
+      "value": 298261
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 3334970,
+      "value": 291076
+    },
+    {
+      "name": "BNY Mellon Corp",
+      "cusip": "064058100",
+      "shares": 5870692,
+      "value": 234123
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 4305229,
+      "value": 187148
+    },
+    {
+      "name": "Bard, Inc, C.R.",
+      "cusip": "067383109",
+      "shares": 738964,
+      "value": 165735
+    },
+    {
+      "name": "Viacom Inc Cl B",
+      "cusip": "92553P201",
+      "shares": 4347650,
+      "value": 165645
+    },
+    {
+      "name": "Stryker Corporation",
+      "cusip": "863667101",
+      "shares": 1264330,
+      "value": 147181
+    },
+    {
+      "name": "Anthem Inc",
+      "cusip": "036752103",
+      "shares": 1055235,
+      "value": 132231
+    },
+    {
+      "name": "Comcast Cl A",
+      "cusip": "20030N101",
+      "shares": 1990350,
+      "value": 132040
+    },
+    {
+      "name": "Avon Products, Inc",
+      "cusip": "054303102",
+      "shares": 22933251,
+      "value": 129802
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 1689100,
+      "value": 117612
+    },
+    {
+      "name": "Unilever N.V.",
+      "cusip": "904784709",
+      "shares": 2304877,
+      "value": 106255
+    },
+    {
+      "name": "Colgate-Palmolive",
+      "cusip": "194162103",
+      "shares": 1355000,
+      "value": 100460
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 2135604,
+      "value": 94565
+    },
+    {
+      "name": "Wal-Mart Stores",
+      "cusip": "931142103",
+      "shares": 1096927,
+      "value": 79110
+    },
+    {
+      "name": "Corning Inc",
+      "cusip": "219350105",
+      "shares": 3126682,
+      "value": 73946
+    },
+    {
+      "name": "CH Robinson WW",
+      "cusip": "12541W209",
+      "shares": 1032067,
+      "value": 72719
+    },
+    {
+      "name": "Hewlett Packard Enterprise",
+      "cusip": "42824C109",
+      "shares": 2287470,
+      "value": 52040
+    },
+    {
+      "name": "Goldman Sachs Grp",
+      "cusip": "38141G104",
+      "shares": 281000,
+      "value": 45317
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 2800000,
+      "value": 43820
+    },
+    {
+      "name": "Intel Corporation",
+      "cusip": "458140100",
+      "shares": 1156000,
+      "value": 43639
+    },
+    {
+      "name": "HP Inc",
+      "cusip": "40434L105",
+      "shares": 2287905,
+      "value": 35531
+    },
+    {
+      "name": "Lancaster Colony",
+      "cusip": "513847103",
+      "shares": 260000,
+      "value": 34343
+    },
+    {
+      "name": "Staples Inc",
+      "cusip": "855030102",
+      "shares": 2255000,
+      "value": 19280
+    },
+    {
+      "name": "America's CAR MART Inc",
+      "cusip": "03062T105",
+      "shares": 523921,
+      "value": 19065
+    },
+    {
+      "name": "Apollo Education Grp",
+      "cusip": "037604105",
+      "shares": 2118054,
+      "value": 16839
+    },
+    {
+      "name": "Clorox Company",
+      "cusip": "189054109",
+      "shares": 75300,
+      "value": 9426
+    },
+    {
+      "name": "Berkshire Hath A",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 6487
+    },
+    {
+      "name": "Berkshire Hath B",
+      "cusip": "084670702",
+      "shares": 23279,
+      "value": 3363
+    },
+    {
+      "name": "Philip Morris Intl",
+      "cusip": "718172109",
+      "shares": 28501,
+      "value": 2771
+    },
+    {
+      "name": "Altria Group Inc",
+      "cusip": "02209S103",
+      "shares": 25900,
+      "value": 1638
+    },
+    {
+      "name": "Bancorp Inc, The",
+      "cusip": "05969A105",
+      "shares": 109000,
+      "value": 700
+    },
+    {
+      "name": "MOCON Inc",
+      "cusip": "607494101",
+      "shares": 34000,
+      "value": 534
+    },
+    {
+      "name": "Reading International, Inc",
+      "cusip": "755408101",
+      "shares": 18474,
+      "value": 247
+    },
+    {
+      "name": "Valmont Industries Inc",
+      "cusip": "920253101",
+      "shares": 1800,
+      "value": 242
+    },
+    {
+      "name": "Raven Industries Inc",
+      "cusip": "754212108",
+      "shares": 10000,
+      "value": 230
+    }
+  ],
+  "totalValue": 11510492,
+  "positionsCount": 46
+}

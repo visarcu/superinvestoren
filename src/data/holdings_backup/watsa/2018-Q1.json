@@ -1,0 +1,275 @@
+{
+  "form": "13F-HR",
+  "date": "2018-02-14",
+  "period": "2018-02-14",
+  "accession": "0001104659-18-009307",
+  "quarterKey": "2018-Q1",
+  "positions": [
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 46724700,
+      "value": 522234
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 30548190,
+      "value": 336030
+    },
+    {
+      "name": "KENNEDY-WILSON HLDGS INC",
+      "cusip": "489398107",
+      "shares": 12321921,
+      "value": 213785
+    },
+    {
+      "name": "INTREPID POTASH INC",
+      "cusip": "46121Y102",
+      "shares": 16666667,
+      "value": 79167
+    },
+    {
+      "name": "U S G CORP",
+      "cusip": "903293405",
+      "shares": 1530522,
+      "value": 59017
+    },
+    {
+      "name": "INTL BUSINESS MACHS CORP",
+      "cusip": "459200101",
+      "shares": 265700,
+      "value": 40764
+    },
+    {
+      "name": "CENTURYLINK INC",
+      "cusip": "156700106",
+      "shares": 1425000,
+      "value": 23769
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 349974,
+      "value": 22626
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 151250,
+      "value": 21151
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 191879,
+      "value": 14990
+    },
+    {
+      "name": "CHICAGO BRIDGE & IRON CO N V",
+      "cusip": "167250109",
+      "shares": 850000,
+      "value": 13710
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 210000,
+      "value": 7612
+    },
+    {
+      "name": "CRAY INC",
+      "cusip": "225223304",
+      "shares": 250000,
+      "value": 6050
+    },
+    {
+      "name": "RPX CORP",
+      "cusip": "74972G103",
+      "shares": 400000,
+      "value": 5376
+    },
+    {
+      "name": "TURQUOISE HILL RES LTD",
+      "cusip": "900435108",
+      "shares": 1150400,
+      "value": 3934
+    },
+    {
+      "name": "NORTHWEST PIPE CO",
+      "cusip": "667746101",
+      "shares": 180000,
+      "value": 3445
+    },
+    {
+      "name": "ARGAN INC",
+      "cusip": "04010E109",
+      "shares": 75000,
+      "value": 3371
+    },
+    {
+      "name": "CARBO CERAMICS INC",
+      "cusip": "140781105",
+      "shares": 300000,
+      "value": 3054
+    },
+    {
+      "name": "MYR GROUP INC",
+      "cusip": "55405W104",
+      "shares": 80000,
+      "value": 2856
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 45800,
+      "value": 2782
+    },
+    {
+      "name": "LEUCADIA NATL CORP",
+      "cusip": "527288104",
+      "shares": 100000,
+      "value": 2649
+    },
+    {
+      "name": "FREIGHTCAR AMER INC",
+      "cusip": "357023100",
+      "shares": 150000,
+      "value": 2559
+    },
+    {
+      "name": "PENGROWTH ENERGY CORP",
+      "cusip": "70706P104",
+      "shares": 3200000,
+      "value": 2554
+    },
+    {
+      "name": "KULICKE & SOFFA INDS INC",
+      "cusip": "501242101",
+      "shares": 96000,
+      "value": 2336
+    },
+    {
+      "name": "JACOBS ENGINEERING GROUP INC",
+      "cusip": "469814107",
+      "shares": 35000,
+      "value": 2308
+    },
+    {
+      "name": "NETEASE INC",
+      "cusip": "64110W102",
+      "shares": 6500,
+      "value": 2243
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 7,
+      "value": 2085
+    },
+    {
+      "name": "SIGNATURE BK NEW YORK N Y",
+      "cusip": "82669G104",
+      "shares": 15000,
+      "value": 2059
+    },
+    {
+      "name": "STRATASYS LTD",
+      "cusip": "M85548101",
+      "shares": 90000,
+      "value": 1796
+    },
+    {
+      "name": "AMPCO-PITTSBURGH CORP",
+      "cusip": "032037103",
+      "shares": 135000,
+      "value": 1674
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670702",
+      "shares": 8000,
+      "value": 1589
+    },
+    {
+      "name": "CENTENNIAL RESOURCE DEV INC",
+      "cusip": "15136A102",
+      "shares": 80000,
+      "value": 1584
+    },
+    {
+      "name": "FLUOR CORP",
+      "cusip": "343412102",
+      "shares": 26000,
+      "value": 1343
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 23200,
+      "value": 1244
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 29000,
+      "value": 1150
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 15000,
+      "value": 825
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 6200,
+      "value": 724
+    },
+    {
+      "name": "K12 INC",
+      "cusip": "48273U102",
+      "shares": 33133,
+      "value": 526
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 1500,
+      "value": 305
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 1344,
+      "value": 255
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 6400,
+      "value": 231
+    },
+    {
+      "name": "CARLISLE COS INC",
+      "cusip": "142339100",
+      "shares": 1900,
+      "value": 216
+    },
+    {
+      "name": "DESTINATION MATERNITY CORP",
+      "cusip": "25065D100",
+      "shares": 70000,
+      "value": 207
+    },
+    {
+      "name": "ENSCO PLC",
+      "cusip": "G3157S106",
+      "shares": 14080,
+      "value": 83
+    }
+  ],
+  "totalValue": 1418268,
+  "positionsCount": 44
+}

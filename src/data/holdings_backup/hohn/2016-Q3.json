@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2016-08-15",
+  "period": "2016-08-15",
+  "accession": "0001647251-16-000017",
+  "quarterKey": "2016-Q3",
+  "positions": [
+    {
+      "name": "YAHOO INC",
+      "cusip": "984332106",
+      "shares": 71206573,
+      "value": 2674519
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 11592824,
+      "value": 2650583
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 29092107,
+      "value": 1896514
+    },
+    {
+      "name": "ATLANTICA YIELD PLC",
+      "cusip": "G0751N103",
+      "shares": 4422584,
+      "value": 82172
+    },
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 32686
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 102239,
+      "value": 9581
+    }
+  ],
+  "totalValue": 7346055,
+  "positionsCount": 6
+}

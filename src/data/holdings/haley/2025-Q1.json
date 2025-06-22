@@ -1,4 +1,89 @@
 {
+  "form": "13F-HR",
   "date": "2025-02-14",
-  "positions": []
+  "period": "2025-02-14",
+  "accession": "0001858353-25-000002",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "REV GROUP INC",
+      "cusip": "749527107",
+      "shares": 2497167,
+      "value": 79584712
+    },
+    {
+      "name": "DAKTRONICS INC",
+      "cusip": "234264109",
+      "shares": 3074336,
+      "value": 51833305
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 61800,
+      "value": 26048700
+    },
+    {
+      "name": "DOUBLEVERIFY HLDGS INC",
+      "cusip": "25862V105",
+      "shares": 1263234,
+      "value": 24266725
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 103652,
+      "value": 22740212
+    },
+    {
+      "name": "FORWARD AIR CORP",
+      "cusip": "349853101",
+      "shares": 692144,
+      "value": 22321644
+    },
+    {
+      "name": "WILEY JOHN & SONS INC",
+      "cusip": "968223206",
+      "shares": 347047,
+      "value": 15169424
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 18400,
+      "value": 10773384
+    },
+    {
+      "name": "NERDWALLET INC",
+      "cusip": "64082B102",
+      "shares": 809086,
+      "value": 10760844
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 13000,
+      "value": 6845410
+    },
+    {
+      "name": "BUILD-A-BEAR WORKSHOP INC",
+      "cusip": "120076104",
+      "shares": 122300,
+      "value": 5630692
+    },
+    {
+      "name": "IDT CORP",
+      "cusip": "448947507",
+      "shares": 98935,
+      "value": 4701391
+    },
+    {
+      "name": "INTEGRAL AD SCIENCE HLDNG CO",
+      "cusip": "45828L108",
+      "shares": 5800,
+      "value": 60552
+    }
+  ],
+  "totalValue": 280736995,
+  "positionsCount": 13
 }

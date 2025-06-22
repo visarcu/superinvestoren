@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2015-08-17",
+  "period": "2015-08-17",
+  "accession": "0001418812-15-000057",
+  "quarterKey": "2015-Q3",
+  "positions": [
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 14994261,
+      "value": 3330975
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 75271429,
+      "value": 3323234
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 37518260,
+      "value": 1615911
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX INC",
+      "cusip": "90130A200",
+      "shares": 44581334,
+      "value": 1436411
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 23246700,
+      "value": 1434321
+    },
+    {
+      "name": "ADOBE SYSTEMS INC",
+      "cusip": "00724F101",
+      "shares": 15703739,
+      "value": 1272160
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 31327405,
+      "value": 1159114
+    },
+    {
+      "name": "AGRIUM INC",
+      "cusip": "008916108",
+      "shares": 10003451,
+      "value": 1059866
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS, INC",
+      "cusip": "620076307",
+      "shares": 17588576,
+      "value": 1008529
+    },
+    {
+      "name": "WILLIS GROUP HOLDINGS PLC",
+      "cusip": "G96666105",
+      "shares": 18423835,
+      "value": 864078
+    },
+    {
+      "name": "AMERICAN EXPRESS COMPANY",
+      "cusip": "025816109",
+      "shares": 11100000,
+      "value": 862692
+    },
+    {
+      "name": "MSCI INC",
+      "cusip": "55354G100",
+      "shares": 9308960,
+      "value": 572966
+    },
+    {
+      "name": "ALLISON TRANSMISSION HOLDING",
+      "cusip": "01973R101",
+      "shares": 19125204,
+      "value": 559603
+    },
+    {
+      "name": "ARMSTRONG WORLD INDUSTRIES",
+      "cusip": "04247X102",
+      "shares": 9200000,
+      "value": 490176
+    }
+  ],
+  "totalValue": 18990036,
+  "positionsCount": 14
+}

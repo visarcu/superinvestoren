@@ -1,0 +1,823 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-11-27",
+  "period": "2024-11-27",
+  "accession": "0001145549-24-075402",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "First American Treasury Obliga",
+      "cusip": "31846V328",
+      "shares": 21945546.51,
+      "value": 21945546.51,
+      "pctOfPortfolio": 4.3587720605
+    },
+    {
+      "name": "US TREASURY N/B",
+      "cusip": "91282CLB5",
+      "shares": 17809000,
+      "value": 18023960.15,
+      "pctOfPortfolio": 3.5798759391
+    },
+    {
+      "name": "CONNECT FINCO SARL/CONNE",
+      "cusip": "20752TAA2",
+      "shares": 15589000,
+      "value": 15589000,
+      "pctOfPortfolio": 3.0962499667
+    },
+    {
+      "name": "FORD MOTOR CREDIT CO LLC",
+      "cusip": "345397ZX4",
+      "shares": 13282000,
+      "value": 13267172.24,
+      "pctOfPortfolio": 2.6350940796
+    },
+    {
+      "name": "NAI ENTER HOLDINGS LLC",
+      "cusip": "62981EAE2",
+      "shares": 12534136.91,
+      "value": 12557638.42,
+      "pctOfPortfolio": 2.494168166
+    },
+    {
+      "name": "BELL CDA DISC COML",
+      "cusip": "07787PKR8",
+      "shares": 12370000,
+      "value": 12327759.67,
+      "pctOfPortfolio": 2.4485101974
+    },
+    {
+      "name": "FORUM ENERGY TECHNOLOGIE 2ND LIEN 11% 12/8/26",
+      "cusip": null,
+      "shares": 11685773.15,
+      "value": 11218342.22,
+      "pctOfPortfolio": 2.2281603519
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212PAS4",
+      "shares": 11129000,
+      "value": 11158019.98,
+      "pctOfPortfolio": 2.2161792926
+    },
+    {
+      "name": "STONEX GROUP INC",
+      "cusip": "861896AA6",
+      "shares": 10324000,
+      "value": 11003257.26,
+      "pctOfPortfolio": 2.1854406906
+    },
+    {
+      "name": "INFRABUILD AUSTRALIA PTY",
+      "cusip": "45682RAC4",
+      "shares": 10664000,
+      "value": 10790794.96,
+      "pctOfPortfolio": 2.1432419357
+    },
+    {
+      "name": "Solaris Energy Infrastructure",
+      "cusip": null,
+      "shares": 9917000,
+      "value": 9706263.75,
+      "pctOfPortfolio": 1.9278349357
+    },
+    {
+      "name": "ICAHN ENTERPRISES/FIN",
+      "cusip": "451102CD7",
+      "shares": 9058000,
+      "value": 9407783.73,
+      "pctOfPortfolio": 1.8685515467
+    },
+    {
+      "name": "TPC GROUP INC",
+      "cusip": "89236YAG9",
+      "shares": 9228622,
+      "value": 9360868.15,
+      "pctOfPortfolio": 1.8592332862
+    },
+    {
+      "name": "BACARDI-MARTINI BV",
+      "cusip": "05634EK35",
+      "shares": 9259000,
+      "value": 9254985.02,
+      "pctOfPortfolio": 1.8382030316
+    },
+    {
+      "name": "First American Government Obli",
+      "cusip": "31846V336",
+      "shares": 9148381.09,
+      "value": 9148381.09,
+      "pctOfPortfolio": 1.8170296135
+    },
+    {
+      "name": "AZERION GROUP NV",
+      "cusip": "ZI6849254",
+      "shares": 7907000,
+      "value": 8999730.06,
+      "pctOfPortfolio": 1.7875049008
+    },
+    {
+      "name": "M2S GROUP INTERMEDIATE H",
+      "cusip": "55287CAB7",
+      "shares": 9149000,
+      "value": 8805912.5,
+      "pctOfPortfolio": 1.7490093197
+    },
+    {
+      "name": "MANGROVE LUXCO III",
+      "cusip": "YW1323271",
+      "shares": 7875000,
+      "value": 8799732.84,
+      "pctOfPortfolio": 1.7477819304
+    },
+    {
+      "name": "XPO INC",
+      "cusip": "98379KAA0",
+      "shares": 8057000,
+      "value": 8248522.95,
+      "pctOfPortfolio": 1.6383019379
+    },
+    {
+      "name": "MAGNITE INC",
+      "cusip": "55955NAE8",
+      "shares": 7933045,
+      "value": 7992542.84,
+      "pctOfPortfolio": 1.5874597795
+    },
+    {
+      "name": "HAWAIIAN AIRLINES 13-1A",
+      "cusip": "419838AA5",
+      "shares": 7873725.4195,
+      "value": 7692676.98,
+      "pctOfPortfolio": 1.5279011382
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "59501QK43",
+      "shares": 7643000,
+      "value": 7638685.37,
+      "pctOfPortfolio": 1.5171774535
+    },
+    {
+      "name": "PHINIA INC",
+      "cusip": "71880KAA9",
+      "shares": 6723000,
+      "value": 6948038.98,
+      "pctOfPortfolio": 1.3800029162
+    },
+    {
+      "name": "WARNERMEDIA HOLDINGS INC",
+      "cusip": "55903VBG7",
+      "shares": 6825000,
+      "value": 6829081.21,
+      "pctOfPortfolio": 1.3563758079
+    },
+    {
+      "name": "VF CORP",
+      "cusip": "918204BA5",
+      "shares": 6898000,
+      "value": 6782690.2,
+      "pctOfPortfolio": 1.3471617362
+    },
+    {
+      "name": "CLEAR CHANNEL INTL BV",
+      "cusip": "N2104KAB7",
+      "shares": 6706000,
+      "value": 6680852.5,
+      "pctOfPortfolio": 1.3269349754
+    },
+    {
+      "name": "ZIFF DAVIS INC",
+      "cusip": "48123VAF9",
+      "shares": 7038000,
+      "value": 6616805.96,
+      "pctOfPortfolio": 1.3142142045
+    },
+    {
+      "name": "DELIVERY HERO AG",
+      "cusip": "BR2983285",
+      "shares": 7100000,
+      "value": 6595910.83,
+      "pctOfPortfolio": 1.3100640636
+    },
+    {
+      "name": "PENSKE TRUCK LEASING CO",
+      "cusip": "70962AK13",
+      "shares": 6041000,
+      "value": 6040163.02,
+      "pctOfPortfolio": 1.1996827603
+    },
+    {
+      "name": "LITHIUM MIDCO II LTD",
+      "cusip": "ZP4361637",
+      "shares": 5368000,
+      "value": 5975399.34,
+      "pctOfPortfolio": 1.1868195527
+    },
+    {
+      "name": "NGL ENERGY PARTNERS LP",
+      "cusip": "62913M206",
+      "shares": 243284,
+      "value": 5722039.68,
+      "pctOfPortfolio": 1.1364978619
+    },
+    {
+      "name": "CENGAGE LEARNING INC",
+      "cusip": "15131YAN5",
+      "shares": 5673780,
+      "value": 5692929.01,
+      "pctOfPortfolio": 1.1307159701
+    },
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332BJ0",
+      "shares": 5400000,
+      "value": 5562175.55,
+      "pctOfPortfolio": 1.10474603
+    },
+    {
+      "name": "GETTY IMAGES INC",
+      "cusip": "374276AJ2",
+      "shares": 5504000,
+      "value": 5507978.84,
+      "pctOfPortfolio": 1.0939816088
+    },
+    {
+      "name": "SONOCO PRODUCTS CO",
+      "cusip": "835495AM4",
+      "shares": 5504000,
+      "value": 5440743.68,
+      "pctOfPortfolio": 1.0806275219
+    },
+    {
+      "name": "Merit",
+      "cusip": "55293DAA9",
+      "shares": 5428660.79,
+      "value": 5384696.78,
+      "pctOfPortfolio": 1.0694956204
+    },
+    {
+      "name": "HIGHPEAK ENERGY INC",
+      "cusip": null,
+      "shares": 4867800,
+      "value": 4949944.13,
+      "pctOfPortfolio": 0.9831460868
+    },
+    {
+      "name": "TRULITE GLASS ALUMINUM S",
+      "cusip": "89789MAB7",
+      "shares": 4914093.75,
+      "value": 4766670.94,
+      "pctOfPortfolio": 0.9467448033
+    },
+    {
+      "name": "CHOBANI LLC",
+      "cusip": "17026YAH2",
+      "shares": 4590460.38,
+      "value": 4608822.22,
+      "pctOfPortfolio": 0.9153932674
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "060505EL4",
+      "shares": 4583000,
+      "value": 4585008.27,
+      "pctOfPortfolio": 0.9106633975
+    },
+    {
+      "name": "MOUNTAINEER MERGER CORP",
+      "cusip": "62450LAB4",
+      "shares": 5526075.65,
+      "value": 4545197.22,
+      "pctOfPortfolio": 0.9027562218
+    },
+    {
+      "name": "CROCS INC",
+      "cusip": "22704NAF9",
+      "shares": 4424145.31,
+      "value": 4448500.23,
+      "pctOfPortfolio": 0.8835504964
+    },
+    {
+      "name": "MASTEC INC",
+      "cusip": "576323AT6",
+      "shares": 4230000,
+      "value": 4418404.2,
+      "pctOfPortfolio": 0.8775728948
+    },
+    {
+      "name": "TRULIEVE CANNABIS CORP",
+      "cusip": "89788CAD6",
+      "shares": 4526000,
+      "value": 4410813.3,
+      "pctOfPortfolio": 0.8760652084
+    },
+    {
+      "name": "INOTIV INC",
+      "cusip": "45783RAC2",
+      "shares": 4760306.32,
+      "value": 4363606.19,
+      "pctOfPortfolio": 0.8666890449
+    },
+    {
+      "name": "MATCH GROUP FINANCECO 2",
+      "cusip": "44932FAA5",
+      "shares": 4428000,
+      "value": 4162864.87,
+      "pctOfPortfolio": 0.8268182831
+    },
+    {
+      "name": "ESMAEILZADEH HOLDING AB",
+      "cusip": "BT4292509",
+      "shares": 42500000,
+      "value": 4108182.53,
+      "pctOfPortfolio": 0.8159574073
+    },
+    {
+      "name": "STOCKWIK FORVALTNING",
+      "cusip": "ZL4689937",
+      "shares": 40000000,
+      "value": 3987849.37,
+      "pctOfPortfolio": 0.7920571223
+    },
+    {
+      "name": "BUZZFEED INC",
+      "cusip": "28250AAA3",
+      "shares": 4275000,
+      "value": 3954375,
+      "pctOfPortfolio": 0.7854085228
+    },
+    {
+      "name": "CANNABIST CO HLDGS INC",
+      "cusip": "13765YAG8",
+      "shares": 5068000,
+      "value": 3817177.31,
+      "pctOfPortfolio": 0.7581586451
+    },
+    {
+      "name": "BX Trust",
+      "cusip": "05609VAG0",
+      "shares": 3785000,
+      "value": 3752234.01,
+      "pctOfPortfolio": 0.7452597619
+    },
+    {
+      "name": "NORSKE SKOG AS",
+      "cusip": "YX6998836",
+      "shares": 38600000,
+      "value": 3730899.89,
+      "pctOfPortfolio": 0.7410224299
+    },
+    {
+      "name": "LEAFLY HOLDINGS INC",
+      "cusip": "58953MAA4",
+      "shares": 4163000,
+      "value": 3538550,
+      "pctOfPortfolio": 0.702818354
+    },
+    {
+      "name": "JP Morgan Chase Commercial Mor",
+      "cusip": "466330AA5",
+      "shares": 3401628.66,
+      "value": 3395824.46,
+      "pctOfPortfolio": 0.6744705479
+    },
+    {
+      "name": "CAMB Commercial Mortgage Trust",
+      "cusip": "12482HAA2",
+      "shares": 3325000,
+      "value": 3324290.78,
+      "pctOfPortfolio": 0.6602626991
+    },
+    {
+      "name": "GO NORTH GROUP AB",
+      "cusip": "ZD5873868",
+      "shares": 3472295,
+      "value": 3090342.55,
+      "pctOfPortfolio": 0.6137964602
+    },
+    {
+      "name": "CAMB Commercial Mortgage Trust",
+      "cusip": "12482HAL8",
+      "shares": 3081000,
+      "value": 3079048.8,
+      "pctOfPortfolio": 0.6115533225
+    },
+    {
+      "name": "CONNECT FINCO SARL/CONNE",
+      "cusip": "20752TAB0",
+      "shares": 3137000,
+      "value": 3040958.39,
+      "pctOfPortfolio": 0.6039878962
+    },
+    {
+      "name": "MANGROVE LUXCO III",
+      "cusip": "YW1323297",
+      "shares": 2695000,
+      "value": 3011464.13,
+      "pctOfPortfolio": 0.5981298167
+    },
+    {
+      "name": "TRIPADVISOR INC",
+      "cusip": null,
+      "shares": 3000000,
+      "value": 2999055,
+      "pctOfPortfolio": 0.5956651449
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353TAC4",
+      "shares": 2974000,
+      "value": 2980557.64,
+      "pctOfPortfolio": 0.5919912434
+    },
+    {
+      "name": "CTO REALTY GROWTH INC",
+      "cusip": "22948Q200",
+      "shares": 122111,
+      "value": 2873271.83,
+      "pctOfPortfolio": 0.5706823919
+    },
+    {
+      "name": "RA PARENT INC",
+      "cusip": null,
+      "shares": 43.14,
+      "value": 2847240,
+      "pctOfPortfolio": 0.565512012
+    },
+    {
+      "name": "HAWK INFINITY SOFTWARE",
+      "cusip": "YU0717220",
+      "shares": 30000000,
+      "value": 2842806.99,
+      "pctOfPortfolio": 0.5646315381
+    },
+    {
+      "name": "CHOBANI LLC",
+      "cusip": "17026YAJ8",
+      "shares": 2799930,
+      "value": 2811829.7,
+      "pctOfPortfolio": 0.5584789028
+    },
+    {
+      "name": "DS PARENT T/L B (11/23)",
+      "cusip": null,
+      "shares": 2818000,
+      "value": 2748437.67,
+      "pctOfPortfolio": 0.5458881291
+    },
+    {
+      "name": "UNITED NATURAL FOODS INC",
+      "cusip": "91116KAD7",
+      "shares": 2713200,
+      "value": 2726766,
+      "pctOfPortfolio": 0.5415837537
+    },
+    {
+      "name": "BONHEUR ASA",
+      "cusip": "YU0204336",
+      "shares": 28500000,
+      "value": 2700666.64,
+      "pctOfPortfolio": 0.5363999611
+    },
+    {
+      "name": "MUTARES SE & CO",
+      "cusip": "ZL6690784",
+      "shares": 2397000,
+      "value": 2616394.81,
+      "pctOfPortfolio": 0.5196620914
+    },
+    {
+      "name": "SUMMIT MIDSTREAM HOLDING",
+      "cusip": "86614JAA3",
+      "shares": 2344000,
+      "value": 2453167.11,
+      "pctOfPortfolio": 0.4872421953
+    },
+    {
+      "name": "Audacy Capital LLC Exit Loan",
+      "cusip": null,
+      "shares": 2276401.48,
+      "value": 2304856.5,
+      "pctOfPortfolio": 0.457785096
+    },
+    {
+      "name": "BX Trust",
+      "cusip": "05609VAJ4",
+      "shares": 2300000,
+      "value": 2277437.23,
+      "pctOfPortfolio": 0.452339146
+    },
+    {
+      "name": "Forum Energy Technologies Inc",
+      "cusip": "34984V209",
+      "shares": 143324,
+      "value": 2215789.04,
+      "pctOfPortfolio": 0.4400947297
+    },
+    {
+      "name": "3T GLOBAL HOLDCO LTD",
+      "cusip": "ZB6868366",
+      "shares": 2125000,
+      "value": 2157469.24,
+      "pctOfPortfolio": 0.4285113902
+    },
+    {
+      "name": "NOVEDO HOLDINGS AB",
+      "cusip": "YV5155721",
+      "shares": 22500000,
+      "value": 2137930.36,
+      "pctOfPortfolio": 0.4246306245
+    },
+    {
+      "name": "DELIVERY HERO AG",
+      "cusip": "BK4237768",
+      "shares": 2200000,
+      "value": 2086241.89,
+      "pctOfPortfolio": 0.414364384
+    },
+    {
+      "name": "ABE INVESTMENT HOLDINGS",
+      "cusip": "37427UAJ9",
+      "shares": 2077518.27,
+      "value": 2069737.96,
+      "pctOfPortfolio": 0.4110864128
+    },
+    {
+      "name": "SLR GROUP GMBH",
+      "cusip": "ZD9638846",
+      "shares": 1865000,
+      "value": 2057301.15,
+      "pctOfPortfolio": 0.4086162433
+    },
+    {
+      "name": "Gulfside Supply T/L B",
+      "cusip": null,
+      "shares": 2000000,
+      "value": 2001670,
+      "pctOfPortfolio": 0.3975669171
+    },
+    {
+      "name": "ICAHN ENTERPRISES/FIN",
+      "cusip": "451102BT3",
+      "shares": 1920000,
+      "value": 1906660.99,
+      "pctOfPortfolio": 0.3786964543
+    },
+    {
+      "name": "FIVE POINT OP CO LP/FIVE",
+      "cusip": "33834YAB4",
+      "shares": 1806790.16952,
+      "value": 1850169.39,
+      "pctOfPortfolio": 0.3674762276
+    },
+    {
+      "name": "HAWAII ELECTRIC LIGHT CO. INC",
+      "cusip": null,
+      "shares": 2945000,
+      "value": 1767000,
+      "pctOfPortfolio": 0.3509573219
+    },
+    {
+      "name": "Prosomnus Equity",
+      "cusip": null,
+      "shares": 1385560.000746,
+      "value": 1669045.58,
+      "pctOfPortfolio": 0.3315018488
+    },
+    {
+      "name": "GE HEALTHCARE TECH INC",
+      "cusip": "36266GAA5",
+      "shares": 1633000,
+      "value": 1663281.45,
+      "pctOfPortfolio": 0.3303569911
+    },
+    {
+      "name": "THE PLATFORM GROUP AG",
+      "cusip": "YX8650427",
+      "shares": 1500000,
+      "value": 1636796.64,
+      "pctOfPortfolio": 0.3250966414
+    },
+    {
+      "name": "SECOP GROUP HLDG GMBH",
+      "cusip": "ZK8432245",
+      "shares": 1443000,
+      "value": 1634388.04,
+      "pctOfPortfolio": 0.324618251
+    },
+    {
+      "name": "CONTAINER STORE",
+      "cusip": "21075BAM3",
+      "shares": 2387673.27,
+      "value": 1516172.53,
+      "pctOfPortfolio": 0.3011385686
+    },
+    {
+      "name": "FIRST BRANDS GROUP LLC",
+      "cusip": "31935HAG2",
+      "shares": 1338565.64,
+      "value": 1326853.19,
+      "pctOfPortfolio": 0.2635364132
+    },
+    {
+      "name": "DT Cloud Star Acquisition Corp",
+      "cusip": null,
+      "shares": 125000,
+      "value": 1326250,
+      "pctOfPortfolio": 0.263416609
+    },
+    {
+      "name": "BX Trust",
+      "cusip": "12433YAJ6",
+      "shares": 1309000,
+      "value": 1301507.02,
+      "pctOfPortfolio": 0.2585022174
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353TAE0",
+      "shares": 1216000,
+      "value": 1241621.12,
+      "pctOfPortfolio": 0.2466078229
+    },
+    {
+      "name": "NOVEDO HOLDINGS AB",
+      "cusip": "BS3076053",
+      "shares": 12500000,
+      "value": 1238017.99,
+      "pctOfPortfolio": 0.2458921778
+    },
+    {
+      "name": "FLOATEL INTERNATIONAL LT",
+      "cusip": "ZD7266137",
+      "shares": 1250000,
+      "value": 1207812.5,
+      "pctOfPortfolio": 0.2398928355
+    },
+    {
+      "name": "INTENO GROUP",
+      "cusip": "BY5266105",
+      "shares": 1400000,
+      "value": 1161017.42,
+      "pctOfPortfolio": 0.2305985084
+    },
+    {
+      "name": "GO NORTH GROUP AB FRN GTD 02/2026 USD1 'REGS'",
+      "cusip": null,
+      "shares": 1892736,
+      "value": 1041004.8,
+      "pctOfPortfolio": 0.2067618883
+    },
+    {
+      "name": "AA Mission Acquisition Corp",
+      "cusip": null,
+      "shares": 100000,
+      "value": 1001000,
+      "pctOfPortfolio": 0.1988162305
+    },
+    {
+      "name": "SARATOGA INVESTMENT CORP",
+      "cusip": "80349A802",
+      "shares": 40765,
+      "value": 997519.55,
+      "pctOfPortfolio": 0.1981249518
+    },
+    {
+      "name": "UNITED NATURAL FOODS INC",
+      "cusip": "911163AA1",
+      "shares": 1025000,
+      "value": 979933.93,
+      "pctOfPortfolio": 0.1946321379
+    },
+    {
+      "name": "JP Morgan Chase Commercial Mor",
+      "cusip": "466330AG2",
+      "shares": 970000,
+      "value": 965768.76,
+      "pctOfPortfolio": 0.1918186857
+    },
+    {
+      "name": "CBS RADIO INC",
+      "cusip": "12506KAE9",
+      "shares": 2047000,
+      "value": 924066.98,
+      "pctOfPortfolio": 0.1835359777
+    },
+    {
+      "name": "IMPALA GROUP PLC",
+      "cusip": "BR8492349",
+      "shares": 9558190,
+      "value": 654100.06,
+      "pctOfPortfolio": 0.1299157925
+    },
+    {
+      "name": "UPHEALTH INC",
+      "cusip": "91532BAC5",
+      "shares": 627000,
+      "value": 586245,
+      "pctOfPortfolio": 0.1164385824
+    },
+    {
+      "name": "INNOVATE CORP",
+      "cusip": "404139AJ6",
+      "shares": 661000,
+      "value": 528439.29,
+      "pctOfPortfolio": 0.1049573503
+    },
+    {
+      "name": "Global Self Storage Inc",
+      "cusip": "37955N106",
+      "shares": 101030,
+      "value": 526366.3,
+      "pctOfPortfolio": 0.104545618
+    },
+    {
+      "name": "KISTOS ENERGY (NOR 9.75% SNR SEC 17/09/26 USD1",
+      "cusip": null,
+      "shares": 509971,
+      "value": 497221.73,
+      "pctOfPortfolio": 0.0987569931
+    },
+    {
+      "name": "TACORA RESOURCES INC",
+      "cusip": "87356LAC4",
+      "shares": 2381850.63,
+      "value": 476370.13,
+      "pctOfPortfolio": 0.0946154981
+    },
+    {
+      "name": "Bitcoin Depot Inc",
+      "cusip": "09174P105",
+      "shares": 249984,
+      "value": 394974.72,
+      "pctOfPortfolio": 0.078448936
+    },
+    {
+      "name": "99 CENTS ONLY STORES LLC",
+      "cusip": "65442QAA9",
+      "shares": 4193000,
+      "value": 335440,
+      "pctOfPortfolio": 0.0666242921
+    },
+    {
+      "name": "Warner Bros Discovery Inc",
+      "cusip": "934423104",
+      "shares": 38800,
+      "value": 320100,
+      "pctOfPortfolio": 0.0635774979
+    },
+    {
+      "name": "ELEVATE TEXTILES INC",
+      "cusip": "28622DAD2",
+      "shares": 192898.32,
+      "value": 192296.48,
+      "pctOfPortfolio": 0.0381934678
+    },
+    {
+      "name": "GO NORTH GROUP AB 0% BDS PERP USD1",
+      "cusip": null,
+      "shares": 244858,
+      "value": 134671.9,
+      "pctOfPortfolio": 0.0267482113
+    },
+    {
+      "name": "ARGO BLOCKCHAIN PLC",
+      "cusip": "040126203",
+      "shares": 8481,
+      "value": 91340.37,
+      "pctOfPortfolio": 0.0181418062
+    },
+    {
+      "name": "Outbrain Inc",
+      "cusip": "69002R103",
+      "shares": 17522,
+      "value": 85156.92,
+      "pctOfPortfolio": 0.0169136642
+    },
+    {
+      "name": "UpHealth Inc",
+      "cusip": "91532B200",
+      "shares": 133414,
+      "value": 8004.84,
+      "pctOfPortfolio": 0.0015899022
+    },
+    {
+      "name": "LEAFLY HOLDINGS INC",
+      "cusip": "52178J113",
+      "shares": 21228,
+      "value": 670.8,
+      "pctOfPortfolio": 0.0001332327
+    },
+    {
+      "name": "PLUM ACQUISITION CORP III",
+      "cusip": null,
+      "shares": 8594,
+      "value": 527.24,
+      "pctOfPortfolio": 0.0001047192
+    }
+  ],
+  "totalValue": 502904551.4800001,
+  "positionsCount": 116
+}

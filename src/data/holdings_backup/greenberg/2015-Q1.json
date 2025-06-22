@@ -1,0 +1,95 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-17",
+  "period": "2015-02-17",
+  "accession": "0001172661-15-000473",
+  "quarterKey": "2015-Q1",
+  "positions": [
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911102",
+      "shares": 6126609,
+      "value": 876779
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219108",
+      "shares": 4088652,
+      "value": 346186
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 4162430,
+      "value": 260485
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 8474710,
+      "value": 255851
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 5120165,
+      "value": 237832
+    },
+    {
+      "name": "CIMPRESS N V",
+      "cusip": "20146101",
+      "shares": 2833719,
+      "value": 212076
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444502",
+      "shares": 852434,
+      "value": 193272
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456101",
+      "shares": 4193877,
+      "value": 177443
+    },
+    {
+      "name": "HALLIBURTON CO",
+      "cusip": "406216101",
+      "shares": 4141241,
+      "value": 162875
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 2344940,
+      "value": 127236
+    },
+    {
+      "name": "BAKER HUGHES INC",
+      "cusip": "057224107",
+      "shares": 361063,
+      "value": 20245
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 15547,
+      "value": 902
+    },
+    {
+      "name": "TIDEWATER INC",
+      "cusip": "886423102",
+      "shares": 19625,
+      "value": 636
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 260
+    }
+  ],
+  "totalValue": 2872078,
+  "positionsCount": 14
+}

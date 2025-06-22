@@ -1,0 +1,137 @@
+{
+  "form": "13F-HR",
+  "date": "2014-05-16",
+  "period": "2014-05-16",
+  "accession": "0000859804-14-000004",
+  "quarterKey": "2014-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 4347827,
+      "value": 543348
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 957303,
+      "value": 513823
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219G108",
+      "shares": 4959737,
+      "value": 372427
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 4677079,
+      "value": 368834
+    },
+    {
+      "name": "EMC CORP",
+      "cusip": "268648102",
+      "shares": 12876644,
+      "value": 352949
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 6666189,
+      "value": 337309
+    },
+    {
+      "name": "M&T BANK",
+      "cusip": "55261104",
+      "shares": 2326332,
+      "value": 282184
+    },
+    {
+      "name": "CUMMINS",
+      "cusip": "231021106",
+      "shares": 1777284,
+      "value": 264798
+    },
+    {
+      "name": "STERICYCLE",
+      "cusip": "858912108",
+      "shares": 2217344,
+      "value": 251935
+    },
+    {
+      "name": "PERRIGO",
+      "cusip": "97822103",
+      "shares": 1494779,
+      "value": 231183
+    },
+    {
+      "name": "GOOGLE",
+      "cusip": "38259706",
+      "shares": 198146,
+      "value": 220836
+    },
+    {
+      "name": "VARIAN MEDICAL SYSTEMS",
+      "cusip": "92220105",
+      "shares": 2455154,
+      "value": 206208
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 2091930,
+      "value": 203963
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 2315336,
+      "value": 192497
+    },
+    {
+      "name": "COACH",
+      "cusip": "189754104",
+      "shares": 3560821,
+      "value": 176830
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345106",
+      "shares": 2862059,
+      "value": 171609
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 130250,
+      "value": 155244
+    },
+    {
+      "name": "NATIONAL-OILWELL VARCO",
+      "cusip": "637071101",
+      "shares": 1978515,
+      "value": 154067
+    },
+    {
+      "name": "GILEAD SCIENCES",
+      "cusip": "375558103",
+      "shares": 1907287,
+      "value": 135150
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 5090458,
+      "value": 134134
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826839",
+      "shares": 610508,
+      "value": 131784
+    }
+  ],
+  "totalValue": 5401112,
+  "positionsCount": 21
+}

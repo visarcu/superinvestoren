@@ -1,511 +1,2839 @@
 {
   "form": "NPORT-P",
-  "date": "2021-11-26",
-  "period": "2021-11-26",
+  "date": "2022-02-25",
+  "period": "2022-02-25",
+  "accession": "0001145549-22-010690",
+  "quarterKey": "2021-Q4",
   "positions": [
     {
-      "name": "Aegon NV",
-      "cusip": "007924103",
-      "shares": 80036842,
-      "value": 407387525780,
-      "pctOfPortfolio": 44.64713944
-    },
-    {
-      "name": "Alnylam Pharmaceuticals, Inc.",
-      "cusip": "02043Q107",
-      "shares": 3109177,
-      "value": 587043709370,
-      "pctOfPortfolio": 64.33633995
-    },
-    {
-      "name": "Alphabet, Inc.",
-      "cusip": "02079K107",
-      "shares": 1280953,
-      "value": 3414136840430,
-      "pctOfPortfolio": 374.16816650000004
-    },
-    {
-      "name": "Alphabet, Inc.",
-      "cusip": "02079K305",
-      "shares": 63300,
-      "value": 169233816000,
-      "pctOfPortfolio": 18.54697383
-    },
-    {
-      "name": "American Express Co.",
-      "cusip": "025816109",
-      "shares": 8357200,
-      "value": 1400081716000,
-      "pctOfPortfolio": 153.4402495
-    },
-    {
-      "name": "APA Corp.",
-      "cusip": "03743Q108",
-      "shares": 9813899,
-      "value": 210311855570,
-      "pctOfPortfolio": 23.04887152
-    },
-    {
-      "name": "Baker Hughes Co.",
-      "cusip": "05722G100",
-      "shares": 33081750,
-      "value": 818111677500,
-      "pctOfPortfolio": 89.65995233000001
-    },
-    {
-      "name": "Bank of America Corp.",
-      "cusip": "060505104",
-      "shares": 46581600,
-      "value": 1977388920000,
-      "pctOfPortfolio": 216.70952900999998
-    },
-    {
-      "name": "Bank of New York Mellon Corp.",
-      "cusip": "064058100",
-      "shares": 39156624,
-      "value": 2029879388160,
-      "pctOfPortfolio": 222.4621579
-    },
-    {
-      "name": "BioMarin Pharmaceutical, Inc.",
-      "cusip": "09061G101",
-      "shares": 8986725,
-      "value": 694583975250,
-      "pctOfPortfolio": 76.12208434
-    },
-    {
-      "name": "Booking Holdings, Inc.",
-      "cusip": "09857L108",
-      "shares": 437280,
-      "value": 1038045873600,
-      "pctOfPortfolio": 113.76337253999999
-    },
-    {
-      "name": "Brighthouse Financial, Inc.",
-      "cusip": "10922N103",
-      "shares": 6648863,
-      "value": 300728073490,
-      "pctOfPortfolio": 32.95792674
-    },
-    {
-      "name": "Bristol-Myers Squibb Co.",
-      "cusip": "110122108",
-      "shares": 18197339,
-      "value": 1076736548630.0001,
-      "pctOfPortfolio": 118.00362992
-    },
-    {
-      "name": "Cigna Corp.",
-      "cusip": "125523100",
-      "shares": 11306872,
-      "value": 2263183499520,
-      "pctOfPortfolio": 248.03083768
-    },
-    {
-      "name": "CVS Health Corp.",
-      "cusip": "126650100",
-      "shares": 9736400,
-      "value": 826230904000,
-      "pctOfPortfolio": 90.54976906
-    },
-    {
-      "name": "Capital One Financial Corp.",
-      "cusip": "14040H105",
-      "shares": 22222713,
-      "value": 3599412824610,
-      "pctOfPortfolio": 394.47326221000003
-    },
-    {
-      "name": "Carrier Global Corp.",
-      "cusip": "14448C104",
-      "shares": 12957879,
-      "value": 670699817040,
-      "pctOfPortfolio": 73.50452912
-    },
-    {
-      "name": "Celanese Corp.",
-      "cusip": "150870103",
-      "shares": 4607198,
-      "value": 694028306720,
-      "pctOfPortfolio": 76.06118652
-    },
-    {
-      "name": "Charter Communications, Inc.",
-      "cusip": "16119P108",
-      "shares": 3194086,
-      "value": 2323889210160,
-      "pctOfPortfolio": 254.68380606
-    },
-    {
-      "name": "Cisco Systems, Inc.",
-      "cusip": "17275R102",
-      "shares": 31080187,
-      "value": 1691694578410,
-      "pctOfPortfolio": 185.39920579
-    },
-    {
-      "name": "Cognizant Technology Solutions Corp.",
-      "cusip": "192446102",
-      "shares": 19158077,
-      "value": 1421720894170,
-      "pctOfPortfolio": 155.81176886
-    },
-    {
-      "name": "Comcast Corp.",
-      "cusip": "20030N101",
-      "shares": 47521894,
-      "value": 2657899531420,
-      "pctOfPortfolio": 291.28926018
-    },
-    {
-      "name": "ConocoPhillips",
-      "cusip": "20825C104",
-      "shares": 15011358,
-      "value": 1017319731660,
-      "pctOfPortfolio": 111.49191626999999
-    },
-    {
-      "name": "Dell Technologies, Inc.",
-      "cusip": "24703L202",
-      "shares": 22181217,
-      "value": 2307733816680,
-      "pctOfPortfolio": 252.9132754
-    },
-    {
-      "name": "DISH Network Corp.",
-      "cusip": "25470M109",
-      "shares": 24767964,
-      "value": 1076415715440,
-      "pctOfPortfolio": 117.96846859000001
-    },
-    {
-      "name": "Elanco Animal Health, Inc.",
-      "cusip": "28414H103",
-      "shares": 2052527,
-      "value": 65455086030,
-      "pctOfPortfolio": 7.17347039
-    },
-    {
-      "name": "Facebook, Inc.",
-      "cusip": "30303M102",
-      "shares": 2475000,
-      "value": 839990250000,
-      "pctOfPortfolio": 92.05770782
-    },
-    {
-      "name": "FedEx Corp.",
-      "cusip": "31428X106",
-      "shares": 8495262,
-      "value": 1862926003980,
-      "pctOfPortfolio": 204.16510521
-    },
-    {
-      "name": "Fiserv, Inc.",
-      "cusip": "337738108",
-      "shares": 16058900,
-      "value": 1742390650000,
-      "pctOfPortfolio": 190.95517998
-    },
-    {
-      "name": "Fox Corp.",
-      "cusip": "35137L105",
-      "shares": 30447575,
-      "value": 1221252233250,
-      "pctOfPortfolio": 133.84165026
-    },
-    {
-      "name": "Fox Corp.",
-      "cusip": "35137L204",
-      "shares": 8640633,
-      "value": 320740296960,
-      "pctOfPortfolio": 35.15114199
-    },
-    {
-      "name": "The Gap, Inc.",
-      "cusip": "364760108",
-      "shares": 16248400,
-      "value": 368838680000,
-      "pctOfPortfolio": 40.42242566
-    },
-    {
-      "name": "Gilead Sciences, Inc.",
-      "cusip": "375558103",
-      "shares": 25138812,
-      "value": 1755946018200,
-      "pctOfPortfolio": 192.44076403999998
-    },
-    {
-      "name": "GlaxoSmithKline PLC",
-      "cusip": "37733W105",
-      "shares": 58806872,
-      "value": 2247010579120,
-      "pctOfPortfolio": 246.25838617000002
-    },
-    {
-      "name": "Goldman Sachs Group, Inc.",
-      "cusip": "38141G104",
-      "shares": 4791700,
-      "value": 1811406351000,
-      "pctOfPortfolio": 198.51887163
-    },
-    {
-      "name": "HP Inc.",
-      "cusip": "40434L105",
-      "shares": 72926037,
-      "value": 1995256372320,
-      "pctOfPortfolio": 218.66769066999998
-    },
-    {
-      "name": "Halliburton Co.",
-      "cusip": "406216101",
-      "shares": 6548867,
-      "value": 141586504540,
-      "pctOfPortfolio": 15.51700043
-    },
-    {
-      "name": "Hess Corp.",
-      "cusip": "42809H107",
-      "shares": 7934882,
-      "value": 619793633020,
-      "pctOfPortfolio": 67.92552792
-    },
-    {
-      "name": "Hewlett Packard Enterprise Co.",
-      "cusip": "42824C109",
-      "shares": 76957049,
-      "value": 1096637948250,
-      "pctOfPortfolio": 120.18469956
-    },
-    {
-      "name": "Honda Motor Co., Ltd.",
-      "cusip": "438128308",
-      "shares": 29518500,
-      "value": 905332395000,
-      "pctOfPortfolio": 99.21880057999999
-    },
-    {
-      "name": "Incyte Corp.",
-      "cusip": "45337C102",
-      "shares": 9830300,
-      "value": 676128034000,
-      "pctOfPortfolio": 74.09942794999999
-    },
-    {
-      "name": "Juniper Networks, Inc.",
-      "cusip": "48203R104",
-      "shares": 29015165,
-      "value": 798497340800,
-      "pctOfPortfolio": 87.510343
-    },
-    {
-      "name": "Lincoln National Corp.",
-      "cusip": "534187109",
-      "shares": 3466980,
-      "value": 238354875000,
-      "pctOfPortfolio": 26.12221206
-    },
-    {
-      "name": "MetLife, Inc.",
-      "cusip": "59156R108",
-      "shares": 40943600,
-      "value": 2527448428000,
-      "pctOfPortfolio": 276.99263047
-    },
-    {
-      "name": "Micro Focus International PLC",
-      "cusip": "594837403",
-      "shares": 22724028,
-      "value": 123618712320,
-      "pctOfPortfolio": 13.547842130000001
-    },
-    {
-      "name": "Microsoft Corp.",
-      "cusip": "594918104",
-      "shares": 7375000,
-      "value": 2079160000000,
-      "pctOfPortfolio": 227.8630065
-    },
-    {
-      "name": "Microchip Technology, Inc.",
-      "cusip": "595017104",
-      "shares": 10214033,
-      "value": 1567751925170,
-      "pctOfPortfolio": 171.81586175
-    },
-    {
-      "name": "Molson Coors Beverage Company",
-      "cusip": "60871R209",
-      "shares": 18164725,
-      "value": 842479945500,
-      "pctOfPortfolio": 92.33056297
-    },
-    {
-      "name": "News Corp.",
-      "cusip": "65249B109",
-      "shares": 7963490,
-      "value": 187380919700,
-      "pctOfPortfolio": 20.53578355
-    },
-    {
-      "name": "Novartis AG",
-      "cusip": "66987V109",
-      "shares": 20013900,
-      "value": 1636736742000,
-      "pctOfPortfolio": 179.37616867999998
-    },
-    {
-      "name": "Occidental Petroleum Corp.",
-      "cusip": "674599105",
-      "shares": 70445026,
-      "value": 2083763869080,
-      "pctOfPortfolio": 228.36756191999999
-    },
-    {
-      "name": "Occidental Petroleum Corp.",
-      "cusip": "674599162",
-      "shares": 9394990,
-      "value": 111330631500,
-      "pctOfPortfolio": 12.20114489
-    },
-    {
-      "name": "Otis Worldwide Corp.",
-      "cusip": "68902V107",
-      "shares": 4313250,
-      "value": 354894210000,
-      "pctOfPortfolio": 38.89419846
-    },
-    {
-      "name": "Qurate Retail, Inc.",
-      "cusip": "74915M100",
-      "shares": 33190514,
-      "value": 338211337660,
-      "pctOfPortfolio": 37.0658594
-    },
-    {
-      "name": "Raytheon Technologies Corp.",
-      "cusip": "75513E101",
-      "shares": 24503500,
-      "value": 2106320860000,
-      "pctOfPortfolio": 230.83966784999998
-    },
-    {
-      "name": "Roche Holding AG",
-      "cusip": "771195104",
-      "shares": 25137499,
-      "value": 1143002079530,
-      "pctOfPortfolio": 125.26592002000001
-    },
-    {
-      "name": "State Street Institutional US",
-      "cusip": "N/A",
-      "shares": 370018435.38,
-      "value": 370018435380,
-      "pctOfPortfolio": 40.55171951
-    },
-    {
-      "name": "Sanofi",
-      "cusip": "80105N105",
-      "shares": 65365828,
-      "value": 3151286567880,
-      "pctOfPortfolio": 345.36141119
-    },
-    {
-      "name": "Schlumberger, Ltd.",
-      "cusip": "806857108",
-      "shares": 33058645,
-      "value": 979858237800,
-      "pctOfPortfolio": 107.3863695
-    },
-    {
-      "name": "Charles Schwab Corp.",
-      "cusip": "808513105",
-      "shares": 48399300,
-      "value": 3525405012000,
-      "pctOfPortfolio": 386.36246617
-    },
-    {
-      "name": "State Street Corp.",
-      "cusip": "857477103",
-      "shares": 15885200,
-      "value": 1345794144000,
-      "pctOfPortfolio": 147.4906692
-    },
-    {
       "name": "Fixed Income Clearing Corporation",
-      "cusip": "N/A",
-      "shares": 566084000,
-      "value": 566084000000,
-      "pctOfPortfolio": 62.03928614
-    },
-    {
-      "name": "T-Mobile U.S., Inc.",
-      "cusip": "872590104",
-      "shares": 7712137,
-      "value": 985302623120,
-      "pctOfPortfolio": 107.98304027
-    },
-    {
-      "name": "Truist Financial Corp.",
-      "cusip": "89832Q109",
-      "shares": 9628544,
-      "value": 564714105600,
-      "pctOfPortfolio": 61.889154229999995
-    },
-    {
-      "name": "UnitedHealth Group, Inc.",
-      "cusip": "91324P102",
-      "shares": 2582860,
-      "value": 1009226716400,
-      "pctOfPortfolio": 110.60497212
-    },
-    {
-      "name": "VMware, Inc.",
-      "cusip": "928563402",
-      "shares": 5207000,
-      "value": 774280900000,
-      "pctOfPortfolio": 84.85637168
+      "cusip": null,
+      "shares": 732917000,
+      "value": 732917000,
+      "pctOfPortfolio": 4.7841215489
     },
     {
       "name": "Wells Fargo & Co.",
       "cusip": "949746101",
-      "shares": 87699641,
-      "value": 4070140338810,
-      "pctOfPortfolio": 446.06207049
+      "shares": 9181806,
+      "value": 440543051.88,
+      "pctOfPortfolio": 2.8756482763
     },
     {
-      "name": "The Williams Companies, Inc.",
-      "cusip": "969457100",
-      "shares": 50955900,
-      "value": 1321796046000,
-      "pctOfPortfolio": 144.8606269
+      "name": "Charles Schwab Corp",
+      "cusip": "808513105",
+      "shares": 4679900,
+      "value": 393579590,
+      "pctOfPortfolio": 2.5690939052
+    },
+    {
+      "name": "UMBS TBA",
+      "cusip": "01F022626",
+      "shares": 377940000,
+      "value": 384629590.91,
+      "pctOfPortfolio": 2.510672715
+    },
+    {
+      "name": "Sanofi",
+      "cusip": "80105N105",
+      "shares": 7558665,
+      "value": 378689116.5,
+      "pctOfPortfolio": 2.471896221
+    },
+    {
+      "name": "GlaxoSmithKline PLC",
+      "cusip": "37733W105",
+      "shares": 8478450,
+      "value": 373899645,
+      "pctOfPortfolio": 2.4406329077
+    },
+    {
+      "name": "Alphabet, Inc",
+      "cusip": "02079K107",
+      "shares": 123695,
+      "value": 357922615.05,
+      "pctOfPortfolio": 2.3363427175
+    },
+    {
+      "name": "Comcast Corp",
+      "cusip": "20030N101",
+      "shares": 6087948,
+      "value": 306406422.84,
+      "pctOfPortfolio": 2.000070363
+    },
+    {
+      "name": "HP, Inc",
+      "cusip": "40434L105",
+      "shares": 7967430,
+      "value": 300133088.1,
+      "pctOfPortfolio": 1.9591211206
+    },
+    {
+      "name": "Fiserv, Inc",
+      "cusip": "337738108",
+      "shares": 2833800,
+      "value": 294120102,
+      "pctOfPortfolio": 1.919871306
+    },
+    {
+      "name": "Cigna Corp",
+      "cusip": "125523100",
+      "shares": 1259165,
+      "value": 289142058.95,
+      "pctOfPortfolio": 1.8873770903
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 1894426,
+      "value": 274862268.34,
+      "pctOfPortfolio": 1.7941656435
+    },
+    {
+      "name": "Bank of New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 4645300,
+      "value": 269799024,
+      "pctOfPortfolio": 1.7611152758
+    },
+    {
+      "name": "FedEx Corp",
+      "cusip": "31428X106",
+      "shares": 1021534,
+      "value": 264209553.76,
+      "pctOfPortfolio": 1.7246299643
+    },
+    {
+      "name": "Charter Communications, Inc",
+      "cusip": "16119P108",
+      "shares": 377407,
+      "value": 246058041.79,
+      "pctOfPortfolio": 1.6061458255
+    },
+    {
+      "name": "Occidental Petroleum Corp",
+      "cusip": "674599105",
+      "shares": 8150914,
+      "value": 236294996.86,
+      "pctOfPortfolio": 1.5424174721
+    },
+    {
+      "name": "Gilead Sciences, Inc",
+      "cusip": "375558103",
+      "shares": 3206480,
+      "value": 232822512.8,
+      "pctOfPortfolio": 1.5197508047
+    },
+    {
+      "name": "Goldman Sachs Group, Inc",
+      "cusip": "38141G104",
+      "shares": 596100,
+      "value": 228038055,
+      "pctOfPortfolio": 1.4885202184
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 5094600,
+      "value": 226658754,
+      "pctOfPortfolio": 1.4795168201
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "771195104",
+      "shares": 4213500,
+      "value": 217795815,
+      "pctOfPortfolio": 1.4216639153
+    },
+    {
+      "name": "Cisco Systems, Inc",
+      "cusip": "17275R102",
+      "shares": 3365100,
+      "value": 213246387,
+      "pctOfPortfolio": 1.3919674878
+    },
+    {
+      "name": "VMware, Inc",
+      "cusip": "928563402",
+      "shares": 1778133,
+      "value": 206050052.04,
+      "pctOfPortfolio": 1.3449933541
+    },
+    {
+      "name": "MetLife, Inc",
+      "cusip": "59156R108",
+      "shares": 3132394,
+      "value": 195743301.06,
+      "pctOfPortfolio": 1.2777159551
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "66987V109",
+      "shares": 2192200,
+      "value": 191751734,
+      "pctOfPortfolio": 1.2516609694
+    },
+    {
+      "name": "Cognizant Technology Solutions Corp",
+      "cusip": "192446102",
+      "shares": 2108400,
+      "value": 187057248,
+      "pctOfPortfolio": 1.2210176746
     },
     {
       "name": "Johnson Controls International PLC",
       "cusip": "G51502105",
-      "shares": 33801317,
-      "value": 2301193661360,
-      "pctOfPortfolio": 252.19651503999998
+      "shares": 2191214,
+      "value": 178167610.34,
+      "pctOfPortfolio": 1.1629904941
     },
     {
-      "name": "Medtronic PLC",
-      "cusip": "G5960L103",
-      "shares": 3051000,
-      "value": 382442850000,
-      "pctOfPortfolio": 41.91335809
+      "name": "Bristol-Myers Squibb Co.",
+      "cusip": "110122108",
+      "shares": 2845400,
+      "value": 177410690,
+      "pctOfPortfolio": 1.1580496905
     },
     {
-      "name": "TE Connectivity, Ltd.",
+      "name": "Raytheon Technologies Corp",
+      "cusip": "75513E101",
+      "shares": 2020300,
+      "value": 173867018,
+      "pctOfPortfolio": 1.1349183434
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 1825800,
+      "value": 169799400,
+      "pctOfPortfolio": 1.1083669345
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "872590104",
+      "shares": 1457161,
+      "value": 169001532.78,
+      "pctOfPortfolio": 1.1031588499
+    },
+    {
+      "name": "Honda Motor Co., Ltd",
+      "cusip": "438128308",
+      "shares": 5374000,
+      "value": 152890300,
+      "pctOfPortfolio": 0.9979926497
+    },
+    {
+      "name": "The Williams Companies, Inc",
+      "cusip": "969457100",
+      "shares": 5696400,
+      "value": 148334256,
+      "pctOfPortfolio": 0.9682530363
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CBQ3",
+      "shares": 152600000,
+      "value": 148266398.06,
+      "pctOfPortfolio": 0.967810093
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CBW0",
+      "shares": 151000000,
+      "value": 148009491.81,
+      "pctOfPortfolio": 0.9661331354
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 434800,
+      "value": 146231936,
+      "pctOfPortfolio": 0.9545301257
+    },
+    {
+      "name": "Juniper Networks, Inc",
+      "cusip": "48203R104",
+      "shares": 3698629,
+      "value": 132078041.59,
+      "pctOfPortfolio": 0.8621404674
+    },
+    {
+      "name": "Microchip Technology, Inc",
+      "cusip": "595017104",
+      "shares": 1511910,
+      "value": 131626884.6,
+      "pctOfPortfolio": 0.8591955365
+    },
+    {
+      "name": "Hewlett Packard Enterprise Co.",
+      "cusip": "42824C109",
+      "shares": 8075170,
+      "value": 127345430.9,
+      "pctOfPortfolio": 0.8312483134
+    },
+    {
+      "name": "Fox Corp",
+      "cusip": "35137L105",
+      "shares": 3325933,
+      "value": 122726927.7,
+      "pctOfPortfolio": 0.801100997
+    },
+    {
+      "name": "UnitedHealth Group, Inc",
+      "cusip": "91324P102",
+      "shares": 234472,
+      "value": 117737770.08,
+      "pctOfPortfolio": 0.768534231
+    },
+    {
+      "name": "Dell Technologies, Inc",
+      "cusip": "24703L202",
+      "shares": 2085526,
+      "value": 117143995.42,
+      "pctOfPortfolio": 0.7646583622
+    },
+    {
+      "name": "Anheuser-Busch InBev SA NV",
+      "cusip": "03524A108",
+      "shares": 1846675,
+      "value": 111816171.25,
+      "pctOfPortfolio": 0.7298809475
+    },
+    {
+      "name": "Molson Coors Beverage Company",
+      "cusip": "60871R209",
+      "shares": 2398314,
+      "value": 111161853.9,
+      "pctOfPortfolio": 0.7256098858
+    },
+    {
+      "name": "Incyte Corp",
+      "cusip": "45337C102",
+      "shares": 1479200,
+      "value": 108573280,
+      "pctOfPortfolio": 0.7087129491
+    },
+    {
+      "name": "Goldman Sachs Group, Inc",
+      "cusip": "36253Y400",
+      "shares": 325000,
+      "value": 106924983.43,
+      "pctOfPortfolio": 0.6979536801
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 1478324,
+      "value": 106705426.32,
+      "pctOfPortfolio": 0.6965205193
+    },
+    {
+      "name": "DISH Network Corp",
+      "cusip": "25470M109",
+      "shares": 3274134,
+      "value": 106212906.96,
+      "pctOfPortfolio": 0.6933055953
+    },
+    {
+      "name": "BioMarin Pharmaceutical, Inc",
+      "cusip": "09061G101",
+      "shares": 1199700,
+      "value": 105993495,
+      "pctOfPortfolio": 0.6918733819
+    },
+    {
+      "name": "Freddie Mac Pool",
+      "cusip": "3133KJWQ1",
+      "shares": 94177390.65,
+      "value": 94320422.56,
+      "pctOfPortfolio": 0.6156773087
+    },
+    {
+      "name": "Credicorp, Ltd",
+      "cusip": "G2519Y108",
+      "shares": 757897,
+      "value": 92516486.79,
+      "pctOfPortfolio": 0.6039021036
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QF7M5",
+      "shares": 88985558.7,
+      "value": 89127811.01,
+      "pctOfPortfolio": 0.5817824955
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CCJ8",
+      "shares": 89385000,
+      "value": 87967409.32,
+      "pctOfPortfolio": 0.5742079642
+    },
+    {
+      "name": "Imperial Brands PLC",
+      "cusip": "45262P102",
+      "shares": 3994900,
+      "value": 87903779.6,
+      "pctOfPortfolio": 0.5737926207
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63941DAC5",
+      "shares": 86422000,
+      "value": 85696971.27,
+      "pctOfPortfolio": 0.5593876618
+    },
+    {
+      "name": "Baker Hughes Co.",
+      "cusip": "05722G100",
+      "shares": 3549600,
+      "value": 85403376,
+      "pctOfPortfolio": 0.5574712163
+    },
+    {
+      "name": "Schlumberger, Ltd",
+      "cusip": "806857108",
+      "shares": 2849921,
+      "value": 85355133.95,
+      "pctOfPortfolio": 0.557156316
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CAE1",
+      "shares": 90886000,
+      "value": 84758295.01,
+      "pctOfPortfolio": 0.5532604451
+    },
+    {
+      "name": "Booking Holdings, Inc",
+      "cusip": "09857L108",
+      "shares": 34700,
+      "value": 83253281,
+      "pctOfPortfolio": 0.5434364541
+    },
+    {
+      "name": "Freddie Mac Pool",
+      "cusip": "3133KJF98",
+      "shares": 80475238.76,
+      "value": 82728073.86,
+      "pctOfPortfolio": 0.5400081603
+    },
+    {
+      "name": "Truist Financial Corp",
+      "cusip": "89832Q109",
+      "shares": 1405584,
+      "value": 82296943.2,
+      "pctOfPortfolio": 0.5371939515
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "48126HAC4",
+      "shares": 73080000,
+      "value": 77099400,
+      "pctOfPortfolio": 0.5032669469
+    },
+    {
+      "name": "TE Connectivity, Ltd",
       "cusip": "H84989104",
-      "shares": 8813775,
-      "value": 1209426205500,
-      "pctOfPortfolio": 132.54559116
+      "shares": 461636,
+      "value": 74480352.24,
+      "pctOfPortfolio": 0.4861710918
+    },
+    {
+      "name": "Goldman Sachs Group, Inc",
+      "cusip": "36253Y418",
+      "shares": 280000,
+      "value": 69992371.96,
+      "pctOfPortfolio": 0.4568757649
+    },
+    {
+      "name": "Meta Platforms, Inc",
+      "cusip": "30303M102",
+      "shares": 203800,
+      "value": 68548130,
+      "pctOfPortfolio": 0.447448464
+    },
+    {
+      "name": "Alnylam Pharmaceuticals, Inc",
+      "cusip": "02043Q107",
+      "shares": 400400,
+      "value": 67899832,
+      "pctOfPortfolio": 0.4432166936
+    },
+    {
+      "name": "Carrier Global Corp",
+      "cusip": "14448C104",
+      "shares": 1166900,
+      "value": 63292656,
+      "pctOfPortfolio": 0.4131433156
+    },
+    {
+      "name": "State Street Institutional US",
+      "cusip": null,
+      "shares": 61506663.29,
+      "value": 61506663.29,
+      "pctOfPortfolio": 0.401485234
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140X8GY7",
+      "shares": 59144195.17,
+      "value": 60796748.45,
+      "pctOfPortfolio": 0.3968512592
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CDH1",
+      "shares": 56440000,
+      "value": 56122525,
+      "pctOfPortfolio": 0.3663402285
+    },
+    {
+      "name": "Elanco Animal Health, Inc",
+      "cusip": "28414H103",
+      "shares": 1930600,
+      "value": 54790428,
+      "pctOfPortfolio": 0.3576449547
+    },
+    {
+      "name": "Freddie Mac Pool",
+      "cusip": "3132DVLF0",
+      "shares": 53024685.78,
+      "value": 54601918.84,
+      "pctOfPortfolio": 0.3564144597
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CDK4",
+      "shares": 54000000,
+      "value": 53966250,
+      "pctOfPortfolio": 0.3522651263
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "74365P108",
+      "shares": 3213600,
+      "value": 53377896,
+      "pctOfPortfolio": 0.3484246408
+    },
+    {
+      "name": "Citigroup, Inc",
+      "cusip": "172967JM4",
+      "shares": 48477000,
+      "value": 51870390,
+      "pctOfPortfolio": 0.3385843834
+    },
+    {
+      "name": "Citigroup, Inc",
+      "cusip": "172967KM2",
+      "shares": 45886000,
+      "value": 51750231.26,
+      "pctOfPortfolio": 0.3378000463
+    },
+    {
+      "name": "Fox Corp",
+      "cusip": "35137L204",
+      "shares": 1425880,
+      "value": 48864907.6,
+      "pctOfPortfolio": 0.3189660732
+    },
+    {
+      "name": "American Express Co.",
+      "cusip": "025816109",
+      "shares": 292700,
+      "value": 47885720,
+      "pctOfPortfolio": 0.3125744183
+    },
+    {
+      "name": "CVS Health Corp",
+      "cusip": "126650100",
+      "shares": 457300,
+      "value": 47175068,
+      "pctOfPortfolio": 0.3079356317
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CDA6",
+      "shares": 45272000,
+      "value": 44953681.25,
+      "pctOfPortfolio": 0.293435512
+    },
+    {
+      "name": "Hess Corp",
+      "cusip": "42809H107",
+      "shares": 590884,
+      "value": 43743142.52,
+      "pctOfPortfolio": 0.2855337108
+    },
+    {
+      "name": "Aegon NV",
+      "cusip": "007924103",
+      "shares": 8638257,
+      "value": 42672989.58,
+      "pctOfPortfolio": 0.278548279
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CCN9",
+      "shares": 42030000,
+      "value": 41699998.93,
+      "pctOfPortfolio": 0.2721970748
+    },
+    {
+      "name": "Citigroup, Inc",
+      "cusip": "173080201",
+      "shares": 1483237,
+      "value": 41419393.23,
+      "pctOfPortfolio": 0.2703654189
+    },
+    {
+      "name": "Charter Communications, Inc",
+      "cusip": "161175BA1",
+      "shares": 29977000,
+      "value": 40936207.19,
+      "pctOfPortfolio": 0.2672114181
+    },
+    {
+      "name": "Brighthouse Financial, Inc",
+      "cusip": "10922N103",
+      "shares": 772118,
+      "value": 39995712.4,
+      "pctOfPortfolio": 0.2610723309
+    },
+    {
+      "name": "AT&T, Inc",
+      "cusip": "00206RKJ0",
+      "shares": 39285000,
+      "value": 39634442.43,
+      "pctOfPortfolio": 0.2587141383
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CBR1",
+      "shares": 39630000,
+      "value": 39156297.85,
+      "pctOfPortfolio": 0.2555930458
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "06423AAJ2",
+      "shares": 25692000,
+      "value": 38774809.33,
+      "pctOfPortfolio": 0.2531028764
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QEAW2",
+      "shares": 37642544.26,
+      "value": 38624201.96,
+      "pctOfPortfolio": 0.2521197856
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QFBK4",
+      "shares": 36952146.67,
+      "value": 37986624.23,
+      "pctOfPortfolio": 0.2479579919
+    },
+    {
+      "name": "Celanese Corp",
+      "cusip": "150870103",
+      "shares": 223732,
+      "value": 37600399.92,
+      "pctOfPortfolio": 0.2454369096
+    },
+    {
+      "name": "Alibaba Group Holding, Ltd",
+      "cusip": "01609W102",
+      "shares": 289800,
+      "value": 34425342,
+      "pctOfPortfolio": 0.2247116938
+    },
+    {
+      "name": "Lincoln National Corp",
+      "cusip": "534187109",
+      "shares": 485477,
+      "value": 33138660.02,
+      "pctOfPortfolio": 0.2163128669
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "949746RN3",
+      "shares": 27987000,
+      "value": 30575797.5,
+      "pctOfPortfolio": 0.1995837615
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CBC4",
+      "shares": 31210000,
+      "value": 30251755.62,
+      "pctOfPortfolio": 0.1974685755
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "74365PAF5",
+      "shares": 30375000,
+      "value": 29608890.56,
+      "pctOfPortfolio": 0.1932722687
+    },
+    {
+      "name": "TC Energy Corp",
+      "cusip": "89356BAC2",
+      "shares": 28160000,
+      "value": 29110400,
+      "pctOfPortfolio": 0.1900183676
+    },
+    {
+      "name": "UniCredit SPA",
+      "cusip": "904678AQ2",
+      "shares": 23425000,
+      "value": 28063847.6,
+      "pctOfPortfolio": 0.1831869885
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QDV50",
+      "shares": 26777399.62,
+      "value": 27525276.32,
+      "pctOfPortfolio": 0.1796714602
+    },
+    {
+      "name": "Alphabet, Inc",
+      "cusip": "02079K305",
+      "shares": 9500,
+      "value": 27521880,
+      "pctOfPortfolio": 0.1796492907
     },
     {
       "name": "LyondellBasell Industries NV",
       "cusip": "N53745100",
-      "shares": 1383363,
-      "value": 129828617550,
-      "pctOfPortfolio": 14.22840913
+      "shares": 294800,
+      "value": 27189404,
+      "pctOfPortfolio": 0.1774790509
+    },
+    {
+      "name": "The Gap, Inc",
+      "cusip": "364760108",
+      "shares": 1534578,
+      "value": 27085301.7,
+      "pctOfPortfolio": 0.1767995223
+    },
+    {
+      "name": "Rio Oil Finance Trust",
+      "cusip": "76716XAB8",
+      "shares": 23458243.96,
+      "value": 26859689.33,
+      "pctOfPortfolio": 0.1753268358
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38380LY72",
+      "shares": 25883033.95,
+      "value": 26284347.8,
+      "pctOfPortfolio": 0.1715712894
+    },
+    {
+      "name": "State of Illinois GO",
+      "cusip": "452151LF8",
+      "shares": 22615000,
+      "value": 26140323.44,
+      "pctOfPortfolio": 0.1706311692
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63940LAC8",
+      "shares": 24832000,
+      "value": 25720558.49,
+      "pctOfPortfolio": 0.1678911502
+    },
+    {
+      "name": "Kinder Morgan, Inc",
+      "cusip": "494550BU9",
+      "shares": 20643000,
+      "value": 25305866.23,
+      "pctOfPortfolio": 0.1651842432
+    },
+    {
+      "name": "SLM Student Loan Trust",
+      "cusip": "78442GLL8",
+      "shares": 25375736.01,
+      "value": 25184524.76,
+      "pctOfPortfolio": 0.1643921858
+    },
+    {
+      "name": "State of California GO",
+      "cusip": "13063A7D0",
+      "shares": 15730000,
+      "value": 24677461.52,
+      "pctOfPortfolio": 0.1610823264
+    },
+    {
+      "name": "Dominion Energy, Inc",
+      "cusip": "25746UBY4",
+      "shares": 22950000,
+      "value": 24486827.47,
+      "pctOfPortfolio": 0.1598379611
+    },
+    {
+      "name": "Qurate Retail, Inc",
+      "cusip": "74915M100",
+      "shares": 3204750,
+      "value": 24356100,
+      "pctOfPortfolio": 0.1589846365
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38380LRL9",
+      "shares": 24448385.13,
+      "value": 24224929.33,
+      "pctOfPortfolio": 0.1581284189
+    },
+    {
+      "name": "HSBC Holdings PLC",
+      "cusip": "404280AG4",
+      "shares": 17805000,
+      "value": 24190319.73,
+      "pctOfPortfolio": 0.1579025045
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CCP4",
+      "shares": 24785000,
+      "value": 24100507.95,
+      "pctOfPortfolio": 0.1573162574
+    },
+    {
+      "name": "Cigna Corp",
+      "cusip": "125523AX8",
+      "shares": 17587000,
+      "value": 22733913.46,
+      "pctOfPortfolio": 0.148395801
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38375U6B1",
+      "shares": 23028839.18,
+      "value": 22642931.1,
+      "pctOfPortfolio": 0.1478019129
+    },
+    {
+      "name": "Imperial Brands PLC",
+      "cusip": "45262BAC7",
+      "shares": 21150000,
+      "value": 22400465.2,
+      "pctOfPortfolio": 0.1462192148
+    },
+    {
+      "name": "TC Energy Corp",
+      "cusip": "89356BAA6",
+      "shares": 20570000,
+      "value": 21598500,
+      "pctOfPortfolio": 0.1409843806
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38380LT52",
+      "shares": 21194848.36,
+      "value": 21578144.48,
+      "pctOfPortfolio": 0.1408515098
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140FXDY5",
+      "shares": 19000427.2,
+      "value": 21282662.94,
+      "pctOfPortfolio": 0.1389227517
+    },
+    {
+      "name": "Imperial Brands PLC",
+      "cusip": "453140AF2",
+      "shares": 19225000,
+      "value": 20640830.89,
+      "pctOfPortfolio": 0.1347331879
+    },
+    {
+      "name": "Vodafone Group PLC",
+      "cusip": "92857WBQ2",
+      "shares": 16900000,
+      "value": 20440172.45,
+      "pctOfPortfolio": 0.1334233883
+    },
+    {
+      "name": "II-VI, Inc",
+      "cusip": "902104108",
+      "shares": 298750,
+      "value": 20413587.5,
+      "pctOfPortfolio": 0.1332498548
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140QEVS8",
+      "shares": 20127234.75,
+      "value": 20159350.97,
+      "pctOfPortfolio": 0.1315903239
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63942QAB7",
+      "shares": 19786635.64,
+      "value": 19775638.23,
+      "pctOfPortfolio": 0.1290856359
+    },
+    {
+      "name": "New Jersey Turnpike Authority RB",
+      "cusip": "646139X83",
+      "shares": 12436000,
+      "value": 19511090.36,
+      "pctOfPortfolio": 0.1273587976
+    },
+    {
+      "name": "Enel SPA",
+      "cusip": "29268BAC5",
+      "shares": 13700000,
+      "value": 19497861.37,
+      "pctOfPortfolio": 0.1272724452
+    },
+    {
+      "name": "VMware, Inc",
+      "cusip": "928563AJ4",
+      "shares": 19765000,
+      "value": 19424672.79,
+      "pctOfPortfolio": 0.1267947062
+    },
+    {
+      "name": "Microchip Technology, Inc",
+      "cusip": "595017AX2",
+      "shares": 19714000,
+      "value": 19351802.76,
+      "pctOfPortfolio": 0.1263190465
+    },
+    {
+      "name": "Micro Focus International PLC",
+      "cusip": "594837403",
+      "shares": 3451871,
+      "value": 19226921.47,
+      "pctOfPortfolio": 0.1255038829
+    },
+    {
+      "name": "Halliburton Co.",
+      "cusip": "406216101",
+      "shares": 837634,
+      "value": 19156689.58,
+      "pctOfPortfolio": 0.1250454437
+    },
+    {
+      "name": "Kinder Morgan, Inc",
+      "cusip": "494550BW5",
+      "shares": 15719000,
+      "value": 19116704.45,
+      "pctOfPortfolio": 0.1247844404
+    },
+    {
+      "name": "News Corp",
+      "cusip": "65249B109",
+      "shares": 852604,
+      "value": 19021595.24,
+      "pctOfPortfolio": 0.1241636143
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3137B6MM0",
+      "shares": 17118443.28,
+      "value": 18876943.93,
+      "pctOfPortfolio": 0.1232194017
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "94974BGL8",
+      "shares": 16645000,
+      "value": 18544720.81,
+      "pctOfPortfolio": 0.1210508126
+    },
+    {
+      "name": "Petroleos Mexicanos",
+      "cusip": "71643VAA3",
+      "shares": 18224000,
+      "value": 18406240,
+      "pctOfPortfolio": 0.120146878
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31392UZ72",
+      "shares": 16183835.41,
+      "value": 18344286.81,
+      "pctOfPortfolio": 0.1197424781
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38380LHD8",
+      "shares": 18057877.72,
+      "value": 17854526.15,
+      "pctOfPortfolio": 0.1165455615
+    },
+    {
+      "name": "Dillard's, Inc",
+      "cusip": "254067AN1",
+      "shares": 15135000,
+      "value": 17690733.18,
+      "pctOfPortfolio": 0.1154764016
+    },
+    {
+      "name": "Petroleos Mexicanos",
+      "cusip": "71654QBR2",
+      "shares": 20125000,
+      "value": 17478562.5,
+      "pctOfPortfolio": 0.1140914558
+    },
+    {
+      "name": "Occidental Petroleum Corp",
+      "cusip": "674599162",
+      "shares": 1381001,
+      "value": 17414422.61,
+      "pctOfPortfolio": 0.1136727821
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505EN0",
+      "shares": 16008000,
+      "value": 17348670,
+      "pctOfPortfolio": 0.1132435815
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "46647PBW5",
+      "shares": 17500000,
+      "value": 16937396.88,
+      "pctOfPortfolio": 0.1105589929
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38376RS56",
+      "shares": 16992522.37,
+      "value": 16841785.1,
+      "pctOfPortfolio": 0.1099348862
+    },
+    {
+      "name": "Regeneron Pharmaceuticals, Inc",
+      "cusip": "75886F107",
+      "shares": 25576,
+      "value": 16151755.52,
+      "pctOfPortfolio": 0.1054307127
+    },
+    {
+      "name": "Occidental Petroleum Corp",
+      "cusip": "674599CR4",
+      "shares": 15450000,
+      "value": 15921534,
+      "pctOfPortfolio": 0.1039279399
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "06051GHC6",
+      "shares": 15589000,
+      "value": 15911216.84,
+      "pctOfPortfolio": 0.1038605945
+    },
+    {
+      "name": "Cox Enterprises, Inc",
+      "cusip": "224044CG0",
+      "shares": 14932000,
+      "value": 15849104.18,
+      "pctOfPortfolio": 0.1034551536
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "62856RAD7",
+      "shares": 14200000,
+      "value": 15848336,
+      "pctOfPortfolio": 0.1034501393
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38375UP87",
+      "shares": 15987633.12,
+      "value": 15796975.8,
+      "pctOfPortfolio": 0.1031148852
+    },
+    {
+      "name": "Boston Properties, Inc",
+      "cusip": "10112RAY0",
+      "shares": 15000000,
+      "value": 15608095.5,
+      "pctOfPortfolio": 0.1018819676
+    },
+    {
+      "name": "Cox Enterprises, Inc",
+      "cusip": "224044CE5",
+      "shares": 14626000,
+      "value": 15557025.78,
+      "pctOfPortfolio": 0.1015486096
+    },
+    {
+      "name": "Telecom Italia SPA",
+      "cusip": "87927YAA0",
+      "shares": 14663000,
+      "value": 15432220.98,
+      "pctOfPortfolio": 0.1007339452
+    },
+    {
+      "name": "The Southern Co.",
+      "cusip": "842587DF1",
+      "shares": 14800000,
+      "value": 15133000,
+      "pctOfPortfolio": 0.0987807779
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138ERDN7",
+      "shares": 13867667.09,
+      "value": 14972826.13,
+      "pctOfPortfolio": 0.0977352417
+    },
+    {
+      "name": "Charter Communications, Inc",
+      "cusip": "88732JAJ7",
+      "shares": 11000000,
+      "value": 14390981.33,
+      "pctOfPortfolio": 0.0939372451
+    },
+    {
+      "name": "Rio Oil Finance Trust",
+      "cusip": "76716XAA0",
+      "shares": 13375042.08,
+      "value": 14344732.63,
+      "pctOfPortfolio": 0.0936353564
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CAV3",
+      "shares": 14803000,
+      "value": 14073836.64,
+      "pctOfPortfolio": 0.0918670806
+    },
+    {
+      "name": "Verizon Communications, Inc",
+      "cusip": "92343VCV4",
+      "shares": 11847000,
+      "value": 13896351.52,
+      "pctOfPortfolio": 0.0907085451
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389XCC7",
+      "shares": 13990000,
+      "value": 13881828.62,
+      "pctOfPortfolio": 0.0906137468
+    },
+    {
+      "name": "Ford Motor Credit Co. LLC",
+      "cusip": "345397YG2",
+      "shares": 12838000,
+      "value": 13316088.15,
+      "pctOfPortfolio": 0.0869208713
+    },
+    {
+      "name": "Telecom Italia SPA",
+      "cusip": "87927VAR9",
+      "shares": 11596000,
+      "value": 13295509.76,
+      "pctOfPortfolio": 0.0867865457
+    },
+    {
+      "name": "SMB Private Education Loan Trust (Private Loans)",
+      "cusip": "78449LAB4",
+      "shares": 12658361.05,
+      "value": 13158308.08,
+      "pctOfPortfolio": 0.0858909607
+    },
+    {
+      "name": "Ford Motor Credit Co. LLC",
+      "cusip": "345397B77",
+      "shares": 12700000,
+      "value": 12811125,
+      "pctOfPortfolio": 0.0836247204
+    },
+    {
+      "name": "Ultrapar Participacoes SA",
+      "cusip": "90401CAA7",
+      "shares": 12050000,
+      "value": 12727933,
+      "pctOfPortfolio": 0.0830816839
+    },
+    {
+      "name": "HSBC Holdings PLC",
+      "cusip": "404280AW9",
+      "shares": 11462000,
+      "value": 12559828.3,
+      "pctOfPortfolio": 0.0819843792
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "95000U2J1",
+      "shares": 12005000,
+      "value": 12255438.59,
+      "pctOfPortfolio": 0.0799974729
+    },
+    {
+      "name": "Rio Oil Finance Trust",
+      "cusip": "76716XAC6",
+      "shares": 10832065,
+      "value": 12253773.53,
+      "pctOfPortfolio": 0.0799866042
+    },
+    {
+      "name": "Freddie Mac Pool",
+      "cusip": "3132DVLR4",
+      "shares": 11872339.47,
+      "value": 12226054.93,
+      "pctOfPortfolio": 0.0798056708
+    },
+    {
+      "name": "AbbVie, Inc",
+      "cusip": "00287YCA5",
+      "shares": 10550000,
+      "value": 12104331.71,
+      "pctOfPortfolio": 0.0790111215
+    },
+    {
+      "name": "Petroleos Mexicanos",
+      "cusip": "71654QDD1",
+      "shares": 12325000,
+      "value": 11893625,
+      "pctOfPortfolio": 0.0776357318
+    },
+    {
+      "name": "Ultrapar Participacoes SA",
+      "cusip": "90401CAC3",
+      "shares": 11350000,
+      "value": 11701963.5,
+      "pctOfPortfolio": 0.0763846599
+    },
+    {
+      "name": "Bayer AG",
+      "cusip": "07274NAL7",
+      "shares": 10100000,
+      "value": 11281089.25,
+      "pctOfPortfolio": 0.0736373998
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040HBJ3",
+      "shares": 10175000,
+      "value": 11083235.36,
+      "pctOfPortfolio": 0.072345907
+    },
+    {
+      "name": "Cigna Corp",
+      "cusip": "125523AG5",
+      "shares": 10000000,
+      "value": 10936168.4,
+      "pctOfPortfolio": 0.0713859262
+    },
+    {
+      "name": "SLM Student Loan Trust",
+      "cusip": "78442GRX6",
+      "shares": 11222774.47,
+      "value": 10877191.58,
+      "pctOfPortfolio": 0.0710009546
+    },
+    {
+      "name": "BNP Paribas SA",
+      "cusip": "05581KAC5",
+      "shares": 9775000,
+      "value": 10834758.58,
+      "pctOfPortfolio": 0.0707239728
+    },
+    {
+      "name": "Boston Properties, Inc",
+      "cusip": "10112RAX2",
+      "shares": 9941000,
+      "value": 10649708.11,
+      "pctOfPortfolio": 0.0695160544
+    },
+    {
+      "name": "Unum Group",
+      "cusip": "903192AA0",
+      "shares": 8417000,
+      "value": 10440167.1,
+      "pctOfPortfolio": 0.0681482738
+    },
+    {
+      "name": "Petroleos Mexicanos",
+      "cusip": "71654QCC4",
+      "shares": 11625000,
+      "value": 10317187.5,
+      "pctOfPortfolio": 0.0673455235
+    },
+    {
+      "name": "Ford Motor Credit Co. LLC",
+      "cusip": "345397B28",
+      "shares": 9350000,
+      "value": 9713902,
+      "pctOfPortfolio": 0.0634075726
+    },
+    {
+      "name": "Telecom Italia SPA",
+      "cusip": "87927VAV0",
+      "shares": 8212000,
+      "value": 9651358.3,
+      "pctOfPortfolio": 0.0629993181
+    },
+    {
+      "name": "Ford Motor Credit Co. LLC",
+      "cusip": "345397ZM8",
+      "shares": 9425000,
+      "value": 9431597.5,
+      "pctOfPortfolio": 0.0615648277
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38375UQ29",
+      "shares": 9497929.6,
+      "value": 9386395.41,
+      "pctOfPortfolio": 0.0612697707
+    },
+    {
+      "name": "Dillard's, Inc",
+      "cusip": "254063AR1",
+      "shares": 8660000,
+      "value": 9166493.7,
+      "pctOfPortfolio": 0.0598343606
+    },
+    {
+      "name": "Petroleos Mexicanos",
+      "cusip": "706451BG5",
+      "shares": 9425000,
+      "value": 9055492.88,
+      "pctOfPortfolio": 0.0591098018
+    },
+    {
+      "name": "BNP Paribas SA",
+      "cusip": "05581KAA9",
+      "shares": 8223000,
+      "value": 8909037.32,
+      "pctOfPortfolio": 0.058153812
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CCK5",
+      "shares": 8937000,
+      "value": 8876605.45,
+      "pctOfPortfolio": 0.0579421127
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505EH3",
+      "shares": 8170000,
+      "value": 8792962.5,
+      "pctOfPortfolio": 0.0573961327
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63940EAA8",
+      "shares": 8783878.98,
+      "value": 8753600.07,
+      "pctOfPortfolio": 0.0571391941
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "87264ABF1",
+      "shares": 7975000,
+      "value": 8722684,
+      "pctOfPortfolio": 0.0569373892
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "06051GGC7",
+      "shares": 7925000,
+      "value": 8671083.12,
+      "pctOfPortfolio": 0.0566005641
+    },
+    {
+      "name": "Freddie Mac Multifamily Interest Only",
+      "cusip": "3137FLMX9",
+      "shares": 180437011.34,
+      "value": 8514335.39,
+      "pctOfPortfolio": 0.055577392
+    },
+    {
+      "name": "Charter Communications, Inc",
+      "cusip": "88732JAU2",
+      "shares": 6160000,
+      "value": 8392630.95,
+      "pctOfPortfolio": 0.0547829653
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31288QB82",
+      "shares": 7902364.26,
+      "value": 8215855.79,
+      "pctOfPortfolio": 0.053629064
+    },
+    {
+      "name": "Freddie Mac Pool",
+      "cusip": "3132DVLK9",
+      "shares": 7944787.08,
+      "value": 8146678.34,
+      "pctOfPortfolio": 0.0531775077
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389XBX2",
+      "shares": 8288000,
+      "value": 8115103.45,
+      "pctOfPortfolio": 0.0529714023
+    },
+    {
+      "name": "Occidental Petroleum Corp",
+      "cusip": "674599CW3",
+      "shares": 7900000,
+      "value": 8069850,
+      "pctOfPortfolio": 0.0526760101
+    },
+    {
+      "name": "The Southern Co.",
+      "cusip": "842587DJ3",
+      "shares": 7500000,
+      "value": 7500000,
+      "pctOfPortfolio": 0.0489563097
+    },
+    {
+      "name": "AbbVie, Inc",
+      "cusip": "00287YCX5",
+      "shares": 7000000,
+      "value": 7451336.76,
+      "pctOfPortfolio": 0.04863866
+    },
+    {
+      "name": "TC Energy Corp",
+      "cusip": "89356BAE8",
+      "shares": 6850000,
+      "value": 7312375,
+      "pctOfPortfolio": 0.047731586
+    },
+    {
+      "name": "Elanco Animal Health, Inc",
+      "cusip": "28414HAG8",
+      "shares": 6175000,
+      "value": 7163000,
+      "pctOfPortfolio": 0.0467565395
+    },
+    {
+      "name": "Coca-Cola Co.",
+      "cusip": "191216CT5",
+      "shares": 6400000,
+      "value": 7085354.11,
+      "pctOfPortfolio": 0.0462497053
+    },
+    {
+      "name": "Cemex SAB de CV",
+      "cusip": "151290BZ5",
+      "shares": 7050000,
+      "value": 7024126.5,
+      "pctOfPortfolio": 0.0458500416
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63940NAC4",
+      "shares": 6868458.14,
+      "value": 6958306.5,
+      "pctOfPortfolio": 0.045420401
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3132HTUC8",
+      "shares": 6793406.99,
+      "value": 6924871.71,
+      "pctOfPortfolio": 0.0452021552
+    },
+    {
+      "name": "Cemex SAB de CV",
+      "cusip": "151290BX0",
+      "shares": 6400000,
+      "value": 6872000,
+      "pctOfPortfolio": 0.0448570347
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "87264ACC7",
+      "shares": 6800000,
+      "value": 6817000,
+      "pctOfPortfolio": 0.0444980217
+    },
+    {
+      "name": "The Williams Companies, Inc",
+      "cusip": "969457BX7",
+      "shares": 6400000,
+      "value": 6802610.18,
+      "pctOfPortfolio": 0.0444040921
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "87264ACE3",
+      "shares": 6525000,
+      "value": 6788479.5,
+      "pctOfPortfolio": 0.0443118539
+    },
+    {
+      "name": "AT&T, Inc",
+      "cusip": "00206RLV2",
+      "shares": 6687000,
+      "value": 6753127.88,
+      "pctOfPortfolio": 0.044081096
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "87264ACD5",
+      "shares": 6500000,
+      "value": 6623110,
+      "pctOfPortfolio": 0.0432324032
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389XBU8",
+      "shares": 6350000,
+      "value": 6546753.04,
+      "pctOfPortfolio": 0.0427339826
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231GBF8",
+      "shares": 5545000,
+      "value": 6545908.93,
+      "pctOfPortfolio": 0.0427284726
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418MG48",
+      "shares": 5621959.97,
+      "value": 6453817.89,
+      "pctOfPortfolio": 0.0421273476
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31394PPQ0",
+      "shares": 5629768.71,
+      "value": 6449566.06,
+      "pctOfPortfolio": 0.0420995938
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63940CAA2",
+      "shares": 6397641.01,
+      "value": 6417692.5,
+      "pctOfPortfolio": 0.0418915389
+    },
+    {
+      "name": "Petroleo Brasileiro SA",
+      "cusip": "71647NBE8",
+      "shares": 6011000,
+      "value": 6251860.77,
+      "pctOfPortfolio": 0.0408090709
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "06051GFH7",
+      "shares": 5825000,
+      "value": 6243578.73,
+      "pctOfPortfolio": 0.0407550098
+    },
+    {
+      "name": "CVS Health Corp",
+      "cusip": "126650CZ1",
+      "shares": 4725000,
+      "value": 6177643.89,
+      "pctOfPortfolio": 0.0403246196
+    },
+    {
+      "name": "Boston Properties, Inc",
+      "cusip": "10112RBD5",
+      "shares": 5850000,
+      "value": 6129040.38,
+      "pctOfPortfolio": 0.0400073598
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "87264ACM5",
+      "shares": 6050000,
+      "value": 6022087.54,
+      "pctOfPortfolio": 0.0393092243
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EMGR6",
+      "shares": 5498224.06,
+      "value": 5938339.8,
+      "pctOfPortfolio": 0.0387625603
+    },
+    {
+      "name": "Enel SPA",
+      "cusip": "29268BAF8",
+      "shares": 4447000,
+      "value": 5907455.99,
+      "pctOfPortfolio": 0.038560966
+    },
+    {
+      "name": "Dow, Inc",
+      "cusip": "260543BY8",
+      "shares": 3286000,
+      "value": 5887265.13,
+      "pctOfPortfolio": 0.03842917
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128M9VG4",
+      "shares": 5289111.73,
+      "value": 5829826.35,
+      "pctOfPortfolio": 0.0380542379
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140JAKS6",
+      "shares": 5261010.62,
+      "value": 5761168.38,
+      "pctOfPortfolio": 0.0376060724
+    },
+    {
+      "name": "Charter Communications, Inc",
+      "cusip": "1248EPCP6",
+      "shares": 5850000,
+      "value": 5755390.88,
+      "pctOfPortfolio": 0.0375683598
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418CG99",
+      "shares": 5334259.86,
+      "value": 5638724.42,
+      "pctOfPortfolio": 0.0368068185
+    },
+    {
+      "name": "CVS Health Corp",
+      "cusip": "126650CY4",
+      "shares": 4600000,
+      "value": 5599344.94,
+      "pctOfPortfolio": 0.0365497686
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231GBG6",
+      "shares": 4532000,
+      "value": 5564623,
+      "pctOfPortfolio": 0.0363231209
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140J53D9",
+      "shares": 5356407.42,
+      "value": 5555720.36,
+      "pctOfPortfolio": 0.0362650089
+    },
+    {
+      "name": "Cemex SAB de CV",
+      "cusip": "151290BW2",
+      "shares": 5000000,
+      "value": 5505050,
+      "pctOfPortfolio": 0.0359342577
+    },
+    {
+      "name": "FedEx Corp",
+      "cusip": "31428XCA2",
+      "shares": 4100000,
+      "value": 5484969.67,
+      "pctOfPortfolio": 0.0358031832
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63939RAA2",
+      "shares": 5423159.29,
+      "value": 5465457.22,
+      "pctOfPortfolio": 0.0356758155
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31402RAQ2",
+      "shares": 4772103.49,
+      "value": 5407011.05,
+      "pctOfPortfolio": 0.0352943076
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128M9X56",
+      "shares": 4876423.86,
+      "value": 5387246.52,
+      "pctOfPortfolio": 0.0351652945
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38380LDP5",
+      "shares": 5482399.33,
+      "value": 5379463.44,
+      "pctOfPortfolio": 0.0351144904
+    },
+    {
+      "name": "VMware, Inc",
+      "cusip": "928563AE5",
+      "shares": 4775000,
+      "value": 5370078.26,
+      "pctOfPortfolio": 0.0350532286
+    },
+    {
+      "name": "Citigroup, Inc",
+      "cusip": "172967GD7",
+      "shares": 5175000,
+      "value": 5330250,
+      "pctOfPortfolio": 0.0347932493
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CCX7",
+      "shares": 5390000,
+      "value": 5313782.06,
+      "pctOfPortfolio": 0.0346857547
+    },
+    {
+      "name": "Ford Motor Credit Co. LLC",
+      "cusip": "345397ZB2",
+      "shares": 5166000,
+      "value": 5288950.8,
+      "pctOfPortfolio": 0.0345236684
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3136AGF56",
+      "shares": 5034915.01,
+      "value": 5266144.99,
+      "pctOfPortfolio": 0.0343748033
+    },
+    {
+      "name": "British American Tobacco PLC",
+      "cusip": "05526DBS3",
+      "shares": 5415000,
+      "value": 5254832.31,
+      "pctOfPortfolio": 0.0343009597
+    },
+    {
+      "name": "Union Pacific Corp",
+      "cusip": "90783XAA9",
+      "shares": 4494010.61,
+      "value": 5245663.99,
+      "pctOfPortfolio": 0.0342411134
+    },
+    {
+      "name": "Boston Properties, Inc",
+      "cusip": "10112RAW4",
+      "shares": 5000000,
+      "value": 5229133.25,
+      "pctOfPortfolio": 0.0341332089
+    },
+    {
+      "name": "Barclays PLC",
+      "cusip": "06738EAW5",
+      "shares": 4525000,
+      "value": 4984638.32,
+      "pctOfPortfolio": 0.0325372663
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31410KEV2",
+      "shares": 4385597.16,
+      "value": 4979476.88,
+      "pctOfPortfolio": 0.032503575
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418BS56",
+      "shares": 4575374.62,
+      "value": 4962528.55,
+      "pctOfPortfolio": 0.0323929446
+    },
+    {
+      "name": "Petroleo Brasileiro SA",
+      "cusip": "71647NAK5",
+      "shares": 4300000,
+      "value": 4762250,
+      "pctOfPortfolio": 0.0310856248
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138ERXU9",
+      "shares": 4560842.9,
+      "value": 4702209.65,
+      "pctOfPortfolio": 0.0306937109
+    },
+    {
+      "name": "Charter Communications, Inc",
+      "cusip": "161175BN3",
+      "shares": 3700000,
+      "value": 4614116.38,
+      "pctOfPortfolio": 0.0301186814
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418BLB0",
+      "shares": 4245783.05,
+      "value": 4605870.59,
+      "pctOfPortfolio": 0.0300648569
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128MABL2",
+      "shares": 4203953.51,
+      "value": 4587037.43,
+      "pctOfPortfolio": 0.0299419233
+    },
+    {
+      "name": "Freddie Mac Multifamily Interest Only",
+      "cusip": "3137FBU95",
+      "shares": 232396986.63,
+      "value": 4557328.15,
+      "pctOfPortfolio": 0.0297479958
+    },
+    {
+      "name": "HSBC Holdings PLC",
+      "cusip": "404280AH2",
+      "shares": 3265000,
+      "value": 4517282.78,
+      "pctOfPortfolio": 0.0294865993
+    },
+    {
+      "name": "Dow, Inc",
+      "cusip": "260543BJ1",
+      "shares": 3353000,
+      "value": 4511385.12,
+      "pctOfPortfolio": 0.0294481023
+    },
+    {
+      "name": "Zoetis, Inc",
+      "cusip": "98978VAK9",
+      "shares": 4095000,
+      "value": 4507952.49,
+      "pctOfPortfolio": 0.0294256957
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138ELTX1",
+      "shares": 4121873.89,
+      "value": 4452473.9,
+      "pctOfPortfolio": 0.0290635588
+    },
+    {
+      "name": "Cigna Corp",
+      "cusip": "125523BZ2",
+      "shares": 4000000,
+      "value": 4418253.4,
+      "pctOfPortfolio": 0.0288401842
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CCF6",
+      "shares": 4505000,
+      "value": 4412436.31,
+      "pctOfPortfolio": 0.0288022131
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140GT3W8",
+      "shares": 4229777.25,
+      "value": 4403408.55,
+      "pctOfPortfolio": 0.0287432843
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417Y2J5",
+      "shares": 4064278.88,
+      "value": 4392899.2,
+      "pctOfPortfolio": 0.0286746845
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "06051GFU8",
+      "shares": 3970000,
+      "value": 4370801,
+      "pctOfPortfolio": 0.0285304383
+    },
+    {
+      "name": "Navient Student Loan Trust",
+      "cusip": "63941RAB6",
+      "shares": 4261737.58,
+      "value": 4356531.41,
+      "pctOfPortfolio": 0.0284372934
+    },
+    {
+      "name": "Ford Motor Credit Co. LLC",
+      "cusip": "345397WF6",
+      "shares": 4243000,
+      "value": 4319374,
+      "pctOfPortfolio": 0.0281947482
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418CJG0",
+      "shares": 4102549.85,
+      "value": 4316583.4,
+      "pctOfPortfolio": 0.0281765325
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138YAMX0",
+      "shares": 4138414.75,
+      "value": 4286966.17,
+      "pctOfPortfolio": 0.0279832058
+    },
+    {
+      "name": "Burlington Northern Santa Fe LLC",
+      "cusip": "05565SAA2",
+      "shares": 4057580.97,
+      "value": 4214715.66,
+      "pctOfPortfolio": 0.02751159
+    },
+    {
+      "name": "Charter Communications, Inc",
+      "cusip": "1248EPCL5",
+      "shares": 4000000,
+      "value": 4080920.04,
+      "pctOfPortfolio": 0.026638238
+    },
+    {
+      "name": "FedEx Corp",
+      "cusip": "31428XBZ8",
+      "shares": 3575000,
+      "value": 4065164.85,
+      "pctOfPortfolio": 0.0265353959
+    },
+    {
+      "name": "VMware, Inc",
+      "cusip": "928563AG0",
+      "shares": 4050000,
+      "value": 4021595.08,
+      "pctOfPortfolio": 0.0262509939
+    },
+    {
+      "name": "L.A. Unified School District GO",
+      "cusip": "544646XZ0",
+      "shares": 3000000,
+      "value": 3904936.2,
+      "pctOfPortfolio": 0.0254895021
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "74365PAA6",
+      "shares": 3750000,
+      "value": 3859351.2,
+      "pctOfPortfolio": 0.0251919457
+    },
+    {
+      "name": "Cox Enterprises, Inc",
+      "cusip": "224044CJ4",
+      "shares": 3550000,
+      "value": 3813380.22,
+      "pctOfPortfolio": 0.0248918697
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EQ7F3",
+      "shares": 3603620.58,
+      "value": 3736918.9,
+      "pctOfPortfolio": 0.0243927679
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "94974BFY1",
+      "shares": 3376000,
+      "value": 3679680.92,
+      "pctOfPortfolio": 0.0240191465
+    },
+    {
+      "name": "Dept. of Veterans Affairs",
+      "cusip": "911760RP3",
+      "shares": 3274940.74,
+      "value": 3606225.23,
+      "pctOfPortfolio": 0.0235396639
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040HBD6",
+      "shares": 3449000,
+      "value": 3573964.69,
+      "pctOfPortfolio": 0.023329083
+    },
+    {
+      "name": "Ford Motor Credit Co. LLC",
+      "cusip": "345397WK5",
+      "shares": 3405000,
+      "value": 3542630.1,
+      "pctOfPortfolio": 0.0231245462
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31300MVS9",
+      "shares": 3368680.8,
+      "value": 3494406.13,
+      "pctOfPortfolio": 0.0228097638
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "46647PBP0",
+      "shares": 3300000,
+      "value": 3416732.91,
+      "pctOfPortfolio": 0.0223027513
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128E5RK7",
+      "shares": 3137345.73,
+      "value": 3391699.1,
+      "pctOfPortfolio": 0.0221393429
+    },
+    {
+      "name": "British American Tobacco PLC",
+      "cusip": "05526DBU8",
+      "shares": 3525000,
+      "value": 3388380.98,
+      "pctOfPortfolio": 0.0221176838
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "06051GFL8",
+      "shares": 2970000,
+      "value": 3277103.88,
+      "pctOfPortfolio": 0.0213913217
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3136AGFD9",
+      "shares": 3018216.22,
+      "value": 3064493.93,
+      "pctOfPortfolio": 0.0200035085
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "87264AAX3",
+      "shares": 2675000,
+      "value": 3058019.29,
+      "pctOfPortfolio": 0.0199612452
+    },
+    {
+      "name": "Petroleos Mexicanos",
+      "cusip": "71654QDF6",
+      "shares": 3367000,
+      "value": 3005047.5,
+      "pctOfPortfolio": 0.0196154715
+    },
+    {
+      "name": "HCA Healthcare, Inc",
+      "cusip": "404119BX6",
+      "shares": 2700000,
+      "value": 2971016.04,
+      "pctOfPortfolio": 0.0193933308
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138YAMY8",
+      "shares": 2807358.71,
+      "value": 2906566.13,
+      "pctOfPortfolio": 0.0189726335
+    },
+    {
+      "name": "Macy's, Inc",
+      "cusip": "55617LAL6",
+      "shares": 2539000,
+      "value": 2862570.16,
+      "pctOfPortfolio": 0.0186854495
+    },
+    {
+      "name": "CVS Health Corp",
+      "cusip": "126650CX6",
+      "shares": 2538000,
+      "value": 2848111.22,
+      "pctOfPortfolio": 0.0185910686
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EMV32",
+      "shares": 2701894.85,
+      "value": 2805267.35,
+      "pctOfPortfolio": 0.0183114049
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31300MLK7",
+      "shares": 2694174.4,
+      "value": 2796395.98,
+      "pctOfPortfolio": 0.018253497
+    },
+    {
+      "name": "U.S. Treasury Note/Bond",
+      "cusip": "91282CCW9",
+      "shares": 2805000,
+      "value": 2742216.22,
+      "pctOfPortfolio": 0.0178998382
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140GT3G3",
+      "shares": 2555362.39,
+      "value": 2666378.22,
+      "pctOfPortfolio": 0.017404805
+    },
+    {
+      "name": "Elanco Animal Health, Inc",
+      "cusip": "28414HAE3",
+      "shares": 2500000,
+      "value": 2660037.5,
+      "pctOfPortfolio": 0.0173634159
+    },
+    {
+      "name": "British American Tobacco PLC",
+      "cusip": "05526DBR5",
+      "shares": 2725000,
+      "value": 2655336.22,
+      "pctOfPortfolio": 0.0173327283
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38375UPC8",
+      "shares": 2605236.82,
+      "value": 2622520.22,
+      "pctOfPortfolio": 0.0171185216
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "38380LPB3",
+      "shares": 2605687.62,
+      "value": 2574463.67,
+      "pctOfPortfolio": 0.0168048321
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31326L6L4",
+      "shares": 2452580.68,
+      "value": 2556486.66,
+      "pctOfPortfolio": 0.016687487
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138ETNA0",
+      "shares": 2452534.04,
+      "value": 2539266.97,
+      "pctOfPortfolio": 0.0165750854
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EQSV5",
+      "shares": 2368842.01,
+      "value": 2460582.93,
+      "pctOfPortfolio": 0.0160614747
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "31283H6C4",
+      "shares": 2146445.05,
+      "value": 2452524.92,
+      "pctOfPortfolio": 0.0160088759
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3140JAAC2",
+      "shares": 2341960.05,
+      "value": 2440349.28,
+      "pctOfPortfolio": 0.0159293993
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EQAF9",
+      "shares": 2308645.92,
+      "value": 2427727.24,
+      "pctOfPortfolio": 0.0158470089
+    },
+    {
+      "name": "Burlington Northern Santa Fe LLC",
+      "cusip": "05568DAA2",
+      "shares": 2325986.85,
+      "value": 2407936.95,
+      "pctOfPortfolio": 0.0157178276
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418CFW9",
+      "shares": 2190351.43,
+      "value": 2350135.35,
+      "pctOfPortfolio": 0.0153405272
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31394VPU8",
+      "shares": 2011190.85,
+      "value": 2297562.51,
+      "pctOfPortfolio": 0.0149973576
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31397NNF8",
+      "shares": 1899071.74,
+      "value": 2245919.15,
+      "pctOfPortfolio": 0.0146602551
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31300M6Q1",
+      "shares": 2160275.21,
+      "value": 2243378.92,
+      "pctOfPortfolio": 0.0146436737
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31300M5J8",
+      "shares": 2026164.95,
+      "value": 2089083.47,
+      "pctOfPortfolio": 0.013636509
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "87264AAZ8",
+      "shares": 1775000,
+      "value": 2077465.8,
+      "pctOfPortfolio": 0.0135606745
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418BJZ0",
+      "shares": 1896294.18,
+      "value": 2062559,
+      "pctOfPortfolio": 0.0134633703
+    },
+    {
+      "name": "Petroleo Brasileiro SA",
+      "cusip": "71647NBH1",
+      "shares": 1925000,
+      "value": 2038575,
+      "pctOfPortfolio": 0.0133068145
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31392JAA7",
+      "shares": 1610743.69,
+      "value": 1840152.25,
+      "pctOfPortfolio": 0.0120116085
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417YTV9",
+      "shares": 1619649.7,
+      "value": 1734021.73,
+      "pctOfPortfolio": 0.0113188406
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138ELTE3",
+      "shares": 1654872.89,
+      "value": 1726665.38,
+      "pctOfPortfolio": 0.011270822
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31288QD49",
+      "shares": 1659617.05,
+      "value": 1715973.53,
+      "pctOfPortfolio": 0.0112010309
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418MEC2",
+      "shares": 1423777.38,
+      "value": 1656901.12,
+      "pctOfPortfolio": 0.0108154352
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138WGZF4",
+      "shares": 1552788.84,
+      "value": 1655101.1,
+      "pctOfPortfolio": 0.0108036856
+    },
+    {
+      "name": "Burlington Northern Santa Fe LLC",
+      "cusip": "05568BAA6",
+      "shares": 1490099.3,
+      "value": 1546249.67,
+      "pctOfPortfolio": 0.010093157
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418MG30",
+      "shares": 1291024.28,
+      "value": 1455571.25,
+      "pctOfPortfolio": 0.0095012529
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138XDWV8",
+      "shares": 1394479.5,
+      "value": 1449071.16,
+      "pctOfPortfolio": 0.0094588235
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138ELV59",
+      "shares": 1318402.33,
+      "value": 1388354.54,
+      "pctOfPortfolio": 0.0090624953
+    },
+    {
+      "name": "Freddie Mac Multifamily Interest Only",
+      "cusip": "3137F1G69",
+      "shares": 43512005.25,
+      "value": 1385970.5,
+      "pctOfPortfolio": 0.0090469335
+    },
+    {
+      "name": "Freddie Mac Multifamily Interest Only",
+      "cusip": "3137F2LL8",
+      "shares": 37364145.23,
+      "value": 1349577.98,
+      "pctOfPortfolio": 0.008809381
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31410KKG8",
+      "shares": 1153958.18,
+      "value": 1283660.69,
+      "pctOfPortfolio": 0.0083791054
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31393XGU5",
+      "shares": 1105008.25,
+      "value": 1262392.81,
+      "pctOfPortfolio": 0.0082402791
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128MDH30",
+      "shares": 1201985.82,
+      "value": 1255251.73,
+      "pctOfPortfolio": 0.0081936657
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31392DP97",
+      "shares": 1009769.63,
+      "value": 1186364,
+      "pctOfPortfolio": 0.0077440004
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418CGY4",
+      "shares": 1090783.7,
+      "value": 1181821.62,
+      "pctOfPortfolio": 0.00771435
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31419J5P9",
+      "shares": 1122810,
+      "value": 1175184.49,
+      "pctOfPortfolio": 0.0076710261
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128CUKS4",
+      "shares": 1032150.9,
+      "value": 1139039.94,
+      "pctOfPortfolio": 0.0074350923
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418BYE0",
+      "shares": 1023042.04,
+      "value": 1102737.27,
+      "pctOfPortfolio": 0.0071981263
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128M6T57",
+      "shares": 955957.92,
+      "value": 1085362.57,
+      "pctOfPortfolio": 0.0070847128
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3136A9XM5",
+      "shares": 898155.27,
+      "value": 1064965.34,
+      "pctOfPortfolio": 0.0069515697
+    },
+    {
+      "name": "British American Tobacco PLC",
+      "cusip": "05526DBT1",
+      "shares": 1100000,
+      "value": 1056591.97,
+      "pctOfPortfolio": 0.0068969125
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31392DGS5",
+      "shares": 917499.51,
+      "value": 1044697.61,
+      "pctOfPortfolio": 0.006819272
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31326G3N4",
+      "shares": 936239.67,
+      "value": 971372.05,
+      "pctOfPortfolio": 0.0063406388
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31300MGQ0",
+      "shares": 889763.39,
+      "value": 932459.22,
+      "pctOfPortfolio": 0.006086635
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31326HCQ5",
+      "shares": 875719.35,
+      "value": 908039.44,
+      "pctOfPortfolio": 0.0059272347
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31393AQ34",
+      "shares": 801316.23,
+      "value": 903851.29,
+      "pctOfPortfolio": 0.0058998965
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31397NWY7",
+      "shares": 757355.83,
+      "value": 876278.95,
+      "pctOfPortfolio": 0.0057199178
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128QSDP8",
+      "shares": 811550.44,
+      "value": 846971.49,
+      "pctOfPortfolio": 0.0055286131
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31417Y4C8",
+      "shares": 785444.73,
+      "value": 846676.91,
+      "pctOfPortfolio": 0.0055266903
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31359SR69",
+      "shares": 720250.58,
+      "value": 842928.84,
+      "pctOfPortfolio": 0.0055022247
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418NZV5",
+      "shares": 740622.39,
+      "value": 818819.01,
+      "pctOfPortfolio": 0.0053448476
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31359S6X3",
+      "shares": 692262.53,
+      "value": 806456.63,
+      "pctOfPortfolio": 0.0052641521
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31392JAC3",
+      "shares": 685252.2,
+      "value": 804306.68,
+      "pctOfPortfolio": 0.0052501183
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128QLP47",
+      "shares": 749887.6,
+      "value": 796578.42,
+      "pctOfPortfolio": 0.005199672
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31392DF49",
+      "shares": 729768.33,
+      "value": 788629.62,
+      "pctOfPortfolio": 0.0051477861
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "313920UK4",
+      "shares": 662067.65,
+      "value": 770142.78,
+      "pctOfPortfolio": 0.0050271131
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128LU6W1",
+      "shares": 712612.08,
+      "value": 756307.26,
+      "pctOfPortfolio": 0.0049368017
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31393XFT9",
+      "shares": 656506.28,
+      "value": 751208.43,
+      "pctOfPortfolio": 0.004903519
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138Y7HE5",
+      "shares": 707225.42,
+      "value": 734007.62,
+      "pctOfPortfolio": 0.0047912406
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128QSNS1",
+      "shares": 665555.26,
+      "value": 699674.28,
+      "pctOfPortfolio": 0.0045671294
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128M5KM1",
+      "shares": 573985.75,
+      "value": 691492.64,
+      "pctOfPortfolio": 0.0045137237
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128M7MJ2",
+      "shares": 578279.04,
+      "value": 665873.86,
+      "pctOfPortfolio": 0.0043464969
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128M8T38",
+      "shares": 579064.87,
+      "value": 656816.71,
+      "pctOfPortfolio": 0.0042873763
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31418DAT9",
+      "shares": 588624.84,
+      "value": 640722.58,
+      "pctOfPortfolio": 0.0041823217
+    },
+    {
+      "name": "Dillard's, Inc",
+      "cusip": "254063AW0",
+      "shares": 540000,
+      "value": 639388.27,
+      "pctOfPortfolio": 0.004173612
+    },
+    {
+      "name": "Small Business Admin. - 504 Program",
+      "cusip": "83162CRB1",
+      "shares": 582067.1,
+      "value": 626273.06,
+      "pctOfPortfolio": 0.0040880024
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128P7Q63",
+      "shares": 506608.9,
+      "value": 547824.11,
+      "pctOfPortfolio": 0.0035759262
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138EJFE3",
+      "shares": 535209.64,
+      "value": 536696.47,
+      "pctOfPortfolio": 0.0035032905
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3139216B9",
+      "shares": 463971.74,
+      "value": 524292.75,
+      "pctOfPortfolio": 0.0034223251
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31406NYU2",
+      "shares": 494307.11,
+      "value": 512398.33,
+      "pctOfPortfolio": 0.0033446842
+    },
+    {
+      "name": "Freddie Mac Multifamily Interest Only",
+      "cusip": "3137BPW39",
+      "shares": 10182437.26,
+      "value": 501424.96,
+      "pctOfPortfolio": 0.0032730554
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3139216F0",
+      "shares": 426441.83,
+      "value": 459382.93,
+      "pctOfPortfolio": 0.0029986257
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128JLX79",
+      "shares": 432036.32,
+      "value": 439823.22,
+      "pctOfPortfolio": 0.0028709496
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31406LMT2",
+      "shares": 424323.7,
+      "value": 437254.85,
+      "pctOfPortfolio": 0.0028541845
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31385XJW8",
+      "shares": 382375.62,
+      "value": 431726.34,
+      "pctOfPortfolio": 0.0028180971
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31326G2Y1",
+      "shares": 392924.4,
+      "value": 407042.11,
+      "pctOfPortfolio": 0.0026569706
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31359SY20",
+      "shares": 350841.3,
+      "value": 405187.85,
+      "pctOfPortfolio": 0.0026448669
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31385JK80",
+      "shares": 351545.97,
+      "value": 392982.05,
+      "pctOfPortfolio": 0.0025651935
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128M83J1",
+      "shares": 332902.74,
+      "value": 368231.02,
+      "pctOfPortfolio": 0.0024036309
+    },
+    {
+      "name": "Fannie Mae Multifamily DUS",
+      "cusip": "3138ERCY4",
+      "shares": 349267.73,
+      "value": 354944.67,
+      "pctOfPortfolio": 0.0023169042
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31405VF85",
+      "shares": 327317.07,
+      "value": 328165.85,
+      "pctOfPortfolio": 0.0021421052
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128S4ZK6",
+      "shares": 304740.41,
+      "value": 305911.95,
+      "pctOfPortfolio": 0.0019968427
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "3138ELTD5",
+      "shares": 292468.86,
+      "value": 304328.65,
+      "pctOfPortfolio": 0.0019865077
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31404XFV1",
+      "shares": 297464.99,
+      "value": 300434.5,
+      "pctOfPortfolio": 0.0019610886
+    },
+    {
+      "name": "Small Business Admin. - 504 Program",
+      "cusip": "83162CNG4",
+      "shares": 278116.66,
+      "value": 285574.39,
+      "pctOfPortfolio": 0.0018640891
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "31283HWN1",
+      "shares": 248498.34,
+      "value": 278314.53,
+      "pctOfPortfolio": 0.0018167003
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31396QV30",
+      "shares": 251773.71,
+      "value": 261142.64,
+      "pctOfPortfolio": 0.0017046107
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31403DAD1",
+      "shares": 258719.68,
+      "value": 259263.03,
+      "pctOfPortfolio": 0.0016923415
+    },
+    {
+      "name": "Freddie Mac Multifamily Interest Only",
+      "cusip": "3137BXR20",
+      "shares": 9020146.67,
+      "value": 255533.54,
+      "pctOfPortfolio": 0.0016679972
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31300MC92",
+      "shares": 243486.4,
+      "value": 255105.66,
+      "pctOfPortfolio": 0.0016652042
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31371NH40",
+      "shares": 189028.91,
+      "value": 223719.28,
+      "pctOfPortfolio": 0.0014603294
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31394ALN4",
+      "shares": 184453.79,
+      "value": 215411.26,
+      "pctOfPortfolio": 0.0014060987
+    },
+    {
+      "name": "Freddie Mac Multifamily Interest Only",
+      "cusip": "3137BQYV3",
+      "shares": 4472931.14,
+      "value": 210193.32,
+      "pctOfPortfolio": 0.0013720386
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128LCJB3",
+      "shares": 180540.78,
+      "value": 206916.44,
+      "pctOfPortfolio": 0.0013506487
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31419J7A0",
+      "shares": 185528.39,
+      "value": 187385.92,
+      "pctOfPortfolio": 0.0012231631
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3133T0MC5",
+      "shares": 178945.47,
+      "value": 184680.48,
+      "pctOfPortfolio": 0.0012055033
+    },
+    {
+      "name": "Fannie Mae",
+      "cusip": "31416SQ61",
+      "shares": 172326.52,
+      "value": 173115.69,
+      "pctOfPortfolio": 0.001130014
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128JRWT9",
+      "shares": 148471.05,
+      "value": 149246.51,
+      "pctOfPortfolio": 0.0009742078
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "31392W7B0",
+      "shares": 118382.43,
+      "value": 144369.31,
+      "pctOfPortfolio": 0.0009423718
+    },
+    {
+      "name": "Dept. of Veterans Affairs",
+      "cusip": "911760FG6",
+      "shares": 99546.7,
+      "value": 105624.2,
+      "pctOfPortfolio": 0.0006894628
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "3128PP6R9",
+      "shares": 96175.22,
+      "value": 100389.46,
+      "pctOfPortfolio": 0.000655293
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "36225BPE2",
+      "shares": 73919.33,
+      "value": 77501.02,
+      "pctOfPortfolio": 0.0005058885
+    },
+    {
+      "name": "Freddie Mac",
+      "cusip": "3128S5RV8",
+      "shares": 70025.94,
+      "value": 74059.64,
+      "pctOfPortfolio": 0.0004834249
+    },
+    {
+      "name": "Dillard's, Inc",
+      "cusip": "254063AU4",
+      "shares": 50000,
+      "value": 59619.33,
+      "pctOfPortfolio": 0.0003891657
+    },
+    {
+      "name": "Ginnie Mae",
+      "cusip": "36225BPF9",
+      "shares": 40306.4,
+      "value": 40993.14,
+      "pctOfPortfolio": 0.000267583
+    },
+    {
+      "name": "Dept. of Veterans Affairs",
+      "cusip": "911760GJ9",
+      "shares": 34125.2,
+      "value": 37753.57,
+      "pctOfPortfolio": 0.0002464367
+    },
+    {
+      "name": "Freddie Mac Gold",
+      "cusip": "31335PD77",
+      "shares": 6724.46,
+      "value": 6770.28,
+      "pctOfPortfolio": 0.0000441931
     }
-  ]
+  ],
+  "totalValue": 15637326841.490013,
+  "positionsCount": 404
 }

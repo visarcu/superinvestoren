@@ -1,0 +1,197 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0001656456-20-000002",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 250000,
+      "value": 487430
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2265000,
+      "value": 440497
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 361000,
+      "value": 419774
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2413000,
+      "value": 402488
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 8860000,
+      "value": 372652
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 5530000,
+      "value": 135817
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 695000,
+      "value": 123085
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 11340000,
+      "value": 101947
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 255000,
+      "value": 95753
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 16288665,
+      "value": 74928
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 223000,
+      "value": 70968
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 465500,
+      "value": 67023
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 770000,
+      "value": 64603
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 250000,
+      "value": 62345
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 233000,
+      "value": 55244
+    },
+    {
+      "name": "SPRINT CORPORATION",
+      "cusip": "85207U105",
+      "shares": 6380000,
+      "value": 54996
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 557000,
+      "value": 37681
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 285000,
+      "value": 25607
+    },
+    {
+      "name": "TESLA INC",
+      "cusip": "88160R101",
+      "shares": 42000,
+      "value": 22008
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q866",
+      "shares": 6040000,
+      "value": 20778
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 700000,
+      "value": 20090
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 3368000,
+      "value": 19602
+    },
+    {
+      "name": "VISTRA ENERGY CORP",
+      "cusip": "92840M102",
+      "shares": 1210000,
+      "value": 19312
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 59000,
+      "value": 18527
+    },
+    {
+      "name": "INTELSAT S A",
+      "cusip": "L5140P101",
+      "shares": 10146300,
+      "value": 15524
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y886",
+      "shares": 271500,
+      "value": 15044
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 90000,
+      "value": 14194
+    },
+    {
+      "name": "INTELSAT S A",
+      "cusip": "45790VAB6",
+      "shares": 25000000,
+      "value": 5502
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 115000,
+      "value": 3752
+    },
+    {
+      "name": "INVESCO EXCHANGE-TRADED FD T",
+      "cusip": "46138G508",
+      "shares": 150000,
+      "value": 3069
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 395101,
+      "value": 1280
+    }
+  ],
+  "totalValue": 3271520,
+  "positionsCount": 31
+}

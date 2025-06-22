@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-15",
+  "period": "2025-05-15",
+  "accession": "0001398344-25-009457",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "AUTOZONE INC",
+      "cusip": "053332102",
+      "shares": 37543,
+      "value": 143143200
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 247057,
+      "value": 142393773
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 691304,
+      "value": 141717320
+    },
+    {
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 1138542,
+      "value": 116324836
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 638751,
+      "value": 99792069
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 15969,
+      "value": 73567746
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 858231,
+      "value": 55999573
+    },
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 319382,
+      "value": 52180631
+    },
+    {
+      "name": "SPROUT SOCIAL INC",
+      "cusip": "85209W109",
+      "shares": 2304414,
+      "value": 50674064
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 70571,
+      "value": 46762462
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 2256733,
+      "value": 21055319
+    }
+  ],
+  "totalValue": 943610993,
+  "positionsCount": 11
+}

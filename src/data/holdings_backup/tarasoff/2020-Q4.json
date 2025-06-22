@@ -1,0 +1,131 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0001387131-20-009942",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 100268,
+      "value": 25199
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 82791,
+      "value": 20807
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 221735,
+      "value": 17495
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 511366,
+      "value": 16906
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4871,
+      "value": 15337
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 186765,
+      "value": 14736
+    },
+    {
+      "name": "BROOKFIELD ASSET MGMT INC",
+      "cusip": "112585104",
+      "shares": 423312,
+      "value": 13995
+    },
+    {
+      "name": "ALPHABET INC CAP STK",
+      "cusip": "02079KAB3",
+      "shares": 9370,
+      "value": 13733
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 4069,
+      "value": 12812
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 25389,
+      "value": 12695
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 47363,
+      "value": 11489
+    },
+    {
+      "name": "ALPHABET INC CAP STK",
+      "cusip": "02079KAB3",
+      "shares": 7777,
+      "value": 11398
+    },
+    {
+      "name": "HUBSPOT INC",
+      "cusip": "443573100",
+      "shares": 37248,
+      "value": 10885
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 41219,
+      "value": 10795
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 21326,
+      "value": 10664
+    },
+    {
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 39300,
+      "value": 9533
+    },
+    {
+      "name": "HUBSPOT INC",
+      "cusip": "443573100",
+      "shares": 30825,
+      "value": 9008
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 34205,
+      "value": 8958
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 275982,
+      "value": 7413
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 228210,
+      "value": 6130
+    }
+  ],
+  "totalValue": 259988,
+  "positionsCount": 20
+}

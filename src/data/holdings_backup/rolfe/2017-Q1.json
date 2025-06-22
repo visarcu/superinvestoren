@@ -1,0 +1,479 @@
+{
+  "form": "13F-HR",
+  "date": "2017-02-14",
+  "period": "2017-02-14",
+  "accession": "0000859804-17-000002",
+  "quarterKey": "2017-Q1",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 1566758,
+      "value": 255350
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 2164454,
+      "value": 250687
+    },
+    {
+      "name": "KRAFT HEINZ",
+      "cusip": "500754106",
+      "shares": 2119663,
+      "value": 185088
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 114996,
+      "value": 168591
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 1953418,
+      "value": 163989
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826839",
+      "shares": 1999220,
+      "value": 155979
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 1240000,
+      "value": 143616
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 844000,
+      "value": 137555
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 1851579,
+      "value": 120722
+    },
+    {
+      "name": "CORE LABS",
+      "cusip": "22717107",
+      "shares": 995224,
+      "value": 119466
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079305",
+      "shares": 148016,
+      "value": 117295
+    },
+    {
+      "name": "CHARLES SCHWAB",
+      "cusip": "808513105",
+      "shares": 2746895,
+      "value": 108419
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345106",
+      "shares": 1316288,
+      "value": 106843
+    },
+    {
+      "name": "KRAFT HEINZ",
+      "cusip": "500754106",
+      "shares": 1223000,
+      "value": 106792
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 1127000,
+      "value": 94611
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 64000,
+      "value": 93827
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826839",
+      "shares": 1135000,
+      "value": 88552
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 1570878,
+      "value": 88016
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450103",
+      "shares": 2141147,
+      "value": 84511
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079305",
+      "shares": 101000,
+      "value": 80037
+    },
+    {
+      "name": "TREEHOUSE FOODS",
+      "cusip": "89469104",
+      "shares": 1092184,
+      "value": 78844
+    },
+    {
+      "name": "ROSS STORES",
+      "cusip": "778296103",
+      "shares": 1174389,
+      "value": 77039
+    },
+    {
+      "name": "EXPRESS SCRIPTS",
+      "cusip": "30219108",
+      "shares": 1075422,
+      "value": 73978
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 2380762,
+      "value": 72970
+    },
+    {
+      "name": "CORE LABS",
+      "cusip": "22717107",
+      "shares": 592500,
+      "value": 71123
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 1492536,
+      "value": 70119
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 921894,
+      "value": 69888
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345106",
+      "shares": 821000,
+      "value": 66640
+    },
+    {
+      "name": "CHARLES SCHWAB",
+      "cusip": "808513105",
+      "shares": 1660200,
+      "value": 65528
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 977000,
+      "value": 63700
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 863715,
+      "value": 61116
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450103",
+      "shares": 1340000,
+      "value": 52889
+    },
+    {
+      "name": "TJX COMPANIES",
+      "cusip": "872540109",
+      "shares": 693204,
+      "value": 52080
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 865000,
+      "value": 48465
+    },
+    {
+      "name": "TREEHOUSE FOODS",
+      "cusip": "89469104",
+      "shares": 641000,
+      "value": 46273
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 575000,
+      "value": 43590
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 921000,
+      "value": 43268
+    },
+    {
+      "name": "EXPRESS SCRIPTS",
+      "cusip": "30219108",
+      "shares": 591000,
+      "value": 40654
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 1311000,
+      "value": 40182
+    },
+    {
+      "name": "ROSS STORES",
+      "cusip": "778296103",
+      "shares": 600000,
+      "value": 39360
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 536000,
+      "value": 37927
+    },
+    {
+      "name": "TJX COMPANIES",
+      "cusip": "872540109",
+      "shares": 443000,
+      "value": 33282
+    },
+    {
+      "name": "ALPHABET INC CL C",
+      "cusip": "02079107",
+      "shares": 29838,
+      "value": 23029
+    },
+    {
+      "name": "APPLE",
+      "cusip": "037833100",
+      "shares": 119880,
+      "value": 13884
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY CL B",
+      "cusip": "084670702",
+      "shares": 80000,
+      "value": 13038
+    },
+    {
+      "name": "KRAFT HEINZ",
+      "cusip": "500754106",
+      "shares": 122380,
+      "value": 10686
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826839",
+      "shares": 119160,
+      "value": 9296
+    },
+    {
+      "name": "PRICELINE",
+      "cusip": "741503403",
+      "shares": 5930,
+      "value": 8693
+    },
+    {
+      "name": "SCHLUMBERGER",
+      "cusip": "806857108",
+      "shares": 101300,
+      "value": 8504
+    },
+    {
+      "name": "ALPHABET INC CL A",
+      "cusip": "02079305",
+      "shares": 10605,
+      "value": 8403
+    },
+    {
+      "name": "CORE LABS",
+      "cusip": "22717107",
+      "shares": 58600,
+      "value": 7034
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345106",
+      "shares": 76200,
+      "value": 6185
+    },
+    {
+      "name": "QUALCOMM",
+      "cusip": "747525103",
+      "shares": 92400,
+      "value": 6024
+    },
+    {
+      "name": "PAYPAL HOLDINGS",
+      "cusip": "70450103",
+      "shares": 131230,
+      "value": 5179
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIONS",
+      "cusip": "192446102",
+      "shares": 90860,
+      "value": 5090
+    },
+    {
+      "name": "CHARLES SCHWAB",
+      "cusip": "808513105",
+      "shares": 127050,
+      "value": 5014
+    },
+    {
+      "name": "TREEHOUSE FOODS",
+      "cusip": "89469104",
+      "shares": 67478,
+      "value": 4871
+    },
+    {
+      "name": "US BANCORP DEL COM NEW",
+      "cusip": "902973304",
+      "shares": 89800,
+      "value": 4613
+    },
+    {
+      "name": "TRACTOR SUPPLY COMP",
+      "cusip": "892356106",
+      "shares": 59280,
+      "value": 4494
+    },
+    {
+      "name": "ROSS STORES",
+      "cusip": "778296103",
+      "shares": 65855,
+      "value": 4320
+    },
+    {
+      "name": "EXPRESS SCRIPTS",
+      "cusip": "30219108",
+      "shares": 62605,
+      "value": 4306
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 138438,
+      "value": 4243
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 80143,
+      "value": 3765
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION",
+      "cusip": "582839106",
+      "shares": 52198,
+      "value": 3693
+    },
+    {
+      "name": "TJX COMPANIES",
+      "cusip": "872540109",
+      "shares": 40200,
+      "value": 3020
+    },
+    {
+      "name": "BLACKSTONE GROUP L P COM UNIT",
+      "cusip": "09253U108",
+      "shares": 45325,
+      "value": 1225
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC COM",
+      "cusip": "92343V104",
+      "shares": 19865,
+      "value": 1060
+    },
+    {
+      "name": "AMEREN CORP",
+      "cusip": "023608102",
+      "shares": 19875,
+      "value": 1042
+    },
+    {
+      "name": "PAYCHEX INC COM",
+      "cusip": "704326107",
+      "shares": 16700,
+      "value": 1016
+    },
+    {
+      "name": "CONSOLIDATED EDISON INC COM",
+      "cusip": "209115104",
+      "shares": 12900,
+      "value": 950
+    },
+    {
+      "name": "ANNALY CAP MGMT INC COM",
+      "cusip": "035710409",
+      "shares": 78375,
+      "value": 781
+    },
+    {
+      "name": "COACH",
+      "cusip": "189754104",
+      "shares": 22125,
+      "value": 774
+    },
+    {
+      "name": "ECOLAB INC COM",
+      "cusip": "278865100",
+      "shares": 5722,
+      "value": 670
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 5250,
+      "value": 604
+    },
+    {
+      "name": "NATIONAL-OILWELL VARCO",
+      "cusip": "637071101",
+      "shares": 13825,
+      "value": 517
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206102",
+      "shares": 9575,
+      "value": 407
+    },
+    {
+      "name": "MANNING & NAPIER INC CL A",
+      "cusip": "56382Q102",
+      "shares": 46000,
+      "value": 347
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 3215,
+      "value": 336
+    }
+  ],
+  "totalValue": 4095974,
+  "positionsCount": 78
+}

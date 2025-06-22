@@ -1,0 +1,802 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-02-04",
+  "period": "2025-02-04",
+  "accession": "0001145549-25-005788",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "FOREST LAKE MN INDEP SCH DIST#",
+      "cusip": "345874VT5",
+      "shares": 500000,
+      "value": 509155.9,
+      "pctOfPortfolio": 2.1814934351
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412AH55",
+      "shares": 400000,
+      "value": 442156.2,
+      "pctOfPortfolio": 1.894431249
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412AKM4",
+      "shares": 425000,
+      "value": 431282.48,
+      "pctOfPortfolio": 1.8478424757
+    },
+    {
+      "name": "NORTHFIELD MN",
+      "cusip": "666179GW0",
+      "shares": 385000,
+      "value": 419716.49,
+      "pctOfPortfolio": 1.7982876512
+    },
+    {
+      "name": "REDWOOD MN AREA SCHS INDEP SCH",
+      "cusip": "757763DL8",
+      "shares": 360000,
+      "value": 364451.51,
+      "pctOfPortfolio": 1.5615032183
+    },
+    {
+      "name": "UNIV OF MINNESOTA MN",
+      "cusip": "914460PE4",
+      "shares": 350000,
+      "value": 356835.78,
+      "pctOfPortfolio": 1.528873399
+    },
+    {
+      "name": "CHASKA MN",
+      "cusip": "161664QP5",
+      "shares": 350000,
+      "value": 348105.98,
+      "pctOfPortfolio": 1.491470314
+    },
+    {
+      "name": "OTSEGO MN ECON DEV AUTH LEASE",
+      "cusip": "689152AT3",
+      "shares": 350000,
+      "value": 336597.38,
+      "pctOfPortfolio": 1.4421613787
+    },
+    {
+      "name": "KOOCHICHING CNTY MN",
+      "cusip": "500494FQ7",
+      "shares": 300000,
+      "value": 330362.07,
+      "pctOfPortfolio": 1.4154460096
+    },
+    {
+      "name": "ANOKA-HENNEPIN MN INDEP SCH DI",
+      "cusip": "0363034E2",
+      "shares": 320000,
+      "value": 329488.8,
+      "pctOfPortfolio": 1.4117044585
+    },
+    {
+      "name": "ALDEN-CONGER MN INDEP SCH DIST",
+      "cusip": "014083CK3",
+      "shares": 330000,
+      "value": 326794.38,
+      "pctOfPortfolio": 1.4001601368
+    },
+    {
+      "name": "NEW PRAGUE MN",
+      "cusip": "648159F63",
+      "shares": 315000,
+      "value": 323718.76,
+      "pctOfPortfolio": 1.3869825524
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412AC68",
+      "shares": 310000,
+      "value": 313527.12,
+      "pctOfPortfolio": 1.3433161709
+    },
+    {
+      "name": "ROCORI MN AREA SCHS INDEP SCHD",
+      "cusip": "774836HB9",
+      "shares": 300000,
+      "value": 302711.13,
+      "pctOfPortfolio": 1.2969747435
+    },
+    {
+      "name": "TRUMAN MN INDEP SCH DIST #458",
+      "cusip": "898014DF9",
+      "shares": 300000,
+      "value": 297312.96,
+      "pctOfPortfolio": 1.2738461253
+    },
+    {
+      "name": "HERMANTOWN MN",
+      "cusip": "427500VU4",
+      "shares": 300000,
+      "value": 297162.06,
+      "pctOfPortfolio": 1.2731995898
+    },
+    {
+      "name": "HIBBING MN INDEP SCH DIST #701",
+      "cusip": "428599AM6",
+      "shares": 300000,
+      "value": 287941.17,
+      "pctOfPortfolio": 1.2336924153
+    },
+    {
+      "name": "MINNESOTA ST HGR EDU FACS AUTH",
+      "cusip": "60416JBY5",
+      "shares": 260000,
+      "value": 277032.83,
+      "pctOfPortfolio": 1.1869553116
+    },
+    {
+      "name": "ROBBINSDALE MN INDEP SCH DIST#",
+      "cusip": "770265LD6",
+      "shares": 250000,
+      "value": 276410.55,
+      "pctOfPortfolio": 1.1842891346
+    },
+    {
+      "name": "MINNESOTA ST HGR EDU FACS AUTH",
+      "cusip": "60416JEV8",
+      "shares": 255000,
+      "value": 275056.74,
+      "pctOfPortfolio": 1.1784886959
+    },
+    {
+      "name": "ROSEMOUNT MN",
+      "cusip": "7775773L9",
+      "shares": 250000,
+      "value": 274273.03,
+      "pctOfPortfolio": 1.1751308673
+    },
+    {
+      "name": "CARLTON CNTY MN",
+      "cusip": "142879MT9",
+      "shares": 250000,
+      "value": 273710.63,
+      "pctOfPortfolio": 1.172721248
+    },
+    {
+      "name": "SAINT LOUIS CNTY MN",
+      "cusip": "791230XW0",
+      "shares": 350000,
+      "value": 273673.79,
+      "pctOfPortfolio": 1.1725634059
+    },
+    {
+      "name": "DELANO MN",
+      "cusip": "245667TT7",
+      "shares": 250000,
+      "value": 272513.45,
+      "pctOfPortfolio": 1.167591895
+    },
+    {
+      "name": "MINNESOTA ST AGRIC & ECON DEVB",
+      "cusip": "6049202Z0",
+      "shares": 250000,
+      "value": 272510.73,
+      "pctOfPortfolio": 1.1675802411
+    },
+    {
+      "name": "STILLWATER MN INDEP SCH DIST #",
+      "cusip": "860758TA9",
+      "shares": 250000,
+      "value": 272082.75,
+      "pctOfPortfolio": 1.1657465482
+    },
+    {
+      "name": "SAINT CLOUD MN HLTH CARE REVEN",
+      "cusip": "78916VER7",
+      "shares": 250000,
+      "value": 270218.9,
+      "pctOfPortfolio": 1.157760828
+    },
+    {
+      "name": "CROOKSTON MN INDEP SCH DIST #5",
+      "cusip": "227237PS7",
+      "shares": 250000,
+      "value": 268773.38,
+      "pctOfPortfolio": 1.1515674551
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412APJ6",
+      "shares": 250000,
+      "value": 266106.43,
+      "pctOfPortfolio": 1.1401408293
+    },
+    {
+      "name": "APPLE VY MN SENIOR HSG REVENUE",
+      "cusip": "03800RBE5",
+      "shares": 290000,
+      "value": 264824.98,
+      "pctOfPortfolio": 1.1346504191
+    },
+    {
+      "name": "WRIGHT CNTY MN COPS",
+      "cusip": "982276AU1",
+      "shares": 295000,
+      "value": 261913.86,
+      "pctOfPortfolio": 1.1221776398
+    },
+    {
+      "name": "HUBBARD CNTY MN",
+      "cusip": "443348ET0",
+      "shares": 250000,
+      "value": 260515.35,
+      "pctOfPortfolio": 1.1161856825
+    },
+    {
+      "name": "CHASKA MN INDEP SCH DIST #112",
+      "cusip": "161681UU3",
+      "shares": 250000,
+      "value": 258433.15,
+      "pctOfPortfolio": 1.1072644354
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412AQS5",
+      "shares": 250000,
+      "value": 258202.93,
+      "pctOfPortfolio": 1.106278051
+    },
+    {
+      "name": "GRAND RAPIDS MN",
+      "cusip": "386335HF3",
+      "shares": 250000,
+      "value": 258023.35,
+      "pctOfPortfolio": 1.1055086352
+    },
+    {
+      "name": "MINNESOTA ST HGR EDU FACS AUTH",
+      "cusip": "60416JCZ1",
+      "shares": 300000,
+      "value": 256454.61,
+      "pctOfPortfolio": 1.0987873225
+    },
+    {
+      "name": "ZUMBRO MN EDU DIST COPS",
+      "cusip": "989781BA6",
+      "shares": 275000,
+      "value": 254056.25,
+      "pctOfPortfolio": 1.0885114785
+    },
+    {
+      "name": "BELTRAMI CNTY MN",
+      "cusip": "081131HC1",
+      "shares": 250000,
+      "value": 252367.08,
+      "pctOfPortfolio": 1.08127418
+    },
+    {
+      "name": "EDINA MN INDEP SCH DIST #273",
+      "cusip": "280659TT0",
+      "shares": 250000,
+      "value": 250347.6,
+      "pctOfPortfolio": 1.0726216585
+    },
+    {
+      "name": "SAINT PAUL MN HSG & REDEV AUTH",
+      "cusip": "85236DBJ6",
+      "shares": 250000,
+      "value": 250077.18,
+      "pctOfPortfolio": 1.071463036
+    },
+    {
+      "name": "COMMISSIONER OF IRON RANGE MNR",
+      "cusip": "20261DCE1",
+      "shares": 220000,
+      "value": 249697.21,
+      "pctOfPortfolio": 1.0698350434
+    },
+    {
+      "name": "HUTCHINSON MN",
+      "cusip": "448285QY5",
+      "shares": 300000,
+      "value": 244246.8,
+      "pctOfPortfolio": 1.0464826014
+    },
+    {
+      "name": "SAINT CLOUD MN INDEP SCH DIST#",
+      "cusip": "789177SP8",
+      "shares": 225000,
+      "value": 238702.01,
+      "pctOfPortfolio": 1.0227257855
+    },
+    {
+      "name": "NORTHFIELD MN INDEP SCH DIST #",
+      "cusip": "666195QE5",
+      "shares": 230000,
+      "value": 230338.7,
+      "pctOfPortfolio": 0.9868929377
+    },
+    {
+      "name": "UNIV OF MINNESOTA MN",
+      "cusip": "914460TB6",
+      "shares": 220000,
+      "value": 227967.17,
+      "pctOfPortfolio": 0.9767320476
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412AN58",
+      "shares": 200000,
+      "value": 222070.32,
+      "pctOfPortfolio": 0.9514668203
+    },
+    {
+      "name": "WRIGHT CNTY MN COPS",
+      "cusip": "982276AV9",
+      "shares": 250000,
+      "value": 221876.4,
+      "pctOfPortfolio": 0.9506359643
+    },
+    {
+      "name": "SAINT PAUL MN INDEP SCH DIST #",
+      "cusip": "792897SK7",
+      "shares": 200000,
+      "value": 219898.18,
+      "pctOfPortfolio": 0.9421602225
+    },
+    {
+      "name": "BIRD ISLAND-OLIVIA-LAKE LILLIA",
+      "cusip": "090808BY1",
+      "shares": 200000,
+      "value": 216587.88,
+      "pctOfPortfolio": 0.9279771448
+    },
+    {
+      "name": "MINNESOTA ST HGR EDU FACS AUTH",
+      "cusip": "60416H3N2",
+      "shares": 215000,
+      "value": 215898.55,
+      "pctOfPortfolio": 0.9250236901
+    },
+    {
+      "name": "HENNEPIN CNTY MN",
+      "cusip": "425507GN4",
+      "shares": 195000,
+      "value": 206927.55,
+      "pctOfPortfolio": 0.8865871767
+    },
+    {
+      "name": "ROCHESTER MN INDEP SCH DIST #5",
+      "cusip": "771614SZ8",
+      "shares": 200000,
+      "value": 204837.76,
+      "pctOfPortfolio": 0.8776334099
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412ATN3",
+      "shares": 185000,
+      "value": 202808.71,
+      "pctOfPortfolio": 0.8689398855
+    },
+    {
+      "name": "WINONA MN",
+      "cusip": "975230A78",
+      "shares": 180000,
+      "value": 201684.49,
+      "pctOfPortfolio": 0.8641231318
+    },
+    {
+      "name": "MINNESOTA ST CLGS & UNIV REVEN",
+      "cusip": "60414FMU1",
+      "shares": 200000,
+      "value": 200090.54,
+      "pctOfPortfolio": 0.8572938061
+    },
+    {
+      "name": "ITASCA CNTY MN",
+      "cusip": "465452NN6",
+      "shares": 200000,
+      "value": 198779.14,
+      "pctOfPortfolio": 0.8516750742
+    },
+    {
+      "name": "NORTHFIELD MN",
+      "cusip": "666179GZ3",
+      "shares": 200000,
+      "value": 198520.18,
+      "pctOfPortfolio": 0.8505655525
+    },
+    {
+      "name": "ROCHESTER MN INDEP SCH DIST #5",
+      "cusip": "771614TH7",
+      "shares": 250000,
+      "value": 196791.18,
+      "pctOfPortfolio": 0.8431576011
+    },
+    {
+      "name": "SAINT PAUL MN INDEP SCH DIST #",
+      "cusip": "792897JY7",
+      "shares": 200000,
+      "value": 195106.78,
+      "pctOfPortfolio": 0.8359407398
+    },
+    {
+      "name": "HASTINGS MN",
+      "cusip": "418509MY8",
+      "shares": 175000,
+      "value": 182445.73,
+      "pctOfPortfolio": 0.7816940985
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412AEB5",
+      "shares": 180000,
+      "value": 182048,
+      "pctOfPortfolio": 0.7799900126
+    },
+    {
+      "name": "MINNESOTA ST HGR EDU FACS AUTH",
+      "cusip": "60416JEL0",
+      "shares": 200000,
+      "value": 178669.82,
+      "pctOfPortfolio": 0.765516101
+    },
+    {
+      "name": "PINE CITY MN INDEP SCH DIST #5",
+      "cusip": "722514AL0",
+      "shares": 200000,
+      "value": 173837.2,
+      "pctOfPortfolio": 0.7448105984
+    },
+    {
+      "name": "ROCHESTER MN",
+      "cusip": "771588VY3",
+      "shares": 150000,
+      "value": 166544.1,
+      "pctOfPortfolio": 0.7135630969
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412ARQ8",
+      "shares": 155000,
+      "value": 166427.02,
+      "pctOfPortfolio": 0.7130614642
+    },
+    {
+      "name": "SAINT LOUIS PARK MN INDEP SCH",
+      "cusip": "791759AG8",
+      "shares": 150000,
+      "value": 164295.26,
+      "pctOfPortfolio": 0.7039278757
+    },
+    {
+      "name": "SAINT CLOUD MN",
+      "cusip": "78916CAM4",
+      "shares": 200000,
+      "value": 162831.2,
+      "pctOfPortfolio": 0.6976550676
+    },
+    {
+      "name": "APPLE VY MN SENIOR HSG REVENUE",
+      "cusip": "03800RBB1",
+      "shares": 160000,
+      "value": 159031.66,
+      "pctOfPortfolio": 0.6813758266
+    },
+    {
+      "name": "UNIV OF MINNESOTA MN",
+      "cusip": "914460SR2",
+      "shares": 150000,
+      "value": 158570.07,
+      "pctOfPortfolio": 0.6793981307
+    },
+    {
+      "name": "MINNESOTA ST",
+      "cusip": "60412AQ22",
+      "shares": 150000,
+      "value": 156465.5,
+      "pctOfPortfolio": 0.6703810386
+    },
+    {
+      "name": "SAINT FRANCIS MN INDEP SCH DIS",
+      "cusip": "789466TQ2",
+      "shares": 150000,
+      "value": 156135.2,
+      "pctOfPortfolio": 0.6689658586
+    },
+    {
+      "name": "MINNEAPOLIS-SAINT PAUL MN MET",
+      "cusip": "603827WW2",
+      "shares": 150000,
+      "value": 155200.26,
+      "pctOfPortfolio": 0.6649600806
+    },
+    {
+      "name": "MINNEAPOLIS MN HLTH CARE SYS R",
+      "cusip": "60374VEB5",
+      "shares": 150000,
+      "value": 154555.68,
+      "pctOfPortfolio": 0.6621983586
+    },
+    {
+      "name": "OWATONNA MN INDEP SCH DIST #76",
+      "cusip": "690564RK7",
+      "shares": 150000,
+      "value": 154241.16,
+      "pctOfPortfolio": 0.6608507884
+    },
+    {
+      "name": "ALEXANDRIA LAKE MN AREA SANTND",
+      "cusip": "015091DF5",
+      "shares": 150000,
+      "value": 152630.93,
+      "pctOfPortfolio": 0.6539517106
+    },
+    {
+      "name": "MINNETRISTA MN",
+      "cusip": "604229RU0",
+      "shares": 145000,
+      "value": 152119.66,
+      "pctOfPortfolio": 0.6517611593
+    },
+    {
+      "name": "DULUTH MN INDEP SCH DIST #709",
+      "cusip": "264471LL5",
+      "shares": 200000,
+      "value": 151076.6,
+      "pctOfPortfolio": 0.647292138
+    },
+    {
+      "name": "DAKOTA CNTY MN CMNTY DEV AGY M",
+      "cusip": "23409VFP0",
+      "shares": 150000,
+      "value": 145633.88,
+      "pctOfPortfolio": 0.623972644
+    },
+    {
+      "name": "COLD SPRING MN",
+      "cusip": "193000XP6",
+      "shares": 150000,
+      "value": 145585.52,
+      "pctOfPortfolio": 0.6237654442
+    },
+    {
+      "name": "MET COUNCIL MINNEAPOLIS-SAINT",
+      "cusip": "591852F29",
+      "shares": 140000,
+      "value": 142669.28,
+      "pctOfPortfolio": 0.6112707281
+    },
+    {
+      "name": "CHASKA MN ELEC REVENUE",
+      "cusip": "161670EW0",
+      "shares": 140000,
+      "value": 142059.11,
+      "pctOfPortfolio": 0.6086564368
+    },
+    {
+      "name": "JORDAN MN",
+      "cusip": "480700R96",
+      "shares": 135000,
+      "value": 141373.96,
+      "pctOfPortfolio": 0.6057208914
+    },
+    {
+      "name": "MINNEAPOLIS MN HLTH CARE SYS R",
+      "cusip": "60374VEW9",
+      "shares": 130000,
+      "value": 137257.15,
+      "pctOfPortfolio": 0.5880822979
+    },
+    {
+      "name": "SAINT CLOUD MN HSG & REDEV AUT",
+      "cusip": "789163AX0",
+      "shares": 160000,
+      "value": 136745.17,
+      "pctOfPortfolio": 0.5858887045
+    },
+    {
+      "name": "CENTER CITY MN HLTH CARE FACSR",
+      "cusip": "151452BW8",
+      "shares": 135000,
+      "value": 136326.77,
+      "pctOfPortfolio": 0.5840960574
+    },
+    {
+      "name": "ELK RIVER MN ELEC REVENUE",
+      "cusip": "287423EM5",
+      "shares": 140000,
+      "value": 134280.73,
+      "pctOfPortfolio": 0.5753297388
+    },
+    {
+      "name": "ELK RIVER MN INDEP SCH DIST #7",
+      "cusip": "287425M33",
+      "shares": 125000,
+      "value": 126492.19,
+      "pctOfPortfolio": 0.54195951
+    },
+    {
+      "name": "GREENFIELD MN",
+      "cusip": "395108EB5",
+      "shares": 115000,
+      "value": 126439,
+      "pctOfPortfolio": 0.5417316159
+    },
+    {
+      "name": "CENTENNIAL MN INDEP SCH DIST #",
+      "cusip": "150908JM4",
+      "shares": 125000,
+      "value": 125185.1,
+      "pctOfPortfolio": 0.5363592444
+    },
+    {
+      "name": "WSTRN MN MUNI PWR AGY",
+      "cusip": "958697KF0",
+      "shares": 120000,
+      "value": 120000,
+      "pctOfPortfolio": 0.5141435309
+    },
+    {
+      "name": "ZUMBRO MN EDU DIST COPS",
+      "cusip": "989781AY5",
+      "shares": 125000,
+      "value": 119856.41,
+      "pctOfPortfolio": 0.5135283153
+    },
+    {
+      "name": "SAINT CLOUD MN HSG & REDEV AUT",
+      "cusip": "789163AV4",
+      "shares": 130000,
+      "value": 116518.84,
+      "pctOfPortfolio": 0.4992283985
+    },
+    {
+      "name": "FERGUS FALLS MN INDEP SCH DIST",
+      "cusip": "314801LU3",
+      "shares": 100000,
+      "value": 109830.34,
+      "pctOfPortfolio": 0.4705713234
+    },
+    {
+      "name": "PRINCETON MN PUBLIC UTILITIES",
+      "cusip": "742271BG3",
+      "shares": 100000,
+      "value": 108271.22,
+      "pctOfPortfolio": 0.4638912279
+    },
+    {
+      "name": "MET COUNCIL MINNEAPOLIS-SAINT",
+      "cusip": "591852Z76",
+      "shares": 100000,
+      "value": 107844.36,
+      "pctOfPortfolio": 0.4620623337
+    },
+    {
+      "name": "CLEVELAND MN INDEP SCH DIST #3",
+      "cusip": "186216EG8",
+      "shares": 105000,
+      "value": 105940.57,
+      "pctOfPortfolio": 0.4539054894
+    },
+    {
+      "name": "MINNESOTA ST HGR EDU FACS AUTH",
+      "cusip": "60416JDW7",
+      "shares": 125000,
+      "value": 105806.69,
+      "pctOfPortfolio": 0.4533318766
+    },
+    {
+      "name": "MET COUNCIL MINNEAPOLIS-SAINT",
+      "cusip": "591852A99",
+      "shares": 100000,
+      "value": 102391.71,
+      "pctOfPortfolio": 0.4387002943
+    },
+    {
+      "name": "RICHFIELD MN",
+      "cusip": "763326HP3",
+      "shares": 100000,
+      "value": 102046.44,
+      "pctOfPortfolio": 0.4372209748
+    },
+    {
+      "name": "SAINT PAUL MN HSG & REDEV AUTH",
+      "cusip": "792909FE8",
+      "shares": 110000,
+      "value": 101531.68,
+      "pctOfPortfolio": 0.4350154704
+    },
+    {
+      "name": "WESTONKA MN INDEP SCH DIST #27",
+      "cusip": "960906GD1",
+      "shares": 100000,
+      "value": 100323.11,
+      "pctOfPortfolio": 0.4298373167
+    },
+    {
+      "name": "CENTER CITY MN HLTH CARE FACSR",
+      "cusip": "151452BK4",
+      "shares": 100000,
+      "value": 100017.03,
+      "pctOfPortfolio": 0.428525908
+    },
+    {
+      "name": "MINNEAPOLIS MN HLTH CARE SYS R",
+      "cusip": "60374VEV1",
+      "shares": 100000,
+      "value": 98677.19,
+      "pctOfPortfolio": 0.4227853241
+    },
+    {
+      "name": "WAYZATA MN",
+      "cusip": "946796WS4",
+      "shares": 100000,
+      "value": 98540.46,
+      "pctOfPortfolio": 0.4221995003
+    },
+    {
+      "name": "MADELIA MN",
+      "cusip": "556394JQ8",
+      "shares": 115000,
+      "value": 98285.59,
+      "pctOfPortfolio": 0.4211075023
+    },
+    {
+      "name": "WACONIA MN INDEP SCH DIST #110",
+      "cusip": "930047LZ6",
+      "shares": 100000,
+      "value": 98159.74,
+      "pctOfPortfolio": 0.4205682943
+    },
+    {
+      "name": "COON RAPIDS MN",
+      "cusip": "21657ARX9",
+      "shares": 100000,
+      "value": 84616.08,
+      "pctOfPortfolio": 0.3625400845
+    },
+    {
+      "name": "PENNINGTON CNTY MN",
+      "cusip": "708288JR7",
+      "shares": 100000,
+      "value": 83874.08,
+      "pctOfPortfolio": 0.3593609637
+    },
+    {
+      "name": "SAINT PAUL MN INDEP SCH DIST #",
+      "cusip": "792897NY2",
+      "shares": 100000,
+      "value": 83712.27,
+      "pctOfPortfolio": 0.358667684
+    },
+    {
+      "name": "SAINT PAUL MN HSG & REDEV AUTH",
+      "cusip": "852297BV1",
+      "shares": 65000,
+      "value": 64027.59,
+      "pctOfPortfolio": 0.2743280933
+    },
+    {
+      "name": "MINNEAPOLIS-SAINT PAUL MN MET",
+      "cusip": "603827WU6",
+      "shares": 60000,
+      "value": 62123.18,
+      "pctOfPortfolio": 0.2661685926
+    },
+    {
+      "name": "DAKOTA CNTY MN CMNTY DEV AGY G",
+      "cusip": "23410NCX1",
+      "shares": 65000,
+      "value": 56284.61,
+      "pctOfPortfolio": 0.2411530677
+    },
+    {
+      "name": "First American Government Obli",
+      "cusip": "31846V336",
+      "shares": 25827.45,
+      "value": 25827.45,
+      "pctOfPortfolio": 0.1106584695
+    }
+  ],
+  "totalValue": 23029408.819999993,
+  "positionsCount": 113
+}

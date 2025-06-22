@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-07",
+  "period": "2025-02-07",
+  "accession": "0001172661-25-000576",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "LOAR HOLDINGS INC",
+      "cusip": "53947R105",
+      "shares": 37427917,
+      "value": 2766297345
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2391188,
+      "value": 854682327
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2108540,
+      "value": 512438476
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2124130,
+      "value": 402097809
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 17834322,
+      "value": 349374368
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 557752,
+      "value": 326569374
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13017964,
+      "value": 286134849
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 720779,
+      "value": 225776814
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586506",
+      "shares": 3251469,
+      "value": 208256589
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 3600000,
+      "value": 204084000
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 7180000,
+      "value": 68281800
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 10138625
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586100",
+      "shares": 36401,
+      "value": 2514945
+    }
+  ],
+  "totalValue": 6216647321,
+  "positionsCount": 13
+}

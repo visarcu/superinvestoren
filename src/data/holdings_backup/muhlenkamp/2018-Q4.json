@@ -1,0 +1,215 @@
+{
+  "form": "13F-HR",
+  "date": "2018-11-13",
+  "period": "2018-11-13",
+  "accession": "0001133219-18-000004",
+  "quarterKey": "2018-Q4",
+  "positions": [
+    {
+      "name": "Apple Computer Inc",
+      "cusip": "037833100",
+      "shares": 90240,
+      "value": 20371
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 162102,
+      "value": 18540
+    },
+    {
+      "name": "ALLIANCE DATA SYS CORP COM",
+      "cusip": "018581108",
+      "shares": 70078,
+      "value": 16550
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 58221,
+      "value": 15489
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG COM",
+      "cusip": "30219G108",
+      "shares": 128695,
+      "value": 12227
+    },
+    {
+      "name": "CELANESE CORP-SERIES A",
+      "cusip": "150870103",
+      "shares": 100686,
+      "value": 11478
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 135401,
+      "value": 10454
+    },
+    {
+      "name": "Rush Enterprises CLA",
+      "cusip": "781846209",
+      "shares": 252012,
+      "value": 9907
+    },
+    {
+      "name": "CAMECO CORP COM",
+      "cusip": "13321L108",
+      "shares": 862495,
+      "value": 9832
+    },
+    {
+      "name": "SPDR GOLD TRUST GOLD SHS",
+      "cusip": "78463V107",
+      "shares": 83871,
+      "value": 9457
+    },
+    {
+      "name": "MCKESSON CORP COM",
+      "cusip": "58155Q103",
+      "shares": 70742,
+      "value": 9384
+    },
+    {
+      "name": "AUTOZONE INC COM",
+      "cusip": "053332102",
+      "shares": 10774,
+      "value": 8357
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY COM",
+      "cusip": "595017104",
+      "shares": 98227,
+      "value": 7751
+    },
+    {
+      "name": "DOWDUPONT INC",
+      "cusip": "26078J100",
+      "shares": 115938,
+      "value": 7456
+    },
+    {
+      "name": "COGNIZANT TECH SOLUTIONS - A",
+      "cusip": "192446102",
+      "shares": 94052,
+      "value": 7256
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 43873,
+      "value": 6897
+    },
+    {
+      "name": "Delta Air Lines",
+      "cusip": "247361702",
+      "shares": 115015,
+      "value": 6651
+    },
+    {
+      "name": "BIOGEN IDEC INC COM",
+      "cusip": "09062X103",
+      "shares": 18368,
+      "value": 6490
+    },
+    {
+      "name": "CELGENE CORP COM",
+      "cusip": "151020104",
+      "shares": 72116,
+      "value": 6454
+    },
+    {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "cusip": "G50871105",
+      "shares": 36971,
+      "value": 6216
+    },
+    {
+      "name": "Federated Invs. PA CL B",
+      "cusip": "314211103",
+      "shares": 251935,
+      "value": 6077
+    },
+    {
+      "name": "GAMESTOP CORP NEW CL A",
+      "cusip": "36467W109",
+      "shares": 259636,
+      "value": 3965
+    },
+    {
+      "name": "GOLAR LNG PARTNERS LP COM UNIT",
+      "cusip": "Y2745C102",
+      "shares": 243825,
+      "value": 3494
+    },
+    {
+      "name": "GASLOG PARTNERS LP UNIT LTD PT",
+      "cusip": "Y2687W108",
+      "shares": 118925,
+      "value": 2973
+    },
+    {
+      "name": "Annaly Capital Management",
+      "cusip": "035710409",
+      "shares": 230184,
+      "value": 2355
+    },
+    {
+      "name": "INVESCO BUYBACK ACHIEVERS ETF",
+      "cusip": "46137V308",
+      "shares": 35363,
+      "value": 2156
+    },
+    {
+      "name": "ALERIAN MLP ETF",
+      "cusip": "00162Q866",
+      "shares": 180969,
+      "value": 1933
+    },
+    {
+      "name": "ALLY FINACIAL INC",
+      "cusip": "02005N100",
+      "shares": 46800,
+      "value": 1238
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 26430,
+      "value": 1165
+    },
+    {
+      "name": "Thor Industries Inc",
+      "cusip": "885160101",
+      "shares": 9700,
+      "value": 812
+    },
+    {
+      "name": "Rush Enterprises CLB",
+      "cusip": "781846308",
+      "shares": 5666,
+      "value": 226
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 1600,
+      "value": 124
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 600,
+      "value": 46
+    },
+    {
+      "name": "ELDORADO GOLD CORP NEW COM",
+      "cusip": "284902103",
+      "shares": 10000,
+      "value": 9
+    }
+  ],
+  "totalValue": 233790,
+  "positionsCount": 34
+}

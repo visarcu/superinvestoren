@@ -1,0 +1,101 @@
+{
+  "form": "13F-HR",
+  "date": "2018-02-14",
+  "period": "2018-02-14",
+  "accession": "0000905718-18-000212",
+  "quarterKey": "2018-Q1",
+  "positions": [
+    {
+      "name": "COMMSCOPE HOLDING Co Inc",
+      "cusip": "20337X109",
+      "shares": 3819482,
+      "value": 144491
+    },
+    {
+      "name": "OWENS ILLINOIS INC",
+      "cusip": "690768403",
+      "shares": 6481703,
+      "value": 143699
+    },
+    {
+      "name": "ARRIS INTERNATIONAL INC",
+      "cusip": "G0551A103",
+      "shares": 4490706,
+      "value": 115366
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 3341917,
+      "value": 111252
+    },
+    {
+      "name": "EASTMAN CHEMICAL CO",
+      "cusip": "277432100",
+      "shares": 1126613,
+      "value": 104369
+    },
+    {
+      "name": "DIEBOLD NIXDORF INC",
+      "cusip": "253651103",
+      "shares": 5419841,
+      "value": 88614
+    },
+    {
+      "name": "AVNET INC",
+      "cusip": "053807103",
+      "shares": 228000,
+      "value": 9033
+    },
+    {
+      "name": "STEELCASE INC",
+      "cusip": "858155203",
+      "shares": 482739,
+      "value": 7338
+    },
+    {
+      "name": "ALASKA AIR GROUP",
+      "cusip": "011659109",
+      "shares": 89000,
+      "value": 6542
+    },
+    {
+      "name": "INTERNATIONAL GAME TECHNOLOGY",
+      "cusip": "G4863A108",
+      "shares": 240000,
+      "value": 6362
+    },
+    {
+      "name": "AMERICAN AXLE AND MANUFACTURING",
+      "cusip": "024061103",
+      "shares": 353600,
+      "value": 6022
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 89000,
+      "value": 5628
+    },
+    {
+      "name": "LSC COMMUNICATIONS INC",
+      "cusip": "50218P107",
+      "shares": 352817,
+      "value": 5345
+    },
+    {
+      "name": "TRIUMPH GROUP INC NEW",
+      "cusip": "896818101",
+      "shares": 180000,
+      "value": 4896
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 117631,
+      "value": 3998
+    }
+  ],
+  "totalValue": 762955,
+  "positionsCount": 15
+}

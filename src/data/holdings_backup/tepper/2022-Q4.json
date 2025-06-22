@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001656456-22-000004",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "CONSTELLATION ENERGY CORP",
+      "cusip": "21037T109",
+      "shares": 2630000,
+      "value": 218790
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1995000,
+      "value": 191819
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1450000,
+      "value": 163850
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 875000,
+      "value": 118720
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 10203430,
+      "value": 112544
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 2525000,
+      "value": 102894
+    },
+    {
+      "name": "MACYS INC",
+      "cusip": "55616P104",
+      "shares": 6000000,
+      "value": 94020
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 150000,
+      "value": 75756
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 235000,
+      "value": 54732
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674X106",
+      "shares": 1250000,
+      "value": 38163
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167172",
+      "shares": 368000,
+      "value": 29072
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 190000,
+      "value": 27330
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 1000000,
+      "value": 26500
+    },
+    {
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 777980,
+      "value": 18500
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167180",
+      "shares": 240000,
+      "value": 17644
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 405000,
+      "value": 14807
+    },
+    {
+      "name": "SYSCO CORP",
+      "cusip": "871829107",
+      "shares": 200000,
+      "value": 14142
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 75000,
+      "value": 13784
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 90000,
+      "value": 8479
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 90000,
+      "value": 7199
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 125000,
+      "value": 6041
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 192325,
+      "value": 5772
+    }
+  ],
+  "totalValue": 1360558,
+  "positionsCount": 22
+}

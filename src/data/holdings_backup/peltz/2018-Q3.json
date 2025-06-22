@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0001345471-18-000046",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 37908621,
+      "value": 2959147
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 42562249,
+      "value": 2906576
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604103",
+      "shares": 70861131,
+      "value": 964420
+    },
+    {
+      "name": "Bank New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 16138942,
+      "value": 870373
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 18824680,
+      "value": 771812
+    },
+    {
+      "name": "Pentair PLC",
+      "cusip": "G7S00T104",
+      "shares": 13739444,
+      "value": 578156
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 31630629,
+      "value": 543414
+    },
+    {
+      "name": "nVent Electric Plc",
+      "cusip": "G6700G107",
+      "shares": 17562998,
+      "value": 440831
+    }
+  ],
+  "totalValue": 10034729,
+  "positionsCount": 8
+}

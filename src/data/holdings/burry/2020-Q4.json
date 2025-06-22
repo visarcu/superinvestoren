@@ -1,0 +1,209 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0001567619-20-019679",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 40000,
+      "value": 58784
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 462100,
+      "value": 26987
+    },
+    {
+      "name": "GAMESTOP CORP NEW",
+      "cusip": "36467W109",
+      "shares": 1703400,
+      "value": 17375
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 416600,
+      "value": 15289
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 73600,
+      "value": 14791
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 50000,
+      "value": 13095
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 45000,
+      "value": 11786
+    },
+    {
+      "name": "DISCOVERY INC",
+      "cusip": "25470F104",
+      "shares": 500000,
+      "value": 10885
+    },
+    {
+      "name": "UNITI GROUP INC",
+      "cusip": "91325V108",
+      "shares": 1000000,
+      "value": 10535
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 270000,
+      "value": 9869
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102105",
+      "shares": 250000,
+      "value": 9138
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 150000,
+      "value": 8760
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 90000,
+      "value": 8473
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 86000,
+      "value": 8279
+    },
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 342300,
+      "value": 8246
+    },
+    {
+      "name": "MSG NETWORK INC",
+      "cusip": "553573106",
+      "shares": 850000,
+      "value": 8135
+    },
+    {
+      "name": "LUMEN TECHNOLOGIES INC",
+      "cusip": "156700106",
+      "shares": 800000,
+      "value": 8072
+    },
+    {
+      "name": "QURATE RETAIL INC",
+      "cusip": "74915M100",
+      "shares": 1100000,
+      "value": 7898
+    },
+    {
+      "name": "TRIP COM GROUP LTD",
+      "cusip": "89677Q107",
+      "shares": 250000,
+      "value": 7785
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 60000,
+      "value": 7741
+    },
+    {
+      "name": "ALTRIA GROUP INC",
+      "cusip": "02209S103",
+      "shares": 200000,
+      "value": 7728
+    },
+    {
+      "name": "RPT REALTY",
+      "cusip": "74971D101",
+      "shares": 1350000,
+      "value": 7344
+    },
+    {
+      "name": "LAS VEGAS SANDS CORP",
+      "cusip": "517834107",
+      "shares": 153000,
+      "value": 7139
+    },
+    {
+      "name": "DESIGNER BRANDS INC",
+      "cusip": "250565108",
+      "shares": 1200000,
+      "value": 6516
+    },
+    {
+      "name": "FOOT LOCKER INC",
+      "cusip": "344849104",
+      "shares": 180000,
+      "value": 5945
+    },
+    {
+      "name": "KIMBALL INTL INC",
+      "cusip": "494274103",
+      "shares": 550000,
+      "value": 5797
+    },
+    {
+      "name": "RETAIL OPPORTUNITY INVTS COR",
+      "cusip": "76131N101",
+      "shares": 500000,
+      "value": 5208
+    },
+    {
+      "name": "WYNN RESORTS LTD",
+      "cusip": "983134107",
+      "shares": 70000,
+      "value": 5027
+    },
+    {
+      "name": "PRECISION DRILLING CORP",
+      "cusip": "74022D308",
+      "shares": 4500000,
+      "value": 2880
+    },
+    {
+      "name": "VIACOMCBS INC",
+      "cusip": "92556H206",
+      "shares": 86000,
+      "value": 2409
+    },
+    {
+      "name": "NATIONAL OILWELL VARCO INC",
+      "cusip": "637071101",
+      "shares": 163600,
+      "value": 1482
+    },
+    {
+      "name": "URSTADT BIDDLE PPTYS INC",
+      "cusip": "917286205",
+      "shares": 50000,
+      "value": 460
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E102",
+      "shares": 49671,
+      "value": 410
+    }
+  ],
+  "totalValue": 330268,
+  "positionsCount": 33
+}

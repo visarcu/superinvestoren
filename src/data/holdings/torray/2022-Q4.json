@@ -1,0 +1,207 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-02-24",
+  "period": "2023-02-24",
+  "accession": "0001145549-23-008897",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "First American Treasury Obliga",
+      "cusip": "31846V328",
+      "shares": 15919974.36,
+      "value": 15919974.36,
+      "pctOfPortfolio": 15.2027052503
+    },
+    {
+      "name": "Calumet Specialty Products Par",
+      "cusip": "131476103",
+      "shares": 801055,
+      "value": 13521808.4,
+      "pctOfPortfolio": 12.9125878539
+    },
+    {
+      "name": "LAMINGTON ROAD DAC",
+      "cusip": "BP5174662",
+      "shares": 15140944,
+      "value": 11202784.47,
+      "pctOfPortfolio": 10.69804677
+    },
+    {
+      "name": "Lifco AB",
+      "cusip": "W5321L166",
+      "shares": 305885,
+      "value": 5104996.5,
+      "pctOfPortfolio": 4.8749925935
+    },
+    {
+      "name": "Bollore SE",
+      "cusip": null,
+      "shares": 896827,
+      "value": 5011225.7,
+      "pctOfPortfolio": 4.7854466054
+    },
+    {
+      "name": "Cadeler A/S",
+      "cusip": null,
+      "shares": 1273730,
+      "value": 4992572.27,
+      "pctOfPortfolio": 4.7676335995
+    },
+    {
+      "name": "EXOR NV",
+      "cusip": null,
+      "shares": 67968,
+      "value": 4969240.09,
+      "pctOfPortfolio": 4.745352643
+    },
+    {
+      "name": "Viaplay Group AB",
+      "cusip": null,
+      "shares": 212197,
+      "value": 4027428.84,
+      "pctOfPortfolio": 3.8459743833
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 86155,
+      "value": 3999315.1,
+      "pctOfPortfolio": 3.8191272984
+    },
+    {
+      "name": "Universal Music Group NV",
+      "cusip": null,
+      "shares": 161892,
+      "value": 3900907.65,
+      "pctOfPortfolio": 3.7251535631
+    },
+    {
+      "name": "Vivendi SE",
+      "cusip": "F97982106",
+      "shares": 399088,
+      "value": 3808080.19,
+      "pctOfPortfolio": 3.6365084132
+    },
+    {
+      "name": "Modern Times Group MTG AB",
+      "cusip": "W56523231",
+      "shares": 389297,
+      "value": 3324088.29,
+      "pctOfPortfolio": 3.1743226061
+    },
+    {
+      "name": "First American Government Obli",
+      "cusip": "31846V336",
+      "shares": 3253390.33,
+      "value": 3253390.33,
+      "pctOfPortfolio": 3.106809919
+    },
+    {
+      "name": "BW LPG Ltd",
+      "cusip": null,
+      "shares": 416063,
+      "value": 3219171.1,
+      "pctOfPortfolio": 3.0741324249
+    },
+    {
+      "name": "Kontron AG",
+      "cusip": null,
+      "shares": 183013,
+      "value": 2995395.77,
+      "pctOfPortfolio": 2.8604392174
+    },
+    {
+      "name": "Hoegh Autoliners ASA",
+      "cusip": null,
+      "shares": 411488,
+      "value": 2725948.39,
+      "pctOfPortfolio": 2.6031316988
+    },
+    {
+      "name": "Infrastrutture Wireless Italia",
+      "cusip": null,
+      "shares": 263500,
+      "value": 2655336.71,
+      "pctOfPortfolio": 2.5357014044
+    },
+    {
+      "name": "Eneti Inc",
+      "cusip": null,
+      "shares": 255973,
+      "value": 2572528.65,
+      "pctOfPortfolio": 2.4566242338
+    },
+    {
+      "name": "Esab Corp",
+      "cusip": "29605J106",
+      "shares": 48800,
+      "value": 2289696,
+      "pctOfPortfolio": 2.186534514
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 39051,
+      "value": 1733864.4,
+      "pctOfPortfolio": 1.6557457205
+    },
+    {
+      "name": "Montana Aerospace AG",
+      "cusip": null,
+      "shares": 108272,
+      "value": 1679143.98,
+      "pctOfPortfolio": 1.6034907107
+    },
+    {
+      "name": "Aker Horizons ASA",
+      "cusip": null,
+      "shares": 1257000,
+      "value": 1654521.37,
+      "pctOfPortfolio": 1.5799774641
+    },
+    {
+      "name": "Enovis Corp",
+      "cusip": "194014502",
+      "shares": 25600,
+      "value": 1370112,
+      "pctOfPortfolio": 1.308382063
+    },
+    {
+      "name": "Atlantic Sapphire ASA",
+      "cusip": "R07217103",
+      "shares": 1545270,
+      "value": 1171949.63,
+      "pctOfPortfolio": 1.1191478322
+    },
+    {
+      "name": "Hemnet Group AB",
+      "cusip": null,
+      "shares": 57000,
+      "value": 686085.57,
+      "pctOfPortfolio": 0.6551742146
+    },
+    {
+      "name": "N/A",
+      "cusip": null,
+      "shares": 1,
+      "value": 125807.17,
+      "pctOfPortfolio": 0.1201389701
+    },
+    {
+      "name": "N/A",
+      "cusip": null,
+      "shares": 1,
+      "value": 21276.19,
+      "pctOfPortfolio": 0.0203175984
+    },
+    {
+      "name": "N/A",
+      "cusip": null,
+      "shares": 1,
+      "value": 4486.57,
+      "pctOfPortfolio": 0.0042844291
+    }
+  ],
+  "totalValue": 107941135.69000001,
+  "positionsCount": 28
+}

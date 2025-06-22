@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2014-05-15",
+  "period": "2014-05-15",
+  "accession": "0001172661-14-001046",
+  "quarterKey": "2014-Q2",
+  "positions": [
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 912406,
+      "value": 139032
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 84063,
+      "value": 93689
+    },
+    {
+      "name": "VEECO INSTRS INC DEL",
+      "cusip": "922417100",
+      "shares": 1531251,
+      "value": 64205
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 2602707,
+      "value": 58613
+    },
+    {
+      "name": "VIPSHOP HLDGS LTD",
+      "cusip": "92763W103",
+      "shares": 327200,
+      "value": 48851
+    },
+    {
+      "name": "21VIANET GROUP INC",
+      "cusip": "90138A103",
+      "shares": 1683217,
+      "value": 48308
+    },
+    {
+      "name": "YELP INC",
+      "cusip": "985817105",
+      "shares": 616329,
+      "value": 47414
+    },
+    {
+      "name": "58 COM INC",
+      "cusip": "31680Q104",
+      "shares": 901828,
+      "value": 37543
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION CO",
+      "cusip": "582839106",
+      "shares": 451270,
+      "value": 37519
+    },
+    {
+      "name": "YOUKU TUDOU INC",
+      "cusip": "98742U100",
+      "shares": 947383,
+      "value": 26565
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 554506,
+      "value": 24143
+    }
+  ],
+  "totalValue": 625882,
+  "positionsCount": 11
+}

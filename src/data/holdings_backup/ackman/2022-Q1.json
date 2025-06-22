@@ -1,0 +1,47 @@
+{
+  "form": "13F-HR",
+  "date": "2022-02-14",
+  "period": "2022-02-14",
+  "accession": "0001172661-22-000776",
+  "quarterKey": "2022-Q1",
+  "positions": [
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 10236471,
+      "value": 2645923
+    },
+    {
+      "name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "shares": 12594336,
+      "value": 1964590
+    },
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 1114725,
+      "value": 1948818
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 23937248,
+      "value": 1452512
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 13620164,
+      "value": 1386260
+    },
+    {
+      "name": "DOMINOS PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 2092202,
+      "value": 1180692
+    }
+  ],
+  "totalValue": 10578795,
+  "positionsCount": 6
+}

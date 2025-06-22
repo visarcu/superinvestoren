@@ -21,7 +21,7 @@ export function BuyDetails({ data }: { data: Aggregated[] }) {
           {data.map(item => (
             <li key={item.ticker}>
               <Link
-                href={`/aktie/${item.ticker.toLowerCase()}`}
+                href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
                 className="font-medium text-blue-600 hover:underline"
               >
                 {item.ticker}

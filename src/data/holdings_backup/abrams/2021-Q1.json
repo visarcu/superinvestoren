@@ -1,0 +1,113 @@
+{
+  "form": "13F-HR",
+  "date": "2021-02-12",
+  "period": "2021-02-12",
+  "accession": "0001172661-21-000376",
+  "quarterKey": "2021-Q1",
+  "positions": [
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2351068,
+      "value": 688087
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 539305,
+      "value": 333749
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1205043,
+      "value": 329170
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2118216,
+      "value": 308709
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 23195008,
+      "value": 289010
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 146440,
+      "value": 256657
+    },
+    {
+      "name": "AMERCO",
+      "cusip": "023586100",
+      "shares": 561258,
+      "value": 254789
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 24046356,
+      "value": 232047
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 1094001,
+      "value": 230484
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 12476200,
+      "value": 170550
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 22124322,
+      "value": 136728
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 133084
+    },
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 6934144,
+      "value": 82516
+    },
+    {
+      "name": "TRANSMEDICS GROUP INC",
+      "cusip": "89377M109",
+      "shares": 3499859,
+      "value": 69647
+    },
+    {
+      "name": "BRISTOL-MYERS SQUIBB CO",
+      "cusip": "110122157",
+      "shares": 24800355,
+      "value": 17115
+    },
+    {
+      "name": "SCULPTOR CAP MGMT",
+      "cusip": "811246107",
+      "shares": 521991,
+      "value": 7934
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HLDGS",
+      "cusip": "18453H106",
+      "shares": 3354390,
+      "value": 5535
+    }
+  ],
+  "totalValue": 3545811,
+  "positionsCount": 17
+}

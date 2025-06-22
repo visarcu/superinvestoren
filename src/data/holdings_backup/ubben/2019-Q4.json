@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001418812-19-000085",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 28025500,
+      "value": 1936002
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 31554360,
+      "value": 1697309
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 48100000,
+      "value": 1291485
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 22250000,
+      "value": 949408
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 10225592,
+      "value": 542059
+    },
+    {
+      "name": "LKQ CORP",
+      "cusip": "501889208",
+      "shares": 16032718,
+      "value": 504229
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 3707646,
+      "value": 475061
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 22561698,
+      "value": 444014
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734107",
+      "shares": 17931594,
+      "value": 391805
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 39184254,
+      "value": 345801
+    },
+    {
+      "name": "STARS GROUP INC",
+      "cusip": "85570W100",
+      "shares": 13630000,
+      "value": 204177
+    },
+    {
+      "name": "HAWAIIAN ELEC INDUSTRIES",
+      "cusip": "419870100",
+      "shares": 1620747,
+      "value": 73922
+    },
+    {
+      "name": "AES CORP",
+      "cusip": "00130H105",
+      "shares": 4346500,
+      "value": 71022
+    },
+    {
+      "name": "STRATEGIC ED INC",
+      "cusip": "86272C103",
+      "shares": 500765,
+      "value": 68044
+    },
+    {
+      "name": "ENVIVA PARTNERS LP",
+      "cusip": "29414J107",
+      "shares": 2104261,
+      "value": 67231
+    },
+    {
+      "name": "ARCOSA INC",
+      "cusip": "039653100",
+      "shares": 1577265,
+      "value": 53958
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HLDGS I",
+      "cusip": "535219109",
+      "shares": 2860188,
+      "value": 47937
+    },
+    {
+      "name": "DARLING INGREDIENTS INC",
+      "cusip": "237266101",
+      "shares": 2240000,
+      "value": 42851
+    },
+    {
+      "name": "UNIFI INC",
+      "cusip": "904677200",
+      "shares": 1417054,
+      "value": 31062
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 1444800,
+      "value": 14448
+    },
+    {
+      "name": "PARSONS CORPORATION",
+      "cusip": "70202L102",
+      "shares": 298000,
+      "value": 9828
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 1222756,
+      "value": 7813
+    }
+  ],
+  "totalValue": 9269466,
+  "positionsCount": 22
+}

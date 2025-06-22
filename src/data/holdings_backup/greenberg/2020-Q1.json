@@ -1,0 +1,125 @@
+{
+  "form": "13F-HR",
+  "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001172661-20-000526",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1473687,
+      "value": 333790
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079305",
+      "shares": 233391,
+      "value": 312602
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625100",
+      "shares": 1840008,
+      "value": 256497
+    },
+    {
+      "name": "RAYMOND JAMES FINANCIAL INC",
+      "cusip": "754730109",
+      "shares": 2396170,
+      "value": 214361
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 627652,
+      "value": 189570
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 2369627,
+      "value": 132201
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1724376,
+      "value": 124828
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164108",
+      "shares": 714118,
+      "value": 93235
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATI",
+      "cusip": "808513105",
+      "shares": 1858698,
+      "value": 88400
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331109",
+      "shares": 1143906,
+      "value": 60341
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324102",
+      "shares": 159089,
+      "value": 46769
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674106",
+      "shares": 7116543,
+      "value": 20282
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676102",
+      "shares": 1713314,
+      "value": 13004
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079107",
+      "shares": 1100,
+      "value": 1471
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030101",
+      "shares": 31094,
+      "value": 1398
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 5347,
+      "value": 1269
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 7799,
+      "value": 733
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057302",
+      "shares": 13308,
+      "value": 595
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14532,
+      "value": 512
+    }
+  ],
+  "totalValue": 1891858,
+  "positionsCount": 19
+}

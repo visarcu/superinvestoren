@@ -1,0 +1,41 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001387131-19-006087",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 2535331,
+      "value": 158686
+    },
+    {
+      "name": "WORLD ACCEP CORP DEL",
+      "cusip": "981419104",
+      "shares": 581479,
+      "value": 95427
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 2162020,
+      "value": 56169
+    },
+    {
+      "name": "HERBALIFE NUTRITION LTD",
+      "cusip": "G4412G101",
+      "shares": 1130482,
+      "value": 48339
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 65468,
+      "value": 31675
+    }
+  ],
+  "totalValue": 390296,
+  "positionsCount": 5
+}

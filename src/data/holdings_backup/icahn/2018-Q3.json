@@ -1,0 +1,269 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0001567619-18-000989",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 80035711,
+      "value": 5687338
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 38733932,
+      "value": 2752433
+    },
+    {
+      "name": "CVR ENERGY INC",
+      "cusip": "12662P108",
+      "shares": 71198718,
+      "value": 2633641
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 22811224,
+      "value": 1620966
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 28181955,
+      "value": 1513935
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 18617812,
+      "value": 1322982
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 18944391,
+      "value": 1234985
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 40129084,
+      "value": 692628
+    },
+    {
+      "name": "NEWELL BRANDS INC",
+      "cusip": "651229106",
+      "shares": 26634411,
+      "value": 686901
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 13383969,
+      "value": 544995
+    },
+    {
+      "name": "AMERICAN RAILCAR INDS INC",
+      "cusip": "02916P103",
+      "shares": 11871268,
+      "value": 468678
+    },
+    {
+      "name": "XEROX CORP",
+      "cusip": "984121608",
+      "shares": 18764869,
+      "value": 450357
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 6194671,
+      "value": 440193
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 7045949,
+      "value": 378508
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 23411096,
+      "value": 359126
+    },
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 4736099,
+      "value": 308746
+    },
+    {
+      "name": "ENERGEN CORP",
+      "cusip": "29265N108",
+      "shares": 4156896,
+      "value": 302705
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 15844800,
+      "value": 287900
+    },
+    {
+      "name": "VMWARE INC",
+      "cusip": "928563402",
+      "shares": 1820053,
+      "value": 267493
+    },
+    {
+      "name": "AMTRUST FINL SVCS INC",
+      "cusip": "032359309",
+      "shares": 14734986,
+      "value": 214689
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 3595832,
+      "value": 202589
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 8066129,
+      "value": 179955
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671D857",
+      "shares": 10032270,
+      "value": 173157
+    },
+    {
+      "name": "NEWELL BRANDS INC",
+      "cusip": "651229106",
+      "shares": 6658602,
+      "value": 171725
+    },
+    {
+      "name": "DELL TECHNOLOGIES INC",
+      "cusip": "24703L103",
+      "shares": 1907201,
+      "value": 161311
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 3345991,
+      "value": 136249
+    },
+    {
+      "name": "XEROX CORP",
+      "cusip": "984121608",
+      "shares": 4691218,
+      "value": 112589
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J106",
+      "shares": 5852773,
+      "value": 89782
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 3750000,
+      "value": 83813
+    },
+    {
+      "name": "ENERGEN CORP",
+      "cusip": "29265N108",
+      "shares": 1039225,
+      "value": 75676
+    },
+    {
+      "name": "CONDUENT INC",
+      "cusip": "206787103",
+      "shares": 3961200,
+      "value": 71975
+    },
+    {
+      "name": "CIGNA CORPORATION",
+      "cusip": "125509109",
+      "shares": 402704,
+      "value": 68440
+    },
+    {
+      "name": "SANDRIDGE ENERGY INC",
+      "cusip": "80007P869",
+      "shares": 3855065,
+      "value": 68389
+    },
+    {
+      "name": "VMWARE INC",
+      "cusip": "928563402",
+      "shares": 455016,
+      "value": 66874
+    },
+    {
+      "name": "AMTRUST FINL SVCS INC",
+      "cusip": "032359309",
+      "shares": 3683746,
+      "value": 53672
+    },
+    {
+      "name": "HERC HLDGS INC",
+      "cusip": "42704L104",
+      "shares": 898957,
+      "value": 50647
+    },
+    {
+      "name": "WELBILT INC",
+      "cusip": "949090104",
+      "shares": 2016531,
+      "value": 44989
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12663P107",
+      "shares": 2000000,
+      "value": 44700
+    },
+    {
+      "name": "DELL TECHNOLOGIES INC",
+      "cusip": "24703L103",
+      "shares": 476801,
+      "value": 40328
+    },
+    {
+      "name": "MANITOWOC CO INC",
+      "cusip": "563571405",
+      "shares": 1348862,
+      "value": 34882
+    },
+    {
+      "name": "CIGNA CORPORATION",
+      "cusip": "125509109",
+      "shares": 100676,
+      "value": 17110
+    },
+    {
+      "name": "SANDRIDGE ENERGY INC",
+      "cusip": "80007P869",
+      "shares": 963767,
+      "value": 17097
+    },
+    {
+      "name": "MANITOWOC CO INC",
+      "cusip": "563571405",
+      "shares": 337214,
+      "value": 8720
+    }
+  ],
+  "totalValue": 24143868,
+  "positionsCount": 43
+}

@@ -1,4 +1,35 @@
 {
-  "date": "2025-06-05",
-  "positions": []
+  "form": "13F-HR",
+  "date": "2025-05-14",
+  "period": "2025-05-14",
+  "accession": "0001549575-25-000004",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "WARRIOR MET COAL INC",
+      "cusip": "93627C101",
+      "shares": 1799580,
+      "value": 85875958
+    },
+    {
+      "name": "VALARIS LTD",
+      "cusip": "G9460G101",
+      "shares": 1427564,
+      "value": 56046163
+    },
+    {
+      "name": "ALPHA METALLURGICAL RESOUR I",
+      "cusip": "020764106",
+      "shares": 414616,
+      "value": 51930654
+    },
+    {
+      "name": "NOBLE CORP PLC",
+      "cusip": "G65431127",
+      "shares": 1728744,
+      "value": 40971233
+    }
+  ],
+  "totalValue": 234824008,
+  "positionsCount": 4
 }

@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-15",
+  "period": "2021-11-15",
+  "accession": "0000921895-21-002657",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "HAIN CELESTIAL GROUP INC",
+      "cusip": "405217100",
+      "shares": 15996598,
+      "value": 684334
+    },
+    {
+      "name": "EVOLENT HEALTH INC",
+      "cusip": "30050B101",
+      "shares": 7893194,
+      "value": 244689
+    },
+    {
+      "name": "RENT A CTR INC NEW",
+      "cusip": "76009N100",
+      "shares": 2355730,
+      "value": 132416
+    },
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 1599746,
+      "value": 114814
+    },
+    {
+      "name": "SUNOPTA INC",
+      "cusip": "8676EP108",
+      "shares": 9829298,
+      "value": 87776
+    },
+    {
+      "name": "NCR CORP NEW",
+      "cusip": "62886E108",
+      "shares": 1691430,
+      "value": 65560
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 1537036,
+      "value": 56117
+    },
+    {
+      "name": "QUOTIENT TECHNOLOGY INC",
+      "cusip": "749119103",
+      "shares": 593314,
+      "value": 3453
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 13400,
+      "value": 2931
+    }
+  ],
+  "totalValue": 1392090,
+  "positionsCount": 9
+}

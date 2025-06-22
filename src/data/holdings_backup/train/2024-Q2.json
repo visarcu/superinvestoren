@@ -1,0 +1,185 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-10",
+  "period": "2024-05-10",
+  "accession": "0001172661-24-002147",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "MONDELEZ INTL INC",
+      "cusip": "609207105",
+      "shares": 14280093,
+      "value": 1001034519
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 509809,
+      "value": 642124828
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 980995,
+      "value": 636626515
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 5056482,
+      "value": 611783757
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 3016781,
+      "value": 523743349
+    },
+    {
+      "name": "TKO GROUP HOLDINGS INC",
+      "cusip": "87256C101",
+      "shares": 5509517,
+      "value": 476077364
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 4787359,
+      "value": 318694489
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 4683022,
+      "value": 243189332
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637100",
+      "shares": 2843575,
+      "value": 150965397
+    },
+    {
+      "name": "MANCHESTER UTD PLC NEW",
+      "cusip": "G5784H106",
+      "shares": 7716799,
+      "value": 109038370
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637209",
+      "shares": 290307,
+      "value": 15110479
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 10300,
+      "value": 2703750
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 11600,
+      "value": 2642828
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 16850,
+      "value": 2542834
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 5900,
+      "value": 2494402
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 19200,
+      "value": 2404992
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 7700,
+      "value": 2148839
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 8600,
+      "value": 1853988
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 20100,
+      "value": 1808397
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 3560,
+      "value": 1796625
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 7300,
+      "value": 1707762
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 11425,
+      "value": 1657082
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 15900,
+      "value": 1496985
+    },
+    {
+      "name": "PRICE T ROWE GROUP INC",
+      "cusip": "74144T108",
+      "shares": 12000,
+      "value": 1450440
+    },
+    {
+      "name": "COCA COLA CO",
+      "cusip": "191216100",
+      "shares": 21100,
+      "value": 1288155
+    },
+    {
+      "name": "HERSHEY CO",
+      "cusip": "427866108",
+      "shares": 5100,
+      "value": 987921
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 6065,
+      "value": 958513
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 3300,
+      "value": 609147
+    },
+    {
+      "name": "KENVUE INC",
+      "cusip": "49177J102",
+      "shares": 14739,
+      "value": 316152
+    }
+  ],
+  "totalValue": 4759257211,
+  "positionsCount": 29
+}

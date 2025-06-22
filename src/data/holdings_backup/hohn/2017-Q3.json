@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-14",
+  "period": "2017-08-14",
+  "accession": "0001647251-17-000009",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 85923952,
+      "value": 4681137
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 13849812,
+      "value": 4665309
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 91565333,
+      "value": 3563723
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1507939,
+      "value": 183486
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 490729,
+      "value": 71642
+    },
+    {
+      "name": "AMBAC FINL GROUP INC",
+      "cusip": "023139884",
+      "shares": 1985785,
+      "value": 34453
+    },
+    {
+      "name": "NORFOLK SOUTHERN CORP",
+      "cusip": "655844108",
+      "shares": 283000,
+      "value": 34441
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 200000,
+      "value": 21782
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 204500,
+      "value": 20534
+    }
+  ],
+  "totalValue": 13276507,
+  "positionsCount": 9
+}

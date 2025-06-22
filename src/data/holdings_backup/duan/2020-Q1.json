@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2020-02-18",
+  "period": "2020-02-18",
+  "accession": "0001085146-20-000946",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 3247000,
+      "value": 953482
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 170000,
+      "value": 314133
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 956600,
+      "value": 216670
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 160000,
+      "value": 213923
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 896500,
+      "value": 184007
+    },
+    {
+      "name": "PINDUODUO INC",
+      "cusip": "722304102",
+      "shares": 957467,
+      "value": 36211
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 500000,
+      "value": 34890
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 136000,
+      "value": 7317
+    },
+    {
+      "name": "GENERAL ELECTRIC CO",
+      "cusip": "369604103",
+      "shares": 200000,
+      "value": 2232
+    },
+    {
+      "name": "SOGOU INC",
+      "cusip": "83409V104",
+      "shares": 240000,
+      "value": 1092
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 10000,
+      "value": 879
+    }
+  ],
+  "totalValue": 1964836,
+  "positionsCount": 11
+}

@@ -1,0 +1,103 @@
+{
+  "date": "2025-06-05",
+  "positions": [
+    {
+      "name": "Berkshire Hathaway CL B",
+      "cusip": "BRK.B0000",
+      "shares": 140600,
+      "value": 74880748,
+      "ticker": "BRK.B"
+    },
+    {
+      "name": "American Express",
+      "cusip": "AXP00000",
+      "shares": 210000,
+      "value": 56500500,
+      "ticker": "AXP"
+    },
+    {
+      "name": "Mastercard Inc.",
+      "cusip": "MA00000",
+      "shares": 65750,
+      "value": 36038890,
+      "ticker": "MA"
+    },
+    {
+      "name": "Bank of America Corp.",
+      "cusip": "BAC00000",
+      "shares": 767845,
+      "value": 32042172,
+      "ticker": "BAC"
+    },
+    {
+      "name": "Berkshire Hathaway CL A",
+      "cusip": "BRK.A0000",
+      "shares": 30,
+      "value": 23953000,
+      "ticker": "BRK.A"
+    },
+    {
+      "name": "Ferrari NV",
+      "cusip": "RACE00000",
+      "shares": 60000,
+      "value": 23532000,
+      "ticker": "RACE"
+    },
+    {
+      "name": "Micron Technology Inc.",
+      "cusip": "MU00000",
+      "shares": 200000,
+      "value": 17378000,
+      "ticker": "MU"
+    },
+    {
+      "name": "Moodys Corp.",
+      "cusip": "MCO00000",
+      "shares": 27000,
+      "value": 12573900,
+      "ticker": "MCO"
+    },
+    {
+      "name": "Alibaba Group Holdings",
+      "cusip": "BABA00000",
+      "shares": 47500,
+      "value": 6280925,
+      "ticker": "BABA"
+    },
+    {
+      "name": "Daily Journal Corp.",
+      "cusip": "DJCO00000",
+      "shares": 11500,
+      "value": 4574010,
+      "ticker": "DJCO"
+    },
+    {
+      "name": "Alphabet Inc.",
+      "cusip": "GOOGL0000",
+      "shares": 16000,
+      "value": 2474080,
+      "ticker": "GOOGL"
+    },
+    {
+      "name": "Seritage Growth Properties",
+      "cusip": "SRG00000",
+      "shares": 500000,
+      "value": 1615000,
+      "ticker": "SRG"
+    },
+    {
+      "name": "Alpha Metallurgical Resources Inc.",
+      "cusip": "AMR00000",
+      "shares": 8000,
+      "value": 1002000,
+      "ticker": "AMR"
+    },
+    {
+      "name": "Core Natural Resources Inc.",
+      "cusip": "CNR00000",
+      "shares": 8100,
+      "value": 827982,
+      "ticker": "CNR"
+    }
+  ]
+}

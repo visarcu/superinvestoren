@@ -1,0 +1,1460 @@
+{
+  "form": "NPORT-P",
+  "date": "2021-10-28",
+  "period": "2021-10-28",
+  "accession": "0001145549-21-062038",
+  "quarterKey": "2021-Q3",
+  "positions": [
+    {
+      "name": "US BANK MMDA - USBFS 2",
+      "cusip": null,
+      "shares": 457423.27,
+      "value": 457423.27,
+      "pctOfPortfolio": 2.4194150608
+    },
+    {
+      "name": "ALTICE FRANCE SA",
+      "cusip": "02156LAF8",
+      "shares": 410000,
+      "value": 414518.2,
+      "pctOfPortfolio": 2.1924804483
+    },
+    {
+      "name": "HESS CORP",
+      "cusip": "023551AJ3",
+      "shares": 220000,
+      "value": 299185.42,
+      "pctOfPortfolio": 1.5824593076
+    },
+    {
+      "name": "NMG HLDCO/NEIMAN MARCUS",
+      "cusip": "62929RAC2",
+      "shares": 225000,
+      "value": 238218.75,
+      "pctOfPortfolio": 1.2599928104
+    },
+    {
+      "name": "KRAFT HEINZ FOODS CO",
+      "cusip": "50077LBJ4",
+      "shares": 160000,
+      "value": 213397.17,
+      "pctOfPortfolio": 1.1287058637
+    },
+    {
+      "name": "NORTHERN OIL AND GAS INC",
+      "cusip": "665531AG4",
+      "shares": 205000,
+      "value": 212943.75,
+      "pctOfPortfolio": 1.1263076228
+    },
+    {
+      "name": "JAGUAR LAND ROVER AUTOMO",
+      "cusip": "47010BAK0",
+      "shares": 200000,
+      "value": 205690,
+      "pctOfPortfolio": 1.0879408996
+    },
+    {
+      "name": "PHOTO HOLDINGS MERGER SU",
+      "cusip": "719245AD4",
+      "shares": 180000,
+      "value": 195300,
+      "pctOfPortfolio": 1.0329858413
+    },
+    {
+      "name": "JBS USA LUX/JBS USA FIN",
+      "cusip": "472141AA8",
+      "shares": 175000,
+      "value": 191843.75,
+      "pctOfPortfolio": 1.0147049538
+    },
+    {
+      "name": "TECK RESOURCES LIMITED",
+      "cusip": "878742AW5",
+      "shares": 130000,
+      "value": 173081.29,
+      "pctOfPortfolio": 0.9154660623
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110LAT3",
+      "shares": 136000,
+      "value": 168640,
+      "pctOfPortfolio": 0.8919750756
+    },
+    {
+      "name": "OCCIDENTAL PETROLEUM COR",
+      "cusip": "674599DC6",
+      "shares": 140000,
+      "value": 156100,
+      "pctOfPortfolio": 0.8256481814
+    },
+    {
+      "name": "NEW RESIDENTIAL INV CORP",
+      "cusip": "64828TAA0",
+      "shares": 155000,
+      "value": 155387.5,
+      "pctOfPortfolio": 0.8218796078
+    },
+    {
+      "name": "CENTURY ALUMINUM COMPANY",
+      "cusip": "156431AN8",
+      "shares": 145000,
+      "value": 153700,
+      "pctOfPortfolio": 0.8129540389
+    },
+    {
+      "name": "SEAWORLD PARKS & ENTERTA",
+      "cusip": "81282UAC6",
+      "shares": 140000,
+      "value": 151375,
+      "pctOfPortfolio": 0.8006565884
+    },
+    {
+      "name": "DISH NETWORK CORP",
+      "cusip": "25470MAB5",
+      "shares": 145000,
+      "value": 151250.06,
+      "pctOfPortfolio": 0.7999957525
+    },
+    {
+      "name": "NRG ENERGY INC",
+      "cusip": "629377CS9",
+      "shares": 145000,
+      "value": 147022.75,
+      "pctOfPortfolio": 0.7776365545
+    },
+    {
+      "name": "REALOGY GROUP/CO-ISSUER",
+      "cusip": "75606DAL5",
+      "shares": 140000,
+      "value": 146517,
+      "pctOfPortfolio": 0.7749615284
+    },
+    {
+      "name": "SCIENTIFIC GAMES INTERNA",
+      "cusip": "80874YBG4",
+      "shares": 135000,
+      "value": 145744.31,
+      "pctOfPortfolio": 0.7708745964
+    },
+    {
+      "name": "BOYD GAMING CORP",
+      "cusip": "103304BU4",
+      "shares": 140000,
+      "value": 144375,
+      "pctOfPortfolio": 0.7636320063
+    },
+    {
+      "name": "TEEKAY CORP",
+      "cusip": "87900YAF0",
+      "shares": 140000,
+      "value": 143920,
+      "pctOfPortfolio": 0.7612254085
+    },
+    {
+      "name": "BEAZER HOMES USA",
+      "cusip": "07556QBT1",
+      "shares": 130000,
+      "value": 143812.5,
+      "pctOfPortfolio": 0.7606568167
+    },
+    {
+      "name": "CCO HLDGS LLC/CAP CORP",
+      "cusip": "1248EPCE1",
+      "shares": 135000,
+      "value": 141056.1,
+      "pctOfPortfolio": 0.7460775941
+    },
+    {
+      "name": "CCO HLDGS LLC/CAP CORP",
+      "cusip": "1248EPCN1",
+      "shares": 135000,
+      "value": 141054.75,
+      "pctOfPortfolio": 0.7460704536
+    },
+    {
+      "name": "QUICKEN LOANS LLC/QUICKN",
+      "cusip": "74841CAB7",
+      "shares": 135000,
+      "value": 138099.94,
+      "pctOfPortfolio": 0.7304417957
+    },
+    {
+      "name": "VINE ENERGY HOLDINGS LLC",
+      "cusip": "92735LAA0",
+      "shares": 125000,
+      "value": 135000,
+      "pctOfPortfolio": 0.7140455124
+    },
+    {
+      "name": "MADISON IAQ LLC",
+      "cusip": "55760LAB3",
+      "shares": 130000,
+      "value": 133087.5,
+      "pctOfPortfolio": 0.7039298676
+    },
+    {
+      "name": "IRON MOUNTAIN INC",
+      "cusip": "46284VAF8",
+      "shares": 125000,
+      "value": 131850,
+      "pctOfPortfolio": 0.6973844504
+    },
+    {
+      "name": "AMERICAN AIRLINES GROUP",
+      "cusip": "02376RAC6",
+      "shares": 130000,
+      "value": 131137.5,
+      "pctOfPortfolio": 0.6936158769
+    },
+    {
+      "name": "WEATHERFORD INTL LTD",
+      "cusip": "947075AP2",
+      "shares": 125000,
+      "value": 130625,
+      "pctOfPortfolio": 0.6909051486
+    },
+    {
+      "name": "CARROLS RESTAURANT GROUP",
+      "cusip": "14574XAF1",
+      "shares": 135000,
+      "value": 130275,
+      "pctOfPortfolio": 0.6890539195
+    },
+    {
+      "name": "ENOVA INTERNATIONAL INC",
+      "cusip": "29357KAF0",
+      "shares": 125000,
+      "value": 129062.5,
+      "pctOfPortfolio": 0.6826407329
+    },
+    {
+      "name": "MERITOR INC",
+      "cusip": "59001KAF7",
+      "shares": 120000,
+      "value": 127800,
+      "pctOfPortfolio": 0.6759630851
+    },
+    {
+      "name": "NEW FORTRESS ENERGY INC",
+      "cusip": "644393AA8",
+      "shares": 125000,
+      "value": 126875,
+      "pctOfPortfolio": 0.671070551
+    },
+    {
+      "name": "SEG HLD LLC/SEG FIN CORP",
+      "cusip": "78397KAA0",
+      "shares": 120000,
+      "value": 126000,
+      "pctOfPortfolio": 0.6664424782
+    },
+    {
+      "name": "OCCIDENTAL PETROLEUM COR",
+      "cusip": "674599DF9",
+      "shares": 100000,
+      "value": 125000,
+      "pctOfPortfolio": 0.6611532522
+    },
+    {
+      "name": "CHS/COMMUNITY HEALTH SYS",
+      "cusip": "12543DBE9",
+      "shares": 125000,
+      "value": 123993.75,
+      "pctOfPortfolio": 0.6558309685
+    },
+    {
+      "name": "SCRIPPS ESCROW II INC",
+      "cusip": "81105DAB1",
+      "shares": 125000,
+      "value": 123717.19,
+      "pctOfPortfolio": 0.6543681802
+    },
+    {
+      "name": "TASEKO MINES LTD",
+      "cusip": "876511AF3",
+      "shares": 120000,
+      "value": 123427.2,
+      "pctOfPortfolio": 0.6528343575
+    },
+    {
+      "name": "GANNETT HOLDINGS LLC",
+      "cusip": null,
+      "shares": 122591.76,
+      "value": 123357.96,
+      "pctOfPortfolio": 0.6524681315
+    },
+    {
+      "name": "ADAPTHEALTH LLC",
+      "cusip": "00653VAA9",
+      "shares": 115000,
+      "value": 122475,
+      "pctOfPortfolio": 0.6477979565
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674XAQ9",
+      "shares": 110000,
+      "value": 121000,
+      "pctOfPortfolio": 0.6399963481
+    },
+    {
+      "name": "TITAN INTERNATIONAL INC",
+      "cusip": "88830MAL6",
+      "shares": 115000,
+      "value": 120199.15,
+      "pctOfPortfolio": 0.6357604715
+    },
+    {
+      "name": "VENATOR FIN SARL/VENATOR",
+      "cusip": "9226APAA3",
+      "shares": 125000,
+      "value": 117968.75,
+      "pctOfPortfolio": 0.6239633818
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674XAN6",
+      "shares": 104000,
+      "value": 117780,
+      "pctOfPortfolio": 0.6229650404
+    },
+    {
+      "name": "KEHE DISTRIBUTORS LLC/FI",
+      "cusip": "487526AB1",
+      "shares": 108000,
+      "value": 117315,
+      "pctOfPortfolio": 0.6205055503
+    },
+    {
+      "name": "STAPLES INC",
+      "cusip": "855030AN2",
+      "shares": 115000,
+      "value": 116437.5,
+      "pctOfPortfolio": 0.6158642544
+    },
+    {
+      "name": "PEBBLEBROOK HOTEL TRUST",
+      "cusip": "70509V803",
+      "shares": 4225,
+      "value": 115638.25,
+      "pctOfPortfolio": 0.6116368405
+    },
+    {
+      "name": "SABRE GLBL INC",
+      "cusip": "78573NAC6",
+      "shares": 100000,
+      "value": 115250,
+      "pctOfPortfolio": 0.6095832985
+    },
+    {
+      "name": "MACY'S RETAIL HLDGS LLC",
+      "cusip": "55617LAP7",
+      "shares": 105000,
+      "value": 114723,
+      "pctOfPortfolio": 0.6067958764
+    },
+    {
+      "name": "UNISYS CORP",
+      "cusip": "909214BV9",
+      "shares": 105000,
+      "value": 114581.25,
+      "pctOfPortfolio": 0.6060461286
+    },
+    {
+      "name": "SERVICE PROPERTIES TRUST",
+      "cusip": "44106MAZ5",
+      "shares": 110000,
+      "value": 111512.5,
+      "pctOfPortfolio": 0.5898148163
+    },
+    {
+      "name": "ICAHN ENTERPRISES/FIN",
+      "cusip": "451102BT3",
+      "shares": 105000,
+      "value": 110643.75,
+      "pctOfPortfolio": 0.5852198012
+    },
+    {
+      "name": "DIRECTV HOLDINGS/FING",
+      "cusip": "25461LAA0",
+      "shares": 105000,
+      "value": 109725,
+      "pctOfPortfolio": 0.5803603248
+    },
+    {
+      "name": "XPO CNW INC",
+      "cusip": "12612WAB0",
+      "shares": 90000,
+      "value": 108483.3,
+      "pctOfPortfolio": 0.5737926929
+    },
+    {
+      "name": "CARNIVAL CORP",
+      "cusip": "143658BL5",
+      "shares": 100000,
+      "value": 106260.5,
+      "pctOfPortfolio": 0.5620358013
+    },
+    {
+      "name": "STARWOOD PROPERTY TRUST",
+      "cusip": "85571BAS4",
+      "shares": 100000,
+      "value": 104875,
+      "pctOfPortfolio": 0.5547075786
+    },
+    {
+      "name": "SRS DISTRIBUTION INC",
+      "cusip": "78471RAC0",
+      "shares": 100000,
+      "value": 103750,
+      "pctOfPortfolio": 0.5487571993
+    },
+    {
+      "name": "COMMSCOPE TECH LLC",
+      "cusip": "20337YAA5",
+      "shares": 102000,
+      "value": 103734,
+      "pctOfPortfolio": 0.5486725717
+    },
+    {
+      "name": "RITE AID CORP",
+      "cusip": "767754CL6",
+      "shares": 100000,
+      "value": 103115,
+      "pctOfPortfolio": 0.5453985408
+    },
+    {
+      "name": "STONEX GROUP INC",
+      "cusip": "46116VAE5",
+      "shares": 95000,
+      "value": 102790,
+      "pctOfPortfolio": 0.5436795424
+    },
+    {
+      "name": "EVERI HOLDINGS INC",
+      "cusip": "30034TAA1",
+      "shares": 100000,
+      "value": 102350,
+      "pctOfPortfolio": 0.5413522829
+    },
+    {
+      "name": "SEASPAN CORP",
+      "cusip": "81254UAK2",
+      "shares": 100000,
+      "value": 102250,
+      "pctOfPortfolio": 0.5408233603
+    },
+    {
+      "name": "TECK RESOURCES LIMITED",
+      "cusip": "878744AB7",
+      "shares": 85000,
+      "value": 102083.32,
+      "pctOfPortfolio": 0.5399417521
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479AQ3",
+      "shares": 95000,
+      "value": 102005.3,
+      "pctOfPortfolio": 0.5395290867
+    },
+    {
+      "name": "GUITAR CENTER INC",
+      "cusip": "40204BAA3",
+      "shares": 95000,
+      "value": 101175,
+      "pctOfPortfolio": 0.5351374423
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "87854XAE1",
+      "shares": 95000,
+      "value": 100919.75,
+      "pctOfPortfolio": 0.5337873674
+    },
+    {
+      "name": "CUMULUS MEDIA NEW HLDGS",
+      "cusip": "23110AAA4",
+      "shares": 96000,
+      "value": 99700.8,
+      "pctOfPortfolio": 0.5273400654
+    },
+    {
+      "name": "DAVITA INC",
+      "cusip": "23918KAS7",
+      "shares": 95000,
+      "value": 99290.2,
+      "pctOfPortfolio": 0.5251683091
+    },
+    {
+      "name": "DELL INC",
+      "cusip": "24702RAF8",
+      "shares": 75000,
+      "value": 98979.75,
+      "pctOfPortfolio": 0.5235262689
+    },
+    {
+      "name": "UNITED RENTALS NORTH AM",
+      "cusip": "911365BL7",
+      "shares": 90000,
+      "value": 98662.5,
+      "pctOfPortfolio": 0.521848262
+    },
+    {
+      "name": "NCR CORP",
+      "cusip": "62886EBA5",
+      "shares": 95000,
+      "value": 98499.56,
+      "pctOfPortfolio": 0.5209864355
+    },
+    {
+      "name": "TAYLOR MORRISON COMM",
+      "cusip": "87724RAJ1",
+      "shares": 90000,
+      "value": 98458.2,
+      "pctOfPortfolio": 0.5207676731
+    },
+    {
+      "name": "HUNT COS INC",
+      "cusip": "445587AE8",
+      "shares": 100000,
+      "value": 98000,
+      "pctOfPortfolio": 0.5183441497
+    },
+    {
+      "name": "TILRAY INC",
+      "cusip": "88688TAB6",
+      "shares": 100000,
+      "value": 97791.48,
+      "pctOfPortfolio": 0.5172412403
+    },
+    {
+      "name": "UNIVISION COMMUNICATIONS",
+      "cusip": "914906AU6",
+      "shares": 90000,
+      "value": 97452,
+      "pctOfPortfolio": 0.5154456539
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167DG9",
+      "shares": 90000,
+      "value": 96075,
+      "pctOfPortfolio": 0.5081623897
+    },
+    {
+      "name": "CD&R SMOKEY BUYER INC",
+      "cusip": "12510CAA9",
+      "shares": 90000,
+      "value": 95799.6,
+      "pctOfPortfolio": 0.5067057368
+    },
+    {
+      "name": "SUNNOVA ENERGY CORP",
+      "cusip": "86745GAF0",
+      "shares": 95000,
+      "value": 95684,
+      "pctOfPortfolio": 0.5060943023
+    },
+    {
+      "name": "TEGNA INC",
+      "cusip": "87901JAH8",
+      "shares": 90000,
+      "value": 95278.5,
+      "pctOfPortfolio": 0.5039495211
+    },
+    {
+      "name": "ASHTON WOODS USA/FINANCE",
+      "cusip": "045086AM7",
+      "shares": 95000,
+      "value": 95000,
+      "pctOfPortfolio": 0.5024764717
+    },
+    {
+      "name": "INSTALLED BUILDING PRODU",
+      "cusip": "45780RAA9",
+      "shares": 90000,
+      "value": 94725,
+      "pctOfPortfolio": 0.5010219345
+    },
+    {
+      "name": "COMSTOCK RESOURCES INC",
+      "cusip": "205768AS3",
+      "shares": 90000,
+      "value": 94455,
+      "pctOfPortfolio": 0.4995938435
+    },
+    {
+      "name": "LIFE TIME INC",
+      "cusip": "53190FAC9",
+      "shares": 90000,
+      "value": 94275,
+      "pctOfPortfolio": 0.4986417828
+    },
+    {
+      "name": "ASHTON WOODS USA/FINANCE",
+      "cusip": "045086AH8",
+      "shares": 85000,
+      "value": 94137.5,
+      "pctOfPortfolio": 0.4979145142
+    },
+    {
+      "name": "GOLAR LNG LTD",
+      "cusip": "38046YAB7",
+      "shares": 95000,
+      "value": 93753.13,
+      "pctOfPortfolio": 0.4958814944
+    },
+    {
+      "name": "BAUSCH HEALTH COS INC",
+      "cusip": "071734AM9",
+      "shares": 100000,
+      "value": 93378,
+      "pctOfPortfolio": 0.4938973471
+    },
+    {
+      "name": "KENNEDY-WILSON INC",
+      "cusip": "489399AN5",
+      "shares": 90000,
+      "value": 92373.3,
+      "pctOfPortfolio": 0.4885832617
+    },
+    {
+      "name": "AMC NETWORKS INC",
+      "cusip": "00164VAE3",
+      "shares": 90000,
+      "value": 92250,
+      "pctOfPortfolio": 0.4879311001
+    },
+    {
+      "name": "CEDAR FAIR LP",
+      "cusip": "150190AE6",
+      "shares": 90000,
+      "value": 92194.2,
+      "pctOfPortfolio": 0.4876359613
+    },
+    {
+      "name": "AMERICAN AXLE & MFG INC",
+      "cusip": "02406PBA7",
+      "shares": 85000,
+      "value": 91839.37,
+      "pctOfPortfolio": 0.4857591853
+    },
+    {
+      "name": "PILGRIM'S PRIDE CORP",
+      "cusip": "72147KAF5",
+      "shares": 85000,
+      "value": 91531.19,
+      "pctOfPortfolio": 0.4841291516
+    },
+    {
+      "name": "MERCER INTL INC",
+      "cusip": "588056BB6",
+      "shares": 90000,
+      "value": 90691.2,
+      "pctOfPortfolio": 0.4796862546
+    },
+    {
+      "name": "TRIUMPH GROUP INC",
+      "cusip": "896818AP6",
+      "shares": 90000,
+      "value": 90033.3,
+      "pctOfPortfolio": 0.4762064728
+    },
+    {
+      "name": "GOGO INTERMEDIATE HOLDIN",
+      "cusip": null,
+      "shares": 90000,
+      "value": 89887.5,
+      "pctOfPortfolio": 0.4754353037
+    },
+    {
+      "name": "WHEEL PROS INC",
+      "cusip": "96289WAA7",
+      "shares": 90000,
+      "value": 89887.5,
+      "pctOfPortfolio": 0.4754353037
+    },
+    {
+      "name": "MEDNAX INC",
+      "cusip": "58502BAC0",
+      "shares": 85000,
+      "value": 89568.75,
+      "pctOfPortfolio": 0.4737493629
+    },
+    {
+      "name": "ENDO LUX FIN CO I SARL",
+      "cusip": "29280BAA3",
+      "shares": 90000,
+      "value": 89100,
+      "pctOfPortfolio": 0.4712700382
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674XAJ5",
+      "shares": 85000,
+      "value": 86700,
+      "pctOfPortfolio": 0.4585758957
+    },
+    {
+      "name": "HOME POINT CAPITAL INC",
+      "cusip": "43734LAA4",
+      "shares": 100000,
+      "value": 86500,
+      "pctOfPortfolio": 0.4575180505
+    },
+    {
+      "name": "BROOKFIELD RESID PROPERT",
+      "cusip": "11283YAG5",
+      "shares": 85000,
+      "value": 86168.75,
+      "pctOfPortfolio": 0.4557659944
+    },
+    {
+      "name": "WHITE CAP BUYER LLC",
+      "cusip": "96350RAA2",
+      "shares": 80000,
+      "value": 85100,
+      "pctOfPortfolio": 0.4501131341
+    },
+    {
+      "name": "DELL INT LLC / EMC CORP",
+      "cusip": "24703TAJ5",
+      "shares": 55000,
+      "value": 84354.14,
+      "pctOfPortfolio": 0.446168112
+    },
+    {
+      "name": "BCP RAPTOR LLC",
+      "cusip": "05549KAB8",
+      "shares": 84557.19,
+      "value": 83735.29,
+      "pctOfPortfolio": 0.4428948745
+    },
+    {
+      "name": "HILCORP ENERGY I/HILCORP",
+      "cusip": "431318AS3",
+      "shares": 80000,
+      "value": 82671.2,
+      "pctOfPortfolio": 0.437266662
+    },
+    {
+      "name": "BDF ACQUISITION CORP",
+      "cusip": null,
+      "shares": 78332.74,
+      "value": 77941.08,
+      "pctOfPortfolio": 0.4122479882
+    },
+    {
+      "name": "UNITED AIRLINES INC",
+      "cusip": "90932LAH0",
+      "shares": 75000,
+      "value": 77812.5,
+      "pctOfPortfolio": 0.4115678995
+    },
+    {
+      "name": "DCP MIDSTREAM OPERATING",
+      "cusip": "23311VAH0",
+      "shares": 70000,
+      "value": 77700,
+      "pctOfPortfolio": 0.4109728616
+    },
+    {
+      "name": "FREEPORT-MCMORAN INC",
+      "cusip": "35671DCH6",
+      "shares": 70000,
+      "value": 77175,
+      "pctOfPortfolio": 0.4081960179
+    },
+    {
+      "name": "HILTON GRAND VAC BOR ESC",
+      "cusip": "43284MAA6",
+      "shares": 75000,
+      "value": 75937.5,
+      "pctOfPortfolio": 0.4016506007
+    },
+    {
+      "name": "PENN NATIONAL GA",
+      "cusip": "707569AV1",
+      "shares": 75000,
+      "value": 74906.25,
+      "pctOfPortfolio": 0.3961960864
+    },
+    {
+      "name": "TOWNSQUARE MEDIA INC",
+      "cusip": "892231AB7",
+      "shares": 70000,
+      "value": 74200,
+      "pctOfPortfolio": 0.3924605705
+    },
+    {
+      "name": "LEVEL 3 FINANCING INC",
+      "cusip": "527298BS1",
+      "shares": 75000,
+      "value": 72750,
+      "pctOfPortfolio": 0.3847911928
+    },
+    {
+      "name": "GREAT LAKES DREDGE&DOCK",
+      "cusip": "390607AF6",
+      "shares": 70000,
+      "value": 72275,
+      "pctOfPortfolio": 0.3822788104
+    },
+    {
+      "name": "AVIS BUDGET CAR/FINANCE",
+      "cusip": "053773BA4",
+      "shares": 71000,
+      "value": 72242.5,
+      "pctOfPortfolio": 0.3821069106
+    },
+    {
+      "name": "LUMEN TECHNOLOGIES INC",
+      "cusip": "550241AA1",
+      "shares": 70000,
+      "value": 71877.4,
+      "pctOfPortfolio": 0.3801758142
+    },
+    {
+      "name": "COMMERCIAL METALS CO",
+      "cusip": "201723AP8",
+      "shares": 70000,
+      "value": 71641.15,
+      "pctOfPortfolio": 0.3789262345
+    },
+    {
+      "name": "LEEWARD RENEWABL",
+      "cusip": "524590AA4",
+      "shares": 70000,
+      "value": 71432.2,
+      "pctOfPortfolio": 0.3778210507
+    },
+    {
+      "name": "HAT HOLDINGS I LLC/HAT",
+      "cusip": "418751AE3",
+      "shares": 70000,
+      "value": 71333.5,
+      "pctOfPortfolio": 0.3772990041
+    },
+    {
+      "name": "OCEANEERING INTL INC",
+      "cusip": "675232AA0",
+      "shares": 70000,
+      "value": 71314.6,
+      "pctOfPortfolio": 0.3771990378
+    },
+    {
+      "name": "DIAMOND SPORTS GR/DIAMON",
+      "cusip": "25277LAA4",
+      "shares": 105000,
+      "value": 69678,
+      "pctOfPortfolio": 0.3685426905
+    },
+    {
+      "name": "DISH DBS CORP",
+      "cusip": "25470XBC8",
+      "shares": 70000,
+      "value": 69648.6,
+      "pctOfPortfolio": 0.3683871872
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBBER",
+      "cusip": "382550BP5",
+      "shares": 65000,
+      "value": 69533.75,
+      "pctOfPortfolio": 0.3677797196
+    },
+    {
+      "name": "AFFINITY GAMING",
+      "cusip": "00842XAA7",
+      "shares": 65000,
+      "value": 69049.5,
+      "pctOfPortfolio": 0.3652184119
+    },
+    {
+      "name": "SPRINT CAPITAL CORP",
+      "cusip": "852060AT9",
+      "shares": 45000,
+      "value": 68913.9,
+      "pctOfPortfolio": 0.3645011929
+    },
+    {
+      "name": "TENET HEALTHCARE CORP",
+      "cusip": "88033GDJ6",
+      "shares": 65000,
+      "value": 68617.58,
+      "pctOfPortfolio": 0.3629338894
+    },
+    {
+      "name": "RAYONIER AM PROD INC",
+      "cusip": "75508EAB4",
+      "shares": 65000,
+      "value": 68575,
+      "pctOfPortfolio": 0.3627086742
+    },
+    {
+      "name": "CCM MERGER INC",
+      "cusip": "14985VAE1",
+      "shares": 65000,
+      "value": 68575,
+      "pctOfPortfolio": 0.3627086742
+    },
+    {
+      "name": "AVAYA INC",
+      "cusip": "053499AL3",
+      "shares": 65000,
+      "value": 68575,
+      "pctOfPortfolio": 0.3627086742
+    },
+    {
+      "name": "FXI HOLDINGS INC",
+      "cusip": "35166FAA0",
+      "shares": 60000,
+      "value": 68338.2,
+      "pctOfPortfolio": 0.3614561854
+    },
+    {
+      "name": "PACTIV LLC",
+      "cusip": "880394AB7",
+      "shares": 60000,
+      "value": 68100,
+      "pctOfPortfolio": 0.3601962918
+    },
+    {
+      "name": "ICAHN ENTERPRISES/FIN",
+      "cusip": "451102BZ9",
+      "shares": 65000,
+      "value": 67515.5,
+      "pctOfPortfolio": 0.3571047392
+    },
+    {
+      "name": "OCCIDENTAL PETROLEUM COR",
+      "cusip": "674599EB7",
+      "shares": 60000,
+      "value": 67503.6,
+      "pctOfPortfolio": 0.3570417974
+    },
+    {
+      "name": "SHIFT4 PAYMENTS LLC/FIN",
+      "cusip": "82453AAA5",
+      "shares": 65000,
+      "value": 67419.3,
+      "pctOfPortfolio": 0.3565959157
+    },
+    {
+      "name": "CLEAR CHANNEL OUTDOOR HO",
+      "cusip": "18453HAD8",
+      "shares": 65000,
+      "value": 67275,
+      "pctOfPortfolio": 0.3558326803
+    },
+    {
+      "name": "WESTERN MIDSTREAM OPERAT",
+      "cusip": "958667AC1",
+      "shares": 60000,
+      "value": 67236.6,
+      "pctOfPortfolio": 0.3556295741
+    },
+    {
+      "name": "MIDAS OPCO HOLDINGS LLC",
+      "cusip": "59565JAA9",
+      "shares": 65000,
+      "value": 66543.75,
+      "pctOfPortfolio": 0.3519649338
+    },
+    {
+      "name": "CRESTWOOD MID PARTNER LP",
+      "cusip": "226373AR9",
+      "shares": 65000,
+      "value": 66300,
+      "pctOfPortfolio": 0.350675685
+    },
+    {
+      "name": "PIKE CORP",
+      "cusip": "721283AA7",
+      "shares": 65000,
+      "value": 66056.25,
+      "pctOfPortfolio": 0.3493864361
+    },
+    {
+      "name": "TRINSEO OP / TRINSEO FIN",
+      "cusip": "89668QAF5",
+      "shares": 65000,
+      "value": 65637,
+      "pctOfPortfolio": 0.3471689281
+    },
+    {
+      "name": "CONSOLIDATED COMMUNICATI",
+      "cusip": "20903XAF0",
+      "shares": 60000,
+      "value": 65625,
+      "pctOfPortfolio": 0.3471054574
+    },
+    {
+      "name": "SM ENERGY CO",
+      "cusip": "78454LAN0",
+      "shares": 65000,
+      "value": 65325,
+      "pctOfPortfolio": 0.3455186896
+    },
+    {
+      "name": "COMSTOCK RESOURCES INC",
+      "cusip": "205768AT1",
+      "shares": 65000,
+      "value": 65174.85,
+      "pctOfPortfolio": 0.3447245123
+    },
+    {
+      "name": "ADT SEC CORP",
+      "cusip": "00109LAA1",
+      "shares": 65000,
+      "value": 64916.15,
+      "pctOfPortfolio": 0.3433561896
+    },
+    {
+      "name": "MODIVCARE INC",
+      "cusip": "743815AE2",
+      "shares": 60000,
+      "value": 63750,
+      "pctOfPortfolio": 0.3371881586
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBBER",
+      "cusip": "382550AD3",
+      "shares": 55000,
+      "value": 62837.5,
+      "pctOfPortfolio": 0.3323617399
+    },
+    {
+      "name": "AMERICAN AIRLINES GROUP",
+      "cusip": "02376RAE2",
+      "shares": 70000,
+      "value": 62650,
+      "pctOfPortfolio": 0.33137001
+    },
+    {
+      "name": "CALCEUS ACQUISITION INC",
+      "cusip": "12868TAF9",
+      "shares": 65318.77,
+      "value": 62052.83,
+      "pctOfPortfolio": 0.3282114429
+    },
+    {
+      "name": "DIEBOLD NIXDORF INC",
+      "cusip": "253651AC7",
+      "shares": 60000,
+      "value": 61275,
+      "pctOfPortfolio": 0.3240973242
+    },
+    {
+      "name": "SIMMONS FOOD INC/SIMMONS",
+      "cusip": "82873MAA1",
+      "shares": 60000,
+      "value": 61059,
+      "pctOfPortfolio": 0.3229548514
+    },
+    {
+      "name": "NAVIENT CORP",
+      "cusip": "63938CAL2",
+      "shares": 60000,
+      "value": 61050,
+      "pctOfPortfolio": 0.3229072484
+    },
+    {
+      "name": "ENTERCOM MEDIA CORP",
+      "cusip": "29365DAB5",
+      "shares": 60000,
+      "value": 60556.2,
+      "pctOfPortfolio": 0.3202954286
+    },
+    {
+      "name": "CHS/COMMUNITY HEALTH SYS",
+      "cusip": "12543DBL3",
+      "shares": 60000,
+      "value": 60477,
+      "pctOfPortfolio": 0.3198765219
+    },
+    {
+      "name": "NEW FORTRESS ENERGY INC",
+      "cusip": "644393AB6",
+      "shares": 60000,
+      "value": 60312,
+      "pctOfPortfolio": 0.3190037996
+    },
+    {
+      "name": "VISTAJET MALTA/XO MGMT",
+      "cusip": "92840JAA7",
+      "shares": 55000,
+      "value": 59675,
+      "pctOfPortfolio": 0.3156345626
+    },
+    {
+      "name": "GO DADDY OPCO/FINCO",
+      "cusip": "38016LAC9",
+      "shares": 60000,
+      "value": 59250,
+      "pctOfPortfolio": 0.3133866416
+    },
+    {
+      "name": "STAPLES INC",
+      "cusip": "855030AP7",
+      "shares": 60000,
+      "value": 58500,
+      "pctOfPortfolio": 0.309419722
+    },
+    {
+      "name": "ICAHN ENTERPRISES/FIN",
+      "cusip": "451102CC9",
+      "shares": 55000,
+      "value": 55206.25,
+      "pctOfPortfolio": 0.2919983338
+    },
+    {
+      "name": "HLF FIN SARL LLC/HERBALI",
+      "cusip": "40390DAC9",
+      "shares": 55000,
+      "value": 55137.5,
+      "pctOfPortfolio": 0.2916346996
+    },
+    {
+      "name": "SABRE GLBL INC",
+      "cusip": "78573NAF9",
+      "shares": 50000,
+      "value": 52875,
+      "pctOfPortfolio": 0.2796678257
+    },
+    {
+      "name": "SERVICE PROPERTIES TRUST",
+      "cusip": "44106MAY8",
+      "shares": 55000,
+      "value": 52830.53,
+      "pctOfPortfolio": 0.2794326138
+    },
+    {
+      "name": "TURNING POINT BRANDS INC",
+      "cusip": "90041LAF2",
+      "shares": 50000,
+      "value": 52525,
+      "pctOfPortfolio": 0.2778165966
+    },
+    {
+      "name": "AMER AIRLN 15-1 A PTT",
+      "cusip": "023770AA8",
+      "shares": 52623.17,
+      "value": 51959.53,
+      "pctOfPortfolio": 0.2748256979
+    },
+    {
+      "name": "ASHLAND LLC",
+      "cusip": "04433LAA0",
+      "shares": 50000,
+      "value": 51389,
+      "pctOfPortfolio": 0.2718080358
+    },
+    {
+      "name": "SCRIPPS ESCROW INC",
+      "cusip": "81104PAA7",
+      "shares": 50000,
+      "value": 51327,
+      "pctOfPortfolio": 0.2714801038
+    },
+    {
+      "name": "MATTHEWS INTERNATIONAL C",
+      "cusip": "577128AA9",
+      "shares": 50000,
+      "value": 51247.25,
+      "pctOfPortfolio": 0.271058288
+    },
+    {
+      "name": "ROYAL CARIBBEAN CRUISES",
+      "cusip": "780153AU6",
+      "shares": 50000,
+      "value": 51187.5,
+      "pctOfPortfolio": 0.2707422568
+    },
+    {
+      "name": "ANTERO MIDSTREAM PART/FI",
+      "cusip": "03690AAH9",
+      "shares": 50000,
+      "value": 51185.75,
+      "pctOfPortfolio": 0.2707330006
+    },
+    {
+      "name": "CARNIVAL CORP",
+      "cusip": "143658BQ4",
+      "shares": 50000,
+      "value": 50260,
+      "pctOfPortfolio": 0.2658364997
+    },
+    {
+      "name": "OCCIDENTAL PETROLEUM COR",
+      "cusip": "674599EE1",
+      "shares": 45000,
+      "value": 50175,
+      "pctOfPortfolio": 0.2653869154
+    },
+    {
+      "name": "NAVIENT CORP",
+      "cusip": "63938CAH1",
+      "shares": 45000,
+      "value": 50175,
+      "pctOfPortfolio": 0.2653869154
+    },
+    {
+      "name": "AMERICAN AXLE & MFG INC",
+      "cusip": "02406PBB5",
+      "shares": 50000,
+      "value": 49985,
+      "pctOfPortfolio": 0.2643819625
+    },
+    {
+      "name": "DIEBOLD NIXDORF INC",
+      "cusip": "253657AA8",
+      "shares": 45000,
+      "value": 49443.75,
+      "pctOfPortfolio": 0.2615191689
+    },
+    {
+      "name": "EQM MIDSTREAM PARTNERS L",
+      "cusip": "26885BAC4",
+      "shares": 45000,
+      "value": 49105.35,
+      "pctOfPortfolio": 0.2597292948
+    },
+    {
+      "name": "BOMBARDIER INC",
+      "cusip": "097751BJ9",
+      "shares": 49000,
+      "value": 49058.8,
+      "pctOfPortfolio": 0.2594830814
+    },
+    {
+      "name": "HERBALIFE/HLF FINANCING",
+      "cusip": "42704MAA0",
+      "shares": 45000,
+      "value": 48834,
+      "pctOfPortfolio": 0.2582940634
+    },
+    {
+      "name": "ALLEGIANT TRAVEL CO",
+      "cusip": null,
+      "shares": 49242.44,
+      "value": 48832.25,
+      "pctOfPortfolio": 0.2582848072
+    },
+    {
+      "name": "VIKING CRUISES LTD",
+      "cusip": "92676XAD9",
+      "shares": 50000,
+      "value": 48375,
+      "pctOfPortfolio": 0.2558663086
+    },
+    {
+      "name": "CLEVELAND-CLIFFS INC",
+      "cusip": "185899AG6",
+      "shares": 45000,
+      "value": 48262.5,
+      "pctOfPortfolio": 0.2552712707
+    },
+    {
+      "name": "HARVEST MIDSTREAM I LP",
+      "cusip": "417558AA1",
+      "shares": 45000,
+      "value": 47470.5,
+      "pctOfPortfolio": 0.2510822037
+    },
+    {
+      "name": "AVIS BUDGET CAR/FINANCE",
+      "cusip": "053773BF3",
+      "shares": 45000,
+      "value": 47250,
+      "pctOfPortfolio": 0.2499159293
+    },
+    {
+      "name": "DISH DBS CORP",
+      "cusip": "25470XAY1",
+      "shares": 40000,
+      "value": 45818,
+      "pctOfPortfolio": 0.2423417577
+    },
+    {
+      "name": "ADT SEC CORP",
+      "cusip": "74166NAA2",
+      "shares": 45000,
+      "value": 45671.85,
+      "pctOfPortfolio": 0.2415687373
+    },
+    {
+      "name": "H&E EQUIPMENT SERVICES",
+      "cusip": "404030AJ7",
+      "shares": 45000,
+      "value": 45189,
+      "pctOfPortfolio": 0.2390148345
+    },
+    {
+      "name": "HILTON GRAND VAC BOR ESC",
+      "cusip": "43284MAB4",
+      "shares": 45000,
+      "value": 44606.25,
+      "pctOfPortfolio": 0.2359325381
+    },
+    {
+      "name": "KRAFT HEINZ FOODS CO",
+      "cusip": "50076QAE6",
+      "shares": 35000,
+      "value": 44281.86,
+      "pctOfPortfolio": 0.234216766
+    },
+    {
+      "name": "MILEAGE PLUS HLDINGS LLC",
+      "cusip": "599191AA1",
+      "shares": 40000,
+      "value": 43454,
+      "pctOfPortfolio": 0.2298380274
+    },
+    {
+      "name": "BLUE RACER MID LLC/FINAN",
+      "cusip": "095796AH1",
+      "shares": 40000,
+      "value": 43250,
+      "pctOfPortfolio": 0.2287590253
+    },
+    {
+      "name": "BLUE RACER MID LLC/FINAN",
+      "cusip": "095796AE8",
+      "shares": 40000,
+      "value": 41700,
+      "pctOfPortfolio": 0.2205607249
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "501797AU8",
+      "shares": 30000,
+      "value": 38812.5,
+      "pctOfPortfolio": 0.2052880848
+    },
+    {
+      "name": "UNITED AIR 2014-2 B PTT",
+      "cusip": "90932QAB2",
+      "shares": 36741.78,
+      "value": 37471.78,
+      "pctOfPortfolio": 0.1981967137
+    },
+    {
+      "name": "SERVICE PROPERTIES TRUST",
+      "cusip": "44106MAV4",
+      "shares": 35000,
+      "value": 35875,
+      "pctOfPortfolio": 0.1897509834
+    },
+    {
+      "name": "PILGRIM'S PRIDE CORP",
+      "cusip": "72147KAG3",
+      "shares": 35000,
+      "value": 35747.25,
+      "pctOfPortfolio": 0.1890752848
+    },
+    {
+      "name": "COMMSCOPE INC",
+      "cusip": "203372AX5",
+      "shares": 35000,
+      "value": 35443.1,
+      "pctOfPortfolio": 0.1874665667
+    },
+    {
+      "name": "SM ENERGY CO",
+      "cusip": "78454LAW0",
+      "shares": 35000,
+      "value": 35170.45,
+      "pctOfPortfolio": 0.1860244592
+    },
+    {
+      "name": "SERVICE PROPERTIES TRUST",
+      "cusip": "44106MBA9",
+      "shares": 30000,
+      "value": 30000,
+      "pctOfPortfolio": 0.1586767805
+    },
+    {
+      "name": "VIKING OCEAN CRUISES SHI",
+      "cusip": "92682RAA0",
+      "shares": 30000,
+      "value": 29850,
+      "pctOfPortfolio": 0.1578833966
+    },
+    {
+      "name": "ONEMAIN FINANCE CORP",
+      "cusip": "85172FAQ2",
+      "shares": 25000,
+      "value": 28855.75,
+      "pctOfPortfolio": 0.1526245837
+    },
+    {
+      "name": "DUCOMMUN INC",
+      "cusip": "264148AL1",
+      "shares": 28634.36,
+      "value": 28849.12,
+      "pctOfPortfolio": 0.1525895161
+    },
+    {
+      "name": "AMERICAN AIRLINES/AADVAN",
+      "cusip": "00253XAB7",
+      "shares": 25000,
+      "value": 26996.63,
+      "pctOfPortfolio": 0.1427912778
+    },
+    {
+      "name": "AMERICAN AIRLINES/AADVAN",
+      "cusip": "00253XAA9",
+      "shares": 25000,
+      "value": 26350,
+      "pctOfPortfolio": 0.1393711056
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674XAS5",
+      "shares": 25000,
+      "value": 25435.75,
+      "pctOfPortfolio": 0.1345354307
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "501797AW4",
+      "shares": 20000,
+      "value": 23050,
+      "pctOfPortfolio": 0.1219166597
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBBER",
+      "cusip": "382550BL4",
+      "shares": 20000,
+      "value": 21147.2,
+      "pctOfPortfolio": 0.1118523204
+    },
+    {
+      "name": "DIAMOND SPORTS GR/DIAMON",
+      "cusip": "25277LAE6",
+      "shares": 28000.0002,
+      "value": 19600,
+      "pctOfPortfolio": 0.1036688299
+    },
+    {
+      "name": "LEVEL 3 FINANCING INC",
+      "cusip": "527298BT9",
+      "shares": 20000,
+      "value": 19500,
+      "pctOfPortfolio": 0.1031399073
+    },
+    {
+      "name": "DUCOMMUN INC",
+      "cusip": "264148AL1",
+      "shares": 6985.09,
+      "value": 7037.48,
+      "pctOfPortfolio": 0.0372228223
+    }
+  ],
+  "totalValue": 18841262.51,
+  "positionsCount": 207
+}

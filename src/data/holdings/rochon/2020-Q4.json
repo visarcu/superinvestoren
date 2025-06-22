@@ -1,4 +1,335 @@
 {
+  "form": "13F-HR",
   "date": "2020-11-13",
-  "positions": []
+  "period": "2020-11-13",
+  "accession": "0001641864-20-000008",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY-B-NEW",
+      "cusip": "084670702",
+      "shares": 674157,
+      "value": 143555
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 1078615,
+      "value": 99136
+    },
+    {
+      "name": "AMETEK INC",
+      "cusip": "031100100",
+      "shares": 755926,
+      "value": 75139
+    },
+    {
+      "name": "VISA INC CLASS-A",
+      "cusip": "92826C839",
+      "shares": 301201,
+      "value": 60231
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 614264,
+      "value": 58152
+    },
+    {
+      "name": "NVR INC",
+      "cusip": "62944T105",
+      "shares": 13960,
+      "value": 57000
+    },
+    {
+      "name": "FACEBOOK INC CL-A",
+      "cusip": "30303M102",
+      "shares": 211661,
+      "value": 55434
+    },
+    {
+      "name": "ALPHABET INC CL-C",
+      "cusip": "02079K107",
+      "shares": 36160,
+      "value": 53141
+    },
+    {
+      "name": "HEICO CORP CLASS A",
+      "cusip": "422806208",
+      "shares": 524146,
+      "value": 46471
+    },
+    {
+      "name": "MARKEL CORP HOLDING",
+      "cusip": "570535104",
+      "shares": 44723,
+      "value": 43547
+    },
+    {
+      "name": "FORTUNE BRNDS HME&SEC",
+      "cusip": "34964C106",
+      "shares": 502647,
+      "value": 43489
+    },
+    {
+      "name": "KEYSIGHT TECHNOLOGIES INC",
+      "cusip": "49338L103",
+      "shares": 398232,
+      "value": 39337
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 290052,
+      "value": 36837
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 960145,
+      "value": 34786
+    },
+    {
+      "name": "JP MORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 336528,
+      "value": 32398
+    },
+    {
+      "name": "BANK OF AMERICA",
+      "cusip": "060505104",
+      "shares": 1262012,
+      "value": 30402
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 373422,
+      "value": 29807
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE",
+      "cusip": "45866F104",
+      "shares": 266489,
+      "value": 26662
+    },
+    {
+      "name": "DISNEY WALT COMPANY",
+      "cusip": "254687106",
+      "shares": 181188,
+      "value": 22482
+    },
+    {
+      "name": "AUTOHOME INC CL-A ADR",
+      "cusip": "05278C107",
+      "shares": 194817,
+      "value": 18702
+    },
+    {
+      "name": "ALPHABET INC CL-A",
+      "cusip": "02079K305",
+      "shares": 7786,
+      "value": 11411
+    },
+    {
+      "name": "SLEEP NUMBER CORP",
+      "cusip": "83125X103",
+      "shares": 213410,
+      "value": 10438
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 57501,
+      "value": 10197
+    },
+    {
+      "name": "HEALTH CARE SERVICES GRP",
+      "cusip": "421906108",
+      "shares": 356693,
+      "value": 7680
+    },
+    {
+      "name": "BANK OZK",
+      "cusip": "06417N103",
+      "shares": 352055,
+      "value": 7506
+    },
+    {
+      "name": "SS&C TECHNOLOGIES INC",
+      "cusip": "78467J100",
+      "shares": 71502,
+      "value": 4327
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 14045,
+      "value": 2906
+    },
+    {
+      "name": "MASTERCARD INC CL-A",
+      "cusip": "57636Q104",
+      "shares": 8266,
+      "value": 2795
+    },
+    {
+      "name": "CREDIT ACCEPTANCE CORP",
+      "cusip": "225310101",
+      "shares": 8023,
+      "value": 2717
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 17926,
+      "value": 2561
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY-A",
+      "cusip": "084670108",
+      "shares": 8,
+      "value": 2560
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 35392,
+      "value": 1970
+    },
+    {
+      "name": "FIRST REP BK SAN FRANCISCO C",
+      "cusip": "33616C100",
+      "shares": 16601,
+      "value": 1811
+    },
+    {
+      "name": "SPDR S&P 500 ETF",
+      "cusip": "78462F103",
+      "shares": 5295,
+      "value": 1773
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 517,
+      "value": 1628
+    },
+    {
+      "name": "LULULEMON ATHLETICA INC",
+      "cusip": "550021109",
+      "shares": 4615,
+      "value": 1520
+    },
+    {
+      "name": "JACOBS ENGR GROUP INC",
+      "cusip": "469814107",
+      "shares": 15487,
+      "value": 1437
+    },
+    {
+      "name": "WAYFAIR INC",
+      "cusip": "94419L101",
+      "shares": 4331,
+      "value": 1260
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 9432,
+      "value": 1092
+    },
+    {
+      "name": "TAIWAN SEMICON MAN SP/ADR",
+      "cusip": "874039100",
+      "shares": 12397,
+      "value": 1005
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3529,
+      "value": 742
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE",
+      "cusip": "679580100",
+      "shares": 4067,
+      "value": 736
+    },
+    {
+      "name": "BROOKFIELD ASSET MGT-A LV",
+      "cusip": "112585104",
+      "shares": 16989,
+      "value": 562
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 6327,
+      "value": 544
+    },
+    {
+      "name": "ISHARES SILVER TR",
+      "cusip": "46428Q109",
+      "shares": 23000,
+      "value": 498
+    },
+    {
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 1245,
+      "value": 492
+    },
+    {
+      "name": "NOVO-NORDISK A/S-ADR",
+      "cusip": "670100205",
+      "shares": 6200,
+      "value": 430
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 8954,
+      "value": 404
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORT-A",
+      "cusip": "499049104",
+      "shares": 8046,
+      "value": 327
+    },
+    {
+      "name": "LIBERTY BROADBAND CO CLASS A",
+      "cusip": "530307107",
+      "shares": 1205,
+      "value": 171
+    },
+    {
+      "name": "INTUITIVE SURGICAL",
+      "cusip": "46120E602",
+      "shares": 135,
+      "value": 96
+    },
+    {
+      "name": "RESMED INC",
+      "cusip": "761152107",
+      "shares": 437,
+      "value": 75
+    },
+    {
+      "name": "ELI LILLY & CO",
+      "cusip": "532457108",
+      "shares": 432,
+      "value": 64
+    },
+    {
+      "name": "RITCHIE BROTHERS AUCTIONR",
+      "cusip": "767744105",
+      "shares": 1070,
+      "value": 63
+    }
+  ],
+  "totalValue": 1090506,
+  "positionsCount": 54
 }

@@ -1,0 +1,269 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-12",
+  "period": "2021-11-12",
+  "accession": "0001520023-21-000007",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "MICROSOFT",
+      "cusip": "594918104",
+      "shares": 12034366,
+      "value": 3392728
+    },
+    {
+      "name": "PAYPAL HOLDINGS INC",
+      "cusip": "70450Y103",
+      "shares": 12288820,
+      "value": 3197674
+    },
+    {
+      "name": "IDEXX LABORATORIES",
+      "cusip": "45168D104",
+      "shares": 4242202,
+      "value": 2638225
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 4582539,
+      "value": 2472326
+    },
+    {
+      "name": "FACEBOOK",
+      "cusip": "30303M102",
+      "shares": 6440136,
+      "value": 2185718
+    },
+    {
+      "name": "ESTEE LAUDER",
+      "cusip": "518439104",
+      "shares": 6831752,
+      "value": 2049047
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 7015492,
+      "value": 1850126
+    },
+    {
+      "name": "PHILIP MORRIS INTERNATIONAL",
+      "cusip": "718172109",
+      "shares": 19353620,
+      "value": 1834530
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 4511194,
+      "value": 1611850
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 10092652,
+      "value": 1518036
+    },
+    {
+      "name": "MCCORMICK & CO NON VTG SHRS",
+      "cusip": "579780206",
+      "shares": 18713629,
+      "value": 1516365
+    },
+    {
+      "name": "VISA INC CLASS A SHARES",
+      "cusip": "92826C839",
+      "shares": 6595049,
+      "value": 1469047
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING",
+      "cusip": "053015103",
+      "shares": 7096134,
+      "value": 1418659
+    },
+    {
+      "name": "NIKE INC CL B",
+      "cusip": "654106103",
+      "shares": 8764739,
+      "value": 1272903
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 367861,
+      "value": 1208438
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 10745026,
+      "value": 1185284
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 7203569,
+      "value": 1163376
+    },
+    {
+      "name": "BROWN FORMAN CORP CLASS B",
+      "cusip": "115637209",
+      "shares": 14422611,
+      "value": 966459
+    },
+    {
+      "name": "CHURCH & DWIGHT INC",
+      "cusip": "171340102",
+      "shares": 11022496,
+      "value": 910127
+    },
+    {
+      "name": "SABRE",
+      "cusip": "78573M104",
+      "shares": 20093468,
+      "value": 237907
+    },
+    {
+      "name": "FORTINET INC",
+      "cusip": "34959E109",
+      "shares": 634415,
+      "value": 185275
+    },
+    {
+      "name": "EQUIFAX",
+      "cusip": "294429105",
+      "shares": 681754,
+      "value": 172770
+    },
+    {
+      "name": "VERISK ANALYTICS",
+      "cusip": "92345Y106",
+      "shares": 792510,
+      "value": 158716
+    },
+    {
+      "name": "ANSYS",
+      "cusip": "03662Q105",
+      "shares": 464652,
+      "value": 158191
+    },
+    {
+      "name": "VERISIGN",
+      "cusip": "92343E102",
+      "shares": 693291,
+      "value": 142132
+    },
+    {
+      "name": "COGNEX",
+      "cusip": "192422103",
+      "shares": 1625987,
+      "value": 130437
+    },
+    {
+      "name": "MSCI",
+      "cusip": "55354G100",
+      "shares": 210520,
+      "value": 128068
+    },
+    {
+      "name": "IPG PHOTONICS",
+      "cusip": "44980X109",
+      "shares": 798462,
+      "value": 126476
+    },
+    {
+      "name": "QUALYS",
+      "cusip": "74758T303",
+      "shares": 1070513,
+      "value": 119137
+    },
+    {
+      "name": "MASIMO",
+      "cusip": "574795100",
+      "shares": 435010,
+      "value": 117762
+    },
+    {
+      "name": "AO SMITH",
+      "cusip": "831865209",
+      "shares": 1774515,
+      "value": 108370
+    },
+    {
+      "name": "PAYCOM SOFTWARE",
+      "cusip": "70432V102",
+      "shares": 217906,
+      "value": 108027
+    },
+    {
+      "name": "WINGSTOP INC",
+      "cusip": "974155103",
+      "shares": 562965,
+      "value": 92287
+    },
+    {
+      "name": "ROLLINS INC",
+      "cusip": "775711104",
+      "shares": 2248561,
+      "value": 79442
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 148339,
+      "value": 48694
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 240502,
+      "value": 46691
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 318181,
+      "value": 44482
+    },
+    {
+      "name": "MERCADOLIBRE",
+      "cusip": "58733R102",
+      "shares": 24225,
+      "value": 40683
+    },
+    {
+      "name": "WNS HLDGS LTD",
+      "cusip": "92932M101",
+      "shares": 188912,
+      "value": 15453
+    },
+    {
+      "name": "GENPACT LIMITED",
+      "cusip": "G3922B107",
+      "shares": 305208,
+      "value": 14500
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 129633,
+      "value": 14474
+    },
+    {
+      "name": "XP CLASS A",
+      "cusip": "G98239109",
+      "shares": 253367,
+      "value": 10178
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 122890,
+      "value": 9288
+    }
+  ],
+  "totalValue": 36170358,
+  "positionsCount": 43
+}

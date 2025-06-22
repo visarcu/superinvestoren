@@ -1,0 +1,125 @@
+{
+  "form": "13F-HR",
+  "date": "2013-08-14",
+  "period": "2013-08-14",
+  "accession": "0001056831-13-000004",
+  "quarterKey": "2013-Q3",
+  "positions": [
+    {
+      "name": "AMERICAN INTL GROUP COM",
+      "cusip": "026874784",
+      "shares": 86148865,
+      "value": 3850854
+    },
+    {
+      "name": "BANK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 100948615,
+      "value": 1298199
+    },
+    {
+      "name": "SEARS HLDGS CORP COM",
+      "cusip": "812350106",
+      "shares": 20392973,
+      "value": 858136
+    },
+    {
+      "name": "ST JOE CO COM",
+      "cusip": "790148100",
+      "shares": 25017933,
+      "value": 526627
+    },
+    {
+      "name": "LEUCADIA NATL CORP COM",
+      "cusip": "527288104",
+      "shares": 18664999,
+      "value": 489396
+    },
+    {
+      "name": "AIG WARRANTS, 45.00 STRIKE, 1",
+      "cusip": "026874156",
+      "shares": 24279115,
+      "value": 442851
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL CL",
+      "cusip": "084670702",
+      "shares": 726525,
+      "value": 81313
+    },
+    {
+      "name": "BAC WARRANTS, 13.30 STRIKE, 1",
+      "cusip": "060505146",
+      "shares": 9904428,
+      "value": 54078
+    },
+    {
+      "name": "WELLS FARGO WARRANTS, 34.01 ST",
+      "cusip": "949746119",
+      "shares": 1346665,
+      "value": 18409
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 803800,
+      "value": 16381
+    },
+    {
+      "name": "GENWORTH FINANCIAL, INC",
+      "cusip": "37247106",
+      "shares": 1075200,
+      "value": 12268
+    },
+    {
+      "name": "HARTFORD WARRANTS, 9.563 STRIK",
+      "cusip": "416515120",
+      "shares": 553900,
+      "value": 12130
+    },
+    {
+      "name": "JP MORGAN WARRANTS, 42.42 STRI",
+      "cusip": "46634E114",
+      "shares": 753300,
+      "value": 11751
+    },
+    {
+      "name": "WELLS FARGO & CO NEW COM",
+      "cusip": "949746101",
+      "shares": 151400,
+      "value": 6248
+    },
+    {
+      "name": "LINCOLN NATIONAL CORP, 10.636",
+      "cusip": "534187117",
+      "shares": 205810,
+      "value": 5547
+    },
+    {
+      "name": "CITIGROUP INC COM",
+      "cusip": "172967424",
+      "shares": 57360,
+      "value": 2752
+    },
+    {
+      "name": "LINCOLN NATIONAL CORP",
+      "cusip": "534187109",
+      "shares": 45600,
+      "value": 1663
+    },
+    {
+      "name": "THE HARTFORD FINANCIAL SERVICE",
+      "cusip": "416515104",
+      "shares": 53300,
+      "value": 1648
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL CL",
+      "cusip": "084670108",
+      "shares": 6,
+      "value": 1012
+    }
+  ],
+  "totalValue": 7691263,
+  "positionsCount": 19
+}

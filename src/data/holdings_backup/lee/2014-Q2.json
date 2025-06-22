@@ -1,0 +1,121 @@
+{
+  "form": "13F-HR",
+  "date": "2014-05-15",
+  "period": "2014-05-15",
+  "positions": [
+    {
+      "name": "ALASKA AIR GROUP INC",
+      "cusip": "011659109",
+      "shares": 117420,
+      "value": 10956000000
+    },
+    {
+      "name": "ALERE INC",
+      "cusip": "01449J105",
+      "shares": 807106,
+      "value": 27724000000
+    },
+    {
+      "name": "ALTISOURCE PORTFOLIO SOLNS S",
+      "cusip": "L0175J104",
+      "shares": 205468,
+      "value": 24997000000
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 509725,
+      "value": 28193000000
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 108250,
+      "value": 13336000000
+    },
+    {
+      "name": "GAMING &amp; LEISURE PPTYS INC",
+      "cusip": "36467J108",
+      "shares": 291247,
+      "value": 10619000000
+    },
+    {
+      "name": "HEMISPHERE MEDIA GROUP INC",
+      "cusip": "42365Q103",
+      "shares": 750635,
+      "value": 9450000000
+    },
+    {
+      "name": "HIGHER ONE HLDGS INC",
+      "cusip": "42983D104",
+      "shares": 1024459,
+      "value": 7407000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 3159193,
+      "value": 68460000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 295395,
+      "value": 12288000000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 327395,
+      "value": 13328000000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 171300,
+      "value": 1293000000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 551790,
+      "value": 13055000000
+    },
+    {
+      "name": "POST HLDGS INC",
+      "cusip": "737446104",
+      "shares": 720527,
+      "value": 39715000000
+    },
+    {
+      "name": "PRESTIGE BRANDS HLDGS INC",
+      "cusip": "74112D101",
+      "shares": 1128033,
+      "value": 30739000000
+    },
+    {
+      "name": "QUALITY DISTR INC FLA",
+      "cusip": "74756M102",
+      "shares": 533420,
+      "value": 6929000000
+    },
+    {
+      "name": "STATE STR CORP",
+      "cusip": "857477103",
+      "shares": 200300,
+      "value": 13931000000
+    },
+    {
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 416548,
+      "value": 39547000000
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 107890,
+      "value": 14223000000
+    }
+  ]
+}

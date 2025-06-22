@@ -1,0 +1,143 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-04",
+  "period": "2022-05-04",
+  "accession": "0001213900-22-023839",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2101900,
+      "value": 693837
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 14404269,
+      "value": 630043
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 7469610,
+      "value": 606308
+    },
+    {
+      "name": "Whirlpool Corp (WHR)",
+      "cusip": "963320106",
+      "shares": 2833609,
+      "value": 489591
+    },
+    {
+      "name": "Westrock CO (WRK)",
+      "cusip": "96145D105",
+      "shares": 7176300,
+      "value": 337501
+    },
+    {
+      "name": "Citigroup Inc (C)",
+      "cusip": "172967424",
+      "shares": 5372040,
+      "value": 286867
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 5212203,
+      "value": 245078
+    },
+    {
+      "name": "International Paper Co (IP)",
+      "cusip": "460146103",
+      "shares": 4995325,
+      "value": 230534
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 647011,
+      "value": 88201
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 729385,
+      "value": 54346
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 494968,
+      "value": 33831
+    },
+    {
+      "name": "Stanley Black & Decker INC (SWK)",
+      "cusip": "854502101",
+      "shares": 184823,
+      "value": 25836
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 150310,
+      "value": 21433
+    },
+    {
+      "name": "Proshares Short QQQ (PSQ)",
+      "cusip": "74347B714",
+      "shares": 1005000,
+      "value": 11638
+    },
+    {
+      "name": "Proshares Short S&P500 (SH)",
+      "cusip": "74347B425",
+      "shares": 695000,
+      "value": 9793
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 20000,
+      "value": 1686
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1416
+    },
+    {
+      "name": "M.D.C. Holdings, Inc (MDC)",
+      "cusip": "552676108",
+      "shares": 25000,
+      "value": 946
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 10000,
+      "value": 874
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 555
+    },
+    {
+      "name": "3M Company (MMM)",
+      "cusip": "88579Y101",
+      "shares": 2500,
+      "value": 372
+    },
+    {
+      "name": "Berkshire Hathaway Inc Class B (BRK/B)",
+      "cusip": "084670702",
+      "shares": 1001,
+      "value": 353
+    }
+  ],
+  "totalValue": 3771039,
+  "positionsCount": 22
+}

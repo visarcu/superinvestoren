@@ -1,0 +1,257 @@
+{
+  "form": "13F-HR",
+  "date": "2017-08-11",
+  "period": "2017-08-11",
+  "accession": "0001140361-17-031385",
+  "quarterKey": "2017-Q3",
+  "positions": [
+    {
+      "name": "CHENIERE ENERGY INC",
+      "cusip": "16411R208",
+      "shares": 20726340,
+      "value": 1009580000
+    },
+    {
+      "name": "SYNCHRONY FINL",
+      "cusip": "87165B103",
+      "shares": 29295030,
+      "value": 873578000
+    },
+    {
+      "name": "VIASAT INC",
+      "cusip": "92552V100",
+      "shares": 13158137,
+      "value": 871069000
+    },
+    {
+      "name": "COLONY NORTHSTAR INC",
+      "cusip": "19625W104",
+      "shares": 47905461,
+      "value": 674988000
+    },
+    {
+      "name": "ALLERGAN PLC",
+      "cusip": "G0177J108",
+      "shares": 2432603,
+      "value": 591341000
+    },
+    {
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 9000000,
+      "value": 569880000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 19137469,
+      "value": 542356000
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674X106",
+      "shares": 21170996,
+      "value": 457505000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "G8807B106",
+      "shares": 9273991,
+      "value": 369476000
+    },
+    {
+      "name": "PBF ENERGY INC",
+      "cusip": "69318G106",
+      "shares": 15724175,
+      "value": 350020000
+    },
+    {
+      "name": "DELL TECHNOLOGIES INC",
+      "cusip": "24703L103",
+      "shares": 5652459,
+      "value": 345422000
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 5216000,
+      "value": 288028000
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 7278100,
+      "value": 202841000
+    },
+    {
+      "name": "KERYX BIOPHARMACEUTICALS INC",
+      "cusip": "492515101",
+      "shares": 25791678,
+      "value": 186474000
+    },
+    {
+      "name": "EXPRESS SCRIPTS HLDG CO",
+      "cusip": "30219G108",
+      "shares": 2556891,
+      "value": 163232000
+    },
+    {
+      "name": "CARDINAL HEALTH INC",
+      "cusip": "14149Y108",
+      "shares": 2030000,
+      "value": 158178000
+    },
+    {
+      "name": "VERITIV CORP",
+      "cusip": "923454102",
+      "shares": 3044385,
+      "value": 136997000
+    },
+    {
+      "name": "FORWARD PHARMA A/S",
+      "cusip": "34986J105",
+      "shares": 6364059,
+      "value": 129381000
+    },
+    {
+      "name": "AVIS BUDGET GROUP",
+      "cusip": "053774105",
+      "shares": 4000000,
+      "value": 109080000
+    },
+    {
+      "name": "ATARA BIOTHERAPEUTICS INC",
+      "cusip": "046513107",
+      "shares": 5359632,
+      "value": 75035000
+    },
+    {
+      "name": "CHIPMOS TECHNOLOGIES INC",
+      "cusip": "16965P103",
+      "shares": 3509858,
+      "value": 69390000
+    },
+    {
+      "name": "SILVER RUN ACQUISITION",
+      "cusip": "82812A103",
+      "shares": 6615552,
+      "value": 67016000
+    },
+    {
+      "name": "SPIRIT RLTY CAP INC NEW",
+      "cusip": "84860W102",
+      "shares": 9000000,
+      "value": 66690000
+    },
+    {
+      "name": "PARATEK PHARMACEUTICALS INC",
+      "cusip": "699374302",
+      "shares": 2394498,
+      "value": 57707000
+    },
+    {
+      "name": "GTY TECHNOLOGY HOLDINGS INC",
+      "cusip": "G4182A110",
+      "shares": 4400000,
+      "value": 46024000
+    },
+    {
+      "name": "CONYERS PK ACQUISITION",
+      "cusip": "212894109",
+      "shares": 3712500,
+      "value": 43733000
+    },
+    {
+      "name": "NOVAGOLD RES INC",
+      "cusip": "66987E206",
+      "shares": 9500000,
+      "value": 43320000
+    },
+    {
+      "name": "THERAVANCE BIOPHARMA INC",
+      "cusip": "88339KAA0",
+      "shares": 30000000,
+      "value": 40388000
+    },
+    {
+      "name": "CENTENNIAL RESOURCE DEV INC",
+      "cusip": "15136A102",
+      "shares": 2407153,
+      "value": 36743000
+    },
+    {
+      "name": "CASCADIAN THERAPEUTICS INC",
+      "cusip": "14740B606",
+      "shares": 8721079,
+      "value": 32399000
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229888",
+      "shares": 1303482,
+      "value": 31244000
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 98700,
+      "value": 25380000
+    },
+    {
+      "name": "SABAN CAP ACQUISITION CORP",
+      "cusip": "78516C106",
+      "shares": 2326500,
+      "value": 23265000
+    },
+    {
+      "name": "SUNRUN INC",
+      "cusip": "86771W105",
+      "shares": 2848082,
+      "value": 20278000
+    },
+    {
+      "name": "THERAVANCE INC",
+      "cusip": "88338TAB0",
+      "shares": 16980000,
+      "value": 15462000
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874156",
+      "shares": 354812,
+      "value": 7479000
+    },
+    {
+      "name": "TRILOGY METALS INC NEW",
+      "cusip": "89621C105",
+      "shares": 10600758,
+      "value": 6697000
+    },
+    {
+      "name": "OREXIGEN THERAPEUTICS INC",
+      "cusip": "686164302",
+      "shares": 2226839,
+      "value": 6458000
+    },
+    {
+      "name": "SILVER RUN ACQUISITION",
+      "cusip": "82812A111",
+      "shares": 2205184,
+      "value": 3953000
+    },
+    {
+      "name": "CONYERS PK ACQUISITION",
+      "cusip": "212894117",
+      "shares": 1237500,
+      "value": 3242000
+    },
+    {
+      "name": "SABAN CAP ACQUISITION CORP",
+      "cusip": "78516C114",
+      "shares": 1163250,
+      "value": 1454000
+    }
+  ],
+  "totalValue": 8752783000,
+  "positionsCount": 41
+}

@@ -1,0 +1,257 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-16",
+  "period": "2016-02-16",
+  "accession": "0000919574-16-011040",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3193590,
+      "value": 2158516
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 17997273,
+      "value": 2058528
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 59615495,
+      "value": 1923494
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 10600000,
+      "value": 1115756
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 758389,
+      "value": 966908
+    },
+    {
+      "name": "VIPSHOP HLDGS LTD",
+      "cusip": "92763W103",
+      "shares": 49500000,
+      "value": 755865
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 4570000,
+      "value": 653190
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 1220282,
+      "value": 278773
+    },
+    {
+      "name": "RESTORATION HARDWARE HLDGS I",
+      "cusip": "761283100",
+      "shares": 3193410,
+      "value": 253716
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 6402200,
+      "value": 239186
+    },
+    {
+      "name": "ANHEUSER BUSCH INBEV SA/NV",
+      "cusip": "03524A108",
+      "shares": 1885000,
+      "value": 235625
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 2366401,
+      "value": 230393
+    },
+    {
+      "name": "TABLEAU SOFTWARE INC",
+      "cusip": "87336U105",
+      "shares": 2347103,
+      "value": 221144
+    },
+    {
+      "name": "AUTOHOME INC",
+      "cusip": "05278C107",
+      "shares": 5000000,
+      "value": 174600
+    },
+    {
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 913400,
+      "value": 169518
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 698980,
+      "value": 127983
+    },
+    {
+      "name": "SPLUNK INC",
+      "cusip": "848637104",
+      "shares": 2090300,
+      "value": 122931
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 6947877,
+      "value": 90948
+    },
+    {
+      "name": "PURE STORAGE INC",
+      "cusip": "74624M102",
+      "shares": 5242615,
+      "value": 81628
+    },
+    {
+      "name": "TAL ED GROUP",
+      "cusip": "874080104",
+      "shares": 1715000,
+      "value": 79696
+    },
+    {
+      "name": "ON DECK CAP INC",
+      "cusip": "682163100",
+      "shares": 6900000,
+      "value": 71070
+    },
+    {
+      "name": "ETSY INC",
+      "cusip": "29786A106",
+      "shares": 8600000,
+      "value": 71036
+    },
+    {
+      "name": "EHI CAR SVCS LTD",
+      "cusip": "26853A100",
+      "shares": 4701530,
+      "value": 59192
+    },
+    {
+      "name": "INTREXON CORP",
+      "cusip": "46122T102",
+      "shares": 1675000,
+      "value": 50501
+    },
+    {
+      "name": "GAMESTOP CORP NEW",
+      "cusip": "36467W109",
+      "shares": 1750000,
+      "value": 49070
+    },
+    {
+      "name": "PILGRIMS PRIDE CORP NEW",
+      "cusip": "72147K108",
+      "shares": 2000000,
+      "value": 44180
+    },
+    {
+      "name": "QUNAR CAYMAN IS LTD",
+      "cusip": "74906P104",
+      "shares": 700000,
+      "value": 36918
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 400000,
+      "value": 31136
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 410000,
+      "value": 22747
+    },
+    {
+      "name": "VASCO DATA SEC INTL INC",
+      "cusip": "92230Y104",
+      "shares": 1049900,
+      "value": 17565
+    },
+    {
+      "name": "ATLASSIAN CORP PLC",
+      "cusip": "G06242104",
+      "shares": 500000,
+      "value": 15040
+    },
+    {
+      "name": "FITBIT INC",
+      "cusip": "33812L102",
+      "shares": 500000,
+      "value": 14795
+    },
+    {
+      "name": "FIREEYE INC",
+      "cusip": "31816Q101",
+      "shares": 200000,
+      "value": 4148
+    },
+    {
+      "name": "CAL MAINE FOODS INC",
+      "cusip": "128030202",
+      "shares": 70394,
+      "value": 3262
+    },
+    {
+      "name": "LENDINGCLUB CORP",
+      "cusip": "52603A109",
+      "shares": 275000,
+      "value": 3039
+    },
+    {
+      "name": "VEEVA SYS INC",
+      "cusip": "922475108",
+      "shares": 75000,
+      "value": 2164
+    },
+    {
+      "name": "SHOPIFY INC",
+      "cusip": "82509L107",
+      "shares": 70000,
+      "value": 1806
+    },
+    {
+      "name": "IDREAMSKY TECHNOLOGY LIMITED",
+      "cusip": "45173K101",
+      "shares": 100000,
+      "value": 1339
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 16284,
+      "value": 1323
+    },
+    {
+      "name": "NEW RELIC INC",
+      "cusip": "64829B100",
+      "shares": 25000,
+      "value": 911
+    },
+    {
+      "name": "AMERICAN FARMLAND CO",
+      "cusip": "02589Y100",
+      "shares": 60000,
+      "value": 422
+    }
+  ],
+  "totalValue": 12440062,
+  "positionsCount": 41
+}

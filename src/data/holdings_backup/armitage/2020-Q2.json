@@ -1,0 +1,167 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-13",
+  "period": "2020-05-13",
+  "accession": "0001581811-20-000004",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 2091327,
+      "value": 912467
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 431297,
+      "value": 840908
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 3198454,
+      "value": 702349
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 4035081,
+      "value": 636373
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 6495846,
+      "value": 617040
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 1474491,
+      "value": 553671
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 3655613,
+      "value": 515588
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 1591371,
+      "value": 506438
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2584233,
+      "value": 502582
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G5494J103",
+      "shares": 2890209,
+      "value": 500006
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 418126,
+      "value": 486201
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1808044,
+      "value": 450890
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 2473105,
+      "value": 412514
+    },
+    {
+      "name": "YANDEX N V",
+      "cusip": "N97284108",
+      "shares": 7030735,
+      "value": 239397
+    },
+    {
+      "name": "BLACKSTONE GROUP INC",
+      "cusip": "09260D107",
+      "shares": 5176710,
+      "value": 235903
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 5973847,
+      "value": 203111
+    },
+    {
+      "name": "VULCAN MATLS CO",
+      "cusip": "929160109",
+      "shares": 1818421,
+      "value": 196517
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 735038,
+      "value": 177556
+    },
+    {
+      "name": "MATCH GROUP INC",
+      "cusip": "57665R106",
+      "shares": 2578886,
+      "value": 170310
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 1981715,
+      "value": 169655
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 2981856,
+      "value": 125596
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 505106,
+      "value": 123776
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 5083695,
+      "value": 119314
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 1494060,
+      "value": 110321
+    },
+    {
+      "name": "L BRANDS INC",
+      "cusip": "501797104",
+      "shares": 7667887,
+      "value": 88641
+    },
+    {
+      "name": "ALTRIA GROUP INC",
+      "cusip": "02209S103",
+      "shares": 2009991,
+      "value": 77726
+    }
+  ],
+  "totalValue": 9674850,
+  "positionsCount": 26
+}

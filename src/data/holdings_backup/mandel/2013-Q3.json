@@ -1,0 +1,365 @@
+{
+  "form": "13F-HR",
+  "date": "2013-08-14",
+  "period": "2013-08-14",
+  "accession": "0000902664-13-002954",
+  "quarterKey": "2013-Q3",
+  "positions": [
+    {
+      "name": "PRICELINE COM INC",
+      "cusip": "741503403",
+      "shares": 1718406,
+      "value": 1420555
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 13238915,
+      "value": 829286
+    },
+    {
+      "name": "GOOGLE INC",
+      "cusip": "38259P508",
+      "shares": 941709,
+      "value": 829052
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 15515623,
+      "value": 802468
+    },
+    {
+      "name": "GAP INC DEL",
+      "cusip": "364760108",
+      "shares": 19156482,
+      "value": 799400
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 8012507,
+      "value": 689717
+    },
+    {
+      "name": "DOLLAR GEN CORP NEW",
+      "cusip": "256677105",
+      "shares": 13655169,
+      "value": 688630
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 6207263,
+      "value": 613278
+    },
+    {
+      "name": "INTUITIVE SURGICAL INC",
+      "cusip": "46120E602",
+      "shares": 1161068,
+      "value": 587654
+    },
+    {
+      "name": "MEAD JOHNSON NUTRITION CO",
+      "cusip": "582839106",
+      "shares": 7407735,
+      "value": 586915
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 9316298,
+      "value": 569133
+    },
+    {
+      "name": "MICHAEL KORS HLDGS LTD",
+      "cusip": "G60754101",
+      "shares": 8925275,
+      "value": 553546
+    },
+    {
+      "name": "ULTA SALON COSMETCS & FRAG I",
+      "cusip": "90384S303",
+      "shares": 5119504,
+      "value": 512565
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B101",
+      "shares": 12292738,
+      "value": 468968
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 2630438,
+      "value": 457012
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 3674874,
+      "value": 455133
+    },
+    {
+      "name": "NEWS CORP",
+      "cusip": "65248E104",
+      "shares": 13757775,
+      "value": 448228
+    },
+    {
+      "name": "FLEETCOR TECHNOLOGIES INC",
+      "cusip": "339041105",
+      "shares": 5350347,
+      "value": 434983
+    },
+    {
+      "name": "HERTZ GLOBAL HOLDINGS INC",
+      "cusip": "42805T105",
+      "shares": 17332422,
+      "value": 429844
+    },
+    {
+      "name": "DOLLAR TREE INC",
+      "cusip": "256746108",
+      "shares": 8053196,
+      "value": 409424
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 2556210,
+      "value": 400737
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U502",
+      "shares": 2087116,
+      "value": 385532
+    },
+    {
+      "name": "REALOGY HLDGS CORP",
+      "cusip": "75605Y106",
+      "shares": 7900805,
+      "value": 379555
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP",
+      "cusip": "228227104",
+      "shares": 5052143,
+      "value": 365725
+    },
+    {
+      "name": "TESLA MTRS INC",
+      "cusip": "88160R101",
+      "shares": 3208000,
+      "value": 344411
+    },
+    {
+      "name": "KINDER MORGAN INC DEL",
+      "cusip": "49456B119",
+      "shares": 65457804,
+      "value": 335144
+    },
+    {
+      "name": "VERISIGN INC",
+      "cusip": "92343E102",
+      "shares": 7498853,
+      "value": 334899
+    },
+    {
+      "name": "COACH INC",
+      "cusip": "189754104",
+      "shares": 5858347,
+      "value": 334453
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 3899076,
+      "value": 296135
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 3719848,
+      "value": 278096
+    },
+    {
+      "name": "B/E AEROSPACE INC",
+      "cusip": "073302101",
+      "shares": 4311013,
+      "value": 271939
+    },
+    {
+      "name": "WYNDHAM WORLDWIDE CORP",
+      "cusip": "98310W108",
+      "shares": 4746067,
+      "value": 271617
+    },
+    {
+      "name": "OCEANEERING INTL INC",
+      "cusip": "675232102",
+      "shares": 3467861,
+      "value": 250380
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 9864619,
+      "value": 245432
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1320105,
+      "value": 241249
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 2868750,
+      "value": 241090
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DELAWARE",
+      "cusip": "531229102",
+      "shares": 1862924,
+      "value": 236144
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 2766476,
+      "value": 234127
+    },
+    {
+      "name": "SALLY BEAUTY HLDGS INC",
+      "cusip": "79546E104",
+      "shares": 7496661,
+      "value": 233146
+    },
+    {
+      "name": "WORKDAY INC",
+      "cusip": "98138H101",
+      "shares": 3522285,
+      "value": 225743
+    },
+    {
+      "name": "OCWEN FINL CORP",
+      "cusip": "675746309",
+      "shares": 5448250,
+      "value": 224577
+    },
+    {
+      "name": "BLOCK H & R INC",
+      "cusip": "093671105",
+      "shares": 7636044,
+      "value": 211900
+    },
+    {
+      "name": "SEMGROUP CORP",
+      "cusip": "81663A105",
+      "shares": 3906318,
+      "value": 210394
+    },
+    {
+      "name": "HUNT J B TRANS SVCS INC",
+      "cusip": "445658107",
+      "shares": 2831614,
+      "value": 204556
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 2000000,
+      "value": 151900
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 2009726,
+      "value": 147695
+    },
+    {
+      "name": "GRIFOLS S A",
+      "cusip": "398438408",
+      "shares": 4439693,
+      "value": 124884
+    },
+    {
+      "name": "TRIPADVISOR INC",
+      "cusip": "896945201",
+      "shares": 1991854,
+      "value": 121244
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1500678,
+      "value": 101881
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 2273500,
+      "value": 95669
+    },
+    {
+      "name": "AIRGAS INC",
+      "cusip": "09363102",
+      "shares": 902488,
+      "value": 86152
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 1032466,
+      "value": 81678
+    },
+    {
+      "name": "WABCO HLDGS INC",
+      "cusip": "92927K102",
+      "shares": 1046166,
+      "value": 78138
+    },
+    {
+      "name": "BARCLAYS BK PLC",
+      "cusip": "06740C188",
+      "shares": 3690000,
+      "value": 76420
+    },
+    {
+      "name": "DSW INC",
+      "cusip": "23334L102",
+      "shares": 882710,
+      "value": 64853
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 575000,
+      "value": 35127
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 161132,
+      "value": 19558
+    },
+    {
+      "name": "ISOFTSTONE HLDGS LTD",
+      "cusip": "46489B108",
+      "shares": 870916,
+      "value": 4494
+    },
+    {
+      "name": "QUAD / GRAPHICS INC",
+      "cusip": "747301109",
+      "shares": 56800,
+      "value": 1369
+    }
+  ],
+  "totalValue": 20533834,
+  "positionsCount": 59
+}

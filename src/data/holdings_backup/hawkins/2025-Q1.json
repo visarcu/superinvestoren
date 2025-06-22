@@ -1,0 +1,117 @@
+{
+  "date": "2025-06-09",
+  "positions": [
+    {
+      "name": "Albertsons Co Inc.",
+      "cusip": "ACI00000",
+      "shares": 3470204,
+      "value": 76309786,
+      "ticker": "ACI"
+    },
+    {
+      "name": "IAC Inc.",
+      "cusip": "IAC00000",
+      "shares": 1629400,
+      "value": 74854636,
+      "ticker": "IAC"
+    },
+    {
+      "name": "CNX Resources Corp.",
+      "cusip": "CNX00000",
+      "shares": 2302445,
+      "value": 72480969,
+      "ticker": "CNX"
+    },
+    {
+      "name": "Fidelity National Information Services",
+      "cusip": "FIS00000",
+      "shares": 929871,
+      "value": 69442766,
+      "ticker": "FIS"
+    },
+    {
+      "name": "Mattel Inc.",
+      "cusip": "MAT00000",
+      "shares": 3491996,
+      "value": 67849482,
+      "ticker": "MAT"
+    },
+    {
+      "name": "FedEx Corp.",
+      "cusip": "FDX00000",
+      "shares": 263853,
+      "value": 64322084,
+      "ticker": "FDX"
+    },
+    {
+      "name": "HF Sinclair Corp.",
+      "cusip": "DINO00000",
+      "shares": 1849476,
+      "value": 60810771,
+      "ticker": "DINO"
+    },
+    {
+      "name": "Exor NV",
+      "cusip": "EXXRF0000",
+      "shares": 648645,
+      "value": 58631022,
+      "ticker": "EXXRF"
+    },
+    {
+      "name": "Affiliated Managers Group",
+      "cusip": "AMG00000",
+      "shares": 326197,
+      "value": 54810882,
+      "ticker": "AMG"
+    },
+    {
+      "name": "Bio-Rad Laboratories Inc.",
+      "cusip": "BIO00000",
+      "shares": 219667,
+      "value": 53502095,
+      "ticker": "BIO"
+    },
+    {
+      "name": "Kraft Heinz Co.",
+      "cusip": "KHC00000",
+      "shares": 1728800,
+      "value": 52607384,
+      "ticker": "KHC"
+    },
+    {
+      "name": "Regeneron Pharmaceuticals",
+      "cusip": "REGN00000",
+      "shares": 79873,
+      "value": 50657853,
+      "ticker": "REGN"
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "CNH00000",
+      "shares": 3308474,
+      "value": 40628061,
+      "ticker": "CNH"
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "MGM00000",
+      "shares": 1302756,
+      "value": 38613688,
+      "ticker": "MGM"
+    },
+    {
+      "name": "PVH Corp.",
+      "cusip": "PVH00000",
+      "shares": 518769,
+      "value": 33533228,
+      "ticker": "PVH"
+    },
+    {
+      "name": "PayPal Holdings Inc.",
+      "cusip": "PYPL00000",
+      "shares": 467763,
+      "value": 30521536,
+      "ticker": "PYPL"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-13",
+  "period": "2020-11-13",
+  "accession": "0001172661-20-002134",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "WIX COM LTD",
+      "cusip": "M98068105",
+      "shares": 263800,
+      "value": 67229
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 253000,
+      "value": 66261
+    },
+    {
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 183000,
+      "value": 61971
+    },
+    {
+      "name": "TRUPANION INC",
+      "cusip": "898202106",
+      "shares": 719000,
+      "value": 56729
+    },
+    {
+      "name": "SLACK TECHNOLOGIES INC",
+      "cusip": "83088V102",
+      "shares": 557000,
+      "value": 14961
+    }
+  ],
+  "totalValue": 267151,
+  "positionsCount": 5
+}

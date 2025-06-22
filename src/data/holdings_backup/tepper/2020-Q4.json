@@ -1,0 +1,203 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0001656456-20-000004",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 80775057,
+      "value": 758478
+    },
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 2220000,
+      "value": 652636
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 5215000,
+      "value": 596387
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 12250000,
+      "value": 575260
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 1767500,
+      "value": 462908
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 141500,
+      "value": 445545
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 257500,
+      "value": 378422
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 4660000,
+      "value": 207370
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 442500,
+      "value": 149640
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 680000,
+      "value": 135980
+    },
+    {
+      "name": "AT&T INC",
+      "cusip": "00206R102",
+      "shares": 4625000,
+      "value": 131859
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 612500,
+      "value": 120681
+    },
+    {
+      "name": "HCA HEALTHCARE INC",
+      "cusip": "40412C101",
+      "shares": 935000,
+      "value": 116576
+    },
+    {
+      "name": "SALESFORCE COM INC",
+      "cusip": "79466L302",
+      "shares": 437500,
+      "value": 109953
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 880000,
+      "value": 109190
+    },
+    {
+      "name": "ENERGY TRANSFER LP",
+      "cusip": "29273V100",
+      "shares": 18971419,
+      "value": 102825
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 175000,
+      "value": 85825
+    },
+    {
+      "name": "EMERSON ELEC CO",
+      "cusip": "291011104",
+      "shares": 1232500,
+      "value": 80815
+    },
+    {
+      "name": "SYSCO CORP",
+      "cusip": "871829107",
+      "shares": 1275000,
+      "value": 79331
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 131500,
+      "value": 65754
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 302500,
+      "value": 63625
+    },
+    {
+      "name": "SQUARE INC",
+      "cusip": "852234103",
+      "shares": 282500,
+      "value": 45920
+    },
+    {
+      "name": "ALTRIA GROUP INC",
+      "cusip": "02209S103",
+      "shares": 925000,
+      "value": 35742
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 4550000,
+      "value": 34899
+    },
+    {
+      "name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "shares": 787500,
+      "value": 30090
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 70500,
+      "value": 21980
+    },
+    {
+      "name": "WELLS FARGO CO NEW",
+      "cusip": "949746101",
+      "shares": 875000,
+      "value": 20571
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 905000,
+      "value": 18082
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 75000,
+      "value": 7357
+    },
+    {
+      "name": "WESTERN MIDSTREAM PARTNERS L",
+      "cusip": "958669103",
+      "shares": 712816,
+      "value": 5703
+    },
+    {
+      "name": "TENNECO INC",
+      "cusip": "880349105",
+      "shares": 755000,
+      "value": 5240
+    },
+    {
+      "name": "ENABLE MIDSTREAM PARTNERS LP",
+      "cusip": "292480100",
+      "shares": 307116,
+      "value": 1271
+    }
+  ],
+  "totalValue": 5655915,
+  "positionsCount": 32
+}

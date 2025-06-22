@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-16",
+  "period": "2022-05-16",
+  "accession": "0001104659-22-061355",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 28686679,
+      "value": 10123816
+    },
+    {
+      "name": "WASTE MGMT INC DEL",
+      "cusip": "94106L109",
+      "shares": 18633672,
+      "value": 2953437
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 13066169,
+      "value": 1753000
+    },
+    {
+      "name": "CATERPILLAR INC",
+      "cusip": "149123101",
+      "shares": 7353614,
+      "value": 1638532
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366427,
+      "value": 770936
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 3020859,
+      "value": 449866
+    },
+    {
+      "name": "DEERE & CO",
+      "cusip": "244199105",
+      "shares": 899655,
+      "value": 373771
+    },
+    {
+      "name": "COCA-COLA FEMSA SAB DE CV",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 341499
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 944620,
+      "value": 291236
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 1420072,
+      "value": 262145
+    },
+    {
+      "name": "SCHRODINGER INC",
+      "cusip": "80810D103",
+      "shares": 6981664,
+      "value": 238214
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 740689,
+      "value": 158848
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 534362,
+      "value": 123646
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 5714285,
+      "value": 101029
+    },
+    {
+      "name": "SANDERSON FARMS INC",
+      "cusip": "800013104",
+      "shares": 524236,
+      "value": 98289
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 278147,
+      "value": 49888
+    },
+    {
+      "name": "WEBER INC",
+      "cusip": "94770D102",
+      "shares": 2500000,
+      "value": 24575
+    },
+    {
+      "name": "ON HLDG AG",
+      "cusip": "H5919C104",
+      "shares": 500000,
+      "value": 12620
+    }
+  ],
+  "totalValue": 19765347,
+  "positionsCount": 18
+}

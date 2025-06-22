@@ -1,0 +1,107 @@
+{
+  "form": "13F-HR",
+  "date": "2019-08-14",
+  "period": "2019-08-14",
+  "accession": "0001104659-19-045945",
+  "quarterKey": "2019-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 47078974,
+      "value": 10035825
+    },
+    {
+      "name": "WASTE MGMT INC DEL",
+      "cusip": "94106L109",
+      "shares": 18633672,
+      "value": 2149767
+    },
+    {
+      "name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "shares": 17126874,
+      "value": 1583893
+    },
+    {
+      "name": "CATERPILLAR INC DEL",
+      "cusip": "149123101",
+      "shares": 11260857,
+      "value": 1534742
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 11603000,
+      "value": 1282015
+    },
+    {
+      "name": "ECOLAB INC",
+      "cusip": "278865100",
+      "shares": 4366426,
+      "value": 862107
+    },
+    {
+      "name": "CROWN CASTLE INTL CORP NEW",
+      "cusip": "22822V101",
+      "shares": 5332900,
+      "value": 695144
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 3024999,
+      "value": 496675
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 4525329,
+      "value": 467331
+    },
+    {
+      "name": "COCA COLA FEMSA S A B DE C V",
+      "cusip": "191241108",
+      "shares": 6214719,
+      "value": 386183
+    },
+    {
+      "name": "GRUPO TELEVISA SA",
+      "cusip": "40049J206",
+      "shares": 16879104,
+      "value": 142460
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 3639349,
+      "value": 96552
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U104",
+      "shares": 2119515,
+      "value": 57206
+    },
+    {
+      "name": "ARCOS DORADOS HOLDINGS INC",
+      "cusip": "G0457F107",
+      "shares": 3060500,
+      "value": 22280
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E128",
+      "shares": 636044,
+      "value": 10934
+    },
+    {
+      "name": "LIBERTY LATIN AMERICA LTD",
+      "cusip": "G9001E102",
+      "shares": 370424,
+      "value": 6382
+    }
+  ],
+  "totalValue": 19829496,
+  "positionsCount": 16
+}

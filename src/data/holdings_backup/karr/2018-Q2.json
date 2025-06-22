@@ -1,0 +1,53 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-14",
+  "period": "2018-05-14",
+  "accession": "0001172661-18-001060",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 890637,
+      "value": 163468
+    },
+    {
+      "name": "COGNEX CORP",
+      "cusip": "192422103",
+      "shares": 2473666,
+      "value": 128606
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 923278,
+      "value": 48121
+    },
+    {
+      "name": "HEXCEL CORP NEW",
+      "cusip": "428291108",
+      "shares": 715966,
+      "value": 46244
+    },
+    {
+      "name": "FOUR SEASONS ED CAYMAN INC",
+      "cusip": "35101A101",
+      "shares": 1900148,
+      "value": 12598
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 30550,
+      "value": 1769
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 10800,
+      "value": 1617
+    }
+  ],
+  "totalValue": 402423,
+  "positionsCount": 7
+}

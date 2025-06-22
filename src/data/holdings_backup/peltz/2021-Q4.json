@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2021-11-12",
+  "period": "2021-11-12",
+  "accession": "0001345471-21-000059",
+  "quarterKey": "2021-Q4",
+  "positions": [
+    {
+      "name": "Comcast Corp New",
+      "cusip": "20030N101",
+      "shares": 19991416,
+      "value": 1118120
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 7998237,
+      "value": 1114570
+    },
+    {
+      "name": "Sysco Corp",
+      "cusip": "871829107",
+      "shares": 13382626,
+      "value": 1050536
+    },
+    {
+      "name": "Janus Henderson Group plc",
+      "cusip": "G4474Y904",
+      "shares": 23702312,
+      "value": 979617
+    },
+    {
+      "name": "Invesco Ltd",
+      "cusip": "G491BT108",
+      "shares": 36755775,
+      "value": 955650
+    },
+    {
+      "name": "Procter and Gamble Co.",
+      "cusip": "742718109",
+      "shares": 5269523,
+      "value": 736679
+    },
+    {
+      "name": "Ferguson Plc New",
+      "cusip": "G3421J106",
+      "shares": 4730694,
+      "value": 659232
+    },
+    {
+      "name": "Wendys Co.",
+      "cusip": "95058W100",
+      "shares": 25333339,
+      "value": 549227
+    },
+    {
+      "name": "Mondelez Intl Inc",
+      "cusip": "609207105",
+      "shares": 7997848,
+      "value": 465315
+    },
+    {
+      "name": "General Electric Co.",
+      "cusip": "369604301",
+      "shares": 4025628,
+      "value": 414760
+    }
+  ],
+  "totalValue": 8043706,
+  "positionsCount": 10
+}

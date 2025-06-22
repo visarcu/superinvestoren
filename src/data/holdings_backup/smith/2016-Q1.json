@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-16",
+  "period": "2016-02-16",
+  "accession": "0001387131-16-004227",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 7531685,
+      "value": 417858
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 3553749,
+      "value": 331209
+    },
+    {
+      "name": "PHILIP MORRIS INTL INC",
+      "cusip": "718172109",
+      "shares": 3616490,
+      "value": 317926
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 3087414,
+      "value": 308494
+    },
+    {
+      "name": "BARD C R INC",
+      "cusip": "067383109",
+      "shares": 1587842,
+      "value": 300393
+    },
+    {
+      "name": "STRYKER CORP",
+      "cusip": "863667101",
+      "shares": 3198463,
+      "value": 297265
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 2840028,
+      "value": 291728
+    },
+    {
+      "name": "BECTON DICKINSON & CO",
+      "cusip": "075887109",
+      "shares": 1582864,
+      "value": 243904
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 1503516,
+      "value": 226490
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 2791621,
+      "value": 216490
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 2464152,
+      "value": 208763
+    },
+    {
+      "name": "IDEXX LABS INC",
+      "cusip": "45168D104",
+      "shares": 2491168,
+      "value": 181656
+    },
+    {
+      "name": "WATERS CORP",
+      "cusip": "941848103",
+      "shares": 1153182,
+      "value": 155195
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 4251886,
+      "value": 153918
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 1870102,
+      "value": 147231
+    },
+    {
+      "name": "SMUCKER J M CO",
+      "cusip": "832696405",
+      "shares": 758133,
+      "value": 93508
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 1293729,
+      "value": 85663
+    },
+    {
+      "name": "DUNKIN BRANDS GROUP INC",
+      "cusip": "265504100",
+      "shares": 89269,
+      "value": 3802
+    }
+  ],
+  "totalValue": 3981493,
+  "positionsCount": 18
+}

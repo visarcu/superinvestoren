@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001420506-22-002242",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 899000,
+      "value": 58741
+    },
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 3800000,
+      "value": 50426
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 1650114,
+      "value": 48728
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 950000,
+      "value": 28054
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 659000,
+      "value": 16666
+    },
+    {
+      "name": "FAT BRANDS INC",
+      "cusip": "30258N105",
+      "shares": 587400,
+      "value": 4353
+    },
+    {
+      "name": "RCI HOSPITALITY HLDGS INC",
+      "cusip": "74934Q108",
+      "shares": 50000,
+      "value": 3267
+    },
+    {
+      "name": "PLBY GROUP INC",
+      "cusip": "72814P109",
+      "shares": 410000,
+      "value": 1652
+    }
+  ],
+  "totalValue": 211887,
+  "positionsCount": 8
+}

@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0001493152-24-006606",
+  "quarterKey": "2024-Q1",
+  "positions": [
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 365257,
+      "value": 32807384
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 183200,
+      "value": 31854816
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 373549,
+      "value": 29939952
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 296701,
+      "value": 29026259
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 469838,
+      "value": 26996891
+    },
+    {
+      "name": "FLOWSERVE CORP",
+      "cusip": "34354P105",
+      "shares": 602882,
+      "value": 24850796
+    },
+    {
+      "name": "GOODYEAR TIRE & RUBR CO",
+      "cusip": "382550101",
+      "shares": 1076000,
+      "value": 15408320
+    },
+    {
+      "name": "ASHLAND INC",
+      "cusip": "044186104",
+      "shares": 173312,
+      "value": 14611935
+    },
+    {
+      "name": "PATTERSON-UTI ENERGY INC",
+      "cusip": "703481101",
+      "shares": 785000,
+      "value": 8478000
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 200000,
+      "value": 5026000
+    }
+  ],
+  "totalValue": 219000353,
+  "positionsCount": 10
+}

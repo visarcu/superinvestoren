@@ -1,197 +1,203 @@
 {
+  "form": "13F-HR",
   "date": "2017-08-11",
+  "period": "2017-08-11",
+  "accession": "0001085146-17-001787",
+  "quarterKey": "2017-Q3",
   "positions": [
-    {
-      "name": "ALEXION PHARMACEUTICALS INC",
-      "cusip": "015351109",
-      "shares": 1250000,
-      "value": 152088000
-    },
-    {
-      "name": "ALIBABA GROUP HLDG LTD",
-      "cusip": "01609W102",
-      "shares": 4500000,
-      "value": 634050000
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K305",
-      "shares": 575000,
-      "value": 534566000
-    },
-    {
-      "name": "ANTHEM INC",
-      "cusip": "036752103",
-      "shares": 1250000,
-      "value": 235162000
-    },
-    {
-      "name": "BANCO MACRO SA",
-      "cusip": "05961W105",
-      "shares": 900000,
-      "value": 82971000
-    },
-    {
-      "name": "BANK AMER CORP",
-      "cusip": "060505104",
-      "shares": 15000000,
-      "value": 363900000
-    },
     {
       "name": "BAXTER INTL INC",
       "cusip": "071813109",
       "shares": 41000000,
-      "value": 2482140000
-    },
-    {
-      "name": "BLACKROCK INC",
-      "cusip": "09247X101",
-      "shares": 1550000,
-      "value": 654736000
-    },
-    {
-      "name": "CHARTER COMMUNICATIONS INC N",
-      "cusip": "16119P108",
-      "shares": 500000,
-      "value": 168425000
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 2500000,
-      "value": 484325000
-    },
-    {
-      "name": "DANAHER CORP DEL",
-      "cusip": "235851102",
-      "shares": 3300000,
-      "value": 278487000
-    },
-    {
-      "name": "DELL TECHNOLOGIES INC",
-      "cusip": "24703L103",
-      "shares": 2500000,
-      "value": 152775000
+      "value": 2482140
     },
     {
       "name": "DOW CHEM CO",
       "cusip": "260543103",
       "shares": 16000000,
-      "value": 1009120000
+      "value": 1009120
     },
     {
-      "name": "EQT CORP",
-      "cusip": "26884L109",
-      "shares": 825000,
-      "value": 48337000
+      "name": "BLACKROCK INC",
+      "cusip": "09247X101",
+      "shares": 1550000,
+      "value": 654736
     },
     {
-      "name": "F M C CORP",
-      "cusip": "302491303",
-      "shares": 2000000,
-      "value": 146100000
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 4500000,
+      "value": 634050
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 575000,
+      "value": 534566
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 3500000,
-      "value": 528430000
+      "value": 528430
     },
     {
-      "name": "GENERAL DYNAMICS CORP",
-      "cusip": "369550108",
-      "shares": 1200000,
-      "value": 237720000
-    },
-    {
-      "name": "GREEN BRICK PARTNERS INC",
-      "cusip": "392709101",
-      "shares": 8083022,
-      "value": 92551000
-    },
-    {
-      "name": "HEWLETT PACKARD ENTERPRISE C",
-      "cusip": "42824C109",
-      "shares": 7000000,
-      "value": 116130000
-    },
-    {
-      "name": "HONEYWELL INTL INC",
-      "cusip": "438516106",
-      "shares": 1275000,
-      "value": 169945000
-    },
-    {
-      "name": "HUMANA INC",
-      "cusip": "444859102",
-      "shares": 750000,
-      "value": 180465000
-    },
-    {
-      "name": "KADMON HLDGS INC",
-      "cusip": "48283N106",
-      "shares": 9407745,
-      "value": 36596000
-    },
-    {
-      "name": "MOHAWK INDS INC",
-      "cusip": "608190104",
-      "shares": 875000,
-      "value": 211479000
-    },
-    {
-      "name": "NXP SEMICONDUCTORS N V",
-      "cusip": "N6596X109",
-      "shares": 2700000,
-      "value": 295515000
-    },
-    {
-      "name": "PARSLEY ENERGY INC",
-      "cusip": "701877102",
-      "shares": 4500000,
-      "value": 124875000
-    },
-    {
-      "name": "RSP PERMIAN INC",
-      "cusip": "74978Q105",
-      "shares": 3850000,
-      "value": 124240000
-    },
-    {
-      "name": "S&P GLOBAL INC",
-      "cusip": "78409V104",
-      "shares": 1500000,
-      "value": 218985000
-    },
-    {
-      "name": "SHERWIN WILLIAMS CO",
-      "cusip": "824348106",
-      "shares": 750000,
-      "value": 263220000
-    },
-    {
-      "name": "SOTHEBYS",
-      "cusip": "835898107",
-      "shares": 6661604,
-      "value": 357528000
-    },
-    {
-      "name": "T MOBILE US INC",
-      "cusip": "872590104",
-      "shares": 5250000,
-      "value": 318255000
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 2500000,
+      "value": 484325
     },
     {
       "name": "TIME WARNER INC",
       "cusip": "887317303",
       "shares": 3750000,
-      "value": 376538000
+      "value": 376538
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 15000000,
+      "value": 363900
+    },
+    {
+      "name": "SOTHEBYS",
+      "cusip": "835898107",
+      "shares": 6661604,
+      "value": 357528
+    },
+    {
+      "name": "T MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 5250000,
+      "value": 318255
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 2700000,
+      "value": 295515
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 3300000,
+      "value": 278487
+    },
+    {
+      "name": "SHERWIN WILLIAMS CO",
+      "cusip": "824348106",
+      "shares": 750000,
+      "value": 263220
+    },
+    {
+      "name": "GENERAL DYNAMICS CORP",
+      "cusip": "369550108",
+      "shares": 1200000,
+      "value": 237720
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 1250000,
+      "value": 235162
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1500000,
+      "value": 218985
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 875000,
+      "value": 211479
     },
     {
       "name": "VULCAN MATLS CO",
       "cusip": "929160109",
       "shares": 1600000,
-      "value": 202688000
+      "value": 202688
+    },
+    {
+      "name": "HUMANA INC",
+      "cusip": "444859102",
+      "shares": 750000,
+      "value": 180465
+    },
+    {
+      "name": "HONEYWELL INTL INC",
+      "cusip": "438516106",
+      "shares": 1275000,
+      "value": 169945
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 500000,
+      "value": 168425
+    },
+    {
+      "name": "DELL TECHNOLOGIES INC",
+      "cusip": "24703L103",
+      "shares": 2500000,
+      "value": 152775
+    },
+    {
+      "name": "ALEXION PHARMACEUTICALS INC",
+      "cusip": "015351109",
+      "shares": 1250000,
+      "value": 152088
+    },
+    {
+      "name": "F M C CORP",
+      "cusip": "302491303",
+      "shares": 2000000,
+      "value": 146100
+    },
+    {
+      "name": "PARSLEY ENERGY INC",
+      "cusip": "701877102",
+      "shares": 4500000,
+      "value": 124875
+    },
+    {
+      "name": "RSP PERMIAN INC",
+      "cusip": "74978Q105",
+      "shares": 3850000,
+      "value": 124240
+    },
+    {
+      "name": "HEWLETT PACKARD ENTERPRISE C",
+      "cusip": "42824C109",
+      "shares": 7000000,
+      "value": 116130
+    },
+    {
+      "name": "GREEN BRICK PARTNERS INC",
+      "cusip": "392709101",
+      "shares": 8083022,
+      "value": 92551
+    },
+    {
+      "name": "BANCO MACRO SA",
+      "cusip": "05961W105",
+      "shares": 900000,
+      "value": 82971
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 825000,
+      "value": 48337
+    },
+    {
+      "name": "KADMON HLDGS INC",
+      "cusip": "48283N106",
+      "shares": 9407745,
+      "value": 36596
     }
-  ]
+  ],
+  "totalValue": 11282342,
+  "positionsCount": 32
 }

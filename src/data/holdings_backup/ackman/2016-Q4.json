@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2016-11-14",
+  "period": "2016-11-14",
+  "accession": "0001172661-16-004332",
+  "quarterKey": "2016-Q4",
+  "positions": [
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 39150551,
+      "value": 1745332
+    },
+    {
+      "name": "MONDELEZ INTL INC",
+      "cusip": "609207105",
+      "shares": 22942225,
+      "value": 1007164
+    },
+    {
+      "name": "AIR PRODS & CHEMS INC",
+      "cusip": "009158106",
+      "shares": 4025140,
+      "value": 605140
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 21591122,
+      "value": 530062
+    },
+    {
+      "name": "HOWARD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 3568017,
+      "value": 408538
+    },
+    {
+      "name": "NOMAD HLDGS LTD",
+      "cusip": "G6564A105",
+      "shares": 33333334,
+      "value": 394000
+    },
+    {
+      "name": "PLATFORM SPECIALTY PRODS COR",
+      "cusip": "72766Q105",
+      "shares": 42737394,
+      "value": 346600
+    },
+    {
+      "name": "CHIPOTLE MEXICAN GRILL INC",
+      "cusip": "169656105",
+      "shares": 554213,
+      "value": 234709
+    },
+    {
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 2717719,
+      "value": 141349
+    }
+  ],
+  "totalValue": 5412894,
+  "positionsCount": 9
+}

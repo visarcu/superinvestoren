@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2022-05-13",
+  "period": "2022-05-13",
+  "accession": "0001104659-22-060139",
+  "quarterKey": "2022-Q2",
+  "positions": [
+    {
+      "name": "ALPHABET INC - CL A",
+      "cusip": "02079K305",
+      "shares": 335110,
+      "value": 932058
+    },
+    {
+      "name": "TRANSDIGM GROUP",
+      "cusip": "893641100",
+      "shares": 1421279,
+      "value": 926020
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 2635309,
+      "value": 812492
+    },
+    {
+      "name": "AMAZON",
+      "cusip": "023135106",
+      "shares": 127246,
+      "value": 414816
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS",
+      "cusip": "16119P108",
+      "shares": 640548,
+      "value": 349432
+    },
+    {
+      "name": "VISA INC CL A",
+      "cusip": "92826C839",
+      "shares": 1496102,
+      "value": 331791
+    },
+    {
+      "name": "MASTERCARD INC CL A",
+      "cusip": "57636Q104",
+      "shares": 251249,
+      "value": 89791
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 123310,
+      "value": 41606
+    },
+    {
+      "name": "META",
+      "cusip": "30303M102",
+      "shares": 108039,
+      "value": 24024
+    }
+  ],
+  "totalValue": 3922030,
+  "positionsCount": 9
+}

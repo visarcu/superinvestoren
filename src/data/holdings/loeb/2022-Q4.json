@@ -1,4 +1,377 @@
 {
+  "form": "13F-HR",
   "date": "2022-11-14",
-  "positions": []
+  "period": "2022-11-14",
+  "accession": "0001085146-22-004128",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 11550000,
+      "value": 811388
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 63400000,
+      "value": 792500
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 2700000,
+      "value": 697383
+    },
+    {
+      "name": "SENTINELONE INC",
+      "cusip": "81730H109",
+      "shares": 19000000,
+      "value": 485640
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 670000,
+      "value": 338377
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 8135000,
+      "value": 265201
+    },
+    {
+      "name": "TWITTER INC",
+      "cusip": "90184L102",
+      "shares": 5500000,
+      "value": 241120
+    },
+    {
+      "name": "OVINTIV INC",
+      "cusip": "69047Q102",
+      "shares": 4000000,
+      "value": 184000
+    },
+    {
+      "name": "VENTYX BIOSCIENCES INC",
+      "cusip": "92332V107",
+      "shares": 4312834,
+      "value": 150561
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 3250000,
+      "value": 132438
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 1400000,
+      "value": 132062
+    },
+    {
+      "name": "DUPONT DE NEMOURS INC",
+      "cusip": "26614N102",
+      "shares": 2375000,
+      "value": 119700
+    },
+    {
+      "name": "TJX COS INC NEW",
+      "cusip": "872540109",
+      "shares": 1750000,
+      "value": 108710
+    },
+    {
+      "name": "RANGE RES CORP",
+      "cusip": "75281A109",
+      "shares": 3900000,
+      "value": 98514
+    },
+    {
+      "name": "FERGUSON PLC NEW",
+      "cusip": "G3421J106",
+      "shares": 925000,
+      "value": 95210
+    },
+    {
+      "name": "T-MOBILE US INC",
+      "cusip": "872590104",
+      "shares": 700000,
+      "value": 93919
+    },
+    {
+      "name": "CANO HEALTH INC",
+      "cusip": "13781Y103",
+      "shares": 10825000,
+      "value": 93853
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J700",
+      "shares": 5350000,
+      "value": 87098
+    },
+    {
+      "name": "CSX CORP",
+      "cusip": "126408103",
+      "shares": 2750000,
+      "value": 73260
+    },
+    {
+      "name": "TAKE-TWO INTERACTIVE SOFTWAR",
+      "cusip": "874054109",
+      "shares": 500000,
+      "value": 54500
+    },
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C140",
+      "shares": 471000,
+      "value": 53807
+    },
+    {
+      "name": "COMSTOCK RES INC",
+      "cusip": "205768302",
+      "shares": 3000000,
+      "value": 51870
+    },
+    {
+      "name": "PERIMETER SOLUTIONS SA",
+      "cusip": "L7579L106",
+      "shares": 5750000,
+      "value": 46058
+    },
+    {
+      "name": "JAWS MUSTANG ACQUISITION COR",
+      "cusip": "G50737108",
+      "shares": 4000000,
+      "value": 39760
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700107",
+      "shares": 8537601,
+      "value": 39529
+    },
+    {
+      "name": "AVANTI ACQUISITION CORP",
+      "cusip": "G0682V109",
+      "shares": 3000000,
+      "value": 30060
+    },
+    {
+      "name": "COMPUTE HEALTH ACQUISITIN CO",
+      "cusip": "204833107",
+      "shares": 2500000,
+      "value": 24675
+    },
+    {
+      "name": "DISH NETWORK CORPORATION",
+      "cusip": "25470MAF6",
+      "shares": 30000000,
+      "value": 19685
+    },
+    {
+      "name": "KHOSLA VENTURES ACQUT CO III",
+      "cusip": "482506102",
+      "shares": 2000000,
+      "value": 19560
+    },
+    {
+      "name": "BLUE WHALE ACQUISITION CORP",
+      "cusip": "G1330M103",
+      "shares": 2000000,
+      "value": 19360
+    },
+    {
+      "name": "ION ACQUISITION CORP 3 LTD",
+      "cusip": "G4940J114",
+      "shares": 1800000,
+      "value": 17766
+    },
+    {
+      "name": "RICE ACQUISITION CORP II",
+      "cusip": "G75529100",
+      "shares": 1500000,
+      "value": 14775
+    },
+    {
+      "name": "ALTIMETER GROWTH CORP 2",
+      "cusip": "G0371B109",
+      "shares": 1285000,
+      "value": 12734
+    },
+    {
+      "name": "LERER HIPPEAU ACQUISITION CO",
+      "cusip": "526749106",
+      "shares": 1250000,
+      "value": 12275
+    },
+    {
+      "name": "DRAGONEER GROWTH OPT CORP II",
+      "cusip": "G28315102",
+      "shares": 1200000,
+      "value": 11748
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A100",
+      "shares": 1102500,
+      "value": 10782
+    },
+    {
+      "name": "DISRUPTIVE ACQUISITION CORP",
+      "cusip": "G2770Y110",
+      "shares": 1000000,
+      "value": 9910
+    },
+    {
+      "name": "LOGISTICS INNOVTN TECHNLGS C",
+      "cusip": "54141L100",
+      "shares": 1000000,
+      "value": 9770
+    },
+    {
+      "name": "JAWS HURRICANE ACQUISITN COR",
+      "cusip": "47201B103",
+      "shares": 992739,
+      "value": 9679
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287457",
+      "shares": 60346,
+      "value": 4901
+    },
+    {
+      "name": "SEMA4 HOLDINGS CORP",
+      "cusip": "81663L101",
+      "shares": 5545000,
+      "value": 4866
+    },
+    {
+      "name": "DISH NETWORK CORPORATION",
+      "cusip": "25470MAB5",
+      "shares": 7000000,
+      "value": 4808
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674X106",
+      "shares": 100000,
+      "value": 3053
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774107",
+      "shares": 1032463,
+      "value": 2282
+    },
+    {
+      "name": "RELAY THERAPEUTICS INC",
+      "cusip": "75943R102",
+      "shares": 100000,
+      "value": 2237
+    },
+    {
+      "name": "TPI COMPOSITES INC",
+      "cusip": "87266J104",
+      "shares": 100000,
+      "value": 1128
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774115",
+      "shares": 1835000,
+      "value": 862
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700115",
+      "shares": 1333333,
+      "value": 380
+    },
+    {
+      "name": "TMC THE METALS COMPANY INC",
+      "cusip": "87261Y114",
+      "shares": 1000000,
+      "value": 165
+    },
+    {
+      "name": "RICE ACQUISITION CORP II",
+      "cusip": "G75529126",
+      "shares": 500000,
+      "value": 159
+    },
+    {
+      "name": "BLUESCAPE OPPORTUNITIES ACQU",
+      "cusip": "G1195N113",
+      "shares": 1000000,
+      "value": 140
+    },
+    {
+      "name": "BLUE WHALE ACQUISITION CORP",
+      "cusip": "G1330M129",
+      "shares": 500000,
+      "value": 103
+    },
+    {
+      "name": "JAWS MUSTANG ACQUISITION COR",
+      "cusip": "G50737124",
+      "shares": 1000000,
+      "value": 100
+    },
+    {
+      "name": "STARRY GROUP HOLDINGS INC",
+      "cusip": "85572U110",
+      "shares": 505000,
+      "value": 66
+    },
+    {
+      "name": "SOCIAL LEVERAGE ACQUISN CORP",
+      "cusip": "83363K110",
+      "shares": 250000,
+      "value": 57
+    },
+    {
+      "name": "EG ACQUISITION CORP",
+      "cusip": "26846A118",
+      "shares": 367499,
+      "value": 46
+    },
+    {
+      "name": "JAWS HURRICANE ACQUISITN COR",
+      "cusip": "47201B111",
+      "shares": 248184,
+      "value": 45
+    },
+    {
+      "name": "COMPUTE HEALTH ACQUISITIN CO",
+      "cusip": "204833115",
+      "shares": 625000,
+      "value": 41
+    },
+    {
+      "name": "AVANTI ACQUISITION CORP",
+      "cusip": "G0682V125",
+      "shares": 1500000,
+      "value": 34
+    },
+    {
+      "name": "LOGISTICS INNOVTN TECHNLGS C",
+      "cusip": "54141L118",
+      "shares": 333332,
+      "value": 30
+    },
+    {
+      "name": "COHN ROBBINS HOLDINGS CORP",
+      "cusip": "G23726113",
+      "shares": 833332,
+      "value": 19
+    }
+  ],
+  "totalValue": 5534759,
+  "positionsCount": 61
 }

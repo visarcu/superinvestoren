@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2020-11-16",
+  "period": "2020-11-16",
+  "accession": "0001172661-20-002206",
+  "quarterKey": "2020-Q4",
+  "positions": [
+    {
+      "name": "CARVANA CO",
+      "cusip": "146869102",
+      "shares": 210223,
+      "value": 46892
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 69100,
+      "value": 43142
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 58873,
+      "value": 27972
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 16150,
+      "value": 23734
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 332845,
+      "value": 23489
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 388286,
+      "value": 18766
+    },
+    {
+      "name": "STAR GROUP L P",
+      "cusip": "85512C105",
+      "shares": 1654387,
+      "value": 16130
+    },
+    {
+      "name": "APPIAN CORP",
+      "cusip": "03782L101",
+      "shares": 217138,
+      "value": 14060
+    },
+    {
+      "name": "ALTERYX INC",
+      "cusip": "02156B103",
+      "shares": 90000,
+      "value": 10220
+    },
+    {
+      "name": "CARGURUS INC",
+      "cusip": "141788109",
+      "shares": 284046,
+      "value": 6144
+    },
+    {
+      "name": "HALLADOR ENERGY COMPANY",
+      "cusip": "40609P105",
+      "shares": 557189,
+      "value": 363
+    }
+  ],
+  "totalValue": 230912,
+  "positionsCount": 11
+}

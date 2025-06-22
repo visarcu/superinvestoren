@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0001340807-25-000002",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "Pegasystems Inc",
+      "cusip": "705573103",
+      "shares": 2364949,
+      "value": 220413247
+    },
+    {
+      "name": "Block Inc",
+      "cusip": "852234103",
+      "shares": 2588616,
+      "value": 220006474
+    },
+    {
+      "name": "Interactive Brokers Group Inc",
+      "cusip": "45841N107",
+      "shares": 951647,
+      "value": 168127475
+    },
+    {
+      "name": "Workday Inc",
+      "cusip": "98138H101",
+      "shares": 623585,
+      "value": 160903638
+    },
+    {
+      "name": "Align Technology Inc",
+      "cusip": "016255101",
+      "shares": 513125,
+      "value": 106991694
+    },
+    {
+      "name": "Etsy Inc",
+      "cusip": "29786A106",
+      "shares": 1891645,
+      "value": 100049104
+    },
+    {
+      "name": "CoStar Group",
+      "cusip": "22160N109",
+      "shares": 649205,
+      "value": 46476586
+    },
+    {
+      "name": "Wayfair Inc",
+      "cusip": "94419L101",
+      "shares": 968349,
+      "value": 42917228
+    },
+    {
+      "name": "Veeva Systems Inc",
+      "cusip": "922475108",
+      "shares": 130230,
+      "value": 27380858
+    },
+    {
+      "name": "Twilio Inc",
+      "cusip": "90138F102",
+      "shares": 159045,
+      "value": 17189584
+    },
+    {
+      "name": "Despegar.com Corp",
+      "cusip": "G27358103",
+      "shares": 25443,
+      "value": 489778
+    }
+  ],
+  "totalValue": 1110945666,
+  "positionsCount": 11
+}

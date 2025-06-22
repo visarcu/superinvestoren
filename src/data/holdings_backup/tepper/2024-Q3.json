@@ -1,0 +1,233 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-14",
+  "period": "2024-08-14",
+  "accession": "0001656456-24-000003",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 10500000,
+      "value": 756000000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3475000,
+      "value": 671543750
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1181356,
+      "value": 528007064
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 935000,
+      "value": 471445700
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1925000,
+      "value": 353083500
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 2000000,
+      "value": 282400000
+    },
+    {
+      "name": "PDD HOLDINGS INC",
+      "cusip": "722304102",
+      "shares": 1940000,
+      "value": 257923000
+    },
+    {
+      "name": "ADVANCED MICRO DEVICES INC",
+      "cusip": "007903107",
+      "shares": 1370000,
+      "value": 222227700
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 360000,
+      "value": 199994400
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287184",
+      "shares": 6940000,
+      "value": 180370600
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 840000,
+      "value": 167311200
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 550000,
+      "value": 164912000
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1175000,
+      "value": 154547750
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 1665000,
+      "value": 143989200
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 7704428,
+      "value": 124965822
+    },
+    {
+      "name": "KRANESHARES TRUST",
+      "cusip": "500767306",
+      "shares": 4490000,
+      "value": 121319800
+    },
+    {
+      "name": "LAM RESEARCH CORP",
+      "cusip": "512807108",
+      "shares": 109000,
+      "value": 116068650
+    },
+    {
+      "name": "LYFT INC",
+      "cusip": "55087P104",
+      "shares": 7961257,
+      "value": 112253724
+    },
+    {
+      "name": "JD.COM INC",
+      "cusip": "47215P106",
+      "shares": 4310600,
+      "value": 111385904
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 1500000,
+      "value": 109020000
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 185000,
+      "value": 94213100
+    },
+    {
+      "name": "ASML HOLDING N V",
+      "cusip": "N07059210",
+      "shares": 87500,
+      "value": 89488875
+    },
+    {
+      "name": "CAESARS ENTERTAINMENT INC NE",
+      "cusip": "12769G100",
+      "shares": 2200000,
+      "value": 87428000
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 2780000,
+      "value": 86096600
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 690000,
+      "value": 85242600
+    },
+    {
+      "name": "UNITED PARCEL SERVICE INC",
+      "cusip": "911312106",
+      "shares": 605000,
+      "value": 82794250
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 460000,
+      "value": 79952600
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 1905000,
+      "value": 70446900
+    },
+    {
+      "name": "ANTERO RESOURCES CORP",
+      "cusip": "03674X106",
+      "shares": 1850000,
+      "value": 60365500
+    },
+    {
+      "name": "BOEING CO",
+      "cusip": "097023105",
+      "shares": 210000,
+      "value": 38222100
+    },
+    {
+      "name": "SOUTHWESTERN ENERGY CO",
+      "cusip": "845467109",
+      "shares": 4440000,
+      "value": 29881200
+    },
+    {
+      "name": "KE HLDGS INC",
+      "cusip": "482497104",
+      "shares": 2085000,
+      "value": 29502750
+    },
+    {
+      "name": "MPLX LP",
+      "cusip": "55336V100",
+      "shares": 611500,
+      "value": 26043785
+    },
+    {
+      "name": "MACYS INC",
+      "cusip": "55616P104",
+      "shares": 1265000,
+      "value": 24288000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167172",
+      "shares": 250000,
+      "value": 17885000
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167735",
+      "shares": 188000,
+      "value": 15451720
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167180",
+      "shares": 150000,
+      "value": 9297000
+    }
+  ],
+  "totalValue": 6175369744,
+  "positionsCount": 37
+}

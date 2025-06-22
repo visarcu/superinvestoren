@@ -1,0 +1,119 @@
+{
+  "form": "13F-HR",
+  "date": "2020-05-15",
+  "period": "2020-05-15",
+  "accession": "0000905718-20-000449",
+  "quarterKey": "2020-Q2",
+  "positions": [
+    {
+      "name": "O-I GLASS INC",
+      "cusip": "67098H104",
+      "shares": 6492121,
+      "value": 46159
+    },
+    {
+      "name": "DXC TECHNOLOGY CO",
+      "cusip": "23355L106",
+      "shares": 2620493,
+      "value": 34197
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 362185,
+      "value": 23299
+    },
+    {
+      "name": "LEAR CORP",
+      "cusip": "521865204",
+      "shares": 259030,
+      "value": 21046
+    },
+    {
+      "name": "WESTROCK CO",
+      "cusip": "96145D105",
+      "shares": 705399,
+      "value": 19935
+    },
+    {
+      "name": "TECHNIPFMC PLC",
+      "cusip": "G87110105",
+      "shares": 1758032,
+      "value": 11849
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 535161,
+      "value": 9242
+    },
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 100000,
+      "value": 4658
+    },
+    {
+      "name": "NOMAD FOODS LTD",
+      "cusip": "G6564A105",
+      "shares": 101000,
+      "value": 1875
+    },
+    {
+      "name": "ACUITY BRANDS INC",
+      "cusip": "00508Y102",
+      "shares": 9000,
+      "value": 771
+    },
+    {
+      "name": "DANA INCORPORATED",
+      "cusip": "235825205",
+      "shares": 80000,
+      "value": 625
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 8000,
+      "value": 610
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 35000,
+      "value": 577
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 16000,
+      "value": 570
+    },
+    {
+      "name": "APTIV PLC",
+      "cusip": "G6095L109",
+      "shares": 10000,
+      "value": 492
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 15000,
+      "value": 485
+    },
+    {
+      "name": "MASCO CORP",
+      "cusip": "574599106",
+      "shares": 13000,
+      "value": 449
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 25000,
+      "value": 361
+    }
+  ],
+  "totalValue": 177200,
+  "positionsCount": 18
+}

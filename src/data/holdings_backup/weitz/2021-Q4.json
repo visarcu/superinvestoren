@@ -1,0 +1,210 @@
+{
+  "form": "NPORT-P",
+  "date": "2021-11-26",
+  "period": "2021-11-26",
+  "positions": [
+    {
+      "name": "LINDE PUBLIC LIMITED COMPANY",
+      "cusip": "G5494J103",
+      "shares": 75000,
+      "value": 22003500000,
+      "pctOfPortfolio": 217.8868322049
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATION",
+      "cusip": "808513105",
+      "shares": 600000,
+      "value": 43704000000,
+      "pctOfPortfolio": 432.7732458329
+    },
+    {
+      "name": "FIDELITY NATIONAL INFORMATION SERVICES, INC.",
+      "cusip": "31620M106",
+      "shares": 240000,
+      "value": 29203200000,
+      "pctOfPortfolio": 289.1809365895
+    },
+    {
+      "name": "ANALOG DEVICES, INC.",
+      "cusip": "032654105",
+      "shares": 210000,
+      "value": 35170800000,
+      "pctOfPortfolio": 348.2743289983
+    },
+    {
+      "name": "S&P GLOBAL INC.",
+      "cusip": "78409V104",
+      "shares": 62500,
+      "value": 26555625000,
+      "pctOfPortfolio": 262.9636652565
+    },
+    {
+      "name": "AUTOZONE, INC.",
+      "cusip": "053332102",
+      "shares": 17500,
+      "value": 29714825000,
+      "pctOfPortfolio": 294.2472374292
+    },
+    {
+      "name": "VISA INC.",
+      "cusip": "92826C839",
+      "shares": 180000,
+      "value": 40095000000,
+      "pctOfPortfolio": 397.035586941
+    },
+    {
+      "name": "LIBERTY SIRIUS XM",
+      "cusip": "531229607",
+      "shares": 650000,
+      "value": 30855500000,
+      "pctOfPortfolio": 305.5426250869
+    },
+    {
+      "name": "JPMORGAN CHASE & CO.",
+      "cusip": "46625H100",
+      "shares": 140000,
+      "value": 22916600000,
+      "pctOfPortfolio": 226.92868765909998
+    },
+    {
+      "name": "LIBERTY BROADBAND CORPORATION",
+      "cusip": "530307305",
+      "shares": 280000,
+      "value": 48356000000,
+      "pctOfPortfolio": 478.8390782422
+    },
+    {
+      "name": "CarMax, Inc.",
+      "cusip": "143130102",
+      "shares": 225000,
+      "value": 28791000000,
+      "pctOfPortfolio": 285.0991790402
+    },
+    {
+      "name": "LABORATORY CORPORATION OF AMERICA HOLDINGS",
+      "cusip": "50540R409",
+      "shares": 125000,
+      "value": 35180000000,
+      "pctOfPortfolio": 348.3654308164
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC.",
+      "cusip": "084670702",
+      "shares": 165000,
+      "value": 45035100000,
+      "pctOfPortfolio": 445.95429259130003
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC.",
+      "cusip": "883556102",
+      "shares": 75000,
+      "value": 42849750000,
+      "pctOfPortfolio": 424.31414494390003
+    },
+    {
+      "name": "ORACLE CORPORATION",
+      "cusip": "68389X105",
+      "shares": 325000,
+      "value": 28317250000,
+      "pctOfPortfolio": 280.4079305226
+    },
+    {
+      "name": "MASTERCARD INCORPORATED.",
+      "cusip": "57636Q104",
+      "shares": 105000,
+      "value": 36506400000,
+      "pctOfPortfolio": 361.4999364286
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 140000,
+      "value": 42621600000,
+      "pctOfPortfolio": 422.05491887679995
+    },
+    {
+      "name": "AMAZON.COM, INC.",
+      "cusip": "023135106",
+      "shares": 8500,
+      "value": 27922840000,
+      "pctOfPortfolio": 276.5023361631
+    },
+    {
+      "name": "Aon plc",
+      "cusip": "G0403H108",
+      "shares": 187282,
+      "value": 53519577140,
+      "pctOfPortfolio": 529.9707375637
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912796N70",
+      "shares": 16000000,
+      "value": 15999293280,
+      "pctOfPortfolio": 158.4309464538
+    },
+    {
+      "name": "FACEBOOK, INC.",
+      "cusip": "30303M102",
+      "shares": 140000,
+      "value": 47514600000,
+      "pctOfPortfolio": 470.5072228275
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912796M30",
+      "shares": 10000000,
+      "value": 9999927400,
+      "pctOfPortfolio": 99.0229964989
+    },
+    {
+      "name": "ALPHABET INC.",
+      "cusip": "02079K107",
+      "shares": 28000,
+      "value": 74628680000,
+      "pctOfPortfolio": 739.0009169831
+    },
+    {
+      "name": "COMCAST CORPORATION",
+      "cusip": "20030N101",
+      "shares": 500000,
+      "value": 27965000000,
+      "pctOfPortfolio": 276.9198201473
+    },
+    {
+      "name": "ROPER TECHNOLOGIES, INC.",
+      "cusip": "776696106",
+      "shares": 55000,
+      "value": 24537150000,
+      "pctOfPortfolio": 242.9759758601
+    },
+    {
+      "name": "SALESFORCE.COM, INC.",
+      "cusip": "79466L302",
+      "shares": 120000,
+      "value": 32546400000,
+      "pctOfPortfolio": 322.2865451258
+    },
+    {
+      "name": "ACCENTURE PUBLIC LIMITED COMPANY",
+      "cusip": "G1151C101",
+      "shares": 90000,
+      "value": 28792800000,
+      "pctOfPortfolio": 285.117003309
+    },
+    {
+      "name": "COSTAR GROUP, INC.",
+      "cusip": "22160N109",
+      "shares": 450000,
+      "value": 38727000000,
+      "pctOfPortfolio": 383.48914267279997
+    },
+    {
+      "name": "VULCAN MATERIALS COMPANY",
+      "cusip": "929160109",
+      "shares": 205000,
+      "value": 34677800000,
+      "pctOfPortfolio": 343.3924598285
+    }
+  ]
+}

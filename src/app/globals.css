@@ -1,257 +1,679 @@
-/* src/app/globals.css - OPTIMIERTE VERSION */
+/* src/app/globals.css - KOMPATIBLE THEME VERSION */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 1) Einfaches CSS-Reset */
+/* ===== RESPONSIVE GRUNDLAGEN - BESTEHEND BEIBEHALTEN ===== */
+html {
+  font-size: 14px; /* Beibehalten */
+  scroll-behavior: smooth;
+}
+
+/* ===== INTELLIGENTE Container - BESTEHEND BEIBEHALTEN ===== */
+.container, 
+[class*="max-w-"] {
+  max-width: 90% !important; /* Bestehend beibehalten */
+}
+
+/* ===== ERWEITERTE Container-Größen - BESTEHEND BEIBEHALTEN ===== */
+.max-w-8xl { max-width: 1400px !important; }
+.max-w-7xl { max-width: 1200px !important; }
+.max-w-6xl { max-width: 1050px !important; }
+.max-w-5xl { max-width: 900px !important; }
+.max-w-4xl { max-width: 800px !important; }
+.max-w-3xl { max-width: 700px !important; }
+.max-w-2xl { max-width: 600px !important; }
+.max-w-xl { max-width: 500px !important; }
+.max-w-lg { max-width: 450px !important; }
+.max-w-md { max-width: 380px !important; }
+.max-w-sm { max-width: 320px !important; }
+.max-w-9xl { max-width: 1600px !important; }
+.max-w-10xl { max-width: 1800px !important; }
+
+/* ===== KOMPAKTERE Text-Größen - BESTEHEND BEIBEHALTEN ===== */
+body {
+  font-size: 0.875rem; /* Bestehend */
+  line-height: 1.4; /* Bestehend */
+  font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== MOBILE RESPONSIVE - BESTEHEND BEIBEHALTEN ===== */
+@media (max-width: 768px) {
+  html { font-size: 13px; }
+  body { font-size: 0.8rem; line-height: 1.3; }
+  .container, [class*="max-w-"] {
+    max-width: 95% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .max-w-sm { max-width: 300px !important; }
+  .max-w-md { max-width: 350px !important; }
+  .max-w-lg { max-width: 400px !important; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 12px; }
+  body { font-size: 0.75rem; }
+  .max-w-sm { max-width: 280px !important; }
+  .max-w-md { max-width: 320px !important; }
+}
+
+/* ===== ERWEITERTE THEME DEFINITIONEN - KOMPATIBEL ===== */
+:root {
+  /* ===== LIGHT THEME - FISCAL.AI STYLE ===== */
+  /* Backgrounds - Clean & Modern */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-hover: #f8fafc;
+  --bg-active: #f1f5f9;
+  
+  /* Text - Professional Hierarchy */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-placeholder: #94a3b8;
+  
+  /* Borders - Subtle & Clean */
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-focus: #94a3b8;
+  --border-strong: #64748b;
+  
+  /* Shadows - Modern & Soft */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Navbar - Clean Light */
+  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --navbar-border: #e2e8f0;
+  --navbar-text: #475569;
+  --navbar-text-hover: #0f172a;
+  
+  /* Forms - Professional */
+  --input-bg: #ffffff;
+  --input-border: #e2e8f0;
+  --input-border-focus: #94a3b8;
+  --input-text: #0f172a;
+  --input-placeholder: #94a3b8;
+  
+  /* Charts - Optimized for Light */
+  --chart-bg: #ffffff;
+  --chart-border: #e2e8f0;
+  --chart-grid: #f1f5f9;
+  --chart-text: #64748b;
+  --chart-axis: #94a3b8;
+  
+  /* Terminal Colors - Light */
+  --terminal-bg: #f8fafc;
+  --terminal-border: #e2e8f0;
+  --sidebar-bg: #ffffff;
+  --terminal-sidebar-active: #f1f5f9;
+  
+  /* Accent - Fintech Green */
+  --accent-primary: #22c55e;
+  --accent-secondary: #16a34a;
+  --accent-hover: #15803d;
+  --accent-light: #dcfce7;
+  --accent-glow: rgba(34, 197, 94, 0.15);
+  
+  /* Status Colors */
+  --success: #22c55e;
+  --success-light: #dcfce7;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --error: #ef4444;
+  --error-light: #fecaca;
+  --info: #3b82f6;
+  --info-light: #dbeafe;
+}
+
+.dark {
+  /* ===== DARK THEME - BESTEHENDE WERTE BEIBEHALTEN ===== */
+  --bg-primary: #1a1d23;        /* Bestehend beibehalten */
+  --bg-secondary: #242932;      /* Bestehend beibehalten */
+  --bg-tertiary: #2a2f38;       /* Bestehend beibehalten */
+  --bg-card: #242932;           /* Bestehend beibehalten */
+  --bg-hover: #2a2f38;          /* Bestehend beibehalten */
+  --bg-active: #3a4553;         /* Bestehend beibehalten */
+  
+  --text-primary: #ffffff;      /* Bestehend beibehalten */
+  --text-secondary: #b4bcd0;    /* Bestehend beibehalten */
+  --text-muted: #8b92a5;        /* Bestehend beibehalten */
+  --text-placeholder: #6b7280;
+  
+  --border-color: #3a4553;      /* Bestehend beibehalten */
+  --border-hover: #4a5568;      /* Bestehend beibehalten */
+  --border-focus: #4a5568;
+  --border-strong: #5a6572;
+  
+  /* Shadows - Deep & Atmospheric */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  
+  /* Navbar - Professional Dark */
+  --navbar-bg: rgba(26, 29, 35, 0.95);
+  --navbar-border: #2a3441;
+  --navbar-text: #b4bcd0;
+  --navbar-text-hover: #ffffff;
+  
+  /* Forms - Dark Professional */
+  --input-bg: #1e222a;
+  --input-border: #2a3441;
+  --input-border-focus: #4a5568;
+  --input-text: #ffffff;
+  --input-placeholder: #6b7280;
+  
+  /* Charts - Optimized for Dark */
+  --chart-bg: #1e222a;
+  --chart-border: #2a3441;
+  --chart-grid: #242932;
+  --chart-text: #8b92a5;
+  --chart-axis: #6b7280;
+  
+  /* Terminal Colors - BESTEHEND BEIBEHALTEN */
+  --terminal-bg: #1a1d23;       /* Bestehend beibehalten */
+  --terminal-border: #3a4553;   /* Bestehend beibehalten */
+  --sidebar-bg: #242932;        /* Bestehend beibehalten */
+  
+  /* Accent - Same Green (works in both themes) */
+  --accent-primary: #22c55e;
+  --accent-secondary: #16a34a;
+  --accent-hover: #15803d;
+  --accent-light: rgba(34, 197, 94, 0.1);
+  --accent-glow: rgba(34, 197, 94, 0.2);
+  
+  /* Status Colors - Dark Optimized */
+  --success: #22c55e;
+  --success-light: rgba(34, 197, 94, 0.1);
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.1);
+  --error: #ef4444;
+  --error-light: rgba(239, 68, 68, 0.1);
+  --info: #3b82f6;
+  --info-light: rgba(59, 130, 246, 0.1);
+}
+
+/* ===== BESTEHENDE THEME UTILITY CLASSES - BEIBEHALTEN ===== */
+.bg-theme { background-color: var(--bg-primary); }
+.bg-theme-primary { background-color: var(--bg-primary); }
+.bg-theme-secondary { background-color: var(--bg-secondary); }
+.bg-theme-tertiary { background-color: var(--bg-tertiary); }
+.bg-theme-card { 
+  background-color: var(--bg-card); 
+  box-shadow: var(--shadow-sm);
+}
+.bg-theme-hover { background-color: var(--bg-hover); }
+.bg-theme-active { background-color: var(--bg-active); }
+
+.text-theme-primary { color: var(--text-primary); }
+.text-theme-secondary { color: var(--text-secondary); }
+.text-theme-muted { color: var(--text-muted); }
+.text-theme-placeholder { color: var(--text-placeholder); }
+
+.border-theme { border-color: var(--border-color); }
+.border-theme-hover { border-color: var(--border-hover); }
+.border-theme-focus { border-color: var(--border-focus); }
+.border-theme-strong { border-color: var(--border-strong); }
+
+/* ===== ERWEITERTE THEME UTILITY CLASSES ===== */
+.navbar-theme {
+  background-color: var(--navbar-bg);
+  border-color: var(--navbar-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.navbar-text { color: var(--navbar-text); }
+.navbar-text:hover { color: var(--navbar-text-hover); }
+
+.input-theme {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--input-text);
+}
+
+.input-theme::placeholder {
+  color: var(--input-placeholder);
+}
+
+.input-theme:focus {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.chart-theme {
+  background-color: var(--chart-bg);
+  border-color: var(--chart-border);
+}
+
+/* ===== PROFESSIONELLE KARTEN WIE FINCHAT - BESTEHEND ERWEITERT ===== */
+.professional-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.professional-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ===== PROFESSIONELLE TABELLEN WIE FINCHAT - BESTEHEND BEIBEHALTEN ===== */
+.professional-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.professional-table th {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.professional-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.professional-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.professional-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.professional-table tr:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.professional-table tr:last-child td {
+  border-bottom: none;
+}
+
+.professional-table tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.professional-table tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+/* ===== VERBESSERTE CHART UTILITY CLASSES - BESTEHEND BEIBEHALTEN ===== */
+.chart-container {
+  height: 360px !important;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
+@media (max-width: 768px) {
+  .chart-container { height: 320px !important; }
+}
+
+@media (max-width: 480px) {
+  .chart-container { height: 280px !important; }
+}
+
+.modal-content {
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+  }
+}
+
+/* ===== CSS RESET ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* 2) Orbitron-Zahlen */
+/* ===== FONT FAMILIES - BESTEHEND BEIBEHALTEN ===== */
 .numeric {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Inter', 'Orbitron', sans-serif;
   font-variant-numeric: tabular-nums;
 }
 
-/* 3) System-Font als Fallback */
-body {
-  font-family: 'Poppins', system-ui, sans-serif;
-}
-
-/* 4) Dein Gradient-Text Utility */
 .gradient-text {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
-/* 5) Card-Hover-Effekt */
+/* ===== PROFESSIONELLE CARD EFFECTS - BESTEHEND BEIBEHALTEN ===== */
 .card {
-  transition: transform .2s ease, box-shadow .2s ease;
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+  transition: transform .2s ease, box-shadow .2s ease, background-color 0.3s ease, border-color 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
+
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-hover);
 }
 
-/* 6) Recharts-Hover */
-.recharts-bar-rectangle {
-  transition: opacity .2s ease, stroke-width .2s ease;
-}
-.recharts-bar-rectangle:hover {
-  opacity: 0.8;
-  stroke-width: 2px;
-}
-
-/* ─── OPTIMIERTES NOISE PATTERN ─── */
-/* Verbessertes Noise Pattern mit besserer Performance und nahtloserem Look */
+/* ===== SUBTILE NOISE PATTERNS FÜR DEPTH - BESTEHEND BEIBEHALTEN ===== */
 .noise-bg {
   background-image: 
-    /* Feine Grundstruktur */
-    radial-gradient(circle at 0.5px 0.5px, rgba(34, 197, 94, 0.15) 0.5px, transparent 0),
-    /* Medium Texture */
-    radial-gradient(circle at 3px 3px, rgba(34, 197, 94, 0.08) 0.4px, transparent 0),
-    /* Größere Punkte für Tiefe */
-    radial-gradient(circle at 6px 6px, rgba(34, 197, 94, 0.04) 0.3px, transparent 0),
-    /* Subtile größere Struktur */
-    radial-gradient(circle at 12px 12px, rgba(34, 197, 94, 0.02) 0.2px, transparent 0);
+    radial-gradient(circle at 0.5px 0.5px, rgba(255, 255, 255, 0.015) 0.5px, transparent 0),
+    radial-gradient(circle at 3px 3px, rgba(255, 255, 255, 0.008) 0.4px, transparent 0);
   
-  background-size: 6px 6px, 12px 12px, 24px 24px, 48px 48px;
-  
-  /* Wichtig: Nahtlose Wiederholung ohne Abschneiden */
+  background-size: 6px 6px, 12px 12px;
   background-attachment: local;
   background-repeat: repeat;
-  
-  /* Bessere Performance */
   will-change: auto;
   transform: translateZ(0);
 }
 
-/* Alternative: Subtileres Noise für sensible Bereiche */
 .noise-bg-subtle {
   background-image: 
-    radial-gradient(circle at 1px 1px, rgba(34, 197, 94, 0.08) 0.5px, transparent 0),
-    radial-gradient(circle at 4px 4px, rgba(34, 197, 94, 0.04) 0.3px, transparent 0);
-  background-size: 8px 8px, 16px 16px;
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.01) 0.5px, transparent 0);
+  background-size: 8px 8px;
   background-attachment: local;
   background-repeat: repeat;
 }
 
-/* ─── RECHARTS TOOLTIP STYLES ─── */
-/* Tooltip Container */
+/* ===== RECHARTS CHART CONTAINER FIXES - BESTEHEND BEIBEHALTEN ===== */
+.recharts-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.recharts-surface {
+  overflow: visible !important;
+}
+
+.recharts-cartesian-axis-tick-value {
+  font-size: 11px !important;
+  fill: var(--chart-text) !important;
+  font-weight: 500 !important;
+}
+
+.recharts-cartesian-axis.recharts-xAxis .recharts-cartesian-axis-tick {
+  transform-origin: center bottom !important;
+}
+
+.recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick-value {
+  font-size: 11px !important;
+  fill: var(--chart-text) !important;
+  font-weight: 400 !important;
+}
+
+.recharts-cartesian-axis.recharts-yAxis .recharts-cartesian-axis-tick {
+  transform-origin: right center !important;
+}
+
+.recharts-bar-rectangle {
+  transition: opacity 0.2s ease, filter 0.2s ease !important;
+}
+
+.recharts-bar-rectangle:hover {
+  opacity: 0.8 !important;
+  filter: brightness(1.1) !important;
+}
+
+.recharts-line .recharts-line-curve {
+  stroke-width: 2.5px !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)) !important;
+}
+
+.recharts-line .recharts-line-dot {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) !important;
+}
+
 .recharts-tooltip-wrapper {
   z-index: 1000 !important;
   pointer-events: none;
 }
 
-/* Main Tooltip Box */
 .recharts-default-tooltip {
-  background: rgba(17, 24, 39, 0.95) !important;
-  border: 1px solid rgba(75, 85, 99, 0.5) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
-  backdrop-filter: blur(8px) !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow-lg) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   padding: 12px !important;
-  min-width: 200px !important;
+  min-width: 160px !important;
 }
 
-/* Tooltip Label (z.B. "Q3 2012") */
+.recharts-tooltip-cursor {
+  fill: rgba(34, 197, 94, 0.1) !important;
+  stroke: rgba(34, 197, 94, 0.3) !important;
+  stroke-width: 1px !important;
+}
+
 .recharts-tooltip-label {
-  color: #F3F4F6 !important;
+  color: var(--text-primary) !important;
   font-weight: 600 !important;
-  font-size: 14px !important;
+  font-size: 12px !important;
   margin-bottom: 6px !important;
-  border-bottom: 1px solid rgba(75, 85, 99, 0.3);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 4px !important;
 }
 
-/* Tooltip Items (z.B. "Cash/Treasuries: $83,700,000,000") */
 .recharts-tooltip-item {
-  color: #FCD34D !important;
+  color: var(--accent-primary) !important;
   font-weight: 500 !important;
-  font-size: 13px !important;
+  font-size: 11px !important;
   margin: 0 !important;
   padding: 2px 0 !important;
 }
 
-/* Tooltip Item Name (z.B. "Cash/Treasuries") */
 .recharts-tooltip-item-name {
-  color: #9CA3AF !important;
+  color: var(--text-secondary) !important;
   margin-right: 8px !important;
 }
 
-/* Tooltip Separator */
 .recharts-tooltip-separator {
-  background: #4B5563 !important;
+  background: var(--border-color) !important;
   margin: 0 4px !important;
 }
 
-/* Cash Chart spezifisch - überschreibt weiße Tooltips komplett */
-.cash-chart-container .recharts-default-tooltip {
-  background: rgba(17, 24, 39, 0.98) !important;
-  border: 1px solid rgba(251, 191, 36, 0.3) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
-  backdrop-filter: blur(12px) !important;
-  padding: 16px !important;
-  min-width: 220px !important;
-}
-
-.cash-chart-container .recharts-tooltip-label {
-  color: #FCD34D !important;
-  font-weight: 700 !important;
-  font-size: 15px !important;
-  margin-bottom: 8px !important;
-  text-align: center !important;
-}
-
-.cash-chart-container .recharts-tooltip-item {
-  color: #FBBF24 !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  text-align: center !important;
-}
-
-.cash-chart-container .recharts-tooltip-item-name {
-  color: #D1D5DB !important;
-}
-
-/* Bar Hover Effekte für Cash Chart */
-.cash-chart-container .recharts-bar-rectangle:hover {
-  filter: brightness(1.2) !important;
-  transition: filter 0.2s ease !important;
-}
-
-/* Grid Lines für besseres Aussehen */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: rgba(75, 85, 99, 0.2) !important;
-  stroke-dasharray: 3 3 !important;
+  stroke: var(--border-color) !important;
+  stroke-dasharray: 2 2 !important;
+  opacity: 0.4 !important;
 }
 
-/* Achsen-Text */
-.recharts-xAxis .recharts-cartesian-axis-tick-value,
-.recharts-yAxis .recharts-cartesian-axis-tick-value {
-  fill: #9CA3AF !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
+/* ===== PROFESSIONELLE BUTTONS - THEME AWARE ===== */
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-/* ─── NAHTLOSES MARQUEE ─── */
+.btn-primary:hover {
+  background-color: var(--accent-secondary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  border-color: var(--border-hover);
+  background-color: var(--bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ===== STATUS COLORS ===== */
+.text-success { color: var(--success); }
+.bg-success { background-color: var(--success); }
+.bg-success-light { background-color: var(--success-light); }
+.border-success { border-color: var(--success); }
+
+.text-warning { color: var(--warning); }
+.bg-warning { background-color: var(--warning); }
+.bg-warning-light { background-color: var(--warning-light); }
+.border-warning { border-color: var(--warning); }
+
+.text-error { color: var(--error); }
+.bg-error { background-color: var(--error); }
+.bg-error-light { background-color: var(--error-light); }
+.border-error { border-color: var(--error); }
+
+.text-info { color: var(--info); }
+.bg-info { background-color: var(--info); }
+.bg-info-light { background-color: var(--info-light); }
+.border-info { border-color: var(--info); }
+
+/* ===== ANIMATIONS - BESTEHEND BEIBEHALTEN ===== */
+@keyframes fadeInChart {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recharts-wrapper {
+  animation: fadeInChart 0.4s ease-out !important;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* Outer Container blendet alles außerhalb des Bildschirms aus */
 .marquee-container {
   overflow: hidden;
   width: 100%;
 }
 
-/* Innerer Stream: 200 % breit und mit Endlos-Animation */
 .marquee-inner {
-  display: inline-flex; /* Inline, damit white-space: nowrap funktioniert */
-  white-space: nowrap; /* verhindert Zeilenumbruch */
-  width: 200%; /* Doppelte Breite, weil wir Logos 2× reingenommen haben */
+  display: inline-flex;
+  white-space: nowrap;
+  width: 200%;
   animation: marquee 20s linear infinite;
 }
 
-/* Wenn man mit der Maus darüberfährt, pausiert es */
 .marquee-inner:hover {
   animation-play-state: paused;
 }
 
-/* ─── PREMIUM DESIGN UTILITIES ─── */
-/* Grüner Glow für Premium */
+/* ===== UTILITY CLASSES - BESTEHEND BEIBEHALTEN ===== */
 .green-glow {
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
-/* Premium Gradient - Verbessert */
 .premium-gradient {
   background: linear-gradient(135deg, 
-      rgba(34, 197, 94, 0.05) 0%, 
-      rgba(17, 24, 39, 0.95) 50%,
-      rgba(17, 24, 39, 1) 100%
+      var(--accent-glow) 0%, 
+      var(--bg-secondary) 50%,
+      var(--bg-primary) 100%
   );
 }
 
-/* ─── SMOOTH SCROLL & PERFORMANCE ─── */
-html {
-  scroll-behavior: smooth;
+/* ===== SCROLLBARS - THEME AWARE ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* Bessere Performance für animierte Elemente */
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
+
+/* ===== THEME TRANSITION ===== */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== PERFORMANCE ===== */
 .animate-spin,
 .marquee-inner,
-.card {
+.professional-card {
   will-change: transform;
   transform: translateZ(0);
 }
 
-/* ─── RESPONSIVE NOISE ANPASSUNGEN ─── */
-@media (max-width: 768px) {
-  .noise-bg {
-    /* Auf mobilen Geräten weniger intensiv für bessere Performance */
-    background-image: 
-      radial-gradient(circle at 1px 1px, rgba(34, 197, 94, 0.12) 0.5px, transparent 0),
-      radial-gradient(circle at 4px 4px, rgba(34, 197, 94, 0.06) 0.3px, transparent 0);
-    background-size: 8px 8px, 16px 16px;
-  }
-}
-
-/* ─── ACCESSIBILITY ─── */
+/* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-inner {
-    animation: none;
-  }
-  
-  .card {
-    transition: none;
+  .recharts-bar-rectangle,
+  .recharts-line .recharts-line-curve,
+  .recharts-wrapper,
+  .marquee-inner,
+  .professional-card {
+    transition: none !important;
+    animation: none !important;
   }
   
   * {
@@ -259,4 +681,18 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ===== HIGH DPI DISPLAY ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .recharts-cartesian-axis-tick-value {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+}
+
+/* ===== BETTER VIEWPORT ===== */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
 }

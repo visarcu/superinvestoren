@@ -1,0 +1,29 @@
+{
+  "form": "13F-HR",
+  "date": "2020-02-14",
+  "period": "2020-02-14",
+  "accession": "0001398344-20-003588",
+  "quarterKey": "2020-Q1",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 373,
+      "value": 126667
+    },
+    {
+      "name": "WINNEBAGO INDS INC",
+      "cusip": "974637100",
+      "shares": 1391550,
+      "value": 73724
+    },
+    {
+      "name": "BAIDU INC",
+      "cusip": "056752108",
+      "shares": 316295,
+      "value": 39980
+    }
+  ],
+  "totalValue": 240371,
+  "positionsCount": 3
+}

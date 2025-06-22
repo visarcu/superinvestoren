@@ -1,0 +1,155 @@
+{
+  "form": "13F-HR",
+  "date": "2019-05-03",
+  "period": "2019-05-03",
+  "accession": "0000891092-19-005502",
+  "quarterKey": "2019-Q2",
+  "positions": [
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 12155981,
+      "value": 756345
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "37045V100",
+      "shares": 20330837,
+      "value": 754274
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 3343927,
+      "value": 642001
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 4970573,
+      "value": 503171
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 2749967,
+      "value": 498872
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 9354285,
+      "value": 459202
+    },
+    {
+      "name": "WHIRLPOOL CORP",
+      "cusip": "963320106",
+      "shares": 2832782,
+      "value": 376448
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 8544846,
+      "value": 353586
+    },
+    {
+      "name": "Airbus Group NV (EADSY)",
+      "cusip": "009279100",
+      "shares": 9270904,
+      "value": 306960
+    },
+    {
+      "name": "FORD MTR CO DEL",
+      "cusip": "345370860",
+      "shares": 32437748,
+      "value": 284803
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 6838395,
+      "value": 191202
+    },
+    {
+      "name": "TOLL BROTHERS INC",
+      "cusip": "889478103",
+      "shares": 4338475,
+      "value": 157053
+    },
+    {
+      "name": "QUANTA SVCS INC",
+      "cusip": "74762E102",
+      "shares": 2786550,
+      "value": 105164
+    },
+    {
+      "name": "TRI POINTE GROUP INC",
+      "cusip": "87265H109",
+      "shares": 4840080,
+      "value": 61179
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 2753295,
+      "value": 48871
+    },
+    {
+      "name": "AECOM",
+      "cusip": "00766T100",
+      "shares": 1613689,
+      "value": 47878
+    },
+    {
+      "name": "FIAT CHRYSLER AUTOMOBILES N",
+      "cusip": "N31738102",
+      "shares": 1717200,
+      "value": 25500
+    },
+    {
+      "name": "ADIENT PLC",
+      "cusip": "G0084W101",
+      "shares": 1787748,
+      "value": 23169
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057302",
+      "shares": 574697,
+      "value": 22482
+    },
+    {
+      "name": "3M CO",
+      "cusip": "88579Y101",
+      "shares": 25000,
+      "value": 5195
+    },
+    {
+      "name": "MERITAGE HOMES CORP",
+      "cusip": "59001A102",
+      "shares": 95825,
+      "value": 4284
+    },
+    {
+      "name": "AGILENT TECHNOLOGIES INC",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 860
+    },
+    {
+      "name": "TD AMERITRADE HLDG CORP",
+      "cusip": "87236Y108",
+      "shares": 7170,
+      "value": 358
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 340
+    }
+  ],
+  "totalValue": 5629197,
+  "positionsCount": 24
+}

@@ -1,0 +1,83 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-14",
+  "period": "2024-08-14",
+  "accession": "0001172661-24-003364",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 651700,
+      "value": 291277315
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 1243900,
+      "value": 90406652
+    },
+    {
+      "name": "ADOBE INC",
+      "cusip": "00724F101",
+      "shares": 142700,
+      "value": 79275558
+    },
+    {
+      "name": "QUANTA SVCS INC",
+      "cusip": "74762E102",
+      "shares": 290143,
+      "value": 73722435
+    },
+    {
+      "name": "SHOALS TECHNOLOGIES GROUP IN",
+      "cusip": "82489W107",
+      "shares": 9642545,
+      "value": 60169481
+    },
+    {
+      "name": "DUTCH BROS INC",
+      "cusip": "26701L100",
+      "shares": 1364514,
+      "value": 56490880
+    },
+    {
+      "name": "NU HLDGS LTD",
+      "cusip": "G6683N103",
+      "shares": 2131000,
+      "value": 27468590
+    },
+    {
+      "name": "BUMBLE INC",
+      "cusip": "12047B105",
+      "shares": 1350000,
+      "value": 14188500
+    },
+    {
+      "name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "shares": 78480,
+      "value": 5287198
+    },
+    {
+      "name": "PROCTER AND GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 23050,
+      "value": 3801406
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 12115,
+      "value": 3116947
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 5230,
+      "value": 1681445
+    }
+  ],
+  "totalValue": 706886407,
+  "positionsCount": 12
+}

@@ -1,0 +1,298 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-07-18",
+  "period": "2024-07-18",
+  "accession": "0001145549-24-043970",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "Encompass Health Corp",
+      "cusip": "29261A100",
+      "shares": 94410,
+      "value": 8156079.9,
+      "pctOfPortfolio": 4.148596479
+    },
+    {
+      "name": "Broadridge Financial Solutions",
+      "cusip": "11133T103",
+      "shares": 36619,
+      "value": 7351996.63,
+      "pctOfPortfolio": 3.739598889
+    },
+    {
+      "name": "Copart Inc",
+      "cusip": "217204106",
+      "shares": 137810,
+      "value": 7312198.6,
+      "pctOfPortfolio": 3.7193555897
+    },
+    {
+      "name": "Tractor Supply Co",
+      "cusip": "892356106",
+      "shares": 24460,
+      "value": 6978193.4,
+      "pctOfPortfolio": 3.5494635811
+    },
+    {
+      "name": "Labcorp Holdings Inc",
+      "cusip": "504922105",
+      "shares": 35690,
+      "value": 6956337.9,
+      "pctOfPortfolio": 3.5383467637
+    },
+    {
+      "name": "Crown Holdings Inc",
+      "cusip": "228368106",
+      "shares": 80820,
+      "value": 6804235.8,
+      "pctOfPortfolio": 3.4609799105
+    },
+    {
+      "name": "Equifax Inc",
+      "cusip": "294429105",
+      "shares": 28940,
+      "value": 6696426.6,
+      "pctOfPortfolio": 3.4061426758
+    },
+    {
+      "name": "Lennox International Inc",
+      "cusip": "526107107",
+      "shares": 13280,
+      "value": 6674528,
+      "pctOfPortfolio": 3.3950039356
+    },
+    {
+      "name": "Genuine Parts Co",
+      "cusip": "372460105",
+      "shares": 42590,
+      "value": 6138922.6,
+      "pctOfPortfolio": 3.1225678262
+    },
+    {
+      "name": "Kroger Co/The",
+      "cusip": "501044101",
+      "shares": 116730,
+      "value": 6113150.1,
+      "pctOfPortfolio": 3.1094586237
+    },
+    {
+      "name": "Church & Dwight Co Inc",
+      "cusip": "171340102",
+      "shares": 56010,
+      "value": 5993630.1,
+      "pctOfPortfolio": 3.0486646814
+    },
+    {
+      "name": "Genpact Ltd",
+      "cusip": null,
+      "shares": 166270,
+      "value": 5496886.2,
+      "pctOfPortfolio": 2.7959955045
+    },
+    {
+      "name": "Gentex Corp",
+      "cusip": "371901109",
+      "shares": 154820,
+      "value": 5418700,
+      "pctOfPortfolio": 2.7562260322
+    },
+    {
+      "name": "General Mills Inc",
+      "cusip": "370334104",
+      "shares": 75940,
+      "value": 5220875,
+      "pctOfPortfolio": 2.6556021898
+    },
+    {
+      "name": "Amphenol Corp",
+      "cusip": "032095101",
+      "shares": 39360,
+      "value": 5210083.2,
+      "pctOfPortfolio": 2.6501129322
+    },
+    {
+      "name": "Kellanova",
+      "cusip": "487836108",
+      "shares": 86320,
+      "value": 5208548.8,
+      "pctOfPortfolio": 2.6493324584
+    },
+    {
+      "name": "Best Buy Co Inc",
+      "cusip": "086516101",
+      "shares": 61290,
+      "value": 5198617.8,
+      "pctOfPortfolio": 2.6442810474
+    },
+    {
+      "name": "Microchip Technology Inc",
+      "cusip": "595017104",
+      "shares": 49430,
+      "value": 4806078.9,
+      "pctOfPortfolio": 2.4446158261
+    },
+    {
+      "name": "Levi Strauss & Co",
+      "cusip": "52736R102",
+      "shares": 192940,
+      "value": 4632489.4,
+      "pctOfPortfolio": 2.3563193899
+    },
+    {
+      "name": "Keysight Technologies Inc",
+      "cusip": "49338L103",
+      "shares": 33220,
+      "value": 4600305.6,
+      "pctOfPortfolio": 2.3399490746
+    },
+    {
+      "name": "F5 Inc",
+      "cusip": "315616102",
+      "shares": 26860,
+      "value": 4538534.2,
+      "pctOfPortfolio": 2.3085290033
+    },
+    {
+      "name": "Campbell Soup Co",
+      "cusip": "134429109",
+      "shares": 101670,
+      "value": 4512114.6,
+      "pctOfPortfolio": 2.2950906529
+    },
+    {
+      "name": "FactSet Research Systems Inc",
+      "cusip": "303075105",
+      "shares": 10750,
+      "value": 4345795,
+      "pctOfPortfolio": 2.210492057
+    },
+    {
+      "name": "Booz Allen Hamilton Holding Co",
+      "cusip": "099502106",
+      "shares": 28380,
+      "value": 4319719.8,
+      "pctOfPortfolio": 2.197228886
+    },
+    {
+      "name": "Manhattan Associates Inc",
+      "cusip": "562750109",
+      "shares": 19530,
+      "value": 4287616.2,
+      "pctOfPortfolio": 2.1808993645
+    },
+    {
+      "name": "MSCI Inc",
+      "cusip": "55354G100",
+      "shares": 8470,
+      "value": 4194174.6,
+      "pctOfPortfolio": 2.1333702209
+    },
+    {
+      "name": "Donaldson Co Inc",
+      "cusip": "257651109",
+      "shares": 56760,
+      "value": 4182076.8,
+      "pctOfPortfolio": 2.1272166654
+    },
+    {
+      "name": "Verisk Analytics Inc",
+      "cusip": "92345Y106",
+      "shares": 16540,
+      "value": 4180981.2,
+      "pctOfPortfolio": 2.1266593876
+    },
+    {
+      "name": "Bio-Techne Corp",
+      "cusip": "09073M104",
+      "shares": 52060,
+      "value": 4018511.4,
+      "pctOfPortfolio": 2.0440189956
+    },
+    {
+      "name": "Maximus Inc",
+      "cusip": "577933104",
+      "shares": 44220,
+      "value": 3807342,
+      "pctOfPortfolio": 1.9366075136
+    },
+    {
+      "name": "Ulta Beauty Inc",
+      "cusip": "90384S303",
+      "shares": 9610,
+      "value": 3796814.9,
+      "pctOfPortfolio": 1.9312528959
+    },
+    {
+      "name": "Veeva Systems Inc",
+      "cusip": "922475108",
+      "shares": 21230,
+      "value": 3699327.5,
+      "pctOfPortfolio": 1.8816658529
+    },
+    {
+      "name": "First American Treasury Obliga",
+      "cusip": "31846V328",
+      "shares": 3489686.6,
+      "value": 3489686.6,
+      "pctOfPortfolio": 1.7750318436
+    },
+    {
+      "name": "Williams-Sonoma Inc",
+      "cusip": "969904101",
+      "shares": 11740,
+      "value": 3442402.8,
+      "pctOfPortfolio": 1.7509809014
+    },
+    {
+      "name": "Charles River Laboratories Int",
+      "cusip": "159864107",
+      "shares": 15910,
+      "value": 3316280.4,
+      "pctOfPortfolio": 1.6868286431
+    },
+    {
+      "name": "United Rentals Inc",
+      "cusip": "911363109",
+      "shares": 4650,
+      "value": 3112756.5,
+      "pctOfPortfolio": 1.5833060507
+    },
+    {
+      "name": "Toro Co/The",
+      "cusip": "891092108",
+      "shares": 38740,
+      "value": 3106560.6,
+      "pctOfPortfolio": 1.5801545013
+    },
+    {
+      "name": "Pool Corp",
+      "cusip": "73278L105",
+      "shares": 8240,
+      "value": 2995652,
+      "pctOfPortfolio": 1.5237407544
+    },
+    {
+      "name": "IDEXX Laboratories Inc",
+      "cusip": "45168D104",
+      "shares": 5120,
+      "value": 2544384,
+      "pctOfPortfolio": 1.29420293
+    },
+    {
+      "name": "ON Semiconductor Corp",
+      "cusip": "682189105",
+      "shares": 31030,
+      "value": 2266431.2,
+      "pctOfPortfolio": 1.1528220189
+    },
+    {
+      "name": "Waters Corp",
+      "cusip": "941848103",
+      "shares": 4590,
+      "value": 1417851,
+      "pctOfPortfolio": 0.7211910303
+    }
+  ],
+  "totalValue": 196543297.82999995,
+  "positionsCount": 41
+}

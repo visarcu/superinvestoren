@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-14",
+  "period": "2024-05-14",
+  "accession": "0001172661-24-002290",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2391188,
+      "value": 719412822
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GROUP INC",
+      "cusip": "043436104",
+      "shares": 2108540,
+      "value": 497151561
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2067195,
+      "value": 312001741
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 620547,
+      "value": 301325212
+    },
+    {
+      "name": "ENERGY TRANSFER L P",
+      "cusip": "29273V100",
+      "shares": 17834322,
+      "value": 280533885
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586506",
+      "shares": 3545220,
+      "value": 236395270
+    },
+    {
+      "name": "COUPANG INC",
+      "cusip": "22266T109",
+      "shares": 13017964,
+      "value": 231589580
+    },
+    {
+      "name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "shares": 3600000,
+      "value": 204552000
+    },
+    {
+      "name": "WILLIS TOWERS WATSON PLC LTD",
+      "cusip": "G96629103",
+      "shares": 720779,
+      "value": 198214225
+    },
+    {
+      "name": "CAMPING WORLD HLDGS INC",
+      "cusip": "13462K109",
+      "shares": 5108808,
+      "value": 142280303
+    },
+    {
+      "name": "CANTALOUPE INC",
+      "cusip": "138103106",
+      "shares": 7180000,
+      "value": 46167400
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586100",
+      "shares": 277011,
+      "value": 18709323
+    },
+    {
+      "name": "NUVATION BIO INC",
+      "cusip": "67080N101",
+      "shares": 3811513,
+      "value": 13873907
+    }
+  ],
+  "totalValue": 3202207229,
+  "positionsCount": 13
+}

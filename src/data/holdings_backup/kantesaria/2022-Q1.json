@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2022-02-14",
+  "period": "2022-02-14",
+  "accession": "0001697868-22-000002",
+  "quarterKey": "2022-Q1",
+  "positions": [
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1112913,
+      "value": 525217
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1440698,
+      "value": 517672
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1027734,
+      "value": 401412
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 894482,
+      "value": 387910
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 81715,
+      "value": 272466
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 933397,
+      "value": 202276
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 246305,
+      "value": 139670
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 196071,
+      "value": 126117
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 253608,
+      "value": 71312
+    }
+  ],
+  "totalValue": 2644052,
+  "positionsCount": 9
+}

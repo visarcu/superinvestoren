@@ -1,0 +1,185 @@
+{
+  "form": "13F-HR",
+  "date": "2016-02-10",
+  "period": "2016-02-10",
+  "accession": "0000919574-16-009985",
+  "quarterKey": "2016-Q1",
+  "positions": [
+    {
+      "name": "TIME WARNER CABLE INC",
+      "cusip": "88732J207",
+      "shares": 5132868,
+      "value": 952609
+    },
+    {
+      "name": "SOUTHWEST AIRLS CO",
+      "cusip": "844741108",
+      "shares": 15467462,
+      "value": 666029
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 11706090,
+      "value": 649454
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 10655021,
+      "value": 601263
+    },
+    {
+      "name": "MCGRAW HILL FINL INC",
+      "cusip": "580645109",
+      "shares": 5627464,
+      "value": 554755
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 7128193,
+      "value": 552791
+    },
+    {
+      "name": "FACEBOOK INC",
+      "cusip": "30303M102",
+      "shares": 5192581,
+      "value": 543456
+    },
+    {
+      "name": "ACTIVISION BLIZZARD INC",
+      "cusip": "00507V109",
+      "shares": 12529425,
+      "value": 485014
+    },
+    {
+      "name": "GILEAD SCIENCES INC",
+      "cusip": "375558103",
+      "shares": 4291467,
+      "value": 434254
+    },
+    {
+      "name": "TOWERS WATSON & CO",
+      "cusip": "891894107",
+      "shares": 3122026,
+      "value": 401055
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC D",
+      "cusip": "16117M305",
+      "shares": 2151727,
+      "value": 393981
+    },
+    {
+      "name": "PRICELINE GRP INC",
+      "cusip": "741503403",
+      "shares": 257656,
+      "value": 328499
+    },
+    {
+      "name": "JD COM INC",
+      "cusip": "47215P106",
+      "shares": 10019130,
+      "value": 323317
+    },
+    {
+      "name": "DAVITA HEALTHCARE PARTNERS I",
+      "cusip": "23918K108",
+      "shares": 4556554,
+      "value": 317637
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 9499587,
+      "value": 312821
+    },
+    {
+      "name": "MASTERCARD INC",
+      "cusip": "57636Q104",
+      "shares": 2898689,
+      "value": 282216
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 2489114,
+      "value": 249758
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 1822365,
+      "value": 241008
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 3636733,
+      "value": 240133
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1117029,
+      "value": 211554
+    },
+    {
+      "name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "shares": 1400965,
+      "value": 191344
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 2650717,
+      "value": 164265
+    },
+    {
+      "name": "GRACE W R & CO DEL NEW",
+      "cusip": "38388F108",
+      "shares": 1633418,
+      "value": 162672
+    },
+    {
+      "name": "FIRST DATA CORP NEW",
+      "cusip": "32008D106",
+      "shares": 8428110,
+      "value": 135018
+    },
+    {
+      "name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "shares": 1082728,
+      "value": 66696
+    },
+    {
+      "name": "NORWEGIAN CRUISE LINE HLDGS",
+      "cusip": "G66721104",
+      "shares": 1038568,
+      "value": 60860
+    },
+    {
+      "name": "BLACKSTONE MTG TR INC",
+      "cusip": "09257W100",
+      "shares": 1821151,
+      "value": 48734
+    },
+    {
+      "name": "EQUINIX INC",
+      "cusip": "29444U700",
+      "shares": 132692,
+      "value": 40126
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 431129,
+      "value": 30071
+    }
+  ],
+  "totalValue": 9641390,
+  "positionsCount": 29
+}

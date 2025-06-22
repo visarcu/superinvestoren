@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2023-11-14",
+  "period": "2023-11-14",
+  "accession": "0000919574-23-006199",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 14000000,
+      "value": 267820000
+    },
+    {
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 7600000,
+      "value": 215764000
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 700000,
+      "value": 206731000
+    },
+    {
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 500000,
+      "value": 134355000
+    },
+    {
+      "name": "YANDEX N V",
+      "cusip": "N97284108",
+      "shares": 5500000,
+      "value": 34111340
+    },
+    {
+      "name": "INTERNATIONAL MNY EXPRESS IN",
+      "cusip": "46005L101",
+      "shares": 1000000,
+      "value": 16930000
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 4919848,
+      "value": 10823666
+    },
+    {
+      "name": "CRESUD S A C I F Y A",
+      "cusip": "P3311R259",
+      "shares": 1242313,
+      "value": 545375
+    }
+  ],
+  "totalValue": 887080381,
+  "positionsCount": 8
+}

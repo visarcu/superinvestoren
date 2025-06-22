@@ -1,4 +1,305 @@
 {
+  "form": "13F-HR",
   "date": "2020-08-07",
-  "positions": []
+  "period": "2020-08-07",
+  "accession": "0001641864-20-000006",
+  "quarterKey": "2020-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY-B-NEW",
+      "cusip": "084670702",
+      "shares": 844446,
+      "value": 150742
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 1066378,
+      "value": 95494
+    },
+    {
+      "name": "AMETEK INC",
+      "cusip": "031100100",
+      "shares": 747603,
+      "value": 66813
+    },
+    {
+      "name": "VISA INC CLASS-A",
+      "cusip": "92826C839",
+      "shares": 300144,
+      "value": 57979
+    },
+    {
+      "name": "ALPHABET INC CL-C",
+      "cusip": "02079K107",
+      "shares": 36324,
+      "value": 51348
+    },
+    {
+      "name": "PROGRESSIVE CORP OHIO",
+      "cusip": "743315103",
+      "shares": 603936,
+      "value": 48381
+    },
+    {
+      "name": "FACEBOOK INC CL-A",
+      "cusip": "30303M102",
+      "shares": 210751,
+      "value": 47855
+    },
+    {
+      "name": "NVR INC",
+      "cusip": "62944T105",
+      "shares": 14116,
+      "value": 46001
+    },
+    {
+      "name": "HEICO CORP CLASS A",
+      "cusip": "422806208",
+      "shares": 508738,
+      "value": 41330
+    },
+    {
+      "name": "MARKEL CORP HOLDING",
+      "cusip": "570535104",
+      "shares": 44170,
+      "value": 40776
+    },
+    {
+      "name": "KEYSIGHT TECHNOLOGIES INC",
+      "cusip": "49338L103",
+      "shares": 402300,
+      "value": 40544
+    },
+    {
+      "name": "FORTUNE BRNDS HME&SEC",
+      "cusip": "34964C106",
+      "shares": 506373,
+      "value": 32372
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 956291,
+      "value": 32265
+    },
+    {
+      "name": "JP MORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 332123,
+      "value": 31239
+    },
+    {
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 288602,
+      "value": 30854
+    },
+    {
+      "name": "BANK OF AMERICA",
+      "cusip": "060505104",
+      "shares": 1262324,
+      "value": 29980
+    },
+    {
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 372627,
+      "value": 25752
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE",
+      "cusip": "45866F104",
+      "shares": 256926,
+      "value": 23534
+    },
+    {
+      "name": "DISNEY WALT COMPANY",
+      "cusip": "254687106",
+      "shares": 186183,
+      "value": 20761
+    },
+    {
+      "name": "AUTOHOME INC CL-A ADR",
+      "cusip": "05278C107",
+      "shares": 198417,
+      "value": 14980
+    },
+    {
+      "name": "ALPHABET INC CL-A",
+      "cusip": "02079K305",
+      "shares": 9203,
+      "value": 13050
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 58242,
+      "value": 9938
+    },
+    {
+      "name": "SLEEP NUMBER CORP",
+      "cusip": "83125X103",
+      "shares": 216569,
+      "value": 9018
+    },
+    {
+      "name": "HEALTH CARE SERVICES GRP",
+      "cusip": "421906108",
+      "shares": 358648,
+      "value": 8773
+    },
+    {
+      "name": "BANK OZK",
+      "cusip": "06417N103",
+      "shares": 356374,
+      "value": 8364
+    },
+    {
+      "name": "SS&C TECHNOLOGIES INC",
+      "cusip": "78467J100",
+      "shares": 53161,
+      "value": 3003
+    },
+    {
+      "name": "CREDIT ACCEPTANCE CORP",
+      "cusip": "225310101",
+      "shares": 6605,
+      "value": 2768
+    },
+    {
+      "name": "MASTERCARD INC CL-A",
+      "cusip": "57636Q104",
+      "shares": 8151,
+      "value": 2410
+    },
+    {
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413106",
+      "shares": 10345,
+      "value": 2173
+    },
+    {
+      "name": "SPDR S&P 500 ETF",
+      "cusip": "78462F103",
+      "shares": 5295,
+      "value": 1633
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY-A",
+      "cusip": "084670108",
+      "shares": 6,
+      "value": 1604
+    },
+    {
+      "name": "TJX COMPANIES INC",
+      "cusip": "872540109",
+      "shares": 29880,
+      "value": 1511
+    },
+    {
+      "name": "LULULEMON ATHLETICA INC",
+      "cusip": "550021109",
+      "shares": 4645,
+      "value": 1449
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 459,
+      "value": 1266
+    },
+    {
+      "name": "JACOBS ENGR GROUP INC",
+      "cusip": "469814107",
+      "shares": 14159,
+      "value": 1201
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 9507,
+      "value": 1178
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 2764,
+      "value": 1008
+    },
+    {
+      "name": "FIRST REP BK SAN FRANCISCO C",
+      "cusip": "33616C100",
+      "shares": 8893,
+      "value": 943
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 3529,
+      "value": 718
+    },
+    {
+      "name": "WAYFAIR INC",
+      "cusip": "94419L101",
+      "shares": 3518,
+      "value": 695
+    },
+    {
+      "name": "OLD DOMINION FREIGHT LINE",
+      "cusip": "679580100",
+      "shares": 4067,
+      "value": 690
+    },
+    {
+      "name": "BROOKFIELD ASSET MGT-A LV",
+      "cusip": "112585104",
+      "shares": 16576,
+      "value": 545
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 1000,
+      "value": 510
+    },
+    {
+      "name": "ROPER TECHNOLOGIES INC",
+      "cusip": "776696106",
+      "shares": 1245,
+      "value": 483
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229854",
+      "shares": 12274,
+      "value": 389
+    },
+    {
+      "name": "FASTENAL CO",
+      "cusip": "311900104",
+      "shares": 8954,
+      "value": 384
+    },
+    {
+      "name": "KNIGHT-SWIFT TRANSPORT-A",
+      "cusip": "499049104",
+      "shares": 8046,
+      "value": 336
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 5336,
+      "value": 303
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1014,
+      "value": 299
+    }
+  ],
+  "totalValue": 1005642,
+  "positionsCount": 49
 }

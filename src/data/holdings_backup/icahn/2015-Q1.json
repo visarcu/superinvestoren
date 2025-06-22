@@ -1,0 +1,305 @@
+{
+  "form": "13F-HR",
+  "date": "2015-02-17",
+  "period": "2015-02-17",
+  "accession": "0001140361-15-007292",
+  "quarterKey": "2015-Q1",
+  "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "137833100",
+      "shares": 42208677,
+      "value": 4658994
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 41909667,
+      "value": 3875387
+    },
+    {
+      "name": "CVR ENERGY INC",
+      "cusip": "12662P108",
+      "shares": 71198718,
+      "value": 2756102
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 37017296,
+      "value": 2077411
+    },
+    {
+      "name": "FEDERAL MOGUL HOLDINGS CORP",
+      "cusip": "313549404",
+      "shares": 121111976,
+      "value": 1948692
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 18274289,
+      "value": 1689824
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 16075148,
+      "value": 1486469
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "137833100",
+      "shares": 10552171,
+      "value": 1164749
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 12485714,
+      "value": 1154554
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 53159998,
+      "value": 1040341
+    },
+    {
+      "name": "HERTZ GLOBAL HOLDINGS INC",
+      "cusip": "42805T105",
+      "shares": 41537922,
+      "value": 1035956
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 8172944,
+      "value": 755752
+    },
+    {
+      "name": "HOLOGIC INC",
+      "cusip": "436440101",
+      "shares": 27323905,
+      "value": 730641
+    },
+    {
+      "name": "NUANCE COMMUNICATIONS INC",
+      "cusip": "67020Y100",
+      "shares": 48627696,
+      "value": 693917
+    },
+    {
+      "name": "AMERICAN RAILCAR INDS INC",
+      "cusip": "02916P103",
+      "shares": 11564145,
+      "value": 595553
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 9254074,
+      "value": 519339
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 13600001,
+      "value": 512720
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 5231586,
+      "value": 483765
+    },
+    {
+      "name": "TALISMAN ENERGY INC",
+      "cusip": "87425E103",
+      "shares": 60848062,
+      "value": 476440
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 13018020,
+      "value": 435843
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 1129541,
+      "value": 385863
+    },
+    {
+      "name": "GANNETT INC",
+      "cusip": "364730101",
+      "shares": 11973896,
+      "value": 382326
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 3633958,
+      "value": 336032
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "H8817H100",
+      "shares": 17182321,
+      "value": 314952
+    },
+    {
+      "name": "MENTOR GRAPHICS CORP",
+      "cusip": "587200106",
+      "shares": 12896232,
+      "value": 282685
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 13290002,
+      "value": 260085
+    },
+    {
+      "name": "HERTZ GLOBAL HOLDINGS INC",
+      "cusip": "42805T105",
+      "shares": 10384483,
+      "value": 258989
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 2307044,
+      "value": 213332
+    },
+    {
+      "name": "HOLOGIC INC",
+      "cusip": "436440101",
+      "shares": 6830974,
+      "value": 182660
+    },
+    {
+      "name": "NUANCE COMMUNICATIONS INC",
+      "cusip": "67020Y100",
+      "shares": 12156927,
+      "value": 173479
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 3399999,
+      "value": 128180
+    },
+    {
+      "name": "TALISMAN ENERGY INC",
+      "cusip": "87425E103",
+      "shares": 15212016,
+      "value": 119110
+    },
+    {
+      "name": "NAVISTAR INTL CORP NEW",
+      "cusip": "63934E108",
+      "shares": 3254504,
+      "value": 108961
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 282385,
+      "value": 96466
+    },
+    {
+      "name": "GANNETT INC",
+      "cusip": "364730101",
+      "shares": 2993477,
+      "value": 95582
+    },
+    {
+      "name": "MANITOWOC INC",
+      "cusip": "563571108",
+      "shares": 3594105,
+      "value": 79430
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "H8817H100",
+      "shares": 4295579,
+      "value": 78738
+    },
+    {
+      "name": "MENTOR GRAPHICS CORP",
+      "cusip": "587200106",
+      "shares": 3224057,
+      "value": 70671
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12662P107",
+      "shares": 4000000,
+      "value": 67200
+    },
+    {
+      "name": "ICAHN ENTERPRISES LP",
+      "cusip": "451100101",
+      "shares": 720495,
+      "value": 66624
+    },
+    {
+      "name": "CVR REFNG LP",
+      "cusip": "12662P107",
+      "shares": 2000000,
+      "value": 33600
+    },
+    {
+      "name": "SEVENTY SEVEN ENERGY INC",
+      "cusip": "818097107",
+      "shares": 3797138,
+      "value": 20543
+    },
+    {
+      "name": "MANITOWOC INC",
+      "cusip": "563571108",
+      "shares": 898526,
+      "value": 19857
+    },
+    {
+      "name": "AMERICAN RAILCAR INDS INC",
+      "cusip": "02916P103",
+      "shares": 307123,
+      "value": 15817
+    },
+    {
+      "name": "ENZON PHARMACEUTICALS INC",
+      "cusip": "293904108",
+      "shares": 4723891,
+      "value": 5149
+    },
+    {
+      "name": "SEVENTY SEVEN ENERGY INC",
+      "cusip": "818097107",
+      "shares": 949283,
+      "value": 5136
+    },
+    {
+      "name": "ENZON PHARMACEUTICALS INC",
+      "cusip": "293904108",
+      "shares": 1180972,
+      "value": 1287
+    },
+    {
+      "name": "VOLTARI CORP",
+      "cusip": "92870X309",
+      "shares": 578203,
+      "value": 399
+    },
+    {
+      "name": "VOLTARI CORP",
+      "cusip": "92870X309",
+      "shares": 100000,
+      "value": 69
+    }
+  ],
+  "totalValue": 31895671,
+  "positionsCount": 49
+}

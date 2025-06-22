@@ -1,0 +1,113 @@
+{
+  "form": "13F-HR",
+  "date": "2018-08-14",
+  "period": "2018-08-14",
+  "accession": "0001418812-18-000078",
+  "quarterKey": "2018-Q3",
+  "positions": [
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967424",
+      "shares": 25175500,
+      "value": 1684744
+    },
+    {
+      "name": "ALLIANCE DATA SYSTEMS CORP",
+      "cusip": "018581108",
+      "shares": 6082646,
+      "value": 1418473
+    },
+    {
+      "name": "TWENTY-FIRST CENTURY FOX INC",
+      "cusip": "90130A200",
+      "shares": 28626334,
+      "value": 1410419
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 22404700,
+      "value": 1265194
+    },
+    {
+      "name": "KKR & CO LP",
+      "cusip": "48251W104",
+      "shares": 49700000,
+      "value": 1235045
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 19916923,
+      "value": 950834
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 18709620,
+      "value": 886836
+    },
+    {
+      "name": "TRINITY INDS INC",
+      "cusip": "896522109",
+      "shares": 21407891,
+      "value": 733435
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 6852612,
+      "value": 433085
+    },
+    {
+      "name": "SLM CORP",
+      "cusip": "78442P106",
+      "shares": 37605408,
+      "value": 430582
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTE",
+      "cusip": "91911K102",
+      "shares": 18033149,
+      "value": 419090
+    },
+    {
+      "name": "ARMSTRONG FLOORING INC",
+      "cusip": "04238R106",
+      "shares": 4614787,
+      "value": 64792
+    },
+    {
+      "name": "UNIFI, INC",
+      "cusip": "904677200",
+      "shares": 925000,
+      "value": 29323
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HOLDINGS INC",
+      "cusip": "535219109",
+      "shares": 1691300,
+      "value": 22409
+    },
+    {
+      "name": "STRAYER EDUCATION",
+      "cusip": "863236105",
+      "shares": 193457,
+      "value": 21862
+    },
+    {
+      "name": "AES CORP",
+      "cusip": "00130H105",
+      "shares": 1529500,
+      "value": 20511
+    },
+    {
+      "name": "ENVIVA PARTNERS LP",
+      "cusip": "29414J107",
+      "shares": 685453,
+      "value": 19947
+    }
+  ],
+  "totalValue": 11046581,
+  "positionsCount": 17
+}

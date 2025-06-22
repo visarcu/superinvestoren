@@ -1,4 +1,251 @@
 {
+  "form": "13F-HR",
   "date": "2024-05-15",
-  "positions": []
+  "period": "2024-05-15",
+  "accession": "0001085146-24-002645",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "PG&E CORP",
+      "cusip": "69331C108",
+      "shares": 57860000,
+      "value": 969733600
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 5100000,
+      "value": 919938000
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1765000,
+      "value": 742570800
+    },
+    {
+      "name": "BATH & BODY WORKS INC",
+      "cusip": "070830104",
+      "shares": 12850000,
+      "value": 642757000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 1236000,
+      "value": 600176880
+    },
+    {
+      "name": "DANAHER CORPORATION",
+      "cusip": "235851102",
+      "shares": 2050000,
+      "value": 511926000
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 3000000,
+      "value": 452790000
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 4470000,
+      "value": 311335500
+    },
+    {
+      "name": "AMERICAN INTL GROUP INC",
+      "cusip": "026874784",
+      "shares": 3450000,
+      "value": 269686500
+    },
+    {
+      "name": "JACOBS SOLUTIONS INC",
+      "cusip": "46982L108",
+      "shares": 1750000,
+      "value": 269027500
+    },
+    {
+      "name": "FERGUSON PLC NEW",
+      "cusip": "G3421J106",
+      "shares": 1090000,
+      "value": 238088700
+    },
+    {
+      "name": "CORPAY INC",
+      "cusip": "219948106",
+      "shares": 650000,
+      "value": 200551000
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC",
+      "cusip": "92343V104",
+      "shares": 4675000,
+      "value": 193036828
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 1175000,
+      "value": 159858750
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 335000,
+      "value": 142525750
+    },
+    {
+      "name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "shares": 1000000,
+      "value": 137430000
+    },
+    {
+      "name": "ADVANCE AUTO PARTS INC",
+      "cusip": "00751Y106",
+      "shares": 1500100,
+      "value": 127233982
+    },
+    {
+      "name": "INTERNATIONAL FLAVORS&FRAGRA",
+      "cusip": "459506101",
+      "shares": 1400000,
+      "value": 120386000
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M106",
+      "shares": 1000000,
+      "value": 112450000
+    },
+    {
+      "name": "MARVELL TECHNOLOGY INC",
+      "cusip": "573874104",
+      "shares": 1525000,
+      "value": 108001263
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 250000,
+      "value": 104422500
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 525200,
+      "value": 89956256
+    },
+    {
+      "name": "CINEMARK HLDGS INC",
+      "cusip": "17243V102",
+      "shares": 5000000,
+      "value": 89850000
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 1950000,
+      "value": 72286500
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT INC",
+      "cusip": "03769M304",
+      "shares": 900000,
+      "value": 57375000
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700107",
+      "shares": 8387601,
+      "value": 43951029
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 500000,
+      "value": 38495000
+    },
+    {
+      "name": "TELEPHONE & DATA SYS INC",
+      "cusip": "879433829",
+      "shares": 2136832,
+      "value": 34232049
+    },
+    {
+      "name": "GARTNER INC",
+      "cusip": "366651107",
+      "shares": 55000,
+      "value": 26216850
+    },
+    {
+      "name": "UNITED STATES CELLULAR CORP",
+      "cusip": "911684108",
+      "shares": 545344,
+      "value": 19905056
+    },
+    {
+      "name": "HERTZ GLOBAL HLDGS INC",
+      "cusip": "42806J148",
+      "shares": 3970000,
+      "value": 17626800
+    },
+    {
+      "name": "TELEPHONE & DATA SYS INC",
+      "cusip": "879433829",
+      "shares": 750000,
+      "value": 12015000
+    },
+    {
+      "name": "FLYEXCLUSIVE INC",
+      "cusip": "343928107",
+      "shares": 1022000,
+      "value": 4415040
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774107",
+      "shares": 1032463,
+      "value": 2911546
+    },
+    {
+      "name": "PATTERSON-UTI ENERGY INC",
+      "cusip": "703481101",
+      "shares": 150000,
+      "value": 1791000
+    },
+    {
+      "name": "NET POWER INC",
+      "cusip": "64107A113",
+      "shares": 500000,
+      "value": 1450000
+    },
+    {
+      "name": "AURORA INNOVATION INC",
+      "cusip": "051774115",
+      "shares": 1835000,
+      "value": 495450
+    },
+    {
+      "name": "JAWS MUSTANG ACQUISITION COR",
+      "cusip": "G50737124",
+      "shares": 1000000,
+      "value": 215000
+    },
+    {
+      "name": "FLYEXCLUSIVE INC",
+      "cusip": "343928115",
+      "shares": 367499,
+      "value": 158025
+    },
+    {
+      "name": "GLOBAL BLUE GROUP HOLDING AG",
+      "cusip": "H33700115",
+      "shares": 1333333,
+      "value": 45067
+    }
+  ],
+  "totalValue": 7847317221,
+  "positionsCount": 40
 }

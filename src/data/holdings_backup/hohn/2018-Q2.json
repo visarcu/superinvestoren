@@ -1,0 +1,101 @@
+{
+  "form": "13F-HR",
+  "date": "2018-05-15",
+  "period": "2018-05-15",
+  "accession": "0001647251-18-000004",
+  "quarterKey": "2018-Q2",
+  "positions": [
+    {
+      "name": "ALTABA INC",
+      "cusip": "021346101",
+      "shares": 79773273,
+      "value": 5906413
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 10620701,
+      "value": 3305375
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A101",
+      "shares": 71516090,
+      "value": 2623925
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 2359642,
+      "value": 2434655
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 13810449,
+      "value": 1260480
+    },
+    {
+      "name": "TIME WARNER INC",
+      "cusip": "887317303",
+      "shares": 7496849,
+      "value": 709052
+    },
+    {
+      "name": "TWENTY FIRST CENTY FOX INC",
+      "cusip": "90130A200",
+      "shares": 11572645,
+      "value": 420897
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 11897380,
+      "value": 406533
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 380600,
+      "value": 394735
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1692623,
+      "value": 273020
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 444619,
+      "value": 84949
+    },
+    {
+      "name": "NORFOLK SOUTHERN CORP",
+      "cusip": "655844108",
+      "shares": 593500,
+      "value": 80585
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 476500,
+      "value": 55603
+    },
+    {
+      "name": "CANADIAN PAC RY LTD",
+      "cusip": "13645T100",
+      "shares": 95200,
+      "value": 16775
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 72000,
+      "value": 9679
+    }
+  ],
+  "totalValue": 17982676,
+  "positionsCount": 15
+}

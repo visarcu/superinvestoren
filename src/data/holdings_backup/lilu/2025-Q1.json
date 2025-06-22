@@ -1,0 +1,59 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0001709323-25-000001",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "BK OF AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 18081133,
+      "value": 794665795
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3044000,
+      "value": 579699360
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 2543300,
+      "value": 481446690
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 897749,
+      "value": 406931667
+    },
+    {
+      "name": "EAST WEST BANCORP INC",
+      "cusip": "27579R104",
+      "shares": 2776351,
+      "value": 265863372
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 317700,
+      "value": 79558434
+    },
+    {
+      "name": "OCCIDENTAL PETE CORP",
+      "cusip": "674599105",
+      "shares": 1466500,
+      "value": 72459765
+    },
+    {
+      "name": "SABLE OFFSHORE CORP",
+      "cusip": "78574H104",
+      "shares": 1343000,
+      "value": 30754700
+    }
+  ],
+  "totalValue": 2711379783,
+  "positionsCount": 8
+}

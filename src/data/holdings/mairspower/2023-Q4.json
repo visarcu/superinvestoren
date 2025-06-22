@@ -1,0 +1,137 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-02-26",
+  "period": "2024-02-26",
+  "accession": "0001145549-24-007840",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "Extra Space Storage Inc",
+      "cusip": "30225T102",
+      "shares": 16376,
+      "value": 2625564.08,
+      "pctOfPortfolio": 11.7226026233
+    },
+    {
+      "name": "Prologis Inc",
+      "cusip": "74340W103",
+      "shares": 17764,
+      "value": 2367941.2,
+      "pctOfPortfolio": 10.5723695469
+    },
+    {
+      "name": "Public Storage",
+      "cusip": "74460D109",
+      "shares": 6992,
+      "value": 2132560,
+      "pctOfPortfolio": 9.5214409889
+    },
+    {
+      "name": "Equinix Inc",
+      "cusip": "29444U700",
+      "shares": 2060,
+      "value": 1659103.4,
+      "pctOfPortfolio": 7.407554825
+    },
+    {
+      "name": "Alexandria Real Estate Equitie",
+      "cusip": "015271109",
+      "shares": 9730,
+      "value": 1233472.1,
+      "pctOfPortfolio": 5.5071987712
+    },
+    {
+      "name": "US BANK MMDA - USBFS 2",
+      "cusip": null,
+      "shares": 1111962.01,
+      "value": 1111962.01,
+      "pctOfPortfolio": 4.9646812564
+    },
+    {
+      "name": "American Tower Corp",
+      "cusip": "03027X100",
+      "shares": 4921,
+      "value": 1062345.48,
+      "pctOfPortfolio": 4.7431536733
+    },
+    {
+      "name": "Mid-America Apartment Communit",
+      "cusip": "59522J103",
+      "shares": 7900,
+      "value": 1062234,
+      "pctOfPortfolio": 4.7426559381
+    },
+    {
+      "name": "Essex Property Trust Inc",
+      "cusip": "297178105",
+      "shares": 4249,
+      "value": 1053497.06,
+      "pctOfPortfolio": 4.7036473013
+    },
+    {
+      "name": "AvalonBay Communities Inc",
+      "cusip": "053484101",
+      "shares": 5616,
+      "value": 1051427.52,
+      "pctOfPortfolio": 4.6944072316
+    },
+    {
+      "name": "Marriott International Inc/MD",
+      "cusip": "571903202",
+      "shares": 4620,
+      "value": 1041856.2,
+      "pctOfPortfolio": 4.6516732599
+    },
+    {
+      "name": "VICI Properties Inc",
+      "cusip": "925652109",
+      "shares": 32246,
+      "value": 1028002.48,
+      "pctOfPortfolio": 4.5898192547
+    },
+    {
+      "name": "Hyatt Hotels Corp",
+      "cusip": "448579102",
+      "shares": 7800,
+      "value": 1017198,
+      "pctOfPortfolio": 4.5415794777
+    },
+    {
+      "name": "American Homes 4 Rent",
+      "cusip": "02665T306",
+      "shares": 27411,
+      "value": 985699.56,
+      "pctOfPortfolio": 4.4009454333
+    },
+    {
+      "name": "Hilton Worldwide Holdings Inc",
+      "cusip": "43300A203",
+      "shares": 5232,
+      "value": 952694.88,
+      "pctOfPortfolio": 4.2535863377
+    },
+    {
+      "name": "Equity LifeStyle Properties In",
+      "cusip": "29472R108",
+      "shares": 12757,
+      "value": 899878.78,
+      "pctOfPortfolio": 4.0177733339
+    },
+    {
+      "name": "Crown Castle Inc",
+      "cusip": "22822V101",
+      "shares": 7600,
+      "value": 875444,
+      "pctOfPortfolio": 3.9086770759
+    },
+    {
+      "name": "SBA Communications Corp",
+      "cusip": "78410G104",
+      "shares": 870,
+      "value": 220710.3,
+      "pctOfPortfolio": 0.9854260124
+    }
+  ],
+  "totalValue": 22381591.049999997,
+  "positionsCount": 18
+}

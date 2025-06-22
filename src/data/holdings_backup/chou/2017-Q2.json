@@ -1,0 +1,173 @@
+{
+  "form": "13F-HR",
+  "date": "2017-05-12",
+  "period": "2017-05-12",
+  "accession": "0001144204-17-026723",
+  "quarterKey": "2017-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 150,
+      "value": 37478
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 626347,
+      "value": 29006
+    },
+    {
+      "name": "RESOLUTE FST PRODS INC",
+      "cusip": "76117W109",
+      "shares": 4963423,
+      "value": 27051
+    },
+    {
+      "name": "VALEANT PHARMACEUTICALS INTL",
+      "cusip": "91911K102",
+      "shares": 2353843,
+      "value": 25963
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 410000,
+      "value": 24526
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746119",
+      "shares": 997500,
+      "value": 22135
+    },
+    {
+      "name": "SANOFI",
+      "cusip": "80105N105",
+      "shares": 410000,
+      "value": 18553
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 75000,
+      "value": 17229
+    },
+    {
+      "name": "NOKIA CORP",
+      "cusip": "654902204",
+      "shares": 2750000,
+      "value": 14905
+    },
+    {
+      "name": "SEARS HLDGS CORP",
+      "cusip": "812350106",
+      "shares": 1131610,
+      "value": 13002
+    },
+    {
+      "name": "ENDO INTL PLC",
+      "cusip": "G30401106",
+      "shares": 950000,
+      "value": 10602
+    },
+    {
+      "name": "OVERSTOCK COM INC DEL",
+      "cusip": "690370101",
+      "shares": 582271,
+      "value": 10015
+    },
+    {
+      "name": "MBIA INC",
+      "cusip": "55262C100",
+      "shares": 1080797,
+      "value": 9154
+    },
+    {
+      "name": "TEVA PHARMACEUTICAL INDS LTD",
+      "cusip": "881624209",
+      "shares": 215000,
+      "value": 6899
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505146",
+      "shares": 536825,
+      "value": 6066
+    },
+    {
+      "name": "SEARS HOMETOWN & OUTLET STOR",
+      "cusip": "812362101",
+      "shares": 1322209,
+      "value": 5157
+    },
+    {
+      "name": "ASCENT CAP GROUP INC",
+      "cusip": "043632108",
+      "shares": 306000,
+      "value": 4324
+    },
+    {
+      "name": "BLACKBERRY LTD",
+      "cusip": "09228F103",
+      "shares": 529040,
+      "value": 4098
+    },
+    {
+      "name": "SANDRIDGE ENERGY INC",
+      "cusip": "80007P869",
+      "shares": 156623,
+      "value": 2896
+    },
+    {
+      "name": "COMPUCREDIT HLDGS CORP",
+      "cusip": "20478NAD2",
+      "shares": 5800000,
+      "value": 2835
+    },
+    {
+      "name": "CHICAGO BRIDGE & IRON CO N V",
+      "cusip": "167250109",
+      "shares": 67446,
+      "value": 2074
+    },
+    {
+      "name": "ASCENT CAP GROUP INC",
+      "cusip": "043632AA6",
+      "shares": 2683000,
+      "value": 2066
+    },
+    {
+      "name": "RYANAIR HLDGS PLC",
+      "cusip": "783513203",
+      "shares": 16575,
+      "value": 1375
+    },
+    {
+      "name": "CHINA YUCHAI INTL LTD",
+      "cusip": "G21082105",
+      "shares": 73364,
+      "value": 1358
+    },
+    {
+      "name": "POSCO",
+      "cusip": "693483109",
+      "shares": 21000,
+      "value": 1355
+    },
+    {
+      "name": "SEARS CDA INC",
+      "cusip": "81234D109",
+      "shares": 775149,
+      "value": 1063
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V126",
+      "shares": 13019,
+      "value": 233
+    }
+  ],
+  "totalValue": 301418,
+  "positionsCount": 27
+}

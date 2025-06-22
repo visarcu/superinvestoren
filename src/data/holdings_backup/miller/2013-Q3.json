@@ -1,0 +1,605 @@
+{
+  "form": "13F-HR",
+  "date": "2013-08-14",
+  "period": "2013-08-14",
+  "accession": "0001140361-13-032511",
+  "quarterKey": "2013-Q3",
+  "positions": [
+    {
+      "name": "GENWORTH FINL INC",
+      "cusip": "37247D106",
+      "shares": 5745900,
+      "value": 65561
+    },
+    {
+      "name": "GROUPON INC",
+      "cusip": "399473107",
+      "shares": 6888300,
+      "value": 58895
+    },
+    {
+      "name": "DELTA AIR LINES INC DEL",
+      "cusip": "247361702",
+      "shares": 2842800,
+      "value": 53189
+    },
+    {
+      "name": "MGIC INVT CORP WIS",
+      "cusip": "552848103",
+      "shares": 8637700,
+      "value": 52431
+    },
+    {
+      "name": "UNITED CONTL HLDGS INC",
+      "cusip": "910047109",
+      "shares": 1640100,
+      "value": 51319
+    },
+    {
+      "name": "BANK OF AMERICA CORPORATION",
+      "cusip": "060505104",
+      "shares": 3826900,
+      "value": 49214
+    },
+    {
+      "name": "PULTE GROUP INC",
+      "cusip": "745867101",
+      "shares": 2460100,
+      "value": 46669
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 219900,
+      "value": 46419
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY PLC",
+      "cusip": "G7945M107",
+      "shares": 984050,
+      "value": 44115
+    },
+    {
+      "name": "PANDORA MEDIA INC",
+      "cusip": "698354107",
+      "shares": 2299200,
+      "value": 42306
+    },
+    {
+      "name": "HARTFORD FINL SVCS GROUP INC",
+      "cusip": "416515104",
+      "shares": 1366700,
+      "value": 42259
+    },
+    {
+      "name": "ASSURED GUARANTY LTD",
+      "cusip": "G0585R106",
+      "shares": 1913400,
+      "value": 42210
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 847400,
+      "value": 40650
+    },
+    {
+      "name": "BOYD GAMING CORP",
+      "cusip": "103304101",
+      "shares": 3498800,
+      "value": 39537
+    },
+    {
+      "name": "U S AIRWAYS GROUP INC",
+      "cusip": "90341W108",
+      "shares": 2405400,
+      "value": 39497
+    },
+    {
+      "name": "ELLINGTON FINANCIAL LLC",
+      "cusip": "288522303",
+      "shares": 1598947,
+      "value": 36472
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46634E114",
+      "shares": 2286200,
+      "value": 35665
+    },
+    {
+      "name": "NII HLDGS INC",
+      "cusip": "62913F201",
+      "shares": 4865600,
+      "value": 32405
+    },
+    {
+      "name": "BEST BUY INC",
+      "cusip": "086516101",
+      "shares": 1175400,
+      "value": 32124
+    },
+    {
+      "name": "CIGNA CORPORATION",
+      "cusip": "125509109",
+      "shares": 437400,
+      "value": 31708
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 109370,
+      "value": 30371
+    },
+    {
+      "name": "QUESTCOR PHARMACEUTICALS INC",
+      "cusip": "74835Y101",
+      "shares": 628700,
+      "value": 28569
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 71090,
+      "value": 28190
+    },
+    {
+      "name": "ARES CAP CORP",
+      "cusip": "04010L103",
+      "shares": 1631388,
+      "value": 28060
+    },
+    {
+      "name": "KB HOME",
+      "cusip": "48666K109",
+      "shares": 1421400,
+      "value": 27903
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 732600,
+      "value": 26403
+    },
+    {
+      "name": "FORD MTR CO DEL",
+      "cusip": "345370860",
+      "shares": 1597110,
+      "value": 24708
+    },
+    {
+      "name": "CHESAPEAKE ENERGY CORP",
+      "cusip": "165167107",
+      "shares": 1202700,
+      "value": 24512
+    },
+    {
+      "name": "E TRADE FINANCIAL CORP",
+      "cusip": "269246401",
+      "shares": 1882750,
+      "value": 23836
+    },
+    {
+      "name": "UNIVERSAL DISPLAY CORP",
+      "cusip": "91347P105",
+      "shares": 776300,
+      "value": 21822
+    },
+    {
+      "name": "SPRINT NEXTEL CORP",
+      "cusip": "852061100",
+      "shares": 2952100,
+      "value": 20724
+    },
+    {
+      "name": "GENERAL MTRS CO",
+      "cusip": "37045V100",
+      "shares": 594016,
+      "value": 19787
+    },
+    {
+      "name": "TERADYNE INC",
+      "cusip": "880770102",
+      "shares": 1093350,
+      "value": 19211
+    },
+    {
+      "name": "PENNYMAC FINL SVCS INC",
+      "cusip": "70932B101",
+      "shares": 874700,
+      "value": 18605
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 736500,
+      "value": 18265
+    },
+    {
+      "name": "RADIAN GROUP INC",
+      "cusip": "750236101",
+      "shares": 1544600,
+      "value": 17949
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 464700,
+      "value": 16054
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 656050,
+      "value": 16028
+    },
+    {
+      "name": "LEVEL 3 COMMUNICATIONS INC",
+      "cusip": "52729N308",
+      "shares": 759900,
+      "value": 16019
+    },
+    {
+      "name": "MARKET LEADER INC",
+      "cusip": "57056R103",
+      "shares": 1259600,
+      "value": 13478
+    },
+    {
+      "name": "MARVELL TECHNOLOGY GROUP LTD",
+      "cusip": "G5876H105",
+      "shares": 1038700,
+      "value": 12164
+    },
+    {
+      "name": "APOLLO INVT CORP",
+      "cusip": "03761U106",
+      "shares": 1509200,
+      "value": 11682
+    },
+    {
+      "name": "NXP SEMICONDUCTORS N V",
+      "cusip": "N6596X109",
+      "shares": 373500,
+      "value": 11586
+    },
+    {
+      "name": "INVESCO MORTGAGE CAPITAL INC",
+      "cusip": "46131B100",
+      "shares": 601400,
+      "value": 9960
+    },
+    {
+      "name": "DENDREON CORP",
+      "cusip": "24823Q107",
+      "shares": 2405400,
+      "value": 9911
+    },
+    {
+      "name": "AMERICAN CAPITAL AGENCY CORP",
+      "cusip": "02503X105",
+      "shares": 407725,
+      "value": 9382
+    },
+    {
+      "name": "HATTERAS FINL CORP",
+      "cusip": "41902R103",
+      "shares": 330200,
+      "value": 8137
+    },
+    {
+      "name": "APOLLO GROUP INC",
+      "cusip": "037604105",
+      "shares": 437300,
+      "value": 7749
+    },
+    {
+      "name": "NORTHSTAR RLTY FIN CORP",
+      "cusip": "66704R100",
+      "shares": 823300,
+      "value": 7493
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 285760,
+      "value": 6967
+    },
+    {
+      "name": "AMERICAN CAP MTG INVT CORP",
+      "cusip": "02504A104",
+      "shares": 328000,
+      "value": 5896
+    },
+    {
+      "name": "NEWCASTLE INVT CORP",
+      "cusip": "65105M108",
+      "shares": 893600,
+      "value": 4674
+    },
+    {
+      "name": "NEW RESIDENTIAL INVT CORP",
+      "cusip": "64828T102",
+      "shares": 390700,
+      "value": 2634
+    },
+    {
+      "name": "CHIMERA INVT CORP",
+      "cusip": "16934Q109",
+      "shares": 343360,
+      "value": 1031
+    },
+    {
+      "name": "BG MEDICINE INC",
+      "cusip": "08861T107",
+      "shares": 684236,
+      "value": 911
+    },
+    {
+      "name": "DONNELLEY R R & SONS CO",
+      "cusip": "257867101",
+      "shares": 65000,
+      "value": 911
+    },
+    {
+      "name": "PENNANTPARK INVT CORP",
+      "cusip": "708062104",
+      "shares": 78860,
+      "value": 872
+    },
+    {
+      "name": "COMPASS DIVERSIFIED HOLDINGS",
+      "cusip": "20451Q104",
+      "shares": 49000,
+      "value": 859
+    },
+    {
+      "name": "MCDONALDS CORP",
+      "cusip": "580135101",
+      "shares": 8500,
+      "value": 842
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 18000,
+      "value": 827
+    },
+    {
+      "name": "KKR & CO L P DEL",
+      "cusip": "48248M102",
+      "shares": 40900,
+      "value": 805
+    },
+    {
+      "name": "PITNEY BOWES INC",
+      "cusip": "724479100",
+      "shares": 53600,
+      "value": 787
+    },
+    {
+      "name": "OCH ZIFF CAP MGMT GROUP",
+      "cusip": "67551U105",
+      "shares": 75100,
+      "value": 785
+    },
+    {
+      "name": "BRINKER INTL INC",
+      "cusip": "109641100",
+      "shares": 19000,
+      "value": 750
+    },
+    {
+      "name": "APOLLO GLOBAL MGMT LLC",
+      "cusip": "037612306",
+      "shares": 31000,
+      "value": 748
+    },
+    {
+      "name": "OAKTREE CAP GROUP LLC",
+      "cusip": "674001201",
+      "shares": 13000,
+      "value": 684
+    },
+    {
+      "name": "WINDSTREAM CORP",
+      "cusip": "97381W104",
+      "shares": 87000,
+      "value": 671
+    },
+    {
+      "name": "BLACKROCK KELSO CAPITAL CORP",
+      "cusip": "092533108",
+      "shares": 70800,
+      "value": 663
+    },
+    {
+      "name": "MEDLEY CAP CORP",
+      "cusip": "58503F106",
+      "shares": 48200,
+      "value": 655
+    },
+    {
+      "name": "WESTERN ASSET HIGH INCM FD I",
+      "cusip": "95766J102",
+      "shares": 70460,
+      "value": 650
+    },
+    {
+      "name": "NATIONAL CINEMEDIA INC",
+      "cusip": "635309107",
+      "shares": 36000,
+      "value": 609
+    },
+    {
+      "name": "THL CR INC",
+      "cusip": "872438106",
+      "shares": 40000,
+      "value": 608
+    },
+    {
+      "name": "QUAD / GRAPHICS INC",
+      "cusip": "747301109",
+      "shares": 25000,
+      "value": 603
+    },
+    {
+      "name": "REDWOOD TR INC",
+      "cusip": "758075402",
+      "shares": 35000,
+      "value": 595
+    },
+    {
+      "name": "PDL BIOPHARMA INC",
+      "cusip": "69329Y104",
+      "shares": 76400,
+      "value": 590
+    },
+    {
+      "name": "BGC PARTNERS INC",
+      "cusip": "05541T101",
+      "shares": 100000,
+      "value": 589
+    },
+    {
+      "name": "HOLLYFRONTIER CORP",
+      "cusip": "436106108",
+      "shares": 13500,
+      "value": 578
+    },
+    {
+      "name": "SOLAR SR CAP LTD",
+      "cusip": "83416M105",
+      "shares": 29400,
+      "value": 542
+    },
+    {
+      "name": "RESOURCE CAP CORP",
+      "cusip": "76120W302",
+      "shares": 84100,
+      "value": 518
+    },
+    {
+      "name": "COLLECTORS UNIVERSE INC",
+      "cusip": "19421R200",
+      "shares": 39000,
+      "value": 517
+    },
+    {
+      "name": "STARWOOD PPTY TR INC",
+      "cusip": "85571B105",
+      "shares": 20000,
+      "value": 495
+    },
+    {
+      "name": "ENERGY TRANSFER PRTNRS L P",
+      "cusip": "29273R109",
+      "shares": 8800,
+      "value": 445
+    },
+    {
+      "name": "CAPSTEAD MTG CORP",
+      "cusip": "14067E506",
+      "shares": 35000,
+      "value": 424
+    },
+    {
+      "name": "GOLUB CAP BDC INC",
+      "cusip": "38173M102",
+      "shares": 23900,
+      "value": 419
+    },
+    {
+      "name": "ROUNDYS INC",
+      "cusip": "779268101",
+      "shares": 50000,
+      "value": 417
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 9000,
+      "value": 407
+    },
+    {
+      "name": "SOLAR CAP LTD",
+      "cusip": "83413U100",
+      "shares": 17000,
+      "value": 393
+    },
+    {
+      "name": "BLACKROCK INC",
+      "cusip": "09247X101",
+      "shares": 1500,
+      "value": 386
+    },
+    {
+      "name": "ROYAL BK SCOTLAND GROUP PLC",
+      "cusip": "780097713",
+      "shares": 15200,
+      "value": 364
+    },
+    {
+      "name": "ARMOUR RESIDENTIAL REIT INC",
+      "cusip": "042315101",
+      "shares": 75000,
+      "value": 354
+    },
+    {
+      "name": "FRONTIER COMMUNICATIONS CORP",
+      "cusip": "35906A108",
+      "shares": 85000,
+      "value": 345
+    },
+    {
+      "name": "ANNALY CAP MGMT INC",
+      "cusip": "035710409",
+      "shares": 24743,
+      "value": 312
+    },
+    {
+      "name": "BANCO SANTANDER SA",
+      "cusip": "05964H105",
+      "shares": 41100,
+      "value": 266
+    },
+    {
+      "name": "WESTERN ASSET MTG CAP CORP",
+      "cusip": "95790D105",
+      "shares": 14000,
+      "value": 245
+    },
+    {
+      "name": "CHESAPEAKE GRANITE WASH TR",
+      "cusip": "165185109",
+      "shares": 15000,
+      "value": 232
+    },
+    {
+      "name": "MCG CAPITAL CORP",
+      "cusip": "58047P107",
+      "shares": 37500,
+      "value": 196
+    },
+    {
+      "name": "REALOGY HLDGS CORP",
+      "cusip": "75605Y106",
+      "shares": 2644,
+      "value": 128
+    },
+    {
+      "name": "APOLLO COML REAL EST FIN INC",
+      "cusip": "03762U105",
+      "shares": 6600,
+      "value": 105
+    },
+    {
+      "name": "ALLIANCEBERNSTEIN HOLDING LP",
+      "cusip": "01881G106",
+      "shares": 3390,
+      "value": 71
+    }
+  ],
+  "totalValue": 1456578,
+  "positionsCount": 99
+}

@@ -1,0 +1,186 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-10-30",
+  "period": "2024-10-30",
+  "accession": "0001145549-24-067200",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cusip": "084670702",
+      "shares": 61790,
+      "value": 29407096.8,
+      "pctOfPortfolio": 8.2764844925
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 105365,
+      "value": 17475838.9,
+      "pctOfPortfolio": 4.9184899357
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 98950,
+      "value": 17276670,
+      "pctOfPortfolio": 4.8624348167
+    },
+    {
+      "name": "Marsh & McLennan Cos Inc",
+      "cusip": "571748102",
+      "shares": 75811,
+      "value": 17247760.61,
+      "pctOfPortfolio": 4.8542984093
+    },
+    {
+      "name": "General Dynamics Corp",
+      "cusip": "369550108",
+      "shares": 55255,
+      "value": 16541136.8,
+      "pctOfPortfolio": 4.6554225718
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 100570,
+      "value": 16431126.6,
+      "pctOfPortfolio": 4.6244607356
+    },
+    {
+      "name": "American Express Co",
+      "cusip": "025816109",
+      "shares": 63108,
+      "value": 16322884.2,
+      "pctOfPortfolio": 4.5939964381
+    },
+    {
+      "name": "Lennar Corp",
+      "cusip": "526057302",
+      "shares": 95840,
+      "value": 16180667.2,
+      "pctOfPortfolio": 4.5539701546
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 26108,
+      "value": 15408941.6,
+      "pctOfPortfolio": 4.3367717346
+    },
+    {
+      "name": "Chubb Ltd",
+      "cusip": null,
+      "shares": 52650,
+      "value": 14962077,
+      "pctOfPortfolio": 4.2110038644
+    },
+    {
+      "name": "Royalty Pharma PLC",
+      "cusip": null,
+      "shares": 505725,
+      "value": 14681196.75,
+      "pctOfPortfolio": 4.131951483
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 64320,
+      "value": 14459136,
+      "pctOfPortfolio": 4.069453564
+    },
+    {
+      "name": "EOG Resources Inc",
+      "cusip": "26875P101",
+      "shares": 111935,
+      "value": 14419466.7,
+      "pctOfPortfolio": 4.0582888323
+    },
+    {
+      "name": "W R Berkley Corp",
+      "cusip": "084423102",
+      "shares": 240952,
+      "value": 14384834.4,
+      "pctOfPortfolio": 4.0485417397
+    },
+    {
+      "name": "Texas Instruments Inc",
+      "cusip": "882508104",
+      "shares": 63980,
+      "value": 13713473.2,
+      "pctOfPortfolio": 3.8595903924
+    },
+    {
+      "name": "Home Depot Inc/The",
+      "cusip": "437076102",
+      "shares": 36120,
+      "value": 13310220,
+      "pctOfPortfolio": 3.7460967389
+    },
+    {
+      "name": "Phillips 66",
+      "cusip": "718546104",
+      "shares": 91425,
+      "value": 12827841.75,
+      "pctOfPortfolio": 3.6103337245
+    },
+    {
+      "name": "Eaton Corp PLC",
+      "cusip": null,
+      "shares": 40635,
+      "value": 12472100.55,
+      "pctOfPortfolio": 3.5102120925
+    },
+    {
+      "name": "Honeywell International Inc",
+      "cusip": "438516106",
+      "shares": 56265,
+      "value": 11698056.15,
+      "pctOfPortfolio": 3.2923610575
+    },
+    {
+      "name": "Keysight Technologies Inc",
+      "cusip": "49338L103",
+      "shares": 71125,
+      "value": 10961785,
+      "pctOfPortfolio": 3.0851411202
+    },
+    {
+      "name": "Schlumberger NV",
+      "cusip": "806857108",
+      "shares": 245240,
+      "value": 10788107.6,
+      "pctOfPortfolio": 3.0362604599
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 60015,
+      "value": 10520629.5,
+      "pctOfPortfolio": 2.9609800485
+    },
+    {
+      "name": "Applied Materials Inc",
+      "cusip": "038222105",
+      "shares": 50515,
+      "value": 9964588.9,
+      "pctOfPortfolio": 2.8044851237
+    },
+    {
+      "name": "Ulta Beauty Inc",
+      "cusip": "90384S303",
+      "shares": 26650,
+      "value": 9403186,
+      "pctOfPortfolio": 2.6464810055
+    },
+    {
+      "name": "Fidelity Government Portfolio",
+      "cusip": "316175108",
+      "shares": 4274491.62,
+      "value": 4274491.62,
+      "pctOfPortfolio": 1.2030348948
+    }
+  ],
+  "totalValue": 355133313.83000004,
+  "positionsCount": 25
+}

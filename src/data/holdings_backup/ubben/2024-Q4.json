@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0001418812-24-000021",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 3914309,
+      "value": 1071385516
+    },
+    {
+      "name": "INSIGHT ENTERPRISES INC",
+      "cusip": "45765U103",
+      "shares": 4061739,
+      "value": 874857963
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 7464831,
+      "value": 718042094
+    },
+    {
+      "name": "ROBLOX CORP",
+      "cusip": "771049103",
+      "shares": 10135921,
+      "value": 448615863
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 2607606,
+      "value": 385977840
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 211500,
+      "value": 121071060
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 1014650,
+      "value": 111094029
+    },
+    {
+      "name": "VISA",
+      "cusip": "92826C839",
+      "shares": 373600,
+      "value": 102721320
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229722",
+      "shares": 1337500,
+      "value": 68653875
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229748",
+      "shares": 671800,
+      "value": 33260818
+    }
+  ],
+  "totalValue": 3935680378,
+  "positionsCount": 10
+}

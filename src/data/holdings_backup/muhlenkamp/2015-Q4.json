@@ -1,0 +1,413 @@
+{
+  "form": "13F-HR",
+  "date": "2015-11-09",
+  "period": "2015-11-09",
+  "accession": "0001133219-15-000006",
+  "quarterKey": "2015-Q4",
+  "positions": [
+    {
+      "name": "ALLIANCE DATA SYS CORP COM",
+      "cusip": "018581108",
+      "shares": 121235,
+      "value": 31397
+    },
+    {
+      "name": "J.P. Morgan Chase & Co.",
+      "cusip": "46625H100",
+      "shares": 356685,
+      "value": 21747
+    },
+    {
+      "name": "GILEAD SCIENCES INC COM",
+      "cusip": "375558103",
+      "shares": 217990,
+      "value": 21404
+    },
+    {
+      "name": "Apple Computer Inc",
+      "cusip": "037833100",
+      "shares": 151074,
+      "value": 16663
+    },
+    {
+      "name": "CELANESE CORP-SERIES A",
+      "cusip": "150870103",
+      "shares": 268570,
+      "value": 15891
+    },
+    {
+      "name": "ARRIS GROUP INC NEW COM",
+      "cusip": "04270V106",
+      "shares": 593835,
+      "value": 15422
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 290675,
+      "value": 12865
+    },
+    {
+      "name": "Bristol Myers Squibb",
+      "cusip": "110122108",
+      "shares": 211750,
+      "value": 12536
+    },
+    {
+      "name": "ON SEMICONDUCTOR CORP COM",
+      "cusip": "682189105",
+      "shares": 1269600,
+      "value": 11934
+    },
+    {
+      "name": "Delta Air Lines",
+      "cusip": "247361702",
+      "shares": 265445,
+      "value": 11911
+    },
+    {
+      "name": "HANESBRANDS INC COM",
+      "cusip": "410345102",
+      "shares": 401290,
+      "value": 11613
+    },
+    {
+      "name": "MEDTRONIC PLC",
+      "cusip": "G5960L103",
+      "shares": 173364,
+      "value": 11605
+    },
+    {
+      "name": "ALLEGIANT TRAVEL CO",
+      "cusip": "01748X102",
+      "shares": 52381,
+      "value": 11327
+    },
+    {
+      "name": "General Motors Co.",
+      "cusip": "37045V100",
+      "shares": 354600,
+      "value": 10645
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "617446448",
+      "shares": 320565,
+      "value": 10098
+    },
+    {
+      "name": "TEVA PHARMACEUTCL INDS ADR",
+      "cusip": "881624209",
+      "shares": 176955,
+      "value": 9991
+    },
+    {
+      "name": "Rush Enterprises CLA",
+      "cusip": "781846209",
+      "shares": 385002,
+      "value": 9317
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 135712,
+      "value": 9121
+    },
+    {
+      "name": "NEUSTAR INC CL A",
+      "cusip": "64126X201",
+      "shares": 307555,
+      "value": 8369
+    },
+    {
+      "name": "WCI CMNTYS INC COM PAR $0.01",
+      "cusip": "92923C807",
+      "shares": 359129,
+      "value": 8127
+    },
+    {
+      "name": "SPIRIT AIRLS INC COM",
+      "cusip": "848577102",
+      "shares": 171749,
+      "value": 8124
+    },
+    {
+      "name": "ASBURY AUTOMOTIVE GP COM",
+      "cusip": "043436104",
+      "shares": 81685,
+      "value": 6629
+    },
+    {
+      "name": "UNIVERSAL DISPLAY CORP COM",
+      "cusip": "91347P105",
+      "shares": 186760,
+      "value": 6331
+    },
+    {
+      "name": "POWERSHARES ETF TRUST DYNA BUY",
+      "cusip": "73935X286",
+      "shares": 140685,
+      "value": 6159
+    },
+    {
+      "name": "Baker Hughes Inc",
+      "cusip": "057224107",
+      "shares": 111125,
+      "value": 5783
+    },
+    {
+      "name": "OUTERWALL INC COM",
+      "cusip": "690070107",
+      "shares": 98950,
+      "value": 5633
+    },
+    {
+      "name": "Schlumberger Ltd",
+      "cusip": "806857108",
+      "shares": 59600,
+      "value": 4111
+    },
+    {
+      "name": "Halliburton Co.",
+      "cusip": "406216101",
+      "shares": 100900,
+      "value": 3567
+    },
+    {
+      "name": "REX ENERGY CORP",
+      "cusip": "761565100",
+      "shares": 1589520,
+      "value": 3290
+    },
+    {
+      "name": "Annaly Capital Management",
+      "cusip": "035710409",
+      "shares": 260470,
+      "value": 2571
+    },
+    {
+      "name": "Rush Enterprises CLB",
+      "cusip": "781846308",
+      "shares": 94622,
+      "value": 2206
+    },
+    {
+      "name": "Annaly Capital Management",
+      "cusip": "035710409",
+      "shares": 217700,
+      "value": 2149
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 55200,
+      "value": 1449
+    },
+    {
+      "name": "MACROGENICS INC COM",
+      "cusip": "556099109",
+      "shares": 66500,
+      "value": 1424
+    },
+    {
+      "name": "BELLATRIX EXPLORATION COM",
+      "cusip": "078314101",
+      "shares": 804545,
+      "value": 1223
+    },
+    {
+      "name": "Pfizer Inc",
+      "cusip": "717081103",
+      "shares": 38409,
+      "value": 1206
+    },
+    {
+      "name": "EPIZYME INC COM",
+      "cusip": "29428V104",
+      "shares": 52370,
+      "value": 673
+    },
+    {
+      "name": "DOUBLELINE INCOME SOLU COM",
+      "cusip": "258622109",
+      "shares": 33720,
+      "value": 583
+    },
+    {
+      "name": "INNOVATIVE SOLTNS&SUPP COM",
+      "cusip": "45769N105",
+      "shares": 178179,
+      "value": 483
+    },
+    {
+      "name": "BOARDWALK PIPELIN PTNR UT LTD",
+      "cusip": "096627104",
+      "shares": 39800,
+      "value": 468
+    },
+    {
+      "name": "GASLOG PARTNERS LP UNIT LTD PT",
+      "cusip": "Y2687W108",
+      "shares": 23685,
+      "value": 382
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 13000,
+      "value": 341
+    },
+    {
+      "name": "TEEKAY TANKERS LTD CL A",
+      "cusip": "Y8565N102",
+      "shares": 47400,
+      "value": 327
+    },
+    {
+      "name": "ENERGY TRANSFER EQUITY COM UT",
+      "cusip": "29273V100",
+      "shares": 15634,
+      "value": 325
+    },
+    {
+      "name": "Pulte Homes, Inc",
+      "cusip": "745867101",
+      "shares": 16600,
+      "value": 313
+    },
+    {
+      "name": "ALLIANCEBERNSTEIN HLDG UNIT LT",
+      "cusip": "01881G106",
+      "shares": 11550,
+      "value": 307
+    },
+    {
+      "name": "AMERICAN AXLE & MFG COM",
+      "cusip": "024061103",
+      "shares": 12600,
+      "value": 251
+    },
+    {
+      "name": "DIANA SHIPPING INC PERP PFD SE",
+      "cusip": "Y2066G112",
+      "shares": 12530,
+      "value": 247
+    },
+    {
+      "name": "Pulte Homes, Inc",
+      "cusip": "745867101",
+      "shares": 13000,
+      "value": 245
+    },
+    {
+      "name": "PEABODY ENERGY",
+      "cusip": "704549AG9",
+      "shares": 1990000,
+      "value": 229
+    },
+    {
+      "name": "MAGNUM HUNTER RES CORP CUM PFD",
+      "cusip": "55973B300",
+      "shares": 31200,
+      "value": 189
+    },
+    {
+      "name": "QUICKLOGIC CORP COM",
+      "cusip": "74837P108",
+      "shares": 110305,
+      "value": 175
+    },
+    {
+      "name": "DSP GROUP INC COM",
+      "cusip": "23332B106",
+      "shares": 18845,
+      "value": 172
+    },
+    {
+      "name": "General Motors Co.",
+      "cusip": "37045V100",
+      "shares": 5000,
+      "value": 150
+    },
+    {
+      "name": "AFFIMED NV",
+      "cusip": "N01045108",
+      "shares": 23960,
+      "value": 148
+    },
+    {
+      "name": "AMERICAN CAPITAL LTD",
+      "cusip": "02503Y103",
+      "shares": 10400,
+      "value": 126
+    },
+    {
+      "name": "SPIRIT AIRLS INC COM",
+      "cusip": "848577102",
+      "shares": 2600,
+      "value": 123
+    },
+    {
+      "name": "GENWORTH FINL INC COM CL A",
+      "cusip": "37247D106",
+      "shares": 24400,
+      "value": 113
+    },
+    {
+      "name": "ELDORADO GOLD CORP NEW COM",
+      "cusip": "284902103",
+      "shares": 24685,
+      "value": 79
+    },
+    {
+      "name": "PAN AMERICAN SILVER CP COM",
+      "cusip": "697900108",
+      "shares": 10360,
+      "value": 66
+    },
+    {
+      "name": "HEAT BIOLOGICS INC COM",
+      "cusip": "42237K102",
+      "shares": 10800,
+      "value": 50
+    },
+    {
+      "name": "ZIX CORP COM",
+      "cusip": "98974P100",
+      "shares": 10710,
+      "value": 45
+    },
+    {
+      "name": "PACIFIC BIOSCIENCES IN COM",
+      "cusip": "69404D108",
+      "shares": 11125,
+      "value": 41
+    },
+    {
+      "name": "Morgan Stanley",
+      "cusip": "617446448",
+      "shares": 1000,
+      "value": 32
+    },
+    {
+      "name": "CELGENE CORP-CVR",
+      "cusip": "151020112",
+      "shares": 15810,
+      "value": 25
+    },
+    {
+      "name": "AMERICAN CAPITAL LTD",
+      "cusip": "02503Y103",
+      "shares": 2000,
+      "value": 24
+    },
+    {
+      "name": "FLYHT AEROSPACE SOLUTI COM",
+      "cusip": "30252U105",
+      "shares": 22000,
+      "value": 3
+    }
+  ],
+  "totalValue": 340573,
+  "positionsCount": 67
+}

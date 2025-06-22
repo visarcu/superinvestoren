@@ -1,0 +1,160 @@
+{
+  "form": "NPORT-P",
+  "groupingDate": "2023-12-31",
+  "positions": [
+    {
+      "name": "United States of America",
+      "cusip": "91282CFQ9",
+      "shares": 8000000,
+      "value": 7966257280,
+      "pctOfPortfolio": 432.18462955629997
+    },
+    {
+      "name": "UPSTART SECURITIZATION TRUST",
+      "cusip": "91679JAA5",
+      "shares": 112662.35,
+      "value": 111871910,
+      "pctOfPortfolio": 6.0692641828000005
+    },
+    {
+      "name": "AVID AUTOMOBILE RECEIVABLES TRUST",
+      "cusip": "05368QAA5",
+      "shares": 81030.89,
+      "value": 80986600,
+      "pctOfPortfolio": 4.3936772928000005
+    },
+    {
+      "name": "DEXT ABS LLC",
+      "cusip": "25216CAA8",
+      "shares": 567047.45,
+      "value": 567100920,
+      "pctOfPortfolio": 30.7663049807
+    },
+    {
+      "name": "CFMT TRUST",
+      "cusip": "12529UAF7",
+      "shares": 135179.96,
+      "value": 131100230.00000001,
+      "pctOfPortfolio": 7.112437164099999
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFA4",
+      "shares": 25000000,
+      "value": 24705775250,
+      "pctOfPortfolio": 1340.3353606379999
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912797HS9",
+      "shares": 10000000,
+      "value": 9791265500,
+      "pctOfPortfolio": 531.1948013064
+    },
+    {
+      "name": "AMERICA'S CAR-MART TRUST",
+      "cusip": "00461VAA1",
+      "shares": 48049.19,
+      "value": 48023300,
+      "pctOfPortfolio": 2.6053554876000002
+    },
+    {
+      "name": "ARI FLEET LEASE TRUST",
+      "cusip": "04033GAA5",
+      "shares": 679429.39,
+      "value": 680053650,
+      "pctOfPortfolio": 36.894205707
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828V80",
+      "shares": 8000000,
+      "value": 7980124880,
+      "pctOfPortfolio": 432.9369732679
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFN6",
+      "shares": 28000000,
+      "value": 27857725560,
+      "pctOfPortfolio": 1511.334667995
+    },
+    {
+      "name": "AFFIRM ASSET SECURITIZATION TRUST",
+      "cusip": "00834KAA5",
+      "shares": 130000,
+      "value": 130407680,
+      "pctOfPortfolio": 7.0748650076
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CER8",
+      "shares": 32000000,
+      "value": 31643136320,
+      "pctOfPortfolio": 1716.70041122
+    },
+    {
+      "name": "SOFI CONSUMER LOAN PROGRAM LLC",
+      "cusip": "83407EAA2",
+      "shares": 187357.2,
+      "value": 187143070,
+      "pctOfPortfolio": 10.1528679703
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828WJ5",
+      "shares": 12000000,
+      "value": 11883027840,
+      "pctOfPortfolio": 644.6768921124
+    },
+    {
+      "name": "PAWNEE EQUIPMENT RECEIVABLES LLC",
+      "cusip": "70410DAB4",
+      "shares": 93406.73,
+      "value": 93292550,
+      "pctOfPortfolio": 5.0612985176
+    },
+    {
+      "name": "LAD AUTO RECEIVABLES TRUST",
+      "cusip": "501687AA5",
+      "shares": 129579.52,
+      "value": 128945860,
+      "pctOfPortfolio": 6.9955584885
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828B66",
+      "shares": 9000000,
+      "value": 8971675920,
+      "pctOfPortfolio": 486.730505644
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CFG1",
+      "shares": 27000000,
+      "value": 26681286600,
+      "pctOfPortfolio": 1447.510613831
+    },
+    {
+      "name": "JPMorgan Trust II: JPMorgan US Government Money Market Fund; Institutional Shares",
+      "cusip": "4812C2684",
+      "shares": 6266631.91,
+      "value": 6266631910,
+      "pctOfPortfolio": 339.9767162164
+    },
+    {
+      "name": "United States of America",
+      "cusip": "912828XT2",
+      "shares": 11000000,
+      "value": 10853694610,
+      "pctOfPortfolio": 588.8336039708
+    },
+    {
+      "name": "United States of America",
+      "cusip": "91282CEK3",
+      "shares": 7000000,
+      "value": 6936127520,
+      "pctOfPortfolio": 376.2981281452
+    }
+  ]
+}

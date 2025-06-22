@@ -27,7 +27,7 @@ export default function NewsletterAdminPage() {
     loadSubscribers()
   }, [])
 
-  // Test-Newsletter senden
+  // Test-Newsletter senden (Einzel)
   async function handleTestSend() {
     if (!subject.trim() || !content.trim() || !testEmail.trim()) {
       setMessage('❌ Bitte alle Felder für den Test ausfüllen')
@@ -41,7 +41,7 @@ export default function NewsletterAdminPage() {
       const response = await fetch('/api/admin/newsletter/test', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject, content, testEmail })
+        body: JSON.stringify({ subject, content, singleEmail: testEmail })
       })
 
       const data = await response.json()
@@ -55,6 +55,50 @@ export default function NewsletterAdminPage() {
     } finally {
       setIsTestLoading(false)
       setTimeout(() => setMessage(''), 8000)
+    }
+  }
+
+  // Multi-Email-Test für Datenschutz-Prüfung
+  async function handleMultiTest() {
+    if (!subject.trim() || !content.trim()) {
+      setMessage('❌ Bitte Betreff und Inhalt eingeben')
+      setTimeout(() => setMessage(''), 5000)
+      return
+    }
+
+    // Test-E-Mails (ersetze mit deinen eigenen E-Mails oder Gmail-Aliase)
+    const testEmails = [
+      { email: 'visi1@hotmail.de' },
+      { email: 'loeweninvest@gmail.com' },
+    ]
+
+    const confirmed = confirm(`🔒 Datenschutz-Test an ${testEmails.length} Test-E-Mails senden?\n\nDieser Test prüft, ob E-Mail-Adressen korrekt getrennt versendet werden.`)
+    if (!confirmed) return
+
+    setIsTestLoading(true)
+    setMessage('')
+    try {
+      const response = await fetch('/api/admin/newsletter/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          subject, 
+          content, 
+          testEmails: testEmails
+        })
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        setMessage(`✅ ${data.message}\n🔍 Prüfe jetzt deine E-Mails: Jede sollte nur EINE E-Mail-Adresse im "An"-Feld haben!`)
+      } else {
+        setMessage(`❌ Multi-Test-Fehler: ${data.error}`)
+      }
+    } catch (error) {
+      setMessage(`❌ Fehler beim Multi-Test: ${error}`)
+    } finally {
+      setIsTestLoading(false)
+      setTimeout(() => setMessage(''), 12000)
     }
   }
 
@@ -129,7 +173,7 @@ export default function NewsletterAdminPage() {
 
         {/* Status Message */}
         {message && (
-          <div className={`mb-6 p-4 rounded-lg border ${
+          <div className={`mb-6 p-4 rounded-lg border whitespace-pre-line ${
             message.includes('✅') 
               ? 'bg-green-950 border-green-800 text-green-300' 
               : 'bg-red-950 border-red-800 text-red-300'
@@ -191,7 +235,7 @@ Dein FinClue Team"
               />
             </div>
 
-            {/* Test Section */}
+            {/* Test Section - ERWEITERT */}
             <div className="bg-yellow-900/20 border border-yellow-800/50 rounded-lg p-4">
               <h3 className="text-yellow-300 font-medium mb-3 flex items-center gap-2">
                 🧪 Test-Newsletter
@@ -204,13 +248,30 @@ Dein FinClue Team"
                   placeholder="deine@email.com"
                   className="w-full px-3 py-2 bg-gray-900 border border-yellow-800/50 rounded text-white placeholder-gray-500 focus:outline-none focus:border-yellow-700"
                 />
-                <button
-                  onClick={handleTestSend}
-                  disabled={isTestLoading || !subject.trim() || !content.trim() || !testEmail.trim()}
-                  className="w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded transition-colors"
-                >
-                  {isTestLoading ? 'Sende Test...' : 'Test senden'}
-                </button>
+                
+                {/* NEUE BUTTON-ANORDNUNG */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleTestSend}
+                    disabled={isTestLoading || !subject.trim() || !content.trim() || !testEmail.trim()}
+                    className="flex-1 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded transition-colors text-sm"
+                  >
+                    {isTestLoading ? 'Sende...' : '📧 Einzel-Test'}
+                  </button>
+                  
+                  <button
+                    onClick={handleMultiTest}
+                    disabled={isTestLoading || !subject.trim() || !content.trim()}
+                    className="flex-1 px-4 py-2 bg-orange-600 hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded transition-colors text-sm"
+                    title="Testet Datenschutz mit mehreren E-Mails"
+                  >
+                    {isTestLoading ? 'Teste...' : '🔒 Multi-Test'}
+                  </button>
+                </div>
+                
+                <p className="text-xs text-yellow-200/80">
+                  💡 Multi-Test prüft, ob E-Mail-Adressen getrennt versendet werden (Datenschutz)
+                </p>
               </div>
             </div>
 

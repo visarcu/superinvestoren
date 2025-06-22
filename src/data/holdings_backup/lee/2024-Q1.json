@@ -1,0 +1,109 @@
+{
+  "form": "13F-HR",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "positions": [
+    {
+      "name": "ALIBABA GROUP HLDG LTD",
+      "cusip": "01609W102",
+      "shares": 35000,
+      "value": 2712850000000
+    },
+    {
+      "name": "ALLY FINL INC",
+      "cusip": "02005N100",
+      "shares": 1646222,
+      "value": 57486072000000
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 180000,
+      "value": 27349200000000
+    },
+    {
+      "name": "CONTROLADORA VUELA COMP DE A",
+      "cusip": "21240E105",
+      "shares": 399168,
+      "value": 3744196000000
+    },
+    {
+      "name": "DESPEGAR COM CORP",
+      "cusip": "G27358103",
+      "shares": 3572243,
+      "value": 33793419000000
+    },
+    {
+      "name": "EXPEDIA GROUP INC",
+      "cusip": "30212P303",
+      "shares": 296257,
+      "value": 44968850000000
+    },
+    {
+      "name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "shares": 27995,
+      "value": 39724065000000
+    },
+    {
+      "name": "FRONTIER GROUP HLDGS INC",
+      "cusip": "35909R108",
+      "shares": 8661321,
+      "value": 47290813000000
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 550174,
+      "value": 45609425000000
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 74612,
+      "value": 26409664000000
+    },
+    {
+      "name": "OSCAR HEALTH INC",
+      "cusip": "687793109",
+      "shares": 3729904,
+      "value": 34128622000000
+    },
+    {
+      "name": "SEMRUSH HLDGS INC",
+      "cusip": "81686C104",
+      "shares": 2722522,
+      "value": 37189651000000
+    },
+    {
+      "name": "SPIRIT AIRLS INC",
+      "cusip": "848577102",
+      "shares": 1825295,
+      "value": 29916585000000
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 2983135,
+      "value": 69566708000000
+    },
+    {
+      "name": "U HAUL HOLDING COMPANY",
+      "cusip": "023586506",
+      "shares": 8938,
+      "value": 629593000000
+    },
+    {
+      "name": "UPWORK INC",
+      "cusip": "91688F104",
+      "shares": 5589636,
+      "value": 83117887000000
+    },
+    {
+      "name": "VITAL ENERGY INC",
+      "cusip": "516806205",
+      "shares": 353700,
+      "value": 16089813000000
+    }
+  ]
+}

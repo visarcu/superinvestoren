@@ -1,4 +1,113 @@
 {
+  "form": "13F-HR",
   "date": "2017-01-18",
-  "positions": []
+  "period": "2017-01-18",
+  "accession": "0001376879-17-000003",
+  "quarterKey": "2017-Q1",
+  "positions": [
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 4151324,
+      "value": 241983
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 684386,
+      "value": 53396
+    },
+    {
+      "name": "ALLEGION PUB LTD CO",
+      "cusip": "G0176J109",
+      "shares": 738428,
+      "value": 47259
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 356692,
+      "value": 42525
+    },
+    {
+      "name": "MARRIOTT INTL INC NEW",
+      "cusip": "571903202",
+      "shares": 484139,
+      "value": 40029
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 583223,
+      "value": 38166
+    },
+    {
+      "name": "PRAXAIR INC",
+      "cusip": "74005P104",
+      "shares": 293384,
+      "value": 34382
+    },
+    {
+      "name": "COGNIZANT TECHNOLOGY SOLUTIO",
+      "cusip": "192446102",
+      "shares": 609688,
+      "value": 34161
+    },
+    {
+      "name": "LAUDER ESTEE COS INC",
+      "cusip": "518439104",
+      "shares": 428033,
+      "value": 32740
+    },
+    {
+      "name": "US BANCORP DEL",
+      "cusip": "902973304",
+      "shares": 627471,
+      "value": 32233
+    },
+    {
+      "name": "CORE LABORATORIES N V",
+      "cusip": "N22717107",
+      "shares": 259943,
+      "value": 31204
+    },
+    {
+      "name": "ANSYS INC",
+      "cusip": "03662Q105",
+      "shares": 312889,
+      "value": 28939
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 566255,
+      "value": 28783
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 294909,
+      "value": 27801
+    },
+    {
+      "name": "WELLS FARGO & CO NEW",
+      "cusip": "949746101",
+      "shares": 482479,
+      "value": 26589
+    },
+    {
+      "name": "MONSANTO CO NEW",
+      "cusip": "61166W101",
+      "shares": 210124,
+      "value": 22107
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 21690,
+      "value": 16741
+    }
+  ],
+  "totalValue": 779038,
+  "positionsCount": 17
 }

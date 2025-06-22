@@ -1,0 +1,154 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-05-23",
+  "period": "2023-05-23",
+  "positions": [
+    {
+      "name": "Anywhere Real Estate Inc.",
+      "cusip": "75605Y106",
+      "shares": 6708655,
+      "value": 35421698400,
+      "pctOfPortfolio": 307.35748898
+    },
+    {
+      "name": "The Boston Beer Company, Inc. Class - A",
+      "cusip": "100557107",
+      "shares": 108471,
+      "value": 35654417700,
+      "pctOfPortfolio": 309.37681676
+    },
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 4535652,
+      "value": 72661145040,
+      "pctOfPortfolio": 630.48775454
+    },
+    {
+      "name": "Eastman Kodak Company",
+      "cusip": "277461703",
+      "shares": 932150,
+      "value": 72428055000,
+      "pctOfPortfolio": 628.4652098099999
+    },
+    {
+      "name": "Empire State Realty Trust, Inc.",
+      "cusip": "292104106",
+      "shares": 8264248,
+      "value": 53634969520,
+      "pctOfPortfolio": 465.39579687
+    },
+    {
+      "name": "Graham Holdings Company",
+      "cusip": "384637104",
+      "shares": 91627,
+      "value": 54595031680,
+      "pctOfPortfolio": 473.72634870999997
+    },
+    {
+      "name": "Gruma, S.A.B. DE C.V.",
+      "cusip": "239254500",
+      "shares": 4922858,
+      "value": 72927688300,
+      "pctOfPortfolio": 632.80057608
+    },
+    {
+      "name": "Hyatt Hotels Corporation",
+      "cusip": "448579102",
+      "shares": 504274,
+      "value": 56372790460,
+      "pctOfPortfolio": 489.15213287999995
+    },
+    {
+      "name": "White Mountains Insurance Group, Ltd.",
+      "cusip": "G9618E107",
+      "shares": 50340,
+      "value": 69342846600,
+      "pctOfPortfolio": 601.69455934
+    },
+    {
+      "name": "Oscar Health, Inc.",
+      "cusip": "687793109",
+      "shares": 11123541,
+      "value": 72747958000,
+      "pctOfPortfolio": 619.81195068
+    },
+    {
+      "name": "Vimeo, Inc.",
+      "cusip": "92719V100",
+      "shares": 6240746,
+      "value": 23902057180,
+      "pctOfPortfolio": 207.4004525
+    },
+    {
+      "name": "Westrock Coffee Company - Class B",
+      "cusip": "000000000",
+      "shares": 181231,
+      "value": 2218267440,
+      "pctOfPortfolio": 19.24812025
+    },
+    {
+      "name": "Westrock Coffee Company - Class A",
+      "cusip": "96145W103",
+      "shares": 5581943,
+      "value": 68322982319.99999,
+      "pctOfPortfolio": 592.84509874
+    },
+    {
+      "name": "LANXESS AG",
+      "cusip": "B05M8B700",
+      "shares": 1623333,
+      "value": 66788808470,
+      "pctOfPortfolio": 579.53292447
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 1408893,
+      "value": 46648447230,
+      "pctOfPortfolio": 404.77306998999995
+    },
+    {
+      "name": "Liberty Braves Group - Series C",
+      "cusip": "531229888",
+      "shares": 2124515,
+      "value": 71574910350,
+      "pctOfPortfolio": 621.0623915
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 105496000,
+      "value": 105496000000,
+      "pctOfPortfolio": 915.39895381
+    },
+    {
+      "name": "Lumen Technologies, Inc.",
+      "cusip": "550241103",
+      "shares": 11166098,
+      "value": 29590159700,
+      "pctOfPortfolio": 256.75666596
+    },
+    {
+      "name": "Madison Square Garden Sports Corp. - Class A",
+      "cusip": "55825T103",
+      "shares": 168830,
+      "value": 32896525500,
+      "pctOfPortfolio": 285.44632049
+    },
+    {
+      "name": "Masonite International Corporation",
+      "cusip": "575385109",
+      "shares": 403854,
+      "value": 36657827580,
+      "pctOfPortfolio": 318.08350095
+    },
+    {
+      "name": "Mattel, Inc.",
+      "cusip": "577081102",
+      "shares": 3859728,
+      "value": 71057592480,
+      "pctOfPortfolio": 616.57357451
+    }
+  ]
+}

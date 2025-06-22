@@ -1,0 +1,77 @@
+{
+  "form": "13F-HR",
+  "date": "2017-02-10",
+  "period": "2017-02-10",
+  "accession": "0001484150-17-000002",
+  "quarterKey": "2017-Q1",
+  "positions": [
+    {
+      "name": "MONDELEZ INTERNATIONAL INC",
+      "cusip": "609207105",
+      "shares": 11767310,
+      "value": 524645
+    },
+    {
+      "name": "DR PEPPER SNAPPLE GROUP INC",
+      "cusip": "26138E109",
+      "shares": 2721979,
+      "value": 246802
+    },
+    {
+      "name": "PAYPAL INC",
+      "cusip": "70450Y103",
+      "shares": 6049783,
+      "value": 238785
+    },
+    {
+      "name": "INTUIT INC",
+      "cusip": "461202103",
+      "shares": 1983200,
+      "value": 227295
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 1999341,
+      "value": 208371
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 1647500,
+      "value": 172378
+    },
+    {
+      "name": "EBAY INC",
+      "cusip": "278642103",
+      "shares": 4375200,
+      "value": 129900
+    },
+    {
+      "name": "WORLD WRESTLING ENTMT INC",
+      "cusip": "98156Q108",
+      "shares": 6697681,
+      "value": 123237
+    },
+    {
+      "name": "KRAFT HEINZ COMPANY",
+      "cusip": "500754106",
+      "shares": 969983,
+      "value": 84699
+    },
+    {
+      "name": "BROWN FORMAN CORP",
+      "cusip": "115637100",
+      "shares": 1300436,
+      "value": 60145
+    },
+    {
+      "name": "INTERNATIONAL SPEEDWAY A CLASS",
+      "cusip": "460335201",
+      "shares": 525200,
+      "value": 19327
+    }
+  ],
+  "totalValue": 2035584,
+  "positionsCount": 11
+}

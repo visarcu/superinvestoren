@@ -1,0 +1,65 @@
+{
+  "form": "13F-HR",
+  "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0001493152-23-028413",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "EASTMAN CHEM CO",
+      "cusip": "277432100",
+      "shares": 402357,
+      "value": 33685328
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 307093,
+      "value": 28108222
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 399501,
+      "value": 26534856
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 147000,
+      "value": 26321820
+    },
+    {
+      "name": "FLOWSERVE CORP",
+      "cusip": "34354P105",
+      "shares": 688882,
+      "value": 25591966
+    },
+    {
+      "name": "RALPH LAUREN CORP",
+      "cusip": "751212101",
+      "shares": 196382,
+      "value": 24213901
+    },
+    {
+      "name": "TEREX CORP NEW",
+      "cusip": "880779103",
+      "shares": 322000,
+      "value": 19265260
+    },
+    {
+      "name": "HUNTSMAN CORP",
+      "cusip": "447011107",
+      "shares": 600000,
+      "value": 16212000
+    },
+    {
+      "name": "CNH INDL N V",
+      "cusip": "N20944109",
+      "shares": 220000,
+      "value": 3168000
+    }
+  ],
+  "totalValue": 203101353,
+  "positionsCount": 9
+}

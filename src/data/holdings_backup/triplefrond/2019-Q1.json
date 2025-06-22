@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2019-02-14",
+  "period": "2019-02-14",
+  "accession": "0001454502-19-000002",
+  "quarterKey": "2019-Q1",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "shares": 620029,
+      "value": 176690000
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 875628,
+      "value": 122623000
+    },
+    {
+      "name": "SCHWAB CHARLES CORP NEW",
+      "cusip": "808513105",
+      "shares": 2627611,
+      "value": 109125000
+    },
+    {
+      "name": "SBA COMMUNICATIONS CORP NEW",
+      "cusip": "78410G104",
+      "shares": 557690,
+      "value": 90284000
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 570000,
+      "value": 75206000
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 197462,
+      "value": 67149000
+    },
+    {
+      "name": "LIBERTY BROADBAND CORP",
+      "cusip": "530307305",
+      "shares": 766579,
+      "value": 55216000
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 245000,
+      "value": 46219000
+    },
+    {
+      "name": "VERISK ANALYTICS INC",
+      "cusip": "92345Y106",
+      "shares": 372485,
+      "value": 40616000
+    },
+    {
+      "name": "LIBERTY GLOBAL PLC",
+      "cusip": "G5480U120",
+      "shares": 1668979,
+      "value": 34448000
+    }
+  ],
+  "totalValue": 817576000,
+  "positionsCount": 10
+}

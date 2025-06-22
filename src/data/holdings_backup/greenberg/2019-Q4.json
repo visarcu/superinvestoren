@@ -1,0 +1,113 @@
+{
+  "form": "13F-HR",
+  "date": "2019-11-14",
+  "period": "2019-11-14",
+  "accession": "0001172661-19-002229",
+  "quarterKey": "2019-Q4",
+  "positions": [
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 293654,
+      "value": 358593
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 1503862,
+      "value": 312833
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 2026704,
+      "value": 238523
+    },
+    {
+      "name": "RAYMOND JAMES FINANCIAL INC",
+      "cusip": "754730109",
+      "shares": 2575057,
+      "value": 212339
+    },
+    {
+      "name": "ANTHEM INC",
+      "cusip": "036752103",
+      "shares": 638397,
+      "value": 153279
+    },
+    {
+      "name": "THE CHARLES SCHWAB CORPORATI",
+      "cusip": "808513105",
+      "shares": 3379941,
+      "value": 141383
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057104",
+      "shares": 2514744,
+      "value": 140448
+    },
+    {
+      "name": "PRIMERICA INC",
+      "cusip": "74164M108",
+      "shares": 878303,
+      "value": 111746
+    },
+    {
+      "name": "CITIGROUP INC",
+      "cusip": "172967424",
+      "shares": 1372732,
+      "value": 94828
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 1262110,
+      "value": 66526
+    },
+    {
+      "name": "ANTERO RES CORP",
+      "cusip": "03674X106",
+      "shares": 11458184,
+      "value": 34604
+    },
+    {
+      "name": "ANTERO MIDSTREAM CORP",
+      "cusip": "03676B102",
+      "shares": 466459,
+      "value": 3452
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 6875,
+      "value": 1408
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 31094,
+      "value": 1402
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1100,
+      "value": 1341
+    },
+    {
+      "name": "LENNAR CORP",
+      "cusip": "526057302",
+      "shares": 18520,
+      "value": 822
+    },
+    {
+      "name": "BANK AMER CORP",
+      "cusip": "060505104",
+      "shares": 14546,
+      "value": 424
+    }
+  ],
+  "totalValue": 1873951,
+  "positionsCount": 17
+}

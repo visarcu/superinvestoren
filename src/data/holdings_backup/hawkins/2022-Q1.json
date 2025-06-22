@@ -1,0 +1,147 @@
+{
+  "form": "NPORT-P",
+  "date": "2022-02-25",
+  "period": "2022-02-25",
+  "positions": [
+    {
+      "name": "CNX Resources Corporation",
+      "cusip": "12653C108",
+      "shares": 8099112,
+      "value": 111362790000,
+      "pctOfPortfolio": 608.6323401999999
+    },
+    {
+      "name": "Eastman Kodak Company",
+      "cusip": "277461703",
+      "shares": 932150,
+      "value": 76249870000,
+      "pctOfPortfolio": 416.72929367
+    },
+    {
+      "name": "Empire State Realty Trust, Inc.",
+      "cusip": "292104106",
+      "shares": 10274803,
+      "value": 91445746700,
+      "pctOfPortfolio": 499.77949381
+    },
+    {
+      "name": "Graham Holdings Company",
+      "cusip": "384637104",
+      "shares": 147393,
+      "value": 92832533190,
+      "pctOfPortfolio": 507.35871399999996
+    },
+    {
+      "name": "Hyatt Hotels Corporation ",
+      "cusip": "448579102",
+      "shares": 912811,
+      "value": 87538574900,
+      "pctOfPortfolio": 478.42558272
+    },
+    {
+      "name": "Gruma, S.A.B. DE C.V.",
+      "cusip": "239254500",
+      "shares": 6867996,
+      "value": 87777386300,
+      "pctOfPortfolio": 479.73076142
+    },
+    {
+      "name": "Idorsia Ltd",
+      "cusip": "BF0YK6200",
+      "shares": 2516860,
+      "value": 51486249340,
+      "pctOfPortfolio": 281.38839215
+    },
+    {
+      "name": "Ingles Markets, Incorporated",
+      "cusip": "457030104",
+      "shares": 142580,
+      "value": 12310357200,
+      "pctOfPortfolio": 67.27993714
+    },
+    {
+      "name": "LANXESS AG",
+      "cusip": "B05M8B700",
+      "shares": 1166974,
+      "value": 72408694500,
+      "pctOfPortfolio": 395.73607291999997
+    },
+    {
+      "name": "Liberty Braves Group - Series A",
+      "cusip": "531229706",
+      "shares": 95304,
+      "value": 2739990000,
+      "pctOfPortfolio": 14.974898940000001
+    },
+    {
+      "name": "Lazard Ltd ",
+      "cusip": "G54050102",
+      "shares": 1961547,
+      "value": 85582295610,
+      "pctOfPortfolio": 467.73390696
+    },
+    {
+      "name": "Liberty Braves Group - Series C",
+      "cusip": "531229888",
+      "shares": 3432031,
+      "value": 96440071100,
+      "pctOfPortfolio": 527.0750325399999
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 110783000,
+      "value": 110783000000,
+      "pctOfPortfolio": 605.46360723
+    },
+    {
+      "name": "Lumen Technologies, Inc.",
+      "cusip": "550241103",
+      "shares": 19116776,
+      "value": 239915538800,
+      "pctOfPortfolio": 1311.21316043
+    },
+    {
+      "name": "Madison Square Garden Sports Corp. - Class A",
+      "cusip": "55825T103",
+      "shares": 516098,
+      "value": 89661705540,
+      "pctOfPortfolio": 490.02915308999997
+    },
+    {
+      "name": "Mattel, Inc.",
+      "cusip": "577081102",
+      "shares": 6269977,
+      "value": 135180704120,
+      "pctOfPortfolio": 738.80466086
+    },
+    {
+      "name": "Realogy Holdings Corp.",
+      "cusip": "75605Y106",
+      "shares": 7833789,
+      "value": 131685993090,
+      "pctOfPortfolio": 719.7049763699999
+    },
+    {
+      "name": "RenaissanceRe Holdings Ltd.",
+      "cusip": "G7496G103",
+      "shares": 510808,
+      "value": 86495118640,
+      "pctOfPortfolio": 472.72276918999995
+    },
+    {
+      "name": "Vimeo, Inc.",
+      "cusip": "92719V100",
+      "shares": 3204523,
+      "value": 57553233080,
+      "pctOfPortfolio": 314.54634834
+    },
+    {
+      "name": "White Mountains Insurance Group, Ltd.",
+      "cusip": "G9618E107",
+      "shares": 51582,
+      "value": 52298989800.00001,
+      "pctOfPortfolio": 285.83027196
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "form": "13F-HR",
+  "date": "2016-11-14",
+  "period": "2016-11-14",
+  "accession": "0001140361-16-086026",
+  "quarterKey": "2016-Q4",
+  "positions": [
+    {
+      "name": "COTY INC",
+      "cusip": "222070203",
+      "shares": 550000,
+      "value": 12925
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 15000,
+      "value": 11659
+    },
+    {
+      "name": "HCA HOLDINGS INC",
+      "cusip": "40412C101",
+      "shares": 100000,
+      "value": 7563
+    },
+    {
+      "name": "GORES HLDGS INC",
+      "cusip": "382866101",
+      "shares": 300000,
+      "value": 3240
+    }
+  ],
+  "totalValue": 35387,
+  "positionsCount": 4
+}

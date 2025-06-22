@@ -1,0 +1,551 @@
+{
+  "date": "2025-06-09",
+  "positions": [
+    {
+      "name": "Charles Schwab Corp.",
+      "cusip": "SCHW00000",
+      "shares": 60060735,
+      "value": 4701554336,
+      "ticker": "SCHW"
+    },
+    {
+      "name": "Fiserv Inc.",
+      "cusip": "FI00000",
+      "shares": 20955000,
+      "value": 4627492650,
+      "ticker": "FI"
+    },
+    {
+      "name": "RTX Corp.",
+      "cusip": "RTX00000",
+      "shares": 28791200,
+      "value": 3813682352,
+      "ticker": "RTX"
+    },
+    {
+      "name": "CVS Health Corp.",
+      "cusip": "CVS00000",
+      "shares": 48222894,
+      "value": 3267101069,
+      "ticker": "CVS"
+    },
+    {
+      "name": "MetLife Inc.",
+      "cusip": "MET00000",
+      "shares": 39223842,
+      "value": 3149282274,
+      "ticker": "MET"
+    },
+    {
+      "name": "Sanofi Aventis",
+      "cusip": "SNY00000",
+      "shares": 56024524,
+      "value": 3107120101,
+      "ticker": "SNY"
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "WFC00000",
+      "shares": 41699508,
+      "value": 2993607679,
+      "ticker": "WFC"
+    },
+    {
+      "name": "Johnson Controls Intl. plc",
+      "cusip": "JCI00000",
+      "shares": 35314017,
+      "value": 2829005902,
+      "ticker": "JCI"
+    },
+    {
+      "name": "Charter Communications",
+      "cusip": "CHTR00000",
+      "shares": 7455376,
+      "value": 2747529717,
+      "ticker": "CHTR"
+    },
+    {
+      "name": "Gilead Sciences",
+      "cusip": "GILD00000",
+      "shares": 24346812,
+      "value": 2728060285,
+      "ticker": "GILD"
+    },
+    {
+      "name": "Occidental Petroleum",
+      "cusip": "OXY00000",
+      "shares": 54696940,
+      "value": 2699840958,
+      "ticker": "OXY"
+    },
+    {
+      "name": "Bank of New York Mellon Corp.",
+      "cusip": "BK00000",
+      "shares": 30390524,
+      "value": 2548853248,
+      "ticker": "BK"
+    },
+    {
+      "name": "Comcast Corp.",
+      "cusip": "CMCSA0000",
+      "shares": 61809394,
+      "value": 2280766639,
+      "ticker": "CMCSA"
+    },
+    {
+      "name": "GSK plc",
+      "cusip": "GSK00000",
+      "shares": 58412777,
+      "value": 2262910981,
+      "ticker": "GSK"
+    },
+    {
+      "name": "FedEx Corp.",
+      "cusip": "FDX00000",
+      "shares": 9210955,
+      "value": 2245446610,
+      "ticker": "FDX"
+    },
+    {
+      "name": "Microsoft Corp.",
+      "cusip": "MSFT00000",
+      "shares": 5838500,
+      "value": 2191714515,
+      "ticker": "MSFT"
+    },
+    {
+      "name": "GE Aerospace",
+      "cusip": "GE00000",
+      "shares": 10628300,
+      "value": 2127254245,
+      "ticker": "GE"
+    },
+    {
+      "name": "Capital One Financial",
+      "cusip": "COF00000",
+      "shares": 11854335,
+      "value": 2125482266,
+      "ticker": "COF"
+    },
+    {
+      "name": "Amazon.com Inc.",
+      "cusip": "AMZN00000",
+      "shares": 11006395,
+      "value": 2094076713,
+      "ticker": "AMZN"
+    },
+    {
+      "name": "Cigna Group",
+      "cusip": "CI00000",
+      "shares": 5958272,
+      "value": 1960271488,
+      "ticker": "CI"
+    },
+    {
+      "name": "Humana Inc.",
+      "cusip": "HUM00000",
+      "shares": 7180500,
+      "value": 1899960300,
+      "ticker": "HUM"
+    },
+    {
+      "name": "Anheuser-Busch InBev",
+      "cusip": "BUD00000",
+      "shares": 30861366,
+      "value": 1899825691,
+      "ticker": "BUD"
+    },
+    {
+      "name": "Booking Holdings Inc.",
+      "cusip": "BKNG00000",
+      "shares": 399030,
+      "value": 1838295297,
+      "ticker": "BKNG"
+    },
+    {
+      "name": "Fidelity National Information Services",
+      "cusip": "FIS00000",
+      "shares": 23515400,
+      "value": 1756130072,
+      "ticker": "FIS"
+    },
+    {
+      "name": "Air Products & Chemicals",
+      "cusip": "APD00000",
+      "shares": 5821951,
+      "value": 1717009789,
+      "ticker": "APD"
+    },
+    {
+      "name": "Norfolk Southern Corp.",
+      "cusip": "NSC00000",
+      "shares": 6967100,
+      "value": 1650157635,
+      "ticker": "NSC"
+    },
+    {
+      "name": "Zimmer Biomet Holdings",
+      "cusip": "ZBH00000",
+      "shares": 12832700,
+      "value": 1452404986,
+      "ticker": "ZBH"
+    },
+    {
+      "name": "Baker Hughes Co.",
+      "cusip": "BKR00000",
+      "shares": 32962766,
+      "value": 1448713566,
+      "ticker": "BKR"
+    },
+    {
+      "name": "United Health Group Inc.",
+      "cusip": "UNH00000",
+      "shares": 2757360,
+      "value": 1444167300,
+      "ticker": "UNH"
+    },
+    {
+      "name": "Alphabet Inc. CL C",
+      "cusip": "GOOG00000",
+      "shares": 9098960,
+      "value": 1421530521,
+      "ticker": "GOOG"
+    },
+    {
+      "name": "Alphabet Inc.",
+      "cusip": "GOOGL0000",
+      "shares": 9186700,
+      "value": 1420631288,
+      "ticker": "GOOGL"
+    },
+    {
+      "name": "Meta Platforms Inc.",
+      "cusip": "META00000",
+      "shares": 2392800,
+      "value": 1379114208,
+      "ticker": "META"
+    },
+    {
+      "name": "Goldman Sachs Group",
+      "cusip": "GS00000",
+      "shares": 2426000,
+      "value": 1325299540,
+      "ticker": "GS"
+    },
+    {
+      "name": "Sun Communities Inc.",
+      "cusip": "SUI00000",
+      "shares": 10244600,
+      "value": 1317865344,
+      "ticker": "SUI"
+    },
+    {
+      "name": "Ashtead Group plc",
+      "cusip": "ASHTF0000",
+      "shares": 23855300,
+      "value": 1288186200,
+      "ticker": "ASHTF"
+    },
+    {
+      "name": "Haleon plc",
+      "cusip": "HLNCF0000",
+      "shares": 123051121,
+      "value": 1266196035,
+      "ticker": "HLNCF"
+    },
+    {
+      "name": "International Flavors & Fragrances Inc.",
+      "cusip": "IFF00000",
+      "shares": 16276300,
+      "value": 1263203643,
+      "ticker": "IFF"
+    },
+    {
+      "name": "Baxter International Inc.",
+      "cusip": "BAX00000",
+      "shares": 35272400,
+      "value": 1207374252,
+      "ticker": "BAX"
+    },
+    {
+      "name": "SBA Communications Corp.",
+      "cusip": "SBAC00000",
+      "shares": 5316000,
+      "value": 1169573160,
+      "ticker": "SBAC"
+    },
+    {
+      "name": "T-Mobile US Inc.",
+      "cusip": "TMUS00000",
+      "shares": 4327037,
+      "value": 1154064038,
+      "ticker": "TMUS"
+    },
+    {
+      "name": "Williams Cos.",
+      "cusip": "WMB00000",
+      "shares": 18963857,
+      "value": 1133280094,
+      "ticker": "WMB"
+    },
+    {
+      "name": "TE Connectivity plc",
+      "cusip": "TEL00000",
+      "shares": 8017275,
+      "value": 1133001303,
+      "ticker": "TEL"
+    },
+    {
+      "name": "Cognizant Technology Solutions",
+      "cusip": "CTSH00000",
+      "shares": 14420777,
+      "value": 1103189441,
+      "ticker": "CTSH"
+    },
+    {
+      "name": "Fortive Corp.",
+      "cusip": "FTV00000",
+      "shares": 14882600,
+      "value": 1089108668,
+      "ticker": "FTV"
+    },
+    {
+      "name": "Avantor arinc.",
+      "cusip": "AVTR00000",
+      "shares": 66841215,
+      "value": 1083496095,
+      "ticker": "AVTR"
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "NVS00000",
+      "shares": 9090008,
+      "value": 1013354092,
+      "ticker": "NVS"
+    },
+    {
+      "name": "Cisco Systems",
+      "cusip": "CSCO00000",
+      "shares": 16187887,
+      "value": 998954507,
+      "ticker": "CSCO"
+    },
+    {
+      "name": "Regeneron Pharmaceuticals",
+      "cusip": "REGN00000",
+      "shares": 1553785,
+      "value": 985457061,
+      "ticker": "REGN"
+    },
+    {
+      "name": "Fox Corporation",
+      "cusip": "FOXA00000",
+      "shares": 15405975,
+      "value": 871978185,
+      "ticker": "FOXA"
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "COP00000",
+      "shares": 8263834,
+      "value": 867867847,
+      "ticker": "COP"
+    },
+    {
+      "name": "GE HealthCare Technologies Inc.",
+      "cusip": "GEHC00000",
+      "shares": 10697266,
+      "value": 863376339,
+      "ticker": "GEHC"
+    },
+    {
+      "name": "Roche Holding AG ADR",
+      "cusip": "RHHBY0000",
+      "shares": 20706299,
+      "value": 852064204,
+      "ticker": "RHHBY"
+    },
+    {
+      "name": "LyondellBasell Industries",
+      "cusip": "LYB00000",
+      "shares": 11197363,
+      "value": 788294355,
+      "ticker": "LYB"
+    },
+    {
+      "name": "American Electric Power",
+      "cusip": "AEP00000",
+      "shares": 6676500,
+      "value": 729541155,
+      "ticker": "AEP"
+    },
+    {
+      "name": "HP Inc.",
+      "cusip": "HPQ00000",
+      "shares": 25071556,
+      "value": 694231386,
+      "ticker": "HPQ"
+    },
+    {
+      "name": "BioMarin Pharmaceutical Inc.",
+      "cusip": "BMRN00000",
+      "shares": 9769625,
+      "value": 690614791,
+      "ticker": "BMRN"
+    },
+    {
+      "name": "Carrier Global Corp.",
+      "cusip": "CARR00000",
+      "shares": 10684079,
+      "value": 677370609,
+      "ticker": "CARR"
+    },
+    {
+      "name": "Molson Coors Beverage Co.",
+      "cusip": "TAP00000",
+      "shares": 10264325,
+      "value": 624789463,
+      "ticker": "TAP"
+    },
+    {
+      "name": "Aegon Ltd",
+      "cusip": "AEG00000",
+      "shares": 93846939,
+      "value": 618451328,
+      "ticker": "AEG"
+    },
+    {
+      "name": "Bank of America Corp.",
+      "cusip": "BAC00000",
+      "shares": 14768500,
+      "value": 616289505,
+      "ticker": "BAC"
+    },
+    {
+      "name": "Incyte Corp.",
+      "cusip": "INCY00000",
+      "shares": 9705428,
+      "value": 587663665,
+      "ticker": "INCY"
+    },
+    {
+      "name": "Alnylam Pharmaceuticals",
+      "cusip": "ALNY00000",
+      "shares": 2168100,
+      "value": 585430362,
+      "ticker": "ALNY"
+    },
+    {
+      "name": "Elanco Animal Health Inc.",
+      "cusip": "ELAN00000",
+      "shares": 55341300,
+      "value": 581083650,
+      "ticker": "ELAN"
+    },
+    {
+      "name": "Celanese Corp.",
+      "cusip": "CE00000",
+      "shares": 10127698,
+      "value": 574949415,
+      "ticker": "CE"
+    },
+    {
+      "name": "Bristol-Myers Squibb",
+      "cusip": "BMY00000",
+      "shares": 9416239,
+      "value": 574296417,
+      "ticker": "BMY"
+    },
+    {
+      "name": "State Street Corp.",
+      "cusip": "STT00000",
+      "shares": 5883700,
+      "value": 526767661,
+      "ticker": "STT"
+    },
+    {
+      "name": "Gaming and Leisure Properties Inc.",
+      "cusip": "GLPI00000",
+      "shares": 10141681,
+      "value": 516211563,
+      "ticker": "GLPI"
+    },
+    {
+      "name": "Medtronic plc",
+      "cusip": "MDT00000",
+      "shares": 5743900,
+      "value": 516146854,
+      "ticker": "MDT"
+    },
+    {
+      "name": "UBS AG",
+      "cusip": "UBS00000",
+      "shares": 16339045,
+      "value": 500464948,
+      "ticker": "UBS"
+    },
+    {
+      "name": "Gap Inc.",
+      "cusip": "GAP00000",
+      "shares": 22270572,
+      "value": 458996489,
+      "ticker": "GAP"
+    },
+    {
+      "name": "Taiwan Semiconductor S.A.",
+      "cusip": "TSM00000",
+      "shares": 15800000,
+      "value": 440504000,
+      "ticker": "TSM"
+    },
+    {
+      "name": "Neurocrine Biosciences Inc.",
+      "cusip": "NBIX00000",
+      "shares": 3964000,
+      "value": 438418400,
+      "ticker": "NBIX"
+    },
+    {
+      "name": "V.F. Corp.",
+      "cusip": "VFC00000",
+      "shares": 27374300,
+      "value": 424849136,
+      "ticker": "VFC"
+    },
+    {
+      "name": "Honda Motor Co. Ltd.",
+      "cusip": "HMC00000",
+      "shares": 15127900,
+      "value": 410419927,
+      "ticker": "HMC"
+    },
+    {
+      "name": "Fox Corporation CL B",
+      "cusip": "FOX00000",
+      "shares": 7341765,
+      "value": 386984433,
+      "ticker": "FOX"
+    },
+    {
+      "name": "News Corp.",
+      "cusip": "NWSA00000",
+      "shares": 10541090,
+      "value": 286928470,
+      "ticker": "NWSA"
+    },
+    {
+      "name": "Coherent Corp.",
+      "cusip": "COHR00000",
+      "shares": 3895100,
+      "value": 252947794,
+      "ticker": "COHR"
+    },
+    {
+      "name": "EchoStar Corp.",
+      "cusip": "SATS00000",
+      "shares": 9301409,
+      "value": 237930042,
+      "ticker": "SATS"
+    }
+  ]
+}

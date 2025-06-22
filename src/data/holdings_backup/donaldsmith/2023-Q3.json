@@ -1,0 +1,383 @@
+{
+  "form": "13F-HR",
+  "date": "2023-08-10",
+  "period": "2023-08-10",
+  "accession": "0000814375-23-000016",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 3852131,
+      "value": 244687361
+    },
+    {
+      "name": "M/I HOMES INC",
+      "cusip": "55305B101",
+      "shares": 2057091,
+      "value": 179357764
+    },
+    {
+      "name": "UNUM GROUP",
+      "cusip": "91529Y106",
+      "shares": 3692694,
+      "value": 176141504
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 2861241,
+      "value": 139542724
+    },
+    {
+      "name": "CIVITAS RESOURCES INC",
+      "cusip": "17888H103",
+      "shares": 1632140,
+      "value": 113221552
+    },
+    {
+      "name": "TEXTAINER GROUP HOLDINGS LTD",
+      "cusip": "G8766E109",
+      "shares": 2842478,
+      "value": 111936784
+    },
+    {
+      "name": "JEFFERIES FINANCIAL GROUP",
+      "cusip": "47233W109",
+      "shares": 3008841,
+      "value": 99803256
+    },
+    {
+      "name": "JETBLUE AIRWAYS",
+      "cusip": "477143101",
+      "shares": 11053256,
+      "value": 97931848
+    },
+    {
+      "name": "US STEEL",
+      "cusip": "912909108",
+      "shares": 3855848,
+      "value": 96434758
+    },
+    {
+      "name": "ELDORADO GOLD CORP",
+      "cusip": "284902509",
+      "shares": 9433626,
+      "value": 95279623
+    },
+    {
+      "name": "RADIAN GROUP INC",
+      "cusip": "750236101",
+      "shares": 3412039,
+      "value": 86256346
+    },
+    {
+      "name": "GENWORTH FINANCIAL INC",
+      "cusip": "37247D106",
+      "shares": 17177377,
+      "value": 85886885
+    },
+    {
+      "name": "IAMGOLD CORP",
+      "cusip": "450913108",
+      "shares": 31376383,
+      "value": 82519887
+    },
+    {
+      "name": "CELESTICA INC",
+      "cusip": "15101Q108",
+      "shares": 5063355,
+      "value": 73418648
+    },
+    {
+      "name": "AMERICAN INTERNATIONAL GROUP",
+      "cusip": "026874784",
+      "shares": 1226550,
+      "value": 70575706
+    },
+    {
+      "name": "KINROSS GOLD CORP",
+      "cusip": "496902404",
+      "shares": 14376548,
+      "value": 68576134
+    },
+    {
+      "name": "ALLY FINANCIAL INC",
+      "cusip": "02005N100",
+      "shares": 2249620,
+      "value": 60762236
+    },
+    {
+      "name": "LOEWS CORP",
+      "cusip": "540424108",
+      "shares": 1018334,
+      "value": 60468673
+    },
+    {
+      "name": "CHORD ENERGY CORP",
+      "cusip": "674215207",
+      "shares": 382467,
+      "value": 58823425
+    },
+    {
+      "name": "CITIGROUP",
+      "cusip": "172967424",
+      "shares": 1265283,
+      "value": 58253629
+    },
+    {
+      "name": "MGIC INVESTMENT CORP",
+      "cusip": "552848103",
+      "shares": 3555709,
+      "value": 56144645
+    },
+    {
+      "name": "ALGOMA STEEL GROUP INC",
+      "cusip": "015658107",
+      "shares": 7490581,
+      "value": 53183125
+    },
+    {
+      "name": "INTERNATIONAL SEAWAYS",
+      "cusip": "Y41053102",
+      "shares": 1331349,
+      "value": 50910786
+    },
+    {
+      "name": "HOWRAD HUGHES CORP",
+      "cusip": "44267D107",
+      "shares": 626493,
+      "value": 49442828
+    },
+    {
+      "name": "BEAZER HOMES USA INC",
+      "cusip": "07556Q881",
+      "shares": 1660781,
+      "value": 46983494
+    },
+    {
+      "name": "PARK HOTELS & RESORTS INC",
+      "cusip": "700517105",
+      "shares": 3343554,
+      "value": 42864362
+    },
+    {
+      "name": "JACKSON FINANCIAL INC",
+      "cusip": "46817M107",
+      "shares": 1399984,
+      "value": 42853510
+    },
+    {
+      "name": "CENTERRA GOLD INC",
+      "cusip": "152006102",
+      "shares": 6547249,
+      "value": 39283494
+    },
+    {
+      "name": "MICRON TECHNOLOGY",
+      "cusip": "595112103",
+      "shares": 604935,
+      "value": 38177448
+    },
+    {
+      "name": "CNA FINANCIAL CORP",
+      "cusip": "126117100",
+      "shares": 978905,
+      "value": 37805311
+    },
+    {
+      "name": "GENERAL MOTORS",
+      "cusip": "37045V100",
+      "shares": 943546,
+      "value": 36383134
+    },
+    {
+      "name": "SIRIUSPOINT LTD",
+      "cusip": "G8192H106",
+      "shares": 3797934,
+      "value": 34295344
+    },
+    {
+      "name": "NAVIENT CORP",
+      "cusip": "63938C108",
+      "shares": 1458572,
+      "value": 27100268
+    },
+    {
+      "name": "CAPITAL PRODUCT PARTNERS LP",
+      "cusip": "Y11082206",
+      "shares": 1793009,
+      "value": 24600083
+    },
+    {
+      "name": "TUTOR PERINI CORP",
+      "cusip": "901109108",
+      "shares": 3249329,
+      "value": 23232702
+    },
+    {
+      "name": "HOOKER FURNISHINGS CORP",
+      "cusip": "439038100",
+      "shares": 1155044,
+      "value": 21553121
+    },
+    {
+      "name": "TRITON INTERNATIONAL LTD",
+      "cusip": "G9078F107",
+      "shares": 254191,
+      "value": 21163943
+    },
+    {
+      "name": "EQUINOX GOLD CORP",
+      "cusip": "29446Y502",
+      "shares": 4454722,
+      "value": 20402627
+    },
+    {
+      "name": "UNIVERSAL INSURANCE HOLDINGS",
+      "cusip": "91359V107",
+      "shares": 1177142,
+      "value": 18163301
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP",
+      "cusip": "38141G104",
+      "shares": 52403,
+      "value": 16902064
+    },
+    {
+      "name": "KOREA ELECTRIC POWER CORP",
+      "cusip": "500631106",
+      "shares": 1932068,
+      "value": 14973527
+    },
+    {
+      "name": "KB HOME",
+      "cusip": "48666K109",
+      "shares": 279993,
+      "value": 14478438
+    },
+    {
+      "name": "COOL CO LTD",
+      "cusip": "G2415A113",
+      "shares": 897086,
+      "value": 12290078
+    },
+    {
+      "name": "CHATHAM LODGING TRUST",
+      "cusip": "16208T102",
+      "shares": 1265200,
+      "value": 11842272
+    },
+    {
+      "name": "THE MOSAIC COMPANY",
+      "cusip": "61945C103",
+      "shares": 324081,
+      "value": 11342835
+    },
+    {
+      "name": "KIMBALL ELECTRONICS",
+      "cusip": "49428J109",
+      "shares": 397883,
+      "value": 10993507
+    },
+    {
+      "name": "EVEREST RE GROUP",
+      "cusip": "G3223R108",
+      "shares": 32033,
+      "value": 10950801
+    },
+    {
+      "name": "AIR FRANCE",
+      "cusip": "009119108",
+      "shares": 5540794,
+      "value": 10361285
+    },
+    {
+      "name": "GLOBAL SHIP LEASE INC - CL A",
+      "cusip": "Y27183600",
+      "shares": 391834,
+      "value": 7601580
+    },
+    {
+      "name": "GALIANO GOLD INC",
+      "cusip": "36352H100",
+      "shares": 12432129,
+      "value": 7337443
+    },
+    {
+      "name": "ARGONAUT GOLD INC",
+      "cusip": "04016A101",
+      "shares": 16390890,
+      "value": 6620280
+    },
+    {
+      "name": "MOTORCAR PARTS OF AMERICA",
+      "cusip": "620071100",
+      "shares": 782271,
+      "value": 6054778
+    },
+    {
+      "name": "GREENBRIER COMPANIES INC",
+      "cusip": "393657101",
+      "shares": 131328,
+      "value": 5660237
+    },
+    {
+      "name": "HAWAIIAN HOLDINGS INC",
+      "cusip": "419879101",
+      "shares": 384277,
+      "value": 4138663
+    },
+    {
+      "name": "BRISTOW GROUP INC",
+      "cusip": "11040G103",
+      "shares": 129942,
+      "value": 3733234
+    },
+    {
+      "name": "RUSSELL 1000",
+      "cusip": "464287598",
+      "shares": 15000,
+      "value": 2367450
+    },
+    {
+      "name": "GUILD HOLDINGS CO- CLASS A",
+      "cusip": "40172N107",
+      "shares": 169826,
+      "value": 1929223
+    },
+    {
+      "name": "UNIFI INC",
+      "cusip": "904677200",
+      "shares": 120600,
+      "value": 973242
+    },
+    {
+      "name": "AZURE POWER GLOBAL LTD",
+      "cusip": "V0393H103",
+      "shares": 423167,
+      "value": 749006
+    },
+    {
+      "name": "RESOLUTE FOREST PRODUCTS - CONTINGENT VALUE RTS",
+      "cusip": "761CVR042",
+      "shares": 5866,
+      "value": 128583
+    },
+    {
+      "name": "GREAT PANTHER MINING",
+      "cusip": "39115V101",
+      "shares": 477095,
+      "value": 24356
+    },
+    {
+      "name": "BLUE CAPITAL REINSURANCE",
+      "cusip": "G1190F107",
+      "shares": 294004,
+      "value": 59
+    }
+  ],
+  "totalValue": 2905875210,
+  "positionsCount": 62
+}

@@ -1,0 +1,71 @@
+{
+  "form": "13F-HR",
+  "date": "2022-11-14",
+  "period": "2022-11-14",
+  "accession": "0001697868-22-000005",
+  "quarterKey": "2022-Q4",
+  "positions": [
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 1574417,
+      "value": 447670
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 963048,
+      "value": 396785
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 1295275,
+      "value": 395512
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1159004,
+      "value": 281765
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1634300,
+      "value": 184676
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 973477,
+      "value": 172938
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 198071,
+      "value": 76717
+    },
+    {
+      "name": "ADOBE SYSTEMS INCORPORATED",
+      "cusip": "00724F101",
+      "shares": 246305,
+      "value": 67783
+    },
+    {
+      "name": "AUTODESK INC",
+      "cusip": "052769106",
+      "shares": 224034,
+      "value": 41850
+    },
+    {
+      "name": "ASPEN TECHNOLOGY INC",
+      "cusip": "29109X106",
+      "shares": 175485,
+      "value": 41801
+    }
+  ],
+  "totalValue": 2107497,
+  "positionsCount": 10
+}
