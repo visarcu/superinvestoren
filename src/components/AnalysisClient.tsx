@@ -150,6 +150,12 @@ interface User {
   isPremium: boolean
 }
 
+// ✅ Interface für Aktiendaten
+interface StockData {
+  date: string
+  close: number
+}
+
 // ─── Komponente: AnalysisClient ───────────────────────────────────────────────
 export default function AnalysisClient({ ticker }: { ticker: string }) {
   // 1) Suchen der Aktie
@@ -210,6 +216,42 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // 9) States für Outstanding Shares & Forward P/E
   const [currentShares, setCurrentShares] = useState<number | null>(null)
   const [forwardPE, setForwardPE] = useState<number | null>(null)
+
+  // ✅ NEUE FUNKTION: Vergleichsaktien laden für Chart
+  const handleAddComparison = async (comparisonTicker: string): Promise<StockData[]> => {
+    try {
+      console.log('🔍 Loading comparison stock:', comparisonTicker)
+      
+      // API-Aufruf für Vergleichsaktie
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/historical-price-full/${comparisonTicker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+      )
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      const historical = data.historical || []
+      
+      // Daten in das richtige Format umwandeln
+      const formattedData: StockData[] = historical
+        .slice()
+        .reverse()
+        .map((h: any) => ({
+          date: h.date,
+          close: h.close
+        }))
+      
+      console.log(`✅ Loaded ${formattedData.length} data points for ${comparisonTicker}`)
+      return formattedData
+      
+    } catch (error) {
+      console.error('❌ Error loading comparison data:', error)
+      // Falls du eine Toast-Notification hast, kannst du hier eine Fehlermeldung anzeigen
+      return []
+    }
+  }
 
   // ✅ User-Daten laden
   useEffect(() => {
@@ -705,17 +747,21 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           />
         </div>
 
-        {/* HISTORISCHER KURSVERLAUF */}
+        {/* HISTORISCHER KURSVERLAUF - MIT NEUEN FEATURES */}
         <div className="lg:col-span-2">
           {history.length > 0 ? (
-            <div className="professional-card p-6 h-[500px] flex flex-col">
+            <div className="professional-card p-6 min-h-[600px] flex flex-col">
               <h3 className="text-xl font-bold text-theme-primary mb-4">Historischer Kursverlauf</h3>
               <div className="flex-1">
-                <WorkingStockChart ticker={ticker} data={history} />
+                <WorkingStockChart 
+                  ticker={ticker} 
+                  data={history} 
+                  onAddComparison={handleAddComparison} // ✅ NEUE PROP HINZUGEFÜGT
+                />
               </div>
             </div>
           ) : (
-            <div className="professional-card p-6 h-[500px] flex flex-col">
+            <div className="professional-card p-6 min-h-[600px] flex flex-col">
               <h3 className="text-xl font-bold text-theme-primary mb-4">Historischer Kursverlauf</h3>
               <div className="flex-1 flex items-center justify-center">
                 <LoadingSpinner />

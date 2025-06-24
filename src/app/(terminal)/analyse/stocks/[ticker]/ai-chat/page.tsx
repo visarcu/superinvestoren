@@ -1,70 +1,42 @@
-// src/app/analyse/[ticker]/ai-chat/page.tsx - Ticker-spezifische AI Chat Seite mit Theme Support
+// src/app/analyse/[ticker]/ai-chat/page.tsx - REDIRECT zu Unified AI
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import FinClueAI from '@/components/FinclueAI'  // ✅ Korrigierter Import
-import { supabase } from '@/lib/supabaseClient'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { SparklesIcon } from '@heroicons/react/24/outline'
 
-interface User {
-  id: string
-  email: string
-  isPremium: boolean
-}
-
-interface TickerAIChatPageProps {
+interface TickerAIChatRedirectProps {
   params: {
     ticker: string
   }
 }
 
-export default function TickerAIChatPage({ params }: TickerAIChatPageProps) {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+export default function TickerAIChatRedirect({ params }: TickerAIChatRedirectProps) {
+  const router = useRouter()
   const ticker = params.ticker.toUpperCase()
 
   useEffect(() => {
-    async function getUser() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('is_premium')
-            .eq('user_id', session.user.id)
-            .single()
+    // ✅ Redirect to unified AI with ticker parameter
+    const unifiedUrl = `/analyse/ai?ticker=${ticker}`
+    console.log(`🔄 Redirecting ${ticker} AI chat to unified AI: ${unifiedUrl}`)
+    router.replace(unifiedUrl)
+  }, [router, ticker])
 
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            isPremium: profile?.is_premium || false
-          })
-        }
-      } catch (error) {
-        console.error('Error fetching user:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    getUser()
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="h-full flex items-center justify-center bg-theme-background">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-theme-secondary">Lade FinClue AI...</p>
-        </div>
-      </div>
-    )
-  }
-
+  // Show loading state during redirect
   return (
-    <FinClueAI  // ✅ Korrigierter Component Name
-      ticker={ticker} 
-      isPremium={user?.isPremium || false} 
-    />
+    <div className="min-h-screen bg-theme-primary flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <SparklesIcon className="w-8 h-8 text-purple-400 animate-pulse" />
+        </div>
+        <h2 className="text-xl font-semibold text-theme-primary mb-3">
+          Wechsle zu Unified FinClue AI
+        </h2>
+        <p className="text-theme-secondary mb-6">
+          Leite weiter zu verbesserter AI-Erfahrung für {ticker}...
+        </p>
+        <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+      </div>
+    </div>
   )
 }

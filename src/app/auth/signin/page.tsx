@@ -1,4 +1,4 @@
-// src/app/auth/signin/page.tsx - KOMPAKTE SIGNIN FORM
+// src/app/auth/signin/page.tsx - MODERNISIERTE SIGNIN FORM
 'use client'
 
 import { useState } from 'react'
@@ -60,24 +60,24 @@ export default function SignInPage() {
 
   return (
     <>
-      {/* ✅ KOMPAKTE Error Message */}
+      {/* ✅ Error Message */}
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
           <p className="text-red-400 text-sm text-center">{error}</p>
         </div>
       )}
 
-      {/* ✅ KOMPAKTE Sign In Form */}
+      {/* ✅ MODERNISIERTE Sign In Form */}
       <form onSubmit={handleSignIn} className="space-y-4">
         
-        {/* ✅ KOMPAKTE Email Field */}
-        <div className="space-y-1.5">
+        {/* ✅ Email Field */}
+        <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-theme-primary">
             E-Mail-Adresse
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <EnvelopeIcon className="h-4 w-4 text-theme-muted" />
+              <EnvelopeIcon className="h-5 w-5 text-theme-muted" />
             </div>
             <input
               id="email"
@@ -85,20 +85,20 @@ export default function SignInPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-9 pr-3 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              className="w-full pl-10 pr-4 py-3 bg-theme-secondary border border-theme rounded-xl text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               placeholder="name@beispiel.de"
             />
           </div>
         </div>
 
-        {/* ✅ KOMPAKTE Password Field */}
-        <div className="space-y-1.5">
+        {/* ✅ Password Field */}
+        <div className="space-y-2">
           <label htmlFor="password" className="text-sm font-medium text-theme-primary">
             Passwort
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <LockClosedIcon className="h-4 w-4 text-theme-muted" />
+              <LockClosedIcon className="h-5 w-5 text-theme-muted" />
             </div>
             <input
               id="password"
@@ -106,7 +106,7 @@ export default function SignInPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-9 pr-10 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              className="w-full pl-10 pr-12 py-3 bg-theme-secondary border border-theme rounded-xl text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
               placeholder="Dein Passwort"
             />
             <button
@@ -115,52 +115,52 @@ export default function SignInPage() {
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-muted hover:text-theme-secondary transition-colors"
             >
               {showPassword ? (
-                <EyeSlashIcon className="h-4 w-4" />
+                <EyeSlashIcon className="h-5 w-5" />
               ) : (
-                <EyeIcon className="h-4 w-4" />
+                <EyeIcon className="h-5 w-5" />
               )}
             </button>
           </div>
         </div>
 
-        {/* ✅ KOMPAKTE Forgot Password Link */}
+        {/* ✅ Forgot Password Link */}
         <div className="text-right">
           <Link 
             href="/auth/forgot-password" 
-            className="text-xs text-green-400 hover:text-green-300 transition-colors"
+            className="text-sm text-green-400 hover:text-green-300 transition-colors"
           >
             Passwort vergessen?
           </Link>
         </div>
 
-        {/* ✅ KOMPAKTE Sign In Button */}
+        {/* ✅ Sign In Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+          className="w-full py-3 bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {loading ? (
-            <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
           ) : (
             'Anmelden'
           )}
         </button>
       </form>
 
-      {/* ✅ KOMPAKTE Divider */}
-      <div className="flex items-center gap-3 my-4">
+      {/* ✅ Divider */}
+      <div className="flex items-center gap-4 my-6">
         <div className="flex-1 h-px bg-theme"></div>
-        <span className="text-xs text-theme-muted">oder</span>
+        <span className="text-sm text-theme-muted">oder</span>
         <div className="flex-1 h-px bg-theme"></div>
       </div>
 
-      {/* ✅ KOMPAKTE Google Sign In */}
+      {/* ✅ Google Sign In */}
       <button
         onClick={handleGoogleSignIn}
         disabled={loading}
-        className="w-full py-2.5 bg-theme-secondary hover:bg-theme-tertiary border border-theme text-theme-primary font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+        className="w-full py-3 bg-theme-secondary hover:bg-theme-tertiary border border-theme text-theme-primary font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-3"
       >
-        <svg className="w-4 h-4" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" viewBox="0 0 24 24">
           <path
             fill="#4285F4"
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -181,9 +181,9 @@ export default function SignInPage() {
         Mit Google anmelden
       </button>
 
-      {/* ✅ KOMPAKTE Sign Up Link */}
-      <div className="text-center mt-4">
-        <p className="text-theme-secondary text-xs">
+      {/* ✅ Sign Up Link */}
+      <div className="text-center mt-6">
+        <p className="text-theme-secondary text-sm">
           Noch kein Account?{' '}
           <Link 
             href="/auth/signup" 

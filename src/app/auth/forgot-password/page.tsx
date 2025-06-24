@@ -1,11 +1,10 @@
-// src/app/auth/forgot-password/page.tsx - CLEAN VERSION
+// src/app/auth/forgot-password/page.tsx - FIXED VERSION
 'use client'
 
 import React, { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
-import { ArrowLeftIcon, ShieldCheckIcon, CheckIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, EnvelopeIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
@@ -50,160 +49,128 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 noise-bg">
-      
-      {/* Hero Section - Gleicher Stil wie Pricing */}
-      <div className="bg-gray-950 noise-bg pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-6">
-            
-            {/* Back Button */}
-            <div className="absolute left-4 top-4 lg:left-8 lg:top-8">
-              <Link
-                href="/auth/signin"
-                className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                <ArrowLeftIcon className="w-4 h-4" />
-                Zurück
-              </Link>
-            </div>
-
-            <div className="space-y-2">
-              <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight">
-                Passwort vergessen
-              </h1>
-              <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                Kein Problem. Wir senden dir einen Reset-Link per E-Mail.
-              </p>
-            </div>
-          </div>
-        </div>
+    <>
+      {/* Back Button */}
+      <div className="absolute -top-2 -left-2">
+        <Link
+          href="/auth/signin"
+          className="flex items-center gap-2 px-3 py-2 text-theme-secondary hover:text-theme-primary transition-colors text-sm"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          Zurück
+        </Link>
       </div>
 
-      {/* Main Content - Zentriert und Clean */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* Linke Spalte: Reset Form */}
-          <div className="lg:col-span-2 bg-gray-900/70 border border-gray-800 rounded-lg p-8 backdrop-blur-sm">
-            
-            {/* Fehlermeldung */}
-            {error && (
-              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-                <p className="text-red-400 text-sm">{error}</p>
-              </div>
-            )}
-
-            {/* Erfolgsmeldung */}
-            {success && (
-              <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <p className="text-green-400 text-sm">
-                  Reset-Link wurde versandt. Prüfe dein Postfach (auch Spam-Ordner)!
-                </p>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              
-              {/* E-Mail Input */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-400">
-                  E-Mail-Adresse
-                </label>
-                <input
-                  type="email"
-                  placeholder="deine@email.de"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="
-                    w-full px-4 py-3 rounded-lg
-                    bg-gray-800 border border-gray-700 text-white placeholder-gray-500
-                    focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent
-                    transition
-                  "
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="
-                  w-full py-3 px-4 bg-green-500 text-black font-medium rounded-lg
-                  hover:bg-green-400 disabled:opacity-50 disabled:cursor-not-allowed
-                  transition flex items-center justify-center gap-2
-                "
-              >
-                {isLoading ? (
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></div>
-                ) : (
-                  'Reset-Link senden'
-                )}
-              </button>
-
-              {/* Back to Sign In */}
-              <div className="text-center pt-4">
-                <p className="text-sm text-gray-400">
-                  Erinnerst du dich wieder?{' '}
-                  <Link href="/auth/signin" className="text-green-400 hover:text-green-300 transition">
-                    Hier einloggen
-                  </Link>
-                </p>
-              </div>
-            </form>
+      {/* Header */}
+      <div className="text-center mb-8">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="flex items-end gap-0.5">
+            <div className="w-1 h-2 bg-green-500 rounded-sm"></div>
+            <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
+            <div className="w-1 h-4 bg-green-500 rounded-sm"></div>
           </div>
-
-          {/* Rechte Spalte: Info Card */}
-          <div className="bg-gray-900/70 border border-gray-800 rounded-lg p-6 backdrop-blur-sm">
-            <h3 className="text-lg font-semibold text-white mb-4">So funktioniert's</h3>
-            
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span className="text-sm text-gray-300">
-                  E-Mail eingeben und Reset-Link anfordern
-                </span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span className="text-sm text-gray-300">
-                  Link in der E-Mail anklicken (gültig für 1 Stunde)
-                </span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span className="text-sm text-gray-300">
-                  Neues Passwort festlegen und fertig
-                </span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                <span className="text-sm text-gray-300">
-                  Probleme? Schreib uns an{' '}
-                  <Link href="mailto:team.finclue@gmail.com" className="text-green-400 hover:text-green-300 transition">
-                    team@finclue.de
-                  </Link>
-                </span>
-              </li>
-            </ul>
-          </div>
+          <span className="text-lg font-bold text-theme-primary">FinClue</span>
         </div>
+        <h1 className="text-2xl font-bold text-theme-primary mb-2">
+          Passwort vergessen?
+        </h1>
+        <p className="text-theme-secondary">
+          Kein Problem. Wir senden dir einen Reset-Link per E-Mail.
+        </p>
+      </div>
 
-        {/* Trust Indicators - Wie bei anderen Auth-Seiten */}
-        <div className="flex items-center justify-center gap-8 text-xs text-gray-500 pt-12">
-          <div className="flex items-center gap-2">
-            <ShieldCheckIcon className="w-4 h-4 text-green-400" />
-            <span>Sicher verschlüsselt</span>
-          </div>
-          <div className="flex items-center gap-2">
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6">
+          <p className="text-red-400 text-sm text-center">{error}</p>
+        </div>
+      )}
+
+      {/* Success Message */}
+      {success && (
+        <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 mb-6">
+          <div className="flex items-center gap-2 justify-center">
             <CheckIcon className="w-4 h-4 text-green-400" />
-            <span>DSGVO-konform</span>
+            <p className="text-green-400 text-sm">
+              Reset-Link wurde versandt. Prüfe dein Postfach (auch Spam-Ordner)!
+            </p>
           </div>
         </div>
+      )}
+
+      {/* Reset Form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        
+        {/* Email Field */}
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-sm font-medium text-theme-primary">
+            E-Mail-Adresse
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <EnvelopeIcon className="h-5 w-5 text-theme-muted" />
+            </div>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-theme-secondary border border-theme rounded-xl text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
+              placeholder="deine@email.de"
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-3 bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {isLoading ? (
+            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+          ) : (
+            'Reset-Link senden'
+          )}
+        </button>
+      </form>
+
+      {/* Back to Sign In */}
+      <div className="text-center mt-6">
+        <p className="text-theme-secondary text-sm">
+          Erinnerst du dich wieder?{' '}
+          <Link href="/auth/signin" className="text-green-400 hover:text-green-300 font-medium transition-colors">
+            Hier einloggen
+          </Link>
+        </p>
       </div>
-    </div>
+
+      {/* Info Box */}
+      <div className="mt-8 bg-theme-secondary/50 border border-theme rounded-xl p-4">
+        <h3 className="text-sm font-semibold text-theme-primary mb-2">So funktioniert's:</h3>
+        <ul className="space-y-1 text-xs text-theme-secondary">
+          <li className="flex items-start gap-2">
+            <CheckIcon className="w-3 h-3 text-green-500 flex-shrink-0 mt-0.5" />
+            <span>E-Mail eingeben und Reset-Link anfordern</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <CheckIcon className="w-3 h-3 text-green-500 flex-shrink-0 mt-0.5" />
+            <span>Link in der E-Mail anklicken (gültig für 1 Stunde)</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <CheckIcon className="w-3 h-3 text-green-500 flex-shrink-0 mt-0.5" />
+            <span>Neues Passwort festlegen und fertig</span>
+          </li>
+        </ul>
+        <p className="text-xs text-theme-muted mt-2">
+          Probleme? Schreib uns an{' '}
+          <a href="mailto:team.finclue@gmail.com" className="text-green-400 hover:text-green-300 transition-colors">
+            team@finclue.de
+          </a>
+        </p>
+      </div>
+    </>
   )
 }

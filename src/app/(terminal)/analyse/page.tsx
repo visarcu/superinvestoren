@@ -17,6 +17,7 @@ import {
   MapIcon,
   CalendarIcon
 } from '@heroicons/react/24/outline'
+import { stocks } from '@/data/stocks' // Import the complete stocks database
 
 // ===== TYPES =====
 type Quote = {
@@ -62,7 +63,7 @@ function StockLogo({ ticker, className = "w-8 h-8" }: { ticker: string; classNam
   )
 }
 
-// ===== TERMINAL SEARCH COMPONENT =====
+// ===== FIXED TERMINAL SEARCH COMPONENT =====
 function TerminalSearchInput({ 
   placeholder, 
   onSelect 
@@ -75,26 +76,21 @@ function TerminalSearchInput({
   const [filteredStocks, setFilteredStocks] = useState<any[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const STOCKS_DATA = [
-    { ticker: 'AAPL', name: 'Apple Inc.', market: 'NASDAQ' },
-    { ticker: 'MSFT', name: 'Microsoft Corp.', market: 'NASDAQ' },
-    { ticker: 'GOOGL', name: 'Alphabet Inc.', market: 'NASDAQ' },
-    { ticker: 'AMZN', name: 'Amazon.com Inc.', market: 'NASDAQ' },
-    { ticker: 'TSLA', name: 'Tesla Inc.', market: 'NASDAQ' },
-    { ticker: 'NVDA', name: 'NVIDIA Corp.', market: 'NASDAQ' },
-    { ticker: 'META', name: 'Meta Platforms', market: 'NASDAQ' },
-    { ticker: 'SAP', name: 'SAP SE', market: 'XETRA' }
-  ]
-
+  // Use the same filtering logic as the navbar
   useEffect(() => {
     if (query) {
-      const filtered = STOCKS_DATA.filter(stock => 
+      const filtered = stocks.filter(stock => 
         stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
         stock.name.toLowerCase().includes(query.toLowerCase())
-      )
+      ).slice(0, 12) // Show up to 12 results
       setFilteredStocks(filtered)
     } else {
-      setFilteredStocks(STOCKS_DATA.slice(0, 6))
+      // Show popular stocks when no query
+      const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX']
+      const popularStocks = stocks.filter(stock => 
+        popularTickers.includes(stock.ticker)
+      )
+      setFilteredStocks(popularStocks)
     }
   }, [query])
 
@@ -178,7 +174,9 @@ function TerminalSearchInput({
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-theme-primary font-semibold text-sm">{stock.ticker}</span>
-                            <span className="text-xs px-1.5 py-0.5 bg-theme-tertiary text-theme-muted rounded">{stock.market}</span>
+                            <span className="text-xs px-1.5 py-0.5 bg-theme-tertiary text-theme-muted rounded">
+                              {stock.market || 'NASDAQ'}
+                            </span>
                           </div>
                           <div className="text-xs text-theme-muted truncate">{stock.name}</div>
                         </div>
@@ -550,9 +548,7 @@ export default function DashboardWithAPIRoute() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-theme-primary">Dashboard</h1>
-              <p className="text-theme-secondary text-sm">
-                Server-Side Performance-Daten • FMP API
-              </p>
+  
             </div>
             
        
@@ -630,9 +626,7 @@ export default function DashboardWithAPIRoute() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-theme-primary">Beliebte Aktien</h2>
-                <p className="text-theme-muted text-xs">
-                  Server-Side API • Sichere API Keys • Korrekte Performance-Daten
-                </p>
+               
               </div>
             </div>
             

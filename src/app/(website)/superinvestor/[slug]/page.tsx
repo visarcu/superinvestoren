@@ -1,4 +1,4 @@
-// src/app/superinvestor/[slug]/page.tsx - FIXED für Premium-Check
+// src/app/superinvestor/[slug]/page.tsx - COMPLETE mit Unified AI
 'use client'
 
 import React, { useState, FormEvent, useRef, useEffect } from 'react'
@@ -31,7 +31,6 @@ import PortfolioValueChart from '@/components/PortfolioValueChart'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import cashPositions from '@/data/cashPositions'
 import CashPositionChart from '@/components/CashPositionChart'
-import ChatModal from '@/components/ChatModal'
 import { supabase } from '@/lib/supabaseClient'
 
 // Dynamic imports
@@ -245,7 +244,6 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const titleFull = investorNames[slug] ?? slug
   const { name: mainName, subtitle } = splitInvestorName(titleFull)
   const [tab, setTab] = useState<Tab>('holdings')
-  const [isChatOpen, setIsChatOpen] = useState(false)
   const [showNewsletter, setShowNewsletter] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [userLoading, setUserLoading] = useState(true)
@@ -286,22 +284,24 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
     loadUser()
   }, [])
 
-  // NEUE FUNKTION: AI Chat Handler mit Premium-Check
+  // ✅ NEW: Unified AI Handler - Ersetzt ChatModal komplett
   const handleAIChat = () => {
     if (!user) {
-      // Nicht angemeldet -> zur Anmeldung
-      router.push('/auth/signin?redirect=' + encodeURIComponent(window.location.pathname))
+      // Nicht angemeldet -> zur Anmeldung mit redirect zur unified AI
+      const currentUrl = window.location.pathname
+      const targetUrl = `/analyse/ai?investor=${slug}`
+      router.push(`/auth/signin?redirect=${encodeURIComponent(targetUrl)}`)
       return
     }
 
     if (!user.isPremium) {
-      // Nicht Premium -> zur Terminal-AI (die Premium-Checks hat)
+      // Nicht Premium -> zur unified AI (die Premium-Checks hat)
       router.push('/analyse/ai')
       return
     }
 
-    // Premium-Nutzer -> Chat Modal öffnen
-    setIsChatOpen(true)
+    // ✅ Premium-Nutzer -> Unified AI mit Investor-Kontext
+    router.push(`/analyse/ai?investor=${slug}`)
   }
 
   const snapshots = holdingsHistory[slug]
@@ -501,7 +501,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                     </div>
                   </div>
                   
-                  {/* Name & Info - UPDATED AI BUTTONS mit Premium-Check */}
+                  {/* ✅ UPDATED: Name & Info mit Unified AI Buttons */}
                   <div className="flex-1 text-center lg:text-left space-y-4">
                     <div>
                       <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
@@ -528,9 +528,9 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                       </div>
                     </div>
                     
-                    {/* ✨ UPDATED AI BUTTONS mit Premium-Check */}
+                    {/* ✅ UPDATED: Unified AI Buttons */}
                     <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-4">
-                      {/* AI Chat Button - UPDATED mit Premium-Check */}
+                      {/* ✅ NEW: Unified AI Button */}
                       <button
                         onClick={handleAIChat}
                         className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/25 hover:scale-105"
@@ -553,7 +553,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                         ) : (
                           <>
                             <SparklesIcon className="w-5 h-5" />
-                            <span>FinClue AI Chat</span>
+                            <span>FinClue AI</span>
                           </>
                         )}
                       </button>
@@ -623,13 +623,13 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
         </div>
       </section>
 
-      {/* Floating AI Button - UPDATED mit Premium-Check */}
+      {/* ✅ UPDATED: Floating AI Button */}
       <div className="fixed bottom-6 right-6 z-40">
         <div className="relative group">
           <button
             onClick={handleAIChat}
             className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white rounded-full shadow-lg hover:shadow-purple-500/25 transition-all duration-200 flex items-center justify-center hover:scale-110"
-            title={`FinClue AI Chat mit ${mainName}`}
+            title={`FinClue AI für ${mainName}`}
           >
             {!user ? (
               <LockClosedIcon className="w-6 h-6 group-hover:rotate-12 transition-transform" />
@@ -640,9 +640,11 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
             )}
           </button>
           
-          {/* Tooltip */}
+          {/* ✅ UPDATED: Tooltip */}
           <div className="absolute bottom-16 right-0 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            {!user ? 'Anmelden für FinClue AI' : !user.isPremium ? 'Premium für FinClue AI' : `FinClue AI Chat mit ${mainName}`}
+            {!user ? 'Anmelden für FinClue AI' : 
+             !user.isPremium ? 'Premium für FinClue AI' : 
+             `FinClue AI für ${mainName}`}
           </div>
         </div>
       </div>
@@ -769,7 +771,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* AI Tab Content - UPDATED für unified FinClue AI mit Premium-Check */}
+        {/* ✅ UPDATED: AI Tab Content für Unified AI */}
         {tab === 'ai' && (
           <div className="mb-16">
             <div className="max-w-2xl mx-auto text-center">
@@ -866,17 +868,11 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
         )}
       </div>
 
-      {/* Chat Modal - NUR für Premium-Nutzer */}
-      {isChatOpen && user?.isPremium && (
-        <ChatModal
-          isOpen={isChatOpen}
-          onClose={() => setIsChatOpen(false)}
-          investorName={mainName}
-          investorSlug={slug}
-          holdings={holdings.slice(0, 20)}
-          portfolioValue={totalVal}
-        />
-      )}
+      {/* ✅ REMOVED: ChatModal - Nicht mehr nötig mit Unified AI */}
+      {/* 
+      Das alte ChatModal wird nicht mehr verwendet!
+      Stattdessen redirected handleAIChat zur unified AI: /analyse/ai?investor=${slug}
+      */}
     </div>
   )
 }

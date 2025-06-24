@@ -1,4 +1,4 @@
-// src/components/Navbar.tsx - OPTIMIERTE VERSION
+// src/components/Navbar.tsx - SEPARATED CONTAINERS LIKE FISCAL.AI
 'use client'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
@@ -21,9 +21,7 @@ import { investors } from '@/data/investors'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 
-// ❌ ENTFERNT: ThemeSwitcher Import (nur für Terminal)
-
-// Search Result Interface (unverändert)
+// Search Result Interface
 interface SearchResult {
   type: 'stock' | 'investor';
   id: string;
@@ -32,8 +30,8 @@ interface SearchResult {
   href: string;
 }
 
-// 🎯 VEREINFACHTE Search Bar (weniger Theme-Dependencies)
-function OptimizedSearchBar({ onNavigate }: { onNavigate?: () => void }) {
+// 🎯 MODERN Search Bar (containerized style)
+function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
@@ -41,7 +39,7 @@ function OptimizedSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Filter logic (unverändert)
+  // Filter logic
   useEffect(() => {
     if (searchTerm.trim() === '') {
       setSuggestions([]);
@@ -87,7 +85,7 @@ function OptimizedSearchBar({ onNavigate }: { onNavigate?: () => void }) {
     setShowSuggestions(results.length > 0 && isFocused);
   }, [searchTerm, isFocused]);
 
-  // Event handlers (unverändert)
+  // Event handlers
   useEffect(() => {
     function handleClickOutside(event: Event) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -129,8 +127,8 @@ function OptimizedSearchBar({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <div className="relative" ref={searchRef}>
-      <div className={`relative flex items-center transition-all duration-200 ${
-        isFocused ? 'ring-2 ring-green-500/30' : ''
+      <div className={`relative flex items-center transition-all duration-300 ${
+        isFocused ? 'ring-2 ring-green-500/40 scale-105' : ''
       }`}>
         <MagnifyingGlassIcon className="absolute left-3 h-4 w-4 text-gray-400" />
         <input
@@ -140,48 +138,50 @@ function OptimizedSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
           onKeyDown={handleKeyDown}
-          className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg transition-all duration-200 bg-gray-900/50 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 backdrop-blur-sm"
+          className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl transition-all duration-300 bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-green-500/50 focus:bg-white/10 backdrop-blur-sm hover:bg-white/7"
         />
       </div>
 
-      {/* 🎯 VEREINFACHTE Suggestions (Dark Theme) */}
+      {/* Solid Suggestions Dropdown */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-gray-900/95 border border-gray-700 rounded-xl shadow-xl backdrop-blur-xl overflow-hidden z-50 max-h-64 overflow-y-auto">
-          {suggestions.map((result) => (
-            <button
-              key={`${result.type}-${result.id}`}
-              onClick={() => handleSelectResult(result)}
-              className="w-full px-4 py-3 text-left hover:bg-gray-800/50 transition-colors duration-150 border-b border-gray-700 last:border-b-0"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <div className="font-medium text-sm text-white">
-                      {result.title}
+        <div className="absolute top-full left-0 right-0 mt-3 bg-gray-900 border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto">
+          <div className="p-2">
+            {suggestions.map((result) => (
+              <button
+                key={`${result.type}-${result.id}`}
+                onClick={() => handleSelectResult(result)}
+                className="w-full px-4 py-3 text-left hover:bg-white/10 transition-all duration-200 rounded-xl group"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <div className="font-medium text-sm text-white group-hover:text-green-400 transition-colors">
+                        {result.title}
+                      </div>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium ${
+                        result.type === 'stock' 
+                          ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                          : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                      }`}>
+                        {result.type === 'stock' ? 'Aktie' : 'Investor'}
+                      </span>
                     </div>
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${
-                      result.type === 'stock' 
-                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                        : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                    }`}>
-                      {result.type === 'stock' ? 'Aktie' : 'Investor'}
-                    </span>
-                  </div>
-                  <div className="text-xs text-gray-400 truncate">
-                    {result.subtitle}
+                    <div className="text-xs text-gray-400 truncate mt-1">
+                      {result.subtitle}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
   );
 }
 
-// 🎯 VEREINFACHTE User Dropdown (Dark Theme)
-function OptimizedUserDropdown({ user, profile }: { user: any; profile: any }) {
+// 🎯 User Dropdown with Solid Background
+function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -225,56 +225,56 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: any }) {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* 🎯 VEREINFACHTE Avatar Button */}
+      {/* Modern Avatar Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-3 py-2 rounded-xl bg-gray-900/50 border border-gray-700 hover:bg-gray-800/50 hover:border-gray-600 transition-all duration-200 backdrop-blur-sm"
+        className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-sm group hover:scale-105"
       >
         <div className="relative">
-          <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-400 rounded-lg flex items-center justify-center text-black font-semibold text-sm">
+          <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-black font-bold text-sm shadow-lg">
             {getInitials()}
           </div>
           {isPremium && (
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full flex items-center justify-center">
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
               <SparklesIcon className="w-2 h-2 text-black" />
             </div>
           )}
         </div>
         <div className="hidden sm:block text-left">
-          <div className="text-sm font-medium text-white">{getDisplayName()}</div>
+          <div className="text-sm font-semibold text-white group-hover:text-green-400 transition-colors">{getDisplayName()}</div>
           <div className="text-xs text-gray-400">{isPremium ? 'Premium' : 'Free'}</div>
         </div>
-        <ChevronDownIcon className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDownIcon className={`w-4 h-4 text-gray-400 transition-all duration-300 group-hover:text-white ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {/* 🎯 VEREINFACHTE Dropdown (Dark Theme) */}
+      {/* Solid User Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-gray-900/95 border border-gray-700 rounded-xl shadow-xl backdrop-blur-xl z-50 overflow-hidden">
+        <div className="absolute right-0 mt-4 w-80 bg-gray-900 border border-white/20 rounded-2xl shadow-2xl z-50 overflow-hidden">
           
           {/* Header */}
-          <div className="p-6 border-b border-gray-700 bg-gray-800/30">
+          <div className="p-6 border-b border-white/10 bg-gradient-to-r from-green-500/5 to-blue-500/5">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-400 rounded-xl flex items-center justify-center text-black font-bold text-lg">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center text-black font-bold text-lg shadow-lg">
                   {getInitials()}
                 </div>
                 {isPremium && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
                     <SparklesIcon className="w-2.5 h-2.5 text-black" />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-white font-semibold text-base truncate">{getDisplayName()}</h3>
+                <h3 className="text-white font-bold text-base truncate">{getDisplayName()}</h3>
                 <p className="text-gray-400 text-sm truncate">{user.email}</p>
                 <div className="flex items-center gap-2 mt-2">
                   {isPremium ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded-md text-xs font-medium border border-green-500/30">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-yellow-400/20 to-yellow-500/20 text-yellow-400 rounded-xl text-xs font-semibold border border-yellow-400/30">
                       <SparklesIcon className="w-3 h-3" />
                       Premium
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-2 py-1 bg-gray-700 text-gray-300 rounded-md text-xs border border-gray-600">
+                    <span className="inline-flex items-center px-3 py-1 bg-white/5 text-gray-300 rounded-xl text-xs font-medium border border-white/10">
                       Free
                     </span>
                   )}
@@ -284,16 +284,16 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: any }) {
           </div>
 
           {/* Menu Items */}
-          <div className="p-2">
+          <div className="p-3">
             <button
               onClick={() => handleNavigation('/profile')}
-              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/10 transition-all duration-200 group"
             >
-              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-colors border border-gray-700">
-                <UserIcon className="w-4 h-4 text-gray-400" />
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all border border-white/10">
+                <UserIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
-                <div className="text-white text-sm font-medium">Profil bearbeiten</div>
+                <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Profil bearbeiten</div>
                 <div className="text-gray-400 text-xs">Persönliche Daten & Premium</div>
               </div>
             </button>
@@ -303,41 +303,41 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: any }) {
                 setIsOpen(false);
                 window.location.href = 'mailto:team.finclue@gmail.com';
               }}
-              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/10 transition-all duration-200 group"
             >
-              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-colors border border-gray-700">
-                <EnvelopeIcon className="w-4 h-4 text-gray-400" />
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all border border-white/10">
+                <EnvelopeIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
-                <div className="text-white text-sm font-medium">Email Support</div>
+                <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Email Support</div>
                 <div className="text-gray-400 text-xs">Hilfe & Kontakt</div>
               </div>
             </button>
 
             <button
               onClick={() => handleNavigation('/settings')}
-              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-gray-800/50 transition-colors group"
+              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/10 transition-all duration-200 group"
             >
-              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-colors border border-gray-700">
-                <Cog6ToothIcon className="w-4 h-4 text-gray-400" />
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all border border-white/10">
+                <Cog6ToothIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
-                <div className="text-white text-sm font-medium">Einstellungen</div>
+                <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Einstellungen</div>
                 <div className="text-gray-400 text-xs">App-Einstellungen</div>
               </div>
             </button>
 
-            <div className="my-3 h-px border-t border-gray-700"></div>
+            <div className="my-3 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 w-full p-3 rounded-lg text-left hover:bg-red-500/10 transition-colors group"
+              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-red-500/10 transition-all duration-200 group"
             >
-              <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-red-500/20 transition-colors border border-gray-700 group-hover:border-red-500/30">
-                <ArrowRightOnRectangleIcon className="w-4 h-4 text-gray-400 group-hover:text-red-400 transition-colors" />
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-red-500/20 transition-all border border-white/10 group-hover:border-red-500/30">
+                <ArrowRightOnRectangleIcon className="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" />
               </div>
               <div className="flex-1">
-                <div className="text-white text-sm font-medium group-hover:text-red-400 transition-colors">Abmelden</div>
+                <div className="text-white text-sm font-semibold group-hover:text-red-400 transition-colors">Abmelden</div>
                 <div className="text-gray-400 text-xs">Sicher ausloggen</div>
               </div>
             </button>
@@ -348,19 +348,19 @@ function OptimizedUserDropdown({ user, profile }: { user: any; profile: any }) {
   );
 }
 
-// 🎯 VEREINFACHTE Guest Actions
-function OptimizedGuestActions() {
+// 🎯 Guest Actions
+function ModernGuestActions() {
   return (
     <div className="flex items-center gap-3">
       <Link
         href="/auth/signin"
-        className="text-gray-300 hover:text-white font-medium text-sm transition-colors px-3 py-2 rounded-lg hover:bg-gray-800/50"
+        className="text-gray-300 hover:text-white font-semibold text-sm transition-all duration-300 px-4 py-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10"
       >
         Anmelden
       </Link>
       <Link
         href="/auth/signup"
-        className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all duration-200 hover:scale-105"
+        className="px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black font-bold rounded-xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/25 border border-green-400/20"
       >
         Registrieren
       </Link>
@@ -368,7 +368,7 @@ function OptimizedGuestActions() {
   );
 }
 
-// Navigation Links (unverändert)
+// Navigation Links
 const navLinks = [
   { href: '/news', label: 'News' },
 ]
@@ -396,7 +396,7 @@ const productLinks = [
   },
 ]
 
-export default function OptimizedNavbar() {
+export default function ModernNavbar() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -482,207 +482,214 @@ export default function OptimizedNavbar() {
   const isHomePage = pathname === '/'
   
   return (
-    <Disclosure as="header" className={`sticky top-0 z-50 border-b ${
-      isHomePage 
-        ? 'bg-gray-950/40 border-gray-800/50' // Homepage
-        : 'bg-gray-950/80 border-gray-800' // Other pages
-    } backdrop-blur-xl`}>
-      {({ open, close }) => (
-        <>
-          <div className="max-w-7xl mx-auto">
-            <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-              
-              {/* Logo */}
-              <div className="flex items-center gap-8">
-                <Link href="/" className="flex items-center gap-3">
-                  <div className="flex items-center gap-1">
-                    <div className="flex items-end gap-0.5">
-                      <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
-                      <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
-                      <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
-                    </div>
-                  </div>
-                  <span className="text-xl font-bold text-white tracking-tight">
-                    Finclue
-                  </span>
-                </Link>
-
-                {/* 🎯 VEREINFACHTE Desktop Navigation */}
-                <nav className="hidden lg:flex items-center space-x-1">
-                  
-                  {/* Products Dropdown */}
-                  <div className="relative group">
-                    <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all">
-                      Produkte
-                      <ChevronDownIcon className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                    </button>
-                    
-                    {/* 🎯 VEREINFACHTE Dropdown */}
-                    <div className="absolute left-0 mt-2 w-[600px] bg-gray-900/95 border border-gray-700 rounded-xl shadow-xl backdrop-blur-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                      <div className="p-6">
-                        <div className="grid grid-cols-2 gap-6">
-                          
-                          <Link
-                            href="/analyse"
-                            className="block p-4 rounded-xl hover:bg-gray-800/30 transition-all group/item border border-transparent hover:border-gray-700"
-                          >
-                            <div className="relative mb-4 h-32 w-full rounded-lg overflow-hidden bg-gray-800">
-                              <Image
-                                src="/previews/analyse-preview.png"
-                                alt="Aktien Analyse Vorschau"
-                                fill={true}
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
-                                  Aktien-Analyse
-                                </h3>
-                                <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors">→</span>
-                              </div>
-                              <p className="text-sm text-gray-400 leading-relaxed">
-                                Tiefgehende Analyse von 10.000+ Aktien mit historischen Daten und erweiterten Kennzahlen.
-                              </p>
-                            </div>
-                          </Link>
-
-                          <Link
-                            href="/superinvestor"
-                            className="block p-4 rounded-xl hover:bg-gray-800/30 transition-all group/item border border-transparent hover:border-gray-700"
-                          >
-                            <div className="relative mb-4 h-32 w-full rounded-lg overflow-hidden bg-gray-800">
-                              <Image
-                                src="/previews/superinvestor-preview.png"
-                                alt="Super-Investoren Vorschau"
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-white text-base group-hover/item:text-green-400 transition-colors">
-                                  Super-Investoren
-                                </h3>
-                                <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors">→</span>
-                              </div>
-                              <p className="text-sm text-gray-400 leading-relaxed">
-                                Verfolge die Portfolios der erfolgreichsten Investoren der Welt in Echtzeit.
-                              </p>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Normal Nav Links */}
-                  {navLinks.map(link => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-
-                  <Link
-                    href="/pricing"
-                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
-                  >
-                    Preise
-                  </Link>
-                </nav>
+    <div className="fixed top-0 left-0 right-0 z-50 p-4 sm:p-6">
+      
+      {/* 🎯 SEPARATED CONTAINERS LIKE FISCAL.AI */}
+      <div className="mx-auto max-w-7xl flex items-center justify-between gap-4">
+        
+        {/* 📦 LEFT CONTAINER: Logo + Navigation */}
+        <div className={`flex items-center gap-8 rounded-2xl border shadow-2xl px-6 py-3 transition-all duration-500 ${
+          isHomePage 
+            ? 'bg-gray-900/60 border-white/10 shadow-black/20' 
+            : 'bg-gray-900/90 border-white/15 shadow-black/30' 
+        } backdrop-blur-2xl hover:shadow-3xl hover:shadow-black/40`}>
+          
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="flex items-center gap-1">
+              <div className="flex items-end gap-0.5 transition-all duration-300 group-hover:scale-110">
+                <div className="w-1.5 h-3 bg-green-500 rounded-sm transition-all duration-300 group-hover:bg-green-400"></div>
+                <div className="w-1.5 h-4 bg-green-500 rounded-sm transition-all duration-300 group-hover:bg-green-400"></div>
+                <div className="w-1.5 h-5 bg-green-500 rounded-sm transition-all duration-300 group-hover:bg-green-400"></div>
               </div>
+            </div>
+            <span className="text-xl font-bold text-white tracking-tight group-hover:text-green-400 transition-colors duration-300">
+              Finclue
+            </span>
+          </Link>
 
-              {/* Right Side */}
-              <div className="flex items-center gap-4">
-                {/* Search */}
-                <div className="hidden lg:block w-64">
-                  <OptimizedSearchBar />
+          {/* 🎯 Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-2">
+            
+            {/* Products Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10">
+                Produkte
+                <ChevronDownIcon className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+              </button>
+              
+              {/* Solid Products Dropdown */}
+              <div className="absolute left-0 mt-3 w-[650px] bg-gray-900 border border-white/20 rounded-2xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div className="p-8">
+                  <div className="grid grid-cols-2 gap-8">
+                    
+                    <Link
+                      href="/analyse"
+                      className="block p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group/item border border-transparent hover:border-white/10 hover:scale-105"
+                    >
+                      <div className="relative mb-4 h-32 w-full rounded-xl overflow-hidden bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-white/10">
+                        <Image
+                          src="/previews/analyse-preview.png"
+                          alt="Aktien Analyse Vorschau"
+                          fill={true}
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-white text-base group-hover/item:text-green-400 transition-colors duration-300">
+                            Aktien-Analyse
+                          </h3>
+                          <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors duration-300">→</span>
+                        </div>
+                        <p className="text-sm text-gray-400 leading-relaxed">
+                          Tiefgehende Analyse von 10.000+ Aktien mit historischen Daten und erweiterten Kennzahlen.
+                        </p>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/superinvestor"
+                      className="block p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group/item border border-transparent hover:border-white/10 hover:scale-105"
+                    >
+                      <div className="relative mb-4 h-32 w-full rounded-xl overflow-hidden bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10">
+                        <Image
+                          src="/previews/superinvestor-preview.png"
+                          alt="Super-Investoren Vorschau"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-white text-base group-hover/item:text-green-400 transition-colors duration-300">
+                            Super-Investoren
+                          </h3>
+                          <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors duration-300">→</span>
+                        </div>
+                        <p className="text-sm text-gray-400 leading-relaxed">
+                          Verfolge die Portfolios der erfolgreichsten Investoren der Welt in Echtzeit.
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-
-                {/* ❌ ENTFERNT: Theme Switcher */}
-
-                {/* User Menu */}
-                <div className="hidden md:block">
-                  {loading ? (
-                    <div className="w-8 h-8 rounded-full bg-gray-800 animate-pulse"></div>
-                  ) : user ? (
-                    <OptimizedUserDropdown user={user} profile={profile} />
-                  ) : (
-                    <OptimizedGuestActions />
-                  )}
-                </div>
-
-                {/* Mobile Menu Toggle */}
-                <Disclosure.Button className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all">
-                  {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
-                </Disclosure.Button>
               </div>
             </div>
 
-            {/* 🎯 VEREINFACHTE Mobile Panel */}
-            <Disclosure.Panel className="lg:hidden border-t border-gray-700 bg-gray-900/95 backdrop-blur-xl">
-              <div className="px-4 py-3 space-y-1">
-                {/* Mobile Search */}
-                <div className="mb-4">
-                  <OptimizedSearchBar onNavigate={close} />
-                </div>
+            {/* Regular Nav Links */}
+            {navLinks.map(link => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+              >
+                {link.label}
+              </Link>
+            ))}
 
-                {/* Mobile Products Section */}
-                <div className="space-y-1">
-                  <div className="px-3 py-2 text-base font-medium text-white">
-                    Produkte
-                  </div>
-                  {productLinks.map(product => (
-                    <Link
-                      key={product.href}
-                      href={product.href}
-                      onClick={() => close()}
-                      className="block px-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
-                    >
-                      {product.label}
-                    </Link>
-                  ))}
-                </div>
+            <Link
+              href="/pricing"
+              className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+            >
+              Preise
+            </Link>
+          </nav>
+        </div>
 
-                {/* Mobile Nav Links */}
-                {navLinks.map(link => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => close()}
-                    className="block px-3 py-2 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-
-                <Link
-                  href="/pricing"
-                  onClick={() => close()}
-                  className="block px-3 py-2 text-base font-medium text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all"
-                >
-                  Preise
-                </Link>
-
-                {/* Mobile User Menu */}
-                <div className="pt-4 border-t border-gray-700">
-                  {loading ? (
-                    <div className="w-full h-12 rounded-lg bg-gray-800 animate-pulse"></div>
-                  ) : user ? (
-                    <OptimizedUserDropdown user={user} profile={profile} />
-                  ) : (
-                    <OptimizedGuestActions />
-                  )}
-                </div>
-              </div>
-            </Disclosure.Panel>
+        {/* 📦 RIGHT CONTAINER: Search + User Actions */}
+        <div className={`flex items-center gap-4 rounded-2xl border shadow-2xl px-6 py-3 transition-all duration-500 ${
+          isHomePage 
+            ? 'bg-gray-900/60 border-white/10 shadow-black/20' 
+            : 'bg-gray-900/90 border-white/15 shadow-black/30' 
+        } backdrop-blur-2xl hover:shadow-3xl hover:shadow-black/40`}>
+          
+          {/* Search */}
+          <div className="hidden lg:block w-72">
+            <ModernSearchBar />
           </div>
-        </>
-      )}
-    </Disclosure>
+
+          {/* User Menu */}
+          <div className="hidden md:block">
+            {loading ? (
+              <div className="w-10 h-10 rounded-2xl bg-white/5 animate-pulse border border-white/10"></div>
+            ) : user ? (
+              <ModernUserDropdown user={user} profile={profile} />
+            ) : (
+              <ModernGuestActions />
+            )}
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <Disclosure>
+            {({ open, close }) => (
+              <>
+                <Disclosure.Button className="lg:hidden p-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-white/10 hover:border-white/20">
+                  {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
+                </Disclosure.Button>
+
+                {/* Mobile Panel */}
+                <Disclosure.Panel className="absolute top-full left-4 right-4 mt-4 border border-white/10 bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl lg:hidden">
+                  <div className="px-6 py-4 space-y-3">
+                    {/* Mobile Search */}
+                    <div className="mb-6">
+                      <ModernSearchBar onNavigate={close} />
+                    </div>
+
+                    {/* Mobile Products Section */}
+                    <div className="space-y-2">
+                      <div className="px-3 py-2 text-base font-bold text-white">
+                        Produkte
+                      </div>
+                      {productLinks.map(product => (
+                        <Link
+                          key={product.href}
+                          href={product.href}
+                          onClick={() => close()}
+                          className="block px-6 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+                        >
+                          {product.label}
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* Mobile Nav Links */}
+                    {navLinks.map(link => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => close()}
+                        className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+
+                    <Link
+                      href="/pricing"
+                      onClick={() => close()}
+                      className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+                    >
+                      Preise
+                    </Link>
+
+                    {/* Mobile User Menu */}
+                    <div className="pt-4 border-t border-white/10">
+                      {loading ? (
+                        <div className="w-full h-12 rounded-xl bg-white/5 animate-pulse border border-white/10"></div>
+                      ) : user ? (
+                        <ModernUserDropdown user={user} profile={profile} />
+                      ) : (
+                        <ModernGuestActions />
+                      )}
+                    </div>
+                  </div>
+                </Disclosure.Panel>
+              </>
+            )}
+          </Disclosure>
+        </div>
+      </div>
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-// src/components/FinclueAI.tsx - THEME-AWARE VERSION
+// src/components/FinclueAI.tsx - COMPLETE ENHANCED UNIFIED VERSION
 import React, { useState, useRef, useEffect } from 'react'
 import {
   PaperAirplaneIcon,
@@ -57,57 +57,330 @@ interface QuickPrompt {
   category: 'analysis' | 'market' | 'comparison'
 }
 
+// ✅ ENHANCED INTERFACE für Unified AI
 interface FinClueAIProps {
   ticker?: string | null
+  investor?: string | null
+  portfolioData?: any
+  initialMessage?: string
+  showQuickPrompts?: boolean
+  compactMode?: boolean
   isPremium: boolean
 }
 
-const quickPrompts: QuickPrompt[] = [
-  {
-    id: '1',
-    title: 'Fundamentalanalyse',
-    prompt: 'Analysiere die fundamentalen Kennzahlen von {ticker} und bewerte die Investmentqualität.',
-    icon: ChartBarIcon,
-    category: 'analysis'
-  },
-  {
-    id: '2', 
-    title: 'Marktvergleich',
-    prompt: 'Vergleiche {ticker} mit den direkten Konkurrenten und bewerte die relative Stärke.',
-    icon: ArrowTrendingUpIcon,
-    category: 'comparison'
-  },
-  {
-    id: '3',
-    title: 'Dividendenanalyse', 
-    prompt: 'Bewerte die Dividendenpolitik und -nachhaltigkeit von {ticker}.',
-    icon: CurrencyDollarIcon,
-    category: 'analysis'
-  },
-  {
-    id: '4',
-    title: 'Risiko-Assessment',
-    prompt: 'Welche Hauptrisiken und Chancen siehst du bei einer Investition in {ticker}?',
-    icon: ExclamationTriangleIcon,
-    category: 'analysis'
-  },
-  {
-    id: '5',
-    title: 'Quartalszahlen-Review',
-    prompt: 'Analysiere die letzten Quartalszahlen von {ticker} und erkläre die wichtigsten Entwicklungen.',
-    icon: DocumentTextIcon,
-    category: 'analysis'
-  },
-  {
-    id: '6',
-    title: 'Multi-Aktien Vergleich',
-    prompt: 'Vergleiche {ticker} mit Apple, Microsoft und Google in allen wichtigen Kennzahlen.',
-    icon: ArrowTrendingUpIcon,
-    category: 'comparison'
+// ✅ ENHANCED SMART TICKER DETECTION FUNCTION
+function extractTickerFromMessage(message: string): string | null {
+  // Enhanced mapping von Unternehmensnamen zu Tickers
+  const companyToTicker: Record<string, string> = {
+    'apple': 'AAPL',
+    'microsoft': 'MSFT', 
+    'google': 'GOOGL',
+    'alphabet': 'GOOGL',
+    'amazon': 'AMZN',
+    'tesla': 'TSLA',
+    'nvidia': 'NVDA',
+    'meta': 'META',
+    'facebook': 'META',
+    'netflix': 'NFLX',
+    'adobe': 'ADBE',
+    'salesforce': 'CRM',
+    'oracle': 'ORCL',
+    'intel': 'INTC',
+    // ✅ ADDED: More comprehensive mapping
+    'aapl': 'AAPL',
+    'msft': 'MSFT',
+    'tsla': 'TSLA',
+    'nvda': 'NVDA',
+    'googl': 'GOOGL',
+    'amzn': 'AMZN',
+    'nflx': 'NFLX'
   }
-]
 
-// RAG Sources Display Component
+  // Teste Unternehmensnamen
+  const lowerMessage = message.toLowerCase()
+  for (const [company, ticker] of Object.entries(companyToTicker)) {
+    if (lowerMessage.includes(company)) {
+      console.log(`🎯 Smart Detection: ${company} -> ${ticker}`)
+      return ticker
+    }
+  }
+
+  // Teste direkte Ticker mit verbesserter Regex
+  const tickerMatch = message.match(/\b([A-Z]{1,5})\b/g)
+  if (tickerMatch) {
+    const commonTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC']
+    for (const ticker of tickerMatch) {
+      if (commonTickers.includes(ticker)) {
+        console.log(`🎯 Smart Detection: Direct ticker -> ${ticker}`)
+        return ticker
+      }
+    }
+  }
+
+  return null
+}
+
+// ✅ ENHANCED INVESTOR DETECTION FUNCTION - Fixed to detect partial names
+function extractInvestorFromMessage(message: string): string | null {
+  const investorMentions: Record<string, string> = {
+    'warren buffett': 'warren-buffett',
+    'buffett': 'warren-buffett',  // ✅ ADDED: Partial name detection
+    'berkshire hathaway': 'warren-buffett',
+    'berkshire': 'warren-buffett', // ✅ ADDED: Partial name
+    'bill ackman': 'bill-ackman',
+    'ackman': 'bill-ackman',  // ✅ ADDED: Partial name
+    'pershing square': 'bill-ackman',
+    'pershing': 'bill-ackman', // ✅ ADDED: Partial name
+    'cathie wood': 'cathie-wood',
+    'cathie': 'cathie-wood',  // ✅ ADDED: Partial name
+    'ark invest': 'cathie-wood',
+    'ark': 'cathie-wood',     // ✅ ADDED: Partial name
+    'ray dalio': 'ray-dalio',
+    'dalio': 'ray-dalio',     // ✅ ADDED: Partial name
+    'bridgewater': 'ray-dalio'
+  }
+
+  const lowerMessage = message.toLowerCase()
+  
+  // Sort by length (longest first) to prioritize full names over partial matches
+  const sortedMentions = Object.entries(investorMentions)
+    .sort(([a], [b]) => b.length - a.length)
+  
+  for (const [mention, slug] of sortedMentions) {
+    if (lowerMessage.includes(mention)) {
+      console.log(`🎯 Smart Detection: ${mention} -> ${slug}`)
+      return slug
+    }
+  }
+
+  return null
+}
+
+// ✅ NEW: HYBRID CONTEXT DETECTION
+function getHybridContext(ticker?: string | null, investor?: string | null, message?: string): {
+  contextType: 'stock' | 'superinvestor' | 'hybrid' | 'general',
+  detectedTicker: string | null,
+  detectedInvestor: string | null,
+  primaryContext: 'stock' | 'superinvestor' | 'general',
+  effectiveTicker: string | null,
+  effectiveInvestor: string | null
+} {
+  const detectedTicker = extractTickerFromMessage(message || '')
+  const detectedInvestor = extractInvestorFromMessage(message || '')
+  
+  const effectiveTicker = ticker || detectedTicker
+  const effectiveInvestor = investor || detectedInvestor
+  
+  // Determine context type
+  let contextType: 'stock' | 'superinvestor' | 'hybrid' | 'general'
+  let primaryContext: 'stock' | 'superinvestor' | 'general'
+  
+  if (effectiveTicker && effectiveInvestor) {
+    contextType = 'hybrid'
+    // Determine primary context based on explicit props vs detected
+    if (ticker && !investor) {
+      primaryContext = 'stock'
+    } else if (investor && !ticker) {
+      primaryContext = 'superinvestor'
+    } else {
+      // Both detected from message - analyze message intent
+      const lowerMessage = (message || '').toLowerCase()
+      if (lowerMessage.includes('portfolio') || lowerMessage.includes('käufe') || lowerMessage.includes('verkäufe') || 
+          lowerMessage.includes('holdings') || lowerMessage.includes('positionen') || lowerMessage.includes('13f')) {
+        primaryContext = 'superinvestor'
+      } else if (lowerMessage.includes('quartal') || lowerMessage.includes('earnings') || lowerMessage.includes('umsatz') || 
+                 lowerMessage.includes('kuv') || lowerMessage.includes('p/e') || lowerMessage.includes('bewertung')) {
+        primaryContext = 'stock'
+      } else {
+        primaryContext = 'superinvestor' // Default for hybrid when unclear
+      }
+    }
+  } else if (effectiveTicker) {
+    contextType = 'stock'
+    primaryContext = 'stock'
+  } else if (effectiveInvestor) {
+    contextType = 'superinvestor' 
+    primaryContext = 'superinvestor'
+  } else {
+    contextType = 'general'
+    primaryContext = 'general'
+  }
+  
+  return {
+    contextType,
+    detectedTicker,
+    detectedInvestor,
+    primaryContext,
+    effectiveTicker,
+    effectiveInvestor
+  }
+}
+
+// ✅ ENHANCED CONTEXT TYPE DETECTION
+function getContextType(ticker?: string | null, investor?: string | null, message?: string): 'stock' | 'superinvestor' | 'general' {
+  const hybridContext = getHybridContext(ticker, investor, message)
+  
+  // For compatibility, return single context
+  if (hybridContext.contextType === 'hybrid') {
+    return hybridContext.primaryContext as 'stock' | 'superinvestor' | 'general'
+  }
+  
+  return hybridContext.contextType === 'general' ? 'general' : 
+         hybridContext.contextType === 'stock' ? 'stock' : 'superinvestor'
+}
+
+// ✅ ENHANCED DYNAMIC QUICK PROMPTS based on context
+function getContextualQuickPrompts(ticker?: string | null, investor?: string | null): QuickPrompt[] {
+  const contextType = getContextType(ticker, investor)
+  
+  switch (contextType) {
+    case 'stock':
+      return [
+        {
+          id: 'stock-fundamentals',
+          title: 'Fundamentalanalyse',
+          prompt: ticker ? `Analysiere die fundamentalen Kennzahlen von ${ticker} und bewerte die Investmentqualität.` : 'Analysiere die fundamentalen Kennzahlen von {ticker} und bewerte die Investmentqualität.',
+          icon: ChartBarIcon,
+          category: 'analysis'
+        },
+        {
+          id: 'stock-quarterly',
+          title: 'Quartalszahlen',
+          prompt: ticker ? `Wie waren die letzten Quartalsergebnisse von ${ticker}? Analyse der wichtigsten Entwicklungen.` : 'Analysiere die letzten Quartalszahlen von {ticker} und erkläre die wichtigsten Entwicklungen.',
+          icon: DocumentTextIcon,
+          category: 'analysis'
+        },
+        {
+          id: 'stock-comparison',
+          title: 'Marktvergleich',
+          prompt: ticker ? `Vergleiche ${ticker} mit direkten Konkurrenten in der Branche.` : 'Vergleiche {ticker} mit den direkten Konkurrenten und bewerte die relative Stärke.',
+          icon: ArrowTrendingUpIcon,
+          category: 'comparison'
+        },
+        {
+          id: 'stock-valuation',
+          title: 'Bewertung',
+          prompt: ticker ? `Ist ${ticker} aktuell fair bewertet? KUV, P/E, und andere Bewertungskennzahlen.` : 'Welche Hauptrisiken und Chancen siehst du bei einer Investition in {ticker}?',
+          icon: CurrencyDollarIcon,
+          category: 'analysis'
+        }
+      ]
+
+    case 'superinvestor':
+      return [
+        {
+          id: 'investor-strategy',
+          title: 'Investment-Strategie',
+          prompt: investor ? `Analysiere ${investor}s aktuelle Investmentstrategie basierend auf dem Portfolio.` : 'Analysiere die aktuelle Investmentstrategie des Investors.',
+          icon: ChartBarIcon,
+          category: 'analysis'
+        },
+        {
+          id: 'investor-changes',
+          title: 'Portfolio-Änderungen',
+          prompt: investor ? `Was waren die wichtigsten Portfolio-Änderungen von ${investor} im letzten Quartal?` : 'Was waren die wichtigsten Portfolio-Änderungen im letzten Quartal?',
+          icon: ArrowTrendingUpIcon,
+          category: 'analysis'
+        },
+        {
+          id: 'investor-holdings',
+          title: 'Top Holdings',
+          prompt: investor ? `Analysiere die größten Positionen im ${investor} Portfolio.` : 'Analysiere die größten Positionen im Portfolio.',
+          icon: DocumentTextIcon,
+          category: 'analysis'
+        },
+        {
+          id: 'investor-risk',
+          title: 'Risiko-Analyse',
+          prompt: investor ? `Wie ist die Diversifikation und das Risikoprofil von ${investor}s Portfolio?` : 'Wie ist die Diversifikation und das Risikoprofil des Portfolios?',
+          icon: ExclamationTriangleIcon,
+          category: 'analysis'
+        }
+      ]
+
+    default:
+      return [
+        {
+          id: 'general-stock',
+          title: 'Aktienanalyse',
+          prompt: 'Analysiere Apple (AAPL) - Fundamentaldaten, Bewertung und Aussichten.',
+          icon: ChartBarIcon,
+          category: 'analysis'
+        },
+        {
+          id: 'general-comparison',
+          title: 'Marktvergleich',
+          prompt: 'Vergleiche Microsoft, Apple und Google - welche ist die beste Investition?',
+          icon: ArrowTrendingUpIcon,
+          category: 'comparison'
+        },
+        {
+          id: 'general-investor',
+          title: 'Super-Investor',
+          prompt: 'Was kauft Warren Buffett aktuell? Analysiere seine neuesten Portfolio-Bewegungen.',
+          icon: DocumentTextIcon,
+          category: 'analysis'
+        },
+        {
+          id: 'general-market',
+          title: 'Markt-Trends',
+          prompt: 'Welche Sektoren und Trends dominieren den Markt 2025?',
+          icon: SparklesIcon,
+          category: 'market'
+        }
+      ]
+  }
+}
+
+// ✅ ENHANCED INITIAL WELCOME MESSAGE based on context
+function getInitialWelcomeMessage(ticker?: string | null, investor?: string | null, customMessage?: string): string {
+  if (customMessage) return customMessage
+  
+  const contextType = getContextType(ticker, investor)
+  
+  switch (contextType) {
+    case 'stock':
+      return `Hallo! Ich bin FinClue AI. Lass uns über ${ticker!.toUpperCase()} sprechen. Ich habe Zugriff auf aktuelle Finanzdaten, Quartalszahlen, News und SEC-Filings.
+
+Frag mich nach:
+• Quartalszahlen & Kennzahlen
+• Bewertung & Vergleiche  
+• Risiken & Chancen
+• Branchenanalyse
+
+💡 **Smart Detection aktiv**: Erwähne einfach andere Ticker oder Investoren wie "Buffett" und ich erkenne sie automatisch!
+
+Was möchtest du über ${ticker!.toUpperCase()} wissen?`
+
+    case 'superinvestor':
+      return `Hallo! Ich bin dein AI-Assistent für ${investor} Portfolio-Analyse. Ich habe Zugriff auf die neuesten Portfolio-Daten und Filings.
+
+Ich kann dir helfen bei:
+• Portfolio-Strategie Analyse
+• Holdings & Änderungen
+• Sektor-Diversifikation  
+• Investment-Philosophie
+
+💡 **Smart Detection aktiv**: Erwähne einfach Aktien-Ticker und ich analysiere sie im Kontext!
+
+Was möchtest du über ${investor}s Portfolio wissen?`
+
+    default:
+      return `Hallo! Ich bin FinClue AI, dein intelligenter Finanzassistent. Ich erkenne automatisch, worüber du sprechen möchtest und lade die entsprechenden Daten.
+
+Frag mich nach:
+• Jeder Aktie (z.B. "Apple Quartalszahlen")
+• Super-Investoren (z.B. "Warren Buffett Portfolio")  
+• Marktvergleichen & Analysen
+• Hybrid-Fragen (z.B. "Buffett Microsoft Position")
+
+💡 **Smart Detection**: Ich nutze echte Finanzdaten, SEC-Filings und Earnings Calls!
+
+Stelle einfach deine Frage - ich erkenne automatisch den Kontext!`
+  }
+}
+
+// ✅ COMPLETE RAG SOURCES DISPLAY COMPONENT
 function RAGSourcesDisplay({ sources, ragEnabled }: { sources?: string[], ragEnabled?: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -115,7 +388,40 @@ function RAGSourcesDisplay({ sources, ragEnabled }: { sources?: string[], ragEna
     return null
   }
 
-
+  return (
+    <div className="mt-3 p-3 bg-blue-500/20 border border-blue-500/30 rounded-lg">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <DocumentDuplicateIcon className="w-4 h-4 text-blue-400" />
+          <span className="text-sm text-blue-400 font-medium">
+            {sources && sources.length > 0 
+              ? `${sources.length} Dokument${sources.length > 1 ? 'e' : ''} verwendet`
+              : 'RAG-System aktiv'
+            }
+          </span>
+        </div>
+        {sources && sources.length > 0 && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            {isExpanded ? 'Weniger' : 'Details'}
+          </button>
+        )}
+      </div>
+      
+      {isExpanded && sources && sources.length > 0 && (
+        <div className="mt-2 space-y-1">
+          {sources.map((source, index) => (
+            <div key={index} className="flex items-center gap-2 text-xs text-blue-300">
+              <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+              <span>{source}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 // Chart Komponente
@@ -288,26 +594,28 @@ function MultiTickerSelector({
   )
 }
 
-export default function FinClueAI({ ticker, isPremium }: FinClueAIProps) {
+// ✅ MAIN ENHANCED UNIFIED COMPONENT
+export default function FinClueAI({ 
+  ticker, 
+  investor,
+  portfolioData,
+  initialMessage,
+  showQuickPrompts = true,
+  compactMode = false,
+  isPremium 
+}: FinClueAIProps) {
+  
+  // ✅ ENHANCED INITIAL STATE mit Dynamic Welcome Message
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       type: 'assistant',
-      content: `Hallo! Ich bin FinClue AI, dein KI-Finanzassistent mit Zugriff auf aktuelle Finanzdokumente. ${ticker ? `Lass uns über ${ticker.toUpperCase()} sprechen.` : 'Wie kann ich dir bei deiner Aktienanalyse helfen?'} 
-
-Stelle mir Fragen zu:
-• Fundamentalanalyse & Bewertung
-• Quartalszahlen & Trends  
-• Risiken & Chancen
-• Dividenden & Ausschüttungen
-• Branchenvergleiche
-• Multi-Aktien Analysen
-
-💡 **Neu:** Ich nutze jetzt echte Earnings Calls, News und SEC-Filings für noch genauere Analysen!`,
+      content: getInitialWelcomeMessage(ticker, investor, initialMessage),
       timestamp: new Date(),
       ragEnabled: true
     }
   ])
+  
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [compareTickers, setCompareTickers] = useState<string[]>([])
@@ -331,6 +639,7 @@ Stelle mir Fragen zu:
     }
   }
 
+  // ✅ ENHANCED SEND MESSAGE mit Smart Hybrid Detection
   const sendMessage = async (customPrompt?: string) => {
     const messageText = customPrompt || input
     if (!messageText.trim() || isLoading) return
@@ -347,25 +656,56 @@ Stelle mir Fragen zu:
     setIsLoading(true)
 
     try {
-      // Get auth token
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.access_token) {
         throw new Error('Not authenticated')
       }
 
-      // BUILD CORRECT REQUEST BODY
+      // ✅ HYBRID CONTEXT DETECTION
+      const hybridContext = getHybridContext(ticker, investor, messageText)
+      
+      console.log('🎯 Enhanced Hybrid Context Detection:', {
+        originalMessage: messageText.substring(0, 50) + '...',
+        propTicker: ticker,
+        propInvestor: investor,
+        detectedTicker: hybridContext.detectedTicker,
+        detectedInvestor: hybridContext.detectedInvestor,
+        contextType: hybridContext.contextType,
+        primaryContext: hybridContext.primaryContext,
+        effectiveTicker: hybridContext.effectiveTicker,
+        effectiveInvestor: hybridContext.effectiveInvestor
+      })
+
+      // ✅ ENHANCED REQUEST BODY mit Hybrid Support
       const requestBody = {
         message: messageText,
         context: messages.map(m => ({
           role: m.type === 'user' ? 'user' : 'assistant',
           content: m.content
-        })).slice(-6), // Last 6 messages for context
-        analysisType: ticker ? 'stock' : 'general',
-        ticker: ticker || undefined,
-        compareWith: compareTickers.length > 0 ? compareTickers : undefined
+        })).slice(-6),
+        
+        // ✅ NEW: Hybrid context support
+        analysisType: hybridContext.contextType,
+        primaryContext: hybridContext.primaryContext,
+        
+        // ✅ ENHANCED: Support both ticker and investor simultaneously
+        ticker: hybridContext.effectiveTicker || undefined,
+        investor: hybridContext.effectiveInvestor || undefined,
+        portfolioData: portfolioData || undefined,
+        
+        compareWith: compareTickers.length > 0 ? compareTickers : undefined,
+        
+        // ✅ NEW: Additional context hints
+        contextHints: {
+          isHybridQuery: hybridContext.contextType === 'hybrid',
+          hasExplicitTicker: !!ticker,
+          hasExplicitInvestor: !!investor,
+          messageContainsPortfolioTerms: /portfolio|käufe|verkäufe|holdings|positionen|13f/i.test(messageText),
+          messageContainsStockTerms: /quartal|earnings|umsatz|kuv|p\/e|bewertung|fundamentals/i.test(messageText)
+        }
       }
 
-      console.log('Sending AI request:', requestBody)
+      console.log('📤 Enhanced AI request with hybrid support:', requestBody)
 
       const response = await fetch('/api/ai', {
         method: 'POST',
@@ -384,10 +724,15 @@ Stelle mir Fragen zu:
       }
 
       const responseData = await response.json()
-      console.log('AI response received:', responseData)
+      console.log('📥 Enhanced Hybrid AI response:', {
+        success: responseData.success,
+        contextType: hybridContext.contextType,
+        isHybrid: responseData.isHybrid,
+        contentLength: responseData.response?.content?.length || 0,
+        ragSourcesCount: responseData.ragSourcesCount
+      })
 
       if (responseData.success && responseData.response) {
-        // Update RAG status
         setRagStatus({
           enabled: responseData.ragEnabled || false,
           sourcesCount: responseData.ragSourcesCount || 0
@@ -433,7 +778,16 @@ Stelle mir Fragen zu:
   }
 
   const handleQuickPrompt = (prompt: QuickPrompt) => {
-    const finalPrompt = ticker ? prompt.prompt.replace('{ticker}', ticker.toUpperCase()) : prompt.prompt
+    let finalPrompt = prompt.prompt
+    
+    // Replace placeholders
+    if (ticker) {
+      finalPrompt = finalPrompt.replace('{ticker}', ticker.toUpperCase())
+    }
+    if (investor) {
+      finalPrompt = finalPrompt.replace('{investor}', investor)
+    }
+    
     setInput(finalPrompt)
     adjustTextareaHeight()
   }
@@ -473,9 +827,12 @@ Stelle mir Fragen zu:
     )
   }
 
+  const hybridContext = getHybridContext(ticker, investor)
+  const quickPrompts = getContextualQuickPrompts(ticker, investor)
+
   return (
     <div className="h-full flex flex-col bg-theme-primary">
-      {/* Header */}
+      {/* Enhanced Header */}
       <div className="flex-shrink-0 border-b border-theme bg-theme-secondary">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
@@ -492,17 +849,32 @@ Stelle mir Fragen zu:
                       <span className="text-xs text-blue-400">RAG</span>
                     </div>
                   )}
+                  {hybridContext.contextType === 'hybrid' && (
+                    <div className="flex items-center gap-1 px-2 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full">
+                      <SparklesIcon className="w-3 h-3 text-purple-400" />
+                      <span className="text-xs text-purple-400">HYBRID</span>
+                    </div>
+                  )}
                 </h2>
                 <p className="text-sm text-theme-secondary">
-                  {ticker ? `Aktienanalyse für ${ticker.toUpperCase()}` : 'KI-Finanzassistent'}
+                  {ticker && investor ? `Hybrid-Analyse: ${ticker.toUpperCase()} + ${investor}` :
+                   ticker ? `Aktienanalyse für ${ticker.toUpperCase()}` :
+                   investor ? `Portfolio-Analyse für ${investor}` :
+                   'Smart Detection aktiv - Erwähne Ticker oder Investoren'}
                   {compareTickers.length > 0 && ` • Vergleich mit ${compareTickers.join(', ')}`}
-                  {ragStatus.enabled && ` • Dokumentenbasierte Analyse`}
+                  {ragStatus.enabled && ` • ${ragStatus.sourcesCount} Dokumente verfügbar`}
                 </p>
               </div>
             </div>
             <button 
               onClick={() => {
-                setMessages(messages.slice(0, 1))
+                setMessages([{
+                  id: '1',
+                  type: 'assistant',
+                  content: getInitialWelcomeMessage(ticker, investor, initialMessage),
+                  timestamp: new Date(),
+                  ragEnabled: true
+                }])
                 setCompareTickers([])
               }}
               className="flex items-center gap-2 px-3 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary rounded-lg transition-colors"
@@ -514,12 +886,17 @@ Stelle mir Fragen zu:
         </div>
       </div>
 
-      {/* Quick Prompts */}
-      {messages.length <= 1 && (
+      {/* ✅ ENHANCED Quick Prompts */}
+      {showQuickPrompts && messages.length <= 1 && (
         <div className="flex-shrink-0 border-b border-theme bg-theme-secondary/50">
           <div className="px-6 py-4">
-            <h3 className="text-sm font-medium text-theme-primary mb-3">Schnellstart:</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <h3 className="text-sm font-medium text-theme-primary mb-3">
+              {hybridContext.contextType === 'hybrid' ? `Hybrid-Analyse (${ticker} + ${investor}):` :
+               hybridContext.contextType === 'stock' ? `${ticker} Quick-Analyse:` :
+               hybridContext.contextType === 'superinvestor' ? `${investor} Schnellzugriff:` :
+               'Smart-Analyse - Erwähne Ticker oder Investoren:'}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {quickPrompts.map((prompt) => {
                 const Icon = prompt.icon
                 return (
@@ -559,7 +936,6 @@ Stelle mir Fragen zu:
               )}
               
               <div className={`${message.type === 'user' ? 'max-w-[80%]' : 'flex-1'}`}>
-                {/* Message Content */}
                 <div
                   className={`rounded-lg px-4 py-3 mb-4 ${
                     message.type === 'user'
@@ -580,7 +956,6 @@ Stelle mir Fragen zu:
                   </div>
                 </div>
 
-                {/* RAG Sources Display */}
                 {message.type === 'assistant' && (
                   <RAGSourcesDisplay 
                     sources={message.ragSources} 
@@ -588,7 +963,6 @@ Stelle mir Fragen zu:
                   />
                 )}
 
-                {/* Charts */}
                 {message.charts && message.charts.length > 0 && (
                   <div className="space-y-4 mb-4">
                     {message.charts.map((chart, index) => (
@@ -597,7 +971,6 @@ Stelle mir Fragen zu:
                   </div>
                 )}
 
-                {/* Quick Actions */}
                 {message.actions && message.actions.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {message.actions.map((action, index) => (
@@ -629,7 +1002,8 @@ Stelle mir Fragen zu:
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   <span className="ml-2 text-sm">
-                    FinClue AI analysiert{ragStatus.enabled ? ' mit Dokumenten' : ''}...
+                    FinClue AI analysiert{ragStatus.enabled ? ' mit Dokumenten' : ''}
+                    {hybridContext.contextType === 'hybrid' ? ' (Hybrid-Kontext)' : ''}...
                   </span>
                 </div>
               </div>
@@ -639,7 +1013,7 @@ Stelle mir Fragen zu:
         </div>
       </div>
 
-      {/* Input */}
+      {/* Enhanced Input */}
       <div className="flex-shrink-0 border-t border-theme bg-theme-secondary">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="relative">
@@ -651,9 +1025,11 @@ Stelle mir Fragen zu:
                 adjustTextareaHeight()
               }}
               onKeyDown={handleKeyDown}
-              placeholder={ticker 
-                ? `Frage etwas über ${ticker.toUpperCase()}...`
-                : "Stelle eine Frage zu Aktien, Märkten oder Unternehmen..."
+              placeholder={
+                ticker && investor ? `Hybrid-Frage zu ${ticker.toUpperCase()} oder ${investor}...` :
+                ticker ? `Frage etwas über ${ticker.toUpperCase()} oder erwähne Investoren...` :
+                investor ? `Frage etwas über ${investor}s Portfolio oder erwähne Ticker...` :
+                "Smart Detection aktiv: Erwähne Ticker (z.B. 'Apple') oder Investoren (z.B. 'Buffett')..."
               }
               className="w-full px-4 py-3 pr-12 bg-theme-tertiary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 resize-none min-h-[48px] max-h-[120px]"
               rows={1}
@@ -667,7 +1043,6 @@ Stelle mir Fragen zu:
               <PaperAirplaneIcon className="w-4 h-4 text-white" />
             </button>
             
-            {/* Multi-Ticker Selector */}
             {ticker && (
               <MultiTickerSelector 
                 compareTickers={compareTickers}
@@ -677,12 +1052,18 @@ Stelle mir Fragen zu:
             )}
           </div>
           <div className="flex items-center justify-between mt-2 text-xs text-theme-muted">
-            <span>Shift + Enter für neue Zeile</span>
+            <span>Shift + Enter für neue Zeile • Smart Detection aktiv</span>
             <div className="flex items-center gap-3">
               {ragStatus.enabled && (
                 <span className="flex items-center gap-1 text-blue-400">
                   <DocumentDuplicateIcon className="w-3 h-3" />
                   RAG System aktiv
+                </span>
+              )}
+              {hybridContext.contextType === 'hybrid' && (
+                <span className="flex items-center gap-1 text-purple-400">
+                  <SparklesIcon className="w-3 h-3" />
+                  Hybrid Mode
                 </span>
               )}
               <span className="flex items-center gap-1">

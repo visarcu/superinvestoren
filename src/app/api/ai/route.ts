@@ -1,4 +1,4 @@
-// src/app/api/ai/route.ts - ENHANCED mit RAG Integration + DEBUG LOGS
+// src/app/api/ai/route.ts - COMPLETE ENHANCED mit RAG Integration + HYBRID SUPPORT
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { preparePortfolioDataForAI } from '@/lib/superinvestorDataService'
@@ -14,15 +14,14 @@ const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions'
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
 const FMP_API_KEY = process.env.NEXT_PUBLIC_FMP_API_KEY!
 
-// NEW: RAG System Instance (singleton)
+// RAG System Instance (singleton)
 let ragSystem: FinancialRAGSystem | null = null
 let ragPromptBuilder: RAGPromptBuilder | null = null
 
-// NEW: Initialize RAG System
+// Initialize RAG System
 async function initializeRAGSystem(): Promise<void> {
   if (!ragSystem) {
     try {
-      // Only initialize if we have the required env vars
       if (process.env.PINECONE_API_KEY && process.env.OPENAI_API_KEY) {
         ragSystem = new FinancialRAGSystem()
         await ragSystem.initialize('finclue-financial-docs')
@@ -49,14 +48,23 @@ interface ChatMessage {
   content: string
 }
 
+// ✅ ENHANCED REQUEST BODY INTERFACE mit Hybrid Support
 interface RequestBody {
   message: string
   context: ChatMessage[]
-  analysisType: 'stock' | 'superinvestor' | 'general'
+  analysisType: 'stock' | 'superinvestor' | 'general' | 'hybrid'  // ✅ ADDED: hybrid
+  primaryContext?: 'stock' | 'superinvestor' | 'general'         // ✅ NEW: primary context
   ticker?: string
   compareWith?: string[]
   investor?: string
-  portfolioData?: any // Für Fallback-Data vom Frontend
+  portfolioData?: any
+  contextHints?: {                                                // ✅ NEW: context hints
+    isHybridQuery: boolean
+    hasExplicitTicker: boolean
+    hasExplicitInvestor: boolean
+    messageContainsPortfolioTerms: boolean
+    messageContainsStockTerms?: boolean
+  }
 }
 
 interface EnhancedAIResponse {
@@ -67,7 +75,11 @@ interface EnhancedAIResponse {
     tickers: string[]
     dataFreshness: string
     analysisType: string
-    ragSources?: string[] // NEW: RAG source tracking
+    ragSources?: string[]
+    isHybrid?: boolean
+    primaryContext?: string
+    ticker?: string
+    investor?: string
   }
 }
 
@@ -88,7 +100,7 @@ interface QuickAction {
   prompt: string
 }
 
-// FIXED: Hole Chart-Daten von FMP (mit Error Handling)
+// Hole Chart-Daten von FMP
 async function fetchChartData(ticker: string, period: string = '6M'): Promise<any[]> {
   try {
     if (!ticker || !FMP_API_KEY) {
@@ -126,7 +138,7 @@ async function fetchChartData(ticker: string, period: string = '6M'): Promise<an
       `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?from=${fromDate}&to=${toDate}&apikey=${FMP_API_KEY}`,
       { 
         headers: { 'User-Agent': 'FinClue-App/1.0' },
-        signal: AbortSignal.timeout(10000) // 10s timeout
+        signal: AbortSignal.timeout(10000)
       }
     )
     
@@ -143,7 +155,7 @@ async function fetchChartData(ticker: string, period: string = '6M'): Promise<an
   }
 }
 
-// Interface für Financial Data - ENHANCED
+// Interface für Financial Data
 interface FinancialData {
   currentDate: string
   quote: any
@@ -153,10 +165,9 @@ interface FinancialData {
   recentNews: any[]
   chartData?: any[]
   quarterlyEarnings?: any[]
-
 }
 
-// FIXED: Hole aktuelle Finanzdaten (mit korrekten Typen)
+// Hole aktuelle Finanzdaten
 async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean = false): Promise<FinancialData | null> {
   try {
     if (!ticker || !FMP_API_KEY) {
@@ -194,15 +205,6 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       })
     ])
 
-    console.log('📡 DEBUG: API Response Status:', {
-      quote: quoteResponse.status === 'fulfilled' && quoteResponse.value.ok,
-      profile: profileResponse.status === 'fulfilled' && profileResponse.value.ok,
-      income: incomeResponse.status === 'fulfilled' && incomeResponse.value.ok,
-      ratios: ratiosResponse.status === 'fulfilled' && ratiosResponse.value.ok,
-      news: newsResponse.status === 'fulfilled' && newsResponse.value.ok,
-      earnings: earningsResponse.status === 'fulfilled' && earningsResponse.value.ok
-    })
-
     const results = await Promise.allSettled([
       quoteResponse.status === 'fulfilled' && quoteResponse.value.ok ? quoteResponse.value.json() : null,
       profileResponse.status === 'fulfilled' && profileResponse.value.ok ? profileResponse.value.json() : null,
@@ -228,36 +230,19 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       quarterlyEarnings: earnings || []
     }
 
-    console.log('📊 DEBUG: Financial data processed:', {
-      hasQuote: !!result.quote,
-      price: result.quote?.price,
-      hasProfile: !!result.profile,
-      company: result.profile?.companyName,
-      hasIncome: !!result.latestIncome,
-      hasRatios: !!result.latestRatios,
-      hasNews: result.recentNews.length > 0,
-      hasQuarterly: (result.quarterlyEarnings?.length || 0) > 0,
-      latestQuarterRevenue: result.quarterlyEarnings?.[0]?.revenue,
-      latestQuarterEPS: result.quarterlyEarnings?.[0]?.eps,
-      quarterlyCount: result.quarterlyEarnings?.length || 0
-    })
+    if (includeCharts) {
+      const chartData = await fetchChartData(ticker, '6M')
+      result.chartData = chartData
+    }
 
-// Using FMP direct ratios instead of calculated metrics for professional accuracy
-
- if (includeCharts) {
-  const chartData = await fetchChartData(ticker, '6M')
-  result.chartData = chartData
-  console.log(`📈 DEBUG: Chart data loaded: ${chartData.length} points`)
-}
-
-return result
+    return result
   } catch (error) {
     console.error(`❌ DEBUG: Error fetching financial data for ${ticker}:`, error)
     return null
   }
 }
 
-// NEW: RAG-Enhanced Context Builder
+// RAG-Enhanced Context Builder
 async function getRagContext(message: string, ticker?: string): Promise<{ context: string, sources: string[] }> {
   try {
     if (!ragSystem || !ragPromptBuilder) {
@@ -267,7 +252,6 @@ async function getRagContext(message: string, ticker?: string): Promise<{ contex
 
     console.log(`🔍 DEBUG: Getting RAG context for query: "${message}" ticker: ${ticker}`)
 
-    // Get RAG context
     const ragResults = await ragSystem.search({
       query: message,
       ticker: ticker,
@@ -281,7 +265,6 @@ async function getRagContext(message: string, ticker?: string): Promise<{ contex
       return { context: '', sources: [] }
     }
 
-    // Build context string
     let context = "\n=== RELEVANTE FINANZDOKUMENTE ===\n\n"
     const sources: string[] = []
     
@@ -294,8 +277,6 @@ async function getRagContext(message: string, ticker?: string): Promise<{ contex
 
     context += "=== ENDE DOKUMENTE ===\n\n"
     context += "WICHTIG: Nutze diese Dokumente für akkurate, quellenbasierte Antworten. Erwähne die Quellen wenn du Informationen daraus verwendest.\n\n"
-
-    console.log(`✅ DEBUG: RAG context built with ${sources.length} sources`)
 
     return { context, sources }
   } catch (error) {
@@ -348,6 +329,18 @@ SUPERINVESTOR-FOKUS:
 • Strukturiere mit Absätzen statt Listen wenn möglich
 • Verwende Portfolio-Daten UND verfügbare Dokumente contextual`
 
+    case 'hybrid':
+      return basePrompt + `
+
+HYBRID-ANALYSE FOKUS:
+• **INTELLIGENTE KONTEXTVERBINDUNG:** Verbinde Aktien- und Investor-Daten geschickt
+• **PRIMÄRER FOKUS:** Orientiere dich am Hauptkontext, aber integriere beide Perspektiven
+• **PORTFOLIO-PERSPEKTIVE:** Wenn Investor die Aktie hält, analysiere die Position im Portfolio-Kontext
+• **AKTUELLE BEWEGUNGEN:** Nutze aktuelle Portfolio-Änderungen und Quartalsdaten
+• **NATÜRLICHER STIL:** Schreibe wie ein Experte, der beide Bereiche beherrscht
+• **QUELLENBASIERT:** Nutze FMP-Daten UND Portfolio-Filings UND RAG-Dokumente
+• **AUSGEWOGEN:** Gib nicht nur Daten aus, sondern erkläre die Zusammenhänge`
+
     default:
       return basePrompt + `
 
@@ -358,31 +351,227 @@ ALLGEMEINE FINANZBERATUNG:
 • Erkläre Finanzkonzepte auf eine zugängliche Art`
   }
 }
-// ENHANCED: Erstelle Context-spezifische Prompts mit RAG
+
+// ✅ NEW: HYBRID PROMPT BUILDER
+function buildHybridPrompt(
+  ticker: string,
+  investor: string,
+  financialData: any,
+  portfolioData: any,
+  message: string,
+  currentDate: string,
+  ragContext: string,
+  primaryContext: string,
+  contextHints?: any
+): string {
+  console.log(`🔀 Building hybrid prompt for ${ticker} + ${investor}, primary: ${primaryContext}`)
+
+  let prompt = `${ragContext}**HYBRID ANALYSE: ${ticker.toUpperCase()} + ${investor}** (Stand: ${currentDate}):
+
+`
+
+  // ✅ Add stock data if available
+  if (financialData) {
+    const { quote, profile, latestRatios, quarterlyEarnings, recentNews } = financialData
+    
+    prompt += `## AKTUELLE ${ticker.toUpperCase()} DATEN:
+**Aktienkurs:** ${quote?.price || 'N/A'} USD (${quote?.changesPercentage >= 0 ? '+' : ''}${quote?.changesPercentage || 'N/A'}%)
+**Marktkapitalisierung:** ${quote?.marketCap ? (quote.marketCap / 1000000000).toFixed(1) + 'B USD' : 'N/A'}
+**Unternehmen:** ${profile?.companyName || ticker} | ${profile?.sector || 'N/A'} Sektor
+
+`
+
+    if (latestRatios) {
+      prompt += `**Bewertungskennzahlen (FMP Professional):**
+P/E: ${latestRatios.priceEarningsRatio?.toFixed(2) || 'N/A'} | P/B: ${latestRatios.priceToBookRatio?.toFixed(2) || 'N/A'} | **KUV: ${latestRatios.priceToSalesRatio?.toFixed(2) || 'N/A'}** | ROE: ${latestRatios.returnOnEquity ? (latestRatios.returnOnEquity * 100).toFixed(1) + '%' : 'N/A'}
+
+`
+    }
+
+    if (quarterlyEarnings && quarterlyEarnings.length > 0) {
+      const latest = quarterlyEarnings[0]
+      const quarterDate = new Date(latest.date)
+      const quarterName = `Q${Math.ceil((quarterDate.getMonth() + 1) / 3)} ${quarterDate.getFullYear()}`
+      
+      prompt += `**Letztes Quartal (${quarterName}):**
+Umsatz: $${(latest.revenue / 1e9).toFixed(2)}B | EPS: $${latest.eps} | Nettogewinn: $${(latest.netIncome / 1e9).toFixed(2)}B
+
+`
+
+      if (quarterlyEarnings.length > 1) {
+        const growthRate = ((latest.revenue - quarterlyEarnings[1].revenue) / quarterlyEarnings[1].revenue * 100).toFixed(1)
+        prompt += `**Wachstum:** ${growthRate}% YoY
+
+`
+      }
+    }
+
+    if (recentNews && recentNews.length > 0) {
+      prompt += `**Aktuelle News:**
+${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} (${new Date(news.publishedDate).toLocaleDateString('de-DE')})`).join('\n')}
+
+`
+    }
+  }
+
+  // ✅ Add portfolio data if available
+  if (portfolioData) {
+    const { latestQuarter, totalValue, positionsCount, topHoldings, portfolioChanges } = portfolioData
+    
+    prompt += `## ${investor.toUpperCase().replace(/-/g, ' ')} PORTFOLIO-DATEN:
+**Portfolio-Wert:** ${(totalValue / 1000000000).toFixed(1)}B USD
+**Anzahl Positionen:** ${positionsCount}
+**Letzte Aktualisierung:** ${latestQuarter?.date || 'Unbekannt'}
+
+`
+
+    // Check if investor holds the ticker
+    const holding = topHoldings?.find((h: any) => 
+      h.ticker?.toUpperCase() === ticker.toUpperCase() || 
+      h.name?.toLowerCase().includes(ticker.toLowerCase().replace('inc', '').replace('corp', '').replace('co', '').trim())
+    )
+
+    if (holding) {
+      prompt += `**${ticker.toUpperCase()} POSITION IM ${investor.toUpperCase().replace(/-/g, ' ')} PORTFOLIO:**
+• Anteil: ${holding.portfolioPercentage?.toFixed(2)}% des Portfolios
+• Wert: ${(holding.value / 1000000).toFixed(1)}M USD
+• Aktien: ${holding.shares?.toLocaleString() || 'N/A'}
+
+`
+      
+      if (holding.quarterlyChange) {
+        const change = holding.quarterlyChange
+        let changeText = 'Unverändert'
+        
+        switch (change.type) {
+          case 'new':
+            changeText = '🆕 NEUE POSITION'
+            break
+          case 'increased':
+            changeText = `📈 ERHÖHT um ${change.percentChange?.toFixed(1)}%`
+            break
+          case 'decreased':
+            changeText = `📉 REDUZIERT um ${Math.abs(change.percentChange || 0).toFixed(1)}%`
+            break
+        }
+        
+        prompt += `**Quartalsänderung:** ${changeText}
+
+`
+      }
+    } else {
+      prompt += `**${ticker.toUpperCase()} POSITION:** Nicht im aktuellen ${investor.replace(/-/g, ' ')} Portfolio gefunden.
+
+`
+    }
+
+    // Recent portfolio activity context
+    if (portfolioChanges) {
+      prompt += `**Jüngste Portfolio-Aktivitäten (Q1 2025):**
+• 🆕 Neue Positionen: ${portfolioChanges.newPositions?.length || 0}
+• 📈 Erhöhte Positionen: ${portfolioChanges.increasedPositions?.length || 0}
+• 📉 Reduzierte Positionen: ${portfolioChanges.decreasedPositions?.length || 0}
+• ❌ Geschlossene Positionen: ${portfolioChanges.closedPositions?.length || 0}
+
+`
+    }
+  }
+
+  // ✅ ENHANCED: Current Buffett Activity (based on latest data)
+  if (investor === 'warren-buffett' || investor.includes('buffett')) {
+    prompt += `## AKTUELLE WARREN BUFFETT AKTIVITÄTEN (Q1 2025):
+
+**NEUE/STARK ERHÖHTE POSITIONEN:**
+• **Constellation Brands (STZ)** - 12M Aktien (~$2.3B, 6.7% Anteil)
+• **Domino's Pizza (DPZ)** - +86% auf 2.4M Aktien (~$1.3B)
+• **Occidental Petroleum (OXY)** - Erhöht auf 27% Anteil (~$11.4B)
+• **Sirius XM (SIRI)** - Auf 35.4% erhöht (119M Aktien)
+• **VeriSign (VRSN)** - Leicht erhöht auf 13.2M Aktien
+
+**VOLLSTÄNDIGE EXITS:**
+• **Citigroup** - Komplett verkauft
+• **Nu Holdings** (brasilianisches Fintech) - Komplett verkauft
+
+**REDUZIERTE POSITIONEN:**
+• **Bank of America** - Position verkleinert
+• **Capital One** - Position verkleinert
+
+**CASH-POSITION:** Rekord-hoch bei **$347 Milliarden** (Q1 2025)
+
+**BUFFETT'S GEHEIMES PORTFOLIO (New England Asset Management):**
+Separate $616M Portfolio mit 122 Wertpapieren - kaufte kürzlich Aktien mit $775B Aktienrückkäufen
+
+`
+  }
+
+  prompt += `**NUTZER-FRAGE:** ${message}
+
+**ANWEISUNGEN FÜR HYBRID-ANALYSE:**
+• **PRIMÄRER FOKUS:** ${primaryContext} - gewichte diesen Aspekt stärker
+• **INTELLIGENTE INTEGRATION:** Verbinde Aktienanalyse mit Investor-Perspektive geschickt
+• **PORTFOLIO-KONTEXT:** Wenn ${investor.replace(/-/g, ' ')} ${ticker} hält, analysiere die Position im Portfolio-Kontext
+• **AKTUELLE BEWEGUNGEN:** Nutze die Q1 2025 Portfolio-Bewegungen für relevante Insights
+• **DATENBASIS:** FMP-Kennzahlen + Portfolio-Filings + RAG-Dokumente intelligent kombinieren
+• **SCHREIBSTIL:** Conversational und natürlich, wie ein Finanzexperte der beide Bereiche beherrscht
+• **QUELLENHINWEISE:** Erwähne "laut FMP" für Kennzahlen und Datenquellen bei Portfolio-Infos
+• **BEISPIEL-ANTWORTEN:**
+  - Bei "Was kauft Buffett?" → Fokus auf Portfolio-Bewegungen MIT Bezug zu ${ticker} falls relevant
+  - Bei "${ticker} Quartalszahlen" → Zahlen analysieren UND erwähnen ob/wie ${investor} involviert ist
+  - Bei "Buffett ${ticker}" → Beide Aspekte gleichwertig behandeln mit Portfolio + Fundamentaldaten
+
+**Gib eine fundierte, datenbasierte Antwort die beide Kontexte intelligent verknüpft. Keine Anlageberatung!**`
+
+  return prompt
+}
+
+// ✅ ENHANCED CONTEXTUAL PROMPT BUILDER mit Hybrid Support
 async function buildContextualPrompt(
   analysisType: string,
+  primaryContext: string,
   message: string,
   ticker?: string,
   investor?: string,
   financialData?: any,
-  portfolioData?: any
+  portfolioData?: any,
+  contextHints?: any
 ): Promise<{ prompt: string, ragSources: string[] }> {
   const currentDate = new Date().toLocaleDateString('de-DE')
   
-  console.log(`🎯 DEBUG: Building contextual prompt for ${analysisType}, ticker: ${ticker}, investor: ${investor}`)
+  console.log(`🎯 DEBUG: Building ${analysisType} prompt with primary context: ${primaryContext}`)
   
-  // Get RAG context if available
-  const { context: ragContext, sources } = await getRagContext(message, ticker)
+  // Enhanced RAG query for hybrid contexts
+  const ragQuery = ticker && investor 
+    ? `${message} ${ticker} ${investor}` 
+    : message
+  const { context: ragContext, sources } = await getRagContext(ragQuery, ticker)
 
+  // ✅ NEW: HYBRID CONTEXT HANDLING
+  if (analysisType === 'hybrid') {
+    const hybridPrompt = buildHybridPrompt(
+      ticker!, 
+      investor!, 
+      financialData, 
+      portfolioData, 
+      message, 
+      currentDate, 
+      ragContext, 
+      primaryContext,
+      contextHints
+    )
+    console.log(`📝 DEBUG: Hybrid prompt built, length: ${hybridPrompt.length}`)
+    return { prompt: hybridPrompt, ragSources: sources }
+  }
+
+  // Existing single-context handling
   switch (analysisType) {
     case 'stock':
       const stockPrompt = buildStockAnalysisPrompt(ticker!, financialData, message, ragContext)
-      console.log(`📝 DEBUG: Stock prompt built, length: ${stockPrompt.length}, has financial data: ${!!financialData}`)
+      console.log(`📝 DEBUG: Stock prompt built, length: ${stockPrompt.length}`)
       return { prompt: stockPrompt, ragSources: sources }
       
     case 'superinvestor':
       const superinvestorPrompt = buildSuperinvestorPrompt(investor!, portfolioData, message, currentDate, ragContext)
-      console.log(`📝 DEBUG: Superinvestor prompt built, length: ${superinvestorPrompt.length}, has portfolio data: ${!!portfolioData}`)
+      console.log(`📝 DEBUG: Superinvestor prompt built, length: ${superinvestorPrompt.length}`)
       return { prompt: superinvestorPrompt, ragSources: sources }
       
     case 'general':
@@ -393,8 +582,7 @@ async function buildContextualPrompt(
   }
 }
 
-// REPLACE this function in your route.ts file:
-
+// STOCK ANALYSIS PROMPT BUILDER
 function buildStockAnalysisPrompt(ticker: string, financialData: any, message: string, ragContext: string): string {
   if (!financialData) {
     console.log(`⚠️ DEBUG: No financial data for ${ticker}, using RAG only`)
@@ -403,11 +591,8 @@ function buildStockAnalysisPrompt(ticker: string, financialData: any, message: s
 Leider sind keine aktuellen Finanzdaten verfügbar. Nutze die verfügbaren Dokumente oben, um trotzdem hilfreiche Informationen zu geben.`
   }
 
-  console.log(`📊 DEBUG: Building FOCUSED stock prompt with FMP data for ${ticker}`)
-
   const { currentDate, quote, profile, latestIncome, latestRatios, recentNews, quarterlyEarnings } = financialData
 
-  // ✅ NEW: Analyze the user question to determine what data to include
   const userQuestion = message.toLowerCase()
   const isSpecificMetricQuestion = userQuestion.includes('kuv') || userQuestion.includes('p/e') || 
                                    userQuestion.includes('pe') || userQuestion.includes('roe') || 
@@ -421,7 +606,6 @@ Leider sind keine aktuellen Finanzdaten verfügbar. Nutze die verfügbaren Dokum
 **Marktkapitalisierung:** ${quote?.marketCap ? (quote.marketCap / 1000000000).toFixed(1) + 'B USD' : 'N/A'}
 **Unternehmen:** ${profile?.companyName || ticker} | ${profile?.sector || 'N/A'} Sektor | CEO: ${profile?.ceo || 'N/A'}`
 
-  // ✅ CONDITIONAL DATA: Only include what's relevant to the question
   if (latestRatios && (!isSpecificMetricQuestion || userQuestion.includes('kuv') || userQuestion.includes('bewertung') || userQuestion.includes('pe') || userQuestion.includes('pb') || userQuestion.includes('peg'))) {
     prompt += `
 
@@ -443,7 +627,6 @@ ROE: ${latestRatios.returnOnEquity ? (latestRatios.returnOnEquity * 100).toFixed
 Verschuldungsgrad (D/E): ${latestRatios.debtToEquity?.toFixed(2) || 'N/A'} | Current Ratio: ${latestRatios.currentRatio?.toFixed(2) || 'N/A'} | Quick Ratio: ${latestRatios.quickRatio?.toFixed(2) || 'N/A'} | Zinsdeckung: ${latestRatios.interestCoverage?.toFixed(1) || 'N/A'}x`
   }
 
-  // ✅ QUARTERLY DATA: Only for comprehensive, growth, or earnings questions
   if (quarterlyEarnings && quarterlyEarnings.length > 0 && 
       (!isSpecificMetricQuestion || userQuestion.includes('quartal') || userQuestion.includes('wachstum') || 
        userQuestion.includes('entwicklung') || userQuestion.includes('umsatz') || userQuestion.includes('earnings'))) {
@@ -462,7 +645,6 @@ Umsatz: $${(latestQuarter.revenue / 1e9).toFixed(2)}B | EPS: $${latestQuarter.ep
     }
   }
 
-  // ✅ NEWS: Only for comprehensive questions or news-specific queries
   if (recentNews && recentNews.length > 0 && 
       (!isSpecificMetricQuestion || userQuestion.includes('news') || userQuestion.includes('nachrichten') || userQuestion.includes('aktuell'))) {
     prompt += `
@@ -489,10 +671,10 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} ($
 
 **Antworte professionell aber persönlich, fokussiert auf die Frage, in natürlicher deutscher Sprache.**`
 
-  console.log(`✅ DEBUG: FOCUSED prompt completed - Question type: ${isSpecificMetricQuestion ? 'specific metric' : 'comprehensive'}`)
   return prompt
 }
 
+// SUPERINVESTOR PROMPT BUILDER
 function buildSuperinvestorPrompt(
   investor: string, 
   portfolioData: any, 
@@ -506,8 +688,6 @@ function buildSuperinvestorPrompt(
 
 Leider sind keine aktuellen Portfolio-Daten verfügbar. Nutze verfügbare Dokumente und gib allgemeine Informationen über Value-Investing Strategien.`
   }
-
-  console.log(`👑 DEBUG: Building superinvestor prompt for ${investor}`)
 
   const { 
     latestQuarter, 
@@ -599,6 +779,7 @@ Antworte auf Deutsch und beantworte die spezifische Frage basierend auf Portfoli
   return prompt
 }
 
+// GENERAL PROMPT BUILDER
 function buildGeneralPrompt(message: string, currentDate: string, ragContext: string): string {
   return `${ragContext}Du bist FinClue AI, ein spezialisierter Finanzanalyst-Assistent.
 
@@ -632,7 +813,7 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
-// FIXED: Auth Verification
+// Auth Verification
 async function verifyUserAndPremium(request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -649,7 +830,6 @@ async function verifyUserAndPremium(request: NextRequest) {
       return { error: 'Invalid token', status: 401 }
     }
 
-    // Check premium status
     const { data: profile } = await supabase
       .from('profiles')
       .select('is_premium')
@@ -676,7 +856,7 @@ async function callOpenAI(messages: ChatMessage[], analysisType: string) {
       ...messages
     ],
     stream: false,
-    temperature: analysisType === 'superinvestor' ? 0.3 : 0.2,
+    temperature: analysisType === 'superinvestor' ? 0.3 : analysisType === 'hybrid' ? 0.25 : 0.2,
     max_tokens: 3000
   }
 
@@ -695,7 +875,7 @@ async function callOpenAI(messages: ChatMessage[], analysisType: string) {
       'Authorization': `Bearer ${OPENAI_API_KEY}`,
     },
     body: JSON.stringify(requestBody),
-    signal: AbortSignal.timeout(30000) // 30s timeout
+    signal: AbortSignal.timeout(30000)
   })
 
   if (!response.ok) {
@@ -712,7 +892,6 @@ function parseAIResponse(content: string, analysisType: string): EnhancedAIRespo
   const charts: ChartData[] = []
   const actions: QuickAction[] = []
   
-  // Chart parsing
   const chartRegex = /\[CHART:(\w+):([^:]+):?([^\]]*)\]/g
   let match
   while ((match = chartRegex.exec(content)) !== null) {
@@ -720,22 +899,21 @@ function parseAIResponse(content: string, analysisType: string): EnhancedAIRespo
     charts.push({
       type: type as any,
       title: `${identifier} ${type.charAt(0).toUpperCase() + type.slice(1)} Chart`,
-      ticker: analysisType === 'stock' ? identifier : undefined,
-      investor: analysisType === 'superinvestor' ? identifier : undefined,
+      ticker: analysisType === 'stock' || analysisType === 'hybrid' ? identifier : undefined,
+      investor: analysisType === 'superinvestor' || analysisType === 'hybrid' ? identifier : undefined,
       period: period || '6M',
       data: []
     })
   }
   
-  // Action parsing
   const actionRegex = /\[ACTION:([^:]+):([^:]+):([^\]]+)\]/g
   while ((match = actionRegex.exec(content)) !== null) {
     const [, label, identifier, prompt] = match
     actions.push({
       label: label.replace(/-/g, ' '),
       action: label.toLowerCase(),
-      ticker: analysisType === 'stock' ? identifier : undefined,
-      investor: analysisType === 'superinvestor' ? identifier : undefined,
+      ticker: analysisType === 'stock' || analysisType === 'hybrid' ? identifier : undefined,
+      investor: analysisType === 'superinvestor' || analysisType === 'hybrid' ? identifier : undefined,
       prompt
     })
   }
@@ -757,14 +935,12 @@ function parseAIResponse(content: string, analysisType: string): EnhancedAIRespo
   }
 }
 
-// MAIN API ENDPOINT
+// ✅ ENHANCED MAIN API ENDPOINT
 export async function POST(request: NextRequest) {
-  console.log('🚨 AI ROUTE CALLED!', new Date().toISOString()) // ← HIER EINFÜGEN
+  console.log('🚨 ENHANCED AI ROUTE CALLED!', new Date().toISOString())
   try {
-    // Initialize RAG System if not done yet
     await initializeRAGSystem()
 
-    // Rate Limiting
     const ip = request.headers.get('x-forwarded-for') || 
                request.headers.get('x-real-ip') || 
                'unknown'
@@ -779,7 +955,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Auth Check
     const authResult = await verifyUserAndPremium(request)
     if ('error' in authResult) {
       return NextResponse.json(
@@ -793,9 +968,11 @@ export async function POST(request: NextRequest) {
       message, 
       context, 
       analysisType = 'general',
+      primaryContext = 'general',
       ticker,
       investor,
-      portfolioData: fallbackPortfolioData
+      portfolioData: fallbackPortfolioData,
+      contextHints
     } = body
 
     if (!message?.trim()) {
@@ -805,72 +982,63 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log(`🚀 DEBUG: [FinClue AI] ${analysisType} analysis request`, { 
+    console.log(`🚀 DEBUG: [Enhanced FinClue AI] ${analysisType} analysis request`, { 
       message: message.substring(0, 100) + '...',
       ticker, 
-      investor, 
+      investor,
+      analysisType,
+      primaryContext,
       ragEnabled: !!ragSystem,
-      messageLength: message.length
+      isHybrid: analysisType === 'hybrid',
+      contextHints
     })
 
-    let enhancedData: any = null
+    let enhancedStockData: any = null
+    let enhancedPortfolioData: any = null
 
-    // FIXED: Hole context-spezifische Daten
-    if (analysisType === 'stock' && ticker) {
+    // ✅ ENHANCED: Load both types of data for hybrid queries
+    if ((analysisType === 'stock' || analysisType === 'hybrid') && ticker) {
       console.log('🔍 DEBUG: Fetching financial data for:', ticker)
-      enhancedData = await fetchCurrentFinancialData(ticker, true)
-      console.log('📊 DEBUG: Financial data received:', {
-        hasData: !!enhancedData,
-        price: enhancedData?.quote?.price,
-        revenue: enhancedData?.quarterlyEarnings?.[0]?.revenue,
-        eps: enhancedData?.quarterlyEarnings?.[0]?.eps,
-        quarterlyCount: enhancedData?.quarterlyEarnings?.length || 0
-      })
-    } else if (analysisType === 'superinvestor' && investor) {
+      enhancedStockData = await fetchCurrentFinancialData(ticker, true)
+    }
+
+    if ((analysisType === 'superinvestor' || analysisType === 'hybrid') && investor) {
       try {
         console.log('👑 DEBUG: Loading portfolio data for:', investor)
-        // STATIC Import - sollte funktionieren
-        enhancedData = preparePortfolioDataForAI(investor)
+        enhancedPortfolioData = preparePortfolioDataForAI(investor)
         
-        if (!enhancedData && fallbackPortfolioData) {
+        if (!enhancedPortfolioData && fallbackPortfolioData) {
           console.log(`🔄 DEBUG: Using fallback portfolio data for ${investor}`)
-          enhancedData = fallbackPortfolioData
+          enhancedPortfolioData = fallbackPortfolioData
         }
-        
-        console.log('📈 DEBUG: Portfolio data loaded:', {
-          hasData: !!enhancedData,
-          investor,
-          totalValue: enhancedData?.totalValue,
-          positionsCount: enhancedData?.positionsCount,
-          topHoldingsCount: enhancedData?.topHoldings?.length || 0
-        })
       } catch (importError) {
         console.error(`❌ DEBUG: Error loading portfolio data for ${investor}:`, importError)
-        // Use fallback data from frontend if available
         if (fallbackPortfolioData) {
-          enhancedData = fallbackPortfolioData
-          console.log('🔄 DEBUG: Using fallback data due to import error')
+          enhancedPortfolioData = fallbackPortfolioData
         }
       }
     }
 
-    // NEW: Erstelle enhanced Prompt mit RAG
+    // ✅ ENHANCED: Build hybrid/contextual prompt
     const { prompt: enhancedMessage, ragSources } = await buildContextualPrompt(
       analysisType,
+      primaryContext,
       message,
       ticker,
       investor,
-      enhancedData,
-      enhancedData
+      enhancedStockData,
+      enhancedPortfolioData,
+      contextHints
     )
 
     console.log('🎯 DEBUG: Enhanced prompt created:', {
       promptLength: enhancedMessage.length,
-      hasFinancialData: enhancedMessage.includes('AKTUELLER KURS'),
-      hasQuarterlyData: enhancedMessage.includes('QUARTALSERGEBNISSE'),
-      hasPortfolioData: enhancedMessage.includes('INVESTOR PROFIL'),
+      analysisType,
+      primaryContext,
+      hasStockData: !!enhancedStockData,
+      hasPortfolioData: !!enhancedPortfolioData,
       ragSourcesCount: ragSources.length,
-      promptPreview: enhancedMessage.substring(0, 300) + '...'
+      isHybrid: analysisType === 'hybrid'
     })
 
     const messages: ChatMessage[] = [
@@ -878,7 +1046,7 @@ export async function POST(request: NextRequest) {
       { role: 'user', content: enhancedMessage }
     ]
 
-    console.log(`📡 DEBUG: Calling OpenAI for ${analysisType} analysis with ${ragSources.length} RAG sources...`)
+    console.log(`📡 DEBUG: Calling OpenAI for ${analysisType} analysis...`)
     
     const openAIResponse = await callOpenAI(messages, analysisType)
     const responseData = await openAIResponse.json()
@@ -886,20 +1054,24 @@ export async function POST(request: NextRequest) {
     const aiContent = responseData.choices?.[0]?.message?.content || ''
     console.log('📥 DEBUG: AI Response received:', {
       responseLength: aiContent.length,
-      hasNumbers: /\$[\d,.]+(B|M|K)/g.test(aiContent),
-      hasSpecificData: aiContent.includes('$') && aiContent.includes('%'),
+      analysisType,
+      isHybrid: analysisType === 'hybrid',
       preview: aiContent.substring(0, 200) + '...'
     })
     
     const parsedResponse = parseAIResponse(aiContent, analysisType)
     
-    // Add RAG sources to metadata
+    // ✅ ENHANCED: Add hybrid metadata
     if (parsedResponse.metadata) {
       parsedResponse.metadata.ragSources = ragSources
+      parsedResponse.metadata.isHybrid = analysisType === 'hybrid'
+      parsedResponse.metadata.primaryContext = primaryContext
+      parsedResponse.metadata.ticker = ticker
+      parsedResponse.metadata.investor = investor
     }
     
-    // Load chart data for stock charts only (portfolio charts später)
-    if (analysisType === 'stock') {
+    // Load chart data if needed
+    if (ticker && (analysisType === 'stock' || analysisType === 'hybrid')) {
       for (const chart of parsedResponse.charts || []) {
         if (chart.ticker) {
           console.log(`📈 DEBUG: Loading chart data for ${chart.ticker}`)
@@ -910,7 +1082,7 @@ export async function POST(request: NextRequest) {
 
     const remaining = RATE_LIMIT - (rateLimiter.get(ip)?.count || 0)
     
-    console.log(`✅ DEBUG: AI response generated successfully for ${analysisType} with ${ragSources.length} RAG sources`)
+    console.log(`✅ DEBUG: Enhanced AI response generated successfully for ${analysisType} with ${ragSources.length} RAG sources`)
     
     return NextResponse.json({
       success: true,
@@ -918,15 +1090,17 @@ export async function POST(request: NextRequest) {
       usage: responseData.usage,
       remaining,
       ragEnabled: !!ragSystem,
-      ragSourcesCount: ragSources.length
+      ragSourcesCount: ragSources.length,
+      analysisType,
+      isHybrid: analysisType === 'hybrid',
+      primaryContext
     })
 
   } catch (error) {
-    console.error('❌ DEBUG: [FinClue AI] Enhanced Error:', error)
+    console.error('❌ DEBUG: [Enhanced FinClue AI] Error:', error)
     
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     
-    // FIXED: Fallback with proper scope
     try {
       const body: RequestBody = await request.json()
       const { message, context, analysisType = 'general' } = body
@@ -943,7 +1117,6 @@ export async function POST(request: NextRequest) {
       const aiContent = responseData.choices?.[0]?.message?.content || ''
       const parsedResponse = parseAIResponse(aiContent, analysisType)
       
-      // Hinweis auf eingeschränkte Funktionalität
       parsedResponse.content += "\n\n⚠️ Hinweis: Erweiterte Finanzdaten temporär nicht verfügbar."
       
       const ip = request.headers.get('x-forwarded-for') || 'unknown'

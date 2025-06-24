@@ -1,16 +1,19 @@
-// src/app/(terminal)/analyse/ai/page.tsx - THEME-AWARE DESIGN
+// src/app/analyse/ai/page.tsx - UNIFIED FinClue AI Page
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import FinClueAI from '@/components/FinclueAI'
 import { supabase } from '@/lib/supabaseClient'
+import { preparePortfolioDataForAI } from '@/lib/superinvestorDataService'
 import { 
   SparklesIcon, 
   UserIcon, 
   ArrowRightIcon,
   LockClosedIcon,
-  StarIcon
+  StarIcon,
+  ArrowLeftIcon,
+  InformationCircleIcon
 } from '@heroicons/react/24/outline'
 
 interface User {
@@ -19,11 +22,19 @@ interface User {
   isPremium: boolean
 }
 
-export default function FinClueAIPage() {
+export default function UnifiedFinClueAIPage() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [portfolioData, setPortfolioData] = useState<any>(null)
+  const [portfolioLoading, setPortfolioLoading] = useState(false)
   const searchParams = useSearchParams()
-  const ticker = searchParams?.get('ticker') || null
+  const router = useRouter()
+  
+  // ✅ Extract URL parameters for context
+  const ticker = searchParams?.get('ticker')?.toUpperCase() || null
+  const investor = searchParams?.get('investor') || null
+  
+  console.log('🎯 Unified AI loaded with context:', { ticker, investor })
 
   useEffect(() => {
     async function loadUser() {
@@ -59,6 +70,49 @@ export default function FinClueAIPage() {
     loadUser()
   }, [])
 
+  // ✅ Load portfolio data if investor context is provided
+  useEffect(() => {
+    async function loadPortfolioData() {
+      if (!investor) {
+        setPortfolioData(null)
+        return
+      }
+
+      setPortfolioLoading(true)
+      try {
+        console.log(`👑 Loading portfolio data for: ${investor}`)
+        const data = preparePortfolioDataForAI(investor)
+        setPortfolioData(data)
+        console.log(`✅ Portfolio data loaded for ${investor}:`, {
+          hasData: !!data,
+          totalValue: data?.totalValue,
+          positionsCount: data?.positionsCount
+        })
+      } catch (error) {
+        console.error(`❌ Error loading portfolio data for ${investor}:`, error)
+        setPortfolioData(null)
+      } finally {
+        setPortfolioLoading(false)
+      }
+    }
+
+    loadPortfolioData()
+  }, [investor])
+
+  // ✅ Generate dynamic welcome message based on context
+  const getContextualWelcome = () => {
+    if (ticker && investor) {
+      return `Hallo! Ich bin FinClue AI im Hybrid-Modus. Ich habe sowohl ${ticker.toUpperCase()}-Daten als auch ${investor} Portfolio-Informationen geladen. Frag mich alles über die Verbindung zwischen beiden!`
+    }
+    if (ticker) {
+      return `Hallo! Ich bin FinClue AI mit ${ticker.toUpperCase()}-Fokus. Ich habe aktuelle Finanzdaten, Quartalszahlen und News geladen. Du kannst aber auch andere Ticker oder Investoren erwähnen!`
+    }
+    if (investor) {
+      return `Hallo! Ich bin FinClue AI mit ${investor} Portfolio-Fokus. Ich habe die neuesten Portfolio-Daten und 13F-Filings geladen. Du kannst aber auch spezifische Aktien erwähnen!`
+    }
+    return undefined // Use default welcome message
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-theme-primary">
@@ -78,16 +132,28 @@ export default function FinClueAIPage() {
         {/* Professional Header */}
         <div className="bg-theme-primary border-b border-theme py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                <SparklesIcon className="w-4 h-4 text-purple-400" />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                  <SparklesIcon className="w-4 h-4 text-purple-400" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-theme-primary">FinClue AI</h1>
+                  <p className="text-theme-secondary text-sm">
+                    {ticker ? `Analyse von ${ticker.toUpperCase()}` : 
+                     investor ? `Portfolio-Analyse für ${investor}` : 
+                     'Intelligente Finanzanalyse mit automatischer Erkennung'}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-theme-primary">FinClue AI</h1>
-                <p className="text-theme-secondary text-sm">
-                  KI-gestützte Aktienanalyse
-                </p>
-              </div>
+              
+              <button 
+                onClick={() => router.back()}
+                className="flex items-center gap-2 px-3 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary rounded-lg transition-colors"
+              >
+                <ArrowLeftIcon className="w-4 h-4" />
+                <span className="text-sm">Zurück</span>
+              </button>
             </div>
           </div>
         </div>
@@ -105,10 +171,26 @@ export default function FinClueAIPage() {
                 <p className="text-theme-secondary text-sm">
                   Du musst angemeldet sein, um FinClue AI zu verwenden.
                 </p>
+                
+                {(ticker || investor) && (
+                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                    <div className="flex items-center gap-2 text-blue-400 text-sm">
+                      <InformationCircleIcon className="w-4 h-4" />
+                      <span>
+                        {ticker && investor ? `Hybrid-Analyse für ${ticker.toUpperCase()} + ${investor} wartet auf dich!` :
+                         ticker ? `${ticker.toUpperCase()} Analyse wartet auf dich!` :
+                         `${investor} Portfolio-Analyse wartet auf dich!`}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
               
               <button 
-                onClick={() => window.location.href = '/auth/signin'}
+                onClick={() => {
+                  const currentUrl = window.location.pathname + window.location.search
+                  window.location.href = `/auth/signin?redirect=${encodeURIComponent(currentUrl)}`
+                }}
                 className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-colors"
               >
                 <span>Jetzt anmelden</span>
@@ -136,14 +218,26 @@ export default function FinClueAIPage() {
                 <div>
                   <h1 className="text-2xl font-bold text-theme-primary">FinClue AI</h1>
                   <p className="text-theme-secondary text-sm">
-                    KI-gestützte Aktienanalyse • Premium Feature
+                    {ticker ? `Analyse von ${ticker.toUpperCase()}` : 
+                     investor ? `Portfolio-Analyse für ${investor}` : 
+                     'Intelligente Finanzanalyse'} • Premium Feature
                   </p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-500/20 rounded-lg">
-                <LockClosedIcon className="w-4 h-4 text-yellow-400" />
-                <span className="text-yellow-400 font-medium text-sm">Premium erforderlich</span>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-yellow-500/20 rounded-lg">
+                  <LockClosedIcon className="w-4 h-4 text-yellow-400" />
+                  <span className="text-yellow-400 font-medium text-sm">Premium erforderlich</span>
+                </div>
+                
+                <button 
+                  onClick={() => router.back()}
+                  className="flex items-center gap-2 px-3 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary rounded-lg transition-colors"
+                >
+                  <ArrowLeftIcon className="w-4 h-4" />
+                  <span className="text-sm">Zurück</span>
+                </button>
               </div>
             </div>
           </div>
@@ -159,9 +253,18 @@ export default function FinClueAIPage() {
               </div>
               
               <div className="space-y-4 mb-8">
-                <h2 className="text-2xl font-bold text-theme-primary">Erweitere deine Analyse mit KI</h2>
+                <h2 className="text-2xl font-bold text-theme-primary">
+                  {ticker && investor ? `Hybrid-Analyse für ${ticker.toUpperCase()} + ${investor}` :
+                   ticker ? `${ticker.toUpperCase()} AI-Analyse` :
+                   investor ? `${investor} Portfolio-Analyse` :
+                   'Erweitere deine Analyse mit KI'}
+                </h2>
                 <p className="text-theme-secondary">
-                  FinClue AI analysiert Aktien in Sekunden und gibt dir fundierte Einschätzungen basierend auf Fundamentaldaten, technischen Indikatoren und Markttrends.
+                  FinClue AI analysiert 
+                  {ticker && investor ? ` ${ticker.toUpperCase()} im Kontext von ${investor}s Portfolio-Strategie` :
+                   ticker ? ` ${ticker.toUpperCase()} in Sekunden mit Fundamentaldaten, technischen Indikatoren und Markttrends` :
+                   investor ? ` ${investor}s Portfolio-Bewegungen und Investment-Strategien` :
+                   ' Aktien in Sekunden und gibt dir fundierte Einschätzungen'}.
                 </p>
               </div>
               
@@ -175,35 +278,39 @@ export default function FinClueAIPage() {
               </button>
             </div>
 
-            {/* Features Grid */}
+            {/* Context-specific Features */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-theme-secondary border border-theme rounded-lg p-6">
-                <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <SparklesIcon className="w-6 h-6 text-blue-400" />
+              {ticker && (
+                <div className="bg-theme-secondary border border-theme rounded-lg p-6">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <SparklesIcon className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-theme-primary mb-2">{ticker.toUpperCase()} Analyse</h3>
+                  <p className="text-theme-secondary text-sm">
+                    KI-gestützte Bewertung von {ticker.toUpperCase()} Fundamentaldaten, Kennzahlen und Marktposition.
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-theme-primary mb-2">Intelligente Analyse</h3>
-                <p className="text-theme-secondary text-sm">
-                  KI-gestützte Bewertung von Fundamentaldaten, Kennzahlen und Marktposition in wenigen Sekunden.
-                </p>
-              </div>
+              )}
 
-              <div className="bg-theme-secondary border border-theme rounded-lg p-6">
-                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <StarIcon className="w-6 h-6 text-green-400" />
+              {investor && (
+                <div className="bg-theme-secondary border border-theme rounded-lg p-6">
+                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <StarIcon className="w-6 h-6 text-green-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-theme-primary mb-2">{investor} Portfolio</h3>
+                  <p className="text-theme-secondary text-sm">
+                    Detaillierte Analyse von {investor}s Investment-Strategie und Portfolio-Bewegungen.
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-theme-primary mb-2">Bewertungsempfehlungen</h3>
-                <p className="text-theme-secondary text-sm">
-                  Erhalte fundierte Einschätzungen zu Kaufs-, Verkaufs- und Haltempfehlungen basierend auf aktuellen Daten.
-                </p>
-              </div>
+              )}
 
               <div className="bg-theme-secondary border border-theme rounded-lg p-6">
                 <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
                   <SparklesIcon className="w-6 h-6 text-purple-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-theme-primary mb-2">Interaktiver Chat</h3>
+                <h3 className="text-lg font-semibold text-theme-primary mb-2">Smart Detection</h3>
                 <p className="text-theme-secondary text-sm">
-                  Stelle spezifische Fragen zu jeder Aktie und erhalte personalisierte, detaillierte Antworten.
+                  Erwähne einfach andere Ticker oder Investoren - die AI erkennt sie automatisch.
                 </p>
               </div>
 
@@ -211,9 +318,9 @@ export default function FinClueAIPage() {
                 <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mb-4">
                   <StarIcon className="w-6 h-6 text-yellow-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-theme-primary mb-2">Marktvergleiche</h3>
+                <h3 className="text-lg font-semibold text-theme-primary mb-2">RAG-System</h3>
                 <p className="text-theme-secondary text-sm">
-                  Vergleiche Aktien mit Branchendurchschnitten und identifiziere unterbewertete Gelegenheiten.
+                  Nutzt echte SEC-Filings, Earnings Calls und aktuelle Finanzberichte.
                 </p>
               </div>
             </div>
@@ -221,9 +328,9 @@ export default function FinClueAIPage() {
             {/* Call to Action */}
             <div className="mt-8 text-center">
               <div className="bg-theme-secondary border border-theme rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-theme-primary mb-2">Bereit für den nächsten Schritt?</h3>
+                <h3 className="text-lg font-semibold text-theme-primary mb-2">Bereit für intelligente Analyse?</h3>
                 <p className="text-theme-secondary text-sm mb-4">
-                  Starte noch heute mit Premium und nutze alle Features von FinClue AI.
+                  Starte noch heute mit Premium und nutze die fortschrittlichste Finanz-AI.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <button 
@@ -234,10 +341,10 @@ export default function FinClueAIPage() {
                     Premium upgraden
                   </button>
                   <button 
-                    onClick={() => window.location.href = '/analyse'}
+                    onClick={() => router.back()}
                     className="px-6 py-2.5 bg-theme-tertiary text-theme-secondary hover:bg-theme-tertiary/70 hover:text-theme-primary rounded-lg transition font-medium border border-theme"
                   >
-                    Zurück zum Dashboard
+                    Zurück
                   </button>
                 </div>
               </div>
@@ -248,7 +355,7 @@ export default function FinClueAIPage() {
     )
   }
 
-  // Premium User - Show FinClue AI
+  // ✅ Premium User - Unified AI Experience
   return (
     <div className="min-h-screen bg-theme-primary">
       {/* Professional Header */}
@@ -262,24 +369,53 @@ export default function FinClueAIPage() {
               <div>
                 <h1 className="text-2xl font-bold text-theme-primary">FinClue AI</h1>
                 <p className="text-theme-secondary text-sm">
-                  {ticker ? `Analyse von ${ticker.toUpperCase()}` : 'KI-gestützte Aktienanalyse'}
+                  {ticker && investor ? `Hybrid-Analyse: ${ticker.toUpperCase()} + ${investor}` :
+                   ticker ? `Aktienanalyse für ${ticker.toUpperCase()}` :
+                   investor ? `Portfolio-Analyse für ${investor}` :
+                   'Intelligente Finanzanalyse mit automatischer Erkennung'}
                 </p>
               </div>
             </div>
             
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 rounded-lg">
-              <SparklesIcon className="w-4 h-4 text-green-400" />
-              <span className="text-green-400 font-medium text-sm">Premium</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 rounded-lg">
+                <SparklesIcon className="w-4 h-4 text-green-400" />
+                <span className="text-green-400 font-medium text-sm">Premium</span>
+              </div>
+              
+              <button 
+                onClick={() => router.back()}
+                className="flex items-center gap-2 px-3 py-2 text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary rounded-lg transition-colors"
+              >
+                <ArrowLeftIcon className="w-4 h-4" />
+                <span className="text-sm">Zurück</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* FinClue AI Component */}
+      {/* Loading State for Portfolio Data */}
+      {portfolioLoading && (
+        <div className="bg-blue-500/10 border-b border-blue-500/20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="flex items-center gap-2 text-blue-400 text-sm">
+              <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+              <span>Lade {investor} Portfolio-Daten...</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ Unified FinClue AI Component */}
       <div className="h-[calc(100vh-120px)]">
         <FinClueAI 
-          ticker={ticker} 
-          isPremium={user.isPremium} 
+          ticker={ticker}
+          investor={investor}
+          portfolioData={portfolioData}
+          initialMessage={getContextualWelcome()}
+          isPremium={user.isPremium}
+          showQuickPrompts={true}
         />
       </div>
     </div>
