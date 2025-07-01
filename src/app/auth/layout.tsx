@@ -1,18 +1,14 @@
-// src/app/auth/layout.tsx - LAPTOP UNTEN "PEEKING" EFFEKT
+// src/app/auth/layout.tsx - OHNE Theme Toggle
 'use client'
 
 import '../globals.css'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { Analytics } from "@vercel/analytics/next"
-import { useTheme } from '@/lib/useTheme'
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  const { theme, toggleTheme } = useTheme()
-
   return (
-    <html lang="de" className={theme}>
+    <html lang="de" className="dark"> {/* ✅ Fest auf dark */}
       <head>
         <title>FinClue - Login & Registrierung</title>
         <meta name="description" content="Melde dich an oder registriere dich für FinClue" />
@@ -29,9 +25,9 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-theme-primary text-theme-primary font-['Poppins',system-ui,sans-serif] antialiased">
+      <body className="min-h-screen bg-gray-950 text-white font-['Poppins',system-ui,sans-serif] antialiased">
         
-        {/* ✅ Header */}
+        {/* ✅ Header - Fest dunkel */}
         <header className="absolute top-0 left-0 right-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
@@ -43,45 +39,32 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                   <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
                   <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
                 </div>
-                <span className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                <span className="text-lg font-bold text-white group-hover:text-green-400 transition-colors">
                   FinClue
                 </span>
               </Link>
 
-              {/* Navigation */}
+              {/* Navigation - OHNE Theme Toggle */}
               <div className="flex items-center gap-4">
                 <Link 
                   href="/" 
-                  className="text-theme-secondary hover:text-theme-primary transition-colors text-sm"
+                  className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   Startseite
                 </Link>
                 <Link 
                   href="/pricing" 
-                  className="text-theme-secondary hover:text-theme-primary transition-colors text-sm"
+                  className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   Preise
                 </Link>
-                
-                {/* Theme Toggle */}
-                <button
-                  onClick={toggleTheme}
-                  className="p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-secondary/50 rounded-md transition-colors"
-                  title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                >
-                  {theme === 'dark' ? (
-                    <SunIcon className="w-4 h-4" />
-                  ) : (
-                    <MoonIcon className="w-4 h-4" />
-                  )}
-                </button>
               </div>
             </div>
           </div>
         </header>
 
-        {/* ✅ Main Content Container */}
-        <div className="min-h-screen bg-theme-primary noise-bg-subtle relative">
+        {/* ✅ Main Content Container - Fest dunkel */}
+        <div className="min-h-screen bg-gray-950 noise-bg-subtle relative">
           
           {/* ✅ Content Area */}
           <main className="min-h-screen flex items-center justify-center px-4 py-16 relative z-20">
@@ -89,7 +72,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               
               {/* ✅ LINKS: Login Form */}
               <div className="w-full max-w-md">
-                <div className="bg-theme-card/90 backdrop-blur-xl border border-theme rounded-lg p-8 shadow-xl">
+                <div className="bg-gray-900/90 backdrop-blur-xl border border-gray-700 rounded-lg p-8 shadow-xl">
                   
                   <div className="text-center mb-8">
                     <div className="flex items-center justify-center gap-2 mb-4">
@@ -98,12 +81,12 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                         <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
                         <div className="w-1 h-4 bg-green-500 rounded-sm"></div>
                       </div>
-                      <span className="text-lg font-bold text-theme-primary">FinClue</span>
+                      <span className="text-lg font-bold text-white">FinClue</span>
                     </div>
-                    <h1 className="text-2xl font-bold text-theme-primary mb-2">
+                    <h1 className="text-2xl font-bold text-white mb-2">
                       Willkommen zurück
                     </h1>
-                    <p className="text-theme-secondary">
+                    <p className="text-gray-300">
                       Melde dich an, um fortzufahren
                     </p>
                   </div>
@@ -114,16 +97,16 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                 </div>
                 
                 <div className="mt-8 text-center">
-                  <div className="flex items-center justify-center gap-3 text-xs text-theme-muted">
-                    <Link href="/privacy" className="hover:text-theme-secondary transition-colors">
+                  <div className="flex items-center justify-center gap-3 text-xs text-gray-400">
+                    <Link href="/privacy" className="hover:text-gray-300 transition-colors">
                       Datenschutz
                     </Link>
                     <span>•</span>
-                    <Link href="/terms" className="hover:text-theme-secondary transition-colors">
+                    <Link href="/terms" className="hover:text-gray-300 transition-colors">
                       AGB
                     </Link>
                     <span>•</span>
-                    <a href="mailto:team.finclue@gmail.com" className="hover:text-theme-secondary transition-colors">
+                    <a href="mailto:team.finclue@gmail.com" className="hover:text-gray-300 transition-colors">
                       Support
                     </a>
                   </div>
@@ -133,7 +116,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               {/* ✅ RECHTS: Headline */}
               <div className="flex-1 relative hidden lg:block">
                 <div className="text-center">
-                  <h2 className="text-6xl font-bold text-theme-primary mb-6">
+                  <h2 className="text-6xl font-bold text-white mb-6">
                     Sieh was andere übersehen.
                     <br />
                     <br></br>
@@ -170,16 +153,15 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               
               {/* Glowing Effect */}
               <div 
-  className="absolute top-0 right-0 bg-gradient-to-l from-green-500/15 to-transparent rounded-lg blur-2xl -z-10"
-  style={{
-    width: '50%',
-    height: '100%'
-  }}
-></div>
+                className="absolute top-0 right-0 bg-gradient-to-l from-green-500/15 to-transparent rounded-lg blur-2xl -z-10"
+                style={{
+                  width: '50%',
+                  height: '100%'
+                }}
+              ></div>
             </div>
           </div>
         </div>
-
 
         <Analytics />
       </body>

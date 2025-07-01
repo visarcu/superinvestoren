@@ -1,5 +1,117 @@
-// src/app/api/financials/[ticker]/route.ts - Mit Income Statement Fallback für vor 2021
+// src/app/api/financials/[ticker]/route.ts - FIXED: Split-Adjusted + 20 Jahre
 import { NextResponse } from 'next/server'
+
+// ✅ SPLIT-ADJUSTMENT: Bekannte Stock Splits für Hauptaktien
+const STOCK_SPLITS: Record<string, Array<{date: string, ratio: number, description: string}>> = {
+  'AAPL': [
+    { date: '2020-08-31', ratio: 4, description: '4-for-1 split' },
+    { date: '2014-06-09', ratio: 7, description: '7-for-1 split' },
+    { date: '2005-02-28', ratio: 2, description: '2-for-1 split' },
+    { date: '2000-06-21', ratio: 2, description: '2-for-1 split' }
+  ],
+  'TSLA': [
+    { date: '2022-08-25', ratio: 3, description: '3-for-1 split' },
+    { date: '2020-08-31', ratio: 5, description: '5-for-1 split' }
+  ],
+  'GOOGL': [
+    { date: '2022-07-18', ratio: 20, description: '20-for-1 split' },
+    { date: '2014-04-03', ratio: 2, description: '2-for-1 split (Class A/C)' }
+  ],
+  'AMZN': [
+    { date: '2022-06-06', ratio: 20, description: '20-for-1 split' }
+  ],
+  'NVDA': [
+    { date: '2024-06-07', ratio: 10, description: '10-for-1 split' },
+    { date: '2021-07-20', ratio: 4, description: '4-for-1 split' }
+  ]
+}
+
+// ✅ SPLIT-ADJUSTMENT CALCULATOR
+function applySplitAdjustments(ticker: string, value: number, date: string): number {
+  const splits = STOCK_SPLITS[ticker.toUpperCase()] || []
+  let adjustedValue = value
+  
+  splits.forEach(split => {
+    // Wenn das Datum VOR dem Split liegt, muss adjustiert werden
+    if (date <= split.date) {
+      adjustedValue = adjustedValue / split.ratio
+    }
+  })
+  
+  return adjustedValue
+}
+
+// ✅ DATUM FILTER: Nur ab 2005 (20 Jahre Historie)
+function filterModernData(data: any[], period: 'annual' | 'quarter'): any[] {
+  const cutoffYear = 2005 // 20 Jahre Historie ab 2005
+  const currentYear = new Date().getFullYear()
+  const currentMonth = new Date().getMonth() + 1
+  const currentQuarter = Math.floor((currentMonth - 1) / 3) + 1
+  
+  return data.filter((item: any) => {
+    if (period === 'annual') {
+      const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
+      return year >= cutoffYear && year < currentYear
+    } else {
+      const date = new Date(item.date + 'T00:00:00')
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const quarter = Math.floor((month - 1) / 3) + 1
+      
+      // Ab 2005 und nicht zukünftige Quartale
+      if (year < cutoffYear) return false
+      if (year < currentYear) return true
+      if (year === currentYear) return quarter < currentQuarter
+      return false
+    }
+  })
+}
+
+// ✅ PROFESSIONAL: Multi-Source Data mit Split-Adjustierung
+async function getReliableMetrics(ticker: string, apiKey: string) {
+  console.log(`🔍 [Professional] Multi-source data fusion for ${ticker}`)
+  
+  const [liveQuoteRes, profileRes, keyMetricsRes] = await Promise.allSettled([
+    fetch(`https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${apiKey}`),
+    fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${apiKey}`),
+    fetch(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}?apikey=${apiKey}`)
+  ])
+  
+  const sources = { liveQuote: null as any, profile: null as any, keyMetrics: null as any }
+  
+  try {
+    if (liveQuoteRes.status === 'fulfilled' && liveQuoteRes.value.ok) {
+      const data = await liveQuoteRes.value.json()
+      sources.liveQuote = Array.isArray(data) ? data[0] : data
+    }
+  } catch (e) { console.warn('Live quote failed:', e) }
+  
+  try {
+    if (profileRes.status === 'fulfilled' && profileRes.value.ok) {
+      const data = await profileRes.value.json()
+      sources.profile = Array.isArray(data) ? data[0] : data
+    }
+  } catch (e) { console.warn('Profile failed:', e) }
+  
+  try {
+    if (keyMetricsRes.status === 'fulfilled' && keyMetricsRes.value.ok) {
+      const data = await keyMetricsRes.value.json()
+      sources.keyMetrics = Array.isArray(data) ? data[0] : data
+    }
+  } catch (e) { console.warn('Key metrics failed:', e) }
+  
+  // ✅ AKTUELLE WERTE sind bereits split-adjusted (TTM)
+  const reliableEPS = sources.liveQuote?.eps || sources.profile?.eps || sources.keyMetrics?.epsBasic || null
+  const reliablePrice = sources.liveQuote?.price || sources.profile?.price || null
+  
+  console.log(`📊 [Professional] Current metrics (split-adjusted):`, {
+    eps: reliableEPS,
+    price: reliablePrice,
+    ticker: ticker.toUpperCase()
+  })
+  
+  return { eps: reliableEPS, price: reliablePrice }
+}
 
 export async function GET(
   req: Request,
@@ -8,280 +120,173 @@ export async function GET(
   const { ticker } = params
   const apiKey = process.env.FMP_API_KEY
   if (!apiKey) {
-    return NextResponse.json({ error: 'Missing FMP_API_KEY' }, { status: 500 })
-  }
-
-  const urlObj  = new URL(req.url)
-  const qPeriod = urlObj.searchParams.get('period')
-  const period  = qPeriod === 'quarterly' ? 'quarter' : 'annual'
-  const limitQ  = parseInt(urlObj.searchParams.get('limit') || '', 10)
-  const limit   = !isNaN(limitQ) ? limitQ : (period === 'quarter' ? 60 : 20)
-
-  async function fetchJson(u: string) {
-    const r = await fetch(u)
-    if (!r.ok) throw new Error(`FMP fetch failed: ${u}`)
-    return r.json()
-  }
-
-  // 1) Income / Cashflow / Balance parallel
-  const incUrl = `https://financialmodelingprep.com/api/v3/income-statement/${ticker}` +
-                 `?period=${period}&limit=${limit}&apikey=${apiKey}`
-  const cfUrl  = `https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}` +
-                 `?period=${period}&limit=${limit}&apikey=${apiKey}`
-  const bsUrl  = `https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}` +
-                 `?period=${period}&limit=${limit}&apikey=${apiKey}`
-
-  const [incData, cfData, bsData]: any[] = await Promise.all([
-    fetchJson(incUrl),
-    fetchJson(cfUrl),
-    fetchJson(bsUrl),
-  ])
-
-  // 2) Key-Metrics (premium endpoint)
-  const kmUrl = `https://financialmodelingprep.com/api/v3/key-metrics/${ticker}` +
-                `?period=${period}&limit=1&apikey=${apiKey}`
-  let keyMetrics: Record<string, any> = {}
-  try {
-    const kmData = await fetchJson(kmUrl)
-    keyMetrics = Array.isArray(kmData) && kmData.length > 0 ? kmData[0] : {}
-  } catch {
-    keyMetrics = {}
-  }
-
-  // ── NEU: TTM-Serie für ROE holen ───────────────────────────────────
-  let roeMap: Record<string, number> = {}
-  try {
-    const ttmUrl = `https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}` +
-                   `?period=${period}&limit=${limit}&apikey=${apiKey}`
-    const ttmArr: any[] = await fetchJson(ttmUrl)
-    ttmArr.forEach(e => {
-      const lab = period === 'quarter'
-        ? e.date.slice(0,7)
-        : String(e.calendarYear)
-      roeMap[lab] = e.returnOnEquity ?? 0
-    })
-  } catch {
-    // ignore
-  }
-
-  // 3) Fallback aus Profile holen, falls einzelne Kennzahlen fehlen
-  const profileUrl = `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${apiKey}`
-  try {
-    const prof = await fetchJson(profileUrl)
-    const p    = Array.isArray(prof) && prof[0] ? prof[0] : {}
-
-    keyMetrics.marketCap                   ??= p.mktCap
-    keyMetrics.pe                          ??= p.pe
-    keyMetrics.priceToSalesRatio          ??= p.priceToSalesRatio
-    keyMetrics.freeCashFlowYield           ??= p.freeCashFlowYield
-    keyMetrics.dividendYield               ??= p.dividendYield
-    keyMetrics.payoutRatio                 ??= p.payoutRatio
-    keyMetrics.exDividendDate              ??= p.exDividendDate
-    keyMetrics.declaredDividendDate        ??= p.declaredDividendDate
-
-    keyMetrics.cashAndShortTermInvestments ??= p.cashAndCashEquivalents
-    keyMetrics.totalDebt                   ??= p.totalDebt
-    keyMetrics.netDebt                     ??= p.netDebt
-    keyMetrics.roic                        ??= p.roic
-  } catch {
-    // ignore
-  }
-
-  // 4) Einmalig: dividendPerShareTTM aus Company-Outlook (v4)
-  try {
-    const outlookUrl = `https://financialmodelingprep.com/api/v4/company-outlook?symbol=${ticker}&apikey=${apiKey}`
-    const outArr: any[] = await fetchJson(outlookUrl)
-    if (Array.isArray(outArr) && outArr.length > 0) {
-      keyMetrics.dividendPerShareTTM = outArr[0].dividendPerShareTTM ?? null
-    }
-  } catch {
-    // ignore
-  }
-
-  // 5) Historische Dividende je Aktie (TTM) aus Key-Metrics-TTM
-  let histDivPS: Array<{ calendarYear: number; date: string; dividendPerShareTTM: number }> = []
-  try {
-    const histUrl = `https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}` +
-                    `?period=${period}&limit=${limit}&apikey=${apiKey}`
-    const histArr: any[] = await fetchJson(histUrl)
-    histDivPS = histArr.map(e => ({
-      calendarYear: Number(e.calendarYear),
-      date:         e.date,
-      dividendPerShareTTM: e.dividendPerShareTTM ?? 0
-    }))
-  } catch {
-    // ignore
-  }
-
-  // 6) ✅ AKTUELLE SHARES (neue API)
-  let currentOutstandingShares: number | null = null
-  try {
-    const currentSharesUrl = `https://financialmodelingprep.com/stable/shares-float?symbol=${ticker}&apikey=${apiKey}`
-    const currentSharesData: any[] = await fetchJson(currentSharesUrl)
-    
-    if (Array.isArray(currentSharesData) && currentSharesData.length > 0) {
-      currentOutstandingShares = currentSharesData[0].outstandingShares
-      if (currentOutstandingShares !== null) {
-        console.log(`✅ Current Outstanding Shares for ${ticker}: ${(currentOutstandingShares / 1e9).toFixed(2)} Mrd`)
-      }
-    }
-  } catch (error) {
-    console.log('❌ Current Shares API failed:', error)
-  }
-
-  // 7) ✅ HISTORISCHE SHARES (korrekte v4 API ab 2021)
-  let sharesByPeriod: Record<string, number> = {}
-  try {
-    const histSharesUrl = `https://financialmodelingprep.com/api/v4/historical/shares_float?symbol=${ticker}&apikey=${apiKey}`
-    const histSharesData: any[] = await fetchJson(histSharesUrl)
-    
-    console.log(`✅ Historical Shares API returned ${histSharesData.length} records for ${ticker}`)
-    
-    histSharesData.forEach((s) => {
-      const year = s.date.slice(0, 4)
-      const quarter = s.date.slice(0, 7)
-      
-      if (period === 'quarter') {
-        if (!sharesByPeriod[quarter] || s.date > (sharesByPeriod[quarter + '_date'] || '')) {
-          sharesByPeriod[quarter] = s.outstandingShares
-          sharesByPeriod[quarter + '_date'] = s.date
-        }
-      } else {
-        if (!sharesByPeriod[year] || s.date > (sharesByPeriod[year + '_date'] || '')) {
-          sharesByPeriod[year] = s.outstandingShares
-          sharesByPeriod[year + '_date'] = s.date
-        }
-      }
-    })
-    
-    console.log(`✅ Processed historical shares for ${Object.keys(sharesByPeriod).filter(k => !k.includes('_date')).length} periods`)
-  } catch (error) {
-    console.log('❌ Historical Shares v4 API failed:', error)
-  }
-
-  // 8) ✅ INCOME STATEMENT SHARES für vor 2021 (weightedAverageShsOut)
-  let incomeStatementShares: Record<string, number> = {}
-  incData.forEach((inc: any) => {
-    const isQuarter = period === 'quarter'
-    const label = isQuarter ? inc.date.slice(0, 7) : String(inc.calendarYear)
-    
-    // Verschiedene Felder versuchen (verschiedene Unternehmen verwenden verschiedene Namen)
-    const shares = inc.weightedAverageShsOut || 
-                   inc.weightedAverageShsOutDil || 
-                   inc.weightedAverageSharesOutstanding ||
-                   inc.weightedAverageSharesOutstandingDiluted ||
-                   null
-    
-    if (shares && shares > 0) {
-      incomeStatementShares[label] = shares
-      const year = parseInt(label.slice(0, 4))
-      const source = year < 2021 ? 'Income Statement (pre-2021)' : 'Income Statement'
-      console.log(`📊 ${source} shares for ${label}: ${(shares / 1e9).toFixed(2)} Mrd`)
-    }
-  })
-
-  // 9) Daten-Mapping für den Chart-Client
-  const data = incData.map((inc: any, index: number) => {
-    const isQuarter = period === 'quarter'
-    const keyMatch  = isQuarter ? 'date' : 'calendarYear'
-    const matchVal  = inc[keyMatch]
-    const cfRow = cfData.find((c: any) => c[keyMatch] === matchVal) || {}
-    const bsRow = bsData.find((b: any) => b[keyMatch] === matchVal) || {}
-    
-    // Label für Shares Outstanding Lookup
-    const label = isQuarter ? inc.date.slice(0, 7) : String(inc.calendarYear)
-    const year = parseInt(label.slice(0, 4))
-
-    // zum passenden Jahr/quartal die Dividende/Share finden
-    const divPsEntry = histDivPS.find(d =>
-      isQuarter
-        ? d.date === inc.date
-        : d.calendarYear === Number(inc.calendarYear)
+    return NextResponse.json(
+      { 
+        error: 'Configuration Error',
+        message: 'API key not configured. Please contact support.'
+      }, 
+      { status: 500 }
     )
+  }
 
-    // ✅ INTELLIGENTE SHARES OUTSTANDING AUSWAHL (ERWEITERT)
-    let correctShares: number
-    let dataSource: string
+  try {
+    console.log(`🚀 [Professional] Loading split-adjusted 20-year data for ${ticker}`)
     
-    // 1. Höchste Priorität: Aktuell (nur für neueste Periode)
-    if (index === 0 && currentOutstandingShares !== null) {
-      correctShares = currentOutstandingShares
-      dataSource = 'Current API'
-    }
-    // 2. Hohe Priorität: Historische v4 API (ab 2021)
-    else if (sharesByPeriod[label]) {
-      correctShares = sharesByPeriod[label]
-      dataSource = year >= 2021 ? 'Historical v4 API' : 'Historical v4 API (unexpected)'
-    }
-    // 3. Mittlere Priorität: Income Statement weightedAverageShsOut (vor 2021)
-    else if (incomeStatementShares[label]) {
-      correctShares = incomeStatementShares[label]
-      dataSource = year < 2021 ? 'Income Statement (pre-2021)' : 'Income Statement'
-    }
-    // 4. Niedrigste Priorität: Balance Sheet Fallback
-    else {
-      correctShares = bsRow.commonStockSharesOutstanding || bsRow.commonStock || 0
-      dataSource = 'Balance Sheet (fallback)'
-    }
+    // URL Parameter
+    const urlObj = new URL(req.url)
+    const qPeriod = urlObj.searchParams.get('period')
+    const period = qPeriod === 'quarterly' ? 'quarter' : 'annual'
+    const limitQ = parseInt(urlObj.searchParams.get('limit') || '', 10)
     
-    console.log(`📈 ${label}: ${(correctShares / 1e9).toFixed(2)} Mrd (${dataSource})`)
+    // ✅ NEUE: 20 Jahre Maximum (statt unlimited)
+    const maxYears = 20
+    const limit = !isNaN(limitQ) ? Math.min(limitQ, maxYears) : maxYears
 
-     // ✅ DEBUG: Schauen wir uns die ersten 2 Datensätze an
-  if (index < 2) {
-    console.log(`🔍 DEBUG für ${ticker} - ${inc.date || inc.calendarYear}:`)
-    console.log('📊 Available Income Statement fields:', Object.keys(inc))
-    console.log('🔬 R&D Field check:', {
-      researchAndDevelopmentExpenses: inc.researchAndDevelopmentExpenses,
-      'rnd': inc.rnd,
-      'researchAndDevelopment': inc.researchAndDevelopment,
-      'rdExpenses': inc.rdExpenses,
+    // Professional current metrics
+    const reliableMetrics = await getReliableMetrics(ticker, apiKey)
+    
+    // Fetch historical statements
+    async function fetchJson(u: string) {
+      const r = await fetch(u)
+      if (!r.ok) throw new Error(`FMP fetch failed: ${u}`)
+      return r.json()
+    }
+
+    const incUrl = `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`
+    const cfUrl = `https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`
+    const bsUrl = `https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`
+
+    const [incData, cfData, bsData]: any[] = await Promise.all([
+      fetchJson(incUrl),
+      fetchJson(cfUrl),
+      fetchJson(bsUrl),
+    ])
+
+    // ✅ FILTER: Nur moderne Daten (ab 2005, nicht zukünftige Perioden)
+    const filteredIncData = filterModernData(incData, period)
+    const filteredCfData = filterModernData(cfData, period)  
+    const filteredBsData = filterModernData(bsData, period)
+
+    console.log(`📊 [${ticker}] Filtered to modern data (2005+): ${incData.length} → ${filteredIncData.length} periods`)
+
+    // ✅ SPLIT-ADJUSTED HISTORICAL DATA
+    const data = filteredIncData.map((inc: any, index: number) => {
+      const isQuarter = period === 'quarter'
+      const keyMatch = isQuarter ? 'date' : 'calendarYear'
+      const matchVal = inc[keyMatch]
+      const cfRow = filteredCfData.find((c: any) => c[keyMatch] === matchVal) || {}
+      const bsRow = filteredBsData.find((b: any) => b[keyMatch] === matchVal) || {}
+      
+      // Label erstellen
+      let label: string
+      let dataDate: string
+      
+      if (isQuarter) {
+        const date = new Date(inc.date + 'T00:00:00')
+        const year = date.getFullYear()
+        const month = date.getMonth() + 1
+        const quarter = Math.floor((month - 1) / 3) + 1
+        label = `Q${quarter} ${year}`
+        dataDate = inc.date
+      } else {
+        label = String(inc.calendarYear)
+        dataDate = `${inc.calendarYear}-12-31`
+      }
+
+      // ✅ SPLIT-ADJUSTED EPS (Historische Daten müssen adjustiert werden)
+      const rawEPS = inc.eps || 0
+      const adjustedEPS = applySplitAdjustments(ticker, rawEPS, dataDate)
+      
+      // ✅ SPLIT-ADJUSTED Dividends per Share (falls verfügbar)
+      const rawDividendPerShare = inc.dividendPerShare || cfRow.dividendPerShare || 0
+      const adjustedDividendPerShare = rawDividendPerShare > 0 ? 
+        applySplitAdjustments(ticker, rawDividendPerShare, dataDate) : 0
+
+      // ✅ DEBUG für bekannte problematische Ticker
+      if (['AAPL', 'TSLA', 'GOOGL', 'NVDA'].includes(ticker.toUpperCase()) && rawEPS !== adjustedEPS) {
+        console.log(`🔧 [${ticker}] Split-adjusted EPS for ${label}: ${rawEPS.toFixed(3)} → ${adjustedEPS.toFixed(3)}`)
+      }
+
+      return {
+        year: isQuarter ? undefined : Number(inc.calendarYear),
+        quarter: isQuarter ? inc.date : undefined,
+        label,
+        revenue: inc.revenue / 1_000_000,
+        ebitda: inc.ebitda / 1_000_000,
+        eps: adjustedEPS, // ✅ SPLIT-ADJUSTED!
+        freeCashFlow: cfRow.freeCashFlow / 1_000_000 || 0,
+        netIncome: inc.netIncome / 1_000_000 || 0,
+        dividend: (cfRow.dividendsPaid ? -cfRow.dividendsPaid : 0) || 0,
+        cash: bsRow.cashAndCashEquivalents / 1_000_000 || 0,
+        debt: bsRow.totalLiabilities / 1_000_000 || 0,
+        sharesOutstanding: bsRow.commonStockSharesOutstanding || inc.weightedAverageShsOut || 0,
+        capEx: Math.abs(cfRow.capitalExpenditure || 0) / 1_000_000,
+        researchAndDevelopment: (inc.researchAndDevelopmentExpenses || 0) / 1_000_000,
+        operatingIncome: (inc.operatingIncome || 0) / 1_000_000,
+        returnOnEquity: 0, // Would need calculation
+        pe: index === 0 ? (reliableMetrics.eps && reliableMetrics.price ? reliableMetrics.price / reliableMetrics.eps : 0) : 0,
+        dividendPerShare: adjustedDividendPerShare, // ✅ SPLIT-ADJUSTED!
+        
+        // ✅ METADATA
+        dataSource: 'split-adjusted',
+        originalEPS: rawEPS,
+        splitAdjustmentApplied: rawEPS !== adjustedEPS
+      }
     })
-    console.log('💰 Operating Income check:', {
-      operatingIncome: inc.operatingIncome,
-      'operatingIncomeLoss': inc.operatingIncomeLoss,
-      'incomeFromOperations': inc.incomeFromOperations,
-    })
-  }
 
-    return {
-      year:          isQuarter ? undefined : Number(inc.calendarYear),
-      quarter:       isQuarter ? inc.date : undefined,
-      revenue:       inc.revenue            / 1_000_000,
-      ebitda:        inc.ebitda             / 1_000_000,
-      eps:           inc.eps,
-      freeCashFlow:  cfRow.freeCashFlow     / 1_000_000 || 0,
-      netIncome:     inc.netIncome          / 1_000_000 || 0,
-      dividend:      (cfRow.dividendsPaid ? -cfRow.dividendsPaid : 0) || 0,
-      cash:          bsRow.cashAndCashEquivalents    / 1_000_000 || 0,
-      debt:          bsRow.totalLiabilities          / 1_000_000 || 0,
-      sharesOutstanding: correctShares,
-      dividendPerShareTTM: divPsEntry?.dividendPerShareTTM ?? 0,
-      capEx: Math.abs(cfRow.capitalExpenditure || cfRow.investmentsInPropertyPlantAndEquipment || 0) / 1_000_000,
-     // ✅ ERWEITERTE Feldnamen-Suche:
-    researchAndDevelopment: (
-      inc.researchAndDevelopmentExpenses || 
-      inc.researchAndDevelopment || 
-      inc.rnd || 
-      inc.rdExpenses ||
-      0
-    ) / 1_000_000,
-    
-    operatingIncome: (
-      inc.operatingIncome || 
-      inc.operatingIncomeLoss || 
-      inc.incomeFromOperations ||
-      0
-    ) / 1_000_000,
+    // ✅ ENHANCED KEY METRICS mit aktuellen split-adjusted Werten
+    const professionalKeyMetrics = {
+      pe: reliableMetrics.eps && reliableMetrics.price ? reliableMetrics.price / reliableMetrics.eps : null,
+      eps: reliableMetrics.eps, // Bereits split-adjusted (TTM)
+      price: reliableMetrics.price,
+      marketCap: data[0]?.pe ? reliableMetrics.price * (data[0]?.sharesOutstanding || 0) : null,
+      
+      // Standard metrics
+      dividendYield: null, // Would need dividend data
+      payoutRatio: null,
+      
+      // Quality indicators
+      dataQuality: {
+        approach: 'split-adjusted-20-years',
+        splitAdjustmentApplied: STOCK_SPLITS[ticker.toUpperCase()] ? true : false,
+        historicalPeriods: data.length,
+        modernDataOnly: true,
+        yearsOfData: `2005-${new Date().getFullYear()}`,
+        ticker: ticker.toUpperCase()
+      }
+    }
+
+    console.log(`✅ [${ticker}] Split-adjusted 20-year data complete:`, {
+      periods: data.length,
+      latestEPS: data[data.length - 1]?.eps,
+      currentEPS: reliableMetrics.eps,
+      splitAdjusted: STOCK_SPLITS[ticker.toUpperCase()] ? 'Yes' : 'No'
+    })
+
+    return NextResponse.json({ 
+      data, 
+      keyMetrics: professionalKeyMetrics,
+      
+      // ✅ METADATA für Frontend
+      metadata: {
+        dataQuality: 'split-adjusted-modern',
+        yearsIncluded: `2005-${new Date().getFullYear()}`,
+        splitAdjustment: STOCK_SPLITS[ticker.toUpperCase()] || null,
+        totalPeriods: data.length,
+        modernDataOnly: true
+      },
+      rawStatements: {                    // ✅ Das erwartet dein Frontend!
+        income: filteredIncData,
+        balance: filteredBsData, 
+        cashflow: filteredCfData
+      }
+    })
+
+  } catch (error) {
+    console.error(`❌ [Professional] Error for ${ticker}:`, error)
+    return NextResponse.json({ 
+      error: 'Failed to fetch financial data',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 })
   }
-})
-return NextResponse.json({ 
-  data, 
-  keyMetrics,
-  // ✅ NEU: Raw Statements für Financials Page
-  rawStatements: {
-    income: incData,
-    balance: bsData,
-    cashflow: cfData
-  }
-})
 }

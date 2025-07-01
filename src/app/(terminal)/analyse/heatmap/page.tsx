@@ -1,4 +1,4 @@
-// src/app/heatmap/page.tsx - THEME-OPTIMIERTE VERSION
+// src/app/heatmap/page.tsx - DASHBOARD DESIGN KONSISTENZ
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -64,7 +64,7 @@ const SP500_SYMBOLS = [
   'ADM', 'ANET', 'AJG', 'AIZ', 'ATO', 'ADSK', 'ADP', 'AZO', 'AVB', 'AVY'
 ];
 
-export default function SP500Heatmap() {
+export default function HeatmapPage() {
   const [stockData, setStockData] = useState<StockData[]>([]);
   const [sectorData, setSectorData] = useState<SectorData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -363,12 +363,10 @@ export default function SP500Heatmap() {
   if (loading) {
     return (
       <div className="min-h-screen bg-theme-primary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-              <p className="text-theme-muted">Lade {getIndexName()} Heatmap...</p>
-            </div>
+        <div className="flex min-h-screen items-center justify-center py-12 px-4">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+            <p className="text-theme-secondary">Lade {getIndexName()} Heatmap...</p>
           </div>
         </div>
       </div>
@@ -421,323 +419,341 @@ export default function SP500Heatmap() {
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div className="w-full px-4 py-4 space-y-4">
         
-        {/* ✅ REDESIGNED Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-              <MapIcon className="w-6 h-6 text-blue-400" />
+        {/* Header */}
+        <div className="bg-theme-card rounded-lg">
+          <div className="p-6">
+            <div className="max-w-4xl">
+              <div className="flex items-center gap-2 mb-3">
+                <MapIcon className="w-5 h-5 text-blue-400" />
+                <span className="text-sm font-medium text-blue-400">Market Heatmap</span>
+              </div>
+              
+              <h1 className="text-2xl md:text-3xl font-bold text-theme-primary mb-2">
+                {getIndexName()}
+                <span className="block text-blue-400">Live Heatmap</span>
+              </h1>
+              
+              <div className="flex items-center justify-between">
+                <p className="text-theme-secondary max-w-2xl">
+                  Live Marktübersicht der größten {selectedIndex === 'DAX' ? 'deutschen' : 'US-'} Aktien visualisiert nach Marktkapitalisierung.
+                </p>
+                
+                <div className="flex items-center gap-2 px-3 py-2 bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-lg text-sm">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                  <span>Live Kurse</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-theme-primary">{getIndexName()} Heatmap</h1>
-              <p className="text-theme-muted">Live Marktübersicht der größten {selectedIndex === 'DAX' ? 'deutschen' : 'US-'} Aktien</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2 px-3 py-2 bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-lg text-sm">
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-            <span>Live Kurse</span>
           </div>
         </div>
 
-        {/* ✅ REDESIGNED Controls */}
-        <div className="bg-theme-secondary border border-theme rounded-xl p-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-            <div className="flex flex-wrap gap-3">
-              {(['SP500', 'DAX', 'NASDAQ100'] as const).map((index) => (
+        {/* Controls */}
+        <div className="bg-theme-card rounded-lg">
+          <div className="p-6">
+            <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+              <div className="flex flex-wrap gap-3">
+                {(['SP500', 'DAX', 'NASDAQ100'] as const).map((index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedIndex(index)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      selectedIndex === index
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-theme-tertiary/50 text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary'
+                    }`}
+                  >
+                    {index === 'SP500' ? 'S&P 500' : index === 'DAX' ? 'DAX 40' : 'NASDAQ 100'}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  showAll
+                    ? 'bg-green-500 text-black'
+                    : 'bg-theme-tertiary/50 text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary'
+                }`}
+              >
+                {showAll ? `Alle ${selectedIndex === 'SP500' ? '500' : selectedIndex === 'DAX' ? '40' : '100'} anzeigen` : 'Top 100'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Market Summary */}
+        <div className="bg-theme-card rounded-lg">
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-colors border border-theme/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                    <ArrowUpIcon className="w-4 h-4 text-green-400" />
+                  </div>
+                  <div>
+                    <span className="text-sm text-theme-muted">Steigend</span>
+                    <div className="text-xl font-bold text-green-400">{marketSummary.up}</div>
+                  </div>
+                </div>
+                <div className="text-xs text-theme-muted">Aktien im Plus</div>
+              </div>
+
+              <div className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-colors border border-theme/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
+                    <ArrowDownIcon className="w-4 h-4 text-red-400" />
+                  </div>
+                  <div>
+                    <span className="text-sm text-theme-muted">Fallend</span>
+                    <div className="text-xl font-bold text-red-400">{marketSummary.down}</div>
+                  </div>
+                </div>
+                <div className="text-xs text-theme-muted">Aktien im Minus</div>
+              </div>
+
+              <div className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-colors border border-theme/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                    <ChartBarIcon className="w-4 h-4 text-yellow-400" />
+                  </div>
+                  <div>
+                    <span className="text-sm text-theme-muted">Durchschnitt</span>
+                    <div className={`text-xl font-bold ${marketSummary.avgChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {marketSummary.avgChange >= 0 ? '+' : ''}{marketSummary.avgChange.toFixed(2)}%
+                    </div>
+                  </div>
+                </div>
+                <div className="text-xs text-theme-muted">Performance</div>
+              </div>
+
+              <div className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-colors border border-theme/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <button
+                    onClick={loadIndexData}
+                    className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors group"
+                  >
+                    <ArrowPathIcon className="w-4 h-4 text-blue-400 group-hover:rotate-180 transition-transform" />
+                  </button>
+                  <div>
+                    <span className="text-sm text-theme-muted">Aktualisiert</span>
+                    <div className="text-lg font-semibold text-theme-primary">
+                      {lastUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-xs text-theme-muted">Uhr</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Sector Filter */}
+        <div className="bg-theme-card rounded-lg">
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <FunnelIcon className="w-5 h-5 text-purple-400" />
+              <h3 className="text-lg font-semibold text-theme-primary">Filter nach Sektor</h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSelectedSector(null)}
+                className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                  selectedSector === null 
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-theme-tertiary/50 text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary'
+                }`}
+              >
+                Alle Sektoren
+              </button>
+              {sectorData.map((sector: SectorData) => (
                 <button
-                  key={index}
-                  onClick={() => setSelectedIndex(index)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    selectedIndex === index
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
+                  key={sector.sector}
+                  onClick={() => setSelectedSector(sector.sector)}
+                  className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                    selectedSector === sector.sector 
+                      ? 'bg-blue-500 text-white' 
+                      : 'bg-theme-tertiary/50 text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary'
                   }`}
                 >
-                  {index === 'SP500' ? 'S&P 500' : index === 'DAX' ? 'DAX 40' : 'NASDAQ 100'}
+                  {getSectorDisplayName(sector.sector)} ({sector.count})
                 </button>
               ))}
             </div>
-
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                showAll
-                  ? 'bg-green-500 text-black'
-                  : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
-              }`}
-            >
-              {showAll ? `Alle ${selectedIndex === 'SP500' ? '500' : selectedIndex === 'DAX' ? '40' : '100'} anzeigen` : 'Top 100'}
-            </button>
           </div>
         </div>
 
-        {/* ✅ REDESIGNED Market Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <ArrowUpIcon className="w-4 h-4 text-green-400" />
-              </div>
-              <div>
-                <span className="text-sm text-theme-muted">Steigend</span>
-                <div className="text-xl font-bold text-green-400">{marketSummary.up}</div>
-              </div>
-            </div>
-            <div className="text-xs text-theme-muted">Aktien im Plus</div>
-          </div>
-
-          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
-                <ArrowDownIcon className="w-4 h-4 text-red-400" />
-              </div>
-              <div>
-                <span className="text-sm text-theme-muted">Fallend</span>
-                <div className="text-xl font-bold text-red-400">{marketSummary.down}</div>
-              </div>
-            </div>
-            <div className="text-xs text-theme-muted">Aktien im Minus</div>
-          </div>
-
-          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                <ChartBarIcon className="w-4 h-4 text-yellow-400" />
-              </div>
-              <div>
-                <span className="text-sm text-theme-muted">Durchschnitt</span>
-                <div className={`text-xl font-bold ${marketSummary.avgChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {marketSummary.avgChange >= 0 ? '+' : ''}{marketSummary.avgChange.toFixed(2)}%
+        {/* Treemap */}
+        <div className="bg-theme-card rounded-lg">
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-semibold text-theme-primary">
+                {selectedSector ? `${getSectorDisplayName(selectedSector)} Sektor` : `${getIndexName()} Heatmap`}
+                <span className="text-sm text-theme-muted ml-2">({displayData.length} Aktien)</span>
+              </h3>
+              <div className="flex items-center space-x-4 text-sm">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
+                  <span className="text-theme-muted">Gewinner</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
+                  <span className="text-theme-muted">Verlierer</span>
                 </div>
               </div>
             </div>
-            <div className="text-xs text-theme-muted">Performance</div>
-          </div>
 
-          <div className="bg-theme-secondary border border-theme rounded-xl p-4 hover:bg-theme-tertiary/50 transition-colors">
-            <div className="flex items-center gap-3 mb-3">
-              <button
-                onClick={loadIndexData}
-                className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors group"
-              >
-                <ArrowPathIcon className="w-4 h-4 text-blue-400 group-hover:rotate-180 transition-transform" />
-              </button>
-              <div>
-                <span className="text-sm text-theme-muted">Aktualisiert</span>
-                <div className="text-lg font-semibold text-theme-primary">
-                  {lastUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
-                </div>
-              </div>
-            </div>
-            <div className="text-xs text-theme-muted">Uhr</div>
-          </div>
-        </div>
-
-        {/* ✅ REDESIGNED Sector Filter */}
-        <div className="bg-theme-secondary border border-theme rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-              <FunnelIcon className="w-4 h-4 text-purple-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-theme-primary">Filter nach Sektor</h3>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setSelectedSector(null)}
-              className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                selectedSector === null 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
-              }`}
-            >
-              Alle Sektoren
-            </button>
-            {sectorData.map((sector: SectorData) => (
-              <button
-                key={sector.sector}
-                onClick={() => setSelectedSector(sector.sector)}
-                className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                  selectedSector === sector.sector 
-                    ? 'bg-blue-500 text-white' 
-                    : 'bg-theme-tertiary text-theme-primary hover:bg-theme-tertiary/70'
-                }`}
-              >
-                {getSectorDisplayName(sector.sector)} ({sector.count})
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* ✅ REDESIGNED Treemap */}
-        <div className="bg-theme-secondary border border-theme rounded-xl p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-semibold text-theme-primary">
-              {selectedSector ? `${getSectorDisplayName(selectedSector)} Sektor` : `${getIndexName()} Heatmap`}
-              <span className="text-sm text-theme-muted ml-2">({displayData.length} Aktien)</span>
-            </h3>
-            <div className="flex items-center space-x-4 text-sm">
-              <div className="flex items-center">
-                <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
-                <span className="text-theme-muted">Gewinner</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
-                <span className="text-theme-muted">Verlierer</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="w-full overflow-x-auto">
-            <div className="flex justify-center">
-              <div className="space-y-4">
-                {/* Treemap Container */}
-                <div 
-                  className="relative bg-theme-tertiary/50 rounded-lg border border-theme"
-                  style={{ 
-                    width: `${containerWidth}px`, 
-                    height: `${containerHeight}px`,
-                    minWidth: '600px',
-                    maxWidth: '100%'
-                  }}
-                >
-                {treemapRects.map((rect, index) => {
-                  const stock = rect.stock;
-                  
-                  const getFontSize = (width: number, height: number) => {
-                    const area = width * height;
-                    const minDimension = Math.min(width, height);
+            <div className="w-full overflow-x-auto">
+              <div className="flex justify-center">
+                <div className="space-y-4">
+                  {/* Treemap Container */}
+                  <div 
+                    className="relative bg-theme-tertiary/30 rounded-lg border border-theme/20"
+                    style={{ 
+                      width: `${containerWidth}px`, 
+                      height: `${containerHeight}px`,
+                      minWidth: '600px',
+                      maxWidth: '100%'
+                    }}
+                  >
+                  {treemapRects.map((rect, index) => {
+                    const stock = rect.stock;
                     
-                    if (minDimension < 20) return '7px';
-                    if (area > 10000) return '16px';
-                    if (area > 6000) return '14px';
-                    if (area > 3000) return '12px';
-                    if (area > 1500) return '11px';
-                    if (area > 800) return '10px';
-                    if (area > 400) return '9px';
-                    return '8px';
-                  };
+                    const getFontSize = (width: number, height: number) => {
+                      const area = width * height;
+                      const minDimension = Math.min(width, height);
+                      
+                      if (minDimension < 20) return '7px';
+                      if (area > 10000) return '16px';
+                      if (area > 6000) return '14px';
+                      if (area > 3000) return '12px';
+                      if (area > 1500) return '11px';
+                      if (area > 800) return '10px';
+                      if (area > 400) return '9px';
+                      return '8px';
+                    };
 
-                  const fontSize = getFontSize(rect.width, rect.height);
-                  const minDimension = Math.min(rect.width, rect.height);
+                    const fontSize = getFontSize(rect.width, rect.height);
+                    const minDimension = Math.min(rect.width, rect.height);
+                    
+                    const showSymbol = minDimension >= 25;
+                    const showPercentage = minDimension >= 35 && rect.width >= 40;
+                    const showMarketCap = minDimension >= 50 && rect.width >= 70 && rect.height >= 45;
+                    const showPrice = minDimension >= 60 && rect.width >= 80 && rect.height >= 60;
+
+                    return (
+                      <div
+                        key={`${stock.symbol}-${index}`}
+                        className={`
+                          absolute cursor-pointer transition-all duration-200
+                          ${getColor(stock.changesPercentage)}
+                          border border-gray-600 hover:border-white hover:border-2
+                          flex flex-col items-center justify-center
+                          group hover:shadow-2xl hover:z-10
+                          text-white
+                        `}
+                        style={{
+                          left: `${Math.max(0, rect.x)}px`,
+                          top: `${Math.max(0, rect.y)}px`,
+                          width: `${Math.max(10, rect.width)}px`,
+                          height: `${Math.max(10, rect.height)}px`,
+                          fontSize
+                        }}
+                        onClick={() => router.push(`/analyse/stocks/${stock.symbol.toLowerCase()}`)}
+                      >
+                        {showSymbol && (
+                          <div 
+                            className="font-bold text-center leading-tight drop-shadow-lg px-1 truncate w-full"
+                            style={{ 
+                              fontSize: fontSize,
+                              lineHeight: rect.height > 40 ? '1.2' : '1'
+                            }}
+                          >
+                            {stock.symbol}
+                          </div>
+                        )}
+                        
+                        {showPercentage && (
+                          <div 
+                            className="font-bold mt-1 drop-shadow-lg text-center"
+                            style={{ 
+                              fontSize: `${parseInt(fontSize) - 1}px`,
+                              lineHeight: '1'
+                            }}
+                          >
+                            {stock.changesPercentage >= 0 ? '+' : ''}{stock.changesPercentage.toFixed(1)}%
+                          </div>
+                        )}
+                        
+                        {showMarketCap && (
+                          <div 
+                            className="text-gray-200 mt-1 drop-shadow-lg text-center"
+                            style={{ 
+                              fontSize: `${parseInt(fontSize) - 2}px`,
+                              lineHeight: '1'
+                            }}
+                          >
+                            ${(stock.marketCap / 1e9).toFixed(0)}B
+                          </div>
+                        )}
+                        
+                        {showPrice && (
+                          <div 
+                            className="text-gray-300 mt-1 drop-shadow-lg text-center"
+                            style={{ 
+                              fontSize: `${parseInt(fontSize) - 3}px`,
+                              lineHeight: '1'
+                            }}
+                          >
+                            ${stock.price.toFixed(2)}
+                          </div>
+                        )}
+                        
+                        {/* Enhanced Tooltip */}
+                        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 -translate-y-full bg-theme-card text-theme-primary text-xs p-3 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-50 border border-theme/20 pointer-events-none">
+                          <div className="font-bold text-sm">{stock.symbol} - {stock.name}</div>
+                          <div className="text-yellow-400 mt-1">${(stock.marketCap / 1e9).toFixed(1)}B Market Cap</div>
+                          <div className="text-blue-400">{getSectorDisplayName(stock.sector)}</div>
+                          <div className="text-theme-muted">Preis: ${stock.price.toFixed(2)}</div>
+                          <div className={`font-bold mt-1 ${stock.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            {stock.changesPercentage >= 0 ? '+' : ''}{stock.changesPercentage.toFixed(2)}% heute
+                            {stock.change !== 0 && (
+                              <span className="block text-xs">
+                                ({stock.change >= 0 ? '+' : ''}${stock.change.toFixed(2)})
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                   
-                  const showSymbol = minDimension >= 25;
-                  const showPercentage = minDimension >= 35 && rect.width >= 40;
-                  const showMarketCap = minDimension >= 50 && rect.width >= 70 && rect.height >= 45;
-                  const showPrice = minDimension >= 60 && rect.width >= 80 && rect.height >= 60;
-
-                  return (
-                    <div
-                      key={`${stock.symbol}-${index}`}
-                      className={`
-                        absolute cursor-pointer transition-all duration-200
-                        ${getColor(stock.changesPercentage)}
-                        border border-gray-600 hover:border-white hover:border-2
-                        flex flex-col items-center justify-center
-                        group hover:shadow-2xl hover:z-10
-                        text-white
-                      `}
-                      style={{
-                        left: `${Math.max(0, rect.x)}px`,
-                        top: `${Math.max(0, rect.y)}px`,
-                        width: `${Math.max(10, rect.width)}px`,
-                        height: `${Math.max(10, rect.height)}px`,
-                        fontSize
-                      }}
-                      onClick={() => router.push(`/analyse/stocks/${stock.symbol.toLowerCase()}`)}
-                    >
-                      {showSymbol && (
-                        <div 
-                          className="font-bold text-center leading-tight drop-shadow-lg px-1 truncate w-full"
-                          style={{ 
-                            fontSize: fontSize,
-                            lineHeight: rect.height > 40 ? '1.2' : '1'
-                          }}
-                        >
-                          {stock.symbol}
-                        </div>
-                      )}
-                      
-                      {showPercentage && (
-                        <div 
-                          className="font-bold mt-1 drop-shadow-lg text-center"
-                          style={{ 
-                            fontSize: `${parseInt(fontSize) - 1}px`,
-                            lineHeight: '1'
-                          }}
-                        >
-                          {stock.changesPercentage >= 0 ? '+' : ''}{stock.changesPercentage.toFixed(1)}%
-                        </div>
-                      )}
-                      
-                      {showMarketCap && (
-                        <div 
-                          className="text-gray-200 mt-1 drop-shadow-lg text-center"
-                          style={{ 
-                            fontSize: `${parseInt(fontSize) - 2}px`,
-                            lineHeight: '1'
-                          }}
-                        >
-                          ${(stock.marketCap / 1e9).toFixed(0)}B
-                        </div>
-                      )}
-                      
-                      {showPrice && (
-                        <div 
-                          className="text-gray-300 mt-1 drop-shadow-lg text-center"
-                          style={{ 
-                            fontSize: `${parseInt(fontSize) - 3}px`,
-                            lineHeight: '1'
-                          }}
-                        >
-                          ${stock.price.toFixed(2)}
-                        </div>
-                      )}
-                      
-                      {/* Enhanced Tooltip */}
-                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 -translate-y-full bg-theme-secondary text-theme-primary text-xs p-3 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-50 border border-theme pointer-events-none">
-                        <div className="font-bold text-sm">{stock.symbol} - {stock.name}</div>
-                        <div className="text-yellow-400 mt-1">${(stock.marketCap / 1e9).toFixed(1)}B Market Cap</div>
-                        <div className="text-blue-400">{getSectorDisplayName(stock.sector)}</div>
-                        <div className="text-theme-muted">Preis: ${stock.price.toFixed(2)}</div>
-                        <div className={`font-bold mt-1 ${stock.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                          {stock.changesPercentage >= 0 ? '+' : ''}{stock.changesPercentage.toFixed(2)}% heute
-                          {stock.change !== 0 && (
-                            <span className="block text-xs">
-                              ({stock.change >= 0 ? '+' : ''}${stock.change.toFixed(2)})
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                  {treemapRects.length === 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-theme-tertiary/30 rounded-lg">
+                      <div className="text-theme-muted text-lg">Keine Daten verfügbar</div>
                     </div>
-                  );
-                })}
-                
-                {treemapRects.length === 0 && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-theme-tertiary/50 rounded-lg">
-                    <div className="text-theme-muted text-lg">Keine Daten verfügbar</div>
+                  )}
                   </div>
-                )}
-                </div>
-                
-                {/* Color Scale */}
-                <div className="flex justify-center">
-                  <div className="flex items-center space-x-1 bg-theme-tertiary/50 rounded-lg p-3 border border-theme">
-                    {[
-                      { value: -3, color: 'bg-red-800', label: '-3%' },
-                      { value: -2, color: 'bg-red-700', label: '-2%' },
-                      { value: -1, color: 'bg-red-600', label: '-1%' },
-                      { value: 0, color: 'bg-gray-600', label: '0%' },
-                      { value: 1, color: 'bg-green-600', label: '+1%' },
-                      { value: 2, color: 'bg-green-700', label: '+2%' },
-                      { value: 3, color: 'bg-green-800', label: '+3%' }
-                    ].map((item, index) => (
-                      <div key={index} className="flex flex-col items-center">
-                        <div className={`w-8 h-4 ${item.color} border border-gray-500`}></div>
-                        <span className="text-theme-muted text-xs mt-1 font-medium">{item.label}</span>
-                      </div>
-                    ))}
+                  
+                  {/* Color Scale */}
+                  <div className="flex justify-center">
+                    <div className="flex items-center space-x-1 bg-theme-tertiary/30 rounded-lg p-3 border border-theme/20">
+                      {[
+                        { value: -3, color: 'bg-red-800', label: '-3%' },
+                        { value: -2, color: 'bg-red-700', label: '-2%' },
+                        { value: -1, color: 'bg-red-600', label: '-1%' },
+                        { value: 0, color: 'bg-gray-600', label: '0%' },
+                        { value: 1, color: 'bg-green-600', label: '+1%' },
+                        { value: 2, color: 'bg-green-700', label: '+2%' },
+                        { value: 3, color: 'bg-green-800', label: '+3%' }
+                      ].map((item, index) => (
+                        <div key={index} className="flex flex-col items-center">
+                          <div className={`w-8 h-4 ${item.color} border border-gray-500`}></div>
+                          <span className="text-theme-muted text-xs mt-1 font-medium">{item.label}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -745,52 +761,54 @@ export default function SP500Heatmap() {
           </div>
         </div>
 
-        {/* ✅ REDESIGNED Sector Performance Table */}
+        {/* Sector Performance Table */}
         {!selectedSector && sectorData.length > 0 && (
-          <div className="bg-theme-secondary border border-theme rounded-xl p-6">
-            <h3 className="text-xl font-semibold text-theme-primary mb-4">Sektor Performance</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-theme">
-                    <th className="text-left py-3 text-theme-muted font-medium">Sektor</th>
-                    <th className="text-right py-3 text-theme-muted font-medium">Anzahl</th>
-                    <th className="text-right py-3 text-theme-muted font-medium">Ø Performance</th>
-                    <th className="text-right py-3 text-theme-muted font-medium">Market Cap</th>
-                    <th className="text-right py-3 text-theme-muted font-medium">Anteil</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sectorData
-                    .sort((a, b) => b.avgChange - a.avgChange)
-                    .map((sector: SectorData) => {
-                      const totalMarketCap = stockData.reduce((sum, s) => sum + s.marketCap, 0);
-                      const sectorPercentage = (sector.totalMarketCap / totalMarketCap) * 100;
-                      
-                      return (
-                        <tr 
-                          key={sector.sector} 
-                          className="border-b border-theme/50 hover:bg-theme-tertiary/30 cursor-pointer transition-colors"
-                          onClick={() => setSelectedSector(sector.sector)}
-                        >
-                          <td className="py-3 text-theme-primary font-medium">{getSectorDisplayName(sector.sector)}</td>
-                          <td className="py-3 text-right text-theme-muted">{sector.count}</td>
-                          <td className={`py-3 text-right font-medium ${
-                            sector.avgChange >= 0 ? 'text-green-400' : 'text-red-400'
-                          }`}>
-                            {sector.avgChange >= 0 ? '+' : ''}{sector.avgChange.toFixed(2)}%
-                          </td>
-                          <td className="py-3 text-right text-theme-muted">
-                            ${(sector.totalMarketCap / 1e12).toFixed(1)}T
-                          </td>
-                          <td className="py-3 text-right text-theme-muted">
-                            {sectorPercentage.toFixed(1)}%
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
+          <div className="bg-theme-card rounded-lg">
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-theme-primary mb-4">Sektor Performance</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-theme/20">
+                      <th className="text-left py-3 text-theme-muted font-medium">Sektor</th>
+                      <th className="text-right py-3 text-theme-muted font-medium">Anzahl</th>
+                      <th className="text-right py-3 text-theme-muted font-medium">Ø Performance</th>
+                      <th className="text-right py-3 text-theme-muted font-medium">Market Cap</th>
+                      <th className="text-right py-3 text-theme-muted font-medium">Anteil</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sectorData
+                      .sort((a, b) => b.avgChange - a.avgChange)
+                      .map((sector: SectorData) => {
+                        const totalMarketCap = stockData.reduce((sum, s) => sum + s.marketCap, 0);
+                        const sectorPercentage = (sector.totalMarketCap / totalMarketCap) * 100;
+                        
+                        return (
+                          <tr 
+                            key={sector.sector} 
+                            className="border-b border-theme/10 hover:bg-theme-secondary/20 cursor-pointer transition-colors"
+                            onClick={() => setSelectedSector(sector.sector)}
+                          >
+                            <td className="py-3 text-theme-primary font-medium">{getSectorDisplayName(sector.sector)}</td>
+                            <td className="py-3 text-right text-theme-muted">{sector.count}</td>
+                            <td className={`py-3 text-right font-medium ${
+                              sector.avgChange >= 0 ? 'text-green-400' : 'text-red-400'
+                            }`}>
+                              {sector.avgChange >= 0 ? '+' : ''}{sector.avgChange.toFixed(2)}%
+                            </td>
+                            <td className="py-3 text-right text-theme-muted">
+                              ${(sector.totalMarketCap / 1e12).toFixed(1)}T
+                            </td>
+                            <td className="py-3 text-right text-theme-muted">
+                              {sectorPercentage.toFixed(1)}%
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

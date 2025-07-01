@@ -1,8 +1,11 @@
-// src/app/analyse/[ticker]/news/page.tsx - THEME-OPTIMIERTE VERSION
+// src/app/analyse/[ticker]/news/page.tsx - EINHEITLICHER HEADER
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
+import { stocks } from '@/data/stocks'
+import Logo from '@/components/Logo'
 import { 
   NewspaperIcon,
   ClockIcon,
@@ -14,14 +17,14 @@ import {
   GlobeAltIcon,
   UserIcon,
   CalendarIcon,
-  SparklesIcon
+  SparklesIcon,
+  ArrowLeftIcon
 } from '@heroicons/react/24/outline'
 import { 
   BookmarkIcon as BookmarkSolidIcon,
   HeartIcon as HeartSolidIcon
 } from '@heroicons/react/24/solid'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import Link from 'next/link'
 
 interface NewsArticle {
   title: string
@@ -98,6 +101,9 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
   const [totalPages, setTotalPages] = useState(1)
   const [selectedSource, setSelectedSource] = useState<string>('all')
   const [savedArticles, setSavedArticles] = useState<Set<string>>(new Set())
+  
+  // Get stock info for header
+  const stock = stocks.find(s => s.ticker === ticker)
   
   const ARTICLES_PER_PAGE = user?.isPremium ? 20 : 5
 
@@ -252,7 +258,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
   if (loading) {
     return (
       <div className="min-h-screen bg-theme-primary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="w-full px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
@@ -266,20 +272,52 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        
-        {/* ✅ REDESIGNED Header */}
-        <div className="flex items-center justify-between">
+      {/* ✅ EINHEITLICHER HEADER - wie andere Pages */}
+      <div className="border-b border-theme/5">
+        <div className="w-full px-6 lg:px-8 py-6">
+          
+          {/* Zurück-Link */}
+          <Link
+            href="/analyse"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+          >
+            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            Zurück zur Aktien-Auswahl
+          </Link>
+
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center">
-              <NewspaperIcon className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
+              <Logo
+                ticker={ticker}
+                alt={`${ticker} Logo`}
+                className="w-8 h-8"
+              />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-theme-primary">
-                {ticker} Nachrichten
+              <h1 className="text-2xl font-bold text-theme-primary">
+                {stock?.name || ticker}
               </h1>
-              <p className="text-theme-muted">Aktuelle News und Marktentwicklungen</p>
+              <div className="flex items-center gap-3 mt-1">
+                <span className="text-lg text-green-400 font-semibold">{ticker}</span>
+                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
+                <span className="text-sm text-theme-muted">
+                  Nachrichten & News
+                </span>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ MAIN CONTENT - konsistent mit anderen Pages */}
+      <main className="w-full px-6 lg:px-8 py-8 space-y-8">
+        
+        {/* Info Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-theme-secondary">
+              Aktuelle News und Marktentwicklungen für <span className="font-semibold text-green-400">{ticker}</span>
+            </p>
           </div>
           
           <div className="flex items-center gap-2 px-3 py-2 bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm">
@@ -296,8 +334,8 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         )}
 
-        {/* ✅ REDESIGNED Filter Bar */}
-        <div className="bg-theme-secondary border border-theme rounded-xl p-4">
+        {/* ✅ FISCAL Filter Bar */}
+        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -334,12 +372,12 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         </div>
 
-        {/* ✅ REDESIGNED News Articles */}
+        {/* ✅ FISCAL News Articles */}
         <div className="space-y-4">
           {filteredNews.slice(0, user?.isPremium ? undefined : 5).map((article, index) => (
             <article 
               key={article.url + index}
-              className="bg-theme-secondary border border-theme rounded-xl hover:bg-theme-tertiary/50 transition-all overflow-hidden group"
+              className="bg-theme-card rounded-xl hover:bg-theme-secondary/20 transition-all overflow-hidden group border border-theme/10"
             >
               <div className="p-6">
                 <div className="flex flex-col lg:flex-row gap-6">
@@ -404,7 +442,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                     </p>
 
                     {/* Article Actions */}
-                    <div className="flex items-center justify-between pt-3 border-t border-theme/50">
+                    <div className="flex items-center justify-between pt-3 border-t border-theme/5">
                       <Link
                         href={article.url}
                         target="_blank"
@@ -436,7 +474,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <button
               onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
               disabled={currentPage === 0}
-              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme"
+              className="flex items-center gap-2 px-4 py-2 bg-theme-card hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme/10"
             >
               <ChevronLeftIcon className="w-4 h-4" />
               Zurück
@@ -449,7 +487,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <button
               onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
               disabled={currentPage >= totalPages - 1}
-              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme"
+              className="flex items-center gap-2 px-4 py-2 bg-theme-card hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme/10"
             >
               Weiter
               <ChevronRightIcon className="w-4 h-4" />
@@ -457,9 +495,9 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         )}
 
-        {/* ✅ REDESIGNED Premium CTA */}
+        {/* ✅ FISCAL Premium CTA */}
         {!user?.isPremium && (
-          <div className="bg-theme-secondary border border-theme rounded-xl p-6 text-center">
+          <div className="bg-theme-card rounded-xl p-8 text-center border border-theme/10">
             <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center">
               <NewspaperIcon className="w-8 h-8 text-white" />
             </div>
@@ -495,7 +533,32 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             </button>
           </div>
         )}
-      </div>
+
+        {/* ✅ FISCAL CTA für Premium Users */}
+        {user?.isPremium && (
+          <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-theme-primary mb-1">
+                  Vollständige {ticker} Analyse
+                </h3>
+                <p className="text-theme-muted text-sm">
+                  Charts, Fundamentaldaten, Dividenden und technische Analyse
+                </p>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Link
+                  href={`/analyse/stocks/${ticker.toLowerCase()}`}
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+                >
+                  Zur Analyse
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   )
 }

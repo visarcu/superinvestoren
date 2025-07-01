@@ -1,4 +1,4 @@
-// src/components/ProfilePageClient.tsx - CLEAN & MINIMAL VERSION
+// src/components/ProfilePageClient.tsx - CLEAN DESIGN MIT THEME SUPPORT
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -173,14 +173,14 @@ export default function ProfilePageClient() {
     }
   };
 
-  // ✅ CLEAN Loading State
+  // ✅ CLEAN Loading State mit Theme Support
   if (loading || premiumLoading) {
     return (
       <div className="min-h-screen bg-theme-primary">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+              <div className="w-6 h-6 border-2 border-theme-muted border-t-green-400 rounded-full animate-spin mx-auto mb-3"></div>
               <p className="text-theme-muted">Lade Profil...</p>
             </div>
           </div>
@@ -189,11 +189,11 @@ export default function ProfilePageClient() {
     );
   }
 
-  // ✅ CLEAN Error State
+  // ✅ CLEAN Error State mit Theme Support
   if (error) {
     return (
       <div className="min-h-screen bg-theme-primary">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-theme-secondary border border-theme rounded-xl p-6 text-center">
             <h1 className="text-xl font-semibold text-theme-primary mb-3">Fehler beim Laden</h1>
             <p className="text-theme-muted text-sm mb-6">{error}</p>
@@ -201,7 +201,7 @@ export default function ProfilePageClient() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={refreshUserData}
-                className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-colors"
+                className="px-4 py-2 bg-theme-primary text-theme-secondary font-medium rounded-lg transition-colors hover:bg-theme-tertiary border border-theme"
               >
                 Erneut versuchen
               </button>
@@ -221,12 +221,12 @@ export default function ProfilePageClient() {
   if (!user) {
     return (
       <div className="min-h-screen bg-theme-primary">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-theme-secondary border border-theme rounded-xl p-6 text-center">
             <p className="text-theme-muted mb-4">Nicht eingeloggt</p>
             <button
               onClick={() => router.push('/auth/signin')}
-              className="px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-colors"
+              className="px-6 py-3 bg-theme-primary hover:bg-theme-tertiary text-theme-secondary font-medium rounded-lg transition-colors border border-theme"
             >
               Zur Anmeldung
             </button>
@@ -236,56 +236,59 @@ export default function ProfilePageClient() {
     );
   }
 
-  // ✅ CLEAN & MINIMAL Main Profile UI
+  // ✅ CLEAN & MINIMAL Main Profile UI mit Theme Support
   return (
     <div className="min-h-screen bg-theme-primary">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         
         {/* ✅ MINIMAL Header */}
-        <div>
+        <div className="flex items-center justify-between">
           <button
             onClick={() => router.push('/analyse')}
-            className="flex items-center gap-2 text-theme-muted hover:text-theme-secondary transition-colors text-sm mb-6 group"
+            className="flex items-center gap-2 text-theme-muted hover:text-theme-secondary transition-colors text-sm group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Zurück zur App
           </button>
+        </div>
 
+        {/* Header Section - Clean mit Theme */}
+        <div className="bg-theme-secondary border border-theme rounded-xl p-8">
           <div className="text-center">
-            {/* Simple Avatar - No Gradient */}
-            <div className="w-16 h-16 bg-theme-secondary rounded-xl flex items-center justify-center text-theme-primary font-semibold text-xl mx-auto mb-4 border border-theme">
+            {/* Simple Avatar mit Theme */}
+            <div className="w-16 h-16 bg-theme-tertiary/50 rounded-full flex items-center justify-center text-theme-primary font-semibold text-xl mx-auto mb-4 border border-theme">
               {getInitials()}
             </div>
             
-            <h1 className="text-3xl font-bold text-theme-primary mb-2">Profil</h1>
+            <h1 className="text-2xl font-semibold text-theme-primary mb-2">Profil</h1>
             <p className="text-theme-muted">Account-Verwaltung</p>
 
-            {/* Minimal Premium Badge */}
+            {/* Minimal Premium Badge mit Theme */}
             {premiumStatus.isPremium && (
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm mt-3">
-                <SparklesIcon className="w-3 h-3" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary/30 text-green-400 rounded-full text-sm mt-4 border border-theme">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span>Premium</span>
               </div>
             )}
           </div>
         </div>
 
-        {/* ✅ CLEAN Account Section */}
+        {/* ✅ CLEAN Account Section mit Theme */}
         <div className="bg-theme-secondary border border-theme rounded-xl p-6">
-          <h2 className="text-lg font-semibold text-theme-primary mb-4">Account-Daten</h2>
+          <h2 className="text-lg font-semibold text-theme-primary mb-6">Account-Daten</h2>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <label className="block text-sm text-theme-muted mb-2">E-Mail-Adresse</label>
-              <div className="text-theme-primary bg-theme-tertiary/50 rounded-lg px-4 py-3 border border-theme">
+              <label className="block text-sm font-medium text-theme-secondary mb-2">E-Mail-Adresse</label>
+              <div className="text-theme-primary bg-theme-tertiary/30 rounded-lg px-4 py-3 border border-theme">
                 {user.email || 'Unbekannt'}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm text-theme-muted mb-2">Status</label>
-                <div className="bg-theme-tertiary/50 border border-theme rounded-lg px-4 py-3">
+                <label className="block text-sm font-medium text-theme-secondary mb-2">Status</label>
+                <div className="bg-theme-tertiary/30 border border-theme rounded-lg px-4 py-3">
                   <span className="text-theme-primary font-medium">
                     {premiumStatus.isPremium ? 'Premium' : 'Free Plan'}
                   </span>
@@ -293,8 +296,8 @@ export default function ProfilePageClient() {
               </div>
 
               <div>
-                <label className="block text-sm text-theme-muted mb-2">Mitglied seit</label>
-                <div className="bg-theme-tertiary/50 border border-theme rounded-lg px-4 py-3">
+                <label className="block text-sm font-medium text-theme-secondary mb-2">Mitglied seit</label>
+                <div className="bg-theme-tertiary/30 border border-theme rounded-lg px-4 py-3">
                   <span className="text-theme-primary font-medium">
                     {getMemberSince()}
                   </span>
@@ -304,20 +307,20 @@ export default function ProfilePageClient() {
           </div>
         </div>
 
-        {/* ✅ CLEAN Premium Section */}
+        {/* ✅ CLEAN Premium Section mit Theme */}
         <div className="bg-theme-secondary border border-theme rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-theme-primary mb-4">Premium-Verwaltung</h3>
+          <h3 className="text-lg font-semibold text-theme-primary mb-6">Premium-Verwaltung</h3>
           <StripeConnectButton onStatusChange={refreshUserData} />
         </div>
 
-        {/* ✅ MINIMAL Actions */}
+        {/* ✅ MINIMAL Actions mit Theme */}
         <div className="bg-theme-secondary border border-theme rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-theme-primary mb-4">Aktionen</h3>
+          <h3 className="text-lg font-semibold text-theme-primary mb-6">Aktionen</h3>
           
           <div className="space-y-3">
             <button
               onClick={refreshUserData}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-tertiary/50 text-theme-primary rounded-lg hover:bg-theme-tertiary/70 transition-colors border border-theme"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-tertiary/30 text-theme-primary rounded-lg hover:bg-theme-tertiary/50 transition-colors border border-theme"
             >
               <ArrowPathIcon className="w-4 h-4" />
               Daten aktualisieren
@@ -333,7 +336,7 @@ export default function ProfilePageClient() {
 
             <button
               onClick={handleSignOut}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-tertiary/50 text-theme-muted rounded-lg hover:bg-theme-tertiary/70 hover:text-theme-secondary transition-colors border border-theme"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-tertiary/30 text-theme-muted rounded-lg hover:bg-theme-tertiary/50 hover:text-theme-secondary transition-colors border border-theme"
             >
               <ArrowRightOnRectangleIcon className="w-4 h-4" />
               Abmelden

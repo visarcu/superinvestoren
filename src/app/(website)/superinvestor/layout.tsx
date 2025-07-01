@@ -1,4 +1,4 @@
-// src/app/superinvestor/layout.tsx - FIXED VERSION
+// src/app/superinvestor/layout.tsx - BETTER TAB NAVIGATION
 'use client'
 
 import { usePathname } from 'next/navigation'
@@ -15,32 +15,23 @@ const navigation = [
   {
     name: 'Übersicht',
     href: '/superinvestor',
-    icon: HomeIcon,
-    description: 'Top-Investoren & Market Insights'
+    icon: HomeIcon
   },
   {
-    name: 'Alle Investoren',
+    name: 'Alle Investoren', 
     href: '/superinvestor/investors',
-    icon: UserGroupIcon,
-    description: 'Vollständige Investoren-Liste'
+    icon: UserGroupIcon
   },
   {
     name: 'Market Insights',
-    href: '/superinvestor/insights',
-    icon: ChartBarIcon,
-    description: 'Detaillierte Markt-Analysen'
+    href: '/superinvestor/insights', 
+    icon: ChartBarIcon
   },
+
   {
-    name: 'Trends',
-    href: '/superinvestor/trends',
-    icon: ArrowTrendingUpIcon,
-    description: 'Bewegungen & Entwicklungen'
-  },
-  {
-    name: 'Aktivität - Neuste Filings',
+    name: 'Aktivität',
     href: '/superinvestor/activity',
-    icon: DocumentTextIcon,
-    description: 'Filing-Zentrale'
+    icon: DocumentTextIcon
   }
 ]
 
@@ -53,11 +44,24 @@ export default function SuperinvestorLayout({
 
   return (
     <div className="min-h-screen bg-gray-950">
-      {/* 🎯 FIXED Navigation - Sticky unter der Hauptnavbar */}
-      <div className="sticky top-20 z-40 bg-gray-950/80 backdrop-blur-xl border-b border-gray-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-2 backdrop-blur-sm">
-            <div className="flex flex-wrap gap-2">
+      
+      {/* ✅ MUCH BETTER Tab Navigation - More Space & Prominence */}
+      <div className="bg-gray-950 pt-32 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Page Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Super-Investoren
+            </h1>
+            <p className="text-lg text-gray-400">
+              Verfolge die Portfolios der erfolgreichsten Investoren der Welt
+            </p>
+          </div>
+
+          {/* ✅ Prominent Tab Navigation */}
+          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-2">
+            <nav className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
               {navigation.map((item) => {
                 const isActive = pathname === item.href
                 const Icon = item.icon
@@ -66,26 +70,26 @@ export default function SuperinvestorLayout({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`group flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                       isActive
-                        ? 'bg-green-500 text-black shadow-lg'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50 border border-transparent hover:border-gray-600/50'
+                        ? 'bg-green-500 text-black shadow-lg shadow-green-500/25'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
-                    <span className="hidden sm:block">{item.name}</span>
+                    <span>{item.name}</span>
                   </Link>
                 )
               })}
-            </div>
-          </nav>
+            </nav>
+          </div>
         </div>
       </div>
       
-      {/* 🎯 Content mit richtigem Top-Padding */}
-      <div className="pt-8">
+      {/* ✅ Content Area */}
+      <main className="relative">
         {children}
-      </div>
+      </main>
     </div>
   )
 }

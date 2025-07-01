@@ -1,63 +1,115 @@
-// lib/useTheme.ts - Optimierter Theme Hook (behält deine Struktur bei)
+// lib/useTheme.ts - FIXED VERSION - Theme Toggle funktioniert wieder!
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 export type Theme = 'light' | 'dark'
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>('dark') // Default dark (wie vorher)
+  const [theme, setTheme] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
+  const pathname = usePathname()
 
-  // Client-side mounting
+  // ✅ Routes die Theme Toggle haben dürfen
+  const themeToggleRoutes = [
+    '/analyse',
+    '/dashboard',
+    '/profile',
+    '/settings'
+  ]
+
+  // ✅ Routes die IMMER dunkel sein sollen (spezifische zuerst!)
+  const alwaysDarkRoutes = [
+    '/pricing',
+    '/auth',
+    '/superinvestor', 
+    '/news'
+  ]
+
+  // ✅ FIXED: Bessere Route-Matching Logic
+  const allowsThemeToggle = themeToggleRoutes.some(route => 
+    pathname.startsWith(route)
+  )
+
+  // ✅ FIXED: Homepage und spezifische Dark Routes
+  const isAlwaysDark = pathname === '/' || alwaysDarkRoutes.some(route => 
+    pathname.startsWith(route)
+  )
+
+  // Client-side mounting und Theme laden
   useEffect(() => {
     setMounted(true)
     
-    // Theme aus localStorage laden
-    const savedTheme = localStorage.getItem('finclue-theme') as Theme | null
-    if (savedTheme) {
-      setTheme(savedTheme)
+    if (isAlwaysDark) {
+      // ✅ Für Marketing-Seiten: IMMER dunkel
+      setTheme('dark')
+      applyTheme('dark')
+      return
     }
-    // Kein System-Theme override - User behält Kontrolle
-  }, [])
 
-  // Theme auf document anwenden (wie dein alter Code)
+    if (allowsThemeToggle) {
+      // ✅ Für Terminal-Seiten: User-Präferenz laden
+      const savedTheme = localStorage.getItem('finclue-terminal-theme') as Theme | null
+      if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+        setTheme(savedTheme)
+        applyTheme(savedTheme)
+      } else {
+        // System-Präferenz für Terminal
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const initialTheme = prefersDark ? 'dark' : 'light'
+        setTheme(initialTheme)
+        applyTheme(initialTheme)
+        localStorage.setItem('finclue-terminal-theme', initialTheme)
+      }
+    } else {
+      // ✅ Fallback: dunkel
+      setTheme('dark')
+      applyTheme('dark')
+    }
+  }, [pathname, isAlwaysDark, allowsThemeToggle])
+
+  // ✅ Route-Change Handler
   useEffect(() => {
     if (!mounted) return
 
-    // Entferne alle Theme-Klassen
-    document.documentElement.classList.remove('light', 'dark')
-    
-    // Füge aktuelle Theme-Klasse hinzu
-    document.documentElement.classList.add(theme)
-    
-    // In localStorage speichern (wie vorher)
-    localStorage.setItem('finclue-theme', theme)
-  }, [theme, mounted])
+    if (isAlwaysDark) {
+      // ✅ Zurück zu dunkel für Marketing-Seiten
+      setTheme('dark')
+      applyTheme('dark')
+    } else if (allowsThemeToggle) {
+      // ✅ Terminal-Theme wiederherstellen
+      const savedTheme = localStorage.getItem('finclue-terminal-theme') as Theme | null
+      if (savedTheme) {
+        setTheme(savedTheme)
+        applyTheme(savedTheme)
+      }
+    }
+  }, [pathname, mounted, isAlwaysDark, allowsThemeToggle])
 
+  // Hilfsfunktion um Theme anzuwenden
+  const applyTheme = (newTheme: Theme) => {
+    const root = document.documentElement
+    root.classList.remove('light', 'dark')
+    root.classList.add(newTheme)
+  }
+
+  // Theme wechseln (nur für Terminal-Routen)
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark')
+    if (!mounted || !allowsThemeToggle || isAlwaysDark) return
+    
+    const newTheme: Theme = theme === 'dark' ? 'light' : 'dark'
+    
+    setTheme(newTheme)
+    applyTheme(newTheme)
+    // ✅ Separate Storage für Terminal-Theme
+    localStorage.setItem('finclue-terminal-theme', newTheme)
   }
 
   return { 
-    theme, 
+    theme: isAlwaysDark ? 'dark' : theme, // ✅ Marketing-Seiten immer dunkel
     toggleTheme,
-    mounted // Für SSR-safe rendering
-  }
-}
-
-// Bonus: Theme Provider für App-weite Verwaltung
-export function useThemeProvider() {
-  const { theme, toggleTheme, mounted } = useTheme()
-
-  const isDark = theme === 'dark'
-  const isLight = theme === 'light'
-
-  return {
-    theme,
-    isDark,
-    isLight,
-    toggleTheme,
-    mounted
+    mounted,
+    allowsThemeToggle: allowsThemeToggle && !isAlwaysDark // ✅ Theme Toggle nur wo erlaubt
   }
 }

@@ -1,4 +1,4 @@
-// src/components/StripeConnectButton.tsx - FINAL VERSION mit optimierter UX
+// src/components/StripeConnectButton.tsx - CLEAN DESIGN MIT THEME SUPPORT
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -150,44 +150,44 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
 
   const trialInfo = getTrialInfo();
 
-  // Loading State
+  // Loading State mit Theme
   if (loading || premiumLoading) {
     return (
       <div className="flex items-center justify-center p-4">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-        <span className="ml-2 text-gray-300">Lade Status...</span>
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-theme-muted"></div>
+        <span className="ml-2 text-theme-muted">Lade Status...</span>
       </div>
     );
   }
 
-  // No User State
+  // No User State mit Theme
   if (!user) {
     return (
       <div className="text-center p-4">
-        <p className="text-gray-300">Loggen Sie sich ein, um Premium zu testen.</p>
+        <p className="text-theme-muted">Loggen Sie sich ein, um Premium zu testen.</p>
       </div>
     );
   }
 
-  // Success Message für Trial Start
+  // Success Message für Trial Start mit Theme
   if (showSuccessMessage) {
     return (
-      <div className="bg-green-900/20 border border-green-500/50 backdrop-blur-md p-4 rounded-xl">
+      <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="text-green-400 mr-3">🎉</div>
             <div>
-              <h3 className="text-green-400 font-semibold">
+              <h3 className="text-theme-primary font-semibold">
                 {isTrialStart ? '14-Tage Trial gestartet!' : 'Zahlung erfolgreich!'}
               </h3>
-              <p className="text-green-300 text-sm">
+              <p className="text-theme-muted text-sm">
                 {isTrialStart ? 'Premium Features sind jetzt freigeschaltet' : 'Premium wird aktiviert...'}
               </p>
             </div>
           </div>
           <button
             onClick={() => setShowSuccessMessage(false)}
-            className="text-green-400 hover:text-green-300 text-xl font-bold"
+            className="text-theme-muted hover:text-theme-secondary text-xl font-bold"
           >
             ×
           </button>
@@ -196,22 +196,24 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     );
   }
 
-  // TRIAL AKTIV
+  // TRIAL AKTIV mit Theme
   if (trialInfo?.isTrialing) {
     return (
       <div className="space-y-4">
         {/* Trial Status */}
-        <div className="bg-gradient-to-br from-blue-900/20 to-green-900/20 border border-blue-500/50 rounded-xl p-4">
+        <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🚀</span>
+              <div className="w-10 h-10 bg-theme-tertiary/50 rounded-full flex items-center justify-center border border-theme">
+                <span className="text-lg">🚀</span>
+              </div>
               <div>
-                <h3 className="text-blue-400 font-semibold">14-Tage Trial aktiv</h3>
+                <h3 className="text-theme-primary font-semibold">14-Tage Trial aktiv</h3>
                 <div className="space-y-1">
-                  <p className="text-blue-300 text-sm">
-                    Noch <span className="font-bold text-white">{trialInfo.daysLeft} Tage</span> kostenlos
+                  <p className="text-theme-secondary text-sm">
+                    Noch <span className="font-bold text-theme-primary">{trialInfo.daysLeft} Tage</span> kostenlos
                   </p>
-                  <p className="text-gray-400 text-xs">
+                  <p className="text-theme-muted text-xs">
                     Danach 9€/Monat • Jederzeit kündbar
                   </p>
                 </div>
@@ -222,14 +224,14 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
               <button
                 onClick={refetch}
                 disabled={actionLoading}
-                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-600 transition text-sm"
+                className="px-3 py-2 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
               >
                 {actionLoading ? '...' : 'Aktualisieren'}
               </button>
               <button
                 onClick={handleCustomerPortal}
                 disabled={actionLoading}
-                className="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-600 transition text-sm"
+                className="px-3 py-2 bg-theme-primary text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
               >
                 {actionLoading ? '...' : 'Verwalten'}
               </button>
@@ -238,34 +240,34 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
         </div>
 
         {/* Trial Features - alle verfügbar */}
-        <div className="bg-green-900/20 border border-green-500/30 rounded-lg p-3">
-          <h5 className="text-green-400 font-medium mb-2 text-sm">✨ Alle Premium Features freigeschaltet:</h5>
-          <div className="grid grid-cols-2 gap-1 text-xs text-green-300">
+        <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-3">
+          <h5 className="text-theme-primary font-medium mb-2 text-sm">✨ Alle Premium Features freigeschaltet:</h5>
+          <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
             <div className="flex items-center gap-1">
-              <span>✓</span> Erweiterte Analysen
+              <span className="text-green-400">✓</span> Erweiterte Analysen
             </div>
             <div className="flex items-center gap-1">
-              <span>✓</span> Interaktive Charts
+              <span className="text-green-400">✓</span> Interaktive Charts
             </div>
             <div className="flex items-center gap-1">
-              <span>✓</span> Historische Daten
+              <span className="text-green-400">✓</span> Historische Daten
             </div>
             <div className="flex items-center gap-1">
-              <span>✓</span> Priority Support
+              <span className="text-green-400">✓</span> Priority Support
             </div>
           </div>
         </div>
 
         {/* Trial Reminder */}
         {trialInfo.daysLeft <= 3 && (
-          <div className="bg-orange-900/20 border border-orange-500/50 rounded-lg p-3">
+          <div className="bg-orange-500/20 border border-orange-500/30 rounded-lg p-3">
             <div className="flex items-center gap-2">
               <span className="text-orange-400">⏰</span>
               <div>
                 <p className="text-orange-300 text-sm font-medium">
                   Trial endet in {trialInfo.daysLeft} Tagen
                 </p>
-                <p className="text-orange-400 text-xs">
+                <p className="text-orange-400/80 text-xs">
                   Nutze den Verwalten-Button um dein Abo anzupassen
                 </p>
               </div>
@@ -276,30 +278,32 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     );
   }
 
-  // PREMIUM AKTIV (nach Trial)
+  // PREMIUM AKTIV (nach Trial) mit Theme
   if (premiumStatus.isPremium) {
     return (
       <div className="space-y-4">
         {/* Premium Status */}
-        <div className="bg-green-900/20 border border-green-500/50 rounded-xl p-4">
+        <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">⭐</span>
+              <div className="w-10 h-10 bg-theme-tertiary/50 rounded-full flex items-center justify-center border border-theme">
+                <span className="text-lg">⭐</span>
+              </div>
               <div>
-                <h3 className="text-green-400 font-semibold">Premium aktiv</h3>
+                <h3 className="text-theme-primary font-semibold">Premium aktiv</h3>
                 <div className="space-y-1">
                   {premiumStatus.status && (
-                    <p className="text-green-300 text-sm">
+                    <p className="text-theme-secondary text-sm">
                       Status: <span className="font-medium capitalize">{premiumStatus.status}</span>
                     </p>
                   )}
                   {premiumStatus.endDate && (
-                    <p className="text-green-300 text-sm">
+                    <p className="text-theme-secondary text-sm">
                       Verlängert bis: {premiumStatus.endDate.toLocaleDateString('de-DE')}
                     </p>
                   )}
                   {premiumStatus.daysRemaining !== null && premiumStatus.daysRemaining > 0 && (
-                    <p className="text-blue-400 text-sm">
+                    <p className="text-theme-primary text-sm">
                       Noch {premiumStatus.daysRemaining} Tage
                     </p>
                   )}
@@ -311,14 +315,14 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
               <button
                 onClick={refetch}
                 disabled={actionLoading}
-                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-600 transition text-sm"
+                className="px-3 py-2 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
               >
                 {actionLoading ? '...' : 'Aktualisieren'}
               </button>
               <button
                 onClick={handleCustomerPortal}
                 disabled={actionLoading}
-                className="px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-600 transition text-sm"
+                className="px-3 py-2 bg-theme-primary text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
               >
                 {actionLoading ? '...' : 'Verwalten'}
               </button>
@@ -327,20 +331,20 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
         </div>
 
         {/* Premium Features */}
-        <div className="bg-gray-700/30 rounded-lg p-3">
-          <h5 className="text-white font-medium mb-2 text-sm">Premium Features aktiv:</h5>
-          <div className="grid grid-cols-2 gap-1 text-xs text-green-300">
+        <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-3">
+          <h5 className="text-theme-primary font-medium mb-2 text-sm">Premium Features aktiv:</h5>
+          <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
             <div className="flex items-center gap-1">
-              <span>✓</span> Erweiterte Analysen
+              <span className="text-green-400">✓</span> Erweiterte Analysen
             </div>
             <div className="flex items-center gap-1">
-              <span>✓</span> Alle Charts
+              <span className="text-green-400">✓</span> Alle Charts
             </div>
             <div className="flex items-center gap-1">
-              <span>✓</span> Keine Werbung
+              <span className="text-green-400">✓</span> Keine Werbung
             </div>
             <div className="flex items-center gap-1">
-              <span>✓</span> Priority Support
+              <span className="text-green-400">✓</span> Priority Support
             </div>
           </div>
         </div>
@@ -348,26 +352,28 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     );
   }
 
-  // KEIN PREMIUM - Standard Trial mit optionalem Skip
+  // KEIN PREMIUM - Standard Trial mit optionalem Skip - mit Theme
   return (
     <div className="space-y-4">
       {/* Hauptsächlicher Trial Call-to-Action */}
-      <div className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-xl p-4">
-        <div className="text-center space-y-3">
-          <div className="text-3xl">🚀</div>
+      <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-6">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 bg-theme-tertiary/50 rounded-full flex items-center justify-center mx-auto border border-theme">
+            <span className="text-2xl">🚀</span>
+          </div>
           <div>
-            <h3 className="text-white font-semibold">Premium kostenlos testen</h3>
-            <p className="text-gray-300 text-sm">
+            <h3 className="text-theme-primary font-semibold text-lg">Premium kostenlos testen</h3>
+            <p className="text-theme-secondary text-sm">
               14 Tage alle Features gratis • Danach 9€/Monat • Jederzeit kündbar
             </p>
           </div>
           <button
             onClick={() => handleStripeCheckout(true)} // MIT Trial
             disabled={actionLoading}
-            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:bg-gray-600 transition font-semibold flex items-center justify-center gap-2"
+            className="w-full px-6 py-3 bg-theme-primary text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors font-medium flex items-center justify-center gap-2 border border-theme"
           >
             {actionLoading ? (
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-theme-secondary"></div>
             ) : (
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -375,7 +381,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
             )}
             Kostenlos anmelden
           </button>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-theme-muted">
             Kreditkarte erforderlich • Erste 14 Tage kostenlos • Jederzeit kündbar
           </p>
           
@@ -383,7 +389,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           <button
             onClick={() => handleStripeCheckout(false)} // OHNE Trial
             disabled={actionLoading}
-            className="text-xs text-gray-500 hover:text-gray-300 underline transition"
+            className="text-xs text-theme-muted hover:text-theme-secondary underline transition-colors"
           >
             Ohne Trial direkt abonnieren
           </button>
@@ -391,9 +397,9 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
       </div>
 
       {/* Was ist enthalten */}
-      <div className="bg-gray-700/20 rounded-lg p-3">
-        <h5 className="text-white font-medium mb-2 text-sm">14 Tage kostenlos enthalten:</h5>
-        <div className="grid grid-cols-2 gap-1 text-xs text-gray-300">
+      <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-3">
+        <h5 className="text-theme-primary font-medium mb-2 text-sm">14 Tage kostenlos enthalten:</h5>
+        <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
           <div className="flex items-center gap-1">
             <span className="text-green-400">✓</span> Alle Analysen
           </div>

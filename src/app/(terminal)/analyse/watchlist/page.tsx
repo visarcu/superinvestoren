@@ -1,4 +1,4 @@
-// src/app/watchlist/page.tsx - MIT THEME SUPPORT
+// src/app/watchlist/page.tsx - DASHBOARD DESIGN KONSISTENZ
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -33,20 +33,19 @@ interface StockData {
   isDip: boolean;
 }
 
-export default function ModernWatchlistPage() {
+export default function WatchlistPage() {
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
   const [stockData, setStockData] = useState<Record<string, StockData>>({});
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [showOnlyDips, setShowOnlyDips] = useState(false);
-  const [dipThreshold, setDipThreshold] = useState(10); // Default: 10% Dip
+  const [dipThreshold, setDipThreshold] = useState(10);
   const router = useRouter();
 
   useEffect(() => {
     async function fetchWatchlist() {
       try {
-        // 1) Session prüfen
         const { data: { session }, error: sessionErr } = await supabase.auth.getSession();
         
         if (sessionErr) {
@@ -62,7 +61,6 @@ export default function ModernWatchlistPage() {
 
         setUser(session.user);
 
-        // 2) Watchlist laden
         const { data, error: dbErr } = await supabase
           .from('watchlists')
           .select('id, ticker, created_at')
@@ -75,7 +73,6 @@ export default function ModernWatchlistPage() {
         } else {
           setWatchlistItems(data || []);
           
-          // 3) Stock-Daten für alle Tickers laden
           if (data && data.length > 0) {
             await loadStockData(data.map(item => item.ticker));
           }
@@ -95,7 +92,6 @@ export default function ModernWatchlistPage() {
     const stockDataMap: Record<string, StockData> = {};
 
     try {
-      // Parallel alle Ticker laden
       const promises = tickers.map(async (ticker) => {
         try {
           const res = await fetch(
@@ -105,7 +101,6 @@ export default function ModernWatchlistPage() {
           if (res.ok) {
             const [quote] = await res.json();
             if (quote) {
-              // Dip-Percentage berechnen: Wie weit ist der aktuelle Kurs vom 52-Week High entfernt?
               const dipPercent = ((quote.price - quote.yearHigh) / quote.yearHigh) * 100;
               
               stockDataMap[ticker] = {
@@ -116,7 +111,7 @@ export default function ModernWatchlistPage() {
                 week52High: quote.yearHigh,
                 week52Low: quote.yearLow,
                 dipPercent: dipPercent,
-                isDip: dipPercent <= -dipThreshold // Ist es ein Schnäppchen basierend auf Threshold?
+                isDip: dipPercent <= -dipThreshold
               };
             }
           }
@@ -151,7 +146,6 @@ export default function ModernWatchlistPage() {
         alert('Fehler beim Entfernen');
       } else {
         setWatchlistItems(prev => prev.filter(item => item.id !== id));
-        // Auch aus stockData entfernen
         setStockData(prev => {
           const newData = { ...prev };
           delete newData[ticker];
@@ -163,15 +157,10 @@ export default function ModernWatchlistPage() {
     }
   }
 
-  // Loading State - Theme-aware
   if (loading) {
     return (
-      <div className="min-h-screen bg-theme-primary noise-bg">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative flex min-h-screen items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-theme-primary">
+        <div className="flex min-h-screen items-center justify-center py-12 px-4">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
             <p className="text-theme-secondary">Lade Watchlist...</p>
@@ -181,7 +170,6 @@ export default function ModernWatchlistPage() {
     );
   }
 
-  // Filter: Nur Schnäppchen anzeigen oder alle
   const filteredItems = showOnlyDips 
     ? watchlistItems.filter(item => stockData[item.ticker]?.isDip)
     : watchlistItems;
@@ -189,111 +177,95 @@ export default function ModernWatchlistPage() {
   const dipCount = watchlistItems.filter(item => stockData[item.ticker]?.isDip).length;
 
   return (
-    <div className="min-h-screen bg-theme-primary noise-bg">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-blue-500/3 rounded-full blur-3xl"></div>
-      </div>
-
-      {/* Hero Section */}
-      <div className="bg-theme-primary noise-bg pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center space-y-6">
-            
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm">
-              <BookmarkIcon className="w-4 h-4" />
-              <span>Deine Watchlist</span>
-            </div>
-            
-            {/* Main Heading */}
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-bold text-theme-primary leading-tight tracking-tight">
-                Verfolge deine
-              </h1>
-              <h2 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
-                <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
-                  Favoriten-Aktien
-                </span>
-              </h2>
-            </div>
-            
-            {/* Subtitle */}
-            <p className="text-xl text-theme-secondary max-w-3xl mx-auto leading-relaxed">
-              Entdecke Schnäppchen und verfolge die Performance deiner bevorzugten Investments.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative space-y-8">
+    <div className="min-h-screen bg-theme-primary">
+      <div className="w-full px-4 py-4 space-y-4">
         
-        {/* Schnäppchen-Radar Controls */}
-        {watchlistItems.length > 0 && (
-          <div className="bg-theme-card/70 border border-theme rounded-xl p-6 backdrop-blur-sm">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-              
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3">
-                  <ArrowTrendingDownIcon className="w-6 h-6 text-red-400" />
-                  <h2 className="text-xl font-semibold text-theme-primary">
-                    Schnäppchen-Radar
-                  </h2>
-                </div>
-                {dipCount > 0 && (
-                  <span className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-lg font-medium">
-                    {dipCount} Schnäppchen gefunden
-                  </span>
-                )}
+        {/* Hero Header */}
+        <div className="bg-theme-card rounded-lg">
+          <div className="p-6">
+            <div className="max-w-4xl">
+              <div className="flex items-center gap-2 mb-3">
+                <BookmarkIcon className="w-5 h-5 text-green-400" />
+                <span className="text-sm font-medium text-green-400">Deine Watchlist</span>
               </div>
               
-              <div className="flex flex-wrap items-center gap-4">
-                {/* Dip Threshold Slider */}
-                <div className="flex items-center gap-3">
-                  <AdjustmentsHorizontalIcon className="w-4 h-4 text-theme-secondary" />
-                  <label className="text-theme-secondary text-sm">Schwelle:</label>
-                  <input
-                    type="range"
-                    min="5"
-                    max="30"
-                    value={dipThreshold}
-                    onChange={(e) => {
-                      setDipThreshold(Number(e.target.value));
-                      // Neu berechnen welche Stocks Schnäppchen sind
-                      const newStockData = { ...stockData };
-                      Object.keys(newStockData).forEach(ticker => {
-                        newStockData[ticker].isDip = newStockData[ticker].dipPercent <= -Number(e.target.value);
-                      });
-                      setStockData(newStockData);
-                    }}
-                    className="w-20 accent-green-500"
-                  />
-                  <span className="text-theme-primary text-sm w-12">-{dipThreshold}%</span>
+              <h1 className="text-2xl md:text-3xl font-bold text-theme-primary mb-2">
+                Verfolge deine
+                <span className="block text-green-400">Favoriten-Aktien</span>
+              </h1>
+              
+              <p className="text-theme-secondary max-w-2xl">
+                Entdecke Schnäppchen und verfolge die Performance deiner bevorzugten Investments.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Schnäppchen-Radar Controls */}
+        {watchlistItems.length > 0 && (
+          <div className="bg-theme-card rounded-lg">
+            <div className="p-6">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
+                    <ArrowTrendingDownIcon className="w-6 h-6 text-red-400" />
+                    <h2 className="text-lg font-semibold text-theme-primary">
+                      Schnäppchen-Radar
+                    </h2>
+                  </div>
+                  {dipCount > 0 && (
+                    <span className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-lg font-medium">
+                      {dipCount} Schnäppchen gefunden
+                    </span>
+                  )}
                 </div>
+                
+                <div className="flex flex-wrap items-center gap-4">
+                  {/* Dip Threshold Slider */}
+                  <div className="flex items-center gap-3">
+                    <AdjustmentsHorizontalIcon className="w-4 h-4 text-theme-secondary" />
+                    <label className="text-theme-secondary text-sm">Schwelle:</label>
+                    <input
+                      type="range"
+                      min="5"
+                      max="30"
+                      value={dipThreshold}
+                      onChange={(e) => {
+                        setDipThreshold(Number(e.target.value));
+                        const newStockData = { ...stockData };
+                        Object.keys(newStockData).forEach(ticker => {
+                          newStockData[ticker].isDip = newStockData[ticker].dipPercent <= -Number(e.target.value);
+                        });
+                        setStockData(newStockData);
+                      }}
+                      className="w-20 accent-green-500"
+                    />
+                    <span className="text-theme-primary text-sm w-12">-{dipThreshold}%</span>
+                  </div>
 
-                {/* Filter Toggle */}
-                <button
-                  onClick={() => setShowOnlyDips(!showOnlyDips)}
-                  className={`px-4 py-2 rounded-lg transition font-medium ${
-                    showOnlyDips 
-                      ? 'bg-red-500 text-white' 
-                      : 'bg-theme-secondary text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary border border-theme'
-                  }`}
-                >
-                  {showOnlyDips ? 'Alle anzeigen' : 'Nur Schnäppchen'}
-                </button>
+                  {/* Filter Toggle */}
+                  <button
+                    onClick={() => setShowOnlyDips(!showOnlyDips)}
+                    className={`px-4 py-2 rounded-lg transition font-medium text-sm ${
+                      showOnlyDips 
+                        ? 'bg-red-500 text-white' 
+                        : 'bg-theme-tertiary/50 text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary'
+                    }`}
+                  >
+                    {showOnlyDips ? 'Alle anzeigen' : 'Nur Schnäppchen'}
+                  </button>
 
-                {/* Refresh Button */}
-                <button
-                  onClick={() => loadStockData(watchlistItems.map(item => item.ticker))}
-                  disabled={dataLoading}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-500 text-black rounded-lg hover:bg-green-400 disabled:bg-theme-tertiary disabled:text-theme-muted disabled:cursor-not-allowed transition font-medium"
-                >
-                  <ArrowPathIcon className={`w-4 h-4 ${dataLoading ? 'animate-spin' : ''}`} />
-                  {dataLoading ? 'Laden...' : 'Aktualisieren'}
-                </button>
+                  {/* Refresh Button */}
+                  <button
+                    onClick={() => loadStockData(watchlistItems.map(item => item.ticker))}
+                    disabled={dataLoading}
+                    className="flex items-center gap-2 px-4 py-2 bg-green-500 text-black rounded-lg hover:bg-green-400 disabled:bg-theme-tertiary disabled:text-theme-muted disabled:cursor-not-allowed transition font-medium text-sm"
+                  >
+                    <ArrowPathIcon className={`w-4 h-4 ${dataLoading ? 'animate-spin' : ''}`} />
+                    {dataLoading ? 'Laden...' : 'Aktualisieren'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -301,174 +273,176 @@ export default function ModernWatchlistPage() {
 
         {/* Watchlist Content */}
         {filteredItems.length === 0 ? (
-          <div className="bg-theme-card/70 border border-theme rounded-xl p-12 backdrop-blur-sm text-center">
-            <div className="w-24 h-24 mx-auto bg-theme-secondary/50 rounded-2xl flex items-center justify-center mb-6">
-              {showOnlyDips ? (
-                <ArrowTrendingDownIcon className="w-12 h-12 text-theme-secondary" />
-              ) : (
-                <BookmarkIcon className="w-12 h-12 text-theme-secondary" />
+          <div className="bg-theme-card rounded-lg">
+            <div className="p-12 text-center">
+              <div className="w-24 h-24 mx-auto bg-theme-tertiary/30 rounded-2xl flex items-center justify-center mb-6">
+                {showOnlyDips ? (
+                  <ArrowTrendingDownIcon className="w-12 h-12 text-theme-secondary" />
+                ) : (
+                  <BookmarkIcon className="w-12 h-12 text-theme-secondary" />
+                )}
+              </div>
+              
+              <div className="space-y-4 max-w-md mx-auto">
+                <h2 className="text-xl font-semibold text-theme-primary">
+                  {showOnlyDips 
+                    ? watchlistItems.length > 0 
+                      ? 'Keine Schnäppchen gefunden'
+                      : 'Keine Aktien in der Watchlist'
+                    : 'Keine Aktien in der Watchlist'
+                  }
+                </h2>
+                <p className="text-theme-secondary text-sm">
+                  {showOnlyDips && watchlistItems.length > 0
+                    ? `Alle deine Aktien sind weniger als ${dipThreshold}% von ihrem 52-Wochen-Hoch entfernt.`
+                    : 'Füge Aktien zu deiner Watchlist hinzu, um sie zu verfolgen und Schnäppchen zu entdecken.'
+                  }
+                </p>
+              </div>
+              
+              {!showOnlyDips && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                  <Link
+                    href="/superinvestor"
+                    className="px-6 py-3 bg-green-500 text-black rounded-lg hover:bg-green-400 transition font-medium"
+                  >
+                    Super-Investoren entdecken
+                  </Link>
+                  <Link
+                    href="/analyse/stocks"
+                    className="px-6 py-3 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary hover:text-theme-primary transition font-medium"
+                  >
+                    Aktien finden
+                  </Link>
+                </div>
               )}
             </div>
-            
-            <div className="space-y-4 max-w-md mx-auto">
-              <h2 className="text-2xl font-semibold text-theme-primary">
-                {showOnlyDips 
-                  ? watchlistItems.length > 0 
-                    ? 'Keine Schnäppchen gefunden'
-                    : 'Keine Aktien in der Watchlist'
-                  : 'Keine Aktien in der Watchlist'
-                }
-              </h2>
-              <p className="text-theme-secondary">
-                {showOnlyDips && watchlistItems.length > 0
-                  ? `Alle deine Aktien sind weniger als ${dipThreshold}% von ihrem 52-Wochen-Hoch entfernt.`
-                  : 'Füge Aktien zu deiner Watchlist hinzu, um sie zu verfolgen und Schnäppchen zu entdecken.'
-                }
-              </p>
-            </div>
-            
-            {!showOnlyDips && (
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                <Link
-                  href="/superinvestor"
-                  className="px-6 py-3 bg-green-500 text-black rounded-lg hover:bg-green-400 transition font-medium"
-                >
-                  Super-Investoren entdecken
-                </Link>
-                <Link
-                  href="analyse/stocks"
-                  className="px-6 py-3 bg-theme-secondary text-theme-secondary rounded-lg hover:bg-theme-tertiary hover:text-theme-primary transition font-medium border border-theme"
-                >
-                  Aktien finden
-                </Link>
-              </div>
-            )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredItems.map((item) => {
-              const data = stockData[item.ticker];
-              const hasData = !!data;
-              
-              return (
-                <div key={item.id} className="bg-theme-card/70 border border-theme rounded-xl p-6 backdrop-blur-sm hover:bg-theme-card/80 hover:border-border-hover transition-all duration-200">
+          <div className="bg-theme-card rounded-lg">
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+                {filteredItems.map((item) => {
+                  const data = stockData[item.ticker];
+                  const hasData = !!data;
                   
-                  {/* Header mit Logo und Dip-Indikator */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-theme-secondary/50 rounded-xl flex items-center justify-center">
-                        <Logo
-                          src={`/logos/${item.ticker.toLowerCase()}.svg`}
-                          alt={`${item.ticker} Logo`}
-                          className="w-8 h-8"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-theme-primary flex items-center gap-2">
-                          {item.ticker}
-                          {hasData && data.isDip && (
-                            <ExclamationTriangleIcon className="w-4 h-4 text-red-400" title="Schnäppchen!" />
-                          )}
-                        </h3>
-                        <p className="text-xs text-theme-muted">
-                          Hinzugefügt: {new Date(item.created_at).toLocaleDateString('de-DE')}
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => removeFromWatchlist(item.id, item.ticker)}
-                      className="p-2 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
-                      title="Aus Watchlist entfernen"
-                    >
-                      <TrashIcon className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Stock Data */}
-                  {hasData ? (
-                    <div className="space-y-4">
-                      {/* Aktueller Preis und Change */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-theme-primary">
-                          ${data.price.toFixed(2)}
-                        </span>
-                        <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-sm font-medium ${
-                          data.change >= 0 
-                            ? 'text-green-400 bg-green-500/20' 
-                            : 'text-red-400 bg-red-500/20'
-                        }`}>
-                          {data.change >= 0 ? (
-                            <ArrowTrendingUpIcon className="w-3 h-3" />
-                          ) : (
-                            <ArrowTrendingDownIcon className="w-3 h-3" />
-                          )}
-                          <span>
-                            {data.changePercent >= 0 ? '+' : ''}{data.changePercent.toFixed(2)}%
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* 52-Week High/Low und Dip Info */}
-                      <div className="space-y-2 pt-3 border-t border-theme/50">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-theme-secondary">52W High:</span>
-                          <span className="text-theme-primary">${data.week52High.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-theme-secondary">52W Low:</span>
-                          <span className="text-theme-primary">${data.week52Low.toFixed(2)}</span>
-                        </div>
-                        
-                        {/* Dip Percentage */}
-                        <div className="flex justify-between text-sm">
-                          <span className="text-theme-secondary">Von 52W High:</span>
-                          <span className={`font-medium ${
-                            data.dipPercent <= -dipThreshold ? 'text-red-400' : 'text-theme-primary'
-                          }`}>
-                            {data.dipPercent.toFixed(1)}%
-                          </span>
-                        </div>
-
-                        {/* Dip Alert */}
-                        {data.isDip && (
-                          <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg mt-3">
-                            <p className="text-red-300 text-sm font-medium">
-                              🔥 SCHNÄPPCHEN: {Math.abs(data.dipPercent).toFixed(1)}% unter 52W High!
+                  return (
+                    <div key={item.id} className="p-6 rounded-lg hover:bg-theme-secondary/20 transition-all duration-200 border border-theme/10 hover:border-green-500/20">
+                      
+                      {/* Header */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <Logo
+                            src={`/logos/${item.ticker.toLowerCase()}.svg`}
+                            alt={`${item.ticker} Logo`}
+                            className="w-10 h-10"
+                          />
+                          <div>
+                            <h3 className="text-base font-semibold text-theme-primary flex items-center gap-2">
+                              {item.ticker}
+                              {hasData && data.isDip && (
+                                <ExclamationTriangleIcon className="w-4 h-4 text-red-400" title="Schnäppchen!" />
+                              )}
+                            </h3>
+                            <p className="text-xs text-theme-muted">
+                              {new Date(item.created_at).toLocaleDateString('de-DE')}
                             </p>
                           </div>
-                        )}
+                        </div>
+                        <button
+                          onClick={() => removeFromWatchlist(item.id, item.ticker)}
+                          className="p-2 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
+                          title="Aus Watchlist entfernen"
+                        >
+                          <TrashIcon className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {/* Stock Data */}
+                      {hasData ? (
+                        <div className="space-y-4">
+                          {/* Price & Change */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-xl font-bold text-theme-primary">
+                              ${data.price.toFixed(2)}
+                            </span>
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium ${
+                              data.change >= 0 
+                                ? 'text-green-400 bg-green-500/20' 
+                                : 'text-red-400 bg-red-500/20'
+                            }`}>
+                              {data.change >= 0 ? (
+                                <ArrowTrendingUpIcon className="w-3 h-3" />
+                              ) : (
+                                <ArrowTrendingDownIcon className="w-3 h-3" />
+                              )}
+                              <span>
+                                {data.changePercent >= 0 ? '+' : ''}{data.changePercent.toFixed(2)}%
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* 52W Data */}
+                          <div className="space-y-2 pt-3 border-t border-theme/10">
+                            <div className="flex justify-between text-xs">
+                              <span className="text-theme-secondary">52W High:</span>
+                              <span className="text-theme-primary">${data.week52High.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-xs">
+                              <span className="text-theme-secondary">52W Low:</span>
+                              <span className="text-theme-primary">${data.week52Low.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-xs">
+                              <span className="text-theme-secondary">Von 52W High:</span>
+                              <span className={`font-medium ${
+                                data.dipPercent <= -dipThreshold ? 'text-red-400' : 'text-theme-primary'
+                              }`}>
+                                {data.dipPercent.toFixed(1)}%
+                              </span>
+                            </div>
+
+                            {/* Dip Alert */}
+                            {data.isDip && (
+                              <div className="p-2 bg-red-500/10 border border-red-500/20 rounded mt-2">
+                                <p className="text-red-300 text-xs font-medium">
+                                  🔥 SCHNÄPPCHEN: {Math.abs(data.dipPercent).toFixed(1)}% unter 52W High!
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center py-8">
+                          {dataLoading ? (
+                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
+                          ) : (
+                            <p className="text-theme-muted text-sm">Daten werden geladen...</p>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Action Button */}
+                      <div className="mt-6">
+                        <Link
+                          href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary hover:text-theme-primary transition font-medium text-sm"
+                        >
+                          <ChartBarIcon className="w-4 h-4" />
+                          <span>Analyse</span>
+                        </Link>
                       </div>
                     </div>
-                  ) : (
-                    <div className="flex items-center justify-center py-8">
-                      {dataLoading ? (
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
-                      ) : (
-                        <p className="text-theme-muted text-sm">Daten werden geladen...</p>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Action Button */}
-                  <div className="mt-6">
-                    <Link
-                      href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-secondary text-theme-secondary rounded-lg hover:bg-theme-tertiary hover:text-theme-primary transition font-medium border border-theme"
-                    >
-                      <ChartBarIcon className="w-4 h-4" />
-                      <span>Analyse</span>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
 
-        {/* Footer Info */}
+        {/* Footer Stats */}
         {watchlistItems.length > 0 && (
-          <div className="text-center pt-8">
-            <p className="text-theme-muted">
+          <div className="text-center">
+            <p className="text-theme-muted text-sm">
               {watchlistItems.length} {watchlistItems.length === 1 ? 'Aktie' : 'Aktien'} in deiner Watchlist
               {dipCount > 0 && (
                 <span className="ml-2 text-red-400">

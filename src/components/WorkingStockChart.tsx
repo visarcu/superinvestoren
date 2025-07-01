@@ -1,4 +1,4 @@
-// src/components/WorkingStockChart.tsx - PROFESSIONAL FINCHAT CLONE
+// src/components/WorkingStockChart.tsx - CLEAN VERSION ohne Container
 'use client'
 import React, { useState, useMemo, useEffect, useRef } from 'react'
 import { 
@@ -12,6 +12,7 @@ import {
   LineChart,
   Line
 } from 'recharts'
+import { useTheme } from '@/lib/useTheme'
 
 interface StockData {
   date: string
@@ -46,9 +47,7 @@ const CHART_MODES = [
 
 const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#f97316']
 
-// ✅ ERWEITERTE AKTIEN LISTE - Mit deutschen Suchbegriffen
 const POPULAR_STOCKS = [
-  // Große Tech-Aktien
   { symbol: 'AAPL', name: 'Apple Inc.' },
   { symbol: 'MSFT', name: 'Microsoft Corporation' },
   { symbol: 'GOOGL', name: 'Alphabet Inc.' },
@@ -59,8 +58,6 @@ const POPULAR_STOCKS = [
   { symbol: 'NFLX', name: 'Netflix Inc.' },
   { symbol: 'AMD', name: 'Advanced Micro Devices' },
   { symbol: 'INTC', name: 'Intel Corporation' },
-  
-  // Weitere beliebte Aktien
   { symbol: 'CRM', name: 'Salesforce Inc.' },
   { symbol: 'ORCL', name: 'Oracle Corporation' },
   { symbol: 'ADBE', name: 'Adobe Inc.' },
@@ -70,8 +67,6 @@ const POPULAR_STOCKS = [
   { symbol: 'SNAP', name: 'Snap Inc.' },
   { symbol: 'SPOT', name: 'Spotify Technology SA' },
   { symbol: 'SQ', name: 'Block Inc.' },
-  
-  // ✅ INDIZES - Mit deutschen Suchbegriffen
   { symbol: 'SPY', name: 'S&P 500 ETF (USA Index)' },
   { symbol: 'QQQ', name: 'NASDAQ 100 ETF (Tech Index)' },
   { symbol: 'VTI', name: 'Total Stock Market ETF (USA Gesamt)' },
@@ -80,14 +75,6 @@ const POPULAR_STOCKS = [
   { symbol: 'VWRL', name: 'FTSE All-World ETF (Weltindex)' },
   { symbol: 'DIA', name: 'Dow Jones ETF (USA Index)' },
   { symbol: 'IVV', name: 'iShares S&P 500 ETF (USA Index)' },
-  
-  // ✅ DEUTSCHE SUCHBEGRIFFE
-  { symbol: 'SPY', name: 'SP500 - S&P 500 Index' },
-  { symbol: 'SPY', name: 'S&P500 - USA Index' },
-  { symbol: 'IWDA', name: 'MSCI World - Weltindex' },
-  { symbol: 'IWDA', name: 'Weltindex - MSCI World' },
-  { symbol: 'QQQ', name: 'NASDAQ - Tech Index' },
-  { symbol: 'QQQ', name: 'Nasdaq 100 - Technologie' },
 ]
 
 export default function WorkingStockChart({ ticker, data, onAddComparison }: Props) {
@@ -98,15 +85,44 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
   const [isLoading, setIsLoading] = useState(false)
   const [suggestions, setSuggestions] = useState<Array<{symbol: string, name: string}>>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
-  
-  // ✅ FULLSCREEN STATE
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [showMovingAverages, setShowMovingAverages] = useState(false)
   const chartContainerRef = useRef<HTMLDivElement>(null)
   
-  // ✅ Moving Averages
-  const [showMovingAverages, setShowMovingAverages] = useState(false)
+  const { theme } = useTheme()
 
-  // ✅ Moving Averages berechnen
+  // Theme-aware colors
+  const getThemeColors = () => {
+    const isDark = theme === 'dark'
+    return {
+      chartBg: isDark ? 'transparent' : 'transparent', // ✅ Transparent weil Container von außen kommt
+      textPrimary: isDark ? '#ffffff' : '#0f172a',
+      textSecondary: isDark ? '#d1d5db' : '#475569',
+      textMuted: isDark ? '#9ca3af' : '#64748b',
+      buttonBg: isDark ? '#374151' : '#f1f5f9',
+      buttonBgActive: isDark ? '#ffffff' : '#ffffff',
+      buttonText: isDark ? '#d1d5db' : '#475569',
+      buttonTextActive: isDark ? '#111827' : '#111827',
+      buttonHover: isDark ? '#4b5563' : '#e2e8f0',
+      inputBg: isDark ? '#374151' : '#ffffff',
+      inputBorder: isDark ? '#4b5563' : '#d1d5db',
+      inputText: isDark ? '#ffffff' : '#111827',
+      inputPlaceholder: isDark ? '#9ca3af' : '#9ca3af',
+      gridColor: isDark ? '#374151' : '#e5e7eb',
+      tooltipBg: isDark ? '#1f2937' : '#ffffff',
+      tooltipBorder: isDark ? '#4b5563' : '#d1d5db',
+      tooltipText: isDark ? '#ffffff' : '#111827',
+      statsBg: isDark ? 'rgba(31, 41, 55, 0.2)' : 'rgba(241, 245, 249, 0.8)',
+      statsCardBg: isDark ? 'rgba(55, 65, 81, 0.2)' : 'rgba(255, 255, 255, 0.9)',
+      suggestionsBg: isDark ? '#1f2937' : '#ffffff',
+      suggestionsBorder: isDark ? '#4b5563' : '#d1d5db',
+      suggestionsHover: isDark ? '#374151' : '#f8fafc',
+    }
+  }
+
+  const themeColors = getThemeColors()
+
+  // Moving Averages berechnen
   const calculateMovingAverage = (data: StockData[], period: number) => {
     return data.map((item, index) => {
       if (index < period - 1) return { ...item, ma: null }
@@ -139,7 +155,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       .sort((a, b) => a.date.localeCompare(b.date))
   }
 
-  // ✅ Chart Data Berechnung ohne Mock-Daten
+  // Chart Data Berechnung
   const calculateChartData = (stockData: StockData[], mode: string, tickerSymbol: string) => {
     const filteredData = getFilteredData(stockData)
     if (!filteredData.length) return []
@@ -150,38 +166,32 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       switch (mode) {
         case 'price':
           return { date: d.date, value: d.close }
-        
         case 'total_return':
           return { 
             date: d.date, 
             value: ((d.close - basePrice) / basePrice) * 100 
           }
-        
         case 'market_cap':
-          // TODO: Echte Market Cap aus API laden
           return { 
             date: d.date, 
-            value: d.close * 1000000000 // Platzhalter
+            value: d.close * 1000000000
           }
-        
         case '10k_growth':
           return { 
             date: d.date, 
             value: 10000 * (d.close / basePrice)
           }
-        
         default:
           return { date: d.date, value: d.close }
       }
     })
   }
 
-  // ✅ Chart Data mit Moving Averages
+  // Chart Data mit Moving Averages
   const chartData = useMemo(() => {
     const mainData = calculateChartData(data, selectedMode, ticker)
     if (!mainData.length) return []
 
-    // Create base data structure
     let result = mainData.map(d => ({
       date: d.date,
       [ticker]: d.value,
@@ -192,7 +202,6 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       })
     }))
 
-    // Add comparison stocks
     comparisonStocks.forEach(stock => {
       const stockData = calculateChartData(stock.data, selectedMode, stock.ticker)
       result.forEach(item => {
@@ -203,7 +212,6 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       })
     })
 
-    // Add Moving Averages wenn aktiviert und im Preis-Modus
     if (showMovingAverages && selectedMode === 'price') {
       const filteredData = getFilteredData(data)
       const ma20Data = calculateMovingAverage(filteredData, 20)
@@ -221,7 +229,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     return result
   }, [data, comparisonStocks, selectedRange, selectedMode, ticker, showMovingAverages])
 
-  // ✅ NATIVER FULLSCREEN Toggle
+  // Fullscreen toggle
   const toggleFullscreen = async () => {
     if (!chartContainerRef.current) return
 
@@ -229,18 +237,10 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       if (!isFullscreen) {
         if (chartContainerRef.current.requestFullscreen) {
           await chartContainerRef.current.requestFullscreen()
-        } else if ((chartContainerRef.current as any).webkitRequestFullscreen) {
-          await (chartContainerRef.current as any).webkitRequestFullscreen()
-        } else if ((chartContainerRef.current as any).msRequestFullscreen) {
-          await (chartContainerRef.current as any).msRequestFullscreen()
         }
       } else {
         if (document.exitFullscreen) {
           await document.exitFullscreen()
-        } else if ((document as any).webkitExitFullscreen) {
-          await (document as any).webkitExitFullscreen()
-        } else if ((document as any).msExitFullscreen) {
-          await (document as any).msExitFullscreen()
         }
       }
     } catch (error) {
@@ -248,24 +248,17 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     }
   }
 
-  // ✅ Fullscreen change listener
+  // Fullscreen change listener
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement)
     }
 
     document.addEventListener('fullscreenchange', handleFullscreenChange)
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
-    document.addEventListener('msfullscreenchange', handleFullscreenChange)
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange)
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
-      document.removeEventListener('msfullscreenchange', handleFullscreenChange)
-    }
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
   }, [])
 
-  // ✅ Autocomplete Logic mit deutschen Begriffen
+  // Autocomplete Logic
   useEffect(() => {
     if (!newTicker.trim() || newTicker.length < 1) {
       setSuggestions([])
@@ -283,7 +276,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     setShowSuggestions(matches.length > 0)
   }, [newTicker])
 
-  // Calculate performance stats
+  // Performance stats calculation
   const performanceStats = useMemo(() => {
     if (!chartData.length) return {}
     
@@ -312,7 +305,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     return stats
   }, [chartData, ticker, comparisonStocks, selectedMode])
 
-  // Handle suggestion selection
+  // Suggestion selection
   const handleSelectSuggestion = (suggestion: {symbol: string, name: string}) => {
     setNewTicker(suggestion.symbol)
     setShowSuggestions(false)
@@ -384,17 +377,24 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     }
   }
 
-  // ✅ SAUBERE Custom Tooltip
+  // Custom Tooltip
   const renderTooltip = (props: any) => {
     const { active, payload } = props
     if (active && payload && payload.length) {
       const data = payload[0].payload
       
       return (
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 shadow-lg">
-          <p className="text-gray-300 text-sm mb-2">{data.formattedDate}</p>
+        <div 
+          className="rounded-lg p-3 shadow-lg border"
+          style={{ 
+            backgroundColor: themeColors.tooltipBg,
+            borderColor: themeColors.tooltipBorder
+          }}
+        >
+          <p className="text-sm mb-2" style={{ color: themeColors.textMuted }}>
+            {data.formattedDate}
+          </p>
           {payload.map((entry: any, index: number) => {
-            // Skip Moving Average entries in tooltip
             if (entry.dataKey.includes('_MA')) return null
             
             return (
@@ -403,7 +403,10 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                   className="w-3 h-3 rounded-full" 
                   style={{ backgroundColor: entry.color }}
                 />
-                <span className="text-white font-medium">
+                <span 
+                  className="font-medium"
+                  style={{ color: themeColors.textPrimary }}
+                >
                   {entry.dataKey}: {formatValue(entry.value)}
                 </span>
               </div>
@@ -438,17 +441,23 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     }
   }
 
-  // ✅ Calculated values
   const currentPrice = data.length > 0 ? data[data.length - 1].close : 0
   const mainStats = performanceStats[ticker]
   const chartHeight = isFullscreen ? "h-[calc(100vh-120px)]" : "h-[480px]"
 
   return (
-    <div className="relative space-y-4" ref={chartContainerRef}>
-      {/* ✅ SUBTILER FULLSCREEN BUTTON */}
+    // ✅ KEIN Container mehr - nur der Inhalt
+    <div className="space-y-6" ref={chartContainerRef}>
+      
+      {/* ✅ Fullscreen Button - absolut positioned relativ zum Parent */}
       <button
         onClick={toggleFullscreen}
-        className="absolute top-4 right-4 z-10 w-9 h-9 bg-gray-800/60 hover:bg-gray-700/80 rounded-md flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200"
+        className="absolute top-4 right-4 z-10 w-9 h-9 rounded-md flex items-center justify-center transition-all duration-200 border"
+        style={{ 
+          backgroundColor: themeColors.buttonBg,
+          borderColor: themeColors.inputBorder,
+          color: themeColors.textMuted
+        }}
         title={isFullscreen ? 'Vollbild verlassen' : 'Vollbild'}
       >
         {isFullscreen ? (
@@ -463,14 +472,17 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       </button>
 
       {/* Header with Price */}
-      <div className="mb-6">
+      <div>
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-          <span className="text-2xl font-bold text-white">
+          <span 
+            className="text-2xl font-bold"
+            style={{ color: themeColors.textPrimary }}
+          >
             ${currentPrice.toFixed(2)}
           </span>
           {mainStats && (
             <span className={`text-sm font-medium px-3 py-1.5 rounded-lg ${
-              mainStats.changePercent >= 0 ? 'text-green-400 bg-green-900/20' : 'text-red-400 bg-red-900/20'
+              mainStats.changePercent >= 0 ? 'text-green-600 bg-green-500/10 dark:text-green-400 dark:bg-green-900/20' : 'text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-900/20'
             }`}>
               {mainStats.changePercent >= 0 ? '+' : ''}
               {mainStats.changePercent.toFixed(2)}% ({selectedRange})
@@ -479,18 +491,26 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         </div>
       </div>
 
-      {/* ✅ CONTROLS LAYOUT */}
-      <div className="space-y-4 mb-6">
-        
-        {/* Erste Reihe: Modus + Zeiträume */}
+      {/* Controls */}
+      <div className="space-y-4">
+        {/* Modus + Zeiträume */}
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-          {/* Chart Mode */}
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400 font-medium">Modus:</span>
+            <span 
+              className="text-sm font-medium"
+              style={{ color: themeColors.textMuted }}
+            >
+              Modus:
+            </span>
             <select
               value={selectedMode}
               onChange={(e) => setSelectedMode(e.target.value)}
-              className="px-4 py-2 text-sm bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="px-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              style={{
+                backgroundColor: themeColors.inputBg,
+                borderColor: themeColors.inputBorder,
+                color: themeColors.inputText
+              }}
             >
               {CHART_MODES.map((mode) => (
                 <option key={mode.id} value={mode.id}>
@@ -501,23 +521,26 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
           </div>
 
           {/* Time Range Buttons */}
-          <div className="flex items-center gap-1 bg-gray-800/50 rounded-lg p-1 flex-wrap">
+          <div 
+            className="flex items-center gap-1 rounded-lg p-1 flex-wrap"
+            style={{ backgroundColor: themeColors.buttonBg }}
+          >
             {TIME_RANGES.map((range) => (
               <button
                 key={range.label}
                 onClick={() => setSelectedRange(range.label)}
-                className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 whitespace-nowrap ${
-                  selectedRange === range.label
-                    ? 'bg-white text-gray-900 font-medium'
-                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
-                }`}
+                className="px-3 py-1.5 text-sm rounded-md transition-all duration-200 whitespace-nowrap"
+                style={{
+                  backgroundColor: selectedRange === range.label ? themeColors.buttonBgActive : 'transparent',
+                  color: selectedRange === range.label ? themeColors.buttonTextActive : themeColors.buttonText
+                }}
               >
                 {range.label}
               </button>
             ))}
           </div>
 
-          {/* Tools */}
+          {/* Moving Averages Toggle */}
           <div className="flex items-center gap-3 ml-auto">
             {selectedMode === 'price' && (
               <button
@@ -525,8 +548,12 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 className={`px-3 py-1.5 text-sm rounded-lg transition-all duration-200 font-medium ${
                   showMovingAverages 
                     ? 'bg-purple-600 text-white shadow-md' 
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white'
+                    : 'hover:opacity-80'
                 }`}
+                style={{
+                  backgroundColor: showMovingAverages ? undefined : themeColors.buttonBg,
+                  color: showMovingAverages ? undefined : themeColors.buttonText
+                }}
                 title="Gleitende Durchschnitte (20, 50 Tage)"
               >
                 MA
@@ -535,10 +562,15 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
           </div>
         </div>
 
-        {/* Zweite Reihe: Aktien vergleichen */}
+        {/* Aktien vergleichen */}
         {onAddComparison && (
           <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-            <span className="text-sm text-gray-400 font-medium">Aktien vergleichen:</span>
+            <span 
+              className="text-sm font-medium"
+              style={{ color: themeColors.textMuted }}
+            >
+              Aktien vergleichen:
+            </span>
             
             <div className="flex items-center gap-3 flex-1 max-w-md">
               <div className="relative flex-1">
@@ -547,30 +579,60 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                   value={newTicker}
                   onChange={(e) => setNewTicker(e.target.value)}
                   placeholder="z.B. SP500, MSCI World, Apple, Tesla..."
-                  className="w-full px-4 py-2 text-sm bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  style={{
+                    backgroundColor: themeColors.inputBg,
+                    borderColor: themeColors.inputBorder,
+                    color: themeColors.inputText
+                  }}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddStock()}
                   onFocus={() => newTicker && setShowSuggestions(true)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                   disabled={isLoading}
                 />
                 
-                {/* ✅ ERWEITERTE Suggestions Dropdown */}
+                {/* Suggestions */}
                 {showSuggestions && suggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
+                  <div 
+                    className="absolute top-full left-0 right-0 mt-1 border rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto"
+                    style={{
+                      backgroundColor: themeColors.suggestionsBg,
+                      borderColor: themeColors.suggestionsBorder
+                    }}
+                  >
                     {suggestions.map((suggestion, index) => (
                       <button
                         key={index}
                         onClick={() => handleSelectSuggestion(suggestion)}
-                        className="w-full px-4 py-3 text-left hover:bg-gray-700 transition-colors border-b border-gray-700 last:border-b-0"
+                        className="w-full px-4 py-3 text-left transition-colors border-b last:border-b-0"
+                        style={{
+                          borderColor: themeColors.suggestionsBorder,
+                          backgroundColor: 'transparent'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = themeColors.suggestionsHover
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'transparent'
+                        }}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-white font-medium text-sm">{suggestion.symbol}</span>
-                          {/* ✅ ETF/Index Kennzeichnung */}
+                          <span 
+                            className="font-medium text-sm"
+                            style={{ color: themeColors.textPrimary }}
+                          >
+                            {suggestion.symbol}
+                          </span>
                           {(suggestion.name.includes('ETF') || suggestion.name.includes('Index') || ['SPY', 'QQQ', 'VTI', 'IWDA', 'EUNL', 'VWRL', 'DIA', 'IVV'].includes(suggestion.symbol)) && (
                             <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded">Index/ETF</span>
                           )}
                         </div>
-                        <div className="text-gray-400 text-xs truncate">{suggestion.name}</div>
+                        <div 
+                          className="text-xs truncate"
+                          style={{ color: themeColors.textMuted }}
+                        >
+                          {suggestion.name}
+                        </div>
                       </button>
                     ))}
                   </div>
@@ -580,7 +642,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               <button
                 onClick={handleAddStock}
                 disabled={!newTicker.trim() || isLoading}
-                className="px-5 py-2 text-sm bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium whitespace-nowrap"
+                className="px-5 py-2 text-sm bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium whitespace-nowrap"
               >
                 {isLoading ? 'Lädt...' : 'Hinzufügen'}
               </button>
@@ -588,23 +650,38 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
           </div>
         )}
 
-        {/* Dritte Reihe: Aktive Aktien */}
+        {/* Aktive Aktien */}
         {comparisonStocks.length > 0 && (
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm text-gray-400 font-medium">Aktive Aktien:</span>
+            <span 
+              className="text-sm font-medium"
+              style={{ color: themeColors.textMuted }}
+            >
+              Aktive Aktien:
+            </span>
             
-            <div className="flex items-center gap-2 bg-blue-900/10 rounded-full px-4 py-2">
+            <div className="flex items-center gap-2 bg-blue-500/10 rounded-full px-4 py-2">
               <div className="w-3 h-3 rounded-full bg-blue-500" />
-              <span className="text-sm text-blue-400 font-medium">{ticker}</span>
+              <span className="text-sm text-blue-500 font-medium">{ticker}</span>
             </div>
             
             {comparisonStocks.map((stock) => (
-              <div key={stock.ticker} className="flex items-center gap-2 bg-gray-700/20 rounded-full px-4 py-2">
+              <div 
+                key={stock.ticker} 
+                className="flex items-center gap-2 rounded-full px-4 py-2"
+                style={{ backgroundColor: themeColors.statsCardBg }}
+              >
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: stock.color }} />
-                <span className="text-sm text-white font-medium">{stock.ticker}</span>
+                <span 
+                  className="text-sm font-medium"
+                  style={{ color: themeColors.textPrimary }}
+                >
+                  {stock.ticker}
+                </span>
                 <button
                   onClick={() => removeStock(stock.ticker)}
-                  className="text-gray-400 hover:text-red-400 text-sm ml-1 p-0.5 rounded-full hover:bg-red-900/20 transition-all duration-200"
+                  className="text-sm ml-1 p-0.5 rounded-full hover:bg-red-500/20 transition-all duration-200"
+                  style={{ color: themeColors.textMuted }}
                 >
                   ✕
                 </button>
@@ -614,17 +691,21 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         )}
       </div>
 
-      {/* Chart */}
-      <div className={`${chartHeight} w-full bg-gray-900/10 rounded-lg p-6 mb-6`}>
+      {/* ✅ CHART - DIREKT ohne weitere Container */}
+      <div className={`${chartHeight} w-full`}>
         <ResponsiveContainer width="100%" height="100%">
           {comparisonStocks.length > 0 || selectedMode === 'total_return' ? (
             <LineChart data={chartData} margin={{ top: 15, right: 25, left: 15, bottom: 25 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.5} />
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke={themeColors.gridColor} 
+                opacity={0.5} 
+              />
               <XAxis 
                 dataKey="date"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#9CA3AF', fontSize: isFullscreen ? 12 : 11 }}
+                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatXAxisTick}
                 minTickGap={isFullscreen ? 80 : 60}
                 height={50}
@@ -632,7 +713,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               <YAxis 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#9CA3AF', fontSize: isFullscreen ? 12 : 11 }}
+                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatYAxisTick}
                 width={70}
               />
@@ -641,7 +722,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               {/* Performance Labels */}
               {Object.entries(performanceStats).map(([stockTicker, stats]) => {
                 const color = stockTicker === ticker ? COLORS[0] : 
-                  comparisonStocks.find(s => s.ticker === stockTicker)?.color || '#ffffff'
+                  comparisonStocks.find(s => s.ticker === stockTicker)?.color || themeColors.textPrimary
                 
                 return (
                   <text
@@ -668,7 +749,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 activeDot={{ r: 4, fill: COLORS[0] }}
               />
 
-              {/* Moving Averages Lines */}
+              {/* Moving Averages */}
               {showMovingAverages && selectedMode === 'price' && (
                 <>
                   <Line
@@ -716,12 +797,16 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 </linearGradient>
               </defs>
               
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.5} />
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke={themeColors.gridColor} 
+                opacity={0.5} 
+              />
               <XAxis 
                 dataKey="date"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#9CA3AF', fontSize: isFullscreen ? 12 : 11 }}
+                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatXAxisTick}
                 minTickGap={isFullscreen ? 80 : 60}
                 height={50}
@@ -729,7 +814,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               <YAxis 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#9CA3AF', fontSize: isFullscreen ? 12 : 11 }}
+                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatYAxisTick}
                 width={70}
               />
@@ -775,15 +860,21 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         </ResponsiveContainer>
       </div>
 
-      {/* Footer direkt unter Chart */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-gray-500 mb-6">
+      {/* Footer */}
+      <div 
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm"
+        style={{ color: themeColors.textMuted }}
+      >
         <span>Modus: {CHART_MODES.find(m => m.id === selectedMode)?.label}</span>
-        <span>Powered by <span className="text-green-400 font-semibold">FinClue</span></span>
+        <span>Powered by <span className="text-green-500 font-semibold">FinClue</span></span>
       </div>
 
-      {/* Moving Averages Legende - SUBTIL */}
+      {/* Moving Averages Legende */}
       {showMovingAverages && selectedMode === 'price' && (
-        <div className="flex items-center gap-6 text-sm text-gray-500 mb-4">
+        <div 
+          className="flex items-center gap-6 text-sm"
+          style={{ color: themeColors.textMuted }}
+        >
           <div className="flex items-center gap-3">
             <div className="w-6 h-px bg-yellow-400" style={{ backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 2px, currentColor 2px, currentColor 4px)' }}></div>
             <span>MA20 (20-Tage Durchschnitt)</span>
@@ -795,33 +886,51 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         </div>
       )}
 
-      {/* Performance Summary - KOMPAKTER */}
+      {/* Performance Summary */}
       {Object.keys(performanceStats).length > 0 && (
-        <div className="bg-gray-800/10 rounded-lg p-4 mb-4">
-          <h4 className="text-base font-medium text-gray-300 mb-3">
+        <div 
+          className="rounded-lg p-4"
+          style={{ backgroundColor: themeColors.statsBg }}
+        >
+          <h4 
+            className="text-base font-medium mb-3"
+            style={{ color: themeColors.textSecondary }}
+          >
             Performance-Übersicht ({selectedRange})
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {Object.entries(performanceStats).map(([stockTicker, stats]) => {
               const color = stockTicker === ticker ? COLORS[0] : 
-                comparisonStocks.find(s => s.ticker === stockTicker)?.color || '#ffffff'
+                comparisonStocks.find(s => s.ticker === stockTicker)?.color || themeColors.textPrimary
               
               return (
-                <div key={stockTicker} className="flex items-center justify-between p-3 bg-gray-800/20 rounded-lg">
+                <div 
+                  key={stockTicker} 
+                  className="flex items-center justify-between p-3 rounded-lg"
+                  style={{ backgroundColor: themeColors.statsCardBg }}
+                >
                   <div className="flex items-center gap-2">
                     <div 
                       className="w-3 h-3 rounded-full" 
                       style={{ backgroundColor: color }}
                     />
-                    <span className="text-white font-medium text-sm">{stockTicker}</span>
+                    <span 
+                      className="font-medium text-sm"
+                      style={{ color: themeColors.textPrimary }}
+                    >
+                      {stockTicker}
+                    </span>
                   </div>
                   <div className="text-right">
                     <div className={`font-bold text-base ${
-                      stats.changePercent >= 0 ? 'text-green-400' : 'text-red-400'
+                      stats.changePercent >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                     }`}>
                       {stats.changePercent > 0 ? '+' : ''}{stats.changePercent.toFixed(1)}%
                     </div>
-                    <div className="text-xs text-gray-400">
+                    <div 
+                      className="text-xs"
+                      style={{ color: themeColors.textMuted }}
+                    >
                       {formatValue(stats.endValue)}
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-// src/components/Navbar.tsx - SEPARATED CONTAINERS LIKE FISCAL.AI
+// src/components/Navbar.tsx - NO RIGHT CONTAINER
 'use client'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
@@ -30,7 +30,7 @@ interface SearchResult {
   href: string;
 }
 
-// 🎯 MODERN Search Bar (containerized style)
+// 🎯 MODERN Search Bar (standalone)
 function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -77,7 +77,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
         id: investor.slug,
         title: investor.name.split('–')[0].trim(),
         subtitle: `Investor Portfolio`,
-        href: `/investor/${investor.slug}`
+        href: `/superinvestor/${investor.slug}` 
       }));
 
     results.push(...filteredStocks, ...filteredInvestors);
@@ -138,7 +138,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
           onKeyDown={handleKeyDown}
-          className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl transition-all duration-300 bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-green-500/50 focus:bg-white/10 backdrop-blur-sm hover:bg-white/7"
+          className="w-full pl-10 pr-4 py-3 text-sm rounded-xl transition-all duration-300 bg-gray-900/70 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-green-500/50 focus:bg-gray-900/80 backdrop-blur-xl hover:bg-gray-900/80"
         />
       </div>
 
@@ -180,7 +180,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-// 🎯 User Dropdown with Solid Background
+// 🎯 User Dropdown (standalone)
 function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -228,7 +228,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
       {/* Modern Avatar Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-sm group hover:scale-105"
+        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-900/70 border border-white/10 backdrop-blur-xl hover:bg-gray-900/80 transition-all duration-300 group hover:scale-105"
       >
         <div className="relative">
           <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-black font-bold text-sm shadow-lg">
@@ -348,19 +348,19 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
   );
 }
 
-// 🎯 Guest Actions
+// 🎯 Guest Actions (standalone)
 function ModernGuestActions() {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-900/70 border border-white/10 backdrop-blur-xl hover:bg-gray-900/80 transition-all duration-300">
       <Link
         href="/auth/signin"
-        className="text-gray-300 hover:text-white font-semibold text-sm transition-all duration-300 px-4 py-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10"
+        className="text-gray-300 hover:text-white font-semibold text-sm transition-all duration-300 px-3 py-1.5 rounded-lg hover:bg-white/10"
       >
         Anmelden
       </Link>
       <Link
         href="/auth/signup"
-        className="px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black font-bold rounded-xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/25 border border-green-400/20"
+        className="px-4 py-1.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black font-bold rounded-lg text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/25"
       >
         Registrieren
       </Link>
@@ -371,6 +371,7 @@ function ModernGuestActions() {
 // Navigation Links
 const navLinks = [
   { href: '/news', label: 'News' },
+  { href: '/lexikon', label: 'Lexikon' }, 
 ]
 
 const productLinks = [
@@ -484,10 +485,10 @@ export default function ModernNavbar() {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 p-4 sm:p-6">
       
-      {/* 🎯 SEPARATED CONTAINERS LIKE FISCAL.AI */}
-      <div className="mx-auto max-w-7xl flex items-center justify-between gap-4">
+      {/* 🎯 LEFT CONTAINER (unverändert) + RIGHT ELEMENTS (standalone) */}
+      <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
         
-        {/* 📦 LEFT CONTAINER: Logo + Navigation */}
+        {/* 📦 LEFT CONTAINER: Logo + Navigation (UNVERÄNDERT) */}
         <div className={`flex items-center gap-8 rounded-2xl border shadow-2xl px-6 py-3 transition-all duration-500 ${
           isHomePage 
             ? 'bg-gray-900/60 border-white/10 shadow-black/20' 
@@ -579,40 +580,36 @@ export default function ModernNavbar() {
 
             {/* Regular Nav Links */}
             {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
-              >
-                {link.label}
-              </Link>
-            ))}
+  <Link
+    key={link.href}
+    href={link.href}
+    className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+  >
+    {link.label}
+  </Link>
+))}
 
-            <Link
-              href="/pricing"
-              className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
-            >
-              Preise
-            </Link>
+<Link
+  href="/pricing"
+  className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+>
+  Preise
+</Link>
           </nav>
         </div>
 
-        {/* 📦 RIGHT CONTAINER: Search + User Actions */}
-        <div className={`flex items-center gap-4 rounded-2xl border shadow-2xl px-6 py-3 transition-all duration-500 ${
-          isHomePage 
-            ? 'bg-gray-900/60 border-white/10 shadow-black/20' 
-            : 'bg-gray-900/90 border-white/15 shadow-black/30' 
-        } backdrop-blur-2xl hover:shadow-3xl hover:shadow-black/40`}>
+        {/* 🎯 RIGHT SIDE: Search + User Actions (STANDALONE ELEMENTS) */}
+        <div className="flex items-center gap-4">
           
-          {/* Search */}
+          {/* Standalone Search */}
           <div className="hidden lg:block w-72">
             <ModernSearchBar />
           </div>
 
-          {/* User Menu */}
+          {/* Standalone User Menu */}
           <div className="hidden md:block">
             {loading ? (
-              <div className="w-10 h-10 rounded-2xl bg-white/5 animate-pulse border border-white/10"></div>
+              <div className="w-12 h-12 rounded-xl bg-gray-900/70 border border-white/10 animate-pulse backdrop-blur-xl"></div>
             ) : user ? (
               <ModernUserDropdown user={user} profile={profile} />
             ) : (
@@ -624,7 +621,7 @@ export default function ModernNavbar() {
           <Disclosure>
             {({ open, close }) => (
               <>
-                <Disclosure.Button className="lg:hidden p-2.5 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-white/10 hover:border-white/20">
+                <Disclosure.Button className="lg:hidden p-3 text-gray-400 hover:text-white hover:bg-gray-900/70 rounded-xl transition-all duration-300 border border-white/10 hover:border-white/20 backdrop-blur-xl">
                   {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
                 </Disclosure.Button>
 

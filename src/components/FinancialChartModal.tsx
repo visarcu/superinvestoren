@@ -1,4 +1,4 @@
-// src/components/FinancialChartModal.tsx - KONSISTENTES THEME-DESIGN
+// src/components/FinancialChartModal.tsx - VOLLSTÄNDIG THEME-AWARE
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -57,7 +57,7 @@ const calculateCAGR = (data: any[], key: string, years: number): number | null =
   return cagr * 100
 }
 
-// API Data Fetcher (same as before but simplified)
+// API Data Fetcher
 async function fetchFinancialData(ticker: string, years: number, period: 'annual' | 'quarterly') {
   const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
   
@@ -217,12 +217,12 @@ export default function FinancialChartModal({
       }}
     >
       <div 
-        className="bg-theme-card/95 backdrop-blur-xl w-full max-w-6xl h-[80vh] flex flex-col rounded-2xl border border-theme shadow-2xl overflow-hidden"
+        className="bg-theme-secondary border border-theme w-full max-w-6xl h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl"
         onClick={(e) => e.stopPropagation()}
       >
         
-        {/* Header - Konsistentes Theme */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-theme bg-theme-card/80">
+        {/* ✅ THEME-AWARE HEADER */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-theme bg-theme-secondary">
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-bold text-theme-primary">
               {metricName} · {ticker} · {currency}
@@ -231,7 +231,7 @@ export default function FinancialChartModal({
             <select
               value={years}
               onChange={(e) => setYears(Number(e.target.value))}
-              className="px-3 py-2 bg-theme-secondary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500/50 transition-all duration-200"
+              className="px-3 py-2 bg-theme-tertiary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500/50 transition-all duration-200"
               style={{ 
                 minWidth: '120px',
                 fontSize: '14px',
@@ -253,7 +253,7 @@ export default function FinancialChartModal({
           </button>
         </div>
 
-        {/* Chart Area - Konsistentes Theme */}
+        {/* ✅ THEME-AWARE CHART AREA */}
         <div className="flex-1 bg-theme-primary p-6">
           {loading ? (
             <div className="flex items-center justify-center h-full">
@@ -263,6 +263,7 @@ export default function FinancialChartModal({
             <div className="w-full h-full">
               <ResponsiveContainer width="100%" height="100%">
                 {(() => {
+                  // ✅ THEME-AWARE TOOLTIP STYLES
                   const tooltipStyles = {
                     contentStyle: { 
                       backgroundColor: 'var(--bg-card)',
@@ -285,6 +286,7 @@ export default function FinancialChartModal({
                     }
                   }
 
+                  // ✅ CASH DEBT CHART
                   if (metricKey === 'cashDebt') {
                     return (
                       <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
@@ -312,7 +314,9 @@ export default function FinancialChartModal({
                         <Bar dataKey="debt" name="Schulden" fill="rgba(239, 68, 68, 0.8)" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     )
-                  } else if (metricKey === 'pe') {
+                  } 
+                  // ✅ PE RATIO LINE CHART
+                  else if (metricKey === 'pe') {
                     const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / (data.length || 1)
                     return (
                       <LineChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 60 }}>
@@ -345,7 +349,7 @@ export default function FinancialChartModal({
                           stroke="#F97316" 
                           strokeWidth={3}
                           dot={{ fill: '#F97316', strokeWidth: 2, r: 5 }}
-                          activeDot={{ r: 8, fill: '#F97316', stroke: '#FFF', strokeWidth: 2 }}
+                          activeDot={{ r: 8, fill: '#F97316', stroke: 'var(--bg-primary)', strokeWidth: 2 }}
                         />
                         <RechartsTooltip 
                           formatter={(v: number) => [v.toFixed(1) + 'x', 'KGV TTM']}
@@ -353,7 +357,9 @@ export default function FinancialChartModal({
                         />
                       </LineChart>
                     )
-                  } else {
+                  } 
+                  // ✅ STANDARD BAR CHART
+                  else {
                     return (
                       <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
                         <XAxis 
@@ -409,8 +415,8 @@ export default function FinancialChartModal({
           )}
         </div>
 
-        {/* Footer with CAGR - Konsistentes Theme */}
-        <div className="border-t border-theme px-6 py-5 bg-theme-card/80">
+        {/* ✅ THEME-AWARE FOOTER WITH CAGR */}
+        <div className="border-t border-theme px-6 py-5 bg-theme-secondary">
           <div className="flex justify-center">
             <div className="grid grid-cols-3 gap-12 max-w-lg">
               <div className="text-center">

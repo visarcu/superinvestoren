@@ -1,4 +1,4 @@
-// src/components/InvestorTabs.tsx
+// src/components/InvestorTabs.tsx - UPDATED mit Analytics Tab
 'use client'
 
 import React, { useState } from 'react'
@@ -8,9 +8,12 @@ import {
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   BoltIcon,
-  SparklesIcon
+  SparklesIcon,
+  DocumentTextIcon,
+  ChartPieIcon // ✅ NEU für Analytics
 } from '@heroicons/react/24/outline'
 import { stocks, Stock } from '@/data/stocks'
+import Logo from '@/components/Logo'
 
 interface Position {
   cusip:       string
@@ -19,7 +22,7 @@ interface Position {
   value:       number
   deltaShares: number
   pctDelta:    number
-  ticker?:     string // HINZUGEFÜGT für neue Datenquellen
+  ticker?:     string
 }
 
 interface HistoryGroup {
@@ -27,7 +30,8 @@ interface HistoryGroup {
   items: Position[]
 }
 
-export type Tab = 'holdings' | 'buys' | 'sells' | 'activity' | 'ai' // ← Exportiert für andere Komponenten
+// ✅ UPDATED: Analytics Tab hinzugefügt und EXPORTIERT
+export type Tab = 'holdings' | 'buys' | 'sells' | 'activity' | 'analytics' | 'ai' | 'filings'
 
 // Mapping von CUSIP → Ticker
 const cusipToTicker: Record<string,string> = {}
@@ -67,7 +71,9 @@ export default function InvestorTabs({
     buys:     'Käufe',
     sells:    'Verkäufe',
     activity: 'Aktivitäten',
-    ai:       'Smart AI', // ← Neuer Tab
+    analytics: 'Analytik', // ✅ NEU
+    ai:       'Smart AI',
+    filings:  'Filings'
   }
 
   const tabIcons: Record<Tab, React.ComponentType<{ className?: string }>> = {
@@ -75,7 +81,9 @@ export default function InvestorTabs({
     buys: ArrowTrendingUpIcon,
     sells: ArrowTrendingDownIcon,
     activity: BoltIcon,
+    analytics: ChartPieIcon, // ✅ NEU
     ai: SparklesIcon,
+    filings: DocumentTextIcon
   }
 
   // kombiniere Käufe + Verkäufe je Quartal
@@ -90,13 +98,78 @@ export default function InvestorTabs({
   // nur die ersten 20 Bestände, wenn showAll=false
   const displayedHoldings = showAll ? holdings : holdings.slice(0, 20)
 
-  // NEUE HILFSFUNKTION: Ticker ermitteln
+  // HILFSFUNKTION: Ticker ermitteln
   const getTicker = (position: Position): string | undefined => {
-    // 1. Versuche ticker aus Position (für neue Datenquellen wie Dataroma)
     if (position.ticker) return position.ticker
-    
-    // 2. Fallback: CUSIP → Ticker Mapping (für 13F-Daten)
     return cusipToTicker[position.cusip]
+  }
+
+  // ✅ FIXED: Firmenname ohne Ticker extrahieren
+  const getCleanCompanyName = (position: Position): string => {
+    let name = position.name
+    const ticker = getTicker(position)
+    
+    if (ticker && name) {
+      // Entferne Ticker am Anfang wenn vorhanden
+      if (name.startsWith(`${ticker} - `)) {
+        return name.substring(ticker.length + 3) // Entferne "TICKER - "
+      }
+      if (name.startsWith(`${ticker} – `)) {
+        return name.substring(ticker.length + 3) // Entferne "TICKER – " (langer Dash)
+      }
+      // Falls Name komplett gleich Ticker ist, verwende Ticker
+      if (name === ticker) {
+        return ticker
+      }
+    }
+    
+    return name
+  }
+
+  // ✅ FIXED: Name & Ticker ohne Redundanz
+  const NameAndTicker = ({ position }: { position: Position }) => {
+    const ticker = getTicker(position)
+    const cleanName = getCleanCompanyName(position)
+    
+    if (ticker) {
+      return (
+        <Link
+          href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
+          className="flex items-center gap-3 group"
+        >
+          {/* Logo */}
+          <div className="w-6 h-6 flex-shrink-0">
+            <Logo
+              ticker={ticker}
+              alt={`${ticker} Logo`}
+              className="w-full h-full"
+              padding="none"
+            />
+          </div>
+          
+          <div className="min-w-0 flex-1">
+            {/* Grüner Ticker */}
+            <div className="font-semibold text-green-400 group-hover:text-green-300 transition-colors">
+              {ticker}
+            </div>
+            {/* Sauberer Firmenname (ohne Ticker Wiederholung) */}
+            {cleanName !== ticker && (
+              <div className="text-sm text-gray-400 font-normal truncate">
+                {cleanName}
+              </div>
+            )}
+          </div>
+        </Link>
+      )
+    }
+    
+    // Fallback ohne Ticker
+    return (
+      <div className="flex items-center gap-3">
+        <div className="w-6 h-6 flex-shrink-0 bg-gray-700 rounded-full"></div>
+        <span className="text-white font-medium">{cleanName}</span>
+      </div>
+    )
   }
 
   // Hilfsfunktion für Tab-Styling
@@ -109,7 +182,9 @@ export default function InvestorTabs({
         case 'buys': return `${baseClasses} bg-green-700 text-white shadow-lg`
         case 'sells': return `${baseClasses} bg-red-700 text-white shadow-lg`
         case 'activity': return `${baseClasses} bg-blue-700 text-white shadow-lg`
+        case 'analytics': return `${baseClasses} bg-indigo-700 text-white shadow-lg` // ✅ NEU
         case 'ai': return `${baseClasses} bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg`
+        case 'filings': return `${baseClasses} bg-blue-700 text-white shadow-lg`
         default: return baseClasses
       }
     }
@@ -121,7 +196,7 @@ export default function InvestorTabs({
     <div>
       {/* — Tabs — */}
       <div className="flex flex-wrap gap-2 mb-6">
-        {(['holdings','buys','sells','activity','ai'] as const).map(t => {
+        {(['holdings','buys','sells','activity','analytics','ai','filings'] as const).map(t => {
           const Icon = tabIcons[t]
           return (
             <button
@@ -137,9 +212,9 @@ export default function InvestorTabs({
       </div>
 
       {/* Conditionally render content based on tab */}
-      {tab === 'ai' ? (
+      {tab === 'ai' || tab === 'filings' || tab === 'analytics' ? (
         <div>
-          {/* AI Tab Content wird von der Parent-Komponente gerendert */}
+          {/* AI, Filings und Analytics Tab Content wird von der Parent-Komponente gerendert */}
         </div>
       ) : (
         /* — Tabelle (clean, nur Trennlinien) — */
@@ -150,7 +225,7 @@ export default function InvestorTabs({
                 <tr className="text-sm text-gray-400 bg-gray-800/50">
                   {tab === 'holdings' ? (
                     <>
-                      <th className="text-left px-6 py-4 font-medium">Name &amp; Ticker</th>
+                      <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
                       <th className="text-right px-6 py-4 font-medium">Aktien</th>
                       <th className="text-right px-6 py-4 font-medium">Wert (USD)</th>
                       <th className="text-right px-6 py-4 font-medium">Anteil</th>
@@ -158,7 +233,7 @@ export default function InvestorTabs({
                     </>
                   ) : (
                     <>
-                      <th className="text-left px-6 py-4 font-medium">Name &amp; Ticker</th>
+                      <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
                       <th className="text-right px-6 py-4 font-medium">Aktien</th>
                       <th className="text-right px-6 py-4 font-medium">Δ Aktien</th>
                       <th className="text-right px-6 py-4 font-medium">% Veränderung</th>
@@ -168,47 +243,33 @@ export default function InvestorTabs({
               </thead>
               <tbody>
                 {/* — Bestände — */}
-                {tab === 'holdings' && displayedHoldings.map((p, i) => {
-                  const ticker = getTicker(p)
-                  return (
-                    <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
-                      <td className="px-6 py-4">
-                        {ticker
-                          ? (
-                            <Link
-                            href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
-                              className="font-semibold text-green-400 hover:text-green-300 transition-colors"
-                            >
-                              {ticker}
-                              <span className="text-sm text-gray-400 font-normal"> – {p.name}</span>
-                            </Link>
-                          )
-                          : <span className="text-white font-medium">{p.name}</span>
-                        }
-                      </td>
-                      <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
-                      <td className="px-6 py-4 text-right font-mono font-semibold">{fmtValue.format(p.value)}</td>
-                      <td className="px-6 py-4 text-right font-mono">
-                        {fmtPercent.format(p.value / holdings.reduce((s,x)=>s+x.value,0))}
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        {p.deltaShares > 0
-                          ? (p.pctDelta === 0
-                              ? <span className="text-green-400 font-medium">Neueinkauf</span>
-                              : <span className="text-green-400 font-medium">
-                                  Hinzugefügt {fmtPercent.format(p.pctDelta)}
-                                </span>
-                            )
-                          : p.deltaShares < 0
-                            ? <span className="text-red-400 font-medium">
-                                Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}
+                {tab === 'holdings' && displayedHoldings.map((p, i) => (
+                  <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                    <td className="px-6 py-4">
+                      <NameAndTicker position={p} />
+                    </td>
+                    <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
+                    <td className="px-6 py-4 text-right font-mono font-semibold">{fmtValue.format(p.value)}</td>
+                    <td className="px-6 py-4 text-right font-mono">
+                      {fmtPercent.format(p.value / holdings.reduce((s,x)=>s+x.value,0))}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      {p.deltaShares > 0
+                        ? (p.pctDelta === 0
+                            ? <span className="text-green-400 font-medium">Neueinkauf</span>
+                            : <span className="text-green-400 font-medium">
+                                Hinzugefügt {fmtPercent.format(p.pctDelta)}
                               </span>
-                            : <span className="text-gray-500">–</span>
-                        }
-                      </td>
-                    </tr>
-                  )
-                })}
+                          )
+                        : p.deltaShares < 0
+                          ? <span className="text-red-400 font-medium">
+                              Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}
+                            </span>
+                          : <span className="text-gray-500">–</span>
+                      }
+                    </td>
+                  </tr>
+                ))}
 
                 {/* — Käufe / Verkäufe / Aktivitäten — */}
                 {(tab === 'buys' || tab === 'sells' || tab === 'activity') && (
@@ -228,47 +289,33 @@ export default function InvestorTabs({
                         </tr>
 
                         {group.items.length > 0
-                          ? group.items.map((p, i) => {
-                              const ticker = getTicker(p)
-                              return (
-                                <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
-                                  <td className="px-6 py-4">
-                                    {ticker
-                                      ? (
-                                        <Link
-                                        href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
-                                          className="font-semibold text-green-400 hover:text-green-300 transition-colors"
-                                        >
-                                          {ticker}
-                                          <span className="text-sm text-gray-400 font-normal"> – {p.name}</span>
-                                        </Link>
-                                      )
-                                      : <span className="text-white font-medium">{p.name}</span>
+                          ? group.items.map((p, i) => (
+                              <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                                <td className="px-6 py-4">
+                                  <NameAndTicker position={p} />
+                                </td>
+                                <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
+                                <td className="px-6 py-4 text-right">
+                                  <span className={`
+                                    inline-block px-3 py-1 text-sm rounded-full font-medium
+                                    ${p.deltaShares > 0
+                                      ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                                      : 'bg-red-500/20 text-red-300 border border-red-500/30'}
+                                  `}>
+                                    {p.deltaShares > 0 ? '+' : ''}{fmtShares.format(p.deltaShares)}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 text-right font-mono">
+                                  {(() => {
+                                    const prevShares = p.shares - p.deltaShares
+                                    if (prevShares === 0) {
+                                      return <span className="text-green-400 font-medium">Neueinkauf</span>
                                     }
-                                  </td>
-                                  <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
-                                  <td className="px-6 py-4 text-right">
-                                    <span className={`
-                                      inline-block px-3 py-1 text-sm rounded-full font-medium
-                                      ${p.deltaShares > 0
-                                        ? 'bg-green-500/20 text-green-300 border border-green-500/30'
-                                        : 'bg-red-500/20 text-red-300 border border-red-500/30'}
-                                    `}>
-                                      {p.deltaShares > 0 ? '+' : ''}{fmtShares.format(p.deltaShares)}
-                                    </span>
-                                  </td>
-                                  <td className="px-6 py-4 text-right font-mono">
-                                    {(() => {
-                                      const prevShares = p.shares - p.deltaShares
-                                      if (prevShares === 0) {
-                                        return <span className="text-green-400 font-medium">Neueinkauf</span>
-                                      }
-                                      return fmtPercent.format(Math.abs(p.pctDelta))
-                                    })()}
-                                  </td>
-                                </tr>
-                              )
-                            })
+                                    return fmtPercent.format(Math.abs(p.pctDelta))
+                                  })()}
+                                </td>
+                              </tr>
+                            ))
                           : (
                             <tr>
                               <td colSpan={5} className="px-6 py-8 text-center text-gray-500">

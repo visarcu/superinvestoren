@@ -1,4 +1,4 @@
-// src/app/superinvestor/page.tsx - MODERNISIERTE VERSION wie Homepage
+// src/app/superinvestor/page.tsx - MODERNISIERTE VERSION wie Homepage mit SuperinvestorInfo
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
@@ -20,6 +20,7 @@ import InvestorAvatar from '@/components/InvestorAvatar'
 import YouTubeCarousel from '@/components/YoutubeCarousel'
 import { featuredVideos } from '@/data/videos'
 import NewsletterSignup from '@/components/NewsletterSignup'
+import SuperinvestorInfo from '@/components/SuperinvestorInfo'
 
 // Animation Hooks (von Homepage übernommen)
 const useCountUp = (end: number, duration = 2000, shouldStart = false) => {
@@ -369,6 +370,11 @@ export default function SuperinvestorOverview() {
               </div>
               <div className="text-xs text-gray-500">Jahre Track Record</div>
             </div>
+          </div>
+
+          {/* ✅ SuperinvestorInfo Integration */}
+          <div className="mb-20">
+            <SuperinvestorInfo />
           </div>
 
           {/* Preview Section */}
