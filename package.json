@@ -42,8 +42,8 @@
     "rag:setup-test": "tsx scripts/setupRAG.ts --test",
     "rag:ingest-major": "tsx scripts/ingestRAG.ts AAPL MSFT GOOGL AMZN TSLA NVDA META --full",
     "rag:update-daily": "tsx scripts/updateRAG.ts",
-    "update-sectors": "node scripts/update-sectors.js",
-    "update-sectors:ts": "tsx scripts/update-sectors.ts"
+    "update-sectors": "tsx scripts/updateSectors.ts",
+    "update-sectors:prod": "NODE_ENV=production tsx scripts/updateSectors.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",

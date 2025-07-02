@@ -1,4 +1,4 @@
-// src/app/analyse/portfolio/dividenden/page.tsx
+// src/app/analyse/portfolio/dividenden/page.tsx - FIXED: Echte Portfolio-Integration
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -22,13 +22,13 @@ import { supabase } from '@/lib/supabaseClient'
 interface PortfolioPosition {
   id: number
   ticker: string
-  name: string
+  company_name: string
   shares: number
-  avgPrice: number
-  currentPrice: number
-  dividendYield: number
-  nextDividend: string
+  avg_price: number
+  current_price: number
   currency: string
+  purchase_date?: string
+  purchase_notes?: string
 }
 
 interface DividendEvent {
@@ -41,6 +41,7 @@ interface DividendEvent {
   shares: number
   frequency: 'quarterly' | 'monthly' | 'annually'
   status: 'upcoming' | 'recent' | 'paid'
+  dividendYield?: number
 }
 
 interface DividendHistory {
@@ -56,79 +57,144 @@ interface User {
   isPremium: boolean
 }
 
-// Mock Portfolio Data - später aus Supabase
-const MOCK_PORTFOLIO: PortfolioPosition[] = [
-  { 
-    id: 1, ticker: 'AAPL', name: 'Apple Inc.', shares: 100, avgPrice: 150.00, 
-    currentPrice: 175.50, dividendYield: 0.51, nextDividend: '2025-08-15', currency: 'USD'
-  },
-  { 
-    id: 2, ticker: 'MSFT', name: 'Microsoft Corp.', shares: 50, avgPrice: 280.00, 
-    currentPrice: 420.00, dividendYield: 0.73, nextDividend: '2025-08-14', currency: 'USD'
-  },
-  { 
-    id: 3, ticker: 'JNJ', name: 'Johnson & Johnson', shares: 75, avgPrice: 160.00, 
-    currentPrice: 165.20, dividendYield: 2.95, nextDividend: '2025-09-05', currency: 'USD'
-  },
-  { 
-    id: 4, ticker: 'KO', name: 'Coca-Cola Co.', shares: 200, avgPrice: 55.00, 
-    currentPrice: 62.30, dividendYield: 3.10, nextDividend: '2025-09-12', currency: 'USD'
+interface DividendData {
+  currentInfo?: {
+    currentYield?: number
+    dividendPerShareTTM?: number
+    payoutRatio?: number
   }
-]
+  historical?: Record<string, number>
+}
 
-// FMP API Helper
-async function fetchDividendData(ticker: string) {
+// ✅ ECHTE Portfolio-Daten laden
+async function loadRealPortfolio(userId: string): Promise<PortfolioPosition[]> {
   try {
-    const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`
-    )
+    console.log('🔍 Loading real portfolio for user:', userId)
     
-    if (!response.ok) throw new Error('FMP API error')
+    const { data: positions, error } = await supabase
+      .from('portfolio_positions')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Portfolio loading error:', error)
+      return []
+    }
+
+    console.log(`✅ Loaded ${positions?.length || 0} portfolio positions`)
+    return positions || []
     
-    const data = await response.json()
-    return data[0]?.historical || []
   } catch (error) {
-    console.error(`Error fetching dividend data for ${ticker}:`, error)
+    console.error('Portfolio loading failed:', error)
     return []
   }
 }
 
-// Generate Mock Dividend Calendar
-function generateDividendCalendar(portfolio: PortfolioPosition[]): DividendEvent[] {
+// ✅ ECHTE Dividendendaten laden
+async function loadDividendData(ticker: string): Promise<DividendData | null> {
+  try {
+    console.log('🔍 Loading dividend data for:', ticker)
+    
+    const response = await fetch(`/api/dividends/${ticker}`)
+    if (!response.ok) {
+      console.warn(`Dividend data failed for ${ticker}`)
+      return null
+    }
+    
+    const data = await response.json()
+    console.log(`✅ Dividend data loaded for ${ticker}:`, data.currentInfo)
+    return data
+    
+  } catch (error) {
+    console.warn(`Dividend loading failed for ${ticker}:`, error)
+    return null
+  }
+}
+
+// ✅ ECHTE Dividenden-Events aus Portfolio generieren
+async function generateRealDividendCalendar(portfolio: PortfolioPosition[]): Promise<DividendEvent[]> {
+  if (portfolio.length === 0) return []
+  
+  console.log('🔍 Generating dividend calendar for', portfolio.length, 'positions')
   const events: DividendEvent[] = []
   
-  portfolio.forEach(position => {
-    // Quarterly dividends für die nächsten 4 Quartale
-    const baseDate = new Date()
-    
-    for (let quarter = 0; quarter < 4; quarter++) {
-      const exDate = new Date()
-      exDate.setMonth(baseDate.getMonth() + (quarter * 3))
-      exDate.setDate(15) // Mid-month ex-date
+  // Parallel alle Dividendendaten laden
+  const dividendPromises = portfolio.map(async (position) => {
+    const dividendData = await loadDividendData(position.ticker)
+    return { position, dividendData }
+  })
+  
+  const results = await Promise.allSettled(dividendPromises)
+  
+  results.forEach((result) => {
+    if (result.status === 'fulfilled') {
+      const { position, dividendData } = result.value
       
-      const payDate = new Date(exDate)
-      payDate.setMonth(payDate.getMonth() + 1)
-      payDate.setDate(1) // Payment next month
-      
-      // Estimate quarterly dividend (annual yield / 4)
-      const quarterlyDividend = (position.currentPrice * position.dividendYield / 100) / 4
-      
-      events.push({
-        ticker: position.ticker,
-        companyName: position.name,
-        amount: quarterlyDividend,
-        totalAmount: quarterlyDividend * position.shares,
-        exDate: exDate.toISOString().split('T')[0],
-        payDate: payDate.toISOString().split('T')[0],
-        shares: position.shares,
-        frequency: 'quarterly',
-        status: quarter === 0 ? 'upcoming' : 'upcoming'
-      })
+      if (dividendData?.currentInfo?.dividendPerShareTTM && dividendData.currentInfo.dividendPerShareTTM > 0) {
+        const annualDividend = dividendData.currentInfo.dividendPerShareTTM
+        const quarterlyDividend = annualDividend / 4
+        
+        // Generiere nächste 4 Quartale
+        for (let quarter = 0; quarter < 4; quarter++) {
+          const exDate = new Date()
+          exDate.setMonth(exDate.getMonth() + (quarter * 3) + 1) // Nächsten Monat starten
+          exDate.setDate(15) // Mitte des Monats
+          
+          const payDate = new Date(exDate)
+          payDate.setMonth(payDate.getMonth() + 1)
+          payDate.setDate(1)
+          
+          events.push({
+            ticker: position.ticker,
+            companyName: position.company_name,
+            amount: quarterlyDividend,
+            totalAmount: quarterlyDividend * position.shares,
+            exDate: exDate.toISOString().split('T')[0],
+            payDate: payDate.toISOString().split('T')[0],
+            shares: position.shares,
+            frequency: 'quarterly',
+            status: quarter === 0 ? 'upcoming' : 'upcoming',
+            dividendYield: dividendData.currentInfo?.currentYield || 0
+          })
+        }
+        
+        console.log(`✅ Generated dividend events for ${position.ticker}: $${annualDividend} annual`)
+      } else {
+        console.log(`ℹ️ No dividend data for ${position.ticker}`)
+      }
     }
   })
   
+  // Nach Datum sortieren
   return events.sort((a, b) => new Date(a.exDate).getTime() - new Date(b.exDate).getTime())
+}
+
+// ✅ ECHTE Dividenden-Historie berechnen
+function calculateDividendHistory(portfolio: PortfolioPosition[], dividendEvents: DividendEvent[]): DividendHistory[] {
+  // Vereinfachte Berechnung - in echt würdest du historische Zahlungen aus der DB laden
+  const currentYear = new Date().getFullYear()
+  const history: DividendHistory[] = []
+  
+  for (let year = currentYear - 3; year < currentYear; year++) {
+    const yearEvents = dividendEvents.filter(event => {
+      const eventYear = new Date(event.exDate).getFullYear()
+      return eventYear === year
+    })
+    
+    const totalReceived = yearEvents.reduce((sum, event) => sum + event.totalAmount, 0)
+    const avgYield = yearEvents.length > 0 ? 
+      yearEvents.reduce((sum, event) => sum + (event.dividendYield || 0), 0) / yearEvents.length * 100 : 0
+    
+    history.push({
+      year,
+      totalReceived,
+      payments: yearEvents.length,
+      avgYield
+    })
+  }
+  
+  return history.reverse()
 }
 
 export default function DividendenPage() {
@@ -138,44 +204,59 @@ export default function DividendenPage() {
   const [dividendHistory, setDividendHistory] = useState<DividendHistory[]>([])
   const [loading, setLoading] = useState(true)
   const [activeView, setActiveView] = useState<'calendar' | 'history' | 'settings'>('calendar')
+  const [error, setError] = useState<string | null>(null)
 
-  // Load user and portfolio data
+  // ✅ ECHTE Daten laden
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Load user
+        setLoading(true)
+        setError(null)
+        
+        // User laden
         const { data: { session } } = await supabase.auth.getSession()
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('is_premium')
-            .eq('user_id', session.user.id)
-            .maybeSingle()
-
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            isPremium: profile?.is_premium || false
-          })
+        if (!session?.user) {
+          setError('Sie müssen angemeldet sein, um Dividendendaten zu sehen')
+          setLoading(false)
+          return
         }
 
-        // Load portfolio (später aus Supabase)
-        // TODO: await loadPortfolioFromSupabase(user.id)
-        setPortfolio(MOCK_PORTFOLIO)
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_premium')
+          .eq('user_id', session.user.id)
+          .maybeSingle()
+
+        const userData = {
+          id: session.user.id,
+          email: session.user.email || '',
+          isPremium: profile?.is_premium || false
+        }
+        setUser(userData)
+
+        // ✅ ECHTES Portfolio laden
+        const realPortfolio = await loadRealPortfolio(session.user.id)
+        setPortfolio(realPortfolio)
         
-        // Generate dividend calendar
-        const events = generateDividendCalendar(MOCK_PORTFOLIO)
+        if (realPortfolio.length === 0) {
+          console.log('ℹ️ No portfolio positions found')
+          setLoading(false)
+          return
+        }
+        
+        // ✅ ECHTE Dividenden-Events generieren
+        const events = await generateRealDividendCalendar(realPortfolio)
         setDividendEvents(events)
         
-        // Mock dividend history
-        setDividendHistory([
-          { year: 2024, totalReceived: 456.75, payments: 16, avgYield: 2.1 },
-          { year: 2023, totalReceived: 423.20, payments: 15, avgYield: 1.9 },
-          { year: 2022, totalReceived: 389.50, payments: 14, avgYield: 1.8 }
-        ])
+        // ✅ ECHTE Historie berechnen
+        const history = calculateDividendHistory(realPortfolio, events)
+        setDividendHistory(history)
+        
+        console.log(`✅ Dividend data loaded: ${events.length} events, ${history.length} history years`)
         
       } catch (error) {
         console.error('Error loading dividend data:', error)
+        setError('Fehler beim Laden der Dividendendaten')
       } finally {
         setLoading(false)
       }
@@ -184,7 +265,7 @@ export default function DividendenPage() {
     loadData()
   }, [])
 
-  // Calculate summary stats
+  // Summary-Berechnungen
   const upcomingDividends = dividendEvents.filter(e => e.status === 'upcoming').slice(0, 5)
   const next30Days = dividendEvents.filter(e => {
     const eventDate = new Date(e.exDate)
@@ -194,9 +275,9 @@ export default function DividendenPage() {
   })
   
   const monthlyEstimate = next30Days.reduce((sum, event) => sum + event.totalAmount, 0)
-  const annualEstimate = portfolio.reduce((sum, pos) => 
-    sum + (pos.currentPrice * pos.shares * pos.dividendYield / 100), 0
-  )
+  const annualEstimate = dividendEvents
+    .filter(e => new Date(e.exDate).getFullYear() === new Date().getFullYear())
+    .reduce((sum, event) => sum + event.totalAmount, 0)
 
   if (loading) {
     return (
@@ -204,6 +285,66 @@ export default function DividendenPage() {
         <div className="text-center">
           <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-theme-secondary">Dividendendaten werden geladen...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="h-full bg-theme-primary flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <ExclamationTriangleIcon className="w-16 h-16 text-red-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-theme-primary mb-2">Fehler</h2>
+          <p className="text-theme-secondary mb-6">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+          >
+            Neu laden
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (portfolio.length === 0) {
+    return (
+      <div className="h-full bg-theme-primary">
+        {/* Header */}
+        <div className="bg-theme-secondary border-b border-theme">
+          <div className="px-6 py-4">
+            <div className="flex items-center gap-4">
+              <Link
+                href="/analyse/portfolio"
+                className="flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors"
+              >
+                <ArrowLeftIcon className="w-4 h-4" />
+                <span className="text-sm">Portfolio</span>
+              </Link>
+              <div>
+                <h1 className="text-2xl font-bold text-theme-primary">Dividenden-Kalender</h1>
+                <p className="text-theme-secondary">Dividendentermine für Ihr Portfolio</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Empty State */}
+        <div className="flex items-center justify-center h-96">
+          <div className="text-center max-w-md">
+            <CalendarIcon className="w-16 h-16 text-theme-muted mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-theme-primary mb-2">Kein Portfolio</h2>
+            <p className="text-theme-secondary mb-6">
+              Fügen Sie erst Aktien zu Ihrem Portfolio hinzu, um Dividendendaten zu sehen.
+            </p>
+            <Link
+              href="/analyse/portfolio"
+              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors inline-block"
+            >
+              Zum Portfolio
+            </Link>
+          </div>
         </div>
       </div>
     )
@@ -225,16 +366,13 @@ export default function DividendenPage() {
               </Link>
               <div>
                 <h1 className="text-2xl font-bold text-theme-primary">Dividenden-Kalender</h1>
-                <p className="text-theme-secondary">Alle Dividendentermine und Zahlungen im Überblick</p>
+                <p className="text-theme-secondary">
+                  Dividendentermine für {portfolio.length} Position{portfolio.length !== 1 ? 'en' : ''}
+                </p>
               </div>
             </div>
             
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 px-3 py-2 bg-theme-tertiary hover:bg-theme-tertiary/80 border border-theme rounded-md transition-colors">
-                <BellIcon className="w-4 h-4" />
-                <span className="text-sm">Benachrichtigungen</span>
-              </button>
-              
               {!user?.isPremium && (
                 <Link
                   href="/pricing"
@@ -305,7 +443,7 @@ export default function DividendenPage() {
                   {upcomingDividends[0] ? new Date(upcomingDividends[0].exDate).toLocaleDateString('de-DE') : 'Keine'}
                 </p>
                 <p className="text-sm text-theme-muted">
-                  {upcomingDividends[0] ? `${upcomingDividends[0].ticker} - $${upcomingDividends[0].totalAmount.toFixed(2)}` : 'Daten'}
+                  {upcomingDividends[0] ? `${upcomingDividends[0].ticker} - $${upcomingDividends[0].totalAmount.toFixed(2)}` : 'Termine'}
                 </p>
               </div>
 
@@ -317,7 +455,7 @@ export default function DividendenPage() {
                   <h3 className="font-semibold text-theme-primary">Jährlich (geschätzt)</h3>
                 </div>
                 <p className="text-lg font-bold text-theme-primary">${annualEstimate.toFixed(2)}</p>
-                <p className="text-sm text-theme-muted">Basierend auf aktueller Rendite</p>
+                <p className="text-sm text-theme-muted">Basierend auf aktuellen Daten</p>
               </div>
 
               <div className="bg-theme-card border border-theme rounded-lg p-6">
@@ -325,106 +463,57 @@ export default function DividendenPage() {
                   <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
                     <CheckCircleIcon className="w-4 h-4 text-yellow-400" />
                   </div>
-                  <h3 className="font-semibold text-theme-primary">Dieses Jahr</h3>
+                  <h3 className="font-semibold text-theme-primary">Portfolio</h3>
                 </div>
-                <p className="text-lg font-bold text-theme-primary">
-                  ${dividendHistory[0]?.totalReceived.toFixed(2) || '0.00'}
-                </p>
-                <p className="text-sm text-theme-muted">
-                  {dividendHistory[0]?.payments || 0} Zahlungen
-                </p>
+                <p className="text-lg font-bold text-theme-primary">{portfolio.length}</p>
+                <p className="text-sm text-theme-muted">Position{portfolio.length !== 1 ? 'en' : ''}</p>
               </div>
             </div>
 
             {/* Upcoming Dividends */}
-            <div className="bg-theme-card border border-theme rounded-lg mb-6">
-              <div className="p-6 border-b border-theme">
-                <h3 className="text-lg font-semibold text-theme-primary">Anstehende Dividenden</h3>
-              </div>
-              
-              <div className="divide-y divide-theme">
-                {upcomingDividends.map((dividend, index) => (
-                  <div key={`${dividend.ticker}-${dividend.exDate}`} className="p-6 flex items-center justify-between hover:bg-theme-secondary/30 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
-                        <span className="font-bold text-theme-primary text-sm">{dividend.ticker}</span>
+            {upcomingDividends.length > 0 && (
+              <div className="bg-theme-card border border-theme rounded-lg mb-6">
+                <div className="p-6 border-b border-theme">
+                  <h3 className="text-lg font-semibold text-theme-primary">Anstehende Dividenden</h3>
+                </div>
+                
+                <div className="divide-y divide-theme">
+                  {upcomingDividends.map((dividend, index) => (
+                    <div key={`${dividend.ticker}-${dividend.exDate}`} className="p-6 flex items-center justify-between hover:bg-theme-secondary/30 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+                          <span className="font-bold text-theme-primary text-sm">{dividend.ticker}</span>
+                        </div>
+                        <div>
+                          <div className="font-semibold text-theme-primary">{dividend.companyName}</div>
+                          <div className="text-sm text-theme-muted">
+                            Ex-Date: {new Date(dividend.exDate).toLocaleDateString('de-DE')} • 
+                            ${dividend.amount.toFixed(3)} × {dividend.shares} Aktien
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-semibold text-theme-primary">{dividend.companyName}</div>
+                      
+                      <div className="text-right">
+                        <div className="font-bold text-green-400 text-lg">${dividend.totalAmount.toFixed(2)}</div>
                         <div className="text-sm text-theme-muted">
-                          Ex-Date: {new Date(dividend.exDate).toLocaleDateString('de-DE')} • 
-                          ${dividend.amount.toFixed(3)} × {dividend.shares} Aktien
+                          Zahlung: {new Date(dividend.payDate).toLocaleDateString('de-DE')}
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="text-right">
-                      <div className="font-bold text-green-400 text-lg">${dividend.totalAmount.toFixed(2)}</div>
-                      <div className="text-sm text-theme-muted">
-                        Zahlung: {new Date(dividend.payDate).toLocaleDateString('de-DE')}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Calendar View */}
-            <div className="bg-theme-card border border-theme rounded-lg">
-              <div className="p-6 border-b border-theme">
-                <h3 className="text-lg font-semibold text-theme-primary">Dividenden-Kalender (nächste 3 Monate)</h3>
-              </div>
-              
-              <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[0, 1, 2].map(monthOffset => {
-                    const date = new Date()
-                    date.setMonth(date.getMonth() + monthOffset)
-                    const monthName = date.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
-                    
-                    const monthEvents = dividendEvents.filter(event => {
-                      const eventDate = new Date(event.exDate)
-                      return eventDate.getMonth() === date.getMonth() && 
-                             eventDate.getFullYear() === date.getFullYear()
-                    })
-                    
-                    const monthTotal = monthEvents.reduce((sum, event) => sum + event.totalAmount, 0)
-                    
-                    return (
-                      <div key={monthOffset} className="border border-theme rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-4">
-                          <h4 className="font-semibold text-theme-primary capitalize">{monthName}</h4>
-                          <span className="text-sm font-medium text-green-400">${monthTotal.toFixed(2)}</span>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          {monthEvents.slice(0, 4).map(event => (
-                            <div key={`${event.ticker}-${event.exDate}`} className="flex items-center justify-between text-sm">
-                              <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                                <span className="text-theme-primary font-medium">{event.ticker}</span>
-                                <span className="text-theme-muted">{new Date(event.exDate).getDate()}.</span>
-                              </div>
-                              <span className="text-theme-primary font-medium">${event.totalAmount.toFixed(0)}</span>
-                            </div>
-                          ))}
-                          
-                          {monthEvents.length > 4 && (
-                            <div className="text-xs text-theme-muted">
-                              +{monthEvents.length - 4} weitere
-                            </div>
-                          )}
-                          
-                          {monthEvents.length === 0 && (
-                            <div className="text-xs text-theme-muted">Keine Dividenden</div>
-                          )}
-                        </div>
-                      </div>
-                    )
-                  })}
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
+
+            {dividendEvents.length === 0 && (
+              <div className="bg-theme-card border border-theme rounded-lg p-8 text-center">
+                <CalendarIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-theme-primary mb-2">Keine Dividenden gefunden</h3>
+                <p className="text-theme-secondary">
+                  Ihre Portfolio-Positionen zahlen möglicherweise keine Dividenden oder die Daten sind nicht verfügbar.
+                </p>
+              </div>
+            )}
           </>
         )}
 
@@ -435,104 +524,47 @@ export default function DividendenPage() {
             </div>
             
             <div className="p-6">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-theme-secondary">
-                    <tr>
-                      <th className="text-left py-3 px-6 text-theme-secondary font-medium">Jahr</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Erhalten</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Zahlungen</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Ø Rendite</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Wachstum</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dividendHistory.map((year, index) => {
-                      const prevYear = dividendHistory[index + 1]
-                      const growth = prevYear ? ((year.totalReceived - prevYear.totalReceived) / prevYear.totalReceived * 100) : 0
-                      
-                      return (
+              {dividendHistory.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-theme-secondary">
+                      <tr>
+                        <th className="text-left py-3 px-6 text-theme-secondary font-medium">Jahr</th>
+                        <th className="text-right py-3 px-6 text-theme-secondary font-medium">Geschätzt</th>
+                        <th className="text-right py-3 px-6 text-theme-secondary font-medium">Zahlungen</th>
+                        <th className="text-right py-3 px-6 text-theme-secondary font-medium">Ø Rendite</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dividendHistory.map((year) => (
                         <tr key={year.year} className="border-t border-theme hover:bg-theme-secondary/30">
                           <td className="py-4 px-6 font-semibold text-theme-primary">{year.year}</td>
                           <td className="py-4 px-6 text-right text-theme-primary font-semibold">${year.totalReceived.toFixed(2)}</td>
                           <td className="py-4 px-6 text-right text-theme-secondary">{year.payments}</td>
                           <td className="py-4 px-6 text-right text-theme-secondary">{year.avgYield.toFixed(1)}%</td>
-                          <td className={`py-4 px-6 text-right font-medium ${
-                            growth > 0 ? 'text-green-400' : growth < 0 ? 'text-red-400' : 'text-theme-secondary'
-                          }`}>
-                            {prevYear ? `${growth > 0 ? '+' : ''}${growth.toFixed(1)}%` : '–'}
-                          </td>
                         </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <ChartBarIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
+                  <p className="text-theme-secondary">Keine Historie verfügbar</p>
+                </div>
+              )}
             </div>
           </div>
         )}
 
         {activeView === 'settings' && (
-          <div className="space-y-6">
-            <div className="bg-theme-card border border-theme rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-theme-primary mb-4">Benachrichtigungen</h3>
-              <div className="space-y-4">
-                <label className="flex items-center justify-between">
-                  <span className="text-theme-secondary">Ex-Dividend Benachrichtigungen</span>
-                  <input type="checkbox" className="toggle" defaultChecked />
-                </label>
-                <label className="flex items-center justify-between">
-                  <span className="text-theme-secondary">Zahlungsbenachrichtigungen</span>
-                  <input type="checkbox" className="toggle" defaultChecked />
-                </label>
-                <label className="flex items-center justify-between">
-                  <span className="text-theme-secondary">Wöchentliche Zusammenfassung</span>
-                  <input type="checkbox" className="toggle" />
-                </label>
-              </div>
-            </div>
-
-            <div className="bg-theme-card border border-theme rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-theme-primary mb-4">Export</h3>
-              <div className="space-y-3">
-                <button className="w-full text-left p-3 bg-theme-secondary hover:bg-theme-tertiary rounded-lg transition-colors">
-                  <div className="font-medium text-theme-primary">Dividenden-Kalender exportieren</div>
-                  <div className="text-sm text-theme-muted">CSV-Export für Excel oder Google Sheets</div>
-                </button>
-                
-                <button className="w-full text-left p-3 bg-theme-secondary hover:bg-theme-tertiary rounded-lg transition-colors">
-                  <div className="font-medium text-theme-primary">Steuer-Report erstellen</div>
-                  <div className="text-sm text-theme-muted">Dividenden-Übersicht für die Steuererklärung</div>
-                </button>
-              </div>
-            </div>
+          <div className="bg-theme-card border border-theme rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-theme-primary mb-4">Einstellungen</h3>
+            <p className="text-theme-secondary">
+              Dividenden-Einstellungen werden in Kürze verfügbar sein.
+            </p>
           </div>
         )}
-
-        {/* Superinvestor Insight */}
-        <div className="mt-8 bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-lg p-6">
-          <div className="flex items-start gap-4">
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <SparklesIcon className="w-4 h-4 text-green-400" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-green-400 mb-2">💡 Superinvestor Insight</h4>
-              <p className="text-theme-secondary">
-                Warren Buffetts Portfolio erhält diese Woche <strong className="text-theme-primary">$2.3M</strong> an Dividenden. 
-                Die größten Ausschüttungen kommen von Apple ($1.8M) und Coca-Cola ($340k).
-              </p>
-              <Link
-                href="/analyse/super-investors"
-                className="mt-3 inline-flex items-center gap-1 text-green-400 hover:text-green-300 text-sm font-medium transition-colors"
-              >
-                <span>Alle Superinvestor Dividenden anzeigen</span>
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )

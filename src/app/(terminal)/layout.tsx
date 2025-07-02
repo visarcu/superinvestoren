@@ -1,4 +1,4 @@
-// src/app/(terminal)/layout.tsx - VERBESSERTE KOMPAKTE VERSION
+// src/app/(terminal)/layout.tsx - GEFIXTE VERSION
 'use client'
 
 import React, { ReactNode, useState, useEffect, useRef } from 'react'
@@ -550,9 +550,9 @@ function LayoutContent({ children }: LayoutProps) {
       
       {/* Sidebar - Kompakter */}
       <div className="w-48 bg-theme-secondary border-r border-theme flex flex-col">
-        {/* Header */}
+        {/* Header - FIX 1: Logo führt zur Homepage */}
         <div className="p-2.5 border-b border-theme">
-          <Link href="/analyse" className="flex items-center gap-1.5 group">
+          <Link href="/" className="flex items-center gap-1.5 group">
             <div className="flex items-end gap-0.5">
               <div className="w-1 h-2.5 bg-green-500 rounded-sm"></div>
               <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
@@ -646,7 +646,7 @@ function LayoutContent({ children }: LayoutProps) {
           </div>
         </nav>
 
-        {/* User Footer - Kompakter */}
+        {/* User Footer - FIX 2: Bessere Button Labels */}
         <div className="p-2 border-t border-theme">
           <div className="flex items-center gap-1.5 mb-1.5">
             <div className="relative">
@@ -693,21 +693,33 @@ function LayoutContent({ children }: LayoutProps) {
             </Link>
           )}
 
-          <div className="flex gap-0.5">
+          {/* FIXED BUTTONS - Mit Text Labels */}
+          <div className="space-y-1">
+            <Link
+              href="/"
+              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors text-xs"
+              title="Zur Startseite"
+            >
+              <HomeIcon className="w-3 h-3" />
+              <span>Startseite</span>
+            </Link>
+            
             <button
               onClick={() => window.location.href = 'mailto:team.finclue@gmail.com'}
-              className="flex-1 p-1 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors"
-              title="Support"
+              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors text-xs"
+              title="Support kontaktieren"
             >
-              <EnvelopeIcon className="w-3 h-3 mx-auto" />
+              <EnvelopeIcon className="w-3 h-3" />
+              <span>Support</span>
             </button>
             
             <button
               onClick={handleSignOut}
-              className="flex-1 p-1 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors"
-              title="Sign Out"
+              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded transition-colors text-xs"
+              title="Abmelden"
             >
-              <ArrowLeftOnRectangleIcon className="w-3 h-3 mx-auto" />
+              <ArrowLeftOnRectangleIcon className="w-3 h-3" />
+              <span>Abmelden</span>
             </button>
           </div>
         </div>

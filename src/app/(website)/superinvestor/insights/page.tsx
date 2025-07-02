@@ -1,4 +1,4 @@
-// src/app/superinvestor/insights/page.tsx - COMPLETE FINAL VERSION
+// src/app/superinvestor/insights/page.tsx - VOLLSTÄNDIG mit korrekter Sektor-Zuordnung
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
@@ -26,6 +26,7 @@ import { investors } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
+import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 
 // Animation Hook
 const useIntersectionObserver = (threshold = 0.1) => {
@@ -90,7 +91,7 @@ const useCountUp = (end: number, duration = 2000, shouldStart = false) => {
   return count;
 };
 
-// Investor Namen Mapping - ERWEITERT
+// Investor Namen Mapping
 const investorNames: Record<string, string> = {
   buffett: 'Warren Buffett',
   ackman: 'Bill Ackman',
@@ -110,7 +111,6 @@ const investorNames: Record<string, string> = {
   abrams: 'David Abrams',
   tepper: 'David Tepper',
   berkowitz: 'Bruce Berkowitz',
-  // Zusätzliche Mappings für alle möglichen Slugs
   ginzlis: 'Leon Ginzlis',
   polen: 'Polen Capital',
   gayner: 'Tom Gayner',
@@ -177,7 +177,6 @@ interface QuarterOption {
   description: string
 }
 
-// ✅ FIXED: Vereinfachter QuarterSelector ohne Portal
 function QuarterSelector({ 
   options, 
   selected, 
@@ -197,7 +196,6 @@ function QuarterSelector({
   const buttonRef = useRef<HTMLButtonElement>(null)
   const selectedOption = options.find(opt => opt.id === selected)
   
-  // ✅ Vereinfachte Position-Berechnung
   const updateDropdownPosition = () => {
     if (!buttonRef.current) return
     
@@ -214,11 +212,9 @@ function QuarterSelector({
     })
   }
 
-  // Position berechnen wenn Dropdown öffnet
   useEffect(() => {
     if (isOpen) {
       updateDropdownPosition()
-      // Re-calculate on scroll/resize
       const handleReposition = () => {
         if (isOpen) updateDropdownPosition()
       }
@@ -233,7 +229,6 @@ function QuarterSelector({
     }
   }, [isOpen, options.length])
 
-  // ✅ Schließen bei Escape oder außerhalb klicken
   useEffect(() => {
     if (!isOpen) return
 
@@ -259,7 +254,6 @@ function QuarterSelector({
     }
   }, [isOpen])
 
-  // ✅ Einfaches Dropdown ohne Portal
   const dropdownContent = isOpen && (
     <div 
       className="absolute bg-gray-800/95 backdrop-blur-md border border-gray-600/80 rounded-xl shadow-2xl z-[100] mt-2"
@@ -268,7 +262,6 @@ function QuarterSelector({
         maxHeight: `${dropdownPosition.maxHeight}px`
       }}
     >
-      {/* Header */}
       <div className="p-3 border-b border-gray-700/50">
         <div className="flex items-center gap-2">
           <CalendarIcon className="w-4 h-4 text-gray-400" />
@@ -276,7 +269,6 @@ function QuarterSelector({
         </div>
       </div>
 
-      {/* Options */}
       <div className="max-h-80 overflow-y-auto p-2">
         <div className="space-y-1">
           {options.map(option => (
@@ -304,7 +296,6 @@ function QuarterSelector({
         </div>
       </div>
 
-      {/* Footer */}
       <div className="p-3 border-t border-gray-700/50 bg-gray-800/50">
         <div className="flex items-center justify-between text-xs text-gray-500">
           <span>ESC zum Schließen</span>
@@ -316,7 +307,6 @@ function QuarterSelector({
 
   return (
     <>
-      {/* Button */}
       <div className="relative">
         <button
           ref={buttonRef}
@@ -332,14 +322,11 @@ function QuarterSelector({
           />
         </button>
       </div>
-
-      {/* ✅ Einfaches Dropdown */}
       {dropdownContent}
     </>
   )
 }
 
-// ✅ FIXED: Realistische Berechnung der Datenquellen-Statistiken
 function calculateDataSourceStats(targetQuarters: string[]) {
   const stats = {
     totalInvestors: 0,
@@ -350,17 +337,14 @@ function calculateDataSourceStats(targetQuarters: string[]) {
     quarters: targetQuarters
   }
 
-  // ✅ FIXED: Nur aktive Investoren mit echten Daten zählen
   const activeInvestors = Object.entries(holdingsHistory).filter(([slug, snaps]) => {
     return snaps && snaps.length > 0 && snaps[snaps.length - 1]?.data?.positions?.length > 0
   })
 
   stats.totalInvestors = activeInvestors.length
 
-  // Investoren mit Daten im gewählten Zeitraum
   let latestDate = ''
   activeInvestors.forEach(([slug, snaps]) => {
-    // Hat der Investor Daten in den Zielquartalen?
     const hasDataInPeriod = snaps.some(snap => {
       const quarter = getPeriodFromDate(snap.data.date)
       return targetQuarters.includes(quarter)
@@ -370,17 +354,14 @@ function calculateDataSourceStats(targetQuarters: string[]) {
       stats.investorsWithData++
     }
 
-    // Alle Filings zählen
     stats.totalFilings += snaps.length
     
-    // Filings im Zeitraum zählen
     snaps.forEach(snap => {
       const quarter = getPeriodFromDate(snap.data.date)
       if (targetQuarters.includes(quarter)) {
         stats.filingsInPeriod++
       }
       
-      // Letztes Update finden
       if (snap.data.date > latestDate) {
         latestDate = snap.data.date
       }
@@ -389,31 +370,6 @@ function calculateDataSourceStats(targetQuarters: string[]) {
 
   stats.lastUpdated = latestDate
   return stats
-}
-
-// Sektor-Mapping für bessere Kategorisierung
-const sectorMapping: Record<string, string> = {
-  'AAPL': 'Technology',
-  'MSFT': 'Technology', 
-  'GOOGL': 'Technology',
-  'AMZN': 'Technology',
-  'TSLA': 'Technology',
-  'META': 'Technology',
-  'NVDA': 'Technology',
-  'BAC': 'Financial Services',
-  'JPM': 'Financial Services',
-  'WFC': 'Financial Services',
-  'AXP': 'Financial Services',
-  'KO': 'Consumer Staples',
-  'PG': 'Consumer Staples',
-  'JNJ': 'Healthcare',
-  'UNH': 'Healthcare',
-  'XOM': 'Energy',
-  'CVX': 'Energy'
-}
-
-function getSector(ticker: string): string {
-  return sectorMapping[ticker] || 'Other'
 }
 
 export default function MarketInsightsPage() {
@@ -483,7 +439,6 @@ export default function MarketInsightsPage() {
   const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
   const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 
-  // ✅ CORRECTED: Realistische Datenquellen-Stats
   const dataSourceStats = calculateDataSourceStats(targetQuarters)
 
   // Top-Käufe Berechnung
@@ -514,10 +469,11 @@ export default function MarketInsightsPage() {
         cur.positions?.forEach((p: any) => {
           const ticker = getTicker(p)
           if (!ticker || seen.has(ticker)) return
-          
+          seen.add(ticker)
+
           const prevShares = prevMap.get(ticker) || 0
           const delta = p.shares - prevShares
-          
+
           if (delta > 0) {
             seen.add(ticker)
             buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
@@ -614,7 +570,7 @@ export default function MarketInsightsPage() {
     })
   })
 
-  // Sektor-Analyse
+  // ✅ FIXED: Sektor-Analyse mit korrekter Sektor-Zuordnung
   const sectorAnalysis = new Map<string, { value: number, count: number }>()
   
   Object.values(holdingsHistory).forEach(snaps => {
@@ -624,17 +580,20 @@ export default function MarketInsightsPage() {
     if (!latest?.positions) return
     
     latest.positions.forEach((p: any) => {
-      const ticker = getTicker(p)
-      if (!ticker) return
+      const sector = getSectorFromPosition({
+        cusip: p.cusip,
+        ticker: getTicker(p)
+      })
       
-      const sector = getSector(ticker)
-      const current = sectorAnalysis.get(sector)
+      const germanSector = translateSector(sector)
+      
+      const current = sectorAnalysis.get(germanSector)
       
       if (current) {
         current.value += p.value
         current.count += 1
       } else {
-        sectorAnalysis.set(sector, { value: p.value, count: 1 })
+        sectorAnalysis.set(germanSector, { value: p.value, count: 1 })
       }
     })
   })
@@ -644,32 +603,41 @@ export default function MarketInsightsPage() {
     .sort((a, b) => b.value - a.value)
     .slice(0, 6)
 
-  // Geographic Exposure
-  const internationalTickers = new Set(['ASML', 'TSM', 'NESN', 'BABA', 'TCEHY', 'UL', 'NVO'])
-  
-  let usValue = 0, internationalValue = 0
-  
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (!snaps || snaps.length === 0) return
+  // Geographic Exposure - mit verbesserter Logik
+  const getGeographicExposure = () => {
+    let usValue = 0
+    let internationalValue = 0
     
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    
-    latest.positions.forEach((p: any) => {
-      const ticker = getTicker(p)
-      if (!ticker) return
+    Object.values(holdingsHistory).forEach(snaps => {
+      if (!snaps || snaps.length === 0) return
       
-      if (internationalTickers.has(ticker)) {
-        internationalValue += p.value
-      } else {
-        usValue += p.value
-      }
+      const latest = snaps[snaps.length - 1]?.data
+      if (!latest?.positions) return
+      
+      latest.positions.forEach((p: any) => {
+        const ticker = getTicker(p)
+        if (!ticker) return
+        
+        // Einfache Heuristik: Ticker mit Punkten sind oft internationale Aktien
+        const isInternational = ticker.includes('.') || 
+          ['ASML', 'TSM', 'NESN', 'BABA', 'TCEHY', 'UL', 'NVO', 'NVSEF', 'SAP'].includes(ticker)
+        
+        if (isInternational) {
+          internationalValue += p.value
+        } else {
+          usValue += p.value
+        }
+      })
     })
-  })
+    
+    const totalValue = usValue + internationalValue
+    const usPercentage = totalValue > 0 ? (usValue / totalValue) * 100 : 0
+    const intlPercentage = totalValue > 0 ? (internationalValue / totalValue) * 100 : 0
+    
+    return { usValue, internationalValue, usPercentage, intlPercentage }
+  }
 
-  const totalValue = usValue + internationalValue
-  const usPercentage = totalValue > 0 ? (usValue / totalValue) * 100 : 0
-  const intlPercentage = totalValue > 0 ? (internationalValue / totalValue) * 100 : 0
+  const { usValue, internationalValue, usPercentage, intlPercentage } = getGeographicExposure()
 
   return (
     <div className="min-h-screen bg-gray-950 noise-bg">
@@ -678,7 +646,6 @@ export default function MarketInsightsPage() {
       <section className="bg-gray-950 noise-bg pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Breadcrumb */}
           <div className="mb-6">
             <Link
               href="/superinvestor"
@@ -693,7 +660,6 @@ export default function MarketInsightsPage() {
             heroVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
             
-            {/* Header mit integrierten Stats */}
             <div className="mb-8">
               <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
                 <div className="flex items-center gap-3">
@@ -718,7 +684,6 @@ export default function MarketInsightsPage() {
             </div>
           </div>
 
-          {/* Erklärung */}
           <div className="mt-8 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
               <div>
@@ -1020,7 +985,6 @@ export default function MarketInsightsPage() {
               </div>
 
               {(() => {
-                // Big Bets Berechnung mit korrekten Namen
                 const bigBetsData: Array<{
                   ticker: string;
                   name: string;
@@ -1064,7 +1028,7 @@ export default function MarketInsightsPage() {
                   mergedPositions.forEach(({ value, name }, ticker) => {
                     const percent = (value / totalPortfolioValue) * 100;
                     
-                    if (percent >= 3) { // Min 3% Portfolio-Gewichtung
+                    if (percent >= 3) {
                       const current = stockData.get(ticker);
                       
                       if (current) {
@@ -1150,13 +1114,11 @@ export default function MarketInsightsPage() {
                           </div>
                           
                           <div className="mt-2 flex items-center justify-between text-xs">
-  <span className="text-gray-400">{bet.ownershipCount} Investoren</span>
-  <span className="text-gray-400">
-    {formatCurrencyGerman(bet.totalValue, false)}
-  </span>
-</div>
-
-
+                            <span className="text-gray-400">{bet.ownershipCount} Investoren</span>
+                            <span className="text-gray-400">
+                              {formatCurrencyGerman(bet.totalValue, false)}
+                            </span>
+                          </div>
                         </Link>
                       ))}
                     </div>
@@ -1180,7 +1142,6 @@ export default function MarketInsightsPage() {
               </div>
 
               {(() => {
-                // Contrarian Picks Berechnung mit korrekten Namen
                 const contrarianData: Array<{
                   ticker: string;
                   name: string;
@@ -1190,7 +1151,6 @@ export default function MarketInsightsPage() {
                   ownershipCount: number;
                 }> = [];
 
-                // Erst alle Stock-Ownership zählen
                 const ownershipCount = new Map<string, number>();
                 Object.values(holdingsHistory).forEach(snaps => {
                   if (!snaps || snaps.length === 0) return;
@@ -1208,7 +1168,6 @@ export default function MarketInsightsPage() {
                   });
                 });
 
-                // Dann Contrarian Picks finden
                 Object.entries(holdingsHistory).forEach(([investorSlug, snaps]) => {
                   if (!snaps || snaps.length === 0) return;
                   
@@ -1237,7 +1196,6 @@ export default function MarketInsightsPage() {
                     const percent = (value / totalPortfolioValue) * 100;
                     const totalOwners = ownershipCount.get(ticker) || 0;
                     
-                    // Contrarian: Hohe Gewichtung (>4%) aber wenige Besitzer (≤2)
                     if (percent >= 4 && totalOwners <= 2) {
                       contrarianData.push({
                         ticker,
@@ -1288,8 +1246,8 @@ export default function MarketInsightsPage() {
                                   {pick.portfolioPercent.toFixed(1)}%
                                 </div>
                                 <div className="text-xs text-gray-500">
-  {pick.ownershipCount} Investor{pick.ownershipCount !== 1 ? 'en' : ''}
-</div>
+                                  {pick.ownershipCount} Investor{pick.ownershipCount !== 1 ? 'en' : ''}
+                                </div>
                               </div>
                             </div>
                             
@@ -1315,7 +1273,6 @@ export default function MarketInsightsPage() {
             </div>
           </div>
 
-          {/* Footer */}
           <div className="mt-8 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
               <div>
@@ -1455,7 +1412,7 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* NEW: Recent Activity Tracking */}
+        {/* Recent Activity Tracking */}
         <div className={`mb-16 transform transition-all duration-1000 ${
           sectorsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
@@ -1507,7 +1464,6 @@ export default function MarketInsightsPage() {
                   let sells = 0;
                   let lastActivity = '';
 
-                  // Vergleiche nur die letzten 3 Quartale für Recent Activity
                   const recentSnaps = snaps.slice(-3);
 
                   for (let i = 1; i < recentSnaps.length; i++) {
@@ -1532,14 +1488,13 @@ export default function MarketInsightsPage() {
                       const prevShares = prevMap.get(ticker) || 0;
                       const delta = p.shares - prevShares;
 
-                      if (Math.abs(delta) > 100) { // Nur signifikante Änderungen
+                      if (Math.abs(delta) > 100) {
                         totalChanges++;
                         if (delta > 0) buys++;
                         else sells++;
                       }
                     });
 
-                    // Check for complete exits
                     prevMap.forEach((prevShares, ticker) => {
                       if (!seen.has(ticker) && prevShares > 100) {
                         totalChanges++;
@@ -1550,7 +1505,7 @@ export default function MarketInsightsPage() {
 
                   if (totalChanges > 0) {
                     activityData.push({
-                      investor: investorNames[slug] || slug, // ✅ Echte Namen verwenden
+                      investor: investorNames[slug] || slug,
                       changes: totalChanges,
                       buys,
                       sells,
@@ -1653,9 +1608,9 @@ export default function MarketInsightsPage() {
                     const previousPercent = prevMap.get(ticker) || 0;
                     const change = currentPercent - previousPercent;
 
-                    if (Math.abs(change) > 2 && currentPercent > 1) { // Min 2% Veränderung
+                    if (Math.abs(change) > 2 && currentPercent > 1) {
                       bigMoves.push({
-                        investor: investorNames[slug] || slug, // ✅ Echte Namen verwenden
+                        investor: investorNames[slug] || slug,
                         ticker,
                         type: change > 0 ? 'buy' : 'sell',
                         percentChange: Math.abs(change),

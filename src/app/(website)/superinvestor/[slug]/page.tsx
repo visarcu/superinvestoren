@@ -1,11 +1,12 @@
-// src/app/superinvestor/[slug]/page.tsx - COMPLETE mit Portfolio Analysis + Analytics Tab
+// src/app/superinvestor/[slug]/page.tsx - COMPLETE mit Portfolio Analysis + Analytics Tab + Company Ownership
 'use client'
 
 import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
 import { notFound, useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { 
+import {
+  ArrowTopRightOnSquareIcon,
   EnvelopeIcon, 
   ArrowUpRightIcon,
   ArrowLeftIcon,
@@ -19,7 +20,8 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   LockClosedIcon,
-  LightBulbIcon
+  LightBulbIcon,
+  ArrowTrendingDownIcon
 } from '@heroicons/react/24/outline'
 
 import holdingsHistory from '@/data/holdings'
@@ -35,10 +37,14 @@ import CashPositionChart from '@/components/CashPositionChart'
 import { supabase } from '@/lib/supabaseClient'
 import PortfolioAnalysisInline from '@/components/PortfolioAnalysisInline'
 import FilingsTab from '@/components/FilingsTab'
-
-// ✅ ENTFERNT: Analytics Imports da Debug-Version verwendet wird
-// import { calculatePortfolioStats } from '@/utils/portfolioAnalytics'
-// import PortfolioStatsGrid from '@/components/PortfolioStatsGrid'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
+import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
+import AdvancedSectorAnalysis from '@/components/AdvancedSectorAnalysis'
+import SectorBreakdownChart from '@/components/SectorBreakdownChart'
+import Logo from '@/components/Logo'
+import CompactSectorOverview from '@/components/CompactSectorOverview'
+import CompactTopPositions from '@/components/CompactTopPositions'
+import DividendAnalysisSection from '@/components/DividendAnalysisSection'
 
 // Dynamic imports
 const TopPositionsBarChart = dynamic(
@@ -98,6 +104,7 @@ interface Position {
   value: number
   deltaShares: number
   pctDelta: number
+  ticker?: string
 }
 
 interface HistoryGroup {
@@ -105,11 +112,417 @@ interface HistoryGroup {
   items: Position[]
 }
 
+// Company Ownership History Types
+interface CompanyInfo {
+  cusip: string
+  ticker: string
+  name: string
+  displayName: string
+  totalValue?: number // ✅ Für Sortierung
+}
+
+interface OwnershipHistoryPoint {
+  quarter: string
+  shares: number
+  value: number
+  portfolioPercentage: number
+  exists: boolean
+}
+
 const investorNames: Record<string, string> = {
   buffett: 'Warren Buffett – Berkshire Hathaway',
   ackman: 'Bill Ackman – Pershing Square Capital Management',
   gates: 'Bill & Melinda Gates Foundation Trust',
   // ... rest of the investor names
+}
+
+// Utility Functions for Company Ownership
+const getTicker = (position: Position): string => {
+  if (position.ticker) return position.ticker
+  const stock = stocks.find(s => s.cusip === position.cusip)
+  if (stock?.ticker) return stock.ticker
+  return position.cusip.replace(/0+$/, '')
+}
+
+const getCleanCompanyName = (position: Position): string => {
+  let name = position.name
+  const ticker = getTicker(position)
+  
+  if (ticker && name) {
+    if (name.startsWith(`${ticker} - `)) {
+      return name.substring(ticker.length + 3)
+    }
+    if (name.startsWith(`${ticker} – `)) {
+      return name.substring(ticker.length + 3)
+    }
+    if (name === ticker) {
+      return ticker
+    }
+  }
+  
+  return name
+}
+
+const getAllCompanies = (snapshots: any[]): CompanyInfo[] => {
+  // ✅ NUR aktuelle Holdings aus dem letzten Snapshot
+  const latestSnapshot = snapshots[snapshots.length - 1]
+  if (!latestSnapshot) return []
+  
+  const companiesMap = new Map<string, { ticker: string; name: string; totalValue: number }>()
+  
+  // Aggregiere Werte für jede CUSIP
+  latestSnapshot.data.positions.forEach((position: Position) => {
+    const existing = companiesMap.get(position.cusip)
+    
+    if (existing) {
+      existing.totalValue += position.value
+    } else {
+      const ticker = getTicker(position)
+      const cleanName = getCleanCompanyName(position)
+      
+      companiesMap.set(position.cusip, {
+        ticker,
+        name: cleanName,
+        totalValue: position.value
+      })
+    }
+  })
+  
+  return Array.from(companiesMap.entries())
+    .map(([cusip, { ticker, name, totalValue }]) => ({
+      cusip,
+      ticker,
+      name,
+      displayName: ticker !== name ? `${ticker} - ${name}` : name,
+      totalValue
+    }))
+    .sort((a, b) => b.totalValue - a.totalValue) // ✅ Sortiere nach Wert, nicht alphabetisch
+}
+
+const calculatePortfolioPercentage = (position: Position, totalValue: number): number => {
+  return totalValue > 0 ? (position.value / totalValue) * 100 : 0
+}
+
+const generateOwnershipHistory = (snapshots: any[], selectedCusip: string): OwnershipHistoryPoint[] => {
+  return snapshots
+    .map(snapshot => {
+      // ✅ FIXED: Aggregiere alle Positionen mit derselben CUSIP (wie in mergePositions)
+      const matchingPositions = snapshot.data.positions.filter((p: Position) => p.cusip === selectedCusip)
+      
+      const aggregatedShares = matchingPositions.reduce((sum: number, p: Position) => sum + p.shares, 0)
+      const aggregatedValue = matchingPositions.reduce((sum: number, p: Position) => sum + p.value, 0)
+      
+      const totalValue = snapshot.data.positions.reduce((sum: number, p: Position) => sum + p.value, 0)
+      
+      return {
+        quarter: snapshot.quarter,
+        shares: aggregatedShares,
+        value: aggregatedValue,
+        portfolioPercentage: aggregatedShares > 0 ? (aggregatedValue / totalValue) * 100 : 0,
+        exists: matchingPositions.length > 0
+      }
+    })
+    .sort((a, b) => a.quarter.localeCompare(b.quarter))
+}
+
+// Company Ownership History Component
+function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[], investorName: string }) {
+  const companies = useMemo(() => getAllCompanies(snapshots), [snapshots])
+  
+  // ✅ IMPROVED: Standard auf das wertvollste Unternehmen setzen (erstes in sortierter Liste)
+  const defaultCompany = useMemo(() => {
+    return companies[0]?.cusip || ''
+  }, [companies])
+  
+  const [selectedCompany, setSelectedCompany] = useState<string>(defaultCompany)
+  
+  // ✅ Update selectedCompany wenn defaultCompany sich ändert
+  useEffect(() => {
+    if (defaultCompany && defaultCompany !== selectedCompany) {
+      setSelectedCompany(defaultCompany)
+    }
+  }, [defaultCompany])
+  
+  const selectedCompanyInfo = companies.find(c => c.cusip === selectedCompany)
+  const ownershipHistory = useMemo(() => 
+    generateOwnershipHistory(snapshots, selectedCompany), 
+    [snapshots, selectedCompany]
+  )
+  
+  const latestData = ownershipHistory[ownershipHistory.length - 1]
+  const previousData = ownershipHistory[ownershipHistory.length - 2]
+  
+  const sharesChange = latestData && previousData ? latestData.shares - previousData.shares : 0
+  const percentageChange = latestData && previousData ? latestData.portfolioPercentage - previousData.portfolioPercentage : 0
+  
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(value)
+  }
+  
+  const formatShares = (value: number) => {
+    return new Intl.NumberFormat('de-DE').format(value)
+  }
+
+  if (!selectedCompanyInfo) return null
+
+  return (
+    <div className="space-y-8">
+      
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-white mb-4">
+          Einzelunternehmen-Analyse
+        </h2>
+        <p className="text-gray-400 max-w-2xl mx-auto">
+          Verfolge {investorName}s Ownership-Geschichte für einzelne Unternehmen über die Zeit
+        </p>
+      </div>
+
+      {/* Company Selector */}
+      <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-5 h-5 text-blue-400" />
+          </div>
+          <h3 className="text-xl font-bold text-white">Unternehmen auswählen</h3>
+        </div>
+        
+        <select
+          value={selectedCompany}
+          onChange={(e) => setSelectedCompany(e.target.value)}
+          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          {companies.map(company => (
+            <option key={company.cusip} value={company.cusip}>
+              {company.displayName} {company.totalValue ? `(${formatCurrency(company.totalValue)})` : ''}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Current Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-green-400" />
+            </div>
+            <h4 className="text-sm font-medium text-gray-400">Aktuelle Shares</h4>
+          </div>
+          <p className="text-2xl font-bold text-white">
+            {latestData ? formatShares(latestData.shares) : '0'}
+          </p>
+          {sharesChange !== 0 && (
+            <p className={`text-sm flex items-center gap-1 mt-2 ${sharesChange > 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {sharesChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
+              {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)} vs letztes Quartal
+            </p>
+          )}
+        </div>
+
+        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-blue-400" />
+            </div>
+            <h4 className="text-sm font-medium text-gray-400">Aktueller Wert</h4>
+          </div>
+          <p className="text-2xl font-bold text-white">
+            {latestData ? formatCurrency(latestData.value) : '$0'}
+          </p>
+        </div>
+
+        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-purple-400" />
+            </div>
+            <h4 className="text-sm font-medium text-gray-400">Portfolio-Anteil</h4>
+          </div>
+          <p className="text-2xl font-bold text-white">
+            {latestData ? `${latestData.portfolioPercentage.toFixed(1)}%` : '0%'}
+          </p>
+          {percentageChange !== 0 && (
+            <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {percentageChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
+              {percentageChange > 0 ? '+' : ''}{percentageChange.toFixed(1)}% vs letztes Quartal
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        {/* Portfolio Percentage Chart */}
+        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-green-400" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white">Portfolio-Anteil über Zeit</h3>
+              <p className="text-sm text-gray-400">{selectedCompanyInfo.ticker}</p>
+            </div>
+          </div>
+          
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={ownershipHistory}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis 
+                dataKey="quarter" 
+                stroke="#9CA3AF"
+                fontSize={12}
+                tickFormatter={(value) => value.replace('Q', 'Q')}
+              />
+              <YAxis 
+                stroke="#9CA3AF"
+                fontSize={12}
+                tickFormatter={(value) => `${value}%`}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1F2937',
+                  border: '1px solid #374151',
+                  borderRadius: '8px',
+                  color: '#F9FAFB'
+                }}
+                formatter={(value: any) => [`${value.toFixed(2)}%`, 'Portfolio-Anteil']}
+                labelFormatter={(label) => `Quartal: ${label}`}
+              />
+              <Line
+                type="monotone"
+                dataKey="portfolioPercentage"
+                stroke="#10B981"
+                strokeWidth={3}
+                dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, stroke: '#10B981', strokeWidth: 2 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Shares Chart */}
+        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-blue-400" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white">Anzahl Aktien über Zeit</h3>
+              <p className="text-sm text-gray-400">{selectedCompanyInfo.ticker}</p>
+            </div>
+          </div>
+          
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={ownershipHistory}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis 
+                dataKey="quarter" 
+                stroke="#9CA3AF"
+                fontSize={12}
+                tickFormatter={(value) => value.replace('Q', 'Q')}
+              />
+              <YAxis 
+                stroke="#9CA3AF"
+                fontSize={12}
+                tickFormatter={(value) => {
+                  if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`
+                  if (value >= 1000) return `${(value / 1000).toFixed(1)}K`
+                  return value.toString()
+                }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1F2937',
+                  border: '1px solid #374151',
+                  borderRadius: '8px',
+                  color: '#F9FAFB'
+                }}
+                formatter={(value: any) => [formatShares(value), 'Aktien']}
+                labelFormatter={(label) => `Quartal: ${label}`}
+              />
+              <Bar 
+                dataKey="shares" 
+                fill="#3B82F6"
+                radius={[4, 4, 0, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* History Table */}
+      <div className="bg-gray-900/60 border border-gray-800 rounded-xl overflow-hidden">
+        <div className="p-6 border-b border-gray-800">
+          <h3 className="text-lg font-bold text-white">Detaillierte Historie</h3>
+          <p className="text-sm text-gray-400 mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-800/50">
+              <tr className="text-sm text-gray-400">
+                <th className="text-left p-4 font-medium">Quartal</th>
+                <th className="text-right p-4 font-medium">Aktien</th>
+                <th className="text-right p-4 font-medium">Wert (USD)</th>
+                <th className="text-right p-4 font-medium">Portfolio %</th>
+                <th className="text-right p-4 font-medium">Veränderung</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ownershipHistory.map((data, index) => {
+                const previousEntry = index > 0 ? ownershipHistory[index - 1] : null
+                const sharesChange = previousEntry ? data.shares - previousEntry.shares : 0
+                const isNew = !previousEntry?.exists && data.exists
+                const isSold = previousEntry?.exists && !data.exists
+                
+                return (
+                  <tr key={data.quarter} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                    <td className="p-4 font-medium text-white">{data.quarter}</td>
+                    <td className="p-4 text-right font-mono text-gray-300">
+                      {data.exists ? formatShares(data.shares) : '—'}
+                    </td>
+                    <td className="p-4 text-right font-mono text-gray-300">
+                      {data.exists ? formatCurrency(data.value) : '—'}
+                    </td>
+                    <td className="p-4 text-right font-mono text-gray-300">
+                      {data.exists ? `${data.portfolioPercentage.toFixed(2)}%` : '—'}
+                    </td>
+                    <td className="p-4 text-right">
+                      {isNew ? (
+                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30">
+                          Neukauf
+                        </span>
+                      ) : isSold ? (
+                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300 border border-red-500/30">
+                          Verkauft
+                        </span>
+                      ) : sharesChange !== 0 ? (
+                        <span className={`inline-block px-2 py-1 text-xs rounded-full ${
+                          sharesChange > 0 
+                            ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                            : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                        }`}>
+                          {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)}
+                        </span>
+                      ) : (
+                        <span className="text-gray-500">—</span>
+                      )}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 // Kompakte Newsletter Komponente
@@ -251,6 +664,7 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const titleFull = investorNames[slug] ?? slug
   const { name: mainName, subtitle } = splitInvestorName(titleFull)
   const [tab, setTab] = useState<Tab>('holdings')
+  const [analyticsView, setAnalyticsView] = useState<'overview' | 'companies' | 'sectors' | 'dividends'>('overview')
   const [showNewsletter, setShowNewsletter] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [userLoading, setUserLoading] = useState(true)
@@ -311,9 +725,6 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const snapshots = holdingsHistory[slug]
   
   if (!Array.isArray(snapshots) || snapshots.length < 1) return notFound()
-
-  // ✅ ENTFERNT: Portfolio-Statistiken für Debug-Version
-  // const portfolioStats = useMemo(() => calculatePortfolioStats(snapshots), [snapshots])
 
   // Header data
   const latest = snapshots[snapshots.length - 1].data
@@ -405,7 +816,8 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
   const holdings = sortedHold
   const totalVal = holdings.reduce((s, p) => s + p.value, 0)
   const top10 = holdings.slice(0, 10).map(p => ({ 
-    name: p.name, 
+    name: p.name,
+    ticker: p.ticker, // ✅ Ticker hinzufügen
     percent: (p.value / totalVal) * 100 
   }))
 
@@ -668,11 +1080,15 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
                 newTab === 'buys' ||
                 newTab === 'sells' ||
                 newTab === 'activity' ||
-                newTab === 'analytics' || // ✅ NEU
+                newTab === 'analytics' ||
                 newTab === 'ai' ||
                 newTab === 'filings' 
               ) {
                 setTab(newTab)
+                // Reset analytics view when switching tabs
+                if (newTab === 'analytics') {
+                  setAnalyticsView('overview')
+                }
               }
             }}
             holdings={holdings}
@@ -681,269 +1097,488 @@ export default function InvestorPage({ params: { slug } }: InvestorPageProps) {
           />
         </div>
 
-        {/* ✅ Holdings Tab mit Portfolio Analysis */}
-        {tab === 'holdings' && (
-          <div ref={chartsRef} className={`transform transition-all duration-1000 ${
-            chartsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
+        {/* Holdings Tab mit Portfolio Analysis */}
+    
+{/* Holdings Tab mit kompakten Top 10 */}
+{tab === 'holdings' && (
+  <div ref={chartsRef} className={`transform transition-all duration-1000 ${
+    chartsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+  }`}>
+    
+    {/* Portfolio Insights direkt oben */}
+    <div className="mb-12">
+      <PortfolioAnalysisInline
+        investorName={mainName}
+        currentPositions={holdings}
+        previousPositions={previous.positions}
+      />
+    </div>
+    
+    {/* ✅ ERSTE ZEILE: 3-Spalten mit kompakten Top 10 */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      
+      {/* Spalte 1: Kompakte Top 10 Positionen */}
+      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-4 h-4 text-blue-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Top 10 Positionen</h3>
+            <p className="text-xs text-gray-400">Größte Holdings</p>
+          </div>
+        </div>
+        
+        {/* ✅ KOMPAKTE Liste - alle 10 ohne Scrollen */}
+        <div className="space-y-2">
+          {top10.map((item, index) => {
+            const tickerMatch = item.name.match(/^([A-Z]{1,5})\s*[-–]\s*(.+)/)
+            const ticker = item.ticker || (tickerMatch ? tickerMatch[1] : null)
+            const cleanName = tickerMatch ? tickerMatch[2] : item.name
             
-            {/* ✅ NEU: Portfolio Insights direkt oben */}
-            <div className="mb-12">
-              <PortfolioAnalysisInline
-                investorName={mainName}
-                currentPositions={holdings}
-                previousPositions={previous.positions}
-              />
-            </div>
-            
-            {/* Charts Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-              
-              {/* Top 10 Positions */}
-              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-white">Top 10 Positionen</h2>
-                    <p className="text-sm text-gray-400">Nach Portfolio-Gewichtung</p>
-                  </div>
-                </div>
-                <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
-                  <TopPositionsBarChart data={top10} />
-                </ErrorBoundary>
-              </div>
-
-              {/* Portfolio Value History */}
-              {snapshots.length > 1 ? (
-                <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                      <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold text-white">Portfolio-Verlauf</h2>
-                      <p className="text-sm text-gray-400">Entwicklung über Zeit</p>
-                    </div>
-                  </div>
-                  <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
-                    <PortfolioValueChart data={valueHistory} />
-                  </ErrorBoundary>
-                </div>
-              ) : (
-                <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                      <ArrowTrendingUpIcon className="w-5 h-5 text-gray-500" />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold text-gray-400">Portfolio-Verlauf</h2>
-                      <p className="text-sm text-gray-500">Noch nicht verfügbar</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center h-64 text-gray-500">
-                    <div className="text-center">
-                      <ChartBarIcon className="w-12 h-12 mx-auto mb-4 opacity-30" />
-                      <p className="text-sm">
-                        Verlaufsdaten werden verfügbar, sobald weitere Quartale hinzugefügt werden
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Cash Position Chart (for Buffett) */}
-            {slug === 'buffett' && cashSeries.length > 0 && (
-              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 mb-16 backdrop-blur-sm">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-yellow-400" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-white">Cash-Position (Treasuries)</h2>
-                    <p className="text-sm text-gray-400">
-                      Entwicklung der liquiden Mittel über die letzten Quartale
-                    </p>
-                  </div>
+            return (
+              <div 
+                key={index} 
+                className="flex items-center gap-3 group hover:bg-gray-800/20 p-2 rounded-lg transition-all duration-200"
+              >
+                {/* Rank */}
+                <div className="w-5 h-5 rounded-full bg-gray-700/50 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-bold text-gray-300">
+                    {index + 1}
+                  </span>
                 </div>
                 
-                <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
-                  <div className="cash-chart-container">
-                    <CashPositionChart data={cashSeries} />
+                {/* Logo - kleiner */}
+                {ticker && (
+                  <div className="w-6 h-6 rounded-lg overflow-hidden bg-white/5 border border-gray-700/30 group-hover:border-gray-600/50 transition-colors flex-shrink-0">
+                    <Logo
+                      ticker={ticker}
+                      alt={`${ticker} Logo`}
+                      className="w-full h-full"
+                      padding="small"
+                    />
                   </div>
-                </ErrorBoundary>
+                )}
                 
-                <div className="mt-6 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+                {/* Info - kompakt */}
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-400">Aktueller Cash-Bestand:</span>
-                    <span className="text-yellow-400 font-semibold text-lg">
-                      {formatCurrency(cashSeries[cashSeries.length - 1]?.cash || 0, 'USD')}
+                    <div className="min-w-0 flex-1">
+                      {/* Ticker + Company in einer Zeile */}
+                      <div className="flex items-center gap-1.5">
+                        {ticker && (
+                          <span className="text-green-400 font-mono text-xs font-semibold flex-shrink-0">
+                            {ticker}
+                          </span>
+                        )}
+                        <span className="text-white text-xs font-medium truncate">
+                          {cleanName.length > 16 ? cleanName.substring(0, 16) + '...' : cleanName}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Percentage - kompakt */}
+                    <div className="flex-shrink-0 ml-2">
+                      <span className="text-white font-bold text-xs">
+                        {item.percent.toFixed(1)}%
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Mini Progress Bar */}
+                  <div className="w-full bg-gray-800/50 rounded-full h-1 mt-1">
+                    <div
+                      className="h-1 bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all duration-500"
+                      style={{ 
+                        width: `${Math.min((item.percent / top10[0].percent) * 100, 100)}%` 
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+      
+      {/* Spalte 2: Kompakte Sektor-Übersicht */}
+      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-4 h-4 text-purple-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Top 5 Sektoren</h3>
+            <p className="text-xs text-gray-400">Verteilung</p>
+          </div>
+        </div>
+        
+        {/* Kompakte Sektor-Liste */}
+        <div className="space-y-4">
+          {(() => {
+            const sectorMap = new Map()
+            holdings.forEach(holding => {
+              const englishSector = getSectorFromPosition({
+                cusip: holding.cusip,
+                ticker: holding.ticker
+              })
+              const sector = translateSector(englishSector)
+              
+              const current = sectorMap.get(sector) || { value: 0, count: 0 }
+              sectorMap.set(sector, {
+                value: current.value + holding.value,
+                count: current.count + 1
+              })
+            })
+            
+            return Array.from(sectorMap.entries())
+              .map(([sector, { value, count }]) => ({
+                sector,
+                value,
+                count,
+                percentage: (value / totalVal) * 100
+              }))
+              .sort((a, b) => b.value - a.value)
+              .slice(0, 5)
+          })().map((sector, index) => {
+            const colors = ['#10B981', '#3B82F6', '#EF4444', '#F59E0B', '#8B5CF6']
+            const color = colors[index] || '#9CA3AF'
+            
+            return (
+              <div key={sector.sector} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-3 h-3 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="text-sm font-medium text-white">
+                      {sector.sector}
                     </span>
                   </div>
+                  <span className="text-sm font-bold text-white">
+                    {sector.percentage.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-800/50 rounded-full h-2">
+                  <div 
+                    className="h-2 rounded-full transition-all duration-500"
+                    style={{ 
+                      backgroundColor: color,
+                      width: `${sector.percentage}%`
+                    }}
+                  />
                 </div>
               </div>
-            )}
+            )
+          })}
+        </div>
+      </div>
+      
+      {/* Spalte 3: Portfolio-Kennzahlen */}
+      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-4 h-4 text-indigo-400" />
           </div>
-        )}
+          <div>
+            <h3 className="text-lg font-bold text-white">Portfolio-Stats</h3>
+            <p className="text-xs text-gray-400">Kennzahlen</p>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {/* Holdings Count */}
+          <div className="text-center p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+            <div className="text-xl font-bold text-white mb-1">
+              {holdings.length}
+            </div>
+            <div className="text-xs text-gray-400 uppercase tracking-wide">Holdings</div>
+          </div>
+          
+          {/* Top 10 Concentration */}
+          <div className="text-center p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+            <div className="text-xl font-bold text-green-400 mb-1">
+              {((holdings.slice(0, 10).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(0)}%
+            </div>
+            <div className="text-xs text-gray-400 uppercase tracking-wide">Top 10</div>
+          </div>
+          
+          {/* Largest Position */}
+          <div className="text-center p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+            <div className="text-xl font-bold text-blue-400 mb-1">
+              {holdings[0] ? (holdings[0].value / totalVal * 100).toFixed(1) : '0'}%
+            </div>
+            <div className="text-xs text-gray-400 uppercase tracking-wide">Größte</div>
+          </div>
+          
+          {/* Data Coverage */}
+          <div className="text-center p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+            <div className="text-xl font-bold text-purple-400 mb-1">
+              {snapshots.length}
+            </div>
+            <div className="text-xs text-gray-400 uppercase tracking-wide">Quartale</div>
+          </div>
+        </div>
+        
+        {/* Additional Info */}
+        <div className="space-y-3 pt-4 border-t border-gray-800/50">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-400">Ø Position:</span>
+            <span className="text-white font-medium">
+              ${(totalVal / holdings.length / 1000000).toFixed(0)}M
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-400">Gesamtwert:</span>
+            <span className="text-white font-medium">
+              ${(totalVal / 1000000000).toFixed(1)}B
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        {/* ✅ NEU: Analytics Tab - DEBUG VERSION */}
-        {tab === 'analytics' && (
-          <div className="space-y-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Portfolio-Analytik
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Detaillierte Einblicke in {mainName}s Investment-Strategie, 
-                Sektor-Allokation und Portfolio-Charakteristika
-              </p>
+    {/* ✅ ZWEITE ZEILE: Portfolio-Verlauf (volle Breite, viel Platz!) */}
+    {snapshots.length > 1 && (
+      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200 mb-8">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Portfolio-Verlauf</h3>
+            <p className="text-xs text-gray-400">Entwicklung über Zeit</p>
+          </div>
+        </div>
+        <div className="h-80">
+          <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+            <PortfolioValueChart data={valueHistory} />
+          </ErrorBoundary>
+        </div>
+      </div>
+    )}
+
+    {/* Cash Position Chart (nur für Buffett) - Full Width */}
+    {slug === 'buffett' && cashSeries.length > 0 && (
+      <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm mb-8">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-4 h-4 text-yellow-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Cash-Position (Treasuries)</h3>
+            <p className="text-xs text-gray-400">
+              Entwicklung der liquiden Mittel über die letzten Quartale
+            </p>
+          </div>
+        </div>
+        
+        <ErrorBoundary fallbackRender={({ error }) => <ErrorFallback message={error.message} />}>
+          <div className="cash-chart-container h-64">
+            <CashPositionChart data={cashSeries} />
+          </div>
+        </ErrorBoundary>
+        
+        <div className="mt-6 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+          <div className="flex items-center justify-between">
+            <span className="text-gray-400 text-sm">Aktueller Cash-Bestand:</span>
+            <span className="text-yellow-400 font-semibold text-lg">
+              {formatCurrency(cashSeries[cashSeries.length - 1]?.cash || 0, 'USD')}
+            </span>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
+{tab === 'analytics' && (
+  <div className="space-y-8">
+    <div className="text-center mb-8">
+      <h2 className="text-3xl font-bold text-white mb-4">
+        Portfolio-Analytik
+      </h2>
+      <p className="text-gray-400 max-w-2xl mx-auto">
+        Detaillierte Einblicke in {mainName}s Investment-Strategie, 
+        Sektor-Allokation, Dividenden-Strategie und Portfolio-Charakteristika
+      </p>
+    </div>
+    
+    {/* ✅ 3. ERWEITERTE Tab Switcher für Analytics Sub-Sections */}
+    <div className="flex flex-wrap gap-2 justify-center mb-8">
+      <button
+        onClick={() => setAnalyticsView('overview')}
+        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+          analyticsView === 'overview' 
+            ? 'bg-indigo-600 text-white' 
+            : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+        }`}
+      >
+        Übersicht
+      </button>
+      <button
+        onClick={() => setAnalyticsView('companies')}
+        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+          analyticsView === 'companies' 
+            ? 'bg-indigo-600 text-white' 
+            : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+        }`}
+      >
+        Einzelunternehmen
+      </button>
+      <button
+        onClick={() => setAnalyticsView('sectors')}
+        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+          analyticsView === 'sectors' 
+            ? 'bg-indigo-600 text-white' 
+            : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+        }`}
+      >
+        Sektoren
+      </button>
+      {/* ✅ 4. NEUER Dividenden-Tab */}
+      <button
+        onClick={() => setAnalyticsView('dividends')}
+        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+          analyticsView === 'dividends' 
+            ? 'bg-indigo-600 text-white' 
+            : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+        }`}
+      >
+        Dividenden
+      </button>
+    </div>
+
+    {/* Overview Section - bleibt unverändert */}
+    {analyticsView === 'overview' && (
+      <>
+        {/* Stats Grid - bleibt unverändert */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          
+          <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <ChartBarIcon className="w-5 h-5 text-green-400" />
+              </div>
+              <h3 className="text-sm font-medium text-gray-400">Portfolio-Wert</h3>
             </div>
-            
-            {/* SIMPLE TEST GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              
-              {/* Portfolio Value - SIMPLE */}
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-green-400" />
-                  </div>
-                  <h3 className="text-sm font-medium text-gray-400">Portfolio-Wert</h3>
-                </div>
-                <p className="text-2xl font-bold text-white">
-                  ${(totalVal / 1000000000).toFixed(1)}B
-                </p>
-                <p className="text-xs text-gray-500">Gesamtwert aller Positionen</p>
+            <p className="text-2xl font-bold text-white">
+              ${(totalVal / 1000000000).toFixed(1)}B
+            </p>
+            <p className="text-xs text-gray-500">Gesamtwert aller Positionen</p>
+          </div>
+          
+          <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <StarIcon className="w-5 h-5 text-blue-400" />
               </div>
-              
-              {/* Holdings Count */}
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <StarIcon className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <h3 className="text-sm font-medium text-gray-400">Anzahl Holdings</h3>
-                </div>
-                <p className="text-2xl font-bold text-white">
-                  {holdings.length}
-                </p>
-                <p className="text-xs text-gray-500">Verschiedene Positionen</p>
-              </div>
-              
-              {/* Top 10 Percentage - SIMPLE CALC */}
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <h3 className="text-sm font-medium text-gray-400">Top 10 Anteil</h3>
-                </div>
-                <p className="text-2xl font-bold text-white">
-                  {((holdings.slice(0, 10).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
-                </p>
-                <p className="text-xs text-gray-500">Konzentration</p>
-              </div>
-              
-              {/* Snapshots Count */}
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                    <CalendarIcon className="w-5 h-5 text-yellow-400" />
-                  </div>
-                  <h3 className="text-sm font-medium text-gray-400">Quartale</h3>
-                </div>
-                <p className="text-2xl font-bold text-white">
-                  {snapshots.length}
-                </p>
-                <p className="text-xs text-gray-500">Verfügbare Daten</p>
-              </div>
+              <h3 className="text-sm font-medium text-gray-400">Anzahl Holdings</h3>
             </div>
-            
-            {/* SIMPLE SECTOR BREAKDOWN */}
-            <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                  <ChartBarIcon className="w-5 h-5 text-indigo-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">Sektor-Übersicht</h3>
-                  <p className="text-sm text-gray-400">Vereinfachte Darstellung</p>
-                </div>
+            <p className="text-2xl font-bold text-white">
+              {holdings.length}
+            </p>
+            <p className="text-xs text-gray-500">Verschiedene Positionen</p>
+          </div>
+          
+          <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                <ChartBarIcon className="w-5 h-5 text-purple-400" />
               </div>
-              
-              <div className="space-y-4">
-                {/* Calculate simple sectors */}
-                {(() => {
-                  const sectorMap = new Map()
-                  holdings.forEach(holding => {
-                    // Simple sector classification
-                    let sector = 'Sonstige'
-                    const name = holding.name.toUpperCase()
-                    
-                    if (name.includes('APPLE') || name.includes('MICROSOFT') || name.includes('AMAZON') || name.includes('ALPHABET')) {
-                      sector = 'Technologie'
-                    } else if (name.includes('BANK') || name.includes('FINANCIAL') || name.includes('BERKSHIRE')) {
-                      sector = 'Finanzdienstleistungen'
-                    } else if (name.includes('COCA COLA') || name.includes('PROCTER')) {
-                      sector = 'Konsumgüter'
-                    } else if (name.includes('CHEVRON') || name.includes('EXXON')) {
-                      sector = 'Energie'
-                    }
-                    
-                    const current = sectorMap.get(sector) || { value: 0, count: 0 }
-                    sectorMap.set(sector, {
-                      value: current.value + holding.value,
-                      count: current.count + 1
-                    })
-                  })
-                  
-                  return Array.from(sectorMap.entries())
-                    .map(([sector, { value, count }]) => ({
-                      sector,
-                      value,
-                      count,
-                      percentage: (value / totalVal) * 100
-                    }))
-                    .sort((a, b) => b.value - a.value)
-                })().map((sector, index) => (
-                  <div key={sector.sector} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div 
-                        className="w-4 h-4 rounded-full"
-                        style={{ 
-                          backgroundColor: ['#3B82F6', '#10B981', '#EF4444', '#F59E0B', '#8B5CF6'][index] || '#9CA3AF'
-                        }}
-                      ></div>
-                      <span className="text-white font-medium">{sector.sector}</span>
-                      <span className="text-gray-500 text-sm">({sector.count})</span>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-white font-medium">
-                        ${(sector.value / 1000000000).toFixed(1)}B
-                      </div>
-                      <div className="text-gray-400 text-sm">
-                        {sector.percentage.toFixed(1)}%
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h3 className="text-sm font-medium text-gray-400">Top 10 Anteil</h3>
             </div>
-            
-            {/* DEBUG INFO */}
-            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
-              <h4 className="text-sm font-medium text-gray-400 mb-2">Debug Info:</h4>
-              <div className="text-xs text-gray-500 space-y-1">
-                <p>Holdings Count: {holdings.length}</p>
-                <p>Total Value: ${(totalVal / 1000000000).toFixed(2)}B</p>
-                <p>Snapshots: {snapshots.length}</p>
-                <p>Latest Date: {latest.date}</p>
+            <p className="text-2xl font-bold text-white">
+              {((holdings.slice(0, 10).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
+            </p>
+            <p className="text-xs text-gray-500">Konzentration</p>
+          </div>
+          
+          <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-5 h-5 text-yellow-400" />
               </div>
+              <h3 className="text-sm font-medium text-gray-400">Quartale</h3>
+            </div>
+            <p className="text-2xl font-bold text-white">
+              {snapshots.length}
+            </p>
+            <p className="text-xs text-gray-500">Verfügbare Daten</p>
+          </div>
+        </div>
+        
+        {/* Sektor-Chart bleibt unverändert */}
+        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-5 h-5 text-indigo-400" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white">Sektor-Verteilung</h3>
+              <p className="text-sm text-gray-400">Basierend auf echten Sektor-Daten</p>
             </div>
           </div>
-        )}
+          
+          <SectorBreakdownChart
+            data={(() => {
+              const sectorMap = new Map()
+              holdings.forEach(holding => {
+                const englishSector = getSectorFromPosition({
+                  cusip: holding.cusip,
+                  ticker: holding.ticker
+                })
+                
+                const sector = translateSector(englishSector)
+                
+                const current = sectorMap.get(sector) || { value: 0, count: 0 }
+                sectorMap.set(sector, {
+                  value: current.value + holding.value,
+                  count: current.count + 1
+                })
+              })
+              
+              return Array.from(sectorMap.entries())
+                .map(([sector, { value, count }]) => ({
+                  sector,
+                  value,
+                  count,
+                  percentage: (value / totalVal) * 100
+                }))
+                .sort((a, b) => b.value - a.value)
+            })()}
+          />
+        </div>
+      </>
+    )}
+
+    {/* ✅ 5. UNCHANGED: Company Analysis Section */}
+    {analyticsView === 'companies' && (
+      <CompanyOwnershipHistory 
+        snapshots={snapshots}
+        investorName={mainName}
+      />
+    )}
+
+    {/* ✅ 6. UNCHANGED: Advanced Sectors Section */}
+    {analyticsView === 'sectors' && (
+      <AdvancedSectorAnalysis 
+        snapshots={snapshots}
+        investorName={mainName}
+      />
+    )}
+
+    {/* ✅ 7. NEUE Dividenden Section */}
+    {analyticsView === 'dividends' && (
+      <DividendAnalysisSection
+        investorName={mainName}
+        currentPositions={holdings}
+        snapshots={snapshots}
+      />
+    )}
+  </div>
+)}
 
         {/* AI Tab Content */}
         {tab === 'ai' && (

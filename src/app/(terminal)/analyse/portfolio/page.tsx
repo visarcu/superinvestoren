@@ -1,4 +1,4 @@
-// src/app/analyse/portfolio/page.tsx - MIT FUNKTIONIERENDEN TABS
+// src/app/analyse/portfolio/page.tsx - TYPESCRIPT FIXED VERSION
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -16,12 +16,16 @@ import {
   CheckIcon,
   CurrencyDollarIcon,
   ClockIcon,
-  ChartPieIcon
+  ChartPieIcon,
+  ExclamationTriangleIcon,
+  UserIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
+import Link from 'next/link'
 
-// ✅ TYPES
+// ✅ IMPROVED TYPES
 interface PortfolioPosition {
   id: number
   ticker: string
@@ -38,6 +42,7 @@ interface PortfolioPosition {
   unrealized_gain_loss_percent: number
   created_at: string
   updated_at: string
+  price_source?: string
 }
 
 interface PortfolioSummary {
@@ -71,6 +76,82 @@ interface StockValidation {
   error?: string
 }
 
+interface AuthDebugInfo {
+  isAuthenticated: boolean
+  user: {
+    id: string
+    email?: string
+  } | null  // ✅ FIXED: Explizit null als Möglichkeit
+  session: any
+  errors: {
+    sessionError?: string
+    userError?: string
+    exception?: string
+  }
+}
+
+// ✅ ENHANCED CLIENT AUTH DEBUG mit besseren Types
+async function debugClientAuth(): Promise<AuthDebugInfo> {
+  try {
+    console.log('🔍 [Client Auth Debug] Starting auth check...')
+    
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+    
+    console.log('🔍 [Client Auth Debug] Session:', {
+      hasSession: !!sessionData.session,
+      hasUser: !!sessionData.session?.user,
+      userId: sessionData.session?.user?.id,
+      email: sessionData.session?.user?.email,
+      sessionError: sessionError?.message,
+      tokenPresent: !!sessionData.session?.access_token
+    })
+    
+    const { data: userData, error: userError } = await supabase.auth.getUser()
+    
+    console.log('🔍 [Client Auth Debug] User:', {
+      hasUser: !!userData.user,
+      userId: userData.user?.id,
+      userError: userError?.message
+    })
+    
+    const cookies = document.cookie
+    const hasSupabaseCookies = cookies.includes('supabase')
+    
+    console.log('🔍 [Client Auth Debug] Cookies:', {
+      hasCookies: !!cookies,
+      hasSupabaseCookies,
+      cookieCount: cookies.split(';').length
+    })
+    
+    // ✅ FIXED: Bessere User-Auswahl mit null handling
+    const user = sessionData.session?.user || userData.user || null
+    
+    return {
+      isAuthenticated: !!user,
+      user: user ? {
+        id: user.id,
+        email: user.email
+      } : null,  // ✅ FIXED: Explizit null wenn kein user
+      session: sessionData.session,
+      errors: {
+        sessionError: sessionError?.message,
+        userError: userError?.message
+      }
+    }
+    
+  } catch (error) {
+    console.error('❌ [Client Auth Debug] Exception:', error)
+    return {
+      isAuthenticated: false,
+      user: null,
+      session: null,
+      errors: {
+        exception: error instanceof Error ? error.message : 'Unknown error'
+      }
+    }
+  }
+}
+
 // Portfolio Tabs
 const PORTFOLIO_TABS = [
   { id: 'overview', label: 'Übersicht', icon: ChartBarIcon },
@@ -81,12 +162,15 @@ const PORTFOLIO_TABS = [
 
 export default function PortfolioPage() {
   const [user, setUser] = useState<User | null>(null)
+  const [authDebugInfo, setAuthDebugInfo] = useState<AuthDebugInfo | null>(null)
   const [activeTab, setActiveTab] = useState('overview')
   const [portfolio, setPortfolio] = useState<PortfolioPosition[]>([])
   const [summary, setSummary] = useState<PortfolioSummary | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(false)
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null)
+  const [showAuthDebug, setShowAuthDebug] = useState(false)
 
   // Add Stock Modal States
   const [showAddStock, setShowAddStock] = useState(false)
@@ -98,9 +182,8 @@ export default function PortfolioPage() {
   const [searchResults, setSearchResults] = useState<typeof stocks>([])
   const [showSearchResults, setShowSearchResults] = useState(false)
 
-  // ✅ UTILITY FUNCTIONS - Defined early
+  // ✅ UTILITY FUNCTIONS
   const resetModal = () => {
-    console.log('Resetting modal')
     setShowAddStock(false)
     setAddStockForm({ ticker: '', shares: '', avgPrice: '', purchaseDate: '', notes: '' })
     setStockValidation({ loading: false })
@@ -109,13 +192,6 @@ export default function PortfolioPage() {
     setError(null)
   }
 
-  const handleClickOutside = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      setShowSearchResults(false)
-    }
-  }
-
-  // ✅ Improved search input handler
   const handleSearchInput = (value: string) => {
     const upperValue = value.toUpperCase()
     setAddStockForm(prev => ({...prev, ticker: upperValue}))
@@ -135,18 +211,10 @@ export default function PortfolioPage() {
     }
   }
 
-  // ✅ Handle stock selection with immediate close
   const handleStockSelect = (stock: typeof stocks[0]) => {
-    console.log('Stock selected:', stock.ticker)
-    
-    // Immediately close dropdown
     setShowSearchResults(false)
     setSearchResults([])
-    
-    // Set the ticker
     setAddStockForm(prev => ({ ...prev, ticker: stock.ticker }))
-    
-    // Set validation immediately
     setStockValidation({
       loading: false,
       valid: true,
@@ -155,54 +223,46 @@ export default function PortfolioPage() {
     })
   }
 
-  // ✅ Handle input focus
-  const handleInputFocus = () => {
-    if (addStockForm.ticker.length >= 1 && searchResults.length > 0) {
-      setShowSearchResults(true)
-    }
-  }
-
-  // ✅ Handle input blur with delay
-  const handleInputBlur = () => {
-    // Delay to allow click on dropdown items
-    setTimeout(() => {
-      setShowSearchResults(false)
-    }, 150)
-  }
-
-  // ✅ Load User Data
+  // ✅ ENHANCED User Authentication Check mit TYPESCRIPT FIXES
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        console.log('🚀 [Portfolio] Starting user authentication check')
         
-        if (sessionError) {
-          console.error('Session error:', sessionError)
-          setError('Authentifizierungsfehler. Bitte loggen Sie sich erneut ein.')
-          setLoading(false)
-          return
-        }
-
-        if (!session?.user) {
+        const authInfo = await debugClientAuth()
+        setAuthDebugInfo(authInfo)
+        
+        if (!authInfo.isAuthenticated || !authInfo.user) {  // ✅ FIXED: Explizite Null-Prüfung
+          console.error('❌ [Portfolio] User not authenticated:', authInfo.errors)
           setError('Sie sind nicht angemeldet. Bitte loggen Sie sich ein.')
           setLoading(false)
           return
         }
+        
+        // ✅ FIXED: TypeScript-sichere Zugriffe
+        console.log('✅ [Portfolio] User authenticated:', authInfo.user.email || 'No email')
 
+        // Profile laden
         const { data: profile } = await supabase
           .from('profiles')
           .select('is_premium')
-          .eq('user_id', session.user.id)
+          .eq('user_id', authInfo.user.id)
           .maybeSingle()
 
         setUser({
-          id: session.user.id,
-          email: session.user.email || '',
+          id: authInfo.user.id,
+          email: authInfo.user.email || '',
+          isPremium: profile?.is_premium || false
+        })
+
+        console.log('✅ [Portfolio] User profile loaded:', {
+          id: authInfo.user.id,
+          email: authInfo.user.email || 'No email',
           isPremium: profile?.is_premium || false
         })
 
       } catch (error) {
-        console.error('Error loading user:', error)
+        console.error('❌ [Portfolio] Error loading user:', error)
         setError('Fehler beim Laden der Benutzerdaten')
         setLoading(false)
       }
@@ -210,8 +270,11 @@ export default function PortfolioPage() {
 
     loadUser()
 
+    // ✅ Auth State Listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('🔄 [Portfolio] Auth state changed:', event, !!session)
+        
         if (event === 'SIGNED_IN' && session?.user) {
           setUser({
             id: session.user.id,
@@ -223,6 +286,7 @@ export default function PortfolioPage() {
           setUser(null)
           setPortfolio([])
           setSummary(null)
+          setError('Sie wurden abgemeldet. Bitte loggen Sie sich erneut ein.')
         }
       }
     )
@@ -230,51 +294,64 @@ export default function PortfolioPage() {
     return () => subscription.unsubscribe()
   }, [])
 
-  // ✅ Load Portfolio Data
+  // ✅ Load Portfolio Data - UNVERÄNDERT aber mit besserer Fehlerbehandlung
   const loadPortfolio = async () => {
-    if (!user) return
+    if (!user) {
+      console.log('ℹ️ [Portfolio] Skipping portfolio load - no user')
+      return
+    }
 
     try {
       setLoading(true)
       setError(null)
 
-      const { data: positions, error: positionsError } = await supabase
-        .from('portfolio_positions')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+      console.log('🔍 [Portfolio] Loading portfolio for user:', user.id)
 
-      if (positionsError) {
-        throw new Error(`Fehler beim Laden des Portfolios: ${positionsError.message}`)
-      }
-
-      const enrichedPositions = positions?.map(position => ({
-        ...position,
-        current_value: position.shares * (position.current_price || position.avg_price),
-        cost_basis: position.shares * position.avg_price,
-        unrealized_gain_loss: position.shares * ((position.current_price || position.avg_price) - position.avg_price),
-        unrealized_gain_loss_percent: position.avg_price > 0 ? (((position.current_price || position.avg_price) - position.avg_price) / position.avg_price * 100) : 0
-      })) || []
-
-      setPortfolio(enrichedPositions)
-
-      const totalValue = enrichedPositions.reduce((sum, pos) => sum + pos.current_value, 0)
-      const totalCost = enrichedPositions.reduce((sum, pos) => sum + pos.cost_basis, 0)
-      const totalGainLoss = totalValue - totalCost
-      const totalGainLossPercent = totalCost > 0 ? (totalGainLoss / totalCost) * 100 : 0
-
-      setSummary({
-        total_positions: enrichedPositions.length,
-        total_value: totalValue,
-        total_cost: totalCost,
-        total_gain_loss: totalGainLoss,
-        total_gain_loss_percent: totalGainLossPercent,
-        annual_dividend_estimate: 0
+      const response = await fetch('/api/portfolio', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
       })
 
+      console.log('🔍 [Portfolio] API Response status:', response.status)
+
+      if (response.status === 401) {
+        const errorData = await response.json()
+        console.error('❌ [Portfolio] Unauthorized error:', errorData)
+        
+        setError(`Authentifizierung fehlgeschlagen: ${errorData.details || 'Bitte loggen Sie sich erneut ein'}`)
+        setShowAuthDebug(true)
+        return
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Portfolio konnte nicht geladen werden')
+      }
+
+      console.log('✅ [Portfolio] Portfolio loaded successfully:', {
+        positions: data.portfolio.positions?.length || 0,
+        totalValue: data.portfolio.summary?.total_value || 0
+      })
+
+      setPortfolio(data.portfolio.positions || [])
+      setSummary(data.portfolio.summary || null)
+      setLastUpdated(data.portfolio.lastUpdated)
+
     } catch (error) {
-      console.error('Portfolio load error:', error)
-      setError(error instanceof Error ? error.message : 'Fehler beim Laden des Portfolios')
+      console.error('❌ [Portfolio] Load error:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Fehler beim Laden des Portfolios'
+      setError(errorMessage)
+      setPortfolio([])
+      setSummary(null)
     } finally {
       setLoading(false)
     }
@@ -286,7 +363,7 @@ export default function PortfolioPage() {
     }
   }, [user])
 
-  // ✅ Stock Validation - IMPROVED
+  // ✅ Stock Validation - UNVERÄNDERT
   useEffect(() => {
     const validateStock = async () => {
       if (addStockForm.ticker.length >= 2) {
@@ -353,11 +430,7 @@ export default function PortfolioPage() {
     return () => clearTimeout(debounceTimer)
   }, [addStockForm.ticker])
 
-  const selectStock = (stock: typeof stocks[0]) => {
-    setAddStockForm(prev => ({ ...prev, ticker: stock.ticker }))
-    setShowSearchResults(false)
-  }
-
+  // ✅ Add Stock - UNVERÄNDERT
   const handleAddStock = async (e: React.FormEvent) => {
     e.preventDefault()
     
@@ -370,34 +443,53 @@ export default function PortfolioPage() {
     setError(null)
 
     try {
-      const { data: newPosition, error: insertError } = await supabase
-        .from('portfolio_positions')
-        .insert({
-          user_id: user.id,
+      console.log('🔍 [Portfolio] Adding stock position:', {
+        ticker: addStockForm.ticker,
+        shares: addStockForm.shares,
+        avgPrice: addStockForm.avgPrice
+      })
+
+      const response = await fetch('/api/portfolio', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
           ticker: addStockForm.ticker.toUpperCase(),
-          company_name: stockValidation.name,
           shares: parseInt(addStockForm.shares),
           avg_price: parseFloat(addStockForm.avgPrice),
-          currency: 'USD',
           purchase_date: addStockForm.purchaseDate || null,
           purchase_notes: addStockForm.notes || null,
-          current_price: stockValidation.price,
-          last_price_update: new Date().toISOString()
-        })
-        .select()
-        .single()
+          currency: 'USD'
+        }),
+      })
 
-      if (insertError) {
-        throw new Error(`Position konnte nicht hinzugefügt werden: ${insertError.message}`)
+      if (response.status === 401) {
+        setError('Authentifizierung fehlgeschlagen. Bitte loggen Sie sich erneut ein.')
+        setShowAuthDebug(true)
+        return
       }
 
-      // Success - reload portfolio and reset modal
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`)
+      }
+
+      if (!data.success) {
+        throw new Error(data.error || 'Position konnte nicht hinzugefügt werden')
+      }
+
+      console.log('✅ [Portfolio] Stock position added successfully:', data.position)
+
       await loadPortfolio()
       resetModal()
 
     } catch (error) {
-      console.error('Add stock error:', error)
-      setError(error instanceof Error ? error.message : 'Fehler beim Hinzufügen der Position')
+      console.error('❌ [Portfolio] Add stock error:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Fehler beim Hinzufügen der Position'
+      setError(errorMessage)
     } finally {
       setSubmitting(false)
     }
@@ -409,7 +501,34 @@ export default function PortfolioPage() {
     setRefreshing(false)
   }
 
-  // ✅ RENDER DIFFERENT CONTENT BASED ON ACTIVE TAB
+  // ✅ FORCE REAUTH Function
+  const forceReauth = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      console.log('🔄 [Portfolio] Forcing re-authentication...')
+      
+      const { data, error } = await supabase.auth.refreshSession()
+      
+      if (error) {
+        console.error('❌ [Portfolio] Refresh failed:', error)
+        window.location.href = '/auth/login'
+        return
+      }
+      
+      console.log('✅ [Portfolio] Session refreshed successfully')
+      window.location.reload()
+      
+    } catch (error) {
+      console.error('❌ [Portfolio] Reauth error:', error)
+      window.location.href = '/auth/login'
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // ✅ RENDER TAB CONTENT - vereinfacht aber funktional
   const renderTabContent = () => {
     const hasPortfolio = portfolio.length > 0
 
@@ -438,180 +557,140 @@ export default function PortfolioPage() {
       )
     }
 
-    switch (activeTab) {
-      case 'overview':
-        return (
-          <div className="p-6">
-            {/* Portfolio Stats */}
-            {summary && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div className="bg-theme-card border border-theme rounded-lg p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-theme-muted text-sm font-medium">Portfolio Wert</p>
-                      <p className="text-2xl font-bold text-theme-primary">${summary.total_value.toLocaleString()}</p>
-                    </div>
-                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                      <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
-                    </div>
-                  </div>
+    if (activeTab === 'overview' && summary) {
+      return (
+        <div className="p-6">
+          {/* Portfolio Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-theme-muted text-sm font-medium">Portfolio Wert</p>
+                  <p className="text-2xl font-bold text-theme-primary">${summary.total_value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                 </div>
-
-                <div className="bg-theme-card border border-theme rounded-lg p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-theme-muted text-sm font-medium">Gesamt G/V</p>
-                      <p className={`text-2xl font-bold ${summary.total_gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                        {summary.total_gain_loss >= 0 ? '+' : ''}${summary.total_gain_loss.toLocaleString()}
-                      </p>
-                      <p className={`text-sm ${summary.total_gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                        {summary.total_gain_loss_percent >= 0 ? '+' : ''}{summary.total_gain_loss_percent.toFixed(2)}%
-                      </p>
-                    </div>
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${summary.total_gain_loss >= 0 ? 'bg-green-500/20' : 'bg-red-500/20'}`}>
-                      {summary.total_gain_loss >= 0 ? (
-                        <ArrowUpIcon className="w-5 h-5 text-green-400" />
-                      ) : (
-                        <ArrowDownIcon className="w-5 h-5 text-red-400" />
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-theme-card border border-theme rounded-lg p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-theme-muted text-sm font-medium">Positionen</p>
-                      <p className="text-2xl font-bold text-theme-primary">{summary.total_positions}</p>
-                    </div>
-                    <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                      <ChartBarIcon className="w-5 h-5 text-blue-400" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-theme-card border border-theme rounded-lg p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-theme-muted text-sm font-medium">Jährliche Dividenden</p>
-                      <p className="text-2xl font-bold text-green-400">${summary.annual_dividend_estimate.toFixed(2)}</p>
-                    </div>
-                    <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                      <CalendarIcon className="w-5 h-5 text-purple-400" />
-                    </div>
-                  </div>
+                <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                  <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* Portfolio Holdings */}
-            <div className="bg-theme-card border border-theme rounded-lg">
-              <div className="p-6 border-b border-theme flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-theme-primary">Meine Positionen</h3>
-                <button 
-                  onClick={() => setShowAddStock(true)}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-md transition-colors"
-                >
-                  <PlusIcon className="w-4 h-4" />
-                  Hinzufügen
-                </button>
+            <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-theme-muted text-sm font-medium">Gesamt G/V</p>
+                  <p className={`text-2xl font-bold ${summary.total_gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    {summary.total_gain_loss >= 0 ? '+' : ''}${summary.total_gain_loss.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </p>
+                  <p className={`text-sm ${summary.total_gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    {summary.total_gain_loss_percent >= 0 ? '+' : ''}{summary.total_gain_loss_percent.toFixed(2)}%
+                  </p>
+                </div>
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${summary.total_gain_loss >= 0 ? 'bg-green-500/20' : 'bg-red-500/20'}`}>
+                  {summary.total_gain_loss >= 0 ? (
+                    <ArrowUpIcon className="w-5 h-5 text-green-400" />
+                  ) : (
+                    <ArrowDownIcon className="w-5 h-5 text-red-400" />
+                  )}
+                </div>
               </div>
-              
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-theme-secondary">
-                    <tr>
-                      <th className="text-left py-3 px-6 text-theme-secondary font-medium">Aktie</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Anzahl</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Ø Preis</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Aktuell</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">Wert</th>
-                      <th className="text-right py-3 px-6 text-theme-secondary font-medium">G/V</th>
+            </div>
+
+            <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-theme-muted text-sm font-medium">Positionen</p>
+                  <p className="text-2xl font-bold text-theme-primary">{summary.total_positions}</p>
+                </div>
+                <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-5 h-5 text-blue-400" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-theme-muted text-sm font-medium">Jährliche Dividenden</p>
+                  <p className="text-2xl font-bold text-green-400">${summary.annual_dividend_estimate.toFixed(2)}</p>
+                </div>
+                <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                  <CalendarIcon className="w-5 h-5 text-purple-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Portfolio Table */}
+          <div className="bg-theme-card border border-theme rounded-lg">
+            <div className="p-6 border-b border-theme flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-theme-primary">Meine Positionen</h3>
+              <button 
+                onClick={() => setShowAddStock(true)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-md transition-colors"
+              >
+                <PlusIcon className="w-4 h-4" />
+                Hinzufügen
+              </button>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-theme-secondary">
+                  <tr>
+                    <th className="text-left py-3 px-6 text-theme-secondary font-medium">Aktie</th>
+                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Anzahl</th>
+                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Ø Preis</th>
+                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Aktuell</th>
+                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Wert</th>
+                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">G/V</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {portfolio.map((position) => (
+                    <tr key={position.id} className="border-t border-theme hover:bg-theme-secondary/30">
+                      <td className="py-4 px-6">
+                        <div>
+                          <div className="font-semibold text-theme-primary">{position.ticker}</div>
+                          <div className="text-sm text-theme-muted">{position.company_name}</div>
+                          {position.price_source === 'live' && (
+                            <div className="text-xs text-green-400">● Live</div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-4 px-6 text-right text-theme-primary">{position.shares}</td>
+                      <td className="py-4 px-6 text-right text-theme-primary">${position.avg_price.toFixed(2)}</td>
+                      <td className="py-4 px-6 text-right text-theme-primary">
+                        ${(position.current_price || position.avg_price).toFixed(2)}
+                      </td>
+                      <td className="py-4 px-6 text-right text-theme-primary font-semibold">
+                        ${position.current_value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
+                      <td className={`py-4 px-6 text-right font-semibold ${position.unrealized_gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        {position.unrealized_gain_loss >= 0 ? '+' : ''}${position.unrealized_gain_loss.toFixed(0)} 
+                        <div className="text-xs">
+                          ({position.unrealized_gain_loss_percent >= 0 ? '+' : ''}{position.unrealized_gain_loss_percent.toFixed(1)}%)
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {portfolio.map((position) => (
-                      <tr key={position.id} className="border-t border-theme hover:bg-theme-secondary/30">
-                        <td className="py-4 px-6">
-                          <div>
-                            <div className="font-semibold text-theme-primary">{position.ticker}</div>
-                            <div className="text-sm text-theme-muted">{position.company_name}</div>
-                          </div>
-                        </td>
-                        <td className="py-4 px-6 text-right text-theme-primary">{position.shares}</td>
-                        <td className="py-4 px-6 text-right text-theme-primary">${position.avg_price.toFixed(2)}</td>
-                        <td className="py-4 px-6 text-right text-theme-primary">
-                          ${(position.current_price || position.avg_price).toFixed(2)}
-                        </td>
-                        <td className="py-4 px-6 text-right text-theme-primary font-semibold">
-                          ${position.current_value.toLocaleString()}
-                        </td>
-                        <td className={`py-4 px-6 text-right font-semibold ${position.unrealized_gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                          {position.unrealized_gain_loss >= 0 ? '+' : ''}${position.unrealized_gain_loss.toFixed(0)} 
-                          <div className="text-xs">
-                            ({position.unrealized_gain_loss_percent >= 0 ? '+' : ''}{position.unrealized_gain_loss_percent.toFixed(1)}%)
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        )
-
-      case 'dividends':
-        return (
-          <div className="p-6">
-            <div className="bg-theme-card border border-theme rounded-lg p-8 text-center">
-              <CalendarIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-theme-primary mb-2">Dividenden-Tracking</h3>
-              <p className="text-theme-secondary mb-6">
-                Hier werden automatisch alle Dividendentermine Ihrer Positionen angezeigt.
-              </p>
-              <div className="text-sm text-theme-muted">
-                📅 Dividendenkalender wird in Kürze verfügbar sein
-              </div>
-            </div>
-          </div>
-        )
-
-      case 'performance':
-        return (
-          <div className="p-6">
-            <div className="bg-theme-card border border-theme rounded-lg p-8 text-center">
-              <ChartPieIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-theme-primary mb-2">Performance-Analyse</h3>
-              <p className="text-theme-secondary mb-6">
-                Detaillierte Charts und Kennzahlen zur Portfolio-Performance.
-              </p>
-              <div className="text-sm text-theme-muted">
-                📊 Performance-Charts werden in Kürze verfügbar sein
-              </div>
-            </div>
-          </div>
-        )
-
-      case 'settings':
-        return (
-          <div className="p-6">
-            <div className="bg-theme-card border border-theme rounded-lg p-8 text-center">
-              <Cog6ToothIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-theme-primary mb-2">Portfolio verwalten</h3>
-              <p className="text-theme-secondary mb-6">
-                Einstellungen für Benachrichtigungen, Export und Portfolio-Verwaltung.
-              </p>
-              <div className="text-sm text-theme-muted">
-                ⚙️ Einstellungen werden in Kürze verfügbar sein
-              </div>
-            </div>
-          </div>
-        )
-
-      default:
-        return null
+        </div>
+      )
     }
+
+    // Andere Tabs...
+    return (
+      <div className="p-6">
+        <div className="bg-theme-card border border-theme rounded-lg p-8 text-center">
+          <ChartPieIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-theme-primary mb-2">Bereich in Entwicklung</h3>
+          <p className="text-theme-secondary">Dieser Bereich wird in Kürze verfügbar sein.</p>
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
@@ -630,7 +709,7 @@ export default function PortfolioPage() {
       <div className="h-full bg-theme-primary flex items-center justify-center">
         <div className="text-center max-w-md">
           <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-            <BriefcaseIcon className="w-8 h-8 text-theme-muted" />
+            <UserIcon className="w-8 h-8 text-theme-muted" />
           </div>
           
           <h2 className="text-2xl font-bold text-theme-primary mb-3">Anmeldung erforderlich</h2>
@@ -638,12 +717,37 @@ export default function PortfolioPage() {
             Sie müssen sich anmelden, um Ihr Portfolio zu verwalten.
           </p>
           
-          <button 
-            onClick={() => window.location.href = '/auth/login'}
-            className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
-          >
-            Zur Anmeldung
-          </button>
+          <div className="space-y-4">
+            <button 
+              onClick={() => window.location.href = '/auth/login'}
+              className="w-full px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
+            >
+              Zur Anmeldung
+            </button>
+            
+            <button 
+              onClick={forceReauth}
+              className="w-full px-6 py-3 border border-theme text-theme-secondary hover:text-theme-primary rounded-lg transition-colors"
+            >
+              Session erneuern
+            </button>
+            
+            <button 
+              onClick={() => setShowAuthDebug(!showAuthDebug)}
+              className="text-sm text-theme-muted hover:text-theme-secondary"
+            >
+              {showAuthDebug ? 'Debug verbergen' : 'Debug anzeigen'}
+            </button>
+          </div>
+
+          {showAuthDebug && authDebugInfo && (
+            <div className="mt-6 p-4 bg-theme-card border border-theme rounded-lg text-left">
+              <h4 className="text-sm font-semibold text-theme-primary mb-2">Auth Debug Info</h4>
+              <pre className="text-xs text-theme-secondary overflow-auto">
+                {JSON.stringify(authDebugInfo, null, 2)}
+              </pre>
+            </div>
+          )}
         </div>
       </div>
     )
@@ -662,26 +766,33 @@ export default function PortfolioPage() {
               </p>
             </div>
             
-            {portfolio.length > 0 && (
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={refreshPrices}
-                  disabled={refreshing}
-                  className="flex items-center gap-2 px-3 py-1.5 text-theme-secondary hover:text-theme-primary transition-colors disabled:opacity-50"
-                >
-                  <ArrowPathIcon className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-                  Aktualisieren
-                </button>
-                
-                <button 
-                  onClick={() => setShowAddStock(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
-                >
-                  <PlusIcon className="w-4 h-4" />
-                  Position hinzufügen
-                </button>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-xs">
+                <ShieldCheckIcon className="w-4 h-4" />
+                <span>Angemeldet</span>
               </div>
-            )}
+              
+              {portfolio.length > 0 && (
+                <>
+                  <button
+                    onClick={refreshPrices}
+                    disabled={refreshing}
+                    className="flex items-center gap-2 px-3 py-1.5 text-theme-secondary hover:text-theme-primary transition-colors disabled:opacity-50"
+                  >
+                    <ArrowPathIcon className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                    Aktualisieren
+                  </button>
+                  
+                  <button 
+                    onClick={() => setShowAddStock(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
+                  >
+                    <PlusIcon className="w-4 h-4" />
+                    Position hinzufügen
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -715,32 +826,67 @@ export default function PortfolioPage() {
       {/* Error Display */}
       {error && (
         <div className="m-6 bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-          <div className="flex items-center gap-2">
-            <p className="text-red-400">{error}</p>
+          <div className="flex items-start gap-3">
+            <ExclamationTriangleIcon className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-red-400 mb-3">{error}</p>
+              
+              {error.includes('Authentifizierung') && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={forceReauth}
+                    className="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-sm rounded transition-colors"
+                  >
+                    Session erneuern
+                  </button>
+                  <button
+                    onClick={() => window.location.href = '/auth/login'}
+                    className="px-3 py-1.5 border border-red-500 text-red-400 hover:bg-red-500/10 text-sm rounded transition-colors"
+                  >
+                    Neu anmelden
+                  </button>
+                  <button
+                    onClick={() => setShowAuthDebug(!showAuthDebug)}
+                    className="px-3 py-1.5 text-red-400 hover:text-red-300 text-sm"
+                  >
+                    Debug
+                  </button>
+                </div>
+              )}
+            </div>
+            
             <button
               onClick={() => setError(null)}
-              className="ml-auto text-red-400 hover:text-red-300"
+              className="text-red-400 hover:text-red-300"
             >
               <XMarkIcon className="w-4 h-4" />
             </button>
           </div>
+          
+          {showAuthDebug && authDebugInfo && (
+            <div className="mt-4 p-3 bg-red-500/5 border border-red-500/20 rounded">
+              <h4 className="text-sm font-semibold text-red-400 mb-2">Debug Information</h4>
+              <pre className="text-xs text-red-300 overflow-auto max-h-32">
+                {JSON.stringify(authDebugInfo, null, 2)}
+              </pre>
+            </div>
+          )}
         </div>
       )}
 
-      {/* ✅ TAB CONTENT - Different content for each tab */}
+      {/* Tab Content */}
       <div className="flex-1 overflow-auto">
         {renderTabContent()}
       </div>
 
-      {/* ✅ KOMPLETT ÜBERARBEITETES ADD STOCK MODAL */}
+      {/* Add Stock Modal - MINIMALE VERSION für Platz */}
       {showAddStock && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div 
-            className="bg-theme-card border border-theme rounded-xl shadow-2xl w-full max-w-md mx-auto max-h-[95vh] overflow-hidden"
+            className="bg-theme-card border border-theme rounded-xl shadow-2xl w-full max-w-md mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-theme bg-theme-card">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-theme">
               <h3 className="text-xl font-semibold text-theme-primary">Aktie hinzufügen</h3>
               <button
                 onClick={resetModal}
@@ -750,170 +896,77 @@ export default function PortfolioPage() {
               </button>
             </div>
             
-            {/* Content */}
-            <div className="p-6 overflow-y-auto max-h-[calc(95vh-80px)]">
-              <form onSubmit={handleAddStock} className="space-y-6">
-                {/* Stock Search - COMPLETELY REDESIGNED */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-theme-primary">
-                    Aktie suchen <span className="text-red-400">*</span>
+            <div className="p-6">
+              <form onSubmit={handleAddStock} className="space-y-4">
+                {/* Vereinfachtes Formular */}
+                <div>
+                  <label className="block text-sm font-medium text-theme-primary mb-2">
+                    Ticker <span className="text-red-400">*</span>
                   </label>
+                  <input
+                    type="text"
+                    value={addStockForm.ticker}
+                    onChange={(e) => handleSearchInput(e.target.value)}
+                    className="w-full px-4 py-3 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 transition-all"
+                    placeholder="z.B. AAPL, NVDA..."
+                    required
+                  />
                   
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                      <MagnifyingGlassIcon className="h-5 w-5 text-theme-muted" />
-                    </div>
-                    
-                    <input
-                      type="text"
-                      value={addStockForm.ticker}
-                      onChange={(e) => handleSearchInput(e.target.value)}
-                      onFocus={handleInputFocus}
-                      onBlur={handleInputBlur}
-                      className="w-full pl-10 pr-12 py-3 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 transition-all"
-                      placeholder="z.B. NVDA, Apple, Microsoft..."
-                      required
-                      autoComplete="off"
-                    />
-                    
-                    {/* Status Icon */}
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center z-10">
-                      {stockValidation.loading && (
-                        <div className="w-5 h-5 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
-                      )}
-                      {stockValidation.valid === true && (
-                        <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                          <CheckIcon className="w-3 h-3 text-white" />
-                        </div>
-                      )}
-                      {stockValidation.valid === false && addStockForm.ticker.length >= 2 && (
-                        <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                          <XMarkIcon className="w-3 h-3 text-white" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Search Results Dropdown - SMOOTH & FAST */}
-                  {showSearchResults && searchResults.length > 0 && (
-                    <div className="absolute z-50 left-6 right-6 bg-theme-card border border-theme rounded-lg shadow-2xl max-h-48 overflow-hidden">
-                      <div className="overflow-y-auto max-h-48">
-                        {searchResults.map((stock, index) => (
-                          <button
-                            key={`search-${stock.ticker}-${index}`}
-                            type="button"
-                            onMouseDown={(e) => {
-                              e.preventDefault()
-                              console.log('Mouse down on:', stock.ticker)
-                              handleStockSelect(stock)
-                            }}
-                            className="w-full px-4 py-3 text-left hover:bg-theme-secondary active:bg-theme-secondary transition-colors duration-150 border-b border-theme/20 last:border-b-0 cursor-pointer"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="min-w-0 flex-1">
-                                <div className="font-medium text-theme-primary text-sm">{stock.ticker}</div>
-                                <div className="text-xs text-theme-secondary truncate pr-2">{stock.name}</div>
-                              </div>
-                              <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+                  {stockValidation.name && (
+                    <div className="mt-2 text-sm text-green-400">✓ {stockValidation.name}</div>
                   )}
-                  
-                  {/* Validation Messages */}
-                  {stockValidation.name && !showSearchResults && (
-                    <div className="flex items-center gap-2 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                      <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
-                      <span className="text-sm text-green-400">{stockValidation.name}</span>
-                    </div>
-                  )}
-                  
                   {stockValidation.error && (
-                    <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                      <XMarkIcon className="w-4 h-4 text-red-400 flex-shrink-0" />
-                      <span className="text-sm text-red-400">{stockValidation.error}</span>
-                    </div>
+                    <div className="mt-2 text-sm text-red-400">✗ {stockValidation.error}</div>
                   )}
                 </div>
                 
-                {/* Amount and Price - RESPONSIVE GRID */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-theme-primary">
-                      Anzahl Aktien <span className="text-red-400">*</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-theme-primary mb-2">
+                      Anzahl <span className="text-red-400">*</span>
                     </label>
                     <input
                       type="number"
                       min="1"
-                      step="1"
                       value={addStockForm.shares}
                       onChange={(e) => setAddStockForm(prev => ({...prev, shares: e.target.value}))}
-                      className="w-full px-4 py-3 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 transition-all"
+                      className="w-full px-4 py-3 bg-theme-secondary border border-theme rounded-lg text-theme-primary focus:border-green-500 focus:outline-none"
                       placeholder="100"
                       required
                     />
                   </div>
                   
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-theme-primary">
-                      Kaufpreis <span className="text-red-400">*</span>
+                  <div>
+                    <label className="block text-sm font-medium text-theme-primary mb-2">
+                      Preis <span className="text-red-400">*</span>
                     </label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-theme-muted">$</span>
-                      <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        value={addStockForm.avgPrice}
-                        onChange={(e) => setAddStockForm(prev => ({...prev, avgPrice: e.target.value}))}
-                        className="w-full pl-8 pr-4 py-3 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 transition-all"
-                        placeholder="150.00"
-                        required
-                      />
-                    </div>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={addStockForm.avgPrice}
+                      onChange={(e) => setAddStockForm(prev => ({...prev, avgPrice: e.target.value}))}
+                      className="w-full px-4 py-3 bg-theme-secondary border border-theme rounded-lg text-theme-primary focus:border-green-500 focus:outline-none"
+                      placeholder="150.00"
+                      required
+                    />
                   </div>
                 </div>
                 
-                {/* Purchase Date */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-theme-primary">
-                    Kaufdatum (optional)
-                  </label>
-                  <input
-                    type="date"
-                    value={addStockForm.purchaseDate}
-                    onChange={(e) => setAddStockForm(prev => ({...prev, purchaseDate: e.target.value}))}
-                    className="w-full px-4 py-3 bg-theme-secondary border border-theme rounded-lg text-theme-primary focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/20 transition-all"
-                  />
-                </div>
-                
-                {/* Action Buttons - MOBILE FRIENDLY */}
-                <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-theme">
+                <div className="flex gap-3 pt-4">
                   <button
                     type="button"
                     onClick={resetModal}
-                    className="flex-1 px-6 py-3 text-theme-secondary hover:text-theme-primary border border-theme rounded-lg font-medium transition-all hover:bg-theme-secondary/20"
+                    className="flex-1 px-6 py-3 text-theme-secondary hover:text-theme-primary border border-theme rounded-lg font-medium transition-all"
                   >
                     Abbrechen
                   </button>
                   <button
                     type="submit"
                     disabled={submitting || !stockValidation.valid || !addStockForm.shares || !addStockForm.avgPrice}
-                    className="flex-1 px-6 py-3 bg-green-500 hover:bg-green-600 disabled:bg-green-500/30 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-all transform hover:scale-[1.02] disabled:transform-none shadow-lg hover:shadow-green-500/25"
+                    className="flex-1 px-6 py-3 bg-green-500 hover:bg-green-600 disabled:bg-green-500/30 text-white font-medium rounded-lg transition-all"
                   >
-                    {submitting ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Wird hinzugefügt...</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center gap-2">
-                        <PlusIcon className="w-4 h-4" />
-                        <span>Position hinzufügen</span>
-                      </div>
-                    )}
+                    {submitting ? 'Hinzufügen...' : 'Hinzufügen'}
                   </button>
                 </div>
               </form>

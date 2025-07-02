@@ -1,4 +1,4 @@
-// src/components/SectorBreakdownChart.tsx - REDESIGNED Modern & Clean
+// src/components/SectorBreakdownChart.tsx - VOLLSTÄNDIG mit korrekter deutscher Sektor-Unterstützung
 'use client'
 
 import React from 'react'
@@ -13,9 +13,10 @@ interface SectorBreakdownProps {
   }>
 }
 
-// ✅ MODERNE Farb-Palette (konsistent & schön)
+// ✅ COMPLETE: Erweiterte Farb-Palette für deutsche und englische Sektornamen
 const getSectorColor = (sector: string, index: number): string => {
   const colorMap: Record<string, string> = {
+    // Deutsche Sektornamen
     'Technologie': '#3B82F6',           // Blue
     'Finanzdienstleistungen': '#10B981', // Emerald  
     'Gesundheitswesen': '#EF4444',      // Red
@@ -28,15 +29,35 @@ const getSectorColor = (sector: string, index: number): string => {
     'Rohstoffe': '#84CC16',             // Lime
     'Versorger': '#06B6D4',             // Cyan
     'Kommunikation': '#F472B6',         // Pink-400
-    'Sonstige': '#9CA3AF'               // Gray-400
+    'Sonstige': '#9CA3AF',              // Gray-400
+    
+    // Englische Sektornamen (Fallback)
+    'Technology': '#3B82F6',            // Blue
+    'Financial Services': '#10B981',    // Emerald  
+    'Healthcare': '#EF4444',            // Red
+    'Consumer Staples': '#8B5CF6',      // Violet
+    'Consumer Discretionary': '#F59E0B', // Amber
+    'Energy': '#F97316',                // Orange
+    'Industrials': '#6B7280',           // Gray
+    'Real Estate': '#EC4899',           // Pink
+    'Materials': '#84CC16',             // Lime
+    'Utilities': '#06B6D4',             // Cyan
+    'Communication Services': '#F472B6', // Pink-400
+    'Other': '#9CA3AF',                 // Gray-400
+    
+    // Legacy Support für alte hardcodierte Namen
+    'Consumer Defensive': '#EF4444',    // Healthcare Red (falls noch verwendet)
+    'Consumer Cyclical': '#F59E0B',     // Amber (falls noch verwendet)
+    'Communication': '#F472B6',         // Pink-400
+    'Kommunikationsdienste': '#F472B6'  // Alternative deutsche Übersetzung
   }
   
-  // Fallback zu einer der Farben wenn Sektor nicht gefunden
+  // Direkte Zuordnung falls vorhanden
   if (colorMap[sector]) {
     return colorMap[sector]
   }
   
-  // Fallback Farben für unbekannte Sektoren
+  // Fallback zu einer der Farben für unbekannte Sektoren
   const fallbackColors = [
     '#3B82F6', '#10B981', '#EF4444', '#8B5CF6', 
     '#F59E0B', '#F97316', '#6B7280', '#EC4899',
@@ -57,7 +78,7 @@ const CustomTooltip = ({ active, payload }: any) => {
             ${(data.value / 1000000000).toFixed(1)}B
           </p>
           <p className="text-gray-400">
-            {data.percentage.toFixed(1)}% • {data.count} Positionen
+            {data.percentage.toFixed(1)}% • {data.count} Position{data.count !== 1 ? 'en' : ''}
           </p>
         </div>
       </div>
@@ -95,7 +116,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
   return (
     <div className="space-y-8">
       
-      {/* ✅ REDESIGNED Modern Pie Chart */}
+      {/* ✅ BEAUTIFUL: Modern Pie Chart */}
       <div className="relative">
         <div className="h-80 w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -126,7 +147,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
           </ResponsiveContainer>
         </div>
         
-        {/* ✅ Center Label */}
+        {/* ✅ CENTER: Beautiful Center Label */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="text-center">
             <div className="text-2xl font-bold text-white mb-1">
@@ -139,7 +160,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
         </div>
       </div>
 
-      {/* ✅ REDESIGNED Modern Legend */}
+      {/* ✅ BEAUTIFUL: Modern Legend */}
       <div className="space-y-0">
         {chartData.map((sector, index) => (
           <div 
@@ -147,7 +168,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
             className="flex items-center justify-between py-3 px-4 hover:bg-gray-800/30 rounded-lg transition-colors group"
           >
             <div className="flex items-center gap-4 flex-1">
-              {/* Color Indicator */}
+              {/* ✅ BEAUTIFUL: Animated Color Indicator */}
               <div className="relative">
                 <div 
                   className="w-4 h-4 rounded-full shadow-lg"
@@ -159,7 +180,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
                 ></div>
               </div>
               
-              {/* Sector Info */}
+              {/* ✅ BEAUTIFUL: Sector Info with Progress Bar */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1">
                   <span className="text-white font-medium truncate">
@@ -170,7 +191,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
                   </span>
                 </div>
                 
-                {/* Progress Bar */}
+                {/* ✅ BEAUTIFUL: Animated Progress Bar */}
                 <div className="w-full bg-gray-800/50 rounded-full h-1.5 overflow-hidden">
                   <div 
                     className="h-full rounded-full transition-all duration-1000 ease-out"
@@ -184,7 +205,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
               </div>
             </div>
             
-            {/* Values */}
+            {/* ✅ BEAUTIFUL: Values */}
             <div className="text-right shrink-0 ml-4">
               <div className="text-white font-semibold">
                 ${(sector.value / 1000000000).toFixed(1)}B
@@ -197,7 +218,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
         ))}
       </div>
       
-      {/* ✅ Summary Stats */}
+      {/* ✅ BEAUTIFUL: Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-800/50">
         <div className="text-center">
           <div className="text-white font-semibold text-lg">
