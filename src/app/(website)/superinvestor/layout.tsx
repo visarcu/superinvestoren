@@ -1,4 +1,4 @@
-// src/app/superinvestor/layout.tsx - BETTER TAB NAVIGATION
+// src/app/superinvestor/layout.tsx - ERWEITERT mit Insider Trading Tab
 'use client'
 
 import { usePathname } from 'next/navigation'
@@ -8,7 +8,8 @@ import {
   UserGroupIcon,
   ChartBarIcon,
   ArrowTrendingUpIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  BoltIcon
 } from '@heroicons/react/24/outline'
 
 const navigation = [
@@ -32,7 +33,14 @@ const navigation = [
     name: 'Aktivität',
     href: '/superinvestor/activity',
     icon: DocumentTextIcon
-  }
+  },
+  
+  {
+    name: 'Insider Trading',
+    href: '/superinvestor/insider',
+    icon: BoltIcon,
+    badge: 'Live'
+  },
 ]
 
 export default function SuperinvestorLayout({
@@ -70,7 +78,7 @@ export default function SuperinvestorLayout({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                    className={`group flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap relative ${
                       isActive
                         ? 'bg-green-500 text-black shadow-lg shadow-green-500/25'
                         : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
@@ -78,6 +86,15 @@ export default function SuperinvestorLayout({
                   >
                     <Icon className="w-4 h-4" />
                     <span>{item.name}</span>
+                    {item.badge && (
+                      <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                        isActive 
+                          ? 'bg-black/20 text-black'
+                          : 'bg-green-500/20 text-green-400'
+                      }`}>
+                        {item.badge}
+                      </span>
+                    )}
                   </Link>
                 )
               })}

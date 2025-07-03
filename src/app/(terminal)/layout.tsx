@@ -27,7 +27,8 @@ import {
   MoonIcon,
   HomeIcon,
   ListBulletIcon,
-  AcademicCapIcon
+  AcademicCapIcon,
+  EyeIcon
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
 
@@ -146,6 +147,14 @@ const NAVIGATION: NavigationItem[] = [
     href: '/analyse/earnings',
     description: 'Gewinntermine'
   },
+
+  {
+    id: 'insider',
+    label: 'Insider Trading',
+    icon: EyeIcon, // oder EyeIcon
+    href: '/analyse/insider',
+    description: 'Insider Käufe & Verkäufe'
+  },
   
   { id: 'separator-1', separator: true },
   
@@ -187,9 +196,10 @@ const NAVIGATION: NavigationItem[] = [
 const STOCK_TABS = [
   { id: 'overview', label: 'Überblick', href: '' },
   { id: 'financials', label: 'Finanzen', href: '/financials' },
-  { id: 'super-investors', label: 'Super-Investoren', href: '/super-investors' }, 
+  { id: 'super-investors', label: 'Super-Investoren', href: '/super-investors' },
   { id: 'valuation', label: 'Bewertung', href: '/valuation' },
   { id: 'dividends', label: 'Dividende', href: '/dividends' },
+  { id: 'insider', label: 'Insider Trading', href: '/insider' },
   { id: 'news', label: 'News', href: '/news' },
   { id: 'ai-chat', label: 'Finclue AI', href: '/ai-chat', premium: true }
 ]
@@ -226,6 +236,7 @@ function CommandPalette({
   const commands: CommandPaletteItem[] = [
     { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
     { id: 'nav-watchlist', title: 'Watchlist', subtitle: 'Gespeicherte Aktien', icon: BookmarkIcon, href: '/analyse/watchlist', category: 'navigation' },
+    { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
     { id: 'nav-heatmap', title: 'Heatmap', subtitle: 'Visuelle Marktansicht', icon: MapIcon, href: '/analyse/heatmap', category: 'navigation' },
     { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },
     { id: 'nav-ai', title: 'FinClue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/ai', category: 'navigation' },
