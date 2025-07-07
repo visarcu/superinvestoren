@@ -1,4 +1,4 @@
-// src/app/api/stripe/webhook/route.ts - VERBESSERTE DEBUG VERSION
+// src/app/api/stripe/webhook/route.ts - COMPLETE FIX
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
 }
 
 // ============================================================================
-// EVENT HANDLERS mit verbessertem Debugging
+// FIXED EVENT HANDLERS mit Trial + Fallback Support
 // ============================================================================
 
 async function handleCheckoutSessionCompleted(sessionData: any) {
@@ -144,14 +144,12 @@ async function handleCheckoutSessionCompleted(sessionData: any) {
     console.log('📊 Subscription Details:', {
       id: subscription.id,
       status: subscription.status,
+      trial_end: (subscription as any).trial_end,
       current_period_end: (subscription as any).current_period_end,
       customer: subscription.customer
     });
 
-    // Jetzt versuchen den User zu aktualisieren
-    console.log('🔄 Attempting to update user premium status...');
-    
-    // Admin Client erstellen - FUNKTIONIERT JETZT!
+    // Admin Client erstellen
     const { createClient } = await import('@supabase/supabase-js');
     
     const supabaseAdmin = createClient(
@@ -167,15 +165,23 @@ async function handleCheckoutSessionCompleted(sessionData: any) {
     
     console.log('✅ Admin client created successfully');
 
-    // User Premium Status aktualisieren
+    // FIX: Verwende trial_end für Trial Subscriptions
     const subscriptionAny = subscription as any;
-    const currentPeriodEnd = subscriptionAny?.current_period_end;
-
-    if (!currentPeriodEnd || isNaN(currentPeriodEnd)) {
-      throw new Error('Invalid or missing current_period_end');
-    }
+    let endDate: Date;
     
-    const endDate = new Date(currentPeriodEnd * 1000);
+    if (subscription.status === 'trialing' && subscriptionAny.trial_end) {
+      // Bei Trial: verwende trial_end
+      endDate = new Date(subscriptionAny.trial_end * 1000);
+      console.log('🎯 Using trial_end:', endDate);
+    } else if (subscriptionAny.current_period_end) {
+      // Bei normalen Subscriptions: verwende current_period_end
+      endDate = new Date(subscriptionAny.current_period_end * 1000);
+      console.log('🎯 Using current_period_end:', endDate);
+    } else {
+      // Fallback: 14 Tage ab jetzt
+      endDate = new Date(Date.now() + (14 * 24 * 60 * 60 * 1000));
+      console.log('⚠️ Using fallback end date:', endDate);
+    }
     
     const updateData = {
       is_premium: true,
@@ -242,26 +248,49 @@ async function handleSubscriptionCreated(subscriptionData: any) {
       }
     );
 
-    // Finde User über Customer ID  
+    // FALLBACK-LOGIC: Erst über Customer ID versuchen, dann über metadata
     const customerId = subscriptionData.customer as string;
+    let userId: string | null = null;
+
+    // 1. Versuche über Customer ID
     const { data: profile, error: findError } = await supabaseAdmin
       .from('profiles')
       .select('user_id')
       .eq('stripe_customer_id', customerId)
-      .single();
+      .maybeSingle();
 
-    if (findError || !profile) {
-      console.error('❌ No user found for customer:', customerId);
-      return { success: false, error: 'User not found' };
+    if (profile?.user_id) {
+      userId = profile.user_id;
+      console.log('✅ User found by customer ID:', userId);
+    } else {
+      console.log('⚠️ No user found by customer ID, trying fallback...');
+      
+      // 2. FALLBACK: Verwende metadata.supabase_user_id
+      userId = subscriptionData.metadata?.supabase_user_id;
+      if (userId) {
+        console.log('🔄 Using fallback: userId from metadata:', userId);
+      } else {
+        console.error('❌ No userId in metadata either');
+        return { success: false, error: 'User not found and no fallback possible' };
+      }
     }
 
-    const userId = profile.user_id;
     const isActive = subscriptionData.status === 'active' || subscriptionData.status === 'trialing';
     
-    // Type-safe Zugriff auf current_period_end
+    // FIX: Verwende trial_end für Trial Subscriptions
     const subscriptionAny = subscriptionData as any;
-    const currentPeriodEnd = subscriptionAny.current_period_end;
-    const endDate = currentPeriodEnd ? new Date(currentPeriodEnd * 1000) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    let endDate: Date;
+    
+    if (subscriptionData.status === 'trialing' && subscriptionAny.trial_end) {
+      endDate = new Date(subscriptionAny.trial_end * 1000);
+      console.log('🎯 Using trial_end:', endDate);
+    } else if (subscriptionAny.current_period_end) {
+      endDate = new Date(subscriptionAny.current_period_end * 1000);
+      console.log('🎯 Using current_period_end:', endDate);
+    } else {
+      endDate = new Date(Date.now() + (14 * 24 * 60 * 60 * 1000));
+      console.log('⚠️ Using fallback end date:', endDate);
+    }
     
     const updateData = {
       is_premium: isActive,
@@ -272,6 +301,8 @@ async function handleSubscriptionCreated(subscriptionData: any) {
       premium_since: isActive ? new Date().toISOString() : null,
       updated_at: new Date().toISOString()
     };
+
+    console.log('📝 Updating user with data:', updateData);
 
     const { data: updateResult, error: updateError } = await supabaseAdmin
       .from('profiles')
@@ -342,10 +373,17 @@ async function handleInvoicePaymentSucceeded(invoiceData: any) {
 
     const userId = profile.user_id;
     
-    // Type-safe Zugriff auf current_period_end
+    // FIX: Verwende trial_end für Trial Subscriptions
     const subscriptionAny = subscription as any;
-    const currentPeriodEnd = subscriptionAny.current_period_end;
-    const endDate = currentPeriodEnd ? new Date(currentPeriodEnd * 1000) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    let endDate: Date;
+    
+    if (subscription.status === 'trialing' && subscriptionAny.trial_end) {
+      endDate = new Date(subscriptionAny.trial_end * 1000);
+    } else if (subscriptionAny.current_period_end) {
+      endDate = new Date(subscriptionAny.current_period_end * 1000);
+    } else {
+      endDate = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
+    }
 
     // Status aktualisieren (Verlängerung)
     const updateData = {
@@ -417,10 +455,17 @@ async function handleSubscriptionUpdated(subscriptionData: any) {
     const userId = profile.user_id;
     const isActive = subscriptionData.status === 'active' || subscriptionData.status === 'trialing';
     
-    // Type-safe Zugriff auf current_period_end
+    // FIX: Verwende trial_end für Trial Subscriptions
     const subscriptionAny = subscriptionData as any;
-    const currentPeriodEnd = subscriptionAny.current_period_end;
-    const endDate = currentPeriodEnd ? new Date(currentPeriodEnd * 1000) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    let endDate: Date;
+    
+    if (subscriptionData.status === 'trialing' && subscriptionAny.trial_end) {
+      endDate = new Date(subscriptionAny.trial_end * 1000);
+    } else if (subscriptionAny.current_period_end) {
+      endDate = new Date(subscriptionAny.current_period_end * 1000);
+    } else {
+      endDate = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
+    }
     
     const updateData = {
       is_premium: isActive,
@@ -490,10 +535,17 @@ async function handleSubscriptionDeleted(subscriptionData: any) {
 
     const userId = profile.user_id;
     
-    // Type-safe Zugriff auf current_period_end
+    // FIX: Verwende trial_end für Trial Subscriptions
     const subscriptionAny = subscriptionData as any;
-    const currentPeriodEnd = subscriptionAny.current_period_end;
-    const endDate = currentPeriodEnd ? new Date(currentPeriodEnd * 1000) : new Date();
+    let endDate: Date;
+    
+    if (subscriptionData.status === 'trialing' && subscriptionAny.trial_end) {
+      endDate = new Date(subscriptionAny.trial_end * 1000);
+    } else if (subscriptionAny.current_period_end) {
+      endDate = new Date(subscriptionAny.current_period_end * 1000);
+    } else {
+      endDate = new Date();
+    }
     
     // Premium deaktivieren
     const updateData = {
@@ -535,7 +587,7 @@ export async function GET(request: NextRequest) {
   console.log('🔍 Webhook GET endpoint called');
   
   return NextResponse.json({ 
-    message: 'Stripe Webhook Endpoint - Improved Debug Version',
+    message: 'Stripe Webhook Endpoint - Fixed with Trial Support',
     timestamp: new Date().toISOString(),
     environment: {
       hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
