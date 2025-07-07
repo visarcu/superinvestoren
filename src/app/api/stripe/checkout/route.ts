@@ -132,15 +132,23 @@ export async function POST(request: NextRequest) {
 
     // Trial nur hinzufügen wenn gewünscht
     if (withTrial) {
+      // Extended Trial für Eric als Entschuldigung
+      let trialDays = 14; // Standard Trial
+      
+      if (user.email === 'goossens.eric@icloud.com') {
+        trialDays = 30; // 4 Wochen für Eric
+        console.log('🎁 Extended trial for Eric: 30 days');
+      }
+      
       sessionData.subscription_data = {
-        trial_period_days: 14,
+        trial_period_days: trialDays,
         metadata: {
           supabase_user_id: userId,
         },
       };
-      sessionData.metadata.trial_days = '14';
+      sessionData.metadata.trial_days = trialDays.toString();
     }
-
+    
     const session = await stripe.checkout.sessions.create(sessionData);
 
     console.log('✅ Session created:', { id: session.id, hasUrl: !!session.url });
