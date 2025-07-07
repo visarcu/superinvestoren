@@ -1,4 +1,4 @@
-// components/LearnSidebar.tsx - FIXED WITHOUT SYNTAX ERRORS
+// components/LearnSidebar.tsx - FIXED CLICK ISSUE
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -22,7 +22,10 @@ export function LearnTooltipButton({
   
   if (!isLearnMode) return null
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation() // ✅ Verhindert Event Bubbling
+    
     window.dispatchEvent(new CustomEvent('openLearnSidebar', { 
       detail: { term } 
     }))
@@ -46,7 +49,7 @@ export function LearnTooltipButton({
   )
 }
 
-// ✅ MAIN SIDEBAR - GREEN DESIGN
+// ✅ MAIN SIDEBAR - GREEN DESIGN WITH FIXED CLICK HANDLING
 export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [activeTerm, setActiveTerm] = useState<string | null>(currentTerm || null)
@@ -76,7 +79,9 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
   // ESC key to close
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsOpen(false)
+      if (e.key === 'Escape') {
+        setIsOpen(false)
+      }
     }
     
     if (isOpen) {
@@ -84,6 +89,18 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
       return () => document.removeEventListener('keydown', handleEsc)
     }
   }, [isOpen])
+
+  // ✅ FIXED: Close sidebar handler
+  const closeSidebar = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsOpen(false)
+  }
+
+  // ✅ FIXED: Prevent sidebar content clicks from closing
+  const handleSidebarClick = (e: React.MouseEvent) => {
+    e.stopPropagation() // Verhindert dass Clicks in der Sidebar sie schließen
+  }
 
   if (!isLearnMode) return null
 
@@ -93,21 +110,24 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
 
   return (
     <>
-      {/* Overlay */}
+      {/* ✅ FIXED: Overlay mit korrektem Event Handling */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-          onClick={() => setIsOpen(false)}
+          onClick={closeSidebar} // ✅ Dedicated close handler
         />
       )}
 
-      {/* Sidebar - GREEN THEME */}
-      <div className={`
-        fixed top-0 right-0 h-full w-96 bg-theme-card border-l border-theme shadow-2xl z-50
-        transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-        max-w-[calc(100vw-2rem)]
-      `}>
+      {/* ✅ FIXED: Sidebar mit Event Stopping */}
+      <div 
+        className={`
+          fixed top-0 right-0 h-full w-96 bg-theme-card border-l border-theme shadow-2xl z-50
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : 'translate-x-full'}
+          max-w-[calc(100vw-2rem)]
+        `}
+        onClick={handleSidebarClick} // ✅ Verhindert Close beim Klick in Sidebar
+      >
         
         {/* Header - GREEN */}
         <div className="flex items-center justify-between p-4 border-b border-theme">
@@ -116,7 +136,7 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
             <h3 className="text-lg font-semibold text-theme-primary">Finanz-Lexikon</h3>
           </div>
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={closeSidebar} // ✅ Dedicated close handler
             className="p-1 text-theme-muted hover:text-theme-primary transition-colors"
           >
             <XMarkIcon className="w-5 h-5" />
@@ -165,7 +185,10 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
                     .map(([key, data]) => (
                       <button
                         key={key}
-                        onClick={() => setActiveTerm(key)}
+                        onClick={(e) => {
+                          e.stopPropagation() // ✅ Event Stopping
+                          setActiveTerm(key)
+                        }}
                         className="w-full text-left p-3 bg-theme-secondary/20 hover:bg-theme-secondary/40 rounded-lg transition-colors"
                       >
                         <div className="font-medium text-theme-primary text-sm">{data.term}</div>
@@ -184,7 +207,10 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
                   {Object.entries(LEARN_DEFINITIONS).map(([key, data]) => (
                     <button
                       key={key}
-                      onClick={() => setActiveTerm(key)}
+                      onClick={(e) => {
+                        e.stopPropagation() // ✅ Event Stopping
+                        setActiveTerm(key)
+                      }}
                       className={`text-left p-2 rounded text-sm transition-colors ${
                         activeTerm === key 
                           ? 'bg-green-500/20 text-green-400 font-medium'
@@ -211,7 +237,10 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
                 {Object.entries(LEARN_DEFINITIONS).slice(0, 4).map(([key, data]) => (
                   <button
                     key={key}
-                    onClick={() => setActiveTerm(key)}
+                    onClick={(e) => {
+                      e.stopPropagation() // ✅ Event Stopping
+                      setActiveTerm(key)
+                    }}
                     className="block w-full p-2 bg-theme-secondary/20 hover:bg-theme-secondary/40 rounded text-sm text-theme-primary transition-colors"
                   >
                     {data.term}

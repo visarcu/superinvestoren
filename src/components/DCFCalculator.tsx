@@ -1,0 +1,819 @@
+// src/components/DCFCalculator.tsx - Mit Data Source Integration
+'use client'
+
+import React, { useState, useEffect, useMemo } from 'react'
+import { 
+  CalculatorIcon,
+  AdjustmentsHorizontalIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
+  InformationCircleIcon,
+  ExclamationTriangleIcon,
+  ChartBarIcon,
+  LockClosedIcon,
+  SparklesIcon,
+  ShieldCheckIcon,
+  PresentationChartBarIcon,
+  RocketLaunchIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  EyeIcon
+} from '@heroicons/react/24/outline'
+import { LearnTooltipButton } from '@/components/LearnSidebar'
+import LoadingSpinner from '@/components/LoadingSpinner'
+import Link from 'next/link'
+import { supabase } from '@/lib/supabaseClient'
+import { useLearnMode } from '@/lib/LearnModeContext'
+import Logo from '@/components/Logo'
+import { DCFCalculationBreakdown } from '@/components/DCFCalculationBreakdown'
+
+// Types
+interface DCFData {
+  currentRevenue: number
+  currentPrice: number
+  currentShares: number
+  assumptions: DCFAssumptions
+  companyInfo: {
+    name: string
+    sector: string
+    industry: string
+  }
+  historical: {
+    avgRevenueGrowth: number
+    avgOperatingMargin: number
+    estimatedWACC: number
+  }
+  // ✅ NEW: Data Quality Info
+  dataQuality?: {
+    fcfDataSource?: string
+    fcfIsEstimated?: boolean
+    fcfSourceDescription?: string
+  }
+}
+
+interface DCFAssumptions {
+  revenueGrowthY1: number
+  revenueGrowthY2: number
+  revenueGrowthY3: number
+  revenueGrowthY4: number
+  revenueGrowthY5: number
+  terminalGrowthRate: number
+  discountRate: number
+  operatingMargin: number
+  taxRate: number
+  capexAsRevenuePercent: number
+  workingCapitalChange: number
+  netCash: number
+}
+
+interface User {
+  id: string
+  email: string
+  isPremium: boolean
+}
+
+// ✅ PROFESSIONAL: Number Formatting & Validation Utilities
+const formatAssumption = (value: number, decimals: number = 1): number => {
+  return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
+}
+
+const formatPercentage = (value: number, decimals: number = 1): string => {
+  return `${formatAssumption(value, decimals)}%`
+}
+
+// ✅ NEW: Input validation functions
+const validateAndClampGrowthRate = (value: number, max: number = 25): number => {
+  return Math.max(Math.min(value, max), -10)
+}
+
+const validateTerminalGrowthRate = (value: number, wacc: number): number => {
+  // Terminal Growth Rate muss immer < WACC sein
+  const maxTerminal = Math.min(wacc - 0.5, 4.0) // Max 4% oder WACC-0.5%
+  return Math.max(Math.min(value, maxTerminal), 0)
+}
+
+const validateDiscountRate = (value: number): number => {
+  return Math.max(Math.min(value, 20), 5) // Between 5% and 20%
+}
+
+// Premium CTA Component
+const PremiumCTA = ({ title, description }: { title: string; description: string }) => (
+  <div className="text-center py-12 px-6">
+    <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+      <CalculatorIcon className="w-8 h-8 text-green-400" />
+    </div>
+    <h3 className="text-xl font-semibold text-theme-primary mb-3">{title}</h3>
+    <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">{description}</p>
+    
+    <Link
+      href="/pricing"
+      className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
+    >
+      <SparklesIcon className="w-5 h-5" />
+      14 Tage kostenlos testen
+    </Link>
+  </div>
+)
+
+// Premium Blur Component  
+const PremiumBlur = ({ 
+  children, 
+  featureName 
+}: { 
+  children: React.ReactNode; 
+  featureName: string 
+}) => (
+  <div className="relative">
+    <div className="filter blur-sm opacity-60 pointer-events-none select-none">
+      {children}
+    </div>
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-3 text-center shadow-lg">
+        <LockClosedIcon className="w-5 h-5 text-amber-500 mx-auto mb-1" />
+        <p className="text-theme-secondary text-xs font-medium">{featureName}</p>
+        <p className="text-theme-muted text-xs">Premium erforderlich</p>
+      </div>
+    </div>
+  </div>
+)
+
+// Main DCF Calculator Component
+export default function DCFCalculator({ ticker }: { ticker: string }) {
+  // ✅ Self-Loading User State
+  const [user, setUser] = useState<User | null>(null)
+  const [loadingUser, setLoadingUser] = useState(true)
+  
+  // ✅ Global Learn Mode
+  const { isLearnMode } = useLearnMode()
+
+  // States
+  const [dcfData, setDcfData] = useState<DCFData | null>(null)
+  const [assumptions, setAssumptions] = useState<DCFAssumptions | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [activeScenario, setActiveScenario] = useState<'conservative' | 'base' | 'optimistic'>('base')
+  const [showDetails, setShowDetails] = useState(false)
+  const [validationErrors, setValidationErrors] = useState<string[]>([])
+  const [showBreakdown, setShowBreakdown] = useState(false)
+
+  // ✅ Load User Data
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('is_premium')
+            .eq('user_id', session.user.id)
+            .maybeSingle()
+
+          setUser({
+            id: session.user.id,
+            email: session.user.email || '',
+            isPremium: profile?.is_premium || false
+          })
+        }
+      } catch (error) {
+        console.error('[DCFCalculator] Error loading user:', error)
+      } finally {
+        setLoadingUser(false)
+      }
+    }
+
+    loadUser()
+  }, [])
+
+  // Load DCF data
+  useEffect(() => {
+    async function loadDCFData() {
+      setLoading(true)
+      setError(null)
+      
+      try {
+        const response = await fetch(`/api/dcf/${ticker}`)
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
+        const data = await response.json()
+        
+        // ✅ LOG FCF DATA SOURCE für Debugging
+        console.log(`🔍 [DCFCalculator] FCF Data Source for ${ticker}:`, {
+          fcfDataSource: data.dataQuality?.fcfDataSource,
+          isEstimated: data.dataQuality?.fcfIsEstimated,
+          description: data.dataQuality?.fcfSourceDescription
+        })
+        
+        setDcfData(data)
+        
+        // ✅ PROFESSIONAL: Clean up assumptions with proper formatting
+        const cleanAssumptions = {
+          ...data.assumptions,
+          revenueGrowthY1: formatAssumption(data.assumptions.revenueGrowthY1, 1),
+          revenueGrowthY2: formatAssumption(data.assumptions.revenueGrowthY2, 1),
+          revenueGrowthY3: formatAssumption(data.assumptions.revenueGrowthY3, 1),
+          revenueGrowthY4: formatAssumption(data.assumptions.revenueGrowthY4, 1),
+          revenueGrowthY5: formatAssumption(data.assumptions.revenueGrowthY5, 1),
+          terminalGrowthRate: formatAssumption(data.assumptions.terminalGrowthRate, 1),
+          discountRate: formatAssumption(data.assumptions.discountRate, 1),
+          operatingMargin: formatAssumption(data.assumptions.operatingMargin, 1),
+          taxRate: formatAssumption(data.assumptions.taxRate, 1),
+          capexAsRevenuePercent: formatAssumption(data.assumptions.capexAsRevenuePercent, 1),
+          workingCapitalChange: formatAssumption(data.assumptions.workingCapitalChange, 1),
+          netCash: Math.round(data.assumptions.netCash)
+        }
+        
+        setAssumptions(cleanAssumptions)
+        
+        console.log('✅ DCF data loaded:', data)
+        
+      } catch (err) {
+        console.error('❌ Error loading DCF data:', err)
+        setError(err instanceof Error ? err.message : 'Failed to load DCF data')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadDCFData()
+  }, [ticker])
+
+  // ✅ IMPROVED: Robust DCF Calculation with Validation
+  const dcfResults = useMemo(() => {
+    if (!assumptions || !dcfData) return null
+
+    // ✅ NEW: Input validation
+    const errors: string[] = []
+    
+    if (assumptions.discountRate <= assumptions.terminalGrowthRate) {
+      errors.push("WACC muss höher sein als Terminal-Wachstumsrate")
+    }
+    
+    if (assumptions.terminalGrowthRate > 4.0) {
+      errors.push("Terminal-Wachstumsrate sollte nicht über 4% liegen")
+    }
+
+    if (assumptions.discountRate < 5 || assumptions.discountRate > 20) {
+      errors.push("WACC sollte zwischen 5% und 20% liegen")
+    }
+    
+    setValidationErrors(errors)
+    
+    if (errors.length > 0) {
+      return null // Keine Berechnung bei Fehlern
+    }
+
+    const { 
+      revenueGrowthY1, revenueGrowthY2, revenueGrowthY3, revenueGrowthY4, revenueGrowthY5,
+      terminalGrowthRate, discountRate, operatingMargin, taxRate, 
+      capexAsRevenuePercent, workingCapitalChange, netCash
+    } = assumptions
+
+    // Calculate 5-year projections
+    const projections = []
+    let revenue = dcfData.currentRevenue
+    const growthRates = [revenueGrowthY1, revenueGrowthY2, revenueGrowthY3, revenueGrowthY4, revenueGrowthY5]
+    
+    for (let year = 1; year <= 5; year++) {
+      revenue = revenue * (1 + growthRates[year - 1] / 100)
+      const operatingIncome = revenue * (operatingMargin / 100)
+      const tax = operatingIncome * (taxRate / 100)
+      const nopat = operatingIncome - tax
+      const capex = revenue * (capexAsRevenuePercent / 100)
+      const workingCapChange = revenue * (workingCapitalChange / 100)
+      const fcf = nopat - capex - workingCapChange
+      
+      projections.push({
+        year,
+        revenue,
+        operatingIncome,
+        nopat,
+        capex,
+        workingCapChange,
+        fcf,
+        presentValue: fcf / Math.pow(1 + discountRate / 100, year)
+      })
+    }
+
+    // ✅ FIXED: Safe Terminal Value calculation
+    const terminalFCF = projections[4].fcf * (1 + terminalGrowthRate / 100)
+    const denominator = discountRate / 100 - terminalGrowthRate / 100
+    
+    // Additional safety check
+    if (denominator <= 0.001) {
+      console.error("Terminal Value calculation impossible: WACC ≤ Terminal Growth Rate")
+      return null
+    }
+    
+    const terminalValue = terminalFCF / denominator
+    const terminalPV = terminalValue / Math.pow(1 + discountRate / 100, 5)
+
+    // Enterprise Value
+    const pvOfProjections = projections.reduce((sum, p) => sum + p.presentValue, 0)
+    const enterpriseValue = pvOfProjections + terminalPV
+
+    // Equity Value
+    const equityValue = enterpriseValue + netCash
+    const valuePerShare = equityValue / dcfData.currentShares
+
+    return {
+      projections,
+      terminalValue,
+      terminalPV,
+      pvOfProjections,
+      enterpriseValue,
+      equityValue,
+      valuePerShare,
+      currentPrice: dcfData.currentPrice,
+      upside: ((valuePerShare - dcfData.currentPrice) / dcfData.currentPrice) * 100
+    }
+  }, [assumptions, dcfData])
+
+  // ✅ IMPROVED: Realistic scenario presets
+  const scenarios = useMemo(() => {
+    if (!dcfData) return {}
+    
+    const baseGrowth = dcfData.historical.avgRevenueGrowth
+    const baseMargin = dcfData.historical.avgOperatingMargin
+    const baseWACC = dcfData.historical.estimatedWACC
+
+    return {
+      conservative: {
+        revenueGrowthY1: formatAssumption(Math.max(baseGrowth * 0.7, 3.0), 1),
+        revenueGrowthY2: formatAssumption(Math.max(baseGrowth * 0.6, 2.5), 1),
+        revenueGrowthY3: formatAssumption(Math.max(baseGrowth * 0.5, 2.0), 1),
+        revenueGrowthY4: formatAssumption(Math.max(baseGrowth * 0.4, 1.5), 1),
+        revenueGrowthY5: formatAssumption(Math.max(baseGrowth * 0.3, 1.0), 1),
+        terminalGrowthRate: 2.0,
+        discountRate: formatAssumption(Math.min(baseWACC + 1.5, 16.0), 1),
+        operatingMargin: formatAssumption(Math.max(baseMargin * 0.9, 8.0), 1)
+      },
+      base: dcfData.assumptions,
+      optimistic: {
+        revenueGrowthY1: formatAssumption(Math.min(baseGrowth * 1.2, 18.0), 1),
+        revenueGrowthY2: formatAssumption(Math.min(baseGrowth * 1.1, 15.0), 1),
+        revenueGrowthY3: formatAssumption(Math.min(baseGrowth * 1.0, 12.0), 1),
+        revenueGrowthY4: formatAssumption(Math.min(baseGrowth * 0.9, 10.0), 1),
+        revenueGrowthY5: formatAssumption(Math.min(baseGrowth * 0.8, 8.0), 1),
+        terminalGrowthRate: 3.0,
+        discountRate: formatAssumption(Math.max(baseWACC - 1.0, 8.0), 1),
+        operatingMargin: formatAssumption(Math.min(baseMargin * 1.1, 25.0), 1)
+      }
+    }
+  }, [dcfData])
+
+  // Event handlers with improved validation
+  const applyScenario = (scenario: keyof typeof scenarios) => {
+    setActiveScenario(scenario)
+    const scenarioData = scenarios[scenario]
+    if (scenarioData && assumptions) {
+      // ✅ PROFESSIONAL: Clean formatting when applying scenarios
+      const cleanScenario = {
+        ...assumptions,
+        ...scenarioData,
+        revenueGrowthY1: formatAssumption(scenarioData.revenueGrowthY1 || assumptions.revenueGrowthY1, 1),
+        revenueGrowthY2: formatAssumption(scenarioData.revenueGrowthY2 || assumptions.revenueGrowthY2, 1),
+        revenueGrowthY3: formatAssumption(scenarioData.revenueGrowthY3 || assumptions.revenueGrowthY3, 1),
+        revenueGrowthY4: formatAssumption(scenarioData.revenueGrowthY4 || assumptions.revenueGrowthY4, 1),
+        revenueGrowthY5: formatAssumption(scenarioData.revenueGrowthY5 || assumptions.revenueGrowthY5, 1),
+        terminalGrowthRate: formatAssumption(scenarioData.terminalGrowthRate || assumptions.terminalGrowthRate, 1),
+        discountRate: formatAssumption(scenarioData.discountRate || assumptions.discountRate, 1),
+        operatingMargin: formatAssumption(scenarioData.operatingMargin || assumptions.operatingMargin, 1)
+      }
+      setAssumptions(cleanScenario)
+    }
+  }
+
+  // ✅ IMPROVED: Smart input validation
+  const updateAssumption = (key: keyof DCFAssumptions, value: number) => {
+    let validatedValue = value
+    
+    // Validierung je nach Parameter
+    if (key.includes('Growth') && !key.includes('terminal')) {
+      validatedValue = validateAndClampGrowthRate(value, 25)
+    } else if (key === 'terminalGrowthRate') {
+      validatedValue = validateTerminalGrowthRate(value, assumptions?.discountRate || 10)
+    } else if (key === 'discountRate') {
+      validatedValue = validateDiscountRate(value)
+    } else if (key === 'netCash') {
+      validatedValue = Math.round(value)
+    } else {
+      validatedValue = formatAssumption(value, 1)
+    }
+    
+    setAssumptions(prev => prev ? { 
+      ...prev, 
+      [key]: validatedValue
+    } : null)
+  }
+
+  // Utility functions
+  const formatCurrency = (value: number) => 
+    `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+
+  const formatNumber = (value: number, decimals = 1) => 
+    value.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+
+  const getUpsideColor = (upside: number) => {
+    if (upside > 20) return 'text-green-400'
+    if (upside > 0) return 'text-green-300'
+    if (upside > -10) return 'text-yellow-400'
+    return 'text-red-400'
+  }
+
+  // Loading states
+  if (loadingUser || loading) {
+    return (
+      <div className="bg-theme-card rounded-lg p-8">
+        <div className="flex flex-col items-center justify-center">
+          <LoadingSpinner />
+          <p className="text-theme-secondary mt-4">
+            {loadingUser ? 'Benutzerdaten werden geladen...' : 'DCF-Daten werden geladen...'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // Error state
+  if (error || !dcfData || !assumptions) {
+    return (
+      <div className="bg-theme-card rounded-lg p-8">
+        <div className="text-center">
+          <ExclamationTriangleIcon className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-theme-primary mb-2">DCF-Daten nicht verfügbar</h3>
+          <p className="text-theme-secondary">
+            {error || 'Keine ausreichenden Finanzdaten für DCF-Berechnung verfügbar.'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // Premium check
+  if (!user?.isPremium) {
+    return (
+      <div className="bg-theme-card rounded-lg">
+        <div className="px-6 py-4 border-b border-theme/10">
+          <div className="flex items-center gap-3">
+            <CalculatorIcon className="w-6 h-6 text-green-400" />
+            <h3 className="text-xl font-bold text-theme-primary">DCF Calculator</h3>
+            <div className="flex items-center gap-1 px-2 py-1 bg-amber-500/20 rounded-lg">
+              <SparklesIcon className="w-3 h-3 text-amber-400" />
+              <span className="text-xs text-amber-400 font-medium">Premium</span>
+            </div>
+          </div>
+        </div>
+        
+        <PremiumCTA
+          title="Professioneller DCF Calculator"
+          description="Bewerte Aktien mit unserem interaktiven DCF Calculator. Anpassbare Annahmen, Szenario-Analyse und detaillierte Berechnungen."
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className="bg-theme-card rounded-lg">
+      {/* ✅ IMPROVED: Header with Real Logo */}
+      <div className="px-6 py-4 border-b border-theme/10">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              <CalculatorIcon className="w-6 h-6 text-green-400" />
+              <div>
+                <h3 className="text-xl font-bold text-theme-primary">DCF Calculator</h3>
+                <div className="flex items-center gap-2 mt-1">
+                  {/* ✅ FIXED: Real Logo with required alt prop */}
+                  <Logo 
+                    ticker={ticker} 
+                    className="w-5 h-5"
+                    alt={`${ticker} company logo`}
+                  />
+                  <p className="text-theme-secondary text-sm">
+                    Discounted Cash Flow Bewertung für {dcfData.companyInfo.name} ({ticker})
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {/* ✅ Show Calculation Button */}
+            {dcfResults && (
+              <button
+                onClick={() => setShowBreakdown(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg text-sm font-medium transition-colors"
+              >
+                <EyeIcon className="w-4 h-4" />
+                Show Calculation
+              </button>
+            )}
+            
+            <button
+              onClick={() => setShowDetails(!showDetails)}
+              className="px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary rounded-lg text-sm font-medium transition-colors"
+            >
+              {showDetails ? 'Details ausblenden' : 'Details anzeigen'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6">
+        {/* Learn Mode Info */}
+        {isLearnMode && (
+          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <InformationCircleIcon className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-green-400 font-semibold mb-2">DCF Calculator erklärt</h4>
+                <p className="text-theme-secondary text-sm leading-relaxed">
+                  Ein DCF Calculator projiziert die zukünftigen freien Cashflows eines Unternehmens für 5 Jahre, 
+                  berechnet einen Terminalwert und diskontiert alle Cashflows auf den heutigen Wert zurück. 
+                  Das Ergebnis ist der theoretische "faire Wert" der Aktie basierend auf fundamentalen Daten.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ✅ FCF DATA SOURCE INFO - Nur wenn geschätzt */}
+        {dcfData.dataQuality?.fcfIsEstimated && (
+          <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <ExclamationTriangleIcon className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-orange-400 font-semibold mb-2">Warnung: Geschätzte FCF-Daten</h4>
+                <p className="text-theme-secondary text-sm leading-relaxed">
+                  Die aktuellen Free Cash Flow Daten für {ticker} sind geschätzt, da keine ausreichenden 
+                  Daten verfügbar waren. Quelle: {dcfData.dataQuality?.fcfSourceDescription}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ✅ NEW: Validation Error Display */}
+        {validationErrors.length > 0 && (
+          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <XCircleIcon className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-red-400 font-semibold mb-2">Eingabefehler</h4>
+                <ul className="text-theme-secondary text-sm space-y-1">
+                  {validationErrors.map((error, index) => (
+                    <li key={index}>• {error}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Results Summary */}
+        {dcfResults && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-theme-secondary rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
+                <h4 className="text-theme-primary font-semibold">DCF Faire Bewertung</h4>
+              </div>
+              <div className="text-2xl font-bold text-theme-primary mb-1">
+                {formatCurrency(dcfResults.valuePerShare)}
+              </div>
+              <div className="text-xs text-theme-muted">Pro Aktie</div>
+            </div>
+
+            <div className="bg-theme-secondary rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <ChartBarIcon className="w-5 h-5 text-green-400" />
+                <h4 className="text-theme-primary font-semibold">Aktueller Preis</h4>
+              </div>
+              <div className="text-2xl font-bold text-theme-primary mb-1">
+                {formatCurrency(dcfResults.currentPrice)}
+              </div>
+              <div className="text-xs text-theme-muted">Marktpreis</div>
+            </div>
+
+            <div className="bg-theme-secondary rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-3">
+                {dcfResults.upside > 0 ? (
+                  <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                ) : (
+                  <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
+                )}
+                <h4 className="text-theme-primary font-semibold">Upside/Downside</h4>
+              </div>
+              <div className={`text-2xl font-bold mb-1 ${getUpsideColor(dcfResults.upside)}`}>
+                {dcfResults.upside > 0 ? '+' : ''}{formatNumber(dcfResults.upside)}%
+              </div>
+              <div className="text-xs text-theme-muted">
+                {dcfResults.upside > 0 ? 'Unterbewertet' : 'Überbewertet'}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Scenario Buttons */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          <button
+            onClick={() => applyScenario('conservative')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              activeScenario === 'conservative'
+                ? 'bg-orange-500 text-white'
+                : 'bg-theme-secondary text-theme-primary hover:bg-theme-tertiary'
+            }`}
+          >
+            <ShieldCheckIcon className="w-4 h-4" />
+            Konservativ
+          </button>
+          
+          <button
+            onClick={() => applyScenario('base')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              activeScenario === 'base'
+                ? 'bg-blue-500 text-white'
+                : 'bg-theme-secondary text-theme-primary hover:bg-theme-tertiary'
+            }`}
+          >
+            <PresentationChartBarIcon className="w-4 h-4" />
+            Basis
+          </button>
+          
+          <button
+            onClick={() => applyScenario('optimistic')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              activeScenario === 'optimistic'
+                ? 'bg-green-500 text-white'
+                : 'bg-theme-secondary text-theme-primary hover:bg-theme-tertiary'
+            }`}
+          >
+            <RocketLaunchIcon className="w-4 h-4" />
+            Optimistisch
+          </button>
+        </div>
+
+        {/* Assumptions Panel - Abbreviated for space */}
+        <div className="bg-theme-secondary rounded-lg mb-6">
+          <div className="px-4 py-3 border-b border-theme/10">
+            <div className="flex items-center gap-2">
+              <AdjustmentsHorizontalIcon className="w-5 h-5 text-theme-muted" />
+              <h4 className="font-semibold text-theme-primary">Annahmen anpassen</h4>
+              {dcfResults && validationErrors.length === 0 && (
+                <CheckCircleIcon className="w-4 h-4 text-green-400 ml-2" />
+              )}
+            </div>
+          </div>
+          
+          <div className="p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              
+              {/* Revenue Growth */}
+              <div className="space-y-3">
+                <h5 className="text-sm font-medium text-theme-secondary">Umsatzwachstum (%)</h5>
+                {[1, 2, 3, 4, 5].map((year) => (
+                  <div key={year} className="space-y-1">
+                    <label className="text-xs text-theme-muted">Jahr {year}</label>
+                    <input
+                      type="number"
+                      value={assumptions[`revenueGrowthY${year}` as keyof DCFAssumptions] as number}
+                      onChange={(e) => updateAssumption(`revenueGrowthY${year}` as keyof DCFAssumptions, parseFloat(e.target.value) || 0)}
+                      className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
+                      step="0.1"
+                      min="-10"
+                      max="25"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Key Rates */}
+              <div className="space-y-3">
+                <h5 className="text-sm font-medium text-theme-secondary">Zentrale Kennzahlen (%)</h5>
+                
+                <div className="space-y-1">
+                  <label className="text-xs text-theme-muted">
+                    Terminal-Wachstumsrate (max {Math.min(assumptions.discountRate - 0.5, 4.0).toFixed(1)}%)
+                  </label>
+                  <input
+                    type="number"
+                    value={assumptions.terminalGrowthRate}
+                    onChange={(e) => updateAssumption('terminalGrowthRate', parseFloat(e.target.value) || 0)}
+                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
+                    step="0.1"
+                    min="0"
+                    max="4"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs text-theme-muted">Diskontierungssatz (WACC) (5-20%)</label>
+                  <input
+                    type="number"
+                    value={assumptions.discountRate}
+                    onChange={(e) => updateAssumption('discountRate', parseFloat(e.target.value) || 0)}
+                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
+                    step="0.1"
+                    min="5"
+                    max="20"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs text-theme-muted">Operative Marge</label>
+                  <input
+                    type="number"
+                    value={assumptions.operatingMargin}
+                    onChange={(e) => updateAssumption('operatingMargin', parseFloat(e.target.value) || 0)}
+                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
+                    step="0.1"
+                    min="0"
+                    max="50"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs text-theme-muted">Steuersatz</label>
+                  <input
+                    type="number"
+                    value={assumptions.taxRate}
+                    onChange={(e) => updateAssumption('taxRate', parseFloat(e.target.value) || 0)}
+                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
+                    step="0.1"
+                    min="0"
+                    max="50"
+                  />
+                </div>
+              </div>
+
+              {/* Other Assumptions */}
+              <div className="space-y-3">
+                <h5 className="text-sm font-medium text-theme-secondary">Weitere Kennzahlen</h5>
+                
+                <div className="space-y-1">
+                  <label className="text-xs text-theme-muted">Investitionen (% vom Umsatz)</label>
+                  <input
+                    type="number"
+                    value={assumptions.capexAsRevenuePercent}
+                    onChange={(e) => updateAssumption('capexAsRevenuePercent', parseFloat(e.target.value) || 0)}
+                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
+                    step="0.1"
+                    min="0"
+                    max="20"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs text-theme-muted">Working Capital Änderung (%)</label>
+                  <input
+                    type="number"
+                    value={assumptions.workingCapitalChange}
+                    onChange={(e) => updateAssumption('workingCapitalChange', parseFloat(e.target.value) || 0)}
+                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
+                    step="0.1"
+                    min="-10"
+                    max="10"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Disclaimer */}
+        <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mt-6">
+          <div className="flex items-start gap-3">
+            <ExclamationTriangleIcon className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <h5 className="text-yellow-400 font-medium mb-1">Wichtiger Hinweis</h5>
+              <p className="text-theme-secondary text-sm">
+                Diese DCF-Berechnung basiert auf Annahmen über zukünftige Entwicklungen und dient nur zu Informationszwecken. 
+                Alle Daten stammen aus FMP APIs. Sie stellt keine Anlageberatung dar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ DCF Calculation Breakdown Modal mit Data Source Info */}
+      {dcfResults && dcfData && assumptions && (
+        <DCFCalculationBreakdown
+          isOpen={showBreakdown}
+          onClose={() => setShowBreakdown(false)}
+          results={dcfResults}
+          assumptions={assumptions}
+          currentRevenue={dcfData.currentRevenue}
+          currentShares={dcfData.currentShares}
+          companyName={dcfData.companyInfo.name}
+          ticker={ticker}
+          fcfDataSource={dcfData.dataQuality?.fcfDataSource}
+          isEstimated={dcfData.dataQuality?.fcfIsEstimated}
+        />
+      )}
+    </div>
+  )
+}

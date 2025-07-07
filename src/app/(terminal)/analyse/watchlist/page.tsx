@@ -1,4 +1,4 @@
-// src/app/watchlist/page.tsx - DASHBOARD DESIGN KONSISTENZ
+// src/app/watchlist/page.tsx - KONSISTENT MIT DASHBOARD DESIGN
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -11,7 +11,8 @@ import {
   ArrowTrendingUpIcon,
   BookmarkIcon,
   ArrowPathIcon,
-  AdjustmentsHorizontalIcon
+  AdjustmentsHorizontalIcon,
+  ArrowLeftIcon
 } from '@heroicons/react/24/outline';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import Logo from '@/components/Logo';
@@ -178,39 +179,74 @@ export default function WatchlistPage() {
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      <div className="w-full px-4 py-4 space-y-4">
-        
-        {/* Hero Header */}
-        <div className="bg-theme-card rounded-lg">
-          <div className="p-6">
-            <div className="max-w-4xl">
-              <div className="flex items-center gap-2 mb-3">
-                <BookmarkIcon className="w-5 h-5 text-green-400" />
-                <span className="text-sm font-medium text-green-400">Deine Watchlist</span>
+      
+      {/* Professional Header - wie Dashboard */}
+      <div className="border-b border-theme/5">
+        <div className="w-full px-6 lg:px-8 py-8">
+          
+          {/* Zurück-Link */}
+          <Link
+            href="/analyse"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+          >
+            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            Zurück zur Analyse
+          </Link>
+
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <BookmarkIcon className="w-6 h-6 text-green-400" />
+                <h1 className="text-3xl font-bold text-theme-primary">
+                  Deine Watchlist
+                </h1>
               </div>
-              
-              <h1 className="text-2xl md:text-3xl font-bold text-theme-primary mb-2">
-                Verfolge deine
-                <span className="block text-green-400">Favoriten-Aktien</span>
-              </h1>
-              
-              <p className="text-theme-secondary max-w-2xl">
-                Entdecke Schnäppchen und verfolge die Performance deiner bevorzugten Investments.
-              </p>
+              <div className="flex items-center gap-4 text-theme-secondary">
+                <span className="text-sm">
+                  {watchlistItems.length} {watchlistItems.length === 1 ? 'Aktie' : 'Aktien'}
+                </span>
+                {dipCount > 0 && (
+                  <>
+                    <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
+                    <span className="text-sm text-red-400">
+                      {dipCount} Schnäppchen entdeckt
+                    </span>
+                  </>
+                )}
+                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
+                <span className="text-sm">Live-Kurse</span>
+              </div>
             </div>
+            
+            {/* Quick Actions */}
+            {watchlistItems.length > 0 && (
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => loadStockData(watchlistItems.map(item => item.ticker))}
+                  disabled={dataLoading}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
+                >
+                  <ArrowPathIcon className={`w-4 h-4 ${dataLoading ? 'animate-spin' : ''}`} />
+                  <span className="font-medium">{dataLoading ? 'Laden...' : 'Aktualisieren'}</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
+      </div>
 
+      <main className="w-full px-6 lg:px-8 py-8 space-y-8">
+        
         {/* Schnäppchen-Radar Controls */}
         {watchlistItems.length > 0 && (
-          <div className="bg-theme-card rounded-lg">
-            <div className="p-6">
+          <section>
+            <div className="bg-theme-card border border-theme/5 rounded-xl p-6">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-3">
                     <ArrowTrendingDownIcon className="w-6 h-6 text-red-400" />
-                    <h2 className="text-lg font-semibold text-theme-primary">
+                    <h2 className="text-xl font-semibold text-theme-primary">
                       Schnäppchen-Radar
                     </h2>
                   </div>
@@ -250,36 +286,26 @@ export default function WatchlistPage() {
                     className={`px-4 py-2 rounded-lg transition font-medium text-sm ${
                       showOnlyDips 
                         ? 'bg-red-500 text-white' 
-                        : 'bg-theme-tertiary/50 text-theme-secondary hover:bg-theme-tertiary hover:text-theme-primary'
+                        : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                     }`}
                   >
                     {showOnlyDips ? 'Alle anzeigen' : 'Nur Schnäppchen'}
                   </button>
-
-                  {/* Refresh Button */}
-                  <button
-                    onClick={() => loadStockData(watchlistItems.map(item => item.ticker))}
-                    disabled={dataLoading}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-500 text-black rounded-lg hover:bg-green-400 disabled:bg-theme-tertiary disabled:text-theme-muted disabled:cursor-not-allowed transition font-medium text-sm"
-                  >
-                    <ArrowPathIcon className={`w-4 h-4 ${dataLoading ? 'animate-spin' : ''}`} />
-                    {dataLoading ? 'Laden...' : 'Aktualisieren'}
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         )}
 
         {/* Watchlist Content */}
-        {filteredItems.length === 0 ? (
-          <div className="bg-theme-card rounded-lg">
-            <div className="p-12 text-center">
-              <div className="w-24 h-24 mx-auto bg-theme-tertiary/30 rounded-2xl flex items-center justify-center mb-6">
+        <section>
+          {filteredItems.length === 0 ? (
+            <div className="bg-theme-card border border-theme/5 rounded-xl p-12 text-center">
+              <div className="w-24 h-24 mx-auto bg-theme-secondary rounded-2xl flex items-center justify-center mb-6">
                 {showOnlyDips ? (
-                  <ArrowTrendingDownIcon className="w-12 h-12 text-theme-secondary" />
+                  <ArrowTrendingDownIcon className="w-12 h-12 text-theme-muted" />
                 ) : (
-                  <BookmarkIcon className="w-12 h-12 text-theme-secondary" />
+                  <BookmarkIcon className="w-12 h-12 text-theme-muted" />
                 )}
               </div>
               
@@ -304,46 +330,49 @@ export default function WatchlistPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                   <Link
                     href="/superinvestor"
-                    className="px-6 py-3 bg-green-500 text-black rounded-lg hover:bg-green-400 transition font-medium"
+                    className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition font-medium"
                   >
                     Super-Investoren entdecken
                   </Link>
                   <Link
-                    href="/analyse/stocks"
-                    className="px-6 py-3 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary hover:text-theme-primary transition font-medium"
+                    href="/analyse"
+                    className="px-6 py-3 bg-theme-card border border-theme/10 text-theme-secondary rounded-lg hover:bg-theme-hover hover:text-theme-primary transition font-medium"
                   >
                     Aktien finden
                   </Link>
                 </div>
               )}
             </div>
-          </div>
-        ) : (
-          <div className="bg-theme-card rounded-lg">
-            <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+          ) : (
+            <>
+              <h3 className="text-lg font-semibold text-theme-primary mb-6">
+                {showOnlyDips ? 'Schnäppchen in deiner Watchlist' : 'Deine beobachteten Aktien'}
+              </h3>
+              
+              {/* ✅ EINZELNE CARDS FÜR JEDE AKTIE - wie Dashboard Market Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredItems.map((item) => {
                   const data = stockData[item.ticker];
                   const hasData = !!data;
                   
                   return (
-                    <div key={item.id} className="p-6 rounded-lg hover:bg-theme-secondary/20 transition-all duration-200 border border-theme/10 hover:border-green-500/20">
+                    <div key={item.id} className="bg-theme-card border border-theme/5 rounded-xl p-6 hover:border-theme/10 transition-all duration-200 group">
                       
                       {/* Header */}
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
                           <Logo
-                            src={`/logos/${item.ticker.toLowerCase()}.svg`}
+                            ticker={item.ticker}
                             alt={`${item.ticker} Logo`}
-                            className="w-10 h-10"
+                            className="w-10 h-10 rounded-lg"
                           />
                           <div>
-                            <h3 className="text-base font-semibold text-theme-primary flex items-center gap-2">
+                            <h4 className="text-lg font-bold text-theme-primary flex items-center gap-2">
                               {item.ticker}
                               {hasData && data.isDip && (
                                 <ExclamationTriangleIcon className="w-4 h-4 text-red-400" title="Schnäppchen!" />
                               )}
-                            </h3>
+                            </h4>
                             <p className="text-xs text-theme-muted">
                               {new Date(item.created_at).toLocaleDateString('de-DE')}
                             </p>
@@ -351,7 +380,7 @@ export default function WatchlistPage() {
                         </div>
                         <button
                           onClick={() => removeFromWatchlist(item.id, item.ticker)}
-                          className="p-2 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
+                          className="p-2 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded-lg transition opacity-0 group-hover:opacity-100"
                           title="Aus Watchlist entfernen"
                         >
                           <TrashIcon className="w-4 h-4" />
@@ -362,19 +391,20 @@ export default function WatchlistPage() {
                       {hasData ? (
                         <div className="space-y-4">
                           {/* Price & Change */}
-                          <div className="flex items-center justify-between">
-                            <span className="text-xl font-bold text-theme-primary">
+                          <div className="space-y-3">
+                            <div className="text-2xl font-bold text-theme-primary">
                               ${data.price.toFixed(2)}
-                            </span>
-                            <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium ${
+                            </div>
+                            
+                            <div className={`inline-flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
                               data.change >= 0 
                                 ? 'text-green-400 bg-green-500/20' 
                                 : 'text-red-400 bg-red-500/20'
                             }`}>
                               {data.change >= 0 ? (
-                                <ArrowTrendingUpIcon className="w-3 h-3" />
+                                <ArrowTrendingUpIcon className="w-4 h-4" />
                               ) : (
-                                <ArrowTrendingDownIcon className="w-3 h-3" />
+                                <ArrowTrendingDownIcon className="w-4 h-4" />
                               )}
                               <span>
                                 {data.changePercent >= 0 ? '+' : ''}{data.changePercent.toFixed(2)}%
@@ -383,29 +413,35 @@ export default function WatchlistPage() {
                           </div>
 
                           {/* 52W Data */}
-                          <div className="space-y-2 pt-3 border-t border-theme/10">
+                          <div className="space-y-2 pt-3 border-t border-theme/5">
                             <div className="flex justify-between text-xs">
-                              <span className="text-theme-secondary">52W High:</span>
-                              <span className="text-theme-primary">${data.week52High.toFixed(2)}</span>
+                              <span className="text-theme-muted">52W High:</span>
+                              <span className="text-theme-primary font-medium">${data.week52High.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between text-xs">
-                              <span className="text-theme-secondary">52W Low:</span>
-                              <span className="text-theme-primary">${data.week52Low.toFixed(2)}</span>
+                              <span className="text-theme-muted">52W Low:</span>
+                              <span className="text-theme-primary font-medium">${data.week52Low.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between text-xs">
-                              <span className="text-theme-secondary">Von 52W High:</span>
-                              <span className={`font-medium ${
+                              <span className="text-theme-muted">Von 52W High:</span>
+                              <span className={`font-bold ${
                                 data.dipPercent <= -dipThreshold ? 'text-red-400' : 'text-theme-primary'
                               }`}>
                                 {data.dipPercent.toFixed(1)}%
                               </span>
                             </div>
 
-                            {/* Dip Alert */}
+                            {/* Subtle Professional Alert */}
                             {data.isDip && (
-                              <div className="p-2 bg-red-500/10 border border-red-500/20 rounded mt-2">
-                                <p className="text-red-300 text-xs font-medium">
-                                  🔥 SCHNÄPPCHEN: {Math.abs(data.dipPercent).toFixed(1)}% unter 52W High!
+                              <div className="p-3 bg-theme-secondary border border-theme/10 rounded-lg mt-3">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-1.5 h-1.5 bg-theme-primary rounded-full"></div>
+                                  <p className="text-theme-primary text-xs font-medium">
+                                  Signifikante Korrektur
+                                  </p>
+                                </div>
+                                <p className="text-theme-muted text-xs mt-1">
+                                  {Math.abs(data.dipPercent).toFixed(1)}% unter 52-Wochen-Hoch
                                 </p>
                               </div>
                             )}
@@ -425,7 +461,7 @@ export default function WatchlistPage() {
                       <div className="mt-6">
                         <Link
                           href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
-                          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary hover:text-theme-primary transition font-medium text-sm"
+                          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-secondary hover:bg-theme-hover text-theme-primary rounded-lg transition font-medium text-sm"
                         >
                           <ChartBarIcon className="w-4 h-4" />
                           <span>Analyse</span>
@@ -435,24 +471,10 @@ export default function WatchlistPage() {
                   );
                 })}
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* Footer Stats */}
-        {watchlistItems.length > 0 && (
-          <div className="text-center">
-            <p className="text-theme-muted text-sm">
-              {watchlistItems.length} {watchlistItems.length === 1 ? 'Aktie' : 'Aktien'} in deiner Watchlist
-              {dipCount > 0 && (
-                <span className="ml-2 text-red-400">
-                  • {dipCount} Schnäppchen entdeckt
-                </span>
-              )}
-            </p>
-          </div>
-        )}
-      </div>
+            </>
+          )}
+        </section>
+      </main>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-// src/app/analyse/[ticker]/valuation/page.tsx - EINHEITLICHER HEADER
+// src/app/analyse/[ticker]/valuation/page.tsx - FIXED DATA & PROFESSIONAL LAYOUT
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
+import LearnSidebar, { LearnTooltipButton } from '@/components/LearnSidebar'
+import { useLearnMode } from '@/lib/LearnModeContext'
 import { 
   CalculatorIcon,
   ChartBarIcon,
@@ -15,7 +17,8 @@ import {
   ArrowTrendingUpIcon,
   SparklesIcon,
   ArrowLeftIcon,
-  LockClosedIcon
+  LockClosedIcon,
+  InformationCircleIcon
 } from '@heroicons/react/24/outline'
 
 interface User {
@@ -54,49 +57,515 @@ interface ValuationData {
   divYield5YAvg: number;
 }
 
-// ===== MAIN VALUATION COMPONENT =====
+// ===== MAIN VALUATION COMPONENT - FIXED DATA ISSUES =====
 function ProfessionalValuationTable({ ticker, isPremium = false }: { ticker: string; isPremium?: boolean }) {
   const [data, setData] = useState<ValuationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { isLearnMode } = useLearnMode();
 
   useEffect(() => {
     loadValuationData();
   }, [ticker]);
 
+  // ✅ FIXED DATENLADUNG - Bessere Fallbacks und Debug
   const loadValuationData = async () => {
     setLoading(true);
     setError(null);
     
-    // Simuliere Datenladung
-    setTimeout(() => {
-      if (isPremium) {
-        // Simuliere echte Daten für Premium-User
-        setData({
-          peRatioTTM: 28.5,
-          forwardPE: 24.8,
-          pegRatioTTM: 1.2,
-          priceToBookRatioTTM: 8.9,
-          priceSalesRatioTTM: 12.4,
-          priceToCashFlowRatio: 22.1,
-          priceToFreeCashFlowsRatio: 26.7,
-          dividendYieldTTM: 0.44,
-          evToSales: 11.8,
-          evToEbitda: 19.2,
-          evToEbit: 21.5,
-          pe5YAvg: 31.2,
-          peg5YAvg: 1.8,
-          pb5YAvg: 7.2,
-          ps5YAvg: 8.9,
-          pcf5YAvg: 18.9,
-          fcf5YAvg: 23.1,
-          evSales5YAvg: 9.4,
-          evEbitda5YAvg: 17.8,
-          divYield5YAvg: 0.52
-        });
+    // ✅ ALLE Variablen einmal ganz am Anfang definieren
+    let currentPrice = 0;
+    let freeCashFlowPerShare = 0;
+    let operatingCashFlowPerShare = 0;
+    let forwardPE = 0;
+    let evToSales = 0;
+    let evToEbitda = 0;
+    let evToEbit = 0;
+    
+    try {
+      const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY;
+      console.log(`🔍 Loading valuation data for ${ticker}...`);
+      
+      // 1. ✅ Company Outlook für aktuelle Ratios
+      const outlookResponse = await fetch(
+        `https://financialmodelingprep.com/api/v4/company-outlook?symbol=${ticker}&apikey=${apiKey}`
+      );
+      
+      if (!outlookResponse.ok) {
+        throw new Error(`Company Outlook API failed: ${outlookResponse.status}`);
       }
+      
+      const outlookData = await outlookResponse.json();
+      console.log('📊 Company Outlook Data:', outlookData);
+      
+      const currentRatios = outlookData.ratios?.[0] || {};
+
+      // 2. ✅ Key Metrics TTM + Profile für zusätzliche Ratios
+      const [keyMetricsResponse, profileResponse] = await Promise.all([
+        fetch(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}?apikey=${apiKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${apiKey}`)
+      ]);
+      
+      let keyMetrics = {};
+      let profileData = {};
+      
+      if (keyMetricsResponse.ok) {
+        const keyMetricsData = await keyMetricsResponse.json();
+        keyMetrics = Array.isArray(keyMetricsData) ? keyMetricsData[0] || {} : {};
+        console.log('📈 Key Metrics TTM:', keyMetrics);
+        console.log('📈 Available KeyMetrics fields:', Object.keys(keyMetrics));
+      }
+      
+      if (profileResponse.ok) {
+        const profileArray = await profileResponse.json();
+        profileData = Array.isArray(profileArray) ? profileArray[0] || {} : {};
+        console.log('🏢 Profile Data:', profileData);
+        console.log('🏢 Available Profile fields:', Object.keys(profileData));
+      }
+
+      // 3. ✅ Aktuelle Kursdaten
+      const quoteResponse = await fetch(
+        `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${apiKey}`
+      );
+      
+      if (quoteResponse.ok) {
+        const [quote] = await quoteResponse.json();
+        currentPrice = quote.price;
+        console.log(`💰 Current Price: $${currentPrice}`);
+      }
+
+      // 4. ✅ Cash Flow Statement - ERWEITERTE DEBUG
+      const cashFlowResponse = await fetch(
+        `https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=annual&limit=1&apikey=${apiKey}`
+      );
+      
+      if (cashFlowResponse.ok) {
+        const [cashFlow] = await cashFlowResponse.json();
+        console.log('💰 Cash Flow Statement FULL:', cashFlow);
+        console.log('💰 Available Cash Flow fields:', Object.keys(cashFlow));
+        
+        // ✅ ERWEITERTE Cash Flow Feldsuche
+        const freeCashFlow = cashFlow.freeCashFlow || 
+                             (cashFlow.netCashProvidedByOperatingActivities && cashFlow.capitalExpenditure ? 
+                              cashFlow.netCashProvidedByOperatingActivities - Math.abs(cashFlow.capitalExpenditure) : 0);
+        
+        const operatingCashFlow = cashFlow.operatingCashFlow || 
+                                  cashFlow.netCashProvidedByOperatingActivities || 
+                                  cashFlow.cashFlowFromOperations ||
+                                  cashFlow.operatingCashflow ||
+                                  cashFlow.netCashFromOperatingActivities;
+        
+        // ✅ ERWEITERTE Shares Outstanding Suche
+        const sharesOutstanding = cashFlow.weightedAverageShsOut || 
+                                  cashFlow.shareIssued || 
+                                  cashFlow.weightedAverageSharesOutstanding ||
+                                  cashFlow.commonStockSharesOutstanding ||
+                                  cashFlow.weightedAverageShsOutstanding;
+        
+        console.log(`🔍 DETAILED Cash Flow Debug:`, {
+          freeCashFlow,
+          operatingCashFlow,
+          sharesOutstanding,
+          capitalExpenditure: cashFlow.capitalExpenditure,
+          netCashOperating: cashFlow.netCashProvidedByOperatingActivities,
+          allCashFlowFields: Object.keys(cashFlow).filter(key => key.toLowerCase().includes('cash'))
+        });
+        
+        if (sharesOutstanding && sharesOutstanding > 0) {
+          if (freeCashFlow && freeCashFlow !== 0) {
+            freeCashFlowPerShare = Math.abs(freeCashFlow) / sharesOutstanding;
+            console.log(`📊 Free FCF per Share CALCULATED: ${freeCashFlowPerShare.toFixed(2)} (FCF: ${freeCashFlow/1e9}B, Shares: ${sharesOutstanding/1e6}M)`);
+          } else {
+            console.warn('❌ No valid free cash flow found');
+          }
+          
+          if (operatingCashFlow && operatingCashFlow !== 0) {
+            operatingCashFlowPerShare = Math.abs(operatingCashFlow) / sharesOutstanding;
+            console.log(`📊 Operating CF per Share CALCULATED: ${operatingCashFlowPerShare.toFixed(2)} (OpCF: ${operatingCashFlow/1e9}B, Shares: ${sharesOutstanding/1e6}M)`);
+          } else {
+            console.warn('❌ No valid operating cash flow found');
+          }
+        } else {
+          console.warn('❌ No shares outstanding found. Available fields:', Object.keys(cashFlow));
+        }
+      } else {
+        console.warn('❌ Cash Flow API failed:', cashFlowResponse.status);
+      }
+
+      // 5. ✅ Enterprise Value + Financial Data
+      const [evResponse, incomeResponse] = await Promise.all([
+        fetch(`https://financialmodelingprep.com/api/v3/enterprise-values/${ticker}?period=quarter&limit=1&apikey=${apiKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=1&apikey=${apiKey}`)
+      ]);
+
+      if (evResponse.ok && incomeResponse.ok) {
+        const [evData] = await evResponse.json();
+        const [incomeData] = await incomeResponse.json();
+        
+        console.log('🏢 Enterprise Value:', evData);
+        console.log('💰 Income Statement:', incomeData);
+        
+        if (evData && incomeData) {
+          const enterpriseValue = evData.enterpriseValue;
+          const revenue = incomeData.revenue;
+          const ebitda = incomeData.ebitda;
+          const operatingIncome = incomeData.operatingIncome;
+          
+          if (enterpriseValue && revenue) {
+            evToSales = enterpriseValue / revenue;
+            console.log(`📊 EV/Sales CALCULATED: ${evToSales.toFixed(2)} (EV: ${enterpriseValue/1e9}B, Revenue: ${revenue/1e9}B)`);
+          }
+          
+          if (enterpriseValue && ebitda && ebitda > 0) {
+            evToEbitda = enterpriseValue / ebitda;
+            console.log(`📊 EV/EBITDA CALCULATED: ${evToEbitda.toFixed(2)} (EV: ${enterpriseValue/1e9}B, EBITDA: ${ebitda/1e9}B)`);
+          }
+          
+          if (enterpriseValue && operatingIncome && operatingIncome > 0) {
+            evToEbit = enterpriseValue / operatingIncome;
+            console.log(`📊 EV/EBIT CALCULATED: ${evToEbit.toFixed(2)} (EV: ${enterpriseValue/1e9}B, OpIncome: ${operatingIncome/1e9}B)`);
+          }
+        }
+      }
+
+      // 6. ✅ Historical Ratios + Key Metrics + Enterprise Values
+      const [historicalResponse, historicalKeyMetricsResponse, historicalEVResponse] = await Promise.all([
+        fetch(`https://financialmodelingprep.com/api/v3/ratios/${ticker}?period=annual&limit=5&apikey=${apiKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=annual&limit=5&apikey=${apiKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/enterprise-values/${ticker}?period=annual&limit=5&apikey=${apiKey}`)
+      ]);
+      
+      const historicalRatios = historicalResponse.ok ? await historicalResponse.json() : [];
+      const historicalKeyMetrics = historicalKeyMetricsResponse.ok ? await historicalKeyMetricsResponse.json() : [];
+      const historicalEV = historicalEVResponse.ok ? await historicalEVResponse.json() : [];
+      
+      console.log('📜 Historical Ratios (5Y) FULL:', historicalRatios);
+      console.log('📊 Historical Key Metrics (5Y) FULL:', historicalKeyMetrics);
+      console.log('🏢 Historical Enterprise Values (5Y) FULL:', historicalEV);
+
+      // 7. ✅ ERWEITERTE Hilfsfunktionen für verschiedene Datenquellen
+      const calculate5YearAvg = (field: string): number => {
+        if (!Array.isArray(historicalRatios) || historicalRatios.length === 0) {
+          console.warn(`❌ No historical ratios data for ${field}`);
+          return 0;
+        }
+        
+        const validValues = historicalRatios
+          .map(item => item[field])
+          .filter(val => val != null && !isNaN(val) && val > 0);
+          
+        if (validValues.length === 0) {
+          console.warn(`❌ No valid historical values for ${field}`);
+          return 0;
+        }
+        
+        const avg = validValues.reduce((sum, val) => sum + val, 0) / validValues.length;
+        console.log(`📊 ${field} 5Y Avg: ${avg.toFixed(2)} (${validValues.length} values: ${validValues.map(v => v.toFixed(2)).join(', ')})`);
+        return avg;
+      };
+
+      // ✅ NEUE Funktion für EV Ratios - Berechnung aus Key Metrics
+      const calculateEVRatio5YearAvg = (evField: string, denominatorField: string): number => {
+        if (!Array.isArray(historicalKeyMetrics) || historicalKeyMetrics.length === 0) {
+          console.warn(`❌ No historical key metrics data for EV ratio ${evField}/${denominatorField}`);
+          return 0;
+        }
+        
+        const validRatios = historicalKeyMetrics
+          .map(item => {
+            const ev = item.enterpriseValue;
+            const denominator = item[denominatorField];
+            if (ev && denominator && denominator > 0) {
+              return ev / denominator;
+            }
+            return null;
+          })
+          .filter((val): val is number => val != null && !isNaN(val) && val > 0);
+          
+        if (validRatios.length === 0) {
+          console.warn(`❌ No valid EV ratios for ${evField}/${denominatorField}`);
+          return 0;
+        }
+        
+        const avg = validRatios.reduce((sum: number, val: number) => sum + val, 0) / validRatios.length;
+        console.log(`📊 EV/${denominatorField} 5Y Avg CALCULATED: ${avg.toFixed(2)} (${validRatios.length} values: ${validRatios.map((v: number) => v.toFixed(2)).join(', ')})`);
+        return avg;
+      };
+
+      // ✅ NEUE Funktion für direkte EV Ratios aus Key Metrics
+      const calculateEVRatioFromKeyMetrics = (field: string): number => {
+        if (!Array.isArray(historicalKeyMetrics) || historicalKeyMetrics.length === 0) {
+          console.warn(`❌ No historical key metrics data for ${field}`);
+          return 0;
+        }
+        
+        const validValues = historicalKeyMetrics
+          .map(item => item[field])
+          .filter((val): val is number => val != null && !isNaN(val) && val > 0);
+          
+        if (validValues.length === 0) {
+          console.warn(`❌ No valid values for ${field} in key metrics`);
+          return 0;
+        }
+        
+        const avg = validValues.reduce((sum: number, val: number) => sum + val, 0) / validValues.length;
+        console.log(`📊 ${field} 5Y Avg FROM KEY METRICS: ${avg.toFixed(2)} (${validValues.length} values: ${validValues.map((v: number) => v.toFixed(2)).join(', ')})`);
+        return avg;
+      };
+
+      const getValue = (sources: any[], possibleFields: string[]): number => {
+        for (const source of sources) {
+          if (!source) continue;
+          for (const field of possibleFields) {
+            if (source[field] != null && !isNaN(source[field]) && source[field] !== 0) {
+              console.log(`✅ Found ${field}: ${source[field]} in source`);
+              return source[field];
+            }
+          }
+        }
+        console.warn(`❌ No value found for fields: ${possibleFields.join(', ')}`);
+        return 0;
+      };
+
+      // ✅ NEUE erweiterte API-Abfragen für bessere Cash Flow Ratios
+      const [ttmKeyMetricsResponse, ttmRatiosResponse] = await Promise.all([
+        fetch(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}?apikey=${apiKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/ratios-ttm/${ticker}?apikey=${apiKey}`)
+      ]);
+      
+      let ttmKeyMetrics = {};
+      let ttmRatios = {};
+      
+      if (ttmKeyMetricsResponse.ok) {
+        const ttmKeyMetricsData = await ttmKeyMetricsResponse.json();
+        ttmKeyMetrics = Array.isArray(ttmKeyMetricsData) ? ttmKeyMetricsData[0] || {} : {};
+        console.log('📈 TTM Key Metrics:', ttmKeyMetrics);
+      }
+      
+      if (ttmRatiosResponse.ok) {
+        const ttmRatiosData = await ttmRatiosResponse.json();
+        ttmRatios = Array.isArray(ttmRatiosData) ? ttmRatiosData[0] || {} : {};
+        console.log('📊 TTM Ratios:', ttmRatios);
+      }
+
+      // 8. ✅ Forward P/E + PEG Berechnung (NACH getValue Definition)
+      let calculatedPEG = 0;
+      
+      try {
+        const estimatesResponse = await fetch(
+          `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${apiKey}`
+        );
+        
+        if (estimatesResponse.ok) {
+          const estimates = await estimatesResponse.json();
+          console.log('📊 Analyst Estimates:', estimates);
+          
+          const currentYear = new Date().getFullYear();
+          const nextYearEst = estimates.find((e: any) => 
+            parseInt(e.date.slice(0, 4), 10) === currentYear + 1
+          );
+          const currentYearEst = estimates.find((e: any) => 
+            parseInt(e.date.slice(0, 4), 10) === currentYear
+          );
+          
+          if (nextYearEst && nextYearEst.estimatedEpsAvg > 0 && currentPrice > 0) {
+            forwardPE = currentPrice / nextYearEst.estimatedEpsAvg;
+            console.log(`💰 Forward P/E CALCULATED: ${forwardPE.toFixed(2)} (Price: ${currentPrice}, Est EPS: ${nextYearEst.estimatedEpsAvg})`);
+          }
+          
+          // ✅ PEG manuell berechnen
+          if (currentYearEst && nextYearEst && currentYearEst.estimatedEpsAvg > 0) {
+            const currentEPS = currentYearEst.estimatedEpsAvg;
+            const nextEPS = nextYearEst.estimatedEpsAvg;
+            const growthRate = ((nextEPS - currentEPS) / currentEPS) * 100;
+            
+            // P/E ratio holen
+            const peRatio = getValue([currentRatios, keyMetrics, profileData], [
+              'priceEarningsRatio', 'peRatioTTM', 'pe'
+            ]);
+            
+            if (peRatio > 0 && growthRate > 0) {
+              calculatedPEG = peRatio / growthRate;
+              console.log(`📊 PEG CALCULATED: ${calculatedPEG.toFixed(2)} (P/E: ${peRatio}, Growth: ${growthRate.toFixed(1)}%)`);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Forward P/E calculation failed:', err);
+      }
+
+      // 9. ✅ MASSIV VERBESSERTE Price/Cash Flow Ratios - Alle APIs nutzen
+      let priceToCashFlow = 0;   // Operating Cash Flow
+      let priceToFCF = 0;        // Free Cash Flow
+      
+      console.log(`🔍 COMPREHENSIVE Price/CF Calculation Debug:`);
+      console.log(`- Current Price: ${currentPrice}`);
+      console.log(`- Operating CF per Share (calculated): ${operatingCashFlowPerShare}`);
+      console.log(`- Free CF per Share (calculated): ${freeCashFlowPerShare}`);
+      
+      // ✅ METHOD 1: Manual calculation from current price + cash flow per share
+      if (currentPrice > 0 && operatingCashFlowPerShare > 0) {
+        priceToCashFlow = currentPrice / operatingCashFlowPerShare;
+        console.log(`📊 Price/Cash Flow METHOD 1 (Manual): ${priceToCashFlow.toFixed(2)} ✅`);
+      } 
+      
+      if (currentPrice > 0 && freeCashFlowPerShare > 0) {
+        priceToFCF = currentPrice / freeCashFlowPerShare;
+        console.log(`📊 Price/FCF METHOD 1 (Manual): ${priceToFCF.toFixed(2)} ✅`);
+      }
+      
+      // ✅ METHOD 2: Direkt aus TTM Ratios API
+      if (priceToCashFlow === 0) {
+        const ttmPCFRatio = getValue([ttmRatios], [
+          'priceCashFlowRatio', 'priceToOperatingCashFlowsRatio', 'pcfRatio', 'priceToCashFlowRatio'
+        ]);
+        if (ttmPCFRatio > 0) {
+          priceToCashFlow = ttmPCFRatio;
+          console.log(`📊 Price/Cash Flow METHOD 2 (TTM Ratios): ${priceToCashFlow.toFixed(2)} ✅`);
+        }
+      }
+      
+      if (priceToFCF === 0) {
+        const ttmPFCFRatio = getValue([ttmRatios], [
+          'priceToFreeCashFlowsRatio', 'pfcfRatio', 'priceToFCF', 'priceToFreeCashFlowsRatioTTM'
+        ]);
+        if (ttmPFCFRatio > 0) {
+          priceToFCF = ttmPFCFRatio;
+          console.log(`📊 Price/FCF METHOD 2 (TTM Ratios): ${priceToFCF.toFixed(2)} ✅`);
+        }
+      }
+      
+      // ✅ METHOD 3: Aus TTM Key Metrics API
+      if (priceToCashFlow === 0) {
+        const ttmPCFFromKeyMetrics = getValue([ttmKeyMetrics], [
+          'priceCashFlowRatio', 'priceToOperatingCashFlowsRatio', 'pocfratio'
+        ]);
+        if (ttmPCFFromKeyMetrics > 0) {
+          priceToCashFlow = ttmPCFFromKeyMetrics;
+          console.log(`📊 Price/Cash Flow METHOD 3 (TTM Key Metrics): ${priceToCashFlow.toFixed(2)} ✅`);
+        }
+      }
+      
+      if (priceToFCF === 0) {
+        const ttmPFCFFromKeyMetrics = getValue([ttmKeyMetrics], [
+          'pfcfRatio', 'priceToFreeCashFlowsRatio', 'priceToFCF'
+        ]);
+        if (ttmPFCFFromKeyMetrics > 0) {
+          priceToFCF = ttmPFCFFromKeyMetrics;
+          console.log(`📊 Price/FCF METHOD 3 (TTM Key Metrics): ${priceToFCF.toFixed(2)} ✅`);
+        }
+      }
+      
+      // ✅ METHOD 4: Original API Fallbacks
+      if (priceToCashFlow === 0) {
+        const originalPCF = getValue([currentRatios, keyMetrics], [
+          'priceCashFlowRatio', 'priceToOperatingCashFlowsRatio', 'pcfRatio'
+        ]);
+        if (originalPCF > 0) {
+          priceToCashFlow = originalPCF;
+          console.log(`📊 Price/Cash Flow METHOD 4 (Original APIs): ${priceToCashFlow.toFixed(2)} ✅`);
+        }
+      }
+      
+      if (priceToFCF === 0) {
+        const originalPFCF = getValue([currentRatios, keyMetrics], [
+          'priceToFreeCashFlowsRatio', 'priceToFreeCashFlowsRatioTTM', 'pfcfRatio', 'priceToFCF'
+        ]);
+        if (originalPFCF > 0) {
+          priceToFCF = originalPFCF;
+          console.log(`📊 Price/FCF METHOD 4 (Original APIs): ${priceToFCF.toFixed(2)} ✅`);
+        }
+      }
+      
+      // ✅ METHOD 5: Manual calculation from Market Cap / Total Cash Flow
+      if (priceToFCF === 0) {
+        const marketCap = getValue([profileData, keyMetrics, ttmKeyMetrics], ['mktCap', 'marketCap', 'marketCapitalization']);
+        const fcfTotal = getValue([keyMetrics, ttmKeyMetrics], ['freeCashFlowTTM', 'freeCashFlow']);
+        
+        if (marketCap > 0 && fcfTotal > 0) {
+          priceToFCF = marketCap / fcfTotal;
+          console.log(`📊 Price/FCF METHOD 5 (MarketCap/FCF): ${priceToFCF.toFixed(2)} (MarketCap: ${marketCap/1e9}B, FCF: ${fcfTotal/1e9}B) ✅`);
+        }
+      }
+      
+      if (priceToCashFlow === 0) {
+        const marketCap = getValue([profileData, keyMetrics, ttmKeyMetrics], ['mktCap', 'marketCap', 'marketCapitalization']);
+        const operatingCFTotal = getValue([keyMetrics, ttmKeyMetrics], ['operatingCashFlowTTM', 'operatingCashFlow']);
+        
+        if (marketCap > 0 && operatingCFTotal > 0) {
+          priceToCashFlow = marketCap / operatingCFTotal;
+          console.log(`📊 Price/CF METHOD 5 (MarketCap/OpCF): ${priceToCashFlow.toFixed(2)} (MarketCap: ${marketCap/1e9}B, OpCF: ${operatingCFTotal/1e9}B) ✅`);
+        }
+      }
+      
+      // Final Debug
+      console.log(`🎯 FINAL Cash Flow Ratios:`);
+      console.log(`- Price/Cash Flow: ${priceToCashFlow}`);
+      console.log(`- Price/Free Cash Flow: ${priceToFCF}`);
+
+      const valuationData: ValuationData = {
+        // P/E Ratios - Erweiterte Quellen
+        peRatioTTM: getValue([ttmRatios, currentRatios, keyMetrics, profileData], [
+          'priceEarningsRatio', 'peRatioTTM', 'pe', 'priceEarningsRatioTTM'
+        ]),
+        
+        forwardPE,
+        
+        pegRatioTTM: calculatedPEG > 0 ? calculatedPEG : getValue([ttmRatios, currentRatios, keyMetrics], [
+          'priceEarningsToGrowthRatio', 'pegRatioTTM', 'peg'
+        ]),
+        
+        // Andere Ratios - Erweiterte Quellen
+        priceToBookRatioTTM: getValue([ttmRatios, currentRatios, keyMetrics], [
+          'priceToBookRatio', 'priceToBookRatioTTM', 'pb', 'pbRatio', 'ptbRatio'
+        ]),
+        
+        priceSalesRatioTTM: getValue([ttmRatios, currentRatios, keyMetrics], [
+          'priceToSalesRatio', 'priceSalesRatioTTM', 'ps', 'psRatio', 'priceToSalesRatioTTM'
+        ]),
+        
+        // Cash Flow Ratios - Verbesserte Berechnung
+        priceToCashFlowRatio: priceToCashFlow,
+        priceToFreeCashFlowsRatio: priceToFCF,
+        
+        dividendYieldTTM: getValue([profileData, ttmRatios, currentRatios, keyMetrics], [
+          'dividendYield', 'dividendYieldTTM', 'dividendYieldPercentage', 'lastDivYield'
+        ]),
+        
+        // EV Ratios - Aktuelle Werte
+        evToSales,
+        evToEbitda,
+        evToEbit,
+        
+        // ✅ ERWEITERTE 5Y Averages mit neuen Funktionen
+        pe5YAvg: calculate5YearAvg('priceEarningsRatio'),
+        peg5YAvg: calculate5YearAvg('priceEarningsToGrowthRatio'),
+        pb5YAvg: calculate5YearAvg('priceToBookRatio'),
+        ps5YAvg: calculate5YearAvg('priceToSalesRatio'),
+        pcf5YAvg: calculate5YearAvg('priceCashFlowRatio'),
+        fcf5YAvg: calculate5YearAvg('priceToFreeCashFlowsRatio'),
+        
+        // ✅ EV Ratios 5Y - Mehrere Berechnungsversuche
+        evSales5YAvg: calculateEVRatioFromKeyMetrics('evToSales') || 
+                      calculateEVRatio5YearAvg('enterpriseValue', 'revenuePerShare') ||
+                      calculate5YearAvg('enterpriseValueToRevenue'),
+                      
+        evEbitda5YAvg: calculateEVRatioFromKeyMetrics('enterpriseValueOverEBITDA') || 
+                       calculateEVRatio5YearAvg('enterpriseValue', 'ebitda') ||
+                       calculate5YearAvg('enterpriseValueOverEBITDA'),
+                       
+        divYield5YAvg: calculate5YearAvg('dividendYieldTTM') || calculate5YearAvg('dividendYield'),
+      };
+
+      console.log('✅ Final Valuation Data:', valuationData);
+      setData(valuationData);
+      
+    } catch (err) {
+      console.error('❌ Error loading valuation data:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   const formatRatio = (value: number): string => {
@@ -143,6 +612,7 @@ function ProfessionalValuationTable({ ticker, isPremium = false }: { ticker: str
   if (error) {
     return (
       <div className="bg-theme-card rounded-xl p-8 text-center">
+        <InformationCircleIcon className="w-16 h-16 mx-auto mb-4 text-red-400" />
         <p className="text-red-400 mb-4">Fehler beim Laden der Bewertungsdaten: {error}</p>
         <button 
           onClick={loadValuationData}
@@ -171,144 +641,242 @@ function ProfessionalValuationTable({ ticker, isPremium = false }: { ticker: str
 
   if (!data) return null;
 
-  // Deutsche Kennzahlen-Namen (vereinfacht)
+  // ✅ PROFESSIONAL METRICS WITH CATEGORIES - FIXED LABELS
   const valuationMetrics = [
+    // PROFITABILITY SECTION
     {
-      label: 'KGV (TTM)',
-      current: data.peRatioTTM,
-      comparison: data.pe5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
+      section: 'PROFITABILITÄT & WACHSTUM',
+      metrics: [
+        {
+          label: 'KGV (TTM)',
+          termKey: 'KGV (TTM)',
+          current: data.peRatioTTM,
+          comparison: data.pe5YAvg,
+          formatter: formatRatio,
+          icon: 'green',
+          important: true
+        },
+        {
+          label: 'KGV Erwartet (FWD)',
+          termKey: 'KGV Erwartet (FWD)',
+          current: data.forwardPE,
+          comparison: data.pe5YAvg,
+          formatter: formatRatio,
+          icon: 'green'
+        },
+        {
+          label: 'PEG (TTM)',
+          termKey: 'PEG (TTM)',
+          current: data.pegRatioTTM,
+          comparison: data.peg5YAvg,
+          formatter: formatRatio,
+          icon: 'blue'
+        },
+      ]
     },
+    // ENTERPRISE VALUE SECTION
     {
-      label: 'KGV Erwartet (FWD)',
-      current: data.forwardPE,
-      comparison: data.pe5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
+      section: 'ENTERPRISE VALUE KENNZAHLEN',
+      metrics: [
+        {
+          label: 'EV/Umsatz (TTM)',
+          termKey: 'EV/Umsatz (TTM)',
+          current: data.evToSales,
+          comparison: data.evSales5YAvg,
+          formatter: formatRatio,
+          icon: 'purple',
+          important: true
+        },
+        {
+          label: 'EV/EBITDA (TTM)',
+          termKey: 'EV/EBITDA (TTM)',
+          current: data.evToEbitda,
+          comparison: data.evEbitda5YAvg,
+          formatter: formatRatio,
+          icon: 'purple',
+          important: true
+        },
+        {
+          label: 'EV/EBIT (TTM)',
+          termKey: 'EV/EBIT (TTM)',
+          current: data.evToEbit,
+          comparison: data.evEbitda5YAvg,
+          formatter: formatRatio,
+          icon: 'purple'
+        },
+      ]
     },
+    // BOOK VALUE & SALES SECTION
     {
-      label: 'PEG (TTM)',
-      current: data.pegRatioTTM,
-      comparison: data.peg5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
+      section: 'BUCHWERT & UMSATZ',
+      metrics: [
+        {
+          label: 'KUV (TTM)',
+          termKey: 'KUV (TTM)',
+          current: data.priceSalesRatioTTM,
+          comparison: data.ps5YAvg,
+          formatter: formatRatio,
+          icon: 'orange'
+        },
+        {
+          label: 'KBV (TTM)',
+          termKey: 'KBV (TTM)',
+          current: data.priceToBookRatioTTM,
+          comparison: data.pb5YAvg,
+          formatter: formatRatio,
+          icon: 'orange'
+        },
+      ]
     },
+    // CASH FLOW SECTION
     {
-      label: 'EV/Umsatz (TTM)',
-      current: data.evToSales,
-      comparison: data.evSales5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
+      section: 'CASH FLOW BEWERTUNG',
+      metrics: [
+        {
+          label: 'Kurs/Cashflow (TTM)',
+          termKey: 'Kurs/Cashflow (TTM)',
+          current: data.priceToCashFlowRatio,
+          comparison: data.pcf5YAvg,
+          formatter: formatRatio,
+          icon: 'cyan',
+          important: true
+        },
+        {
+          label: 'Kurs/Free Cashflow (TTM)',
+          termKey: 'Kurs/Free Cashflow (TTM)',
+          current: data.priceToFreeCashFlowsRatio,
+          comparison: data.fcf5YAvg,
+          formatter: formatRatio,
+          icon: 'cyan',
+          important: true
+        },
+      ]
     },
+    // DIVIDEND SECTION
     {
-      label: 'EV/EBITDA (TTM)',
-      current: data.evToEbitda,
-      comparison: data.evEbitda5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
-    },
-    {
-      label: 'EV/EBIT (TTM)',
-      current: data.evToEbit,
-      comparison: data.evEbitda5YAvg, // Approximation
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
-    },
-    {
-      label: 'KUV (TTM)',
-      current: data.priceSalesRatioTTM,
-      comparison: data.ps5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
-    },
-    {
-      label: 'KBV (TTM)',
-      current: data.priceToBookRatioTTM,
-      comparison: data.pb5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
-    },
-    {
-      label: 'Kurs/Cashflow (TTM)',
-      current: data.priceToCashFlowRatio,
-      comparison: data.pcf5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
-    },
-    {
-      label: 'Kurs/Free Cashflow (TTM)',
-      current: data.priceToFreeCashFlowsRatio,
-      comparison: data.fcf5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatRatio
-    },
-    {
-      label: 'Dividendenrendite (TTM)',
-      current: data.dividendYieldTTM,
-      comparison: data.divYield5YAvg,
-      comparisonLabel: `${ticker} 5J Ø`,
-      formatter: formatPercent
+      section: 'DIVIDENDE',
+      metrics: [
+        {
+          label: 'Dividendenrendite (TTM)',
+          termKey: 'Dividendenrendite (TTM)',
+          current: data.dividendYieldTTM,
+          comparison: data.divYield5YAvg,
+          formatter: formatPercent,
+          icon: 'yellow'
+        },
+      ]
     }
   ];
 
+  const getIconColor = (iconType: string): string => {
+    switch (iconType) {
+      case 'green': return 'bg-green-400';
+      case 'blue': return 'bg-blue-400';
+      case 'purple': return 'bg-purple-400';
+      case 'orange': return 'bg-orange-400';
+      case 'cyan': return 'bg-cyan-400';
+      case 'yellow': return 'bg-yellow-400';
+      default: return 'bg-gray-400';
+    }
+  };
+
   return (
-    <div className="bg-theme-card rounded-xl overflow-hidden">
-      {/* ✅ FISCAL Header */}
+    <div className="bg-theme-card rounded-xl overflow-hidden border border-theme/10">
+      {/* ✅ Header MIT LEARN MODE INDICATOR */}
       <div className="p-6 border-b border-theme/5">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-            <CalculatorIcon className="w-4 h-4 text-purple-400" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+              <CalculatorIcon className="w-4 h-4 text-purple-400" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-theme-primary">Bewertung & Kennzahlen</h3>
+              <p className="text-theme-muted text-sm">{ticker} Bewertungsanalyse</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xl font-bold text-theme-primary">Bewertung & Kennzahlen</h3>
-            <p className="text-theme-muted text-sm">{ticker} Bewertungsanalyse</p>
-          </div>
+          
+          {/* ✅ Learn Mode Indicator */}
+          {isLearnMode && (
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-green-400 text-xs font-medium">Lern-Modus aktiv</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* ✅ FISCAL Table */}
+      {/* ✅ PROFESSIONAL TABLE - FIXED COLUMN HEADERS */}
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-theme-tertiary/20">
+        <table className="professional-table">
+          <thead>
             <tr>
-              <th className="text-left py-3 px-6 text-theme-muted font-medium text-sm">Kennzahl</th>
-              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">{ticker}</th>
-              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">Vergleichswert</th>
-              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">% Differenz</th>
+              <th style={{width: '35%'}}>
+                <div className="flex items-center gap-2">
+                  Kennzahl
+                  {/* ✅ Hinweis für Learn Mode */}
+                  {isLearnMode && (
+                    <div className="text-xs text-green-400 opacity-60">
+                      🎓 Klicken für Details
+                    </div>
+                  )}
+                </div>
+              </th>
+              <th className="text-center">{ticker}</th>
+              <th className="text-center">{ticker} 5J Ø</th>
+              <th className="text-center">% Diff. zu 5J Ø</th>
             </tr>
           </thead>
           <tbody>
-            {valuationMetrics.map((metric, index) => (
-              <tr 
-                key={index}
-                className={`hover:bg-theme-secondary/20 transition-colors ${
-                  index !== valuationMetrics.length - 1 ? 'border-b border-theme/5' : ''
-                }`}
-              >
-                <td className="py-3 px-6 text-theme-primary font-medium text-sm">
-                  {metric.label}
-                </td>
-                <td className="py-3 px-6 text-right text-theme-primary font-medium text-sm">
-                  {metric.formatter(metric.current)}
-                </td>
-                <td className="py-3 px-6 text-right text-theme-muted text-sm">
-                  {metric.formatter(metric.comparison)}
-                </td>
-                <td className={`py-3 px-6 text-right font-medium text-sm ${getDifferenceColor(metric.current, metric.comparison)}`}>
-                  {calculateDifference(metric.current, metric.comparison)}
-                </td>
-              </tr>
+            {valuationMetrics.map((section, sectionIndex) => (
+              <React.Fragment key={sectionIndex}>
+                {/* ✅ SECTION HEADER - LIKE FINANCIALS PAGE */}
+                <tr>
+                  <td colSpan={4} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                    {section.section}
+                  </td>
+                </tr>
+                
+                {/* ✅ METRICS IN SECTION */}
+                {section.metrics.map((metric, index) => (
+                  <tr 
+                    key={index}
+                    className={`hover:bg-theme-secondary/20 transition-colors ${
+                      metric.important ? 'bg-green-500/5' : ''
+                    }`}
+                  >
+                    <td className={`py-3 px-6 text-theme-primary font-medium text-sm ${metric.important ? 'font-semibold' : ''}`}>
+                      <div className="flex items-center gap-2">
+                        <div className={`w-2 h-2 ${getIconColor(metric.icon)} rounded-full`}></div>
+                        <span>{metric.label}</span>
+                        <LearnTooltipButton term={metric.termKey} />
+                      </div>
+                    </td>
+                    <td className={`py-3 px-6 text-center font-mono ${metric.important ? 'font-semibold' : 'font-medium'} text-sm`}>
+                      {metric.formatter(metric.current)}
+                    </td>
+                    <td className="py-3 px-6 text-center text-theme-muted font-mono text-sm">
+                      {metric.formatter(metric.comparison)}
+                    </td>
+                    <td className={`py-3 px-6 text-center font-medium text-sm ${getDifferenceColor(metric.current, metric.comparison)}`}>
+                      {calculateDifference(metric.current, metric.comparison)}
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* ✅ FISCAL Footer Note */}
-      <div className="p-4 bg-theme-tertiary/10 text-xs text-theme-muted">
-        <p>
+      {/* ✅ Footer Note MIT LEARN TOOLTIPS */}
+      <div className="p-4 bg-theme-tertiary/10 text-xs text-theme-muted border-t border-theme/5">
+        <p className="flex items-center flex-wrap gap-1">
           Alle Daten basieren auf den neuesten verfügbaren Finanzdaten von {ticker}. 
-          TTM = Trailing Twelve Months, FWD = Forward (Analystenschätzungen).
+          <span className="inline-flex items-center gap-1">
+            <LearnTooltipButton term="TTM" className="text-green-400" />
+            TTM
+          </span>
+          = Trailing Twelve Months, FWD = Forward (Analystenschätzungen).
           Vergleichswerte sind 5-Jahres-Durchschnitte der gleichen Kennzahl.
           KGV = Kurs-Gewinn-Verhältnis, KBV = Kurs-Buchwert-Verhältnis, KUV = Kurs-Umsatz-Verhältnis.
           Kurs/Cashflow basiert auf Operating Cash Flow, Kurs/Free Cashflow auf Free Cash Flow.
@@ -419,15 +987,18 @@ export default function ValuationPage() {
           isPremium={user?.isPremium || false}
         />
 
-        {/* ✅ FISCAL Additional Sections */}
+        {/* ✅ Additional Sections MIT LEARN TOOLTIPS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-theme-card rounded-xl p-6 hover:bg-theme-secondary/10 transition-colors border border-theme/10">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
                 <ChartBarIcon className="w-4 h-4 text-blue-400" />
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-theme-primary">Peer Vergleich</h3>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-theme-primary">Peer Vergleich</h3>
+                  <LearnTooltipButton term="Enterprise Value" />
+                </div>
                 <p className="text-theme-muted text-sm">Vergleich mit Branchenkonkurrenten</p>
               </div>
             </div>
@@ -443,8 +1014,11 @@ export default function ValuationPage() {
               <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
                 <BuildingOfficeIcon className="w-4 h-4 text-green-400" />
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-theme-primary">DCF Modell</h3>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-theme-primary">DCF Modell</h3>
+                  <LearnTooltipButton term="Price to Free Cash Flow" />
+                </div>
                 <p className="text-theme-muted text-sm">Discounted Cash Flow Bewertung</p>
               </div>
             </div>
@@ -456,7 +1030,7 @@ export default function ValuationPage() {
           </div>
         </div>
 
-        {/* ✅ FISCAL Premium CTA */}
+        {/* ✅ Premium CTA */}
         {!user?.isPremium && (
           <div className="bg-theme-card rounded-xl p-8 text-center border border-theme/10">
             <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
@@ -495,7 +1069,7 @@ export default function ValuationPage() {
           </div>
         )}
 
-        {/* ✅ FISCAL CTA für Premium Users */}
+        {/* ✅ CTA für Premium Users */}
         {user?.isPremium && (
           <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
             <div className="flex items-center justify-between">
@@ -520,6 +1094,9 @@ export default function ValuationPage() {
           </div>
         )}
       </main>
+
+      {/* ✅ LEARN SIDEBAR hinzugefügt */}
+      <LearnSidebar />
     </div>
   )
 }

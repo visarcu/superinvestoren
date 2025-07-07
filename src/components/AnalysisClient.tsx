@@ -1,4 +1,4 @@
-// src/components/AnalysisClient.tsx - ULTRA CLEAN LAYOUT
+// src/components/AnalysisClient.tsx - VOLLSTÄNDIG SICHER
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -16,11 +16,15 @@ import { LearnTooltipButton } from '@/components/LearnSidebar'
 import { LEARN_DEFINITIONS } from '@/data/learnDefinitions'
 import { useLearnMode } from '@/lib/LearnModeContext'
 
+// ✅ SICHERER IMPORT: OwnershipSection als separate Komponente
+import OwnershipSection from '@/components/OwnershipSection'
+
 // ─── Dynamische Komponentenimporte ─────────────────────────────────────────
 const WatchlistButton = dynamic(
   () => import('@/components/WatchlistButton'),
   { ssr: false }
 )
+
 
 import FinancialAnalysisClient from '@/components/FinancialAnalysisClient'
 
@@ -28,6 +32,7 @@ const RevenueBySegmentChart = dynamic(
   () => import('@/components/RevenueBySegmentChart'),
   { ssr: false, loading: () => <LoadingSpinner /> }
 )
+
 const WallStreetRatingDonut = dynamic(
   () => import('@/components/WallStreetRatingDonut'),
   { ssr: false }
@@ -36,6 +41,17 @@ const WallStreetRatingDonut = dynamic(
 // ✨ Bulls/Bears Integration
 const BullsBearsSection = dynamic(
   () => import('@/components/BullsBearsSection'),
+  { ssr: false, loading: () => <LoadingSpinner /> }
+)
+
+// ✨ Growth Section Integration
+const GrowthSection = dynamic(
+  () => import('@/components/GrowthSection'),
+  { ssr: false, loading: () => <LoadingSpinner /> }
+)
+
+const CompanyEfficiencyMetrics = dynamic(
+  () => import('@/components/CompanyEfficiencyMetrics'),
   { ssr: false, loading: () => <LoadingSpinner /> }
 )
 
@@ -238,14 +254,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // Enhanced Dividend Data State
   const [enhancedDividendData, setEnhancedDividendData] = useState<EnhancedDividendData | null>(null)
 
-  // NEUE FUNKTION: Vergleichsaktien laden für Chart
+  // ✅ SICHERE FUNKTION: Vergleichsaktien laden für Chart
   const handleAddComparison = async (comparisonTicker: string): Promise<StockData[]> => {
     try {
       console.log('🔍 Loading comparison stock:', comparisonTicker)
       
-      const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/historical-price-full/${comparisonTicker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-      )
+      // ✅ SICHER: Verwende eigene API Route
+      const response = await fetch(`/api/historical/${comparisonTicker}`)
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -270,6 +285,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       return []
     }
   }
+
+  const CompanyEfficiencyMetrics = dynamic(
+    () => import('@/components/CompanyEfficiencyMetrics'),
+    { ssr: false, loading: () => <LoadingSpinner /> }
+  )
+
+
 
   // User-Daten laden
   useEffect(() => {
@@ -326,19 +348,17 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     }
   }, [livePrice, estimates])
 
-  // Alle weiteren Daten laden
+  // ✅ SICHERE Datenladung - Alle API-Aufrufe über eigene Routes
   useEffect(() => {
     if (!stock) return
 
     async function loadAllData() {
-      // Profile laden
+      // ✅ Profile laden über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`,
-          { cache: 'force-cache' }
-        )
+        const res = await fetch(`/api/profile/${ticker}`)
         if (res.ok) {
-          const [p] = (await res.json()) as Profile[]
+          const data = await res.json()
+          const [p] = data as Profile[]
           setProfileData(p)
           setIrWebsite(p.website ?? null)
         }
@@ -346,11 +366,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] Profile für ${ticker} fehlgeschlagen.`)
       }
 
-      // Historische Kurse
+      // ✅ Historische Kurse über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/historical/${ticker}`)
         if (res.ok) {
           const { historical = [] } = await res.json()
           const arr = (historical as any[])
@@ -363,7 +381,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] History für ${ticker} fehlgeschlagen.`)
       }
 
-      // Key Metrics
+      // ✅ Key Metrics (bereits sicher über eigene API)
       try {
         const base = process.env.NEXT_PUBLIC_BASE_URL!
         const res = await fetch(`${base}/api/financials/${ticker}`)
@@ -376,9 +394,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] KeyMetrics für ${ticker} fehlgeschlagen.`)
       }
 
-      // Enhanced Dividend Data laden
+      // ✅ Enhanced Dividend Data (bereits sicher über eigene API)
       try {
-        console.log(`🔍 [AnalysisClient] Loading enhanced dividend data for consistency...`)
+        console.log(`🔍 [AnalysisClient] Loading enhanced dividend data...`)
         const dividendResponse = await fetch(`/api/dividends/${ticker}`)
         
         if (dividendResponse.ok) {
@@ -390,11 +408,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`⚠️ [AnalysisClient] Enhanced dividend data failed for ${ticker}:`, error)
       }
 
-      // Live Quote
+      // ✅ Live Quote über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/quote/${ticker}`)
         if (res.ok) {
           const [q] = (await res.json()) as any[]
           setLivePrice(q.price)
@@ -410,11 +426,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] LiveQuote für ${ticker} fehlgeschlagen.`)
       }
 
-      // Current Shares
+      // ✅ Current Shares über eigene API Route  
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/stable/shares-float?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/shares/${ticker}`)
         if (res.ok) {
           const sharesData = (await res.json()) as any[]
           if (Array.isArray(sharesData) && sharesData.length > 0) {
@@ -425,11 +439,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] CurrentShares für ${ticker} fehlgeschlagen.`)
       }
 
-      // Company Outlook
+      // ✅ Company Outlook über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v4/company-outlook?symbol=${ticker}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/outlook/${ticker}`)
         if (res.ok) {
           const { ratios = [] } = (await res.json()) as any
           const r = ratios[0] ?? {}
@@ -442,11 +454,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] CompanyOutlook für ${ticker} fehlgeschlagen.`)
       }
 
-      // Balance Sheet
+      // ✅ Balance Sheet über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=annual&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/balance-sheet/${ticker}`)
         if (res.ok) {
           const fin = (await res.json()) as any
           const L = Array.isArray(fin.financials) ? fin.financials[0] : fin[0]
@@ -458,11 +468,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] Bilanzdaten für ${ticker} fehlgeschlagen.`)
       }
 
-      // Margins
+      // ✅ Margins über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/income-statement/${ticker}`)
         if (res.ok) {
           const [inc] = (await res.json()) as any[]
           setGrossMargin(inc.grossProfitRatio ?? null)
@@ -473,15 +481,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] Margins für ${ticker} fehlgeschlagen.`)
       }
 
-      // EV/EBIT
+      // ✅ EV/EBIT über eigene API Route
       try {
         const [resEV, resInc] = await Promise.all([
-          fetch(
-            `https://financialmodelingprep.com/api/v3/enterprise-values/${ticker}?period=quarter&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-          ),
-          fetch(
-            `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=1&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-          ),
+          fetch(`/api/enterprise-values/${ticker}`),
+          fetch(`/api/income-statement/${ticker}`)
         ])
         if (resEV.ok && resInc.ok) {
           const [e] = (await resEV.json()) as any[]
@@ -494,11 +498,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] EV/EBIT für ${ticker} fehlgeschlagen.`)
       }
 
-      // Estimates
+      // ✅ Estimates über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/estimates/${ticker}`)
         if (res.ok) {
           const all = (await res.json()) as any[]
           const thisYear = new Date().getFullYear()
@@ -508,11 +510,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] Estimates für ${ticker} fehlgeschlagen.`)
       }
 
-      // Recommendations
+      // ✅ Recommendations über eigene API Route
       try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/analyst-stock-recommendations/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-        )
+        const res = await fetch(`/api/recommendations/${ticker}`)
         if (res.ok) {
           const [a] = (await res.json()) as any[]
           setRecs({
@@ -862,44 +862,51 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-      {/* ✅ BULLS/BEARS + CHART SEKTION - ULTRA CLEAN */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* BULLS/BEARS SEKTION */}
-        <div className="lg:col-span-1">
-          <BullsBearsSection 
-            ticker={ticker}
-            isPremium={user?.isPremium || false}
+{/* ✅ BULLS/BEARS + GROWTH + CHART SEKTION - ULTRA CLEAN */}
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  
+  {/* LINKE SPALTE: BULLS/BEARS + GROWTH */}
+  <div className="lg:col-span-1 space-y-6">
+    {/* BULLS/BEARS SEKTION */}
+    <BullsBearsSection 
+      ticker={ticker}
+      isPremium={user?.isPremium || false}
+    />
+    
+    {/* GROWTH SEKTION - NEU */}
+    <GrowthSection 
+      ticker={ticker}
+      isPremium={user?.isPremium || false}
+    />
+  </div>
+
+  {/* ✅ HISTORISCHER KURSVERLAUF - ULTRA CLEAN */}
+  <div className="lg:col-span-2">
+    {history.length > 0 ? (
+      <div className="bg-theme-card rounded-lg">
+        <div className="px-6 py-4 border-b border-theme/10">
+          <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
+        </div>
+        <div className="p-6 relative">
+          <WorkingStockChart 
+            ticker={ticker} 
+            data={history} 
+            onAddComparison={handleAddComparison}
           />
         </div>
-
-        {/* ✅ HISTORISCHER KURSVERLAUF - ULTRA CLEAN */}
-        <div className="lg:col-span-2">
-          {history.length > 0 ? (
-            <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/10">
-                <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
-              </div>
-              <div className="p-6 relative">
-                <WorkingStockChart 
-                  ticker={ticker} 
-                  data={history} 
-                  onAddComparison={handleAddComparison}
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/10">
-                <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
-              </div>
-              <div className="p-6 flex items-center justify-center min-h-[400px]">
-                <LoadingSpinner />
-              </div>
-            </div>
-          )}
+      </div>
+    ) : (
+      <div className="bg-theme-card rounded-lg">
+        <div className="px-6 py-4 border-b border-theme/10">
+          <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
+        </div>
+        <div className="p-6 flex items-center justify-center min-h-[400px]">
+          <LoadingSpinner />
         </div>
       </div>
+    )}
+  </div>
+</div>
 
       {/* ✅ KENNZAHLEN-CHARTS - ULTRA CLEAN (KEINE ÄUSSERE BOX!) */}
       <div className="space-y-6">
@@ -1221,95 +1228,100 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-      {/* ✅ COMPANY PROFILE - ULTRA CLEAN */}
+    
+      {/* ✅ COMPANY PROFILE + OWNERSHIP - SIDE-BY-SIDE LAYOUT */}
       {profileData && (
-        <div className="bg-theme-card rounded-lg">
-          <div className="px-6 py-4 border-b border-theme/10">
-            <h3 className="text-xl font-bold text-theme-primary">Company Profile</h3>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
-          <div className="p-6">
-            {/* Info-Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-6">
+          {/* ✅ COMPANY PROFILE + EMPLOYEE COUNT - LINKE SPALTE */}
+          <div className="space-y-6">
+            
+            {/* Company Profile */}
+            <div className="bg-theme-card rounded-lg">
+              <div className="px-6 py-4 border-b border-theme/10">
+                <h3 className="text-xl font-bold text-theme-primary">Company Profile</h3>
+              </div>
               
-              {/* Basis-Info */}
-              <div className="space-y-3">
-                <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Basics</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-theme-secondary">Sektor</span>
-                    <span className="text-theme-primary font-medium">{profileData.sector ?? '–'}</span>
+              <div className="p-6">
+                {/* Info-Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  
+                  {/* Basis-Info */}
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Basics</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-theme-secondary">Sektor</span>
+                        <span className="text-theme-primary font-medium">{profileData.sector ?? '–'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-theme-secondary">Branche</span>
+                        <span className="text-theme-primary font-medium">{profileData.industry ?? '–'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-theme-secondary">IPO</span>
+                        <span className="text-theme-primary font-medium">{profileData.ipoDate?.slice(0, 4) ?? '–'}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-theme-secondary">Branche</span>
-                    <span className="text-theme-primary font-medium">{profileData.industry ?? '–'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-theme-secondary">IPO</span>
-                    <span className="text-theme-primary font-medium">{profileData.ipoDate?.slice(0, 4) ?? '–'}</span>
+
+                  {/* Größe & Kontakt */}
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Größe</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-theme-secondary">Mitarbeiter</span>
+                        <span className="text-theme-primary font-medium">
+                          {profileData.fullTimeEmployees ? 
+                            `${(Number(profileData.fullTimeEmployees) / 1000).toFixed(0)}k` : '–'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-theme-secondary">Land</span>
+                        <span className="text-theme-primary font-medium">{profileData.country ?? '–'}</span>
+                      </div>
+                      <div>
+                        <span className="text-theme-secondary block mb-1">Website</span>
+                        <a
+                          href={profileData.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-green-400 hover:text-green-300 transition-colors text-sm font-medium"
+                        >
+                          {profileData.website?.replace(/^https?:\/\//, '') ?? '–'}
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Größe */}
-              <div className="space-y-3">
-                <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Größe</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-theme-secondary">Mitarbeiter</span>
-                    <span className="text-theme-primary font-medium">
-                      {profileData.fullTimeEmployees ? 
-                        `${(Number(profileData.fullTimeEmployees) / 1000).toFixed(0)}k` : '–'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-theme-secondary">Land</span>
-                    <span className="text-theme-primary font-medium">{profileData.country ?? '–'}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Kontakt */}
-              <div className="space-y-3">
-                <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Kontakt</h4>
-                <div className="space-y-2 text-sm">
-                  <div>
-                    <span className="text-theme-secondary block mb-1">Website</span>
-                    <a
-                      href={profileData.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-green-400 hover:text-green-300 transition-colors text-sm font-medium"
-                    >
-                      {profileData.website?.replace(/^https?:\/\//, '') ?? '–'}
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Hauptsitz */}
-              <div className="space-y-3">
-                <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Hauptsitz</h4>
-                <div className="text-sm text-theme-primary">
-                  {profileData.city}, {profileData.state}
-                  <br />
-                  {profileData.country}
+                {/* Beschreibung */}
+                <div>
+                  <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide mb-3">Über das Unternehmen</h4>
+                  <p className="text-theme-secondary leading-relaxed text-sm">
+                    {profileData.description ? 
+                      profileData.description.length > 400 ? 
+                        profileData.description.substring(0, 400) + '...' : 
+                        profileData.description 
+                      : 'Keine Beschreibung verfügbar.'}
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Beschreibung */}
-            <div>
-              <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide mb-3">Über das Unternehmen</h4>
-              <p className="text-theme-secondary leading-relaxed">
-                {profileData.description ? 
-                  profileData.description.length > 500 ? 
-                    profileData.description.substring(0, 500) + '...' : 
-                    profileData.description 
-                  : 'Keine Beschreibung verfügbar.'}
-              </p>
-            </div>
+            {/* ✨ Company Efficiency Metrics - PROFESSIONELLE ALTERNATIVE */}
+            <CompanyEfficiencyMetrics 
+              ticker={ticker} 
+              isPremium={user?.isPremium || false} 
+            />
+            
           </div>
+
+          {/* ✅ OWNERSHIP STRUCTURE - RECHTE SPALTE */}
+          <OwnershipSection 
+            ticker={ticker} 
+            isPremium={user?.isPremium || false} 
+          />
         </div>
       )}
     </div>

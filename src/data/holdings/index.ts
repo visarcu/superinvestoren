@@ -13,6 +13,15 @@ import gates_2025_Q1 from './gates/2025-Q1.json'
 import gates_2025_Q2 from './gates/2025-Q2.json'
 
 //Warren Buffet
+import buffett_2021_Q1 from './buffett/2021-Q1.json'
+import buffett_2021_Q2 from './buffett/2021-Q2.json'
+import buffett_2021_Q3 from './buffett/2021-Q3.json'
+import buffett_2021_Q4 from './buffett/2021-Q4.json'
+
+import buffett_2022_Q1 from './buffett/2022-Q1.json'
+import buffett_2022_Q2 from './buffett/2022-Q2.json'
+import buffett_2022_Q3 from './buffett/2022-Q3.json'
+import buffett_2022_Q4 from './buffett/2022-Q4.json'
 
 import buffett_2023_Q1 from './buffett/2023-Q1.json'
 import buffett_2023_Q2 from './buffett/2023-Q2.json'
@@ -598,7 +607,10 @@ const holdingsHistory: Record<string, Snapshot[]> = {
   ],
 
   buffett: [
-   
+    //{ quarter: '2021-Q1', data: buffett_2021_Q1 },
+    //{ quarter: '2021-Q2', data: buffett_2021_Q2 },
+    //{ quarter: '2021-Q3', data: buffett_2021_Q3 },
+    //{ quarter: '2021-Q4', data: buffett_2021_Q4 },   
     //{ quarter: '2022-Q1', data: buffett_2022_Q1 },
     //{ quarter: '2022-Q2', data: buffett_2022_Q2 },
     //{ quarter: '2022-Q3', data: buffett_2022_Q3 },
@@ -613,7 +625,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q4', data: buffett_2024_Q4 },
     { quarter: '2025-Q1', data: buffett_2025_Q1 },
     { quarter: '2025-Q2', data: buffett_2025_Q2 },
-   // …
+
   ],
   ackman: [
     { quarter: '2023-Q1', data: ackman_2023_Q1 },

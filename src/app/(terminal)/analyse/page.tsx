@@ -20,7 +20,8 @@ import {
   EyeIcon,
   FireIcon,
   SignalIcon,
-  ClockIcon
+  ClockIcon,
+  ArrowLeftIcon
 } from '@heroicons/react/24/outline'
 
 // ECHTE IMPORTS - keine Mock-Daten!
@@ -76,44 +77,162 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
-// ===== SEARCH DROPDOWN =====
-function SearchDropdown({ 
-  isOpen, 
-  onClose, 
-  filteredStocks, 
-  query, 
+// ===== BETTER SEARCH COMPONENT =====
+function SmartSearchInput({ 
+  placeholder, 
   onSelect 
-}: {
-  isOpen: boolean
-  onClose: () => void
-  filteredStocks: any[]
-  query: string
+}: { 
+  placeholder: string
   onSelect: (ticker: string) => void
 }) {
-  if (!isOpen) return null
+  const [query, setQuery] = useState('')
+  const [filteredStocks, setFilteredStocks] = useState<any[]>([])
+  const [showResults, setShowResults] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(-1)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (query.trim()) {
+      const filtered = stocks.filter(stock => 
+        stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
+        stock.name.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 8)
+      setFilteredStocks(filtered)
+    } else {
+      // Zeige beliebte Aktien wenn leer
+      const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA']
+      const popularStocks = stocks.filter(stock => 
+        popularTickers.includes(stock.ticker)
+      )
+      setFilteredStocks(popularStocks)
+    }
+    setSelectedIndex(-1)
+  }, [query])
+
+  const handleSelect = (ticker: string) => {
+    onSelect(ticker)
+    setQuery('')
+    setShowResults(false)
+    setSelectedIndex(-1)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!showResults) return
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setSelectedIndex(prev => 
+          prev < filteredStocks.length - 1 ? prev + 1 : 0
+        )
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setSelectedIndex(prev => 
+          prev > 0 ? prev - 1 : filteredStocks.length - 1
+        )
+        break
+      case 'Enter':
+        e.preventDefault()
+        if (selectedIndex >= 0 && filteredStocks[selectedIndex]) {
+          handleSelect(filteredStocks[selectedIndex].ticker)
+        } else if (query.trim()) {
+          handleSelect(query.trim().toUpperCase())
+        }
+        break
+      case 'Escape':
+        setShowResults(false)
+        setSelectedIndex(-1)
+        inputRef.current?.blur()
+        break
+    }
+  }
+
+  const handleInputFocus = () => {
+    setShowResults(true)
+  }
+
+  const handleInputBlur = (e: React.FocusEvent) => {
+    // Verzögerung damit Klicks auf Ergebnisse noch funktionieren
+    setTimeout(() => {
+      if (!resultsRef.current?.contains(document.activeElement)) {
+        setShowResults(false)
+        setSelectedIndex(-1)
+      }
+    }, 150)
+  }
 
   return (
-    <div className="fixed inset-0 z-[9999]" onClick={onClose}>
-      <div 
-        className="absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl mx-4"
-        onClick={(e) => e.stopPropagation()}
-        style={{zIndex: 10000}}
-      >
-        <div className="modern-card animate-scale-in">
+    <div className="relative max-w-2xl mx-auto">
+      {/* Search Input */}
+      <div className={`
+        relative bg-theme-card border border-theme/10 rounded-xl transition-all duration-300 shadow-sm
+        ${showResults 
+          ? 'ring-2 ring-green-500/50 shadow-lg border-green-500/30 rounded-b-none' 
+          : 'hover:shadow-md hover:border-theme/20'
+        }
+      `}>
+        <div className="flex items-center px-6 py-4">
+          <MagnifyingGlassIcon className={`
+            w-6 h-6 mr-4 transition-colors duration-200
+            ${showResults ? 'text-green-500' : 'text-theme-muted'}
+          `} />
+          
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder={placeholder}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            onKeyDown={handleKeyDown}
+            className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted text-lg font-medium focus:outline-none"
+          />
+          
+          <div className="hidden md:flex items-center gap-2 text-theme-muted text-sm ml-4">
+            <kbd className="px-3 py-1.5 bg-theme-secondary border border-theme/20 rounded-lg text-xs">⌘K</kbd>
+          </div>
+
+          {query && (
+            <button
+              onClick={() => {
+                setQuery('')
+                inputRef.current?.focus()
+              }}
+              className="ml-4 p-2 text-theme-muted hover:text-theme-primary transition-colors rounded-lg hover:bg-theme-secondary"
+            >
+              <XMarkIcon className="w-5 h-5" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Search Results */}
+      {showResults && (
+        <div 
+          ref={resultsRef}
+          className="absolute top-full left-0 right-0 bg-theme-card border border-green-500/30 border-t-0 rounded-b-xl shadow-xl z-50"
+        >
           <div className="max-h-80 overflow-y-auto">
             {filteredStocks.length > 0 ? (
-              <div className="p-4">
+              <div className="p-2">
                 {query && (
-                  <div className="px-3 py-2 text-micro text-theme-muted font-semibold uppercase tracking-wide mb-3 border-b border-theme-border">
+                  <div className="px-4 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
                     {filteredStocks.length} Ergebnis{filteredStocks.length !== 1 ? 'se' : ''} für "{query}"
                   </div>
                 )}
                 <div className="space-y-1">
-                  {filteredStocks.map((stock) => (
+                  {filteredStocks.map((stock, index) => (
                     <button
                       key={stock.ticker}
-                      onClick={() => onSelect(stock.ticker)}
-                      className="w-full flex items-center gap-3 p-4 hover:bg-theme-tertiary rounded-xl transition-all duration-200 text-left group"
+                      onClick={() => handleSelect(stock.ticker)}
+                      className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 text-left group ${
+                        index === selectedIndex 
+                          ? 'bg-green-500/20 border border-green-500/30' 
+                          : 'hover:bg-theme-secondary border border-transparent'
+                      }`}
                     >
                       <Logo 
                         ticker={stock.ticker} 
@@ -124,15 +243,19 @@ function SearchDropdown({
                       
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-theme-primary font-bold text-body">{stock.ticker}</span>
-                          <span className="px-2 py-0.5 bg-theme-tertiary text-theme-muted rounded-md text-micro font-medium">
+                          <span className={`font-bold text-sm ${
+                            index === selectedIndex ? 'text-green-400' : 'text-theme-primary'
+                          }`}>{stock.ticker}</span>
+                          <span className="px-2 py-0.5 bg-theme-secondary text-theme-muted rounded-md text-xs font-medium">
                             {stock.market || 'NASDAQ'}
                           </span>
                         </div>
-                        <div className="text-caption text-theme-muted truncate">{stock.name}</div>
+                        <div className="text-xs text-theme-muted truncate">{stock.name}</div>
                       </div>
                       
-                      <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-500 transition-colors flex-shrink-0" />
+                      <ArrowRightIcon className={`w-4 h-4 transition-colors flex-shrink-0 ${
+                        index === selectedIndex ? 'text-green-400' : 'text-theme-muted group-hover:text-green-400'
+                      }`} />
                     </button>
                   ))}
                 </div>
@@ -140,133 +263,29 @@ function SearchDropdown({
             ) : (
               <div className="p-8 text-center text-theme-muted">
                 <MagnifyingGlassIcon className="w-8 h-8 mx-auto mb-3 opacity-50" />
-                <p className="text-caption">Keine Ergebnisse für "{query}"</p>
+                <p className="text-sm">Keine Ergebnisse für "{query}"</p>
               </div>
             )}
           </div>
           
-          <div className="p-4 bg-theme-tertiary/30 backdrop-blur-sm border-t border-theme-border rounded-b-xl">
-            <div className="flex items-center gap-4 text-micro text-theme-muted">
+          <div className="p-4 bg-theme-secondary border-t border-theme/10 rounded-b-xl">
+            <div className="flex items-center gap-4 text-xs text-theme-muted">
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-secondary border border-theme-border rounded-md text-micro">↵</kbd>
+                <kbd className="px-2 py-1 bg-theme-card border border-theme/20 rounded-md text-xs">↑↓</kbd>
+                <span>Navigieren</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <kbd className="px-2 py-1 bg-theme-card border border-theme/20 rounded-md text-xs">↵</kbd>
                 <span>Auswählen</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-secondary border border-theme-border rounded-md text-micro">Esc</kbd>
+                <kbd className="px-2 py-1 bg-theme-card border border-theme/20 rounded-md text-xs">Esc</kbd>
                 <span>Schließen</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
-
-// ===== PROMINENT SEARCH COMPONENT =====
-function ProminentSearchInput({ 
-  placeholder, 
-  onSelect 
-}: { 
-  placeholder: string
-  onSelect: (ticker: string) => void
-}) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [query, setQuery] = useState('')
-  const [filteredStocks, setFilteredStocks] = useState<any[]>([])
-  const [isFocused, setIsFocused] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (query) {
-      const filtered = stocks.filter(stock => 
-        stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
-        stock.name.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 8)
-      setFilteredStocks(filtered)
-    } else {
-      const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA']
-      const popularStocks = stocks.filter(stock => 
-        popularTickers.includes(stock.ticker)
-      )
-      setFilteredStocks(popularStocks)
-    }
-  }, [query])
-
-  const handleSelect = (ticker: string) => {
-    onSelect(ticker)
-    setQuery('')
-    setIsOpen(false)
-    setIsFocused(false)
-  }
-
-  const handleFocus = () => {
-    setIsFocused(true)
-    setIsOpen(true)
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && query.trim()) {
-      handleSelect(query.trim().toUpperCase())
-    }
-    if (e.key === 'Escape') {
-      setIsOpen(false)
-      setIsFocused(false)
-    }
-  }
-
-  return (
-    <div className="relative max-w-2xl mx-auto" style={{zIndex: 1000}}>
-      <div className={`
-        relative modern-card transition-all duration-300
-        ${isFocused 
-          ? 'ring-2 ring-green-500/50 shadow-lg' 
-          : 'hover:shadow-md'
-        }
-      `}>
-        <div className="flex items-center px-6 py-4">
-          <MagnifyingGlassIcon className={`
-            w-6 h-6 mr-4 transition-colors duration-200
-            ${isFocused ? 'text-green-500' : 'text-theme-muted'}
-          `} />
-          
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder={placeholder}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={handleFocus}
-            onBlur={() => setIsFocused(false)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted text-body font-medium focus:outline-none"
-          />
-          
-          <div className="hidden md:flex items-center gap-2 text-theme-muted text-caption ml-4">
-            <kbd className="px-3 py-1.5 bg-theme-secondary border border-theme-border rounded-lg text-micro">⌘K</kbd>
-          </div>
-
-          {query && (
-            <button
-              onClick={() => {
-                setQuery('')
-                inputRef.current?.focus()
-              }}
-              className="ml-4 p-2 text-theme-muted hover:text-theme-primary transition-colors rounded-lg hover:bg-theme-tertiary"
-            >
-              <XMarkIcon className="w-5 h-5" />
-            </button>
-          )}
-        </div>
-      </div>
-
-      <SearchDropdown
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        filteredStocks={filteredStocks}
-        query={query}
-        onSelect={handleSelect}
-      />
+      )}
     </div>
   )
 }
@@ -388,20 +407,20 @@ function SuperInvestorStocks({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-title font-bold text-theme-primary mb-2">
+          <h3 className="text-xl font-bold text-theme-primary mb-2">
             {view === 'hidden_gems' ? '💎 Hidden Gems' : '⚡ Recent Buys'}
           </h3>
-          <p className="text-caption text-theme-muted">
+          <p className="text-sm text-theme-muted">
             {view === 'hidden_gems' 
               ? 'Super-Investor Favoriten abseits des Mainstreams' 
               : 'Neueste Käufe der erfolgreichsten Investoren'}
           </p>
         </div>
         
-        <div className="flex bg-theme-tertiary rounded-xl p-1">
+        <div className="flex bg-theme-secondary border border-theme/10 rounded-xl p-1">
           <button
             onClick={() => setView('hidden_gems')}
-            className={`px-4 py-2 rounded-lg text-caption font-medium transition-all duration-200 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               view === 'hidden_gems'
                 ? 'bg-green-500 text-white shadow-md'
                 : 'text-theme-muted hover:text-theme-primary'
@@ -411,7 +430,7 @@ function SuperInvestorStocks({
           </button>
           <button
             onClick={() => setView('recent_buys')}
-            className={`px-4 py-2 rounded-lg text-caption font-medium transition-all duration-200 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               view === 'recent_buys'
                 ? 'bg-green-500 text-white shadow-md'
                 : 'text-theme-muted hover:text-theme-primary'
@@ -422,7 +441,7 @@ function SuperInvestorStocks({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {currentData.map((item) => {
           const quote = quotes[item.ticker.toLowerCase()]
 
@@ -430,7 +449,7 @@ function SuperInvestorStocks({
             <button
               key={item.ticker}
               onClick={() => onSelect(item.ticker)}
-              className="group w-full text-left modern-card p-4 hover:shadow-lg transition-all duration-300"
+              className="group w-full text-left bg-theme-card border border-theme/10 rounded-xl p-4 hover:border-theme/20 hover:shadow-lg transition-all duration-300"
             >
               
               <div className="flex items-center justify-between mb-4">
@@ -441,28 +460,28 @@ function SuperInvestorStocks({
                   padding="small"
                 />
                 
-                <div className="flex items-center gap-1.5 px-2 py-1 bg-theme-tertiary rounded-lg">
+                <div className="flex items-center gap-1.5 px-2 py-1 bg-theme-secondary rounded-lg">
                   <UserGroupIcon className="w-3 h-3 text-theme-muted" />
-                  <span className="text-micro font-bold text-theme-primary">{item.count}</span>
+                  <span className="text-xs font-bold text-theme-primary">{item.count}</span>
                 </div>
               </div>
 
               <div className="mb-4">
-                <h4 className="text-body font-bold text-theme-primary group-hover:text-green-500 transition-colors mb-1">
+                <h4 className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors mb-1">
                   {item.ticker}
                 </h4>
-                <p className="text-micro text-theme-muted">
+                <p className="text-xs text-theme-muted">
                   {view === 'hidden_gems' ? `${item.count} Investoren` : `${item.count} Käufer`}
                 </p>
               </div>
                             
               {quote ? (
                 <div className="space-y-3">
-                  <div className="text-title font-bold text-theme-primary">
+                  <div className="text-xl font-bold text-theme-primary">
                     ${quote.price.toFixed(2)}
                   </div>
                   
-                  <div className={`inline-flex items-center gap-1.5 text-micro font-bold px-2 py-1 rounded-lg ${
+                  <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
                     quote.changePct >= 0
                       ? 'text-green-400 bg-green-500/20'
                       : 'text-red-400 bg-red-500/20'
@@ -476,11 +495,11 @@ function SuperInvestorStocks({
                   </div>
                 </div>
               ) : (
-                <div className="text-theme-muted text-caption">Lädt...</div>
+                <div className="text-theme-muted text-sm">Lädt...</div>
               )}
 
-              <div className="mt-4 pt-3 border-t border-theme-border">
-                <div className="flex justify-between items-center text-micro">
+              <div className="mt-4 pt-3 border-t border-theme/10">
+                <div className="flex justify-between items-center text-xs">
                   <span className="text-theme-muted">
                     {view === 'hidden_gems' ? 'Gesamt-Wert:' : 'Kauf-Wert:'}
                   </span>
@@ -646,44 +665,101 @@ export default function ModernDashboard() {
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      <div className="w-full px-8 py-12 space-y-12">
+      
+      {/* Professional Header */}
+      <div className="border-b border-theme/5">
+        <div className="w-full px-6 lg:px-8 py-8">
+          
+          {/* Zurück-Link */}
+          <Link
+            href="/analyse"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+          >
+            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            Zurück zur Analyse
+          </Link>
+
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <h1 className="text-3xl font-bold text-theme-primary mb-2">
+                Dashboard
+              </h1>
+              <div className="flex items-center gap-4 text-theme-secondary">
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${marketLoading ? 'bg-amber-400 animate-pulse' : 'bg-green-400'}`}></div>
+                  <span className="text-sm">Live-Kurse</span>
+                </div>
+                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
+                <span className="text-sm">Deutschland: {currentTime.toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' })}</span>
+                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
+                <span className="text-sm">USA: {currentTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' })} EST</span>
+              </div>
+            </div>
+            
+            {/* Quick Actions */}
+            <div className="flex items-center gap-3">
+              <Link
+                href="/analyse/ai"
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200"
+              >
+                <SparklesIcon className="w-4 h-4" />
+                <span className="font-medium">FinClue AI</span>
+              </Link>
+              <Link
+                href="/analyse/watchlist"
+                className="flex items-center gap-2 px-4 py-2 bg-theme-card border border-theme/20 hover:bg-theme-hover text-theme-primary rounded-lg transition-colors duration-200"
+              >
+                <EyeIcon className="w-4 h-4" />
+                <span className="font-medium">Watchlist</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main className="w-full px-6 lg:px-8 py-8 space-y-8">
         
         {/* Market Overview */}
-        <div className="section-modern animate-fade-in-up">
-          <div className="flex items-center justify-between mb-8">
+        <section>
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-headline gradient-text mb-3">Marktübersicht</h1>
-              <p className="text-caption text-theme-muted flex items-center gap-2">
-                <SignalIcon className="w-4 h-4" />
-                Live-Kurse • 
-                Deutschland: {currentTime.toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' })} • 
-                USA: {currentTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' })} EST
+              <h2 className="text-2xl font-bold text-theme-primary mb-2">Marktübersicht</h2>
+              <p className="text-theme-secondary text-sm">
+                Live-Kurse und Performance-Metriken der wichtigsten Indizes
               </p>
             </div>
             
-            <div className="flex items-center gap-2 px-4 py-2 glass-card status-success">
-              <div className={`w-2 h-2 rounded-full ${marketLoading ? 'bg-amber-400 animate-pulse' : 'bg-green-400'}`}></div>
-              <span className="text-caption font-bold">{marketLoading ? 'Lädt...' : 'Live'}</span>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+              marketLoading 
+                ? 'bg-amber-500/20 text-amber-400' 
+                : 'bg-green-500/20 text-green-400'
+            }`}>
+              <div className={`w-2 h-2 rounded-full ${
+                marketLoading ? 'bg-amber-400 animate-pulse' : 'bg-green-400'
+              }`}></div>
+              <span className="text-sm font-bold">
+                {marketLoading ? 'Lädt...' : 'Live'}
+              </span>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {marketData.map((market) => {
               const quote = marketQuotes[market.key]
               const isLoading = marketLoading && !quote
 
               return (
-                <div key={market.name} className="modern-card p-6 group animate-scale-in">
+                <div key={market.name} className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
                   
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{market.flag}</span>
-                      <h3 className="text-theme-primary font-bold text-body">{market.name}</h3>
+                      <h3 className="text-theme-primary font-bold text-lg">{market.name}</h3>
                     </div>
-                    <div className={`text-micro px-3 py-1 rounded-full font-bold ${
+                    <div className={`text-xs px-3 py-1 rounded-full font-bold ${
                       market.status === 'OPEN' 
                         ? 'bg-green-500/20 text-green-400' 
-                        : 'bg-theme-tertiary text-theme-muted'
+                        : 'bg-theme-secondary text-theme-muted'
                     }`}>
                       {market.status === 'OPEN' ? 'Offen' : 'Geschlossen'}
                     </div>
@@ -691,20 +767,20 @@ export default function ModernDashboard() {
                   
                   <div className="space-y-3">
                     {isLoading ? (
-                      <div className="h-8 bg-theme-tertiary rounded-lg animate-pulse"></div>
+                      <div className="h-8 bg-theme-secondary rounded-lg animate-pulse"></div>
                     ) : quote ? (
-                      <div className="text-title font-bold text-theme-primary">
+                      <div className="text-2xl font-bold text-theme-primary">
                         {quote.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </div>
                     ) : (
-                      <div className="text-title font-bold text-theme-muted">--</div>
+                      <div className="text-2xl font-bold text-theme-muted">--</div>
                     )}
                     
                     <div className="flex items-center justify-between">
                       {isLoading ? (
-                        <div className="h-6 bg-theme-tertiary rounded-lg w-20 animate-pulse"></div>
+                        <div className="h-6 bg-theme-secondary rounded-lg w-20 animate-pulse"></div>
                       ) : quote ? (
-                        <div className={`flex items-center gap-2 text-caption font-bold px-3 py-1 rounded-lg ${
+                        <div className={`flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
                           quote.positive 
                             ? 'bg-green-500/20 text-green-400' 
                             : 'bg-red-500/20 text-red-400'
@@ -717,10 +793,10 @@ export default function ModernDashboard() {
                           <span>{quote.changePct >= 0 ? '+' : ''}{quote.changePct.toFixed(2)}%</span>
                         </div>
                       ) : (
-                        <div className="text-caption text-theme-muted">--</div>
+                        <div className="text-sm text-theme-muted">--</div>
                       )}
                       
-                      <div className="text-micro text-theme-muted">
+                      <div className="text-xs text-theme-muted">
                         Vol: {quote?.volume || '--'}
                       </div>
                     </div>
@@ -729,50 +805,50 @@ export default function ModernDashboard() {
               )
             })}
           </div>
-        </div>
+        </section>
 
         {/* Search Section */}
-        <div className="section-modern text-center animate-fade-in-up">
-          <div className="space-y-8 max-w-4xl mx-auto">
+        <section className="text-center">
+          <div className="space-y-6 max-w-4xl mx-auto">
             <div className="space-y-4">
-              <h2 className="text-headline gradient-text">Aktie suchen</h2>
-              <p className="text-body text-theme-muted">Analysiere jede Aktie weltweit mit professionellen Tools und Echtzeit-Daten</p>
+              <h2 className="text-3xl font-bold text-theme-primary">Aktie suchen</h2>
+              <p className="text-lg text-theme-secondary">Analysiere jede Aktie weltweit mit professionellen Tools und Echtzeit-Daten</p>
             </div>
             
-            <ProminentSearchInput
+            <SmartSearchInput
               placeholder="Ticker oder Unternehmen suchen (AAPL, Tesla, SAP...)"
               onSelect={handleTickerSelect}
             />
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-              <span className="text-theme-muted text-caption mr-4">Beliebt:</span>
+              <span className="text-theme-muted text-sm mr-4">Beliebt:</span>
               {['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA'].map((ticker) => (
                 <button
                   key={ticker}
                   onClick={() => handleTickerSelect(ticker)}
-                  className="px-4 py-2 bg-theme-card border border-theme-border hover:bg-theme-tertiary text-theme-primary rounded-lg font-medium transition-all duration-200 text-caption hover:border-green-500/30"
+                  className="px-4 py-2 bg-theme-card border border-theme/20 hover:bg-theme-hover hover:border-green-500/30 text-theme-primary rounded-lg font-medium transition-all duration-200 text-sm"
                 >
                   {ticker}
                 </button>
               ))}
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Layout: Sidebar + Main Content */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
           
           {/* Sidebar */}
-          <div className="xl:col-span-1 space-y-8">
+          <div className="xl:col-span-1 space-y-6">
             
             {/* Recently Analyzed */}
             {lastTicker && (
-              <div className="modern-card p-6 animate-scale-in">
-                <h2 className="text-caption font-bold text-theme-muted uppercase tracking-wide mb-4">Zuletzt analysiert</h2>
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                <h2 className="text-sm font-bold text-theme-muted uppercase tracking-wide mb-4">Zuletzt analysiert</h2>
                 
                 <button
                   onClick={() => handleTickerSelect(lastTicker)}
-                  className="group flex items-center gap-4 p-4 rounded-xl hover:bg-theme-tertiary transition-all duration-200 w-full"
+                  className="group flex items-center gap-4 p-4 rounded-xl hover:bg-theme-secondary transition-all duration-200 w-full"
                 >
                   <Logo 
                     ticker={lastTicker} 
@@ -782,22 +858,22 @@ export default function ModernDashboard() {
                   />
                   
                   <div className="flex-1 text-left">
-                    <h3 className="text-body font-bold text-theme-primary group-hover:text-green-500 transition-colors">
+                    <h3 className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors">
                       {lastTicker}
                     </h3>
-                    <p className="text-micro text-theme-muted">
+                    <p className="text-sm text-theme-muted">
                       Zur Analyse
                     </p>
                   </div>
                   
-                  <ArrowRightIcon className="w-5 h-5 text-theme-muted group-hover:text-green-500 transition-colors" />
+                  <ArrowRightIcon className="w-5 h-5 text-theme-muted group-hover:text-green-400 transition-colors" />
                 </button>
               </div>
             )}
 
             {/* Quick Actions */}
-            <div className="modern-card p-6 animate-scale-in">
-              <h2 className="text-caption font-bold text-theme-muted uppercase tracking-wide mb-4">Schnellzugriff</h2>
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+              <h2 className="text-sm font-bold text-theme-muted uppercase tracking-wide mb-4">Schnellzugriff</h2>
               
               <div className="space-y-2">
                 {[
@@ -809,10 +885,10 @@ export default function ModernDashboard() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="group flex items-center gap-3 p-3 rounded-xl hover:bg-theme-tertiary transition-all duration-200"
+                    className="group flex items-center gap-3 p-3 rounded-xl hover:bg-theme-secondary transition-all duration-200"
                   >
-                    <item.icon className="w-5 h-5 text-theme-muted group-hover:text-green-500 transition-colors" />
-                    <span className="text-caption text-theme-primary group-hover:text-green-500 transition-colors">
+                    <item.icon className="w-5 h-5 text-theme-muted group-hover:text-green-400 transition-colors" />
+                    <span className="text-sm text-theme-primary group-hover:text-green-400 transition-colors">
                       {item.label}
                     </span>
                   </Link>
@@ -823,137 +899,135 @@ export default function ModernDashboard() {
 
           {/* Main Content */}
           <div className="xl:col-span-3">
-            <div className="section-modern animate-fade-in-up">
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-16">
-                
-                {/* Popular Stocks */}
-                <div>
-                  <div className="flex items-center justify-between mb-8">
-                    <div>
-                      <h2 className="text-title font-bold text-theme-primary mb-3">Beliebte Aktien</h2>
-                      <p className="text-caption text-theme-muted">Mit Live-Kursen und Performance-Metriken</p>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+              
+              {/* Popular Stocks */}
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-theme-primary mb-2">Beliebte Aktien</h2>
+                    <p className="text-sm text-theme-muted">Mit Live-Kursen und Performance-Metriken</p>
+                  </div>
+                  
+                  {loading && (
+                    <div className="flex items-center gap-2 px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg">
+                      <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-xs font-bold">Lädt...</span>
                     </div>
-                    
-                    {loading && (
-                      <div className="flex items-center gap-2 px-4 py-2 glass-card">
-                        <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
-                        <span className="text-micro font-bold text-green-400">Lädt...</span>
-                      </div>
-                    )}
-                  </div>
+                  )}
+                </div>
 
-                  <div className="grid grid-cols-2 gap-6">
-                    {POPULAR_STOCKS.slice(0, 4).map((ticker) => {
-                      const quote = quotes[ticker.toLowerCase()]
-                      const isLoading = loading && !quote
+                <div className="grid grid-cols-2 gap-4">
+                  {POPULAR_STOCKS.slice(0, 4).map((ticker) => {
+                    const quote = quotes[ticker.toLowerCase()]
+                    const isLoading = loading && !quote
 
-                      return (
-                        <button
-                          key={ticker}
-                          onClick={() => handleTickerSelect(ticker)}
-                          className="text-left modern-card p-6 group hover:shadow-xl transition-all duration-300"
-                        >
-                          
-                          <div className="flex items-center justify-between mb-4">
-                            <Logo 
-                              ticker={ticker} 
-                              alt={`${ticker} Logo`}
-                              className="w-10 h-10 rounded-lg"
-                              padding="small"
-                            />
-                            {quote && (
-                              <div className={`w-3 h-3 rounded-full ${
-                                quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
-                              }`}></div>
-                            )}
-                          </div>
-
-                          <h3 className="text-body font-bold text-theme-primary mb-4 group-hover:text-green-500 transition-colors">
-                            {ticker}
-                          </h3>
-                                        
-                          {isLoading ? (
-                            <div className="space-y-3">
-                              <div className="h-6 bg-theme-tertiary rounded-lg animate-pulse"></div>
-                              <div className="h-5 bg-theme-tertiary rounded-lg w-2/3 animate-pulse"></div>
-                            </div>
-                          ) : quote ? (
-                            <div className="space-y-3">
-                              <div className="text-title font-bold text-theme-primary">
-                                ${quote.price.toFixed(2)}
-                              </div>
-                              
-                              <div className={`inline-flex items-center gap-1.5 text-micro font-bold px-2 py-1 rounded-lg ${
-                                quote.changePct >= 0
-                                  ? 'text-green-400 bg-green-500/20'
-                                  : 'text-red-400 bg-red-500/20'
-                              }`}>
-                                {quote.changePct >= 0 ? (
-                                  <ArrowTrendingUpIcon className="w-3 h-3" />
-                                ) : (
-                                  <ArrowTrendingDownIcon className="w-3 h-3" />
-                                )}
-                                <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
-                              </div>
-
-                              <div className="pt-3 space-y-2 text-micro border-t border-theme-border">
-                                <div className="flex justify-between">
-                                  <span className="text-theme-muted">1M:</span>
-                                  {quote.perf1M !== null && quote.perf1M !== undefined ? (
-                                    <span className={`font-bold ${
-                                      quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
-                                    }`}>
-                                      {quote.perf1M >= 0 ? '+' : ''}{quote.perf1M.toFixed(1)}%
-                                    </span>
-                                  ) : (
-                                    <span className="text-theme-muted">–</span>
-                                  )}
-                                </div>
-                                <div className="flex justify-between">
-                                  <span className="text-theme-muted">YTD:</span>
-                                  {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
-                                    <span className={`font-bold ${
-                                      quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
-                                    }`}>
-                                      {quote.perfYTD >= 0 ? '+' : ''}{quote.perfYTD.toFixed(1)}%
-                                    </span>
-                                  ) : (
-                                    <span className="text-theme-muted">–</span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="text-theme-muted text-caption">Daten nicht verfügbar</div>
+                    return (
+                      <button
+                        key={ticker}
+                        onClick={() => handleTickerSelect(ticker)}
+                        className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
+                      >
+                        
+                        <div className="flex items-center justify-between mb-4">
+                          <Logo 
+                            ticker={ticker} 
+                            alt={`${ticker} Logo`}
+                            className="w-10 h-10 rounded-lg"
+                            padding="small"
+                          />
+                          {quote && (
+                            <div className={`w-3 h-3 rounded-full ${
+                              quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
+                            }`}></div>
                           )}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
+                        </div>
 
-                {/* Hidden Gems */}
-                <div>
-                  <SuperInvestorStocks 
-                    quotes={quotes}
-                    onSelect={handleTickerSelect}
-                  />
+                        <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
+                          {ticker}
+                        </h3>
+                                      
+                        {isLoading ? (
+                          <div className="space-y-3">
+                            <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
+                            <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
+                          </div>
+                        ) : quote ? (
+                          <div className="space-y-3">
+                            <div className="text-xl font-bold text-theme-primary">
+                              ${quote.price.toFixed(2)}
+                            </div>
+                            
+                            <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
+                              quote.changePct >= 0
+                                ? 'text-green-400 bg-green-500/20'
+                                : 'text-red-400 bg-red-500/20'
+                            }`}>
+                              {quote.changePct >= 0 ? (
+                                <ArrowTrendingUpIcon className="w-3 h-3" />
+                              ) : (
+                                <ArrowTrendingDownIcon className="w-3 h-3" />
+                              )}
+                              <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
+                            </div>
+
+                            <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
+                              <div className="flex justify-between">
+                                <span className="text-theme-muted">1M:</span>
+                                {quote.perf1M !== null && quote.perf1M !== undefined ? (
+                                  <span className={`font-bold ${
+                                    quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
+                                  }`}>
+                                    {quote.perf1M >= 0 ? '+' : ''}{quote.perf1M.toFixed(1)}%
+                                  </span>
+                                ) : (
+                                  <span className="text-theme-muted">–</span>
+                                )}
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-theme-muted">YTD:</span>
+                                {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
+                                  <span className={`font-bold ${
+                                    quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
+                                  }`}>
+                                    {quote.perfYTD >= 0 ? '+' : ''}{quote.perfYTD.toFixed(1)}%
+                                  </span>
+                                ) : (
+                                  <span className="text-theme-muted">–</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
+                        )}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
-              {/* Footer */}
-              <div className="mt-16 pt-8 border-t border-theme-border text-center">
-                <p className="text-micro text-theme-muted flex items-center justify-center gap-2">
-                  <ClockIcon className="w-4 h-4" />
-                  YTD basiert auf letztem Handelstag 2024 • 
-                  1M basiert auf ~30 Kalendertagen • 
-                  Alle Daten via FMP API • Live-Updates alle 15 Minuten
-                </p>
+              {/* Hidden Gems */}
+              <div>
+                <SuperInvestorStocks 
+                  quotes={quotes}
+                  onSelect={handleTickerSelect}
+                />
               </div>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-12 pt-6 border-t border-theme/10 text-center">
+              <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
+                <ClockIcon className="w-4 h-4" />
+                YTD basiert auf letztem Handelstag 2024 • 
+                1M basiert auf ~30 Kalendertagen • 
+                Alle Daten via FMP API • Live-Updates alle 15 Minuten
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

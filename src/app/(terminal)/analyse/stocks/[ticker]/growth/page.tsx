@@ -1,0 +1,106 @@
+// src/app/(terminal)/analyse/stocks/[ticker]/growth/page.tsx
+import React from 'react'
+import { stocks } from '@/data/stocks'
+import Link from 'next/link'
+import Logo from '@/components/Logo'
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
+import GrowthAnalysisClient from '@/components/GrowthAnalysisClient'
+
+// ISR: jede Seite wird nach 3600 Sekunden neu gebaut
+export const revalidate = 3600
+
+// Nur diese wenigen Ticker werden beim Build bereits statisch erzeugt:
+const FEATURED_TICKERS = ['NVDA', 'AAPL', 'AMZN', 'GOOGL', 'MSFT', 'TSLA']
+
+export async function generateStaticParams() {
+  return FEATURED_TICKERS.map((t) => ({
+    ticker: t.toLowerCase(),
+  }))
+}
+
+// Metadata für SEO
+export async function generateMetadata({ params }: { params: { ticker: string } }) {
+  const ticker = params.ticker.toUpperCase()
+  const stock = stocks.find((s) => s.ticker === ticker)
+  
+  return {
+    title: stock 
+      ? `${stock.name} (${ticker}) - Wachstumsanalyse | FinClue`
+      : `${ticker} - Wachstumsanalyse | FinClue`,
+    description: stock
+      ? `Detaillierte Wachstumsanalyse von ${stock.name} (${ticker}): Revenue Growth, EPS Growth, CAGR-Berechnungen und Forward Estimates.`
+      : `Wachstumsanalyse für ${ticker} mit Revenue Growth, EPS Growth und historischen Trends.`,
+  }
+}
+
+export default function GrowthAnalysisPage({ params }: { params: { ticker: string } }) {
+  const ticker = params.ticker.toUpperCase()
+  const stock = stocks.find((s) => s.ticker === ticker)
+
+  // Falls die Aktie nicht existiert, gib 404 aus
+  if (!stock) {
+    return (
+      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-theme-primary mb-4">Aktie nicht gefunden</h1>
+          <p className="text-theme-secondary mb-8">
+            Die Aktie mit dem Symbol "{ticker}" konnte nicht gefunden werden.
+          </p>
+          <Link
+            href="/analyse"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            Zurück zur Analyse
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-theme-primary">
+      {/* ✅ FULL WIDTH HEADER */}
+      <div className="border-b border-theme/5">
+        <div className="w-full px-6 lg:px-8 py-6">
+          
+          {/* Zurück-Link */}
+          <Link
+            href={`/analyse/stocks/${ticker.toLowerCase()}`}
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+          >
+            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            Zurück zur Aktienanalyse
+          </Link>
+
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
+              <Logo
+                ticker={ticker}
+                alt={`${ticker} Logo`}
+                className="w-8 h-8"
+              />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-theme-primary">
+                Wachstumsanalyse: {stock.name}
+              </h1>
+              <div className="flex items-center gap-3 mt-1">
+                <span className="text-lg text-green-400 font-semibold">{ticker}</span>
+                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
+                <span className="text-sm text-theme-muted">
+                  Umsatzwachstum • EPS Wachstum • CAGR-Trends
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ FULL WIDTH MAIN CONTENT */}
+      <main className="w-full px-6 lg:px-8 py-8">
+        <GrowthAnalysisClient ticker={ticker} />
+      </main>
+    </div>
+  )
+}

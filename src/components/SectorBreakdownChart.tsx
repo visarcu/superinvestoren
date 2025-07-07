@@ -1,8 +1,9 @@
-// src/components/SectorBreakdownChart.tsx - VOLLSTÄNDIG mit korrekter deutscher Sektor-Unterstützung
+// src/components/SectorBreakdownChart.tsx - VOLLSTÄNDIG mit korrekter deutscher Sektor-Unterstützung + Currency Context
 'use client'
 
 import React from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+import { useCurrency } from '@/contexts/CurrencyContext'
 
 interface SectorBreakdownProps {
   data: Array<{
@@ -68,6 +69,8 @@ const getSectorColor = (sector: string, index: number): string => {
 }
 
 const CustomTooltip = ({ active, payload }: any) => {
+  const { formatLargeNumber } = useCurrency()
+  
   if (active && payload && payload.length) {
     const data = payload[0].payload
     return (
@@ -75,7 +78,7 @@ const CustomTooltip = ({ active, payload }: any) => {
         <p className="text-white font-semibold mb-1">{data.sector}</p>
         <div className="space-y-1 text-sm">
           <p className="text-green-400 font-medium">
-            ${(data.value / 1000000000).toFixed(1)}B
+            {formatLargeNumber(data.value)}
           </p>
           <p className="text-gray-400">
             {data.percentage.toFixed(1)}% • {data.count} Position{data.count !== 1 ? 'en' : ''}
@@ -88,6 +91,8 @@ const CustomTooltip = ({ active, payload }: any) => {
 }
 
 export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
+  const { formatLargeNumber } = useCurrency()
+  
   // Bereite Daten für Chart vor
   const sortedData = [...data].sort((a, b) => b.value - a.value)
   const topSectors = sortedData.slice(0, 8)
@@ -205,10 +210,10 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
               </div>
             </div>
             
-            {/* ✅ BEAUTIFUL: Values */}
+            {/* ✅ BEAUTIFUL: Values mit Currency Context */}
             <div className="text-right shrink-0 ml-4">
               <div className="text-white font-semibold">
-                ${(sector.value / 1000000000).toFixed(1)}B
+                {formatLargeNumber(sector.value)}
               </div>
               <div className="text-gray-400 text-sm">
                 {sector.percentage.toFixed(1)}%
@@ -218,7 +223,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
         ))}
       </div>
       
-      {/* ✅ BEAUTIFUL: Summary Stats */}
+      {/* ✅ BEAUTIFUL: Summary Stats mit Currency Context */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-800/50">
         <div className="text-center">
           <div className="text-white font-semibold text-lg">
@@ -246,7 +251,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
         </div>
         <div className="text-center">
           <div className="text-white font-semibold text-lg">
-            ${(chartData.reduce((sum, s) => sum + s.value, 0) / 1000000000).toFixed(0)}B
+            {formatLargeNumber(chartData.reduce((sum, s) => sum + s.value, 0), { showCurrency: false })}
           </div>
           <div className="text-gray-500 text-xs uppercase tracking-wide">
             Gesamtwert

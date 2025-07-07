@@ -1,28 +1,30 @@
-// src/components/InvestorTabs.tsx - UPDATED mit Analytics Tab
+// src/components/InvestorTabs.tsx - FINALE VERSION: 6/5 Tabs mit Filings getrennt
 'use client'
 
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { 
   ChartBarIcon,
+  ArrowsRightLeftIcon, // Transaktionen
+  CurrencyDollarIcon,  // Dividenden
+  ChartPieIcon,        // Analytics
+  DocumentTextIcon,    // Filings - EIGENER TAB!
+  SparklesIcon,        // AI - ALLEINE!
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
-  BoltIcon,
-  SparklesIcon,
-  DocumentTextIcon,
-  ChartPieIcon // ✅ NEU für Analytics
+  BoltIcon
 } from '@heroicons/react/24/outline'
 import { stocks, Stock } from '@/data/stocks'
 import Logo from '@/components/Logo'
 
 interface Position {
-  cusip:       string
-  name:        string
-  shares:      number
-  value:       number
+  cusip: string
+  name: string
+  shares: number
+  value: number
   deltaShares: number
-  pctDelta:    number
-  ticker?:     string
+  pctDelta: number
+  ticker?: string
 }
 
 interface HistoryGroup {
@@ -30,8 +32,20 @@ interface HistoryGroup {
   items: Position[]
 }
 
-// ✅ UPDATED: Analytics Tab hinzugefügt und EXPORTIERT
-export type Tab = 'holdings' | 'buys' | 'sells' | 'activity' | 'analytics' | 'ai' | 'filings'
+// ✅ FINALE Tab-Struktur: 6 Tabs für Buffett/Gates, 5 für andere
+export type Tab = 'portfolio' | 'transactions' | 'dividends' | 'analytics' | 'filings' | 'ai'
+
+// Sub-Filter für Transaktionen
+type TransactionFilter = 'all' | 'buys' | 'sells'
+
+// Tab-Konfiguration Interface
+interface TabConfig {
+  key: Tab
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+  isHighlighted?: boolean
+  description?: string
+}
 
 // Mapping von CUSIP → Ticker
 const cusipToTicker: Record<string,string> = {}
@@ -45,79 +59,126 @@ export default function InvestorTabs({
   holdings,
   buys,
   sells,
+  investorSlug,
 }: {
   tab: Tab
   onTabChange: (t: Tab) => void
   holdings: Position[]
   buys: HistoryGroup[]
   sells: HistoryGroup[]
+  investorSlug: string
 }) {
+  const [transactionFilter, setTransactionFilter] = useState<TransactionFilter>('all')
   const [showAll, setShowAll] = useState(false)
 
-  const fmtShares  = new Intl.NumberFormat('de-DE')
-  const fmtValue   = new Intl.NumberFormat('de-DE', {
-    style:    'currency',
+  // ✅ FINALE Tab-Konfiguration: Filings immer dabei, Dividenden nur für bestimmte
+  const getTabsForInvestor = (slug: string): TabConfig[] => {
+    const baseTabs: TabConfig[] = [
+      { 
+        key: 'portfolio', 
+        label: 'Portfolio', 
+        icon: ChartBarIcon,
+        description: 'Aktuelle Bestände & Übersicht'
+      },
+      { 
+        key: 'transactions', 
+        label: 'Transaktionen', 
+        icon: ArrowsRightLeftIcon,
+        description: 'Käufe & Verkäufe'
+      },
+    ]
+
+    // ✅ Dividenden-Tab nur für Dividend-fokussierte Investoren
+    if (['buffett', 'gates'].includes(slug)) {
+      baseTabs.push({ 
+        key: 'dividends', 
+        label: 'Dividenden', 
+        icon: CurrencyDollarIcon,
+        isHighlighted: true,
+        description: 'Dividenden-Strategie & Yield-Analyse'
+      })
+    }
+
+    // ✅ Analytics, Filings und AI sind IMMER dabei
+    baseTabs.push(
+      { 
+        key: 'analytics', 
+        label: 'Analytics', 
+        icon: ChartPieIcon,
+        description: 'Sektoren & Deep Analysis'
+      },
+      { 
+        key: 'filings', 
+        label: 'Filings', 
+        icon: DocumentTextIcon,
+        description: '13F Dokumente & Filing-Historie'
+      },
+      { 
+        key: 'ai', 
+        label: 'AI Chat', 
+        icon: SparklesIcon,
+        description: 'Intelligente Portfolio-Analyse'
+      }
+    )
+
+    return baseTabs
+  }
+
+  const availableTabs = getTabsForInvestor(investorSlug)
+
+  // Formatierung
+  const fmtShares = new Intl.NumberFormat('de-DE')
+  const fmtValue = new Intl.NumberFormat('de-DE', {
+    style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0,
   })
   const fmtPercent = new Intl.NumberFormat('de-DE', {
-    style:                'percent',
+    style: 'percent',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })
 
-  const labels: Record<Tab,string> = {
-    holdings: 'Bestände',
-    buys:     'Käufe',
-    sells:    'Verkäufe',
-    activity: 'Aktivitäten',
-    analytics: 'Analytik', // ✅ NEU
-    ai:       'Smart AI',
-    filings:  'Filings'
-  }
-
-  const tabIcons: Record<Tab, React.ComponentType<{ className?: string }>> = {
-    holdings: ChartBarIcon,
-    buys: ArrowTrendingUpIcon,
-    sells: ArrowTrendingDownIcon,
-    activity: BoltIcon,
-    analytics: ChartPieIcon, // ✅ NEU
-    ai: SparklesIcon,
-    filings: DocumentTextIcon
-  }
-
-  // kombiniere Käufe + Verkäufe je Quartal
-  const activity: HistoryGroup[] = buys.map((bGroup, idx) => {
+  // Kombiniere Käufe + Verkäufe für Transaktionen-Tab
+  const allTransactions: HistoryGroup[] = buys.map((bGroup, idx) => {
     const sGroup = sells[idx] || { period: bGroup.period, items: [] }
     return {
       period: bGroup.period,
-      items: [ ...bGroup.items, ...sGroup.items ],
+      items: [...bGroup.items, ...sGroup.items].sort((a, b) => 
+        Math.abs(b.value) - Math.abs(a.value)
+      ),
     }
   })
 
-  // nur die ersten 20 Bestände, wenn showAll=false
+  // Gefilterte Transaktionen basierend auf Filter
+  const getFilteredTransactions = (): HistoryGroup[] => {
+    switch (transactionFilter) {
+      case 'buys': return buys
+      case 'sells': return sells
+      default: return allTransactions
+    }
+  }
+
+  // Holdings für Portfolio-Tab
   const displayedHoldings = showAll ? holdings : holdings.slice(0, 20)
 
-  // HILFSFUNKTION: Ticker ermitteln
+  // Hilfsfunktionen
   const getTicker = (position: Position): string | undefined => {
     if (position.ticker) return position.ticker
     return cusipToTicker[position.cusip]
   }
 
-  // ✅ FIXED: Firmenname ohne Ticker extrahieren
   const getCleanCompanyName = (position: Position): string => {
     let name = position.name
     const ticker = getTicker(position)
     
     if (ticker && name) {
-      // Entferne Ticker am Anfang wenn vorhanden
       if (name.startsWith(`${ticker} - `)) {
-        return name.substring(ticker.length + 3) // Entferne "TICKER - "
+        return name.substring(ticker.length + 3)
       }
       if (name.startsWith(`${ticker} – `)) {
-        return name.substring(ticker.length + 3) // Entferne "TICKER – " (langer Dash)
+        return name.substring(ticker.length + 3)
       }
-      // Falls Name komplett gleich Ticker ist, verwende Ticker
       if (name === ticker) {
         return ticker
       }
@@ -126,7 +187,7 @@ export default function InvestorTabs({
     return name
   }
 
-  // ✅ FIXED: Name & Ticker ohne Redundanz
+  // Name & Ticker Komponente
   const NameAndTicker = ({ position }: { position: Position }) => {
     const ticker = getTicker(position)
     const cleanName = getCleanCompanyName(position)
@@ -137,7 +198,6 @@ export default function InvestorTabs({
           href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
           className="flex items-center gap-3 group"
         >
-          {/* Logo */}
           <div className="w-6 h-6 flex-shrink-0">
             <Logo
               ticker={ticker}
@@ -148,11 +208,9 @@ export default function InvestorTabs({
           </div>
           
           <div className="min-w-0 flex-1">
-            {/* Grüner Ticker */}
             <div className="font-semibold text-green-400 group-hover:text-green-300 transition-colors">
               {ticker}
             </div>
-            {/* Sauberer Firmenname (ohne Ticker Wiederholung) */}
             {cleanName !== ticker && (
               <div className="text-sm text-gray-400 font-normal truncate">
                 {cleanName}
@@ -163,7 +221,6 @@ export default function InvestorTabs({
       )
     }
     
-    // Fallback ohne Ticker
     return (
       <div className="flex items-center gap-3">
         <div className="w-6 h-6 flex-shrink-0 bg-gray-700 rounded-full"></div>
@@ -172,118 +229,154 @@ export default function InvestorTabs({
     )
   }
 
-  // Hilfsfunktion für Tab-Styling
-  const getTabClassName = (t: Tab) => {
-    const baseClasses = "px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2"
-    
-    if (tab === t) {
-      switch (t) {
-        case 'holdings': return `${baseClasses} bg-gray-700 text-white shadow-lg`
-        case 'buys': return `${baseClasses} bg-green-700 text-white shadow-lg`
-        case 'sells': return `${baseClasses} bg-red-700 text-white shadow-lg`
-        case 'activity': return `${baseClasses} bg-blue-700 text-white shadow-lg`
-        case 'analytics': return `${baseClasses} bg-indigo-700 text-white shadow-lg` // ✅ NEU
-        case 'ai': return `${baseClasses} bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg`
-        case 'filings': return `${baseClasses} bg-blue-700 text-white shadow-lg`
-        default: return baseClasses
-      }
-    }
-    
-    return `${baseClasses} bg-gray-800/50 text-gray-400 hover:bg-gray-700 hover:text-white`
-  }
-
   return (
     <div>
-      {/* — Tabs — */}
+      {/* ✅ Tab Navigation - Jetzt mit bis zu 6 Tabs */}
       <div className="flex flex-wrap gap-2 mb-6">
-        {(['holdings','buys','sells','activity','analytics','ai','filings'] as const).map(t => {
-          const Icon = tabIcons[t]
-          return (
-            <button
-              key={t}
-              onClick={() => onTabChange(t)}
-              className={getTabClassName(t)}
-            >
-              <Icon className="w-4 h-4" />
-              {labels[t]}
-            </button>
-          )
-        })}
+        {availableTabs.map(({ key, label, icon: Icon, isHighlighted, description }) => (
+          <button
+            key={key}
+            onClick={() => onTabChange(key)}
+            className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 relative group ${
+              tab === key
+                ? isHighlighted
+                  ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg shadow-green-500/25'
+                  : key === 'ai'
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25'
+                    : key === 'filings'
+                      ? 'bg-blue-600 text-white shadow-lg'
+                      : 'bg-gray-700 text-white shadow-lg'
+                : 'bg-gray-800/50 text-gray-400 hover:bg-gray-700 hover:text-white'
+            }`}
+            title={description}
+          >
+            <Icon className="w-4 h-4" />
+            {label}
+            {isHighlighted && tab !== key && (
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            )}
+          </button>
+        ))}
       </div>
 
-      {/* Conditionally render content based on tab */}
-      {tab === 'ai' || tab === 'filings' || tab === 'analytics' ? (
-        <div>
-          {/* AI, Filings und Analytics Tab Content wird von der Parent-Komponente gerendert */}
-        </div>
-      ) : (
-        /* — Tabelle (clean, nur Trennlinien) — */
+      {/* Tab Content - Nur Portfolio und Transaktionen werden hier gerendert */}
+      {tab === 'portfolio' || tab === 'transactions' ? (
         <div className="bg-gray-900/30 border border-gray-800 rounded-xl overflow-hidden backdrop-blur-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-gray-100">
-              <thead>
-                <tr className="text-sm text-gray-400 bg-gray-800/50">
-                  {tab === 'holdings' ? (
-                    <>
-                      <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
-                      <th className="text-right px-6 py-4 font-medium">Aktien</th>
-                      <th className="text-right px-6 py-4 font-medium">Wert (USD)</th>
-                      <th className="text-right px-6 py-4 font-medium">Anteil</th>
-                      <th className="text-right px-6 py-4 font-medium">Letzte Aktivität</th>
-                    </>
-                  ) : (
-                    <>
-                      <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
-                      <th className="text-right px-6 py-4 font-medium">Aktien</th>
-                      <th className="text-right px-6 py-4 font-medium">Δ Aktien</th>
-                      <th className="text-right px-6 py-4 font-medium">% Veränderung</th>
-                    </>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {/* — Bestände — */}
-                {tab === 'holdings' && displayedHoldings.map((p, i) => (
-                  <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <NameAndTicker position={p} />
-                    </td>
-                    <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
-                    <td className="px-6 py-4 text-right font-mono font-semibold">{fmtValue.format(p.value)}</td>
-                    <td className="px-6 py-4 text-right font-mono">
-                      {fmtPercent.format(p.value / holdings.reduce((s,x)=>s+x.value,0))}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      {p.deltaShares > 0
-                        ? (p.pctDelta === 0
-                            ? <span className="text-green-400 font-medium">Neueinkauf</span>
-                            : <span className="text-green-400 font-medium">
-                                Hinzugefügt {fmtPercent.format(p.pctDelta)}
-                              </span>
-                          )
-                        : p.deltaShares < 0
-                          ? <span className="text-red-400 font-medium">
-                              Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}
-                            </span>
-                          : <span className="text-gray-500">–</span>
-                      }
-                    </td>
+          
+          {/* PORTFOLIO TAB */}
+          {tab === 'portfolio' && (
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-gray-100">
+                <thead>
+                  <tr className="text-sm text-gray-400 bg-gray-800/50">
+                    <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
+                    <th className="text-right px-6 py-4 font-medium">Aktien</th>
+                    <th className="text-right px-6 py-4 font-medium">Wert (USD)</th>
+                    <th className="text-right px-6 py-4 font-medium">Anteil</th>
+                    <th className="text-right px-6 py-4 font-medium">Letzte Aktivität</th>
                   </tr>
-                ))}
+                </thead>
+                <tbody>
+                  {displayedHoldings.map((p, i) => (
+                    <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                      <td className="px-6 py-4">
+                        <NameAndTicker position={p} />
+                      </td>
+                      <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
+                      <td className="px-6 py-4 text-right font-mono font-semibold">{fmtValue.format(p.value)}</td>
+                      <td className="px-6 py-4 text-right font-mono">
+                        {fmtPercent.format(p.value / holdings.reduce((s,x)=>s+x.value,0))}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        {p.deltaShares > 0
+                          ? (p.pctDelta === 0
+                              ? <span className="text-green-400 font-medium">Neueinkauf</span>
+                              : <span className="text-green-400 font-medium">
+                                  Hinzugefügt {fmtPercent.format(p.pctDelta)}
+                                </span>
+                            )
+                          : p.deltaShares < 0
+                            ? <span className="text-red-400 font-medium">
+                                Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}
+                              </span>
+                            : <span className="text-gray-500">–</span>
+                        }
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-                {/* — Käufe / Verkäufe / Aktivitäten — */}
-                {(tab === 'buys' || tab === 'sells' || tab === 'activity') && (
-                  (tab === 'buys' ? buys : tab === 'sells' ? sells : activity)
-                    .map((group, gi) => (
+              {/* Show All Button */}
+              {holdings.length > 20 && (
+                <div className="border-t border-gray-800 p-4 text-center bg-gray-800/30">
+                  <button
+                    onClick={() => setShowAll(!showAll)}
+                    className="px-6 py-2 text-sm rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors font-medium"
+                  >
+                    {showAll
+                      ? 'Weniger Positionen anzeigen'
+                      : `Alle ${holdings.length} Positionen anzeigen`}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TRANSACTIONS TAB mit Filter */}
+          {tab === 'transactions' && (
+            <div>
+              {/* Filter Header */}
+              <div className="flex flex-wrap gap-2 p-4 border-b border-gray-800 bg-gray-800/20">
+                <div className="flex items-center gap-2 mr-4">
+                  <ArrowsRightLeftIcon className="w-4 h-4 text-gray-400" />
+                  <span className="text-sm text-gray-400 font-medium">Filter:</span>
+                </div>
+                
+                {[
+                  { key: 'all' as TransactionFilter, label: 'Alle', icon: BoltIcon, count: allTransactions.reduce((sum, g) => sum + g.items.length, 0) },
+                  { key: 'buys' as TransactionFilter, label: 'Käufe', icon: ArrowTrendingUpIcon, count: buys.reduce((sum, g) => sum + g.items.length, 0) },
+                  { key: 'sells' as TransactionFilter, label: 'Verkäufe', icon: ArrowTrendingDownIcon, count: sells.reduce((sum, g) => sum + g.items.length, 0) },
+                ].map(({ key, label, icon: Icon, count }) => (
+                  <button
+                    key={key}
+                    onClick={() => setTransactionFilter(key)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                      transactionFilter === key
+                        ? 'bg-blue-600 text-white shadow-lg'
+                        : 'bg-gray-700/50 text-gray-400 hover:text-white hover:bg-gray-700'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {label}
+                    <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                      transactionFilter === key
+                        ? 'bg-white/20 text-white'
+                        : 'bg-gray-600/50 text-gray-500'
+                    }`}>
+                      {count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Transaktions-Tabelle */}
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-gray-100">
+                  <thead>
+                    <tr className="text-sm text-gray-400 bg-gray-800/50">
+                      <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
+                      <th className="text-right px-6 py-4 font-medium">Δ Aktien</th>
+                      <th className="text-right px-6 py-4 font-medium">Typ</th>
+                      <th className="text-right px-6 py-4 font-medium">% Veränderung</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getFilteredTransactions().map((group, gi) => (
                       <React.Fragment key={gi}>
                         {/* Quartals-Header */}
                         <tr>
-                          <td colSpan={5} className="
-                            bg-gray-800/70
-                            px-6 py-3
-                            border-t border-gray-700
-                            font-bold text-white uppercase tracking-wide text-sm
-                          ">
+                          <td colSpan={4} className="bg-gray-800/70 px-6 py-3 border-t border-gray-700 font-bold text-white uppercase tracking-wide text-sm">
                             {group.period}
                           </td>
                         </tr>
@@ -294,15 +387,20 @@ export default function InvestorTabs({
                                 <td className="px-6 py-4">
                                   <NameAndTicker position={p} />
                                 </td>
-                                <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
                                 <td className="px-6 py-4 text-right">
-                                  <span className={`
-                                    inline-block px-3 py-1 text-sm rounded-full font-medium
-                                    ${p.deltaShares > 0
+                                  <span className={`inline-block px-3 py-1 text-sm rounded-full font-medium ${
+                                    p.deltaShares > 0
                                       ? 'bg-green-500/20 text-green-300 border border-green-500/30'
-                                      : 'bg-red-500/20 text-red-300 border border-red-500/30'}
-                                  `}>
+                                      : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                                  }`}>
                                     {p.deltaShares > 0 ? '+' : ''}{fmtShares.format(p.deltaShares)}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 text-right">
+                                  <span className={`text-sm font-medium ${
+                                    p.deltaShares > 0 ? 'text-green-400' : 'text-red-400'
+                                  }`}>
+                                    {p.deltaShares > 0 ? 'Kauf' : 'Verkauf'}
                                   </span>
                                 </td>
                                 <td className="px-6 py-4 text-right font-mono">
@@ -318,23 +416,23 @@ export default function InvestorTabs({
                             ))
                           : (
                             <tr>
-                              <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                              <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                                 <div className="flex flex-col items-center gap-2">
                                   <div className="w-12 h-12 bg-gray-800/50 rounded-full flex items-center justify-center">
-                                    {tab === 'buys' ? (
+                                    {transactionFilter === 'buys' ? (
                                       <ArrowTrendingUpIcon className="w-6 h-6 text-gray-600" />
-                                    ) : tab === 'sells' ? (
+                                    ) : transactionFilter === 'sells' ? (
                                       <ArrowTrendingDownIcon className="w-6 h-6 text-gray-600" />
                                     ) : (
                                       <BoltIcon className="w-6 h-6 text-gray-600" />
                                     )}
                                   </div>
                                   <p className="text-sm">
-                                    {tab === 'buys'
+                                    {transactionFilter === 'buys'
                                       ? 'Keine Käufe in diesem Quartal'
-                                      : tab === 'sells'
+                                      : transactionFilter === 'sells'
                                         ? 'Keine Verkäufe in diesem Quartal'
-                                        : 'Keine Aktivitäten in diesem Quartal'}
+                                        : 'Keine Transaktionen in diesem Quartal'}
                                   </p>
                                 </div>
                               </td>
@@ -342,25 +440,17 @@ export default function InvestorTabs({
                           )
                         }
                       </React.Fragment>
-                    ))
-                )}
-              </tbody>
-            </table>
-          </div>
-
-          {/* — Button zum Ein-/Ausklappen — */}
-          {tab === 'holdings' && holdings.length > 20 && (
-            <div className="border-t border-gray-800 p-4 text-center bg-gray-800/30">
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="px-6 py-2 text-sm rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors font-medium"
-              >
-                {showAll
-                  ? 'Weniger Positionen anzeigen'
-                  : `Alle ${holdings.length} Positionen anzeigen`}
-              </button>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
+        </div>
+      ) : (
+        // Dividends, Analytics, Filings, AI Content wird von Parent-Komponente gerendert
+        <div>
+          {/* Content für dividends, analytics, filings, ai wird in parent page.tsx gehandhabt */}
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-// /components/PortfolioAnalysisInline.tsx - Öffentlich für alle User
+// /components/PortfolioAnalysisInline.tsx - Öffentlich für alle User + Currency Context
 import React, { useState } from 'react'
 import { 
   ArrowTrendingUpIcon, 
@@ -7,6 +7,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon
 } from '@heroicons/react/24/outline'
+import { useCurrency } from '@/contexts/CurrencyContext'
 
 interface Position {
   cusip: string
@@ -89,7 +90,7 @@ function generateCleanInsights(positions: Position[], investorName: string): Ins
   return insights.slice(0, 4) // Max 4 insights
 }
 
-function generateAdditionalInsights(positions: Position[]): string[] {
+function generateAdditionalInsights(positions: Position[], formatLargeNumber: (value: number) => string): string[] {
   const additionalInsights: string[] = []
   
   // Portfolio-Diversifikation
@@ -99,15 +100,9 @@ function generateAdditionalInsights(positions: Position[]): string[] {
     additionalInsights.push(`Diversifiziertes Portfolio mit ${positions.length} Positionen`)
   }
   
-  // Gesamtwert
+  // Gesamtwert mit Currency Context
   const totalValue = positions.reduce((sum, p) => sum + p.value, 0)
-  const formattedValue = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'USD',
-    notation: 'compact',
-    maximumFractionDigits: 1
-  }).format(totalValue)
-  additionalInsights.push(`Gesamtportfolio-Wert: ${formattedValue}`)
+  additionalInsights.push(`Gesamtportfolio-Wert: ${formatLargeNumber(totalValue)}`)
   
   // Sektor-Diversifikation (falls verfügbar)
   const uniqueSectors = new Set()
@@ -131,9 +126,11 @@ export default function PortfolioAnalysisInline({
   investorName, 
   currentPositions
 }: AnalysisInlineProps) {
+  const { formatLargeNumber } = useCurrency()
   const [isExpanded, setIsExpanded] = useState(false)
+  
   const insights = generateCleanInsights(currentPositions, investorName)
-  const additionalInsights = generateAdditionalInsights(currentPositions)
+  const additionalInsights = generateAdditionalInsights(currentPositions, formatLargeNumber)
 
   if (insights.length === 0) {
     return null

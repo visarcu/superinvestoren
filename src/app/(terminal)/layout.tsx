@@ -31,7 +31,7 @@ import {
   EyeIcon
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
-
+import { CalculatorIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
@@ -147,6 +147,14 @@ const NAVIGATION: NavigationItem[] = [
     href: '/analyse/earnings',
     description: 'Gewinntermine'
   },
+  {
+    id: 'dcf-calculator',
+    label: 'DCF Calculator',
+    icon: CalculatorIcon,
+    href: '/analyse/dcf',
+    description: 'Aktien bewerten',
+    premium: true
+  },
 
   {
     id: 'insider',
@@ -196,6 +204,8 @@ const NAVIGATION: NavigationItem[] = [
 const STOCK_TABS = [
   { id: 'overview', label: 'Überblick', href: '' },
   { id: 'financials', label: 'Finanzen', href: '/financials' },
+  { id: 'growth', label: 'Wachstum', href: '/growth' }, // ✨ NEU HINZUGEFÜGT
+  { id: 'dcf', label: 'DCF Calculator', href: '/dcf', premium: true }, // ✨ NEU
   { id: 'super-investors', label: 'Super-Investoren', href: '/super-investors' },
   { id: 'valuation', label: 'Bewertung', href: '/valuation' },
   { id: 'dividends', label: 'Dividende', href: '/dividends' },
@@ -236,6 +246,7 @@ function CommandPalette({
   const commands: CommandPaletteItem[] = [
     { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
     { id: 'nav-watchlist', title: 'Watchlist', subtitle: 'Gespeicherte Aktien', icon: BookmarkIcon, href: '/analyse/watchlist', category: 'navigation' },
+    { id: 'nav-dcf', title: 'DCF Calculator', subtitle: 'Aktien bewerten', icon: CalculatorIcon, href: '/analyse/dcf', category: 'navigation' },
     { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
     { id: 'nav-heatmap', title: 'Heatmap', subtitle: 'Visuelle Marktansicht', icon: MapIcon, href: '/analyse/heatmap', category: 'navigation' },
     { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },
