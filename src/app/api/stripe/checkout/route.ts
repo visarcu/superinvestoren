@@ -109,8 +109,16 @@ export async function POST(request: NextRequest) {
       console.log('✅ Customer created and saved:', customerId);
     }
 
-    // 6. Create Checkout Session (MIT oder OHNE Trial)
-    console.log(`🛒 Creating checkout session ${withTrial ? 'with 14-day trial' : 'without trial'}...`);
+    // 6. Trial Days Logic - Extended Trial für Eric
+    let trialDays = 14; // Standard Trial für alle
+    
+    if (user.email === 'goossens.eric@icloud.com') {
+      trialDays = 30; // 4 Wochen für Eric als Entschuldigung
+      console.log('🎁 Extended trial for Eric: 30 days');
+    }
+
+    // 7. Create Checkout Session (MIT oder OHNE Trial)
+    console.log(`🛒 Creating checkout session ${withTrial ? `with ${trialDays}-day trial` : 'without trial'}...`);
     
     const sessionData: any = {
       customer: customerId,
@@ -132,14 +140,6 @@ export async function POST(request: NextRequest) {
 
     // Trial nur hinzufügen wenn gewünscht
     if (withTrial) {
-      // Extended Trial für Eric als Entschuldigung
-      let trialDays = 14; // Standard Trial
-      
-      if (user.email === 'goossens.eric@icloud.com') {
-        trialDays = 30; // 4 Wochen für Eric
-        console.log('🎁 Extended trial for Eric: 30 days');
-      }
-      
       sessionData.subscription_data = {
         trial_period_days: trialDays,
         metadata: {
@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       url: session.url,
-      trial_days: withTrial ? 14 : 0
+      trial_days: withTrial ? trialDays : 0
     });
 
   } catch (error: any) {
