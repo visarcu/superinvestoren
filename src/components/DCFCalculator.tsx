@@ -1,4 +1,4 @@
-// src/components/DCFCalculator.tsx - Mit Data Source Integration
+// src/components/DCFCalculator.tsx - ENHANCED LEARN MODE VERSION
 'use client'
 
 import React, { useState, useEffect, useMemo } from 'react'
@@ -17,7 +17,10 @@ import {
   RocketLaunchIcon,
   CheckCircleIcon,
   XCircleIcon,
-  EyeIcon
+  EyeIcon,
+  BookOpenIcon,
+  LightBulbIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/outline'
 import { LearnTooltipButton } from '@/components/LearnSidebar'
 import LoadingSpinner from '@/components/LoadingSpinner'
@@ -27,11 +30,12 @@ import { useLearnMode } from '@/lib/LearnModeContext'
 import Logo from '@/components/Logo'
 import { DCFCalculationBreakdown } from '@/components/DCFCalculationBreakdown'
 
-// Types
+// ✅ FIXED: Complete Types with currentFreeCashFlow
 interface DCFData {
   currentRevenue: number
   currentPrice: number
   currentShares: number
+  currentFreeCashFlow: number // ✅ ADDED: Real current FCF
   assumptions: DCFAssumptions
   companyInfo: {
     name: string
@@ -43,11 +47,14 @@ interface DCFData {
     avgOperatingMargin: number
     estimatedWACC: number
   }
-  // ✅ NEW: Data Quality Info
+  // ✅ ENHANCED: Data Quality Info
   dataQuality?: {
     fcfDataSource?: string
     fcfIsEstimated?: boolean
     fcfSourceDescription?: string
+    fcfValue?: number        // ✅ ADDED: Raw FCF value
+    fcfDate?: string         // ✅ ADDED: FCF date
+    fcfDataType?: string     // ✅ ADDED: Annual vs TTM
   }
 }
 
@@ -200,11 +207,15 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
         
         const data = await response.json()
         
-        // ✅ LOG FCF DATA SOURCE für Debugging
-        console.log(`🔍 [DCFCalculator] FCF Data Source for ${ticker}:`, {
+        // ✅ ENHANCED: Log FCF Data Source for Debugging
+        console.log(`🔍 [DCFCalculator] Complete FCF Data for ${ticker}:`, {
+          currentFreeCashFlow: data.currentFreeCashFlow,
           fcfDataSource: data.dataQuality?.fcfDataSource,
+          fcfDataType: data.dataQuality?.fcfDataType,
           isEstimated: data.dataQuality?.fcfIsEstimated,
-          description: data.dataQuality?.fcfSourceDescription
+          description: data.dataQuality?.fcfSourceDescription,
+          fcfValue: data.dataQuality?.fcfValue,
+          fcfDate: data.dataQuality?.fcfDate
         })
         
         setDcfData(data)
@@ -485,9 +496,12 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
             <div className="flex items-center gap-3">
               <CalculatorIcon className="w-6 h-6 text-green-400" />
               <div>
-                <h3 className="text-xl font-bold text-theme-primary">DCF Calculator</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-theme-primary">DCF Calculator</h3>
+                  {/* ✅ LEARN TOOLTIP für DCF Begriff */}
+                  <LearnTooltipButton term="DCF" />
+                </div>
                 <div className="flex items-center gap-2 mt-1">
-                  {/* ✅ FIXED: Real Logo with required alt prop */}
                   <Logo 
                     ticker={ticker} 
                     className="w-5 h-5"
@@ -502,14 +516,14 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
           </div>
           
           <div className="flex items-center gap-3">
-            {/* ✅ Show Calculation Button */}
+            {/* ✅ FIXED: German Button */}
             {dcfResults && (
               <button
                 onClick={() => setShowBreakdown(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg text-sm font-medium transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded-lg text-sm font-medium transition-colors"
               >
                 <EyeIcon className="w-4 h-4" />
-                Show Calculation
+                Berechnung anzeigen
               </button>
             )}
             
@@ -524,33 +538,83 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
       </div>
 
       <div className="p-6">
-        {/* Learn Mode Info */}
+        {/* ✅ ENHANCED Learn Mode Info mit Lexikon-Links */}
         {isLearnMode && (
           <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6">
             <div className="flex items-start gap-3">
               <InformationCircleIcon className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-green-400 font-semibold mb-2">DCF Calculator erklärt</h4>
-                <p className="text-theme-secondary text-sm leading-relaxed">
+                <p className="text-theme-secondary text-sm leading-relaxed mb-4">
                   Ein DCF Calculator projiziert die zukünftigen freien Cashflows eines Unternehmens für 5 Jahre, 
                   berechnet einen Terminalwert und diskontiert alle Cashflows auf den heutigen Wert zurück. 
                   Das Ergebnis ist der theoretische "faire Wert" der Aktie basierend auf fundamentalen Daten.
                 </p>
+                
+                {/* ✅ LEXIKON CROSS-LINKS */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  <Link 
+                    href="/lexikon/dcf"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
+                  >
+                    <BookOpenIcon className="w-3 h-3" />
+                    DCF erklärt
+                  </Link>
+                  <Link 
+                    href="/lexikon/wacc"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
+                  >
+                    <BookOpenIcon className="w-3 h-3" />
+                    Was ist WACC?
+                  </Link>
+                  <Link 
+                    href="/lexikon/terminal_value"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
+                  >
+                    <BookOpenIcon className="w-3 h-3" />
+                    Terminal Value
+                  </Link>
+                  <Link 
+                    href="/lexikon/free_cash_flow"
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
+                  >
+                    <BookOpenIcon className="w-3 h-3" />
+                    Free Cash Flow
+                  </Link>
+                </div>
+                
+                {/* ✅ BLOG ARTIKEL LINK */}
+                <div className="border-t border-green-500/20 pt-3">
+                  <Link 
+                    href="/blog/dcf-bewertung-guide" // ✅ Dein zukünftiger Blog-Artikel
+                    className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium"
+                  >
+                    <LightBulbIcon className="w-4 h-4" />
+                    Vollständigen DCF-Guide lesen
+                    <ArrowRightIcon className="w-3 h-3" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* ✅ FCF DATA SOURCE INFO - Nur wenn geschätzt */}
-        {dcfData.dataQuality?.fcfIsEstimated && (
-          <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 mb-6">
-            <div className="flex items-start gap-3">
-              <ExclamationTriangleIcon className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
+        {/* ✅ PROFESSIONAL: Simplified FCF Data Source Info */}
+        {dcfData.dataQuality && (
+          <div className="p-4 bg-theme-secondary border border-theme/10 rounded-lg mb-6">
+            <div className="flex items-center gap-3">
+              <InformationCircleIcon className="w-5 h-5 text-blue-400" />
               <div>
-                <h4 className="text-orange-400 font-semibold mb-2">Warnung: Geschätzte FCF-Daten</h4>
-                <p className="text-theme-secondary text-sm leading-relaxed">
-                  Die aktuellen Free Cash Flow Daten für {ticker} sind geschätzt, da keine ausreichenden 
-                  Daten verfügbar waren. Quelle: {dcfData.dataQuality?.fcfSourceDescription}
+                <div className="flex items-center gap-2">
+                  <p className="text-theme-primary font-medium">
+                    FCF-Datenquelle: {dcfData.dataQuality.fcfSourceDescription}
+                  </p>
+                  {/* ✅ LEARN TOOLTIP für Free Cash Flow */}
+                  <LearnTooltipButton term="Free Cash Flow" />
+                </div>
+                <p className="text-theme-muted text-sm mt-1">
+                  {dcfData.dataQuality.fcfDate ? `Daten vom ${dcfData.dataQuality.fcfDate}` : 'Aktuelle Finanzdaten'} • 
+                  {dcfData.dataQuality.fcfIsEstimated ? ' Geschätzte Werte' : ' Echte Finanzdaten'}
                 </p>
               </div>
             </div>
@@ -580,7 +644,11 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
             <div className="bg-theme-secondary rounded-lg p-4">
               <div className="flex items-center gap-3 mb-3">
                 <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
-                <h4 className="text-theme-primary font-semibold">DCF Faire Bewertung</h4>
+                <div className="flex items-center gap-2">
+                  <h4 className="text-theme-primary font-semibold">DCF Faire Bewertung</h4>
+                  {/* ✅ LEARN TOOLTIP für Intrinsischer Wert */}
+                  <LearnTooltipButton term="Intrinsischer Wert" />
+                </div>
               </div>
               <div className="text-2xl font-bold text-theme-primary mb-1">
                 {formatCurrency(dcfResults.valuePerShare)}
@@ -657,7 +725,7 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
           </button>
         </div>
 
-        {/* Assumptions Panel - Abbreviated for space */}
+        {/* Assumptions Panel */}
         <div className="bg-theme-secondary rounded-lg mb-6">
           <div className="px-4 py-3 border-b border-theme/10">
             <div className="flex items-center gap-2">
@@ -696,9 +764,13 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
                 <h5 className="text-sm font-medium text-theme-secondary">Zentrale Kennzahlen (%)</h5>
                 
                 <div className="space-y-1">
-                  <label className="text-xs text-theme-muted">
-                    Terminal-Wachstumsrate (max {Math.min(assumptions.discountRate - 0.5, 4.0).toFixed(1)}%)
-                  </label>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs text-theme-muted">
+                      Terminal-Wachstumsrate (max {Math.min(assumptions.discountRate - 0.5, 4.0).toFixed(1)}%)
+                    </label>
+                    {/* ✅ LEARN TOOLTIP für Terminal Value */}
+                    <LearnTooltipButton term="Terminal Value" />
+                  </div>
                   <input
                     type="number"
                     value={assumptions.terminalGrowthRate}
@@ -711,7 +783,11 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-theme-muted">Diskontierungssatz (WACC) (5-20%)</label>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs text-theme-muted">Diskontierungssatz (WACC) (5-20%)</label>
+                    {/* ✅ LEARN TOOLTIP für WACC */}
+                    <LearnTooltipButton term="WACC" />
+                  </div>
                   <input
                     type="number"
                     value={assumptions.discountRate}
@@ -724,7 +800,11 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-theme-muted">Operative Marge</label>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs text-theme-muted">Operative Marge</label>
+                    {/* ✅ LEARN TOOLTIP für Operating Margin */}
+                    <LearnTooltipButton term="Operative Marge" />
+                  </div>
                   <input
                     type="number"
                     value={assumptions.operatingMargin}
@@ -768,7 +848,11 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-theme-muted">Working Capital Änderung (%)</label>
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs text-theme-muted">Working Capital Änderung (%)</label>
+                    {/* ✅ LEARN TOOLTIP für Working Capital */}
+                    <LearnTooltipButton term="Working Capital" />
+                  </div>
                   <input
                     type="number"
                     value={assumptions.workingCapitalChange}
@@ -799,7 +883,7 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
         </div>
       </div>
 
-      {/* ✅ DCF Calculation Breakdown Modal mit Data Source Info */}
+      {/* ✅ FIXED: DCF Calculation Breakdown Modal with REAL Current FCF */}
       {dcfResults && dcfData && assumptions && (
         <DCFCalculationBreakdown
           isOpen={showBreakdown}
@@ -812,6 +896,9 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
           ticker={ticker}
           fcfDataSource={dcfData.dataQuality?.fcfDataSource}
           isEstimated={dcfData.dataQuality?.fcfIsEstimated}
+          currentFreeCashFlow={dcfData.currentFreeCashFlow}
+          fcfDataType={dcfData.dataQuality?.fcfDataType}
+          fcfDate={dcfData.dataQuality?.fcfDate}
         />
       )}
     </div>

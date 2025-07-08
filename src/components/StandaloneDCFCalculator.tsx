@@ -1,7 +1,7 @@
-// src/components/StandaloneDCFCalculator.tsx - FIXED TypeScript Errors
+// src/components/StandaloneDCFCalculator.tsx - FIXED Stock Search Section
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { 
   CalculatorIcon,
   MagnifyingGlassIcon,
@@ -12,7 +12,8 @@ import {
   InformationCircleIcon,
   ShieldCheckIcon,
   ChartBarIcon,
-  AdjustmentsHorizontalIcon
+  AdjustmentsHorizontalIcon,
+  XMarkIcon  // ← Added for clear button
 } from '@heroicons/react/24/outline'
 import { stocks } from '@/data/stocks'
 import { supabase } from '@/lib/supabaseClient'
@@ -27,166 +28,14 @@ interface User {
   isPremium: boolean
 }
 
-// ✅ FIXED: Stock interface to match your exact data structure
 interface Stock {
   ticker: string
   name: string
   market?: string
-  // Add any other properties that might exist in your stocks data
-  [key: string]: any // Allow additional properties
+  [key: string]: any
 }
 
-// ✅ IMPROVED: Stock Search Component with Real Logos
-function StockSearchSelector({ 
-  onSelect, 
-  selectedTicker 
-}: { 
-  onSelect: (ticker: string) => void
-  selectedTicker: string | null
-}) {
-  const [query, setQuery] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
-  const [filteredStocks, setFilteredStocks] = useState<Stock[]>([])
-
-  useEffect(() => {
-    if (query.trim()) {
-      const filtered = stocks.filter(stock => 
-        stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
-        stock.name.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 8)
-      setFilteredStocks(filtered)
-    } else {
-      // Popular stocks when empty - DCF geeignete Unternehmen
-      const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX']
-      const popularStocks = stocks.filter(stock => 
-        popularTickers.includes(stock.ticker)
-      )
-      setFilteredStocks(popularStocks)
-    }
-  }, [query])
-
-  const handleSelect = (ticker: string) => {
-    onSelect(ticker)
-    setQuery('')
-    setIsOpen(false)
-  }
-
-  const selectedStock = selectedTicker ? stocks.find(s => s.ticker === selectedTicker) : null
-
-  return (
-    <div className="relative">
-      {/* ✅ IMPROVED: Current Selection Display with Real Logo */}
-      {selectedStock && (
-        <div className="mb-4 p-4 bg-theme-secondary rounded-lg border border-green-500/30">
-          <div className="flex items-center gap-3">
-            {/* ✅ FIXED: Logo with required alt prop */}
-            <Logo 
-              ticker={selectedStock.ticker}
-              className="w-12 h-12"
-              alt={`${selectedStock.name} (${selectedStock.ticker}) company logo`}
-            />
-            <div className="flex-1">
-              <h3 className="text-theme-primary font-semibold">{selectedStock.ticker}</h3>
-              <p className="text-theme-secondary text-sm">{selectedStock.name}</p>
-              <div className="flex items-center gap-2 mt-1">
-                {/* ✅ FIXED: Safe access to market property with fallback */}
-                <span className="px-2 py-0.5 bg-theme-tertiary text-theme-muted rounded-md text-xs font-medium">
-                  {(selectedStock as any).market || 'NASDAQ'}
-                </span>
-                <span className="text-green-400 text-xs">✓ DCF Ready</span>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="px-3 py-1.5 bg-theme-tertiary hover:bg-theme-card text-theme-primary rounded-md text-sm font-medium transition-colors"
-            >
-              Ändern
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Search Input */}
-      <div className={`relative ${selectedStock && !isOpen ? 'hidden' : ''}`}>
-        <div className="relative bg-theme-secondary border border-theme/20 rounded-lg transition-all duration-300 hover:border-theme/30">
-          <div className="flex items-center px-4 py-3">
-            <MagnifyingGlassIcon className="w-5 h-5 mr-3 text-theme-muted" />
-            <input
-              type="text"
-              placeholder="Aktie für DCF-Bewertung suchen..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setIsOpen(true)}
-              className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted focus:outline-none"
-            />
-            <ChevronDownIcon className={`w-4 h-4 text-theme-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-          </div>
-        </div>
-
-        {/* Dropdown Results */}
-        {isOpen && (
-          <div className="absolute top-full left-0 right-0 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-50 mt-1">
-            <div className="max-h-64 overflow-y-auto">
-              {filteredStocks.length > 0 ? (
-                <div className="p-2">
-                  {!query && (
-                    <div className="px-3 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
-                      ✨ DCF-geeignete Aktien
-                    </div>
-                  )}
-                  <div className="space-y-1">
-                    {filteredStocks.map((stock) => (
-                      <button
-                        key={stock.ticker}
-                        onClick={() => handleSelect(stock.ticker)}
-                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-theme-secondary transition-all duration-200 text-left group"
-                      >
-                        {/* ✅ FIXED: Logo with required alt prop in dropdown */}
-                        <Logo 
-                          ticker={stock.ticker}
-                          className="w-10 h-10"
-                          alt={`${stock.name} (${stock.ticker}) company logo`}
-                        />
-                        
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-bold text-sm text-theme-primary">{stock.ticker}</span>
-                            {/* ✅ FIXED: Safe access to market property with fallback */}
-                            <span className="px-2 py-0.5 bg-theme-secondary text-theme-muted rounded-md text-xs font-medium">
-                              {(stock as any).market || 'NASDAQ'}
-                            </span>
-                          </div>
-                          <div className="text-xs text-theme-muted truncate">{stock.name}</div>
-                        </div>
-                        
-                        <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="p-6 text-center text-theme-muted">
-                  <MagnifyingGlassIcon className="w-6 h-6 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">Keine Aktien gefunden für "{query}"</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Overlay to close dropdown */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-    </div>
-  )
-}
-
-// ✅ IMPROVED: Premium CTA Component
+// ✅ MISSING: Premium CTA Component
 const PremiumCTA = () => (
   <div className="text-center py-16 px-6">
     <div className="w-20 h-20 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -230,7 +79,6 @@ const PremiumCTA = () => (
       14 Tage kostenlos testen
     </Link>
     
-    {/* ✅ NEW: DCF Best Practices Info */}
     <div className="mt-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg max-w-md mx-auto">
       <div className="flex items-start gap-3">
         <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
@@ -248,7 +96,219 @@ const PremiumCTA = () => (
   </div>
 )
 
-// Main Standalone DCF Calculator
+// ✅ FIXED: Stock Search Component with proper change functionality
+function StockSearchSelector({ 
+  onSelect, 
+  selectedTicker 
+}: { 
+  onSelect: (ticker: string) => void
+  selectedTicker: string | null
+}) {
+  const [query, setQuery] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const [filteredStocks, setFilteredStocks] = useState<Stock[]>([])
+  const [isEditing, setIsEditing] = useState(false) // ← NEW: Track editing state
+  const inputRef = useRef<HTMLInputElement>(null) // ← NEW: Input reference for focus
+
+  useEffect(() => {
+    if (query.trim()) {
+      // ✅ FIXED: When user types, search through ALL stocks, not just popular ones
+      const filtered = stocks.filter(stock => 
+        stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
+        stock.name.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 12) // Increased limit for better search results
+      setFilteredStocks(filtered)
+    } else {
+      // Only show popular stocks when field is completely empty AND not editing
+      if (!isEditing) {
+        const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX']
+        const popularStocks = stocks.filter(stock => 
+          popularTickers.includes(stock.ticker)
+        )
+        setFilteredStocks(popularStocks)
+      } else {
+        // When editing, show all major stocks for better UX
+        setFilteredStocks(stocks.slice(0, 20))
+      }
+    }
+  }, [query, isEditing])
+
+  const handleSelect = (ticker: string) => {
+    onSelect(ticker)
+    setQuery('') // Clear search
+    setIsOpen(false) // Close dropdown
+    setIsEditing(false) // ← Stop editing mode
+  }
+
+  // ✅ FIXED: Proper change handler
+  const handleChange = () => {
+    setIsEditing(true) // ← Enter editing mode
+    setIsOpen(true) // Open dropdown
+    setQuery('') // Clear search to allow free typing
+    
+    // Focus input after state update
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 50)
+  }
+
+  // ✅ NEW: Clear selection handler
+  const handleClear = () => {
+    onSelect('') // Clear selection by calling onSelect with empty string
+    setQuery('')
+    setIsEditing(false)
+    setIsOpen(false)
+  }
+
+  const selectedStock = selectedTicker ? stocks.find(s => s.ticker === selectedTicker) : null
+
+  return (
+    <div className="relative">
+      {/* ✅ IMPROVED: Current Selection Display with Clear Option */}
+      {selectedStock && !isEditing && (
+        <div className="mb-4 p-4 bg-theme-secondary rounded-lg border border-green-500/30">
+          <div className="flex items-center gap-3">
+            <Logo 
+              ticker={selectedStock.ticker}
+              className="w-12 h-12"
+              alt={`${selectedStock.name} (${selectedStock.ticker}) company logo`}
+            />
+            <div className="flex-1">
+              <h3 className="text-theme-primary font-semibold">{selectedStock.ticker}</h3>
+              <p className="text-theme-secondary text-sm">{selectedStock.name}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="px-2 py-0.5 bg-theme-tertiary text-theme-muted rounded-md text-xs font-medium">
+                  {(selectedStock as any).market || 'NASDAQ'}
+                </span>
+                <span className="text-green-400 text-xs">✓ DCF Ready</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {/* ✅ NEW: Clear button */}
+              <button
+                onClick={handleClear}
+                className="p-2 hover:bg-theme-tertiary text-theme-muted hover:text-red-400 rounded-md transition-colors"
+                title="Auswahl löschen"
+              >
+                <XMarkIcon className="w-4 h-4" />
+              </button>
+              {/* ✅ FIXED: Change button */}
+              <button
+                onClick={handleChange}
+                className="px-3 py-1.5 bg-theme-tertiary hover:bg-theme-card text-theme-primary rounded-md text-sm font-medium transition-colors"
+              >
+                Ändern
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ FIXED: Search Input - Always show when editing or no selection */}
+      <div className={`relative ${selectedStock && !isEditing ? 'hidden' : ''}`}>
+        <div className="relative bg-theme-secondary border border-theme/20 rounded-lg transition-all duration-300 hover:border-theme/30 focus-within:border-green-500">
+          <div className="flex items-center px-4 py-3">
+            <MagnifyingGlassIcon className="w-5 h-5 mr-3 text-theme-muted" />
+            <input
+              ref={inputRef} // ← Add ref for focusing
+              type="text"
+              placeholder="Jede beliebige Aktie suchen... (z.B. AAPL, Tesla, Microsoft)"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setIsOpen(true)}
+              className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted focus:outline-none"
+            />
+            {/* ✅ NEW: Clear search button */}
+            {query && (
+              <button
+                onClick={() => setQuery('')}
+                className="p-1 hover:bg-theme-tertiary text-theme-muted hover:text-theme-primary rounded transition-colors mr-2"
+              >
+                <XMarkIcon className="w-4 h-4" />
+              </button>
+            )}
+            <ChevronDownIcon className={`w-4 h-4 text-theme-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          </div>
+        </div>
+
+        {/* ✅ IMPROVED: Dropdown Results */}
+        {isOpen && (
+          <div className="absolute top-full left-0 right-0 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-50 mt-1">
+            <div className="max-h-80 overflow-y-auto"> {/* Increased height */}
+              {filteredStocks.length > 0 ? (
+                <div className="p-2">
+                  {/* ✅ IMPROVED: Dynamic header */}
+                  {!query && !isEditing && (
+                    <div className="px-3 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
+                      ✨ DCF-geeignete Aktien
+                    </div>
+                  )}
+                  {!query && isEditing && (
+                    <div className="px-3 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
+                      🔍 Beliebte Aktien - oder tippe einen Namen/Ticker
+                    </div>
+                  )}
+                  {query && (
+                    <div className="px-3 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
+                      📊 Suchergebnisse für "{query}"
+                    </div>
+                  )}
+                  
+                  <div className="space-y-1">
+                    {filteredStocks.map((stock) => (
+                      <button
+                        key={stock.ticker}
+                        onClick={() => handleSelect(stock.ticker)}
+                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-theme-secondary transition-all duration-200 text-left group"
+                      >
+                        <Logo 
+                          ticker={stock.ticker}
+                          className="w-10 h-10"
+                          alt={`${stock.name} (${stock.ticker}) company logo`}
+                        />
+                        
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-bold text-sm text-theme-primary">{stock.ticker}</span>
+                            <span className="px-2 py-0.5 bg-theme-secondary text-theme-muted rounded-md text-xs font-medium">
+                              {(stock as any).market || 'NASDAQ'}
+                            </span>
+                          </div>
+                          <div className="text-xs text-theme-muted truncate">{stock.name}</div>
+                        </div>
+                        
+                        <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="p-6 text-center text-theme-muted">
+                  <MagnifyingGlassIcon className="w-6 h-6 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">Keine Aktien gefunden für "{query}"</p>
+                  <p className="text-xs mt-1">Versuche einen anderen Ticker oder Firmennamen</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Overlay to close dropdown */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-40" 
+          onClick={() => {
+            setIsOpen(false)
+            setIsEditing(false)
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+// ✅ UPDATED: Main component with proper clear handling
 export default function StandaloneDCFCalculator() {
   const [user, setUser] = useState<User | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
@@ -283,6 +343,11 @@ export default function StandaloneDCFCalculator() {
     loadUser()
   }, [])
 
+  // ✅ FIXED: Handle ticker selection/clearing
+  const handleTickerSelect = (ticker: string) => {
+    setSelectedTicker(ticker || null) // Handle empty string as null
+  }
+
   // Loading state
   if (loadingUser) {
     return (
@@ -292,7 +357,7 @@ export default function StandaloneDCFCalculator() {
     )
   }
 
-  // Premium check
+  // Premium CTA (unchanged)
   if (!user?.isPremium) {
     return (
       <div className="bg-theme-card rounded-lg">
@@ -317,7 +382,7 @@ export default function StandaloneDCFCalculator() {
 
   return (
     <div className="space-y-6">
-      {/* ✅ IMPROVED: Header */}
+      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-theme-primary mb-2">DCF Calculator</h1>
         <p className="text-theme-secondary">
@@ -326,7 +391,7 @@ export default function StandaloneDCFCalculator() {
         </p>
       </div>
 
-      {/* ✅ IMPROVED: Stock Selection with Logos */}
+      {/* ✅ FIXED: Stock Selection */}
       <div className="bg-theme-card rounded-lg p-6">
         <h2 className="text-lg font-semibold text-theme-primary mb-4 flex items-center gap-2">
           <MagnifyingGlassIcon className="w-5 h-5 text-green-400" />
@@ -334,10 +399,11 @@ export default function StandaloneDCFCalculator() {
         </h2>
         
         <StockSearchSelector 
-          onSelect={setSelectedTicker}
+          onSelect={handleTickerSelect}
           selectedTicker={selectedTicker}
         />
         
+        {/* Tips section (unchanged) */}
         {!selectedTicker && (
           <div className="mt-6 space-y-4">
             <div className="p-4 bg-theme-secondary rounded-lg border-l-4 border-blue-400">
@@ -352,7 +418,6 @@ export default function StandaloneDCFCalculator() {
               </div>
             </div>
             
-            {/* ✅ NEW: DCF Geeignete Aktien Hinweis */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
                 <h4 className="text-green-400 font-medium mb-2 text-sm">✅ DCF-geeignete Unternehmen</h4>

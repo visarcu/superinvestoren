@@ -18,7 +18,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
       <html lang="de" className="dark">
         <head>
           <title>FinClue</title>
-          <meta name="description" content="Portfolios der bekanntesten Investoren im Überblick" />
+          <meta name="description" content="Professionelle Aktienanalyse + Superinvestor-Portfolios" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -37,7 +37,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
     <html lang="de" className={theme}>
       <head>
         <title>FinClue</title>
-        <meta name="description" content="Portfolios der bekanntesten Investoren im Überblick" />
+        <meta name="description" content="Professionelle Aktienanalyse + Superinvestor-Portfolios" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

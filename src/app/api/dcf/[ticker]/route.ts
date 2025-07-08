@@ -1,4 +1,4 @@
-// src/app/api/dcf/[ticker]/route.ts - COMPLETE VERSION using FinancialsPage Data Source
+// src/app/api/dcf/[ticker]/route.ts - FIXED: Direct Cash Flow Statement Access
 import { NextResponse } from 'next/server'
 
 // ✅ TypeScript Interfaces
@@ -23,98 +23,77 @@ interface ValidationError {
   severity: 'error' | 'warning'
 }
 
-// ✅ ROBUST FCF EXTRACTION using same data as FinancialsPage
+// ✅ FIXED: Direct FMP Cash Flow Statement Access (Same as FinancialsPage)
 async function extractReliableFCF(ticker: string, apiKey: string): Promise<any> {
-  console.log(`🔍 [DCF] Extracting FCF for ${ticker} using FinancialsPage method`)
+  console.log(`🔍 [DCF] Extracting FCF for ${ticker} using DIRECT FMP Cash Flow Statement`)
   
   try {
-    // ✅ Use the SAME API call as FinancialsPage
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/financials/${ticker}?period=annual&limit=5`)
+    // ✅ DIRECT FMP API CALL - Same as FinancialsPage
+    const cashflowResponse = await fetch(
+      `https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=annual&limit=1&apikey=${apiKey}`
+    )
     
-    if (!response.ok) {
-      throw new Error(`FinancialsPage API failed: ${response.status}`)
+    if (!cashflowResponse.ok) {
+      throw new Error(`FMP Cash Flow Statement failed: ${cashflowResponse.status}`)
     }
     
-    const data = await response.json()
-    const cashflowData = data.rawStatements?.cashflow
+    const cashflowData = await cashflowResponse.json()
     
     if (!cashflowData || cashflowData.length === 0) {
-      console.warn(`⚠️ [DCF] No cashflow data from FinancialsPage for ${ticker}`)
+      console.warn(`⚠️ [DCF] No annual cashflow data for ${ticker}`)
       return await fallbackFCFExtraction(ticker, apiKey)
     }
     
-    // Get latest FCF from the same data source as FinancialsPage
-    const latestCashflow = cashflowData[0] // Most recent
+    // Get latest Annual FCF - EXACTLY like FinancialsPage
+    const latestCashflow = cashflowData[0] // Most recent annual
     const fcfValue = latestCashflow.freeCashFlow
     
     if (!fcfValue || Math.abs(fcfValue) < 1000000) {
-      console.warn(`⚠️ [DCF] Invalid FCF from FinancialsPage for ${ticker}: ${fcfValue}`)
+      console.warn(`⚠️ [DCF] Invalid FCF from annual statement for ${ticker}: ${fcfValue}`)
       return await fallbackFCFExtraction(ticker, apiKey)
     }
     
-    console.log(`✅ [DCF] Found FinancialsPage FCF for ${ticker}: $${(fcfValue / 1_000_000).toFixed(1)}M`)
+    console.log(`✅ [DCF] Found ANNUAL FCF for ${ticker}: $${(fcfValue / 1_000_000).toFixed(1)}M (${latestCashflow.date})`)
     
     return {
-      source: 'financials-page-api',
+      source: 'annual-cashflow-statement',
       value: fcfValue,
       date: latestCashflow.date,
-      description: 'FinancialsPage API (Split-Adjusted Premium)',
+      description: 'Annual Cash Flow Statement (FMP Premium)',
       isEstimated: false,
-      rawCashflowData: cashflowData
+      rawData: latestCashflow
     }
     
   } catch (error) {
-    console.error(`❌ [DCF] FinancialsPage API failed for ${ticker}:`, error)
+    console.error(`❌ [DCF] Annual Cash Flow Statement failed for ${ticker}:`, error)
     return await fallbackFCFExtraction(ticker, apiKey)
   }
 }
 
-// ✅ FALLBACK FCF EXTRACTION (same as before)
+// ✅ FALLBACK FCF EXTRACTION (Unchanged)
 async function fallbackFCFExtraction(ticker: string, apiKey: string): Promise<any> {
   console.log(`🔍 [DCF] Using fallback FCF extraction for ${ticker}`)
   
   try {
-    // Try TTM Key Metrics
+    // Try TTM Key Metrics as fallback
     const keyMetricsRes = await fetch(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}?apikey=${apiKey}`)
     if (keyMetricsRes.ok) {
       const keyMetricsData = await keyMetricsRes.json()
       const keyMetrics = Array.isArray(keyMetricsData) ? keyMetricsData[0] : keyMetricsData
       
       if (keyMetrics?.freeCashFlowTTM && Math.abs(keyMetrics.freeCashFlowTTM) > 1000000) {
-        console.log(`✅ [DCF] Found TTM FCF for ${ticker}: $${(keyMetrics.freeCashFlowTTM / 1_000_000).toFixed(1)}M`)
+        console.log(`⚠️ [DCF] Using TTM FCF fallback for ${ticker}: $${(keyMetrics.freeCashFlowTTM / 1_000_000).toFixed(1)}M`)
         return {
-          source: 'ttm-keymetrics',
+          source: 'ttm-keymetrics-fallback',
           value: keyMetrics.freeCashFlowTTM,
           date: 'TTM',
-          description: 'TTM Key Metrics (Premium)',
-          isEstimated: false
+          description: 'TTM Key Metrics (Fallback)',
+          isEstimated: true // Mark as potentially different from annual
         }
       }
     }
   } catch (e) {
     console.warn('TTM Key Metrics fallback failed:', e)
-  }
-
-  try {
-    // Try Cash Flow Statement
-    const cashflowRes = await fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?limit=1&apikey=${apiKey}`)
-    if (cashflowRes.ok) {
-      const cashflowData = await cashflowRes.json()
-      const latestCF = Array.isArray(cashflowData) ? cashflowData[0] : cashflowData
-      
-      if (latestCF?.freeCashFlow && Math.abs(latestCF.freeCashFlow) > 1000000) {
-        console.log(`✅ [DCF] Found Cash Flow FCF for ${ticker}: $${(latestCF.freeCashFlow / 1_000_000).toFixed(1)}M`)
-        return {
-          source: 'latest-statement',
-          value: latestCF.freeCashFlow,
-          date: latestCF.date,
-          description: 'Latest Cash Flow Statement',
-          isEstimated: false
-        }
-      }
-    }
-  } catch (e) {
-    console.warn('Cash Flow Statement fallback failed:', e)
   }
 
   // Final fallback - estimate
@@ -149,7 +128,7 @@ async function fallbackFCFExtraction(ticker: string, apiKey: string): Promise<an
   }
 }
 
-// ✅ VALIDATION FUNCTIONS
+// ✅ VALIDATION FUNCTIONS (Unchanged)
 function validateDCFAssumptions(assumptions: DCFAssumptions): ValidationError[] {
   const errors: ValidationError[] = []
   
@@ -287,7 +266,7 @@ function generateSmartAssumptions(
   }
 }
 
-// ✅ MAIN API ROUTE
+// ✅ MAIN API ROUTE - FIXED FCF EXTRACTION
 export async function GET(
   req: Request,
   { params }: { params: { ticker: string } }
@@ -303,17 +282,18 @@ export async function GET(
   }
 
   try {
-    console.log(`🚀 [DCF] Loading DCF data for ${ticker} using FinancialsPage data source`)
+    console.log(`🚀 [DCF] Loading DCF data for ${ticker} using DIRECT FMP Annual Cash Flow Statement`)
 
-    // ✅ STEP 1: Extract REAL FCF using FinancialsPage method
+    // ✅ STEP 1: Extract REAL Annual FCF using DIRECT FMP API
     const fcfData = await extractReliableFCF(ticker, apiKey)
     console.log(`📊 [DCF] FCF Source for ${ticker}:`, {
       source: fcfData.source,
       value: fcfData.value,
-      isEstimated: fcfData.isEstimated
+      isEstimated: fcfData.isEstimated,
+      date: fcfData.date
     })
 
-    // ✅ STEP 2: Fetch other company data
+    // ✅ STEP 2: Fetch other company data (Unchanged)
     const [
       incomeResponse,
       balanceResponse,
@@ -328,7 +308,7 @@ export async function GET(
       fetch(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}?apikey=${apiKey}`)
     ])
 
-    // Parse responses
+    // Parse responses (Unchanged)
     const data: any = {}
 
     try {
@@ -364,7 +344,7 @@ export async function GET(
       }
     } catch (e) { console.warn('Key metrics failed:', e) }
 
-    // ✅ STEP 3: Extract and calculate metrics
+    // ✅ STEP 3: Extract and calculate metrics (Unchanged)
     const latestIncome = data.income?.[0] || {}
     const latestBalance = data.balance?.[0] || {}
     const currentQuote = data.quote || {}
@@ -410,7 +390,7 @@ export async function GET(
     const sector = companyProfile.sector || 'Technology'
     const marketCap = currentQuote.marketCap || (currentQuote.price * currentQuote.sharesOutstanding) || 0
     
-    // ✅ STEP 4: Generate smart assumptions
+    // ✅ STEP 4: Generate smart assumptions (Unchanged)
     const smartAssumptions = generateSmartAssumptions(
       avgRevenueGrowth,
       avgOperatingMargin,
@@ -427,7 +407,7 @@ export async function GET(
       netCash: Math.round(netCashPosition / 1_000_000)
     }
 
-    // ✅ STEP 5: Validate assumptions
+    // ✅ STEP 5: Validate assumptions (Unchanged)
     const validationErrors = validateDCFAssumptions(finalAssumptions)
     const hasErrors = validationErrors.some(error => error.severity === 'error')
 
@@ -444,14 +424,14 @@ export async function GET(
       }
     }
 
-    // ✅ STEP 6: Build final response
+    // ✅ STEP 6: Build final response with REAL ANNUAL FCF
     const currentFCFMillions = fcfData.value / 1_000_000
 
     const dcfData = {
-      // Current financials (in millions) - USING REAL FCF
+      // Current financials (in millions) - USING REAL ANNUAL FCF
       currentRevenue: (latestIncome.revenue || 0) / 1_000_000,
       currentOperatingIncome: (latestIncome.operatingIncome || 0) / 1_000_000,
-      currentFreeCashFlow: currentFCFMillions, // ✅ REAL FCF from FinancialsPage!
+      currentFreeCashFlow: currentFCFMillions, // ✅ REAL ANNUAL FCF!
       currentShares: (latestBalance.commonStockSharesOutstanding || 
                      currentQuote.sharesOutstanding || 
                      keyMetrics.sharesOutstanding || 0) / 1_000_000,
@@ -477,19 +457,21 @@ export async function GET(
         industry: companyProfile.industry || 'Unknown'
       },
 
-      // Enhanced data quality tracking
+      // ✅ ENHANCED DATA QUALITY TRACKING - Shows Annual vs TTM
       dataQuality: {
         hasIncomeData: !!data.income && data.income.length > 0,
         hasBalanceData: !!data.balance && data.balance.length > 0,
         hasCurrentQuote: !!currentQuote.price,
         yearsOfData: revenueHistory.length,
         
-        // FCF source tracking - REAL DATA
+        // FCF source tracking - CLEAR ANNUAL vs TTM distinction
         fcfDataSource: fcfData.source,
         fcfIsEstimated: fcfData.isEstimated,
         fcfSourceDescription: fcfData.description,
         fcfValue: fcfData.value,
         fcfDate: fcfData.date,
+        fcfDataType: fcfData.source.includes('annual') ? 'Annual (like FinancialsPage)' : 
+                    fcfData.source.includes('ttm') ? 'TTM (last 12 months)' : 'Other',
         
         validationErrors: validationErrors,
         hasValidationErrors: hasErrors
@@ -497,12 +479,13 @@ export async function GET(
 
       // Metadata
       generatedAt: new Date().toISOString(),
-      version: '5.0-financials-page-integration'
+      version: '6.0-direct-annual-fcf'
     }
 
     console.log(`✅ [DCF] Complete DCF data for ${ticker}:`, {
       currentFCF: dcfData.currentFreeCashFlow,
       fcfSource: fcfData.source,
+      fcfDataType: dcfData.dataQuality.fcfDataType,
       isEstimated: fcfData.isEstimated,
       revenue: dcfData.currentRevenue,
       assumptions: finalAssumptions
@@ -523,7 +506,7 @@ export async function GET(
   }
 }
 
-// ✅ POST endpoint for assumptions validation
+// ✅ POST endpoint for assumptions validation (Unchanged)
 export async function POST(
   req: Request,
   { params }: { params: { ticker: string } }

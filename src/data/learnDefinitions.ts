@@ -1,6 +1,80 @@
 // src/data/learnDefinitions.ts - ERWEITERT MIT BILANZ-KENNZAHLEN
 export const LEARN_DEFINITIONS = {
-  // ✅ BESTEHENDE DEFINITIONEN (behalten)
+
+  // Haupteintrag DCF
+'dcf': {
+  term: 'DCF (Discounted Cash Flow)',
+  definition: `Eine fundamentale Bewertungsmethode, die den fairen Wert einer Aktie durch Diskontierung zukünftiger freier Cashflows berechnet. DCF projiziert die erwarteten Cashflows für 5 Jahre, berechnet einen Terminalwert für alle Jahre danach und diskontiert alles mit dem WACC (Diskontierungssatz) auf den heutigen Barwert zurück. Das Ergebnis ist der theoretische "faire Wert" pro Aktie, unabhängig vom aktuellen Marktpreis. Warren Buffett sagte: "Der Wert jeder Investition ist die Summe aller zukünftigen Cashflows, diskontiert auf heute."`,
+  
+  calculation: `DCF = FCF₁/(1+WACC)¹ + FCF₂/(1+WACC)² + ... + Terminal Value/(1+WACC)⁵
+  
+  Terminal Value = FCF Jahr 6 ÷ (WACC - Terminal Growth Rate)
+  Fair Value pro Aktie = (Summe diskontierte FCFs + Terminal Value) ÷ Anzahl Aktien`,
+  
+  example: `Apple DCF-Beispiel: 
+  • Aktuelle FCF: $100 Mrd./Jahr
+  • 5-Jahres Projektionen: 8% Wachstum → FCF Jahr 5: $147 Mrd.
+  • Terminal Value: $147 Mrd. × 1,025 ÷ (10% - 2,5%) = $2,01 Billionen
+  • Gesamtwert: $430 Mrd. (5-Jahre) + $1,25 Billionen (diskontierter Terminal Value) = $1,68 Billionen
+  • Bei 15,7 Mrd. Aktien = $107 Fair Value pro Aktie
+  
+  Wichtig: Terminal Value macht oft 70-80% des Gesamtwerts aus!`,
+  
+  // ✅ NEU: Praktische Hinweise basierend auf deiner Recherche
+  practicalNotes: [
+    "✅ Ideal für: Etablierte Unternehmen mit stabilen, vorhersagbaren Cashflows (Apple, Microsoft, Coca-Cola)",
+    "⚠️ Schwierig bei: Startups, zyklische Rohstoffunternehmen, Pre-Revenue Biotechs",
+    "🚨 Häufiger Fehler: Terminal Growth Rate >4% (nie höher als GDP Wachstum!)",
+    "🚨 Kritisch: WACC muss immer > Terminal Growth Rate sein (sonst Division durch Null)",
+    "💡 Best Practice: Immer 3 Szenarien rechnen (Konservativ/Basis/Optimistisch)",
+    "📊 Sensitivität: ±1% WACC kann Fair Value um ±20% ändern"
+  ],
+  
+  // ✅ Links zu verwandten Begriffen und Tools
+  relatedTerms: ['terminal_value', 'wacc', 'free_cash_flow', 'intrinsic_value', 'discount_rate'],
+  
+  // ✅ Link zum ausführlichen Blog-Guide
+  blogGuideUrl: '/blog/dcf-bewertung-warren-buffett-guide',
+  
+  // ✅ Link zum DCF Calculator
+  calculatorUrl: '/tools/dcf-calculator'
+},
+
+// Supporting Begriffe
+'terminal_value': {
+  term: 'Terminal Value (Endwert)',
+  definition: 'Der geschätzte Wert eines Unternehmens am Ende der Projektionsperiode einer DCF-Analyse. Berechnet mit der Annahme, dass das Unternehmen danach mit einer konstanten Rate (meist 2-3%) für immer wächst.',
+  calculation: 'Terminal Value = FCF Jahr 6 ÷ (WACC - Terminal Growth Rate)',
+  example: 'FCF Jahr 6: $110M, WACC 10%, Terminal Growth 2% → Terminal Value = $110M ÷ (10% - 2%) = $1,375M'
+},
+
+'wacc': {
+  term: 'WACC (Weighted Average Cost of Capital)',
+  definition: 'Die gewichteten durchschnittlichen Kapitalkosten eines Unternehmens. WACC wird als Diskontierungssatz in DCF-Analysen verwendet und spiegelt das Risiko des Unternehmens wider. Berücksichtigt sowohl Eigen- als auch Fremdkapitalkosten.',
+  calculation: 'WACC = (E/V × Re) + (D/V × Rd × (1-T))',
+  example: 'Eigenkapitalkosten 12%, Fremdkapitalkosten 5%, Steuersatz 25%, 70% EK/30% FK → WACC = (0.7×12%) + (0.3×5%×0.75) = 9.5%'
+},
+
+'free_cash_flow': {
+  term: 'Free Cash Flow (Freier Cashflow)',
+  definition: 'Der Cashflow, der nach allen notwendigen Investitionen übrig bleibt. FCF zeigt, wie viel Geld ein Unternehmen tatsächlich für Dividenden, Aktienrückkäufe oder Schuldenabbau zur Verfügung hat. Basis für DCF-Bewertungen.',
+  calculation: 'FCF = Operativer Cashflow - Investitionen (CapEx)',
+  example: 'Operativer CF $150M - CapEx $50M = Free Cash Flow $100M. Dieses Geld steht den Aktionären zur Verfügung.'
+},
+
+'discount_rate': {
+  term: 'Diskontierungssatz (Discount Rate)',
+  definition: 'Der Zinssatz, der verwendet wird, um zukünftige Cashflows auf ihren heutigen Barwert zu diskontieren. Spiegelt das Risiko und die Zeitpräferenz wider. In DCF-Analysen meist der WACC.',
+  calculation: 'Barwert = Zukünftiger Cashflow ÷ (1 + Diskontierungssatz)ⁿ',
+  example: '$100 in einem Jahr bei 10% Diskontierungssatz → Barwert = $100 ÷ 1,10 = $90,91'
+},
+
+'intrinsic_value': {
+  term: 'Intrinsischer Wert (Fair Value)',
+  definition: 'Der theoretisch "faire" Wert einer Aktie basierend auf fundamentalen Daten, unabhängig vom aktuellen Marktpreis. DCF-Analysen berechnen den intrinsischen Wert durch Diskontierung zukünftiger Cashflows.',
+  calculation: 'Intrinsischer Wert = Barwert aller zukünftigen Cashflows ÷ Anzahl Aktien',
+  example: 'DCF ergibt $150 Fair Value, Marktpreis $120 → Aktie ist 25% unterbewertet (potenziell attraktive Investition)'
+},
   'market_cap': {
     term: 'Marktkapitalisierung',
     definition: 'Die Marktkapitalisierung zeigt den Gesamtwert aller Aktien eines Unternehmens an der Börse. Sie wird berechnet, indem man die Anzahl aller Aktien mit dem aktuellen Aktienkurs multipliziert.',
@@ -428,7 +502,32 @@ export const GERMAN_TO_KEY_MAPPING: Record<string, keyof typeof LEARN_DEFINITION
   
   // ===== TTM =====
   'TTM': 'ttm',
-  'Trailing Twelve Months': 'ttm'
+  'Trailing Twelve Months': 'ttm',
+
+  // ===== DCF BEGRIFFE =====
+  'DCF': 'dcf',
+  'Discounted Cash Flow': 'dcf',
+  'DCF Bewertung': 'dcf',
+  'DCF Analyse': 'dcf',
+  'Discounted-Cash-Flow': 'dcf',
+  
+  'Terminal Value': 'terminal_value',
+  'Endwert': 'terminal_value',
+  'Terminalwert': 'terminal_value',
+  
+  'WACC': 'wacc',
+  'Weighted Average Cost of Capital': 'wacc',
+  'Kapitalkosten': 'wacc',
+  'Diskontierungssatz': 'discount_rate',
+  
+  'Free Cash Flow': 'free_cash_flow',
+  'Freier Cashflow': 'free_cash_flow',
+  'FCF': 'free_cash_flow',
+  
+  'Intrinsischer Wert': 'intrinsic_value',
+  'Fair Value': 'intrinsic_value',
+  'Fairer Wert': 'intrinsic_value',
+  'Innerer Wert': 'intrinsic_value'
 }
 
 // ✅ HELPER FUNCTION: Deutschen Begriff zu englischem Key konvertieren
@@ -458,12 +557,18 @@ export type LearnDefinitionKey = keyof typeof LEARN_DEFINITIONS
 
 // ✅ ERWEITERTE KATEGORIEN MIT BILANZ
 export const LEXIKON_CATEGORIES = {
-  'bewertung': {
-    title: 'Bewertungskennzahlen',
-    icon: '📊',
-    description: 'Kennzahlen zur Bewertung von Aktien',
-    terms: ['market_cap', 'pe_ratio', 'forward_pe', 'pb_ratio', 'ps_ratio', 'peg_ratio', 'ev_ebit', 'ev_sales', 'ev_ebitda', 'enterprise_value', 'price_to_cashflow', 'price_to_fcf', 'ttm']
-  },
+ 'bewertung': {
+  title: 'Bewertungskennzahlen',
+  icon: '📊',
+  description: 'Kennzahlen zur Bewertung von Aktien',
+  terms: [
+    'market_cap', 'pe_ratio', 'forward_pe', 'pb_ratio', 'ps_ratio', 'peg_ratio', 
+    'ev_ebit', 'ev_sales', 'ev_ebitda', 'enterprise_value', 'price_to_cashflow', 
+    'price_to_fcf', 'ttm',
+    // ✅ DCF-BEGRIFFE:
+    'dcf', 'terminal_value', 'wacc', 'free_cash_flow', 'discount_rate', 'intrinsic_value'
+  ]
+},
   'bilanz': {
     title: 'Bilanz & Liquidität',
     icon: '🏦',

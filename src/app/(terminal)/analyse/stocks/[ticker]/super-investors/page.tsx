@@ -1,4 +1,4 @@
-// src/app/analyse/stocks/[ticker]/super-investors/page.tsx - COMPLETE FISCAL STYLE
+// src/app/analyse/stocks/[ticker]/super-investors/page.tsx - IMPROVED VERSION
 import React from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -14,9 +14,86 @@ import {
   ArrowDownIcon,
   ChartBarIcon,
   PlusIcon,
-  MinusIcon
+  MinusIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon
 } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
+
+// ✅ CLIENT-SIDE CHART COMPONENT
+const ClientChart = dynamic(() => {
+  return Promise.resolve(function HistoricalChart({ data }: { data: any[] }) {
+    const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } = require('recharts')
+    
+    return (
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+          <XAxis 
+            dataKey="quarter" 
+            stroke="#9CA3AF" 
+            fontSize={12}
+            tick={{ fill: '#9CA3AF' }}
+          />
+          <YAxis 
+            yAxisId="value"
+            orientation="left"
+            stroke="#9CA3AF" 
+            fontSize={12}
+            tick={{ fill: '#9CA3AF' }}
+            tickFormatter={(value: number) => `${value.toFixed(0)}M`}
+          />
+          <YAxis 
+            yAxisId="holders"
+            orientation="right"
+            stroke="#9CA3AF" 
+            fontSize={12}
+            tick={{ fill: '#9CA3AF' }}
+          />
+          <Tooltip 
+            contentStyle={{ 
+              backgroundColor: '#1F2937', 
+              border: '1px solid #374151',
+              borderRadius: '8px',
+              color: '#F9FAFB'
+            }}
+            formatter={(value: any, name: string) => {
+              if (name === 'totalValue') {
+                return [`${value.toFixed(1)}M`, 'Gesamtwert']
+              }
+              return [value, 'Holdings']
+            }}
+          />
+          <Line 
+            yAxisId="value"
+            type="monotone" 
+            dataKey="totalValue" 
+            stroke="#10B981" 
+            strokeWidth={3}
+            dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
+            activeDot={{ r: 6, stroke: '#10B981', strokeWidth: 2 }}
+          />
+          <Line 
+            yAxisId="holders"
+            type="monotone" 
+            dataKey="holders" 
+            stroke="#3B82F6" 
+            strokeWidth={2}
+            dot={{ fill: '#3B82F6', strokeWidth: 2, r: 3 }}
+            strokeDasharray="5 5"
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    )
+  })
+}, { 
+  ssr: false,
+  loading: () => (
+    <div className="h-64 bg-theme-tertiary/10 rounded-lg flex items-center justify-center">
+      <p className="text-theme-muted">Chart wird geladen...</p>
+    </div>
+  )
+})
 
 // Featured tickers
 const FEATURED_TICKERS = ['nvda', 'aapl', 'amzn', 'googl']
@@ -118,6 +195,133 @@ function formatCurrencyGerman(amount: number): string {
     return `${(amount / 1_000).toFixed(1)} Tsd.`;
   }
   return `${amount.toFixed(0)}`;
+}
+
+// ✅ KORRIGIERTE FUNKTION: Historische Daten extrahieren
+function getHistoricalData(
+  ticker: string, 
+  stock: any, 
+  currentHoldings: any[], 
+  currentTotalValue: number
+): any[] {
+  console.log('=== HISTORICAL DATA DEBUG ===')
+  console.log('Ticker:', ticker)
+  console.log('Current total value passed:', currentTotalValue)
+  
+  // Alle verfügbaren Quartale sammeln und korrekt zuordnen
+  const quarterlyData = new Map<string, { totalValue: number, holderCount: number }>()
+  
+  Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
+    snaps.forEach(snap => {
+      const normalizedData = normalizeHoldingsData(snap.data)
+      
+      // ✅ KORREKTE QUARTALS-LOGIK: Filing bezieht sich auf vorheriges Quartal
+      let reportedQuarter: string
+      if ('quarterKey' in snap.data && typeof snap.data.quarterKey === 'string') {
+        const filingQuarter = snap.data.quarterKey as string
+        const [year, quarterPart] = filingQuarter.split('-')
+        const filingQ = parseInt(quarterPart.replace('Q', ''))
+        
+        let reportedQ = filingQ - 1
+        let reportedYear = parseInt(year)
+        
+        if (reportedQ === 0) {
+          reportedQ = 4
+          reportedYear = reportedYear - 1
+        }
+        
+        reportedQuarter = `${reportedYear}-Q${reportedQ}`
+      } else {
+        // Fallback für alte Datenstruktur
+        reportedQuarter = snap.quarter
+      }
+      
+      const findTickerPositions = (positions: any[]) => {
+        return positions.filter(pos => {
+          if (pos.ticker?.toLowerCase() === ticker.toLowerCase()) return true
+          return pos.cusip === stock.cusip
+        })
+      }
+      
+      const positions = findTickerPositions(normalizedData.positions || [])
+      if (positions.length > 0) {
+        const positionValue = positions.reduce<number>((sum: number, pos: any) => sum + pos.value, 0)
+        
+        // Debug für jeden Investor
+        console.log(`${slug} ${reportedQuarter}: ${positions.length} positions, value: ${positionValue}`)
+        
+        const existing = quarterlyData.get(reportedQuarter) || { totalValue: 0, holderCount: 0 }
+        quarterlyData.set(reportedQuarter, {
+          totalValue: existing.totalValue + positionValue,
+          holderCount: existing.holderCount + 1
+        })
+      }
+    })
+  })
+  
+  console.log('Quarterly data aggregated:', Array.from(quarterlyData.entries()))
+  
+  // Sortieren und nur vergangene Quartale zeigen
+  const currentDate = new Date()
+  const currentYear = currentDate.getFullYear()
+  const currentMonth = currentDate.getMonth() + 1
+  const currentQ = Math.ceil(currentMonth / 3)
+  
+  // Juli 2025 = Q3 2025, aber Q2 2025 ist noch nicht abgeschlossen
+  // Verfügbare Daten: bis Q1 2025 (berichtet in Mai 2025 Filings)
+  let maxYear = currentYear
+  let maxQ = currentQ - 1  // Ein Quartal zurück
+  
+  // Q3 2025 (Juli) -> max Q2 2025, aber Q2 ist noch nicht abgeschlossen
+  // Also Q1 2025 ist das letzte verfügbare
+  if (currentMonth <= 7) { // Bis Juli
+    maxQ = currentQ - 2  // Zwei Quartale zurück
+  }
+  
+  if (maxQ <= 0) {
+    maxQ = 4 + maxQ
+    maxYear = currentYear - 1
+  }
+  
+  console.log('DEBUG: Current:', currentMonth, currentYear, 'Q' + currentQ)
+  console.log('DEBUG: Max reportable:', maxYear, 'Q' + maxQ)
+  
+  const historicalResult = Array.from(quarterlyData.entries())
+    .filter(([quarter]) => {
+      const [year, qPart] = quarter.split('-')
+      const qNum = parseInt(qPart.replace('Q', ''))
+      const qYear = parseInt(year)
+      
+      // Nur Quartale bis zum letzten vollständigen Quartal zeigen
+      if (qYear < maxYear) return true
+      if (qYear === maxYear && qNum <= maxQ) return true
+      return false
+    })
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-8) // Letzte 8 Quartale
+    .map(([quarter, data]) => ({
+      quarter: quarter.replace('-', ' '), // "2024-Q4" -> "2024 Q4"
+      totalValue: data.totalValue / 1_000_000, // in Millionen
+      holders: data.holderCount,
+      formattedValue: formatCurrencyGerman(data.totalValue)
+    }))
+  
+  // ✅ FIX: Ersetze das neueste Quartal mit aktuellen Holdings-Daten
+  if (historicalResult.length > 0) {
+    const latestQuarter = historicalResult[historicalResult.length - 1]
+    console.log('REPLACING latest quarter data:')
+    console.log('Old value:', latestQuarter.totalValue * 1_000_000)
+    console.log('New value:', currentTotalValue)
+    
+    latestQuarter.totalValue = currentTotalValue / 1_000_000
+    latestQuarter.formattedValue = formatCurrencyGerman(currentTotalValue)
+    latestQuarter.holders = currentHoldings.length
+  }
+  
+  console.log('Final result (after correction):', historicalResult)
+  console.log('=== END DEBUG ===')
+  
+  return historicalResult
 }
 
 // Live-Preis von FMP
@@ -253,12 +457,12 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
     const currentPositions = findTickerPositions(latestData.positions || [])
     const previousPositions = previousData ? findTickerPositions(previousData.positions || []) : []
     
-    const currentTotal = currentPositions.reduce((sum, pos) => ({
+    const currentTotal = currentPositions.reduce<{shares: number, value: number}>((sum, pos) => ({
       shares: sum.shares + pos.shares,
       value: sum.value + pos.value
     }), { shares: 0, value: 0 })
     
-    const previousTotal = previousPositions.reduce((sum, pos) => ({
+    const previousTotal = previousPositions.reduce<{shares: number, value: number}>((sum, pos) => ({
       shares: sum.shares + pos.shares,
       value: sum.value + pos.value  
     }), { shares: 0, value: 0 })
@@ -270,7 +474,7 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
     if (hasCurrentPosition) {
       marketStats.currentHolders++
       
-      const totalPortfolioValue = latestData.positions.reduce((sum: number, p: any) => sum + p.value, 0)
+      const totalPortfolioValue = latestData.positions.reduce<number>((sum: number, p: any) => sum + p.value, 0)
       const inv = investors.find(i => i.slug === slug)
       
       if (inv && totalPortfolioValue > 0) {
@@ -332,8 +536,15 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
   const recentSellers = investorHoldings.filter(inv => inv.change?.type === 'sell')
 
   const holdingCount = marketStats.currentHolders
-  const totalValue = investorHoldings.reduce((sum, inv) => sum + inv.value, 0)
+  const totalValue = investorHoldings.reduce<number>((sum: number, inv: InvestorHolding) => sum + inv.value, 0)
   const currentQuarter = getLatestQuarterFromData()
+
+  // ✅ Historische Daten für Chart - MIT aktuellen Holdings für Korrektur
+  const historicalData = getHistoricalData(ticker, stock, investorHoldings, totalValue)
+  
+  console.log('DEBUG: Einzelne Holdings:', investorHoldings.map(inv => ({ name: inv.name, value: inv.value })))
+  console.log('DEBUG: Gesamtwert berechnet:', totalValue)
+  console.log('DEBUG: Historischer Wert (korrigiert):', historicalData.length > 0 ? historicalData[historicalData.length - 1].totalValue * 1_000_000 : 'keine Daten')
 
   return (
     <div className="min-h-screen bg-theme-primary">
@@ -374,156 +585,350 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
         </div>
       </div>
 
-      {/* ✅ MAIN CONTENT - konsistent mit anderen Pages */}
+      {/* ✅ MAIN CONTENT - konsistent mit Dashboard Style */}
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
         
-        {/* ✅ CLEAN Overview Stats */}
-        <div className="grid grid-cols-4 gap-6">
-          <div className="bg-theme-card rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-3">
-              <UserGroupIcon className="w-5 h-5 text-green-400" />
-              <span className="text-theme-muted text-sm">Markt-Penetration</span>
+        {/* ✅ DASHBOARD STYLE Overview Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <UserGroupIcon className="w-6 h-6 text-green-400" />
+                <h3 className="text-theme-primary font-bold text-lg">Penetration</h3>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-theme-primary mb-1">
-              {Math.round((holdingCount / totalInvestors) * 100)}%
-            </div>
-            <div className="text-theme-secondary text-sm">
-              {holdingCount} von {totalInvestors} Investoren
-            </div>
-          </div>
-
-          <div className="bg-theme-card rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-3">
-              <ArrowUpIcon className="w-5 h-5 text-green-400" />
-              <span className="text-theme-muted text-sm">Käufer {currentQuarter}</span>
-            </div>
-            <div className="text-2xl font-bold text-green-400 mb-1">
-              {marketStats.totalBuyers}
-            </div>
-            <div className="text-theme-secondary text-sm">
-              {marketStats.newEntries} neue, {marketStats.positionIncreases} erhöht
+            <div className="space-y-3">
+              <div className="text-2xl font-bold text-theme-primary">
+                {Math.round((holdingCount / totalInvestors) * 100)}%
+              </div>
+              <div className="text-sm text-theme-muted">
+                {holdingCount} von {totalInvestors} Investoren
+              </div>
             </div>
           </div>
 
-          <div className="bg-theme-card rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-3">
-              <ArrowDownIcon className="w-5 h-5 text-red-400" />
-              <span className="text-theme-muted text-sm">Verkäufer {currentQuarter}</span>
+          <div className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <ArrowUpIcon className="w-6 h-6 text-green-400" />
+                <h3 className="text-theme-primary font-bold text-lg">Käufer</h3>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-red-400 mb-1">
-              {marketStats.totalSellers}
-            </div>
-            <div className="text-theme-secondary text-sm">
-              {marketStats.positionDecreases} reduziert, {marketStats.completeExits} exits
+            <div className="space-y-3">
+              <div className="text-2xl font-bold text-green-400">
+                {marketStats.totalBuyers}
+              </div>
+              <div className="text-sm text-theme-muted">
+                {marketStats.newEntries} neue, {marketStats.positionIncreases} erhöht (vs. Vorquartal)
+              </div>
             </div>
           </div>
 
-          <div className="bg-theme-card rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-3">
-              <ChartBarIcon className="w-5 h-5 text-green-400" />
-              <span className="text-theme-muted text-sm">Gesamtwert</span>
+          <div className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <ArrowDownIcon className="w-6 h-6 text-red-400" />
+                <h3 className="text-theme-primary font-bold text-lg">Verkäufer</h3>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-theme-primary mb-1">
-              {formatCurrencyGerman(totalValue)}
+            <div className="space-y-3">
+              <div className="text-2xl font-bold text-red-400">
+                {marketStats.totalSellers}
+              </div>
+              <div className="text-sm text-theme-muted">
+                {marketStats.positionDecreases} reduziert, {marketStats.completeExits} exits (vs. Vorquartal)
+              </div>
             </div>
-            <div className="text-theme-secondary text-sm">
-              13F Holdings
+          </div>
+
+          <div className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <ChartBarIcon className="w-6 h-6 text-green-400" />
+                <h3 className="text-theme-primary font-bold text-lg">Gesamtwert</h3>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="text-2xl font-bold text-theme-primary">
+                {formatCurrencyGerman(totalValue)}
+              </div>
+              <div className="text-sm text-theme-muted">
+                13F Holdings
+              </div>
             </div>
           </div>
         </div>
 
-        {/* ✅ CLEAN Current Holdings - Fiscal Style */}
-        <div className="bg-theme-card rounded-xl">
-          <div className="border-b border-theme/5 px-6 py-4">
-            <h2 className="text-lg font-semibold text-theme-primary">
-              Aktuelle Holdings ({holdingCount})
-            </h2>
-            <p className="text-theme-secondary text-sm mt-1">
-              13F-Daten • {currentQuarter} 2025
-            </p>
-          </div>
-
-          <div className="p-6">
-            {investorHoldings.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {investorHoldings.slice(0, 12).map((investor) => (
-                  <Link 
-                    key={investor.slug} 
-                    href={`/superinvestor/${investor.slug}`}
-                    className="group block"
-                  >
-                    {/* ✅ FISCAL STYLE - Kein Border, nur Hover Background */}
-                    <div className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-all duration-200">
-                      <div className="flex items-start gap-3 mb-4">
-                        <InvestorAvatar 
-                          name={investor.name} 
-                          imageUrl={investor.imageUrl} 
-                          size="sm"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors text-sm truncate">
-                              {investor.name.split('–')[0].trim()}
-                            </h3>
-                            {investor.change?.type === 'new_entry' && (
-                              <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-medium">
-                                NEU
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-xs text-theme-muted">
-                            {(investor.weight * 100).toFixed(1)}% Portfolio
-                          </div>
+        {/* ✅ NEUE SEKTION: Historische Entwicklung (ohne Chart) */}
+        {historicalData.length > 1 && (
+          <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-xl font-bold text-theme-primary mb-2">
+                  Holdings-Entwicklung
+                </h3>
+                <p className="text-theme-muted text-sm">
+                  Berichtete Holdings über die letzten {historicalData.length} Quartale (basierend auf 13F Filings)
+                </p>
+              </div>
+              <ChartBarIcon className="w-6 h-6 text-green-400" />
+            </div>
+            
+            {/* ✅ VERBESSERTE QUARTALS-CARDS mit deutlichen Borders */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {historicalData.slice(-4).map((quarter, index) => {
+                const isLatest = index === historicalData.length - 1
+                const previous = index > 0 ? historicalData[historicalData.length - 4 + index - 1] : null
+                const valueChange = previous ? quarter.totalValue - previous.totalValue : 0
+                const holderChange = previous ? quarter.holders - previous.holders : 0
+                
+                return (
+                  <div key={quarter.quarter} className={`p-6 rounded-xl border-2 transition-all duration-200 hover:shadow-lg ${
+                    isLatest 
+                      ? 'border-green-400 bg-green-500/10 shadow-green-400/20' 
+                      : 'border-gray-600 bg-gray-800/40 hover:border-gray-500'
+                  }`}>
+                    <div className="text-sm font-bold text-theme-primary mb-4 text-center">
+                      {quarter.quarter}
+                      {isLatest && (
+                        <div className="inline-block ml-2 px-2 py-0.5 bg-green-400/20 text-green-400 rounded-full text-xs">
+                          Aktuell
                         </div>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <div className="text-xl font-bold text-theme-primary">
+                          {quarter.formattedValue}
+                        </div>
+                        {previous && (
+                          <div className={`text-sm flex items-center gap-1 mt-1 ${valueChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            {valueChange >= 0 ? '↗' : '↘'}
+                            {valueChange >= 0 ? '+' : ''}{(valueChange).toFixed(1)}M
+                          </div>
+                        )}
                       </div>
                       
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs text-theme-muted">Positionswert</span>
-                          <span className="text-theme-primary font-semibold text-sm">
-                            {formatCurrencyGerman(investor.value)}
-                          </span>
+                      <div className="border-t border-gray-700 pt-3">
+                        <div className="text-sm text-theme-secondary font-medium">
+                          {quarter.holders} Holdings
                         </div>
-                        
-                        {investor.change && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs text-theme-muted">Letzte Änderung</span>
-                            <div className={`flex items-center gap-1 text-xs font-medium ${
-                              investor.change.type === 'buy' || investor.change.type === 'new_entry' 
-                                ? 'text-green-400' : 'text-red-400'
-                            }`}>
-                              {investor.change.type === 'buy' || investor.change.type === 'new_entry' ? (
-                                <PlusIcon className="w-3 h-3" />
-                              ) : (
-                                <MinusIcon className="w-3 h-3" />
-                              )}
-                              <span>{(investor.change.shares / 1000000).toFixed(1)}M</span>
-                            </div>
+                        {previous && (
+                          <div className={`text-sm flex items-center gap-1 mt-1 ${holderChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            {holderChange >= 0 ? '↗' : '↘'}
+                            {holderChange >= 0 ? '+' : ''}{holderChange} Investoren
                           </div>
                         )}
                       </div>
                     </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 mx-auto bg-theme-tertiary/20 rounded-xl flex items-center justify-center mb-4">
-                  <UserGroupIcon className="w-8 h-8 text-theme-muted" />
+                  </div>
+                )
+              })}
+            </div>
+            
+            {/* ✅ TREND ZUSAMMENFASSUNG */}
+            {historicalData.length >= 2 && (
+              <div className="mt-6 p-4 bg-theme-tertiary/10 rounded-lg">
+                <h4 className="text-sm font-semibold text-theme-primary mb-2">Trend Analysis</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-theme-muted">Wert-Entwicklung: </span>
+                    <span className={`font-medium ${
+                      historicalData[historicalData.length - 1].totalValue > historicalData[0].totalValue 
+                        ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {historicalData[historicalData.length - 1].totalValue > historicalData[0].totalValue ? '↗ Steigend' : '↘ Fallend'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-theme-muted">Holdings-Trend: </span>
+                    <span className={`font-medium ${
+                      historicalData[historicalData.length - 1].holders > historicalData[0].holders 
+                        ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {historicalData[historicalData.length - 1].holders > historicalData[0].holders ? '↗ Mehr Investoren' : '↘ Weniger Investoren'}
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-theme-secondary mb-2">
-                  Keine Holdings gefunden
-                </h3>
-                <p className="text-theme-muted max-w-md mx-auto">
-                  {ticker} wird aktuell von keinem der verfolgten Super-Investoren gehalten.
-                </p>
               </div>
             )}
           </div>
+        )}
+
+        {/* ✅ SECTION HEADER mit korrektem Count */}
+        <div>
+          <h2 className="text-2xl font-bold text-theme-primary mb-2">
+            Aktuelle Holdings ({holdingCount})
+          </h2>
+          <p className="text-theme-secondary text-sm">
+            13F-Daten • Berichtet für {currentQuarter} • Zeige alle {holdingCount} Holdings
+          </p>
         </div>
 
-        {/* ✅ CLEAN CTA */}
-        <div className="bg-theme-card rounded-xl p-6">
+        {/* ✅ VERBESSERTE KOMPAKTE CARDS - 4 Spalten für alle Holdings */}
+        {investorHoldings.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {investorHoldings.map((investor) => (
+              <Link 
+                key={investor.slug} 
+                href={`/superinvestor/${investor.slug}`}
+                className="group block"
+              >
+                {/* ✅ KOMPAKTE CARD - für alle Holdings */}
+                <div className="bg-theme-card border border-theme/10 rounded-xl p-4 group-hover:border-theme/20 group-hover:shadow-lg transition-all duration-300 h-[200px] flex flex-col">
+                  
+                  {/* Kompakter Header */}
+                  <div className="flex items-center justify-between mb-3">
+                    <InvestorAvatar 
+                      name={investor.name} 
+                      imageUrl={investor.imageUrl} 
+                      size="sm"
+                    />
+                    
+                    {/* Badge Container */}
+                    <div className="h-5 flex items-center">
+                      {investor.change?.type === 'new_entry' && (
+                        <span className="px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded text-xs font-bold">
+                          NEU
+                        </span>
+                      )}
+                      
+                      {investor.change && investor.change.type !== 'new_entry' && (
+                        <div className={`w-2.5 h-2.5 rounded-full ${
+                          investor.change.type === 'buy' ? 'bg-green-400' : 'bg-red-400'
+                        }`}></div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Kompakter Name */}
+                  <h3 className="text-sm font-bold text-theme-primary mb-3 group-hover:text-green-400 transition-colors line-clamp-2 flex-shrink-0">
+                    {investor.name.split('–')[0].split(' ').slice(0, 2).join(' ')}
+                  </h3>
+                  
+                  {/* Kompakte Stats */}
+                  <div className="flex-grow flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="text-lg font-bold text-theme-primary">
+                        {formatCurrencyGerman(investor.value)}
+                      </div>
+                      <div className="text-xs text-theme-muted">
+                        {(investor.weight * 100).toFixed(1)}% Portfolio
+                      </div>
+                    </div>
+                    
+                    {/* Kompakter Change */}
+                    <div className="mt-2 h-6 flex items-end">
+                      {investor.change ? (
+                        <div className={`text-xs px-2 py-1 rounded ${
+                          investor.change.type === 'buy' || investor.change.type === 'new_entry'
+                            ? 'text-green-400 bg-green-500/20'
+                            : 'text-red-400 bg-red-500/20'
+                        }`}>
+                          {investor.change.type === 'new_entry' ? 'Neu' : 
+                           investor.change.type === 'buy' ? '↗ Erhöht' : '↘ Reduziert'}
+                        </div>
+                      ) : (
+                        <div className="text-xs text-theme-muted">
+                          Unverändert
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          // Empty State - auch als Card
+          <div className="bg-theme-card border border-theme/10 rounded-xl p-12 text-center">
+            <div className="w-16 h-16 mx-auto bg-theme-tertiary/20 rounded-xl flex items-center justify-center mb-4">
+              <UserGroupIcon className="w-8 h-8 text-theme-muted" />
+            </div>
+            <h3 className="text-lg font-semibold text-theme-secondary mb-2">
+              Keine Holdings gefunden
+            </h3>
+            <p className="text-theme-muted max-w-md mx-auto">
+              {ticker} wird aktuell von keinem der verfolgten Super-Investoren gehalten.
+            </p>
+          </div>
+        )}
+
+        {/* ✅ NEUE SEKTION: Top Movers & Portfolio Insights */}
+        {investorHoldings.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Top Movers */}
+            {recentBuyers.length > 0 && (
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                <h3 className="text-lg font-bold text-theme-primary mb-4">
+                  Größte Änderungen (letztes Quartal)
+                </h3>
+                <div className="space-y-3">
+                  {recentBuyers.slice(0, 5).map(investor => (
+                    <div key={investor.slug} className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <InvestorAvatar 
+                          name={investor.name} 
+                          imageUrl={investor.imageUrl} 
+                          size="sm" 
+                        />
+                        <span className="text-sm text-theme-primary">
+                          {investor.name.split('–')[0].split(' ').slice(0, 2).join(' ')}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-xs text-green-400 font-medium">
+                          {investor.change?.type === 'new_entry' ? 'NEU' : 
+                           `+${investor.change?.percent.toFixed(1)}%`}
+                        </div>
+                        <div className="text-xs text-theme-muted">
+                          {formatCurrencyGerman(investor.value)}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Portfolio Konzentration */}
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-theme-primary mb-4">
+                Portfolio Konzentration
+              </h3>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-theme-muted text-sm">Top 3 Holdings:</span>
+                  <span className="text-theme-primary font-medium">
+                    {((investorHoldings.slice(0, 3).reduce((sum, inv) => sum + inv.value, 0) / totalValue) * 100).toFixed(1)}%
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-theme-muted text-sm">Ø Position Größe:</span>
+                  <span className="text-theme-primary font-medium">
+                    {formatCurrencyGerman(totalValue / holdingCount)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-theme-muted text-sm">Aktivitätsrate:</span>
+                  <span className="text-theme-primary font-medium">
+                    {marketStats.activityRate.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-theme-muted text-sm">Größte Position:</span>
+                  <span className="text-theme-primary font-medium">
+                    {formatCurrencyGerman(investorHoldings[0]?.value || 0)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ✅ CTA Card - Dashboard Style */}
+        <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-theme-primary mb-1">

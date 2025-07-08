@@ -36,6 +36,13 @@ const navigation = [
   },
   
   {
+    name: 'Fear & Greed Index',
+    href: '/superinvestor/feer-greed-index',
+    icon: DocumentTextIcon
+  },
+  
+
+  {
     name: 'Insider Trading',
     href: '/superinvestor/insider',
     icon: BoltIcon,

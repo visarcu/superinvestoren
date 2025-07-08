@@ -1,4 +1,4 @@
-// components/SuperinvestorInfo.tsx
+// components/SuperinvestorInfo.tsx - CLEAN VERSION
 'use client'
 
 import React, { useState } from 'react'
@@ -6,10 +6,10 @@ import {
   InformationCircleIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  LightBulbIcon,
   DocumentTextIcon,
   ChartBarIcon,
-  ClockIcon
+  ClockIcon,
+  LightBulbIcon
 } from '@heroicons/react/24/outline'
 
 export default function SuperinvestorInfo() {
@@ -21,21 +21,23 @@ export default function SuperinvestorInfo() {
       {/* Clickable Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full p-6 text-left hover:bg-gray-900/60 transition-colors"
+        className="w-full p-6 text-left hover:bg-gray-900/60 transition-colors group"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-blue-500/20 border border-blue-500/30 rounded-xl flex items-center justify-center">
               <InformationCircleIcon className="w-5 h-5 text-blue-400" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Was sind Super-Investoren?</h3>
+              <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                Was sind Super-Investoren?
+              </h3>
               <p className="text-sm text-gray-400">
                 Erfahre mehr über die erfolgreichsten Investoren der Welt
               </p>
             </div>
           </div>
-          <div className="text-gray-400">
+          <div className="text-gray-400 group-hover:text-white transition-colors">
             {isExpanded ? (
               <ChevronUpIcon className="w-5 h-5" />
             ) : (
@@ -46,7 +48,7 @@ export default function SuperinvestorInfo() {
       </button>
 
       {/* Expandable Content */}
-      <div className={`overflow-hidden transition-all duration-300 ${
+      <div className={`overflow-hidden transition-all duration-300 ease-out ${
         isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
       }`}>
         <div className="p-6 pt-0 border-t border-gray-800/50">
@@ -66,7 +68,7 @@ export default function SuperinvestorInfo() {
             </p>
           </div>
 
-          {/* Features Grid */}
+          {/* Features Grid - ONLY GREEN + BLUE */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             
             <div className="flex items-start gap-3">
@@ -77,14 +79,14 @@ export default function SuperinvestorInfo() {
                 <h4 className="text-white font-semibold mb-2">13F-Filings</h4>
                 <p className="text-gray-400 text-sm leading-relaxed">
                   Quartalsweise Pflichtveröffentlichungen der SEC mit allen 
-                  US-Aktienpositionen über $200.000
+                  US-Aktienpositionen
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                <ChartBarIcon className="w-4 h-4 text-blue-400" />
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <ChartBarIcon className="w-4 h-4 text-green-400" />
               </div>
               <div>
                 <h4 className="text-white font-semibold mb-2">Portfolio-Tracking</h4>
@@ -96,8 +98,8 @@ export default function SuperinvestorInfo() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                <LightBulbIcon className="w-4 h-4 text-purple-400" />
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <LightBulbIcon className="w-4 h-4 text-green-400" />
               </div>
               <div>
                 <h4 className="text-white font-semibold mb-2">Investment-Insights</h4>
@@ -109,8 +111,8 @@ export default function SuperinvestorInfo() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                <ClockIcon className="w-4 h-4 text-yellow-400" />
+              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <ClockIcon className="w-4 h-4 text-blue-400" />
               </div>
               <div>
                 <h4 className="text-white font-semibold mb-2">Zeitverzögerung</h4>
@@ -146,7 +148,7 @@ export default function SuperinvestorInfo() {
             </div>
           </div>
 
-          {/* Disclaimer */}
+          {/* Disclaimer - Only Yellow for Important Warning */}
           <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
             <p className="text-yellow-400 text-sm">
               <strong>Wichtiger Hinweis:</strong> Dies ist keine Anlageberatung. 

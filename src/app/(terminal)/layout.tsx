@@ -1,4 +1,4 @@
-// src/app/(terminal)/layout.tsx - GEFIXTE VERSION
+// src/app/(terminal)/layout.tsx - ÜBERARBEITETE VERSION MIT KATEGORISIERTER SIDEBAR
 'use client'
 
 import React, { ReactNode, useState, useEffect, useRef } from 'react'
@@ -82,130 +82,130 @@ interface CommandPaletteItem {
   category: 'navigation' | 'actions' | 'settings'
 }
 
-// Navigation Interface
-interface BaseNavigationItem {
+// ===== NEUE NAVIGATION STRUKTUR =====
+interface NavCategory {
   id: string
   label: string
-  description?: string
+  items: NavigationItem[]
+}
+
+interface NavigationItem {
+  id: string
+  label: string
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  href: string
   premium?: boolean
   comingSoon?: boolean
 }
 
-interface RegularNavigationItem extends BaseNavigationItem {
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
-  href: string
-  separator?: never
-}
-
-interface SeparatorNavigationItem {
-  id: string
-  separator: true
-  icon?: never
-  href?: never
-  label?: never
-  description?: never
-  premium?: never
-  comingSoon?: never
-}
-
-type NavigationItem = RegularNavigationItem | SeparatorNavigationItem
-
-// NAVIGATION
-const NAVIGATION: NavigationItem[] = [
+// ✨ KOMPAKTE KATEGORISIERTE NAVIGATION
+const NAVIGATION_CATEGORIES: NavCategory[] = [
   {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: HomeIcon,
-    href: '/analyse',
-    description: 'Marktübersicht'
+    id: 'analysis',
+    label: 'ANALYSE & ÜBERSICHT',
+    items: [
+      {
+        id: 'dashboard',
+        label: 'Dashboard',
+        icon: HomeIcon,
+        href: '/analyse'
+      },
+      {
+        id: 'watchlist',
+        label: 'Watchlist',
+        icon: BookmarkIcon,
+        href: '/analyse/watchlist'
+      },
+      {
+        id: 'heatmap',
+        label: 'Market Heatmap',
+        icon: MapIcon,
+        href: '/analyse/heatmap'
+      },
+      {
+        id: 'earnings',
+        label: 'Earnings Kalender',
+        icon: CalendarIcon,
+        href: '/analyse/earnings'
+      }
+    ]
   },
   {
-    id: 'watchlist',
-    label: 'Watchlist',
-    icon: BookmarkIcon,
-    href: '/analyse/watchlist',
-    description: 'Gespeicherte Aktien'
+    id: 'portfolio-tools',
+    label: 'PORTFOLIO & TOOLS',
+    items: [
+      {
+        id: 'portfolio',
+        label: 'Portfolio',
+        icon: BriefcaseIcon,
+        href: '/analyse/portfolio'
+      },
+      {
+        id: 'dcf-calculator',
+        label: 'DCF Calculator',
+        icon: CalculatorIcon,
+        href: '/analyse/dcf',
+        premium: true
+      },
+      {
+        id: 'insider',
+        label: 'Insider Trading',
+        icon: EyeIcon,
+        href: '/analyse/insider'
+      }
+    ]
   },
   {
-    id: 'portfolio',
-    label: 'Portfolio',
-    icon: BriefcaseIcon, // oder PieChartIcon
-    href: '/analyse/portfolio',
-    description: 'Mein Portfolio & Dividenden'
+    id: 'data-lists',
+    label: 'LISTEN',
+    items: [
+      {
+        id: 'stock-lists',
+        label: 'Aktien Listen',
+        icon: ListBulletIcon,
+        href: '/analyse/lists'
+      }
+    ]
   },
   {
-    id: 'heatmap',
-    label: 'Market Heatmap',
-    icon: MapIcon,
-    href: '/analyse/heatmap',
-    description: 'Markt-Übersicht'
+    id: 'premium',
+    label: 'PREMIUM FEATURES',
+    items: [
+      {
+        id: 'ai',
+        label: 'FinClue AI',
+        icon: SparklesIcon,
+        href: '/analyse/ai',
+        premium: true
+      }
+    ]
   },
   {
-    id: 'earnings',
-    label: 'Earnings Kalendar',
-    icon: CalendarIcon,
-    href: '/analyse/earnings',
-    description: 'Gewinntermine'
-  },
-  {
-    id: 'dcf-calculator',
-    label: 'DCF Calculator',
-    icon: CalculatorIcon,
-    href: '/analyse/dcf',
-    description: 'Aktien bewerten',
-    premium: true
-  },
-
-  {
-    id: 'insider',
-    label: 'Insider Trading',
-    icon: EyeIcon, // oder EyeIcon
-    href: '/analyse/insider',
-    description: 'Insider Käufe & Verkäufe'
-  },
-  
-  { id: 'separator-1', separator: true },
-  
-  {
-    id: 'ai',
-    label: 'FinClue AI',
-    icon: SparklesIcon,
-    href: '/analyse/ai',
-    description: 'KI-gestützte Analyse',
-    premium: true
-  },
-  
-  { id: 'separator-2', separator: true },
-  
-  {
-    id: 'profile',
-    label: 'Profil',
-    icon: UserCircleIcon,
-    href: '/profile',
-    description: 'Account verwalten'
-  },
-  {
-    id: 'settings',
-    label: 'Einstellungen',
-    icon: Cog6ToothIcon,
-    href: '/settings',
-    description: 'Konfiguration'
-  },
-  {
-    id: 'stock-lists',
-    label: 'Aktien Listen',
-    icon: ListBulletIcon,
-    href: '/analyse/lists',
-    description: 'Kuratierte Listen'
-  },
+    id: 'account',
+    label: 'ACCOUNT',
+    items: [
+      {
+        id: 'profile',
+        label: 'Profil',
+        icon: UserCircleIcon,
+        href: '/profile'
+      },
+      {
+        id: 'settings',
+        label: 'Einstellungen',
+        icon: Cog6ToothIcon,
+        href: '/settings'
+      }
+    ]
+  }
 ]
 
-// Stock Analysis Tabs
+// Stock Analysis Tabs (unverändert)
 const STOCK_TABS = [
   { id: 'overview', label: 'Überblick', href: '' },
   { id: 'financials', label: 'Finanzen', href: '/financials' },
-  { id: 'growth', label: 'Wachstum', href: '/growth' }, // ✨ NEU HINZUGEFÜGT
-  { id: 'dcf', label: 'DCF Calculator', href: '/dcf', premium: true }, // ✨ NEU
+  { id: 'growth', label: 'Wachstum', href: '/growth' },
+  { id: 'dcf', label: 'DCF Calculator', href: '/dcf', premium: true },
   { id: 'super-investors', label: 'Super-Investoren', href: '/super-investors' },
   { id: 'valuation', label: 'Bewertung', href: '/valuation' },
   { id: 'dividends', label: 'Dividende', href: '/dividends' },
@@ -224,7 +224,85 @@ interface LayoutProps {
   children: ReactNode
 }
 
-// ===== COMMAND PALETTE COMPONENT =====
+// ===== KOMPAKTE SIDEBAR NAVIGATION COMPONENT =====
+function CategorizedNavigation({ user, pathname }: { user: User, pathname: string }) {
+  return (
+    <nav className="flex-1 p-2 overflow-y-auto">
+      <div className="space-y-3">
+        {NAVIGATION_CATEGORIES.map((category) => (
+          <div key={category.id} className="space-y-1">
+            {/* Category Header - nur Label */}
+            <div className="px-2 py-1">
+              <h3 className="text-xs font-bold text-theme-muted uppercase tracking-wider">
+                {category.label}
+              </h3>
+            </div>
+            
+            {/* Category Items - kompakt ohne Beschreibungen */}
+            <div className="space-y-0.5">
+              {category.items.map((item) => {
+                const Icon = item.icon
+                const isActive = pathname === item.href
+                const isPremiumItem = item.premium && !user.isPremium
+                
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className={`group flex items-center gap-2 px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      isActive 
+                        ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30' 
+                        : category.id === 'premium'
+                          ? 'text-green-400 hover:bg-green-500/10 hover:text-green-300'
+                          : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
+                    }`}
+                  >
+                    {/* Icon Container - kleiner */}
+                    <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                      isActive 
+                        ? 'bg-green-500/30' 
+                        : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
+                    }`}>
+                      <Icon className={`w-3.5 h-3.5 ${
+                        isActive 
+                          ? 'text-green-300' 
+                          : category.id === 'premium'
+                            ? 'text-green-400'
+                            : 'text-theme-muted group-hover:text-theme-primary'
+                      }`} />
+                    </div>
+                    
+                    {/* Text Content - nur Label */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="truncate">{item.label}</span>
+                        {isPremiumItem && (
+                          <SparklesIcon className="w-2.5 h-2.5 text-yellow-400 flex-shrink-0" />
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Arrow Indicator */}
+                    {!isActive && (
+                      <ArrowRightIcon className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-all duration-200 flex-shrink-0" />
+                    )}
+                    
+                    {/* Active Indicator */}
+                    {isActive && (
+                      <div className="w-2 h-2 bg-green-400 rounded-full flex-shrink-0"></div>
+                    )}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </nav>
+  )
+}
+
+// ===== COMMAND PALETTE COMPONENT (unverändert) =====
 function CommandPalette({ 
   isOpen, 
   onClose, 
@@ -570,46 +648,48 @@ function LayoutContent({ children }: LayoutProps) {
       {/* Learn Sidebar */}
       <LearnSidebar />
       
-      {/* Sidebar - Kompakter */}
+      {/* ✨ KOMPAKTE SIDEBAR */}
       <div className="w-48 bg-theme-secondary border-r border-theme flex flex-col">
-        {/* Header - FIX 1: Logo führt zur Homepage */}
-        <div className="p-2.5 border-b border-theme">
-          <Link href="/" className="flex items-center gap-1.5 group">
+        {/* Header */}
+        <div className="p-3 border-b border-theme">
+          <Link href="/" className="flex items-center gap-2 group">
             <div className="flex items-end gap-0.5">
-              <div className="w-1 h-2.5 bg-green-500 rounded-sm"></div>
-              <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
-              <div className="w-1 h-4 bg-green-500 rounded-sm"></div>
+              <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
+              <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
+              <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
             </div>
-            <span className="text-base font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+            <span className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors">
               FinClue
             </span>
           </Link>
         </div>
 
         {/* Search & Quick Access */}
-        <div className="p-2 border-b border-theme">
+        <div className="p-3 border-b border-theme">
           <button
             onClick={() => setShowCommandPalette(true)}
-            className="w-full flex items-center gap-2 px-2 py-1.5 bg-theme-tertiary/30 border border-theme rounded-md hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 group"
+            className="w-full flex items-center gap-2 px-3 py-2 bg-theme-tertiary/30 border border-theme rounded-lg hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 group"
             title="Suchen (⌘K)"
           >
-            <MagnifyingGlassIcon className="w-3 h-3 text-theme-muted group-hover:text-green-400 transition-colors" />
-            <span className="text-xs text-theme-muted group-hover:text-theme-secondary transition-colors">
+            <MagnifyingGlassIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
+            <span className="text-sm text-theme-muted group-hover:text-theme-secondary transition-colors">
               Suche...
             </span>
-            <kbd className="ml-auto px-1 py-0.5 text-xs bg-theme-secondary border border-theme rounded text-theme-muted group-hover:text-theme-secondary transition-colors">
+            <kbd className="ml-auto px-2 py-1 text-xs bg-theme-secondary border border-theme rounded text-theme-muted group-hover:text-theme-secondary transition-colors">
               ⌘K
             </kbd>
           </button>
 
-          <div className="mt-2">
-            <div className="text-xs text-theme-muted font-medium mb-1.5 px-0.5">Schnellzugriff</div>
-            <div className="grid grid-cols-4 gap-0.5">
+          <div className="mt-3">
+            <div className="text-xs font-bold text-theme-muted uppercase tracking-wider mb-2 px-0.5">
+              SCHNELLZUGRIFF
+            </div>
+            <div className="grid grid-cols-4 gap-1">
               {['AAPL', 'TSLA', 'NVDA', 'MSFT'].map((ticker) => (
                 <button
                   key={ticker}
                   onClick={() => handleTickerSelect(ticker)}
-                  className="p-1 bg-theme-tertiary/30 hover:bg-theme-tertiary/50 rounded text-xs font-medium text-theme-secondary hover:text-green-400 transition-all duration-200 hover:scale-105"
+                  className="p-1.5 bg-theme-tertiary/30 hover:bg-theme-tertiary/60 rounded-lg text-xs font-bold text-theme-secondary hover:text-green-400 transition-all duration-200 hover:scale-105"
                   title={`${ticker} analysieren`}
                 >
                   {ticker}
@@ -619,68 +699,22 @@ function LayoutContent({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* Navigation - Kompakter */}
-        <nav className="flex-1 p-2 overflow-y-auto">
-          <div className="space-y-0.5">
-            {NAVIGATION.map((item) => {
-              if ('separator' in item && item.separator) {
-                return (
-                  <div key={item.id} className="h-px bg-theme my-1.5"></div>
-                )
-              }
-              
-              if (!('icon' in item) || !('href' in item) || !('label' in item)) {
-                return null
-              }
-              
-              const Icon = item.icon
-              const isActive = pathname === item.href
-              const isPremiumItem = item.premium && !user.isPremium
-              
-              return (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className={`group flex items-center gap-2 px-1.5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
-                    isActive 
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                      : item.id === 'ai'
-                        ? 'text-green-400 hover:bg-green-500/10'
-                        : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/50'
-                  }`}
-                >
-                  <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1">
-                      <span className="truncate">{item.label}</span>
-                      {isPremiumItem && <SparklesIcon className="w-2 h-2 text-yellow-400 flex-shrink-0" />}
-                    </div>
-                    {item.description && (
-                      <div className="text-xs text-theme-muted truncate">{item.description}</div>
-                    )}
-                  </div>
-                  {!isActive && (
-                    <ArrowRightIcon className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
-                  )}
-                </Link>
-              )
-            })}
-          </div>
-        </nav>
+        {/* ✨ NEUE KATEGORISIERTE NAVIGATION */}
+        <CategorizedNavigation user={user} pathname={pathname} />
 
-        {/* User Footer - FIX 2: Bessere Button Labels */}
-        <div className="p-2 border-t border-theme">
-          <div className="flex items-center gap-1.5 mb-1.5">
+        {/* User Footer */}
+        <div className="p-3 border-t border-theme">
+          <div className="flex items-center gap-2 mb-3">
             <div className="relative">
-              <div className="w-6 h-6 bg-green-500 rounded-md flex items-center justify-center text-black font-semibold text-xs">
+              <div className="w-7 h-7 bg-green-500 rounded-lg flex items-center justify-center text-black font-semibold text-sm">
                 {getInitials()}
               </div>
               {user.isPremium && (
-                <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
+                <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full"></div>
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-theme-primary text-xs font-medium truncate">{getDisplayName()}</div>
+              <div className="text-theme-primary text-sm font-medium truncate">{getDisplayName()}</div>
               <div className="text-xs">
                 {user.isPremium ? (
                   <span className="text-green-400 font-medium">Premium</span>
@@ -693,13 +727,13 @@ function LayoutContent({ children }: LayoutProps) {
             {allowsThemeToggle && (
               <button
                 onClick={toggleTheme}
-                className="p-0.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors"
+                className="p-1 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors"
                 title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               >
                 {theme === 'dark' ? (
-                  <SunIcon className="w-3 h-3" />
+                  <SunIcon className="w-4 h-4" />
                 ) : (
-                  <MoonIcon className="w-3 h-3" />
+                  <MoonIcon className="w-4 h-4" />
                 )}
               </button>
             )}
@@ -708,39 +742,38 @@ function LayoutContent({ children }: LayoutProps) {
           {!user.isPremium && (
             <Link 
               href="/pricing"
-              className="flex items-center justify-center gap-1 w-full py-1 bg-green-500 hover:bg-green-400 text-black rounded-md text-xs font-semibold transition-colors mb-1.5"
+              className="flex items-center justify-center gap-2 w-full py-2 bg-green-500 hover:bg-green-400 text-black rounded-lg text-sm font-semibold transition-colors mb-2"
             >
-              <SparklesIcon className="w-3 h-3" />
+              <SparklesIcon className="w-4 h-4" />
               Upgrade
             </Link>
           )}
 
-          {/* FIXED BUTTONS - Mit Text Labels */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             <Link
               href="/"
-              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors text-xs"
+              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded-lg transition-colors text-sm"
               title="Zur Startseite"
             >
-              <HomeIcon className="w-3 h-3" />
+              <HomeIcon className="w-4 h-4" />
               <span>Startseite</span>
             </Link>
             
             <button
               onClick={() => window.location.href = 'mailto:team.finclue@gmail.com'}
-              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors text-xs"
+              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded-lg transition-colors text-sm"
               title="Support kontaktieren"
             >
-              <EnvelopeIcon className="w-3 h-3" />
+              <EnvelopeIcon className="w-4 h-4" />
               <span>Support</span>
             </button>
             
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded transition-colors text-xs"
+              className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors text-sm"
               title="Abmelden"
             >
-              <ArrowLeftOnRectangleIcon className="w-3 h-3" />
+              <ArrowLeftOnRectangleIcon className="w-4 h-4" />
               <span>Abmelden</span>
             </button>
           </div>
@@ -749,7 +782,7 @@ function LayoutContent({ children }: LayoutProps) {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col bg-theme-primary">
-        {/* Top Bar - Kompakter */}
+        {/* Top Bar */}
         <div className="h-10 bg-theme-secondary border-b border-theme flex items-center justify-between px-2.5">
           <div className="flex items-center gap-2">
             {isStockPage && currentTicker ? (
@@ -861,7 +894,7 @@ function LayoutContent({ children }: LayoutProps) {
           {children}
         </div>
 
-        {/* Status Bar - Kompakter */}
+        {/* Status Bar */}
         <div className="h-4 bg-theme-secondary border-t border-theme flex items-center justify-between px-2.5 text-xs text-theme-muted">
           <div className="flex items-center gap-1.5">
             <span>Market: {marketStatus.status}</span>
