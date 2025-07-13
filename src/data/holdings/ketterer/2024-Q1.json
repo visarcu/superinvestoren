@@ -9,537 +9,1257 @@
       "name": "RYANAIR HOLDINGS PLC",
       "cusip": "783513203",
       "shares": 3407180,
-      "value": 454381471
+      "value": 454381471,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "CANADIAN PACIFIC KANSAS CITY LTD",
       "cusip": "13646K108",
       "shares": 5561777,
-      "value": 442109910
+      "value": 442109910,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BANCO BRADESCO SA",
       "cusip": "059460303",
       "shares": 52618058,
-      "value": 184163194
+      "value": 184163194,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SP ADR PFD NEW",
+      "putCall": null
     },
     {
       "name": "UBS GROUP AG",
       "cusip": "H42097107",
       "shares": 4809753,
-      "value": 149125298
+      "value": 149125298,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "WALT DISNEY CO/THE",
       "cusip": "254687106",
       "shares": 1102237,
-      "value": 99520929
+      "value": 99520929,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
       "shares": 657517,
-      "value": 96201312
+      "value": 96201312,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 661944,
-      "value": 93287767
+      "value": 93287767,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
     },
     {
       "name": "TD SYNNEX CORP",
       "cusip": "87162W100",
       "shares": 798400,
-      "value": 85915737
+      "value": 85915737,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GENPACT LTD",
       "cusip": "G3922B107",
       "shares": 2382617,
-      "value": 82700568
+      "value": 82700568,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "CITIGROUP INC",
       "cusip": "172967424",
       "shares": 1529941,
-      "value": 78700119
+      "value": 78700119,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "INTERNATIONAL FLAVORS & FRAGRANCES INC",
       "cusip": "459506101",
       "shares": 964184,
-      "value": 78069907
+      "value": 78069907,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ZEBRA TECHNOLOGIES CORP",
       "cusip": "989207105",
       "shares": 280774,
-      "value": 76743905
+      "value": 76743905,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ALIBABA GROUP HOLDING LTD",
       "cusip": "01609W102",
       "shares": 935720,
-      "value": 72527657
+      "value": 72527657,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "FISERV INC",
       "cusip": "337738108",
       "shares": 540050,
-      "value": 71740140
+      "value": 71740140,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JONES LANG LASALLE INC",
       "cusip": "48020Q107",
       "shares": 367362,
-      "value": 69383667
+      "value": 69383667,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ZIMMER BIOMET HOLDINGS INC",
       "cusip": "98956P102",
       "shares": 564669,
-      "value": 68720199
+      "value": 68720199,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "QUEST DIAGNOSTICS INC",
       "cusip": "74834L100",
       "shares": 492707,
-      "value": 67934466
+      "value": 67934466,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ABBVIE INC",
       "cusip": "00287Y109",
       "shares": 402866,
-      "value": 62432052
+      "value": 62432052,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PETROLEO BRASILEIRO SA",
       "cusip": "71654V101",
       "shares": 4058598,
-      "value": 62015377
+      "value": 62015377,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SP ADR NON VTG",
+      "putCall": null
     },
     {
       "name": "AVANTOR INC",
       "cusip": "05352A100",
       "shares": 2559572,
-      "value": 58435004
+      "value": 58435004,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PG&E CORP",
       "cusip": "69331C108",
       "shares": 3177705,
-      "value": 57293988
+      "value": 57293988,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CSX CORP",
       "cusip": "126408103",
       "shares": 1611661,
-      "value": 55876252
+      "value": 55876252,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TYSON FOODS INC",
       "cusip": "902494103",
       "shares": 1000568,
-      "value": 53780470
+      "value": 53780470,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 150405,
-      "value": 53237246
+      "value": 53237246,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "VIPSHOP HOLDINGS LTD",
       "cusip": "92763W103",
       "shares": 2986610,
-      "value": 53042193
+      "value": 53042193,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS A",
+      "putCall": null
     },
     {
       "name": "ANALOG DEVICES INC",
       "cusip": "032654105",
       "shares": 263109,
-      "value": 52242809
+      "value": 52242809,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD",
       "cusip": "874039100",
       "shares": 462769,
-      "value": 48127976
+      "value": 48127976,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "CITIZENS FINANCIAL GROUP INC",
       "cusip": "174610105",
       "shares": 1428581,
-      "value": 47343157
+      "value": 47343157,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BERRY GLOBAL GROUP INC",
       "cusip": "08579W103",
       "shares": 656814,
-      "value": 44262695
+      "value": 44262695,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CONCENTRIX CORP",
       "cusip": "20602D101",
       "shares": 417788,
-      "value": 41030912
+      "value": 41030912,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BARCLAYS PLC",
       "cusip": "06738E204",
       "shares": 4969641,
-      "value": 39160772
+      "value": 39160772,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
     },
     {
       "name": "SEAGATE TECHNOLOGY HOLDINGS PLC",
       "cusip": "G7997R103",
       "shares": 458070,
-      "value": 39105428
+      "value": 39105428,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "BP PLC",
       "cusip": "055622104",
       "shares": 1070719,
-      "value": 37903448
+      "value": 37903448,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "GERDAU SA",
       "cusip": "373737105",
       "shares": 7358971,
-      "value": 35691009
+      "value": 35691009,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR REP PFD",
+      "putCall": null
     },
     {
       "name": "SAP SE",
       "cusip": "803054204",
       "shares": 219972,
-      "value": 34005538
+      "value": 34005538,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR",
+      "putCall": null
     },
     {
       "name": "SHELL PLC",
       "cusip": "780259305",
       "shares": 508567,
-      "value": 33463717
+      "value": 33463717,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADS",
+      "putCall": null
     },
     {
       "name": "PRUDENTIAL PLC",
       "cusip": "74435K204",
       "shares": 1481760,
-      "value": 33265516
+      "value": 33265516,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
     },
     {
       "name": "APTIV PLC",
       "cusip": "G6095L109",
       "shares": 363303,
-      "value": 32595496
+      "value": 32595496,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "KONINKLIJKE PHILIPS NV",
       "cusip": "500472303",
       "shares": 1392617,
-      "value": 32489761
+      "value": 32489761,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "NY REGIS SHS NEW",
+      "putCall": null
     },
     {
       "name": "ASTRAZENECA PLC",
       "cusip": "046353108",
       "shares": 460722,
-      "value": 31029651
+      "value": 31029651,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "JINKOSOLAR HOLDING CO LTD",
       "cusip": "47759T100",
       "shares": 826558,
-      "value": 30533052
+      "value": 30533052,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "GSK PLC",
       "cusip": "37733W204",
       "shares": 795441,
-      "value": 29479046
+      "value": 29479046,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "CHESAPEAKE ENERGY CORP",
       "cusip": "165167735",
       "shares": 381075,
-      "value": 29319878
+      "value": 29319878,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DIAGEO PLC",
       "cusip": "25243Q205",
       "shares": 199977,
-      "value": 29128595
+      "value": 29128595,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR NEW",
+      "putCall": null
     },
     {
       "name": "VANGUARD FTSE DEVELOPED ETF",
       "cusip": "921943858",
       "shares": 582680,
-      "value": 27910358
+      "value": 27910358,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "VAN FTSE DEV MKT",
+      "putCall": null
     },
     {
       "name": "ANHEUSER-BUSCH INBEV SA/NV",
       "cusip": "03524A108",
       "shares": 413645,
-      "value": 26729753
+      "value": 26729753,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "RELX PLC",
       "cusip": "759530108",
       "shares": 622977,
-      "value": 24707264
+      "value": 24707264,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "ING GROEP NV",
       "cusip": "456837103",
       "shares": 1644818,
-      "value": 24705174
+      "value": 24705174,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "SANOFI SA",
       "cusip": "80105N105",
       "shares": 442269,
-      "value": 21994047
+      "value": 21994047,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "NOVARTIS AG",
       "cusip": "66987V109",
       "shares": 209089,
-      "value": 21111748
+      "value": 21111748,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "FINVOLUTION GROUP",
       "cusip": "31810T101",
       "shares": 3938932,
-      "value": 19300767
+      "value": 19300767,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "TAKEDA PHARMACEUTICAL CO LTD",
       "cusip": "874060205",
       "shares": 1345645,
-      "value": 19202354
+      "value": 19202354,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "QIFU TECHNOLOGY INC",
       "cusip": "88557W101",
       "shares": 1132917,
-      "value": 17922747
+      "value": 17922747,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "AMERICAN DEP",
+      "putCall": null
     },
     {
       "name": "NETEASE INC",
       "cusip": "64110W102",
       "shares": 189973,
-      "value": 17697885
+      "value": 17697885,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "BRITISH AMERICAN TOBACCO PLC",
       "cusip": "110448107",
       "shares": 556299,
-      "value": 16294005
+      "value": 16294005,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "SABRE CORP",
       "cusip": "78573M104",
       "shares": 3332673,
-      "value": 14663750
+      "value": 14663750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "UNILEVER PLC",
       "cusip": "904767704",
       "shares": 293724,
-      "value": 14239719
+      "value": 14239719,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR NEW",
+      "putCall": null
     },
     {
       "name": "VISTA ENERGY SAB DE CV",
       "cusip": "92837L109",
       "shares": 459950,
-      "value": 13573124
+      "value": 13573124,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "AUTOHOME INC",
       "cusip": "05278C107",
       "shares": 479488,
-      "value": 13454433
+      "value": 13454433,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SP ADS RP CL A",
+      "putCall": null
     },
     {
       "name": "IQIYI INC",
       "cusip": "46267X108",
       "shares": 2753628,
-      "value": 13437705
+      "value": 13437705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "DAQO NEW ENERGY CORP",
       "cusip": "23703Q203",
       "shares": 467194,
-      "value": 12427360
+      "value": 12427360,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPNSRD ADS NEW",
+      "putCall": null
     },
     {
       "name": "CEMEX SAB DE CV",
       "cusip": "151290889",
       "shares": 1580203,
-      "value": 12246573
+      "value": 12246573,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR NEW",
+      "putCall": null
     },
     {
       "name": "COCA-COLA FEMSA SAB DE CV",
       "cusip": "191241108",
       "shares": 122367,
-      "value": 11580813
+      "value": 11580813,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORD ADR REP",
+      "putCall": null
     },
     {
       "name": "ICICI BANK LTD",
       "cusip": "45104G104",
       "shares": 449264,
-      "value": 10710454
+      "value": 10710454,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
     },
     {
       "name": "VANGUARD FTSE ALL WORLD EX-US SMALL-CAP ETF",
       "cusip": "922042718",
       "shares": 89168,
-      "value": 10256995
+      "value": 10256995,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "FTSE SMCAP ETF",
+      "putCall": null
     },
     {
       "name": "XTRACKERS HARVEST CSI 300 CHINA A-SHARES ETF",
       "cusip": "233051879",
       "shares": 423574,
-      "value": 10127654
+      "value": 10127654,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "XTRACK HRVST CSI",
+      "putCall": null
     },
     {
       "name": "INFOSYS LTD",
       "cusip": "456788108",
       "shares": 541426,
-      "value": 9951410
+      "value": 9951410,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "SUMITOMO MITSUI FINANCIAL GROUP INC",
       "cusip": "86562M209",
       "shares": 988309,
-      "value": 9566828
+      "value": 9566828,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "NATWEST GROUP PLC",
       "cusip": "639057207",
       "shares": 1647757,
-      "value": 9276873
+      "value": 9276873,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONS ADR",
+      "putCall": null
     },
     {
       "name": "MAKEMYTRIP LTD",
       "cusip": "V5633W109",
       "shares": 192127,
-      "value": 9026126
+      "value": 9026126,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "JOYY INC",
       "cusip": "46591M109",
       "shares": 216129,
-      "value": 8580321
+      "value": 8580321,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADS REPSTG COM A",
+      "putCall": null
     },
     {
       "name": "ISHARES MSCI SAUDI ARABIA ETF",
       "cusip": "46434V423",
       "shares": 192689,
-      "value": 8156525
+      "value": 8156525,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MSCI SAUDI ARBIA",
+      "putCall": null
     },
     {
       "name": "MINISO GROUP HOLDING LTD",
       "cusip": "66981J102",
       "shares": 395971,
-      "value": 8077808
+      "value": 8077808,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "HDFC BANK LTD",
       "cusip": "40415F101",
       "shares": 119596,
-      "value": 8026088
+      "value": 8026088,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "DR REDDY'S LABORATORIES LTD",
       "cusip": "256135203",
       "shares": 115238,
-      "value": 8018260
+      "value": 8018260,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
     },
     {
       "name": "RIO TINTO PLC",
       "cusip": "767204100",
       "shares": 105426,
-      "value": 7850034
+      "value": 7850034,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "HELLO GROUP INC",
       "cusip": "423403104",
       "shares": 1036348,
-      "value": 7202619
+      "value": 7202619,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADS",
+      "putCall": null
     },
     {
       "name": "CELESTICA INC",
       "cusip": "15101Q108",
       "shares": 233872,
-      "value": 6883492
+      "value": 6883492,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SUB VTG SHS",
+      "putCall": null
     },
     {
       "name": "ISHARES MSCI INDIA SMALL-CAP ETF",
       "cusip": "46429B614",
       "shares": 88992,
-      "value": 6210752
+      "value": 6210752,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MSCI INDIA SM CP",
+      "putCall": null
     },
     {
       "name": "ISHARES MSCI INDIA ETF",
       "cusip": "46429B598",
       "shares": 85090,
-      "value": 4153243
+      "value": 4153243,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MSCI INDIA ETF",
+      "putCall": null
     },
     {
       "name": "ADECOAGRO SA",
       "cusip": "L00849106",
       "shares": 370517,
-      "value": 4112739
+      "value": 4112739,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ENERPLUS CORP",
       "cusip": "292766102",
       "shares": 154569,
-      "value": 2380780
+      "value": 2380780,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "VERMILION ENERGY INC",
       "cusip": "923725105",
       "shares": 187071,
-      "value": 2265679
+      "value": 2265679,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "UNITED MICROELECTRONICS CORP",
       "cusip": "910873405",
       "shares": 220778,
-      "value": 1867782
+      "value": 1867782,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR NEW",
+      "putCall": null
     },
     {
       "name": "KB FINANCIAL GROUP INC",
       "cusip": "48241A105",
       "shares": 36022,
-      "value": 1490230
+      "value": 1490230,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "ISHARES MSCI ACWI ETF",
       "cusip": "464288257",
       "shares": 12347,
-      "value": 1256546
+      "value": 1256546,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MSCI ACWI ETF",
+      "putCall": null
     },
     {
       "name": "VANGUARD FTSE ALL-WORLD EX-US ETF",
       "cusip": "922042775",
       "shares": 10961,
-      "value": 615373
+      "value": 615373,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ALLWRLD EX US",
+      "putCall": null
     },
     {
       "name": "TORM PLC",
       "cusip": "G89479102",
       "shares": 11720,
-      "value": 354638
+      "value": 354638,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CL A",
+      "putCall": null
     },
     {
       "name": "JD.COM INC",
       "cusip": "47215P106",
       "shares": 10975,
-      "value": 317068
+      "value": 317068,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR CL A",
+      "putCall": null
     }
   ],
   "totalValue": 3927453180,
-  "positionsCount": 89
+  "positionsCount": 89,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 3927453180
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

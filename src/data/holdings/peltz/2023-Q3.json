@@ -9,51 +9,123 @@
       "name": "Janus Henderson Group plc",
       "cusip": "G4474Y214",
       "shares": 31867800,
-      "value": 868397550
+      "value": 868397550,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "Ferguson Plc New",
       "cusip": "G3421J106",
       "shares": 5494700,
-      "value": 864371257
+      "value": 864371257,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "The Walt Disney Company",
       "cusip": "254687106",
       "shares": 6425050,
-      "value": 573628464
+      "value": 573628464,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Invesco Ltd",
       "cusip": "G491BT108",
       "shares": 33940096,
-      "value": 570533014
+      "value": 570533014,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 20732628,
-      "value": 450934659
+      "value": 450934659,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "General Electric Co.",
       "cusip": "369604301",
       "shares": 4028998,
-      "value": 442585430
+      "value": 442585430,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "GE HealthCare Technologies Inc",
       "cusip": "36266G107",
       "shares": 1342830,
-      "value": 109091509
+      "value": 109091509,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Mondelez Intl Inc",
       "cusip": "609207105",
       "shares": 16530,
-      "value": 1205698
+      "value": 1205698,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     }
   ],
   "totalValue": 3880747581,
-  "positionsCount": 8
+  "positionsCount": 8,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 3880747581
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

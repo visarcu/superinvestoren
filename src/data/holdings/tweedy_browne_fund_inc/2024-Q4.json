@@ -1,0 +1,943 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-11-22",
+  "period": "2024-09-30",
+  "accession": "0001752724-24-261868",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cusip": "084670702",
+      "shares": 22551,
+      "value": 10379323.26,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "000000000",
+      "shares": 27835,
+      "value": 8929110.31,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 52371,
+      "value": 8487244.26,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 49976,
+      "value": 8288519.6,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Safran SA",
+      "cusip": "000000000",
+      "shares": 34834,
+      "value": 8206826.13,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "FMC Corp",
+      "cusip": "302491303",
+      "shares": 116052,
+      "value": 7652468.88,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "DHL GROUP",
+      "cusip": "000000000",
+      "shares": 169154,
+      "value": 7557036.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Kemira Oyj",
+      "cusip": "000000000",
+      "shares": 287855,
+      "value": 7202662.04,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Ionis Pharmaceuticals Inc",
+      "cusip": "462222100",
+      "shares": 175002,
+      "value": 7010580.12,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "000000000",
+      "shares": 57951,
+      "value": 6674103.08,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "DBS Group Holdings Ltd",
+      "cusip": "000000000",
+      "shares": 216691,
+      "value": 6431429.45,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "United Overseas Bank Ltd",
+      "cusip": "000000000",
+      "shares": 249460,
+      "value": 6259850.39,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "AutoZone Inc",
+      "cusip": "053332102",
+      "shares": 1945,
+      "value": 6126827.8,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Nestle SA",
+      "cusip": "000000000",
+      "shares": 60675,
+      "value": 6111016.54,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Teleperformance SE",
+      "cusip": "000000000",
+      "shares": 58650,
+      "value": 6087438.92,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Inchcape PLC",
+      "cusip": "000000000",
+      "shares": 552500,
+      "value": 5902828.64,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Diageo PLC",
+      "cusip": "000000000",
+      "shares": 161513,
+      "value": 5639281.39,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "000000000",
+      "shares": 499182,
+      "value": 5540920.2,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Winpak Ltd",
+      "cusip": "97535P104",
+      "shares": 154890,
+      "value": 5447147.49,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "LG Corp",
+      "cusip": "000000000",
+      "shares": 89851,
+      "value": 5434896.46,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Tarkett SADIR",
+      "cusip": "000000000",
+      "shares": 475398,
+      "value": 4997949.98,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Rheinmetall AG",
+      "cusip": "000000000",
+      "shares": 8988,
+      "value": 4879106.32,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "TotalEnergies SE",
+      "cusip": "000000000",
+      "shares": 68000,
+      "value": 4439646.9,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Dr Ing hc F Porsche AG",
+      "cusip": "000000000",
+      "shares": 54465,
+      "value": 4346174.92,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Kuraray Co Ltd",
+      "cusip": "000000000",
+      "shares": 288625,
+      "value": 4276710.62,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Trelleborg AB",
+      "cusip": "000000000",
+      "shares": 106473,
+      "value": 4098589.72,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "BAE Systems PLC",
+      "cusip": "000000000",
+      "shares": 242737,
+      "value": 4029241.53,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fresenius SE & Co KGaA",
+      "cusip": "000000000",
+      "shares": 89400,
+      "value": 3415293.8,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Rubis SCA",
+      "cusip": "000000000",
+      "shares": 123575,
+      "value": 3381697.35,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Grafton Group PLC",
+      "cusip": "000000000",
+      "shares": 229117,
+      "value": 3198649.92,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Heineken Holding NV",
+      "cusip": "000000000",
+      "shares": 41905,
+      "value": 3170875.5,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Johnson Service Group PLC",
+      "cusip": "000000000",
+      "shares": 1504280,
+      "value": 3143679.39,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Wuliangye Yibin Co Ltd",
+      "cusip": "000000000",
+      "shares": 131955,
+      "value": 3056399.86,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Inaba Denki Sangyo Co Ltd",
+      "cusip": "000000000",
+      "shares": 111630,
+      "value": 2988974.41,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Howden Joinery Group PLC",
+      "cusip": "000000000",
+      "shares": 243576,
+      "value": 2963356.46,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Aalberts NV",
+      "cusip": "000000000",
+      "shares": 70260,
+      "value": 2857394.24,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Lassonde Industries Inc",
+      "cusip": "517907101",
+      "shares": 21490,
+      "value": 2819573.26,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "HAITIAN INT'L",
+      "cusip": "000000000",
+      "shares": 868680,
+      "value": 2795880.27,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Mitsubishi Gas Chemical Co Inc",
+      "cusip": "000000000",
+      "shares": 143035,
+      "value": 2769403.19,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Brenntag SE",
+      "cusip": "000000000",
+      "shares": 37035,
+      "value": 2768478.43,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Computacenter PLC",
+      "cusip": "000000000",
+      "shares": 82845,
+      "value": 2749211.24,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alten SA",
+      "cusip": "000000000",
+      "shares": 24440,
+      "value": 2730353.83,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CVS Group PLC",
+      "cusip": "000000000",
+      "shares": 179539,
+      "value": 2726134.9,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Megacable Holdings SAB de CV",
+      "cusip": "000000000",
+      "shares": 1244322,
+      "value": 2601383.31,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "U-PRESID CHINA",
+      "cusip": "000000000",
+      "shares": 2729475,
+      "value": 2561683.01,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Samsung Electronics Co Ltd",
+      "cusip": "000000000",
+      "shares": 51190,
+      "value": 2407421.43,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Transcosmos Inc",
+      "cusip": "000000000",
+      "shares": 92200,
+      "value": 2285018.18,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Vertu Motors PLC",
+      "cusip": "000000000",
+      "shares": 2741248,
+      "value": 2213537.75,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SOL SpA",
+      "cusip": "000000000",
+      "shares": 55200,
+      "value": 2199332.77,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "ADEKA Corp",
+      "cusip": "000000000",
+      "shares": 103690,
+      "value": 2114177.05,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Coca-Cola Femsa SAB de CV",
+      "cusip": "191241108",
+      "shares": 23120,
+      "value": 2051206.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Nihon Kohden Corp",
+      "cusip": "000000000",
+      "shares": 115710,
+      "value": 1720603.82,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fagron",
+      "cusip": "000000000",
+      "shares": 79510,
+      "value": 1650510.72,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "E-L Financial Corp Ltd",
+      "cusip": "268575107",
+      "shares": 1750,
+      "value": 1638661.68,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Autoliv Inc",
+      "cusip": "052800109",
+      "shares": 16520,
+      "value": 1542472.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHOW SANG SANG",
+      "cusip": "000000000",
+      "shares": 1663100,
+      "value": 1535169.23,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Taikisha Ltd",
+      "cusip": "000000000",
+      "shares": 44060,
+      "value": 1507785.93,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Sopra Steria Group",
+      "cusip": "000000000",
+      "shares": 7040,
+      "value": 1480257.29,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Subaru Corp",
+      "cusip": "000000000",
+      "shares": 77490,
+      "value": 1344590.18,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SKF AB",
+      "cusip": "000000000",
+      "shares": 66115,
+      "value": 1317525.6,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "DB Insurance Co Ltd",
+      "cusip": "000000000",
+      "shares": 15005,
+      "value": 1288568.86,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Koito Manufacturing Co Ltd",
+      "cusip": "000000000",
+      "shares": 89190,
+      "value": 1231475.46,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Embotelladora Andina SA",
+      "cusip": "000000000",
+      "shares": 502909,
+      "value": 1209804.48,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fuso Chemical Co Ltd",
+      "cusip": "000000000",
+      "shares": 43320,
+      "value": 1205352.35,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alliance Global Group Inc",
+      "cusip": "000000000",
+      "shares": 6997100,
+      "value": 1171229.94,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Star Micronics Co Ltd",
+      "cusip": "000000000",
+      "shares": 86595,
+      "value": 1164165.16,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Okamoto Industries Inc",
+      "cusip": "000000000",
+      "shares": 24910,
+      "value": 910789.29,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "China Banking Corp",
+      "cusip": "000000000",
+      "shares": 893400,
+      "value": 813087.66,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Hitachi Zosen Corp",
+      "cusip": "000000000",
+      "shares": 103740,
+      "value": 718724.41,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fukuda Denshi Co Ltd",
+      "cusip": "000000000",
+      "shares": 12000,
+      "value": 645973.15,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SThree PLC",
+      "cusip": "000000000",
+      "shares": 127255,
+      "value": 641807.54,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Hang Lung Group Ltd",
+      "cusip": "000000000",
+      "shares": 405955,
+      "value": 548764.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Dentium Co Ltd",
+      "cusip": "000000000",
+      "shares": 8035,
+      "value": 501381.05,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Kamigumi Co Ltd",
+      "cusip": "000000000",
+      "shares": 20600,
+      "value": 469347.04,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Dreyfus Government Securities Cash Management",
+      "cusip": "262006885",
+      "shares": 459366.68,
+      "value": 459366.68,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "KSB SE & Co KGaA",
+      "cusip": "000000000",
+      "shares": 648,
+      "value": 433920.24,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SMEIC",
+      "cusip": "000000000",
+      "shares": 357122,
+      "value": 363550.2,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    }
+  ],
+  "totalValue": 263920932.06,
+  "positionsCount": 77,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 263920932.06000006
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

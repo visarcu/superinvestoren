@@ -731,7 +731,7 @@ export default function ModernDashboard() {
             
             <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
               marketLoading 
-                ? 'bg-amber-500/20 text-amber-400' 
+                ? 'bg-green-500/20 text-amber-400' 
                 : 'bg-green-500/20 text-green-400'
             }`}>
               <div className={`w-2 h-2 rounded-full ${
@@ -910,7 +910,7 @@ export default function ModernDashboard() {
                   </div>
                   
                   {loading && (
-                    <div className="flex items-center gap-2 px-4 py-2 bg-amber-500/20 text-amber-400 rounded-lg">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-amber-400 rounded-lg">
                       <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
                       <span className="text-xs font-bold">Lädt...</span>
                     </div>

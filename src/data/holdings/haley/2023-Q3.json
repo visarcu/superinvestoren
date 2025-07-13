@@ -9,99 +9,235 @@
       "name": "MARRIOTT INTL INC NEW",
       "cusip": "571903202",
       "shares": 88900,
-      "value": 16330041
+      "value": 16330041,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "PATHWARD FINANCIAL INC",
       "cusip": "59100U108",
       "shares": 332505,
-      "value": 15414932
+      "value": 15414932,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TOPGOLF CALLAWAY BRANDS CORP",
       "cusip": "131193104",
       "shares": 660964,
-      "value": 13120135
+      "value": 13120135,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DAKTRONICS INC",
       "cusip": "234264109",
       "shares": 2046083,
-      "value": 13094931
+      "value": 13094931,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HILTON WORLDWIDE HLDGS INC",
       "cusip": "43300A203",
       "shares": 87700,
-      "value": 12764735
+      "value": 12764735,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BANCORP INC DEL",
       "cusip": "05969A105",
       "shares": 276735,
-      "value": 9035398
+      "value": 9035398,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JOINT CORP",
       "cusip": "47973J102",
       "shares": 664978,
-      "value": 8977203
+      "value": 8977203,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DOLE PLC",
       "cusip": "G27907107",
       "shares": 449249,
-      "value": 6073846
+      "value": 6073846,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "WASTE CONNECTIONS INC",
       "cusip": "94106B101",
       "shares": 36300,
-      "value": 5188359
+      "value": 5188359,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 38852,
-      "value": 5064747
+      "value": 5064747,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ARES MANAGEMENT CORPORATION",
       "cusip": "03990B101",
       "shares": 49368,
-      "value": 4756607
+      "value": 4756607,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A COM STK",
+      "putCall": null
     },
     {
       "name": "GXO LOGISTICS INCORPORATED",
       "cusip": "36262G101",
       "shares": 57000,
-      "value": 3580740
+      "value": 3580740,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "KKR & CO INC",
       "cusip": "47973J102",
       "shares": 56460,
-      "value": 3161760
+      "value": 3161760,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K305",
       "shares": 25200,
-      "value": 3016440
+      "value": 3016440,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL A",
+      "putCall": null
     },
     {
       "name": "WILLSCOT MOBIL MINI HLDNG CO",
       "cusip": "971378104",
       "shares": 33900,
-      "value": 1620081
+      "value": 1620081,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "BRAGG GAMING GROUP INC",
       "cusip": "104833306",
       "shares": 153200,
-      "value": 470324
+      "value": 470324,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     }
   ],
   "totalValue": 121670279,
-  "positionsCount": 16
+  "positionsCount": 16,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 121670279
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

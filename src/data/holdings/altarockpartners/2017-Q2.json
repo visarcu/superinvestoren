@@ -9,51 +9,51 @@
       "name": "PRICELINE GROUP INC",
       "cusip": "741503403",
       "shares": 79413,
-      "value": 141353
+      "value": 141353000
     },
     {
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 385537,
-      "value": 126194
+      "value": 126194000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 1082436,
-      "value": 121276
+      "value": 121276000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 536070,
-      "value": 118021
+      "value": 118021000
     },
     {
       "name": "WABTEC",
       "cusip": "929740108",
       "shares": 686426,
-      "value": 53541
+      "value": 53541000
     },
     {
       "name": "MASTERCARD INC CL A",
       "cusip": "57636Q104",
       "shares": 398290,
-      "value": 44796
+      "value": 44796000
     },
     {
       "name": "LIBERTY GLOBAL CL C",
       "cusip": "G5480U120",
       "shares": 1254232,
-      "value": 43948
+      "value": 43948000
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 282516,
-      "value": 25107
+      "value": 25107000
     }
   ],
-  "totalValue": 674236,
+  "totalValue": 674236000,
   "positionsCount": 8
 }

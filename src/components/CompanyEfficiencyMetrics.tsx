@@ -146,8 +146,8 @@ export default function CompanyEfficiencyMetrics({ ticker, isPremium = false }: 
         {!isPremium && (
           <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
             <div className="text-center">
-              <div className="w-8 h-8 mx-auto mb-2 bg-amber-500/20 rounded-lg flex items-center justify-center">
-                <LockClosedIcon className="w-4 h-4 text-amber-400" />
+              <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <LockClosedIcon className="w-4 h-4 text-green-400" />
               </div>
               <p className="text-xs text-theme-secondary font-medium">Premium</p>
             </div>

@@ -9,147 +9,347 @@
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 38210869,
-      "value": 14368815179
+      "value": 14368815179,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 19916349,
-      "value": 7103365034
+      "value": 7103365034,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
     },
     {
       "name": "CANADIAN NATL RY CO",
       "cusip": "136375102",
       "shares": 54826786,
-      "value": 6887889125
+      "value": 6887889125,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WASTE MGMT INC DEL",
       "cusip": "94106L109",
       "shares": 35234344,
-      "value": 6310471010
+      "value": 6310471010,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CATERPILLAR INC",
       "cusip": "149123101",
       "shares": 7353614,
-      "value": 2174243051
+      "value": 2174243051,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DEERE & CO",
       "cusip": "244199105",
       "shares": 3557378,
-      "value": 1422488741
+      "value": 1422488741,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ECOLAB INC",
       "cusip": "278865100",
       "shares": 5218044,
-      "value": 1034999027
+      "value": 1034999027,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "COCA-COLA FEMSA SAB DE CV",
       "cusip": "191241108",
       "shares": 6214719,
-      "value": 588161006
+      "value": 588161006,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORD ADR REP",
+      "putCall": null
     },
     {
       "name": "WALMART INC",
       "cusip": "931142103",
       "shares": 3030159,
-      "value": 477704566
+      "value": 477704566,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FEDEX CORP",
       "cusip": "31428X106",
       "shares": 1534362,
-      "value": 388147555
+      "value": 388147555,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WASTE CONNECTIONS INC",
       "cusip": "94106B101",
       "shares": 2149175,
-      "value": 320807352
+      "value": 320807352,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SCHRODINGER INC",
       "cusip": "80810D103",
       "shares": 6981664,
-      "value": 249943571
+      "value": 249943571,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CROWN CASTLE INC",
       "cusip": "22822V101",
       "shares": 1420072,
-      "value": 163578094
+      "value": 163578094,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "COUPANG INC",
       "cusip": "22266T109",
       "shares": 9248045,
-      "value": 149725849
+      "value": 149725849,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "UNITED PARCEL SERVICE INC",
       "cusip": "911312106",
       "shares": 755089,
-      "value": 118722643
+      "value": 118722643,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
     },
     {
       "name": "ANHEUSER BUSCH INBEV SA/NV",
       "cusip": "03524A108",
       "shares": 1703000,
-      "value": 110047860
+      "value": 110047860,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
       "name": "MADISON SQUARE GRDN SPRT COR",
       "cusip": "55825T103",
       "shares": 592406,
-      "value": 107717183
+      "value": 107717183,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "KRAFT HEINZ CO",
       "cusip": "500754106",
       "shares": 2622600,
-      "value": 96983748
+      "value": 96983748,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DANAHER CORPORATION",
       "cusip": "235851102",
       "shares": 373000,
-      "value": 86289820
+      "value": 86289820,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HORMEL FOODS CORP",
       "cusip": "440452100",
       "shares": 2195290,
-      "value": 70490762
+      "value": 70490762,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 520000,
-      "value": 27528800
+      "value": 27528800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ON HLDG AG",
       "cusip": "H5919C104",
       "shares": 500000,
-      "value": 13485000
+      "value": 13485000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "NAMEN AKT A",
+      "putCall": null
     },
     {
       "name": "VERALTO CORP",
       "cusip": "92338C103",
       "shares": 124333,
-      "value": 10227633
+      "value": 10227633,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
     },
     {
       "name": "VROOM INC",
       "cusip": "92918V109",
       "shares": 2500000,
-      "value": 1506250
+      "value": 1506250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 42283338859,
-  "positionsCount": 24
+  "positionsCount": 24,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 42283338859
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

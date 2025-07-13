@@ -1,4 +1,4 @@
-// src/app/pricing/page.tsx - HOMEPAGE-KONSISTENTE VERSION
+// src/app/pricing/page.tsx - FIXED: Button Text + Badge Position
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -196,7 +196,7 @@ export default function ImprovedPricingPage() {
               </>
             )}
 
-            {/* 🎯 CTA Buttons wie auf Homepage */}
+            {/* 🎯 CTA Buttons wie auf Homepage - FIXED BUTTON TEXT */}
             {!isPremium && (
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
@@ -209,7 +209,7 @@ export default function ImprovedPricingPage() {
                   href="/analyse"
                   className="px-6 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition border border-gray-700"
                 >
-                  Erst mal kostenlos probieren
+                  Bei Basic bleiben
                 </Link>
               </div>
             )}
@@ -287,18 +287,18 @@ export default function ImprovedPricingPage() {
               </button>
             </div>
 
-            {/* 🌟 Premium Plan - Homepage Style mit Glows */}
-            <div className="bg-gray-900/80 border border-gray-800 rounded-xl p-8 relative overflow-hidden">
+            {/* 🌟 Premium Plan - FIXED BADGE POSITION */}
+            <div className="bg-gray-900/80 border border-gray-800 rounded-xl p-8 relative overflow-hidden pt-16">
               
               {/* 🌟 Premium Glow Effects wie Homepage */}
               <div className="absolute inset-0 bg-green-500/5 rounded-xl blur-xl -z-10"></div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
               <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
               
-              {/* 🌟 Popular Badge - Homepage Style */}
+              {/* 🌟 Popular Badge - FIXED POSITION */}
               {!isPremium && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-green-500 text-black px-4 py-1 rounded-md text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="bg-green-500 text-black px-4 py-1 rounded-md text-xs font-bold uppercase tracking-wider flex items-center gap-1 shadow-lg">
                     <Star className="w-3 h-3" />
                     BELIEBT
                   </div>
@@ -443,7 +443,7 @@ export default function ImprovedPricingPage() {
         </div>
       </section>
 
-      {/* 🎯 HOMEPAGE-KONSISTENTE Bottom CTA */}
+      {/* 🎯 HOMEPAGE-KONSISTENTE Bottom CTA - FIXED BUTTON TEXT */}
       {!isPremium && (
         <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -491,7 +491,7 @@ export default function ImprovedPricingPage() {
                   href="/analyse"
                   className="px-8 py-4 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition border border-gray-700"
                 >
-                  Erst mal kostenlos probieren
+                  Bei Basic bleiben
                 </Link>
               </div>
             </div>

@@ -1,0 +1,1699 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-11-21",
+  "period": "2023-09-29",
+  "accession": "0001752724-23-260148",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "Nestle SA",
+      "cusip": "000000000",
+      "shares": 2535079,
+      "value": 287133381.28,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "TotalEnergies SE",
+      "cusip": "000000000",
+      "shares": 3831330,
+      "value": 252264897.17,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Berkshire Hathaway Inc",
+      "cusip": "084670108",
+      "shares": 418,
+      "value": 222157386,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Safran SA",
+      "cusip": "000000000",
+      "shares": 1375040,
+      "value": 215787176.2,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 1509760,
+      "value": 197567193.6,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "BAE Systems PLC",
+      "cusip": "000000000",
+      "shares": 16182566,
+      "value": 196720555.61,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Diageo PLC",
+      "cusip": "000000000",
+      "shares": 5296459,
+      "value": 195342521.18,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Heineken Holding NV",
+      "cusip": "000000000",
+      "shares": 2160839,
+      "value": 163074542.3,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "United Overseas Bank Ltd",
+      "cusip": "000000000",
+      "shares": 7345990,
+      "value": 153238497.78,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "000000000",
+      "shares": 539210,
+      "value": 147293435.22,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "DBS Group Holdings Ltd",
+      "cusip": "000000000",
+      "shares": 5536500,
+      "value": 136183727.14,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "000000000",
+      "shares": 11010735,
+      "value": 133856065.67,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "000000000",
+      "shares": 1284801,
+      "value": 131293871.77,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SOL SpA",
+      "cusip": "000000000",
+      "shares": 4365000,
+      "value": 123474282.98,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Ionis Pharmaceuticals Inc",
+      "cusip": "462222100",
+      "shares": 2589316,
+      "value": 117451373.76,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 750927,
+      "value": 116956880.25,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Deutsche Post AG",
+      "cusip": "000000000",
+      "shares": 2644654,
+      "value": 107460499.63,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Zurich Insurance Group AG",
+      "cusip": "000000000",
+      "shares": 220831,
+      "value": 101103231.99,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "TREASURY BILL",
+      "cusip": "912797FA0",
+      "shares": 100000000,
+      "value": 99853542,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Trelleborg AB",
+      "cusip": "000000000",
+      "shares": 3901988,
+      "value": 97495675.13,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Coca-Cola Femsa SAB de CV",
+      "cusip": "191241108",
+      "shares": 1167170,
+      "value": 91552814.8,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SCOR SE",
+      "cusip": "000000000",
+      "shares": 2895521,
+      "value": 90024381.27,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fresenius SE & Co KGaA",
+      "cusip": "000000000",
+      "shares": 2540809,
+      "value": 79030081.36,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Teleperformance SE",
+      "cusip": "000000000",
+      "shares": 623563,
+      "value": 78403389.91,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Henkel AG & Co KGaA",
+      "cusip": "000000000",
+      "shares": 1219727,
+      "value": 77014948.91,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "National Bank of Canada",
+      "cusip": "633067103",
+      "shares": 1124700,
+      "value": 75060414.94,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Munich Re",
+      "cusip": "000000000",
+      "shares": 190558,
+      "value": 74318641.72,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Baidu Inc",
+      "cusip": "000000000",
+      "shares": 4349576,
+      "value": 73197872.3,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Husqvarna AB",
+      "cusip": "000000000",
+      "shares": 9470920,
+      "value": 72682263.73,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "000000000",
+      "shares": 6558340,
+      "value": 71098573.84,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "FMC Corp",
+      "cusip": "302491303",
+      "shares": 1041025,
+      "value": 69717444.25,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Autoliv Inc",
+      "cusip": "052800109",
+      "shares": 704365,
+      "value": 67957135.2,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SKF AB",
+      "cusip": "000000000",
+      "shares": 3801500,
+      "value": 63467168.16,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "LG Corp",
+      "cusip": "000000000",
+      "shares": 998776,
+      "value": 62085945.11,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 454640,
+      "value": 59944284,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Tencent Holdings Ltd",
+      "cusip": "000000000",
+      "shares": 1485150,
+      "value": 57563678.43,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Unilever PLC",
+      "cusip": "000000000",
+      "shares": 1156067,
+      "value": 57208029.48,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Dreyfus Treasury Securities Cash Management",
+      "cusip": "261941108",
+      "shares": 55929486.45,
+      "value": 55929486.45,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Rubis SCA",
+      "cusip": "000000000",
+      "shares": 2392742,
+      "value": 53665139.38,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Krones AG",
+      "cusip": "000000000",
+      "shares": 486959,
+      "value": 50184681.78,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Inchcape PLC",
+      "cusip": "000000000",
+      "shares": 5273360,
+      "value": 48587865.28,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Kemira Oyj",
+      "cusip": "000000000",
+      "shares": 2919753,
+      "value": 45462874.99,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "TX Group AG",
+      "cusip": "000000000",
+      "shares": 429703,
+      "value": 43449417.91,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Winpak Ltd",
+      "cusip": "97535P104",
+      "shares": 1456214,
+      "value": 41607652.97,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Kuraray Co Ltd",
+      "cusip": "000000000",
+      "shares": 3363180,
+      "value": 39898266.61,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "KBC Group NV",
+      "cusip": "000000000",
+      "shares": 552008,
+      "value": 34414911.78,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Ubisoft Entertainment SA",
+      "cusip": "000000000",
+      "shares": 1030724,
+      "value": 33449887.16,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Sumitomo Heavy Industries Ltd",
+      "cusip": "000000000",
+      "shares": 1284760,
+      "value": 32581035.64,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Computacenter PLC",
+      "cusip": "000000000",
+      "shares": 1043507,
+      "value": 32143480.67,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Samsung Electronics Co Ltd",
+      "cusip": "000000000",
+      "shares": 618300,
+      "value": 31257620.95,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "KSB SE & Co KGaA",
+      "cusip": "000000000",
+      "shares": 42354,
+      "value": 30426160.01,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Grafton Group PLC",
+      "cusip": "000000000",
+      "shares": 2704933,
+      "value": 29854521.46,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Mitsubishi Gas Chemical Co Inc",
+      "cusip": "000000000",
+      "shares": 2113385,
+      "value": 28446952.76,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alten SA",
+      "cusip": "000000000",
+      "shares": 207355,
+      "value": 27247999.86,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Phoenix Mecano AG",
+      "cusip": "000000000",
+      "shares": 68178,
+      "value": 26829995.63,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Johnson Service Group PLC",
+      "cusip": "000000000",
+      "shares": 15698026,
+      "value": 25931257.77,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Nabtesco Corp",
+      "cusip": "000000000",
+      "shares": 1368360,
+      "value": 24659518.43,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Dentsu Group Inc",
+      "cusip": "000000000",
+      "shares": 821635,
+      "value": 24200480.51,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Aalberts NV",
+      "cusip": "000000000",
+      "shares": 660210,
+      "value": 24124229.49,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Lassonde Industries Inc",
+      "cusip": "517907101",
+      "shares": 251390,
+      "value": 23435795.56,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Embotelladora Andina SA",
+      "cusip": "000000000",
+      "shares": 11044000,
+      "value": 21013702.58,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Babcock International Group PL",
+      "cusip": "000000000",
+      "shares": 4003983,
+      "value": 20131286.89,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Megacable Holdings SAB de CV",
+      "cusip": "000000000",
+      "shares": 9067593,
+      "value": 20088173.92,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Niterra Co Ltd",
+      "cusip": "000000000",
+      "shares": 820800,
+      "value": 18604313.5,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Hang Lung Group Ltd",
+      "cusip": "000000000",
+      "shares": 12583508,
+      "value": 17707348.06,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Howden Joinery Group PLC",
+      "cusip": "000000000",
+      "shares": 1968375,
+      "value": 17618614.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Rheinmetall AG",
+      "cusip": "000000000",
+      "shares": 65633,
+      "value": 16908142.18,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Buzzi SpA",
+      "cusip": "000000000",
+      "shares": 616566,
+      "value": 16872923.86,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Tarkett SADIR",
+      "cusip": "000000000",
+      "shares": 1527083,
+      "value": 16572191.04,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "HAITIAN INT'L",
+      "cusip": "000000000",
+      "shares": 7729285,
+      "value": 16313506.28,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fagron",
+      "cusip": "000000000",
+      "shares": 926488,
+      "value": 15777581.64,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Brenntag SE",
+      "cusip": "000000000",
+      "shares": 203190,
+      "value": 15744480.67,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "ADEKA Corp",
+      "cusip": "000000000",
+      "shares": 891970,
+      "value": 15253207.88,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fuso Chemical Co Ltd",
+      "cusip": "000000000",
+      "shares": 564220,
+      "value": 14826208.35,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Vertu Motors PLC",
+      "cusip": "000000000",
+      "shares": 16292379,
+      "value": 14807401.72,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Transcosmos Inc",
+      "cusip": "000000000",
+      "shares": 588565,
+      "value": 12587000.29,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "WH Group Ltd",
+      "cusip": "000000000",
+      "shares": 22047485,
+      "value": 11538726.66,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "U-PRESID CHINA",
+      "cusip": "000000000",
+      "shares": 15974780,
+      "value": 11212860.21,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Fuji Seal International Inc",
+      "cusip": "000000000",
+      "shares": 907464,
+      "value": 10822382.27,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Coltene Holding AG",
+      "cusip": "000000000",
+      "shares": 142761,
+      "value": 10377794.6,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Adris Grupa DD",
+      "cusip": "000000000",
+      "shares": 166388,
+      "value": 10041307.82,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Norma Group SE",
+      "cusip": "000000000",
+      "shares": 537857,
+      "value": 9952366.58,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Great Eagle Holdings Ltd",
+      "cusip": "000000000",
+      "shares": 5542142,
+      "value": 9374371.66,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 8715214.57,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Taikisha Ltd",
+      "cusip": "000000000",
+      "shares": 271950,
+      "value": 8228349.87,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 6777124.09,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Binggrae Co Ltd",
+      "cusip": "000000000",
+      "shares": 160642,
+      "value": 6643287.64,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "SMEIC",
+      "cusip": "000000000",
+      "shares": 6463000,
+      "value": 6490409.58,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Kenvue Inc",
+      "cusip": "49177J102",
+      "shares": 293905,
+      "value": 5901612.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Nifco Inc/Japan",
+      "cusip": "654101104",
+      "shares": 221220,
+      "value": 5727532.58,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "LX Holdings Corp",
+      "cusip": "000000000",
+      "shares": 991707,
+      "value": 5514248.64,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Alliance Global Group Inc",
+      "cusip": "000000000",
+      "shares": 22609020,
+      "value": 4923344.29,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 4323720.63,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 4298012.65,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "TAI Cheung Holdings Ltd",
+      "cusip": "000000000",
+      "shares": 9389578,
+      "value": 3974716.14,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 3703760.77,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 3625632.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Okamoto Industries Inc",
+      "cusip": "000000000",
+      "shares": 104825,
+      "value": 3558782.49,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 3515461.96,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Johnson Electric Holdings Ltd",
+      "cusip": "000000000",
+      "shares": 2791715,
+      "value": 3422118.56,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 2884822.96,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 2847007.68,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Nippon Kanzai Holdings Co Ltd",
+      "cusip": "000000000",
+      "shares": 164400,
+      "value": 2828028.6,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 2681261.22,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 2483482.65,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 2245919.53,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Bank of New York Mellon",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 2142961.59,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Kangnam Jevisco Co Ltd",
+      "cusip": "000000000",
+      "shares": 131339,
+      "value": 2123356.37,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Philip Morris CR AS",
+      "cusip": "000000000",
+      "shares": 2800,
+      "value": 2087634.85,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1995955.24,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1969024.64,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1705878.6,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1626564.22,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "YAMABIKO Corp",
+      "cusip": "000000000",
+      "shares": 164305,
+      "value": 1582414.77,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1553483.44,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "EMPEROR E HOTEL",
+      "cusip": "000000000",
+      "shares": 25880073,
+      "value": 1503531.5,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Bank of New York Mellon",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1495364.47,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1479888.15,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1465139.24,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1334655.45,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1333705.38,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1122945.82,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1063518.49,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 1052285.21,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 970277.03,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 862333.1,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 840439.75,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 830767.33,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 782619.8,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 677111.19,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 591984.4,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 583430.93,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "Neue Zuercher Zeitung AG",
+      "cusip": "000000000",
+      "shares": 80,
+      "value": 525142.11,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 375473.72,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 326239.1,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Bank of New York Mellon",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 245942.36,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 171342.58,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "CHASE SECURITIES INTERNATIONAL LIMITED",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 151860.25,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "State Street Bank and Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 108306.94,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    },
+    {
+      "name": "The Northern Trust Company",
+      "cusip": "000000000",
+      "shares": 1,
+      "value": 105831.24,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      }
+    }
+  ],
+  "totalValue": 5710072191.340002,
+  "positionsCount": 140,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 5710072191.340001
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

@@ -1,0 +1,419 @@
+{
+  "form": "13F-HR",
+  "date": "2024-08-07",
+  "period": "2024-08-07",
+  "accession": "0000071701-24-000053",
+  "quarterKey": "2024-Q3",
+  "positions": [
+    {
+      "name": "Meta Platforms, Inc, Class A",
+      "cusip": "30303M102",
+      "shares": 3059517,
+      "value": 1542669707
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 9635496,
+      "value": 1334034443
+    },
+    {
+      "name": "Berkshire Hathaway Inc, Class A",
+      "cusip": "084670108",
+      "shares": 1831,
+      "value": 1121013271
+    },
+    {
+      "name": "Amazon.com, Inc",
+      "cusip": "023135106",
+      "shares": 5720344,
+      "value": 1105456478
+    },
+    {
+      "name": "Applied Materials, Inc",
+      "cusip": "038222105",
+      "shares": 4185924,
+      "value": 987836266
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "949746101",
+      "shares": 15350126,
+      "value": 911644000
+    },
+    {
+      "name": "Humana Inc",
+      "cusip": "444859102",
+      "shares": 2311362,
+      "value": 863640411
+    },
+    {
+      "name": "Viatris Inc",
+      "cusip": "92556V106",
+      "shares": 57535953,
+      "value": 611607181
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "902973304",
+      "shares": 14228444,
+      "value": 564869245
+    },
+    {
+      "name": "Alphabet Inc, Class A",
+      "cusip": "02079K305",
+      "shares": 3074425,
+      "value": 560006575
+    },
+    {
+      "name": "Teck Resources Ltd, Class B",
+      "cusip": "878742204",
+      "shares": 11530660,
+      "value": 552318614
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 11911559,
+      "value": 529349682
+    },
+    {
+      "name": "Cigna Group",
+      "cusip": "125523100",
+      "shares": 1446129,
+      "value": 478046863
+    },
+    {
+      "name": "Texas Instruments, Inc",
+      "cusip": "882508104",
+      "shares": 2361294,
+      "value": 459342432
+    },
+    {
+      "name": "Markel Group, Inc",
+      "cusip": "570535104",
+      "shares": 287061,
+      "value": 452310535
+    },
+    {
+      "name": "Bank of New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 7450908,
+      "value": 446234852
+    },
+    {
+      "name": "Owens Corning",
+      "cusip": "690742101",
+      "shares": 2275729,
+      "value": 395339642
+    },
+    {
+      "name": "Intel Corp",
+      "cusip": "458140100",
+      "shares": 12642316,
+      "value": 391532520
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "46625H100",
+      "shares": 1849353,
+      "value": 374050139
+    },
+    {
+      "name": "Berkshire Hathaway Inc, Class B",
+      "cusip": "084670702",
+      "shares": 810163,
+      "value": 329574309
+    },
+    {
+      "name": "Quest Diagnostics Inc",
+      "cusip": "74834L100",
+      "shares": 2390828,
+      "value": 327256537
+    },
+    {
+      "name": "Chubb Ltd",
+      "cusip": "H1467J104",
+      "shares": 1256840,
+      "value": 320594770
+    },
+    {
+      "name": "Solventum Corp",
+      "cusip": "83444M101",
+      "shares": 5163955,
+      "value": 273069940
+    },
+    {
+      "name": "Tyson Foods Inc",
+      "cusip": "902494103",
+      "shares": 3105330,
+      "value": 177438556
+    },
+    {
+      "name": "Davis Select U.S. Equity ETF",
+      "cusip": "23908L207",
+      "shares": 3385789,
+      "value": 137530738
+    },
+    {
+      "name": "AGCO Corporation",
+      "cusip": "001084102",
+      "shares": 1357633,
+      "value": 132885118
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 2704207,
+      "value": 126692098
+    },
+    {
+      "name": "Coupang, Inc, Class A",
+      "cusip": "22266T109",
+      "shares": 5974842,
+      "value": 125172940
+    },
+    {
+      "name": "Alphabet Inc, Class C",
+      "cusip": "02079K107",
+      "shares": 675447,
+      "value": 123890489
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 258122,
+      "value": 115367628
+    },
+    {
+      "name": "JD.com Inc, Class A, ADR",
+      "cusip": "47215P106",
+      "shares": 4304912,
+      "value": 111238926
+    },
+    {
+      "name": "Darling Ingredients Inc",
+      "cusip": "237266101",
+      "shares": 2837718,
+      "value": 104286137
+    },
+    {
+      "name": "Fifth Third Bancorp",
+      "cusip": "316773100",
+      "shares": 2478079,
+      "value": 90425103
+    },
+    {
+      "name": "KE Holdings Inc, Class A, ADR",
+      "cusip": "482497104",
+      "shares": 5995230,
+      "value": 84832504
+    },
+    {
+      "name": "American Express Co.",
+      "cusip": "025816109",
+      "shares": 363803,
+      "value": 84238536
+    },
+    {
+      "name": "PNC Financial Services Group, Inc",
+      "cusip": "693475105",
+      "shares": 510360,
+      "value": 79350773
+    },
+    {
+      "name": "Davis Select International ETF",
+      "cusip": "23908L405",
+      "shares": 3866428,
+      "value": 76908114
+    },
+    {
+      "name": "Davis Select Financial ETF",
+      "cusip": "23908L108",
+      "shares": 2128485,
+      "value": 70685356
+    },
+    {
+      "name": "Davis Select Worldwide ETF",
+      "cusip": "23908L306",
+      "shares": 1916112,
+      "value": 63894663
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 1190869,
+      "value": 47360860
+    },
+    {
+      "name": "Loews Corp",
+      "cusip": "540424108",
+      "shares": 626859,
+      "value": 46851442
+    },
+    {
+      "name": "Sea Ltd, Class A, ADR",
+      "cusip": "81141R100",
+      "shares": 652316,
+      "value": 46588409
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 90293,
+      "value": 45982613
+    },
+    {
+      "name": "Rocket Companies, Inc, Class A",
+      "cusip": "77311W101",
+      "shares": 3217609,
+      "value": 44081243
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 379971,
+      "value": 43461083
+    },
+    {
+      "name": "Bank of N.T. Butterfield & Son Limited",
+      "cusip": "G0772R208",
+      "shares": 1080340,
+      "value": 37941541
+    },
+    {
+      "name": "Wesco International, Inc",
+      "cusip": "95082P105",
+      "shares": 193646,
+      "value": 30696764
+    },
+    {
+      "name": "Johnson Controls International plc",
+      "cusip": "G51502105",
+      "shares": 439642,
+      "value": 29223004
+    },
+    {
+      "name": "Liberty Formula One, Series A",
+      "cusip": "531229771",
+      "shares": 357861,
+      "value": 22985412
+    },
+    {
+      "name": "Charles Schwab Corp",
+      "cusip": "808513105",
+      "shares": 304789,
+      "value": 22459901
+    },
+    {
+      "name": "CVS Health Corporation",
+      "cusip": "126650100",
+      "shares": 364782,
+      "value": 21544025
+    },
+    {
+      "name": "SAP SE - ADR",
+      "cusip": "803054204",
+      "shares": 98807,
+      "value": 19930360
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 138132,
+      "value": 19504238
+    },
+    {
+      "name": "Noah Holdings Ltd, Class A, ADS",
+      "cusip": "65487X102",
+      "shares": 1681650,
+      "value": 16227922
+    },
+    {
+      "name": "Everest Group, Ltd",
+      "cusip": "G3223R108",
+      "shares": 40889,
+      "value": 15579527
+    },
+    {
+      "name": "Alibaba Group Holding Ltd, ADR",
+      "cusip": "01609W102",
+      "shares": 169908,
+      "value": 12233376
+    },
+    {
+      "name": "Masterbrand, Inc",
+      "cusip": "57638P104",
+      "shares": 823506,
+      "value": 12089068
+    },
+    {
+      "name": "Clear Secure, Inc",
+      "cusip": "18467V109",
+      "shares": 589764,
+      "value": 11034484
+    },
+    {
+      "name": "M & T Bank Corp",
+      "cusip": "55261F104",
+      "shares": 48247,
+      "value": 7302666
+    },
+    {
+      "name": "Truist Financial Corp",
+      "cusip": "89832Q109",
+      "shares": 134912,
+      "value": 5241331
+    },
+    {
+      "name": "Hollysys Automation Technologies Ltd",
+      "cusip": "G45667105",
+      "shares": 220761,
+      "value": 4777268
+    },
+    {
+      "name": "iShares S&P 500 Value Index Fund",
+      "cusip": "464287408",
+      "shares": 23681,
+      "value": 4310179
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 54917,
+      "value": 4063858
+    },
+    {
+      "name": "Baidu, Inc Class A, ADR",
+      "cusip": "056752108",
+      "shares": 46841,
+      "value": 4050810
+    },
+    {
+      "name": "Lam Research Corp",
+      "cusip": "512807108",
+      "shares": 1228,
+      "value": 1307636
+    },
+    {
+      "name": "Crown Holdings, Inc",
+      "cusip": "228368106",
+      "shares": 8570,
+      "value": 637522
+    },
+    {
+      "name": "RH",
+      "cusip": "74967X103",
+      "shares": 2240,
+      "value": 547546
+    },
+    {
+      "name": "Skechers U.S.A., Inc, Class A",
+      "cusip": "830566105",
+      "shares": 7490,
+      "value": 517709
+    }
+  ],
+  "totalValue": 17215167888,
+  "positionsCount": 68
+}

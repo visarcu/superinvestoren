@@ -1,168 +1,1335 @@
 {
-  "form": "NPORT-P",
-  "date": "2023-08-23",
-  "period": "2023-08-23",
+  "form": "13F-HR",
+  "date": "2023-08-14",
+  "period": "2023-08-14",
+  "accession": "0000807985-23-000016",
+  "quarterKey": "2023-Q3",
   "positions": [
     {
-      "name": "Anywhere Real Estate Inc.",
-      "cusip": "75605Y106",
-      "shares": 5710068,
-      "value": 38143254240,
-      "pctOfPortfolio": 447.7089081
-    },
-    {
-      "name": "The Boston Beer Company, Inc. Class - A",
-      "cusip": "100557107",
-      "shares": 127153,
-      "value": 39219071320,
-      "pctOfPortfolio": 460.33638049999996
-    },
-    {
-      "name": "CNX Resources Corporation",
+      "name": "CNX Resources Corp",
       "cusip": "12653C108",
-      "shares": 3034099,
-      "value": 53764234280,
-      "pctOfPortfolio": 631.06116937
+      "shares": 8749684,
+      "value": 155044400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Douglas Emmett, Inc.",
-      "cusip": "25960P109",
-      "shares": 1616862,
-      "value": 20323955340,
-      "pctOfPortfolio": 238.55373735
+      "name": "Mattel, Inc",
+      "cusip": "577081102",
+      "shares": 7076715,
+      "value": 138279011,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Eastman Kodak Company",
-      "cusip": "277461703",
-      "shares": 932150,
-      "value": 74012710000,
-      "pctOfPortfolio": 868.72895981
+      "name": "Hyatt Hotels Corp - Class A",
+      "cusip": "448579102",
+      "shares": 941303,
+      "value": 107854498,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Empire State Realty Trust, Inc.",
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 411264,
+      "value": 101952346,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 1604806,
+      "value": 100781817,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Affiliated Managers Group Inc",
+      "cusip": "008252108",
+      "shares": 581497,
+      "value": 87160585,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 1806986,
+      "value": 79362825,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Bio-Rad Laboratories Inc",
+      "cusip": "090572207",
+      "shares": 203856,
+      "value": 77285887,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Warner Bros Discovery Inc",
+      "cusip": "934423104",
+      "shares": 6161139,
+      "value": 77260683,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Live Nation Entertainment Inc",
+      "cusip": "538034109",
+      "shares": 794607,
+      "value": 72396644,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PVH Corp",
+      "cusip": "693656100",
+      "shares": 839231,
+      "value": 71309458,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Warner Music Group Corp",
+      "cusip": "934550203",
+      "shares": 2568473,
+      "value": 67011461,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "General Electric",
+      "cusip": "369604301",
+      "shares": 587425,
+      "value": 64528636,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Liberty Broadband Corporation",
+      "cusip": "530307305",
+      "shares": 761905,
+      "value": 61036210,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 244195,
+      "value": 60535940,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CNX Resources Corp",
+      "cusip": "12653C108",
+      "shares": 3409363,
+      "value": 60413912,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 951369,
+      "value": 59745973,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 441773,
+      "value": 55729664,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Westrock Coffee Company",
+      "cusip": "96145W103",
+      "shares": 5077244,
+      "value": 55189642,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Kellogg Company",
+      "cusip": "487836108",
+      "shares": 813795,
+      "value": 54849783,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 1609342,
+      "value": 51498944,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "White Mountains Insurance Grou",
+      "cusip": "G9618E107",
+      "shares": 36662,
+      "value": 50920218,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Affiliated Managers Group Inc",
+      "cusip": "008252108",
+      "shares": 333976,
+      "value": 50059663,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fidelity National Information",
+      "cusip": "31620M106",
+      "shares": 906085,
+      "value": 49562849,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fortune Brands Innovations Inc",
+      "cusip": "34964C106",
+      "shares": 673768,
+      "value": 48477608,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Oscar Health Inc",
+      "cusip": "687793109",
+      "shares": 5913273,
+      "value": 47660980,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Empire State Realty Trust Inc",
       "cusip": "292104106",
       "shares": 6112130,
-      "value": 45779853700,
-      "pctOfPortfolio": 537.34398707
+      "value": 45779854,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Warner Bros Discovery Inc",
+      "cusip": "934423104",
+      "shares": 3648746,
+      "value": 45755275,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Bio-Rad Laboratories Inc",
+      "cusip": "090572207",
+      "shares": 119873,
+      "value": 45446252,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Live Nation Entertainment Inc",
+      "cusip": "538034109",
+      "shares": 481202,
+      "value": 43842314,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Mattel, Inc",
+      "cusip": "577081102",
+      "shares": 2220864,
+      "value": 43395683,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 957308,
+      "value": 42044967,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Liberty Media Corp - Braves C",
+      "cusip": "531229888",
+      "shares": 1051290,
+      "value": 41652110,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Boston Beer Company Inc",
+      "cusip": "100557107",
+      "shares": 127153,
+      "value": 39219071,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Graham Holdings Company",
       "cusip": "384637104",
       "shares": 67379,
-      "value": 38505750920,
-      "pctOfPortfolio": 451.96373627
+      "value": 38505751,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Gruma, S.A.B. DE C.V.",
-      "cusip": "239254500",
-      "shares": 3424422,
-      "value": 54986410390,
-      "pctOfPortfolio": 645.40654033
+      "name": "Anywhere Real Estate Inc",
+      "cusip": "75605Y106",
+      "shares": 5710068,
+      "value": 38143254,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Hyatt Hotels Corporation",
-      "cusip": "448579102",
-      "shares": 357301,
-      "value": 40939548580,
-      "pctOfPortfolio": 480.53059336999996
-    },
-    {
-      "name": "Ingles Markets, Incorporated",
-      "cusip": "457030104",
-      "shares": 260212,
-      "value": 21506521800,
-      "pctOfPortfolio": 252.43418748000002
+      "name": "General Electric",
+      "cusip": "369604301",
+      "shares": 334890,
+      "value": 36787666,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Knife River Corporation",
       "cusip": "498894104",
       "shares": 762611,
-      "value": 33173578500,
-      "pctOfPortfolio": 389.3770184
+      "value": 33173578,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "LANXESS AG",
-      "cusip": "B05M8B700",
-      "shares": 188154,
-      "value": 5676700130,
-      "pctOfPortfolio": 66.6306341
+      "name": "Kellogg Company",
+      "cusip": "487836108",
+      "shares": 489897,
+      "value": 33019058,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PVH Corp",
+      "cusip": "693656100",
+      "shares": 379322,
+      "value": 32230990,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Hyatt Hotels Corp - Class A",
+      "cusip": "448579102",
+      "shares": 276320,
+      "value": 31660746,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Masonite International Corpora",
+      "cusip": "575385109",
+      "shares": 294450,
+      "value": 30163458,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Warner Music Group Corp",
+      "cusip": "934550203",
+      "shares": 1147373,
+      "value": 29934962,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Hasbro Inc",
+      "cusip": "418056107",
+      "shares": 426500,
+      "value": 27624405,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 216762,
+      "value": 27344526,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fidelity National Information",
+      "cusip": "31620M106",
+      "shares": 439874,
+      "value": 24061108,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Madison Square Garden Sports C",
+      "cusip": "55825T103",
+      "shares": 120597,
+      "value": 22678266,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Ingles Markets Incorporated -",
+      "cusip": "457030104",
+      "shares": 267894,
+      "value": 22141439,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Douglas Emmett Inc",
+      "cusip": "25960P109",
+      "shares": 1616862,
+      "value": 20323955,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Liberty Broadband Corporation",
+      "cusip": "530307305",
+      "shares": 204057,
+      "value": 16347006,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CNH Industrial NV - U.S.",
+      "cusip": "N20944109",
+      "shares": 1129626,
+      "value": 16266614,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Hasbro Inc",
+      "cusip": "418056107",
+      "shares": 238606,
+      "value": 15454511,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "H World Group Limited ADR",
+      "cusip": "44332N106",
+      "shares": 398353,
+      "value": 15448129,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fortune Brands Innovations Inc",
+      "cusip": "34964C106",
+      "shares": 180988,
+      "value": 13022087,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Graham Holdings Company",
+      "cusip": "384637104",
+      "shares": 21220,
+      "value": 12126806,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CNH Industrial NV - U.S.",
+      "cusip": "N20944109",
+      "shares": 806177,
+      "value": 11608949,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "White Mountains Insurance Grou",
+      "cusip": "G9618E107",
+      "shares": 5555,
+      "value": 7715395,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Lazard Ltd",
       "cusip": "G54050102",
-      "shares": 884226,
-      "value": 28295232000,
-      "pctOfPortfolio": 332.11711155
+      "shares": 128578,
+      "value": 4114496,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Liberty Braves Group - Series C",
-      "cusip": "531229888",
-      "shares": 1053846,
-      "value": 41753378520,
-      "pctOfPortfolio": 490.0829748
-    },
-    {
-      "name": "State Street Bank and Trust Company",
-      "cusip": "000000000",
-      "shares": 19921000,
-      "value": 19921000000,
-      "pctOfPortfolio": 233.82402304
-    },
-    {
-      "name": "Lumen Technologies, Inc.",
-      "cusip": "156700BD7",
-      "shares": 37736000,
-      "value": 18147242400,
-      "pctOfPortfolio": 213.00442875000002
-    },
-    {
-      "name": "Lumen Technologies, Inc.",
-      "cusip": "550241AA1",
-      "shares": 2597000,
-      "value": 1303014990,
-      "pctOfPortfolio": 15.29422253
-    },
-    {
-      "name": "Madison Square Garden Sports Corp. - Class A",
-      "cusip": "55825T103",
-      "shares": 120597,
-      "value": 22678265850,
-      "pctOfPortfolio": 266.18760889000004
-    },
-    {
-      "name": "Masonite International Corporation",
-      "cusip": "575385109",
-      "shares": 294450,
-      "value": 30163458000,
-      "pctOfPortfolio": 354.04553478
-    },
-    {
-      "name": "Mattel, Inc.",
-      "cusip": "577081102",
-      "shares": 2798959,
-      "value": 54691658860,
-      "pctOfPortfolio": 641.94687523
-    },
-    {
-      "name": "Oscar Health, Inc.",
-      "cusip": "687793109",
-      "shares": 5913273,
-      "value": 47660980380,
-      "pctOfPortfolio": 559.4238328600001
-    },
-    {
-      "name": "Westrock Coffee Company - Class A",
+      "name": "Westrock Coffee Company",
       "cusip": "96145W103",
-      "shares": 5103256,
-      "value": 55472392720,
-      "pctOfPortfolio": 651.11078929
+      "shares": 183665,
+      "value": 1996439,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "White Mountains Insurance Group, Ltd.",
-      "cusip": "G9618E107",
-      "shares": 36662,
-      "value": 50920218420,
-      "pctOfPortfolio": 597.67934968
+      "name": "Cardinal Health Inc",
+      "cusip": "14149Y108",
+      "shares": 16785,
+      "value": 1587357,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FedEx Corporation",
+      "cusip": "31428X106",
+      "shares": 5064,
+      "value": 1255366,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "General Electric",
+      "cusip": "369604301",
+      "shares": 10625,
+      "value": 1167156,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GE Healthcare Holding LLC",
+      "cusip": "36266G107",
+      "shares": 13159,
+      "value": 1069037,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Madison Square Garden Sports C",
+      "cusip": "55825T103",
+      "shares": 5393,
+      "value": 1014154,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RXO Inc",
+      "cusip": "74982T103",
+      "shares": 43731,
+      "value": 991382,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Melco Resorts & Entertainment",
+      "cusip": "585464100",
+      "shares": 80926,
+      "value": 988106,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "XPO Logistics Inc",
+      "cusip": "983793100",
+      "shares": 16089,
+      "value": 949251,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Alphabet Inc CL C",
+      "cusip": "02079K107",
+      "shares": 7653,
+      "value": 925783,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Live Nation Entertainment Inc",
+      "cusip": "538034109",
+      "shares": 9977,
+      "value": 909004,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 7098,
+      "value": 895413,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Hyatt Hotels Corp - Class A",
+      "cusip": "448579102",
+      "shares": 7733,
+      "value": 886047,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Affiliated Managers Group Inc",
+      "cusip": "008252108",
+      "shares": 5562,
+      "value": 833688,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Syneos Health Inc",
+      "cusip": "87166B102",
+      "shares": 19655,
+      "value": 828262,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Graham Holdings Company",
+      "cusip": "384637104",
+      "shares": 1229,
+      "value": 702349,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Bio-Rad Laboratories Inc",
+      "cusip": "090572207",
+      "shares": 1790,
+      "value": 678625,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fidelity National Information",
+      "cusip": "31620M106",
+      "shares": 12103,
+      "value": 662034,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 13897,
+      "value": 610356,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Warner Bros Discovery Inc",
+      "cusip": "934423104",
+      "shares": 48002,
+      "value": 601945,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Lazard Ltd",
+      "cusip": "G54050102",
+      "shares": 18608,
+      "value": 595456,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Mattel, Inc",
+      "cusip": "577081102",
+      "shares": 26668,
+      "value": 521093,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CNH Industrial NV - U.S.",
+      "cusip": "N20944109",
+      "shares": 34116,
+      "value": 491270,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Anywhere Real Estate Inc",
+      "cusip": "75605Y106",
+      "shares": 33244,
+      "value": 222070,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Liberty Broadband Corporation",
+      "cusip": "530307107",
+      "shares": 2624,
+      "value": 209212,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Oscar Health Inc",
+      "cusip": "687793109",
+      "shares": 5947,
+      "value": 47933,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Empire State Realty Trust Inc",
+      "cusip": "292104106",
+      "shares": 6194,
+      "value": 46393,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Liberty Media Corp - Braves C",
+      "cusip": "531229888",
+      "shares": 1093,
+      "value": 43305,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Westrock Coffee Company",
+      "cusip": "96145W103",
+      "shares": 3945,
+      "value": 42882,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Boston Beer Company Inc",
+      "cusip": "100557107",
+      "shares": 121,
+      "value": 37321,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Anywhere Real Estate Inc",
+      "cusip": "75605Y106",
+      "shares": 5548,
+      "value": 37061,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Knife River Corporation",
+      "cusip": "498894104",
+      "shares": 761,
+      "value": 33103,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Ingles Markets Incorporated -",
+      "cusip": "457030104",
+      "shares": 362,
+      "value": 29919,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Masonite International Corpora",
+      "cusip": "575385109",
+      "shares": 257,
+      "value": 26327,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Madison Square Garden Sports C",
+      "cusip": "55825T103",
+      "shares": 119,
+      "value": 22378,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Douglas Emmett Inc",
+      "cusip": "25960P109",
+      "shares": 1615,
+      "value": 20301,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
-  ]
+  ],
+  "totalValue": 2834920096,
+  "positionsCount": 94,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 2834920096
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

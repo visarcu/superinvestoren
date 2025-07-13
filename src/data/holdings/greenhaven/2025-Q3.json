@@ -1,0 +1,161 @@
+{
+  "form": "13F-HR",
+  "date": "2025-07-08",
+  "period": "2025-07-08",
+  "accession": "0001213900-25-061983",
+  "quarterKey": "2025-Q3",
+  "positions": [
+    {
+      "name": "Citigroup Inc (C)",
+      "cusip": "172967424",
+      "shares": 16175563,
+      "value": 1376863923
+    },
+    {
+      "name": "General Motors Co (GM)",
+      "cusip": "35045V100",
+      "shares": 23654358,
+      "value": 1164030957
+    },
+    {
+      "name": "Lennar Corporation - A (LEN)",
+      "cusip": "526057104",
+      "shares": 9493585,
+      "value": 1050085437
+    },
+    {
+      "name": "Toll Brothers, Inc (TOL)",
+      "cusip": "889478103",
+      "shares": 5601916,
+      "value": 639346673
+    },
+    {
+      "name": "PulteGroup Inc (PHM)",
+      "cusip": "745867101",
+      "shares": 5580428,
+      "value": 588511937
+    },
+    {
+      "name": "D R Horton, Inc (DHI)",
+      "cusip": "23331A109",
+      "shares": 3681063,
+      "value": 474562642
+    },
+    {
+      "name": "Oshkosh Corp (OSK)",
+      "cusip": "688239201",
+      "shares": 2554406,
+      "value": 290027257
+    },
+    {
+      "name": "Arrow Electronics Inc (ARW)",
+      "cusip": "042735100",
+      "shares": 1912699,
+      "value": 243735234
+    },
+    {
+      "name": "Millrose Properties (MRP)",
+      "cusip": "601137102",
+      "shares": 7887516,
+      "value": 224873081
+    },
+    {
+      "name": "Avnet Inc (AVT)",
+      "cusip": "053807103",
+      "shares": 3962937,
+      "value": 210352696
+    },
+    {
+      "name": "Lear Corporation (LEA)",
+      "cusip": "521865204",
+      "shares": 1841647,
+      "value": 174919632
+    },
+    {
+      "name": "Meritage Homes Corp (MTH)",
+      "cusip": "59001A102",
+      "shares": 1491955,
+      "value": 99916226
+    },
+    {
+      "name": "Terex Corp (TEX)",
+      "cusip": "880779103",
+      "shares": 1499933,
+      "value": 70031872
+    },
+    {
+      "name": "NOV INC (NOV)",
+      "cusip": "62955J103",
+      "shares": 4982516,
+      "value": 61932674
+    },
+    {
+      "name": "Lennar Corporation - B SHS (LEN/B)",
+      "cusip": "526057302",
+      "shares": 364059,
+      "value": 38317210
+    },
+    {
+      "name": "Icon PLC (ICLR)",
+      "cusip": "G4705A100",
+      "shares": 17633,
+      "value": 2564720
+    },
+    {
+      "name": "CRH PLC (CRH)",
+      "cusip": "G25508105",
+      "shares": 26937,
+      "value": 2472817
+    },
+    {
+      "name": "Charles Schwab Corporation (SCHW)",
+      "cusip": "808513105",
+      "shares": 20000,
+      "value": 1824800
+    },
+    {
+      "name": "Goldman Sachs (GS)",
+      "cusip": "38141G104",
+      "shares": 2500,
+      "value": 1769375
+    },
+    {
+      "name": "J P Morgan Chase (JPM)",
+      "cusip": "46625H100",
+      "shares": 5000,
+      "value": 1449550
+    },
+    {
+      "name": "Morgan Stanley (MS)",
+      "cusip": "617446448",
+      "shares": 10000,
+      "value": 1408600
+    },
+    {
+      "name": "Agilent Technologies, Inc (A)",
+      "cusip": "00846U101",
+      "shares": 10700,
+      "value": 1262707
+    },
+    {
+      "name": "Genpact LTD (G)",
+      "cusip": "G3922B107",
+      "shares": 11018,
+      "value": 484902
+    },
+    {
+      "name": "Union Pacific Corp (UNP)",
+      "cusip": "907818108",
+      "shares": 2032,
+      "value": 467523
+    },
+    {
+      "name": "Stellantis NV (STLA)",
+      "cusip": "N82405106",
+      "shares": 36000,
+      "value": 361080
+    }
+  ],
+  "totalValue": 6721573525,
+  "positionsCount": 25
+}

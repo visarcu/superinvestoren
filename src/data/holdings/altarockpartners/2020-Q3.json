@@ -9,39 +9,39 @@
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 1151106,
-      "value": 587110
+      "value": 587110000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 1192332,
-      "value": 527070
+      "value": 527070000
     },
     {
       "name": "ALPHABET INC - CL A",
       "cusip": "02079K305",
       "shares": 360243,
-      "value": 510843
+      "value": 510843000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 735494,
-      "value": 202062
+      "value": 202062000
     },
     {
       "name": "MASTERCARD INC CL A",
       "cusip": "57636Q104",
       "shares": 411940,
-      "value": 121811
+      "value": 121811000
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 8516,
-      "value": 1645
+      "value": 1645000
     }
   ],
-  "totalValue": 1950541,
+  "totalValue": 1950541000,
   "positionsCount": 6
 }

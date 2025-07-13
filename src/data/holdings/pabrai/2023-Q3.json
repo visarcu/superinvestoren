@@ -9,15 +9,39 @@
       "name": "ALPHA METALLURGICAL RESOUR I",
       "cusip": "020764106",
       "shares": 362649,
-      "value": 59605020
+      "value": 59605020,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CONSOL ENERGY INC NEW",
       "cusip": "20854L108",
       "shares": 203474,
-      "value": 13797572
+      "value": 13797572,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 73402592,
-  "positionsCount": 2
+  "positionsCount": 2,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 73402592
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

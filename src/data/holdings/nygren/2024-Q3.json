@@ -1,536 +1,293 @@
 {
   "form": "NPORT-P",
-  "date": "2024-11-25",
-  "period": "2024-11-25",
-  "accession": "0001752724-24-266115",
+  "date": "2024-08-28",
+  "period": "2024-06-30",
+  "accession": "0001752724-24-198103",
   "quarterKey": "2024-Q3",
   "positions": [
     {
       "name": "Bayer AG",
       "cusip": "000000000",
-      "shares": 20260082,
-      "value": 683904512.54,
-      "pctOfPortfolio": 3.719215291677
-    },
-    {
-      "name": "CNH Industrial NV",
-      "cusip": "000000000",
-      "shares": 59673803,
-      "value": 662379213.3,
-      "pctOfPortfolio": 3.602156227695
-    },
-    {
-      "name": "BNP Paribas SA",
-      "cusip": "000000000",
-      "shares": 8940006,
-      "value": 612518666.74,
-      "pctOfPortfolio": 3.331004182611
-    },
-    {
-      "name": "Continental AG",
-      "cusip": "000000000",
-      "shares": 8587645,
-      "value": 555779561.13,
-      "pctOfPortfolio": 3.022445099652
-    },
-    {
-      "name": "Kering SA",
-      "cusip": "000000000",
-      "shares": 1835700,
-      "value": 524849440.98,
-      "pctOfPortfolio": 2.854240659228
-    },
-    {
-      "name": "Fresenius Medical Care AG",
-      "cusip": "000000000",
-      "shares": 11576590,
-      "value": 492134455.2,
-      "pctOfPortfolio": 2.676329747472
-    },
-    {
-      "name": "Bayerische Motoren Werke AG",
-      "cusip": "000000000",
-      "shares": 5368179,
-      "value": 473146843.58,
-      "pctOfPortfolio": 2.57307115772
+      "shares": 1548225,
+      "value": 43739946.99
     },
     {
       "name": "Lloyds Banking Group PLC",
       "cusip": "000000000",
-      "shares": 581940154,
-      "value": 457478713.15,
-      "pctOfPortfolio": 2.48786459859
-    },
-    {
-      "name": "Prudential PLC",
-      "cusip": "000000000",
-      "shares": 47156844,
-      "value": 437919970.72,
-      "pctOfPortfolio": 2.381500080448
+      "shares": 61270400,
+      "value": 42397158.51
     },
     {
       "name": "Mercedes-Benz Group AG",
       "cusip": "000000000",
-      "shares": 6761755,
-      "value": 436858002.43,
-      "pctOfPortfolio": 2.375724875531
-    },
-    {
-      "name": "Prosus NV",
-      "cusip": "000000000",
-      "shares": 9005197,
-      "value": 393547333.58,
-      "pctOfPortfolio": 2.140192430685
-    },
-    {
-      "name": "Fresenius SE & Co KGaA",
-      "cusip": "000000000",
-      "shares": 10326231,
-      "value": 393461457.35,
-      "pctOfPortfolio": 2.139725417846
-    },
-    {
-      "name": "Edenred SE",
-      "cusip": "000000000",
-      "shares": 10272785,
-      "value": 389023618.47,
-      "pctOfPortfolio": 2.115591524997
-    },
-    {
-      "name": "Alibaba Group Holding Ltd",
-      "cusip": "000000000",
-      "shares": 28389200,
-      "value": 377257952.22,
-      "pctOfPortfolio": 2.051607379504
+      "shares": 609800,
+      "value": 42168445.52
     },
     {
       "name": "Fixed Income Clearing Corp",
       "cusip": "000000000",
-      "shares": 364809322.6,
-      "value": 364809322.6,
-      "pctOfPortfolio": 1.983909136849
+      "shares": 42071429.39,
+      "value": 42071429.39
     },
     {
-      "name": "Airbus SE",
+      "name": "Kering SA",
       "cusip": "000000000",
-      "shares": 2444300,
-      "value": 357032706.56,
-      "pctOfPortfolio": 1.941618277872
+      "shares": 111800,
+      "value": 40529370.82
     },
     {
-      "name": "Reckitt Benckiser Group PLC",
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 220500,
+      "value": 40164075
+    },
+    {
+      "name": "Julius Baer Group Ltd",
       "cusip": "000000000",
-      "shares": 5566500,
-      "value": 340626448.08,
-      "pctOfPortfolio": 1.852397624551
+      "shares": 691100,
+      "value": 38614525.02
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "000000000",
+      "shares": 3773156,
+      "value": 38222070.28
+    },
+    {
+      "name": "Prudential PLC",
+      "cusip": "000000000",
+      "shares": 3816260,
+      "value": 34656565.47
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 239800,
+      "value": 33200310
+    },
+    {
+      "name": "General Motors Co",
+      "cusip": "37045V100",
+      "shares": 686893,
+      "value": 31913048.78
+    },
+    {
+      "name": "IQVIA Holdings Inc",
+      "cusip": "46266C105",
+      "shares": 150900,
+      "value": 31906296
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "000000000",
+      "shares": 890442,
+      "value": 31717377.16
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 204500,
+      "value": 30478680
+    },
+    {
+      "name": "Interpublic Group of Cos Inc/The",
+      "cusip": "460690100",
+      "shares": 1021863,
+      "value": 29725994.67
+    },
+    {
+      "name": "Corebridge Financial Inc",
+      "cusip": "21871X109",
+      "shares": 994400,
+      "value": 28956928
+    },
+    {
+      "name": "Willis Towers Watson PLC",
+      "cusip": "000000000",
+      "shares": 109800,
+      "value": 28782972
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 711300,
+      "value": 28288401
+    },
+    {
+      "name": "St James's Place PLC",
+      "cusip": "000000000",
+      "shares": 3925300,
+      "value": 27117163.69
     },
     {
       "name": "Allianz SE",
       "cusip": "000000000",
-      "shares": 1032799,
-      "value": 339149581.68,
-      "pctOfPortfolio": 1.844366117231
+      "shares": 93325,
+      "value": 25936104.42
     },
     {
-      "name": "WPP PLC",
-      "cusip": "000000000",
-      "shares": 33163011,
-      "value": 338382236.68,
-      "pctOfPortfolio": 1.840193135176
+      "name": "American International Group Inc",
+      "cusip": "026874784",
+      "shares": 336500,
+      "value": 24981760
     },
     {
-      "name": "Schroders PLC",
-      "cusip": "000000000",
-      "shares": 72112654,
-      "value": 336667314.33,
-      "pctOfPortfolio": 1.83086702998
-    },
-    {
-      "name": "Daimler Truck Holding AG",
-      "cusip": "000000000",
-      "shares": 8826643,
-      "value": 330427275.82,
-      "pctOfPortfolio": 1.796932399894
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 180300,
+      "value": 24681267
     },
     {
       "name": "Glencore PLC",
       "cusip": "000000000",
-      "shares": 57434620,
-      "value": 328418975.79,
-      "pctOfPortfolio": 1.786010845723
+      "shares": 4113400,
+      "value": 23456057.25
     },
     {
-      "name": "Open Text Corp",
-      "cusip": "683715106",
-      "shares": 9844400,
-      "value": 327697798.81,
-      "pctOfPortfolio": 1.782088934984
+      "name": "Charter Communications Inc",
+      "cusip": "16119P108",
+      "shares": 75600,
+      "value": 22601376
     },
     {
-      "name": "DSV A/S",
+      "name": "Centene Corp",
+      "cusip": "15135B101",
+      "shares": 337300,
+      "value": 22362990
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
       "cusip": "000000000",
-      "shares": 1522300,
-      "value": 314278210.42,
-      "pctOfPortfolio": 1.709110416151
+      "shares": 2455800,
+      "value": 22170929.88
     },
     {
-      "name": "Intesa Sanpaolo SpA",
-      "cusip": "000000000",
-      "shares": 73247679,
-      "value": 312892906.3,
-      "pctOfPortfolio": 1.701576843595
-    },
-    {
-      "name": "Akzo Nobel NV",
-      "cusip": "000000000",
-      "shares": 4417640,
-      "value": 311277330.04,
-      "pctOfPortfolio": 1.692791003144
-    },
-    {
-      "name": "Samsung Electronics Co Ltd",
-      "cusip": "000000000",
-      "shares": 7260076,
-      "value": 282586119.45,
-      "pctOfPortfolio": 1.536762219583
-    },
-    {
-      "name": "Eurofins Scientific SE",
-      "cusip": "000000000",
-      "shares": 4440909,
-      "value": 281279189.12,
-      "pctOfPortfolio": 1.529654860033
-    },
-    {
-      "name": "NAVER Corp",
-      "cusip": "000000000",
-      "shares": 2151564,
-      "value": 278714492.31,
-      "pctOfPortfolio": 1.515707504197
-    },
-    {
-      "name": "Accor SA",
-      "cusip": "000000000",
-      "shares": 6372269,
-      "value": 276638211.97,
-      "pctOfPortfolio": 1.50441625893
-    },
-    {
-      "name": "Swatch Group AG/The",
-      "cusip": "000000000",
-      "shares": 1289959,
-      "value": 276251041.24,
-      "pctOfPortfolio": 1.502310743799
-    },
-    {
-      "name": "Brenntag SE",
-      "cusip": "000000000",
-      "shares": 3633800,
-      "value": 270931576.93,
-      "pctOfPortfolio": 1.473382388096
-    },
-    {
-      "name": "Siemens AG",
-      "cusip": "000000000",
-      "shares": 1324700,
-      "value": 267401973.84,
-      "pctOfPortfolio": 1.454187670785
-    },
-    {
-      "name": "Ryanair Holdings PLC",
-      "cusip": "783513203",
-      "shares": 5732992.5,
-      "value": 259016601.15,
-      "pctOfPortfolio": 1.408586266257
-    },
-    {
-      "name": "EXOR NV",
-      "cusip": "000000000",
-      "shares": 2364279,
-      "value": 253047163.97,
-      "pctOfPortfolio": 1.376123222608
-    },
-    {
-      "name": "SKF AB",
-      "cusip": "000000000",
-      "shares": 11679496,
-      "value": 232305340.47,
-      "pctOfPortfolio": 1.263324863006
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 193108,
+      "value": 22087693.04
     },
     {
       "name": "Roche Holding AG",
       "cusip": "000000000",
-      "shares": 715100,
-      "value": 228635978.02,
-      "pctOfPortfolio": 1.243370105165
+      "shares": 79300,
+      "value": 22021648.39
     },
     {
-      "name": "Capgemini SE",
+      "name": "Samsung Electronics Co Ltd",
       "cusip": "000000000",
-      "shares": 1042164,
-      "value": 224998338.96,
-      "pctOfPortfolio": 1.22358786573
+      "shares": 366900,
+      "value": 21723465.31
     },
     {
-      "name": "Smith & Nephew PLC",
+      "name": "Daimler Truck Holding AG",
       "cusip": "000000000",
-      "shares": 13317900,
-      "value": 206186178.34,
-      "pctOfPortfolio": 1.121283415087
-    },
-    {
-      "name": "Amadeus IT Group SA",
-      "cusip": "000000000",
-      "shares": 2843866,
-      "value": 205513852.83,
-      "pctOfPortfolio": 1.117627168825
-    },
-    {
-      "name": "Ashtead Group PLC",
-      "cusip": "000000000",
-      "shares": 2633600,
-      "value": 203724604.3,
-      "pctOfPortfolio": 1.107896862369
-    },
-    {
-      "name": "Komatsu Ltd",
-      "cusip": "000000000",
-      "shares": 7381300,
-      "value": 203682280.74,
-      "pctOfPortfolio": 1.107666698028
-    },
-    {
-      "name": "Fujitsu Ltd",
-      "cusip": "000000000",
-      "shares": 9503500,
-      "value": 194103491.04,
-      "pctOfPortfolio": 1.055575243045
-    },
-    {
-      "name": "Volvo AB",
-      "cusip": "000000000",
-      "shares": 7314629,
-      "value": 193167829.16,
-      "pctOfPortfolio": 1.050486918713
-    },
-    {
-      "name": "Koninklijke Ahold Delhaize NV",
-      "cusip": "000000000",
-      "shares": 5557300,
-      "value": 191954845.09,
-      "pctOfPortfolio": 1.043890458506
-    },
-    {
-      "name": "adidas AG",
-      "cusip": "000000000",
-      "shares": 698300,
-      "value": 184922580.46,
-      "pctOfPortfolio": 1.005647537649
+      "shares": 466034,
+      "value": 18551522.12
     },
     {
       "name": "Anheuser-Busch InBev SA/NV",
       "cusip": "000000000",
-      "shares": 2784100,
-      "value": 184025702.62,
-      "pctOfPortfolio": 1.000770129011
+      "shares": 315700,
+      "value": 18297921.29
     },
     {
-      "name": "Cie Financiere Richemont SA",
+      "name": "Kroger Co/The",
+      "cusip": "501044101",
+      "shares": 359100,
+      "value": 17929863
+    },
+    {
+      "name": "TE Connectivity Ltd",
       "cusip": "000000000",
-      "shares": 1117018,
-      "value": 176590073.14,
-      "pctOfPortfolio": 0.960333626022
+      "shares": 119096,
+      "value": 17915611.28
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 369400,
+      "value": 17550194
+    },
+    {
+      "name": "Ryanair Holdings PLC",
+      "cusip": "783513203",
+      "shares": 144877,
+      "value": 16869477.88
+    },
+    {
+      "name": "Envista Holdings Corp",
+      "cusip": "29415F104",
+      "shares": 988400,
+      "value": 16437092
+    },
+    {
+      "name": "Brunswick Corp/DE",
+      "cusip": "117043109",
+      "shares": 187400,
+      "value": 13637098
+    },
+    {
+      "name": "Capgemini SE",
+      "cusip": "000000000",
+      "shares": 63100,
+      "value": 12549044.18
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 61606,
+      "value": 11905359.5
+    },
+    {
+      "name": "Agilent Technologies Inc",
+      "cusip": "00846U101",
+      "shares": 91000,
+      "value": 11796330
+    },
+    {
+      "name": "Deere & Co",
+      "cusip": "244199105",
+      "shares": 30400,
+      "value": 11358352
     },
     {
       "name": "Novartis AG",
       "cusip": "000000000",
-      "shares": 1531800,
-      "value": 175830767.41,
-      "pctOfPortfolio": 0.956204363193
+      "shares": 102000,
+      "value": 10918070.01
     },
     {
-      "name": "Sandvik AB",
+      "name": "Etsy Inc",
+      "cusip": "29786A106",
+      "shares": 176300,
+      "value": 10398174
+    },
+    {
+      "name": "SAP SE",
       "cusip": "000000000",
-      "shares": 7178500,
-      "value": 160380632.84,
-      "pctOfPortfolio": 0.872183310989
+      "shares": 41600,
+      "value": 8443407.76
     },
     {
-      "name": "Danone SA",
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307305",
+      "shares": 152103,
+      "value": 8338286.46
+    },
+    {
+      "name": "Warner Bros Discovery Inc",
+      "cusip": "934423104",
+      "shares": 910900,
+      "value": 6777096
+    },
+    {
+      "name": "Travis Perkins PLC",
       "cusip": "000000000",
-      "shares": 2104300,
-      "value": 153052436.02,
-      "pctOfPortfolio": 0.832331049198
-    },
-    {
-      "name": "Henkel AG & Co KGaA",
-      "cusip": "000000000",
-      "shares": 1708443,
-      "value": 145198789.62,
-      "pctOfPortfolio": 0.789621283067
-    },
-    {
-      "name": "Liberty Global Ltd",
-      "cusip": "000000000",
-      "shares": 6709912,
-      "value": 141646242.32,
-      "pctOfPortfolio": 0.77030179036
-    },
-    {
-      "name": "Smiths Group PLC",
-      "cusip": "000000000",
-      "shares": 5840742,
-      "value": 130953263.35,
-      "pctOfPortfolio": 0.712151141886
-    },
-    {
-      "name": "Axis Bank Ltd",
-      "cusip": "000000000",
-      "shares": 8456700,
-      "value": 124345946.39,
-      "pctOfPortfolio": 0.676219175034
-    },
-    {
-      "name": "Brambles Ltd",
-      "cusip": "000000000",
-      "shares": 9444000,
-      "value": 124248982.85,
-      "pctOfPortfolio": 0.675691867092
-    },
-    {
-      "name": "Diageo PLC",
-      "cusip": "000000000",
-      "shares": 3363600,
-      "value": 117056019.55,
-      "pctOfPortfolio": 0.636575033371
-    },
-    {
-      "name": "Worldline SA/France",
-      "cusip": "000000000",
-      "shares": 16080993,
-      "value": 117033782.11,
-      "pctOfPortfolio": 0.636454101537
-    },
-    {
-      "name": "Smurfit WestRock PLC",
-      "cusip": "000000000",
-      "shares": 2126100,
-      "value": 105071862,
-      "pctOfPortfolio": 0.571402686647
-    },
-    {
-      "name": "Compass Group PLC",
-      "cusip": "000000000",
-      "shares": 3279300,
-      "value": 104959205.64,
-      "pctOfPortfolio": 0.570790037879
-    },
-    {
-      "name": "Publicis Groupe SA",
-      "cusip": "000000000",
-      "shares": 940799,
-      "value": 102839935.57,
-      "pctOfPortfolio": 0.559265005499
-    },
-    {
-      "name": "Schindler Holding AG",
-      "cusip": "000000000",
-      "shares": 333699,
-      "value": 97781475.75,
-      "pctOfPortfolio": 0.531756046617
-    },
-    {
-      "name": "Holcim AG",
-      "cusip": "000000000",
-      "shares": 988715,
-      "value": 96447463.11,
-      "pctOfPortfolio": 0.52450140782
-    },
-    {
-      "name": "Bank Mandiri Persero Tbk PT",
-      "cusip": "000000000",
-      "shares": 206416200,
-      "value": 94414279.06,
-      "pctOfPortfolio": 0.513444529161
-    },
-    {
-      "name": "thyssenkrupp AG",
-      "cusip": "000000000",
-      "shares": 20640153,
-      "value": 79840120.22,
-      "pctOfPortfolio": 0.434187215564
-    },
-    {
-      "name": "Pernod Ricard SA",
-      "cusip": "000000000",
-      "shares": 449200,
-      "value": 67803622.63,
-      "pctOfPortfolio": 0.368730232792
-    },
-    {
-      "name": "Bunzl PLC",
-      "cusip": "000000000",
-      "shares": 595978,
-      "value": 28158661.93,
-      "pctOfPortfolio": 0.153132672943
-    },
-    {
-      "name": "American Honda Finance Corp",
-      "cusip": "02665JK41",
-      "shares": 25000000,
-      "value": 24986385,
-      "pctOfPortfolio": 0.135881169771
-    },
-    {
-      "name": "American Honda Finance Corp",
-      "cusip": "02665JKU3",
-      "shares": 20000000,
-      "value": 19922177.2,
-      "pctOfPortfolio": 0.108340952175
-    },
-    {
-      "name": "American Honda Finance Corp",
-      "cusip": "02665JL57",
-      "shares": 20000000,
-      "value": 19900080,
-      "pctOfPortfolio": 0.108220782996
-    },
-    {
-      "name": "American Honda Finance Corp",
-      "cusip": "02665JLD0",
-      "shares": 20000000,
-      "value": 19878657.8,
-      "pctOfPortfolio": 0.108104284607
-    },
-    {
-      "name": "Campbell Soup Co",
-      "cusip": "13443CK75",
-      "shares": 16000000,
-      "value": 15983791.04,
-      "pctOfPortfolio": 0.086923187323
-    },
-    {
-      "name": "Campbell Soup Co",
-      "cusip": "13443CK91",
-      "shares": 15750000,
-      "value": 15729482.63,
-      "pctOfPortfolio": 0.085540205182
-    },
-    {
-      "name": "American Honda Finance Corp",
-      "cusip": "02665JLC2",
-      "shares": 8000000,
-      "value": 7952528,
-      "pctOfPortfolio": 0.043247504882
-    },
-    {
-      "name": "American Honda Finance Corp",
-      "cusip": "02665JK33",
-      "shares": 7850000,
-      "value": 7846795.55,
-      "pctOfPortfolio": 0.04267250978
+      "shares": 396660,
+      "value": 3855902.02
     }
   ],
-  "totalValue": 18266860699.239998,
-  "positionsCount": 75
+  "totalValue": 1130202851.0899997,
+  "positionsCount": 47
 }

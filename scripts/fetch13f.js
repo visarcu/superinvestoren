@@ -1,4 +1,4 @@
-// scripts/fetch13f.js
+// scripts/fetch13f.js - ERWEITERT für Put/Call Detection
 import fetch from 'node-fetch'
 import { parseStringPromise, processors } from 'xml2js'
 import fs from 'fs/promises'
@@ -6,7 +6,10 @@ import path from 'path'
 import { investorCiks } from '../src/lib/cikMapping.js'
 
 // Investoren die kleinere Zahlen in den SEC Filings haben (brauchen extra Multiplikator)
-const extraMultiplierSlugs = ['klarman', 'spier', 'triplefrond'];
+const extraMultiplierSlugs = [''];
+
+// ✅ NEU: Investoren die bereits Dollar-Werte haben (KEIN Multiplikator)
+const noMultiplierSlugs = ['greenhaven', 'cunniff', 'cunniff_sequoia', 'mandel', 'marks', 'greenberg', 'ainslie', 'lilu', 'icahn', 'tepper', 'loeb', 'gates', 'dalio', 'miller', 'coleman', 'kahn', 'hong', 'hohn', 'dorsey', 'lawrence', 'watsa', 'smith', 'ketterer', 'train', 'patientcapital', 'makaira', 'russo', 'akre', 'tarasoff', 'polen', 'firsteagle', 'jensen', 'abrams', 'burn', 'cantillon', 'armitage', 'yacktman','torray', 'vinall', 'katz', 'gayner', 'weitz', 'meridiancontrarian', 'mairspower', 'dodgecox','altarockpartners', 'davis', 'pzena', 'hawkins', 'rogers', 'peltz', 'gregalexander', 'miller', 'burry', 'pabrai', 'kantesaria', 'greenblatt', 'fisher','soros', 'haley','vandenberg'];
 
 async function fetchUrl(url) {
   const res = await fetch(url, {
@@ -27,66 +30,110 @@ function getQuarterFromDate(dateStr) {
   return `${year}-Q${quarterNum}`
 }
 
-// Hilfsfunktion: Period End Date aus NPORT-P extrahieren  
+// Period End Date aus NPORT extrahieren
 function extractNportPeriod(rawXml) {
   try {
-    // Suche nach repPdEnd (Report Period End)
-    const repPdEndMatch = rawXml.match(/<repPdEnd>([^<]+)<\/repPdEnd>/)
-    if (repPdEndMatch) {
-      const endDate = repPdEndMatch[1]
-      console.log(`    • NPORT-P Period End gefunden: ${endDate}`)
-      return getQuarterFromDate(endDate)
-    }
-    
-    // Fallback: repPdDate (Report Period Date)
     const repPdDateMatch = rawXml.match(/<repPdDate>([^<]+)<\/repPdDate>/)
     if (repPdDateMatch) {
-      const periodDate = repPdDateMatch[1]
-      console.log(`    • NPORT-P Period Date gefunden: ${periodDate}`)
-      return getQuarterFromDate(periodDate)
+      return repPdDateMatch[1]
+    }
+    
+    const repPdEndMatch = rawXml.match(/<repPdEnd>([^<]+)<\/repPdEnd>/)
+    if (repPdEndMatch) {
+      return repPdEndMatch[1]
     }
     
     return null
   } catch (err) {
-    console.warn(`    ⚠ Fehler beim Period-Extrakt: ${err.message}`)
     return null
   }
 }
 
-// Hilfsfunktion: Wert normalisieren - KORREKT für jeden Typ
+// ✅ KORRIGIERT: Wert normalisieren - mit slug-spezifischer Behandlung
 function normalizeValue(rawValue, form, slug) {
   let value = Number(rawValue.replace(/,/g, ''))
   
   if (form === '13F-HR') {
-    // KORRIGIERT: Die SEC 13F-HR Werte scheinen bereits korrekt zu sein
-    // Entferne die *1000 Multiplikation, da sie zu hohe Werte erzeugt
-    
-    // Früher war hier: value = value * 1000
-    // Das führte zu Werten die 1000x zu hoch waren
-    
-    // Für extraMultiplierSlugs bleibt die Multiplikation, da diese 
-    // Investoren tatsächlich kleinere Zahlen in ihren Filings haben
-    if (extraMultiplierSlugs.includes(slug)) {
+    if (noMultiplierSlugs.includes(slug)) {
+      // Dieser Investor hat bereits Dollar-Werte - KEIN Multiplikator
+      console.log(`    13F-HR Wert (${slug} - bereits USD): ${rawValue} -> $${(value/1000000).toFixed(1)}M`)
+    } else {
+      // Standard 13F-HR: Werte sind in Tausend Dollar -> *1000 für USD
       value = value * 1000
+      
+      // Spezielle extraMultiplierSlugs: zusätzlicher *1000 Multiplikator
+      if (extraMultiplierSlugs.includes(slug)) {
+        value = value * 1000  // Total: *1,000,000
+        console.log(`    13F-HR Wert (extraMultiplier): ${rawValue} -> $${(value/1000000).toFixed(1)}M`)
+      } else {
+        console.log(`    13F-HR Wert: ${rawValue} -> $${(value/1000000).toFixed(1)}M`)
+      }
     }
     
-    console.log(`    13F-HR Wert: ${rawValue} -> ${value} (${(value/1000000).toFixed(1)}M)`)
-    
-  } else if (form === 'NPORT-P') {
-    // NPORT-P: Werte sind BEREITS in USD - KEIN Multiplikator!
-    // <valUSD>16638573.600000000000</valUSD> = 16.6M USD
-    
-    console.log(`    NPORT-P Wert: ${rawValue} -> ${value} (${(value/1000000).toFixed(1)}M) [BEREITS KORREKT]`)
+  } else if (form.startsWith('NPORT')) {
+    // NPORT Werte sind bereits in USD - KEIN Multiplikator
+    console.log(`    ${form} Wert: ${rawValue} -> $${(value/1000000).toFixed(1)}M`)
   }
   
   return value
 }
 
+// ✅ PROFESSIONELLE Option Type Detection (ohne Emojis)
+function detectOptionType(titleOfClass, putCall) {
+  // Direkte put/call Angabe (wenn verfügbar)
+  if (putCall) {
+    const pc = putCall.toLowerCase()
+    if (pc.includes('put') || pc === 'p') return 'PUT'
+    if (pc.includes('call') || pc === 'c') return 'CALL'
+  }
+  
+  // Fallback: Aus titleOfClass ableiten
+  if (titleOfClass) {
+    const title = titleOfClass.toLowerCase()
+    if (title.includes('put') || title.includes('put option')) return 'PUT'
+    if (title.includes('call') || title.includes('call option')) return 'CALL'
+    // Manchmal steht nur "option" - dann schauen wir nach Hinweisen
+    if (title.includes('option')) return 'OPTION' // Unbekannter Typ
+  }
+  
+  return 'STOCK' // Standard Aktie
+}
+
+// ✅ PROFESSIONELLE Position Type Display (ohne Emojis, professionell)
+function getPositionTypeDisplay(optionType) {
+  const types = {
+    'STOCK': { 
+      label: 'Stock', 
+      badge: 'bg-blue-100 text-blue-800 border-blue-200',
+      strategy: 'equity' 
+    },
+    'CALL': { 
+      label: 'Call Option', 
+      badge: 'bg-green-100 text-green-800 border-green-200',
+      strategy: 'leveraged_long' 
+    },
+    'PUT': { 
+      label: 'Put Option', 
+      badge: 'bg-orange-100 text-orange-800 border-orange-200',
+      strategy: 'hedging_or_short' // Neutral - kann Hedge oder Short sein
+    },
+    'OPTION': { 
+      label: 'Option', 
+      badge: 'bg-gray-100 text-gray-800 border-gray-200',
+      strategy: 'unknown' 
+    }
+  }
+  return types[optionType] || types['STOCK']
+}
+
 // Hilfsfunktion: CUSIP bereinigen und validieren
-function normalizeCusip(cusip) {
-  if (!cusip) return null
+function normalizeCusip(cusip, positionName = '') {
+  if (!cusip || cusip === 'N/A') {
+    const sanitizedName = positionName.replace(/[^A-Z0-9]/g, '').slice(0, 6).padEnd(6, '0')
+    return `${sanitizedName}999`
+  }
   const cleaned = cusip.replace(/[^A-Z0-9]/g, '').slice(0, 9)
-  return cleaned.length >= 6 ? cleaned : null
+  return cleaned.length >= 6 ? cleaned : `${cleaned.padEnd(6, '0')}999`
 }
 
 // Hilfsfunktion: Firmenname bereinigen
@@ -95,17 +142,70 @@ function normalizeCompanyName(name) {
   return name.replace(/\s+/g, ' ').replace(/\b(INC|CORP|LTD|LLC|LP)\b\.?/gi, '$1').trim()
 }
 
+// Filing-Priorität bestimmen - KORRIGIERT für bessere 13F-HR Priorität
+function getFilingPriority(form) {
+  const priorities = {
+    '13F-HR': 3,    // HÖCHSTE Priorität - vollständige Quartals-Daten
+    'NPORT-PX': 2,  // Quartalsweise, vollständig  
+    'NPORT-P': 1    // Monatlich, oft unvollständig
+  }
+  return priorities[form] || 0
+}
+
+// NEU: Test mehrere URL-Varianten für NPORT Filings
+async function tryNportUrls(cik, accession, slug, quarterKey) {
+  const baseAccession = accession.replace(/-/g, '')
+  
+  // Verschiedene URL-Patterns die die SEC verwendet
+  const urlPatterns = [
+    // Standard primary_doc.xml
+    `https://www.sec.gov/Archives/edgar/data/${cik}/${baseAccession}/primary_doc.xml`,
+    // Alternative: .txt zur .xml Endung
+    `https://www.sec.gov/Archives/edgar/data/${cik}/${baseAccession}/${accession}.xml`,
+    // Alternative: FormN-PORT.xml (manchmal verwendet)
+    `https://www.sec.gov/Archives/edgar/data/${cik}/${baseAccession}/FormN-PORT.xml`,
+    // Alternative: xslFormNPORT.xml
+    `https://www.sec.gov/Archives/edgar/data/${cik}/${baseAccession}/xslFormNPORT.xml`,
+  ]
+  
+  console.log(`  🔍 Teste URLs für ${slug} ${quarterKey}:`)
+  
+  for (const [index, url] of urlPatterns.entries()) {
+    try {
+      console.log(`     ${index + 1}. Teste: ${url}`)
+      const content = await fetchUrl(url)
+      
+      // Validiere, dass es echte NPORT-Daten enthält
+      if (content.includes('<invstOrSecs>') && content.includes('<totAssets>')) {
+        const totalAssetsMatch = content.match(/<totAssets>([^<]+)<\/totAssets>/)
+        if (totalAssetsMatch) {
+          const assets = Number(totalAssetsMatch[1]) / 1000000
+          console.log(`     ✅ Erfolg! Total Assets: $${assets.toFixed(1)}M`)
+          return content
+        }
+      }
+      
+      console.log(`     ❌ Keine gültigen Portfolio-Daten gefunden`)
+      
+    } catch (err) {
+      console.log(`     ❌ Fehler: ${err.message}`)
+    }
+  }
+  
+  throw new Error(`Keine gültige URL für ${slug} ${quarterKey} gefunden`)
+}
+
 async function run() {
   const baseDir = path.resolve('src/data/holdings')
   await fs.mkdir(baseDir, { recursive: true })
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
-    // Zum Testen nur einen Slug aktivieren:
-    //if (slug !== 'armitage') continue
+    // ✅ TANGEN AKTIVIEREN: Jetzt für AKO Capital (Tangen)
+    if (slug !== 'spier') continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })
-    console.log(`→ Bearbeite ${slug} (CIK ${cik})`)
+    console.log(`\n🔍 Bearbeite ${slug} (CIK ${cik})`)
 
     try {
       // 1) Metadaten holen
@@ -121,7 +221,7 @@ async function run() {
       if (!secMetaRes.ok) throw new Error(`HTTP ${secMetaRes.status}`)
       const meta = await secMetaRes.json()
 
-      // 2) Alle Filings (historisch + recent) vereinen
+      // 2) Alle Filings vereinen
       const histFiles = Array.isArray(meta.filings?.files) ? meta.filings.files : []
       let recent = []
       if (meta.filings?.recent) {
@@ -136,94 +236,105 @@ async function run() {
       }
       const allFilings = histFiles.concat(recent)
 
-      // 3) Nur 13F-HR und NPORT-P
-      const rawFilings = allFilings
-        .filter(f => f.form === '13F-HR' || f.form === 'NPORT-P')
-        .map(f => ({
-          form: f.form,
-          date: f.filingDate,
-          period: f.periodOfReport || f.filingDate,
-          accession: f.accessionNumber.replace(/-/g, ''),
-          rawAccession: f.accessionNumber,
-          xmlHref:
-            f.form === '13F-HR'
-              ? `https://www.sec.gov/Archives/edgar/data/${cik}/${f.accessionNumber.replace(/-/g, '')}/${f.accessionNumber}.xml`
-              : `https://www.sec.gov/Archives/edgar/data/${cik}/${f.accessionNumber.replace(/-/g, '')}/primary_doc.xml`,
-          txtHref:
-            f.form === '13F-HR'
-              ? `https://www.sec.gov/Archives/edgar/data/${cik}/${f.accessionNumber.replace(/-/g, '')}/${f.accessionNumber}.txt`
-              : undefined,
-        }))
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
+      // 3) Relevante Filings filtern
+      const relevantFilings = allFilings
+      .filter(f => f.form && (f.form === '13F-HR' || f.form.startsWith('NPORT'))) // ✅ f.form && hinzugefügt
+      .map(f => ({
+        form: f.form,
+        date: f.filingDate,
+        period: f.periodOfReport || f.filingDate,
+        accession: f.accessionNumber?.replace(/-/g, '') || '', // ✅ Null-safe
+        rawAccession: f.accessionNumber || '', // ✅ Null-safe
+        priority: getFilingPriority(f.form),
+        // KONSISTENT: quarterKey immer basierend auf Filing-Datum
+        quarterKey: getQuarterFromDate(f.filingDate),
+      }))
+      .filter(f => f.quarterKey && f.form) // ✅ Zusätzliche Validierung
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
 
-      console.log(
-        `   • Gefundene 13F-HR: ${rawFilings.filter(f => f.form === '13F-HR').length}, NPORT-P: ${rawFilings.filter(f => f.form === 'NPORT-P').length}`
-      )
+      console.log(`📋 Relevante Filings: ${relevantFilings.length}`)
+      console.log(`   13F-HR: ${relevantFilings.filter(f => f.form === '13F-HR').length}`)
+      console.log(`   NPORT: ${relevantFilings.filter(f => f.form.startsWith('NPORT')).length}`)
 
-      // 4) Pre-process: Für NPORT-P die echte Period aus XML extrahieren
-      const processedFilings = []
-      
-      for (const filing of rawFilings) {
-        let actualPeriod = filing.period
-        let quarterKey = getQuarterFromDate(actualPeriod)
-        
-        if (filing.form === 'NPORT-P') {
-          // Für NPORT-P: Lade XML und extrahiere echte Period
-          try {
-            console.log(`  • Analysiere NPORT-P Period für ${filing.rawAccession}`)
-            const xmlContent = await fetchUrl(filing.xmlHref)
-            const extractedQuarter = extractNportPeriod(xmlContent)
-            
-            if (extractedQuarter) {
-              quarterKey = extractedQuarter
-              console.log(`  • NPORT-P Period überschrieben: ${getQuarterFromDate(actualPeriod)} -> ${quarterKey}`)
-            }
-          } catch (err) {
-            console.warn(`  ⚠ Konnte NPORT-P Period nicht extrahieren: ${err.message}`)
-          }
-        }
-        
-        processedFilings.push({
-          ...filing,
-          quarterKey
-        })
-      }
-
-      // 5) Gruppierung nach Quarter - nur das neueste Filing pro Quartal
+      // 4) Gruppierung nach Quarter - BESTES Filing pro Quartal
       const filingsByQuarter = new Map()
       
-      processedFilings.forEach(filing => {
-        if (!filing.quarterKey) return
-        
+      relevantFilings.forEach(filing => {
         const existing = filingsByQuarter.get(filing.quarterKey)
-        if (!existing || new Date(filing.date) > new Date(existing.date)) {
+        
+        const shouldReplace = !existing || 
+          filing.priority > existing.priority || 
+          (filing.priority === existing.priority && new Date(filing.date) > new Date(existing.date))
+        
+        if (shouldReplace) {
           filingsByQuarter.set(filing.quarterKey, filing)
-          console.log(`  • Quartal ${filing.quarterKey}: ${filing.form} vom ${filing.date} (${filing.rawAccession})`)
         }
       })
 
-      console.log(`   • Eindeutige Quartale: ${filingsByQuarter.size}`)
+      console.log(`\n📋 Ausgewählte Filings pro Quartal (13F-HR priorisiert):`)
+      const sortedQuarters = Array.from(filingsByQuarter.entries())
+        .sort((a, b) => {
+          const [yearA, quarterA] = a[0].split('-Q').map(Number)
+          const [yearB, quarterB] = b[0].split('-Q').map(Number)
+          return yearB - yearA || quarterB - quarterA
+        })
 
-      // 6) Pro eindeutigem Quartal: verarbeiten
-      for (const [quarterKey, filing] of filingsByQuarter) {
+      sortedQuarters.slice(0, 8).forEach(([quarterKey, filing]) => {
+        const priority = filing.form === '13F-HR' ? '🎯' : '📋'
+        console.log(`   ${priority} ${quarterKey}: ${filing.form} vom ${filing.date} (${filing.rawAccession})`)
+      })
+
+      // 5) Verarbeite die letzten 8 Quartale (für Performance)
+      const recentQuarters = Array.from(filingsByQuarter.entries())
+        .sort((a, b) => {
+          const [yearA, quarterA] = a[0].split('-Q').map(Number)
+          const [yearB, quarterB] = b[0].split('-Q').map(Number)
+          return yearB - yearA || quarterB - quarterA
+        })
+        .slice(0, 8) // Nur die letzten 8 Quartale für bessere Performance
+
+      for (const [quarterKey, filing] of recentQuarters) {
         const outFile = path.join(invDir, `${quarterKey}.json`)
         
-        console.log(`  • Verarbeite ${slug} ${quarterKey} (${filing.form})`)
+        console.log(`\n📄 Verarbeite ${slug} ${quarterKey} (${filing.form})`)
 
-        // Rohdaten holen (falls noch nicht geholt)
         let raw = ''
-        try {
-          raw = await fetchUrl(filing.xmlHref)
-        } catch {
-          if (filing.txtHref) {
+        let actualPeriod = filing.period
+
+        if (filing.form === '13F-HR') {
+          // Verschiedene 13F-HR URL-Patterns versuchen
+          const urls = [
+            `https://www.sec.gov/Archives/edgar/data/${cik}/${filing.accession}/${filing.rawAccession}.xml`,
+            `https://www.sec.gov/Archives/edgar/data/${cik}/${filing.accession}/${filing.rawAccession}.txt`,
+            `https://www.sec.gov/Archives/edgar/data/${cik}/${filing.accession}/form13fInfoTable.xml`,
+            `https://www.sec.gov/Archives/edgar/data/${cik}/${filing.accession}/primary_doc.xml`
+          ]
+          
+          let success = false
+          for (const url of urls) {
             try {
-              raw = await fetchUrl(filing.txtHref)
+              raw = await fetchUrl(url)
+              if (raw.includes('informationTable') || raw.includes('13F')) {
+                console.log(`  ✅ 13F-HR erfolgreich geladen: ${url.split('/').pop()}`)
+                success = true
+                break
+              }
             } catch {
-              console.warn(`  ⚠ XML & TXT fehlgeschlagen für ${slug} ${quarterKey}`)
               continue
             }
-          } else {
-            console.warn(`  ⚠ XML fehlgeschlagen für ${slug} ${quarterKey}`)
+          }
+          
+          if (!success) {
+            console.warn(`  ⚠ Alle 13F-HR URLs fehlgeschlagen für ${quarterKey}`)
+            continue
+          }
+          
+        } else if (filing.form.startsWith('NPORT')) {
+          // NPORT: Teste verschiedene URL-Patterns
+          try {
+            raw = await tryNportUrls(cik, filing.rawAccession, slug, quarterKey)
+          } catch (err) {
+            console.warn(`  ⚠ ${err.message}`)
             continue
           }
         }
@@ -232,10 +343,10 @@ async function run() {
         let totalValue = 0
 
         if (filing.form === '13F-HR') {
-          // 13F-HR Logic (bleibt gleich)
+          // 13F-HR Verarbeitung - ERWEITERT für Options
           const infoMatch = raw.match(/<(?:\w+:)?informationTable\b[\s\S]*?<\/(?:\w+:)?informationTable>/i)
           if (!infoMatch) {
-            console.warn(`  ⚠ Keine informationTable gefunden für ${slug} ${quarterKey}`)
+            console.warn(`  ⚠ Keine informationTable für ${quarterKey}`)
             continue
           }
           
@@ -248,130 +359,184 @@ async function run() {
             const table = parsed.root.informationTable.infoTable
             const arr = Array.isArray(table) ? table : [table]
             
-            positions = arr
-              .map(pos => {
-                try {
-                  const cusip = normalizeCusip(pos.cusip)
-                  const name = normalizeCompanyName(pos.nameOfIssuer)
-                  const shares = Number(pos.shrsOrPrnAmt?.sshPrnamt?.replace(/,/g, '') || 0)
-                  const rawValue = pos.value?.replace(/,/g, '') || '0'
-                  const value = normalizeValue(rawValue, filing.form, slug)
-                  
-                  if (!cusip || shares <= 0 || value <= 0) {
-                    return null
-                  }
-                  
-                  return { name, cusip, shares, value }
-                } catch (err) {
-                  console.warn(`  ⚠ Fehler beim Verarbeiten einer Position: ${err.message}`)
-                  return null
+            console.log(`  📊 13F-HR Positionen gefunden: ${arr.length}`)
+            
+            // ✅ ERWEITERT: Option Type Detection
+            let stockCount = 0, callCount = 0, putCount = 0, optionCount = 0
+            
+            positions = arr.map(pos => {
+              try {
+                const name = normalizeCompanyName(pos.nameOfIssuer)
+                const cusip = normalizeCusip(pos.cusip, name)
+                const shares = Number(pos.shrsOrPrnAmt?.sshPrnamt?.replace(/,/g, '') || 0)
+                const rawValue = pos.value?.replace(/,/g, '') || '0'
+                const value = normalizeValue(rawValue, filing.form, slug)
+                
+                // ✅ NEU: Option Type Detection
+                const titleOfClass = pos.titleOfClass || ''
+                const putCall = pos.putCall || ''
+                const optionType = detectOptionType(titleOfClass, putCall)
+                const typeInfo = getPositionTypeDisplay(optionType)
+                
+                // Counter für Statistik
+                if (optionType === 'STOCK') stockCount++
+                else if (optionType === 'CALL') callCount++
+                else if (optionType === 'PUT') putCount++
+                else optionCount++
+                
+                if (!cusip || shares <= 0 || value <= 0) return null
+                
+                return { 
+                  name, 
+                  cusip, 
+                  shares, 
+                  value,
+                  // ✅ NEU: Option Information
+                  optionType,
+                  typeInfo,
+                  titleOfClass: titleOfClass || null,
+                  putCall: putCall || null
                 }
-              })
-              .filter(Boolean)
+              } catch (err) {
+                console.warn(`  ⚠ Fehler beim Verarbeiten einer 13F Position: ${err.message}`)
+                return null
+              }
+            }).filter(Boolean)
+
+            // ✅ PROFESSIONELLE Option Statistik ausgeben (ohne Emojis)
+            console.log(`    📊 Position Types: ${stockCount} Stocks, ${callCount} Calls, ${putCount} Puts, ${optionCount} Unknown Options`)
               
           } catch (parseErr) {
-            console.warn(`  ⚠ XML Parse Fehler für ${slug} ${quarterKey}: ${parseErr.message}`)
+            console.warn(`  ⚠ 13F-HR Parse Fehler für ${quarterKey}: ${parseErr.message}`)
             continue
           }
           
-        } else if (filing.form === 'NPORT-P') {
-          // NPORT-P Parser
+        } else if (filing.form.startsWith('NPORT')) {
+          // NPORT Verarbeitung (bleibt unverändert - haben keine Option-Info)
           try {
             const parsed = await parseStringPromise(raw, { explicitArray: false })
             
-            // Debug: Total Assets aus fundInfo holen
+            // Debug: Total Assets und Period Info
             const totalAssets = parsed.edgarSubmission?.formData?.fundInfo?.totAssets
+            const reportPeriod = extractNportPeriod(raw)
+            
             if (totalAssets) {
-              console.log(`    • NPORT-P Total Assets: ${(Number(totalAssets)/1000000).toFixed(1)}M`)
+              console.log(`    💰 ${filing.form} Total Assets: $${(Number(totalAssets)/1000000).toFixed(1)}M`)
+            }
+            if (reportPeriod) {
+              console.log(`    📅 Report Period: ${reportPeriod}`)
+              actualPeriod = reportPeriod
             }
             
-            const secs = parsed.edgarSubmission?.formData?.invstOrSecs?.invstOrSec
+            // Extrahiere Positionen - KORRIGIERT für andere Feld-Namen
+            let secs = parsed.edgarSubmission?.formData?.invstOrSecs?.invstOrSec
             const arr = Array.isArray(secs) ? secs : secs ? [secs] : []
             
-            console.log(`    • NPORT-P Positionen gefunden: ${arr.length}`)
+            console.log(`    📊 ${filing.form} Positionen gefunden: ${arr.length}`)
             
-            // Sample der ersten Position
-            if (arr.length > 0) {
-              const sample = arr[0]
-              console.log(`    • Sample: ${sample.name} - valUSD: ${sample.valUSD}`)
-            }
-            
-            positions = arr
-              .map(p => {
-                try {
-                  const cusip = normalizeCusip(p.cusip)
-                  const name = normalizeCompanyName(p.name)
-                  const shares = Number(p.balance?.replace(/,/g, '') || 0)
-                  const rawValue = p.valUSD?.replace(/,/g, '') || '0'
-                  const value = normalizeValue(rawValue, filing.form, slug)
-                  const pctOfPortfolio = p.pctVal ? Number(p.pctVal) : undefined
-                  
-                  if (value <= 0) {
-                    return null
-                  }
-                  
-                  return {
-                    name,
-                    cusip,
-                    shares,
-                    value,
-                    pctOfPortfolio,
-                  }
-                } catch (err) {
-                  console.warn(`    ⚠ Fehler beim Verarbeiten einer NPORT Position: ${err.message}`)
+            positions = arr.map(p => {
+              try {
+                // KORRIGIERT: Verschiedene Name-Felder probieren
+                const name = normalizeCompanyName(p.name || p.n || p.nameOfIssuer || 'Unknown')
+                const cusip = normalizeCusip(p.cusip, name)
+                const shares = Number(p.balance?.replace(/,/g, '') || 0)
+                const rawValue = p.valUSD?.replace(/,/g, '') || '0'
+                const value = normalizeValue(rawValue, filing.form, slug)
+                
+                // Basis-Filterung: Nur echte Werte
+                if (value <= 0 || value < 100000) { // Minimum $100k für große Positionen
                   return null
                 }
-              })
-              .filter(Boolean)
-              
+                
+                // Spezifische Ausschlüsse
+                const nameUpper = name.toUpperCase()
+                if (nameUpper.includes('CASH COLLATERAL') ||
+                    nameUpper.includes('REVERSE REPO') ||
+                    nameUpper === 'N/A' ||
+                    shares < 0) {
+                  return null
+                }
+                
+                return {
+                  name,
+                  cusip,
+                  shares: Math.abs(shares),
+                  value,
+                  // NPORT hat keine Option-Info, daher default
+                  optionType: 'STOCK',
+                  typeInfo: getPositionTypeDisplay('STOCK')
+                }
+              } catch (err) {
+                return null
+              }
+            }).filter(Boolean)
+            
           } catch (parseErr) {
-            console.warn(`  ⚠ NPORT-P Parse Fehler für ${slug} ${quarterKey}: ${parseErr.message}`)
+            console.warn(`  ⚠ ${filing.form} Parse Fehler für ${quarterKey}: ${parseErr.message}`)
             continue
           }
         }
 
-        // Validation und Debugging
+        // Validierung und Ausgabe
         totalValue = positions.reduce((sum, pos) => sum + pos.value, 0)
         
-        console.log(`    ├ ${positions.length} Positionen verarbeitet`)
-        console.log(`    ├ Gesamtwert: $${(totalValue / 1000000).toFixed(1)}M`)
-        console.log(`    ├ Größte Position: ${positions[0]?.name || 'N/A'} ($${((positions[0]?.value || 0) / 1000000).toFixed(1)}M)`)
+        console.log(`    ✅ ${positions.length} Positionen verarbeitet`)
+        console.log(`    💵 Gesamtwert: $${(totalValue / 1000000).toFixed(1)}M`)
         
-        // Realistischer Check für Torray (sollte ~346-671M sein)
-        if (slug === 'torray' && filing.form === 'NPORT-P') {
-          if (totalValue < 200000000 || totalValue > 1000000000) {
-            console.warn(`  ⚠ Torray NPORT-P Gesamtwert ungewöhnlich: $${(totalValue/1000000).toFixed(1)}M`)
-          } else {
-            console.log(`  ✓ Torray NPORT-P Gesamtwert realistisch: $${(totalValue/1000000).toFixed(1)}M`)
-          }
+        if (positions.length > 0) {
+          const sortedPositions = positions.sort((a, b) => b.value - a.value)
+          console.log(`    🔝 Top 5 Positionen:`)
+          sortedPositions.slice(0, 5).forEach((pos, i) => {
+            const typeLabel = pos.optionType === 'STOCK' ? '' : ` (${pos.optionType})`
+            console.log(`       ${i+1}. ${pos.name}${typeLabel}: $${(pos.value / 1000000).toFixed(1)}M`)
+          })
         }
         
         if (positions.length === 0) {
-          console.warn(`  ⚠ Keine gültigen Positionen gefunden für ${slug} ${quarterKey}`)
+          console.warn(`  ⚠ Keine gültigen Positionen für ${quarterKey}`)
           continue
         }
 
-        // JSON schreiben
+        // ✅ ERWEITERT: Portfolio Summary mit Option Breakdown
+        const portfolioSummary = positions.reduce((acc, pos) => {
+          acc[pos.optionType] = (acc[pos.optionType] || 0) + pos.value
+          return acc
+        }, {})
+
+        // JSON schreiben - ERWEITERT
         const payload = { 
           form: filing.form, 
           date: filing.date, 
-          period: filing.period, 
+          period: actualPeriod,
           accession: filing.rawAccession,
           quarterKey,
           positions: positions.sort((a, b) => b.value - a.value),
           totalValue,
-          positionsCount: positions.length
+          positionsCount: positions.length,
+          // ✅ NEU: Portfolio Breakdown
+          portfolioSummary: {
+            byType: portfolioSummary,
+            percentages: Object.entries(portfolioSummary).reduce((acc, [type, value]) => {
+              acc[type] = ((value / totalValue) * 100).toFixed(1) + '%'
+              return acc
+            }, {})
+          }
         }
         
         await fs.writeFile(outFile, JSON.stringify(payload, null, 2), 'utf-8')
-        console.log(`  ✓ Geschrieben: ${slug}/${quarterKey}.json`)
+        console.log(`    ✅ Geschrieben: ${slug}/${quarterKey}.json`)
+        
+        // ✅ PROFESSIONELLE Portfolio Breakdown ausgeben
+        console.log(`    📋 Portfolio Breakdown:`)
+        Object.entries(portfolioSummary).forEach(([type, value]) => {
+          const percent = ((value / totalValue) * 100).toFixed(1)
+          console.log(`       ${type}: $${(value/1000000).toFixed(1)}M (${percent}%)`)
+        })
       }
 
     } catch (error) {
       console.error(`❌ Fehler bei ${slug}: ${error.message}`)
     }
-
-    console.log()
   }
 }
 

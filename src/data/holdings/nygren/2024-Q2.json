@@ -1,0 +1,287 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-05-28",
+  "period": "2024-03-31",
+  "accession": "0001752724-24-122629",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "Lloyds Banking Group PLC",
+      "cusip": "000000000",
+      "shares": 84230500,
+      "value": 55026835.58
+    },
+    {
+      "name": "Mercedes-Benz Group AG",
+      "cusip": "000000000",
+      "shares": 631800,
+      "value": 50310177.98
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "000000000",
+      "shares": 3632056,
+      "value": 47071445.76
+    },
+    {
+      "name": "Fixed Income Clearing Corp",
+      "cusip": "000000000",
+      "shares": 44027664.51,
+      "value": 44027664.51
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K305",
+      "shares": 266600,
+      "value": 40237938
+    },
+    {
+      "name": "General Motors Co",
+      "cusip": "37045V100",
+      "shares": 850193,
+      "value": 38556252.55
+    },
+    {
+      "name": "Bayer AG",
+      "cusip": "000000000",
+      "shares": 1244586,
+      "value": 38173571.82
+    },
+    {
+      "name": "IQVIA Holdings Inc",
+      "cusip": "46266C105",
+      "shares": 150900,
+      "value": 38161101
+    },
+    {
+      "name": "Julius Baer Group Ltd",
+      "cusip": "000000000",
+      "shares": 657100,
+      "value": 37946186.17
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 997600,
+      "value": 37828992
+    },
+    {
+      "name": "Prudential PLC",
+      "cusip": "000000000",
+      "shares": 4010300,
+      "value": 37607682.2
+    },
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 239800,
+      "value": 35703822
+    },
+    {
+      "name": "Kering SA",
+      "cusip": "000000000",
+      "shares": 90300,
+      "value": 35689870.57
+    },
+    {
+      "name": "Interpublic Group of Cos Inc/The",
+      "cusip": "460690100",
+      "shares": 1021863,
+      "value": 33343389.69
+    },
+    {
+      "name": "Fiserv Inc",
+      "cusip": "337738108",
+      "shares": 204500,
+      "value": 32683190
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "000000000",
+      "shares": 1023742,
+      "value": 32112289.56
+    },
+    {
+      "name": "Allianz SE",
+      "cusip": "000000000",
+      "shares": 103325,
+      "value": 30966967.77
+    },
+    {
+      "name": "Willis Towers Watson PLC",
+      "cusip": "000000000",
+      "shares": 109800,
+      "value": 30195000
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 234008,
+      "value": 29784538.24
+    },
+    {
+      "name": "Daimler Truck Holding AG",
+      "cusip": "000000000",
+      "shares": 582634,
+      "value": 29517864.83
+    },
+    {
+      "name": "American International Group Inc",
+      "cusip": "026874784",
+      "shares": 375700,
+      "value": 29368469
+    },
+    {
+      "name": "Corebridge Financial Inc",
+      "cusip": "21871X109",
+      "shares": 994400,
+      "value": 28569112
+    },
+    {
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 180300,
+      "value": 24778629
+    },
+    {
+      "name": "Samsung Electronics Co Ltd",
+      "cusip": "000000000",
+      "shares": 396600,
+      "value": 23803364.9
+    },
+    {
+      "name": "Centene Corp",
+      "cusip": "15135B101",
+      "shares": 296200,
+      "value": 23245776
+    },
+    {
+      "name": "Glencore PLC",
+      "cusip": "000000000",
+      "shares": 4223400,
+      "value": 23203942.2
+    },
+    {
+      "name": "Charter Communications Inc",
+      "cusip": "16119P108",
+      "shares": 75600,
+      "value": 21971628
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "000000000",
+      "shares": 2357100,
+      "value": 21156048.37
+    },
+    {
+      "name": "Envista Holdings Corp",
+      "cusip": "29415F104",
+      "shares": 988400,
+      "value": 21131992
+    },
+    {
+      "name": "St James's Place PLC",
+      "cusip": "000000000",
+      "shares": 3592000,
+      "value": 21058766.96
+    },
+    {
+      "name": "Kroger Co/The",
+      "cusip": "501044101",
+      "shares": 359100,
+      "value": 20515383
+    },
+    {
+      "name": "Anheuser-Busch InBev SA/NV",
+      "cusip": "000000000",
+      "shares": 334900,
+      "value": 20399383.76
+    },
+    {
+      "name": "TE Connectivity Ltd",
+      "cusip": "000000000",
+      "shares": 138396,
+      "value": 20100635.04
+    },
+    {
+      "name": "Cisco Systems Inc",
+      "cusip": "17275R102",
+      "shares": 369400,
+      "value": 18436754
+    },
+    {
+      "name": "Ryanair Holdings PLC",
+      "cusip": "783513203",
+      "shares": 121542,
+      "value": 17695299.78
+    },
+    {
+      "name": "Capgemini SE",
+      "cusip": "000000000",
+      "shares": 68300,
+      "value": 15717106.14
+    },
+    {
+      "name": "Agilent Technologies Inc",
+      "cusip": "00846U101",
+      "shares": 106500,
+      "value": 15496815
+    },
+    {
+      "name": "Brunswick Corp/DE",
+      "cusip": "117043109",
+      "shares": 150000,
+      "value": 14478000
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 78306,
+      "value": 14124836.28
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "000000000",
+      "shares": 53700,
+      "value": 13677318.84
+    },
+    {
+      "name": "SAP SE",
+      "cusip": "000000000",
+      "shares": 63100,
+      "value": 12284891.89
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "000000000",
+      "shares": 102000,
+      "value": 9881621.11
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 93700,
+      "value": 9424346
+    },
+    {
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307305",
+      "shares": 152103,
+      "value": 8704854.69
+    },
+    {
+      "name": "Warner Bros Discovery Inc",
+      "cusip": "934423104",
+      "shares": 910900,
+      "value": 7952157
+    },
+    {
+      "name": "Travis Perkins PLC",
+      "cusip": "000000000",
+      "shares": 748179,
+      "value": 6887825.97
+    }
+  ],
+  "totalValue": 1219009737.16,
+  "positionsCount": 46
+}

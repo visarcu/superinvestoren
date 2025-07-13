@@ -9,45 +9,111 @@
       "name": "NVIDIA CORPORATION",
       "cusip": "67066G104",
       "shares": 900000,
-      "value": 97542000
+      "value": 97542000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Put"
     },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 200000,
-      "value": 26446000
+      "value": 26446000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": "Put"
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
       "shares": 200000,
-      "value": 23670000
+      "value": 23670000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": "Put"
     },
     {
       "name": "JD.COM INC",
       "cusip": "47215P106",
       "shares": 400000,
-      "value": 16448000
+      "value": 16448000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPON ADS CL A",
+      "putCall": "Put"
     },
     {
       "name": "LAUDER ESTEE COS INC",
       "cusip": "518439104",
       "shares": 200000,
-      "value": 13200000
+      "value": 13200000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "TRIP COM GROUP LTD",
       "cusip": "89677Q107",
       "shares": 200000,
-      "value": 12716000
+      "value": 12716000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "ADS",
+      "putCall": "Put"
     },
     {
       "name": "BAIDU INC",
       "cusip": "056752108",
       "shares": 100000,
-      "value": 9203000
+      "value": 9203000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPON ADR REP A",
+      "putCall": "Put"
     }
   ],
   "totalValue": 199225000,
-  "positionsCount": 7
+  "positionsCount": 7,
+  "portfolioSummary": {
+    "byType": {
+      "PUT": 186025000,
+      "STOCK": 13200000
+    },
+    "percentages": {
+      "PUT": "93.4%",
+      "STOCK": "6.6%"
+    }
+  }
 }

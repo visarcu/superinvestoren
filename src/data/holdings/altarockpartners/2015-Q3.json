@@ -9,45 +9,45 @@
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 433621,
-      "value": 97422
+      "value": 97422000
     },
     {
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16117M305",
       "shares": 321085,
-      "value": 54986
+      "value": 54986000
     },
     {
       "name": "LIBERTY GLOBAL CL C",
       "cusip": "G5480U120",
       "shares": 1057794,
-      "value": 53556
+      "value": 53556000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 466915,
-      "value": 50408
+      "value": 50408000
     },
     {
       "name": "MASTERCARD INC CL A",
       "cusip": "57636Q104",
       "shares": 395390,
-      "value": 36961
+      "value": 36961000
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 280076,
-      "value": 18807
+      "value": 18807000
     },
     {
       "name": "INTERACTIVE BROKERS",
       "cusip": "45841N107",
       "shares": 33101,
-      "value": 1376
+      "value": 1376000
     }
   ],
-  "totalValue": 313516,
+  "totalValue": 313516000,
   "positionsCount": 7
 }

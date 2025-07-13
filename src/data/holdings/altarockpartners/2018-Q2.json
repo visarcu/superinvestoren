@@ -9,45 +9,45 @@
       "name": "BOOKING HOLDINGS INC",
       "cusip": "09857L108",
       "shares": 102183,
-      "value": 212580
+      "value": 212580000
     },
     {
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 589514,
-      "value": 183469
+      "value": 183469000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 534431,
-      "value": 164038
+      "value": 164038000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 966907,
-      "value": 155962
+      "value": 155962000
     },
     {
       "name": "MASTERCARD INC CL A",
       "cusip": "57636Q104",
       "shares": 398290,
-      "value": 69764
+      "value": 69764000
     },
     {
       "name": "WABTEC",
       "cusip": "929740108",
       "shares": 666426,
-      "value": 54247
+      "value": 54247000
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 282516,
-      "value": 33795
+      "value": 33795000
     }
   ],
-  "totalValue": 873855,
+  "totalValue": 873855000,
   "positionsCount": 7
 }

@@ -94,7 +94,7 @@ const PremiumBlur = ({
     </div>
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-3 text-center shadow-lg">
-        <LockClosedIcon className="w-5 h-5 text-amber-500 mx-auto mb-1" />
+        <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
         <p className="text-theme-secondary text-xs font-medium">{featureName}</p>
         <p className="text-theme-muted text-xs">Premium erforderlich</p>
       </div>

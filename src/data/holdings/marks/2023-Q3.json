@@ -9,1431 +9,3345 @@
       "name": "TORM PLC",
       "cusip": "G89479102",
       "shares": 53812988,
-      "value": 1294694041
+      "value": 1294694041,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CHESAPEAKE ENERGY CORP",
       "cusip": "165167735",
       "shares": 7350000,
-      "value": 615048006
+      "value": 615048006,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "STAR BULK CARRIERS CORP",
       "cusip": "Y8162K204",
       "shares": 26067483,
-      "value": 461394449
+      "value": 461394449,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "VISTRA CORP",
       "cusip": "92840M102",
       "shares": 17000000,
-      "value": 446249999
+      "value": 446249999,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "STR SUB INC",
       "cusip": "82983N108",
       "shares": 12935120,
-      "value": 339805602
+      "value": 339805602,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "GARRETT MOTION INC",
       "cusip": "366505105",
       "shares": 44082816,
-      "value": 333706917
+      "value": 333706917,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "RUNWAY GROWTH FINANCE CORP",
       "cusip": "78163D100",
       "shares": 21054667,
-      "value": 260025141
+      "value": 260025141,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SUNOPTA INC",
       "cusip": "8676EP108",
       "shares": 20726126,
-      "value": 138657783
+      "value": 138657783,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NMI HOLDINGS INC",
       "cusip": "629209305",
       "shares": 4900000,
-      "value": 126518000
+      "value": 126518000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ALLY FINANCIAL INC",
       "cusip": "02005N100",
       "shares": 4600000,
-      "value": 124246000
+      "value": 124246000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SPDR S&P OIL & GAS EXPLORATION & PRODUCTION ETF",
       "cusip": "78468R556",
       "shares": 945000,
-      "value": 121744350
+      "value": 121744350,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "ETF",
+      "putCall": "Put"
     },
     {
       "name": "INFINERA CORP",
       "cusip": "45667G103",
       "shares": 25175384,
-      "value": 121597104
+      "value": 121597104,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "PETROLEO BRASILEIRO SA",
       "cusip": "71654V408",
       "shares": 7866402,
-      "value": 108792339
+      "value": 108792339,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BANCO BRADESCO SA",
       "cusip": "059460303",
       "shares": 30815319,
-      "value": 106621007
+      "value": 106621007,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "FREEPORT-MCMORAN INC",
       "cusip": "35671D857",
       "shares": 2627805,
-      "value": 105112200
+      "value": 105112200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "VALE SA",
       "cusip": "91912E105",
       "shares": 7782982,
-      "value": 104447618
+      "value": 104447618,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CEMEX SAB DE CV",
       "cusip": "151290889",
       "shares": 14489032,
-      "value": 102582346
+      "value": 102582346,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ANGLOGOLD ASHANTI LTD",
       "cusip": "035128206",
       "shares": 4728622,
-      "value": 99726638
+      "value": 99726638,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "STATE STREET CORP",
       "cusip": "78462F103",
       "shares": 215000,
-      "value": 95305200
+      "value": 95305200,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "ETF",
+      "putCall": "Put"
     },
     {
       "name": "ICICI BANK LTD",
       "cusip": "45104G104",
       "shares": 3981989,
-      "value": 91904306
+      "value": 91904306,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CBL & ASSOCIATES PROPERTIES INC",
       "cusip": "124830878",
       "shares": 3983966,
-      "value": 87806632
+      "value": 87806632,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "FRONTIER COMMUNICATIONS PARENT INC",
       "cusip": "35909D109",
       "shares": 3982849,
-      "value": 74240305
+      "value": 74240305,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "VISTA ENERGY SAB DE CV",
       "cusip": "92837L109",
       "shares": 2884674,
-      "value": 69578336
+      "value": 69578336,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "FTAI AVIATION LTD",
       "cusip": "G3730V105",
       "shares": 2033110,
-      "value": 64368262
+      "value": 64368262,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "EAGLE BULK SHIPPING INC",
       "cusip": "269442AB5",
       "shares": 40495000,
-      "value": 61989450
+      "value": 61989450,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "INFOSYS LTD",
       "cusip": "456788108",
       "shares": 3701358,
-      "value": 59480823
+      "value": 59480823,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "AZUL SA",
       "cusip": "05501U106",
       "shares": 4241923,
-      "value": 58071925
+      "value": 58071925,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "KILROY REALTY CORP",
       "cusip": "49427F108",
       "shares": 1850011,
-      "value": 55666830
+      "value": 55666830,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ALVOTECH SA",
       "cusip": "L01800108",
       "shares": 6759160,
-      "value": 52315898
+      "value": 52315898,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ITAU UNIBANCO HOLDING SA",
       "cusip": "465562106",
       "shares": 8185639,
-      "value": 48295270
+      "value": 48295270,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BERRY CORP",
       "cusip": "08579X101",
       "shares": 6697000,
-      "value": 46075360
+      "value": 46075360,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CREDICORP LTD",
       "cusip": "G2519Y108",
       "shares": 281632,
-      "value": 41580148
+      "value": 41580148,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "DAQO NEW ENERGY CORP",
       "cusip": "23703Q203",
       "shares": 1029621,
-      "value": 40875953
+      "value": 40875953,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "TERNIUM SA",
       "cusip": "880890108",
       "shares": 999923,
-      "value": 39646946
+      "value": 39646946,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SOCIEDAD QUIMICA Y MINERA DE CHILE SA",
       "cusip": "833635105",
       "shares": 505135,
-      "value": 36682903
+      "value": 36682903,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "OAKTREE SPECIALTY LENDING CORP",
       "cusip": "67401P405",
       "shares": 1852456,
-      "value": 35993220
+      "value": 35993220,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "JD.COM INC",
       "cusip": "47215P106",
       "shares": 1011730,
-      "value": 34530344
+      "value": 34530344,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "JETBLUE AIRWAYS CORP",
       "cusip": "477143AP6",
       "shares": 41364000,
-      "value": 34177181
+      "value": 34177181,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U104",
       "shares": 1946000,
-      "value": 32809560
+      "value": 32809560,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SPOTIFY TECHNOLOGY SA",
       "cusip": "84921RAB6",
       "shares": 37549000,
-      "value": 32085620
+      "value": 32085620,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MAGNACHIP SEMICONDUCTOR CORP",
       "cusip": "55933J203",
       "shares": 2849858,
-      "value": 31861412
+      "value": 31861412,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SMARTRENT INC",
       "cusip": "83193G107",
       "shares": 7505294,
-      "value": 28745279
+      "value": 28745279,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "PAMPA ENERGIA SA",
       "cusip": "697660207",
       "shares": 639421,
-      "value": 27699717
+      "value": 27699717,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "WAYFAIR INC",
       "cusip": "94419LAF8",
       "shares": 30350000,
-      "value": 25116557
+      "value": 25116557,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "NUVASIVE INC",
       "cusip": "670704AJ4",
       "shares": 26961000,
-      "value": 24399705
+      "value": 24399705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "INVESCO SENIOR INCOME TRUST",
       "cusip": "46131H107",
       "shares": 6300000,
-      "value": 24255000
+      "value": 24255000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "TRANSPORTADORA DE GAS DEL SUR SA",
       "cusip": "893870204",
       "shares": 1686238,
-      "value": 23236359
+      "value": 23236359,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "COINBASE GLOBAL INC",
       "cusip": "19260QAB3",
       "shares": 30636000,
-      "value": 23173858
+      "value": 23173858,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "CABLE ONE INC",
       "cusip": "12685JAE5",
       "shares": 27827000,
-      "value": 22887707
+      "value": 22887707,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "ALARM.COM HOLDINGS INC",
       "cusip": "011642AB1",
       "shares": 26674000,
-      "value": 22857298
+      "value": 22857298,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "HAEMONETICS CORP",
       "cusip": "405024AB6",
       "shares": 26145000,
-      "value": 22377439
+      "value": 22377439,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "WESTERN DIGITAL CORP",
       "cusip": "958102AP0",
       "shares": 22413000,
-      "value": 21841468
+      "value": 21841468,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SEA LTD",
       "cusip": "81141RAG5",
       "shares": 24167000,
-      "value": 19514852
+      "value": 19514852,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MGIC INVESTMENT CORP",
       "cusip": "552848103",
       "shares": 1200000,
-      "value": 18948000
+      "value": 18948000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "PERFICIENT INC",
       "cusip": "71375UAF8",
       "shares": 22927000,
-      "value": 18916785
+      "value": 18916785,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "HERTZ GLOBAL HOLDINGS INC",
       "cusip": "42806J700",
       "shares": 1000000,
-      "value": 18390000
+      "value": 18390000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "OCWEN FINANCIAL CORP",
       "cusip": "675746606",
       "shares": 581006,
-      "value": 17412749
+      "value": 17412749,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "REDWOOD TRUST INC",
       "cusip": "749772AD1",
       "shares": 19848000,
-      "value": 17366471
+      "value": 17366471,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "BATTALION OIL CORP",
       "cusip": "07134L107",
       "shares": 3009912,
-      "value": 17186597
+      "value": 17186597,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NUVEEN CREDIT STRATEGIES INCOME FUND",
       "cusip": "67073D102",
       "shares": 3333949,
-      "value": 16836442
+      "value": 16836442,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ITRON INC",
       "cusip": "465741AN6",
       "shares": 18208000,
-      "value": 16239260
+      "value": 16239260,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "UNITI GROUP INC",
       "cusip": "91325V108",
       "shares": 3397592,
-      "value": 15696875
+      "value": 15696875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SNAP INC",
       "cusip": "83304AAH9",
       "shares": 20802000,
-      "value": 14842227
+      "value": 14842227,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "STAR HOLDINGS",
       "cusip": "85512G106",
       "shares": 1000000,
-      "value": 14670000
+      "value": 14670000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "AFFIRM HOLDINGS INC",
       "cusip": "00827BAB2",
       "shares": 19626000,
-      "value": 14584080
+      "value": 14584080,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SHOPIFY INC",
       "cusip": "82509LAA5",
       "shares": 15213000,
-      "value": 13859043
+      "value": 13859043,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MFA FINANCIAL INC",
       "cusip": "55272XAA0",
       "shares": 13588000,
-      "value": 13537068
+      "value": 13537068,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "PENNYMAC MORTGAGE INVESTMENT TRUST",
       "cusip": "70932AAD5",
       "shares": 13911000,
-      "value": 13128506
+      "value": 13128506,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "KAMAN CORP",
       "cusip": "483548AF0",
       "shares": 13497000,
-      "value": 13065096
+      "value": 13065096,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "DIGITALOCEAN HOLDINGS INC",
       "cusip": "25402DAB8",
       "shares": 16422000,
-      "value": 12909122
+      "value": 12909122,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "CHEGG INC",
       "cusip": "163092AF6",
       "shares": 16918000,
-      "value": 12756172
+      "value": 12756172,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "TELADOC HEALTH INC",
       "cusip": "539183AA1",
       "shares": 13807000,
-      "value": 12545353
+      "value": 12545353,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "APOLLO COMMERCIAL REAL ESTATE FINANCE INC",
       "cusip": "03762UAC9",
       "shares": 12381000,
-      "value": 12388738
+      "value": 12388738,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "TELECOM ARGENTINA SA",
       "cusip": "879273209",
       "shares": 2033741,
-      "value": 12385482
+      "value": 12385482,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NEW MOUNTAIN FINANCE CORP",
       "cusip": "647551AC4",
       "shares": 11951000,
-      "value": 11921720
+      "value": 11921720,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "YPF SA",
       "cusip": "984245100",
       "shares": 764952,
-      "value": 11390135
+      "value": 11390135,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "TRIPADVISOR INC",
       "cusip": "896945AD4",
       "shares": 13186000,
-      "value": 11096019
+      "value": 11096019,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MICROSTRATEGY INC",
       "cusip": "594972AE1",
       "shares": 16099000,
-      "value": 10803641
+      "value": 10803641,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "EVENTBRITE INC",
       "cusip": "29975EAD1",
       "shares": 13051000,
-      "value": 10767075
+      "value": 10767075,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "FORD MOTOR CO",
       "cusip": "345370CZ1",
       "shares": 9599000,
-      "value": 10563699
+      "value": 10563699,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "DISH NETWORK CORP",
       "cusip": "25470MAF6",
       "shares": 18995000,
-      "value": 10139531
+      "value": 10139531,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "HIMS & HERS HEALTH INC",
       "cusip": "433000106",
       "shares": 1053214,
-      "value": 9900211
+      "value": 9900211,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BLACKLINE INC",
       "cusip": "09239BAD1",
       "shares": 11613000,
-      "value": 9885566
+      "value": 9885566,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "FIVERR INTERNATIONAL LTD",
       "cusip": "33835LAA3",
       "shares": 11531000,
-      "value": 9765603
+      "value": 9765603,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "AIRBNB INC",
       "cusip": "009066AB7",
       "shares": 11153000,
-      "value": 9753298
+      "value": 9753298,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "INTERCEPT PHARMACEUTICALS INC",
       "cusip": "45845PAA6",
       "shares": 9506000,
-      "value": 9600523
+      "value": 9600523,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "INTERCEPT PHARMACEUTICALS INC",
       "cusip": "45845PAB4",
       "shares": 11824000,
-      "value": 9508858
+      "value": 9508858,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "LUMENTUM HOLDINGS INC",
       "cusip": "55024UAF6",
       "shares": 11896000,
-      "value": 9413953
+      "value": 9413953,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "EZCORP INC",
       "cusip": "302301AE6",
       "shares": 10119000,
-      "value": 9356892
+      "value": 9356892,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "AIR TRANSPORT SERVICES GROUP INC",
       "cusip": "00922RAB1",
       "shares": 9798000,
-      "value": 9304180
+      "value": 9304180,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "TECHTARGET INC",
       "cusip": "87874RAD2",
       "shares": 11707000,
-      "value": 9187126
+      "value": 9187126,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "ALTERYX INC",
       "cusip": "02156BAD5",
       "shares": 9653000,
-      "value": 9122085
+      "value": 9122085,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "NEOGENOMICS INC",
       "cusip": "64049MAB6",
       "shares": 12276000,
-      "value": 9099585
+      "value": 9099585,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "8X8 INC",
       "cusip": "282914AB6",
       "shares": 9116000,
-      "value": 8705229
+      "value": 8705229,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MONTEREY CAPITAL ACQUISITION CORP",
       "cusip": "61244M109",
       "shares": 792000,
-      "value": 8288280
+      "value": 8288280,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CERIDIAN HCM HOLDING INC",
       "cusip": "15677JAD0",
       "shares": 9353000,
-      "value": 8275542
+      "value": 8275542,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "GREENLIGHT CAPITAL RE LTD",
       "cusip": "395366AB3",
       "shares": 8363000,
-      "value": 8200967
+      "value": 8200967,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SHAKE SHACK INC",
       "cusip": "819047AB7",
       "shares": 9953000,
-      "value": 8163464
+      "value": 8163464,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "ZSCALER INC",
       "cusip": "98980GAB8",
       "shares": 6826000,
-      "value": 7989833
+      "value": 7989833,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "ETSY INC",
       "cusip": "29786AAN6",
       "shares": 10247000,
-      "value": 7967042
+      "value": 7967042,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SEA LTD",
       "cusip": "81141RAF7",
       "shares": 7780000,
-      "value": 7955049
+      "value": 7955049,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "FEUTUNE LIGHT ACQUISITION CORP",
       "cusip": "31561T102",
       "shares": 735000,
-      "value": 7724850
+      "value": 7724850,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NUVEEN SENIOR INCOME FUND",
       "cusip": "67067Y104",
       "shares": 1669270,
-      "value": 7645256
+      "value": 7645256,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "JOYY INC",
       "cusip": "98426TAF3",
       "shares": 8109000,
-      "value": 7593089
+      "value": 7593089,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MAGNITE INC",
       "cusip": "55955DAB6",
       "shares": 8903000,
-      "value": 7576453
+      "value": 7576453,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "TURNING POINT BRANDS INC",
       "cusip": "90041LAE5",
       "shares": 7742000,
-      "value": 7451560
+      "value": 7451560,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "OKTA INC",
       "cusip": "679295AF2",
       "shares": 8595000,
-      "value": 7378807
+      "value": 7378807,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "ENPHASE ENERGY INC",
       "cusip": "29355AAK3",
       "shares": 7726000,
-      "value": 7301668
+      "value": 7301668,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "TPI COMPOSITES INC",
       "cusip": "87266J104",
       "shares": 700739,
-      "value": 7266663
+      "value": 7266663,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "IONIS PHARMACEUTICALS INC",
       "cusip": "462222AB6",
       "shares": 7702000,
-      "value": 7201370
+      "value": 7201370,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "A SPAC II ACQUISITION CORP",
       "cusip": "G0543H109",
       "shares": 675000,
-      "value": 7124625
+      "value": 7124625,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ACCOLADE INC",
       "cusip": "00437EAB8",
       "shares": 8520000,
-      "value": 7115465
+      "value": 7115465,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SPLUNK INC",
       "cusip": "848637AD6",
       "shares": 7060000,
-      "value": 7077650
+      "value": 7077650,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "LIBERTY BROADBAND CORP",
       "cusip": "530307305",
       "shares": 86999,
-      "value": 6969489
+      "value": 6969489,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "LIBERTY LATIN AMERICA LTD",
       "cusip": "53069QAB5",
       "shares": 7287000,
-      "value": 6937224
+      "value": 6937224,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "UNITY SOFTWARE INC",
       "cusip": "91332UAB7",
       "shares": 8617000,
-      "value": 6923759
+      "value": 6923759,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304AC6",
       "shares": 7085000,
-      "value": 6896886
+      "value": 6896886,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "VIAVI SOLUTIONS INC",
       "cusip": "925550AB1",
       "shares": 6862000,
-      "value": 6832150
+      "value": 6832150,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "Q2 HOLDINGS INC",
       "cusip": "74736LAF6",
       "shares": 7688000,
-      "value": 6691462
+      "value": 6691462,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "INTEGRA LIFESCIENCES HOLDINGS CORP",
       "cusip": "457985AM1",
       "shares": 7236000,
-      "value": 6642648
+      "value": 6642648,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "CLOUDFLARE INC",
       "cusip": "18915MAC1",
       "shares": 7704000,
-      "value": 6575363
+      "value": 6575363,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "UPSTART HOLDINGS INC",
       "cusip": "91680MAB3",
       "shares": 9353000,
-      "value": 6430187
+      "value": 6430187,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "COHERUS BIOSCIENCES INC",
       "cusip": "19249HAB9",
       "shares": 10306000,
-      "value": 6415485
+      "value": 6415485,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "NUVEEN FLOATING RATE INCOME OPPORTUNITY FUND",
       "cusip": "6706EN100",
       "shares": 793641,
-      "value": 6190399
+      "value": 6190399,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "IQIYI INC",
       "cusip": "46267XAE8",
       "shares": 6477000,
-      "value": 6105096
+      "value": 6105096,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "RINGCENTRAL INC",
       "cusip": "76680RAF4",
       "shares": 6333000,
-      "value": 5854858
+      "value": 5854858,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "BLUE WORLD ACQUISITION CORP",
       "cusip": "G1263E102",
       "shares": 550000,
-      "value": 5835500
+      "value": 5835500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ALVOTECH SA",
       "cusip": "L01800116",
       "shares": 4666667,
-      "value": 5786667
+      "value": 5786667,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "WARRANT",
+      "putCall": null
     },
     {
       "name": "HEALTH CATALYST INC",
       "cusip": "42225TAB3",
       "shares": 5836000,
-      "value": 5640812
+      "value": 5640812,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "METAL SKY STAR ACQUISITION CORP",
       "cusip": "G6053N105",
       "shares": 496000,
-      "value": 5619680
+      "value": 5619680,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BANDWIDTH INC",
       "cusip": "05988JAB9",
       "shares": 6976000,
-      "value": 5520898
+      "value": 5520898,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "REDFIN CORP",
       "cusip": "75737FAE8",
       "shares": 7734000,
-      "value": 5331079
+      "value": 5331079,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "DUET ACQUISITION CORP",
       "cusip": "26431Q106",
       "shares": 500000,
-      "value": 5267500
+      "value": 5267500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "HCI GROUP INC",
       "cusip": "40416EAF0",
       "shares": 5293000,
-      "value": 5232130
+      "value": 5232130,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "BILL HOLDINGS INC",
       "cusip": "090043AB6",
       "shares": 4892000,
-      "value": 5139045
+      "value": 5139045,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "EXPEDIA GROUP INC",
       "cusip": "30212PBE4",
       "shares": 5580000,
-      "value": 4903704
+      "value": 4903704,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "EATON VANCE FLOATING-RATE INCOME TRUST",
       "cusip": "278279104",
       "shares": 419051,
-      "value": 4894515
+      "value": 4894515,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "EVERGREEN CORP",
       "cusip": "G3312W109",
       "shares": 450000,
-      "value": 4878000
+      "value": 4878000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "EXACT SCIENCES CORP",
       "cusip": "30063PAB1",
       "shares": 4493000,
-      "value": 4849631
+      "value": 4849631,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "APOLLO SENIOR FLOATING RATE FUND INC",
       "cusip": "037636107",
       "shares": 372824,
-      "value": 4813157
+      "value": 4813157,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "HELLO GROUP INC",
       "cusip": "60879BAB3",
       "shares": 4832000,
-      "value": 4781592
+      "value": 4781592,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "WELSBACH TECHNOLOGY METALS ACQUISITION CORP",
       "cusip": "950415109",
       "shares": 450000,
-      "value": 4781250
+      "value": 4781250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "FINTECH ECOSYSTEM DEVELOPMENT CORP",
       "cusip": "318136108",
       "shares": 450000,
-      "value": 4752000
+      "value": 4752000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "DATADOG INC",
       "cusip": "23804LAB9",
       "shares": 3794000,
-      "value": 4727323
+      "value": 4727323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "DISH NETWORK CORP",
       "cusip": "25470MAD1",
       "shares": 5250000,
-      "value": 4672500
+      "value": 4672500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "JAZZ PHARMACEUTICALS PLC",
       "cusip": "472145AD3",
       "shares": 4857000,
-      "value": 4636663
+      "value": 4636663,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "NRG ENERGY INC",
       "cusip": "629377CG5",
       "shares": 4360000,
-      "value": 4623779
+      "value": 4623779,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "AKAMAI TECHNOLOGIES INC",
       "cusip": "00971TAL5",
       "shares": 4729000,
-      "value": 4590630
+      "value": 4590630,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "GREENBRIER COS INC/THE",
       "cusip": "393657AK7",
       "shares": 4646000,
-      "value": 4564695
+      "value": 4564695,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "HNR ACQUISITION CORP",
       "cusip": "40472A102",
       "shares": 425000,
-      "value": 4513500
+      "value": 4513500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BRIDGEBIO PHARMA INC",
       "cusip": "10806XAD4",
       "shares": 7287000,
-      "value": 4509757
+      "value": 4509757,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "FUTURETECH II ACQUISITION CORP",
       "cusip": "36119D103",
       "shares": 410000,
-      "value": 4382900
+      "value": 4382900,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BIOMARIN PHARMACEUTICAL INC",
       "cusip": "09061GAH4",
       "shares": 4448000,
-      "value": 4380248
+      "value": 4380248,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "ALPHA STAR ACQUISITION CORP",
       "cusip": "G0230C108",
       "shares": 400000,
-      "value": 4292000
+      "value": 4292000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "HAINAN MANASLU ACQUISITION CORP",
       "cusip": "G4233U107",
       "shares": 400000,
-      "value": 4242000
+      "value": 4242000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CONSILIUM ACQUISITION CORP I LTD",
       "cusip": "G2365L101",
       "shares": 400000,
-      "value": 4196000
+      "value": 4196000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SPLUNK INC",
       "cusip": "848637AF1",
       "shares": 4819000,
-      "value": 4180482
+      "value": 4180482,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MESA LABORATORIES INC",
       "cusip": "59064RAA7",
       "shares": 4655000,
-      "value": 4177395
+      "value": 4177395,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "YOTTA ACQUISITION CORP",
       "cusip": "98741Y103",
       "shares": 398000,
-      "value": 4171040
+      "value": 4171040,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NUTANIX INC",
       "cusip": "67059NAH1",
       "shares": 4798000,
-      "value": 4081298
+      "value": 4081298,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "WIX.COM LTD",
       "cusip": "92940WAD1",
       "shares": 4449000,
-      "value": 3892875
+      "value": 3892875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "WISDOMTREE INC",
       "cusip": "97717PAD6",
       "shares": 3967000,
-      "value": 3887660
+      "value": 3887660,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "INNOVIVA INC",
       "cusip": "45781MAD3",
       "shares": 4590000,
-      "value": 3781634
+      "value": 3781634,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "RIGEL RESOURCE ACQUISITION CORP",
       "cusip": "G7573M106",
       "shares": 350000,
-      "value": 3752000
+      "value": 3752000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "GOLDENSTONE ACQUISITION LTD",
       "cusip": "38136Y102",
       "shares": 350000,
-      "value": 3710000
+      "value": 3710000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SNAP INC",
       "cusip": "83304AAB2",
       "shares": 4000000,
-      "value": 3705000
+      "value": 3705000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "EATON VANCE SENIOR FLOATING-RATE TRUST",
       "cusip": "27828Q105",
       "shares": 300938,
-      "value": 3536021
+      "value": 3536021,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ZILLOW GROUP INC",
       "cusip": "98954MAG6",
       "shares": 2750000,
-      "value": 3485625
+      "value": 3485625,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "RESERVOIR MEDIA INC",
       "cusip": "76119X105",
       "shares": 576518,
-      "value": 3470638
+      "value": 3470638,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SOUTHWEST AIRLINES CO",
       "cusip": "844741BG2",
       "shares": 3000000,
-      "value": 3450750
+      "value": 3450750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "PONO CAPITAL THREE INC",
       "cusip": "G71704103",
       "shares": 315000,
-      "value": 3274425
+      "value": 3274425,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "AROGO CAPITAL ACQUISITION CORP",
       "cusip": "042644104",
       "shares": 300000,
-      "value": 3156000
+      "value": 3156000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "AMERICAN AIRLINES GROUP INC",
       "cusip": "02376RAF9",
       "shares": 2400000,
-      "value": 3086400
+      "value": 3086400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "A SPAC I ACQUISITION CORP",
       "cusip": "G0542S106",
       "shares": 290000,
-      "value": 3065300
+      "value": 3065300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "KEYARCH ACQUISITION CORP",
       "cusip": "G5260A104",
       "shares": 290000,
-      "value": 3033400
+      "value": 3033400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "FASTLY INC",
       "cusip": "31188VAB6",
       "shares": 3641000,
-      "value": 3020209
+      "value": 3020209,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "GLOBAL STAR ACQUISITION INC",
       "cusip": "37962G102",
       "shares": 280000,
-      "value": 2931600
+      "value": 2931600,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NABORS INDUSTRIES LTD",
       "cusip": "62957HAB1",
       "shares": 2974000,
-      "value": 2895189
+      "value": 2895189,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SPLUNK INC",
       "cusip": "848637AC8",
       "shares": 2833000,
-      "value": 2814585
+      "value": 2814585,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "UBER TECHNOLOGIES INC",
       "cusip": "90353TAJ9",
       "shares": 2968000,
-      "value": 2721734
+      "value": 2721734,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "REDWOOD TRUST INC",
       "cusip": "758075AD7",
       "shares": 2814000,
-      "value": 2698037
+      "value": 2698037,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "PAPAYA GROWTH OPPORTUNITY CORP I",
       "cusip": "69882P102",
       "shares": 250000,
-      "value": 2650000
+      "value": 2650000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "HORIZON SPACE ACQUISITION I CORP",
       "cusip": "G4619M109",
       "shares": 250000,
-      "value": 2611250
+      "value": 2611250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ALPHATIME ACQUISITION CORP",
       "cusip": "G0223V105",
       "shares": 250000,
-      "value": 2597500
+      "value": 2597500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "EMBRACE CHANGE ACQUISITION CORP",
       "cusip": "G3034H109",
       "shares": 245000,
-      "value": 2592100
+      "value": 2592100,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "MOBIV ACQUISITION CORP",
       "cusip": "60742N106",
       "shares": 245000,
-      "value": 2590875
+      "value": 2590875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BANDWIDTH INC",
       "cusip": "05988JAD5",
       "shares": 3973000,
-      "value": 2578214
+      "value": 2578214,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "PONO CAPITAL TWO INC",
       "cusip": "73245B107",
       "shares": 250000,
-      "value": 2572500
+      "value": 2572500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "LYFT INC",
       "cusip": "55087PAB0",
       "shares": 2855000,
-      "value": 2570927
+      "value": 2570927,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SHIFT4 PAYMENTS INC",
       "cusip": "82452JAB5",
       "shares": 2300000,
-      "value": 2509300
+      "value": 2509300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "HUDSON ACQUISITION I CORP",
       "cusip": "44364H100",
       "shares": 240000,
-      "value": 2488800
+      "value": 2488800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "WOLFSPEED INC",
       "cusip": "977852AB8",
       "shares": 3200000,
-      "value": 2467200
+      "value": 2467200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "DENALI CAPITAL ACQUISITION CORP",
       "cusip": "G6256B106",
       "shares": 225000,
-      "value": 2409750
+      "value": 2409750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "AQUARON ACQUISITION CORP",
       "cusip": "03842W105",
       "shares": 225000,
-      "value": 2346750
+      "value": 2346750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NIO INC",
       "cusip": "62914VAF3",
       "shares": 2789000,
-      "value": 2328815
+      "value": 2328815,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SOLAREDGE TECHNOLOGIES INC",
       "cusip": "83417MAD6",
       "shares": 1955000,
-      "value": 2328405
+      "value": 2328405,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "NIO INC",
       "cusip": "62914VAE6",
       "shares": 2429000,
-      "value": 2323338
+      "value": 2323338,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "TYLER TECHNOLOGIES INC",
       "cusip": "902252AB1",
       "shares": 2100000,
-      "value": 2173500
+      "value": 2173500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "EVEREST CONSOLIDATOR ACQUISITION CORP",
       "cusip": "29978K102",
       "shares": 200000,
-      "value": 2130000
+      "value": 2130000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ARISZ ACQUISITION CORP",
       "cusip": "040450108",
       "shares": 200000,
-      "value": 2118000
+      "value": 2118000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BENTLEY SYSTEMS INC",
       "cusip": "08265TAD1",
       "shares": 2225000,
-      "value": 2020300
+      "value": 2020300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "CONMED CORP",
       "cusip": "207410AH4",
       "shares": 1800000,
-      "value": 2017800
+      "value": 2017800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "BELLEVUE LIFE SCIENCES ACQUISITION CORP",
       "cusip": "079174108",
       "shares": 175000,
-      "value": 1795517
+      "value": 1795517,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "SHIFT4 PAYMENTS INC",
       "cusip": "82452JAD1",
       "shares": 1975000,
-      "value": 1751825
+      "value": 1751825,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "CETUS CAPITAL ACQUISITION CORP",
       "cusip": "15719Y105",
       "shares": 170000,
-      "value": 1749300
+      "value": 1749300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "LUMENTUM HOLDINGS INC",
       "cusip": "55024UAB5",
       "shares": 1600000,
-      "value": 1699200
+      "value": 1699200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "GREENBRIER COS INC/THE",
       "cusip": "393657AM3",
       "shares": 1620000,
-      "value": 1602990
+      "value": 1602990,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "LOMA NEGRA CIA INDUSTRIAL ARGENTINA SA",
       "cusip": "54150E104",
       "shares": 235403,
-      "value": 1600740
+      "value": 1600740,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "KNIGHTSWAN ACQUISITION CORP",
       "cusip": "499103109",
       "shares": 150000,
-      "value": 1585500
+      "value": 1585500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ALPHAVEST ACQUISITION CORP",
       "cusip": "G0283A108",
       "shares": 150000,
-      "value": 1572000
+      "value": 1572000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "MARS ACQUISITION CORP",
       "cusip": "G5870E108",
       "shares": 150000,
-      "value": 1560000
+      "value": 1560000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "OMNICELL INC",
       "cusip": "68213NAD1",
       "shares": 1500000,
-      "value": 1524750
+      "value": 1524750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "MACOM TECHNOLOGY SOLUTIONS HOLDINGS INC",
       "cusip": "55405YAB6",
       "shares": 1500000,
-      "value": 1522500
+      "value": 1522500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "SUNRUN INC",
       "cusip": "86771WAB1",
       "shares": 2037000,
-      "value": 1472751
+      "value": 1472751,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "CHEGG INC",
       "cusip": "163092AD1",
       "shares": 1628000,
-      "value": 1442408
+      "value": 1442408,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "TENX KEANE ACQUISITION",
       "cusip": "G8708L104",
       "shares": 135000,
-      "value": 1421550
+      "value": 1421550,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "NOVOCURE LTD",
       "cusip": "67011XAB9",
       "shares": 1621000,
-      "value": 1410314
+      "value": 1410314,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "NORWEGIAN CRUISE LINE HOLDINGS LTD",
       "cusip": "62886HBD2",
       "shares": 1415000,
-      "value": 1311082
+      "value": 1311082,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "DISTOKEN ACQUISITION CORP",
       "cusip": "G27740110",
       "shares": 125000,
-      "value": 1291875
+      "value": 1291875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "DRAFTKINGS HOLDINGS INC",
       "cusip": "26142RAB0",
       "shares": 1619000,
-      "value": 1223964
+      "value": 1223964,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "PLUTONIAN ACQUISITION CORP",
       "cusip": "72942P104",
       "shares": 115000,
-      "value": 1194275
+      "value": 1194275,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "HERBALIFE LTD",
       "cusip": "42703MAD5",
       "shares": 1213000,
-      "value": 1177823
+      "value": 1177823,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "HELIX ENERGY SOLUTIONS GROUP INC",
       "cusip": "42330PAJ6",
       "shares": 1169000,
-      "value": 1162174
+      "value": 1162174,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "INTEGRATED WELLNESS ACQUISITION CORP",
       "cusip": "G4828B100",
       "shares": 100000,
-      "value": 1071000
+      "value": 1071000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BIOPLUS ACQUISITION CORP",
       "cusip": "G11217117",
       "shares": 100000,
-      "value": 1065000
+      "value": 1065000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ANDRETTI ACQUISITION CORP",
       "cusip": "G26735103",
       "shares": 100000,
-      "value": 1064000
+      "value": 1064000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "HEARTLAND MEDIA ACQUISITION CORP",
       "cusip": "42237V108",
       "shares": 100000,
-      "value": 1054000
+      "value": 1054000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "GOLDEN STAR ACQUISITION CORP",
       "cusip": "G4023C127",
       "shares": 100000,
-      "value": 1041010
+      "value": 1041010,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "ILLUMINA INC",
       "cusip": "452327AK5",
       "shares": 1000000,
-      "value": 997989
+      "value": 997989,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "NEOGENOMICS INC",
       "cusip": "64049MAA8",
       "shares": 1014000,
-      "value": 952526
+      "value": 952526,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "OAK WOODS ACQUISITION CORP",
       "cusip": "67190B104",
       "shares": 90000,
-      "value": 924750
+      "value": 924750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "TMT ACQUISITION CORP",
       "cusip": "G89229119",
       "shares": 75000,
-      "value": 769500
+      "value": 769500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "MITEK SYSTEMS INC",
       "cusip": "606710AA9",
       "shares": 810000,
-      "value": 710680
+      "value": 710680,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CONVERTIBLE BOND",
+      "putCall": null
     },
     {
       "name": "LIV CAPITAL ACQUISITION CORP II",
       "cusip": "G5510R105",
       "shares": 60000,
-      "value": 636000
+      "value": 636000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "EATON VANCE SENIOR INCOME TRUST",
       "cusip": "27826S103",
       "shares": 103278,
-      "value": 563897
+      "value": 563897,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "PATRIA LATIN AMERICAN OPPORTUNITY ACQUISITION CORP",
       "cusip": "G69454109",
       "shares": 50000,
-      "value": 537000
+      "value": 537000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "VAHANNA TECH EDGE ACQUISITION I CORP",
       "cusip": "G9320Z109",
       "shares": 50000,
-      "value": 532500
+      "value": 532500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CUMULUS MEDIA INC",
       "cusip": "231082801",
       "shares": 28937,
-      "value": 118641
+      "value": 118641,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     }
   ],
   "totalValue": 7596003104,
-  "positionsCount": 238
+  "positionsCount": 238,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 7378953554,
+      "PUT": 217049550
+    },
+    "percentages": {
+      "STOCK": "97.1%",
+      "PUT": "2.9%"
+    }
+  }
 }

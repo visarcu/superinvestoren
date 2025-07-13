@@ -1,0 +1,159 @@
+{
+  "form": "13F-HR",
+  "date": "2024-05-14",
+  "period": "2024-05-14",
+  "accession": "0001540866-24-000003",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "PROGRESSIVE ORD",
+      "cusip": "743315103",
+      "shares": 743315,
+      "value": 153732408,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BATH AND BODY WORKS ORD",
+      "cusip": "070830104",
+      "shares": 2474352,
+      "value": 123767087,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CDW ORD",
+      "cusip": "12514G108",
+      "shares": 443504,
+      "value": 113439453,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS CL A ORD",
+      "cusip": "16119P108",
+      "shares": 380922,
+      "value": 110707361,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "LAMAR ADVERTISING CL A REIT",
+      "cusip": "512816109",
+      "shares": 921092,
+      "value": 109987596,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "CARMAX ORD",
+      "cusip": "143130102",
+      "shares": 1172755,
+      "value": 102158688,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "DOMINOS PIZZA ORD",
+      "cusip": "25754A201",
+      "shares": 170991,
+      "value": 84962008,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LIBERTY BROADBAND SRS C ORD",
+      "cusip": "530307305",
+      "shares": 423914,
+      "value": 24260598,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER C",
+      "putCall": null
+    },
+    {
+      "name": "CACTUS CL A ORD",
+      "cusip": "127203107",
+      "shares": 100000,
+      "value": 5009000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "HEICO CL A ORD",
+      "cusip": "422806208",
+      "shares": 4674,
+      "value": 719516,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    }
+  ],
+  "totalValue": 828743715,
+  "positionsCount": 10,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 828743715
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

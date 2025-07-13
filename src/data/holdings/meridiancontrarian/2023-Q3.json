@@ -1,0 +1,419 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-08-28",
+  "period": "2023-06-30",
+  "accession": "0001752724-23-194920",
+  "quarterKey": "2023-Q3",
+  "positions": [
+    {
+      "name": "Lamb Weston Holdings Inc",
+      "cusip": "513272104",
+      "shares": 58500,
+      "value": 6724575
+    },
+    {
+      "name": "Goldman Sachs Financial Square Government Fund",
+      "cusip": "38141W273",
+      "shares": 5351849.58,
+      "value": 5351849.58
+    },
+    {
+      "name": "Rivian Automotive Inc",
+      "cusip": "76954A103",
+      "shares": 232370,
+      "value": 3871284.2
+    },
+    {
+      "name": "Align Technology Inc",
+      "cusip": "016255101",
+      "shares": 7300,
+      "value": 2581572
+    },
+    {
+      "name": "NVIDIA Corp",
+      "cusip": "67066G104",
+      "shares": 5953,
+      "value": 2518238.06
+    },
+    {
+      "name": "Live Nation Entertainment Inc",
+      "cusip": "538034109",
+      "shares": 26300,
+      "value": 2396193
+    },
+    {
+      "name": "DigitalBridge Group Inc",
+      "cusip": "25401T603",
+      "shares": 146000,
+      "value": 2147660
+    },
+    {
+      "name": "Sally Beauty Holdings Inc",
+      "cusip": "79546E104",
+      "shares": 170000,
+      "value": 2099500
+    },
+    {
+      "name": "ServiceNow Inc",
+      "cusip": "81762P102",
+      "shares": 3500,
+      "value": 1966895
+    },
+    {
+      "name": "Coty Inc",
+      "cusip": "222070203",
+      "shares": 158000,
+      "value": 1941820
+    },
+    {
+      "name": "Airbnb Inc",
+      "cusip": "009066101",
+      "shares": 13800,
+      "value": 1768608
+    },
+    {
+      "name": "Zoom Video Communications Inc",
+      "cusip": "98980L101",
+      "shares": 24300,
+      "value": 1649484
+    },
+    {
+      "name": "Alphabet Inc",
+      "cusip": "02079K107",
+      "shares": 12100,
+      "value": 1463737
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 3849,
+      "value": 1310738.46
+    },
+    {
+      "name": "Levi Strauss & Co",
+      "cusip": "52736R102",
+      "shares": 89000,
+      "value": 1284270
+    },
+    {
+      "name": "Splunk Inc",
+      "cusip": "848637104",
+      "shares": 11800,
+      "value": 1251862
+    },
+    {
+      "name": "Laboratory Corp of America Hol",
+      "cusip": "50540R409",
+      "shares": 5100,
+      "value": 1230783
+    },
+    {
+      "name": "Huntsman Corp",
+      "cusip": "447011107",
+      "shares": 43000,
+      "value": 1161860
+    },
+    {
+      "name": "Pool Corp",
+      "cusip": "73278L105",
+      "shares": 2900,
+      "value": 1086456
+    },
+    {
+      "name": "Apple Inc",
+      "cusip": "037833100",
+      "shares": 5388,
+      "value": 1045110.36
+    },
+    {
+      "name": "Amazon.com Inc",
+      "cusip": "023135106",
+      "shares": 7494,
+      "value": 976917.84
+    },
+    {
+      "name": "Visa Inc",
+      "cusip": "92826C839",
+      "shares": 3911,
+      "value": 928784.28
+    },
+    {
+      "name": "Vistra Corp",
+      "cusip": "92840M102",
+      "shares": 33609,
+      "value": 882236.25
+    },
+    {
+      "name": "RB Global Inc",
+      "cusip": "74935Q107",
+      "shares": 14500,
+      "value": 870000
+    },
+    {
+      "name": "Blue Owl Capital Inc",
+      "cusip": "09581B103",
+      "shares": 72000,
+      "value": 838800
+    },
+    {
+      "name": "PayPal Holdings Inc",
+      "cusip": "70450Y103",
+      "shares": 12460,
+      "value": 831455.8
+    },
+    {
+      "name": "QUALCOMM Inc",
+      "cusip": "747525103",
+      "shares": 6800,
+      "value": 809472
+    },
+    {
+      "name": "Micron Technology Inc",
+      "cusip": "595112103",
+      "shares": 12100,
+      "value": 763631
+    },
+    {
+      "name": "Intercontinental Exchange Inc",
+      "cusip": "45866F104",
+      "shares": 6664,
+      "value": 753565.12
+    },
+    {
+      "name": "CoStar Group Inc",
+      "cusip": "22160N109",
+      "shares": 8100,
+      "value": 720900
+    },
+    {
+      "name": "Charles Schwab Corp/The",
+      "cusip": "808513105",
+      "shares": 12200,
+      "value": 691496
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 23900,
+      "value": 685691
+    },
+    {
+      "name": "Salesforce Inc",
+      "cusip": "79466L302",
+      "shares": 3229,
+      "value": 682158.54
+    },
+    {
+      "name": "GFL Environmental Inc",
+      "cusip": "36168Q104",
+      "shares": 17526,
+      "value": 680008.8
+    },
+    {
+      "name": "Twilio Inc",
+      "cusip": "90138F102",
+      "shares": 9700,
+      "value": 617114
+    },
+    {
+      "name": "Equinix Inc",
+      "cusip": "29444U700",
+      "shares": 772,
+      "value": 605201.68
+    },
+    {
+      "name": "Liberty Broadband Corp",
+      "cusip": "530307305",
+      "shares": 7553,
+      "value": 605070.83
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 17777,
+      "value": 587352.08
+    },
+    {
+      "name": "JPMorgan Chase & Co",
+      "cusip": "46625H100",
+      "shares": 4000,
+      "value": 581760
+    },
+    {
+      "name": "Pinterest Inc",
+      "cusip": "72352L106",
+      "shares": 20000,
+      "value": 546800
+    },
+    {
+      "name": "WillScot Mobile Mini Holdings",
+      "cusip": "971378104",
+      "shares": 10700,
+      "value": 511353
+    },
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 11700,
+      "value": 499356
+    },
+    {
+      "name": "ACV Auctions Inc",
+      "cusip": "00091G104",
+      "shares": 26594,
+      "value": 459278.38
+    },
+    {
+      "name": "Dole PLC",
+      "cusip": "000000000",
+      "shares": 32645,
+      "value": 441360.4
+    },
+    {
+      "name": "Liberty Media Corp-Liberty Sir",
+      "cusip": "531229409",
+      "shares": 12951,
+      "value": 424922.31
+    },
+    {
+      "name": "Lowe's Cos Inc",
+      "cusip": "548661107",
+      "shares": 1853,
+      "value": 418222.1
+    },
+    {
+      "name": "Costco Wholesale Corp",
+      "cusip": "22160K105",
+      "shares": 773,
+      "value": 416167.74
+    },
+    {
+      "name": "Home Depot Inc/The",
+      "cusip": "437076102",
+      "shares": 1148,
+      "value": 356614.72
+    },
+    {
+      "name": "NIKE Inc",
+      "cusip": "654106103",
+      "shares": 3025,
+      "value": 333869.25
+    },
+    {
+      "name": "American Tower Corp",
+      "cusip": "03027X100",
+      "shares": 1721,
+      "value": 333770.74
+    },
+    {
+      "name": "Walt Disney Co/The",
+      "cusip": "254687106",
+      "shares": 3546,
+      "value": 316586.88
+    },
+    {
+      "name": "Allegro MicroSystems Inc",
+      "cusip": "01749D105",
+      "shares": 6690,
+      "value": 301986.6
+    },
+    {
+      "name": "Target Corp",
+      "cusip": "87612E106",
+      "shares": 2234,
+      "value": 294664.6
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 1775,
+      "value": 293798
+    },
+    {
+      "name": "Alexandria Real Estate Equitie",
+      "cusip": "015271109",
+      "shares": 2549,
+      "value": 289286.01
+    },
+    {
+      "name": "CACI International Inc",
+      "cusip": "127190304",
+      "shares": 840,
+      "value": 286305.6
+    },
+    {
+      "name": "S&P Global Inc",
+      "cusip": "78409V104",
+      "shares": 690,
+      "value": 276614.1
+    },
+    {
+      "name": "GLOBALFOUNDRIES Inc",
+      "cusip": "000000000",
+      "shares": 4200,
+      "value": 271236
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 4170,
+      "value": 261876
+    },
+    {
+      "name": "Boeing Co/The",
+      "cusip": "097023105",
+      "shares": 1195,
+      "value": 252336.2
+    },
+    {
+      "name": "Alight Inc",
+      "cusip": "01626W101",
+      "shares": 27247,
+      "value": 251762.28
+    },
+    {
+      "name": "Alkami Technology Inc",
+      "cusip": "01644J108",
+      "shares": 15037,
+      "value": 246456.43
+    },
+    {
+      "name": "Verizon Communications Inc",
+      "cusip": "92343V104",
+      "shares": 5892,
+      "value": 219123.48
+    },
+    {
+      "name": "Dun & Bradstreet Holdings Inc",
+      "cusip": "26484T106",
+      "shares": 17376,
+      "value": 201040.32
+    },
+    {
+      "name": "Boston Omaha Corp",
+      "cusip": "101044105",
+      "shares": 9662,
+      "value": 181838.84
+    },
+    {
+      "name": "Madison Square Garden Entertai",
+      "cusip": "558256103",
+      "shares": 4977,
+      "value": 167326.74
+    },
+    {
+      "name": "Sphere Entertainment Co",
+      "cusip": "55826T102",
+      "shares": 4977,
+      "value": 136320.03
+    },
+    {
+      "name": "Advance Auto Parts Inc",
+      "cusip": "00751Y106",
+      "shares": 1717,
+      "value": 120705.1
+    }
+  ],
+  "totalValue": 68075088.72999999,
+  "positionsCount": 68
+}

@@ -1,0 +1,179 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-05-28",
+  "period": "2024-03-28",
+  "accession": "0001145549-24-031886",
+  "quarterKey": "2024-Q2",
+  "positions": [
+    {
+      "name": "Goldman Sachs Group, Inc",
+      "cusip": "38141G104",
+      "shares": 11454,
+      "value": 4784221.26
+    },
+    {
+      "name": "Snap-On Incorporated",
+      "cusip": "833034101",
+      "shares": 15203,
+      "value": 4503432.66
+    },
+    {
+      "name": "Mohawk Industries, Inc",
+      "cusip": "608190104",
+      "shares": 31687,
+      "value": 4147511.43
+    },
+    {
+      "name": "Oracle Corp",
+      "cusip": "68389X105",
+      "shares": 30936,
+      "value": 3885870.96
+    },
+    {
+      "name": "BOK Financial Corp",
+      "cusip": "05561Q201",
+      "shares": 41536,
+      "value": 3821312
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 92757,
+      "value": 3517345.44
+    },
+    {
+      "name": "Resideo Technologies Inc",
+      "cusip": "76118Y104",
+      "shares": 153126,
+      "value": 3433084.92
+    },
+    {
+      "name": "APA Corp",
+      "cusip": "03743Q108",
+      "shares": 97865,
+      "value": 3364598.7
+    },
+    {
+      "name": "Lockheed Martin Corporation",
+      "cusip": "539830109",
+      "shares": 7019,
+      "value": 3192732.53
+    },
+    {
+      "name": "Phinia Inc",
+      "cusip": "71880K101",
+      "shares": 75231,
+      "value": 2891127.33
+    },
+    {
+      "name": "The Western Union Company",
+      "cusip": "959802109",
+      "shares": 190996,
+      "value": 2670124.08
+    },
+    {
+      "name": "Chevron Corp",
+      "cusip": "166764100",
+      "shares": 16673,
+      "value": 2629999.02
+    },
+    {
+      "name": "Northern Trust Corporation",
+      "cusip": "665859104",
+      "shares": 27724,
+      "value": 2465218.08
+    },
+    {
+      "name": "The Mosaic Company",
+      "cusip": "61945C103",
+      "shares": 70819,
+      "value": 2298784.74
+    },
+    {
+      "name": "Boyd Gaming Corporation",
+      "cusip": "103304101",
+      "shares": 33843,
+      "value": 2278310.76
+    },
+    {
+      "name": "Laboratory Corp of America Holdings",
+      "cusip": "50540R409",
+      "shares": 10111,
+      "value": 2208849.06
+    },
+    {
+      "name": "Barrick Gold Corporation",
+      "cusip": "067901108",
+      "shares": 130161,
+      "value": 2165879.04
+    },
+    {
+      "name": "BorgWarner Inc",
+      "cusip": "099724106",
+      "shares": 60281,
+      "value": 2094161.94
+    },
+    {
+      "name": "Madison Square Garden Sports Corp",
+      "cusip": "55825T103",
+      "shares": 10937,
+      "value": 2018095.24
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 12632,
+      "value": 1998256.08
+    },
+    {
+      "name": "Core Laboratories Inc",
+      "cusip": "21867A105",
+      "shares": 116131,
+      "value": 1983517.48
+    },
+    {
+      "name": "Madison Square Garden Entertainment Corp New",
+      "cusip": "558256103",
+      "shares": 49327,
+      "value": 1934111.67
+    },
+    {
+      "name": "First American Financial Corporation",
+      "cusip": "31847R102",
+      "shares": 30858,
+      "value": 1883880.9
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 15588,
+      "value": 1567841.04
+    },
+    {
+      "name": "The J M Smucker Company",
+      "cusip": "832696405",
+      "shares": 10537,
+      "value": 1326292.19
+    },
+    {
+      "name": "Northern Inst Fds",
+      "cusip": "665279873",
+      "shares": 1287905.94,
+      "value": 1287905.94
+    },
+    {
+      "name": "Generac Holdings Inc",
+      "cusip": "368736104",
+      "shares": 9124,
+      "value": 1150901.36
+    },
+    {
+      "name": "Zimvie Inc",
+      "cusip": "98888T107",
+      "shares": 54197,
+      "value": 893708.53
+    }
+  ],
+  "totalValue": 72397074.38,
+  "positionsCount": 28
+}

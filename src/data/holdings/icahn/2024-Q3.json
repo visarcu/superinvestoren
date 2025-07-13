@@ -9,117 +9,277 @@
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 203601501,
-      "value": 3355352736
+      "value": 3355352736,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "DEPOSITARY UNIT",
+      "putCall": null
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 86811764,
-      "value": 1430657871
+      "value": 1430657871,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "DEPOSITARY UNIT",
+      "putCall": null
     },
     {
       "name": "CVR Energy Inc",
       "cusip": "12662P108",
       "shares": 51192381,
-      "value": 1370420039
+      "value": 1370420039,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 55851863,
-      "value": 920438702
+      "value": 920438702,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "DEPOSITARY UNIT",
+      "putCall": null
     },
     {
       "name": "Southwest Gas Holdings Inc",
       "cusip": "844895102",
       "shares": 11022604,
-      "value": 775770870
+      "value": 775770870,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 44881604,
-      "value": 739648834
+      "value": 739648834,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "DEPOSITARY UNIT",
+      "putCall": null
     },
     {
       "name": "CVR Energy Inc",
       "cusip": "12662P108",
       "shares": 15500000,
-      "value": 414935000
+      "value": 414935000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "International Flavors and Fragrances Inc",
       "cusip": "459506101",
       "shares": 3750000,
-      "value": 357037500
+      "value": 357037500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CVR Partners, LP",
       "cusip": "126633205",
       "shares": 3892000,
-      "value": 294468720
+      "value": 294468720,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Icahn Enterprises LP",
       "cusip": "451100101",
       "shares": 15167254,
-      "value": 249956346
+      "value": 249956346,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "DEPOSITARY UNIT",
+      "putCall": null
     },
     {
       "name": "Bausch Health Companies Inc",
       "cusip": "071734107",
       "shares": 34721118,
-      "value": 242006192
+      "value": 242006192,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Dana Inc",
       "cusip": "235825205",
       "shares": 14286505,
-      "value": 173152441
+      "value": 173152441,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JetBlue Airways Corp",
       "cusip": "477143101",
       "shares": 17727029,
-      "value": 107957607
+      "value": 107957607,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "American Electric Power Company",
       "cusip": "025537101",
       "shares": 1205300,
-      "value": 105753022
+      "value": 105753022,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Caesars Entertainment, Inc",
       "cusip": "12769G100",
       "shares": 2440109,
-      "value": 96969932
+      "value": 96969932,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SandRidge Energy, Inc",
       "cusip": "80007P869",
       "shares": 4818832,
-      "value": 62307498
+      "value": 62307498,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "Bausch Plus Lomb Corp",
       "cusip": "071705107",
       "shares": 3500000,
-      "value": 50820000
+      "value": 50820000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON SHARES",
+      "putCall": null
     },
     {
       "name": "Centuri Holdings, Inc",
       "cusip": "155923105",
       "shares": 2591929,
-      "value": 50490777
+      "value": 50490777,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
     },
     {
       "name": "Illumina Inc",
       "cusip": "452327109",
       "shares": 430000,
-      "value": 44883400
+      "value": 44883400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 10843027487,
-  "positionsCount": 19
+  "positionsCount": 19,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 10843027487
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

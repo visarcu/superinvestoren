@@ -37,7 +37,7 @@ const navigation = [
   
   {
     name: 'Fear & Greed Index',
-    href: '/superinvestor/feer-greed-index',
+    href: '/superinvestor/fear-greed-index',
     icon: DocumentTextIcon
   },
   

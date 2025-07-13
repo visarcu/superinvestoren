@@ -9,69 +9,167 @@
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 200000,
-      "value": 21224000
+      "value": 21224000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "JD.COM INC",
       "cusip": "47215P106",
       "shares": 500000,
-      "value": 20000000
+      "value": 20000000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADS CL A",
+      "putCall": null
     },
     {
       "name": "JD.COM INC",
       "cusip": "47215P106",
       "shares": 500000,
-      "value": 20000000
+      "value": 20000000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPON ADS CL A",
+      "putCall": "Put"
     },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 168900,
-      "value": 17923668
+      "value": 17923668,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": "Put"
     },
     {
       "name": "SHIFT4 PMTS INC",
       "cusip": "82452J109",
       "shares": 150000,
-      "value": 13290000
+      "value": 13290000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "BAIDU INC",
       "cusip": "056752108",
       "shares": 125000,
-      "value": 13161250
+      "value": 13161250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR REP A",
+      "putCall": null
     },
     {
       "name": "MOLINA HEALTHCARE INC",
       "cusip": "60855R100",
       "shares": 30000,
-      "value": 10336800
+      "value": 10336800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BAIDU INC",
       "cusip": "056752108",
       "shares": 83300,
-      "value": 8770657
+      "value": 8770657,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPON ADR REP A",
+      "putCall": "Put"
     },
     {
       "name": "OLAPLEX HLDGS INC",
       "cusip": "679369108",
       "shares": 1000000,
-      "value": 2350000
+      "value": 2350000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "THE REALREAL INC",
       "cusip": "88339P101",
       "shares": 500000,
-      "value": 1570000
+      "value": 1570000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "AMERICAN COASTAL INS CORP",
       "cusip": "910710102",
       "shares": 100000,
-      "value": 1127000
+      "value": 1127000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 129753375,
-  "positionsCount": 11
+  "positionsCount": 11,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 83059050,
+      "PUT": 46694325
+    },
+    "percentages": {
+      "STOCK": "64.0%",
+      "PUT": "36.0%"
+    }
+  }
 }

@@ -144,8 +144,8 @@ export default function OwnershipSection({ ticker, isPremium = false }: Ownershi
         {!isPremium && (
           <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
             <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-3 bg-amber-500/20 rounded-lg flex items-center justify-center">
-                <LockClosedIcon className="w-6 h-6 text-amber-400" />
+              <div className="w-12 h-12 mx-auto mb-3 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <LockClosedIcon className="w-6 h-6 text-green-500 mx-auto mb-2" />
               </div>
               <p className="text-sm text-theme-primary font-medium mb-2">Premium erforderlich</p>
               <p className="text-xs text-theme-secondary">Aktionärsstruktur-Analyse</p>

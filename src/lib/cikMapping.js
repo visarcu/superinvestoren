@@ -13,7 +13,7 @@ export const investorCiks = {
   miller:   '0001135778', // 0 positionen
   tepper:          '0001656456',
   coleman:         '0001167483',    // Chase Coleman – Tiger Global Management 
-  gayner:         '0001096343',    // Thomas Gayner – Markel Group
+  gayner:         '0001096343',    // Thomas Gayner – Markel Groupf
   ainslie:           '0000934639',    // Lee Ainslie – Maverick Capital
   einhorn: '0001489933',
   hohn: '0001647251',
@@ -27,7 +27,7 @@ export const investorCiks = {
   mandel:        '0001061165',    // Stephen Mandel – Lone Pine Capital
   ellenbogen: '0001798849',
   jensen:'0001106129',
-  russo:          '0000860643',    // Thomas Russo – Gardner Russo & Quinn
+  russo: '0000860643',    // Thomas Russo – Gardner Russo & Quinn
   armitage:'0001581811', // John Armitage – Egerton Capital
 
   icahn: '0000921669',// Carl Icahn – Icahn Capital (Beispiel)
@@ -76,9 +76,10 @@ export const investorCiks = {
 
 
 
-  torray:          '0001618627',    // Torray Funds
-    // 'hillman-value':         'XXX',    // Hillman Value Fund
-  weitz:         '0001257927',    // Wallace Weitz – Weitz Large Cap Equity Fund
+  torray:          '0000098758',    // Torray Funds
+
+  //weitz_equity_fund:         '0001257927',    // Wallace Weitz – Weitz Large Cap Equity Fund S000003479 Large Cap Equity Fund
+
 
 
  // 0 Einträge:
@@ -92,35 +93,43 @@ export const investorCiks = {
  donaldsmith: '0000814375', //PASST, nicht aufgenommen in spezialfall
  ubben: '0001418814', //PASST, nicht aufgenommen in spezialfall
  marks:  '0000949509', //PASST, nicht aufgenommen in spezialfall
- smith:    '0001569205',//PASST, nicht aufgenommen in spezialfall
+ smith:    '0001569205',
 
 //Datarom
 spier:  '0001953324',
 pabrai:  '0001549575',
  burry:   '0001649339',
  klarman: '0001061768',
- dodgecox:  '0000029440',
+ dodgecox:  '0000200217',
  olstein: '0000947996',
- nygren:'0000872323',
- katz: '0000720498', 
- davis: '0001316506',
- mairspower: '0001141819',
+ katz: '0001016287', 
+ davis: '0001036325',
+ mairspower: '0001070134',
  tangen: '0001376879',    // AKO Capital
- bobrinskoy: '0000798365',
+
  loeb:'0001040273',
- hawkins:         '0000806636',    // Mason Hawkins – Longleaf Partners
- rogers:           '0000798365',    // John Rogers – Ariel Appreciation Fund
- cunniff:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
+ hawkins:         '0000807985',    // Mason Hawkins 
+rogers: '0000936753',
+greenblatt:'0001510387',
+fisher: '0000850529',
+soros: '0001029160',
+vandenberg: '0001142062', //CIK Liefert daten nur bis 2017
+weitz:'0000883965',
+pzena:'0001027796',
+firsteagle:'0001325447',
+patientcapital:'0001854794',
+makaira:'0001540866',
+dalio: '0001350694',
+cunniff:'0001720792',
 
-
-
-
- 
-
-
-
-
-  
+//FUNDS:
+meridiancontrarian:'0000745467',
+cunniff_sequoia: '0000089043',    // Ruane Cunniff – Sequoia Fund
+hillmanvalue: 'S000070920',    // Hillman Value Fund 404 FEHLER BEI SKRIPT
+ariel_appreciation:           '0000798365',    // John Rogers – Ariel Appreciation Fund
+baron_partners_fund: '0001836023', //0 filings
+tweedy_browne_fund_inc: '0000896975',
+ariel_focus: '0000798365', //former bobrinskoy
 
 
 

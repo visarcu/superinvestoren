@@ -1,0 +1,269 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-11-18",
+  "period": "2024-09-30",
+  "accession": "0001145549-24-069380",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "Northern Trust Corporation",
+      "cusip": "665859104",
+      "shares": 465077,
+      "value": 41870882.31
+    },
+    {
+      "name": "Mattel, Inc",
+      "cusip": "577081102",
+      "shares": 1999421,
+      "value": 38088970.05
+    },
+    {
+      "name": "Goldman Sachs Group, Inc",
+      "cusip": "38141G104",
+      "shares": 73776,
+      "value": 36527235.36
+    },
+    {
+      "name": "Generac Holdings Inc",
+      "cusip": "368736104",
+      "shares": 207186,
+      "value": 32917711.68
+    },
+    {
+      "name": "Stanley Black & Decker, Inc",
+      "cusip": "854502101",
+      "shares": 287028,
+      "value": 31610393.64
+    },
+    {
+      "name": "The Interpublic Group of Companies, Inc",
+      "cusip": "460690100",
+      "shares": 985594,
+      "value": 31174338.22
+    },
+    {
+      "name": "Lazard Inc",
+      "cusip": "52110M109",
+      "shares": 613281,
+      "value": 30897096.78
+    },
+    {
+      "name": "Carmax Inc",
+      "cusip": "143130102",
+      "shares": 386415,
+      "value": 29900792.7
+    },
+    {
+      "name": "Core Laboratories Inc",
+      "cusip": "21867A105",
+      "shares": 1543335,
+      "value": 28597997.55
+    },
+    {
+      "name": "Charles River Laboratories International, Inc",
+      "cusip": "159864107",
+      "shares": 144321,
+      "value": 28426907.37
+    },
+    {
+      "name": "Labcorp Holdings Inc",
+      "cusip": "504922105",
+      "shares": 125294,
+      "value": 28000703.12
+    },
+    {
+      "name": "Carlyle Group Inc",
+      "cusip": "14316J108",
+      "shares": 648153,
+      "value": 27909468.18
+    },
+    {
+      "name": "Kennametal Inc",
+      "cusip": "489170100",
+      "shares": 1055002,
+      "value": 27356201.86
+    },
+    {
+      "name": "First American Financial Corporation",
+      "cusip": "31847R102",
+      "shares": 398697,
+      "value": 26317988.97
+    },
+    {
+      "name": "CBRE Group Inc",
+      "cusip": "12504L109",
+      "shares": 210215,
+      "value": 26167563.2
+    },
+    {
+      "name": "Jones Lang LaSalle Incorporated",
+      "cusip": "48020Q107",
+      "shares": 94689,
+      "value": 25548039.09
+    },
+    {
+      "name": "Madison Square Garden Sports Corp",
+      "cusip": "55825T103",
+      "shares": 120742,
+      "value": 25145728.92
+    },
+    {
+      "name": "Envista Holdings Corporation",
+      "cusip": "29415F104",
+      "shares": 1243759,
+      "value": 24576677.84
+    },
+    {
+      "name": "The Charles Schwab Corporation",
+      "cusip": "808513105",
+      "shares": 370880,
+      "value": 24036732.8
+    },
+    {
+      "name": "Axalta Coating Systems Limited",
+      "cusip": "G0750C108",
+      "shares": 645878,
+      "value": 23374324.82
+    },
+    {
+      "name": "BOK Financial Corp",
+      "cusip": "05561Q201",
+      "shares": 220324,
+      "value": 23050296.88
+    },
+    {
+      "name": "Knowles Corporation",
+      "cusip": "49926D109",
+      "shares": 1260384,
+      "value": 22724723.52
+    },
+    {
+      "name": "Madison Square Garden Entertainment Corp New",
+      "cusip": "558256103",
+      "shares": 530740,
+      "value": 22572372.2
+    },
+    {
+      "name": "Bio-Rad Laboratories, Inc",
+      "cusip": "090572207",
+      "shares": 66738,
+      "value": 22329200.04
+    },
+    {
+      "name": "Aflac Incorporated",
+      "cusip": "001055102",
+      "shares": 199597,
+      "value": 22314944.6
+    },
+    {
+      "name": "Keysight Technologies, Inc",
+      "cusip": "49338L103",
+      "shares": 139467,
+      "value": 22165490.31
+    },
+    {
+      "name": "Middleby Corp",
+      "cusip": "596278101",
+      "shares": 157729,
+      "value": 21944835.77
+    },
+    {
+      "name": "NOV Inc",
+      "cusip": "62955J103",
+      "shares": 1345112,
+      "value": 21481438.64
+    },
+    {
+      "name": "The J M Smucker Company",
+      "cusip": "832696405",
+      "shares": 166777,
+      "value": 20196694.7
+    },
+    {
+      "name": "Gentex Corp",
+      "cusip": "371901109",
+      "shares": 679458,
+      "value": 20173108.02
+    },
+    {
+      "name": "KKR & Co Inc",
+      "cusip": "48251W104",
+      "shares": 149849,
+      "value": 19567282.42
+    },
+    {
+      "name": "BorgWarner Inc",
+      "cusip": "099724106",
+      "shares": 534514,
+      "value": 19397513.06
+    },
+    {
+      "name": "Littelfuse Inc",
+      "cusip": "537008104",
+      "shares": 70674,
+      "value": 18746278.5
+    },
+    {
+      "name": "ADT Inc",
+      "cusip": "00090Q103",
+      "shares": 2579378,
+      "value": 18648902.94
+    },
+    {
+      "name": "Zimmer Biomet Holdings Inc",
+      "cusip": "98956P102",
+      "shares": 164532,
+      "value": 17761229.4
+    },
+    {
+      "name": "Molson Coors Beverage Company",
+      "cusip": "60871R209",
+      "shares": 300304,
+      "value": 17273486.08
+    },
+    {
+      "name": "Manchester United PLC",
+      "cusip": "G5784H106",
+      "shares": 1018060,
+      "value": 16472210.8
+    },
+    {
+      "name": "Resideo Technologies Inc",
+      "cusip": "76118Y104",
+      "shares": 788154,
+      "value": 15873421.56
+    },
+    {
+      "name": "Sphere Entertainment Co.",
+      "cusip": "55826T102",
+      "shares": 335861,
+      "value": 14838338.98
+    },
+    {
+      "name": "Vail Resorts, Inc",
+      "cusip": "91879Q109",
+      "shares": 80253,
+      "value": 13987295.37
+    },
+    {
+      "name": "NVent Electric PLC",
+      "cusip": "G6700G107",
+      "shares": 196365,
+      "value": 13796604.9
+    },
+    {
+      "name": "Northern Institutional Funds",
+      "cusip": "665279873",
+      "shares": 10230999.92,
+      "value": 10230999.92
+    },
+    {
+      "name": "Paramount Global",
+      "cusip": "92556H206",
+      "shares": 711339,
+      "value": 7554420.18
+    }
+  ],
+  "totalValue": 1011546843.2499999,
+  "positionsCount": 43
+}

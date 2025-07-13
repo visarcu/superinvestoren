@@ -75,13 +75,13 @@ donaldsmith: '0000814375',
 meritage: '0001427119',
 vulcanvalue: '0001556785',
 kahn: '0001039565',
-nygren:           '0000872323',  
+
 
 
 //NportP
-dodgecox:             '0000029440',    // Dodge & Cox
+dodgecox:             '00000200217',    // Dodge & Cox
 rogers:           '0000798365',    // John Rogers – Ariel Appreciation Fund
-cunniff:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
+cunniff_sequoia:         '0000089043',    // Ruane Cunniff – Sequoia Fund //NPORT
 hawkins:         '0000806636',    // Mason Hawkins – Longleaf Partners
        // 'hillman-value':         'XXX',    // Hillman Value Fund
         'weitz':         '0001257927',    // Wallace Weitz – Weitz Large Cap Equity Fund
@@ -95,7 +95,7 @@ lilu:  '0001709323', //MANUELL
 peltz: '0001345471',
 ubben: '0001418814', // 0000
 marks:  '0000949509',// MANUELL!!,
-davis:     '0001316506',    // Christopher Davis – Davis Advisors NPORT P
+davis:     '0001036325',    // Christopher Davis – Davis Advisors NPORT P
   // neu hinzuzufügende Investoren:
 
  katz:         '0000720498',    // David Katz – Matrix Asset Advisors
@@ -110,7 +110,7 @@ davis:     '0001316506',    // Christopher Davis – Davis Advisors NPORT P
 
           //'tom-bancroft':          '0001540866',    // Tom Bancroft – Makaira Partners
 
-  // 'charles-bobrinskoy':    'XXX',    // Charles Bobrinskoy – Ariel Focus Fund
+
 
 
 
@@ -132,7 +132,6 @@ davis:     '0001316506',    // Christopher Davis – Davis Advisors NPORT P
 
              //   'bill-miller':           '0001135778',    // Bill Miller – Miller Value Partners
 
-  // 'leon-cooperman':        'XXX',    // Leon Cooperman
   // 'josh-tarasoff':         'XXX',    // Josh Tarasoff – Greenlea Lane Capital
 
  
@@ -155,8 +154,8 @@ davis:     '0001316506',    // Christopher Davis – Davis Advisors NPORT P
               
 
              
-
-  torray:          '0001618627',    // Torray Funds // NPPORT
+//Neu ab 9.7.: Davis und torray
+  torray:          '0000098758',    // Torray Funds // NPPORT
 
  
 

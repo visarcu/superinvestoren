@@ -368,7 +368,7 @@ export default function StandaloneDCFCalculator() {
               <h1 className="text-2xl font-bold text-theme-primary">DCF Calculator</h1>
               <p className="text-theme-secondary text-sm">Professionelle Discounted Cash Flow Bewertung</p>
             </div>
-            <div className="flex items-center gap-1 px-3 py-1 bg-amber-500/20 rounded-lg">
+            <div className="flex items-center gap-1 px-3 py-1 bg-green-500/20 rounded-lg">
               <SparklesIcon className="w-4 h-4 text-amber-400" />
               <span className="text-sm text-amber-400 font-medium">Premium</span>
             </div>

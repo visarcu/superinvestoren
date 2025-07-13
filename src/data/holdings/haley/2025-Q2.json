@@ -9,93 +9,221 @@
       "name": "REV GROUP INC",
       "cusip": "749527107",
       "shares": 2302802,
-      "value": 72768543
+      "value": 72768543,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DAKTRONICS INC",
       "cusip": "234264109",
       "shares": 5973599,
-      "value": 72758436
+      "value": 72758436,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TRIMAS CORP",
       "cusip": "896215209",
       "shares": 742005,
-      "value": 17385177
+      "value": 17385177,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 42300,
-      "value": 15878997
+      "value": 15878997,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 83000,
-      "value": 15791580
+      "value": 15791580,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ATI INC",
       "cusip": "01741R102",
       "shares": 216300,
-      "value": 11254089
+      "value": 11254089,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "INTEGRAL AD SCIENCE HLDNG CO",
       "cusip": "45828L108",
       "shares": 1214053,
-      "value": 9785267
+      "value": 9785267,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ARCOS DORADOS HOLDINGS INC",
       "cusip": "G0457F107",
       "shares": 1120700,
-      "value": 9032842
+      "value": 9032842,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CLASS -A -",
+      "putCall": null
     },
     {
       "name": "IDT CORP",
       "cusip": "448947507",
       "shares": 136060,
-      "value": 6981239
+      "value": 6981239,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
     },
     {
       "name": "RESOLUTE HLDGS MGMT INC",
       "cusip": "76134H101",
       "shares": 165149,
-      "value": 5175770
+      "value": 5175770,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JOINT CORP",
       "cusip": "47973J102",
       "shares": 403096,
-      "value": 5034669
+      "value": 5034669,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DOUBLEVERIFY HLDGS INC",
       "cusip": "25862V105",
       "shares": 333465,
-      "value": 4458427
+      "value": 4458427,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "RISKIFIED LTD",
       "cusip": "M8216R109",
       "shares": 757044,
-      "value": 3497543
+      "value": 3497543,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CL A",
+      "putCall": null
     },
     {
       "name": "ARES MANAGEMENT CORPORATION",
       "cusip": "03990B101",
       "shares": 16732,
-      "value": 2453079
+      "value": 2453079,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A COM STK",
+      "putCall": null
     },
     {
       "name": "TENNANT CO",
       "cusip": "880345103",
       "shares": 916,
-      "value": 73051
+      "value": 73051,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 252328709,
-  "positionsCount": 15
+  "positionsCount": 15,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 252328709
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

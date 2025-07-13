@@ -1,4 +1,4 @@
-// src/app/superinvestor/[slug]/page.tsx - VOLLSTÄNDIG mit Currency Context + ALLE ursprünglichen Sektionen
+// src/app/superinvestor/[slug]/page.tsx - ERWEITERT MIT OPTION-ANZEIGE
 'use client'
 
 import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
@@ -102,6 +102,7 @@ const useIntersectionObserver = (threshold = 0.1) => {
   return [ref, isVisible] as const;
 };
 
+// ✅ KORRIGIERT: Position Interface EXAKT wie in InvestorTabs.tsx
 interface Position {
   cusip: string
   name: string
@@ -110,8 +111,18 @@ interface Position {
   deltaShares: number
   pctDelta: number
   ticker?: string
+  // ✅ EXAKTE typeInfo Definition wie in InvestorTabs
+  optionType?: 'STOCK' | 'CALL' | 'PUT' | 'OPTION'
+  typeInfo?: {
+    label: string
+    emoji: string
+    sentiment: 'bullish' | 'bearish' | 'neutral'
+  }
+  titleOfClass?: string | null
+  putCall?: string | null
 }
 
+// ✅ KORRIGIERT: HistoryGroup Interface (kompatibel mit InvestorTabs)
 interface HistoryGroup {
   period: string
   items: Position[]
@@ -135,10 +146,188 @@ interface OwnershipHistoryPoint {
 }
 
 const investorNames: Record<string, string> = {
+  //Investoren
   buffett: 'Warren Buffett – Berkshire Hathaway',
   ackman: 'Bill Ackman – Pershing Square Capital Management',
   gates: 'Bill & Melinda Gates Foundation Trust',
-  // ... rest of the investor names
+  torray: 'Torray Investment Partners LLC',
+  davis: 'Christoper Davis - Davis Selected Advisers',
+  altarockpartners: 'Mark Massey - Altarock Partners Llc',
+  greenhaven:'Edgar Wachenheim III - Greenhaven Associates Inc',
+  vinall:'Robert Vinall - RV Capital AG',
+  meridiancontrarian: 'Meridian Contrarian Fund',
+  hawkins:' Mason Hawkins - Southeastern Asset Management Inc',
+  olstein:'Robert Olstein - Olstein Capital Management',
+  peltz: 'Nelson Peltz - Trian Fund Management',
+  gregalexander:'Greg Alexander - Conifer Management',
+  miller: 'Bill Miller - Miller Value Partners',
+  tangen: 'Nicolai Tangen - AKO Capital',
+  burry:'Michael Burry - Scion Asset Management',
+  pabrai: 'Mohnish Pabrai - Dalal Street Llc',
+  kantesaria: 'Dev Kantesaria - Valley Forge Capital Management',
+  greenblatt: 'Joel Greenblatt - Gotham Asset Management',
+  fisher: 'Ken Fisher - Fisher Asset Management',
+  soros:'George Soros - Soros Fund Management Llc',
+  haley:'Connor Haley - Alta Fox Capital Management',
+  vandenberg: 'Arnold Van Den Berg - Van Den Berg Management',
+  dodgecox:'Van Duyn Dodge & E. Morris Cox - Dodge & Cox',
+  pzena:'Richard Pzena - Pzena Investment Management',
+  mairspower:'Mairs & Power Inc',
+  weitz: 'Wallace Weitz - Weitz Investment Management',
+  yacktman:'Yacktman Asset Management LP',
+  gayner:'Thomas Gayner - Markel Group',
+  armitage:'John Armitage - Egerton Capital',
+  burn: 'Harry Burn - Sound Shore',
+  cantillon:'William von Mueffling - Cantillon Capital Management',
+  jensen:'Eric Schoenstein - Jensen Investment Management',
+  abrams: 'David Abrams - Abrams Capital Management',
+  firsteagle: 'First Eagle Investment Management',
+  polen: 'Polen Capital Management',
+  tarasoff:'Josh Tarasoff - Greenlea Lane Capital',
+  rochon: 'Francois Rochon - Giverny Capital',
+  russo: 'Thomas Russo - Gardner Russo & Quinn',
+  akre: 'Chuck Akre - Akre Capital Management',
+  triplefrond:'Triple Frond Partners',
+  whitman: 'Marty Whitman - Third Avenue Management',
+  patientcapital:'Samantha McLemore - Patient Capital Management',
+  klarman: 'Seth Klarman - Baupost Group',
+  makaira: 'Tom Bancroft - Makaira Partners',
+  ketterer: 'Sarah Ketterer - Causeway Capital Management',
+  train:'Lindsell Train',
+  smith: 'Terry Smith - Fundsmith',
+  watsa: 'Prem Watsa - Fairfax Financial Holdings',
+  lawrence: 'Bryan Lawrence - Oakliff Capital',
+  dorsey: 'Pat Dorsey - Dorsey Asset Management',
+  hohn:'Chris Hohn - TCI Fund Management',
+  hong: 'Dennis Hong - ShawSpring Partners',
+  kahn: 'Kahn Brothers Group',
+  coleman: 'Chase Coleman - Tiger Global Management',
+  dalio:'Ray Dalio - Bridgewater Associates',
+  loeb: 'Daniel Loeb - Third Point',
+  tepper: 'David Tepper - Appaloosa Management',
+  icahn: 'Carl Icahn - Icahn Capital Management',
+  lilu: 'Li Lu - Himalaya Capital Management',
+  ainslie:'Lee Ainslie - Maverick Capital',
+  greenberg:'Glenn Greenberg - Brave Warrior Advisors',
+  mandel: 'Stephen Mandel - Lone Pine Capital',
+  marks: 'Howard Marks - Oaktree Capital Management',
+  rogers:'John Rogers - Ariel Investments',
+  ariel_appreciation: 'Ariel Appreciation Fund', 
+  ariel_focus: 'Ariel Focus Fund', 
+  cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
+  spier: 'Guy Spier - Aquamarine Capital',
+
+
+  //mutual funds
+  cunniff_sequoia: 'Ruane Cunniff – Sequoia Fund',
+  katz: 'David Katz - Matrix Asset Advisors Inc/ny',
+  tweedy_browne_fund_inc: 'Tweedy, Browne International Value Fund II - Currency Unhedged',
+}
+
+// ✅ NEU: Option-Styling Helper (vereinfacht für InvestorTabs-Kompatibilität)
+const getOptionStyling = (optionType: string | undefined) => {
+  if (!optionType) return null
+  
+  switch (optionType) {
+    case 'PUT':
+      return {
+        badge: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+        label: 'PUT',
+        icon: '📉'
+      }
+    case 'CALL':
+      return {
+        badge: 'bg-green-500/20 text-green-300 border-green-500/30',
+        label: 'CALL',
+        icon: '📈'
+      }
+    case 'OPTION':
+      return {
+        badge: 'bg-gray-500/20 text-gray-300 border-gray-500/30',
+        label: 'OPTION',
+        icon: '⚡'
+      }
+    default:
+      return null
+  }
+}
+
+// ✅ NEU: Option Badge Komponente (korrigiert für Union-Types)
+const OptionBadge = ({ position }: { position: Position }) => {
+  const optionType = position.optionType
+  
+  if (!optionType || optionType === 'STOCK') return null
+  
+  const styling = getOptionStyling(optionType)
+  if (!styling) return null
+  
+  return (
+    <span 
+      className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded border ${styling.badge}`}
+      title={position.titleOfClass || `${optionType} Option`}
+    >
+      <span>{styling.icon}</span>
+      {styling.label}
+    </span>
+  )
+}
+
+// ✅ NEU: Enhanced Company Name mit Option-Badge
+const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Position, showLogo?: boolean }) => {
+  const ticker = getTicker(position)
+  const cleanName = getCleanCompanyName(position)
+  
+  const content = (
+    <div className="flex items-center gap-3">
+      {showLogo && ticker && (
+        <div className="w-6 h-6 flex-shrink-0">
+          <Logo
+            ticker={ticker}
+            alt={`${ticker} Logo`}
+            className="w-full h-full"
+            padding="none"
+          />
+        </div>
+      )}
+      
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className={`font-semibold ${ticker ? 'text-green-400' : 'text-white'}`}>
+            {ticker || cleanName}
+          </span>
+          
+          {/* ✅ Option Badge */}
+          <OptionBadge position={position} />
+        </div>
+        
+        {ticker && cleanName !== ticker && (
+          <div className="text-sm text-gray-400 font-normal truncate">
+            {cleanName}
+          </div>
+        )}
+        
+        {/* ✅ Option Details (safe access) */}
+        {position.titleOfClass && position.optionType && position.optionType !== 'STOCK' && (
+          <div className="text-xs text-gray-500 truncate">
+            {position.titleOfClass}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+  
+  if (ticker) {
+    return (
+      <Link
+        href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
+        className="group hover:text-green-300 transition-colors"
+      >
+        {content}
+      </Link>
+    )
+  }
+  
+  return content
 }
 
 // Utility Functions
@@ -743,7 +932,24 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             ? `${ticker} - ${displayName}`
             : displayName
           
-          return { cusip, shares, value, name: formattedName, ticker }
+          return { 
+            cusip, 
+            shares, 
+            value, 
+            name: formattedName, 
+            ticker,
+            deltaShares: 0,
+            pctDelta: 0,
+            // ✅ Vereinfacht für InvestorTabs-Kompatibilität
+            optionType: (originalPosition?.optionType as 'STOCK' | 'CALL' | 'PUT' | 'OPTION') || 'STOCK',
+            typeInfo: originalPosition?.typeInfo ? {
+              label: originalPosition.typeInfo.label || 'Stock',
+              emoji: originalPosition.typeInfo.emoji || '📈',
+              sentiment: (originalPosition.typeInfo.sentiment as 'bullish' | 'bearish' | 'neutral') || 'neutral'
+            } : undefined,
+            titleOfClass: originalPosition?.titleOfClass || null,
+            putCall: originalPosition?.putCall || null
+          }
         })
 
       const seen = new Set(mergedEntries.map(e => e.cusip))
@@ -757,7 +963,19 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             ? `${ticker} - ${displayName}`
             : displayName
             
-          mergedEntries.push({ cusip, shares: 0, value: 0, name: formattedName, ticker })
+                      mergedEntries.push({ 
+              cusip, 
+              shares: 0, 
+              value: 0, 
+              name: formattedName, 
+              ticker,
+              deltaShares: 0,
+              pctDelta: 0,
+              optionType: 'STOCK',
+              typeInfo: undefined,
+              titleOfClass: null,
+              putCall: null
+            })
         }
       }
 
@@ -796,8 +1014,22 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         : displayName
       
       return {
-        cusip, name: formattedName, ticker, shares, value,
-        deltaShares: delta, pctDelta: prevShares > 0 ? delta / prevShares : 0
+        cusip, 
+        name: formattedName, 
+        ticker, 
+        shares, 
+        value,
+        deltaShares: delta, 
+        pctDelta: prevShares > 0 ? delta / prevShares : 0,
+        // ✅ Vereinfacht für InvestorTabs-Kompatibilität
+        optionType: (originalPosition?.optionType as 'STOCK' | 'CALL' | 'PUT' | 'OPTION') || 'STOCK',
+        typeInfo: originalPosition?.typeInfo ? {
+          label: originalPosition.typeInfo.label || 'Stock',
+          emoji: originalPosition.typeInfo.emoji || '📈',
+          sentiment: (originalPosition.typeInfo.sentiment as 'bullish' | 'bearish' | 'neutral') || 'neutral'
+        } : undefined,
+        titleOfClass: originalPosition?.titleOfClass || null,
+        putCall: originalPosition?.putCall || null
       }
     })
 
@@ -1073,7 +1305,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </div>
             </div>
 
-            {/* Top Positions - Simple HTML Table statt Komponente */}
+            {/* ✅ ERWEITERT: Top Positions mit Option-Anzeige */}
             <div className="mb-12">
               <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-6">
@@ -1093,14 +1325,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                         <div className="text-gray-400 text-sm font-mono w-6">
                           #{index + 1}
                         </div>
-                        <div>
-                          <div className="text-white font-medium">
-                            {holding.ticker || holding.name.split(' - ')[0]}
-                          </div>
-                          <div className="text-gray-400 text-sm">
-                            {holding.name.includes(' - ') ? holding.name.split(' - ')[1] : holding.name}
-                          </div>
-                        </div>
+                        <CompanyNameWithOptions position={holding} />
                       </div>
                       <div className="text-right">
                         <div className="text-white font-semibold">
@@ -1115,8 +1340,6 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 </div>
               </div>
             </div>
-
-            {/* Bar Chart - entfernt da problematisch */}
 
             {/* Sektor Breakdown Chart */}
             <div className="mb-12">

@@ -9,39 +9,39 @@
       "name": "TRANSDIGM",
       "cusip": "893641100",
       "shares": 155084,
-      "value": 30451
+      "value": 30451000
     },
     {
       "name": "LIBERTY GLOBAL INC-SERIES C",
       "cusip": "G5480U120",
       "shares": 474707,
-      "value": 22933
+      "value": 22933000
     },
     {
       "name": "MASTERCARD INC - CLASS A",
       "cusip": "57636Q104",
       "shares": 259690,
-      "value": 22375
+      "value": 22375000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 217416,
-      "value": 20831
+      "value": 20831000
     },
     {
       "name": "VISA INC - CLASS A",
       "cusip": "92826C839",
       "shares": 65344,
-      "value": 17133
+      "value": 17133000
     },
     {
       "name": "DOMINOS PIZZA INC",
       "cusip": "25754A201",
       "shares": 76498,
-      "value": 7204
+      "value": 7204000
     }
   ],
-  "totalValue": 120927,
+  "totalValue": 120927000,
   "positionsCount": 6
 }

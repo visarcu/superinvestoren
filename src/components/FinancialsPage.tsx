@@ -17,6 +17,8 @@ import {
   ChevronDownIcon,
   CalendarIcon,
   ArrowLeftIcon,
+  LockClosedIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/outline'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis } from 'recharts'
@@ -398,9 +400,15 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-4 text-center">
-            <SparklesIcon className="w-6 h-6 text-amber-500 mx-auto mb-2" />
+          <LockClosedIcon className="w-6 h-6 text-green-500 mx-auto mb-2" />
             <p className="text-theme-primary font-medium">Financial Statements</p>
             <p className="text-theme-muted text-sm">Premium erforderlich</p>
+            <Link
+  href="/pricing"
+  className="inline-flex items-center gap-1 text-green-500 hover:text-green-400 text-xs font-medium mt-2 transition-colors"
+>
+  Upgrade <ArrowRightIcon className="w-3 h-3" />
+</Link>
           </div>
         </div>
       </div>
@@ -1319,7 +1327,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                       color="#f59e0b"
                       growth={previousData && <GrowthIndicator current={latestData?.totalStockholdersEquity || 0} previous={previousData?.totalStockholdersEquity || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-amber-400 transition-colors flex items-center gap-2">
+                      <span className="cursor-pointer hover:text-green-400 transition-colors flex items-center gap-2">
                         {GERMAN_LABELS.total_equity_final}
                         <LearnTooltipButton term="Eigenkapital" />
                       </span>

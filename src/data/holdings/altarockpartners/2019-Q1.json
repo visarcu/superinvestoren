@@ -9,39 +9,39 @@
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 859850,
-      "value": 245031
+      "value": 245031000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 642485,
-      "value": 218483
+      "value": 218483000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 1130261,
-      "value": 158282
+      "value": 158282000
     },
     {
       "name": "O'REILLY AUTO PARTS",
       "cusip": "67103H107",
       "shares": 308729,
-      "value": 106305
+      "value": 106305000
     },
     {
       "name": "MASTERCARD INC CL A",
       "cusip": "57636Q104",
       "shares": 396940,
-      "value": 74883
+      "value": 74883000
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 282516,
-      "value": 37275
+      "value": 37275000
     }
   ],
-  "totalValue": 840259,
+  "totalValue": 840259000,
   "positionsCount": 6
 }

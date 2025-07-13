@@ -2,13 +2,14 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { ArrowTrendingUpIcon, ArrowTrendingDownIcon, ChartBarIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { ArrowTrendingUpIcon, ArrowTrendingDownIcon, ChartBarIcon, CalendarIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { supabase } from '@/lib/supabaseClient';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { LearnTooltipButton } from '@/components/LearnSidebar';
 import { useLearnMode } from '@/lib/LearnModeContext';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { LockClosedIcon } from '@heroicons/react/24/outline'
 
 // Dynamic Chart Import
 const GrowthCharts = dynamic(
@@ -406,98 +407,171 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </h3>
           </div>
           
-          <div className="p-6 space-y-6">
-            
-            {/* Forward Estimates */}
-            {(growth.revenueGrowthForward2Y || growth.epsGrowthForward2Y) && (
-              <div>
-                <h4 className="text-sm font-semibold text-theme-primary mb-4">Analyst Schätzungen</h4>
-                <div className="space-y-3">
-                  {growth.revenueGrowthForward2Y && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">Umsatz Forward (2Y)</span>
-                      <span className={`font-semibold ${getGrowthColor(growth.revenueGrowthForward2Y)}`}>
-                        {formatGrowth(growth.revenueGrowthForward2Y)}
-                      </span>
-                    </div>
-                  )}
-                  {growth.epsGrowthForward2Y && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">EPS Forward (2Y)</span>
-                      <span className={`font-semibold ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
-                        {formatGrowth(growth.epsGrowthForward2Y)}
-                      </span>
-                    </div>
-                  )}
-                  {growth.epsGrowthLongTerm && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">EPS Langfristig</span>
-                      <span className={`font-semibold ${getGrowthColor(growth.epsGrowthLongTerm)}`}>
-                        {formatGrowth(growth.epsGrowthLongTerm)}
-                      </span>
-                    </div>
-                  )}
+          {/* ✅ PREMIUM BLUR für Zukunftsprognosen */}
+          {user?.isPremium ? (
+            <div className="p-6 space-y-6">
+              
+              {/* Forward Estimates */}
+              {(growth.revenueGrowthForward2Y || growth.epsGrowthForward2Y) && (
+                <div>
+                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Analyst Schätzungen</h4>
+                  <div className="space-y-3">
+                    {growth.revenueGrowthForward2Y && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-theme-secondary text-sm">Umsatz Forward (2Y)</span>
+                        <span className={`font-semibold ${getGrowthColor(growth.revenueGrowthForward2Y)}`}>
+                          {formatGrowth(growth.revenueGrowthForward2Y)}
+                        </span>
+                      </div>
+                    )}
+                    {growth.epsGrowthForward2Y && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-theme-secondary text-sm">EPS Forward (2Y)</span>
+                        <span className={`font-semibold ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
+                          {formatGrowth(growth.epsGrowthForward2Y)}
+                        </span>
+                      </div>
+                    )}
+                    {growth.epsGrowthLongTerm && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-theme-secondary text-sm">EPS Langfristig</span>
+                        <span className={`font-semibold ${getGrowthColor(growth.epsGrowthLongTerm)}`}>
+                          {formatGrowth(growth.epsGrowthLongTerm)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Other Metrics */}
-            {(growth.ebitdaGrowth3Y || growth.fcfGrowth3Y) && (
-              <div>
-                <h4 className="text-sm font-semibold text-theme-primary mb-4">Weitere Kennzahlen</h4>
-                <div className="space-y-3">
-                  {growth.ebitdaGrowth3Y && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm flex items-center gap-1">
-                        EBITDA Growth (3Y)
-                        <LearnTooltipButton term="ebitda" />
-                      </span>
-                      <span className={`font-semibold ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
-                        {formatGrowth(growth.ebitdaGrowth3Y)}
-                      </span>
-                    </div>
-                  )}
-                  {growth.fcfGrowth3Y && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm flex items-center gap-1">
-                        FCF Growth (3Y)
-                        <LearnTooltipButton term="free_cash_flow" />
-                      </span>
-                      <span className={`font-semibold ${getGrowthColor(growth.fcfGrowth3Y)}`}>
-                        {formatGrowth(growth.fcfGrowth3Y)}
-                      </span>
-                    </div>
-                  )}
+              {/* Other Metrics */}
+              {(growth.ebitdaGrowth3Y || growth.fcfGrowth3Y) && (
+                <div>
+                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Weitere Kennzahlen</h4>
+                  <div className="space-y-3">
+                    {growth.ebitdaGrowth3Y && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-theme-secondary text-sm flex items-center gap-1">
+                          EBITDA Growth (3Y)
+                          <LearnTooltipButton term="ebitda" />
+                        </span>
+                        <span className={`font-semibold ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
+                          {formatGrowth(growth.ebitdaGrowth3Y)}
+                        </span>
+                      </div>
+                    )}
+                    {growth.fcfGrowth3Y && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-theme-secondary text-sm flex items-center gap-1">
+                          FCF Growth (3Y)
+                          <LearnTooltipButton term="free_cash_flow" />
+                        </span>
+                        <span className={`font-semibold ${getGrowthColor(growth.fcfGrowth3Y)}`}>
+                          {formatGrowth(growth.fcfGrowth3Y)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Growth Quality Analysis */}
-            <div>
-              <h4 className="text-sm font-semibold text-theme-primary mb-4">Wachstumsqualität</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">Datenverfügbarkeit</span>
-                  <span className="text-theme-primary font-semibold">
-                    {data.dataQuality.hasIncomeData ? '✅' : '❌'} Income |{' '}
-                    {data.dataQuality.hasEstimates ? '✅' : '❌'} Estimates
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">Historische Perioden</span>
-                  <span className="text-theme-primary font-semibold">
-                    {data.dataQuality.periods} Jahre
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">Letztes Update</span>
-                  <span className="text-theme-secondary text-sm">
-                    {new Date(data.lastUpdated).toLocaleDateString('de-DE')}
-                  </span>
+              {/* Growth Quality Analysis */}
+              <div>
+                <h4 className="text-sm font-semibold text-theme-primary mb-4">Wachstumsqualität</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Datenverfügbarkeit</span>
+                    <span className="text-theme-primary font-semibold">
+                      {data.dataQuality.hasIncomeData ? '✅' : '❌'} Income |{' '}
+                      {data.dataQuality.hasEstimates ? '✅' : '❌'} Estimates
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Historische Perioden</span>
+                    <span className="text-theme-primary font-semibold">
+                      {data.dataQuality.periods} Jahre
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Letztes Update</span>
+                    <span className="text-theme-secondary text-sm">
+                      {new Date(data.lastUpdated).toLocaleDateString('de-DE')}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="relative">
+              <div className="filter blur-sm opacity-60 pointer-events-none select-none p-6 space-y-6">
+                
+                {/* Geblurrte Forward Estimates */}
+                <div>
+                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Analyst Schätzungen</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">Umsatz Forward (2Y)</span>
+                      <span className="font-semibold text-green-400">+5.6%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">EPS Forward (2Y)</span>
+                      <span className="font-semibold text-green-400">+8.5%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">EPS Langfristig</span>
+                      <span className="font-semibold text-green-400">+8.9%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Geblurrte Other Metrics */}
+                <div>
+                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Weitere Kennzahlen</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">EBITDA Growth (3Y)</span>
+                      <span className="font-semibold text-green-400">+3.0%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Geblurrte Growth Quality */}
+                <div>
+                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Wachstumsqualität</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">Datenverfügbarkeit</span>
+                      <span className="text-theme-primary font-semibold">✅ Income | ✅ Estimates</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">Historische Perioden</span>
+                      <span className="text-theme-primary font-semibold">10 Jahre</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-theme-secondary text-sm">Letztes Update</span>
+                      <span className="text-theme-secondary text-sm">8.7.2025</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Premium Blur Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-theme-card/95 backdrop-blur-sm rounded-lg p-4 text-center shadow-xl border border-green-500/20">
+                  <LockClosedIcon className="w-6 h-6 text-green-500 mx-auto mb-2" />
+                  <p className="text-theme-primary font-semibold text-sm">Zukunftsprognosen</p>
+                  <p className="text-theme-muted text-xs mt-1">Premium erforderlich</p>
+                  <Link
+                    href="/pricing"
+                    className="inline-flex items-center gap-1 text-green-500 hover:text-green-400 text-xs font-medium mt-2 transition-colors"
+                  >
+                    Upgrade
+                    <ArrowRightIcon className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -523,8 +597,8 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </h3>
           </div>
           <div className="p-6 text-center py-12">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <ChartBarIcon className="w-8 h-8 text-green-400" />
+            <div className="w-16 h-16 bg-gradient-to-br border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <LockClosedIcon className="w-8 h-8 text-green-500" />
             </div>
             <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Charts verfügbar</h3>
             <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">
@@ -532,11 +606,9 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </p>
             <Link
               href="/pricing"
-              className="btn-primary inline-flex items-center gap-2 px-6 py-3"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+              <LockClosedIcon className="w-5 h-5" />
               14 Tage kostenlos testen
             </Link>
           </div>

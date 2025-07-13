@@ -1,7 +1,7 @@
-// src/app/superinvestor/insights/page.tsx - VOLLSTÄNDIG mit korrekter Sektor-Zuordnung
+// src/app/superinvestor/insights/page.tsx - OPTIMIERT für Performance + FIXES
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { 
   ChartBarIcon,
@@ -28,7 +28,7 @@ import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 
-// Animation Hook
+// Nur Hero Animation Hook
 const useIntersectionObserver = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -57,40 +57,6 @@ const useIntersectionObserver = (threshold = 0.1) => {
   return [ref, isVisible] as const;
 };
 
-// CountUp Hook
-const useCountUp = (end: number, duration = 2000, shouldStart = false) => {
-  const [count, setCount] = useState(0);
-  
-  useEffect(() => {
-    if (!shouldStart) return;
-    
-    let startTime: number;
-    let animationFrame: number;
-    
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(end * easeOutQuart));
-      
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-    
-    animationFrame = requestAnimationFrame(animate);
-    
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, [end, duration, shouldStart]);
-  
-  return count;
-};
-
 // Investor Namen Mapping
 const investorNames: Record<string, string> = {
   buffett: 'Warren Buffett',
@@ -101,7 +67,6 @@ const investorNames: Record<string, string> = {
   icahn: 'Carl Icahn',
   einhorn: 'David Einhorn',
   loeb: 'Daniel Loeb',
-  cooperman: 'Leon Cooperman',
   sosin: 'Howard Sosin',
   duan: 'Li Lu',
   lou: 'Daniel Lou',
@@ -167,6 +132,53 @@ function getStockName(position: any): string {
   }
   const stock = stocks.find(s => s.cusip === position.cusip)
   return stock?.name || position.name || position.cusip
+}
+
+// 🚀 VERBESSERTE QUARTAL-LOGIK: Erst umstellen wenn mindestens 50% der Investoren abgegeben haben
+function getSmartLatestQuarter() {
+  // Alle aktiven Investoren ermitteln
+  const activeInvestors = Object.values(holdingsHistory).filter(snaps => 
+    snaps && snaps.length > 0 && snaps[snaps.length - 1]?.data?.positions?.length > 0
+  )
+  
+  const totalActiveInvestors = activeInvestors.length
+  const requiredThreshold = Math.ceil(totalActiveInvestors * 0.5) // 50% Mindestanzahl
+  
+  // Für jedes Quartal zählen, wieviele Investoren Daten haben
+  const quarterCounts = new Map<string, number>()
+  
+  activeInvestors.forEach(snaps => {
+    snaps.forEach(snap => {
+      if (snap?.data?.date) {
+        const quarter = getPeriodFromDate(snap.data.date)
+        quarterCounts.set(quarter, (quarterCounts.get(quarter) || 0) + 1)
+      }
+    })
+  })
+  
+  // Sortiere Quartale absteigend und finde das neueste mit mindestens 50% Coverage
+  const sortedQuarters = Array.from(quarterCounts.entries())
+    .sort(([a], [b]) => {
+      // Sortiere nach Jahr und Quartal
+      const [qA, yearA] = a.split(' ')
+      const [qB, yearB] = b.split(' ')
+      
+      if (yearA !== yearB) return parseInt(yearB) - parseInt(yearA)
+      return parseInt(qB.substring(1)) - parseInt(qA.substring(1))
+    })
+  
+  // Finde das neueste Quartal mit ausreichender Coverage
+  for (const [quarter, count] of sortedQuarters) {
+    if (count >= requiredThreshold) {
+      console.log(`Smart Latest Quarter: ${quarter} (${count}/${totalActiveInvestors} Investoren = ${Math.round((count/totalActiveInvestors)*100)}%)`)
+      return quarter
+    }
+  }
+  
+  // Fallback: Wenn kein Quartal 50% erreicht, nimm das mit den meisten Investoren
+  const fallbackQuarter = sortedQuarters[0]?.[0] || 'Q1 2025'
+  console.log(`Fallback Quarter: ${fallbackQuarter}`)
+  return fallbackQuarter
 }
 
 // Quarter-Filter-Typen und Komponente
@@ -278,7 +290,7 @@ function QuarterSelector({
                 onSelect(option.id)
                 setIsOpen(false)
               }}
-              className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all duration-200 ${
+              className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-colors duration-200 ${
                 selected === option.id 
                   ? 'bg-green-600/80 text-white shadow-md' 
                   : 'text-gray-300 hover:bg-gray-700/60 hover:text-white'
@@ -311,7 +323,7 @@ function QuarterSelector({
         <button
           ref={buttonRef}
           onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-800/80 hover:bg-gray-700/80 border border-gray-600/60 rounded-lg text-sm text-gray-300 hover:text-white transition-all duration-200 hover:scale-105 hover:shadow-lg min-w-[160px]"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-800/80 hover:bg-gray-700/80 border border-gray-600/60 rounded-lg text-sm text-gray-300 hover:text-white transition-colors duration-200 hover:scale-105 hover:shadow-lg min-w-[160px]"
         >
           <CalendarIcon className="w-4 h-4 flex-shrink-0" />
           <span className="truncate">{selectedOption?.label || 'Wählen'}</span>
@@ -373,40 +385,31 @@ function calculateDataSourceStats(targetQuarters: string[]) {
 }
 
 export default function MarketInsightsPage() {
-  // Animation refs
+  // Nur Hero Animation
   const [heroRef, heroVisible] = useIntersectionObserver(0.3);
-  const [statsRef, statsVisible] = useIntersectionObserver(0.3);
-  const [chartsRef, chartsVisible] = useIntersectionObserver(0.3);
-  const [sectorsRef, sectorsVisible] = useIntersectionObserver(0.1);
 
+  // 🚀 VERBESSERTE QUARTAL-ERMITTLUNG mit Smart Logic
+  const actualLatestQuarter = useMemo(() => getSmartLatestQuarter(), [])
+  
   // Alle verfügbaren Quartale ermitteln
-  const latestDatesPerInvestor = Object.values(holdingsHistory)
-    .map(snaps => {
-      if (!snaps || snaps.length === 0) return null
-      const latest = snaps[snaps.length - 1]?.data
-      return latest?.date || null
-    })
-    .filter(Boolean) as string[]
-  
-  const latestDate = latestDatesPerInvestor.sort().pop() || ''
-  const actualLatestQuarter = latestDate ? getPeriodFromDate(latestDate) : 'Q1 2025'
-  
-  const allQuarters = Array.from(new Set(
-    Object.values(holdingsHistory)
-      .flatMap(snaps => {
-        if (!snaps) return []
-        return snaps.map(snap => getPeriodFromDate(snap.data.date))
-      })
-      .filter(Boolean)
-  )).sort().reverse()
+  const allQuarters = useMemo(() => {
+    return Array.from(new Set(
+      Object.values(holdingsHistory)
+        .flatMap(snaps => {
+          if (!snaps) return []
+          return snaps.map(snap => getPeriodFromDate(snap.data.date))
+        })
+        .filter(Boolean)
+    )).sort().reverse()
+  }, [])
 
   // Quarter-Filter-Optionen
-  const quarterOptions: QuarterOption[] = [
+  const quarterOptions: QuarterOption[] = useMemo(() => [
     {
       id: 'latest',
       label: actualLatestQuarter,
       quarters: [actualLatestQuarter],
-      description: 'Neuestes Quartal'
+      description: 'Neuestes Quartal (≥50% Investoren)'
     },
     {
       id: 'last2',
@@ -432,179 +435,197 @@ export default function MarketInsightsPage() {
       quarters: allQuarters,
       description: 'Alle verfügbaren Quartale'
     }
-  ]
+  ], [actualLatestQuarter, allQuarters])
 
   // State für Filter
   const [selectedPeriod, setSelectedPeriod] = useState('latest')
-  const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
-  const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
-
-  const dataSourceStats = calculateDataSourceStats(targetQuarters)
-
-  // Top-Käufe Berechnung
-  const buyCounts = new Map<string, number>()
   
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (!snaps || snaps.length === 0) return
+  // 🚀 MEMOIZED: Target Quarters berechnung
+  const targetQuarters = useMemo(() => {
+    const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
+    return selectedOption?.quarters || [actualLatestQuarter]
+  }, [selectedPeriod, quarterOptions, actualLatestQuarter])
+
+  // 🚀 MEMOIZED: Data Source Stats
+  const dataSourceStats = useMemo(() => 
+    calculateDataSourceStats(targetQuarters), [targetQuarters]
+  )
+
+  // 🚀 MEMOIZED: Top-Käufe Berechnung - FIXED für Dropdown
+  const topBuys = useMemo(() => {
+    const buyCounts = new Map<string, number>()
     
-    snaps.forEach((snap, idx) => {
-      const currentQuarter = getPeriodFromDate(snap.data.date)
+    Object.values(holdingsHistory).forEach(snaps => {
+      if (!snaps || snaps.length === 0) return
       
-      if (!targetQuarters.includes(currentQuarter)) return
-      
-      const cur = snap.data
-      
-      if (idx > 0) {
-        const prev = snaps[idx - 1].data
+      snaps.forEach((snap, idx) => {
+        const currentQuarter = getPeriodFromDate(snap.data.date)
         
-        const prevMap = new Map<string, number>()
-        prev.positions?.forEach((p: any) => {
-          const ticker = getTicker(p)
-          if (ticker) {
-            prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
-          }
-        })
+        if (!targetQuarters.includes(currentQuarter)) return
+        
+        const cur = snap.data
+        
+        if (idx > 0) {
+          const prev = snaps[idx - 1].data
+          
+          const prevMap = new Map<string, number>()
+          prev.positions?.forEach((p: any) => {
+            const ticker = getTicker(p)
+            if (ticker) {
+              prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
+            }
+          })
 
-        const seen = new Set<string>()
-        cur.positions?.forEach((p: any) => {
-          const ticker = getTicker(p)
-          if (!ticker || seen.has(ticker)) return
-          seen.add(ticker)
-
-          const prevShares = prevMap.get(ticker) || 0
-          const delta = p.shares - prevShares
-
-          if (delta > 0) {
+          const seen = new Set<string>()
+          cur.positions?.forEach((p: any) => {
+            const ticker = getTicker(p)
+            if (!ticker || seen.has(ticker)) return
             seen.add(ticker)
-            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
-          }
-        })
-      } else {
-        const seen = new Set<string>()
-        cur.positions?.forEach((p: any) => {
-          const ticker = getTicker(p)
-          if (ticker && !seen.has(ticker)) {
-            seen.add(ticker)
-            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
-          }
-        })
-      }
-    })
-  })
 
-  const topBuys = Array.from(buyCounts.entries())
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 20)
-    .map(([ticker, count]) => ({ ticker, count }))
+            const prevShares = prevMap.get(ticker) || 0
+            const delta = p.shares - prevShares
 
-  // Beliebteste Aktien
-  const ownershipCount = new Map<string, number>()
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (!snaps || snaps.length === 0) return
-    
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    
-    const seen = new Set<string>()
-    latest.positions.forEach((p: any) => {
-      const ticker = getTicker(p)
-      if (ticker && !seen.has(ticker)) {
-        seen.add(ticker)
-        ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
-      }
-    })
-  })
-
-  const topOwned = Array.from(ownershipCount.entries())
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 20)
-    .map(([ticker, count]) => ({ ticker, count }))
-
-  // Größte Investments
-  const investmentTotals = new Map<string, { value: number, name: string }>()
-
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (!snaps || snaps.length === 0) return
-    
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    
-    latest.positions.forEach((p: any) => {
-      const ticker = getTicker(p)
-      if (!ticker) return
-      
-      const name = getStockName(p)
-      const current = investmentTotals.get(ticker)
-      
-      if (current) {
-        current.value += p.value
-      } else {
-        investmentTotals.set(ticker, { value: p.value, name })
-      }
-    })
-  })
-
-  const biggestInvestments = Array.from(investmentTotals.entries())
-    .map(([ticker, { value, name }]) => ({ ticker, name, value }))
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 20)
-
-  // Name-Lookup
-  const nameMap: Record<string, string> = {}
-
-  stocks.forEach(s => { 
-    nameMap[s.ticker] = s.name 
-  })
-
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (!snaps || snaps.length === 0) return
-    
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    
-    latest.positions.forEach((p: any) => {
-      const ticker = getTicker(p)
-      if (ticker && !nameMap[ticker]) {
-        nameMap[ticker] = getStockName(p)
-      }
-    })
-  })
-
-  // ✅ FIXED: Sektor-Analyse mit korrekter Sektor-Zuordnung
-  const sectorAnalysis = new Map<string, { value: number, count: number }>()
-  
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (!snaps || snaps.length === 0) return
-    
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    
-    latest.positions.forEach((p: any) => {
-      const sector = getSectorFromPosition({
-        cusip: p.cusip,
-        ticker: getTicker(p)
+            if (delta > 0) {
+              buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
+            }
+          })
+        } else {
+          const seen = new Set<string>()
+          cur.positions?.forEach((p: any) => {
+            const ticker = getTicker(p)
+            if (ticker && !seen.has(ticker)) {
+              seen.add(ticker)
+              buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
+            }
+          })
+        }
       })
-      
-      const germanSector = translateSector(sector)
-      
-      const current = sectorAnalysis.get(germanSector)
-      
-      if (current) {
-        current.value += p.value
-        current.count += 1
-      } else {
-        sectorAnalysis.set(germanSector, { value: p.value, count: 1 })
-      }
     })
-  })
 
-  const topSectors = Array.from(sectorAnalysis.entries())
-    .map(([sector, { value, count }]) => ({ sector, value, count }))
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 6)
+    return Array.from(buyCounts.entries())
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 20)
+      .map(([ticker, count]) => ({ ticker, count }))
+  }, [targetQuarters])
 
-  // Geographic Exposure - mit verbesserter Logik
-  const getGeographicExposure = () => {
+  // 🚀 MEMOIZED: Beliebteste Aktien
+  const topOwned = useMemo(() => {
+    const ownershipCount = new Map<string, number>()
+    Object.values(holdingsHistory).forEach(snaps => {
+      if (!snaps || snaps.length === 0) return
+      
+      const latest = snaps[snaps.length - 1]?.data
+      if (!latest?.positions) return
+      
+      const seen = new Set<string>()
+      latest.positions.forEach((p: any) => {
+        const ticker = getTicker(p)
+        if (ticker && !seen.has(ticker)) {
+          seen.add(ticker)
+          ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
+        }
+      })
+    })
+
+    return Array.from(ownershipCount.entries())
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 20)
+      .map(([ticker, count]) => ({ ticker, count }))
+  }, [])
+
+  // 🚀 MEMOIZED: Größte Investments
+  const biggestInvestments = useMemo(() => {
+    const investmentTotals = new Map<string, { value: number, name: string }>()
+
+    Object.values(holdingsHistory).forEach(snaps => {
+      if (!snaps || snaps.length === 0) return
+      
+      const latest = snaps[snaps.length - 1]?.data
+      if (!latest?.positions) return
+      
+      latest.positions.forEach((p: any) => {
+        const ticker = getTicker(p)
+        if (!ticker) return
+        
+        const name = getStockName(p)
+        const current = investmentTotals.get(ticker)
+        
+        if (current) {
+          current.value += p.value
+        } else {
+          investmentTotals.set(ticker, { value: p.value, name })
+        }
+      })
+    })
+
+    return Array.from(investmentTotals.entries())
+      .map(([ticker, { value, name }]) => ({ ticker, name, value }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 20)
+  }, [])
+
+  // 🚀 MEMOIZED: Name-Lookup Map
+  const nameMap = useMemo(() => {
+    const result: Record<string, string> = {}
+
+    stocks.forEach(s => { 
+      result[s.ticker] = s.name 
+    })
+
+    Object.values(holdingsHistory).forEach(snaps => {
+      if (!snaps || snaps.length === 0) return
+      
+      const latest = snaps[snaps.length - 1]?.data
+      if (!latest?.positions) return
+      
+      latest.positions.forEach((p: any) => {
+        const ticker = getTicker(p)
+        if (ticker && !result[ticker]) {
+          result[ticker] = getStockName(p)
+        }
+      })
+    })
+
+    return result
+  }, [])
+
+  // 🚀 MEMOIZED: Sektor-Analyse
+  const topSectors = useMemo(() => {
+    const sectorAnalysis = new Map<string, { value: number, count: number }>()
+    
+    Object.values(holdingsHistory).forEach(snaps => {
+      if (!snaps || snaps.length === 0) return
+      
+      const latest = snaps[snaps.length - 1]?.data
+      if (!latest?.positions) return
+      
+      latest.positions.forEach((p: any) => {
+        const sector = getSectorFromPosition({
+          cusip: p.cusip,
+          ticker: getTicker(p)
+        })
+        
+        const germanSector = translateSector(sector)
+        
+        const current = sectorAnalysis.get(germanSector)
+        
+        if (current) {
+          current.value += p.value
+          current.count += 1
+        } else {
+          sectorAnalysis.set(germanSector, { value: p.value, count: 1 })
+        }
+      })
+    })
+
+    return Array.from(sectorAnalysis.entries())
+      .map(([sector, { value, count }]) => ({ sector, value, count }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 6)
+  }, [])
+
+  // 🚀 MEMOIZED: Geographic Exposure
+  const { usValue, internationalValue, usPercentage, intlPercentage } = useMemo(() => {
     let usValue = 0
     let internationalValue = 0
     
@@ -635,9 +656,7 @@ export default function MarketInsightsPage() {
     const intlPercentage = totalValue > 0 ? (internationalValue / totalValue) * 100 : 0
     
     return { usValue, internationalValue, usPercentage, intlPercentage }
-  }
-
-  const { usValue, internationalValue, usPercentage, intlPercentage } = getGeographicExposure()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-950 noise-bg">
@@ -678,7 +697,7 @@ export default function MarketInsightsPage() {
               </p>
               
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                <span>📋 {dataSourceStats.filingsInPeriod} Filings • {selectedOption?.label || 'Aktueller Zeitraum'}</span>
+                <span>📋 {dataSourceStats.filingsInPeriod} Filings • {quarterOptions.find(opt => opt.id === selectedPeriod)?.label || 'Aktueller Zeitraum'}</span>
                 <span>📅 Letztes Update: {dataSourceStats.lastUpdated.split('-').reverse().join('.')}</span>
               </div>
             </div>
@@ -687,12 +706,12 @@ export default function MarketInsightsPage() {
           <div className="mt-8 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
               <div>
-                <strong className="text-green-400">Aktivste Investoren:</strong> Anzahl signifikanter Portfolio-Änderungen in den letzten 3 Quartalen.
-                Gezählt werden Käufe/Verkäufe von mehr als 100 Aktien.
+                <strong className="text-green-400">Intelligente Quartal-Logik:</strong> Das "neueste Quartal" wird nur angezeigt, 
+                wenn mindestens 50% der aktiven Investoren ihre 13F-Filings eingereicht haben. Aktuell: {actualLatestQuarter}
               </div>
               <div>
-                <strong className="text-green-400">Große Bewegungen:</strong> Änderungen der Portfolio-Gewichtung von mehr als 2% zwischen den letzten beiden Quartalen.
-                Zeigt die dramatischsten Umschichtungen.
+                <strong className="text-green-400">Aktivste Investoren:</strong> Anzahl signifikanter Portfolio-Änderungen in den letzten 3 Quartalen.
+                Gezählt werden Käufe/Verkäufe von mehr als 100 Aktien.
               </div>
             </div>
           </div>
@@ -701,37 +720,33 @@ export default function MarketInsightsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-        {/* Stats Overview */}
-        <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          <div className={`bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm transform transition-all duration-1000 ${
-            statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
+        {/* Stats Overview - OHNE Animationen */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
                 <ArrowTrendingUpIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
-                  {useCountUp(topBuys.filter(buy => buy.count > 0).length, 2000, statsVisible)}
+                  {topBuys.filter(buy => buy.count > 0).length}
                 </p>
                 <p className="text-gray-400 text-sm">Gekaufte Aktien</p>
                 <p className="text-gray-600 text-xs">
-                  {dataSourceStats.investorsWithData} Investoren • {selectedOption?.label}
+                  {dataSourceStats.investorsWithData} Investoren • {quarterOptions.find(opt => opt.id === selectedPeriod)?.label}
                 </p>
               </div>
             </div>
           </div>
           
-          <div className={`bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm transform transition-all duration-1000 ${
-            statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`} style={{ transitionDelay: '200ms' }}>
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
                 <FireIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
-                  {useCountUp(topOwned.length, 2200, statsVisible)}
+                  {topOwned.length}
                 </p>
                 <p className="text-gray-400 text-sm">Beliebte Aktien</p>
                 <p className="text-gray-600 text-xs">Von 2+ Investoren gehalten</p>
@@ -739,16 +754,14 @@ export default function MarketInsightsPage() {
             </div>
           </div>
           
-          <div className={`bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm transform transition-all duration-1000 ${
-            statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`} style={{ transitionDelay: '400ms' }}>
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
                 <CurrencyDollarIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
-                  {useCountUp(Math.round(biggestInvestments.reduce((sum, inv) => sum + inv.value, 0) / 1_000_000_000), 2400, statsVisible)}
+                  {Math.round(biggestInvestments.reduce((sum, inv) => sum + inv.value, 0) / 1_000_000_000)}
                 </p>
                 <p className="text-gray-400 text-sm">Mrd. $ Investment</p>
                 <p className="text-gray-600 text-xs">Top 20 Positionen</p>
@@ -756,16 +769,14 @@ export default function MarketInsightsPage() {
             </div>
           </div>
 
-          <div className={`bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm transform transition-all duration-1000 ${
-            statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`} style={{ transitionDelay: '600ms' }}>
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
                 <BuildingOfficeIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
-                  {useCountUp(topSectors.length, 2600, statsVisible)}
+                  {topSectors.length}
                 </p>
                 <p className="text-gray-400 text-sm">Top Sektoren</p>
                 <p className="text-gray-600 text-xs">Nach Investment-Volumen</p>
@@ -774,13 +785,11 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Main Charts Grid */}
-        <div ref={chartsRef} className={`grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 transform transition-all duration-1000 ${
-          chartsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        {/* Main Charts Grid - OHNE Animationen */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           
-          {/* Top Käufe Chart */}
-          <div className="relative bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200 overflow-visible">
+          {/* Top Käufe Chart - FIXED Dropdown functionality */}
+          <div className="relative bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200 overflow-visible">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
@@ -798,16 +807,14 @@ export default function MarketInsightsPage() {
               />
             </div>
 
-            {selectedOption && (
-              <div className="mb-4 flex items-center justify-between text-xs text-gray-500 border-b border-gray-800/50 pb-3">
-                <span>
-                  📊 {dataSourceStats.filingsInPeriod} Filings aus {selectedOption.description}
-                </span>
-                <span>
-                  {dataSourceStats.investorsWithData} aktive Investoren
-                </span>
-              </div>
-            )}
+            <div className="mb-4 flex items-center justify-between text-xs text-gray-500 border-b border-gray-800/50 pb-3">
+              <span>
+                📊 {dataSourceStats.filingsInPeriod} Filings aus {quarterOptions.find(opt => opt.id === selectedPeriod)?.description}
+              </span>
+              <span>
+                {dataSourceStats.investorsWithData} aktive Investoren
+              </span>
+            </div>
             
             <div className="space-y-3 max-h-[500px] overflow-y-auto">
               {topBuys.length > 0 ? (
@@ -847,13 +854,14 @@ export default function MarketInsightsPage() {
                 <div className="text-center py-8 text-gray-500">
                   <CalendarIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
                   <p className="text-sm">Keine Käufe in diesem Zeitraum</p>
+                  <p className="text-xs mt-1">Versuche einen anderen Zeitraum</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Beliebteste Aktien */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
                 <FireIcon className="w-5 h-5 text-green-400" />
@@ -901,7 +909,7 @@ export default function MarketInsightsPage() {
           </div>
 
           {/* Größte Investments */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200">
+          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
                 <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
@@ -949,10 +957,8 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Investment Strategien */}
-        <div ref={sectorsRef} className={`mb-16 transform transition-all duration-1000 ${
-          sectorsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        {/* Investment Strategien - OHNE Animationen */}
+        <div className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
               <StarIcon className="w-4 h-4" />
@@ -1287,10 +1293,8 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Portfolio Konzentration Analysis */}
-        <div className={`mb-16 transform transition-all duration-1000 ${
-          sectorsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        {/* Portfolio Konzentration Analysis - OHNE Animationen */}
+        <div className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
               <ShieldCheckIcon className="w-4 h-4" />
@@ -1315,7 +1319,7 @@ export default function MarketInsightsPage() {
                 type: 'high' | 'medium' | 'low';
               }> = [];
 
-              ['buffett', 'ackman', 'smith', 'gates', 'marks', 'icahn', 'einhorn', 'loeb', 'cooperman', 'tepper'].forEach(slug => {
+              ['buffett', 'ackman', 'smith', 'gates', 'marks', 'icahn', 'einhorn', 'loeb', 'tepper'].forEach(slug => {
                 const snaps = holdingsHistory[slug];
                 if (!snaps || snaps.length === 0) return;
 
@@ -1360,8 +1364,7 @@ export default function MarketInsightsPage() {
               return concentrationData.map((data, index) => (
                 <div
                   key={data.investor}
-                  className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200"
-                  style={{ transitionDelay: `${index * 100}ms` }}
+                  className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-bold text-white">{data.investor}</h3>
@@ -1382,7 +1385,7 @@ export default function MarketInsightsPage() {
                     </div>
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
-                        className={`h-2 rounded-full transition-all duration-1000 ${
+                        className={`h-2 rounded-full ${
                           data.type === 'high' ? 'bg-green-500' :
                           data.type === 'medium' ? 'bg-gray-500' : 'bg-gray-600'
                         }`}
@@ -1412,10 +1415,8 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Recent Activity Tracking */}
-        <div className={`mb-16 transform transition-all duration-1000 ${
-          sectorsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        {/* Recent Activity Tracking - OHNE Animationen */}
+        <div className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
               <ClockIcon className="w-4 h-4" />
@@ -1679,10 +1680,8 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Sektor-Analyse */}
-        <section className={`mb-16 transform transition-all duration-1000 ${
-          sectorsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        {/* Sektor-Analyse - OHNE Animationen */}
+        <section className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
               <BuildingOfficeIcon className="w-4 h-4" />
@@ -1701,8 +1700,7 @@ export default function MarketInsightsPage() {
             {topSectors.map((sector, index) => (
               <div
                 key={sector.sector}
-                className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-all duration-200"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200"
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-bold text-white">{sector.sector}</h3>
@@ -1725,10 +1723,8 @@ export default function MarketInsightsPage() {
           </div>
         </section>
 
-        {/* Geographic Exposure */}
-        <section className={`transform transition-all duration-1000 ${
-          sectorsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        {/* Geographic Exposure - OHNE Animationen */}
+        <section>
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
               <GlobeAltIcon className="w-4 h-4" />

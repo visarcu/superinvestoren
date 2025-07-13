@@ -9,51 +9,51 @@
       "name": "CHARTER COMMUNICATIONS",
       "cusip": "16119P108",
       "shares": 1204513,
-      "value": 868996
+      "value": 868996000
     },
     {
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 1256182,
-      "value": 813114
+      "value": 813114000
     },
     {
       "name": "ALPHABET INC - CL A",
       "cusip": "02079K305",
       "shares": 319916,
-      "value": 781168
+      "value": 781168000
     },
     {
       "name": "FACEBOOK INC",
       "cusip": "30303M102",
       "shares": 2235182,
-      "value": 777195
+      "value": 777195000
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 823333,
-      "value": 223041
+      "value": 223041000
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 228668,
-      "value": 82862
+      "value": 82862000
     },
     {
       "name": "MASTERCARD INC CL A",
       "cusip": "57636Q104",
       "shares": 176249,
-      "value": 64347
+      "value": 64347000
     },
     {
       "name": "VISA INC CL A",
       "cusip": "92826C839",
       "shares": 8514,
-      "value": 1991
+      "value": 1991000
     }
   ],
-  "totalValue": 3612714,
+  "totalValue": 3612714000,
   "positionsCount": 8
 }

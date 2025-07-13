@@ -1,4 +1,4 @@
-// src/app/analyse/[ticker]/news/page.tsx - EINHEITLICHER HEADER
+// src/app/analyse/[ticker]/news/page.tsx - KOSTENLOSE NEWS MIT GRÜNEM DESIGN
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -18,7 +18,10 @@ import {
   UserIcon,
   CalendarIcon,
   SparklesIcon,
-  ArrowLeftIcon
+  ArrowLeftIcon,
+  ChartBarIcon,
+  DocumentTextIcon,
+  BanknotesIcon
 } from '@heroicons/react/24/outline'
 import { 
   BookmarkIcon as BookmarkSolidIcon,
@@ -48,7 +51,7 @@ const mockNewsData: NewsArticle[] = [
     title: "Apple Reports Strong Q4 Earnings with Record Revenue Growth",
     url: "https://example.com/apple-earnings",
     publishedDate: "2024-11-08T10:30:00.000Z",
-    text: "Apple Inc. reported exceptional fourth-quarter earnings with revenue growing 8% year-over-year, driven by strong iPhone and Services performance...",
+    text: "Apple Inc. reported exceptional fourth-quarter earnings with revenue growing 8% year-over-year, driven by strong iPhone and Services performance. The company's diversified portfolio continues to show resilience amid global economic uncertainties.",
     image: "https://images.unsplash.com/photo-1611532736853-04841ac2c85b?w=400",
     site: "Financial News",
     symbol: "AAPL"
@@ -57,7 +60,7 @@ const mockNewsData: NewsArticle[] = [
     title: "Apple Vision Pro Sales Exceed Expectations in First Quarter",
     url: "https://example.com/vision-pro-sales",
     publishedDate: "2024-11-07T14:20:00.000Z",
-    text: "The Apple Vision Pro has shown remarkable market adoption with sales figures surpassing initial projections, marking a successful entry into spatial computing...",
+    text: "The Apple Vision Pro has shown remarkable market adoption with sales figures surpassing initial projections, marking a successful entry into spatial computing. Industry analysts are optimistic about the long-term potential of this new product category.",
     image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400",
     site: "Tech Today",
     symbol: "AAPL"
@@ -66,7 +69,7 @@ const mockNewsData: NewsArticle[] = [
     title: "Apple Announces New AI Features Coming to iOS 18.2",
     url: "https://example.com/ios-ai-features",
     publishedDate: "2024-11-06T16:45:00.000Z",
-    text: "Apple unveiled groundbreaking AI capabilities that will be integrated into iOS 18.2, including enhanced Siri functionality and improved machine learning...",
+    text: "Apple unveiled groundbreaking AI capabilities that will be integrated into iOS 18.2, including enhanced Siri functionality and improved machine learning capabilities across the ecosystem. These features represent a major step forward in Apple's AI strategy.",
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400",
     site: "Apple Insider",
     symbol: "AAPL"
@@ -75,7 +78,7 @@ const mockNewsData: NewsArticle[] = [
     title: "Institutional Investors Increase Apple Holdings in Q3",
     url: "https://example.com/institutional-holdings",
     publishedDate: "2024-11-05T11:15:00.000Z",
-    text: "Major institutional investors have significantly increased their Apple holdings during Q3, with Warren Buffett's Berkshire Hathaway leading the charge...",
+    text: "Major institutional investors have significantly increased their Apple holdings during Q3, with Warren Buffett's Berkshire Hathaway leading the charge. This reflects continued confidence in Apple's long-term growth prospects and financial stability.",
     image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400",
     site: "Market Watch",
     symbol: "AAPL"
@@ -84,7 +87,7 @@ const mockNewsData: NewsArticle[] = [
     title: "Apple Supplier Chain Optimization Boosts Profit Margins",
     url: "https://example.com/supply-chain",
     publishedDate: "2024-11-04T09:30:00.000Z",
-    text: "Apple's strategic supply chain improvements have resulted in enhanced profit margins and reduced production costs across multiple product lines...",
+    text: "Apple's strategic supply chain improvements have resulted in enhanced profit margins and reduced production costs across multiple product lines. The company continues to demonstrate operational excellence in managing global manufacturing partnerships.",
     image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400",
     site: "Supply Chain Digest",
     symbol: "AAPL"
@@ -105,7 +108,8 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
   // Get stock info for header
   const stock = stocks.find(s => s.ticker === ticker)
   
-  const ARTICLES_PER_PAGE = user?.isPremium ? 20 : 5
+  // ✅ NEWS SIND JETZT KOSTENLOS - 20 Artikel pro Seite für alle
+  const ARTICLES_PER_PAGE = 20
 
   // User laden
   useEffect(() => {
@@ -225,11 +229,6 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
     })
   }
 
-  const truncateText = (text: string, maxLength: number = 150) => {
-    if (text.length <= maxLength) return text
-    return text.substring(0, maxLength) + '...'
-  }
-
   const toggleSaveArticle = (articleUrl: string) => {
     const newSaved = new Set(savedArticles)
     if (newSaved.has(articleUrl)) {
@@ -318,6 +317,9 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <p className="text-theme-secondary">
               Aktuelle News und Marktentwicklungen für <span className="font-semibold text-green-400">{ticker}</span>
             </p>
+            <p className="text-theme-muted text-sm mt-1">
+              Kostenlos verfügbar • Täglich aktualisiert
+            </p>
           </div>
           
           <div className="flex items-center gap-2 px-3 py-2 bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm">
@@ -334,7 +336,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         )}
 
-        {/* ✅ FISCAL Filter Bar */}
+        {/* ✅ Filter Bar */}
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
@@ -348,7 +350,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
               onClick={() => setSelectedSource('all')}
               className={`px-3 py-1.5 rounded-lg transition-all text-sm ${
                 selectedSource === 'all'
-                  ? 'bg-blue-500 text-white'
+                  ? 'bg-green-500 text-white'
                   : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
               }`}
             >
@@ -361,7 +363,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                 onClick={() => setSelectedSource(source)}
                 className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-2 text-sm ${
                   selectedSource === source
-                    ? 'bg-blue-500 text-white'
+                    ? 'bg-green-500 text-white'
                     : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
                 }`}
               >
@@ -372,9 +374,9 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         </div>
 
-        {/* ✅ FISCAL News Articles */}
+        {/* ✅ News Articles - ALLE KOSTENLOS */}
         <div className="space-y-4">
-          {filteredNews.slice(0, user?.isPremium ? undefined : 5).map((article, index) => (
+          {filteredNews.map((article, index) => (
             <article 
               key={article.url + index}
               className="bg-theme-card rounded-xl hover:bg-theme-secondary/20 transition-all overflow-hidden group border border-theme/10"
@@ -399,10 +401,11 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                   <div className="flex-1 space-y-3">
                     {/* Article Header */}
                     <div className="flex items-start justify-between gap-4">
-                      <h2 className="text-lg font-semibold text-theme-primary leading-tight group-hover:text-blue-400 transition-colors">
+                      <h2 className="text-lg font-semibold text-theme-primary leading-tight group-hover:text-green-400 transition-colors">
                         {article.title}
                       </h2>
                       
+                      {/* ✅ Bookmark nur für Premium User */}
                       {user?.isPremium && (
                         <button
                           onClick={() => toggleSaveArticle(article.url)}
@@ -410,7 +413,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                         >
                           <BookmarkSolidIcon 
                             className={`w-4 h-4 ${
-                              savedArticles.has(article.url) ? 'text-yellow-400' : 'text-theme-muted'
+                              savedArticles.has(article.url) ? 'text-green-400' : 'text-theme-muted'
                             }`} 
                           />
                         </button>
@@ -430,15 +433,15 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                       </div>
                       
                       {article.symbol && (
-                        <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs font-medium">
+                        <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs font-medium">
                           {article.symbol}
                         </span>
                       )}
                     </div>
 
-                    {/* Article Text */}
+                    {/* ✅ Article Text - VOLLSTÄNDIG FÜR ALLE */}
                     <p className="text-theme-secondary text-sm leading-relaxed">
-                      {user?.isPremium ? article.text : truncateText(article.text, 200)}
+                      {article.text}
                     </p>
 
                     {/* Article Actions */}
@@ -447,19 +450,11 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                         href={article.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-colors text-sm font-medium"
                       >
                         <span>Artikel lesen</span>
                         <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                       </Link>
-                      
-                      {!user?.isPremium && index >= 2 && (
-                        <div className="text-xs text-theme-muted">
-                          <Link href="/pricing" className="text-blue-400 hover:underline">
-                            Premium für vollständige Artikel
-                          </Link>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -468,8 +463,8 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           ))}
         </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && user?.isPremium && (
+        {/* Pagination - für alle verfügbar */}
+        {totalPages > 1 && (
           <div className="flex items-center justify-center gap-4">
             <button
               onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
@@ -495,67 +490,96 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           </div>
         )}
 
-        {/* ✅ FISCAL Premium CTA */}
-        {!user?.isPremium && (
-          <div className="bg-theme-card rounded-xl p-8 text-center border border-theme/10">
-            <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center">
-              <NewspaperIcon className="w-8 h-8 text-white" />
+        {/* ✅ SUBTILER CTA für echte Premium Features */}
+        <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h3 className="text-lg font-semibold text-theme-primary mb-1">
+                Detaillierte {ticker} Analyse verfügbar
+              </h3>
+              <p className="text-theme-muted text-sm">
+                Financial Statements • Wachstumsanalyse • DCF Bewertung • Advanced Charts
+              </p>
             </div>
-            <h3 className="text-xl font-bold text-theme-primary mb-3">Unlimited News Access</h3>
-            <p className="text-theme-muted mb-6 max-w-xl mx-auto">
-              Erhalte Zugang zu allen Nachrichten, vollständigen Artikeltexten, erweiterten Filtern, 
-              Bookmark-Funktion und exklusiven Markt-Insights für {ticker} und 3000+ weitere Aktien.
+            
+            <div className="flex items-center gap-3">
+              <Link
+                href={`/analyse/stocks/${ticker.toLowerCase()}`}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+              >
+                <ChartBarIcon className="w-4 h-4" />
+                Zur Analyse
+              </Link>
+              
+              <Link
+                href={`/analyse/stocks/${ticker.toLowerCase()}/financials`}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded-lg transition-colors"
+              >
+                <DocumentTextIcon className="w-4 h-4" />
+                Financials
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* ✅ Premium User Benefits */}
+        {user?.isPremium && (
+          <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-xl p-6 border border-green-500/20">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                <SparklesIcon className="w-4 h-4 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-theme-primary">
+                Premium Aktiv - Erweiterte Features verfügbar
+              </h3>
+            </div>
+            <p className="text-theme-muted text-sm mb-4">
+              Du hast Zugang zu Financial Statements, Wachstumsanalysen, DCF Calculator und weiteren Premium-Features.
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6">
-              <div className="flex items-center gap-2 text-green-400 text-sm">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span>Unbegrenzte Artikel</span>
-              </div>
-              <div className="flex items-center gap-2 text-green-400 text-sm">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span>Vollständige Texte</span>
-              </div>
-              <div className="flex items-center gap-2 text-green-400 text-sm">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <span>Bookmark-Funktion</span>
-              </div>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href={`/analyse/stocks/${ticker.toLowerCase()}/financials`}
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-md text-sm hover:bg-green-500/30 transition-colors"
+              >
+                <DocumentTextIcon className="w-3 h-3" />
+                Financial Statements
+              </Link>
+              <Link
+                href={`/analyse/stocks/${ticker.toLowerCase()}/growth`}
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-md text-sm hover:bg-blue-500/30 transition-colors"
+              >
+                <ChartBarIcon className="w-3 h-3" />
+                Wachstumsanalyse
+              </Link>
+              <Link
+                href={`/dcf-calculator?ticker=${ticker}`}
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-500/20 text-purple-400 rounded-md text-sm hover:bg-purple-500/30 transition-colors"
+              >
+                <BanknotesIcon className="w-3 h-3" />
+                DCF Calculator
+              </Link>
             </div>
-            
-            <button className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg hover:from-green-400 hover:to-blue-400 transition-all">
-              Premium freischalten - Nur 9€/Monat
-            </button>
           </div>
         )}
 
-        {/* ✅ FISCAL CTA für Premium Users */}
-        {user?.isPremium && (
-          <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-theme-primary mb-1">
-                  Vollständige {ticker} Analyse
-                </h3>
-                <p className="text-theme-muted text-sm">
-                  Charts, Fundamentaldaten, Dividenden und technische Analyse
-                </p>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <Link
-                  href={`/analyse/stocks/${ticker.toLowerCase()}`}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
-                >
-                  Zur Analyse
-                </Link>
-              </div>
+        {/* ✅ Non-Premium User - Soft CTA */}
+        {!user?.isPremium && (
+          <div className="bg-theme-card rounded-xl p-6 border border-theme/10 text-center">
+            <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl flex items-center justify-center">
+              <SparklesIcon className="w-6 h-6 text-green-400" />
             </div>
+            <h3 className="text-lg font-semibold text-theme-primary mb-2">
+              Erweiterte Analyse-Tools
+            </h3>
+            <p className="text-theme-muted text-sm mb-4 max-w-md mx-auto">
+              Erhalte Zugang zu Financial Statements, Wachstumsanalysen, DCF Calculator und erweiterten Charts für {ticker} und 3000+ weitere Aktien.
+            </p>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors text-sm"
+            >
+              Premium Features entdecken
+            </Link>
           </div>
         )}
       </main>

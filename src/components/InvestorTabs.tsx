@@ -1,15 +1,15 @@
-// src/components/InvestorTabs.tsx - FINALE VERSION: 6/5 Tabs mit Filings getrennt
+// src/components/InvestorTabs.tsx - MIT PUT-ANZEIGE FÜR BURRY
 'use client'
 
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { 
   ChartBarIcon,
-  ArrowsRightLeftIcon, // Transaktionen
-  CurrencyDollarIcon,  // Dividenden
-  ChartPieIcon,        // Analytics
-  DocumentTextIcon,    // Filings - EIGENER TAB!
-  SparklesIcon,        // AI - ALLEINE!
+  ArrowsRightLeftIcon,
+  CurrencyDollarIcon,
+  ChartPieIcon,
+  DocumentTextIcon,
+  SparklesIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   BoltIcon
@@ -25,6 +25,15 @@ interface Position {
   deltaShares: number
   pctDelta: number
   ticker?: string
+  // ✅ Option-Informationen (passend zu Burry JSON)
+  optionType?: 'STOCK' | 'CALL' | 'PUT' | 'OPTION'
+  typeInfo?: {
+    label: string
+    emoji: string
+    sentiment: 'bullish' | 'bearish' | 'neutral'
+  }
+  titleOfClass?: string | null
+  putCall?: string | null
 }
 
 interface HistoryGroup {
@@ -32,13 +41,10 @@ interface HistoryGroup {
   items: Position[]
 }
 
-// ✅ FINALE Tab-Struktur: 6 Tabs für Buffett/Gates, 5 für andere
 export type Tab = 'portfolio' | 'transactions' | 'dividends' | 'analytics' | 'filings' | 'ai'
 
-// Sub-Filter für Transaktionen
 type TransactionFilter = 'all' | 'buys' | 'sells'
 
-// Tab-Konfiguration Interface
 interface TabConfig {
   key: Tab
   label: string
@@ -47,7 +53,6 @@ interface TabConfig {
   description?: string
 }
 
-// Mapping von CUSIP → Ticker
 const cusipToTicker: Record<string,string> = {}
 ;(stocks as Stock[]).forEach(s => {
   if (s.cusip) cusipToTicker[s.cusip] = s.ticker
@@ -71,7 +76,6 @@ export default function InvestorTabs({
   const [transactionFilter, setTransactionFilter] = useState<TransactionFilter>('all')
   const [showAll, setShowAll] = useState(false)
 
-  // ✅ FINALE Tab-Konfiguration: Filings immer dabei, Dividenden nur für bestimmte
   const getTabsForInvestor = (slug: string): TabConfig[] => {
     const baseTabs: TabConfig[] = [
       { 
@@ -88,7 +92,6 @@ export default function InvestorTabs({
       },
     ]
 
-    // ✅ Dividenden-Tab nur für Dividend-fokussierte Investoren
     if (['buffett', 'gates'].includes(slug)) {
       baseTabs.push({ 
         key: 'dividends', 
@@ -99,7 +102,6 @@ export default function InvestorTabs({
       })
     }
 
-    // ✅ Analytics, Filings und AI sind IMMER dabei
     baseTabs.push(
       { 
         key: 'analytics', 
@@ -126,7 +128,6 @@ export default function InvestorTabs({
 
   const availableTabs = getTabsForInvestor(investorSlug)
 
-  // Formatierung
   const fmtShares = new Intl.NumberFormat('de-DE')
   const fmtValue = new Intl.NumberFormat('de-DE', {
     style: 'currency',
@@ -139,7 +140,6 @@ export default function InvestorTabs({
     maximumFractionDigits: 2,
   })
 
-  // Kombiniere Käufe + Verkäufe für Transaktionen-Tab
   const allTransactions: HistoryGroup[] = buys.map((bGroup, idx) => {
     const sGroup = sells[idx] || { period: bGroup.period, items: [] }
     return {
@@ -150,7 +150,6 @@ export default function InvestorTabs({
     }
   })
 
-  // Gefilterte Transaktionen basierend auf Filter
   const getFilteredTransactions = (): HistoryGroup[] => {
     switch (transactionFilter) {
       case 'buys': return buys
@@ -159,10 +158,8 @@ export default function InvestorTabs({
     }
   }
 
-  // Holdings für Portfolio-Tab
   const displayedHoldings = showAll ? holdings : holdings.slice(0, 20)
 
-  // Hilfsfunktionen
   const getTicker = (position: Position): string | undefined => {
     if (position.ticker) return position.ticker
     return cusipToTicker[position.cusip]
@@ -187,10 +184,16 @@ export default function InvestorTabs({
     return name
   }
 
-  // Name & Ticker Komponente
+  // ✅ WICHTIG: Name & Ticker mit Option-Anzeige
   const NameAndTicker = ({ position }: { position: Position }) => {
     const ticker = getTicker(position)
     const cleanName = getCleanCompanyName(position)
+    
+    // ✅ Option Type aus JSON lesen
+    const optionType = position.optionType || 'STOCK'
+    const showOptionBadge = optionType !== 'STOCK'
+    
+    console.log(`Position ${position.name}: optionType=${optionType}, showBadge=${showOptionBadge}`) // Debug
     
     if (ticker) {
       return (
@@ -208,12 +211,35 @@ export default function InvestorTabs({
           </div>
           
           <div className="min-w-0 flex-1">
-            <div className="font-semibold text-green-400 group-hover:text-green-300 transition-colors">
-              {ticker}
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-green-400 group-hover:text-green-300 transition-colors">
+                {ticker}
+              </span>
+              
+              {/* ✅ PUT/CALL BADGE - Das ist der wichtige Teil! */}
+              {showOptionBadge && (
+                <span className={`px-2 py-0.5 text-xs font-medium rounded border ${
+                  optionType === 'PUT' 
+                    ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' 
+                    : optionType === 'CALL'
+                      ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                      : 'bg-gray-500/20 text-gray-300 border-gray-500/30'
+                }`}>
+                  {optionType}
+                </span>
+              )}
             </div>
+            
             {cleanName !== ticker && (
               <div className="text-sm text-gray-400 font-normal truncate">
                 {cleanName}
+              </div>
+            )}
+            
+            {/* ✅ Zusätzliche Option-Details */}
+            {position.titleOfClass && showOptionBadge && (
+              <div className="text-xs text-gray-500 truncate">
+                Class: {position.titleOfClass}
               </div>
             )}
           </div>
@@ -224,14 +250,29 @@ export default function InvestorTabs({
     return (
       <div className="flex items-center gap-3">
         <div className="w-6 h-6 flex-shrink-0 bg-gray-700 rounded-full"></div>
-        <span className="text-white font-medium">{cleanName}</span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span className="text-white font-medium">{cleanName}</span>
+            {showOptionBadge && (
+              <span className={`px-2 py-0.5 text-xs font-medium rounded border ${
+                optionType === 'PUT' 
+                  ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' 
+                  : optionType === 'CALL'
+                    ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                    : 'bg-gray-500/20 text-gray-300 border-gray-500/30'
+              }`}>
+                {optionType}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
     <div>
-      {/* ✅ Tab Navigation - Jetzt mit bis zu 6 Tabs */}
+      {/* Tab Navigation */}
       <div className="flex flex-wrap gap-2 mb-6">
         {availableTabs.map(({ key, label, icon: Icon, isHighlighted, description }) => (
           <button
@@ -259,7 +300,7 @@ export default function InvestorTabs({
         ))}
       </div>
 
-      {/* Tab Content - Nur Portfolio und Transaktionen werden hier gerendert */}
+      {/* Tab Content */}
       {tab === 'portfolio' || tab === 'transactions' ? (
         <div className="bg-gray-900/30 border border-gray-800 rounded-xl overflow-hidden backdrop-blur-sm">
           
@@ -307,7 +348,6 @@ export default function InvestorTabs({
                 </tbody>
               </table>
 
-              {/* Show All Button */}
               {holdings.length > 20 && (
                 <div className="border-t border-gray-800 p-4 text-center bg-gray-800/30">
                   <button
@@ -323,10 +363,9 @@ export default function InvestorTabs({
             </div>
           )}
 
-          {/* TRANSACTIONS TAB mit Filter */}
+          {/* TRANSACTIONS TAB - mit Filter */}
           {tab === 'transactions' && (
             <div>
-              {/* Filter Header */}
               <div className="flex flex-wrap gap-2 p-4 border-b border-gray-800 bg-gray-800/20">
                 <div className="flex items-center gap-2 mr-4">
                   <ArrowsRightLeftIcon className="w-4 h-4 text-gray-400" />
@@ -360,7 +399,6 @@ export default function InvestorTabs({
                 ))}
               </div>
 
-              {/* Transaktions-Tabelle */}
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-gray-100">
                   <thead>
@@ -374,7 +412,6 @@ export default function InvestorTabs({
                   <tbody>
                     {getFilteredTransactions().map((group, gi) => (
                       <React.Fragment key={gi}>
-                        {/* Quartals-Header */}
                         <tr>
                           <td colSpan={4} className="bg-gray-800/70 px-6 py-3 border-t border-gray-700 font-bold text-white uppercase tracking-wide text-sm">
                             {group.period}
@@ -448,7 +485,6 @@ export default function InvestorTabs({
           )}
         </div>
       ) : (
-        // Dividends, Analytics, Filings, AI Content wird von Parent-Komponente gerendert
         <div>
           {/* Content für dividends, analytics, filings, ai wird in parent page.tsx gehandhabt */}
         </div>

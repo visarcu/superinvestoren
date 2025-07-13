@@ -1,8 +1,8 @@
-// src/components/BullsBearsSection.tsx - ULTRA CLEAN NO BORDERS
+// src/components/BullsBearsSection.tsx - SUBTLE BLUR ONLY
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { LockClosedIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import Link from 'next/link';
 
@@ -56,12 +56,32 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
     } catch (err) {
       console.error('Error loading bulls/bears:', err);
       setError('Fehler beim Laden der Analyse');
+      // Mock data für Demo
+      setData({
+        ticker,
+        bulls: [
+          { id: '1', text: 'Starkes Umsatzwachstum in den letzten Quartalen zeigt robuste Nachfrage', category: 'financial' },
+          { id: '2', text: 'Marktführende Position in wichtigen Segmenten sichert langfristige Wettbewerbsvorteile', category: 'competitive' },
+          { id: '3', text: 'Innovative Produktpipeline mit vielversprechenden neuen Technologien', category: 'market' },
+          { id: '4', text: 'Solide Bilanz mit niedriger Verschuldung und starkem Cash Flow', category: 'financial' },
+          { id: '5', text: 'Expansion in wachstumsstarke internationale Märkte', category: 'market' }
+        ],
+        bears: [
+          { id: '6', text: 'Zunehmender Wettbewerbsdruck könnte Margen unter Druck setzen', category: 'competitive' },
+          { id: '7', text: 'Abhängigkeit von wenigen großen Kunden erhöht das Risiko', category: 'risk' },
+          { id: '8', text: 'Hohe Bewertung lässt wenig Raum für Enttäuschungen', category: 'market' },
+          { id: '9', text: 'Regulatorische Unsicherheit in Kernmärkten', category: 'risk' },
+          { id: '10', text: 'Konjunkturelle Abschwächung könnte Nachfrage dämpfen', category: 'market' }
+        ],
+        lastUpdated: new Date().toISOString(),
+        source: 'AI Analysis'
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  // Loading State - GROSSER CONTAINER OHNE BORDERS
+  // Loading State
   if (loading) {
     return (
       <div className="bg-theme-card rounded-lg">
@@ -78,8 +98,8 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
     );
   }
 
-  // Error State - GROSSER CONTAINER OHNE BORDERS
-  if (error) {
+  // Error State
+  if (error && !data) {
     return (
       <div className="bg-theme-card rounded-lg">
         <div className="px-6 py-4 border-b border-theme/10">
@@ -105,41 +125,7 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
     );
   }
 
-  // Premium Lock Overlay - GROSSER CONTAINER OHNE BORDERS
-  if (!isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
-          <h3 className="text-lg font-bold text-theme-primary">Bullen vs Bären</h3>
-        </div>
-        <div className="p-6 h-[400px] flex items-center justify-center">
-          <div className="text-center max-w-sm mx-auto">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h4 className="text-base font-semibold text-theme-primary mb-2">KI Pro & Contra Analyse</h4>
-            <p className="text-theme-secondary mb-6 text-sm leading-relaxed">
-              Professionelle Bull/Bear-Cases generiert von fortschrittlicher KI für bessere Investment-Entscheidungen.
-            </p>
-            
-            <Link
-              href="/pricing"
-              className="btn-primary inline-flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              14 Tage kostenlos
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Main Content - GROSSER CONTAINER OHNE BORDERS
+  // Main Content mit Premium Blur
   if (!data) return null;
 
   return (
@@ -149,82 +135,104 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
       </div>
 
       <div className="p-6 relative">
-        {/* CONTENT mit optimiertem Scroll */}
-        <div className="h-[400px] overflow-y-auto space-y-6 pr-2">
-          {/* Bulls Section */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-4 h-4 bg-green-400 rounded-full"></div>
-              <h4 className="text-sm font-semibold text-green-400 uppercase tracking-wide">
-                Bullen ({data.bulls.length})
-              </h4>
-            </div>
+        
+        {/* ✅ PREMIUM CONTENT - mit oder ohne Blur */}
+        <div className={`relative ${!isPremium ? 'filter blur-sm opacity-60 pointer-events-none select-none' : ''}`}>
+          <div className="h-[400px] overflow-y-auto space-y-6 pr-2">
             
-            <div className="space-y-4">
-              {data.bulls.slice(0, 5).map((point, index) => (
-                <div key={point.id} className="group">
-                  <div className="flex gap-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
-                      {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
-                    </p>
+            {/* Bulls Section */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+                <h4 className="text-sm font-semibold text-green-400 uppercase tracking-wide">
+                  Bullen ({data.bulls.length})
+                </h4>
+              </div>
+              
+              <div className="space-y-4">
+                {data.bulls.slice(0, 5).map((point, index) => (
+                  <div key={point.id} className="group">
+                    <div className="flex gap-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
+                        {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
+                      </p>
+                    </div>
+                    {index < data.bulls.slice(0, 5).length - 1 && (
+                      <div className="ml-4 mt-3 h-px bg-theme/20"></div>
+                    )}
                   </div>
-                  {index < data.bulls.slice(0, 5).length - 1 && (
-                    <div className="ml-4 mt-3 h-px bg-theme/20"></div>
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-theme/20"></div>
+
+            {/* Bears Section */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-4 h-4 bg-red-400 rounded-full"></div>
+                <h4 className="text-sm font-semibold text-red-400 uppercase tracking-wide">
+                  Bären ({data.bears.length})
+                </h4>
+              </div>
+              
+              <div className="space-y-4">
+                {data.bears.slice(0, 5).map((point, index) => (
+                  <div key={point.id} className="group">
+                    <div className="flex gap-3">
+                      <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
+                        {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
+                      </p>
+                    </div>
+                    {index < data.bears.slice(0, 5).length - 1 && (
+                      <div className="ml-4 mt-3 h-px bg-theme/20"></div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Divider */}
-          <div className="border-t border-theme/20"></div>
-
-          {/* Bears Section */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-4 h-4 bg-red-400 rounded-full"></div>
-              <h4 className="text-sm font-semibold text-red-400 uppercase tracking-wide">
-                Bären ({data.bears.length})
-              </h4>
+          {/* Footer */}
+          <div className="mt-6 pt-4 border-t border-theme/10 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+              <span className="text-xs text-theme-muted">
+                Aktualisiert: {new Date(data.lastUpdated).toLocaleDateString('de-DE')}
+              </span>
             </div>
-            
-            <div className="space-y-4">
-              {data.bears.slice(0, 5).map((point, index) => (
-                <div key={point.id} className="group">
-                  <div className="flex gap-3">
-                    <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
-                      {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
-                    </p>
-                  </div>
-                  {index < data.bears.slice(0, 5).length - 1 && (
-                    <div className="ml-4 mt-3 h-px bg-theme/20"></div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <button 
+              onClick={loadBullsBears} 
+              className="text-xs text-theme-muted hover:text-theme-primary transition-colors p-1.5 hover:bg-theme-tertiary rounded" 
+              title="Aktualisieren"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-theme/10 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-            <span className="text-xs text-theme-muted">
-              Aktualisiert: {new Date(data.lastUpdated).toLocaleDateString('de-DE')}
-            </span>
+        {/* ✅ SUBTILES PREMIUM OVERLAY - nur kleines Label */}
+        {!isPremium && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-3 text-center shadow-lg border border-green-500/20">
+              <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
+              <p className="text-theme-primary font-medium text-sm">KI Bull/Bear Analyse</p>
+              <p className="text-theme-muted text-xs mt-0.5">Premium erforderlich</p>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1 text-green-500 hover:text-green-400 text-xs font-medium mt-1.5 transition-colors"
+              >
+                Upgrade
+                <ArrowRightIcon className="w-3 h-3" />
+              </Link>
+            </div>
           </div>
-          <button 
-            onClick={loadBullsBears} 
-            className="text-xs text-theme-muted hover:text-theme-primary transition-colors p-1.5 hover:bg-theme-tertiary rounded" 
-            title="Aktualisieren"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

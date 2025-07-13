@@ -113,13 +113,7 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
-  //{
-    //name: 'Steven Romick',
-    //slug: 'romick',
-    //imageUrl: '/images/neuer-investor.png',
-    //updatedAt: '31.12.2024',    
-    //holdings: [],
-  //},  
+
   {
     name: 'Seth Klarman - Baupost Group',
     slug: 'klarman',
@@ -129,12 +123,45 @@ export const investors: Investor[] = [
   },  
  
   {
-    name: 'Mairs & Power Growth Fund',
+    name: 'Mairs & Power Inc',
     slug: 'mairspower', 
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
+  {
+    name: 'TWEEDY, BROWNE FUND INC.',
+    slug: 'tweedy_browne_fund_inc', 
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Tom Bancroft - Makaira Partners',
+    slug: 'makaira', 
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Ray Dalio - Bridgewater Associates',
+    slug: 'dalio', 
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Kahn Brothers Group',
+    slug: 'kahn', 
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
   {
     name: 'Robert Vinall – RV Capital GmbH',
     slug: 'vinall',
@@ -150,12 +177,21 @@ export const investors: Investor[] = [
     holdings: [],
   },  
   {
-    name: 'Dodge & Cox',
+    name: 'Van Duyn Dodge & E. Morris Cox - Dodge & Cox',
     slug: 'dodgecox',  
     imageUrl: '/images/dodgecox.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
+  {
+    name: 'Richard Pzena - Pzena Investment Management',
+    slug: 'pzena',  
+    imageUrl: '/images/dodgecox.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
   {
     name: 'Edgar Wachenheim - Greenhaven Associates',
     slug: 'greenhaven',
@@ -170,13 +206,32 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
   {
-    name: 'Ruane Cunniff – Sequoia Fund',
+    name: 'First Eagle Investment Management',
+    slug: 'firsteagle',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Ruane, Cunniff & Goldfarb L.P',
     slug: 'cunniff',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
+
+
+  {
+    name: 'Samantha McLemore - Patient Capital Management',
+    slug: 'patientcapital',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
 
   {
     name: 'Greg Alexander – Conifer Management',
@@ -189,6 +244,14 @@ export const investors: Investor[] = [
     name: 'Mark Massey - Altarock Partners',
     slug: 'altarockpartners',
     imageUrl: '/images/altarockpartners.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'Francois Rochon - Giverny Capital',
+    slug: 'rochon',
+    imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
@@ -212,6 +275,14 @@ export const investors: Investor[] = [
   {
     name: 'Glenn Greenberg (Brave Warrior Advisors)',
     slug: 'greenberg',
+    imageUrl: '/images/greenberg.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },  
+
+  {
+    name: 'George Soros - Soros Fund Management Llc',
+    slug: 'soros',
     imageUrl: '/images/greenberg.png',
     updatedAt: '31.12.2024',    
     holdings: [],
@@ -428,6 +499,13 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
+  {
+    name: 'Daniel Loeb - Third Point',
+    slug: 'loeb',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
 
   {
     name: 'Adam Wyden - ADW Capital Management',
@@ -551,16 +629,9 @@ export const investors: Investor[] = [
     holdings: [],
   }, 
 
+
   {
-    name: 'Bill Nygren - Oakmark Select Fund',
-    slug: 'nygren',
-    imageUrl: '/images/neuer-investor.png',
-    updatedAt: '31.12.2024',    
-    holdings: [],
-  }, 
- 
-  {
-    name: 'Robert Torray - Torray Fund',
+    name: 'Robert Torray - TORRAY INVESTMENT PARTNERS LLC',
     slug: 'torray',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
@@ -568,7 +639,7 @@ export const investors: Investor[] = [
   }, 
 
   {
-    name: 'John Rogers - Ariel Appreciation Fund',
+    name: 'John Rogers - Ariel Investments',
     slug: 'rogers',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
@@ -576,7 +647,7 @@ export const investors: Investor[] = [
   }, 
 
   {
-    name: 'David Katz - Matrix Advisors Value Fund',
+    name: 'David Katz - Matrix Asset Advisors Inc/ny',
     slug: 'katz',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
@@ -607,6 +678,7 @@ export const investors: Investor[] = [
     holdings: [],
   }, 
 
+  
   {
     name: 'Marty Whitman - Third Avenue Management',
     slug: 'whitman',
@@ -638,10 +710,63 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
+
+
+  {
+    name: 'Joel Greenblatt - Gotham Asset Management',
+    slug: 'greenblatt',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+
+  {
+    name: 'Ken Fisher - Fisher Asset Management Llc',
+    slug: 'fisher',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+
+
  
   {
     name: 'Nicolai Tangen - AKO Capital',
     slug: 'tangen',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Meridian Contrarian Fund',
+    slug: 'meridiancontrarian',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Connor Haley - Alta Fox Capital Management',
+    slug: 'haley',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+ 
+  {
+    name: 'Arnold Van Den Berg - Van Den Berg Management',
+    slug: 'vandenberg',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Wallace Weitz - Weitz Investment Management',
+    slug: 'weitz',
     imageUrl: '/images/neuer-investor.png',
     updatedAt: '31.12.2024',    
     holdings: [],

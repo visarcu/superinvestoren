@@ -9,183 +9,431 @@
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 430000,
-      "value": 12169000
+      "value": 12169000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "MICROSTRATEGY INC",
       "cusip": "594972AC5",
       "shares": 2650000,
-      "value": 11355250
+      "value": 11355250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "NOTE 0.750%12/1",
+      "putCall": null
     },
     {
       "name": "AT&T INC",
       "cusip": "00206R102",
       "shares": 588000,
-      "value": 10348800
+      "value": 10348800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JACKSON FINANCIAL INC",
       "cusip": "46817M107",
       "shares": 152610,
-      "value": 10093625
+      "value": 10093625,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "BREAD FINANCIAL HOLDINGS INC",
       "cusip": "018581108",
       "shares": 254770,
-      "value": 9487635
+      "value": 9487635,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WESTERN ALLIANCE BANCORP",
       "cusip": "957638109",
       "shares": 144305,
-      "value": 9262938
+      "value": 9262938,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ONEMAIN HLDGS INC",
       "cusip": "68268W103",
       "shares": 153000,
-      "value": 7816770
+      "value": 7816770,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "QUAD / GRAPHICS INC",
       "cusip": "747301109",
       "shares": 1430300,
-      "value": 7594893
+      "value": 7594893,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "CTO RLTY GROWTH INC NEW",
       "cusip": "22948Q101",
       "shares": 443900,
-      "value": 7524105
+      "value": 7524105,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "VIATRIS INC",
       "cusip": "92556V106",
       "shares": 619000,
-      "value": 7390860
+      "value": 7390860,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LINCOLN NATL CORP IND",
       "cusip": "534187109",
       "shares": 198990,
-      "value": 6353751
+      "value": 6353751,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CHORD ENERGY CORPORATION",
       "cusip": "674215207",
       "shares": 34670,
-      "value": 6179581
+      "value": 6179581,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "BOISE CASCADE CO DEL",
       "cusip": "09739D100",
       "shares": 40000,
-      "value": 6134800
+      "value": 6134800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BUCKLE INC",
       "cusip": "118440106",
       "shares": 150000,
-      "value": 6040500
+      "value": 6040500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GANNETT CO INC",
       "cusip": "36472T109",
       "shares": 2468575,
-      "value": 6023323
+      "value": 6023323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NABORS INDUSTRIES LTD",
       "cusip": "G6359F137",
       "shares": 69761,
-      "value": 6008515
+      "value": 6008515,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "UGI CORP NEW",
       "cusip": "902681105",
       "shares": 167000,
-      "value": 4098180
+      "value": 4098180,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BRISTOL-MYERS SQUIBB CO",
       "cusip": "110122108",
       "shares": 60000,
-      "value": 3253800
+      "value": 3253800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TUTOR PERINI CORP",
       "cusip": "901109108",
       "shares": 214560,
-      "value": 3102538
+      "value": 3102538,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GRAY TELEVISION INC",
       "cusip": "389375106",
       "shares": 489188,
-      "value": 3091668
+      "value": 3091668,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ENCORE WIRE CORP",
       "cusip": "292562105",
       "shares": 11000,
-      "value": 2890580
+      "value": 2890580,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CONDUENT INC",
       "cusip": "206787103",
       "shares": 718600,
-      "value": 2428868
+      "value": 2428868,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ALLIANCE RESOURCE PARTNERS L",
       "cusip": "01877R108",
       "shares": 117000,
-      "value": 2345850
+      "value": 2345850,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "UT LTD PART",
+      "putCall": null
     },
     {
       "name": "GEO GROUP INC NEW",
       "cusip": "36162J106",
       "shares": 145000,
-      "value": 2047400
+      "value": 2047400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "AMERICAN AXLE & MFG HLDGS IN",
       "cusip": "024061103",
       "shares": 198355,
-      "value": 1459893
+      "value": 1459893,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FOSSIL GROUP INC",
       "cusip": "34988V106",
       "shares": 1091750,
-      "value": 1113585
+      "value": 1113585,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CLEVELAND-CLIFFS INC NEW",
       "cusip": "185899101",
       "shares": 9198,
-      "value": 209163
+      "value": 209163,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TECHNIPFMC PLC",
       "cusip": "G87110105",
       "shares": 8185,
-      "value": 205525
+      "value": 205525,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PITNEY BOWES INC",
       "cusip": "724479100",
       "shares": 40584,
-      "value": 175729
+      "value": 175729,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TEVA PHARMACEUTICAL INDS LTD",
       "cusip": "881624209",
       "shares": 11600,
-      "value": 163676
+      "value": 163676,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     }
   ],
   "totalValue": 156370801,
-  "positionsCount": 30
+  "positionsCount": 30,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 156370801
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

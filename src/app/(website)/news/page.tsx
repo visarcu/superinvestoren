@@ -246,7 +246,7 @@ export default function NewsPage() {
               <div className="text-gray-400">Analysen</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-2">70+</div>
+              <div className="text-3xl font-bold text-white mb-2">90+</div>
               <div className="text-gray-400">Getrackte Investoren</div>
             </div>
             <div className="text-center">

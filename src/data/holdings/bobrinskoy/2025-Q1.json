@@ -1,180 +1,233 @@
 {
-  "date": "2025-06-05",
+  "form": "NPORT-P",
+  "date": "2025-02-20",
+  "period": "2024-12-31",
+  "accession": "0001145549-25-007666",
+  "quarterKey": "2025-Q1",
   "positions": [
     {
-      "name": "Snap-On Inc.",
-      "cusip": "SNA00000",
-      "shares": 11559,
-      "value": 3895036,
-      "ticker": "SNA"
+      "name": "Adtalem Global Education Inc",
+      "cusip": "00737L103",
+      "shares": 1280535,
+      "value": 116336604.75
     },
     {
-      "name": "J.M. Smucker Co",
-      "cusip": "SJM00000",
-      "shares": 32707,
-      "value": 3873163,
-      "ticker": "SJM"
+      "name": "Northern Trust Corporation",
+      "cusip": "665859104",
+      "shares": 1120469,
+      "value": 114848072.5
     },
     {
-      "name": "BOK Financial Corp.",
-      "cusip": "BOKF00000",
-      "shares": 35784,
-      "value": 3726904,
-      "ticker": "BOKF"
+      "name": "Boyd Gaming Corporation",
+      "cusip": "103304101",
+      "shares": 1548230,
+      "value": 112308604.2
     },
     {
-      "name": "Mohawk Industries",
-      "cusip": "MHK00000",
-      "shares": 28524,
-      "value": 3256870,
-      "ticker": "MHK"
+      "name": "Carlyle Group Inc",
+      "cusip": "14316J108",
+      "shares": 2182992,
+      "value": 110219266.08
     },
     {
-      "name": "Chevron Corp.",
-      "cusip": "CVX00000",
-      "shares": 17608,
-      "value": 2945994,
-      "ticker": "CVX"
+      "name": "Madison Square Garden Entertainment Corp New",
+      "cusip": "558256103",
+      "shares": 3056024,
+      "value": 108794454.4
     },
     {
-      "name": "Bank of America Corp.",
-      "cusip": "BAC00000",
-      "shares": 68506,
-      "value": 2858755,
-      "ticker": "BAC"
+      "name": "Affiliated Managers Group, Inc",
+      "cusip": "008252108",
+      "shares": 546454,
+      "value": 101050273.68
     },
     {
-      "name": "Resideo Technologies Inc.",
-      "cusip": "REZI00000",
-      "shares": 159346,
-      "value": 2820424,
-      "ticker": "REZI"
+      "name": "The J M Smucker Company",
+      "cusip": "832696405",
+      "shares": 906622,
+      "value": 99837214.64
     },
     {
-      "name": "Lockheed Martin Corp.",
-      "cusip": "LMT00000",
-      "shares": 6144,
-      "value": 2745016,
-      "ticker": "LMT"
+      "name": "Lazard Inc",
+      "cusip": "52110M109",
+      "shares": 1877302,
+      "value": 96643506.96
     },
     {
-      "name": "PHINIA Inc.",
-      "cusip": "PHIN00000",
-      "shares": 64415,
-      "value": 2733128,
-      "ticker": "PHIN"
+      "name": "Paramount Global",
+      "cusip": "92556H206",
+      "shares": 9177602,
+      "value": 95997716.92
     },
     {
-      "name": "Affiliated Managers Group",
-      "cusip": "AMG00000",
-      "shares": 15533,
-      "value": 2610010,
-      "ticker": "AMG"
+      "name": "Envista Holdings Corporation",
+      "cusip": "29415F104",
+      "shares": 4908366,
+      "value": 94682380.14
     },
     {
-      "name": "Oracle Corp.",
-      "cusip": "ORCL00000",
-      "shares": 17762,
-      "value": 2482950,
-      "ticker": "ORCL"
+      "name": "Mohawk Industries, Inc",
+      "cusip": "608190104",
+      "shares": 765417,
+      "value": 91184127.21
     },
     {
-      "name": "APA Corp.",
-      "cusip": "APA00000",
-      "shares": 118076,
-      "value": 2481958,
-      "ticker": "APA"
+      "name": "Prestige Consumer Healthcare Inc",
+      "cusip": "74112D101",
+      "shares": 1140938,
+      "value": 89095848.42
     },
     {
-      "name": "Boyd Gaming Corp.",
-      "cusip": "BYD00000",
-      "shares": 36441,
-      "value": 2398911,
-      "ticker": "BYD"
+      "name": "Sphere Entertainment Co.",
+      "cusip": "55826T102",
+      "shares": 2119656,
+      "value": 85464529.92
     },
     {
-      "name": "Johnson & Johnson",
-      "cusip": "JNJ00000",
-      "shares": 14285,
-      "value": 2369024,
-      "ticker": "JNJ"
+      "name": "Jones Lang LaSalle Incorporated",
+      "cusip": "48020Q107",
+      "shares": 335895,
+      "value": 85028460.3
     },
     {
-      "name": "Labcorp Holdings Inc.",
-      "cusip": "LH00000",
-      "shares": 10134,
-      "value": 2358993,
-      "ticker": "LH"
+      "name": "Mattel, Inc",
+      "cusip": "577081102",
+      "shares": 4755930,
+      "value": 84322638.9
     },
     {
-      "name": "Goldman Sachs Group",
-      "cusip": "GS00000",
-      "shares": 3934,
-      "value": 2148987,
-      "ticker": "GS"
+      "name": "Generac Holdings Inc",
+      "cusip": "368736104",
+      "shares": 496535,
+      "value": 76987751.75
     },
     {
-      "name": "Bio-Rad Laboratories Inc.",
-      "cusip": "BIO00000",
-      "shares": 8123,
-      "value": 1978032,
-      "ticker": "BIO"
+      "name": "Bio-Rad Laboratories, Inc",
+      "cusip": "090572207",
+      "shares": 233122,
+      "value": 76582908.22
     },
     {
-      "name": "Schlumberger Ltd.",
-      "cusip": "SLB00000",
-      "shares": 46079,
-      "value": 1926102,
-      "ticker": "SLB"
+      "name": "ADT Inc",
+      "cusip": "00090Q103",
+      "shares": 10507416,
+      "value": 72606244.56
     },
     {
-      "name": "Mosaic Co.",
-      "cusip": "MOS00000",
-      "shares": 66915,
-      "value": 1806705,
-      "ticker": "MOS"
+      "name": "Leslie's Inc",
+      "cusip": "527064109",
+      "shares": 32000780,
+      "value": 71361739.4
     },
     {
-      "name": "First Amern Corp.",
-      "cusip": "FAF00000",
-      "shares": 27413,
-      "value": 1799115,
-      "ticker": "FAF"
+      "name": "Charles River Laboratories International, Inc",
+      "cusip": "159864107",
+      "shares": 379540,
+      "value": 70063084
     },
     {
-      "name": "Madison Square Garden Sports Corp.",
-      "cusip": "MSGS00000",
-      "shares": 8256,
-      "value": 1608021,
-      "ticker": "MSGS"
+      "name": "Madison Square Garden Sports Corp",
+      "cusip": "55825T103",
+      "shares": 306553,
+      "value": 69182881.04
     },
     {
-      "name": "Core Laboratories Inc.",
-      "cusip": "CLB00000",
-      "shares": 100965,
-      "value": 1513465,
-      "ticker": "CLB"
+      "name": "First American Financial Corporation",
+      "cusip": "31847R102",
+      "shares": 1094181,
+      "value": 68320661.64
     },
     {
-      "name": "Madison Square Garden Entertainment Corp.",
-      "cusip": "MSGE00000",
-      "shares": 42412,
-      "value": 1388993,
-      "ticker": "MSGE"
+      "name": "Axalta Coating Systems Limited",
+      "cusip": "G0750C108",
+      "shares": 1815278,
+      "value": 62118813.16
     },
     {
-      "name": "BorgWarner Inc.",
-      "cusip": "BWA00000",
-      "shares": 31842,
-      "value": 911955,
-      "ticker": "BWA"
+      "name": "Core Laboratories Inc",
+      "cusip": "21867A105",
+      "shares": 3505349,
+      "value": 60677591.19
     },
     {
-      "name": "ZimVie Inc.",
-      "cusip": "ZIMV00000",
-      "shares": 75617,
-      "value": 816664,
-      "ticker": "ZIMV"
+      "name": "Manchester United PLC",
+      "cusip": "G5784H106",
+      "shares": 3459051,
+      "value": 60014534.85
+    },
+    {
+      "name": "Gentex Corp",
+      "cusip": "371901109",
+      "shares": 2070821,
+      "value": 59494687.33
+    },
+    {
+      "name": "The Interpublic Group of Companies, Inc",
+      "cusip": "460690100",
+      "shares": 2058141,
+      "value": 57669110.82
+    },
+    {
+      "name": "Royal Caribbean Group",
+      "cusip": "V7780T103",
+      "shares": 244933,
+      "value": 56503593.77
+    },
+    {
+      "name": "Zebra Technologies Corporation",
+      "cusip": "989207105",
+      "shares": 143768,
+      "value": 55526076.96
+    },
+    {
+      "name": "BOK Financial Corp",
+      "cusip": "05561Q201",
+      "shares": 504588,
+      "value": 53713392.6
+    },
+    {
+      "name": "Janus Henderson Group PLC",
+      "cusip": "G4474Y214",
+      "shares": 1255223,
+      "value": 53384634.19
+    },
+    {
+      "name": "Resideo Technologies Inc",
+      "cusip": "76118Y104",
+      "shares": 2227075,
+      "value": 51334078.75
+    },
+    {
+      "name": "Kennametal Inc",
+      "cusip": "489170100",
+      "shares": 2125680,
+      "value": 51058833.6
+    },
+    {
+      "name": "Masco Corporation",
+      "cusip": "574599106",
+      "shares": 581567,
+      "value": 42204317.19
+    },
+    {
+      "name": "Middleby Corp",
+      "cusip": "596278101",
+      "shares": 264461,
+      "value": 35821242.45
+    },
+    {
+      "name": "GCM Grosvenor Inc",
+      "cusip": "36831E108",
+      "shares": 2070647,
+      "value": 25406838.69
+    },
+    {
+      "name": "Northern Institutional Funds",
+      "cusip": "665279873",
+      "shares": 16853353.44,
+      "value": 16853353.44
     }
-  ]
+  ],
+  "totalValue": 2732700068.6200004,
+  "positionsCount": 37
 }

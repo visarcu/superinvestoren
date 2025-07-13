@@ -499,7 +499,7 @@ export default function TickerInsiderPage() {
         </div>
         <div className="flex items-center gap-3">
           {user?.isPremium && (
-            <span className="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full font-medium">
+            <span className="px-2 py-1 bg-green-500/20 text-amber-400 text-xs rounded-full font-medium">
               Premium
             </span>
           )}

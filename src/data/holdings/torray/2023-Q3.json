@@ -1,200 +1,587 @@
 {
-  "form": "NPORT-P",
-  "date": "2023-10-30",
-  "period": "2023-10-30",
-  "accession": "0001145549-23-065144",
+  "form": "13F-HR",
+  "date": "2023-07-20",
+  "period": "2023-07-20",
+  "accession": "0000950123-23-006177",
   "quarterKey": "2023-Q3",
   "positions": [
     {
-      "name": "Berkshire Hathaway Inc",
-      "cusip": "084670702",
-      "shares": 61790,
-      "value": 22256758,
-      "pctOfPortfolio": 6.9798612606
-    },
-    {
-      "name": "Marsh & McLennan Cos Inc",
-      "cusip": "571748102",
-      "shares": 84956,
-      "value": 16565570.44,
-      "pctOfPortfolio": 5.1950685438
-    },
-    {
-      "name": "Eaton Corp PLC",
-      "cusip": null,
-      "shares": 69210,
-      "value": 15943907.7,
-      "pctOfPortfolio": 5.0001111437
-    },
-    {
-      "name": "Alphabet Inc",
+      "name": "Alphabet Class A",
       "cusip": "02079K305",
-      "shares": 100570,
-      "value": 13694616.9,
-      "pctOfPortfolio": 4.294719203
+      "shares": 184375,
+      "value": 22069688
+    },
+    {
+      "name": "Berkshire Hathaway B",
+      "cusip": "084670702",
+      "shares": 64106,
+      "value": 21860146
+    },
+    {
+      "name": "Fiserv",
+      "cusip": "337738108",
+      "shares": 154008,
+      "value": 19428109
+    },
+    {
+      "name": "Marsh & McLennan",
+      "cusip": "571748102",
+      "shares": 87022,
+      "value": 16367098
+    },
+    {
+      "name": "JPMorgan Chase",
+      "cusip": "46625H100",
+      "shares": 105268,
+      "value": 15310178
+    },
+    {
+      "name": "Home Depot",
+      "cusip": "437076102",
+      "shares": 48416,
+      "value": 15039974
+    },
+    {
+      "name": "Microsoft",
+      "cusip": "594918104",
+      "shares": 42523,
+      "value": 14480782
+    },
+    {
+      "name": "T. Rowe Price Group",
+      "cusip": "74144T108",
+      "shares": 125957,
+      "value": 14109703
+    },
+    {
+      "name": "Eaton",
+      "cusip": "G29183103",
+      "shares": 69976,
+      "value": 14072174
+    },
+    {
+      "name": "Altria Group",
+      "cusip": "02209S103",
+      "shares": 310487,
+      "value": 14065061
+    },
+    {
+      "name": "EOG Resources",
+      "cusip": "26875P101",
+      "shares": 117201,
+      "value": 13412482
     },
     {
       "name": "Phillips 66",
       "cusip": "718546104",
-      "shares": 111080,
-      "value": 12680892.8,
-      "pctOfPortfolio": 3.9768088598
+      "shares": 139834,
+      "value": 13337409
     },
     {
-      "name": "General Dynamics Corp",
-      "cusip": "369550108",
-      "shares": 55255,
-      "value": 12522993.2,
-      "pctOfPortfolio": 3.9272905382
+      "name": "Qualcomm",
+      "cusip": "747525103",
+      "shares": 109242,
+      "value": 13004194
     },
     {
-      "name": "UnitedHealth Group Inc",
+      "name": "UnitedHealth Group",
       "cusip": "91324P102",
-      "shares": 26108,
-      "value": 12442550.64,
-      "pctOfPortfolio": 3.9020632383
+      "shares": 26873,
+      "value": 12916239
     },
     {
-      "name": "Fiserv Inc",
-      "cusip": "337738108",
-      "shares": 98950,
-      "value": 12011540.5,
-      "pctOfPortfolio": 3.7668957094
+      "name": "American Express",
+      "cusip": "025816109",
+      "shares": 73801,
+      "value": 12856134
     },
     {
-      "name": "JPMorgan Chase & Co",
-      "cusip": "46625H100",
-      "shares": 81910,
-      "value": 11985890.3,
-      "pctOfPortfolio": 3.7588516431
-    },
-    {
-      "name": "Home Depot Inc/The",
-      "cusip": "437076102",
-      "shares": 36120,
-      "value": 11930436,
-      "pctOfPortfolio": 3.741460821
+      "name": "Royalty Pharma Plc",
+      "cusip": "G7709Q104",
+      "shares": 413815,
+      "value": 12720673
     },
     {
       "name": "Johnson & Johnson",
       "cusip": "478160104",
-      "shares": 72950,
-      "value": 11794556,
-      "pctOfPortfolio": 3.6988479863
+      "shares": 76740,
+      "value": 12702005
     },
     {
-      "name": "Schlumberger NV",
-      "cusip": "806857108",
-      "shares": 197085,
-      "value": 11620131.6,
-      "pctOfPortfolio": 3.644147382
+      "name": "Apple",
+      "cusip": "037833100",
+      "shares": 64569,
+      "value": 12524449
     },
     {
-      "name": "Lennar Corp",
+      "name": "Lennar Corp Cl B",
       "cusip": "526057302",
-      "shares": 108610,
-      "value": 11584342.6,
-      "pctOfPortfolio": 3.6329237234
+      "shares": 109629,
+      "value": 12385884
     },
     {
-      "name": "Applied Materials Inc",
-      "cusip": "038222105",
-      "shares": 75295,
-      "value": 11502064.2,
-      "pctOfPortfolio": 3.6071206924
-    },
-    {
-      "name": "American Express Co",
-      "cusip": "025816109",
-      "shares": 72253,
-      "value": 11415251.47,
-      "pctOfPortfolio": 3.5798956665
-    },
-    {
-      "name": "EOG Resources Inc",
-      "cusip": "26875P101",
-      "shares": 88309,
-      "value": 11358303.58,
-      "pctOfPortfolio": 3.562036445
-    },
-    {
-      "name": "Altria Group Inc",
-      "cusip": "02209S103",
-      "shares": 255850,
-      "value": 11313687,
-      "pctOfPortfolio": 3.548044401
-    },
-    {
-      "name": "Texas Instruments Inc",
-      "cusip": "882508104",
-      "shares": 63980,
-      "value": 10752478.8,
-      "pctOfPortfolio": 3.3720459301
-    },
-    {
-      "name": "T Rowe Price Group Inc",
-      "cusip": "74144T108",
-      "shares": 95310,
-      "value": 10696641.3,
-      "pctOfPortfolio": 3.354534934
-    },
-    {
-      "name": "Chubb Ltd",
-      "cusip": null,
-      "shares": 52650,
-      "value": 10575805.5,
-      "pctOfPortfolio": 3.3166400564
-    },
-    {
-      "name": "Honeywell International Inc",
+      "name": "Honeywell",
       "cusip": "438516106",
-      "shares": 56265,
-      "value": 10574444.1,
-      "pctOfPortfolio": 3.3162131127
+      "shares": 58193,
+      "value": 12075048
     },
     {
-      "name": "W R Berkley Corp",
-      "cusip": "084423102",
-      "shares": 160635,
-      "value": 9936881.1,
-      "pctOfPortfolio": 3.1162692896
+      "name": "General Dynamics Corp",
+      "cusip": "369550108",
+      "shares": 56052,
+      "value": 12059588
     },
     {
-      "name": "QUALCOMM Inc",
-      "cusip": "747525103",
-      "shares": 82970,
-      "value": 9502554.1,
-      "pctOfPortfolio": 2.9800615723
+      "name": "Texas Instruments",
+      "cusip": "882508104",
+      "shares": 66344,
+      "value": 11943247
     },
     {
-      "name": "Kraft Heinz Co/The",
-      "cusip": "500754106",
-      "shares": 266344,
-      "value": 8813322.96,
-      "pctOfPortfolio": 2.7639142909
+      "name": "Applied Materials",
+      "cusip": "038222105",
+      "shares": 76014,
+      "value": 10987064
     },
     {
-      "name": "General Motors Co",
+      "name": "Amazon.com",
+      "cusip": "023135106",
+      "shares": 82287,
+      "value": 10726933
+    },
+    {
+      "name": "Chubb Limited",
+      "cusip": "H1467J104",
+      "shares": 53357,
+      "value": 10274424
+    },
+    {
+      "name": "General Motors",
       "cusip": "37045V100",
-      "shares": 259708,
-      "value": 8702815.08,
-      "pctOfPortfolio": 2.7292583149
+      "shares": 262180,
+      "value": 10109661
     },
     {
-      "name": "Fidelity Government Portfolio",
-      "cusip": "316175108",
-      "shares": 8312273.13,
-      "value": 8312273.13,
-      "pctOfPortfolio": 2.6067818686
+      "name": "SLB",
+      "cusip": "806857108",
+      "shares": 198961,
+      "value": 9772964
     },
     {
-      "name": "Royalty Pharma PLC",
-      "cusip": null,
-      "shares": 270835,
-      "value": 8076299.7,
-      "pctOfPortfolio": 2.5327790959
+      "name": "W.R. Berkley",
+      "cusip": "084423102",
+      "shares": 162245,
+      "value": 9663312
+    },
+    {
+      "name": "Kraft Heinz",
+      "cusip": "500754106",
+      "shares": 269215,
+      "value": 9557133
+    },
+    {
+      "name": "O'Reilly Automotive",
+      "cusip": "67103H107",
+      "shares": 7673,
+      "value": 7330017
+    },
+    {
+      "name": "Copart",
+      "cusip": "217204106",
+      "shares": 79716,
+      "value": 7270896
+    },
+    {
+      "name": "Adobe Systems",
+      "cusip": "00724F101",
+      "shares": 14139,
+      "value": 6913830
+    },
+    {
+      "name": "ServiceNow",
+      "cusip": "81762P102",
+      "shares": 11992,
+      "value": 6739144
+    },
+    {
+      "name": "Visa",
+      "cusip": "92826C839",
+      "shares": 26568,
+      "value": 6309369
+    },
+    {
+      "name": "Broadcom Limited",
+      "cusip": "11135F101",
+      "shares": 7166,
+      "value": 6216003
+    },
+    {
+      "name": "Cooper Companies",
+      "cusip": "216648402",
+      "shares": 15344,
+      "value": 5883350
+    },
+    {
+      "name": "Verisk Analytics",
+      "cusip": "92345Y106",
+      "shares": 25103,
+      "value": 5674031
+    },
+    {
+      "name": "Constellation Software",
+      "cusip": "21037X100",
+      "shares": 2698,
+      "value": 5618963
+    },
+    {
+      "name": "Amphenol",
+      "cusip": "032095101",
+      "shares": 64698,
+      "value": 5496095
+    },
+    {
+      "name": "KLA",
+      "cusip": "482480100",
+      "shares": 10841,
+      "value": 5258102
+    },
+    {
+      "name": "American Tower",
+      "cusip": "03027X100",
+      "shares": 25478,
+      "value": 4941203
+    },
+    {
+      "name": "Idexx Laboratories",
+      "cusip": "45168D104",
+      "shares": 9784,
+      "value": 4913818
+    },
+    {
+      "name": "Pool",
+      "cusip": "73278105",
+      "shares": 12908,
+      "value": 4835867
+    },
+    {
+      "name": "Danaher",
+      "cusip": "235851102",
+      "shares": 19922,
+      "value": 4781280
+    },
+    {
+      "name": "Arthur J. Gallagher",
+      "cusip": "363576109",
+      "shares": 21227,
+      "value": 4660812
+    },
+    {
+      "name": "Sherwin-Williams",
+      "cusip": "824348106",
+      "shares": 17339,
+      "value": 4603851
+    },
+    {
+      "name": "Accenture",
+      "cusip": "G1151C101",
+      "shares": 14748,
+      "value": 4550938
+    },
+    {
+      "name": "Tyler Technologies",
+      "cusip": "902252105",
+      "shares": 10106,
+      "value": 4208846
+    },
+    {
+      "name": "Genmab ADR",
+      "cusip": "372303206",
+      "shares": 108792,
+      "value": 4135184
+    },
+    {
+      "name": "Lonza Group ADR",
+      "cusip": "54338V101",
+      "shares": 66750,
+      "value": 3983640
+    },
+    {
+      "name": "Veeva Systems",
+      "cusip": "922475108",
+      "shares": 19901,
+      "value": 3935025
+    },
+    {
+      "name": "Amgen",
+      "cusip": "031162100",
+      "shares": 13849,
+      "value": 3074798
+    },
+    {
+      "name": "Crown Castle",
+      "cusip": "22822V101",
+      "shares": 25612,
+      "value": 2918231
+    },
+    {
+      "name": "LyondellBasell Industries",
+      "cusip": "N53745100",
+      "shares": 31738,
+      "value": 2914460
+    },
+    {
+      "name": "Digital Realty Trust",
+      "cusip": "253868103",
+      "shares": 24274,
+      "value": 2764080
+    },
+    {
+      "name": "Blackstone Group",
+      "cusip": "09260D107",
+      "shares": 28734,
+      "value": 2671400
+    },
+    {
+      "name": "Lockheed Martin",
+      "cusip": "539830109",
+      "shares": 5572,
+      "value": 2565261
+    },
+    {
+      "name": "Enbridge",
+      "cusip": "29250N105",
+      "shares": 68311,
+      "value": 2537768
+    },
+    {
+      "name": "Abbvie",
+      "cusip": "00287Y109",
+      "shares": 18744,
+      "value": 2525379
+    },
+    {
+      "name": "Gilead Sciences",
+      "cusip": "375558103",
+      "shares": 32609,
+      "value": 2513176
+    },
+    {
+      "name": "Vail Resorts",
+      "cusip": "91879Q109",
+      "shares": 9857,
+      "value": 2481598
+    },
+    {
+      "name": "Cisco Systems",
+      "cusip": "17275R102",
+      "shares": 47191,
+      "value": 2441662
+    },
+    {
+      "name": "Union Pacific",
+      "cusip": "907818108",
+      "shares": 10876,
+      "value": 2225472
+    },
+    {
+      "name": "Paychex",
+      "cusip": "704326107",
+      "shares": 18460,
+      "value": 2065152
+    },
+    {
+      "name": "Lantheus Holdings",
+      "cusip": "516544103",
+      "shares": 23222,
+      "value": 1948790
+    },
+    {
+      "name": "Ansys",
+      "cusip": "03662Q105",
+      "shares": 5495,
+      "value": 1814834
+    },
+    {
+      "name": "Ryan Specialty Holdings",
+      "cusip": "78351F107",
+      "shares": 39009,
+      "value": 1751114
+    },
+    {
+      "name": "Monolithic Power Systems",
+      "cusip": "609839105",
+      "shares": 3236,
+      "value": 1748184
+    },
+    {
+      "name": "Dynatrace",
+      "cusip": "268150109",
+      "shares": 33842,
+      "value": 1741848
+    },
+    {
+      "name": "Verra Mobility",
+      "cusip": "92511U102",
+      "shares": 88322,
+      "value": 1741710
+    },
+    {
+      "name": "Tradeweb Markets",
+      "cusip": "892672106",
+      "shares": 22866,
+      "value": 1565864
+    },
+    {
+      "name": "RBC Bearings",
+      "cusip": "75524B104",
+      "shares": 7189,
+      "value": 1563392
+    },
+    {
+      "name": "ICF International",
+      "cusip": "44925C103",
+      "shares": 12482,
+      "value": 1552636
+    },
+    {
+      "name": "Blueprint Medicines",
+      "cusip": "09627Y109",
+      "shares": 23740,
+      "value": 1500368
+    },
+    {
+      "name": "Entegris",
+      "cusip": "29362U104",
+      "shares": 13217,
+      "value": 1464708
+    },
+    {
+      "name": "Jack Henry & Associates",
+      "cusip": "426281101",
+      "shares": 7897,
+      "value": 1321405
+    },
+    {
+      "name": "SBA Communications",
+      "cusip": "78410G104",
+      "shares": 5441,
+      "value": 1261006
+    },
+    {
+      "name": "Mettler Toledo",
+      "cusip": "592688105",
+      "shares": 954,
+      "value": 1251305
+    },
+    {
+      "name": "VANGUARD BD INDEX FDS",
+      "cusip": "921937835",
+      "shares": 16740,
+      "value": 1216831
+    },
+    {
+      "name": "Church & Dwight",
+      "cusip": "171340102",
+      "shares": 11284,
+      "value": 1130995
+    },
+    {
+      "name": "Sapiens",
+      "cusip": "G7T16G103",
+      "shares": 41617,
+      "value": 1107012
+    },
+    {
+      "name": "Qualys",
+      "cusip": "74758T303",
+      "shares": 8463,
+      "value": 1093166
+    },
+    {
+      "name": "Rocket Pharmaceuticals",
+      "cusip": "77313F106",
+      "shares": 54569,
+      "value": 1084286
+    },
+    {
+      "name": "Aspen Technology",
+      "cusip": "29109X106",
+      "shares": 6163,
+      "value": 1032980
+    },
+    {
+      "name": "Natera",
+      "cusip": "632307104",
+      "shares": 20026,
+      "value": 974465
+    },
+    {
+      "name": "BioMarin Pharmaceuticals",
+      "cusip": "09061G101",
+      "shares": 10981,
+      "value": 951833
+    },
+    {
+      "name": "Zebra Technologies",
+      "cusip": "989207105",
+      "shares": 3183,
+      "value": 941627
+    },
+    {
+      "name": "Halozyme Therapeutics",
+      "cusip": "40637H109",
+      "shares": 24959,
+      "value": 900271
+    },
+    {
+      "name": "Vicor",
+      "cusip": "925815102",
+      "shares": 16518,
+      "value": 891972
+    },
+    {
+      "name": "Alphabet Class C",
+      "cusip": "02079K107",
+      "shares": 7127,
+      "value": 862153
+    },
+    {
+      "name": "Starbucks",
+      "cusip": "855244109",
+      "shares": 4710,
+      "value": 466573
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 1436,
+      "value": 395158
+    },
+    {
+      "name": "Costco",
+      "cusip": "22160K105",
+      "shares": 662,
+      "value": 356408
+    },
+    {
+      "name": "United Rentals",
+      "cusip": "911363109",
+      "shares": 660,
+      "value": 293944
+    },
+    {
+      "name": "Mastercard",
+      "cusip": "57636Q104",
+      "shares": 613,
+      "value": 241093
+    },
+    {
+      "name": "Abbott Labs",
+      "cusip": "002824100",
+      "shares": 2030,
+      "value": 221311
     }
   ],
-  "totalValue": 318567008.7,
-  "positionsCount": 27
+  "totalValue": 578179699,
+  "positionsCount": 96
 }

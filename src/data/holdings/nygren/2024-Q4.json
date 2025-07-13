@@ -1,0 +1,461 @@
+{
+  "form": "NPORT-P",
+  "date": "2024-11-25",
+  "period": "2024-09-30",
+  "accession": "0001752724-24-266115",
+  "quarterKey": "2024-Q4",
+  "positions": [
+    {
+      "name": "Bayer AG",
+      "cusip": "000000000",
+      "shares": 20260082,
+      "value": 683904512.54
+    },
+    {
+      "name": "CNH Industrial NV",
+      "cusip": "000000000",
+      "shares": 59673803,
+      "value": 662379213.3
+    },
+    {
+      "name": "BNP Paribas SA",
+      "cusip": "000000000",
+      "shares": 8940006,
+      "value": 612518666.74
+    },
+    {
+      "name": "Continental AG",
+      "cusip": "000000000",
+      "shares": 8587645,
+      "value": 555779561.13
+    },
+    {
+      "name": "Kering SA",
+      "cusip": "000000000",
+      "shares": 1835700,
+      "value": 524849440.98
+    },
+    {
+      "name": "Fresenius Medical Care AG",
+      "cusip": "000000000",
+      "shares": 11576590,
+      "value": 492134455.2
+    },
+    {
+      "name": "Bayerische Motoren Werke AG",
+      "cusip": "000000000",
+      "shares": 5368179,
+      "value": 473146843.58
+    },
+    {
+      "name": "Lloyds Banking Group PLC",
+      "cusip": "000000000",
+      "shares": 581940154,
+      "value": 457478713.15
+    },
+    {
+      "name": "Prudential PLC",
+      "cusip": "000000000",
+      "shares": 47156844,
+      "value": 437919970.72
+    },
+    {
+      "name": "Mercedes-Benz Group AG",
+      "cusip": "000000000",
+      "shares": 6761755,
+      "value": 436858002.43
+    },
+    {
+      "name": "Prosus NV",
+      "cusip": "000000000",
+      "shares": 9005197,
+      "value": 393547333.58
+    },
+    {
+      "name": "Fresenius SE & Co KGaA",
+      "cusip": "000000000",
+      "shares": 10326231,
+      "value": 393461457.35
+    },
+    {
+      "name": "Edenred SE",
+      "cusip": "000000000",
+      "shares": 10272785,
+      "value": 389023618.47
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "000000000",
+      "shares": 28389200,
+      "value": 377257952.22
+    },
+    {
+      "name": "Fixed Income Clearing Corp",
+      "cusip": "000000000",
+      "shares": 364809322.6,
+      "value": 364809322.6
+    },
+    {
+      "name": "Airbus SE",
+      "cusip": "000000000",
+      "shares": 2444300,
+      "value": 357032706.56
+    },
+    {
+      "name": "Reckitt Benckiser Group PLC",
+      "cusip": "000000000",
+      "shares": 5566500,
+      "value": 340626448.08
+    },
+    {
+      "name": "Allianz SE",
+      "cusip": "000000000",
+      "shares": 1032799,
+      "value": 339149581.68
+    },
+    {
+      "name": "WPP PLC",
+      "cusip": "000000000",
+      "shares": 33163011,
+      "value": 338382236.68
+    },
+    {
+      "name": "Schroders PLC",
+      "cusip": "000000000",
+      "shares": 72112654,
+      "value": 336667314.33
+    },
+    {
+      "name": "Daimler Truck Holding AG",
+      "cusip": "000000000",
+      "shares": 8826643,
+      "value": 330427275.82
+    },
+    {
+      "name": "Glencore PLC",
+      "cusip": "000000000",
+      "shares": 57434620,
+      "value": 328418975.79
+    },
+    {
+      "name": "Open Text Corp",
+      "cusip": "683715106",
+      "shares": 9844400,
+      "value": 327697798.81
+    },
+    {
+      "name": "DSV A/S",
+      "cusip": "000000000",
+      "shares": 1522300,
+      "value": 314278210.42
+    },
+    {
+      "name": "Intesa Sanpaolo SpA",
+      "cusip": "000000000",
+      "shares": 73247679,
+      "value": 312892906.3
+    },
+    {
+      "name": "Akzo Nobel NV",
+      "cusip": "000000000",
+      "shares": 4417640,
+      "value": 311277330.04
+    },
+    {
+      "name": "Samsung Electronics Co Ltd",
+      "cusip": "000000000",
+      "shares": 7260076,
+      "value": 282586119.45
+    },
+    {
+      "name": "Eurofins Scientific SE",
+      "cusip": "000000000",
+      "shares": 4440909,
+      "value": 281279189.12
+    },
+    {
+      "name": "NAVER Corp",
+      "cusip": "000000000",
+      "shares": 2151564,
+      "value": 278714492.31
+    },
+    {
+      "name": "Accor SA",
+      "cusip": "000000000",
+      "shares": 6372269,
+      "value": 276638211.97
+    },
+    {
+      "name": "Swatch Group AG/The",
+      "cusip": "000000000",
+      "shares": 1289959,
+      "value": 276251041.24
+    },
+    {
+      "name": "Brenntag SE",
+      "cusip": "000000000",
+      "shares": 3633800,
+      "value": 270931576.93
+    },
+    {
+      "name": "Siemens AG",
+      "cusip": "000000000",
+      "shares": 1324700,
+      "value": 267401973.84
+    },
+    {
+      "name": "Ryanair Holdings PLC",
+      "cusip": "783513203",
+      "shares": 5732992.5,
+      "value": 259016601.15
+    },
+    {
+      "name": "EXOR NV",
+      "cusip": "000000000",
+      "shares": 2364279,
+      "value": 253047163.97
+    },
+    {
+      "name": "SKF AB",
+      "cusip": "000000000",
+      "shares": 11679496,
+      "value": 232305340.47
+    },
+    {
+      "name": "Roche Holding AG",
+      "cusip": "000000000",
+      "shares": 715100,
+      "value": 228635978.02
+    },
+    {
+      "name": "Capgemini SE",
+      "cusip": "000000000",
+      "shares": 1042164,
+      "value": 224998338.96
+    },
+    {
+      "name": "Smith & Nephew PLC",
+      "cusip": "000000000",
+      "shares": 13317900,
+      "value": 206186178.34
+    },
+    {
+      "name": "Amadeus IT Group SA",
+      "cusip": "000000000",
+      "shares": 2843866,
+      "value": 205513852.83
+    },
+    {
+      "name": "Ashtead Group PLC",
+      "cusip": "000000000",
+      "shares": 2633600,
+      "value": 203724604.3
+    },
+    {
+      "name": "Komatsu Ltd",
+      "cusip": "000000000",
+      "shares": 7381300,
+      "value": 203682280.74
+    },
+    {
+      "name": "Fujitsu Ltd",
+      "cusip": "000000000",
+      "shares": 9503500,
+      "value": 194103491.04
+    },
+    {
+      "name": "Volvo AB",
+      "cusip": "000000000",
+      "shares": 7314629,
+      "value": 193167829.16
+    },
+    {
+      "name": "Koninklijke Ahold Delhaize NV",
+      "cusip": "000000000",
+      "shares": 5557300,
+      "value": 191954845.09
+    },
+    {
+      "name": "adidas AG",
+      "cusip": "000000000",
+      "shares": 698300,
+      "value": 184922580.46
+    },
+    {
+      "name": "Anheuser-Busch InBev SA/NV",
+      "cusip": "000000000",
+      "shares": 2784100,
+      "value": 184025702.62
+    },
+    {
+      "name": "Cie Financiere Richemont SA",
+      "cusip": "000000000",
+      "shares": 1117018,
+      "value": 176590073.14
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "000000000",
+      "shares": 1531800,
+      "value": 175830767.41
+    },
+    {
+      "name": "Sandvik AB",
+      "cusip": "000000000",
+      "shares": 7178500,
+      "value": 160380632.84
+    },
+    {
+      "name": "Danone SA",
+      "cusip": "000000000",
+      "shares": 2104300,
+      "value": 153052436.02
+    },
+    {
+      "name": "Henkel AG & Co KGaA",
+      "cusip": "000000000",
+      "shares": 1708443,
+      "value": 145198789.62
+    },
+    {
+      "name": "Liberty Global Ltd",
+      "cusip": "000000000",
+      "shares": 6709912,
+      "value": 141646242.32
+    },
+    {
+      "name": "Smiths Group PLC",
+      "cusip": "000000000",
+      "shares": 5840742,
+      "value": 130953263.35
+    },
+    {
+      "name": "Axis Bank Ltd",
+      "cusip": "000000000",
+      "shares": 8456700,
+      "value": 124345946.39
+    },
+    {
+      "name": "Brambles Ltd",
+      "cusip": "000000000",
+      "shares": 9444000,
+      "value": 124248982.85
+    },
+    {
+      "name": "Diageo PLC",
+      "cusip": "000000000",
+      "shares": 3363600,
+      "value": 117056019.55
+    },
+    {
+      "name": "Worldline SA/France",
+      "cusip": "000000000",
+      "shares": 16080993,
+      "value": 117033782.11
+    },
+    {
+      "name": "Smurfit WestRock PLC",
+      "cusip": "000000000",
+      "shares": 2126100,
+      "value": 105071862
+    },
+    {
+      "name": "Compass Group PLC",
+      "cusip": "000000000",
+      "shares": 3279300,
+      "value": 104959205.64
+    },
+    {
+      "name": "Publicis Groupe SA",
+      "cusip": "000000000",
+      "shares": 940799,
+      "value": 102839935.57
+    },
+    {
+      "name": "Schindler Holding AG",
+      "cusip": "000000000",
+      "shares": 333699,
+      "value": 97781475.75
+    },
+    {
+      "name": "Holcim AG",
+      "cusip": "000000000",
+      "shares": 988715,
+      "value": 96447463.11
+    },
+    {
+      "name": "Bank Mandiri Persero Tbk PT",
+      "cusip": "000000000",
+      "shares": 206416200,
+      "value": 94414279.06
+    },
+    {
+      "name": "thyssenkrupp AG",
+      "cusip": "000000000",
+      "shares": 20640153,
+      "value": 79840120.22
+    },
+    {
+      "name": "Pernod Ricard SA",
+      "cusip": "000000000",
+      "shares": 449200,
+      "value": 67803622.63
+    },
+    {
+      "name": "Bunzl PLC",
+      "cusip": "000000000",
+      "shares": 595978,
+      "value": 28158661.93
+    },
+    {
+      "name": "American Honda Finance Corp",
+      "cusip": "02665JK41",
+      "shares": 25000000,
+      "value": 24986385
+    },
+    {
+      "name": "American Honda Finance Corp",
+      "cusip": "02665JKU3",
+      "shares": 20000000,
+      "value": 19922177.2
+    },
+    {
+      "name": "American Honda Finance Corp",
+      "cusip": "02665JL57",
+      "shares": 20000000,
+      "value": 19900080
+    },
+    {
+      "name": "American Honda Finance Corp",
+      "cusip": "02665JLD0",
+      "shares": 20000000,
+      "value": 19878657.8
+    },
+    {
+      "name": "Campbell Soup Co",
+      "cusip": "13443CK75",
+      "shares": 16000000,
+      "value": 15983791.04
+    },
+    {
+      "name": "Campbell Soup Co",
+      "cusip": "13443CK91",
+      "shares": 15750000,
+      "value": 15729482.63
+    },
+    {
+      "name": "American Honda Finance Corp",
+      "cusip": "02665JLC2",
+      "shares": 8000000,
+      "value": 7952528
+    },
+    {
+      "name": "American Honda Finance Corp",
+      "cusip": "02665JK33",
+      "shares": 7850000,
+      "value": 7846795.55
+    }
+  ],
+  "totalValue": 18266860699.239998,
+  "positionsCount": 75
+}

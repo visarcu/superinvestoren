@@ -439,12 +439,6 @@ import davis_2025_Q1 from './davis/2025-Q1.json'
 import mairspower_2025_Q1 from './mairspower/2025-Q1.json'
 //import mairspower_2025_Q2 from './mairspower/2025-Q2.json'
 
-//nygren
-//import nygren_2024_Q2 from './nygren/2024-Q2.json'
-//import nygren_2024_Q3 from './nygren/2024-Q3.json'
-//import nygren_2024_Q4 from './nygren/2024-Q4.json'
-import nygren_2025_Q1 from './nygren/2025-Q1.json'
-//import nygren_2025_Q2 from './nygren/2025-Q2.json'
 
 //cunniff
 import cunniff_2024_Q2 from './cunniff/2024-Q2.json'
@@ -554,8 +548,12 @@ import kantesaria_2025_Q2 from './kantesaria/2025-Q2.json'
 //kantesaria
 import tangen_2025_Q1 from './tangen/2025-Q1.json'
 
-//kantesaria
-import bobrinskoy_2025_Q1 from './bobrinskoy/2025-Q1.json'
+//ariel_focus_fund
+import ariel_focus_2024_Q1 from './ariel_focus/2024-Q1.json'
+import ariel_focus_2024_Q2 from './ariel_focus/2024-Q2.json'
+import ariel_focus_2024_Q3 from './ariel_focus/2024-Q3.json'
+import ariel_focus_2024_Q4 from './ariel_focus/2024-Q4.json'
+import ariel_focus_2025_Q1 from './ariel_focus/2025-Q1.json'
 
 //loeb
 import loeb_2025_Q1 from './loeb/2025-Q1.json'
@@ -1108,14 +1106,6 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
 
-   nygren: [
-    //{ quarter: '2024-Q2', data: nygren_2024_Q2},
-    //{ quarter: '2024-Q3', data: nygren_2024_Q3},
-    //{ quarter: '2024-Q4', data: nygren_2024_Q4},
-    { quarter: '2025-Q1', data: nygren_2025_Q1},
-    //{ quarter: '2025-Q2', data: nygren_2025_Q2},
-   ],
-
    cunniff: [
     //{ quarter: '2024-Q2', data: cunniff_2024_Q2},
     //{ quarter: '2024-Q3', data: cunniff_2024_Q3},
@@ -1241,9 +1231,12 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: tangen_2025_Q1},
    ],
 
-   bobrinskoy: [
- 
-    { quarter: '2025-Q1', data: bobrinskoy_2025_Q1},
+   ariel_focus: [
+    { quarter: '2024-Q1', data: ariel_focus_2024_Q1},
+    { quarter: '2024-Q2', data: ariel_focus_2024_Q2},
+    { quarter: '2024-Q3', data: ariel_focus_2024_Q3},
+    { quarter: '2024-Q4', data: ariel_focus_2024_Q4},
+    { quarter: '2025-Q1', data: ariel_focus_2025_Q1},
    ],
 
    loeb: [

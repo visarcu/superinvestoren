@@ -1,4 +1,4 @@
-// src/app/analyse/stocks/[ticker]/dividends/page.tsx - CLEAN PROFESSIONAL VERSION
+// src/app/analyse/stocks/[ticker]/dividends/page.tsx - KONSISTENTE PREMIUM UI
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -8,7 +8,8 @@ import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import { 
   ArrowLeftIcon,
-  BanknotesIcon 
+  BanknotesIcon,
+  LockClosedIcon
 } from '@heroicons/react/24/outline'
 import EnhancedDividendSection from '@/components/EnhancedDividendSection'
 import LoadingSpinner from '@/components/LoadingSpinner'
@@ -132,36 +133,36 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
           isPremium={user?.isPremium || false}
         />
 
-        {/* ✅ PREMIUM Upgrade Card - Only if not premium */}
+        {/* ✅ KONSISTENTE PREMIUM CTA - Goldenes Schloss + Amber */}
         {!user?.isPremium && (
-          <div className="bg-theme-card rounded-xl p-6 text-center">
-            <div className="w-16 h-16 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mb-4">
-              <BanknotesIcon className="w-8 h-8 text-white" />
+          <div className="bg-theme-card rounded-xl border border-theme/10">
+            <div className="px-6 py-4 border-b border-theme/10">
+              <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
+                <BanknotesIcon className="w-5 h-5 text-green-500" />
+                Erweiterte Dividenden-Analyse
+              </h3>
             </div>
-            <h3 className="text-xl font-bold text-theme-primary mb-3">
-              Erweiterte Dividenden-Analyse
-            </h3>
-            <p className="text-theme-muted mb-6 max-w-xl mx-auto">
-              Erhalten Sie Zugang zu detaillierten Finanzgesundheits-Metriken, 
-              quartalsweisen Dividendenhistorien und erweiterten Analysefunktionen.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto mb-6">
-              <div className="text-center">
-                <div className="text-sm font-semibold text-blue-400">FCF Coverage</div>
-                <div className="text-xs text-theme-muted">Free Cash Flow Abdeckung</div>
+            
+            <div className="text-center py-12 px-6">
+              <div className="w-16 h-16 bg-gradient-to-br border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <LockClosedIcon className="w-8 h-8 text-green-500" />
               </div>
-              <div className="text-center">
-                <div className="text-sm font-semibold text-purple-400">Debt Metrics</div>
-                <div className="text-xs text-theme-muted">Verschuldungsanalyse</div>
-              </div>
-              <div className="text-center">
-                <div className="text-sm font-semibold text-green-400">Quarterly Data</div>
-                <div className="text-xs text-theme-muted">Quartalsweise Historie</div>
-              </div>
+              <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Dividenden-Tools</h3>
+              <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">
+                Erhalten Sie Zugang zu detaillierten Finanzgesundheits-Metriken, 
+                quartalsweisen Dividendenhistorien und erweiterten Analysefunktionen.
+              </p>
+              
+           
+              
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
+              >
+                <LockClosedIcon className="w-5 h-5" />
+                14 Tage kostenlos testen
+              </Link>
             </div>
-            <button className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:from-blue-400 hover:to-purple-400 transition-all">
-              Premium freischalten
-            </button>
           </div>
         )}
       </main>

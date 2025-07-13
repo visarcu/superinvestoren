@@ -1,0 +1,527 @@
+{
+  "form": "NPORT-P",
+  "date": "2023-11-22",
+  "period": "2023-09-29",
+  "accession": "0001752724-23-263077",
+  "quarterKey": "2023-Q4",
+  "positions": [
+    {
+      "name": "Goldman Sachs Financial Square Government Fund",
+      "cusip": "38141W273",
+      "shares": 68577424.03,
+      "value": 68577424.03
+    },
+    {
+      "name": "RB Global Inc",
+      "cusip": "74935Q107",
+      "shares": 705349,
+      "value": 44084312.5
+    },
+    {
+      "name": "Sensata Technologies Holding P",
+      "cusip": "000000000",
+      "shares": 1076993,
+      "value": 40731875.26
+    },
+    {
+      "name": "Ziff Davis Inc",
+      "cusip": "48123V102",
+      "shares": 634677,
+      "value": 40422578.13
+    },
+    {
+      "name": "QuidelOrtho Corp",
+      "cusip": "219798105",
+      "shares": 517239,
+      "value": 37779136.56
+    },
+    {
+      "name": "Alight Inc",
+      "cusip": "01626W101",
+      "shares": 5241236,
+      "value": 37160363.24
+    },
+    {
+      "name": "STERIS PLC",
+      "cusip": "000000000",
+      "shares": 157731,
+      "value": 34609336.02
+    },
+    {
+      "name": "Matson Inc",
+      "cusip": "57686G105",
+      "shares": 378685,
+      "value": 33596933.2
+    },
+    {
+      "name": "Trimble Inc",
+      "cusip": "896239100",
+      "shares": 613235,
+      "value": 33028837.1
+    },
+    {
+      "name": "Euronet Worldwide Inc",
+      "cusip": "298736109",
+      "shares": 398831,
+      "value": 31659204.78
+    },
+    {
+      "name": "Churchill Downs Inc",
+      "cusip": "171484108",
+      "shares": 254718,
+      "value": 29557476.72
+    },
+    {
+      "name": "LPL Financial Holdings Inc",
+      "cusip": "50212V100",
+      "shares": 122272,
+      "value": 29057940.8
+    },
+    {
+      "name": "Henry Schein Inc",
+      "cusip": "806407102",
+      "shares": 377405,
+      "value": 28022321.25
+    },
+    {
+      "name": "Cargurus Inc",
+      "cusip": "141788109",
+      "shares": 1575114,
+      "value": 27595997.28
+    },
+    {
+      "name": "ACV Auctions Inc",
+      "cusip": "00091G104",
+      "shares": 1734708,
+      "value": 26332867.44
+    },
+    {
+      "name": "Kirby Corp",
+      "cusip": "497266106",
+      "shares": 308541,
+      "value": 25547194.8
+    },
+    {
+      "name": "Skechers USA Inc",
+      "cusip": "830566105",
+      "shares": 506450,
+      "value": 24790727.5
+    },
+    {
+      "name": "Graphic Packaging Holding Co",
+      "cusip": "388689101",
+      "shares": 1001733,
+      "value": 22318611.24
+    },
+    {
+      "name": "HealthEquity Inc",
+      "cusip": "42226A107",
+      "shares": 288596,
+      "value": 21081937.8
+    },
+    {
+      "name": "Cooper Cos Inc/The",
+      "cusip": "216648402",
+      "shares": 66155,
+      "value": 21037951.55
+    },
+    {
+      "name": "Okta Inc",
+      "cusip": "679295105",
+      "shares": 251374,
+      "value": 20489494.74
+    },
+    {
+      "name": "GLOBALFOUNDRIES Inc",
+      "cusip": "000000000",
+      "shares": 352015,
+      "value": 20483752.85
+    },
+    {
+      "name": "Dynatrace Inc",
+      "cusip": "268150109",
+      "shares": 422398,
+      "value": 19738658.54
+    },
+    {
+      "name": "WisdomTree Inc",
+      "cusip": "97717P104",
+      "shares": 2659496,
+      "value": 18616472
+    },
+    {
+      "name": "Sotera Health Co",
+      "cusip": "83601L102",
+      "shares": 1235976,
+      "value": 18514920.48
+    },
+    {
+      "name": "Merit Medical Systems Inc",
+      "cusip": "589889104",
+      "shares": 266836,
+      "value": 18417020.72
+    },
+    {
+      "name": "Tenable Holdings Inc",
+      "cusip": "88025T102",
+      "shares": 375452,
+      "value": 16820249.6
+    },
+    {
+      "name": "ON Semiconductor Corp",
+      "cusip": "682189105",
+      "shares": 180040,
+      "value": 16734718
+    },
+    {
+      "name": "Cimpress PLC",
+      "cusip": "000000000",
+      "shares": 232958,
+      "value": 16309389.58
+    },
+    {
+      "name": "Smartsheet Inc",
+      "cusip": "83200N103",
+      "shares": 386428,
+      "value": 15634876.88
+    },
+    {
+      "name": "Evolve Vacation Rental Network Inc Series 9 Preferred Stock",
+      "cusip": "000000000",
+      "shares": 776451,
+      "value": 14636101.35
+    },
+    {
+      "name": "Grand Canyon Education Inc",
+      "cusip": "38526M106",
+      "shares": 121177,
+      "value": 14163167.76
+    },
+    {
+      "name": "ZipRecruiter Inc",
+      "cusip": "98980B103",
+      "shares": 1128143,
+      "value": 13526434.57
+    },
+    {
+      "name": "Applied Industrial Technologie",
+      "cusip": "03820C105",
+      "shares": 86429,
+      "value": 13362787.69
+    },
+    {
+      "name": "Tennant Co",
+      "cusip": "880345103",
+      "shares": 180067,
+      "value": 13351968.05
+    },
+    {
+      "name": "Middleby Corp/The",
+      "cusip": "596278101",
+      "shares": 102719,
+      "value": 13148032
+    },
+    {
+      "name": "Teleflex Inc",
+      "cusip": "879369106",
+      "shares": 66432,
+      "value": 13047909.12
+    },
+    {
+      "name": "Toro Co/The",
+      "cusip": "891092108",
+      "shares": 156294,
+      "value": 12988031.4
+    },
+    {
+      "name": "Doximity Inc",
+      "cusip": "26622P107",
+      "shares": 611157,
+      "value": 12968751.54
+    },
+    {
+      "name": "Bio-Techne Corp",
+      "cusip": "09073M104",
+      "shares": 186384,
+      "value": 12687158.88
+    },
+    {
+      "name": "Generac Holdings Inc",
+      "cusip": "368736104",
+      "shares": 115865,
+      "value": 12624650.4
+    },
+    {
+      "name": "Iridium Communications Inc",
+      "cusip": "46269C102",
+      "shares": 273730,
+      "value": 12451977.7
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 242443,
+      "value": 12216702.77
+    },
+    {
+      "name": "Legend Biotech Corp",
+      "cusip": "52490G102",
+      "shares": 173669,
+      "value": 11665346.73
+    },
+    {
+      "name": "Viper Energy Partners LP",
+      "cusip": "92763M105",
+      "shares": 409280,
+      "value": 11410726.4
+    },
+    {
+      "name": "Halozyme Therapeutics Inc",
+      "cusip": "40637H109",
+      "shares": 297134,
+      "value": 11350518.8
+    },
+    {
+      "name": "Under Armour Inc",
+      "cusip": "904311206",
+      "shares": 1688467,
+      "value": 10772419.46
+    },
+    {
+      "name": "Certara Inc",
+      "cusip": "15687V109",
+      "shares": 738419,
+      "value": 10736612.26
+    },
+    {
+      "name": "Canada Goose Holdings Inc",
+      "cusip": "135086106",
+      "shares": 703110,
+      "value": 10307592.6
+    },
+    {
+      "name": "Frontdoor Inc",
+      "cusip": "35905A109",
+      "shares": 328003,
+      "value": 10033611.77
+    },
+    {
+      "name": "John Bean Technologies Corp",
+      "cusip": "477839104",
+      "shares": 94842,
+      "value": 9971687.88
+    },
+    {
+      "name": "N-able Inc",
+      "cusip": "62878D100",
+      "shares": 760006,
+      "value": 9804077.4
+    },
+    {
+      "name": "Monday.com Ltd",
+      "cusip": "000000000",
+      "shares": 58587,
+      "value": 9328222.14
+    },
+    {
+      "name": "RBC DOMINION SECURITIES INC",
+      "cusip": "000000000",
+      "shares": 9305339,
+      "value": 9305339
+    },
+    {
+      "name": "NATIONAL BANK FINANCIAL INC",
+      "cusip": "000000000",
+      "shares": 9305339,
+      "value": 9305339
+    },
+    {
+      "name": "CITIGROUP GLOBAL MARKETS INC",
+      "cusip": "000000000",
+      "shares": 9305339,
+      "value": 9305339
+    },
+    {
+      "name": "BOFA SECURITIES, INC",
+      "cusip": "000000000",
+      "shares": 9305339,
+      "value": 9305339
+    },
+    {
+      "name": "Veracyte Inc",
+      "cusip": "92337F107",
+      "shares": 406994,
+      "value": 9088176.02
+    },
+    {
+      "name": "Sally Beauty Holdings Inc",
+      "cusip": "79546E104",
+      "shares": 1028838,
+      "value": 8621662.44
+    },
+    {
+      "name": "SpringWorks Therapeutics Inc",
+      "cusip": "85205L107",
+      "shares": 363737,
+      "value": 8409599.44
+    },
+    {
+      "name": "Nevro Corp",
+      "cusip": "64157F103",
+      "shares": 437331,
+      "value": 8405501.82
+    },
+    {
+      "name": "Agios Pharmaceuticals Inc",
+      "cusip": "00847X104",
+      "shares": 329506,
+      "value": 8155273.5
+    },
+    {
+      "name": "BJ's Wholesale Club Holdings I",
+      "cusip": "05550J101",
+      "shares": 111574,
+      "value": 7963036.38
+    },
+    {
+      "name": "Sportradar Holding AG",
+      "cusip": "000000000",
+      "shares": 791345,
+      "value": 7921363.45
+    },
+    {
+      "name": "Pool Corp",
+      "cusip": "73278L105",
+      "shares": 21545,
+      "value": 7672174.5
+    },
+    {
+      "name": "Skyryse, Inc Series B Preferred Stock",
+      "cusip": "000000000",
+      "shares": 290316,
+      "value": 7330479
+    },
+    {
+      "name": "TransMedics Group Inc",
+      "cusip": "89377M109",
+      "shares": 128038,
+      "value": 7010080.5
+    },
+    {
+      "name": "Apartment List Inc Series D Preferred Stock",
+      "cusip": "000000000",
+      "shares": 2299479,
+      "value": 6967421.37
+    },
+    {
+      "name": "Fox Factory Holding Corp",
+      "cusip": "35138V102",
+      "shares": 68908,
+      "value": 6827404.64
+    },
+    {
+      "name": "Arvinas Inc",
+      "cusip": "04335A105",
+      "shares": 333626,
+      "value": 6552414.64
+    },
+    {
+      "name": "Curtiss-Wright Corp",
+      "cusip": "231561101",
+      "shares": 32892,
+      "value": 6434661.96
+    },
+    {
+      "name": "Heartland Express Inc",
+      "cusip": "422347104",
+      "shares": 425874,
+      "value": 6256089.06
+    },
+    {
+      "name": "Tandem Diabetes Care Inc",
+      "cusip": "875372203",
+      "shares": 295516,
+      "value": 6137867.32
+    },
+    {
+      "name": "National Vision Holdings Inc",
+      "cusip": "63845R107",
+      "shares": 370425,
+      "value": 5993476.5
+    },
+    {
+      "name": "Masimo Corp",
+      "cusip": "574795100",
+      "shares": 65325,
+      "value": 5727696
+    },
+    {
+      "name": "Relay Therapeutics Inc",
+      "cusip": "75943R102",
+      "shares": 597955,
+      "value": 5028801.55
+    },
+    {
+      "name": "Consensus Cloud Solutions Inc",
+      "cusip": "20848V105",
+      "shares": 192794,
+      "value": 4854552.92
+    },
+    {
+      "name": "Floor & Decor Holdings Inc",
+      "cusip": "339750101",
+      "shares": 51999,
+      "value": 4705909.5
+    },
+    {
+      "name": "Omnicell Inc",
+      "cusip": "68213N109",
+      "shares": 101271,
+      "value": 4561245.84
+    },
+    {
+      "name": "Dataminr Inc Series F Preferred Stock",
+      "cusip": "000000000",
+      "shares": 167493,
+      "value": 4555809.6
+    },
+    {
+      "name": "8x8 Inc",
+      "cusip": "282914100",
+      "shares": 1729451,
+      "value": 4358216.52
+    },
+    {
+      "name": "Quail Investment Holdings LLC",
+      "cusip": "000000000",
+      "shares": 4037.882,
+      "value": 4156353.46
+    },
+    {
+      "name": "Axogen Inc",
+      "cusip": "05463X106",
+      "shares": 674525,
+      "value": 3372625
+    },
+    {
+      "name": "Rocket Lab USA Inc",
+      "cusip": "773122106",
+      "shares": 497242,
+      "value": 2177919.96
+    },
+    {
+      "name": "DAIWA CAPITAL MARKETS AMERICA INC",
+      "cusip": "000000000",
+      "shares": 1713120,
+      "value": 1713120
+    },
+    {
+      "name": "Binx Health Series E Preferred Stock",
+      "cusip": "000000000",
+      "shares": 31619,
+      "value": 1094965.97
+    }
+  ],
+  "totalValue": 1324582324.1200006,
+  "positionsCount": 86
+}

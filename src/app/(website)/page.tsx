@@ -778,7 +778,7 @@ export default function ProfessionalHomePage() {
               <div className="space-y-3 mb-8">
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                  <span className="text-gray-300">70+ Institutionelle Investoren</span>
+                  <span className="text-gray-300">90+ Institutionelle Investoren</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
@@ -957,7 +957,7 @@ export default function ProfessionalHomePage() {
               href="/superinvestor"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-200 border border-gray-700"
             >
-              Alle 70+ Investoren durchsuchen
+              Alle 90+ Investoren durchsuchen
               <ArrowRightIcon className="w-4 h-4" />
             </Link>
           </div>

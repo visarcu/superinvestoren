@@ -395,7 +395,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-amber-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
@@ -513,7 +513,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-amber-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
@@ -607,7 +607,7 @@ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: ()
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-amber-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>

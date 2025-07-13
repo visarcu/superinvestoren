@@ -1,0 +1,575 @@
+{
+  "form": "NPORT-P",
+  "date": "2025-05-30",
+  "period": "2025-03-31",
+  "accession": "0001752724-25-130343",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "Turning Point Brands Inc",
+      "cusip": "90041L105",
+      "shares": 215711,
+      "value": 12821861.84
+    },
+    {
+      "name": "Cargurus Inc",
+      "cusip": "141788109",
+      "shares": 326916,
+      "value": 9523063.08
+    },
+    {
+      "name": "EVOLVE VACATION RENTAL NETWORK INC",
+      "cusip": "000000000",
+      "shares": 470013,
+      "value": 9442561.17
+    },
+    {
+      "name": "Mirion Technologies Inc",
+      "cusip": "60471A101",
+      "shares": 648049,
+      "value": 9396710.5
+    },
+    {
+      "name": "Veracyte Inc",
+      "cusip": "92337F107",
+      "shares": 301797,
+      "value": 8948281.05
+    },
+    {
+      "name": "Consensus Cloud Solutions Inc",
+      "cusip": "20848V105",
+      "shares": 383734,
+      "value": 8856580.72
+    },
+    {
+      "name": "STIT GOVT AND AGENCY INST",
+      "cusip": "000000000",
+      "shares": 8511740.46,
+      "value": 8511740.46
+    },
+    {
+      "name": "Waystar Holding Corp",
+      "cusip": "946784105",
+      "shares": 220854,
+      "value": 8251105.44
+    },
+    {
+      "name": "Alight Inc",
+      "cusip": "01626W101",
+      "shares": 1389148,
+      "value": 8237647.64
+    },
+    {
+      "name": "Viper Energy Inc",
+      "cusip": "927959106",
+      "shares": 165991,
+      "value": 7494493.65
+    },
+    {
+      "name": "Merit Medical Systems Inc",
+      "cusip": "589889104",
+      "shares": 69149,
+      "value": 7309740.79
+    },
+    {
+      "name": "RB Global Inc",
+      "cusip": "74935Q107",
+      "shares": 71300,
+      "value": 7151390
+    },
+    {
+      "name": "Kirby Corp",
+      "cusip": "497266106",
+      "shares": 65559,
+      "value": 6622114.59
+    },
+    {
+      "name": "Remitly Global Inc",
+      "cusip": "75960P104",
+      "shares": 297514,
+      "value": 6188291.2
+    },
+    {
+      "name": "Amplitude Inc",
+      "cusip": "03213A104",
+      "shares": 584010,
+      "value": 5951061.9
+    },
+    {
+      "name": "Dorman Products Inc",
+      "cusip": "258278100",
+      "shares": 47164,
+      "value": 5685148.56
+    },
+    {
+      "name": "Blackbaud Inc",
+      "cusip": "09227Q100",
+      "shares": 90159,
+      "value": 5594365.95
+    },
+    {
+      "name": "Apartment List Inc Series D Preferred Stock",
+      "cusip": "000000000",
+      "shares": 1642485,
+      "value": 5518749.6
+    },
+    {
+      "name": "Federal Signal Corp",
+      "cusip": "313855108",
+      "shares": 74868,
+      "value": 5506541.4
+    },
+    {
+      "name": "Sprout Social Inc",
+      "cusip": "85209W109",
+      "shares": 247473,
+      "value": 5441931.27
+    },
+    {
+      "name": "NPK International Inc",
+      "cusip": "651718504",
+      "shares": 917836,
+      "value": 5332627.16
+    },
+    {
+      "name": "Stevanato Group SpA",
+      "cusip": "000000000",
+      "shares": 244736,
+      "value": 4997509.12
+    },
+    {
+      "name": "Phreesia Inc",
+      "cusip": "71944F106",
+      "shares": 195133,
+      "value": 4987599.48
+    },
+    {
+      "name": "Skyryse, Inc Series B Preferred Stock",
+      "cusip": "000000000",
+      "shares": 169570,
+      "value": 4905660.1
+    },
+    {
+      "name": "Certara Inc",
+      "cusip": "15687V109",
+      "shares": 482961,
+      "value": 4781313.9
+    },
+    {
+      "name": "Alkami Technology Inc",
+      "cusip": "01644J108",
+      "shares": 180735,
+      "value": 4744293.75
+    },
+    {
+      "name": "ACV Auctions Inc",
+      "cusip": "00091G104",
+      "shares": 331844,
+      "value": 4675681.96
+    },
+    {
+      "name": "Pediatrix Medical Group Inc",
+      "cusip": "58502B106",
+      "shares": 316294,
+      "value": 4583100.06
+    },
+    {
+      "name": "TriNet Group Inc",
+      "cusip": "896288107",
+      "shares": 56825,
+      "value": 4502813
+    },
+    {
+      "name": "YAP Therapeutics, Inc Series B Preferred Stock",
+      "cusip": "000000000",
+      "shares": 64544,
+      "value": 4489680.64
+    },
+    {
+      "name": "Genius Sports Ltd",
+      "cusip": "000000000",
+      "shares": 434208,
+      "value": 4346422.08
+    },
+    {
+      "name": "Legalzoom.com Inc",
+      "cusip": "52466B103",
+      "shares": 468682,
+      "value": 4035352.02
+    },
+    {
+      "name": "International Money Express In",
+      "cusip": "46005L101",
+      "shares": 316257,
+      "value": 3991163.34
+    },
+    {
+      "name": "PagerDuty Inc",
+      "cusip": "69553P100",
+      "shares": 215611,
+      "value": 3939212.97
+    },
+    {
+      "name": "Ranpak Holdings Corp",
+      "cusip": "75321W103",
+      "shares": 716471,
+      "value": 3883272.82
+    },
+    {
+      "name": "Beta Bionics INC",
+      "cusip": "000000000",
+      "shares": 367188,
+      "value": 3820223.95
+    },
+    {
+      "name": "HealthEquity Inc",
+      "cusip": "42226A107",
+      "shares": 43082,
+      "value": 3807156.34
+    },
+    {
+      "name": "QuidelOrtho Corp",
+      "cusip": "219798105",
+      "shares": 107989,
+      "value": 3776375.33
+    },
+    {
+      "name": "First Watch Restaurant Group I",
+      "cusip": "33748L101",
+      "shares": 215944,
+      "value": 3595467.6
+    },
+    {
+      "name": "Tandem Diabetes Care Inc",
+      "cusip": "875372203",
+      "shares": 186419,
+      "value": 3571788.04
+    },
+    {
+      "name": "Goldman Sachs Financial Square Government Fund",
+      "cusip": "38141W273",
+      "shares": 3561685.87,
+      "value": 3561685.87
+    },
+    {
+      "name": "PlayAGS Inc",
+      "cusip": "72814N104",
+      "shares": 288911,
+      "value": 3498712.21
+    },
+    {
+      "name": "SpringWorks Therapeutics Inc",
+      "cusip": "85205L107",
+      "shares": 79101,
+      "value": 3490727.13
+    },
+    {
+      "name": "Progyny Inc",
+      "cusip": "74340E103",
+      "shares": 153909,
+      "value": 3438327.06
+    },
+    {
+      "name": "Dataminr Inc Series F Preferred Stock",
+      "cusip": "000000000",
+      "shares": 128530,
+      "value": 3241526.6
+    },
+    {
+      "name": "Pure Cycle Corp",
+      "cusip": "746228303",
+      "shares": 306713,
+      "value": 3211285.11
+    },
+    {
+      "name": "Angi Inc",
+      "cusip": "00183L201",
+      "shares": 187285,
+      "value": 2886061.85
+    },
+    {
+      "name": "WisdomTree Inc",
+      "cusip": "97717P104",
+      "shares": 321970,
+      "value": 2871972.4
+    },
+    {
+      "name": "Kiniksa Pharmaceuticals Intern",
+      "cusip": "000000000",
+      "shares": 127122,
+      "value": 2823379.62
+    },
+    {
+      "name": "Cimpress PLC",
+      "cusip": "000000000",
+      "shares": 59948,
+      "value": 2711448.04
+    },
+    {
+      "name": "Asure Software Inc",
+      "cusip": "04649U102",
+      "shares": 283265,
+      "value": 2705180.75
+    },
+    {
+      "name": "ZipRecruiter Inc",
+      "cusip": "98980B103",
+      "shares": 445401,
+      "value": 2623411.89
+    },
+    {
+      "name": "Quail Investment Holdings LLC",
+      "cusip": "000000000",
+      "shares": 2917.695,
+      "value": 2606522.83
+    },
+    {
+      "name": "Forrester Research Inc",
+      "cusip": "346563109",
+      "shares": 280965,
+      "value": 2596116.6
+    },
+    {
+      "name": "CareDx Inc",
+      "cusip": "14167L103",
+      "shares": 141856,
+      "value": 2517944
+    },
+    {
+      "name": "Sally Beauty Holdings Inc",
+      "cusip": "79546E104",
+      "shares": 275846,
+      "value": 2490889.38
+    },
+    {
+      "name": "Allegro MicroSystems Inc",
+      "cusip": "01749D105",
+      "shares": 98652,
+      "value": 2479124.76
+    },
+    {
+      "name": "Titan Machinery Inc",
+      "cusip": "88830R101",
+      "shares": 138749,
+      "value": 2364282.96
+    },
+    {
+      "name": "Nuvalent Inc",
+      "cusip": "670703107",
+      "shares": 31897,
+      "value": 2262135.24
+    },
+    {
+      "name": "Zenas Biopharma Inc",
+      "cusip": "98937L105",
+      "shares": 273850,
+      "value": 2163415
+    },
+    {
+      "name": "8x8 Inc",
+      "cusip": "282914100",
+      "shares": 1053296,
+      "value": 2106592
+    },
+    {
+      "name": "Axogen Inc",
+      "cusip": "05463X106",
+      "shares": 113372,
+      "value": 2097382
+    },
+    {
+      "name": "Infinity Natural Resources Inc",
+      "cusip": "456941103",
+      "shares": 108317,
+      "value": 2030943.75
+    },
+    {
+      "name": "Sweetgreen Inc",
+      "cusip": "87043Q108",
+      "shares": 79276,
+      "value": 1983485.52
+    },
+    {
+      "name": "Montrose Environmental Group I",
+      "cusip": "615111101",
+      "shares": 136983,
+      "value": 1953377.58
+    },
+    {
+      "name": "Clarus Corp",
+      "cusip": "18270P109",
+      "shares": 518396,
+      "value": 1943985
+    },
+    {
+      "name": "Pursuit Attractions and Hospit",
+      "cusip": "92552R406",
+      "shares": 53775,
+      "value": 1903097.25
+    },
+    {
+      "name": "Crane NXT Co",
+      "cusip": "224441105",
+      "shares": 37019,
+      "value": 1902776.6
+    },
+    {
+      "name": "Vivid Seats Inc",
+      "cusip": "92854T100",
+      "shares": 603487,
+      "value": 1786321.52
+    },
+    {
+      "name": "Newamsterdam Pharma Co NV",
+      "cusip": "000000000",
+      "shares": 86540,
+      "value": 1771473.8
+    },
+    {
+      "name": "Stoneridge Inc",
+      "cusip": "86183P102",
+      "shares": 379132,
+      "value": 1740215.88
+    },
+    {
+      "name": "Omnicell Inc",
+      "cusip": "68213N109",
+      "shares": 49742,
+      "value": 1738980.32
+    },
+    {
+      "name": "Skechers USA Inc",
+      "cusip": "830566105",
+      "shares": 30609,
+      "value": 1737979.02
+    },
+    {
+      "name": "Crescent Energy Co",
+      "cusip": "44952J104",
+      "shares": 153325,
+      "value": 1723373
+    },
+    {
+      "name": "ORIC Pharmaceuticals Inc",
+      "cusip": "68622P109",
+      "shares": 308341,
+      "value": 1720542.78
+    },
+    {
+      "name": "CONMED Corp",
+      "cusip": "207410101",
+      "shares": 27857,
+      "value": 1682284.23
+    },
+    {
+      "name": "Kadant Inc",
+      "cusip": "48282T104",
+      "shares": 4969,
+      "value": 1674105.79
+    },
+    {
+      "name": "Byrna Technologies Inc",
+      "cusip": "12448X201",
+      "shares": 86937,
+      "value": 1464019.08
+    },
+    {
+      "name": "MaxCyte Inc",
+      "cusip": "57777K106",
+      "shares": 519189,
+      "value": 1417385.97
+    },
+    {
+      "name": "Red Rock Resorts Inc",
+      "cusip": "75700L108",
+      "shares": 32522,
+      "value": 1410479.14
+    },
+    {
+      "name": "CS Disco Inc",
+      "cusip": "126327105",
+      "shares": 336393,
+      "value": 1375847.37
+    },
+    {
+      "name": "PMV Pharmaceuticals Inc",
+      "cusip": "69353Y103",
+      "shares": 1255473,
+      "value": 1368465.57
+    },
+    {
+      "name": "TechTarget Inc",
+      "cusip": "87874R308",
+      "shares": 91141,
+      "value": 1349798.21
+    },
+    {
+      "name": "CG oncology Inc",
+      "cusip": "156944100",
+      "shares": 52561,
+      "value": 1287218.89
+    },
+    {
+      "name": "NCS Multistage Holdings Inc",
+      "cusip": "628877201",
+      "shares": 35932,
+      "value": 1257260.68
+    },
+    {
+      "name": "Structure Therapeutics Inc",
+      "cusip": "86366E106",
+      "shares": 70296,
+      "value": 1216823.76
+    },
+    {
+      "name": "Fox Factory Holding Corp",
+      "cusip": "35138V102",
+      "shares": 51681,
+      "value": 1206234.54
+    },
+    {
+      "name": "DNA Script Series C Preferred Stock",
+      "cusip": "000000000",
+      "shares": 3955,
+      "value": 1097828.9
+    },
+    {
+      "name": "C4 Therapeutics Inc",
+      "cusip": "12529R107",
+      "shares": 481881,
+      "value": 771009.6
+    },
+    {
+      "name": "ProQR Therapeutics NV",
+      "cusip": "000000000",
+      "shares": 559736,
+      "value": 744448.88
+    },
+    {
+      "name": "Neurogene Inc",
+      "cusip": "64135M105",
+      "shares": 57914,
+      "value": 678172.94
+    },
+    {
+      "name": "4D Molecular Therapeutics Inc",
+      "cusip": "35104E100",
+      "shares": 130435,
+      "value": 421305.05
+    },
+    {
+      "name": "Inhibrx Biosciences Inc",
+      "cusip": "45720N103",
+      "shares": 23321,
+      "value": 326260.79
+    },
+    {
+      "name": "Centrexion Therapeutics Corporation",
+      "cusip": "000000000",
+      "shares": 1663893,
+      "value": 133111.44
+    }
+  ],
+  "totalValue": 344786830.6199999,
+  "positionsCount": 94
+}

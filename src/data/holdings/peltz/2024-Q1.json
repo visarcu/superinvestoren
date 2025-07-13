@@ -9,75 +9,179 @@
       "name": "The Walt Disney Company",
       "cusip": "254687106",
       "shares": 25569059,
-      "value": 2308630337
+      "value": 2308630337,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Janus Henderson Group plc",
       "cusip": "G4474Y214",
       "shares": 31867800,
-      "value": 960814170
+      "value": 960814170,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "The Walt Disney Company",
       "cusip": "254687106",
       "shares": 6768797,
-      "value": 611154681
+      "value": 611154681,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Invesco Ltd",
       "cusip": "G491BT108",
       "shares": 33940096,
-      "value": 605491313
+      "value": 605491313,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "Ferguson Plc New",
       "cusip": "G3421J106",
       "shares": 3011802,
-      "value": 581488612
+      "value": 581488612,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "General Electric Co.",
       "cusip": "369604301",
       "shares": 4030213,
-      "value": 514376085
+      "value": 514376085,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "The Allstate Corporation",
       "cusip": "200021014",
       "shares": 2793098,
-      "value": 390977858
+      "value": 390977858,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 15943466,
-      "value": 310578718
+      "value": 310578718,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 15523684,
-      "value": 302401364
+      "value": 302401364,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Ferguson Plc New",
       "cusip": "G3421J106",
       "shares": 1178450,
-      "value": 227523342
+      "value": 227523342,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "GE HealthCare Technologies Inc",
       "cusip": "36266G107",
       "shares": 1342833,
-      "value": 103827848
+      "value": 103827848,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Sysco Corporation",
       "cusip": "871829107",
       "shares": 1223500,
-      "value": 89474555
+      "value": 89474555,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 7006738883,
-  "positionsCount": 12
+  "positionsCount": 12,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 7006738883
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

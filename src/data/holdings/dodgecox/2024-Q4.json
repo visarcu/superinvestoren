@@ -1,1362 +1,2889 @@
 {
-  "form": "NPORT-P",
-  "date": "2025-02-27",
-  "period": "2025-02-27",
-  "accession": "0001145549-25-011412",
+  "form": "13F-HR",
+  "date": "2024-11-13",
+  "period": "2024-11-13",
+  "accession": "0000950123-24-011156",
   "quarterKey": "2024-Q4",
   "positions": [
     {
       "name": "Johnson Controls International PLC",
       "cusip": "G51502105",
-      "shares": 20374601,
-      "value": 1608167256.93,
-      "pctOfPortfolio": 3.4110591023
+      "shares": 85367376,
+      "value": 6625362051,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
-      "name": "Holcim AG",
-      "cusip": null,
-      "shares": 15125241,
-      "value": 1450276437.74,
-      "pctOfPortfolio": 3.0761592878
+      "name": "Fiserv, Inc",
+      "cusip": "337738108",
+      "shares": 32723767,
+      "value": 5878824742,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "The Charles Schwab Corp",
+      "cusip": "808513105",
+      "shares": 89587838,
+      "value": 5806187781,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RTX Corp",
+      "cusip": "75513E101",
+      "shares": 44398916,
+      "value": 5379372663,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "949746101",
+      "shares": 86949610,
+      "value": 4911783481,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MetLife, Inc",
+      "cusip": "59156R108",
+      "shares": 54656581,
+      "value": 4508074801,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Sanofi SA",
-      "cusip": null,
-      "shares": 14834322,
-      "value": 1434535304.97,
-      "pctOfPortfolio": 3.0427710106
+      "cusip": "80105N105",
+      "shares": 76297183,
+      "value": 4397006656,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
-      "name": "BNP Paribas SA",
-      "cusip": null,
-      "shares": 22470692,
-      "value": 1376185694.39,
-      "pctOfPortfolio": 2.9190065393
+      "name": "Alphabet, Inc",
+      "cusip": "02079K107",
+      "shares": 24893268,
+      "value": 4161905477,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
     },
     {
-      "name": "UBS Group AG",
-      "cusip": null,
-      "shares": 42679442,
-      "value": 1301458453.58,
-      "pctOfPortfolio": 2.7605037257
+      "name": "Occidental Petroleum Corp",
+      "cusip": "674599105",
+      "shares": 78011048,
+      "value": 4020689414,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Banco Santander SA",
-      "cusip": null,
-      "shares": 276159516,
-      "value": 1277337203.02,
-      "pctOfPortfolio": 2.7093405081
+      "name": "CVS Health Corp",
+      "cusip": "126650100",
+      "shares": 63030690,
+      "value": 3963369787,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Novartis AG",
-      "cusip": null,
-      "shares": 12833070,
-      "value": 1248943119.72,
-      "pctOfPortfolio": 2.64911425
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 9100792,
+      "value": 3916070798,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Taiwan Semiconductor Manufacturing Co., Ltd",
-      "cusip": null,
-      "shares": 36543200,
-      "value": 1193263831.8,
-      "pctOfPortfolio": 2.5310137595
+      "name": "Charter Communications, Inc",
+      "cusip": "16119P108",
+      "shares": 11637303,
+      "value": 3771417156,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
-      "name": "Barclays PLC",
-      "cusip": null,
-      "shares": 353866908,
-      "value": 1185042988.02,
-      "pctOfPortfolio": 2.5135766528
+      "name": "FedEx Corp",
+      "cusip": "31428X106",
+      "shares": 13155356,
+      "value": 3600357830,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "GSK PLC",
-      "cusip": "G3910J179",
-      "shares": 66835320,
-      "value": 1119468474.94,
-      "pctOfPortfolio": 2.3744875508
+      "name": "The Bank of New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 48524949,
+      "value": 3487002835,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Fixed Income Clearing Corporation",
-      "cusip": null,
-      "shares": 1117000000,
-      "value": 1117000000,
-      "pctOfPortfolio": 2.3692517061
-    },
-    {
-      "name": "TotalEnergies SE",
-      "cusip": null,
-      "shares": 19027870,
-      "value": 1057357668.46,
-      "pctOfPortfolio": 2.2427452641
-    },
-    {
-      "name": "HDFC Bank, Ltd",
-      "cusip": "Y3119P190",
-      "shares": 47325500,
-      "value": 978447260.35,
-      "pctOfPortfolio": 2.075369598
-    },
-    {
-      "name": "Roche Holding AG",
-      "cusip": null,
-      "shares": 3372500,
-      "value": 943990152.15,
-      "pctOfPortfolio": 2.00228315
-    },
-    {
-      "name": "Prosus NV",
-      "cusip": null,
-      "shares": 23255845,
-      "value": 922281667.42,
-      "pctOfPortfolio": 1.9562376133
-    },
-    {
-      "name": "Itau Unibanco Holding SA",
-      "cusip": null,
-      "shares": 176002651,
-      "value": 875032441.37,
-      "pctOfPortfolio": 1.8560179988
-    },
-    {
-      "name": "Deutsche Telekom AG",
-      "cusip": null,
-      "shares": 29094653,
-      "value": 870720458.45,
-      "pctOfPortfolio": 1.8468719174
+      "name": "Fidelity National Information Services, Inc",
+      "cusip": "31620M106",
+      "shares": 41073296,
+      "value": 3439888540,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Booking Holdings, Inc",
       "cusip": "09857L108",
-      "shares": 174500,
-      "value": 866989290,
-      "pctOfPortfolio": 1.8389577928
+      "shares": 789158,
+      "value": 3324028195,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Axis Bank, Ltd",
-      "cusip": null,
-      "shares": 68557850,
-      "value": 854093902.3,
-      "pctOfPortfolio": 1.8116055821
+      "name": "Amazon.com, Inc",
+      "cusip": "023135106",
+      "shares": 17280920,
+      "value": 3219953824,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Alibaba Group Holding, Ltd",
-      "cusip": "01609W102",
-      "shares": 9565900,
-      "value": 811092661,
-      "pctOfPortfolio": 1.7203963034
+      "name": "Comcast Corp",
+      "cusip": "20030N101",
+      "shares": 74062844,
+      "value": 3093604994,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
-      "name": "Akzo Nobel NV",
-      "cusip": null,
-      "shares": 13435060,
-      "value": 806695185.13,
-      "pctOfPortfolio": 1.7110688843
-    },
-    {
-      "name": "Suncor Energy, Inc",
-      "cusip": "867224107",
-      "shares": 21668754,
-      "value": 773141142.72,
-      "pctOfPortfolio": 1.6398979154
-    },
-    {
-      "name": "Haleon PLC",
-      "cusip": null,
-      "shares": 158253904,
-      "value": 745474340.61,
-      "pctOfPortfolio": 1.5812142823
-    },
-    {
-      "name": "Ashtead Group PLC",
-      "cusip": null,
-      "shares": 11323800,
-      "value": 700399738.95,
-      "pctOfPortfolio": 1.4856072305
-    },
-    {
-      "name": "Imperial Brands PLC",
-      "cusip": null,
-      "shares": 21804597,
-      "value": 696778955.28,
-      "pctOfPortfolio": 1.4779272414
-    },
-    {
-      "name": "Fresenius Medical Care AG",
-      "cusip": null,
-      "shares": 14547062,
-      "value": 662351778.83,
-      "pctOfPortfolio": 1.4049042812
-    },
-    {
-      "name": "Anheuser-Busch InBev SA/NV",
-      "cusip": null,
-      "shares": 13195900,
-      "value": 660271718.97,
-      "pctOfPortfolio": 1.4004922978
-    },
-    {
-      "name": "Infineon Technologies AG",
-      "cusip": null,
-      "shares": 18893100,
-      "value": 613667210.26,
-      "pctOfPortfolio": 1.3016401835
-    },
-    {
-      "name": "Credicorp, Ltd",
-      "cusip": "G2519Y108",
-      "shares": 3335080,
-      "value": 611386865.6,
-      "pctOfPortfolio": 1.2968033791
-    },
-    {
-      "name": "Glencore PLC",
-      "cusip": null,
-      "shares": 134762161,
-      "value": 592531837.84,
-      "pctOfPortfolio": 1.2568102666
-    },
-    {
-      "name": "Mitsubishi Electric Corp",
-      "cusip": null,
-      "shares": 34959100,
-      "value": 592517392.27,
-      "pctOfPortfolio": 1.2567796263
-    },
-    {
-      "name": "TE Connectivity PLC",
-      "cusip": "G87052109",
-      "shares": 3871985,
-      "value": 553577695.45,
-      "pctOfPortfolio": 1.1741852278
-    },
-    {
-      "name": "Aviva PLC",
-      "cusip": null,
-      "shares": 93673352,
-      "value": 549687982.84,
-      "pctOfPortfolio": 1.1659348175
-    },
-    {
-      "name": "Linde PLC",
-      "cusip": "G54950103",
-      "shares": 1277735,
-      "value": 534949312.45,
-      "pctOfPortfolio": 1.134672848
-    },
-    {
-      "name": "DHL Group",
-      "cusip": null,
-      "shares": 15058600,
-      "value": 530108357.94,
-      "pctOfPortfolio": 1.124404773
-    },
-    {
-      "name": "Prudential PLC",
-      "cusip": null,
-      "shares": 66187447,
-      "value": 527671766.18,
-      "pctOfPortfolio": 1.1192365553
+      "name": "The Cigna Group",
+      "cusip": "125523100",
+      "shares": 8789414,
+      "value": 3045004586,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "International Flavors & Fragrances, Inc",
       "cusip": "459506101",
-      "shares": 6106966,
-      "value": 516343975.3,
-      "pctOfPortfolio": 1.0952093504
+      "shares": 28082382,
+      "value": 2946684343,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Diageo PLC",
-      "cusip": null,
-      "shares": 15674000,
-      "value": 498070113.31,
-      "pctOfPortfolio": 1.0564489398
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 18662292,
+      "value": 2794304981,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Danone SA",
-      "cusip": null,
-      "shares": 7286100,
-      "value": 490241454.02,
-      "pctOfPortfolio": 1.0398436897
+      "name": "GSK PLC",
+      "cusip": "37733W204",
+      "shares": 68087163,
+      "value": 2783403223,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
     },
     {
-      "name": "TC Energy Corp",
-      "cusip": "87807B107",
-      "shares": 10528200,
-      "value": 489877146,
-      "pctOfPortfolio": 1.0390709615
+      "name": "Gilead Sciences, Inc",
+      "cusip": "375558103",
+      "shares": 33045737,
+      "value": 2770554590,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Schneider Electric SE",
-      "cusip": null,
-      "shares": 1890646,
-      "value": 467361633.4,
-      "pctOfPortfolio": 0.9913136502
+      "name": "Norfolk Southern Corp",
+      "cusip": "655844108",
+      "shares": 10862839,
+      "value": 2699415492,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GE Aerospace",
+      "cusip": "369604301",
+      "shares": 14177036,
+      "value": 2673505449,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "The Goldman Sachs Group, Inc",
+      "cusip": "38141G104",
+      "shares": 5380092,
+      "value": 2663737350,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Regeneron Pharmaceuticals, Inc",
+      "cusip": "75886F107",
+      "shares": 2311935,
+      "value": 2430398549,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TE Connectivity PLC",
+      "cusip": "G87052109",
+      "shares": 15990186,
+      "value": 2414358184,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "UnitedHealth Group, Inc",
+      "cusip": "91324P102",
+      "shares": 3902210,
+      "value": 2281544143,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "UBS Group AG",
+      "cusip": "H42097107",
+      "shares": 73371442,
+      "value": 2261764233,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "Meta Platforms, Inc",
+      "cusip": "30303M102",
+      "shares": 3812714,
+      "value": 2182550002,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 53207803,
+      "value": 2111285604,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Anheuser-Busch InBev SA/NV",
+      "cusip": "03524A108",
+      "shares": 31325890,
+      "value": 2076593248,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
+    },
+    {
+      "name": "Alphabet, Inc",
+      "cusip": "02079K305",
+      "shares": 11988817,
+      "value": 1988345299,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL A",
+      "putCall": null
+    },
+    {
+      "name": "T-Mobile U.S., Inc",
+      "cusip": "872590104",
+      "shares": 9571049,
+      "value": 1975081672,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Air Products & Chemicals, Inc",
+      "cusip": "009158106",
+      "shares": 6598194,
+      "value": 1964546282,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Alibaba Group Holding, Ltd",
+      "cusip": "01609W102",
+      "shares": 18086570,
+      "value": 1919346808,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Haleon PLC",
+      "cusip": "405552100",
+      "shares": 179172383,
+      "value": 1895643812,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADS",
+      "putCall": null
+    },
+    {
+      "name": "Zimmer Biomet Holdings, Inc",
+      "cusip": "98956P102",
+      "shares": 17073791,
+      "value": 1843115738,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Avantor, Inc",
+      "cusip": "05352A100",
+      "shares": 68418097,
+      "value": 1769976169,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "The Williams Co., Inc",
+      "cusip": "969457100",
+      "shares": 37271626,
+      "value": 1701449727,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Baxter International, Inc",
+      "cusip": "071813109",
+      "shares": 44598194,
+      "value": 1693393426,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Baker Hughes Co.",
+      "cusip": "05722G100",
+      "shares": 45830238,
+      "value": 1656763104,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "GE HealthCare Technologies, Inc",
+      "cusip": "36266G107",
+      "shares": 16663641,
+      "value": 1563882708,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
+    },
+    {
+      "name": "Humana, Inc",
+      "cusip": "444859102",
+      "shares": 4933995,
+      "value": 1562793576,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LyondellBasell Industries NV",
+      "cusip": "N53745100",
+      "shares": 16114467,
+      "value": 1545377385,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS - A -",
+      "putCall": null
+    },
+    {
+      "name": "Cognizant Technology Solutions Corp",
+      "cusip": "192446102",
+      "shares": 18349574,
+      "value": 1416220121,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Novartis AG",
+      "cusip": "66987V109",
+      "shares": 12221876,
+      "value": 1405760178,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
+    },
+    {
+      "name": "Dominion Energy, Inc",
+      "cusip": "25746U109",
+      "shares": 22687873,
+      "value": 1311132181,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Cisco Systems, Inc",
+      "cusip": "17275R102",
+      "shares": 23821547,
+      "value": 1267782731,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Elanco Animal Health, Inc",
+      "cusip": "28414H103",
+      "shares": 83315550,
+      "value": 1223905430,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HP, Inc",
+      "cusip": "40434L105",
+      "shares": 33822175,
+      "value": 1213201417,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fox Corp",
+      "cusip": "35137L105",
+      "shares": 28455247,
+      "value": 1204510606,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A COM",
+      "putCall": null
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 11431431,
+      "value": 1203501056,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "American Electric Power Co., Inc",
+      "cusip": "025537101",
+      "shares": 11580505,
+      "value": 1188159813,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Carrier Global Corp",
+      "cusip": "14448C104",
+      "shares": 14346499,
+      "value": 1154749705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Truist Financial Corp",
+      "cusip": "89832Q109",
+      "shares": 25750060,
+      "value": 1101330066,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Suncor Energy, Inc",
+      "cusip": "867224107",
+      "shares": 29410254,
+      "value": 1085826578,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Incyte Corp",
+      "cusip": "45337C102",
+      "shares": 15276093,
+      "value": 1009749747,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Alnylam Pharmaceuticals, Inc",
+      "cusip": "02043Q107",
+      "shares": 3622535,
+      "value": 996305801,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Credicorp, Ltd",
+      "cusip": "G2519Y108",
+      "shares": 5410880,
+      "value": 979206954,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BioMarin Pharmaceutical, Inc",
+      "cusip": "09061G101",
+      "shares": 13898318,
+      "value": 976912772,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Coherent Corp",
+      "cusip": "19247G107",
+      "shares": 10639374,
+      "value": 945946742,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Celanese Corp",
+      "cusip": "150870103",
+      "shares": 6799069,
+      "value": 924401421,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JD.com, Inc",
       "cusip": "47215P106",
-      "shares": 13335840,
-      "value": 462353572.8,
-      "pctOfPortfolio": 0.9806911291
+      "shares": 22482449,
+      "value": 899297960,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADS CL A",
+      "putCall": null
     },
     {
-      "name": "Smiths Group PLC",
-      "cusip": null,
-      "shares": 20175116,
-      "value": 432632510.65,
-      "pctOfPortfolio": 0.9176502363
+      "name": "VF Corp",
+      "cusip": "918204108",
+      "shares": 42512850,
+      "value": 848131358,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "State Street Institutional US",
-      "cusip": null,
-      "shares": 418415602.7,
-      "value": 418415602.7,
-      "pctOfPortfolio": 0.8874949692
+      "name": "Molson Coors Beverage Co.",
+      "cusip": "60871R209",
+      "shares": 14619464,
+      "value": 840911569,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
     },
     {
-      "name": "Entain PLC",
-      "cusip": null,
-      "shares": 48734596,
-      "value": 417391431.64,
-      "pctOfPortfolio": 0.8853226155
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 9455812,
+      "value": 836555688,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Daikin Industries, Ltd",
-      "cusip": null,
-      "shares": 3540200,
-      "value": 414754515.62,
-      "pctOfPortfolio": 0.8797294931
+      "name": "Bristol-Myers Squibb Co.",
+      "cusip": "110122108",
+      "shares": 15627743,
+      "value": 808579423,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Honda Motor Co., Ltd",
-      "cusip": null,
-      "shares": 41879865,
-      "value": 393791286.83,
-      "pctOfPortfolio": 0.8352647074
-    },
-    {
-      "name": "Stellantis NV",
-      "cusip": null,
-      "shares": 30000000,
-      "value": 393729090.08,
-      "pctOfPortfolio": 0.8351327828
-    },
-    {
-      "name": "Yum China Holdings, Inc",
-      "cusip": "98850P109",
-      "shares": 8073100,
-      "value": 388881227,
-      "pctOfPortfolio": 0.8248500542
-    },
-    {
-      "name": "AIA Group, Ltd",
-      "cusip": "Y002A1105",
-      "shares": 49813500,
-      "value": 360347369.27,
-      "pctOfPortfolio": 0.7643273227
-    },
-    {
-      "name": "Mitsubishi Chemical Group Corp",
-      "cusip": null,
-      "shares": 70912600,
-      "value": 356841455.71,
-      "pctOfPortfolio": 0.7568909828
-    },
-    {
-      "name": "Tencent Holdings, Ltd",
-      "cusip": null,
-      "shares": 6566800,
-      "value": 350938182.02,
-      "pctOfPortfolio": 0.7443696388
-    },
-    {
-      "name": "Nutrien, Ltd",
-      "cusip": "67077M108",
-      "shares": 7822959,
-      "value": 350077415.25,
-      "pctOfPortfolio": 0.7425438795
-    },
-    {
-      "name": "Bayer AG",
-      "cusip": null,
-      "shares": 16767110,
-      "value": 335370701.23,
-      "pctOfPortfolio": 0.7113496921
-    },
-    {
-      "name": "Teck Resources, Ltd",
-      "cusip": "878742204",
-      "shares": 8140840,
-      "value": 329948245.2,
-      "pctOfPortfolio": 0.6998482031
-    },
-    {
-      "name": "Beiersdorf AG",
-      "cusip": null,
-      "shares": 2515000,
-      "value": 322915078.12,
-      "pctOfPortfolio": 0.6849302594
-    },
-    {
-      "name": "Baidu, Inc",
-      "cusip": "056752108",
-      "shares": 3758585,
-      "value": 316886301.35,
-      "pctOfPortfolio": 0.6721427127
-    },
-    {
-      "name": "Murata Manufacturing Co., Ltd",
-      "cusip": null,
-      "shares": 19707800,
-      "value": 314977493.57,
-      "pctOfPortfolio": 0.6680939696
-    },
-    {
-      "name": "BP PLC",
-      "cusip": null,
-      "shares": 63195900,
-      "value": 311407922.77,
-      "pctOfPortfolio": 0.6605226073
+      "name": "Sun Communities, Inc",
+      "cusip": "866674104",
+      "shares": 5961165,
+      "value": 805651450,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Aegon, Ltd",
-      "cusip": null,
-      "shares": 52466275,
-      "value": 310499929.63,
-      "pctOfPortfolio": 0.6585966768
+      "cusip": "0076CA104",
+      "shares": 117784082,
+      "value": 752640284,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "AMER REG 1 CERT",
+      "putCall": null
     },
     {
-      "name": "Coupang, Inc",
-      "cusip": "22266T109",
-      "shares": 13418100,
-      "value": 294929838,
-      "pctOfPortfolio": 0.6255711924
+      "name": "Honda Motor Co., Ltd",
+      "cusip": "438128308",
+      "shares": 22076375,
+      "value": 700483379,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR ECH CNV IN 3",
+      "putCall": null
     },
     {
-      "name": "Olympus Corp",
-      "cusip": null,
-      "shares": 19797900,
-      "value": 294880811.73,
-      "pctOfPortfolio": 0.6254672035
+      "name": "The Gap, Inc",
+      "cusip": "364760108",
+      "shares": 28873346,
+      "value": 636657279,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "CK Asset Holdings, Ltd",
-      "cusip": null,
-      "shares": 70269600,
-      "value": 288634835.03,
-      "pctOfPortfolio": 0.6122189573
-    },
-    {
-      "name": "Daito Trust Construction Co., Ltd",
-      "cusip": null,
-      "shares": 2465200,
-      "value": 274132043.72,
-      "pctOfPortfolio": 0.5814573073
-    },
-    {
-      "name": "Kyocera Corp",
-      "cusip": null,
-      "shares": 26733600,
-      "value": 264995147.4,
-      "pctOfPortfolio": 0.5620771756
-    },
-    {
-      "name": "Royal Bank of Canada",
-      "cusip": null,
-      "shares": 250000000,
-      "value": 250000000,
-      "pctOfPortfolio": 0.5302711965
-    },
-    {
-      "name": "Standard Chartered PLC",
-      "cusip": null,
-      "shares": 250000000,
-      "value": 250000000,
-      "pctOfPortfolio": 0.5302711965
-    },
-    {
-      "name": "Reckitt Benckiser Group PLC",
-      "cusip": null,
-      "shares": 4089094,
-      "value": 247015937.22,
-      "pctOfPortfolio": 0.5239417464
-    },
-    {
-      "name": "Kering SA",
-      "cusip": "F5433L103",
-      "shares": 960300,
-      "value": 235349798.51,
-      "pctOfPortfolio": 0.499196877
-    },
-    {
-      "name": "NetEase, Inc",
-      "cusip": "64110W102",
-      "shares": 2508126,
-      "value": 223749920.46,
-      "pctOfPortfolio": 0.4745925522
-    },
-    {
-      "name": "Samsung Electronics Co., Ltd",
-      "cusip": null,
-      "shares": 7414600,
-      "value": 222354333.35,
-      "pctOfPortfolio": 0.4716323936
+      "name": "Linde PLC",
+      "cusip": "G54950103",
+      "shares": 1326990,
+      "value": 632788451,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "XP, Inc",
       "cusip": "G98239109",
-      "shares": 17776502,
-      "value": 210651548.7,
-      "pctOfPortfolio": 0.4468097951
+      "shares": 34861745,
+      "value": 625419705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
-      "name": "Millicom International Cellular SA",
-      "cusip": null,
-      "shares": 8247010,
-      "value": 202325920.06,
-      "pctOfPortfolio": 0.4291504309
+      "name": "Baidu, Inc",
+      "cusip": "056752108",
+      "shares": 5894215,
+      "value": 620601897,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR REP A",
+      "putCall": null
     },
     {
-      "name": "Seven & i Holdings Co., Ltd",
-      "cusip": null,
-      "shares": 12725100,
-      "value": 199476392.94,
-      "pctOfPortfolio": 0.4231063423
+      "name": "Medtronic PLC",
+      "cusip": "G5960L103",
+      "shares": 6763490,
+      "value": 608917005,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
-      "name": "Cemex SAB de CV",
-      "cusip": "151290889",
-      "shares": 32325980,
-      "value": 182318527.2,
-      "pctOfPortfolio": 0.3867130543
+      "name": "Nutrien, Ltd",
+      "cusip": "67077M108",
+      "shares": 12482459,
+      "value": 599906980,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Samsung Electronics Co., Ltd",
-      "cusip": null,
-      "shares": 4419500,
-      "value": 159493492.98,
-      "pctOfPortfolio": 0.3382992215
+      "name": "Juniper Networks, Inc",
+      "cusip": "48203R104",
+      "shares": 13509238,
+      "value": 526590097,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "adidas AG",
-      "cusip": null,
-      "shares": 646800,
-      "value": 158833928.38,
-      "pctOfPortfolio": 0.336900229
+      "name": "TC Energy Corp",
+      "cusip": "87807B107",
+      "shares": 10953200,
+      "value": 520670800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Flutter Entertainment PLC",
-      "cusip": "G3643J108",
-      "shares": 604478,
-      "value": 156227339.1,
-      "pctOfPortfolio": 0.3313714321
+      "name": "Coupang, Inc",
+      "cusip": "22266T109",
+      "shares": 20105420,
+      "value": 493588061,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
-      "name": "Equinor ASA",
-      "cusip": null,
-      "shares": 6092738,
-      "value": 144006800.66,
-      "pctOfPortfolio": 0.305450634
+      "name": "Teck Resources, Ltd",
+      "cusip": "878742204",
+      "shares": 9284842,
+      "value": 485040146,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
     },
     {
-      "name": "NIDEC Corp",
-      "cusip": null,
-      "shares": 7585200,
-      "value": 136145681.7,
-      "pctOfPortfolio": 0.2887765342
+      "name": "Yum China Holdings, Inc",
+      "cusip": "98850P109",
+      "shares": 10684762,
+      "value": 481027985,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Brother Industries, Ltd",
-      "cusip": "114813108",
-      "shares": 7931700,
-      "value": 134372638.84,
-      "pctOfPortfolio": 0.2850157599
+      "name": "Fox Corp",
+      "cusip": "35137L204",
+      "shares": 11331015,
+      "value": 439643382,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B COM",
+      "putCall": null
     },
     {
-      "name": "Hang Lung Group, Ltd",
-      "cusip": null,
-      "shares": 93433300,
-      "value": 125843400.37,
-      "pctOfPortfolio": 0.266924522
+      "name": "Occidental Petroleum Corp",
+      "cusip": "674599162",
+      "shares": 14254370,
+      "value": 423639880,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "*W EXP 08/03/202",
+      "putCall": null
     },
     {
-      "name": "Sunrise Communications AG",
-      "cusip": "867975104",
-      "shares": 2201525,
-      "value": 94841697,
-      "pctOfPortfolio": 0.2011672806
+      "name": "Gaming & Leisure Properties, Inc",
+      "cusip": "36467J108",
+      "shares": 7701335,
+      "value": 396233686,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Liberty Global, Ltd",
-      "cusip": "G61188127",
-      "shares": 6395068,
-      "value": 84031193.52,
-      "pctOfPortfolio": 0.1782372861
+      "name": "SBA Communications Corp",
+      "cusip": "78410G104",
+      "shares": 1623515,
+      "value": 390780061,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "EchoStar Corp",
+      "cusip": "278768106",
+      "shares": 13467353,
+      "value": 334259701,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Brighthouse Financial, Inc",
+      "cusip": "10922N103",
+      "shares": 6669575,
+      "value": 300330962,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "News Corp",
+      "cusip": "65249B109",
+      "shares": 10417407,
+      "value": 277415548,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "NetEase, Inc",
+      "cusip": "64110W102",
+      "shares": 2633976,
+      "value": 246303096,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "HDFC Bank, Ltd",
+      "cusip": "40415F101",
+      "shares": 2915300,
+      "value": 182381168,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "Grupo Televisa SAB",
       "cusip": "40049J206",
-      "shares": 46380780,
-      "value": 77919710.4,
-      "pctOfPortfolio": 0.1652743123
+      "shares": 64212690,
+      "value": 164384486,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR REP ORD",
+      "putCall": null
+    },
+    {
+      "name": "Neurocrine Biosciences, Inc",
+      "cusip": "64125C109",
+      "shares": 1287820,
+      "value": 148382620,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Flutter Entertainment PLC",
+      "cusip": "G3643J108",
+      "shares": 624478,
+      "value": 148176140,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "Liberty Global, Ltd",
+      "cusip": "G61188127",
+      "shares": 6682068,
+      "value": 144399489,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL C",
+      "putCall": null
+    },
+    {
+      "name": "American Express Co.",
+      "cusip": "025816109",
+      "shares": 410665,
+      "value": 111372348,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Itau Unibanco Holding SA",
+      "cusip": "465562106",
+      "shares": 15562605,
+      "value": 103491323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR REP PFD",
+      "putCall": null
     },
     {
       "name": "Liberty Global, Ltd",
       "cusip": "G61188101",
-      "shares": 4612561,
-      "value": 58856278.36,
-      "pctOfPortfolio": 0.1248391566
-    },
-    {
-      "name": "Fixed Income Clearing Corporation",
-      "cusip": null,
-      "shares": 47177232.45,
-      "value": 47177232.45,
-      "pctOfPortfolio": 0.10006691
-    },
-    {
-      "name": "Ollamani SAB",
-      "cusip": null,
-      "shares": 11595195,
-      "value": 19685861.73,
-      "pctOfPortfolio": 0.0417553818
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 3977314.96,
-      "pctOfPortfolio": 0.0084362223
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 3418523.31,
-      "pctOfPortfolio": 0.0072509778
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 3210617.38,
-      "pctOfPortfolio": 0.0068099917
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2526755.78,
-      "pctOfPortfolio": 0.0053594632
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2435324.87,
-      "pctOfPortfolio": 0.0051655305
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2380190.83,
-      "pctOfPortfolio": 0.0050485866
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2374432.74,
-      "pctOfPortfolio": 0.0050363732
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2364115.82,
-      "pctOfPortfolio": 0.0050144901
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2336041.93,
-      "pctOfPortfolio": 0.004954943
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2333456.6,
-      "pctOfPortfolio": 0.0049494593
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2228295.76,
-      "pctOfPortfolio": 0.0047264042
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2227407.93,
-      "pctOfPortfolio": 0.0047245211
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2217662.53,
-      "pctOfPortfolio": 0.0047038503
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2198551.89,
-      "pctOfPortfolio": 0.004663315
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2145269.69,
-      "pctOfPortfolio": 0.0045502989
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2139512.26,
-      "pctOfPortfolio": 0.0045380869
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2132477.6,
-      "pctOfPortfolio": 0.0045231658
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2124805.73,
-      "pctOfPortfolio": 0.0045068931
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 2120288.65,
-      "pctOfPortfolio": 0.004497312
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1973918.45,
-      "pctOfPortfolio": 0.0041868484
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1905493.13,
-      "pctOfPortfolio": 0.0040417125
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1901495.46,
-      "pctOfPortfolio": 0.0040332331
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1900355.17,
-      "pctOfPortfolio": 0.0040308144
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1879839.34,
-      "pctOfPortfolio": 0.0039872986
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1879272.63,
-      "pctOfPortfolio": 0.0039860966
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1863901.45,
-      "pctOfPortfolio": 0.003953493
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1823349.14,
-      "pctOfPortfolio": 0.0038674781
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1816137.11,
-      "pctOfPortfolio": 0.0038521808
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1815606.79,
-      "pctOfPortfolio": 0.0038510559
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1807682.78,
-      "pctOfPortfolio": 0.0038342484
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1789197.04,
-      "pctOfPortfolio": 0.0037950386
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1759611.14,
-      "pctOfPortfolio": 0.0037322844
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1758244.5,
-      "pctOfPortfolio": 0.0037293857
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1751545.81,
-      "pctOfPortfolio": 0.0037151772
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1716204.23,
-      "pctOfPortfolio": 0.0036402147
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1712279.34,
-      "pctOfPortfolio": 0.0036318897
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1703526.95,
-      "pctOfPortfolio": 0.0036133251
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1701776.74,
-      "pctOfPortfolio": 0.0036096128
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1699440.81,
-      "pctOfPortfolio": 0.003604658
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1696460.2,
-      "pctOfPortfolio": 0.0035983359
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1693027.12,
-      "pctOfPortfolio": 0.0035910541
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1680052.8,
-      "pctOfPortfolio": 0.0035635344
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1675960.19,
-      "pctOfPortfolio": 0.0035548537
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1672357.63,
-      "pctOfPortfolio": 0.0035472123
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1667373.03,
-      "pctOfPortfolio": 0.0035366396
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1635444.81,
-      "pctOfPortfolio": 0.0034689171
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1398713.34,
-      "pctOfPortfolio": 0.0029667896
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1338983.75,
-      "pctOfPortfolio": 0.0028400981
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1334931.28,
-      "pctOfPortfolio": 0.0028315024
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1328913.32,
-      "pctOfPortfolio": 0.0028187378
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1325996.57,
-      "pctOfPortfolio": 0.0028125512
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1325994.58,
-      "pctOfPortfolio": 0.0028125469
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1321530.4,
-      "pctOfPortfolio": 0.002803078
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1228684.34,
-      "pctOfPortfolio": 0.0026061437
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1213129.44,
-      "pctOfPortfolio": 0.0025731504
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1206127.58,
-      "pctOfPortfolio": 0.0025582989
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1203266.65,
-      "pctOfPortfolio": 0.0025522306
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1190121.67,
-      "pctOfPortfolio": 0.002524349
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1187835.55,
-      "pctOfPortfolio": 0.0025194999
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1180205.08,
-      "pctOfPortfolio": 0.002503315
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1179849.5,
-      "pctOfPortfolio": 0.0025025608
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1179838.23,
-      "pctOfPortfolio": 0.0025025369
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1170319.45,
-      "pctOfPortfolio": 0.0024823468
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1163396.23,
-      "pctOfPortfolio": 0.002467662
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1161166.97,
-      "pctOfPortfolio": 0.0024629336
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1156878.71,
-      "pctOfPortfolio": 0.0024538378
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1156758.05,
-      "pctOfPortfolio": 0.0024535819
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1143019.88,
-      "pctOfPortfolio": 0.0024244421
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1141596.36,
-      "pctOfPortfolio": 0.0024214227
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1135315.78,
-      "pctOfPortfolio": 0.002408101
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 1121544.67,
-      "pctOfPortfolio": 0.0023788913
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 917212.24,
-      "pctOfPortfolio": 0.0019454849
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 910187.62,
-      "pctOfPortfolio": 0.0019305851
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 894701.64,
-      "pctOfPortfolio": 0.001897738
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 893844.62,
-      "pctOfPortfolio": 0.0018959202
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 891652.45,
-      "pctOfPortfolio": 0.0018912704
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 874840.09,
-      "pctOfPortfolio": 0.00185561
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 869507.98,
-      "pctOfPortfolio": 0.0018443001
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 850445.84,
-      "pctOfPortfolio": 0.0018038677
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 850143.51,
-      "pctOfPortfolio": 0.0018032265
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 829642.62,
-      "pctOfPortfolio": 0.0017597423
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 815342.27,
-      "pctOfPortfolio": 0.0017294101
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 800392.55,
-      "pctOfPortfolio": 0.0016977005
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 800299.71,
-      "pctOfPortfolio": 0.0016975035
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 796792.6,
-      "pctOfPortfolio": 0.0016900647
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 764163.99,
-      "pctOfPortfolio": 0.0016208566
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 754205.67,
-      "pctOfPortfolio": 0.0015997342
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 750218.2,
-      "pctOfPortfolio": 0.0015912764
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 747370.3,
-      "pctOfPortfolio": 0.0015852358
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 746594.87,
-      "pctOfPortfolio": 0.001583591
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 725261.22,
-      "pctOfPortfolio": 0.0015383405
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 720280.07,
-      "pctOfPortfolio": 0.0015277751
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 656506.43,
-      "pctOfPortfolio": 0.0013925058
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 650595.11,
-      "pctOfPortfolio": 0.0013799674
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 647563.62,
-      "pctOfPortfolio": 0.0013735373
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 644532.13,
-      "pctOfPortfolio": 0.0013671073
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 637860.61,
-      "pctOfPortfolio": 0.0013529564
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 630512.21,
-      "pctOfPortfolio": 0.0013373699
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 629705.43,
-      "pctOfPortfolio": 0.0013356586
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 609883.05,
-      "pctOfPortfolio": 0.0012936137
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 608427.83,
-      "pctOfPortfolio": 0.001290527
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 605223.6,
-      "pctOfPortfolio": 0.0012837306
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 601177.79,
-      "pctOfPortfolio": 0.0012751491
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 589076.06,
-      "pctOfPortfolio": 0.0012494803
-    },
-    {
-      "name": "N/A",
-      "cusip": null,
-      "shares": 1,
-      "value": 553612.07,
-      "pctOfPortfolio": 0.0011742581
+      "shares": 4767561,
+      "value": 100643213,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Fresenius Medical Care AG",
+      "cusip": "358029106",
+      "shares": 4173510,
+      "value": 88895763,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
+    },
+    {
+      "name": "Cadence Design Systems, Inc",
+      "cusip": "127387108",
+      "shares": 257777,
+      "value": 69865300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Union Pacific Corp",
+      "cusip": "907818108",
+      "shares": 282232,
+      "value": 69564543,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "46625H100",
+      "shares": 303575,
+      "value": 64011825,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Microchip Technology, Inc",
+      "cusip": "595017104",
+      "shares": 617926,
+      "value": 49613279,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GE Vernova, Inc",
+      "cusip": "36828A101",
+      "shares": 182340,
+      "value": 46493053,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Eli Lilly & Co.",
+      "cusip": "532457108",
+      "shares": 45090,
+      "value": 39947035,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "The Walt Disney Co.",
+      "cusip": "254687106",
+      "shares": 304181,
+      "value": 29259170,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Chevron Corp",
+      "cusip": "166764100",
+      "shares": 183878,
+      "value": 27079713,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Schlumberger NV",
+      "cusip": "806857108",
+      "shares": 645516,
+      "value": 27079396,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM STK",
+      "putCall": null
+    },
+    {
+      "name": "The Travelers Co., Inc",
+      "cusip": "89417E109",
+      "shares": 112570,
+      "value": 26354888,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Taiwan Semiconductor Manufacturing Co., Ltd",
+      "cusip": "874039100",
+      "shares": 107500,
+      "value": 18669525,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Merck & Co., Inc",
+      "cusip": "58933Y105",
+      "shares": 158251,
+      "value": 17970984,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Target Corp",
+      "cusip": "87612E106",
+      "shares": 114774,
+      "value": 17888676,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Thermo Fisher Scientific, Inc",
+      "cusip": "883556102",
+      "shares": 26766,
+      "value": 16556645,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Caterpillar, Inc",
+      "cusip": "149123101",
+      "shares": 42276,
+      "value": 16534989,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "The Procter & Gamble Co.",
+      "cusip": "742718109",
+      "shares": 94728,
+      "value": 16406890,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Walmart, Inc",
+      "cusip": "931142103",
+      "shares": 197110,
+      "value": 15916633,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AstraZeneca PLC",
+      "cusip": "046353108",
+      "shares": 149035,
+      "value": 11611317,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
+    },
+    {
+      "name": "Adobe, Inc",
+      "cusip": "00724F101",
+      "shares": 21217,
+      "value": 10985738,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "The Home Depot, Inc",
+      "cusip": "437076102",
+      "shares": 24432,
+      "value": 9899846,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Exxon Mobil Corp",
+      "cusip": "30231G102",
+      "shares": 79686,
+      "value": 9340793,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Boston Scientific Corp",
+      "cusip": "101137107",
+      "shares": 95295,
+      "value": 7985721,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "International Business Machines Corp",
+      "cusip": "459200101",
+      "shares": 34270,
+      "value": 7576412,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Analog Devices, Inc",
+      "cusip": "032654105",
+      "shares": 31815,
+      "value": 7322859,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Hess Corp",
+      "cusip": "42809H107",
+      "shares": 46550,
+      "value": 6321490,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Vulcan Materials Co.",
+      "cusip": "929160109",
+      "shares": 24700,
+      "value": 6185621,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Broadcom, Inc",
+      "cusip": "11135F101",
+      "shares": 35340,
+      "value": 6096150,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway, Inc",
+      "cusip": "084670702",
+      "shares": 12703,
+      "value": 5846683,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
+    },
+    {
+      "name": "Synopsys, Inc",
+      "cusip": "871607107",
+      "shares": 11350,
+      "value": 5747527,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Apple, Inc",
+      "cusip": "037833100",
+      "shares": 23868,
+      "value": 5561244,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Deere & Co.",
+      "cusip": "244199105",
+      "shares": 13036,
+      "value": 5440314,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Amgen, Inc",
+      "cusip": "031162100",
+      "shares": 14282,
+      "value": 4601803,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Danaher Corp",
+      "cusip": "235851102",
+      "shares": 16525,
+      "value": 4594281,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Cemex SAB de CV",
+      "cusip": "151290889",
+      "shares": 679700,
+      "value": 4146170,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR NEW",
+      "putCall": null
+    },
+    {
+      "name": "Hewlett Packard Enterprise Co.",
+      "cusip": "42824C109",
+      "shares": 191783,
+      "value": 3923880,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Motorola Solutions, Inc",
+      "cusip": "620076307",
+      "shares": 8627,
+      "value": 3878958,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "Dell Technologies, Inc",
+      "cusip": "24703L202",
+      "shares": 32560,
+      "value": 3859662,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL C",
+      "putCall": null
+    },
+    {
+      "name": "Shell PLC",
+      "cusip": "780259305",
+      "shares": 57613,
+      "value": 3799577,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADS",
+      "putCall": null
+    },
+    {
+      "name": "LPL Financial Holdings, Inc",
+      "cusip": "50212V100",
+      "shares": 15556,
+      "value": 3618792,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Johnson & Johnson",
+      "cusip": "478160104",
+      "shares": 21097,
+      "value": 3418980,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Pfizer, Inc",
+      "cusip": "717081103",
+      "shares": 112785,
+      "value": 3263998,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "S&P Global, Inc",
+      "cusip": "78409V104",
+      "shares": 5400,
+      "value": 2789748,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway, Inc",
+      "cusip": "084670108",
+      "shares": 4,
+      "value": 2764720,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "The PNC Financial Services Group, Inc",
+      "cusip": "693475105",
+      "shares": 14275,
+      "value": 2638734,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Halliburton Co.",
+      "cusip": "406216101",
+      "shares": 81160,
+      "value": 2357698,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Otis Worldwide Corp",
+      "cusip": "68902V107",
+      "shares": 21810,
+      "value": 2266931,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AbbVie, Inc",
+      "cusip": "00287Y109",
+      "shares": 11006,
+      "value": 2173465,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Philip Morris International, Inc",
+      "cusip": "718172109",
+      "shares": 17000,
+      "value": 2063800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Abbott Laboratories",
+      "cusip": "002824100",
+      "shares": 17857,
+      "value": 2035877,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NextEra Energy, Inc",
+      "cusip": "65339F101",
+      "shares": 23600,
+      "value": 1994908,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "McDonald's Corp",
+      "cusip": "580135101",
+      "shares": 6550,
+      "value": 1994541,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Corning, Inc",
+      "cusip": "219350105",
+      "shares": 42450,
+      "value": 1916618,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Diageo PLC",
+      "cusip": "25243Q205",
+      "shares": 13511,
+      "value": 1896134,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR NEW",
+      "putCall": null
+    },
+    {
+      "name": "Parker-Hannifin Corp",
+      "cusip": "701094104",
+      "shares": 2850,
+      "value": 1800687,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "The Coca-Cola Co.",
+      "cusip": "191216100",
+      "shares": 24635,
+      "value": 1770271,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Honeywell International, Inc",
+      "cusip": "438516106",
+      "shares": 8019,
+      "value": 1657607,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Vipshop Holdings, Ltd",
+      "cusip": "92763W103",
+      "shares": 101997,
+      "value": 1604413,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS A",
+      "putCall": null
+    },
+    {
+      "name": "DuPont de Nemours, Inc",
+      "cusip": "26614N102",
+      "shares": 17583,
+      "value": 1566821,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Unilever PLC",
+      "cusip": "904767704",
+      "shares": 23900,
+      "value": 1552544,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR NEW",
+      "putCall": null
+    },
+    {
+      "name": "Colgate-Palmolive Co.",
+      "cusip": "194162103",
+      "shares": 14000,
+      "value": 1453340,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Las Vegas Sands Corp",
+      "cusip": "517834107",
+      "shares": 28400,
+      "value": 1429656,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Corteva, Inc",
+      "cusip": "22052L104",
+      "shares": 23648,
+      "value": 1390266,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JOYY, Inc",
+      "cusip": "46591M109",
+      "shares": 34966,
+      "value": 1267168,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADS REPSTG COM A",
+      "putCall": null
+    },
+    {
+      "name": "3M Co.",
+      "cusip": "88579Y101",
+      "shares": 9224,
+      "value": 1260921,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "APA Corp",
+      "cusip": "03743Q108",
+      "shares": 46700,
+      "value": 1142282,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Trip.com Group, Ltd",
+      "cusip": "89677Q107",
+      "shares": 18100,
+      "value": 1075683,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADS",
+      "putCall": null
+    },
+    {
+      "name": "Altria Group, Inc",
+      "cusip": "02209S103",
+      "shares": 21000,
+      "value": 1071840,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "eBay, Inc",
+      "cusip": "278642103",
+      "shares": 15210,
+      "value": 990323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Nucor Corp",
+      "cusip": "670346105",
+      "shares": 6200,
+      "value": 932108,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Dow, Inc",
+      "cusip": "260557103",
+      "shares": 16422,
+      "value": 897134,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PayPal Holdings, Inc",
+      "cusip": "70450Y103",
+      "shares": 11400,
+      "value": 889542,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ACM Research, Inc",
+      "cusip": "00108J109",
+      "shares": 43000,
+      "value": 872900,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Mondelez International, Inc",
+      "cusip": "609207105",
+      "shares": 11840,
+      "value": 872253,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Ameriprise Financial, Inc",
+      "cusip": "03076C106",
+      "shares": 1827,
+      "value": 858343,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "General Mills, Inc",
+      "cusip": "370334104",
+      "shares": 11200,
+      "value": 827120,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Moody's Corp",
+      "cusip": "615369105",
+      "shares": 1566,
+      "value": 743208,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BlackRock, Inc",
+      "cusip": "09247X101",
+      "shares": 750,
+      "value": 712133,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Copa Holdings SA",
+      "cusip": "P31076105",
+      "shares": 7350,
+      "value": 689724,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Intercorp Financial Services, Inc",
+      "cusip": "P5626F128",
+      "shares": 25869,
+      "value": 675957,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "Genuine Parts Co.",
+      "cusip": "372460105",
+      "shares": 4675,
+      "value": 653004,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Geopark, Ltd",
+      "cusip": "G38327105",
+      "shares": 76814,
+      "value": 604526,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "USD SHS",
+      "putCall": null
+    },
+    {
+      "name": "Kaspi.KZ JSC",
+      "cusip": "48581R205",
+      "shares": 5526,
+      "value": 585701,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Elevance Health, Inc",
+      "cusip": "036752103",
+      "shares": 1100,
+      "value": 572000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PepsiCo, Inc",
+      "cusip": "713448108",
+      "shares": 3075,
+      "value": 522904,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Afya, Ltd",
+      "cusip": "G01125106",
+      "shares": 29183,
+      "value": 498154,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A COM",
+      "putCall": null
+    },
+    {
+      "name": "The Allstate Corp",
+      "cusip": "020002101",
+      "shares": 2618,
+      "value": 496504,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "902973304",
+      "shares": 10800,
+      "value": 493884,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "Lockheed Martin Corp",
+      "cusip": "539830109",
+      "shares": 775,
+      "value": 453034,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Cintas Corp",
+      "cusip": "172908105",
+      "shares": 2000,
+      "value": 411760,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KE Holdings, Inc",
+      "cusip": "482497104",
+      "shares": 18440,
+      "value": 367140,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Dlocal, Ltd",
+      "cusip": "G29018101",
+      "shares": 44900,
+      "value": 359200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS A COM",
+      "putCall": null
+    },
+    {
+      "name": "Bancolombia SA",
+      "cusip": "05968L102",
+      "shares": 11000,
+      "value": 345180,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR PREF",
+      "putCall": null
+    },
+    {
+      "name": "Phillips 66",
+      "cusip": "718546104",
+      "shares": 2600,
+      "value": 341770,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Zoetis, Inc",
+      "cusip": "98978V103",
+      "shares": 1700,
+      "value": 332146,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Noah Holdings, Ltd",
+      "cusip": "65487X102",
+      "shares": 26840,
+      "value": 330937,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADS",
+      "putCall": null
+    },
+    {
+      "name": "PPG Industries, Inc",
+      "cusip": "693506107",
+      "shares": 2200,
+      "value": 291412,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Rio Tinto PLC",
+      "cusip": "767204100",
+      "shares": 4000,
+      "value": 284680,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
+    },
+    {
+      "name": "Loma Negra Cia Industrial Argentina SA",
+      "cusip": "54150E104",
+      "shares": 30800,
+      "value": 248248,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Visa, Inc",
+      "cusip": "92826C839",
+      "shares": 900,
+      "value": 247455,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Verizon Communications, Inc",
+      "cusip": "92343V104",
+      "shares": 5500,
+      "value": 247005,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Intuitive Surgical, Inc",
+      "cusip": "46120E602",
+      "shares": 500,
+      "value": 245635,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "Petroleo Brasileiro SA",
+      "cusip": "71654V408",
+      "shares": 16500,
+      "value": 237765,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
+    },
+    {
+      "name": "Becton, Dickinson & Co.",
+      "cusip": "075887109",
+      "shares": 980,
+      "value": 236278,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Chubb, Ltd",
+      "cusip": "H1467J104",
+      "shares": 722,
+      "value": 208218,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Qurate Retail, Inc",
+      "cusip": "74915M100",
+      "shares": 22000,
+      "value": 13422,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER A",
+      "putCall": null
     }
   ],
-  "totalValue": 47275732004.63998,
-  "positionsCount": 193
+  "totalValue": 176833282150,
+  "positionsCount": 205,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 176833282150
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

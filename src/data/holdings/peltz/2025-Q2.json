@@ -9,69 +9,165 @@
       "name": "Janus Henderson Group plc",
       "cusip": "G4474Y214",
       "shares": 31867800,
-      "value": 1152020970
+      "value": 1152020970,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "GE Aerospace",
       "cusip": "369604301",
       "shares": 4030213,
-      "value": 806647132
+      "value": 806647132,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "Solventum Corporation",
       "cusip": "83444M101",
       "shares": 8462819,
-      "value": 643512757
+      "value": 643512757,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
     },
     {
       "name": "Invesco Ltd",
       "cusip": "G491BT108",
       "shares": 23173442,
-      "value": 351541115
+      "value": 351541115,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 15480217,
-      "value": 226475575
+      "value": 226475575,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Wendys Co.",
       "cusip": "95058W100",
       "shares": 14943466,
-      "value": 218622908
+      "value": 218622908,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Ferguson Plc New",
       "cusip": "G3421J106",
       "shares": 1008765,
-      "value": 161634416
+      "value": 161634416,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "U-Haul Holding Company - B",
       "cusip": "023586506",
       "shares": 1124700,
-      "value": 66559746
+      "value": 66559746,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER N",
+      "putCall": null
     },
     {
       "name": "The Allstate Corporation",
       "cusip": "200021014",
       "shares": 317650,
-      "value": 65775786
+      "value": 65775786,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "U-Haul Holding Company",
       "cusip": "023586100",
       "shares": 652000,
-      "value": 42614720
+      "value": 42614720,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GE HealthCare Technologies Inc",
       "cusip": "36266G107",
       "shares": 4029,
-      "value": 325181
+      "value": 325181,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 3735730306,
-  "positionsCount": 11
+  "positionsCount": 11,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 3735730306
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

@@ -1,179 +1,537 @@
 {
-  "form": "NPORT-P",
-  "date": "2025-02-27",
-  "period": "2025-02-27",
-  "accession": "0001752724-25-044560",
+  "form": "13F-HR",
+  "date": "2024-11-14",
+  "period": "2024-11-14",
+  "accession": "0000919574-24-006465",
   "quarterKey": "2024-Q4",
   "positions": [
     {
-      "name": "Rolls-Royce Holdings PLC",
-      "cusip": "000000000",
-      "shares": 41891727,
-      "value": 298198022.74,
-      "pctOfPortfolio": 8.85744582607
-    },
-    {
-      "name": "Intercontinental Exchange Inc",
+      "name": "INTERCONTINENTAL EXCHANGE IN",
       "cusip": "45866F104",
-      "shares": 1757109,
-      "value": 261826812.09,
-      "pctOfPortfolio": 7.777103223524
+      "shares": 5012488,
+      "value": 805206072,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Constellation Software Inc/Can",
-      "cusip": "21037X100",
-      "shares": 83113,
-      "value": 257003586.09,
-      "pctOfPortfolio": 7.633837810128
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 966315,
+      "value": 564985054,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Liberty Media Corp-Liberty For",
+      "name": "ELEVANCE HEALTH INC",
+      "cusip": "036752103",
+      "shares": 1004533,
+      "value": 522357160,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 2904689,
+      "value": 504457339,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 7450286,
+      "value": 482853036,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229755",
-      "shares": 2743813,
-      "value": 254241712.58,
-      "pctOfPortfolio": 7.55180123333
+      "shares": 6081334,
+      "value": 470877692,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM LBTY ONE S C",
+      "putCall": null
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K305",
-      "shares": 1155584,
-      "value": 218752051.2,
-      "pctOfPortfolio": 6.497643495561
+      "shares": 2667043,
+      "value": 442329082,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL A",
+      "putCall": null
     },
     {
-      "name": "CHARLES SCHWAB CORP/THE",
-      "cusip": "808513105",
-      "shares": 2532139,
-      "value": 187403607.39,
-      "pctOfPortfolio": 5.566493314794
-    },
-    {
-      "name": "Universal Music Group NV",
-      "cusip": "000000000",
-      "shares": 7137909,
-      "value": 182774811.09,
-      "pctOfPortfolio": 5.429003092389
-    },
-    {
-      "name": "UnitedHealth Group Inc",
-      "cusip": "91324P102",
-      "shares": 317276,
-      "value": 160497237.36,
-      "pctOfPortfolio": 4.767287093615
-    },
-    {
-      "name": "Elevance Health Inc",
-      "cusip": "036752103",
-      "shares": 418967,
-      "value": 154556926.3,
-      "pctOfPortfolio": 4.590840640616
-    },
-    {
-      "name": "Eurofins Scientific SE",
-      "cusip": "000000000",
-      "shares": 2926063,
-      "value": 149456753.9,
-      "pctOfPortfolio": 4.439349023329
-    },
-    {
-      "name": "Capital One Financial Corp",
+      "name": "CAPITAL ONE FINL CORP",
       "cusip": "14040H105",
-      "shares": 828064,
-      "value": 147660372.48,
-      "pctOfPortfolio": 4.385990684584
+      "shares": 2771238,
+      "value": 414937466,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "SAP SE",
-      "cusip": "000000000",
-      "shares": 575172,
-      "value": 140785629.8,
-      "pctOfPortfolio": 4.181788589959
+      "name": "JACOBS SOLUTIONS INC",
+      "cusip": "46982L108",
+      "shares": 2530209,
+      "value": 331204358,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "TSMC",
-      "cusip": "874039100",
-      "shares": 696985,
-      "value": 137647567.65,
-      "pctOfPortfolio": 4.088577993735
-    },
-    {
-      "name": "CREDIT ACCEPTANCE CORP",
-      "cusip": "225310101",
-      "shares": 263328,
-      "value": 123621962.88,
-      "pctOfPortfolio": 3.671972164875
-    },
-    {
-      "name": "FACEBOOK INC",
+      "name": "META PLATFORMS INC",
       "cusip": "30303M102",
-      "shares": 199675,
-      "value": 116911709.25,
-      "pctOfPortfolio": 3.472655927092
+      "shares": 567157,
+      "value": 324663353,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
-      "name": "ICON PLC",
-      "cusip": "000000000",
-      "shares": 494675,
-      "value": 103738294.25,
-      "pctOfPortfolio": 3.081362890891
+      "name": "CREDIT ACCEP CORP MICH",
+      "cusip": "225310101",
+      "shares": 681604,
+      "value": 302236846,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Ashtead Group PLC",
-      "cusip": "000000000",
-      "shares": 1489275,
-      "value": 92568620.44,
-      "pctOfPortfolio": 2.749587449331
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 1460992,
+      "value": 244263251,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 434304,
+      "value": 199892759,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
     },
     {
       "name": "LIBERTY BROADBAND CORP",
       "cusip": "530307305",
-      "shares": 875797,
-      "value": 65474583.72,
-      "pctOfPortfolio": 1.944806920433
+      "shares": 2514729,
+      "value": 194363404,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER C",
+      "putCall": null
     },
     {
-      "name": "Charter Communications Inc",
+      "name": "CHARTER COMMUNICATIONS INC N",
       "cusip": "16119P108",
-      "shares": 146487,
-      "value": 50211348.99,
-      "pctOfPortfolio": 1.491439478526
+      "shares": 455023,
+      "value": 147463854,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
-      "name": "Jacobs Solutions Inc",
-      "cusip": "46982L108",
-      "shares": 373479,
-      "value": 49904263.98,
-      "pctOfPortfolio": 1.482318060432
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 1825488,
+      "value": 141256261,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "BERKSHIRE HATHAWAY INC",
-      "cusip": "084670702",
-      "shares": 78394,
-      "value": 35534432.32,
-      "pctOfPortfolio": 1.055487579503
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 134,
+      "value": 92618120,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "AMENTUM HOLDINGS INC",
+      "cusip": "023939101",
+      "shares": 2530489,
+      "value": 81608270,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LIBERTY MEDIA CORP DEL",
+      "cusip": "531229771",
+      "shares": 790661,
+      "value": 56555981,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM LBTY ONE S A",
+      "putCall": null
     },
     {
       "name": "LIBERTY BROADBAND CORP",
       "cusip": "530307107",
-      "shares": 340760,
-      "value": 25338913.6,
-      "pctOfPortfolio": 0.752647695116
+      "shares": 709767,
+      "value": 54524301,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER A",
+      "putCall": null
     },
     {
-      "name": "Amentum Holdings Inc",
-      "cusip": "023939101",
-      "shares": 991858,
-      "value": 20858773.74,
-      "pctOfPortfolio": 0.619573049823
+      "name": "EXPEDITORS INTL WASH INC",
+      "cusip": "302130109",
+      "shares": 34402,
+      "value": 4520423,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
-      "name": "Liberty Media Corp-Liberty For",
-      "cusip": "531229771",
-      "shares": 42268,
-      "value": 3552202.72,
-      "pctOfPortfolio": 0.105511910731
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 40844,
+      "value": 1716673,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 3386,
+      "value": 1296973,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SENDAS DISTRIBUIDORA S A",
+      "cusip": "81689T104",
+      "shares": 151270,
+      "value": 1040738,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADS",
+      "putCall": null
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 4700,
+      "value": 911142,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 2728,
+      "value": 866522,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "STELLANTIS N.V",
+      "cusip": "N82405106",
+      "shares": 51673,
+      "value": 726006,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "NETFLIX INC",
+      "cusip": "64110L106",
+      "shares": 606,
+      "value": 429818,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464288703",
+      "shares": 6380,
+      "value": 405005,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MRNING SM CP ETF",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908769",
+      "shares": 1065,
+      "value": 301565,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "TOTAL STK MKT",
+      "putCall": null
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 649,
+      "value": 279265,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SINCLAIR INC",
+      "cusip": "829242106",
+      "shares": 17959,
+      "value": 274773,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 531,
+      "value": 274325,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 932,
+      "value": 252758,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 2162,
+      "value": 224221,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 38090,
+      "value": 70467,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ATAI LIFE SCIENCES NV",
+      "cusip": "N0731H103",
+      "shares": 42112,
+      "value": 48850,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     }
   ],
-  "totalValue": 3238520196.5600004,
-  "positionsCount": 24
+  "totalValue": 6392293183,
+  "positionsCount": 37,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 6392293183
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

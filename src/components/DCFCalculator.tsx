@@ -106,8 +106,9 @@ const validateDiscountRate = (value: number): number => {
 // Premium CTA Component
 const PremiumCTA = ({ title, description }: { title: string; description: string }) => (
   <div className="text-center py-12 px-6">
-    <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-      <CalculatorIcon className="w-8 h-8 text-green-400" />
+    <div className="w-16 h-16 bg-gradient-to-br border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+      {/* ✅ NUR DIESE ZEILE ÄNDERN - von CalculatorIcon zu LockClosedIcon */}
+      <LockClosedIcon className="w-8 h-8 text-green-500" />
     </div>
     <h3 className="text-xl font-semibold text-theme-primary mb-3">{title}</h3>
     <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">{description}</p>
@@ -116,7 +117,8 @@ const PremiumCTA = ({ title, description }: { title: string; description: string
       href="/pricing"
       className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
     >
-      <SparklesIcon className="w-5 h-5" />
+      {/* ✅ NUR DIESE ZEILE ÄNDERN - von SparklesIcon zu LockClosedIcon */}
+      <LockClosedIcon className="w-5 h-5" />
       14 Tage kostenlos testen
     </Link>
   </div>
@@ -136,7 +138,8 @@ const PremiumBlur = ({
     </div>
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-3 text-center shadow-lg">
-        <LockClosedIcon className="w-5 h-5 text-amber-500 mx-auto mb-1" />
+        {/* ✅ NUR DIESE ZEILE ÄNDERN - zu LockClosedIcon */}
+        <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
         <p className="text-theme-secondary text-xs font-medium">{featureName}</p>
         <p className="text-theme-muted text-xs">Premium erforderlich</p>
       </div>
@@ -472,7 +475,7 @@ export default function DCFCalculator({ ticker }: { ticker: string }) {
           <div className="flex items-center gap-3">
             <CalculatorIcon className="w-6 h-6 text-green-400" />
             <h3 className="text-xl font-bold text-theme-primary">DCF Calculator</h3>
-            <div className="flex items-center gap-1 px-2 py-1 bg-amber-500/20 rounded-lg">
+            <div className="flex items-center gap-1 px-2 py-1 bg-green-500/20 rounded-lg">
               <SparklesIcon className="w-3 h-3 text-amber-400" />
               <span className="text-xs text-amber-400 font-medium">Premium</span>
             </div>

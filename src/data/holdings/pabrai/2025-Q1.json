@@ -9,21 +9,53 @@
       "name": "ALPHA METALLURGICAL RESOUR I",
       "cusip": "020764106",
       "shares": 487251,
-      "value": 97508670
+      "value": 97508670,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WARRIOR MET COAL INC",
       "cusip": "93627C101",
       "shares": 1704670,
-      "value": 92461301
+      "value": 92461301,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CONSOL ENERGY INC NEW",
       "cusip": "20854L108",
       "shares": 594950,
-      "value": 63469266
+      "value": 63469266,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 253439237,
-  "positionsCount": 3
+  "positionsCount": 3,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 253439237
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }
