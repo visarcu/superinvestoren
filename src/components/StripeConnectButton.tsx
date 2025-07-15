@@ -199,6 +199,16 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
 
   // TRIAL AKTIV mit Theme
   if (trialInfo?.isTrialing) {
+    // ✅ NEU: Check if cancelled
+    const isCancelled = premiumStatus.status === 'canceled';
+    
+    console.log('🔍 Premium Status Debug:', {
+      status: premiumStatus.status,
+      isCancelled,
+      completeStatus: premiumStatus,
+      allKeys: Object.keys(premiumStatus)
+    });
+
     return (
       <div className="space-y-4">
         {/* Trial Status */}
@@ -206,16 +216,18 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-theme-tertiary/50 rounded-full flex items-center justify-center border border-theme">
-                <span className="text-lg">🚀</span>
+                <span className="text-lg">{isCancelled ? '🔄' : '🚀'}</span>
               </div>
               <div>
-                <h3 className="text-theme-primary font-semibold">14-Tage Trial aktiv</h3>
+                <h3 className="text-theme-primary font-semibold">
+                  {isCancelled ? 'Abo gekündigt' : '14-Tage Trial aktiv'}
+                </h3>
                 <div className="space-y-1">
                   <p className="text-theme-secondary text-sm">
                     Noch <span className="font-bold text-theme-primary">{trialInfo.daysLeft} Tage</span> kostenlos
                   </p>
                   <p className="text-theme-muted text-xs">
-                    Danach 9€/Monat • Jederzeit kündbar
+                    {isCancelled ? 'Premium läuft noch bis Ende der Periode' : 'Danach 9€/Monat • Jederzeit kündbar'}
                   </p>
                 </div>
               </div>

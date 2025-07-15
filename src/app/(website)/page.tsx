@@ -277,47 +277,48 @@ export default function ProfessionalHomePage() {
         </div>
       </div>
 
-      {/* 📊 STATS SECTION - Fokus auf Zahlen */}
-      <div className="bg-gray-950 py-20 border-t border-gray-800/50">
+{/* 📊 STATS SECTION - Fokus auf Zahlen */}
+<div className="bg-gray-950 py-20 border-t border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Stats Grid */}
-          <div ref={statsRef} className="grid grid-cols-4 gap-8 text-center mb-20">
-            <div className={`p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
+          {/* Stats Grid - Responsive: 2 Spalten auf Mobile, 4 auf Desktop */}
+          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center mb-20">
+            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}>
-              <div className="text-3xl font-bold text-white numeric mb-2">
+              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
                 {useCountUp(10000, 2000, statsVisible).toLocaleString('de-DE')}+
               </div>
-              <div className="text-sm text-gray-400">Aktien & ETFs</div>
+              <div className="text-xs md:text-sm text-gray-400">Aktien & ETFs</div>
             </div>
-            <div className={`p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
+            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`} style={{ transitionDelay: '200ms' }}>
-              <div className="text-3xl font-bold text-white numeric mb-2">
+              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
                 {useCountUp(15, 2200, statsVisible)}
               </div>
-              <div className="text-sm text-gray-400">Jahre Historie</div>
+              <div className="text-xs md:text-sm text-gray-400">Jahre Historie</div>
             </div>
-            <div className={`p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
+            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`} style={{ transitionDelay: '400ms' }}>
-              <div className="text-3xl font-bold text-white numeric mb-2">
+              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
                 {useCountUp(70, 2400, statsVisible)}+
               </div>
-              <div className="text-sm text-gray-400">Super-Investoren</div>
+              <div className="text-xs md:text-sm text-gray-400">Super-Investoren</div>
             </div>
-            <div className={`p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
+            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`} style={{ transitionDelay: '600ms' }}>
-              <div className="text-3xl font-bold text-white numeric mb-2">
+              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
                 24/7
               </div>
-              <div className="text-sm text-gray-400">Live-Daten</div>
+              <div className="text-xs md:text-sm text-gray-400">Live-Daten</div>
             </div>
           </div>
 
           {/* Platform Preview Section */}
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left: Content */}
