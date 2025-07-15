@@ -46,8 +46,7 @@ import Logo from '@/components/Logo'
 import CompactSectorOverview from '@/components/CompactSectorOverview'
 import CompactTopPositions from '@/components/CompactTopPositions'
 import DividendAnalysisSection from '@/components/DividendAnalysisSection'
-
-// ✅ NEUE IMPORTS: Currency Context
+import InvestorFollowButton from '@/components/InvestorFollowButton'
 import { CurrencyProvider, useCurrency } from '@/contexts/CurrencyContext'
 import CurrencySwitch from '@/components/CurrencySwitch'
 
@@ -1161,6 +1160,15 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                         <div className="w-1.5 h-1.5 bg-gray-500 rounded-full"></div>
                         {holdings.length} Positionen
                       </p>
+
+ {/* ✅ NEU: Follow Button hinzufügen */}
+ <div className="mt-6 pt-4 border-t border-gray-700/50">
+      <InvestorFollowButton 
+        investorSlug={slug}
+        investorName={mainName}
+        variant="default"
+      />
+   </div>
                     </div>
                   </div>
                 </div>

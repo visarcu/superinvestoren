@@ -116,7 +116,7 @@ export default function ImpressumPage() {
                 <div>
                   <p className="text-gray-300 font-medium">E-Mail</p>
                   <a href="mailto:loeweninvest@gmail.com" className="text-green-400 hover:text-green-300 transition-colors text-sm">
-                    team.finclue@gmail.com
+                  team@finclue.de
                   </a>
                 </div>
               </div>
@@ -193,8 +193,8 @@ export default function ImpressumPage() {
               </div>
               <p className="text-gray-400">
                 Unsere E-Mail für Streitschlichtung:{' '}
-                <a href="mailto:team.finclue@gmail.com" className="text-green-400 hover:text-green-300 transition-colors">
-                  team.finclue@gmail.com
+                <a href="mailto:team@finclue.de" className="text-green-400 hover:text-green-300 transition-colors">
+                  team@finclue.de
                 </a>
               </p>
             </div>

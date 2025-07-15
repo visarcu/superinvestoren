@@ -166,7 +166,7 @@ export default function ForgotPasswordPage() {
         </ul>
         <p className="text-xs text-theme-muted mt-2">
           Probleme? Schreib uns an{' '}
-          <a href="mailto:team.finclue@gmail.com" className="text-green-400 hover:text-green-300 transition-colors">
+          <a href="mailto:team@finclue.de" className="text-green-400 hover:text-green-300 transition-colors">
             team@finclue.de
           </a>
         </p>

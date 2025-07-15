@@ -100,7 +100,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
                       </Link>
                     </li>
                     <li>
-                      <a href="mailto:team.finclue@gmail.com" className="text-theme-muted hover:text-green-400 transition-colors text-sm">
+                      <a href="mailto:team@finclue.de" className="text-theme-muted hover:text-green-400 transition-colors text-sm">
                         Kontakt
                       </a>
                     </li>

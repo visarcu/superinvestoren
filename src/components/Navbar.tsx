@@ -302,7 +302,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
             <button
               onClick={() => {
                 setIsOpen(false);
-                window.location.href = 'mailto:team.finclue@gmail.com';
+                window.location.href = 'mailto:team@finclue.de';
               }}
               className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/10 transition-all duration-200 group"
             >

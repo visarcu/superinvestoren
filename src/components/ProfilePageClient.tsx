@@ -12,6 +12,7 @@ import {
   ArrowPathIcon,
   ArrowRightOnRectangleIcon,
   CreditCardIcon,
+  BellIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline';
 
@@ -361,8 +362,23 @@ export default function ProfilePageClient() {
         {/* Actions Section */}
         <section>
           <h3 className="text-xl font-semibold text-theme-primary mb-6">Aktionen</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4"> {/* ← Ändere md:grid-cols-3 zu md:grid-cols-4 */}
+            
+            {/* ✅ NEUER NOTIFICATIONS BUTTON - HIER EINFÜGEN */}
+            <button
+              onClick={() => router.push('/notifications')}
+              className="bg-theme-card border border-theme/5 rounded-xl p-6 hover:border-orange-500/30 hover:bg-orange-500/5 transition-all duration-200 text-left group"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                  <BellIcon className="w-5 h-5 text-orange-400" />
+                </div>
+                <h4 className="font-semibold text-theme-primary group-hover:text-orange-400 transition-colors">Benachrichtigungen</h4>
+              </div>
+              <p className="text-sm text-theme-muted">
+                E-Mail-Alerts verwalten
+              </p>
+            </button>
             
             {/* Refresh Data */}
             <button

@@ -236,6 +236,31 @@ export default function WatchlistPage() {
       </div>
 
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
+
+        {/* Notification-Hinweis - NEU HINZUFÜGEN */}
+        {watchlistItems.length > 0 && (
+          <section>
+            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                  📧
+                </div>
+                <div className="flex-1">
+                  <p className="text-theme-primary text-sm font-medium">
+                    Du erhältst E-Mail-Benachrichtigungen bei Kursrückgängen deiner Watchlist-Aktien.
+                  </p>
+                </div>
+                <Link
+                  href="/notifications"
+                  className="text-green-400 hover:text-green-300 text-sm font-medium underline transition-colors"
+                >
+                  Einstellungen
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
+
         
         {/* Schnäppchen-Radar Controls */}
         {watchlistItems.length > 0 && (

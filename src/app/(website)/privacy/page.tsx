@@ -74,7 +74,7 @@ export default function Page() {
                 <p>Schützenstrasse 5</p>
                 <p>
                   E-Mail: <a href="mailto:loeweninvest@gmail.com" className="text-green-400 hover:text-green-300 transition-colors">
-                    team.finclue@gmail.com
+                  team@finclue.de
                   </a>
                 </p>
               </div>

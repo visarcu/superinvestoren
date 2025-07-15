@@ -112,6 +112,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     setActionLoading(true);
     
     try {
+      console.log('🔍 Fetching portal for user_id:', user.id);
       const response = await fetch(`/api/stripe/checkout?userId=${user.id}&action=portal`);
 
       if (!response.ok) {

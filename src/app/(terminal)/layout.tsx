@@ -1,4 +1,4 @@
-// src/app/(terminal)/layout.tsx - ÜBERARBEITETE VERSION MIT KATEGORISIERTER SIDEBAR
+// src/app/(terminal)/layout.tsx - ANGEPASSTE VERSION (ohne HTML/Body)
 'use client'
 
 import React, { ReactNode, useState, useEffect, useRef } from 'react'
@@ -28,16 +28,16 @@ import {
   HomeIcon,
   ListBulletIcon,
   AcademicCapIcon,
-  EyeIcon
+  EyeIcon,
+  CalculatorIcon,
+  BellIcon
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
-import { CalculatorIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
 import CurrencySelector from '@/components/CurrencySelector'
 import LearnSidebar from '@/components/LearnSidebar'
-import '../globals.css'
 
 // ===== GLOBAL LEARN TOGGLE =====
 const GlobalLearnToggle = () => {
@@ -82,7 +82,7 @@ interface CommandPaletteItem {
   category: 'navigation' | 'actions' | 'settings'
 }
 
-// ===== NEUE NAVIGATION STRUKTUR =====
+// ===== NAVIGATION STRUKTUR =====
 interface NavCategory {
   id: string
   label: string
@@ -98,7 +98,7 @@ interface NavigationItem {
   comingSoon?: boolean
 }
 
-// ✨ KOMPAKTE KATEGORISIERTE NAVIGATION
+// NAVIGATION CATEGORIES
 const NAVIGATION_CATEGORIES: NavCategory[] = [
   {
     id: 'analysis',
@@ -185,6 +185,12 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
     label: 'ACCOUNT',
     items: [
       {
+        id: 'notifications',
+        label: 'Benachrichtigungen',
+        icon: BellIcon,
+        href: '/notifications'
+      },
+      {
         id: 'profile',
         label: 'Profil',
         icon: UserCircleIcon,
@@ -200,7 +206,7 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
   }
 ]
 
-// Stock Analysis Tabs (unverändert)
+// Stock Analysis Tabs
 const STOCK_TABS = [
   { id: 'overview', label: 'Überblick', href: '' },
   { id: 'financials', label: 'Finanzen', href: '/financials' },
@@ -224,21 +230,19 @@ interface LayoutProps {
   children: ReactNode
 }
 
-// ===== KOMPAKTE SIDEBAR NAVIGATION COMPONENT =====
+// KATEGORISIERTE NAVIGATION
 function CategorizedNavigation({ user, pathname }: { user: User, pathname: string }) {
   return (
     <nav className="flex-1 p-2 overflow-y-auto">
       <div className="space-y-3">
         {NAVIGATION_CATEGORIES.map((category) => (
           <div key={category.id} className="space-y-1">
-            {/* Category Header - nur Label */}
             <div className="px-2 py-1">
               <h3 className="text-xs font-bold text-theme-muted uppercase tracking-wider">
                 {category.label}
               </h3>
             </div>
             
-            {/* Category Items - kompakt ohne Beschreibungen */}
             <div className="space-y-0.5">
               {category.items.map((item) => {
                 const Icon = item.icon
@@ -257,7 +261,6 @@ function CategorizedNavigation({ user, pathname }: { user: User, pathname: strin
                           : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
                     }`}
                   >
-                    {/* Icon Container - kleiner */}
                     <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                       isActive 
                         ? 'bg-green-500/30' 
@@ -272,7 +275,6 @@ function CategorizedNavigation({ user, pathname }: { user: User, pathname: strin
                       }`} />
                     </div>
                     
-                    {/* Text Content - nur Label */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
                         <span className="truncate">{item.label}</span>
@@ -282,12 +284,10 @@ function CategorizedNavigation({ user, pathname }: { user: User, pathname: strin
                       </div>
                     </div>
                     
-                    {/* Arrow Indicator */}
                     {!isActive && (
                       <ArrowRightIcon className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-all duration-200 flex-shrink-0" />
                     )}
                     
-                    {/* Active Indicator */}
                     {isActive && (
                       <div className="w-2 h-2 bg-green-400 rounded-full flex-shrink-0"></div>
                     )}
@@ -302,7 +302,7 @@ function CategorizedNavigation({ user, pathname }: { user: User, pathname: strin
   )
 }
 
-// ===== COMMAND PALETTE COMPONENT (unverändert) =====
+// COMMAND PALETTE
 function CommandPalette({ 
   isOpen, 
   onClose, 
@@ -324,6 +324,7 @@ function CommandPalette({
   const commands: CommandPaletteItem[] = [
     { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
     { id: 'nav-watchlist', title: 'Watchlist', subtitle: 'Gespeicherte Aktien', icon: BookmarkIcon, href: '/analyse/watchlist', category: 'navigation' },
+    { id: 'nav-notifications', title: 'Benachrichtigungen', subtitle: 'E-Mail Einstellungen', icon: BellIcon, href: '/notifications', category: 'settings' },
     { id: 'nav-dcf', title: 'DCF Calculator', subtitle: 'Aktien bewerten', icon: CalculatorIcon, href: '/analyse/dcf', category: 'navigation' },
     { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
     { id: 'nav-heatmap', title: 'Heatmap', subtitle: 'Visuelle Marktansicht', icon: MapIcon, href: '/analyse/heatmap', category: 'navigation' },
@@ -333,13 +334,8 @@ function CommandPalette({
     { id: 'nav-profile', title: 'Profil', subtitle: 'Account verwalten', icon: UserCircleIcon, href: '/profile', category: 'settings' },
     { id: 'nav-settings', title: 'Einstellungen', subtitle: 'Konfiguration', icon: Cog6ToothIcon, href: '/settings', category: 'settings' },
     
-    { id: 'stock-aapl', title: 'AAPL Analyse', subtitle: 'Apple Inc.', icon: ChartBarIcon, href: '/analyse/stocks/aapl', category: 'navigation' },
-    { id: 'stock-tsla', title: 'TSLA Analyse', subtitle: 'Tesla Inc.', icon: ChartBarIcon, href: '/analyse/stocks/tsla', category: 'navigation' },
-    { id: 'stock-nvda', title: 'NVDA Analyse', subtitle: 'NVIDIA Corp.', icon: ChartBarIcon, href: '/analyse/stocks/nvda', category: 'navigation' },
-    { id: 'stock-msft', title: 'MSFT Analyse', subtitle: 'Microsoft Corp.', icon: ChartBarIcon, href: '/analyse/stocks/msft', category: 'navigation' },
-    
     { id: 'action-upgrade', title: 'Premium upgraden', subtitle: 'Alle Features freischalten', icon: SparklesIcon, href: '/pricing', category: 'actions' },
-    { id: 'action-support', title: 'Support kontaktieren', subtitle: 'Hilfe erhalten', icon: EnvelopeIcon, action: () => window.location.href = 'mailto:team.finclue@gmail.com', category: 'actions' },
+    { id: 'action-support', title: 'Support kontaktieren', subtitle: 'Hilfe erhalten', icon: EnvelopeIcon, action: () => window.location.href = 'mailto:team@finclue.de', category: 'actions' },
     
     ...(allowsThemeToggle ? [{ 
       id: 'action-theme', 
@@ -472,7 +468,7 @@ function CommandPalette({
   )
 }
 
-// ===== MAIN LAYOUT COMPONENT =====
+// MAIN LAYOUT COMPONENT
 function LayoutContent({ children }: LayoutProps) {
   const pathname = usePathname()
   const router = useRouter()
@@ -635,7 +631,6 @@ function LayoutContent({ children }: LayoutProps) {
 
   return (
     <div className="h-screen bg-theme-primary flex overflow-hidden">
-      {/* Command Palette */}
       <CommandPalette 
         isOpen={showCommandPalette}
         onClose={() => setShowCommandPalette(false)}
@@ -645,12 +640,9 @@ function LayoutContent({ children }: LayoutProps) {
         allowsThemeToggle={allowsThemeToggle}
       />
       
-      {/* Learn Sidebar */}
       <LearnSidebar />
       
-      {/* ✨ KOMPAKTE SIDEBAR */}
       <div className="w-48 bg-theme-secondary border-r border-theme flex flex-col">
-        {/* Header */}
         <div className="p-3 border-b border-theme">
           <Link href="/" className="flex items-center gap-2 group">
             <div className="flex items-end gap-0.5">
@@ -664,7 +656,6 @@ function LayoutContent({ children }: LayoutProps) {
           </Link>
         </div>
 
-        {/* Search & Quick Access */}
         <div className="p-3 border-b border-theme">
           <button
             onClick={() => setShowCommandPalette(true)}
@@ -699,10 +690,8 @@ function LayoutContent({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* ✨ NEUE KATEGORISIERTE NAVIGATION */}
         <CategorizedNavigation user={user} pathname={pathname} />
 
-        {/* User Footer */}
         <div className="p-3 border-t border-theme">
           <div className="flex items-center gap-2 mb-3">
             <div className="relative">
@@ -760,7 +749,7 @@ function LayoutContent({ children }: LayoutProps) {
             </Link>
             
             <button
-              onClick={() => window.location.href = 'mailto:team.finclue@gmail.com'}
+              onClick={() => window.location.href = 'mailto:team@finclue.de'}
               className="flex items-center gap-2 w-full p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded-lg transition-colors text-sm"
               title="Support kontaktieren"
             >
@@ -780,9 +769,7 @@ function LayoutContent({ children }: LayoutProps) {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col bg-theme-primary">
-        {/* Top Bar */}
         <div className="h-10 bg-theme-secondary border-b border-theme flex items-center justify-between px-2.5">
           <div className="flex items-center gap-2">
             {isStockPage && currentTicker ? (
@@ -857,7 +844,6 @@ function LayoutContent({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* Stock Analysis Tabs */}
         {isStockPage && currentTicker && (
           <div className="bg-theme-secondary border-b border-theme">
             <div className="px-2.5">
@@ -889,12 +875,10 @@ function LayoutContent({ children }: LayoutProps) {
           </div>
         )}
 
-        {/* Content Area */}
         <div className="flex-1 overflow-auto bg-theme-primary">
           {children}
         </div>
 
-        {/* Status Bar */}
         <div className="h-4 bg-theme-secondary border-t border-theme flex items-center justify-between px-2.5 text-xs text-theme-muted">
           <div className="flex items-center gap-1.5">
             <span>Market: {marketStatus.status}</span>
@@ -925,27 +909,13 @@ function LayoutContent({ children }: LayoutProps) {
   )
 }
 
-// Main Export with Providers
-export default function ProfessionalLayout({ children }: LayoutProps) {
-  const { theme } = useTheme()
-
+// Export with Providers - KORRIGIERT (ohne HTML/Body)
+export default function TerminalLayout({ children }: LayoutProps) {
   return (
-    <html lang="de" className={theme}>
-      <head>
-        <title>FinClue</title>
-        <meta name="description" content="Professional Stock Analysis Platform" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="h-screen bg-theme-primary">
-        <CurrencyProvider>
-          <LearnModeProvider>
-            <LayoutContent>{children}</LayoutContent>
-          </LearnModeProvider>
-        </CurrencyProvider>
-        <Analytics />
-      </body>
-    </html>
+    <CurrencyProvider>
+      <LearnModeProvider>
+        <LayoutContent>{children}</LayoutContent>
+      </LearnModeProvider>
+    </CurrencyProvider>
   )
 }

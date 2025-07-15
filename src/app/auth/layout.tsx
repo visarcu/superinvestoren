@@ -106,7 +106,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                       AGB
                     </Link>
                     <span>•</span>
-                    <a href="mailto:team.finclue@gmail.com" className="hover:text-gray-300 transition-colors">
+                    <a href="mailto:team@finclue.de" className="hover:text-gray-300 transition-colors">
                       Support
                     </a>
                   </div>

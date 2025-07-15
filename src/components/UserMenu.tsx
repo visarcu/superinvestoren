@@ -116,7 +116,7 @@ export default function UserMenu() {
           <Menu.Item>
             {({ active }) => (
               <a
-                href="mailto:team.finclue@gmail.com?subject=Support-Anfrage"
+                href="mailto:team@finclue.de?subject=Support-Anfrage"
                 className={`
                   block px-4 py-2 text-sm
                   ${active ? "bg-gray-700 text-white" : "text-gray-200"}

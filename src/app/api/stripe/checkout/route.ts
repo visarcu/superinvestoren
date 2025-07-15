@@ -184,17 +184,33 @@ export async function GET(request: NextRequest) {
     if (!userId) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
-
     if (action === 'portal') {
-      // Customer Portal
-      const { data: profile } = await supabase
+      console.log('🎯 Portal requested for userId:', userId);
+      
+      // ✅ Admin Client für API Route verwenden
+      const { supabaseAdmin } = await import('@/lib/supabaseAdmin');
+      
+      const { data: profile, error: profileError } = await supabaseAdmin  // ← FIX HIER
         .from('profiles')
-        .select('stripe_customer_id')
+        .select('stripe_customer_id, user_id')
         .eq('user_id', userId)
         .single();
-
+    
+      console.log('📊 Database lookup result:', { 
+        profile, 
+        profileError,
+        searchedUserId: userId 
+      });
+    
       if (!profile?.stripe_customer_id) {
-        return NextResponse.json({ error: 'No Stripe customer found' }, { status: 404 });
+        return NextResponse.json({ 
+          error: 'No Stripe customer found',
+          debug: { 
+            userId, 
+            profile,
+            profileError: profileError?.message 
+          }
+        }, { status: 404 });
       }
 
       const session = await stripe.billingPortal.sessions.create({

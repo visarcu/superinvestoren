@@ -232,7 +232,7 @@ export default function PortfolioComingSoonPage() {
               </Link>
               
               <button
-                onClick={() => window.location.href = 'mailto:team.finclue@gmail.com?subject=Portfolio Tracker - Benachrichtigung&body=Hallo, ich möchte benachrichtigt werden, sobald der Portfolio Tracker verfügbar ist.'}
+                onClick={() => window.location.href = 'mailto:team@finclue.de?subject=Portfolio Tracker - Benachrichtigung&body=Hallo, ich möchte benachrichtigt werden, sobald der Portfolio Tracker verfügbar ist.'}
                 className="inline-flex items-center gap-2 px-6 py-3 border border-theme text-theme-primary hover:bg-theme-secondary/50 rounded-lg font-medium transition-colors"
               >
                 Benachrichtigung anfordern
