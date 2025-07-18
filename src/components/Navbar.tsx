@@ -372,9 +372,9 @@ function ModernGuestActions() {
 // Navigation Links - UPDATED WITH BLOG COMING SOON
 const navLinks = [
   { 
-    href: '#', 
+    href: '/news',
     label: 'Blog', 
-    comingSoon: true 
+
   },
   { 
     href: '/lexikon', 
@@ -588,35 +588,14 @@ export default function ModernNavbar() {
 
             {/* Regular Nav Links - UPDATED WITH COMING SOON LOGIC */}
             {navLinks.map(link => (
-              link.comingSoon ? (
-                <div
-                  key={link.href}
-                  className="relative px-4 py-2.5 text-sm font-semibold text-gray-500 cursor-not-allowed rounded-xl transition-all duration-300 border border-transparent group"
-                >
-                  <div className="flex items-center gap-2">
-                    <span>{link.label}</span>
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-700/50 text-gray-400 rounded-md text-xs font-medium border border-gray-600/30">
-                      <ClockIcon className="w-3 h-3" />
-                      Soon
-                    </span>
-                  </div>
-                  
-                  {/* Tooltip */}
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap border border-gray-600 shadow-xl">
-                    Wird bald verfügbar sein
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 border-r border-b border-gray-600 rotate-45"></div>
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
-                >
-                  {link.label}
-                </Link>
-              )
-            ))}
+  <Link
+    key={link.href}
+    href={link.href}
+    className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+  >
+    {link.label}
+  </Link>
+))}
 
             <Link
               href="/pricing"
@@ -681,31 +660,15 @@ export default function ModernNavbar() {
 
                     {/* Mobile Nav Links - UPDATED WITH COMING SOON LOGIC */}
                     {navLinks.map(link => (
-                      link.comingSoon ? (
-                        <div
-                          key={link.href}
-                          className="relative px-3 py-3 text-base font-semibold text-gray-500 cursor-not-allowed rounded-xl transition-all duration-300 border border-transparent"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span>{link.label}</span>
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-700/50 text-gray-400 rounded-md text-xs font-medium border border-gray-600/30">
-                              <ClockIcon className="w-3 h-3" />
-                              Soon
-                            </span>
-                          </div>
-                        </div>
-                      ) : (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          onClick={() => close()}
-                          className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
-                        >
-                          {link.label}
-                        </Link>
-                      )
-                    ))}
-
+  <Link
+    key={link.href}
+    href={link.href}
+    onClick={() => close()}
+    className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+  >
+    {link.label}
+  </Link>
+))}
                     <Link
                       href="/pricing"
                       onClick={() => close()}

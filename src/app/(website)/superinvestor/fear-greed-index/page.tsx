@@ -1,7 +1,7 @@
-// src/app/superinvestor/fear-greed-index/page.tsx - FIXED mit echten Daten
+// src/app/superinvestor/fear-greed-index/page.tsx - PERFORMANCE OPTIMIERT
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo, memo } from 'react'
 import Link from 'next/link'
 import { 
   ArrowLeftIcon,
@@ -22,53 +22,119 @@ import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 
-// Animation Hook
-const useIntersectionObserver = (threshold = 0.1) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold }
-    );
-    
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [threshold]);
-  
-  return [ref, isVisible] as const;
-};
-
-function getTicker(position: any): string | null {
-  if (position.ticker) return position.ticker
-  const stock = stocks.find(s => s.cusip === position.cusip)
-  return stock?.ticker || null
+// ========== TYPESCRIPT INTERFACES ==========
+interface Position {
+  cusip: string
+  ticker?: string
+  name?: string
+  shares: number
+  value: number
 }
 
-// ✅ ECHTE FEAR & GREED BERECHNUNG basierend auf 13F-Filings
-function calculateFearGreedMetrics() {
+interface HoldingData {
+  date: string
+  positions: Position[]
+}
+
+interface HoldingSnapshot {
+  data: HoldingData
+  quarter?: string
+}
+
+interface FearGreedMetrics {
+  sentiment: number
+  liquidity: number
+  diversification: number
+  momentum: number
+  volatility: number
+  riskAppetite: number
+  marketBreadth: number
+  totalScore: number
+  totalInvestorsActive: number
+}
+
+interface HistoricalDataPoint {
+  quarter: string
+  score: number
+  label: string
+}
+
+interface ScoreLabel {
+  text: string
+  color: string
+  bgColor: string
+}
+
+// ========== PERFORMANCE OPTIMIERUNGEN ==========
+
+// 1. CACHE für schwere Berechnungen
+const fearGreedCache = new Map<string, any>()
+
+// 2. Preprocessing der Holdings-Daten für bessere Performance
+const preprocessedFearGreedData = (() => {
+  const cusipToTicker = new Map<string, string>()
+  const activeInvestors = new Set<string>()
+  const allQuarters = new Set<string>()
+  
+  // Stocks-Daten vorverarbeiten
+  stocks.forEach(stock => {
+    if (stock.cusip) {
+      cusipToTicker.set(stock.cusip, stock.ticker)
+    }
+  })
+  
+  // Holdings-Daten einmal durchgehen
+  Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
+    if (!snaps || snaps.length === 0) return
+    
+    const latest = snaps[snaps.length - 1]?.data
+    if (latest?.positions?.length > 0) {
+      activeInvestors.add(slug)
+    }
+    
+    snaps.forEach(snap => {
+      if (snap?.quarter) {
+        allQuarters.add(snap.quarter)
+      } else if (snap?.data?.date) {
+        // Fallback Quarter-Berechnung
+        const [year, month] = snap.data.date.split('-').map(Number)
+        const quarter = `${year}-Q${Math.ceil(month / 3)}`
+        allQuarters.add(quarter)
+      }
+    })
+  })
+  
+  return {
+    cusipToTicker,
+    activeInvestors: Array.from(activeInvestors),
+    allQuarters: Array.from(allQuarters).sort().reverse()
+  }
+})()
+
+// 3. Optimierte Hilfsfunktionen
+function getTicker(position: Position): string | null {
+  if (position.ticker) return position.ticker
+  return preprocessedFearGreedData.cusipToTicker.get(position.cusip) || null
+}
+
+// 4. MEMOIZED Fear & Greed Berechnung
+function calculateFearGreedMetrics(): FearGreedMetrics {
+  const cacheKey = 'fearGreedMetrics'
+  if (fearGreedCache.has(cacheKey)) {
+    return fearGreedCache.get(cacheKey)
+  }
+  
   let netBuyers = 0
   let netSellers = 0
   let totalInvestorsActive = 0
   let totalPortfolioValue = 0
   let averageConcentration = 0
-  let activeSectors = new Set<string>()
-  let sectorChanges = new Map<string, number>()
+  const activeSectors = new Set<string>()
+  const sectorChanges = new Map<string, number>()
   
-  // Berechnungen basierend auf letztem vs vorletztem Quartal
-  Object.values(holdingsHistory).forEach(snaps => {
+  // Optimiert: Nur aktive Investoren durchgehen
+  preprocessedFearGreedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
     if (!snaps || snaps.length < 2) return
     
     const current = snaps[snaps.length - 1]?.data
@@ -88,16 +154,18 @@ function calculateFearGreedMetrics() {
     const concentration = currentValue > 0 ? (top3Value / currentValue) : 0
     averageConcentration += concentration
     
-    // Sektor-Aktivität
+    // Sektor-Aktivität (optimiert mit Map)
+    const currentSectors = new Map<string, number>()
     current.positions.forEach(p => {
       const sector = getSectorFromPosition({ cusip: p.cusip, ticker: getTicker(p) })
       const germanSector = translateSector(sector)
       activeSectors.add(germanSector)
+      currentSectors.set(germanSector, (currentSectors.get(germanSector) || 0) + p.value)
     })
     
-    // Portfolio-Änderungen für Sentiment
+    // Portfolio-Änderungen für Sentiment (optimiert)
     const prevMap = new Map<string, number>()
-    previous.positions.forEach((p: any) => {
+    previous.positions.forEach((p: Position) => {
       const ticker = getTicker(p)
       if (ticker) {
         prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
@@ -108,7 +176,7 @@ function calculateFearGreedMetrics() {
     let investorSells = 0
     
     const seen = new Set<string>()
-    current.positions.forEach((p: any) => {
+    current.positions.forEach((p: Position) => {
       const ticker = getTicker(p)
       if (!ticker || seen.has(ticker)) return
       seen.add(ticker)
@@ -148,74 +216,67 @@ function calculateFearGreedMetrics() {
     }
   })
   
-  // 7 Metriken berechnen
+  // 7 Metriken berechnen (optimiert)
   const sentiment = totalInvestorsActive > 0 ? (netBuyers / totalInvestorsActive) * 100 : 50
   
-  // Liquidität (weniger Konzentration = mehr Liquidität)
   const avgConcentration = totalInvestorsActive > 0 ? (averageConcentration / totalInvestorsActive) : 0.5
   const liquidity = (1 - avgConcentration) * 100
   
-  // Diversifikation (Anzahl aktiver Sektoren)
-  const diversification = Math.min((activeSectors.size / 11) * 100, 100) // Max 11 Haupt-Sektoren
+  const diversification = Math.min((activeSectors.size / 11) * 100, 100)
   
-  // Momentum (Sektor-Stärke)
   const sectorMomentum = Math.max(...Array.from(sectorChanges.values()), 0) * 10
   
-  // Volatilität (Anzahl Änderungen)
   const totalChanges = netBuyers + netSellers
   const volatility = Math.min((totalChanges / totalInvestorsActive) * 100, 100)
   
-  // Risk Appetite (große Positionen)
   const riskAppetite = avgConcentration * 100
   
-  // Market Breadth (aktive Investoren)
-  const marketBreadth = Math.min((totalInvestorsActive / 80) * 100, 100) // Max 80 Investoren
+  const marketBreadth = Math.min((totalInvestorsActive / 80) * 100, 100)
   
-  const metrics = {
+  const metrics: FearGreedMetrics = {
     sentiment: Math.round(sentiment),
     liquidity: Math.round(liquidity),
     diversification: Math.round(diversification),
     momentum: Math.round(Math.min(sectorMomentum, 100)),
     volatility: Math.round(volatility),
     riskAppetite: Math.round(riskAppetite),
-    marketBreadth: Math.round(marketBreadth)
+    marketBreadth: Math.round(marketBreadth),
+    totalScore: 0,
+    totalInvestorsActive
   }
   
   // Gesamt-Score (gewichteter Durchschnitt)
-  const totalScore = Math.round(
+  metrics.totalScore = Math.round(
     (metrics.sentiment * 0.25 +
      metrics.liquidity * 0.15 +
      metrics.diversification * 0.1 +
      metrics.momentum * 0.15 +
-     (100 - metrics.volatility) * 0.1 + // Niedrige Volatilität = besser
+     (100 - metrics.volatility) * 0.1 +
      metrics.riskAppetite * 0.1 +
      metrics.marketBreadth * 0.15)
   )
   
-  return { ...metrics, totalScore, totalInvestorsActive }
+  fearGreedCache.set(cacheKey, metrics)
+  return metrics
 }
 
-// ✅ HISTORISCHE DATEN - echte Berechnung über alle Quartale
-function calculateHistoricalFearGreed() {
-  const allQuarters = new Set<string>()
-  Object.values(holdingsHistory).forEach(snaps => {
-    if (!snaps) return
-    snaps.forEach(snap => {
-      if (snap.quarter) {
-        allQuarters.add(snap.quarter)
-      }
-    })
-  })
+// 5. MEMOIZED Historische Daten Berechnung
+function calculateHistoricalFearGreed(): HistoricalDataPoint[] {
+  const cacheKey = 'historicalFearGreed'
+  if (fearGreedCache.has(cacheKey)) {
+    return fearGreedCache.get(cacheKey)
+  }
   
-  const sortedQuarters = Array.from(allQuarters).sort()
+  const sortedQuarters = preprocessedFearGreedData.allQuarters.slice(-12)
   
-  return sortedQuarters.slice(-12).map(quarter => {
+  const result = sortedQuarters.map(quarter => {
     let netBuyers = 0
     let totalActive = 0
     let avgLiquidity = 0
     let avgDiversification = 0
     
-    Object.values(holdingsHistory).forEach(snaps => {
+    preprocessedFearGreedData.activeInvestors.forEach(slug => {
+      const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
       if (!snaps || snaps.length < 2) return
       
       const currentSnap = snaps.find(s => s.quarter === quarter)
@@ -229,14 +290,16 @@ function calculateHistoricalFearGreed() {
       const current = currentSnap.data
       const previous = previousSnap.data
       
-      // Liquidität
+      // Liquidität (optimiert)
       const currentValue = current.positions?.reduce((sum, p) => sum + p.value, 0) || 0
-      const sortedPos = [...(current.positions || [])].sort((a, b) => b.value - a.value)
-      const top3Value = sortedPos.slice(0, 3).reduce((sum, p) => sum + p.value, 0)
-      const concentration = currentValue > 0 ? (top3Value / currentValue) : 0.5
-      avgLiquidity += (1 - concentration) * 100
+      if (currentValue > 0) {
+        const sortedPos = [...(current.positions || [])].sort((a, b) => b.value - a.value)
+        const top3Value = sortedPos.slice(0, 3).reduce((sum, p) => sum + p.value, 0)
+        const concentration = top3Value / currentValue
+        avgLiquidity += (1 - concentration) * 100
+      }
       
-      // Diversifikation
+      // Diversifikation (optimiert)
       const activeSectors = new Set<string>()
       current.positions?.forEach(p => {
         const sector = getSectorFromPosition({ cusip: p.cusip, ticker: getTicker(p) })
@@ -244,9 +307,9 @@ function calculateHistoricalFearGreed() {
       })
       avgDiversification += Math.min((activeSectors.size / 11) * 100, 100)
       
-      // Sentiment
+      // Sentiment (optimiert)
       const prevMap = new Map<string, number>()
-      previous.positions?.forEach((p: any) => {
+      previous.positions?.forEach((p: Position) => {
         const ticker = getTicker(p)
         if (ticker) {
           prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
@@ -257,7 +320,7 @@ function calculateHistoricalFearGreed() {
       let investorSells = 0
       
       const seen = new Set<string>()
-      current.positions?.forEach((p: any) => {
+      current.positions?.forEach((p: Position) => {
         const ticker = getTicker(p)
         if (!ticker || seen.has(ticker)) return
         seen.add(ticker)
@@ -280,10 +343,7 @@ function calculateHistoricalFearGreed() {
     const liquidity = totalActive > 0 ? avgLiquidity / totalActive : 50
     const diversification = totalActive > 0 ? avgDiversification / totalActive : 50
     
-    // Gewichteter Score
-    const score = Math.round(
-      sentiment * 0.4 + liquidity * 0.3 + diversification * 0.3
-    )
+    const score = Math.round(sentiment * 0.4 + liquidity * 0.3 + diversification * 0.3)
     
     return {
       quarter,
@@ -291,33 +351,162 @@ function calculateHistoricalFearGreed() {
       label: quarter.replace('-', ' ')
     }
   })
+  
+  fearGreedCache.set(cacheKey, result)
+  return result
 }
+
+// Animation Hook (optimiert)
+const useIntersectionObserver = (threshold = 0.1) => {
+  const [isVisible, setIsVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold }
+    )
+    
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+    
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
+    }
+  }, [threshold])
+  
+  return [ref, isVisible] as const
+}
+
+// MEMOIZED Gauge Component
+interface GaugeProps {
+  score: number
+  size?: number
+}
+
+const Gauge = memo<GaugeProps>(({ score, size = 300 }) => {
+  const angle = 180 - (score / 100) * 180
+  const radians = (angle * Math.PI) / 180
+  
+  const centerX = size / 2
+  const centerY = size * 0.83 // 150/180 = 0.83
+  const length = size * 0.3    // 90/300 = 0.3
+  const endX = centerX + length * Math.cos(radians)
+  const endY = centerY + length * Math.sin(radians)
+  
+  return (
+    <svg width={size} height={size * 0.6} viewBox={`0 0 ${size} ${size * 0.6}`} className="overflow-visible">
+      {/* Background Arc */}
+      <path
+        d={`M ${size * 0.15} ${size * 0.83} A ${size * 0.35} ${size * 0.35} 0 0 1 ${size * 0.85} ${size * 0.83}`}
+        fill="none"
+        stroke="#374151"
+        strokeWidth="18"
+        strokeLinecap="round"
+      />
+      
+      {/* Fear Section (0-24) */}
+      <path
+        d={`M ${size * 0.15} ${size * 0.83} A ${size * 0.35} ${size * 0.35} 0 0 1 ${size * 0.35} ${size * 0.42}`}
+        fill="none"
+        stroke="#EF4444"
+        strokeWidth="18"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      
+      {/* Angst Section (25-44) */}
+      <path
+        d={`M ${size * 0.35} ${size * 0.42} A ${size * 0.35} ${size * 0.35} 0 0 1 ${size * 0.5} ${size * 0.33}`}
+        fill="none"
+        stroke="#F59E0B"
+        strokeWidth="18"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      
+      {/* Neutral Section (45-54) */}
+      <path
+        d={`M ${size * 0.5} ${size * 0.33} A ${size * 0.35} ${size * 0.35} 0 0 1 ${size * 0.5} ${size * 0.33}`}
+        fill="none"
+        stroke="#6B7280"
+        strokeWidth="18"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      
+      {/* Gier Section (55-74) */}
+      <path
+        d={`M ${size * 0.5} ${size * 0.33} A ${size * 0.35} ${size * 0.35} 0 0 1 ${size * 0.65} ${size * 0.42}`}
+        fill="none"
+        stroke="#34D399"
+        strokeWidth="18"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      
+      {/* Extreme Gier Section (75-100) */}
+      <path
+        d={`M ${size * 0.65} ${size * 0.42} A ${size * 0.35} ${size * 0.35} 0 0 1 ${size * 0.85} ${size * 0.83}`}
+        fill="none"
+        stroke="#10B981"
+        strokeWidth="18"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      
+      {/* Dynamic Needle */}
+      <line
+        x1={centerX}
+        y1={centerY}
+        x2={endX}
+        y2={endY}
+        stroke="#1F2937"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      
+      {/* Center Circle */}
+      <circle cx={centerX} cy={centerY} r="8" fill="#1F2937" />
+      
+      {/* Score Labels */}
+      <text x={size * 0.15} y={size * 0.92} fill="#9CA3AF" fontSize="12" textAnchor="middle">0</text>
+      <text x={size * 0.85} y={size * 0.92} fill="#9CA3AF" fontSize="12" textAnchor="middle">100</text>
+      <text x={size * 0.5} y={size * 0.25} fill="#9CA3AF" fontSize="12" textAnchor="middle">50</text>
+    </svg>
+  )
+})
+
+Gauge.displayName = 'Gauge'
 
 export default function FearGreedIndexPage() {
   // Animation refs
-  const [heroRef, heroVisible] = useIntersectionObserver(0.3);
-  const [gaugeRef, gaugeVisible] = useIntersectionObserver(0.3);
-  const [metricsRef, metricsVisible] = useIntersectionObserver(0.1);
-  const [historyRef, historyVisible] = useIntersectionObserver(0.1);
+  const [heroRef, heroVisible] = useIntersectionObserver(0.3)
+  const [gaugeRef, gaugeVisible] = useIntersectionObserver(0.3)
+  const [metricsRef, metricsVisible] = useIntersectionObserver(0.1)
+  const [historyRef, historyVisible] = useIntersectionObserver(0.1)
 
-  // Berechne aktuelle Metriken
-  const metrics = calculateFearGreedMetrics()
-  const historicalData = calculateHistoricalFearGreed()
+  // MEMOIZED Berechnungen
+  const metrics = useMemo(() => calculateFearGreedMetrics(), [])
+  const historicalData = useMemo(() => calculateHistoricalFearGreed(), [])
   
-  // Debug für historische Daten
-  console.log('Historical data:', historicalData)
-  console.log('Metrics:', metrics)
-  
-  // Score zu Text Mapping
-  const getScoreLabel = (score: number) => {
+  // Score zu Text Mapping (memoized)
+  const getScoreLabel = useMemo(() => (score: number): ScoreLabel => {
     if (score >= 75) return { text: 'Extreme Gier', color: 'text-green-400', bgColor: 'bg-green-500' }
     else if (score >= 55) return { text: 'Gier', color: 'text-green-300', bgColor: 'bg-green-400' }
     else if (score >= 45) return { text: 'Neutral', color: 'text-gray-300', bgColor: 'bg-gray-500' }
     else if (score >= 25) return { text: 'Angst', color: 'text-orange-400', bgColor: 'bg-orange-500' }
     else return { text: 'Extreme Angst', color: 'text-red-400', bgColor: 'bg-red-500' }
-  }
+  }, [])
   
-  const currentLabel = getScoreLabel(metrics.totalScore)
+  const currentLabel = useMemo(() => getScoreLabel(metrics.totalScore), [metrics.totalScore, getScoreLabel])
 
   return (
     <div className="min-h-screen bg-gray-950 noise-bg">
@@ -365,7 +554,7 @@ export default function FearGreedIndexPage() {
                 </span>
                 <span className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  {metrics.totalInvestorsActive || 70}+ Super-Investoren
+                  {metrics.totalInvestorsActive}+ Super-Investoren
                 </span>
                 <span className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -379,7 +568,7 @@ export default function FearGreedIndexPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-        {/* ✅ HAUPTINDEX - Korrekt synchronisierter Zeiger */}
+        {/* HAUPTINDEX - Optimiert */}
         <div ref={gaugeRef} className={`text-center mb-20 transform transition-all duration-1000 ${
           gaugeVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
@@ -395,106 +584,10 @@ export default function FearGreedIndexPage() {
 
           <div className="bg-gray-900/60 border border-gray-800 rounded-2xl p-12 backdrop-blur-sm max-w-2xl mx-auto">
             
-            {/* ✅ FIXED Gauge mit dynamischem Zeiger */}
+            {/* Optimierte Gauge */}
             <div className="flex justify-center mb-8">
               <div className="relative">
-                <svg width="300" height="180" viewBox="0 0 300 180" className="overflow-visible">
-                  
-                  {/* Background Arc */}
-                  <path
-                    d="M 45 150 A 105 105 0 0 1 255 150"
-                    fill="none"
-                    stroke="#374151"
-                    strokeWidth="18"
-                    strokeLinecap="round"
-                  />
-                  
-                  {/* Fear Section (0-24) */}
-                  <path
-                    d="M 45 150 A 105 105 0 0 1 105 75"
-                    fill="none"
-                    stroke="#EF4444"
-                    strokeWidth="18"
-                    strokeLinecap="round"
-                    opacity="0.8"
-                  />
-                  
-                  {/* Angst Section (25-44) */}
-                  <path
-                    d="M 105 75 A 105 105 0 0 1 150 60"
-                    fill="none"
-                    stroke="#F59E0B"
-                    strokeWidth="18"
-                    strokeLinecap="round"
-                    opacity="0.8"
-                  />
-                  
-                  {/* Neutral Section (45-54) */}
-                  <path
-                    d="M 150 60 A 105 105 0 0 1 150 60"
-                    fill="none"
-                    stroke="#6B7280"
-                    strokeWidth="18"
-                    strokeLinecap="round"
-                    opacity="0.8"
-                  />
-                  
-                  {/* Gier Section (55-74) */}
-                  <path
-                    d="M 150 60 A 105 105 0 0 1 195 75"
-                    fill="none"
-                    stroke="#34D399"
-                    strokeWidth="18"
-                    strokeLinecap="round"
-                    opacity="0.8"
-                  />
-                  
-                  {/* Extreme Gier Section (75-100) */}
-                  <path
-                    d="M 195 75 A 105 105 0 0 1 255 150"
-                    fill="none"
-                    stroke="#10B981"
-                    strokeWidth="18"
-                    strokeLinecap="round"
-                    opacity="0.8"
-                  />
-                  
-                  {/* ✅ DYNAMISCHER Needle */}
-                  {(() => {
-                    const score = metrics.totalScore
-                    
-                    // Berechne Winkel: 0% = 180°, 100% = 0°
-                    const angle = 180 - (score / 100) * 180
-                    const radians = (angle * Math.PI) / 180
-                    
-                    // Berechne End-Koordinaten
-                    const centerX = 150
-                    const centerY = 150
-                    const length = 90
-                    const endX = centerX + length * Math.cos(radians)
-                    const endY = centerY + length * Math.sin(radians)
-                    
-                    return (
-                      <line
-                        x1={centerX}
-                        y1={centerY}
-                        x2={endX}
-                        y2={endY}
-                        stroke="#1F2937"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                      />
-                    )
-                  })()}
-                  
-                  {/* Center Circle */}
-                  <circle cx="150" cy="150" r="8" fill="#1F2937" />
-                  
-                  {/* Score Labels */}
-                  <text x="45" y="165" fill="#9CA3AF" fontSize="12" textAnchor="middle">0</text>
-                  <text x="255" y="165" fill="#9CA3AF" fontSize="12" textAnchor="middle">100</text>
-                  <text x="150" y="45" fill="#9CA3AF" fontSize="12" textAnchor="middle">50</text>
-                </svg>
+                <Gauge score={metrics.totalScore} />
                 
                 {/* Score Display */}
                 <div className="absolute inset-x-0 bottom-4 text-center">
@@ -519,7 +612,7 @@ export default function FearGreedIndexPage() {
               </p>
             </div>
             
-            {/* Skala - Rot/Grau/Grün */}
+            {/* Skala */}
             <div className="grid grid-cols-3 gap-4 text-xs text-center">
               <div>
                 <div className="h-2 bg-red-500 rounded mb-1"></div>
@@ -540,7 +633,7 @@ export default function FearGreedIndexPage() {
           </div>
         </div>
 
-        {/* ✅ 7 PSYCHOLOGIE-METRIKEN */}
+        {/* 7 PSYCHOLOGIE-METRIKEN - Optimiert */}
         <div ref={metricsRef} className={`mb-20 transform transition-all duration-1000 ${
           metricsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
@@ -558,163 +651,99 @@ export default function FearGreedIndexPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            {/* 1. Sentiment */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <ArrowTrendingUpIcon className="w-5 h-5 text-gray-300" />
+            {/* Metriken Array für bessere Performance */}
+            {[
+              {
+                key: 'sentiment',
+                title: 'Sentiment',
+                value: metrics.sentiment,
+                icon: ArrowTrendingUpIcon,
+                description: 'Anteil der Investoren mit mehr Käufen als Verkäufen im letzten Quartal.',
+                colorClass: 'text-green-400',
+                barClass: 'bg-green-500'
+              },
+              {
+                key: 'liquidity',
+                title: 'Liquidität',
+                value: metrics.liquidity,
+                icon: CurrencyDollarIcon,
+                description: 'Umgekehrte Konzentration. Höhere Werte = mehr diversifizierte Portfolios.',
+                colorClass: 'text-green-400',
+                barClass: 'bg-green-500'
+              },
+              {
+                key: 'diversification',
+                title: 'Diversifikation',
+                value: metrics.diversification,
+                icon: BuildingOfficeIcon,
+                description: 'Anzahl aktiver Wirtschaftssektoren in den Portfolios.',
+                colorClass: 'text-green-400',
+                barClass: 'bg-green-500'
+              },
+              {
+                key: 'momentum',
+                title: 'Momentum',
+                value: metrics.momentum,
+                icon: BoltIcon,
+                description: 'Stärke der Sektor-Trends und kollektiven Bewegungen.',
+                colorClass: 'text-green-400',
+                barClass: 'bg-green-500'
+              },
+              {
+                key: 'volatility',
+                title: 'Volatilität',
+                value: metrics.volatility,
+                icon: SignalIcon,
+                description: 'Häufigkeit der Portfolio-Änderungen pro Investor.',
+                colorClass: 'text-gray-300',
+                barClass: 'bg-gray-500'
+              },
+              {
+                key: 'riskAppetite',
+                title: 'Risikobereitschaft',
+                value: metrics.riskAppetite,
+                icon: ArrowTrendingDownIcon,
+                description: 'Durchschnittliche Konzentration der Top-3 Holdings.',
+                colorClass: 'text-gray-300',
+                barClass: 'bg-gray-500'
+              },
+              {
+                key: 'marketBreadth',
+                title: 'Marktbreite',
+                value: metrics.marketBreadth,
+                icon: ChartBarIcon,
+                description: 'Anteil der aktiven Super-Investoren am Gesamtuniversum.',
+                colorClass: 'text-green-400',
+                barClass: 'bg-green-500'
+              }
+            ].map((metric, index) => (
+              <div key={metric.key} className={`bg-gray-900/50 border border-gray-800 rounded-xl p-6 ${
+                index === 6 ? 'md:col-span-2 lg:col-span-1' : ''
+              }`}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
+                      <metric.icon className="w-5 h-5 text-gray-300" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white">{metric.title}</h3>
                   </div>
-                  <h3 className="text-lg font-bold text-white">Sentiment</h3>
+                  <div className={`text-2xl font-bold ${metric.colorClass}`}>{metric.value}</div>
                 </div>
-                <div className="text-2xl font-bold text-green-400">{metrics.sentiment}</div>
-              </div>
-              <p className="text-gray-400 text-sm mb-3">
-                Anteil der Investoren mit mehr Käufen als Verkäufen im letzten Quartal.
-              </p>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="h-2 bg-green-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${metrics.sentiment}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* 2. Liquidität */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <CurrencyDollarIcon className="w-5 h-5 text-gray-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Liquidität</h3>
+                <p className="text-gray-400 text-sm mb-3">
+                  {metric.description}
+                </p>
+                <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div 
+                    className={`h-2 ${metric.barClass} rounded-full transition-all duration-1000`}
+                    style={{ width: `${metric.value}%` }}
+                  ></div>
                 </div>
-                <div className="text-2xl font-bold text-green-400">{metrics.liquidity}</div>
               </div>
-              <p className="text-gray-400 text-sm mb-3">
-                Umgekehrte Konzentration. Höhere Werte = mehr diversifizierte Portfolios.
-              </p>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="h-2 bg-green-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${metrics.liquidity}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* 3. Diversifikation */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <BuildingOfficeIcon className="w-5 h-5 text-gray-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Diversifikation</h3>
-                </div>
-                <div className="text-2xl font-bold text-green-400">{metrics.diversification}</div>
-              </div>
-              <p className="text-gray-400 text-sm mb-3">
-                Anzahl aktiver Wirtschaftssektoren in den Portfolios.
-              </p>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="h-2 bg-green-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${metrics.diversification}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* 4. Momentum */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <BoltIcon className="w-5 h-5 text-gray-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Momentum</h3>
-                </div>
-                <div className="text-2xl font-bold text-green-400">{metrics.momentum}</div>
-              </div>
-              <p className="text-gray-400 text-sm mb-3">
-                Stärke der Sektor-Trends und kollektiven Bewegungen.
-              </p>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="h-2 bg-green-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${metrics.momentum}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* 5. Volatilität */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <SignalIcon className="w-5 h-5 text-gray-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Volatilität</h3>
-                </div>
-                <div className="text-2xl font-bold text-gray-300">{metrics.volatility}</div>
-              </div>
-              <p className="text-gray-400 text-sm mb-3">
-                Häufigkeit der Portfolio-Änderungen pro Investor.
-              </p>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="h-2 bg-gray-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${metrics.volatility}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* 6. Risikobereitschaft */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <ArrowTrendingDownIcon className="w-5 h-5 text-gray-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Risikobereitschaft</h3>
-                </div>
-                <div className="text-2xl font-bold text-gray-300">{metrics.riskAppetite}</div>
-              </div>
-              <p className="text-gray-400 text-sm mb-3">
-                Durchschnittliche Konzentration der Top-3 Holdings.
-              </p>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="h-2 bg-gray-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${metrics.riskAppetite}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* 7. Marktbreite */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 md:col-span-2 lg:col-span-1">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-gray-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">Marktbreite</h3>
-                </div>
-                <div className="text-2xl font-bold text-green-400">{metrics.marketBreadth}</div>
-              </div>
-              <p className="text-gray-400 text-sm mb-3">
-                Anteil der aktiven Super-Investoren am Gesamtuniversum.
-              </p>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div 
-                  className="h-2 bg-green-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${metrics.marketBreadth}%` }}
-                ></div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* ✅ HISTORISCHE ENTWICKLUNG mit echten Daten */}
+        {/* HISTORISCHE ENTWICKLUNG - Optimiert */}
         <div ref={historyRef} className={`mb-20 transform transition-all duration-1000 ${
           historyVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
@@ -735,12 +764,12 @@ export default function FearGreedIndexPage() {
 
           <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8">
             
-            {/* Chart */}
+            {/* Optimiertes Chart */}
             <div className="mb-8">
               {historicalData.length > 0 ? (
                 <div className="flex items-end justify-between gap-2 h-64 bg-gray-800/30 rounded-lg p-6">
                   {historicalData.map((data, index) => {
-                    const height = Math.max((data.score / 100) * 200, 10) // Höhe in Pixel
+                    const height = Math.max((data.score / 100) * 200, 10)
                     const label = getScoreLabel(data.score)
                     
                     return (
@@ -754,7 +783,6 @@ export default function FearGreedIndexPage() {
                           }}
                           title={`${data.label}: ${data.score} (${label.text})`}
                         >
-                          {/* Score Label on Bar */}
                           <div className="text-white text-sm font-bold mb-2">
                             {data.score}
                           </div>
@@ -777,14 +805,14 @@ export default function FearGreedIndexPage() {
                 <div className="h-64 bg-gray-800/30 rounded-lg p-6 flex items-center justify-center">
                   <div className="text-center text-gray-500">
                     <CalendarIcon className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p className="text-lg font-semibold mb-2">Berechne historische Daten...</p>
-                    <p className="text-sm">Basierend auf {metrics.totalInvestorsActive || 0} aktiven Investoren</p>
+                    <p className="text-lg font-semibold mb-2">Lade historische Daten...</p>
+                    <p className="text-sm">Basierend auf {metrics.totalInvestorsActive} aktiven Investoren</p>
                   </div>
                 </div>
               )}
             </div>
             
-            {/* Legende - Rot/Grau/Grün */}
+            {/* Legende */}
             <div className="flex items-center justify-center gap-6 text-xs">
               <span className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-red-500 rounded-full"></div>
@@ -829,7 +857,7 @@ export default function FearGreedIndexPage() {
               <div className="space-y-3 text-gray-400">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                  <span>{metrics.totalInvestorsActive || 70}+ Super-Investor Portfolios</span>
+                  <span>{metrics.totalInvestorsActive}+ Super-Investor Portfolios</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
@@ -876,7 +904,7 @@ export default function FearGreedIndexPage() {
             </div>
           </div>
 
-          {/* Interpretation - Rot/Grau/Grün */}
+          {/* Interpretation */}
           <div className="mt-8 pt-8 border-t border-gray-700">
             <h3 className="text-lg font-bold text-white mb-6 text-center">Interpretation</h3>
             

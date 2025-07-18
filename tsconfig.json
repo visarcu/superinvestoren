@@ -32,6 +32,6 @@
     "next.config.cjs",
     "src/global.d.ts"
 , "mailer.test.mts",
-"src/types", "scripts/delete-test-users.js" ],
+"src/types", "scripts/delete-test-users.js", "scripts/load-news.js" ],
   "exclude": ["node_modules"]
 }

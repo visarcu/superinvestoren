@@ -64,6 +64,8 @@ import articlesAckman from '@/data/articles/ackman.json'
 import articlesGates from '@/data/articles/gates.json'
 import ArticleList from '@/components/ArticleList'
 import type { Article } from '@/components/ArticleList'
+import PublicInvestorFollowButton from '@/components/PublicInvestorFollowButton'
+
 
 // User Interface für Premium-Check
 interface User {
@@ -1160,15 +1162,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                         <div className="w-1.5 h-1.5 bg-gray-500 rounded-full"></div>
                         {holdings.length} Positionen
                       </p>
-
- {/* ✅ NEU: Follow Button hinzufügen */}
- <div className="mt-6 pt-4 border-t border-gray-700/50">
-      <InvestorFollowButton 
-        investorSlug={slug}
-        investorName={mainName}
-        variant="default"
-      />
-   </div>
+                      
+{/* ✅ Follow Button für öffentliche Seite */}
+<div className="mt-6 pt-4 border-t border-gray-700/50">
+  <PublicInvestorFollowButton 
+    investorSlug={slug}
+    investorName={mainName}
+  />
+</div>
                     </div>
                   </div>
                 </div>

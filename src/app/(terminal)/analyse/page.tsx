@@ -1,6 +1,7 @@
+// Dashboard-Component - PERFORMANCE OPTIMIERT
 'use client'
 
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { 
@@ -26,7 +27,8 @@ import {
 
 // ECHTE IMPORTS - keine Mock-Daten!
 import { stocks } from '@/data/stocks'
-import holdingsHistory from '@/data/holdings'
+// LAZY LOAD HOLDINGS HISTORY
+import dynamic from 'next/dynamic'
 import Logo from '@/components/Logo'
 
 // ===== TYPES =====
@@ -49,21 +51,44 @@ type MarketQuote = {
   perfYTD?: number | null
 }
 
-// ===== HELPER FUNCTIONS =====
+// ===== CACHED HELPER FUNCTIONS =====
+const tickerCache = new Map<string, string | null>()
+const stockNameCache = new Map<string, string>()
+
 function getTicker(position: any): string | null {
   if (position.ticker) return position.ticker
+  
+  const cacheKey = position.cusip
+  if (tickerCache.has(cacheKey)) {
+    // FIX: Non-null assertion da wir vorher mit has() prüfen
+    return tickerCache.get(cacheKey)!
+  }
+  
   const stock = stocks.find(s => s.cusip === position.cusip)
-  return stock?.ticker || null
+  const ticker = stock?.ticker || null
+  tickerCache.set(cacheKey, ticker)
+  return ticker
 }
 
 function getStockName(position: any): string {
+  const cacheKey = `${position.cusip}-${position.name}`
+  if (stockNameCache.has(cacheKey)) {
+    // FIX: Non-null assertion da wir vorher mit has() prüfen
+    return stockNameCache.get(cacheKey)!
+  }
+  
+  let name: string
   if (position.name && position.ticker) {
-    return position.name.includes(' - ') 
+    name = position.name.includes(' - ') 
       ? position.name.split(' - ')[1].trim()
       : position.name
+  } else {
+    const stock = stocks.find(s => s.cusip === position.cusip)
+    name = stock?.name || position.name || position.cusip
   }
-  const stock = stocks.find(s => s.cusip === position.cusip)
-  return stock?.name || position.name || position.cusip
+  
+  stockNameCache.set(cacheKey, name)
+  return name
 }
 
 function getPeriodFromDate(dateStr: string) {
@@ -77,14 +102,14 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
-// ===== BETTER SEARCH COMPONENT =====
-function SmartSearchInput({ 
+// ===== MEMOIZED SEARCH COMPONENT =====
+const SmartSearchInput = React.memo(({ 
   placeholder, 
   onSelect 
 }: { 
   placeholder: string
   onSelect: (ticker: string) => void
-}) {
+}) => {
   const [query, setQuery] = useState('')
   const [filteredStocks, setFilteredStocks] = useState<any[]>([])
   const [showResults, setShowResults] = useState(false)
@@ -92,32 +117,35 @@ function SmartSearchInput({
   const inputRef = useRef<HTMLInputElement>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
 
+  // MEMOIZED POPULAR STOCKS
+  const popularStocks = useMemo(() => {
+    const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA']
+    return stocks.filter(stock => popularTickers.includes(stock.ticker))
+  }, [])
+
+  // OPTIMIZED FILTERING
   useEffect(() => {
     if (query.trim()) {
+      const queryLower = query.toLowerCase()
       const filtered = stocks.filter(stock => 
-        stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
-        stock.name.toLowerCase().includes(query.toLowerCase())
+        stock.ticker.toLowerCase().includes(queryLower) ||
+        stock.name.toLowerCase().includes(queryLower)
       ).slice(0, 8)
       setFilteredStocks(filtered)
     } else {
-      // Zeige beliebte Aktien wenn leer
-      const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA']
-      const popularStocks = stocks.filter(stock => 
-        popularTickers.includes(stock.ticker)
-      )
       setFilteredStocks(popularStocks)
     }
     setSelectedIndex(-1)
-  }, [query])
+  }, [query, popularStocks])
 
-  const handleSelect = (ticker: string) => {
+  const handleSelect = useCallback((ticker: string) => {
     onSelect(ticker)
     setQuery('')
     setShowResults(false)
     setSelectedIndex(-1)
-  }
+  }, [onSelect])
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (!showResults) return
 
     switch (e.key) {
@@ -147,13 +175,13 @@ function SmartSearchInput({
         inputRef.current?.blur()
         break
     }
-  }
+  }, [showResults, selectedIndex, filteredStocks, handleSelect, query])
 
-  const handleInputFocus = () => {
+  const handleInputFocus = useCallback(() => {
     setShowResults(true)
-  }
+  }, [])
 
-  const handleInputBlur = (e: React.FocusEvent) => {
+  const handleInputBlur = useCallback((e: React.FocusEvent) => {
     // Verzögerung damit Klicks auf Ergebnisse noch funktionieren
     setTimeout(() => {
       if (!resultsRef.current?.contains(document.activeElement)) {
@@ -161,7 +189,7 @@ function SmartSearchInput({
         setSelectedIndex(-1)
       }
     }, 150)
-  }
+  }, [])
 
   return (
     <div className="relative max-w-2xl mx-auto">
@@ -288,27 +316,39 @@ function SmartSearchInput({
       )}
     </div>
   )
-}
+})
 
-// ===== SUPER-INVESTOR STOCKS COMPONENT =====
-function SuperInvestorStocks({ 
+// ===== FIXED SUPER-INVESTOR COMPONENT =====
+const SuperInvestorStocks = React.memo(({ 
   quotes, 
-  onSelect 
+  onSelect,
+  loading
 }: { 
   quotes: Record<string, Quote>
   onSelect: (ticker: string) => void 
-}) {
+  loading: boolean
+}) => {
   const [view, setView] = useState<'hidden_gems' | 'recent_buys'>('hidden_gems')
+  const [holdingsHistory, setHoldingsHistory] = useState<any>(null)
 
-  const MAINSTREAM_STOCKS = new Set([
+  // LAZY LOAD HOLDINGS DATA
+  useEffect(() => {
+    import('@/data/holdings').then(module => {
+      setHoldingsHistory(module.default)
+    })
+  }, [])
+
+  const MAINSTREAM_STOCKS = useMemo(() => new Set([
     'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
     'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
-  ])
+  ]), [])
 
   const hiddenGems = useMemo(() => {
+    if (!holdingsHistory) return []
+    
     const ownershipCount = new Map<string, { count: number; totalValue: number; name: string }>()
 
-    Object.values(holdingsHistory).forEach(snaps => {
+    Object.values(holdingsHistory).forEach((snaps: any) => {
       if (!snaps || snaps.length === 0) return
       
       const latest = snaps[snaps.length - 1]?.data
@@ -346,12 +386,14 @@ function SuperInvestorStocks({
         totalValue: data.totalValue,
         name: data.name
       }))
-  }, [])
+  }, [holdingsHistory, MAINSTREAM_STOCKS])
 
   const recentBuys = useMemo(() => {
+    if (!holdingsHistory) return []
+    
     const buyCounts = new Map<string, { count: number; totalValue: number; name: string }>()
     
-    Object.values(holdingsHistory).forEach(snaps => {
+    Object.values(holdingsHistory).forEach((snaps: any) => {
       if (!snaps || snaps.length < 2) return
       
       const latest = snaps[snaps.length - 1]?.data
@@ -360,7 +402,7 @@ function SuperInvestorStocks({
       if (!latest?.positions || !previous?.positions) return
 
       const prevTickers = new Set(
-        previous.positions.map(p => getTicker(p)).filter(Boolean)
+        previous.positions.map((p: any) => getTicker(p)).filter(Boolean)
       )
 
       const seen = new Set<string>()
@@ -369,7 +411,7 @@ function SuperInvestorStocks({
         if (!ticker || seen.has(ticker)) return
         
         const wasNewOrIncreased = !prevTickers.has(ticker) || 
-          (previous.positions.find(prev => getTicker(prev) === ticker)?.shares || 0) < p.shares
+          (previous.positions.find((prev: any) => getTicker(prev) === ticker)?.shares || 0) < p.shares
         
         if (wasNewOrIncreased) {
           seen.add(ticker)
@@ -399,9 +441,33 @@ function SuperInvestorStocks({
         totalValue: data.totalValue,
         name: data.name
       }))
-  }, [])
+  }, [holdingsHistory])
 
   const currentData = view === 'hidden_gems' ? hiddenGems : recentBuys
+
+  if (!holdingsHistory) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-theme-primary mb-2">
+              💎 Super-Investor Picks
+            </h3>
+            <p className="text-sm text-theme-muted">
+              Lädt Daten...
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="bg-theme-card border border-theme/10 rounded-xl p-6 animate-pulse">
+              <div className="h-24 bg-theme-secondary rounded-lg"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
@@ -441,15 +507,16 @@ function SuperInvestorStocks({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {currentData.map((item) => {
+      <div className="grid grid-cols-2 gap-4">
+        {currentData.slice(0, 4).map((item) => {
           const quote = quotes[item.ticker.toLowerCase()]
+          const isLoading = loading && !quote
 
           return (
             <button
               key={item.ticker}
               onClick={() => onSelect(item.ticker)}
-              className="group w-full text-left bg-theme-card border border-theme/10 rounded-xl p-4 hover:border-theme/20 hover:shadow-lg transition-all duration-300"
+              className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
             >
               
               <div className="flex items-center justify-between mb-4">
@@ -459,23 +526,23 @@ function SuperInvestorStocks({
                   className="w-10 h-10 rounded-lg"
                   padding="small"
                 />
-                
-                <div className="flex items-center gap-1.5 px-2 py-1 bg-theme-secondary rounded-lg">
-                  <UserGroupIcon className="w-3 h-3 text-theme-muted" />
-                  <span className="text-xs font-bold text-theme-primary">{item.count}</span>
-                </div>
+                {quote && (
+                  <div className={`w-3 h-3 rounded-full ${
+                    quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
+                  }`}></div>
+                )}
               </div>
 
-              <div className="mb-4">
-                <h4 className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors mb-1">
-                  {item.ticker}
-                </h4>
-                <p className="text-xs text-theme-muted">
-                  {view === 'hidden_gems' ? `${item.count} Investoren` : `${item.count} Käufer`}
-                </p>
-              </div>
+              <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
+                {item.ticker}
+              </h3>
                             
-              {quote ? (
+              {isLoading ? (
+                <div className="space-y-3">
+                  <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
+                  <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
+                </div>
+              ) : quote ? (
                 <div className="space-y-3">
                   <div className="text-xl font-bold text-theme-primary">
                     ${quote.price.toFixed(2)}
@@ -493,31 +560,88 @@ function SuperInvestorStocks({
                     )}
                     <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
                   </div>
+
+                  <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
+                    <div className="flex justify-between">
+                      <span className="text-theme-muted">1M:</span>
+                      {quote.perf1M !== null && quote.perf1M !== undefined ? (
+                        <span className={`font-bold ${
+                          quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {quote.perf1M >= 0 ? '+' : ''}{quote.perf1M.toFixed(1)}%
+                        </span>
+                      ) : (
+                        <span className="text-theme-muted">–</span>
+                      )}
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-theme-muted">YTD:</span>
+                      {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
+                        <span className={`font-bold ${
+                          quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {quote.perfYTD >= 0 ? '+' : ''}{quote.perfYTD.toFixed(1)}%
+                        </span>
+                      ) : (
+                        <span className="text-theme-muted">–</span>
+                      )}
+                    </div>
+                    <div className="flex justify-between border-t border-theme/10 pt-2">
+                      <span className="text-theme-muted">
+                        {view === 'hidden_gems' ? 'Investoren:' : 'Käufer:'}
+                      </span>
+                      <span className="text-theme-primary font-bold">{item.count}</span>
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <div className="text-theme-muted text-sm">Lädt...</div>
+                <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
               )}
-
-              <div className="mt-4 pt-3 border-t border-theme/10">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-theme-muted">
-                    {view === 'hidden_gems' ? 'Gesamt-Wert:' : 'Kauf-Wert:'}
-                  </span>
-                  <span className="text-theme-primary font-bold">
-                    {item.totalValue >= 1_000_000_000 
-                      ? `${(item.totalValue / 1_000_000_000).toFixed(1)}B`
-                      : `${(item.totalValue / 1_000_000).toFixed(0)}M`
-                    }
-                  </span>
-                </div>
-              </div>
             </button>
           )
         })}
       </div>
     </div>
   )
-}
+})
+
+// ===== OPTIMIZED MARKET STATUS - CACHED =====
+const getMarketStatus = (() => {
+  let cache: { [key: string]: { timestamp: number; data: any } } = {}
+  
+  return (timezone: string, openHour: number, closeHour: number) => {
+    const cacheKey = `${timezone}-${openHour}-${closeHour}`
+    const now = Date.now()
+    
+    // Cache für 30 Sekunden
+    if (cache[cacheKey] && now - cache[cacheKey].timestamp < 30000) {
+      return cache[cacheKey].data
+    }
+    
+    const marketTime = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }))
+    const day = marketTime.getDay()
+    const hour = marketTime.getHours()
+    const minute = marketTime.getMinutes()
+    const currentMinutes = hour * 60 + minute
+    
+    let result
+    if (day === 0 || day === 6) {
+      result = { status: 'CLOSED', reason: 'Weekend' }
+    } else {
+      const marketOpenMinutes = openHour * 60
+      const marketCloseMinutes = closeHour * 60
+      
+      if (currentMinutes >= marketOpenMinutes && currentMinutes < marketCloseMinutes) {
+        result = { status: 'OPEN', reason: '' }
+      } else {
+        result = { status: 'CLOSED', reason: 'After Hours' }
+      }
+    }
+    
+    cache[cacheKey] = { timestamp: now, data: result }
+    return result
+  }
+})()
 
 // ===== MAIN DASHBOARD COMPONENT =====
 export default function ModernDashboard() {
@@ -529,15 +653,19 @@ export default function ModernDashboard() {
   const [marketLoading, setMarketLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
 
-  const POPULAR_STOCKS = [
+  // HIDDEN GEMS TICKERS - wird dynamisch geladen
+  const [hiddenGemsTickers, setHiddenGemsTickers] = useState<string[]>([])
+
+  const POPULAR_STOCKS = useMemo(() => [
     'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
     'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
-  ]
+  ], [])
 
+  // OPTIMIZED CLOCK - Nur alle 30 Sekunden statt jede Sekunde
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date())
-    }, 1000)
+    }, 30000) // 30 Sekunden statt 1 Sekunde
     return () => clearInterval(timer)
   }, [])
 
@@ -548,13 +676,67 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Load real stock quotes
+  // Load Hidden Gems tickers
   useEffect(() => {
+    async function getHiddenGemsTickers() {
+      try {
+        const holdingsModule = await import('@/data/holdings')
+        const holdingsHistory = holdingsModule.default
+        
+        const MAINSTREAM_STOCKS = new Set([
+          'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
+          'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
+        ])
+        
+        const ownershipCount = new Map<string, number>()
+
+        Object.values(holdingsHistory).forEach((snaps: any) => {
+          if (!snaps || snaps.length === 0) return
+          
+          const latest = snaps[snaps.length - 1]?.data
+          if (!latest?.positions) return
+          
+          const seen = new Set<string>()
+          latest.positions.forEach((p: any) => {
+            const ticker = getTicker(p)
+            
+            if (ticker && !seen.has(ticker) && !MAINSTREAM_STOCKS.has(ticker)) {
+              seen.add(ticker)
+              ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
+            }
+          })
+        })
+
+        const topTickers = Array.from(ownershipCount.entries())
+          .filter(([, count]) => count >= 2)
+          .sort(([, a], [, b]) => b - a)
+          .slice(0, 8) // Top 8 für beide Views
+          .map(([ticker]) => ticker)
+          
+        setHiddenGemsTickers(topTickers)
+      } catch (error) {
+        console.error('Failed to load hidden gems tickers:', error)
+      }
+    }
+    
+    getHiddenGemsTickers()
+  }, [])
+
+  // DEBOUNCED API CALLS - Inkludiert Hidden Gems
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+    
     async function loadStockQuotes() {
       setLoading(true)
       
       try {
-        const tickers = POPULAR_STOCKS.join(',')
+        // Kombiniere Popular Stocks + Hidden Gems für API Call
+        const allTickers = [...POPULAR_STOCKS, ...hiddenGemsTickers]
+        const uniqueTickers = [...new Set(allTickers)]
+        const tickers = uniqueTickers.join(',')
+        
+        if (uniqueTickers.length === 0) return
+        
         const response = await fetch(`/api/dashboard-quotes?tickers=${tickers}`)
         
         if (!response.ok) {
@@ -575,11 +757,16 @@ export default function ModernDashboard() {
       }
     }
     
-    loadStockQuotes()
-  }, [])
+    // Debounce API calls
+    timeoutId = setTimeout(loadStockQuotes, 100)
+    
+    return () => clearTimeout(timeoutId)
+  }, [POPULAR_STOCKS, hiddenGemsTickers])
 
-  // Load real market data
+  // DEBOUNCED MARKET DATA
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+    
     async function loadMarketData() {
       setMarketLoading(true)
       
@@ -604,39 +791,20 @@ export default function ModernDashboard() {
       }
     }
     
-    loadMarketData()
+    timeoutId = setTimeout(loadMarketData, 200)
+    
+    return () => clearTimeout(timeoutId)
   }, [])
 
-  const handleTickerSelect = (ticker: string) => {
+  const handleTickerSelect = useCallback((ticker: string) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('lastTicker', ticker.toUpperCase())
     }
     router.push(`/analyse/stocks/${ticker.toLowerCase()}`)
-  }
+  }, [router])
 
-  const getMarketStatus = (timezone: string, openHour: number, closeHour: number) => {
-    const now = new Date()
-    const marketTime = new Date(now.toLocaleString("en-US", { timeZone: timezone }))
-    const day = marketTime.getDay()
-    const hour = marketTime.getHours()
-    const minute = marketTime.getMinutes()
-    const currentMinutes = hour * 60 + minute
-    
-    if (day === 0 || day === 6) {
-      return { status: 'CLOSED', reason: 'Weekend' }
-    }
-    
-    const marketOpenMinutes = openHour * 60
-    const marketCloseMinutes = closeHour * 60
-    
-    if (currentMinutes >= marketOpenMinutes && currentMinutes < marketCloseMinutes) {
-      return { status: 'OPEN', reason: '' }
-    } else {
-      return { status: 'CLOSED', reason: 'After Hours' }
-    }
-  }
-
-  const marketData = [
+  // MEMOIZED MARKET DATA
+  const marketData = useMemo(() => [
     { 
       name: 'S&P 500', 
       flag: '🇺🇸',
@@ -661,7 +829,7 @@ export default function ModernDashboard() {
       key: 'dji',
       ...getMarketStatus("America/New_York", 9.5, 16)
     }
-  ]
+  ], [currentTime])
 
   return (
     <div className="min-h-screen bg-theme-primary">
@@ -1012,6 +1180,7 @@ export default function ModernDashboard() {
                 <SuperInvestorStocks 
                   quotes={quotes}
                   onSelect={handleTickerSelect}
+                  loading={loading}
                 />
               </div>
             </div>

@@ -33,10 +33,7 @@ export default function LexikonPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A0B0F]/50 to-[#0A0B0F]" />
         
         <div className="relative max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 text-sm font-medium mb-6">
-            <BookOpenIcon className="w-4 h-4" />
-            Finanz-Lexikon
-          </div>
+         <br /><br />
           
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Verstehe die Finanzmärkte

@@ -1,11 +1,8 @@
-// src/app/api/notifications/check-watchlist/route.ts
+// src/app/api/notifications/check-watchlist/route.ts - ERWEITERT
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseClient'
 import { createClient } from '@supabase/supabase-js'
 
-
-
-// ✅ Service Role Client für Cron-Jobs (ohne RLS)
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -17,18 +14,51 @@ const supabaseService = createClient(
   }
 )
 
-
-
-// ✅ SICHERE API: Prüft Watchlist-Dips und sendet Notifications
-export async function POST(request: NextRequest) {
-
+// Hilfsfunktion: In-App Notification erstellen
+async function createInAppNotification({
+  userId,
+  type,
+  title,
+  message,
+  data,
+  href
+}: {
+  userId: string
+  type: string
+  title: string
+  message: string
+  data?: any
+  href?: string
+}) {
   try {
- 
- // Auth-Check für Cron-Job (geheimer Key)
- const authHeader = request.headers.get('authorization')
- if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
- }
+    const { error } = await supabaseService
+      .from('notifications')
+      .insert({
+        user_id: userId,
+        type,
+        title,
+        message,
+        data: data || {},
+        href
+      })
+    
+    if (error) {
+      console.error('Error creating in-app notification:', error)
+    } else {
+      console.log(`✅ In-app notification created for user ${userId}: ${title}`)
+    }
+  } catch (error) {
+    console.error('Failed to create in-app notification:', error)
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // Auth-Check für Cron-Job (geheimer Key)
+    const authHeader = request.headers.get('authorization')
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
     console.log('[Cron] Starting watchlist check...')
     
@@ -42,7 +72,6 @@ export async function POST(request: NextRequest) {
         profiles!inner(email_verified)
       `)
       .eq('watchlist_enabled', true)
-     // .eq('profiles.email_verified', true)
 
     if (usersError) {
       console.error('[Cron] Users Error:', usersError)
@@ -51,7 +80,8 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Cron] Found ${usersWithNotifications?.length || 0} users with notifications enabled`)
 
-    let totalNotificationsSent = 0
+    let totalEmailsSent = 0
+    let totalInAppNotifications = 0
 
     // 2. Für jeden User: Watchlist prüfen
     for (const userSettings of usersWithNotifications || []) {
@@ -67,11 +97,12 @@ export async function POST(request: NextRequest) {
         }
 
         const dippedStocks = []
+        const inAppNotificationsToCreate = []
 
         // 3. Für jeden Ticker: Aktuellen Kurs prüfen
         for (const item of watchlistItems) {
           try {
-            // FMP API Call (deine bestehende API)
+            // FMP API Call
             const res = await fetch(
               `https://financialmodelingprep.com/api/v3/quote/${item.ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
             )
@@ -81,11 +112,10 @@ export async function POST(request: NextRequest) {
             const [quote] = await res.json()
             if (!quote) continue
 
-            // Dip berechnen (wie in deiner Watchlist-Komponente)
+            // Dip berechnen
             const dipPercent = ((quote.price - quote.yearHigh) / quote.yearHigh) * 100
-          // das an falls live  const isDip = dipPercent <= -userSettings.watchlist_threshold_percent
-            const isDip = (userSettings.user_id === 'd5bd6951-6479-4279-afd6-a019d9f6f153') ? true : dipPercent <= -userSettings.watchlist_threshold_percent //zum test
-
+            // TEST MODE: Nur für bestimmte User-ID
+            const isDip = (userSettings.user_id === 'c5d048f7-fb5e-44e1-a6e7-ac7619f0d9f7') ? true : dipPercent <= -userSettings.watchlist_threshold_percent
 
             if (isDip) {
               // Prüfen ob wir heute schon eine Notification für diesen Stock gesendet haben
@@ -95,15 +125,28 @@ export async function POST(request: NextRequest) {
                 .eq('user_id', userSettings.user_id)
                 .eq('notification_type', 'watchlist_dip')
                 .eq('reference_id', item.ticker)
-                .gte('sent_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()) // 24h
+                .gte('sent_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
                 .maybeSingle()
 
               if (!recentNotification) {
-                dippedStocks.push({
+                const stockData = {
                   ticker: item.ticker,
                   currentPrice: quote.price,
                   dipPercent: dipPercent.toFixed(1),
                   yearHigh: quote.yearHigh
+                }
+
+                // Für E-Mail sammeln
+                dippedStocks.push(stockData)
+
+                // ✅ In-App Notification vorbereiten
+                inAppNotificationsToCreate.push({
+                  userId: userSettings.user_id,
+                  type: 'watchlist_dip',
+                  title: `${item.ticker} ist um ${Math.abs(dipPercent).toFixed(1)}% gefallen`,
+                  message: `Aktueller Kurs: $${quote.price.toFixed(2)} (${dipPercent.toFixed(1)}% vom 52W-Hoch)`,
+                  data: stockData,
+                  href: `/analyse/stocks/${item.ticker.toLowerCase()}`
                 })
               }
             }
@@ -128,9 +171,14 @@ export async function POST(request: NextRequest) {
           }
         }
 
-        // 4. Email senden wenn Dips gefunden wurden
+        // ✅ 4. In-App Notifications erstellen (ERST)
+        for (const notificationData of inAppNotificationsToCreate) {
+          await createInAppNotification(notificationData)
+          totalInAppNotifications++
+        }
+
+        // 5. Email senden wenn Dips gefunden wurden (DANACH)
         if (dippedStocks.length > 0) {
-          // User Email holen
           const { data: profile } = await supabaseService
             .from('profiles')
             .select('user_id')
@@ -138,7 +186,6 @@ export async function POST(request: NextRequest) {
             .maybeSingle()
 
           if (profile) {
-            // Supabase Auth User holen für Email
             const { data: { user } } = await supabaseService.auth.admin.getUserById(userSettings.user_id)
             
             if (user?.email) {
@@ -172,7 +219,7 @@ export async function POST(request: NextRequest) {
                   })
               }
 
-              totalNotificationsSent += dippedStocks.length
+              totalEmailsSent += dippedStocks.length
             }
           }
         }
@@ -183,12 +230,14 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log(`[Cron] Sent ${totalNotificationsSent} notifications`)
+    console.log(`[Cron] Sent ${totalEmailsSent} email notifications`)
+    console.log(`[Cron] Created ${totalInAppNotifications} in-app notifications`)
     
     return NextResponse.json({
       success: true,
       usersChecked: usersWithNotifications?.length || 0,
-      notificationsSent: totalNotificationsSent
+      emailNotificationsSent: totalEmailsSent,
+      inAppNotificationsSent: totalInAppNotifications
     })
 
   } catch (error) {

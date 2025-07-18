@@ -1,7 +1,7 @@
-// src/app/superinvestor/insights/page.tsx - OPTIMIERT für Performance + FIXES
+// src/app/superinvestor/insights/page.tsx - PERFORMANCE OPTIMIERT + TYPESCRIPT FIXES
 'use client'
 
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useState, useRef, useEffect, useMemo, useCallback, memo, useDeferredValue } from 'react'
 import Link from 'next/link'
 import { 
   ChartBarIcon,
@@ -28,34 +28,372 @@ import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 
-// Nur Hero Animation Hook
-const useIntersectionObserver = (threshold = 0.1) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+// ========== TYPESCRIPT INTERFACES ==========
+interface Position {
+  cusip: string
+  ticker?: string
+  name?: string
+  shares: number
+  value: number
+}
+
+interface HoldingData {
+  date: string
+  positions: Position[]
+}
+
+interface HoldingSnapshot {
+  data: HoldingData
+}
+
+interface TopBuyItem {
+  ticker: string
+  count: number
+}
+
+interface TopOwnedItem {
+  ticker: string
+  count: number
+}
+
+interface BiggestInvestmentItem {
+  ticker: string
+  name: string
+  value: number
+}
+
+interface SectorAnalysis {
+  sector: string
+  value: number
+  count: number
+}
+
+interface GeographicExposure {
+  usValue: number
+  internationalValue: number
+  usPercentage: number
+  intlPercentage: number
+}
+
+interface QuarterOption {
+  id: string
+  label: string
+  quarters: string[]
+  description: string
+}
+
+interface DataSourceStats {
+  totalInvestors: number
+  investorsWithData: number
+  totalFilings: number
+  filingsInPeriod: number
+  lastUpdated: string
+  quarters: string[]
+}
+
+// ========== PERFORMANCE OPTIMIERUNGEN ==========
+
+// 1. CACHE für schwere Berechnungen
+const calculationCache = new Map<string, any>()
+
+// 2. Temporäre Hilfsfunktionen für Initialisierung
+function getTickerTemp(position: Position, cusipToTickerMap: Map<string, string>): string | null {
+  if (position.ticker) return position.ticker
+  return cusipToTickerMap.get(position.cusip) || null
+}
+
+function getStockNameTemp(position: Position, cusipToTickerMap: Map<string, string>, nameMap: Map<string, string>): string {
+  if (position.name && position.ticker) {
+    return position.name.includes(' - ') 
+      ? position.name.split(' - ')[1].trim()
+      : position.name
+  }
+  const ticker = getTickerTemp(position, cusipToTickerMap)
+  return ticker ? (nameMap.get(ticker) || position.name || position.cusip) : position.cusip
+}
+
+// 3. Optimierte Datenstrukturen vorab erstellen
+const preprocessedData = (() => {
+  const tickerMap = new Map<string, string>()
+  const nameMap = new Map<string, string>()
+  const cusipToTicker = new Map<string, string>()
   
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold }
-    );
+  // Stocks-Daten vorverarbeiten
+  stocks.forEach(stock => {
+    tickerMap.set(stock.ticker, stock.name)
+    nameMap.set(stock.ticker, stock.name)
+    if (stock.cusip) {
+      cusipToTicker.set(stock.cusip, stock.ticker)
+    }
+  })
+  
+  // Holdings-Daten einmal durchgehen
+  const activeInvestors = new Set<string>()
+  const allQuarters = new Set<string>()
+  
+  Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
+    if (!snaps || snaps.length === 0) return
     
-    if (ref.current) {
-      observer.observe(ref.current);
+    const latest = snaps[snaps.length - 1]?.data
+    if (latest?.positions?.length > 0) {
+      activeInvestors.add(slug)
     }
     
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+    snaps.forEach(snap => {
+      if (snap?.data?.date) {
+        const quarter = getPeriodFromDate(snap.data.date)
+        allQuarters.add(quarter)
+        
+        // Ticker-Namen aus Holdings extrahieren
+        snap.data.positions?.forEach((position: Position) => {
+          const ticker = getTickerTemp(position, cusipToTicker)
+          if (ticker && position.name && !nameMap.has(ticker)) {
+            nameMap.set(ticker, getStockNameTemp(position, cusipToTicker, nameMap))
+          }
+        })
       }
-    };
-  }, [threshold]);
+    })
+  })
   
-  return [ref, isVisible] as const;
-};
+  return {
+    tickerMap,
+    nameMap,
+    cusipToTicker,
+    activeInvestors: Array.from(activeInvestors),
+    allQuarters: Array.from(allQuarters).sort().reverse()
+  }
+})()
+
+// 4. Finale Hilfsfunktionen (nach preprocessedData Initialisierung)
+function getTicker(position: Position): string | null {
+  if (position.ticker) return position.ticker
+  return preprocessedData.cusipToTicker.get(position.cusip) || null
+}
+
+function getStockName(position: Position): string {
+  if (position.name && position.ticker) {
+    return position.name.includes(' - ') 
+      ? position.name.split(' - ')[1].trim()
+      : position.name
+  }
+  const ticker = getTicker(position)
+  return ticker ? (preprocessedData.nameMap.get(ticker) || position.name || position.cusip) : position.cusip
+}
+
+function getPeriodFromDate(dateStr: string): string {
+  const [year, month] = dateStr.split('-').map(Number)
+  const filingQ = Math.ceil(month / 3)
+  let reportQ = filingQ - 1, reportY = year
+  if (reportQ === 0) {
+    reportQ = 4
+    reportY = year - 1
+  }
+  return `Q${reportQ} ${reportY}`
+}
+
+function formatCurrencyGerman(amount: number, showCurrency = true): string {
+  const suffix = showCurrency ? ' $' : ''
+  
+  if (amount >= 1_000_000_000) {
+    return `${(amount / 1_000_000_000).toFixed(1)} Mrd.${suffix}`
+  } else if (amount >= 1_000_000) {
+    return `${(amount / 1_000_000).toFixed(1)} Mio.${suffix}`
+  } else if (amount >= 1_000) {
+    return `${(amount / 1_000).toFixed(1)} Tsd.${suffix}`
+  }
+  return `${amount.toFixed(0)}${suffix}`
+}
+
+function formatCurrency(amount: number, currency: 'USD' | 'EUR' = 'USD', maximumFractionDigits = 0): string {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits,
+  }).format(amount)
+}
+
+// 4. Data Processing Functions (NICHT memo, da keine React Komponenten)
+function getSmartLatestQuarter(): string {
+  const cacheKey = 'smartLatestQuarter'
+  if (calculationCache.has(cacheKey)) {
+    return calculationCache.get(cacheKey)
+  }
+  
+  const totalActiveInvestors = preprocessedData.activeInvestors.length
+  const requiredThreshold = Math.ceil(totalActiveInvestors * 0.5)
+  
+  const quarterCounts = new Map<string, number>()
+  
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
+    if (!snaps) return
+    
+    snaps.forEach(snap => {
+      if (snap?.data?.date) {
+        const quarter = getPeriodFromDate(snap.data.date)
+        quarterCounts.set(quarter, (quarterCounts.get(quarter) || 0) + 1)
+      }
+    })
+  })
+  
+  const sortedQuarters = Array.from(quarterCounts.entries())
+    .sort(([a], [b]) => {
+      const [qA, yearA] = a.split(' ')
+      const [qB, yearB] = b.split(' ')
+      
+      if (yearA !== yearB) return parseInt(yearB) - parseInt(yearA)
+      return parseInt(qB.substring(1)) - parseInt(qA.substring(1))
+    })
+  
+  for (const [quarter, count] of sortedQuarters) {
+    if (count >= requiredThreshold) {
+      calculationCache.set(cacheKey, quarter)
+      return quarter
+    }
+  }
+  
+  const fallbackQuarter = sortedQuarters[0]?.[0] || 'Q1 2025'
+  calculationCache.set(cacheKey, fallbackQuarter)
+  return fallbackQuarter
+}
+
+// 5. Optimierte Berechnungsfunktionen mit Caching
+function calculateTopBuys(targetQuarters: string[]): TopBuyItem[] {
+  const cacheKey = `topBuys-${targetQuarters.join('-')}`
+  if (calculationCache.has(cacheKey)) {
+    return calculationCache.get(cacheKey)
+  }
+  
+  const buyCounts = new Map<string, number>()
+  
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
+    if (!snaps || snaps.length === 0) return
+    
+    snaps.forEach((snap, idx) => {
+      const currentQuarter = getPeriodFromDate(snap.data.date)
+      if (!targetQuarters.includes(currentQuarter)) return
+      
+      const cur = snap.data
+      
+      if (idx > 0) {
+        const prev = snaps[idx - 1].data
+        
+        const prevMap = new Map<string, number>()
+        prev.positions?.forEach((p: Position) => {
+          const ticker = getTicker(p)
+          if (ticker) {
+            prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
+          }
+        })
+
+        const seen = new Set<string>()
+        cur.positions?.forEach((p: Position) => {
+          const ticker = getTicker(p)
+          if (!ticker || seen.has(ticker)) return
+          seen.add(ticker)
+
+          const prevShares = prevMap.get(ticker) || 0
+          const delta = p.shares - prevShares
+
+          if (delta > 0) {
+            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
+          }
+        })
+      } else {
+        const seen = new Set<string>()
+        cur.positions?.forEach((p: Position) => {
+          const ticker = getTicker(p)
+          if (ticker && !seen.has(ticker)) {
+            seen.add(ticker)
+            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
+          }
+        })
+      }
+    })
+  })
+
+  const result = Array.from(buyCounts.entries())
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 20)
+    .map(([ticker, count]) => ({ ticker, count }))
+    
+  calculationCache.set(cacheKey, result)
+  return result
+}
+
+function calculateTopOwned(): TopOwnedItem[] {
+  const cacheKey = 'topOwned'
+  if (calculationCache.has(cacheKey)) {
+    return calculationCache.get(cacheKey)
+  }
+  
+  const ownershipCount = new Map<string, number>()
+  
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
+    if (!snaps || snaps.length === 0) return
+    
+    const latest = snaps[snaps.length - 1]?.data
+    if (!latest?.positions) return
+    
+    const seen = new Set<string>()
+    latest.positions.forEach((p: Position) => {
+      const ticker = getTicker(p)
+      if (ticker && !seen.has(ticker)) {
+        seen.add(ticker)
+        ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
+      }
+    })
+  })
+
+  const result = Array.from(ownershipCount.entries())
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 20)
+    .map(([ticker, count]) => ({ ticker, count }))
+    
+  calculationCache.set(cacheKey, result)
+  return result
+}
+
+function calculateBiggestInvestments(): BiggestInvestmentItem[] {
+  const cacheKey = 'biggestInvestments'
+  if (calculationCache.has(cacheKey)) {
+    return calculationCache.get(cacheKey)
+  }
+  
+  const investmentTotals = new Map<string, { value: number, name: string }>()
+
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
+    if (!snaps || snaps.length === 0) return
+    
+    const latest = snaps[snaps.length - 1]?.data
+    if (!latest?.positions) return
+    
+    latest.positions.forEach((p: Position) => {
+      const ticker = getTicker(p)
+      if (!ticker) return
+      
+      const name = getStockName(p)
+      const current = investmentTotals.get(ticker)
+      
+      if (current) {
+        current.value += p.value
+      } else {
+        investmentTotals.set(ticker, { value: p.value, name })
+      }
+    })
+  })
+
+  const result = Array.from(investmentTotals.entries())
+    .map(([ticker, { value, name }]) => ({ ticker, name, value }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 20)
+    
+  calculationCache.set(cacheKey, result)
+  return result
+}
 
 // Investor Namen Mapping
 const investorNames: Record<string, string> = {
@@ -82,122 +420,49 @@ const investorNames: Record<string, string> = {
   ketterer: 'Andreas Ketterer',
   viking: 'Viking Global',
   jensen: 'Bill Jensen'
-};
-
-// Deutsche Währungsformatierung
-function formatCurrencyGerman(amount: number, showCurrency = true) {
-  const suffix = showCurrency ? ' $' : ''
-  
-  if (amount >= 1_000_000_000) {
-    return `${(amount / 1_000_000_000).toFixed(1)} Mrd.${suffix}`
-  } else if (amount >= 1_000_000) {
-    return `${(amount / 1_000_000).toFixed(1)} Mio.${suffix}`
-  } else if (amount >= 1_000) {
-    return `${(amount / 1_000).toFixed(1)} Tsd.${suffix}`
-  }
-  return `${amount.toFixed(0)}${suffix}`
 }
 
-function formatCurrency(amount: number, currency: 'USD' | 'EUR' = 'USD', maximumFractionDigits = 0) {
-  return new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency,
-    maximumFractionDigits,
-  }).format(amount)
-}
-
-// Quarter-Funktionen
-function getPeriodFromDate(dateStr: string) {
-  const [year, month] = dateStr.split('-').map(Number)
-  const filingQ = Math.ceil(month / 3)
-  let reportQ = filingQ - 1, reportY = year
-  if (reportQ === 0) {
-    reportQ = 4
-    reportY = year - 1
-  }
-  return `Q${reportQ} ${reportY}`
-}
-
-function getTicker(position: any): string | null {
-  if (position.ticker) return position.ticker
-  const stock = stocks.find(s => s.cusip === position.cusip)
-  return stock?.ticker || null
-}
-
-function getStockName(position: any): string {
-  if (position.name && position.ticker) {
-    return position.name.includes(' - ') 
-      ? position.name.split(' - ')[1].trim()
-      : position.name
-  }
-  const stock = stocks.find(s => s.cusip === position.cusip)
-  return stock?.name || position.name || position.cusip
-}
-
-// 🚀 VERBESSERTE QUARTAL-LOGIK: Erst umstellen wenn mindestens 50% der Investoren abgegeben haben
-function getSmartLatestQuarter() {
-  // Alle aktiven Investoren ermitteln
-  const activeInvestors = Object.values(holdingsHistory).filter(snaps => 
-    snaps && snaps.length > 0 && snaps[snaps.length - 1]?.data?.positions?.length > 0
-  )
+// Hook für Intersection Observer (nur für Hero)
+const useIntersectionObserver = (threshold = 0.1) => {
+  const [isVisible, setIsVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
   
-  const totalActiveInvestors = activeInvestors.length
-  const requiredThreshold = Math.ceil(totalActiveInvestors * 0.5) // 50% Mindestanzahl
-  
-  // Für jedes Quartal zählen, wieviele Investoren Daten haben
-  const quarterCounts = new Map<string, number>()
-  
-  activeInvestors.forEach(snaps => {
-    snaps.forEach(snap => {
-      if (snap?.data?.date) {
-        const quarter = getPeriodFromDate(snap.data.date)
-        quarterCounts.set(quarter, (quarterCounts.get(quarter) || 0) + 1)
-      }
-    })
-  })
-  
-  // Sortiere Quartale absteigend und finde das neueste mit mindestens 50% Coverage
-  const sortedQuarters = Array.from(quarterCounts.entries())
-    .sort(([a], [b]) => {
-      // Sortiere nach Jahr und Quartal
-      const [qA, yearA] = a.split(' ')
-      const [qB, yearB] = b.split(' ')
-      
-      if (yearA !== yearB) return parseInt(yearB) - parseInt(yearA)
-      return parseInt(qB.substring(1)) - parseInt(qA.substring(1))
-    })
-  
-  // Finde das neueste Quartal mit ausreichender Coverage
-  for (const [quarter, count] of sortedQuarters) {
-    if (count >= requiredThreshold) {
-      console.log(`Smart Latest Quarter: ${quarter} (${count}/${totalActiveInvestors} Investoren = ${Math.round((count/totalActiveInvestors)*100)}%)`)
-      return quarter
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold }
+    )
+    
+    if (ref.current) {
+      observer.observe(ref.current)
     }
-  }
+    
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
+    }
+  }, [threshold])
   
-  // Fallback: Wenn kein Quartal 50% erreicht, nimm das mit den meisten Investoren
-  const fallbackQuarter = sortedQuarters[0]?.[0] || 'Q1 2025'
-  console.log(`Fallback Quarter: ${fallbackQuarter}`)
-  return fallbackQuarter
+  return [ref, isVisible] as const
 }
 
-// Quarter-Filter-Typen und Komponente
-interface QuarterOption {
-  id: string
-  label: string
-  quarters: string[]
-  description: string
+// MEMOIZED Quarter Selector
+interface QuarterSelectorProps {
+  options: QuarterOption[]
+  selected: string
+  onSelect: (id: string) => void
 }
 
-function QuarterSelector({ 
+const QuarterSelector = memo<QuarterSelectorProps>(({ 
   options, 
   selected, 
   onSelect 
-}: { 
-  options: QuarterOption[]
-  selected: string
-  onSelect: (id: string) => void 
-}) {
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dropdownPosition, setDropdownPosition] = useState({ 
     top: 0, 
@@ -337,10 +602,12 @@ function QuarterSelector({
       {dropdownContent}
     </>
   )
-}
+})
 
-function calculateDataSourceStats(targetQuarters: string[]) {
-  const stats = {
+QuarterSelector.displayName = 'QuarterSelector'
+
+function calculateDataSourceStats(targetQuarters: string[]): DataSourceStats {
+  const stats: DataSourceStats = {
     totalInvestors: 0,
     investorsWithData: 0,
     totalFilings: 0,
@@ -349,14 +616,13 @@ function calculateDataSourceStats(targetQuarters: string[]) {
     quarters: targetQuarters
   }
 
-  const activeInvestors = Object.entries(holdingsHistory).filter(([slug, snaps]) => {
-    return snaps && snaps.length > 0 && snaps[snaps.length - 1]?.data?.positions?.length > 0
-  })
-
-  stats.totalInvestors = activeInvestors.length
+  stats.totalInvestors = preprocessedData.activeInvestors.length
 
   let latestDate = ''
-  activeInvestors.forEach(([slug, snaps]) => {
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
+    if (!snaps) return
+    
     const hasDataInPeriod = snaps.some(snap => {
       const quarter = getPeriodFromDate(snap.data.date)
       return targetQuarters.includes(quarter)
@@ -384,26 +650,67 @@ function calculateDataSourceStats(targetQuarters: string[]) {
   return stats
 }
 
-export default function MarketInsightsPage() {
-  // Nur Hero Animation
-  const [heroRef, heroVisible] = useIntersectionObserver(0.3);
+// MEMOIZED Stock Item Component
+interface StockItemProps {
+  ticker: string
+  count: number
+  value?: number
+  name?: string
+  linkTo?: string
+  rightLabel?: string
+  showValue?: boolean
+}
 
-  // 🚀 VERBESSERTE QUARTAL-ERMITTLUNG mit Smart Logic
+const StockItem = memo<StockItemProps>(({ 
+  ticker, 
+  count, 
+  value, 
+  name, 
+  linkTo = 'super-investors',
+  rightLabel = 'Investoren',
+  showValue = false 
+}) => (
+  <Link
+    href={`/analyse/stocks/${ticker.toLowerCase()}/${linkTo}`}
+    className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+  >
+    <div className="flex items-center gap-3">
+      <div className="w-8 h-8 relative">
+        <Logo
+          ticker={ticker}
+          alt={`${ticker} Logo`}
+          className="w-full h-full"
+          padding="none"
+        />
+      </div>
+      <div>
+        <p className="text-white font-medium group-hover:text-green-400 transition-colors">
+          {ticker}
+        </p>
+        <p className="text-gray-500 text-xs truncate max-w-[120px]">
+          {name || preprocessedData.nameMap.get(ticker) || ticker}
+        </p>
+      </div>
+    </div>
+    <div className="text-right">
+      <span className="text-green-400 text-sm font-semibold bg-green-500/20 px-2 py-1 rounded">
+        {showValue && value ? formatCurrencyGerman(value, false) : count}
+      </span>
+      <p className="text-xs text-gray-500">{rightLabel}</p>
+    </div>
+  </Link>
+))
+
+StockItem.displayName = 'StockItem'
+
+export default function MarketInsightsPage() {
+  // Hero Animation
+  const [heroRef, heroVisible] = useIntersectionObserver(0.3)
+
+  // Smart Latest Quarter mit Caching
   const actualLatestQuarter = useMemo(() => getSmartLatestQuarter(), [])
   
-  // Alle verfügbaren Quartale ermitteln
-  const allQuarters = useMemo(() => {
-    return Array.from(new Set(
-      Object.values(holdingsHistory)
-        .flatMap(snaps => {
-          if (!snaps) return []
-          return snaps.map(snap => getPeriodFromDate(snap.data.date))
-        })
-        .filter(Boolean)
-    )).sort().reverse()
-  }, [])
-
-  // Quarter-Filter-Optionen
+  // Quarter Options
   const quarterOptions: QuarterOption[] = useMemo(() => [
     {
       id: 'latest',
@@ -414,16 +721,16 @@ export default function MarketInsightsPage() {
     {
       id: 'last2',
       label: 'Letzte 2 Quartale',
-      quarters: allQuarters.slice(0, 2),
-      description: `${allQuarters.slice(0, 2).join(' + ')}`
+      quarters: preprocessedData.allQuarters.slice(0, 2),
+      description: `${preprocessedData.allQuarters.slice(0, 2).join(' + ')}`
     },
     {
       id: 'last3',
       label: 'Letzte 3 Quartale',
-      quarters: allQuarters.slice(0, 3),
-      description: `${allQuarters.slice(0, 3).join(', ')}`
+      quarters: preprocessedData.allQuarters.slice(0, 3),
+      description: `${preprocessedData.allQuarters.slice(0, 3).join(', ')}`
     },
-    ...allQuarters.slice(0, 6).map(quarter => ({
+    ...preprocessedData.allQuarters.slice(0, 6).map(quarter => ({
       id: quarter,
       label: quarter,
       quarters: [quarter],
@@ -432,174 +739,48 @@ export default function MarketInsightsPage() {
     {
       id: 'all',
       label: 'Alle Zeit',
-      quarters: allQuarters,
+      quarters: preprocessedData.allQuarters,
       description: 'Alle verfügbaren Quartale'
     }
-  ], [actualLatestQuarter, allQuarters])
+  ], [actualLatestQuarter])
 
   // State für Filter
   const [selectedPeriod, setSelectedPeriod] = useState('latest')
+  const deferredPeriod = useDeferredValue(selectedPeriod)
   
-  // 🚀 MEMOIZED: Target Quarters berechnung
+  // Target Quarters mit Caching
   const targetQuarters = useMemo(() => {
-    const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
+    const selectedOption = quarterOptions.find(opt => opt.id === deferredPeriod)
     return selectedOption?.quarters || [actualLatestQuarter]
-  }, [selectedPeriod, quarterOptions, actualLatestQuarter])
+  }, [deferredPeriod, quarterOptions, actualLatestQuarter])
 
-  // 🚀 MEMOIZED: Data Source Stats
+  // Data Source Stats
   const dataSourceStats = useMemo(() => 
     calculateDataSourceStats(targetQuarters), [targetQuarters]
   )
 
-  // 🚀 MEMOIZED: Top-Käufe Berechnung - FIXED für Dropdown
-  const topBuys = useMemo(() => {
-    const buyCounts = new Map<string, number>()
-    
-    Object.values(holdingsHistory).forEach(snaps => {
-      if (!snaps || snaps.length === 0) return
-      
-      snaps.forEach((snap, idx) => {
-        const currentQuarter = getPeriodFromDate(snap.data.date)
-        
-        if (!targetQuarters.includes(currentQuarter)) return
-        
-        const cur = snap.data
-        
-        if (idx > 0) {
-          const prev = snaps[idx - 1].data
-          
-          const prevMap = new Map<string, number>()
-          prev.positions?.forEach((p: any) => {
-            const ticker = getTicker(p)
-            if (ticker) {
-              prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
-            }
-          })
+  // Main calculations with caching
+  const topBuys = useMemo(() => calculateTopBuys(targetQuarters), [targetQuarters])
+  const topOwned = useMemo(() => calculateTopOwned(), [])
+  const biggestInvestments = useMemo(() => calculateBiggestInvestments(), [])
 
-          const seen = new Set<string>()
-          cur.positions?.forEach((p: any) => {
-            const ticker = getTicker(p)
-            if (!ticker || seen.has(ticker)) return
-            seen.add(ticker)
-
-            const prevShares = prevMap.get(ticker) || 0
-            const delta = p.shares - prevShares
-
-            if (delta > 0) {
-              buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
-            }
-          })
-        } else {
-          const seen = new Set<string>()
-          cur.positions?.forEach((p: any) => {
-            const ticker = getTicker(p)
-            if (ticker && !seen.has(ticker)) {
-              seen.add(ticker)
-              buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
-            }
-          })
-        }
-      })
-    })
-
-    return Array.from(buyCounts.entries())
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 20)
-      .map(([ticker, count]) => ({ ticker, count }))
-  }, [targetQuarters])
-
-  // 🚀 MEMOIZED: Beliebteste Aktien
-  const topOwned = useMemo(() => {
-    const ownershipCount = new Map<string, number>()
-    Object.values(holdingsHistory).forEach(snaps => {
-      if (!snaps || snaps.length === 0) return
-      
-      const latest = snaps[snaps.length - 1]?.data
-      if (!latest?.positions) return
-      
-      const seen = new Set<string>()
-      latest.positions.forEach((p: any) => {
-        const ticker = getTicker(p)
-        if (ticker && !seen.has(ticker)) {
-          seen.add(ticker)
-          ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
-        }
-      })
-    })
-
-    return Array.from(ownershipCount.entries())
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 20)
-      .map(([ticker, count]) => ({ ticker, count }))
-  }, [])
-
-  // 🚀 MEMOIZED: Größte Investments
-  const biggestInvestments = useMemo(() => {
-    const investmentTotals = new Map<string, { value: number, name: string }>()
-
-    Object.values(holdingsHistory).forEach(snaps => {
-      if (!snaps || snaps.length === 0) return
-      
-      const latest = snaps[snaps.length - 1]?.data
-      if (!latest?.positions) return
-      
-      latest.positions.forEach((p: any) => {
-        const ticker = getTicker(p)
-        if (!ticker) return
-        
-        const name = getStockName(p)
-        const current = investmentTotals.get(ticker)
-        
-        if (current) {
-          current.value += p.value
-        } else {
-          investmentTotals.set(ticker, { value: p.value, name })
-        }
-      })
-    })
-
-    return Array.from(investmentTotals.entries())
-      .map(([ticker, { value, name }]) => ({ ticker, name, value }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 20)
-  }, [])
-
-  // 🚀 MEMOIZED: Name-Lookup Map
-  const nameMap = useMemo(() => {
-    const result: Record<string, string> = {}
-
-    stocks.forEach(s => { 
-      result[s.ticker] = s.name 
-    })
-
-    Object.values(holdingsHistory).forEach(snaps => {
-      if (!snaps || snaps.length === 0) return
-      
-      const latest = snaps[snaps.length - 1]?.data
-      if (!latest?.positions) return
-      
-      latest.positions.forEach((p: any) => {
-        const ticker = getTicker(p)
-        if (ticker && !result[ticker]) {
-          result[ticker] = getStockName(p)
-        }
-      })
-    })
-
-    return result
-  }, [])
-
-  // 🚀 MEMOIZED: Sektor-Analyse
+  // Sektor-Analyse mit Caching
   const topSectors = useMemo(() => {
+    const cacheKey = 'topSectors'
+    if (calculationCache.has(cacheKey)) {
+      return calculationCache.get(cacheKey)
+    }
+    
     const sectorAnalysis = new Map<string, { value: number, count: number }>()
     
-    Object.values(holdingsHistory).forEach(snaps => {
+    preprocessedData.activeInvestors.forEach(slug => {
+      const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
       if (!snaps || snaps.length === 0) return
       
       const latest = snaps[snaps.length - 1]?.data
       if (!latest?.positions) return
       
-      latest.positions.forEach((p: any) => {
+      latest.positions.forEach((p: Position) => {
         const sector = getSectorFromPosition({
           cusip: p.cusip,
           ticker: getTicker(p)
@@ -618,28 +799,36 @@ export default function MarketInsightsPage() {
       })
     })
 
-    return Array.from(sectorAnalysis.entries())
+    const result: SectorAnalysis[] = Array.from(sectorAnalysis.entries())
       .map(([sector, { value, count }]) => ({ sector, value, count }))
       .sort((a, b) => b.value - a.value)
       .slice(0, 6)
+      
+    calculationCache.set(cacheKey, result)
+    return result
   }, [])
 
-  // 🚀 MEMOIZED: Geographic Exposure
+  // Geographic Exposure mit Caching
   const { usValue, internationalValue, usPercentage, intlPercentage } = useMemo(() => {
+    const cacheKey = 'geographicExposure'
+    if (calculationCache.has(cacheKey)) {
+      return calculationCache.get(cacheKey)
+    }
+    
     let usValue = 0
     let internationalValue = 0
     
-    Object.values(holdingsHistory).forEach(snaps => {
+    preprocessedData.activeInvestors.forEach(slug => {
+      const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
       if (!snaps || snaps.length === 0) return
       
       const latest = snaps[snaps.length - 1]?.data
       if (!latest?.positions) return
       
-      latest.positions.forEach((p: any) => {
+      latest.positions.forEach((p: Position) => {
         const ticker = getTicker(p)
         if (!ticker) return
         
-        // Einfache Heuristik: Ticker mit Punkten sind oft internationale Aktien
         const isInternational = ticker.includes('.') || 
           ['ASML', 'TSM', 'NESN', 'BABA', 'TCEHY', 'UL', 'NVO', 'NVSEF', 'SAP'].includes(ticker)
         
@@ -655,7 +844,14 @@ export default function MarketInsightsPage() {
     const usPercentage = totalValue > 0 ? (usValue / totalValue) * 100 : 0
     const intlPercentage = totalValue > 0 ? (internationalValue / totalValue) * 100 : 0
     
-    return { usValue, internationalValue, usPercentage, intlPercentage }
+    const result: GeographicExposure = { usValue, internationalValue, usPercentage, intlPercentage }
+    calculationCache.set(cacheKey, result)
+    return result
+  }, [])
+
+  // Debounced callback für Period Selection
+  const handlePeriodSelect = useCallback((newPeriod: string) => {
+    setSelectedPeriod(newPeriod)
   }, [])
 
   return (
@@ -710,8 +906,8 @@ export default function MarketInsightsPage() {
                 wenn mindestens 50% der aktiven Investoren ihre 13F-Filings eingereicht haben. Aktuell: {actualLatestQuarter}
               </div>
               <div>
-                <strong className="text-green-400">Aktivste Investoren:</strong> Anzahl signifikanter Portfolio-Änderungen in den letzten 3 Quartalen.
-                Gezählt werden Käufe/Verkäufe von mehr als 100 Aktien.
+                <strong className="text-green-400">Performance-Optimiert:</strong> Alle Berechnungen werden gecacht und nur bei Änderungen neu berechnet.
+                Komplexe Algorithmen wurden optimiert für bessere User Experience.
               </div>
             </div>
           </div>
@@ -720,7 +916,7 @@ export default function MarketInsightsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-        {/* Stats Overview - OHNE Animationen */}
+        {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
           <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
@@ -785,10 +981,10 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Main Charts Grid - OHNE Animationen */}
+        {/* Main Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           
-          {/* Top Käufe Chart - FIXED Dropdown functionality */}
+          {/* Top Käufe Chart */}
           <div className="relative bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200 overflow-visible">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -803,7 +999,7 @@ export default function MarketInsightsPage() {
               <QuarterSelector
                 options={quarterOptions}
                 selected={selectedPeriod}
-                onSelect={setSelectedPeriod}
+                onSelect={handlePeriodSelect}
               />
             </div>
 
@@ -818,37 +1014,13 @@ export default function MarketInsightsPage() {
             
             <div className="space-y-3 max-h-[500px] overflow-y-auto">
               {topBuys.length > 0 ? (
-                topBuys.slice(0, 15).map((item, idx) => (
-                  <Link
+                topBuys.slice(0, 15).map((item) => (
+                  <StockItem
                     key={item.ticker}
-                    href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
-                    className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 relative">
-                        <Logo
-                          ticker={item.ticker}
-                          alt={`${item.ticker} Logo`}
-                          className="w-full h-full"
-                          padding="none"
-                        />
-                      </div>
-                      <div>
-                        <p className="text-white font-medium group-hover:text-green-400 transition-colors">
-                          {item.ticker}
-                        </p>
-                        <p className="text-gray-500 text-xs truncate max-w-[120px]">
-                          {nameMap[item.ticker] || item.ticker}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-green-400 text-sm font-semibold bg-green-500/20 px-2 py-1 rounded">
-                        {item.count}
-                      </span>
-                      <p className="text-xs text-gray-500">Investoren</p>
-                    </div>
-                  </Link>
+                    ticker={item.ticker}
+                    count={item.count}
+                    rightLabel="Investoren"
+                  />
                 ))
               ) : (
                 <div className="text-center py-8 text-gray-500">
@@ -873,37 +1045,13 @@ export default function MarketInsightsPage() {
             </div>
             
             <div className="space-y-3 max-h-[500px] overflow-y-auto">
-              {topOwned.slice(0, 15).map((item, idx) => (
-                <Link
+              {topOwned.slice(0, 15).map((item) => (
+                <StockItem
                   key={item.ticker}
-                  href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
-                  className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 relative">
-                      <Logo
-                        ticker={item.ticker}
-                        alt={`${item.ticker} Logo`}
-                        className="w-full h-full"
-                        padding="none"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-white font-medium group-hover:text-green-400 transition-colors">
-                        {item.ticker}
-                      </p>
-                      <p className="text-gray-500 text-xs truncate max-w-[120px]">
-                        {nameMap[item.ticker] || item.ticker}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-green-400 text-sm font-semibold bg-green-500/20 px-2 py-1 rounded">
-                      {item.count}
-                    </span>
-                    <p className="text-xs text-gray-500">Portfolios</p>
-                  </div>
-                </Link>
+                  ticker={item.ticker}
+                  count={item.count}
+                  rightLabel="Portfolios"
+                />
               ))}
             </div>
           </div>
@@ -921,43 +1069,22 @@ export default function MarketInsightsPage() {
             </div>
             
             <div className="space-y-3 max-h-[500px] overflow-y-auto">
-              {biggestInvestments.slice(0, 15).map((item, idx) => (
-                <Link
+              {biggestInvestments.slice(0, 15).map((item) => (
+                <StockItem
                   key={item.ticker}
-                  href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
-                  className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 relative">
-                      <Logo
-                        ticker={item.ticker}
-                        alt={`${item.ticker} Logo`}
-                        className="w-full h-full"
-                        padding="none"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-white font-medium group-hover:text-green-400 transition-colors">
-                        {item.ticker}
-                      </p>
-                      <p className="text-gray-500 text-xs truncate max-w-[120px]">
-                        {item.name}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-green-400 text-sm font-semibold bg-green-500/20 px-2 py-1 rounded">
-                      {formatCurrencyGerman(item.value, false)}
-                    </span>
-                    <p className="text-xs text-gray-500">Wert</p>
-                  </div>
-                </Link>
+                  ticker={item.ticker}
+                  count={0}
+                  value={item.value}
+                  name={item.name}
+                  rightLabel="Wert"
+                  showValue={true}
+                />
               ))}
             </div>
           </div>
         </div>
 
-        {/* Investment Strategien - OHNE Animationen */}
+        {/* Investment Strategien */}
         <div className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
@@ -991,14 +1118,16 @@ export default function MarketInsightsPage() {
               </div>
 
               {(() => {
-                const bigBetsData: Array<{
+                interface BigBetData {
                   ticker: string;
                   name: string;
                   maxPortfolioPercent: number;
                   ownershipCount: number;
                   totalValue: number;
                   topInvestor: string;
-                }> = [];
+                }
+
+                const bigBetsData: BigBetData[] = [];
 
                 const stockData = new Map<string, {
                   investors: Array<{ slug: string; name: string; percent: number; value: number }>;
@@ -1016,7 +1145,7 @@ export default function MarketInsightsPage() {
                   const totalPortfolioValue = latest.positions.reduce((sum, p) => sum + p.value, 0);
                   
                   const mergedPositions = new Map<string, { value: number; name: string }>();
-                  latest.positions.forEach(p => {
+                  latest.positions.forEach((p: Position) => {
                     const ticker = getTicker(p);
                     if (!ticker) return;
                     
@@ -1083,7 +1212,7 @@ export default function MarketInsightsPage() {
                 return (
                   <div className="p-6 max-h-96 overflow-y-auto">
                     <div className="space-y-3">
-                      {bigBetsData.slice(0, 8).map((bet, index) => (
+                      {bigBetsData.slice(0, 8).map((bet) => (
                         <Link
                           key={bet.ticker}
                           href={`/analyse/stocks/${bet.ticker.toLowerCase()}/super-investors`}
@@ -1148,14 +1277,16 @@ export default function MarketInsightsPage() {
               </div>
 
               {(() => {
-                const contrarianData: Array<{
+                interface ContrarianData {
                   ticker: string;
                   name: string;
                   portfolioPercent: number;
                   investor: string;
                   value: number;
                   ownershipCount: number;
-                }> = [];
+                }
+
+                const contrarianData: ContrarianData[] = [];
 
                 const ownershipCount = new Map<string, number>();
                 Object.values(holdingsHistory).forEach(snaps => {
@@ -1165,7 +1296,7 @@ export default function MarketInsightsPage() {
                   if (!latest?.positions) return;
                   
                   const seen = new Set<string>();
-                  latest.positions.forEach((p: any) => {
+                  latest.positions.forEach((p: Position) => {
                     const ticker = getTicker(p);
                     if (ticker && !seen.has(ticker)) {
                       seen.add(ticker);
@@ -1183,7 +1314,7 @@ export default function MarketInsightsPage() {
                   const totalPortfolioValue = latest.positions.reduce((sum, p) => sum + p.value, 0);
                   
                   const mergedPositions = new Map<string, { value: number; name: string }>();
-                  latest.positions.forEach(p => {
+                  latest.positions.forEach((p: Position) => {
                     const ticker = getTicker(p);
                     if (!ticker) return;
                     
@@ -1221,7 +1352,7 @@ export default function MarketInsightsPage() {
                   <div className="p-6 max-h-96 overflow-y-auto">
                     {contrarianData.length > 0 ? (
                       <div className="space-y-3">
-                        {contrarianData.slice(0, 8).map((pick, index) => (
+                        {contrarianData.slice(0, 8).map((pick) => (
                           <Link
                             key={`${pick.ticker}-${pick.investor}`}
                             href={`/analyse/stocks/${pick.ticker.toLowerCase()}/super-investors`}
@@ -1293,7 +1424,7 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Portfolio Konzentration Analysis - OHNE Animationen */}
+        {/* Portfolio Konzentration Analysis */}
         <div className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
@@ -1311,23 +1442,25 @@ export default function MarketInsightsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(() => {
-              const concentrationData: Array<{
+              interface ConcentrationData {
                 investor: string;
                 concentration: number;
                 top3Percentage: number;
                 totalPositions: number;
                 type: 'high' | 'medium' | 'low';
-              }> = [];
+              }
+
+              const concentrationData: ConcentrationData[] = [];
 
               ['buffett', 'ackman', 'smith', 'gates', 'marks', 'icahn', 'einhorn', 'loeb', 'tepper'].forEach(slug => {
-                const snaps = holdingsHistory[slug];
+                const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
                 if (!snaps || snaps.length === 0) return;
 
                 const latest = snaps[snaps.length - 1]?.data;
                 if (!latest?.positions) return;
 
                 const mergedMap = new Map<string, number>();
-                latest.positions.forEach(p => {
+                latest.positions.forEach((p: Position) => {
                   const ticker = getTicker(p) || p.cusip;
                   mergedMap.set(ticker, (mergedMap.get(ticker) || 0) + p.value);
                 });
@@ -1361,7 +1494,7 @@ export default function MarketInsightsPage() {
 
               concentrationData.sort((a, b) => b.concentration - a.concentration);
 
-              return concentrationData.map((data, index) => (
+              return concentrationData.map((data) => (
                 <div
                   key={data.investor}
                   className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200"
@@ -1415,7 +1548,7 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Recent Activity Tracking - OHNE Animationen */}
+        {/* Recent Activity Tracking */}
         <div className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
@@ -1449,13 +1582,15 @@ export default function MarketInsightsPage() {
               </div>
 
               {(() => {
-                const activityData: Array<{
+                interface ActivityData {
                   investor: string;
                   changes: number;
                   buys: number;
                   sells: number;
                   lastActivity: string;
-                }> = [];
+                }
+
+                const activityData: ActivityData[] = [];
 
                 Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
                   if (!snaps || snaps.length < 2) return;
@@ -1473,7 +1608,7 @@ export default function MarketInsightsPage() {
                     lastActivity = current.date;
 
                     const prevMap = new Map<string, number>();
-                    previous.positions?.forEach((p: any) => {
+                    previous.positions?.forEach((p: Position) => {
                       const ticker = getTicker(p);
                       if (ticker) {
                         prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares);
@@ -1481,7 +1616,7 @@ export default function MarketInsightsPage() {
                     });
 
                     const seen = new Set<string>();
-                    current.positions?.forEach((p: any) => {
+                    current.positions?.forEach((p: Position) => {
                       const ticker = getTicker(p);
                       if (!ticker || seen.has(ticker)) return;
                       seen.add(ticker);
@@ -1519,7 +1654,7 @@ export default function MarketInsightsPage() {
 
                 return (
                   <div className="space-y-4">
-                    {activityData.slice(0, 6).map((data, index) => (
+                    {activityData.slice(0, 6).map((data) => (
                       <Link
                         key={data.investor}
                         href={`/superinvestor/${Object.keys(investorNames).find(key => investorNames[key] === data.investor) || 'buffett'}`}
@@ -1570,14 +1705,16 @@ export default function MarketInsightsPage() {
               </div>
 
               {(() => {
-                const bigMoves: Array<{
+                interface BigMove {
                   investor: string;
                   ticker: string;
                   type: 'buy' | 'sell';
                   percentChange: number;
                   value: number;
                   date: string;
-                }> = [];
+                }
+
+                const bigMoves: BigMove[] = [];
 
                 Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
                   if (!snaps || snaps.length < 2) return;
@@ -1594,14 +1731,14 @@ export default function MarketInsightsPage() {
                   if (prevTotalValue === 0 || currTotalValue === 0) return;
 
                   const prevMap = new Map<string, number>();
-                  previous.positions?.forEach((p: any) => {
+                  previous.positions?.forEach((p: Position) => {
                     const ticker = getTicker(p);
                     if (ticker) {
                       prevMap.set(ticker, p.value / prevTotalValue * 100);
                     }
                   });
 
-                  current.positions?.forEach((p: any) => {
+                  current.positions?.forEach((p: Position) => {
                     const ticker = getTicker(p);
                     if (!ticker) return;
 
@@ -1680,7 +1817,7 @@ export default function MarketInsightsPage() {
           </div>
         </div>
 
-        {/* Sektor-Analyse - OHNE Animationen */}
+        {/* Sektor-Analyse */}
         <section className="mb-16">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
@@ -1697,7 +1834,7 @@ export default function MarketInsightsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topSectors.map((sector, index) => (
+            {topSectors.map((sector: SectorAnalysis) => (
               <div
                 key={sector.sector}
                 className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200"
@@ -1723,7 +1860,7 @@ export default function MarketInsightsPage() {
           </div>
         </section>
 
-        {/* Geographic Exposure - OHNE Animationen */}
+        {/* Geographic Exposure */}
         <section>
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">

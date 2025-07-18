@@ -1,7 +1,7 @@
-// src/app/(terminal)/layout.tsx - ANGEPASSTE VERSION (ohne HTML/Body)
+// src/app/(terminal)/layout.tsx - PERFORMANCE OPTIMIERT
 'use client'
 
-import React, { ReactNode, useState, useEffect, useRef } from 'react'
+import React, { ReactNode, useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
@@ -38,9 +38,10 @@ import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
 import CurrencySelector from '@/components/CurrencySelector'
 import LearnSidebar from '@/components/LearnSidebar'
+import NotificationCenter from '@/components/NotificationCenter'
 
-// ===== GLOBAL LEARN TOGGLE =====
-const GlobalLearnToggle = () => {
+// ===== MEMOIZED COMPONENTS =====
+const GlobalLearnToggle = React.memo(() => {
   const { isLearnMode, toggleLearnMode } = useLearnMode()
   
   return (
@@ -69,7 +70,7 @@ const GlobalLearnToggle = () => {
       </div>
     </button>
   )
-}
+})
 
 // Command Palette Interface
 interface CommandPaletteItem {
@@ -98,7 +99,7 @@ interface NavigationItem {
   comingSoon?: boolean
 }
 
-// NAVIGATION CATEGORIES
+// NAVIGATION CATEGORIES - MEMOIZED
 const NAVIGATION_CATEGORIES: NavCategory[] = [
   {
     id: 'analysis',
@@ -230,8 +231,8 @@ interface LayoutProps {
   children: ReactNode
 }
 
-// KATEGORISIERTE NAVIGATION
-function CategorizedNavigation({ user, pathname }: { user: User, pathname: string }) {
+// KATEGORISIERTE NAVIGATION - MEMOIZED
+const CategorizedNavigation = React.memo(({ user, pathname }: { user: User, pathname: string }) => {
   return (
     <nav className="flex-1 p-2 overflow-y-auto">
       <div className="space-y-3">
@@ -300,10 +301,10 @@ function CategorizedNavigation({ user, pathname }: { user: User, pathname: strin
       </div>
     </nav>
   )
-}
+})
 
-// COMMAND PALETTE
-function CommandPalette({ 
+// COMMAND PALETTE - MEMOIZED
+const CommandPalette = React.memo(({ 
   isOpen, 
   onClose, 
   onNavigate,
@@ -317,11 +318,12 @@ function CommandPalette({
   theme: 'light' | 'dark'
   toggleTheme: () => void
   allowsThemeToggle: boolean
-}) {
+}) => {
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const commands: CommandPaletteItem[] = [
+  // MEMOIZED COMMANDS
+  const commands: CommandPaletteItem[] = useMemo(() => [
     { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
     { id: 'nav-watchlist', title: 'Watchlist', subtitle: 'Gespeicherte Aktien', icon: BookmarkIcon, href: '/analyse/watchlist', category: 'navigation' },
     { id: 'nav-notifications', title: 'Benachrichtigungen', subtitle: 'E-Mail Einstellungen', icon: BellIcon, href: '/notifications', category: 'settings' },
@@ -345,18 +347,22 @@ function CommandPalette({
       action: toggleTheme, 
       category: 'actions' as const
     }] : []),
-  ]
+  ], [theme, toggleTheme, allowsThemeToggle])
 
-  const filteredCommands = commands.filter(cmd => 
-    cmd.title.toLowerCase().includes(query.toLowerCase()) ||
-    cmd.subtitle?.toLowerCase().includes(query.toLowerCase())
+  // MEMOIZED FILTERED COMMANDS
+  const filteredCommands = useMemo(() => 
+    commands.filter(cmd => 
+      cmd.title.toLowerCase().includes(query.toLowerCase()) ||
+      cmd.subtitle?.toLowerCase().includes(query.toLowerCase())
+    ), [commands, query]
   )
 
-  const groupedCommands = {
+  // MEMOIZED GROUPED COMMANDS
+  const groupedCommands = useMemo(() => ({
     navigation: filteredCommands.filter(cmd => cmd.category === 'navigation'),
     actions: filteredCommands.filter(cmd => cmd.category === 'actions'),
     settings: filteredCommands.filter(cmd => cmd.category === 'settings'),
-  }
+  }), [filteredCommands])
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -364,14 +370,14 @@ function CommandPalette({
     }
   }, [isOpen])
 
-  const handleSelect = (command: CommandPaletteItem) => {
+  const handleSelect = useCallback((command: CommandPaletteItem) => {
     if (command.href) {
       onNavigate(command.href)
     } else if (command.action) {
       command.action()
     }
     onClose()
-  }
+  }, [onNavigate, onClose])
 
   if (!isOpen) return null
 
@@ -466,7 +472,43 @@ function CommandPalette({
       </div>
     </div>
   )
-}
+})
+
+// OPTIMIZED MARKET STATUS - CACHED
+const getMarketStatus = (() => {
+  let lastCheck = 0
+  let cachedStatus = { status: 'Closed', reason: 'Weekend' }
+  
+  return () => {
+    const now = Date.now()
+    // Cache für 30 Sekunden
+    if (now - lastCheck < 30000) {
+      return cachedStatus
+    }
+    
+    lastCheck = now
+    const estTime = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
+    const day = estTime.getDay()
+    const hour = estTime.getHours()
+    const minute = estTime.getMinutes()
+    const currentMinutes = hour * 60 + minute
+    
+    if (day === 0 || day === 6) {
+      cachedStatus = { status: 'Closed', reason: 'Weekend' }
+    } else {
+      const marketOpen = 9 * 60 + 30
+      const marketClose = 16 * 60
+      
+      if (currentMinutes >= marketOpen && currentMinutes < marketClose) {
+        cachedStatus = { status: 'Open', reason: '' }
+      } else {
+        cachedStatus = { status: 'Closed', reason: 'After Hours' }
+      }
+    }
+    
+    return cachedStatus
+  }
+})()
 
 // MAIN LAYOUT COMPONENT
 function LayoutContent({ children }: LayoutProps) {
@@ -479,36 +521,19 @@ function LayoutContent({ children }: LayoutProps) {
   
   const { theme, toggleTheme, allowsThemeToggle } = useTheme()
 
-  const stockMatch = pathname.match(/^\/analyse\/stocks\/([a-zA-Z0-9.-]+)(.*)$/)
-  const isStockPage = !!stockMatch
-  const currentTicker = stockMatch?.[1]?.toUpperCase() || null
-
-  // Market Status
-  const getMarketStatus = () => {
-    const now = new Date()
-    const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}))
-    const day = estTime.getDay()
-    const hour = estTime.getHours()
-    const minute = estTime.getMinutes()
-    const currentMinutes = hour * 60 + minute
-    
-    if (day === 0 || day === 6) {
-      return { status: 'Closed', reason: 'Weekend' }
+  // MEMOIZED STOCK PAGE CALCULATION
+  const { isStockPage, currentTicker } = useMemo(() => {
+    const stockMatch = pathname.match(/^\/analyse\/stocks\/([a-zA-Z0-9.-]+)(.*)$/)
+    return {
+      isStockPage: !!stockMatch,
+      currentTicker: stockMatch?.[1]?.toUpperCase() || null
     }
-    
-    const marketOpen = 9 * 60 + 30
-    const marketClose = 16 * 60
-    
-    if (currentMinutes >= marketOpen && currentMinutes < marketClose) {
-      return { status: 'Open', reason: '' }
-    } else {
-      return { status: 'Closed', reason: 'After Hours' }
-    }
-  }
+  }, [pathname])
 
-  const marketStatus = getMarketStatus()
+  // MEMOIZED MARKET STATUS
+  const marketStatus = useMemo(() => getMarketStatus(), [currentTime])
 
-  // Keyboard shortcuts
+  // OPTIMIZED KEYBOARD SHORTCUTS
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -523,15 +548,15 @@ function LayoutContent({ children }: LayoutProps) {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  // Live Clock
+  // OPTIMIZED LIVE CLOCK - Nur alle 10 Sekunden statt jede Sekunde
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date())
-    }, 1000)
+    }, 10000) // 10 Sekunden statt 1 Sekunde
     return () => clearInterval(timer)
   }, [])
 
-  // Auth Logic
+  // OPTIMIZED AUTH LOGIC - Weniger frequent checks
   useEffect(() => {
     let mounted = true
 
@@ -544,6 +569,7 @@ function LayoutContent({ children }: LayoutProps) {
           return
         }
 
+        // Cache Profile Check
         try {
           const { data: profile } = await supabase
             .from('profiles')
@@ -578,6 +604,7 @@ function LayoutContent({ children }: LayoutProps) {
 
     checkAuth()
 
+    // WENIGER FREQUENT AUTH STATE CHANGES
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return
       
@@ -597,24 +624,29 @@ function LayoutContent({ children }: LayoutProps) {
     }
   }, [router])
 
-  const handleTickerSelect = (ticker: string) => {
+  // MEMOIZED CALLBACKS
+  const handleTickerSelect = useCallback((ticker: string) => {
     router.push(`/analyse/stocks/${ticker.toLowerCase()}`)
-  }
+  }, [router])
 
-  const getInitials = () => {
+  const getInitials = useCallback(() => {
     if (!user?.email) return 'U'
     return user.email.charAt(0).toUpperCase()
-  }
+  }, [user?.email])
 
-  const getDisplayName = () => {
+  const getDisplayName = useCallback(() => {
     if (!user?.email) return 'User'
     return user.email.split('@')[0]
-  }
+  }, [user?.email])
 
-  const handleSignOut = async () => {
+  const handleSignOut = useCallback(async () => {
     await supabase.auth.signOut()
     router.push('/')
-  }
+  }, [router])
+
+  const handleNavigate = useCallback((href: string) => {
+    router.push(href)
+  }, [router])
 
   if (loading) {
     return (
@@ -634,7 +666,7 @@ function LayoutContent({ children }: LayoutProps) {
       <CommandPalette 
         isOpen={showCommandPalette}
         onClose={() => setShowCommandPalette(false)}
-        onNavigate={(href) => router.push(href)}
+        onNavigate={handleNavigate}
         theme={theme}
         toggleTheme={toggleTheme}
         allowsThemeToggle={allowsThemeToggle}
@@ -792,7 +824,7 @@ function LayoutContent({ children }: LayoutProps) {
           
           <div className="flex items-center gap-2">
             <GlobalLearnToggle />
-            
+            <NotificationCenter />
             {allowsThemeToggle && (
               <button
                 onClick={toggleTheme}
@@ -909,7 +941,7 @@ function LayoutContent({ children }: LayoutProps) {
   )
 }
 
-// Export with Providers - KORRIGIERT (ohne HTML/Body)
+// Export with Providers - OPTIMIERT
 export default function TerminalLayout({ children }: LayoutProps) {
   return (
     <CurrencyProvider>
