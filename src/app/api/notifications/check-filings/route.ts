@@ -72,8 +72,9 @@ async function checkForNewFiling(investorSlug: string): Promise<boolean> {
   // 3. SEC API für echte 13F Filings
   
   // FÜR TEST: Nur für bestimmte Investoren "neue Filings" simulieren
-  const testInvestors = ['buffett', 'ackman'] 
-  return testInvestors.includes(investorSlug)
+ // const testInvestors = ['buffett', 'ackman'] 
+ // return testInvestors.includes(investorSlug)
+ return true
 }
 
 export async function POST(request: NextRequest) {
@@ -160,7 +161,7 @@ export async function POST(request: NextRequest) {
                     userEmail: user.email,
                     investorSlug,
                     investorName,
-                    isTest: true // Für Test-Modus
+                    isTest: false // Für Test-Modus
                   })
                 })
 

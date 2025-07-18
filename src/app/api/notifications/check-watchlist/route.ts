@@ -115,8 +115,8 @@ export async function POST(request: NextRequest) {
             // Dip berechnen
             const dipPercent = ((quote.price - quote.yearHigh) / quote.yearHigh) * 100
             // TEST MODE: Nur für bestimmte User-ID
-            const isDip = (userSettings.user_id === 'c5d048f7-fb5e-44e1-a6e7-ac7619f0d9f7') ? true : dipPercent <= -userSettings.watchlist_threshold_percent
-
+            //const isDip = (userSettings.user_id === 'c5d048f7-fb5e-44e1-a6e7-ac7619f0d9f7') ? true : dipPercent <= -userSettings.watchlist_threshold_percent
+            const isDip = dipPercent <= -userSettings.watchlist_threshold_percent
             if (isDip) {
               // Prüfen ob wir heute schon eine Notification für diesen Stock gesendet haben
               const { data: recentNotification } = await supabaseService
