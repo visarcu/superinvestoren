@@ -1,4 +1,4 @@
-// src/app/superinvestor/activity/page.tsx - OHNE Scraping-Erwähnung
+// src/app/superinvestor/activity/page.tsx - Mit neuem Design Theme
 'use client'
 
 import React, { useState, useEffect, useMemo } from 'react'
@@ -244,7 +244,7 @@ export default function DataromaRealTimeActivityPage() {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 noise-bg">
+      <div className="min-h-screen bg-theme-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center py-12">
             <BoltIcon className="w-12 h-12 text-green-500 mx-auto mb-4 animate-pulse" />
@@ -256,7 +256,7 @@ export default function DataromaRealTimeActivityPage() {
   }
   
   return (
-    <div className="min-h-screen bg-gray-950 noise-bg">
+    <div className="min-h-screen bg-theme-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Header */}
@@ -268,24 +268,24 @@ export default function DataromaRealTimeActivityPage() {
               </div>
               <div>
                 <h1 className="text-3xl font-bold text-white">Real-Time Aktivität</h1>
-                <p className="text-gray-400">Live Superinvestor Transaktionen</p>
+                <p className="text-theme-secondary">Live Superinvestor Transaktionen</p>
               </div>
             </div>
             
             <div className="flex items-center gap-4">
               {activityData?.lastUpdated && (
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-theme-secondary">
                   Zuletzt aktualisiert: {format(parseISO(activityData.lastUpdated), 'dd.MM.yyyy HH:mm', { locale: de })}
                 </div>
               )}
               <button 
                 onClick={loadRealTimeData}
-                className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition text-sm flex items-center gap-2 border border-gray-600"
+                style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                className="px-4 py-2 text-white rounded-lg hover:bg-theme-hover transition text-sm flex items-center gap-2 border"
               >
                 <ArrowPathIcon className="w-4 h-4" />
                 Aktualisieren
               </button>
-             
             </div>
           </div>
           
@@ -295,7 +295,7 @@ export default function DataromaRealTimeActivityPage() {
                 <LinkIcon className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-red-400 font-medium">Fehler beim Laden der Daten</p>
-                  <p className="text-sm text-gray-300 mt-1">{error}</p>
+                  <p className="text-sm text-theme-secondary mt-1">{error}</p>
                 </div>
               </div>
             </div>
@@ -303,52 +303,60 @@ export default function DataromaRealTimeActivityPage() {
           
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="text-2xl font-bold text-white">{stats.totalActivities}</div>
-              <div className="text-sm text-gray-400">Transaktionen</div>
+              <div className="text-sm text-theme-secondary">Transaktionen</div>
             </div>
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="text-2xl font-bold text-white">{stats.totalInvestors}</div>
-              <div className="text-sm text-gray-400">Investoren</div>
+              <div className="text-sm text-theme-secondary">Investoren</div>
             </div>
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="text-2xl font-bold text-green-400">{stats.buyActivities}</div>
-              <div className="text-sm text-gray-400">Käufe</div>
+              <div className="text-sm text-theme-secondary">Käufe</div>
             </div>
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="text-2xl font-bold text-red-400">{stats.sellActivities}</div>
-              <div className="text-sm text-gray-400">Verkäufe</div>
+              <div className="text-sm text-theme-secondary">Verkäufe</div>
             </div>
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="text-2xl font-bold text-blue-400">{stats.recentActivities}</div>
-              <div className="text-sm text-gray-400">Aktuell (7d)</div>
+              <div className="text-sm text-theme-secondary">Aktuell (7d)</div>
             </div>
           </div>
         </div>
         
-        {/* Filters - Cleaner Design */}
-        <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 mb-8">
+        {/* Filters */}
+        <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+             className=" rounded-lg p-6 mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <FunnelIcon className="w-4 h-4 text-gray-400" />
+            <FunnelIcon className="w-4 h-4 text-theme-secondary" />
             <h3 className="text-base font-medium text-white">Filter</h3>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="relative">
-              <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <MagnifyingGlassIcon className="w-4 h-4 text-theme-secondary absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Investor oder Aktie suchen..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
+                style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                className="w-full pl-9 pr-3 py-2 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
               />
             </div>
             
             <select
               value={selectedInvestor}
               onChange={(e) => setSelectedInvestor(e.target.value)}
-              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="px-3 py-2 border rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
             >
               <option value="all">Alle Investoren</option>
               {uniqueInvestors.map(investor => (
@@ -359,7 +367,8 @@ export default function DataromaRealTimeActivityPage() {
             <select
               value={selectedActivity}
               onChange={(e) => setSelectedActivity(e.target.value)}
-              className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="px-3 py-2 border rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 transition text-sm"
             >
               <option value="all">Alle Aktivitäten</option>
               {uniqueActivities.map(activity => (
@@ -370,13 +379,15 @@ export default function DataromaRealTimeActivityPage() {
         </div>
         
         {/* Activities Table */}
-        <div className="bg-gray-900/50 border border-gray-800 rounded-lg overflow-hidden">
+        <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+             className=" rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-800/50">
+              <thead style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                     className="border-b">
                 <tr>
                   <th 
-                    className="text-left p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
+                    className="text-left p-4 text-sm font-medium text-theme-secondary cursor-pointer hover:text-white"
                     onClick={() => handleSort('date')}
                   >
                     <div className="flex items-center gap-2">
@@ -386,9 +397,9 @@ export default function DataromaRealTimeActivityPage() {
                       )}
                     </div>
                   </th>
-                  <th className="text-left p-4 text-sm font-medium text-gray-300">Filing</th>
+                  <th className="text-left p-4 text-sm font-medium text-theme-secondary">Filing</th>
                   <th 
-                    className="text-left p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
+                    className="text-left p-4 text-sm font-medium text-theme-secondary cursor-pointer hover:text-white"
                     onClick={() => handleSort('investor')}
                   >
                     <div className="flex items-center gap-2">
@@ -398,12 +409,12 @@ export default function DataromaRealTimeActivityPage() {
                       )}
                     </div>
                   </th>
-                  <th className="text-left p-4 text-sm font-medium text-gray-300">Aktivität</th>
-                  <th className="text-left p-4 text-sm font-medium text-gray-300">Wertpapier</th>
-                  <th className="text-right p-4 text-sm font-medium text-gray-300">Aktien</th>
-                  <th className="text-right p-4 text-sm font-medium text-gray-300">Preis</th>
+                  <th className="text-left p-4 text-sm font-medium text-theme-secondary">Aktivität</th>
+                  <th className="text-left p-4 text-sm font-medium text-theme-secondary">Wertpapier</th>
+                  <th className="text-right p-4 text-sm font-medium text-theme-secondary">Aktien</th>
+                  <th className="text-right p-4 text-sm font-medium text-theme-secondary">Preis</th>
                   <th 
-                    className="text-right p-4 text-sm font-medium text-gray-300 cursor-pointer hover:text-white"
+                    className="text-right p-4 text-sm font-medium text-theme-secondary cursor-pointer hover:text-white"
                     onClick={() => handleSort('total')}
                   >
                     <div className="flex items-center justify-end gap-2">
@@ -417,7 +428,8 @@ export default function DataromaRealTimeActivityPage() {
               </thead>
               <tbody>
                 {filteredActivities.map((activity) => (
-                  <tr key={activity.id} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                  <tr key={activity.id} style={{ borderColor: 'var(--border-color)' }}
+                      className="border-b hover:bg-theme-hover transition-colors">
                     <td className="p-4">
                       <div className="text-white font-medium">
                         {format(parseISO(activity.date), 'dd.MM.yyyy', { locale: de })}
@@ -429,7 +441,7 @@ export default function DataromaRealTimeActivityPage() {
                       )}
                     </td>
                     <td className="p-4">
-                      <div className="text-gray-300 font-mono text-sm">{activity.filing}</div>
+                      <div className="text-theme-secondary font-mono text-sm">{activity.filing}</div>
                     </td>
                     <td className="p-4">
                       <div className="text-blue-400 font-medium">{activity.investor}</div>
@@ -442,7 +454,7 @@ export default function DataromaRealTimeActivityPage() {
                     </td>
                     <td className="p-4">
                       <div className="text-white font-medium">{activity.ticker}</div>
-                      <div className="text-xs text-gray-500 truncate max-w-[200px]">
+                      <div className="text-xs text-theme-secondary truncate max-w-[200px]">
                         {activity.security}
                       </div>
                     </td>
@@ -470,10 +482,10 @@ export default function DataromaRealTimeActivityPage() {
           {filteredActivities.length === 0 && !loading && (
             <div className="text-center py-12">
               <BoltIcon className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-              <div className="text-gray-400">
+              <div className="text-theme-secondary">
                 {activities.length === 0 ? 'Keine Real-Time Daten verfügbar' : 'Keine Aktivitäten entsprechen deinen Filtern'}
               </div>
-              <div className="text-gray-600 text-sm mt-2">
+              <div className="text-theme-secondary text-sm mt-2">
                 {activities.length === 0 
                   ? 'Bitte versuche die Daten zu aktualisieren oder schaue später nochmal vorbei'
                   : 'Versuche deine Filter-Einstellungen anzupassen'
@@ -483,13 +495,13 @@ export default function DataromaRealTimeActivityPage() {
           )}
         </div>
         
-        {/* Info Box - Neutraler Text ohne Scraping-Erwähnung */}
+        {/* Info Box */}
         <div className="mt-8 bg-green-500/10 border border-green-500/20 rounded-lg p-6">
           <div className="flex items-start gap-3">
             <CalendarIcon className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
             <div>
               <h3 className="text-green-400 font-semibold mb-2">Real-Time Superinvestor Activity</h3>
-              <div className="text-sm text-gray-300 space-y-2">
+              <div className="text-sm text-theme-secondary space-y-2">
                 <p>
                   Diese Sektion zeigt aktuelle Transaktionen der Super-Investoren zwischen den 
                   quarterly 13F-Filings. Daten enthalten Amendment Filings, Form 4s und andere 

@@ -7,6 +7,7 @@ interface CashSnapshot {
   
   const cashPositions: Record<string, CashSnapshot[]> = {
     buffett: [
+      { date: "2025-03-31", cash: 347_680_000_000 },
       { date: "2024-12-31", cash: 334_200_000_000 },
       { date: "2023-12-31", cash: 167_640_000_000 },
       { date: "2022-12-31", cash: 128_580_000_000 },

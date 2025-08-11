@@ -338,7 +338,28 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
   const [rawStatements, setRawStatements] = useState<RawStatements | null>(null)
   const [loading, setLoading] = useState(true)
   
-  const { formatFinancialNumber, getFinancialUnitLabel } = useCurrency()
+  const { getFinancialUnitLabel } = useCurrency()
+
+  // ✅ KORREKTE FORMATIERUNG - Problem gelöst!
+  const formatFinancialNumber = (value: number | null | undefined): string => {
+    if (value === null || value === undefined || isNaN(value)) return '–'
+    
+    const absValue = Math.abs(value)
+    
+    if (absValue >= 1_000_000_000) {
+      // Milliarden: 1557400000 → "1.6B"
+      return `${(value / 1_000_000_000).toFixed(1)}B`
+    } else if (absValue >= 1_000_000) {
+      // Millionen: 15574000 → "15.6M"  
+      return `${(value / 1_000_000).toFixed(1)}M`
+    } else if (absValue >= 1_000) {
+      // Tausende: 1557 → "1.6K"
+      return `${(value / 1_000).toFixed(1)}K`
+    } else {
+      // Unter 1000: 157 → "157"
+      return value.toFixed(0)
+    }
+  }
 
   // Get stock info for header
   const stock = stocks.find(s => s.ticker === ticker.toUpperCase())
@@ -1832,7 +1853,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
               {GERMAN_LABELS.comprehensive_analysis} <span className="font-semibold text-green-400">{ticker.toUpperCase()}</span>
             </p>
             <div className="text-sm text-theme-muted mt-1">
-              {GERMAN_LABELS.all_figures.replace('{unit}', getFinancialUnitLabel())} • {GERMAN_LABELS.daily_updated}
+            {GERMAN_LABELS.all_figures.replace('{unit}', 'USD')} • {GERMAN_LABELS.daily_updated}
             </div>
           </div>
         </div>
@@ -1901,7 +1922,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           
           {/* Status - Minimal */}
           <div className="text-xs text-theme-muted">
-            {yearsToShow} Jahre • {getFinancialUnitLabel()} • FMP Native
+          {yearsToShow} Jahre • USD • FMP Native
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-// src/components/Navbar.tsx - Updated with Blog Coming Soon
+// src/components/Navbar.tsx - MODERNE BOX-NAVIGATION WIE QUARTR
 'use client'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
@@ -39,6 +39,8 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  
 
   // Filter logic
   useEffect(() => {
@@ -128,10 +130,13 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <div className="relative" ref={searchRef}>
-      <div className={`relative flex items-center transition-all duration-300 ${
-        isFocused ? 'ring-2 ring-green-500/40 scale-105' : ''
-      }`}>
-        <MagnifyingGlassIcon className="absolute left-3 h-4 w-4 text-gray-400" />
+      <div className="relative flex items-center">
+        {/* NUR Glow beim Focus, kein Ring */}
+        {isFocused && (
+          <div className="absolute inset-0 bg-green-500/20 blur-xl rounded-xl pointer-events-none"></div>
+        )}
+        
+        <MagnifyingGlassIcon className="absolute left-3 h-4 w-4 text-gray-400 z-10" />
         <input
           type="text"
           placeholder="Suche Aktie oder Investor..."
@@ -139,38 +144,56 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
           onKeyDown={handleKeyDown}
-          className="w-full pl-10 pr-4 py-3 text-sm rounded-xl transition-all duration-300 bg-gray-900/70 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-green-500/50 focus:bg-gray-900/80 backdrop-blur-xl hover:bg-gray-900/80"
+          className="relative w-full pl-10 pr-4 py-3 text-sm rounded-xl transition-all duration-300 bg-black/50 border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-green-500/30 backdrop-blur-xl"
         />
       </div>
 
       {/* Solid Suggestions Dropdown */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-3 bg-gray-900 border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto">
-          <div className="p-2">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto">
+          <div className="p-1">
             {suggestions.map((result) => (
               <button
                 key={`${result.type}-${result.id}`}
                 onClick={() => handleSelectResult(result)}
-                className="w-full px-4 py-3 text-left hover:bg-white/10 transition-all duration-200 rounded-xl group"
+                className="w-full px-4 py-3 text-left hover:bg-white/5 transition-all duration-200 rounded-lg group"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <div className="font-medium text-sm text-white group-hover:text-green-400 transition-colors">
-                        {result.title}
-                      </div>
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-medium ${
+                  <div className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                      result.type === 'stock' 
+                        ? 'bg-green-500/10' 
+                        : 'bg-blue-500/10'
+                    }`}>
+                      <span className={`text-xs font-bold ${
                         result.type === 'stock' 
-                          ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                          : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                          ? 'text-green-400' 
+                          : 'text-blue-400'
                       }`}>
-                        {result.type === 'stock' ? 'Aktie' : 'Investor'}
+                        {result.title.slice(0, 2)}
                       </span>
                     </div>
-                    <div className="text-xs text-gray-400 truncate mt-1">
-                      {result.subtitle}
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-sm text-white group-hover:text-green-400 transition-colors">
+                          {result.title}
+                        </span>
+                        {result.type === 'stock' && (
+                          <span className="text-xs text-gray-500">
+                            Aktie
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-gray-500 truncate">
+                        {result.subtitle}
+                      </div>
                     </div>
                   </div>
+                  
+                  <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </div>
               </button>
             ))}
@@ -226,10 +249,9 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Modern Avatar Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-900/70 border border-white/10 backdrop-blur-xl hover:bg-gray-900/80 transition-all duration-300 group hover:scale-105"
+        className="flex items-center gap-3 px-4 py-3 rounded-xl border bg-black/50 border-white/10 backdrop-blur-xl hover:bg-black/70 transition-all duration-300 group hover:scale-105"
       >
         <div className="relative">
           <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-black font-bold text-sm shadow-lg">
@@ -248,12 +270,9 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
         <ChevronDownIcon className={`w-4 h-4 text-gray-400 transition-all duration-300 group-hover:text-white ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {/* Solid User Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-4 w-80 bg-gray-900 border border-white/20 rounded-2xl shadow-2xl z-50 overflow-hidden">
-          
-          {/* Header */}
-          <div className="p-6 border-b border-white/10 bg-gradient-to-r from-green-500/5 to-blue-500/5">
+        <div className="absolute right-0 mt-3 w-80 bg-black/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden">
+          <div className="p-6 border-b border-white/10">
             <div className="flex items-center gap-4">
               <div className="relative">
                 <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center text-black font-bold text-lg shadow-lg">
@@ -270,7 +289,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
                 <p className="text-gray-400 text-sm truncate">{user.email}</p>
                 <div className="flex items-center gap-2 mt-2">
                   {isPremium ? (
-                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-yellow-400/20 to-yellow-500/20 text-yellow-400 rounded-xl text-xs font-semibold border border-yellow-400/30">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-400/10 text-yellow-400 rounded-xl text-xs font-semibold border border-yellow-400/20">
                       <SparklesIcon className="w-3 h-3" />
                       Premium
                     </span>
@@ -284,18 +303,17 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
             </div>
           </div>
 
-          {/* Menu Items */}
-          <div className="p-3">
+          <div className="p-2">
             <button
               onClick={() => handleNavigation('/profile')}
-              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/10 transition-all duration-200 group"
+              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/5 transition-all duration-200 group"
             >
-              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all border border-white/10">
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all">
                 <UserIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Profil bearbeiten</div>
-                <div className="text-gray-400 text-xs">Persönliche Daten & Premium</div>
+                <div className="text-gray-500 text-xs">Persönliche Daten & Premium</div>
               </div>
             </button>
 
@@ -304,42 +322,42 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
                 setIsOpen(false);
                 window.location.href = 'mailto:team@finclue.de';
               }}
-              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/10 transition-all duration-200 group"
+              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/5 transition-all duration-200 group"
             >
-              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all border border-white/10">
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all">
                 <EnvelopeIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Email Support</div>
-                <div className="text-gray-400 text-xs">Hilfe & Kontakt</div>
+                <div className="text-gray-500 text-xs">Hilfe & Kontakt</div>
               </div>
             </button>
 
             <button
               onClick={() => handleNavigation('/settings')}
-              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/10 transition-all duration-200 group"
+              className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-white/5 transition-all duration-200 group"
             >
-              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all border border-white/10">
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-all">
                 <Cog6ToothIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Einstellungen</div>
-                <div className="text-gray-400 text-xs">App-Einstellungen</div>
+                <div className="text-gray-500 text-xs">App-Einstellungen</div>
               </div>
             </button>
 
-            <div className="my-3 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+            <div className="my-2 h-px bg-white/5"></div>
 
             <button
               onClick={handleLogout}
               className="flex items-center gap-3 w-full p-3 rounded-xl text-left hover:bg-red-500/10 transition-all duration-200 group"
             >
-              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-red-500/20 transition-all border border-white/10 group-hover:border-red-500/30">
+              <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-red-500/20 transition-all">
                 <ArrowRightOnRectangleIcon className="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" />
               </div>
               <div className="flex-1">
                 <div className="text-white text-sm font-semibold group-hover:text-red-400 transition-colors">Abmelden</div>
-                <div className="text-gray-400 text-xs">Sicher ausloggen</div>
+                <div className="text-gray-500 text-xs">Sicher ausloggen</div>
               </div>
             </button>
           </div>
@@ -352,7 +370,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
 // 🎯 Guest Actions (standalone)
 function ModernGuestActions() {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-900/70 border border-white/10 backdrop-blur-xl hover:bg-gray-900/80 transition-all duration-300">
+    <div className="flex items-center gap-3 px-4 py-3 rounded-xl border bg-black/50 border-white/10 backdrop-blur-xl hover:bg-black/70 transition-all duration-300">
       <Link
         href="/auth/signin"
         className="text-gray-300 hover:text-white font-semibold text-sm transition-all duration-300 px-3 py-1.5 rounded-lg hover:bg-white/10"
@@ -369,17 +387,10 @@ function ModernGuestActions() {
   );
 }
 
-// Navigation Links - UPDATED WITH BLOG COMING SOON
+// Navigation Links
 const navLinks = [
-  { 
-    href: '/news',
-    label: 'Blog', 
-
-  },
-  { 
-    href: '/lexikon', 
-    label: 'Lexikon' 
-  }, 
+  { href: '/news', label: 'Blog' },
+  { href: '/lexikon', label: 'Lexikon' }, 
 ]
 
 const productLinks = [
@@ -405,12 +416,47 @@ const productLinks = [
   },
 ]
 
+const superinvestorLinks = [
+  { 
+    href: '/superinvestor', 
+    label: 'Übersicht',
+    description: 'Dashboard & Trending Aktien',
+    highlight: true
+  },
+  { 
+    href: '/superinvestor/investors', 
+    label: 'Alle Investoren',
+    description: '93+ Top-Investoren & Fonds'
+  },
+  { 
+    href: '/superinvestor/insights', 
+    label: 'Market Insights',
+    description: 'Analysen & Markt-Trends'
+  },
+  { 
+    href: '/superinvestor/activity', 
+    label: 'Aktivität',
+    description: 'Letzte Trades & Bewegungen'
+  },
+  { 
+    href: '/superinvestor/fear-greed-index', 
+    label: 'Fear & Greed Index',
+    description: 'Markt-Sentiment Indikator',
+    badge: 'Soon'
+  },
+  { 
+    href: '/superinvestor/insider', 
+    label: 'Insider Trading',
+    description: 'Live Insider-Transaktionen',
+    badge: 'Live'
+  },
+]
+
 export default function ModernNavbar() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  // Auth logic (unverändert)
   useEffect(() => {
     let mounted = true;
 
@@ -487,97 +533,87 @@ export default function ModernNavbar() {
     };
   }, []);
   
+
+
+
   const pathname = usePathname()
-  const isHomePage = pathname === '/'
+  const isFixed = !pathname.startsWith('/analyse') 
   
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 p-4 sm:p-6">
-      
-      {/* 🎯 LEFT CONTAINER (unverändert) + RIGHT ELEMENTS (standalone) */}
-      <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
+    <div className={`${isFixed ? 'fixed top-0 left-0 right-0' : 'relative'} z-50 p-4 sm:p-6`}>
+      <div className="flex items-center justify-between max-w-7xl mx-auto gap-8">
         
-        {/* 📦 LEFT CONTAINER: Logo + Navigation (UNVERÄNDERT) */}
-        <div className={`flex items-center gap-8 rounded-2xl border shadow-2xl px-6 py-3 transition-all duration-500 ${
-          isHomePage 
-            ? 'bg-gray-900/60 border-white/10 shadow-black/20' 
-            : 'bg-gray-900/90 border-white/15 shadow-black/30' 
-        } backdrop-blur-2xl hover:shadow-3xl hover:shadow-black/40`}>
+        {/* MODERNE BOX-NAVIGATION */}
+        <div className="bg-black/95 backdrop-blur-xl border-2 border-white/20 rounded-2xl px-6 py-3 flex items-center gap-8 shadow-2xl">
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex items-center gap-1">
-              <div className="flex items-end gap-0.5 transition-all duration-300 group-hover:scale-110">
-                <div className="w-1.5 h-3 bg-green-500 rounded-sm transition-all duration-300 group-hover:bg-green-400"></div>
-                <div className="w-1.5 h-4 bg-green-500 rounded-sm transition-all duration-300 group-hover:bg-green-400"></div>
-                <div className="w-1.5 h-5 bg-green-500 rounded-sm transition-all duration-300 group-hover:bg-green-400"></div>
-              </div>
+            <div className="flex items-end gap-0.5 transition-all duration-300 group-hover:scale-110">
+              <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
+              <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
+              <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
             </div>
-            <span className="text-xl font-bold text-white tracking-tight group-hover:text-green-400 transition-colors duration-300">
+            <span className="text-xl font-bold text-white tracking-tight group-hover:text-green-400 transition-colors">
               Finclue
             </span>
           </Link>
-
-          {/* 🎯 Desktop Navigation */}
+  
+          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-2">
             
             {/* Products Dropdown */}
             <div className="relative group">
-              <button className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10">
+              <button className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300">
                 Produkte
                 <ChevronDownIcon className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
               </button>
               
-              {/* Solid Products Dropdown */}
-              <div className="absolute left-0 mt-3 w-[650px] bg-gray-900 border border-white/20 rounded-2xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+              {/* Products Dropdown Content */}
+              <div className="absolute left-0 mt-3 w-[650px] bg-black/95 border border-white/10 rounded-3xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
                 <div className="p-8">
-                  <div className="grid grid-cols-2 gap-8">
-                    
+                  <div className="grid grid-cols-2 gap-6">
                     <Link
                       href="/analyse"
-                      className="block p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group/item border border-transparent hover:border-white/10 hover:scale-105"
+                      className="block p-6 rounded-2xl hover:bg-white transition-all duration-300 group/item"
                     >
                       <div className="relative mb-4 h-32 w-full rounded-xl overflow-hidden bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-white/10">
                         <Image
                           src="/previews/analyse-preview.png"
                           alt="Aktien Analyse Vorschau"
                           fill={true}
-                          className="object-cover"
+                          className="object-cover opacity-90 group-hover/item:opacity-100 transition-opacity"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover/item:from-transparent transition-all"></div>
                       </div>
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-white text-base group-hover/item:text-green-400 transition-colors duration-300">
-                            Aktien-Analyse
-                          </h3>
-                          <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors duration-300">→</span>
-                        </div>
-                        <p className="text-sm text-gray-400 leading-relaxed">
-                          Tiefgehende Analyse von 10.000+ Aktien mit historischen Daten und erweiterten Kennzahlen.
+                      <div className="space-y-2">
+                        <h3 className="font-bold text-white text-lg group-hover/item:text-black transition-colors">
+                          Aktien-Analyse
+                        </h3>
+                        <p className="text-sm text-gray-400 group-hover/item:text-black/70 transition-colors">
+                          Tiefgehende Analyse von 10.000+ Aktien
                         </p>
                       </div>
                     </Link>
-
+  
                     <Link
                       href="/superinvestor"
-                      className="block p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group/item border border-transparent hover:border-white/10 hover:scale-105"
+                      className="block p-6 rounded-2xl hover:bg-white transition-all duration-300 group/item"
                     >
                       <div className="relative mb-4 h-32 w-full rounded-xl overflow-hidden bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10">
                         <Image
                           src="/previews/superinvestor-preview.png"
                           alt="Super-Investoren Vorschau"
-                          fill
-                          className="object-cover"
+                          fill={true}
+                          className="object-cover opacity-90 group-hover/item:opacity-100 transition-opacity"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover/item:from-transparent transition-all"></div>
                       </div>
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-white text-base group-hover/item:text-green-400 transition-colors duration-300">
-                            Super-Investoren
-                          </h3>
-                          <span className="text-xs text-gray-400 group-hover/item:text-green-400 transition-colors duration-300">→</span>
-                        </div>
-                        <p className="text-sm text-gray-400 leading-relaxed">
-                          Verfolge die Portfolios der erfolgreichsten Investoren der Welt in Echtzeit.
+                      <div className="space-y-2">
+                        <h3 className="font-bold text-white text-lg group-hover/item:text-black transition-colors">
+                          Super-Investoren
+                        </h3>
+                        <p className="text-sm text-gray-400 group-hover/item:text-black/70 transition-colors">
+                          Portfolios der besten Investoren
                         </p>
                       </div>
                     </Link>
@@ -585,62 +621,100 @@ export default function ModernNavbar() {
                 </div>
               </div>
             </div>
-
-            {/* Regular Nav Links - UPDATED WITH COMING SOON LOGIC */}
-            {navLinks.map(link => (
-  <Link
-    key={link.href}
-    href={link.href}
-    className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
-  >
-    {link.label}
-  </Link>
-))}
-
+  
+            {/* Superinvestoren Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300">
+                Superinvestoren
+                <ChevronDownIcon className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+              </button>
+              
+              {/* Superinvestoren Dropdown */}
+              <div className="absolute left-0 top-full mt-3 w-80 bg-black/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
+                <div className="p-2">
+                  {superinvestorLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="block px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white hover:text-black group/item"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-medium text-sm text-gray-300 group-hover/item:text-black transition-colors">
+                            {link.label}
+                          </div>
+                          <div className="text-xs text-gray-500 group-hover/item:text-black/60 transition-colors">
+                            {link.description}
+                          </div>
+                        </div>
+                        {link.badge && (
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium transition-colors ${
+                            link.badge === 'Live'
+                              ? 'bg-green-500/20 text-green-400 group-hover/item:bg-black group-hover/item:text-white'
+                              : 'bg-gray-800 text-gray-400 group-hover/item:bg-black/10 group-hover/item:text-black'
+                          }`}>
+                            {link.badge}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+  
+            {/* Regular Nav Links */}
+            <Link
+              href="/news"
+              className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
+            >
+              Blog
+            </Link>
+            
+            <Link
+              href="/lexikon"
+              className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
+            >
+              Lexikon
+            </Link>
+  
             <Link
               href="/pricing"
-              className="px-4 py-2.5 text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+              className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
             >
               Preise
             </Link>
           </nav>
         </div>
-
-        {/* 🎯 RIGHT SIDE: Search + User Actions (STANDALONE ELEMENTS) */}
+  
+        {/* USER MENU SEPARAT RECHTS */}
         <div className="flex items-center gap-4">
-          
-          {/* Standalone Search */}
-          <div className="hidden lg:block w-72">
-            <ModernSearchBar />
-          </div>
-
-          {/* Standalone User Menu */}
           <div className="hidden md:block">
             {loading ? (
-              <div className="w-12 h-12 rounded-xl bg-gray-900/70 border border-white/10 animate-pulse backdrop-blur-xl"></div>
+              <div className="w-12 h-12 rounded-xl bg-black/95 backdrop-blur-xl border-2 border-white/20 animate-pulse"></div>
             ) : user ? (
               <ModernUserDropdown user={user} profile={profile} />
             ) : (
               <ModernGuestActions />
             )}
           </div>
-
-          {/* Mobile Menu Toggle */}
+          
+          {/* Mobile Menu Button */}
           <Disclosure>
             {({ open, close }) => (
               <>
-                <Disclosure.Button className="lg:hidden p-3 text-gray-400 hover:text-white hover:bg-gray-900/70 rounded-xl transition-all duration-300 border border-white/10 hover:border-white/20 backdrop-blur-xl">
+                <Disclosure.Button className="lg:hidden p-3 text-gray-400 hover:text-white bg-black/95 backdrop-blur-xl border-2 border-white/20 rounded-xl transition-all duration-300">
                   {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
                 </Disclosure.Button>
-
+  
                 {/* Mobile Panel */}
-                <Disclosure.Panel className="absolute top-full left-4 right-4 mt-4 border border-white/10 bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl lg:hidden">
+                <Disclosure.Panel className="absolute top-full left-4 right-4 mt-4 bg-black/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl lg:hidden">
                   <div className="px-6 py-4 space-y-3">
                     {/* Mobile Search */}
                     <div className="mb-6">
                       <ModernSearchBar onNavigate={close} />
                     </div>
-
+  
                     {/* Mobile Products Section */}
                     <div className="space-y-2">
                       <div className="px-3 py-2 text-base font-bold text-white">
@@ -651,32 +725,60 @@ export default function ModernNavbar() {
                           key={product.href}
                           href={product.href}
                           onClick={() => close()}
-                          className="block px-6 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+                          className="block px-6 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
                         >
                           {product.label}
                         </Link>
                       ))}
                     </div>
-
-                    {/* Mobile Nav Links - UPDATED WITH COMING SOON LOGIC */}
+  
+                    {/* Mobile Superinvestoren Section */}
+                    <div className="space-y-2">
+                      <div className="px-3 py-2 text-base font-bold text-white">
+                        Superinvestoren
+                      </div>
+                      {superinvestorLinks.map(link => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => close()}
+                          className="block px-6 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>{link.label}</span>
+                            {link.badge && (
+                              <span className={`text-xs px-2 py-0.5 rounded ${
+                                link.badge === 'Live' 
+                                  ? 'bg-green-500/20 text-green-400' 
+                                  : 'bg-gray-800 text-gray-400'
+                              }`}>
+                                {link.badge}
+                              </span>
+                            )}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+  
+                    {/* Mobile Nav Links */}
                     {navLinks.map(link => (
-  <Link
-    key={link.href}
-    href={link.href}
-    onClick={() => close()}
-    className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
-  >
-    {link.label}
-  </Link>
-))}
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => close()}
+                        className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
                     <Link
                       href="/pricing"
                       onClick={() => close()}
-                      className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10"
+                      className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
                     >
                       Preise
                     </Link>
-
+  
                     {/* Mobile User Menu */}
                     <div className="pt-4 border-t border-white/10">
                       {loading ? (
@@ -695,5 +797,4 @@ export default function ModernNavbar() {
         </div>
       </div>
     </div>
-  )
-}
+  )}

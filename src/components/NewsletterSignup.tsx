@@ -46,18 +46,19 @@ export default function NewsletterSignup() {
     }
   }
 
-  // Success State - Clean Supabase Style
+  // Success State - Subtle improvement
   if (status === 'success') {
     return (
       <div className="text-center max-w-md mx-auto">
-        <div className="p-6 bg-gray-900/50 border border-gray-800 rounded-xl">
+        <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+             className="p-6 border rounded-xl">
           <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">✅</span>
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">
             Erfolgreich angemeldet!
           </h3>
-          <p className="text-gray-400 text-sm mb-4">
+          <p className="text-theme-secondary text-sm mb-4">
             {message}
           </p>
           <button
@@ -65,7 +66,7 @@ export default function NewsletterSignup() {
               setStatus('idle')
               setMessage('')
             }}
-            className="text-sm text-gray-500 hover:text-gray-400 transition-colors"
+            className="text-sm text-theme-secondary hover:text-white transition-colors"
           >
             Weitere E-Mail hinzufügen
           </button>
@@ -84,12 +85,13 @@ export default function NewsletterSignup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={status === 'loading'}
+            style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
             className="
               w-full px-4 py-3 rounded-lg
-              bg-gray-900 border border-gray-800
-              text-white placeholder-gray-500
-              focus:outline-none focus:border-gray-700
-              hover:border-gray-700
+              border
+              text-white placeholder-theme-secondary
+              focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20
+              hover:bg-theme-hover
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
             "
@@ -102,17 +104,17 @@ export default function NewsletterSignup() {
           disabled={status === 'loading'}
           className="
             px-6 py-3 
-            bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-gray-600
-            text-gray-300 hover:text-white font-medium rounded-lg
+            bg-green-500 hover:bg-green-400
+            text-black font-medium rounded-lg
             disabled:opacity-50 disabled:cursor-not-allowed
-            transition-all duration-200
+            transition-all duration-200 hover:scale-[1.02]
             flex items-center justify-center gap-2
             whitespace-nowrap
           "
         >
           {status === 'loading' ? (
             <>
-              <div className="animate-spin w-4 h-4 border-2 border-gray-400 border-t-gray-900 rounded-full"></div>
+              <div className="animate-spin w-4 h-4 border-2 border-black/30 border-t-black rounded-full"></div>
               <span>Wird angemeldet...</span>
             </>
           ) : (
@@ -121,7 +123,7 @@ export default function NewsletterSignup() {
         </button>
       </form>
 
-      {/* Error Message - Clean Style */}
+      {/* Error Message */}
       {status === 'error' && message && (
         <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
           <p className="text-red-400 text-sm">

@@ -1,4 +1,4 @@
-// src/app/superinvestor/[slug]/page.tsx - ERWEITERT MIT OPTION-ANZEIGE
+// src/app/superinvestor/[slug]/page.tsx - ERWEITERT MIT OPTION-ANZEIGE UND NEUEM THEME
 'use client'
 
 import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
@@ -49,6 +49,8 @@ import DividendAnalysisSection from '@/components/DividendAnalysisSection'
 import InvestorFollowButton from '@/components/InvestorFollowButton'
 import { CurrencyProvider, useCurrency } from '@/contexts/CurrencyContext'
 import CurrencySwitch from '@/components/CurrencySwitch'
+import { InvestorCardSkeleton, StatsCardSkeleton } from '@/components/SkeletonLoaders'
+
 
 // Dynamic imports
 const TopPositionsBarChart = dynamic(
@@ -65,7 +67,6 @@ import articlesGates from '@/data/articles/gates.json'
 import ArticleList from '@/components/ArticleList'
 import type { Article } from '@/components/ArticleList'
 import PublicInvestorFollowButton from '@/components/PublicInvestorFollowButton'
-
 
 // User Interface für Premium-Check
 interface User {
@@ -217,7 +218,6 @@ const investorNames: Record<string, string> = {
   ariel_focus: 'Ariel Focus Fund', 
   cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
   spier: 'Guy Spier - Aquamarine Capital',
-
 
   //mutual funds
   cunniff_sequoia: 'Ruane Cunniff – Sequoia Fund',
@@ -465,8 +465,8 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </p>
       </div>
 
-      {/* Company Selector */}
-      <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+      {/* Company Selector - Theme Colors */}
+      <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
             <ChartBarIcon className="w-5 h-5 text-blue-400" />
@@ -477,7 +477,8 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         <select
           value={selectedCompany}
           onChange={(e) => setSelectedCompany(e.target.value)}
-          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          style={{ backgroundColor: 'var(--bg-tertiary)' }}
+          className="w-full px-4 py-3 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           {companies.map(company => (
             <option key={company.cusip} value={company.cusip}>
@@ -487,9 +488,9 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </select>
       </div>
 
-      {/* Current Stats */}
+      {/* Current Stats - Theme Colors */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-green-400" />
@@ -507,7 +508,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           )}
         </div>
 
-        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-blue-400" />
@@ -519,7 +520,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           </p>
         </div>
 
-        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-purple-400" />
@@ -538,11 +539,11 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </div>
       </div>
 
-      {/* Charts */}
+      {/* Charts - Theme Colors */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Portfolio Percentage Chart */}
-        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-green-400" />
@@ -590,7 +591,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </div>
 
         {/* Shares Chart */}
-        <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-blue-400" />
@@ -639,8 +640,8 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </div>
       </div>
 
-      {/* History Table */}
-      <div className="bg-gray-900/60 border border-gray-800 rounded-xl overflow-hidden">
+      {/* History Table - Theme Colors */}
+      <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl overflow-hidden">
         <div className="p-6 border-b border-gray-800">
           <h3 className="text-lg font-bold text-white">Detaillierte Historie</h3>
           <p className="text-sm text-gray-400 mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
@@ -648,7 +649,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-800/50">
+            <thead style={{ backgroundColor: 'var(--bg-tertiary)' }}>
               <tr className="text-sm text-gray-400">
                 <th className="text-left p-4 font-medium">Quartal</th>
                 <th className="text-right p-4 font-medium">Aktien</th>
@@ -708,7 +709,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
   )
 }
 
-// Kompakte Newsletter Komponente
+// Kompakte Newsletter Komponente - Theme Colors
 function CompactNewsletterSignup({ investorName }: { investorName: string }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -770,7 +771,8 @@ function CompactNewsletterSignup({ investorName }: { investorName: string }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === 'loading'}
-          className="w-full px-3 py-2 text-sm bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+          style={{ backgroundColor: 'var(--bg-tertiary)' }}
+          className="w-full px-3 py-2 text-sm border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
           required
         />
         
@@ -841,6 +843,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   const titleFull = investorNames[slug] ?? slug
   const { name: mainName, subtitle } = splitInvestorName(titleFull)
   
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
+
   // Tab State
   const [tab, setTab] = useState<Tab>('portfolio')
   const [analyticsView, setAnalyticsView] = useState<'overview' | 'companies' | 'sectors'>('overview')
@@ -882,6 +886,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     }
 
     loadUser()
+  }, [])
+
+  useEffect(() => {
+    // Simuliere kurze Ladezeit für smooth transition
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false)
+    }, 500)
+    return () => clearTimeout(timer)
   }, [])
 
   // Unified AI Handler
@@ -1062,11 +1074,61 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
   const isNewInvestor = snapshots.length === 1
 
+   // FÜGE DIESEN SKELETON LOADER HINZU:
+   if (isInitialLoading) {
+    return (
+      <div className="min-h-screen bg-black py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Header Skeleton */}
+          <div className="animate-pulse mb-12">
+            <div className="bg-gray-900/40 border border-gray-800/50 rounded-2xl p-8 lg:p-10">
+              <div className="flex items-center gap-6">
+                <div className="w-24 h-24 bg-gray-800 rounded-full"></div>
+                <div className="flex-1">
+                  <div className="h-10 w-64 bg-gray-800 rounded-lg mb-3"></div>
+                  <div className="h-6 w-48 bg-gray-800 rounded-lg mb-4"></div>
+                  <div className="flex gap-4">
+                    <div className="h-8 w-24 bg-gray-800 rounded-lg"></div>
+                    <div className="h-8 w-32 bg-gray-800 rounded-lg"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Grid Skeleton */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-12">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-gray-800/30 rounded-lg p-4 animate-pulse">
+                <div className="h-4 w-24 bg-gray-700 rounded mb-2"></div>
+                <div className="h-6 w-32 bg-gray-700 rounded"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Content Skeleton */}
+          <div className="space-y-8">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-[#161618] rounded-xl p-6 animate-pulse">
+                <div className="h-6 w-48 bg-gray-800 rounded-lg mb-4"></div>
+                <div className="space-y-3">
+                  {[1, 2, 3, 4].map(j => (
+                    <div key={j} className="h-12 bg-gray-800 rounded-lg"></div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-gray-950 noise-bg">
+    <div className="min-h-screen bg-theme-primary">
       
-      {/* Hero Section (gekürzt) */}
-      <section className="relative overflow-hidden bg-gray-950 noise-bg pt-24 pb-20">
+{/* Hero Section - Clean & Professional */}
+<section className="relative bg-theme-primary pt-20 pb-12">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Breadcrumb & Currency Switch */}
@@ -1079,97 +1141,131 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               Zurück zu Super-Investoren
             </Link>
             
-            {/* ✅ CURRENCY SWITCH */}
             <CurrencySwitch size="sm" />
           </div>
           
-          {/* Hero Content */}
+          {/* Clean Hero Content mit eleganter Border */}
           <div ref={heroRef} className={`transform transition-all duration-1000 ${
             heroVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
             
             {/* Main Hero Card */}
-            <div className="relative mb-8">
-              <div className="relative bg-gray-900/80 border border-gray-800 rounded-3xl p-8 lg:p-12 backdrop-blur-sm">
-                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
+            <div className="bg-gray-900/40 border border-gray-800/50 rounded-2xl p-8 lg:p-10 backdrop-blur-sm shadow-2xl">
+              <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
+                
+                {/* Left: Investor Info */}
+                <div className="flex-1">
                   
-                  {/* Avatar */}
-                  <div className="relative flex-shrink-0">
-                    {slug === 'buffett' && (
-                      <div className="absolute -top-3 -right-3 z-10">
-                        <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-xl animate-pulse">
-                          <span className="text-black text-xl">👑</span>
-                        </div>
-                      </div>
-                    )}
-                    
+                  {/* Avatar & Basic Info */}
+                  <div className="flex items-center gap-6 mb-8">
                     <div className="relative">
-                      <div className="absolute -inset-3 bg-gradient-to-br from-green-500/30 via-blue-500/20 to-green-500/30 rounded-full blur-lg opacity-60"></div>
+                      {slug === 'buffett' && (
+                        <div className="absolute -top-2 -right-2 z-10">
+                          <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg">
+                            <span className="text-black text-sm">👑</span>
+                          </div>
+                        </div>
+                      )}
+                      
                       <div className="relative">
+                        <div className="absolute -inset-1 bg-gradient-to-br from-green-500/20 to-green-400/10 rounded-full blur opacity-60"></div>
                         <InvestorAvatar
                           name={mainName}
                           imageUrl={`/images/${slug}.png`}
-                          size="xl"
-                          className="ring-4 ring-white/10 shadow-2xl"
+                          size="lg"
+                          className="relative ring-2 ring-white/10 shadow-xl"
                         />
                       </div>
                     </div>
-                  </div>
-                  
-                  {/* Name & Info */}
-                  <div className="flex-1 text-center lg:text-left space-y-4">
-                    <div>
-                      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
-                        <span className="bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-                          {mainName}
-                        </span>
+                    
+                    <div className="flex-1">
+                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-white mb-2">
+                        {mainName}
                       </h1>
                       {subtitle && (
-                        <p className="text-xl sm:text-2xl text-gray-300 font-medium mt-3">
+                        <p className="text-lg text-gray-300 mb-4">
                           {subtitle}
                         </p>
                       )}
-                    </div>
-                    
-                    {/* Meta Badges */}
-                    <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm">
-                        <CalendarIcon className="w-4 h-4" />
-                        <span>{period}</span>
-                      </div>
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 border border-gray-700/50 text-gray-300 rounded-full text-sm backdrop-blur-sm">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span>Aktualisiert {formattedDate}</span>
+                      
+                      {/* Meta Info */}
+                      <div className="flex flex-wrap items-center gap-4">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-sm font-medium">
+                          <CalendarIcon className="w-4 h-4" />
+                          <span>{period}</span>
+                        </div>
+                        <div className="inline-flex items-center gap-2 text-gray-400 text-sm">
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                          <span>Aktualisiert {formattedDate}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Portfolio Value mit Currency Context */}
-                  <div className="relative flex-shrink-0">
-                    <div className="relative bg-gray-800/80 border border-gray-700 rounded-2xl p-6 lg:p-8 backdrop-blur-sm min-w-[280px] text-center lg:text-right">
-                      <div className="flex items-center justify-center lg:justify-end gap-2 mb-3">
-                        <ChartBarIcon className="w-5 h-5 text-green-400" />
-                        <p className="text-sm text-gray-400 font-medium uppercase tracking-wide">
-                          Portfolio-Wert
-                        </p>
+                  {/* Portfolio Stats Row */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div className="bg-gray-800/30 border border-gray-700/50 rounded-lg p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <ChartBarIcon className="w-4 h-4 text-green-400" />
+                        <span className="text-xs text-gray-400 uppercase tracking-wide font-medium">Portfolio-Wert</span>
                       </div>
-                      <p className="text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
-                        <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                          {formatLargeNumber(totalVal)}
-                        </span>
+                      <p className="text-xl font-bold text-green-400">
+                        {formatLargeNumber(totalVal)}
                       </p>
-                      <p className="text-sm text-gray-500 mt-2 flex items-center justify-center lg:justify-end gap-2">
-                        <div className="w-1.5 h-1.5 bg-gray-500 rounded-full"></div>
-                        {holdings.length} Positionen
+                    </div>
+                    
+                    <div className="bg-gray-800/30 border border-gray-700/50 rounded-lg p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <StarIcon className="w-4 h-4 text-blue-400" />
+                        <span className="text-xs text-gray-400 uppercase tracking-wide font-medium">Positionen</span>
+                      </div>
+                      <p className="text-xl font-bold text-white">
+                        {holdings.length}
                       </p>
-                      
-{/* ✅ Follow Button für öffentliche Seite */}
-<div className="mt-6 pt-4 border-t border-gray-700/50">
-  <PublicInvestorFollowButton 
-    investorSlug={slug}
-    investorName={mainName}
-  />
-</div>
+                    </div>
+                    
+                    <div className="bg-gray-800/30 border border-gray-700/50 rounded-lg p-4 sm:col-span-1 col-span-2">
+                      <div className="flex items-center gap-2 mb-2">
+                        <ArrowTrendingUpIcon className="w-4 h-4 text-purple-400" />
+                        <span className="text-xs text-gray-400 uppercase tracking-wide font-medium">Top 3 Anteil</span>
+                      </div>
+                      <p className="text-xl font-bold text-white">
+                        {((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Right: Integrierter Follow Bereich */}
+                <div className="lg:w-72 flex-shrink-0">
+                  <div className="text-center lg:text-right">
+                    <div className="mb-4">
+                      <div className="inline-flex items-center gap-2 px-2 py-1 bg-green-500/10 rounded-full text-green-400 text-xs font-medium mb-2">
+                        <UserIcon className="w-3 h-3" />
+                        <span>Folgen</span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-white mb-2">
+                        {mainName} Updates 
+                      </h3>
+                      <p className="text-sm text-gray-400 mb-4">
+                        Kostenlose Portfolio-Updates
+                      </p>
+                    </div>
+                    
+                    <PublicInvestorFollowButton 
+                      investorSlug={slug}
+                      investorName={mainName}
+                    />
+                    
+                    <div className="mt-4 flex items-center justify-center lg:justify-end gap-4 text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <CheckIcon className="w-3 h-3 text-green-400" />
+                        <span>Quartalsweise</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <CheckIcon className="w-3 h-3 text-green-400" />
+                        <span>Keine Werbung</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1179,7 +1275,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         </div>
       </section>
 
-      {/* Main Content */}
+      {/* Main Content - Theme Colors */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
         {/* Tabs */}
@@ -1199,24 +1295,24 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           />
         </div>
 
-        {/* PORTFOLIO TAB - ALLE URSPRÜNGLICHEN SEKTIONEN */}
-        {tab === 'portfolio' && (
+{/* PORTFOLIO TAB - ALLE URSPRÜNGLICHEN SEKTIONEN mit Theme Colors */}
+{tab === 'portfolio' && (
           <div ref={chartsRef} className={`transform transition-all duration-1000 ${
             chartsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
             
-            {/* Portfolio Insights */}
+            {/* Portfolio Insights - Theme Colors 
             <div className="mb-12">
               <PortfolioAnalysisInline
                 investorName={mainName}
                 currentPositions={holdings}
                 previousPositions={previous.positions}
               />
-            </div>
+            </div>*/}
 
-            {/* Portfolio Value Chart */}
+            {/* Portfolio Value Chart - Theme Colors */}
             <div className="mb-12">
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
                     <ChartBarIcon className="w-5 h-5 text-green-400" />
@@ -1233,10 +1329,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </div>
             </div>
 
-            {/* Cash Position Chart (nur für Buffett) */}
+            {/* Cash Position Chart (nur für Buffett) - Theme Colors */}
             {slug === 'buffett' && cashSeries.length > 0 && (
               <div className="mb-12">
-                <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+                <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
                       <ChartBarIcon className="w-5 h-5 text-blue-400" />
@@ -1254,9 +1350,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </div>
             )}
 
-            {/* Sektor Overview - Simple HTML Table statt Komponente */}
+            {/* Sektor Overview - Theme Colors */}
             <div className="mb-12">
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
                     <ChartBarIcon className="w-5 h-5 text-purple-400" />
@@ -1293,7 +1389,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       .sort((a, b) => b.value - a.value)
                       .slice(0, 6)
                       .map((sector, index) => (
-                        <div key={sector.sector} className="bg-gray-800/30 rounded-lg p-4">
+                        <div key={sector.sector} style={{ backgroundColor: 'var(--bg-tertiary)' }} className="rounded-lg p-4">
                           <div className="flex items-center gap-3 mb-2">
                             <div 
                               className="w-3 h-3 rounded-full"
@@ -1314,9 +1410,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </div>
             </div>
 
-            {/* ✅ ERWEITERT: Top Positions mit Option-Anzeige */}
+            {/* ✅ ERWEITERT: Top Positions mit Option-Anzeige und Theme Colors */}
             <div className="mb-12">
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
                     <StarIcon className="w-5 h-5 text-yellow-400" />
@@ -1329,7 +1425,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 
                 <div className="space-y-3">
                   {holdings.slice(0, 10).map((holding, index) => (
-                    <div key={holding.cusip} className="flex items-center justify-between py-3 px-4 bg-gray-800/30 rounded-lg">
+                    <div key={holding.cusip} style={{ backgroundColor: 'var(--bg-tertiary)' }} className="flex items-center justify-between py-3 px-4 rounded-lg">
                       <div className="flex items-center gap-4">
                         <div className="text-gray-400 text-sm font-mono w-6">
                           #{index + 1}
@@ -1350,9 +1446,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </div>
             </div>
 
-            {/* Sektor Breakdown Chart */}
+            {/* Sektor Breakdown Chart - Theme Colors */}
             <div className="mb-12">
-              <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
                     <ChartBarIcon className="w-5 h-5 text-emerald-400" />
@@ -1396,7 +1492,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* DIVIDENDS TAB */}
+        {/* DIVIDENDS TAB - Theme Colors */}
         {tab === 'dividends' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
@@ -1416,7 +1512,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* ANALYTICS TAB */}
+        {/* ANALYTICS TAB - Theme Colors */}
         {tab === 'analytics' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
@@ -1428,7 +1524,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </p>
             </div>
             
-            {/* Analytics Sub-Tabs */}
+            {/* Analytics Sub-Tabs - Theme Colors */}
             <div className="flex flex-wrap gap-2 justify-center mb-8">
               <button
                 onClick={() => setAnalyticsView('overview')}
@@ -1437,6 +1533,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     ? 'bg-indigo-600 text-white' 
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
                 }`}
+                style={analyticsView === 'overview' ? {} : { backgroundColor: 'var(--bg-tertiary)' }}
               >
                 Übersicht
               </button>
@@ -1447,6 +1544,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     ? 'bg-indigo-600 text-white' 
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
                 }`}
+                style={analyticsView === 'companies' ? {} : { backgroundColor: 'var(--bg-tertiary)' }}
               >
                 Einzelunternehmen
               </button>
@@ -1457,6 +1555,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     ? 'bg-indigo-600 text-white' 
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
                 }`}
+                style={analyticsView === 'sectors' ? {} : { backgroundColor: 'var(--bg-tertiary)' }}
               >
                 Sektoren
               </button>
@@ -1465,10 +1564,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             {/* ✅ VOLLSTÄNDIGE Analytics Content mit funktionierender CompanyOwnershipHistory */}
             {analyticsView === 'overview' && (
               <>
-                {/* Stats Grid */}
+                {/* Stats Grid - Theme Colors */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   
-                  <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
                         <ChartBarIcon className="w-5 h-5 text-green-400" />
@@ -1481,7 +1580,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-xs text-gray-500">Gesamtwert aller Positionen</p>
                   </div>
                   
-                  <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
                         <StarIcon className="w-5 h-5 text-blue-400" />
@@ -1494,7 +1593,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-xs text-gray-500">Verschiedene Positionen</p>
                   </div>
                   
-                  <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
                         <ChartBarIcon className="w-5 h-5 text-purple-400" />
@@ -1507,7 +1606,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-xs text-gray-500">Konzentration</p>
                   </div>
                   
-                  <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
                         <CalendarIcon className="w-5 h-5 text-yellow-400" />
@@ -1521,8 +1620,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                   </div>
                 </div>
                 
-                {/* Sektor-Chart */}
-                <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+                {/* Sektor-Chart - Theme Colors */}
+                <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
                       <ChartBarIcon className="w-5 h-5 text-indigo-400" />
@@ -1582,7 +1681,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* FILINGS TAB */}
+        {/* FILINGS TAB - Theme Colors */}
         {tab === 'filings' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
@@ -1594,7 +1693,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </p>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
+            <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
                   <DocumentTextIcon className="w-5 h-5 text-blue-400" />
@@ -1613,11 +1712,11 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* AI TAB */}
+        {/* AI TAB - Theme Colors */}
         {tab === 'ai' && (
           <div className="space-y-8">
             <div className="max-w-2xl mx-auto text-center">
-              <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
+              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
                 <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <SparklesIcon className="w-10 h-10 text-purple-400" />
                 </div>
@@ -1662,7 +1761,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* Articles & Commentaries */}
+        {/* Articles & Commentaries - Theme Colors */}
         {articles.length > 0 && (
           <section className="mb-16">
             <div className="text-center mb-12">
@@ -1684,6 +1783,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
       </div>
     </div>
   )
+ 
 }
 
 // ✅ HAUPT-EXPORT: Wrapper mit CurrencyProvider

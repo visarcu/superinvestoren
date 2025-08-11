@@ -1,4 +1,3 @@
-
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -341,7 +340,7 @@ export default function InsiderTradingPage() {
           volume: data.volume,
           shares: data.shares,
           percentage: Math.round((data.count / Math.max(1, total)) * 100),
-          label: getTransactionTypeLabel(type) // HINZUGEFÜGT: Deutsche Übersetzung
+          label: getTransactionTypeLabel(type)
         }))
         .sort((a, b) => b.count - a.count)
     }
@@ -387,17 +386,17 @@ export default function InsiderTradingPage() {
 
   if (loading) {
     return (
-      <div className="bg-gray-950 noise-bg min-h-screen flex items-center justify-center">
+      <div className="bg-theme-bg min-h-screen flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner />
-          <p className="text-gray-400 mt-3">Lade Insider Trading Daten...</p>
+          <p className="text-theme-secondary mt-3">Lade Insider Trading Daten...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="bg-gray-950 noise-bg">
+    <div className="bg-theme-bg">
       
       {/* Header - Angepasst für SuperInvestor */}
       <div className="py-12">
@@ -412,11 +411,11 @@ export default function InsiderTradingPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
               Live Insider Trading
             </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-theme-secondary max-w-3xl mx-auto leading-relaxed">
               Aktuelle Transaktionen von Unternehmensinsidern • Live FMP Daten
             </p>
             
-            <div className="flex items-center justify-center gap-2 text-sm text-gray-400 mt-4">
+            <div className="flex items-center justify-center gap-2 text-sm text-theme-secondary mt-4">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span>
                 Letztes Update: {new Date().toLocaleTimeString('de-DE', { 
@@ -424,7 +423,7 @@ export default function InsiderTradingPage() {
                   minute: '2-digit' 
                 })}
               </span>
-              <span className="text-gray-500">•</span>
+              <span className="text-theme-secondary">•</span>
               <span>
                 {transactions.length.toLocaleString('de-DE')} Transaktionen geladen
               </span>
@@ -432,7 +431,7 @@ export default function InsiderTradingPage() {
           </div>
 
           {/* Info Banner */}
-          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-12">
+          <div className="bg-blue-500/10 border-blue-500/20 rounded-lg p-4 mb-12">
             <div className="flex items-start gap-3">
               <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
               <div>
@@ -447,83 +446,77 @@ export default function InsiderTradingPage() {
           </div>
 
           {/* ERWEITERTE Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-12">
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-12">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Gesamt</p>
+                  <p className="text-theme-secondary text-sm">Gesamt</p>
                   <p className="text-xl font-bold text-white">{formatNumber(extendedStats.totalTransactions)}</p>
                 </div>
                 <DocumentTextIcon className="w-6 h-6 text-blue-500" />
               </div>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Käufe</p>
+                  <p className="text-theme-secondary text-sm">Käufe</p>
                   <p className="text-xl font-bold text-green-400">{formatNumber(extendedStats.categories.purchase)}</p>
                 </div>
                 <ArrowTrendingUpIcon className="w-6 h-6 text-green-500" />
               </div>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Verkäufe</p>
+                  <p className="text-theme-secondary text-sm">Verkäufe</p>
                   <p className="text-xl font-bold text-red-400">{formatNumber(extendedStats.categories.sale)}</p>
                 </div>
                 <ArrowTrendingDownIcon className="w-6 h-6 text-red-500" />
               </div>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Zuteilungen</p>
+                  <p className="text-theme-secondary text-sm">Zuteilungen</p>
                   <p className="text-xl font-bold text-blue-400">{formatNumber(extendedStats.categories.award)}</p>
                 </div>
                 <StarIcon className="w-6 h-6 text-blue-500" />
               </div>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Optionen</p>
+                  <p className="text-theme-secondary text-sm">Optionen</p>
                   <p className="text-xl font-bold text-purple-400">{formatNumber(extendedStats.categories.option)}</p>
-                  <p className="text-xs text-gray-500">meist neutral</p>
+                  <p className="text-xs text-theme-secondary">meist neutral</p>
                 </div>
                 <CircleStackIcon className="w-6 h-6 text-purple-500" />
               </div>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-400 text-sm">Sentiment</p>
-                  <p className={`text-xl font-bold ${extendedStats.netShares >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                    {extendedStats.sentiment.netSentiment}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {extendedStats.sentiment.positivePercentage}% positiv
-                  </p>
-                </div>
-                <CalendarIcon className="w-6 h-6 text-indigo-500" />
-              </div>
-            </div>
+          
           </div>
 
           {/* Transaktionstyp Breakdown mit deutschen + englischen Labels */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 mb-12">
+          <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+               className=" rounded-lg p-6 mb-12">
             <h3 className="text-lg font-bold text-white mb-4">Transaktionstyp Breakdown</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {extendedStats.typeBreakdown.slice(0, 9).map(({ type, count, percentage, label }) => (
-                <div key={type} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg">
+                <div key={type} style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                     className="flex justify-between items-center p-3 border rounded-lg">
                   <div>
                     <span className="text-sm font-medium text-white">{label}</span>
-                    <div className="text-xs text-gray-400">{count} Transaktionen</div>
+                    <div className="text-xs text-theme-secondary">{count} Transaktionen</div>
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-bold text-white">{percentage}%</div>
@@ -534,11 +527,12 @@ export default function InsiderTradingPage() {
           </div>
 
           {/* Filters */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-4 mb-8">
+          <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+               className=" rounded-lg p-4 mb-8">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-theme-secondary" />
                   <input
                     type="text"
                     placeholder="Suche nach Symbol, Insider-Name oder Position..."
@@ -547,20 +541,22 @@ export default function InsiderTradingPage() {
                       setSearchTerm(e.target.value)
                       setCurrentPage(1)
                     }}
-                    className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20"
+                    style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                    className="w-full pl-10 pr-4 py-2 border rounded-md text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20"
                   />
                 </div>
               </div>
               
               <div className="flex items-center gap-2">
-                <FunnelIcon className="w-4 h-4 text-gray-400" />
+                <FunnelIcon className="w-4 h-4 text-theme-secondary" />
                 <select
                   value={filterType}
                   onChange={(e) => {
                     setFilterType(e.target.value as any)
                     setCurrentPage(1)
                   }}
-                  className="bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-white focus:outline-none focus:border-green-500"
+                  style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                  className="border rounded-md px-3 py-2 text-white focus:outline-none focus:border-green-500"
                 >
                   <option value="all">Alle Transaktionen</option>
                   <option value="purchase">Käufe</option>
@@ -575,45 +571,44 @@ export default function InsiderTradingPage() {
           </div>
 
           {/* Transactions Table */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-lg overflow-hidden mb-8">
+          <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+               className=" rounded-lg overflow-hidden mb-8">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-800 border-b border-gray-700">
+                <thead style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                       className="border-b">
                   <tr>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Datum</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Symbol</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Insider</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Position</th>
-                    <th className="text-left py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Transaktion</th>
-                    <th className="text-right py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Aktien</th>
-                    <th className="text-right py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Preis</th>
-                    <th className="text-right py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Wert</th>
-                    <th className="text-center py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">Form</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Datum</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Symbol</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Insider</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Position</th>
+                    <th className="text-left py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Transaktion</th>
+                    <th className="text-right py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Aktien</th>
+                    <th className="text-right py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Preis</th>
+                    <th className="text-right py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Wert</th>
+                    <th className="text-center py-3 px-4 text-xs font-medium text-theme-secondary uppercase tracking-wider">Form</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-700">
+                <tbody style={{ borderColor: 'var(--border-color)' }}
+                       className="divide-y">
                   {currentTransactions.map((transaction, index) => {
                     const transactionValue = (transaction.securitiesTransacted || 0) * (transaction.price || 0)
                     const category = getTransactionCategory(transaction.transactionType, transaction.acquiredDisposedCode)
                     
                     return (
-                      <tr key={`${transaction.symbol}-${index}`} className="hover:bg-gray-800/50 transition-colors">
-                        <td className="py-3 px-4 text-sm text-gray-300">
+                      <tr key={`${transaction.symbol}-${index}`} className="hover:bg-theme-hover transition-colors">
+                        <td className="py-3 px-4 text-sm text-theme-secondary">
                           {formatDate(transaction.transactionDate)}
                         </td>
                         <td className="py-3 px-4">
                           <Link
                             href={`/analyse/stocks/${transaction.symbol.toLowerCase()}/insider`}
-                            className="flex items-center gap-2 group"
+                            className="group"
                           >
-                            <div className="w-8 h-8 bg-gray-700 rounded-md flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-                              <span className="text-xs font-bold text-white group-hover:text-green-400 transition-colors">
-                                {transaction.symbol}
-                              </span>
-                            </div>
-                            <div className="text-sm font-medium text-white group-hover:text-green-400 transition-colors">
+                            <span style={{ backgroundColor: 'var(--bg-card)' }}
+                                  className="inline-flex items-center px-2 py-1 rounded text-sm font-bold text-white group-hover:text-green-400 group-hover:bg-green-500/20 transition-colors">
                               {transaction.symbol}
-                            </div>
+                            </span>
                           </Link>
                         </td>
                         <td className="py-3 px-4">
@@ -622,7 +617,7 @@ export default function InsiderTradingPage() {
                           </div>
                         </td>
                         <td className="py-3 px-4">
-                          <div className="text-xs text-gray-400 max-w-32">
+                          <div className="text-xs text-theme-secondary max-w-32">
                             {transaction.typeOfOwner}
                           </div>
                         </td>
@@ -654,7 +649,7 @@ export default function InsiderTradingPage() {
                               {transaction.formType || 'Form 4'}
                             </a>
                           ) : (
-                            <span className="text-gray-400 text-xs">
+                            <span className="text-theme-secondary text-xs">
                               {transaction.formType || '–'}
                             </span>
                           )}
@@ -669,8 +664,8 @@ export default function InsiderTradingPage() {
             {filteredTransactions.length === 0 && !loading && (
               <div className="p-8 text-center">
                 <ExclamationTriangleIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                <p className="text-gray-400">Keine Transaktionen gefunden</p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-theme-secondary">Keine Transaktionen gefunden</p>
+                <p className="text-sm text-theme-secondary mt-1">
                   Versuche andere Filterkriterien oder einen anderen Suchbegriff
                 </p>
               </div>
@@ -680,7 +675,7 @@ export default function InsiderTradingPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-400">
+              <div className="text-sm text-theme-secondary">
                 Zeige {startIndex + 1}-{Math.min(endIndex, filteredTransactions.length)} von {filteredTransactions.length} Transaktionen
               </div>
               
@@ -688,19 +683,21 @@ export default function InsiderTradingPage() {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="px-3 py-1 text-sm bg-gray-800 border border-gray-700 rounded-md text-white hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                  className="px-3 py-1 text-sm border rounded-md text-white hover:bg-theme-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Zurück
                 </button>
                 
-                <span className="text-sm text-gray-400">
+                <span className="text-sm text-theme-secondary">
                   Seite {currentPage} von {totalPages}
                 </span>
                 
                 <button
                   onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-1 text-sm bg-gray-800 border border-gray-700 rounded-md text-white hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                  className="px-3 py-1 text-sm border rounded-md text-white hover:bg-theme-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Weiter
                 </button>

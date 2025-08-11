@@ -1,4 +1,4 @@
-// src/app/auth/signup/page.tsx - MODERNISIERTE KOMPAKTE VERSION
+// src/app/auth/signup/page.tsx - NEW THEME DESIGN
 'use client'
 
 import { useState } from 'react'
@@ -37,7 +37,7 @@ function translateAuthError(error: string): string {
   return error
 }
 
-// ✅ KOMPAKTE Password Strength Indicator
+// Password Strength Indicator
 function PasswordStrength({ password }: { password: string }) {
   const requirements = [
     { text: 'Mindestens 6 Zeichen', met: password.length >= 6 },
@@ -54,9 +54,9 @@ function PasswordStrength({ password }: { password: string }) {
           {req.met ? (
             <CheckCircleIcon className="w-3 h-3 text-green-500" />
           ) : (
-            <div className="w-3 h-3 rounded-full border border-theme"></div>
+            <div style={{ borderColor: 'var(--border-color)' }} className="w-3 h-3 rounded-full border"></div>
           )}
-          <span className={req.met ? 'text-green-400' : 'text-theme-muted'}>
+          <span className={req.met ? 'text-green-400' : 'text-theme-secondary'}>
             {req.text}
           </span>
         </div>
@@ -151,17 +151,17 @@ export default function SignUpPage() {
 
   return (
     <>
-      {/* ✅ Update Header Text */}
-      <div className="text-center mb-">
+      {/* Header Text */}
+      <div className="text-center mb-6">
         <div className="flex items-center justify-center gap-2 mb-3">
           <div className="flex items-end gap-0.5">
             <div className="w-1 h-2 bg-green-500 rounded-sm"></div>
             <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
             <div className="w-1 h-4 bg-green-500 rounded-sm"></div>
           </div>
-          <span className="text-base font-bold text-theme-primary">FinClue</span>
+          <span className="text-base font-bold text-white">FinClue</span>
         </div>
-        <h1 className="text-xl font-bold text-theme-primary mb-1">
+        <h1 className="text-xl font-bold text-white mb-1">
           Account erstellen
         </h1>
         <p className="text-theme-secondary text-sm">
@@ -169,7 +169,7 @@ export default function SignUpPage() {
         </p>
       </div>
 
-      {/* ✅ KOMPAKTE Messages */}
+      {/* Messages */}
       {success && (
         <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 mb-4">
           <div className="flex items-center gap-2">
@@ -190,17 +190,17 @@ export default function SignUpPage() {
         </div>
       )}
 
-      {/* ✅ KOMPAKTE Form */}
+      {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         
-        {/* ✅ Name Field */}
+        {/* Name Field */}
         <div className="space-y-1.5">
-          <label htmlFor="name" className="text-sm font-medium text-theme-primary">
+          <label htmlFor="name" className="text-sm font-medium text-white">
             Vollständiger Name
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <UserIcon className="h-4 w-4 text-theme-muted" />
+              <UserIcon className="h-4 w-4 text-theme-secondary" />
             </div>
             <input
               id="name"
@@ -208,21 +208,22 @@ export default function SignUpPage() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full pl-9 pr-3 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
               placeholder="Max Mustermann"
               disabled={loading}
             />
           </div>
         </div>
 
-        {/* ✅ Email Field */}
+        {/* Email Field */}
         <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm font-medium text-theme-primary">
+          <label htmlFor="email" className="text-sm font-medium text-white">
             E-Mail-Adresse
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <EnvelopeIcon className="h-4 w-4 text-theme-muted" />
+              <EnvelopeIcon className="h-4 w-4 text-theme-secondary" />
             </div>
             <input
               id="email"
@@ -230,21 +231,22 @@ export default function SignUpPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-9 pr-3 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
               placeholder="name@beispiel.de"
               disabled={loading}
             />
           </div>
         </div>
         
-        {/* ✅ Password Field */}
+        {/* Password Field */}
         <div className="space-y-1.5">
-          <label htmlFor="password" className="text-sm font-medium text-theme-primary">
+          <label htmlFor="password" className="text-sm font-medium text-white">
             Passwort
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <LockClosedIcon className="h-4 w-4 text-theme-muted" />
+              <LockClosedIcon className="h-4 w-4 text-theme-secondary" />
             </div>
             <input
               id="password"
@@ -252,14 +254,15 @@ export default function SignUpPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-9 pr-10 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
               placeholder="Passwort wählen"
               disabled={loading}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-muted hover:text-theme-secondary transition-colors"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-secondary hover:text-white transition-colors"
             >
               {showPassword ? (
                 <EyeSlashIcon className="h-4 w-4" />
@@ -271,14 +274,14 @@ export default function SignUpPage() {
           <PasswordStrength password={password} />
         </div>
 
-        {/* ✅ Confirm Password Field */}
+        {/* Confirm Password Field */}
         <div className="space-y-1.5">
-          <label htmlFor="confirmPassword" className="text-sm font-medium text-theme-primary">
+          <label htmlFor="confirmPassword" className="text-sm font-medium text-white">
             Passwort bestätigen
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <LockClosedIcon className="h-4 w-4 text-theme-muted" />
+              <LockClosedIcon className="h-4 w-4 text-theme-secondary" />
             </div>
             <input
               id="confirmPassword"
@@ -286,14 +289,15 @@ export default function SignUpPage() {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full pl-9 pr-10 py-2.5 bg-theme-secondary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
               placeholder="Passwort wiederholen"
               disabled={loading}
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-muted hover:text-theme-secondary transition-colors"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-secondary hover:text-white transition-colors"
             >
               {showConfirmPassword ? (
                 <EyeSlashIcon className="h-4 w-4" />
@@ -304,7 +308,7 @@ export default function SignUpPage() {
           </div>
         </div>
 
-        {/* ✅ KOMPAKTE Checkboxes */}
+        {/* Checkboxes */}
         <div className="space-y-3">
           {/* Terms & Conditions */}
           <label className="flex items-start gap-2.5 cursor-pointer">
@@ -312,7 +316,8 @@ export default function SignUpPage() {
               type="checkbox"
               checked={acceptTerms}
               onChange={(e) => setAcceptTerms(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-green-500 bg-theme-secondary border-theme rounded focus:ring-green-500 focus:ring-2"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="mt-0.5 w-4 h-4 text-green-500 border rounded focus:ring-green-500 focus:ring-2"
               required
             />
             <span className="text-sm text-theme-secondary">
@@ -333,7 +338,8 @@ export default function SignUpPage() {
               type="checkbox"
               checked={newsletterOptIn}
               onChange={(e) => setNewsletterOptIn(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-green-500 bg-theme-secondary border-theme rounded focus:ring-green-500 focus:ring-2"
+              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+              className="mt-0.5 w-4 h-4 text-green-500 border rounded focus:ring-green-500 focus:ring-2"
             />
             <span className="text-sm text-theme-secondary">
               Ja, ich möchte über neue Features informiert werden (optional)
@@ -341,7 +347,7 @@ export default function SignUpPage() {
           </label>
         </div>
 
-        {/* ✅ KOMPAKTE Sign Up Button */}
+        {/* Sign Up Button */}
         <button
           type="submit"
           disabled={loading}
@@ -358,18 +364,19 @@ export default function SignUpPage() {
         </button>
       </form>
 
-      {/* ✅ KOMPAKTE Divider */}
+      {/* Divider */}
       <div className="flex items-center gap-3 my-4">
-        <div className="flex-1 h-px bg-theme"></div>
-        <span className="text-xs text-theme-muted">oder</span>
-        <div className="flex-1 h-px bg-theme"></div>
+        <div style={{ backgroundColor: 'var(--border-color)' }} className="flex-1 h-px"></div>
+        <span className="text-xs text-theme-secondary">oder</span>
+        <div style={{ backgroundColor: 'var(--border-color)' }} className="flex-1 h-px"></div>
       </div>
 
-      {/* ✅ KOMPAKTE Google Sign Up */}
+      {/* Google Sign Up */}
       <button
         onClick={handleGoogleSignUp}
         disabled={loading}
-        className="w-full py-2.5 bg-theme-secondary hover:bg-theme-tertiary border border-theme text-theme-primary font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+        style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+        className="w-full py-2.5 hover:bg-theme-hover border text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24">
           <path
@@ -392,7 +399,7 @@ export default function SignUpPage() {
         Mit Google registrieren
       </button>
 
-      {/* ✅ KOMPAKTE Sign In Link */}
+      {/* Sign In Link */}
       <div className="text-center mt-4">
         <p className="text-theme-secondary text-xs">
           Bereits einen Account?{' '}
@@ -405,9 +412,9 @@ export default function SignUpPage() {
         </p>
       </div>
 
-      {/* ✅ KOMPAKTE Trust Indicators */}
+      {/* Trust Indicators */}
       <div className="mt-6 text-center">
-        <div className="flex items-center justify-center gap-4 text-xs text-theme-muted">
+        <div className="flex items-center justify-center gap-4 text-xs text-theme-secondary">
           <div className="flex items-center gap-1">
             <div className="w-1 h-1 bg-green-500 rounded-full"></div>
             <span>Kostenlos starten</span>

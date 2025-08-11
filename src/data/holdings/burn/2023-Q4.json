@@ -9,231 +9,543 @@
       "name": "TotalEnergies SE ADR",
       "cusip": "89151E109",
       "shares": 1551641,
-      "value": 102035912
+      "value": 102035912,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Flex Ltd",
       "cusip": "Y2573F102",
       "shares": 3743268,
-      "value": 100993370
+      "value": 100993370,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Vistra Corp",
       "cusip": "92840M102",
       "shares": 2869177,
-      "value": 95199292
+      "value": 95199292,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Wells Fargo & Company",
       "cusip": "949746101",
       "shares": 2303746,
-      "value": 94131062
+      "value": 94131062,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Avantor, Inc",
       "cusip": "05352A100",
       "shares": 3989327,
-      "value": 84095013
+      "value": 84095013,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Capital One Financial Corp",
       "cusip": "14040H105",
       "shares": 866496,
-      "value": 84093437
+      "value": 84093437,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "GE HealthCare Technologies",
       "cusip": "36266G107",
       "shares": 1209168,
-      "value": 82271791
+      "value": 82271791,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "General Motors Company",
       "cusip": "37045V100",
       "shares": 2477454,
-      "value": 81681659
+      "value": 81681659,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Teva Pharmaceutil Industries Ltd ADR",
       "cusip": "881624209",
       "shares": 7920712,
-      "value": 80791262
+      "value": 80791262,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "PVH Corp",
       "cusip": "693656100",
       "shares": 1042398,
-      "value": 79753871
+      "value": 79753871,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Micron Technology, Inc",
       "cusip": "595112103",
       "shares": 1119863,
-      "value": 76184280
+      "value": 76184280,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Huntington Ingalls Industries, Inc",
       "cusip": "446413106",
       "shares": 365105,
-      "value": 74693181
+      "value": 74693181,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Kinder Morgan, Inc",
       "cusip": "49456B101",
       "shares": 4467037,
-      "value": 74063473
+      "value": 74063473,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "FedEx Corporation",
       "cusip": "31428X106",
       "shares": 274890,
-      "value": 72823859
+      "value": 72823859,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Merck & Co. Inc",
       "cusip": "58933Y105",
       "shares": 703293,
-      "value": 72404015
+      "value": 72404015,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Boeing Company",
       "cusip": "097023105",
       "shares": 373084,
-      "value": 71512741
+      "value": 71512741,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Berkshire Hathaway, Inc Cl B",
       "cusip": "084670702",
       "shares": 203141,
-      "value": 71160293
+      "value": 71160293,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Centene Corporation",
       "cusip": "15135B101",
       "shares": 1022400,
-      "value": 70422912
+      "value": 70422912,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Fidelity National Information Services",
       "cusip": "31620M106",
       "shares": 1245291,
-      "value": 68827233
+      "value": 68827233,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "NXP Semiconductors NV",
       "cusip": "N6596X109",
       "shares": 342962,
-      "value": 68564963
+      "value": 68564963,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "The Kraft Heinz Company",
       "cusip": "500754106",
       "shares": 1991764,
-      "value": 67002941
+      "value": 67002941,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Cardinal Health, Inc",
       "cusip": "14149Y108",
       "shares": 765334,
-      "value": 66446298
+      "value": 66446298,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Elevance Health, Inc",
       "cusip": "036752103",
       "shares": 150177,
-      "value": 65390069
+      "value": 65390069,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Hologic Inc",
       "cusip": "436440101",
       "shares": 926165,
-      "value": 64275851
+      "value": 64275851,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Acuity Brands, Inc",
       "cusip": "00508Y102",
       "shares": 358179,
-      "value": 61001466
+      "value": 61001466,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Organon & Company",
       "cusip": "68622V106",
       "shares": 3458615,
-      "value": 60041556
+      "value": 60041556,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Oracle Corporation",
       "cusip": "68389X105",
       "shares": 564515,
-      "value": 59793429
+      "value": 59793429,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Analog Devices, Inc",
       "cusip": "032654105",
       "shares": 340732,
-      "value": 59658766
+      "value": 59658766,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Constellation Energy Corporation",
       "cusip": "21037T109",
       "shares": 530594,
-      "value": 57877194
+      "value": 57877194,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Cleveland-Cliffs Inc",
       "cusip": "185899101",
       "shares": 3702768,
-      "value": 57874264
+      "value": 57874264,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "PACCAR Inc",
       "cusip": "693718108",
       "shares": 662121,
-      "value": 56293527
+      "value": 56293527,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Baker Hughes Company",
       "cusip": "05722G100",
       "shares": 1588700,
-      "value": 56112884
+      "value": 56112884,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Pfizer Inc",
       "cusip": "717081103",
       "shares": 1665647,
-      "value": 55249511
+      "value": 55249511,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Lennar Corporation",
       "cusip": "526057104",
       "shares": 491786,
-      "value": 55193143
+      "value": 55193143,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Cisco Systems, Inc",
       "cusip": "17275R102",
       "shares": 1018729,
-      "value": 54766871
+      "value": 54766871,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Applied Materials, Inc",
       "cusip": "038222105",
       "shares": 390197,
-      "value": 54022775
+      "value": 54022775,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Conagra Brands, Inc",
       "cusip": "205887102",
       "shares": 1522008,
-      "value": 41733459
+      "value": 41733459,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Bath & Body Works, Inc",
       "cusip": "070830104",
       "shares": 397148,
-      "value": 13423602
+      "value": 13423602,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     }
   ],
   "totalValue": 2611861225,
-  "positionsCount": 38
+  "positionsCount": 38,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 2611861225
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

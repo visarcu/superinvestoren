@@ -1,4 +1,68 @@
 /* src/app/globals.css - ULTRA CLEAN: NO CHART BORDERS */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+
+/* ===== SUPERINVESTOR DESIGN SYSTEM ===== */
+:root {
+  /* Core Colors - Minimalistisch wie Homepage */
+  --si-bg-primary: #0A0A0B;
+  --si-bg-secondary: #111113;
+  --si-bg-card: #161618;
+  --si-bg-card-hover: #1A1A1D;
+  
+  /* Text Colors */
+  --si-text-primary: #FFFFFF;
+  --si-text-secondary: #A1A1AA;
+  --si-text-muted: #71717A;
+  --si-text-dim: #52525B;
+  
+  /* Accent - Nur Grün! */
+  --si-accent: #10B981;
+  --si-accent-hover: #059669;
+  --si-accent-muted: rgba(16, 185, 129, 0.1);
+  
+  /* Status Colors - Sparsam verwenden */
+  --si-positive: #10B981;
+  --si-negative: #EF4444;
+  --si-neutral: #6B7280;
+  
+  /* Borders - Ultra subtil */
+  --si-border: rgba(255, 255, 255, 0.06);
+  --si-border-hover: rgba(255, 255, 255, 0.1);
+  
+  /* Spacing Scale */
+  --si-space-xs: 0.5rem;
+  --si-space-sm: 1rem;
+  --si-space-md: 1.5rem;
+  --si-space-lg: 2rem;
+  --si-space-xl: 3rem;
+  --si-space-2xl: 4rem;
+  --si-space-3xl: 6rem;
+}
+
+/* Utility Classes */
+.si-card {
+  background: var(--si-bg-card);
+  border-radius: 1rem;
+  transition: all 0.2s ease;
+}
+
+.si-card:hover {
+  background: var(--si-bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.si-glow {
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.1);
+}
+
+.si-text-gradient {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -94,10 +158,10 @@ html {
 /* ===== DARK THEME ===== */
 .dark {
   /* Dark Theme Colors */
-  --bg-primary: #11171d;
-  --bg-secondary: #11171d;
-  --bg-tertiary: #2a2f38;
-  --bg-card: #232931;
+  --bg-primary: #0d0d0e;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  --bg-card: #2a2a2a;
   --bg-hover: #2a2f38;
   --bg-active: #3a4553;
 
@@ -808,4 +872,378 @@ body {
 
 .markdown-content pre {
   @apply bg-gray-900 border border-white/10 rounded-lg p-4 overflow-x-auto;
+}
+
+/* ===== LIGHT THEME CARD SHADOWS ===== */
+.light .bg-theme-card,
+.light .professional-card,
+.light .chart-container,
+.light .financial-chart-container,
+.light .metric-card,
+.light .metrics-section,
+.light .performance-card,
+.light .card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+.light .bg-theme-card:hover,
+.light .professional-card:hover,
+.light .chart-container:hover,
+.light .financial-chart-container:hover,
+.light .metric-card:hover,
+.light .metrics-section:hover,
+.light .performance-card:hover,
+.light .card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ===== LIGHT THEME SUBTLE BORDERS ===== */
+.light .bg-theme-card,
+.light .professional-card,
+.light .chart-container,
+.light .financial-chart-container,
+.light .metric-card,
+.light .metrics-section,
+.light .performance-card,
+.light .card {
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.light .bg-theme-card:hover,
+.light .professional-card:hover,
+.light .chart-container:hover,
+.light .financial-chart-container:hover,
+.light .metric-card:hover,
+.light .metrics-section:hover,
+.light .performance-card:hover,
+.light .card:hover {
+  border-color: rgba(203, 213, 225, 1) !important;
+}
+
+/* ===== DARK THEME BLEIBT OHNE SCHATTEN ===== */
+.dark .bg-theme-card,
+.dark .professional-card,
+.dark .chart-container,
+.dark .financial-chart-container,
+.dark .metric-card,
+.dark .metrics-section,
+.dark .performance-card,
+.dark .card {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* ===== LIGHT THEME BUTTONS MIT SCHATTEN ===== */
+.light .btn-primary {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .btn-primary:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+.light .btn-secondary {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(226, 232, 240, 1) !important;
+}
+
+.light .btn-secondary:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border-color: rgba(203, 213, 225, 1) !important;
+}
+
+/* ===== LIGHT THEME TOOLTIP SHADOWS ===== */
+.light .recharts-default-tooltip {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(226, 232, 240, 1) !important;
+}
+
+/* ===== SPECIAL CONTAINER SHADOWS FÜR LIGHT THEME ===== */
+.light .top-buys-container,
+.light .charts-grid > *,
+.light .metrics-grid > * {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.light .top-buys-container:hover,
+.light .charts-grid > *:hover,
+.light .metrics-grid > *:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border-color: rgba(203, 213, 225, 1) !important;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.glow-white {
+  box-shadow: 
+    0 0 20px rgba(255,255,255,0.5),
+    0 0 40px rgba(255,255,255,0.3),
+    0 0 60px rgba(255,255,255,0.1);
+}
+
+.glow-green {
+  box-shadow: 
+    0 0 20px rgba(34,197,94,0.5),
+    0 0 40px rgba(34,197,94,0.3),
+    0 0 60px rgba(34,197,94,0.1);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Der Quartr-Glow für Buttons */
+.glow-button {
+  position: relative;
+  background: white;
+  color: black;
+  font-weight: 500;
+  padding: 16px 32px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.glow-button::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(255,255,255,0.5) 50%, 
+    transparent 70%
+  );
+  border-radius: 12px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+  filter: blur(15px);
+}
+
+.glow-button:hover::before {
+  opacity: 1;
+}
+
+.glow-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 10px 20px rgba(255,255,255,0.1),
+    0 0 40px rgba(255,255,255,0.1);
+}
+
+/* Infinite Scroll - Bleibt zentriert */
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-infinite-scroll {
+  display: flex;
+  animation: infinite-scroll 40s linear infinite;
+}
+
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+.min-w-full {
+  min-width: 100%;
+}
+
+/* Animierter Border Slide Effect */
+@keyframes border-slide {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-border-slide {
+  animation: border-slide 3s linear infinite;
+}
+
+/* FORCE NAVBAR TO SCROLL */
+header,
+nav,
+[role="navigation"],
+.relative.z-50 {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+}
+
+/* Füge diese Styles zu deiner globals.css hinzu */
+
+/* Animation Utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.4s ease-out;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 1s linear infinite;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+/* Skeleton Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #1a1a1a 0px,
+    #2a2a2a 40px,
+    #1a1a1a 80px
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Page Transition Animations */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+/* Loading Dots Animation */
+@keyframes loading-dots {
+  0%, 20% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+}
+
+.loading-dot {
+  animation: loading-dots 1.4s infinite;
+}
+
+.loading-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Smooth Page Transitions */
+.page-content {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Optimized Hover States */
+.hover-scale {
+  transition: transform 0.2s ease-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

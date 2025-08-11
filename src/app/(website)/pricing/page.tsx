@@ -1,4 +1,4 @@
-// src/app/pricing/page.tsx - FIXED: Button Text + Badge Position
+// src/app/pricing/page.tsx - NEW THEME DESIGN
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -142,7 +142,7 @@ export default function ImprovedPricingPage() {
   // Loading State
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-950 noise-bg">
+      <div className="min-h-screen flex items-center justify-center bg-theme-bg">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
       </div>
     );
@@ -151,12 +151,12 @@ export default function ImprovedPricingPage() {
   const isPremium = premiumStatus.isPremium;
 
   return (
-    <div className="min-h-screen bg-gray-950 noise-bg">
+    <div className="min-h-screen bg-theme-bg">
       
-      {/* 🎯 HOMEPAGE-KONSISTENTE Hero Section */}
-      <div className="bg-gray-950 noise-bg pt-32 pb-20 relative overflow-hidden">
+      {/* Hero Section */}
+      <div className="bg-theme-bg pt-40 pb-16 relative overflow-hidden">
         
-        {/* 🌟 Gleiche Background Glows wie Homepage */}
+        {/* Background Glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
         <div className="absolute top-20 right-0 w-[600px] h-[300px] bg-green-500/2 rounded-full blur-3xl"></div>
         
@@ -174,7 +174,7 @@ export default function ImprovedPricingPage() {
                     </span>
                   </h2>
                 </div>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-xl text-theme-secondary max-w-3xl mx-auto leading-relaxed">
                   Vielen Dank für dein Vertrauen! Du hast jetzt Zugang zu allen Premium-Features und der vollen Power von FinClue.
                 </p>
               </>
@@ -190,13 +190,13 @@ export default function ImprovedPricingPage() {
                     </span>
                   </h2>
                 </div>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-xl text-theme-secondary max-w-3xl mx-auto leading-relaxed">
                   Transparente Preise. Keine versteckten Kosten. 14 Tage kostenlos testen. Jederzeit kündbar.
                 </p>
               </>
             )}
 
-            {/* 🎯 CTA Buttons wie auf Homepage - FIXED BUTTON TEXT */}
+            {/* CTA Buttons */}
             {!isPremium && (
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
@@ -207,7 +207,8 @@ export default function ImprovedPricingPage() {
                 </Link>
                 <Link
                   href="/analyse"
-                  className="px-6 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition border border-gray-700"
+                  style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                  className="px-6 py-3 text-white font-medium rounded-lg hover:bg-theme-hover transition border"
                 >
                   Bei Basic bleiben
                 </Link>
@@ -217,41 +218,44 @@ export default function ImprovedPricingPage() {
         </div>
       </div>
 
-      {/* 🎯 HOMEPAGE-KONSISTENTE Platform Preview */}
-      <div className="bg-gray-950 noise-bg py-20 border-t border-gray-800/50" id="pricing">
+      {/* Platform Preview */}
+      <div className="bg-theme-bg py-16" style={{ borderColor: 'var(--border-color)' }} 
+           id="pricing">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* 🌟 Stats Grid wie auf Homepage */}
-          <div className="grid grid-cols-3 gap-8 text-center mb-20">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-3 gap-8 text-center mb-16">
             <div className="p-4">
               <div className="text-3xl font-bold text-white numeric mb-1">14</div>
-              <div className="text-xs text-gray-500">Tage kostenlos</div>
+              <div className="text-xs text-theme-secondary">Tage kostenlos</div>
             </div>
             <div className="p-4">
               <div className="text-3xl font-bold text-white numeric mb-1">9€</div>
-              <div className="text-xs text-gray-500">Pro Monat</div>
+              <div className="text-xs text-theme-secondary">Pro Monat</div>
             </div>
             <div className="p-4">
               <div className="text-3xl font-bold text-white numeric mb-1">154</div>
-              <div className="text-xs text-gray-500">Jahre Daten</div>
+              <div className="text-xs text-theme-secondary">Jahre Daten</div>
             </div>
           </div>
 
-          {/* 🎯 VERBESSERTE Pricing Cards */}
+          {/* Pricing Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            {/* 🌟 Free Plan - Homepage Style */}
-            <div className="bg-gray-900/80 border border-gray-800 rounded-xl p-8 backdrop-blur-sm relative">
+            {/* Free Plan */}
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-xl p-8 backdrop-blur-sm relative">
               <div className="absolute inset-0 bg-gray-500/2 rounded-xl blur-xl -z-10"></div>
               
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gray-700/50 rounded-lg flex items-center justify-center">
-                    <span className="text-gray-300 font-bold">💝</span>
+                  <div style={{ backgroundColor: 'var(--bg-card)' }}
+                       className="w-10 h-10 rounded-lg flex items-center justify-center">
+                    <span className="text-theme-secondary font-bold">💝</span>
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-white">Free Lunch</h3>
-                    <p className="text-gray-400 text-sm">Für immer kostenlos</p>
+                    <p className="text-theme-secondary text-sm">Für immer kostenlos</p>
                   </div>
                 </div>
               </div>
@@ -264,14 +268,15 @@ export default function ImprovedPricingPage() {
                         <Check className="w-3 h-3 text-green-400" />
                       </div>
                     ) : (
-                      <div className="w-5 h-5 bg-gray-700/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <X className="w-3 h-3 text-gray-500" />
+                      <div style={{ backgroundColor: 'var(--bg-card)' }}
+                           className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <X className="w-3 h-3 text-theme-secondary" />
                       </div>
                     )}
                     <span className={`text-sm ${
                       feature.included 
-                        ? 'text-gray-300' 
-                        : 'text-gray-500'
+                        ? 'text-theme-secondary' 
+                        : 'text-theme-secondary opacity-60'
                     }`}>
                       {feature.name}
                     </span>
@@ -280,22 +285,24 @@ export default function ImprovedPricingPage() {
               </ul>
 
               <button 
-                className="w-full py-3 px-4 bg-gray-800/50 text-gray-400 font-medium rounded-lg cursor-not-allowed text-sm border border-gray-700"
+                style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                className="w-full py-3 px-4 text-theme-secondary font-medium rounded-lg cursor-not-allowed text-sm border"
                 disabled
               >
                 {user ? 'Aktueller Plan' : 'Kostenlos starten'}
               </button>
             </div>
 
-            {/* 🌟 Premium Plan - FIXED BADGE POSITION */}
-            <div className="bg-gray-900/80 border border-gray-800 rounded-xl p-8 relative overflow-hidden pt-16">
+            {/* Premium Plan */}
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-xl p-8 relative overflow-hidden pt-12">
               
-              {/* 🌟 Premium Glow Effects wie Homepage */}
+              {/* Premium Glow Effects */}
               <div className="absolute inset-0 bg-green-500/5 rounded-xl blur-xl -z-10"></div>
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
               <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
               
-              {/* 🌟 Popular Badge - FIXED POSITION */}
+              {/* Popular Badge */}
               {!isPremium && (
                 <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-10">
                   <div className="bg-green-500 text-black px-4 py-1 rounded-md text-xs font-bold uppercase tracking-wider flex items-center gap-1 shadow-lg">
@@ -314,17 +321,17 @@ export default function ImprovedPricingPage() {
                     <h3 className="text-2xl font-bold text-white">
                       Premium {isPremium && '✓'}
                     </h3>
-                    <p className="text-gray-300 text-sm">Deine Investment-Zentrale</p>
+                    <p className="text-theme-secondary text-sm">Deine Investment-Zentrale</p>
                   </div>
                 </div>
                 
                 <div className="space-y-2">
                   <div className="flex items-baseline gap-1">
                     <span className="text-4xl font-bold text-white numeric">9</span>
-                    <span className="text-xl text-gray-300">€</span>
-                    <span className="text-sm text-gray-400 ml-1">/Monat</span>
+                    <span className="text-xl text-theme-secondary">€</span>
+                    <span className="text-sm text-theme-secondary ml-1">/Monat</span>
                   </div>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-theme-secondary text-sm">
                     Erste 14 Tage kostenlos • Dann 9€/Monat • Jederzeit kündbar
                   </p>
                 </div>
@@ -339,7 +346,7 @@ export default function ImprovedPricingPage() {
                     <span className={`text-sm ${
                       feature.highlight 
                         ? 'text-green-400 font-medium' 
-                        : 'text-gray-300'
+                        : 'text-theme-secondary'
                     }`}>
                       {feature.name}
                     </span>
@@ -347,7 +354,7 @@ export default function ImprovedPricingPage() {
                 ))}
               </ul>
 
-              {/* 🌟 CTA Buttons - Homepage Style */}
+              {/* CTA Buttons */}
               {isPremium ? (
                 <div className="space-y-3">
                   <div className="w-full py-3 px-4 bg-green-500 text-black font-semibold rounded-lg text-center text-sm">
@@ -355,7 +362,8 @@ export default function ImprovedPricingPage() {
                   </div>
                   <Link
                     href="/profile"
-                    className="block w-full py-3 px-4 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition text-center text-sm border border-gray-700"
+                    style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                    className="block w-full py-3 px-4 text-white font-medium rounded-lg hover:bg-theme-hover transition text-center text-sm border"
                   >
                     Abo verwalten
                   </Link>
@@ -385,8 +393,8 @@ export default function ImprovedPricingPage() {
         </div>
       </div>
 
-      {/* 🎯 HOMEPAGE-KONSISTENTE FAQ Section */}
-      <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
+      {/* FAQ Section */}
+      <section className="bg-theme-bg py-20" style={{ borderColor: 'var(--border-color)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
@@ -403,39 +411,43 @@ export default function ImprovedPricingPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             
-            {/* FAQ Cards - Homepage Style */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+            {/* FAQ Cards */}
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-xl p-6 backdrop-blur-sm">
               <h3 className="font-semibold text-white mb-3 text-lg">
                 Kann ich jederzeit kündigen?
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-theme-secondary leading-relaxed">
                 Ja, absolut! Du kannst jederzeit ohne Kündigungsfrist kündigen. Du behältst Zugang zu allen Premium-Features bis zum Ende deiner Abrechnungsperiode.
               </p>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-xl p-6 backdrop-blur-sm">
               <h3 className="font-semibold text-white mb-3 text-lg">
                 Sind meine Daten sicher?
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-theme-secondary leading-relaxed">
                 Ja, definitiv! Alle Zahlungen werden sicher über Stripe verarbeitet. Wir speichern keine Kreditkarten-Daten und sind DSGVO-konform.
               </p>
             </div>
 
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-xl p-6 backdrop-blur-sm">
               <h3 className="font-semibold text-white mb-3 text-lg">
                 Was passiert nach der Testphase?
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-theme-secondary leading-relaxed">
                 Nach 14 Tagen kostenlosem Testen wird automatisch das monatliche Abo für 9€ aktiviert. Du kannst jederzeit vorher kündigen - ohne Kosten.
               </p>
             </div>
             
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className=" rounded-xl p-6 backdrop-blur-sm">
               <h3 className="font-semibold text-white mb-3 text-lg">
                 Welche Zahlungsmethoden akzeptiert ihr?
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-theme-secondary leading-relaxed">
                 Wir akzeptieren alle gängigen Kreditkarten, SEPA-Lastschrift und weitere Zahlungsmethoden über unseren Partner Stripe.
               </p>
             </div>
@@ -443,9 +455,9 @@ export default function ImprovedPricingPage() {
         </div>
       </section>
 
-      {/* 🎯 HOMEPAGE-KONSISTENTE Bottom CTA - FIXED BUTTON TEXT */}
+      {/* Bottom CTA */}
       {!isPremium && (
-        <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
+        <section className="bg-theme-bg py-24" style={{ borderColor: 'var(--border-color)' }}>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             {/* Background Glow */}
             <div className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-green-500/3 rounded-full blur-3xl"></div>
@@ -458,7 +470,7 @@ export default function ImprovedPricingPage() {
                 </span>
               </h2>
               
-              <p className="text-xl text-gray-400 leading-relaxed mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-theme-secondary leading-relaxed mb-8 max-w-2xl mx-auto">
                 Starte noch heute mit der 14-tägigen kostenlosen Testphase und entdecke alle Premium-Features.
               </p>
               
@@ -489,7 +501,8 @@ export default function ImprovedPricingPage() {
                 
                 <Link
                   href="/analyse"
-                  className="px-8 py-4 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition border border-gray-700"
+                  style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                  className="px-8 py-4 text-white font-medium rounded-lg hover:bg-theme-hover transition border"
                 >
                   Bei Basic bleiben
                 </Link>
@@ -501,14 +514,15 @@ export default function ImprovedPricingPage() {
 
       {/* Premium User Management */}
       {isPremium && (
-        <section className="bg-gray-950 noise-bg py-24 border-t border-gray-800/50">
+        <section className="bg-theme-bg py-24" style={{ borderColor: 'var(--border-color)' }}>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
+            <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
+                 className="border rounded-xl p-8 backdrop-blur-sm">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <Sparkles className="w-6 h-6 text-green-400" />
                 <h3 className="text-xl font-semibold text-white">Premium Aktiv</h3>
               </div>
-              <p className="text-gray-400 mb-6">
+              <p className="text-theme-secondary mb-6">
                 Du kannst dein Abonnement jederzeit in den Profileinstellungen verwalten.
               </p>
               <Link

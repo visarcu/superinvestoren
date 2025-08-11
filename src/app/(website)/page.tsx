@@ -229,101 +229,115 @@ export default function ProfessionalHomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-theme-primary">
       
-      {/* 🏛️ PROFESSIONAL HERO - Dezent */}
-      <div className="bg-gray-950 pt-40 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          
-          {/* Minimaler Background */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-white/1 rounded-full blur-3xl"></div>
-          
-          <div className="relative text-center space-y-8">
-            
-            {/* Professional Heading */}
-            <div className="space-y-4">
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
-                Professionelle
-              </h1>
-              <h2 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight">
-                <span className="text-gray-300">
-                  Aktienanalyse
-                </span>
-              </h2>
-            </div>
-            
-            {/* Subtitle */}
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Profi-Tools für die Aktienanalyse. Fundamentaldaten, Investor-Portfolios 
-              und KI-Insights – alles in einem Terminal.
-            </p>
+     <br /><br /><br />
 
-            {/* CTA Buttons - Nur EINER mit Grün */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/analyse"
-                className="px-8 py-4 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-green-500/25"
-              >
-                Terminal öffnen
-              </Link>
-              <Link
-                href="/superinvestor"
-                className="px-8 py-4 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 transition border border-gray-700"
-              >
-                Portfolio-Tracking
-              </Link>
-            </div>
+{/* 🏛️ PROFESSIONAL HERO - Quartr Style */}
+<div className="bg-theme-primary pt-32 pb-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          
+          {/* Subtle Glow Background */}
+          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-green-500/5 rounded-full blur-[100px]"></div>
+          
+          <div className="relative text-center space-y-6">
+      {/* Headlines - Eleganter & Dünner */}
+<div className="space-y-2">
+<h1 className="text-5xl md:text-7xl lg:text-8xl text-white leading-[0.9] tracking-[-0.03em]" 
+    style={{ fontFamily: 'Inter, sans-serif', fontWeight: 200 }}>
+  Professionelle
+</h1>
+<h2 className="text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-[-0.03em]" 
+    style={{ fontFamily: 'Inter, sans-serif', fontWeight: 200 }}>
+  <span className="text-gray-400">
+    Aktienanalyse
+  </span>
+</h2>
+</div>
+
+{/* Subtitle auch eleganter */}
+<p className="text-lg md:text-xl text-gray-500 max-w-xl mx-auto font-light">
+  Institutionelle Daten. Ein Terminal.
+</p>
+            {/* CTAs mit Quartr-Glow */}
+     {/* CTAs mit Quartr-Glow */}
+<div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+  {/* Primary Button mit MEGA GLOW */}
+  <Link href="/analyse" className="relative group">
+    <div className="relative z-10 px-8 py-4 bg-white text-black font-medium rounded-xl transition-all hover:scale-[1.02]" 
+         style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+      Terminal öffnen
+    </div>
+    {/* Multi-Layer Glow Effect */}
+    <div className="absolute inset-0 bg-white/20 blur-lg rounded-xl opacity-60"></div>
+    <div className="absolute inset-0 bg-white/10 blur-xl rounded-xl scale-110 opacity-40 group-hover:opacity-60 transition-opacity"></div>
+    <div className="absolute inset-0 bg-white/5 blur-2xl rounded-xl scale-125 opacity-20 group-hover:opacity-40 transition-opacity"></div>
+  </Link>
+  
+
+{/* Secondary Button MIT IMMER sichtbarem animierten Border */}
+<Link href="/superinvestor" className="relative group">
+  <div className="relative px-8 py-4 text-gray-300 font-medium rounded-xl transition-all hover:text-white" 
+       style={{ fontFamily: 'Inter, sans-serif' }}>
+    {/* Der Text */}
+    <span className="relative z-10">Portfolio-Tracking →</span>
+    
+    {/* Animierter Border Background - IMMER SICHTBAR */}
+    <div className="absolute inset-0 rounded-xl p-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent bg-[length:200%_100%] animate-border-slide"></div>
+    
+    {/* Inner Background */}
+    <div className="absolute inset-[1px] bg-black rounded-xl"></div>
+  </div>
+</Link>
+
+
+</div>
           </div>
         </div>
       </div>
 
-{/* 📊 STATS SECTION - Fokus auf Zahlen */}
-<div className="bg-gray-950 py-20 border-t border-gray-800/50">
+
+
+
+{/* 📊 STATS SECTION - Quartr Style */}
+<div className="bg-theme-primary py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Stats Grid - Responsive: 2 Spalten auf Mobile, 4 auf Desktop */}
-          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center mb-20">
-            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
+          {/* Stats Grid - Quartr Style ohne Boxen */}
+          <div ref={statsRef} className="flex justify-center items-center divide-x divide-gray-600/30 mb-20">
+            <div className={`px-8 md:px-16 text-center transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}>
-              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
+              <div className="text-3xl md:text-4xl font-bold text-white numeric mb-2">
                 {useCountUp(10000, 2000, statsVisible).toLocaleString('de-DE')}+
               </div>
-              <div className="text-xs md:text-sm text-gray-400">Aktien & ETFs</div>
+              <div className="text-sm md:text-base text-gray-400">Aktien & ETFs</div>
             </div>
-            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
+            <div className={`px-8 md:px-16 text-center transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`} style={{ transitionDelay: '200ms' }}>
-              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
+              <div className="text-3xl md:text-4xl font-bold text-white numeric mb-2">
                 {useCountUp(15, 2200, statsVisible)}
               </div>
-              <div className="text-xs md:text-sm text-gray-400">Jahre Historie</div>
+              <div className="text-sm md:text-base text-gray-400">Jahre Historie</div>
             </div>
-            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
+            <div className={`px-8 md:px-16 text-center transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`} style={{ transitionDelay: '400ms' }}>
-              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
-                {useCountUp(70, 2400, statsVisible)}+
+              <div className="text-3xl md:text-4xl font-bold text-white numeric mb-2">
+                {useCountUp(90, 2400, statsVisible)}+
               </div>
-              <div className="text-xs md:text-sm text-gray-400">Super-Investoren</div>
-            </div>
-            <div className={`p-4 md:p-6 bg-gray-900/50 border border-gray-800 rounded-xl transform transition-all duration-1000 ${
-              statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`} style={{ transitionDelay: '600ms' }}>
-              <div className="text-2xl md:text-3xl font-bold text-white numeric mb-2">
-                24/7
-              </div>
-              <div className="text-xs md:text-sm text-gray-400">Live-Daten</div>
+              <div className="text-sm md:text-base text-gray-400">Super-Investoren</div>
             </div>
           </div>
-
+          
           {/* Platform Preview Section */}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
                 <ChartBarIcon className="w-4 h-4" />
                 Analyse Terminal
               </div>
@@ -342,7 +356,8 @@ export default function ProfessionalHomePage() {
               
               <Link
                 href="/analyse"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-200 border border-gray-700"
+                style={{ backgroundColor: 'var(--bg-card)' }}
+                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
               >
                 Terminal testen
                 <ArrowRightIcon className="w-4 h-4" />
@@ -351,12 +366,12 @@ export default function ProfessionalHomePage() {
 
             {/* Right: Professional Terminal Preview */}
             <div ref={chartRef} className="relative">
-              <div className={`bg-gray-900 border border-gray-700 rounded-xl p-6 transform transition-all duration-1000 ${
+              <div className={`bg-theme-card rounded-xl p-6 transform transition-all duration-1000 ${
                 chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}>
                 
                 {/* Terminal Header */}
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-700">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
                   <div className="w-8 h-8 rounded-lg overflow-hidden">
                     <Image
                       src="/logos/aapl.png"
@@ -388,10 +403,13 @@ export default function ProfessionalHomePage() {
                   ].map((metric, index) => (
                     <div 
                       key={metric.label}
-                      className={`bg-gray-800 rounded-lg p-3 transform transition-all duration-500 ${
+                      style={{ 
+                        backgroundColor: 'var(--bg-tertiary)',
+                        transitionDelay: `${800 + index * 100}ms`
+                      }}
+                      className={`rounded-lg p-3 transform transition-all duration-500 ${
                         chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                      }`} 
-                      style={{ transitionDelay: `${800 + index * 100}ms` }}
+                      }`}
                     >
                       <div className="text-xs text-gray-400 mb-1">{metric.label}</div>
                       <div className="flex items-center justify-between">
@@ -405,7 +423,7 @@ export default function ProfessionalHomePage() {
                 </div>
 
                 {/* Mini Chart - Subtil mit Blau */}
-                <div className="bg-gray-800 rounded-lg p-4">
+                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="rounded-lg p-4">
                   <div className="text-xs text-gray-400 mb-2">Kursverlauf (6M)</div>
                   <div className="flex items-end gap-1 h-12">
                     {[40, 45, 35, 50, 65, 55, 70, 60, 75, 85, 80, 90].map((height, i) => (
@@ -423,7 +441,7 @@ export default function ProfessionalHomePage() {
               </div>
 
               {/* Floating Info Card - Minimal */}
-              <div className={`absolute -right-4 -bottom-4 bg-gray-900 border border-gray-600 rounded-lg p-4 transform transition-all duration-1000 ${
+              <div className={`absolute -right-4 -bottom-4 bg-theme-card rounded-lg p-4 transform transition-all duration-1000 ${
                 chartVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'
               }`} style={{ transitionDelay: '1400ms' }}>
                 <div className="flex items-center gap-2 mb-2">
@@ -444,19 +462,21 @@ export default function ProfessionalHomePage() {
         </div>
       </div>
 
+      
+
       {/* 📈 FUNDAMENTALS SECTION - Minimal */}
-      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
+      <section className="bg-theme-primary py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left: Realistic Chart */}
             <div ref={marketChartRef} className="relative">
-              <div className={`bg-gray-900 border border-gray-700 rounded-xl p-8 transform transition-all duration-1000 ${
+              <div className={`bg-theme-card rounded-xl p-8 transform transition-all duration-1000 ${
                 marketChartVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}>
                 
                 {/* Chart Header */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-700">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg overflow-hidden bg-white">
                       <Image
@@ -479,7 +499,7 @@ export default function ProfessionalHomePage() {
                 </div>
 
                 {/* Professional Chart */}
-                <div className="h-48 bg-gray-800 rounded-lg p-4 relative overflow-hidden">
+                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="h-48 rounded-lg p-4 relative overflow-hidden">
                   <svg className="w-full h-full" viewBox="0 0 400 160">
                     {/* Grid */}
                     <defs>
@@ -566,7 +586,7 @@ export default function ProfessionalHomePage() {
 
             {/* Right: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
                 <ArrowTrendingUpIcon className="w-4 h-4" />
                 Fundamentalanalyse
               </div>
@@ -586,22 +606,23 @@ export default function ProfessionalHomePage() {
               
               <div className="space-y-3 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">15+ Jahre Jahresabschlüsse & Quartalszahlen</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">60+ Fundamentale Kennzahlen (KGV, KBV, ROE, etc.)</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">Peer-Vergleiche & Branchen-Benchmarks</span>
                 </div>
               </div>
               
               <Link
                 href="/analyse"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-200 border border-gray-700"
+                style={{ backgroundColor: 'var(--bg-card)' }}
+                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
               >
                 Fundamentaldaten analysieren
                 <ArrowRightIcon className="w-4 h-4" />
@@ -611,14 +632,68 @@ export default function ProfessionalHomePage() {
         </div>
       </section>
 
+{/* LOGO CAROUSEL - Ohne Lücke */}
+<div className="bg-theme-primary py-16 overflow-hidden border-t border-b border-white/5">
+<div className="text-center mb-8">
+<p className="text-xs text-gray-600 uppercase tracking-wider font-medium">
+Analysiere die besten Unternehmen der Welt</p>
+  </div>
+  
+  <div className="relative max-w-7xl mx-auto overflow-hidden">
+    <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-[#0d0d0e] to-transparent z-10 pointer-events-none"></div>
+    <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#0d0d0e] to-transparent z-10 pointer-events-none"></div>
+    
+    <div className="flex animate-infinite-scroll">
+      {/* Erste Gruppe - Mehr Logos! */}
+      <div className="flex items-center justify-center min-w-full gap-12 px-8">
+        <Image src="/logos/aapl.png" alt="Apple" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/msft.png" alt="Microsoft" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/googl.png" alt="Google" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/amzn.png" alt="Amazon" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/nvda.png" alt="NVIDIA" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/tsla.png" alt="Tesla" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/meta.png" alt="Meta" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/wmt.png" alt="Walmart" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/v.png" alt="Visa" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/jpm.png" alt="JPMorgan" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/wmt.png" alt="Walmart" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/dis.png" alt="Disney" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/pypl.png" alt="Paypal" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/csco.png" alt="Cisco" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/crm.png" alt="Salesforce" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+     
+      </div>
+      {/* Zweite Gruppe - Duplikat */}
+      <div className="flex items-center justify-center min-w-full gap-12 px-8">
+        <Image src="/logos/aapl.png" alt="Apple" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/msft.png" alt="Microsoft" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/googl.png" alt="Google" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/amzn.png" alt="Amazon" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/nvda.png" alt="NVIDIA" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/tsla.png" alt="Tesla" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/meta.png" alt="Meta" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/wmt.png" alt="Walmart" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/v.png" alt="Visa" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/jpm.png" alt="JPMorgan" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/wmt.png" alt="Walmart" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/dis.png" alt="Disney" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/pypl.png" alt="Paypal" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/csco.png" alt="Cisco" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+        <Image src="/logos/crm.png" alt="Salesforce" width={40} height={40} className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+       
+      </div>
+    </div>
+  </div>
+</div>
+
       {/* 🤖 AI SECTION - Professional */}
-      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
+      <section className="bg-theme-primary py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
                 <CpuChipIcon className="w-4 h-4" />
                 Finclue AI
               </div>
@@ -638,22 +713,23 @@ export default function ProfessionalHomePage() {
               
               <div className="space-y-3 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">Live-Zugriff auf SEC 13F Filings</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">Portfolio-Analysen der Super-Investoren</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">Natürlichsprachige Finanzanalyse</span>
                 </div>
               </div>
               
               <Link
                 href="/analyse/ai" 
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-200 border border-gray-700"
+                style={{ backgroundColor: 'var(--bg-card)' }}
+                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
               >
                 KI-Assistent nutzen
                 <ArrowRightIcon className="w-4 h-4" />
@@ -662,14 +738,14 @@ export default function ProfessionalHomePage() {
 
             {/* Right: Professional AI Chat Preview */}
             <div ref={aiRef} className="relative">
-              <div className={`bg-gray-900 border border-gray-700 rounded-xl p-6 transform transition-all duration-1000 ${
+              <div className={`bg-theme-card rounded-xl p-6 transform transition-all duration-1000 ${
                 aiVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}>
                 
                 {/* Chat Header */}
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-700">
-                  <div className="w-8 h-8 bg-purple-600/20 border border-purple-500/30 rounded-lg flex items-center justify-center">
-                    <CpuChipIcon className="w-5 h-5 text-purple-400" />
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
+                  <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-8 h-8 rounded-lg flex items-center justify-center">
+                    <CpuChipIcon className="w-5 h-5 text-green-400" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">Finclue AI</h3>
@@ -689,7 +765,7 @@ export default function ProfessionalHomePage() {
                   <div className={`flex justify-end transform transition-all duration-500 ${
                     aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                   }`} style={{ transitionDelay: '500ms' }}>
-                    <div className="bg-gray-700 text-white p-3 rounded-lg max-w-xs">
+                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="text-white p-3 rounded-lg max-w-xs">
                       <p className="text-sm">Analysiere Berkshire Hathaways Q3 Portfolio-Änderungen</p>
                     </div>
                   </div>
@@ -698,10 +774,10 @@ export default function ProfessionalHomePage() {
                   <div className={`flex justify-start transform transition-all duration-500 ${
                     aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                   }`} style={{ transitionDelay: '800ms' }}>
-                    <div className="bg-gray-800 border border-gray-600 p-4 rounded-lg max-w-md">
+                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="p-4 rounded-lg max-w-md">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 bg-purple-600 rounded-full"></div>
-                        <span className="text-xs text-purple-400 font-medium">Finclue AI</span>
+                        <div className="w-3 h-3 bg-green-600 rounded-full"></div>
+                        <span className="text-xs text-green-400 font-medium">Finclue AI</span>
                       </div>
                       <p className="text-sm text-gray-300 mb-3">
                         Basierend auf dem aktuellen 13F Filing (Q3 2024):
@@ -727,7 +803,7 @@ export default function ProfessionalHomePage() {
                   <div className={`flex justify-end transform transition-all duration-500 ${
                     aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                   }`} style={{ transitionDelay: '1200ms' }}>
-                    <div className="bg-gray-700 text-white p-3 rounded-lg max-w-xs">
+                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="text-white p-3 rounded-lg max-w-xs">
                       <p className="text-sm">Zeige mir Apples Q3 Quartalszahlen</p>
                     </div>
                   </div>
@@ -737,12 +813,12 @@ export default function ProfessionalHomePage() {
                 <div className={`flex items-center gap-2 text-gray-400 transform transition-all duration-500 ${
                   aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                 }`} style={{ transitionDelay: '1500ms' }}>
-                  <div className="w-3 h-3 bg-purple-600 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-600 rounded-full"></div>
                   <span className="text-xs">Analysiere AAPL 10-Q Filing...</span>
                   <div className="flex gap-1">
-                    <div className="w-1 h-1 bg-purple-400 rounded-full animate-bounce"></div>
-                    <div className="w-1 h-1 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-1 h-1 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-1 h-1 bg-green-400 rounded-full animate-bounce"></div>
+                    <div className="w-1 h-1 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-1 h-1 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
               </div>
@@ -752,13 +828,13 @@ export default function ProfessionalHomePage() {
       </section>
 
       {/* 📊 PORTFOLIO TRACKING - Professional */}
-      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
+      <section className="bg-theme-primary py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
                 <BuildingOfficeIcon className="w-4 h-4" />
                 Portfolio-Tracking
               </div>
@@ -778,22 +854,23 @@ export default function ProfessionalHomePage() {
               
               <div className="space-y-3 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">90+ Institutionelle Investoren</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">Quartalsweise 13F Filing Updates</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">Portfolio-Änderungs-Alerts</span>
                 </div>
               </div>
               
               <Link
                 href="/superinvestor"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-200 border border-gray-700"
+                style={{ backgroundColor: 'var(--bg-card)' }}
+                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
               >
                 Portfolio Tracker
                 <ArrowRightIcon className="w-4 h-4" />
@@ -802,10 +879,10 @@ export default function ProfessionalHomePage() {
 
             {/* Right: Professional Portfolio Table */}
             <div ref={watchlistRef} className="relative">
-              <div className="bg-gray-900 border border-gray-700 rounded-xl p-6">
+              <div className="bg-theme-card rounded-xl p-6">
                 
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-700">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                   <h3 className="text-lg font-bold text-white">Institutionelle Holdings</h3>
                   <div className="text-sm text-gray-400">Letzte Aktualisierung: Q3 2024</div>
                 </div>
@@ -820,10 +897,13 @@ export default function ProfessionalHomePage() {
                   ].map((fund, index) => (
                     <div 
                       key={fund.fund} 
-                      className={`grid grid-cols-5 gap-3 p-3 bg-gray-800 rounded-lg hover:bg-gray-750 transition-all duration-500 text-sm ${
+                      style={{ 
+                        backgroundColor: 'var(--bg-tertiary)',
+                        transitionDelay: `${index * 150}ms`
+                      }}
+                      className={`grid grid-cols-5 gap-3 p-3 rounded-lg hover:bg-theme-hover transition-all duration-500 text-sm ${
                         watchlistVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                       }`}
-                      style={{ transitionDelay: `${index * 150}ms` }}
                     >
                       <div>
                         <div className="font-medium text-white text-xs">{fund.fund}</div>
@@ -851,7 +931,7 @@ export default function ProfessionalHomePage() {
                 </div>
 
                 {/* Summary */}
-                <div className={`mt-6 p-3 bg-gray-800 rounded-lg transform transition-all duration-1000 ${
+                <div className={`mt-6 p-3 bg-theme-tertiary rounded-lg transform transition-all duration-1000 ${
                   watchlistVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                 }`} style={{ transitionDelay: '800ms' }}>
                   <div className="flex items-center justify-between text-sm">
@@ -866,10 +946,10 @@ export default function ProfessionalHomePage() {
       </section>
 
       {/* 🏛️ SUPER INVESTORS SHOWCASE - Clean & Minimal */}
-      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
+      <section className="bg-theme-primary py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
               <UserGroupIcon className="w-4 h-4" />
               Super-Investoren
             </div>
@@ -902,11 +982,12 @@ export default function ProfessionalHomePage() {
                 <Link
                   key={index}
                   href={`/superinvestor/${slug}`}
-                  className="group bg-gray-900 border border-gray-700 hover:border-gray-600 rounded-xl p-6 transition-all duration-300 hover:bg-gray-850"
+                  style={{ backgroundColor: 'var(--bg-card)' }}
+                  className="group hover:bg-theme-hover rounded-xl p-6 transition-all duration-300"
                 >
                   {/* Header */}
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-xl overflow-hidden border border-gray-600">
+                    <div className="w-12 h-12 rounded-xl overflow-hidden">
                       <Image
                         src={`/images/${slug}.png`}
                         alt={investor.investor}
@@ -956,7 +1037,8 @@ export default function ProfessionalHomePage() {
           <div className="text-center">
             <Link
               href="/superinvestor"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-200 border border-gray-700"
+              style={{ backgroundColor: 'var(--bg-card)' }}
+              className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
             >
               Alle 90+ Investoren durchsuchen
               <ArrowRightIcon className="w-4 h-4" />
@@ -966,7 +1048,7 @@ export default function ProfessionalHomePage() {
       </section>
 
       {/* NEWSLETTER + BROKER - Professional */}
-      <section className="bg-gray-950 py-24 border-t border-gray-800/50">
+      <section className="bg-theme-primary py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Newsletter Section */}
@@ -974,7 +1056,7 @@ export default function ProfessionalHomePage() {
             
             {/* Left: Content (3 columns) */}
             <div className="lg:col-span-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
                 <DocumentTextIcon className="w-4 h-4" />
                 Research Updates
               </div>
@@ -993,19 +1075,19 @@ export default function ProfessionalHomePage() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                   <span className="text-gray-300">Quartalsweise 13F Updates</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                   <span className="text-gray-300">Kein Spam Policy</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                   <span className="text-gray-300">Marktanalysen</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                   <span className="text-gray-300">Platform Updates</span>
                 </div>
               </div>
@@ -1013,7 +1095,7 @@ export default function ProfessionalHomePage() {
             
             {/* Right: Newsletter Form (2 columns) */}
             <div className="lg:col-span-2">
-              <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8">
+              <div className="bg-theme-card rounded-2xl p-8">
                 <NewsletterSignup />
               </div>
             </div>
@@ -1022,7 +1104,7 @@ export default function ProfessionalHomePage() {
           {/* Broker Section - Professional */}
           <div>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-4">
                 <BuildingOfficeIcon className="w-4 h-4" />
                 Broker-Vergleich
               </div>
@@ -1042,7 +1124,8 @@ export default function ProfessionalHomePage() {
                 href="https://de.scalable.capital/trading-aff?utm_medium=affiliate&utm_source=qualityclick&utm_campaign=broker&utm_term=764&c_id=QC5-b486e7461716d777857i74425940697f6676687279547b46" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group bg-gray-900 border border-gray-700 hover:border-gray-600 rounded-2xl p-8 transition-all duration-300 hover:bg-gray-850"
+                style={{ backgroundColor: 'var(--bg-card)' }}
+                className="group hover:bg-theme-hover rounded-2xl p-8 transition-all duration-300"
               >
                 <div className="flex items-center gap-6 mb-6">
                   <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -1066,15 +1149,15 @@ export default function ProfessionalHomePage() {
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                     <span>2.000+ ETFs verfügbar</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                     <span>Bruchstücke ab €1</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                     <span>XETRA Marktzugang</span>
                   </div>
                 </div>
@@ -1085,7 +1168,8 @@ export default function ProfessionalHomePage() {
                 href="https://traderepublic.com/de-de/nocodereferral?code=46xwv4b4" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group bg-gray-900 border border-gray-700 hover:border-gray-600 rounded-2xl p-8 transition-all duration-300 hover:bg-gray-850"
+                style={{ backgroundColor: 'var(--bg-card)' }}
+                className="group hover:bg-theme-hover rounded-2xl p-8 transition-all duration-300"
               >
                 <div className="flex items-center gap-6 mb-6">
                   <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -1109,15 +1193,15 @@ export default function ProfessionalHomePage() {
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                     <span>Aktien & ETFs ab €1</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                     <span>Professionelle Mobile App</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
                     <span>Integriertes Banking</span>
                   </div>
                 </div>

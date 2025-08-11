@@ -1,4 +1,4 @@
-// src/components/InvestorTabs.tsx - MIT PUT-ANZEIGE FÜR BURRY
+// src/components/InvestorTabs.tsx - KOMPLETT SCHWARZ/GRAU THEME (KEIN BLAU)
 'use client'
 
 import React, { useState } from 'react'
@@ -184,7 +184,7 @@ export default function InvestorTabs({
     return name
   }
 
-  // ✅ WICHTIG: Name & Ticker mit Option-Anzeige
+  // ✅ WICHTIG: Name & Ticker mit Option-Anzeige und komplett schwarzem Theme
   const NameAndTicker = ({ position }: { position: Position }) => {
     const ticker = getTicker(position)
     const cleanName = getCleanCompanyName(position)
@@ -193,53 +193,54 @@ export default function InvestorTabs({
     const optionType = position.optionType || 'STOCK'
     const showOptionBadge = optionType !== 'STOCK'
     
-    console.log(`Position ${position.name}: optionType=${optionType}, showBadge=${showOptionBadge}`) // Debug
-    
     if (ticker) {
       return (
         <Link
           href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
           className="flex items-center gap-3 group"
         >
-          <div className="w-6 h-6 flex-shrink-0">
+          <div className="w-7 h-7 flex-shrink-0">
             <Logo
               ticker={ticker}
               alt={`${ticker} Logo`}
-              className="w-full h-full"
+              className="w-full h-full rounded-md"
               padding="none"
             />
           </div>
           
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="font-semibold text-green-400 group-hover:text-green-300 transition-colors">
                 {ticker}
               </span>
               
-              {/* ✅ PUT/CALL BADGE - Das ist der wichtige Teil! */}
+              {/* ✅ PUT/CALL BADGE - Verbesserte Styling */}
               {showOptionBadge && (
-                <span className={`px-2 py-0.5 text-xs font-medium rounded border ${
+                <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full border ${
                   optionType === 'PUT' 
                     ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' 
                     : optionType === 'CALL'
                       ? 'bg-green-500/20 text-green-300 border-green-500/30'
                       : 'bg-gray-500/20 text-gray-300 border-gray-500/30'
                 }`}>
+                  <span className="text-xs">
+                    {optionType === 'PUT' ? '📉' : optionType === 'CALL' ? '📈' : '⚡'}
+                  </span>
                   {optionType}
                 </span>
               )}
             </div>
             
             {cleanName !== ticker && (
-              <div className="text-sm text-gray-400 font-normal truncate">
+              <div className="text-sm text-gray-400 font-normal truncate max-w-xs">
                 {cleanName}
               </div>
             )}
             
             {/* ✅ Zusätzliche Option-Details */}
             {position.titleOfClass && showOptionBadge && (
-              <div className="text-xs text-gray-500 truncate">
-                Class: {position.titleOfClass}
+              <div className="text-xs text-gray-500 truncate max-w-xs">
+                {position.titleOfClass}
               </div>
             )}
           </div>
@@ -249,18 +250,23 @@ export default function InvestorTabs({
     
     return (
       <div className="flex items-center gap-3">
-        <div className="w-6 h-6 flex-shrink-0 bg-gray-700 rounded-full"></div>
+        <div className="w-7 h-7 flex-shrink-0 bg-gray-700 rounded-md flex items-center justify-center">
+          <span className="text-gray-500 text-xs font-bold">?</span>
+        </div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-white font-medium">{cleanName}</span>
             {showOptionBadge && (
-              <span className={`px-2 py-0.5 text-xs font-medium rounded border ${
+              <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full border ${
                 optionType === 'PUT' 
                   ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' 
                   : optionType === 'CALL'
                     ? 'bg-green-500/20 text-green-300 border-green-500/30'
                     : 'bg-gray-500/20 text-gray-300 border-gray-500/30'
               }`}>
+                <span className="text-xs">
+                  {optionType === 'PUT' ? '📉' : optionType === 'CALL' ? '📈' : '⚡'}
+                </span>
                 {optionType}
               </span>
             )}
@@ -272,22 +278,20 @@ export default function InvestorTabs({
 
   return (
     <div>
-      {/* Tab Navigation */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      {/* Tab Navigation - Komplett Schwarz/Grau */}
+      <div className="flex flex-wrap gap-2 mb-8">
         {availableTabs.map(({ key, label, icon: Icon, isHighlighted, description }) => (
           <button
             key={key}
             onClick={() => onTabChange(key)}
-            className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 relative group ${
+            className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 relative group hover:scale-[1.02] ${
               tab === key
                 ? isHighlighted
                   ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg shadow-green-500/25'
                   : key === 'ai'
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25'
-                    : key === 'filings'
-                      ? 'bg-blue-600 text-white shadow-lg'
-                      : 'bg-gray-700 text-white shadow-lg'
-                : 'bg-gray-800/50 text-gray-400 hover:bg-gray-700 hover:text-white'
+                    : 'bg-gray-700 text-white shadow-lg shadow-gray-500/25'
+                : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/50 transition-colors'
             }`}
             title={description}
           >
@@ -300,47 +304,59 @@ export default function InvestorTabs({
         ))}
       </div>
 
-      {/* Tab Content */}
+      {/* Tab Content - Echtes Schwarz */}
       {tab === 'portfolio' || tab === 'transactions' ? (
-        <div className="bg-gray-900/30 border border-gray-800 rounded-xl overflow-hidden backdrop-blur-sm">
+        <div className="bg-black border border-gray-800/50 rounded-xl overflow-hidden backdrop-blur-sm shadow-2xl">
           
           {/* PORTFOLIO TAB */}
           {tab === 'portfolio' && (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-gray-100">
                 <thead>
-                  <tr className="text-sm text-gray-400 bg-gray-800/50">
-                    <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
-                    <th className="text-right px-6 py-4 font-medium">Aktien</th>
-                    <th className="text-right px-6 py-4 font-medium">Wert (USD)</th>
-                    <th className="text-right px-6 py-4 font-medium">Anteil</th>
-                    <th className="text-right px-6 py-4 font-medium">Letzte Aktivität</th>
+                  <tr className="text-sm text-gray-400 border-b border-gray-800/50 bg-gray-900/50">
+                    <th className="text-left px-6 py-4 font-semibold tracking-wide">Unternehmen</th>
+                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Aktien</th>
+                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Wert (USD)</th>
+                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Anteil</th>
+                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Letzte Aktivität</th>
                   </tr>
                 </thead>
                 <tbody>
                   {displayedHoldings.map((p, i) => (
-                    <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                    <tr 
+                      key={i} 
+                      className="border-b border-gray-800/30 hover:bg-gray-900/50 transition-all duration-200 group"
+                    >
                       <td className="px-6 py-4">
                         <NameAndTicker position={p} />
                       </td>
-                      <td className="px-6 py-4 text-right font-mono">{fmtShares.format(p.shares)}</td>
-                      <td className="px-6 py-4 text-right font-mono font-semibold">{fmtValue.format(p.value)}</td>
-                      <td className="px-6 py-4 text-right font-mono">
+                      <td className="px-6 py-4 text-right font-mono text-gray-300 group-hover:text-white transition-colors">
+                        {fmtShares.format(p.shares)}
+                      </td>
+                      <td className="px-6 py-4 text-right font-mono font-semibold text-white">
+                        {fmtValue.format(p.value)}
+                      </td>
+                      <td className="px-6 py-4 text-right font-mono text-gray-300">
                         {fmtPercent.format(p.value / holdings.reduce((s,x)=>s+x.value,0))}
                       </td>
                       <td className="px-6 py-4 text-right">
                         {p.deltaShares > 0
                           ? (p.pctDelta === 0
-                              ? <span className="text-green-400 font-medium">Neueinkauf</span>
-                              : <span className="text-green-400 font-medium">
-                                  Hinzugefügt {fmtPercent.format(p.pctDelta)}
+                              ? <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30">
+                                  <ArrowTrendingUpIcon className="w-3 h-3" />
+                                  Neueinkauf
+                                </span>
+                              : <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30">
+                                  <ArrowTrendingUpIcon className="w-3 h-3" />
+                                  +{fmtPercent.format(p.pctDelta)}
                                 </span>
                             )
                           : p.deltaShares < 0
-                            ? <span className="text-red-400 font-medium">
-                                Verkauft {fmtPercent.format(Math.abs(p.pctDelta))}
+                            ? <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm font-medium border border-red-500/30">
+                                <ArrowTrendingDownIcon className="w-3 h-3" />
+                                -{fmtPercent.format(Math.abs(p.pctDelta))}
                               </span>
-                            : <span className="text-gray-500">–</span>
+                            : <span className="text-gray-500 text-sm">—</span>
                         }
                       </td>
                     </tr>
@@ -349,10 +365,10 @@ export default function InvestorTabs({
               </table>
 
               {holdings.length > 20 && (
-                <div className="border-t border-gray-800 p-4 text-center bg-gray-800/30">
+                <div className="border-t border-gray-800/50 p-6 text-center bg-gray-900/30">
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="px-6 py-2 text-sm rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors font-medium"
+                    className="px-6 py-3 text-sm rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 hover:text-white transition-all duration-200 font-medium hover:scale-105 shadow-lg border border-gray-700/50"
                   >
                     {showAll
                       ? 'Weniger Positionen anzeigen'
@@ -363,13 +379,13 @@ export default function InvestorTabs({
             </div>
           )}
 
-          {/* TRANSACTIONS TAB - mit Filter */}
+          {/* TRANSACTIONS TAB - Alle Filter in Grau */}
           {tab === 'transactions' && (
             <div>
-              <div className="flex flex-wrap gap-2 p-4 border-b border-gray-800 bg-gray-800/20">
+              <div className="flex flex-wrap gap-3 p-6 border-b border-gray-800/50 bg-gray-900/30">
                 <div className="flex items-center gap-2 mr-4">
-                  <ArrowsRightLeftIcon className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-400 font-medium">Filter:</span>
+                  <ArrowsRightLeftIcon className="w-5 h-5 text-gray-400" />
+                  <span className="text-sm text-gray-400 font-semibold">Filter:</span>
                 </div>
                 
                 {[
@@ -380,15 +396,19 @@ export default function InvestorTabs({
                   <button
                     key={key}
                     onClick={() => setTransactionFilter(key)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                    className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 hover:scale-105 ${
                       transactionFilter === key
-                        ? 'bg-blue-600 text-white shadow-lg'
-                        : 'bg-gray-700/50 text-gray-400 hover:text-white hover:bg-gray-700'
+                        ? key === 'buys'
+                          ? 'bg-green-600 text-white shadow-lg shadow-green-500/25'
+                          : key === 'sells'
+                            ? 'bg-red-600 text-white shadow-lg shadow-red-500/25'
+                            : 'bg-gray-700 text-white shadow-lg shadow-gray-500/25'
+                        : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/70'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
                     {label}
-                    <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                    <span className={`px-2 py-0.5 text-xs rounded-full font-semibold ${
                       transactionFilter === key
                         ? 'bg-white/20 text-white'
                         : 'bg-gray-600/50 text-gray-500'
@@ -402,75 +422,94 @@ export default function InvestorTabs({
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-gray-100">
                   <thead>
-                    <tr className="text-sm text-gray-400 bg-gray-800/50">
-                      <th className="text-left px-6 py-4 font-medium">Unternehmen</th>
-                      <th className="text-right px-6 py-4 font-medium">Δ Aktien</th>
-                      <th className="text-right px-6 py-4 font-medium">Typ</th>
-                      <th className="text-right px-6 py-4 font-medium">% Veränderung</th>
+                    <tr className="text-sm text-gray-400 border-b border-gray-800/50 bg-gray-900/50">
+                      <th className="text-left px-6 py-4 font-semibold tracking-wide">Unternehmen</th>
+                      <th className="text-right px-6 py-4 font-semibold tracking-wide">Δ Aktien</th>
+                      <th className="text-right px-6 py-4 font-semibold tracking-wide">Typ</th>
+                      <th className="text-right px-6 py-4 font-semibold tracking-wide">% Veränderung</th>
                     </tr>
                   </thead>
                   <tbody>
                     {getFilteredTransactions().map((group, gi) => (
                       <React.Fragment key={gi}>
                         <tr>
-                          <td colSpan={4} className="bg-gray-800/70 px-6 py-3 border-t border-gray-700 font-bold text-white uppercase tracking-wide text-sm">
-                            {group.period}
+                          <td 
+                            colSpan={4} 
+                            className="px-6 py-4 border-t border-gray-700/50 font-bold text-white uppercase tracking-wide text-sm bg-gray-900/70"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                              {group.period}
+                              <span className="text-xs text-gray-400 font-normal normal-case">
+                                ({group.items.length} Transaktionen)
+                              </span>
+                            </div>
                           </td>
                         </tr>
 
                         {group.items.length > 0
                           ? group.items.map((p, i) => (
-                              <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                              <tr key={i} className="border-b border-gray-800/30 hover:bg-gray-900/50 transition-all duration-200 group">
                                 <td className="px-6 py-4">
                                   <NameAndTicker position={p} />
                                 </td>
                                 <td className="px-6 py-4 text-right">
-                                  <span className={`inline-block px-3 py-1 text-sm rounded-full font-medium ${
+                                  <span className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-full font-semibold border ${
                                     p.deltaShares > 0
-                                      ? 'bg-green-500/20 text-green-300 border border-green-500/30'
-                                      : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                                      ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                                      : 'bg-red-500/20 text-red-300 border-red-500/30'
                                   }`}>
+                                    {p.deltaShares > 0 ? (
+                                      <ArrowTrendingUpIcon className="w-3 h-3" />
+                                    ) : (
+                                      <ArrowTrendingDownIcon className="w-3 h-3" />
+                                    )}
                                     {p.deltaShares > 0 ? '+' : ''}{fmtShares.format(p.deltaShares)}
                                   </span>
                                 </td>
                                 <td className="px-6 py-4 text-right">
-                                  <span className={`text-sm font-medium ${
+                                  <span className={`text-sm font-semibold ${
                                     p.deltaShares > 0 ? 'text-green-400' : 'text-red-400'
                                   }`}>
                                     {p.deltaShares > 0 ? 'Kauf' : 'Verkauf'}
                                   </span>
                                 </td>
-                                <td className="px-6 py-4 text-right font-mono">
+                                <td className="px-6 py-4 text-right font-mono text-gray-300 group-hover:text-white transition-colors">
                                   {(() => {
                                     const prevShares = p.shares - p.deltaShares
                                     if (prevShares === 0) {
-                                      return <span className="text-green-400 font-medium">Neueinkauf</span>
+                                      return <span className="text-green-400 font-semibold text-sm">Neueinkauf</span>
                                     }
-                                    return fmtPercent.format(Math.abs(p.pctDelta))
+                                    return <span className="font-semibold">{fmtPercent.format(Math.abs(p.pctDelta))}</span>
                                   })()}
                                 </td>
                               </tr>
                             ))
                           : (
                             <tr>
-                              <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                                <div className="flex flex-col items-center gap-2">
-                                  <div className="w-12 h-12 bg-gray-800/50 rounded-full flex items-center justify-center">
+                              <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                                <div className="flex flex-col items-center gap-3">
+                                  <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-900/50 border border-gray-800/50">
                                     {transactionFilter === 'buys' ? (
-                                      <ArrowTrendingUpIcon className="w-6 h-6 text-gray-600" />
+                                      <ArrowTrendingUpIcon className="w-8 h-8 text-gray-600" />
                                     ) : transactionFilter === 'sells' ? (
-                                      <ArrowTrendingDownIcon className="w-6 h-6 text-gray-600" />
+                                      <ArrowTrendingDownIcon className="w-8 h-8 text-gray-600" />
                                     ) : (
-                                      <BoltIcon className="w-6 h-6 text-gray-600" />
+                                      <BoltIcon className="w-8 h-8 text-gray-600" />
                                     )}
                                   </div>
-                                  <p className="text-sm">
-                                    {transactionFilter === 'buys'
-                                      ? 'Keine Käufe in diesem Quartal'
-                                      : transactionFilter === 'sells'
-                                        ? 'Keine Verkäufe in diesem Quartal'
-                                        : 'Keine Transaktionen in diesem Quartal'}
-                                  </p>
+                                  <div className="text-center">
+                                    <p className="text-sm font-medium text-gray-400">
+                                      {transactionFilter === 'buys'
+                                        ? 'Keine Käufe in diesem Quartal'
+                                        : transactionFilter === 'sells'
+                                          ? 'Keine Verkäufe in diesem Quartal'
+                                          : 'Keine Transaktionen in diesem Quartal'}
+                                    </p>
+                                    <p className="text-xs text-gray-600 mt-1">
+                                      Der Investor war in diesem Zeitraum inaktiv
+                                    </p>
+                                  </div>
                                 </div>
                               </td>
                             </tr>

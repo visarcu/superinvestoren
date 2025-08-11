@@ -14993,7 +14993,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'LBTYB',
-    cusip:  '',
+    cusip:  'g61188127',
     name:   'Liberty Global plc',
     sector: 'Communication Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],

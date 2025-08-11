@@ -1,7 +1,8 @@
-// src/app/superinvestor/insights/page.tsx - PERFORMANCE OPTIMIERT + TYPESCRIPT FIXES
+// src/app/superinvestor/insights/page.tsx - DESIGN UPDATED + THEME COLORS
 'use client'
 
 import React, { useState, useRef, useEffect, useMemo, useCallback, memo, useDeferredValue } from 'react'
+import PageLoader from '@/components/PageLoader' // <-- NEU
 import Link from 'next/link'
 import { 
   ChartBarIcon,
@@ -20,7 +21,8 @@ import {
   InformationCircleIcon,
   ClockIcon,
   ArrowUpIcon,
-  ArrowDownIcon
+  ArrowDownIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/outline'
 import { investors } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
@@ -259,10 +261,10 @@ function getSmartLatestQuarter(): string {
 
 // 5. Optimierte Berechnungsfunktionen mit Caching
 function calculateTopBuys(targetQuarters: string[]): TopBuyItem[] {
-  const cacheKey = `topBuys-${targetQuarters.join('-')}`
-  if (calculationCache.has(cacheKey)) {
-    return calculationCache.get(cacheKey)
-  }
+ // const cacheKey = `topBuys-${targetQuarters.join('-')}`
+  //if (calculationCache.has(cacheKey)) {
+  //  return calculationCache.get(cacheKey)
+ // }
   
   const buyCounts = new Map<string, number>()
   
@@ -317,17 +319,12 @@ function calculateTopBuys(targetQuarters: string[]): TopBuyItem[] {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 20)
     .map(([ticker, count]) => ({ ticker, count }))
-    
-  calculationCache.set(cacheKey, result)
+
   return result
 }
 
 function calculateTopOwned(): TopOwnedItem[] {
-  const cacheKey = 'topOwned'
-  if (calculationCache.has(cacheKey)) {
-    return calculationCache.get(cacheKey)
-  }
-  
+
   const ownershipCount = new Map<string, number>()
   
   preprocessedData.activeInvestors.forEach(slug => {
@@ -352,7 +349,7 @@ function calculateTopOwned(): TopOwnedItem[] {
     .slice(0, 20)
     .map(([ticker, count]) => ({ ticker, count }))
     
-  calculationCache.set(cacheKey, result)
+
   return result
 }
 
@@ -398,28 +395,75 @@ function calculateBiggestInvestments(): BiggestInvestmentItem[] {
 // Investor Namen Mapping
 const investorNames: Record<string, string> = {
   buffett: 'Warren Buffett',
-  ackman: 'Bill Ackman',
-  smith: 'Terry Smith', 
-  gates: 'Bill Gates',
-  marks: 'Howard Marks',
-  icahn: 'Carl Icahn',
   einhorn: 'David Einhorn',
-  loeb: 'Daniel Loeb',
-  sosin: 'Howard Sosin',
-  duan: 'Li Lu',
-  lou: 'Daniel Lou',
-  munger: 'Charlie Munger',
-  gregaIexander: 'Greg Alexander',
+  ackman: 'Bill Ackman',
+  gates: 'Bill & Melinda Gates Foundation Trust',
+  torray: 'Torray Investment Partners LLC',
+  davis: 'Christoper Davis',
+  altarockpartners: 'Mark Massey',
+  greenhaven:'Edgar Wachenheim III',
+  vinall:'Robert Vinall',
+  meridiancontrarian: 'Meridian Contrarian Fund',
+  hawkins:' Mason Hawkins',
+  olstein:'Robert Olstein',
   peltz: 'Nelson Peltz',
-  abrams: 'David Abrams',
+  gregalexander:'Greg Alexander',
+  miller: 'Bill Miller',
+  tangen: 'Nicolai Tangen',
+  burry:'Michael Burry',
+  pabrai: 'Mohnish Pabrai',
+  kantesaria: 'Dev Kantesaria',
+  greenblatt: 'Joel Greenblatt',
+  fisher: 'Ken Fisher',
+  soros:'George Soros',
+  haley:'Connor Haley',
+  vandenberg: 'Arnold Van Den Berg',
+  dodgecox:'Dodge & Cox',
+  pzena:'Richard Pzena',
+  mairspower:'Mairs & Power Inc',
+  weitz: 'Wallace Weitz',
+  yacktman:'Yacktman Asset Management LP',
+  gayner:'Thomas Gayner',
+  armitage:'John Armitage',
+  burn: 'Harry Burn - Sound Shore',
+  cantillon:'William von Mueffling - Cantillon Capital Management',
+  jensen:'Eric Schoenstein - Jensen Investment Management',
+  abrams: 'David Abrams - Abrams Capital Management',
+  firsteagle: 'First Eagle Investment Management',
+  polen: 'Polen Capital Management',
+  tarasoff:'Josh Tarasoff',
+  rochon: 'Francois Rochon',
+  russo: 'Thomas Russo',
+  akre: 'Chuck Akre',
+  triplefrond:'Triple Frond Partners',
+  whitman: 'Marty Whitman',
+  patientcapital:'Samantha McLemore',
+  klarman: 'Seth Klarman',
+  makaira: 'Tom Bancroft',
+  ketterer: 'Sarah Ketterer',
+  train:'Lindsell Train',
+  smith: 'Terry Smith',
+  watsa: 'Prem Watsa',
+  lawrence: 'Bryan Lawrence',
+  dorsey: 'Pat Dorsey',
+  hohn:'Chris Hohn',
+  hong: 'Dennis Hong',
+  kahn: 'Kahn Brothers Group',
+  coleman: 'Chase Coleman',
+  dalio:'Ray Dalio',
+  loeb: 'Daniel Loeb',
   tepper: 'David Tepper',
-  berkowitz: 'Bruce Berkowitz',
-  ginzlis: 'Leon Ginzlis',
-  polen: 'Polen Capital',
-  gayner: 'Tom Gayner',
-  ketterer: 'Andreas Ketterer',
-  viking: 'Viking Global',
-  jensen: 'Bill Jensen'
+  icahn: 'Carl Icahn',
+  lilu: 'Li Lu',
+  ainslie:'Lee Ainslie',
+  greenberg:'Glenn Greenberg',
+  mandel: 'Stephen Mandel',
+  marks: 'Howard Marks',
+  rogers:'John Rogers',
+  ariel_appreciation: 'Ariel Appreciation Fund', 
+  ariel_focus: 'Ariel Focus Fund', 
+  cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
+  spier: 'Guy Spier',
 }
 
 // Hook für Intersection Observer (nur für Hero)
@@ -428,6 +472,7 @@ const useIntersectionObserver = (threshold = 0.1) => {
   const ref = useRef<HTMLDivElement>(null)
   
   useEffect(() => {
+  
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -533,16 +578,18 @@ const QuarterSelector = memo<QuarterSelectorProps>(({
 
   const dropdownContent = isOpen && (
     <div 
-      className="absolute bg-gray-800/95 backdrop-blur-md border border-gray-600/80 rounded-xl shadow-2xl z-[100] mt-2"
-      style={{
+      style={{ 
+        backgroundColor: 'var(--bg-card)',
+        borderColor: 'var(--border-color)',
         width: `${Math.max(280, dropdownPosition.width)}px`,
         maxHeight: `${dropdownPosition.maxHeight}px`
       }}
+      className="absolute backdrop-blur-md border rounded-xl shadow-2xl z-[100] mt-2"
     >
-      <div className="p-3 border-b border-gray-700/50">
+      <div style={{ borderColor: 'var(--border-color)' }} className="p-3 border-b">
         <div className="flex items-center gap-2">
-          <CalendarIcon className="w-4 h-4 text-gray-400" />
-          <span className="text-sm font-medium text-gray-300">Zeitraum wählen</span>
+          <CalendarIcon className="w-4 h-4 text-theme-secondary" />
+          <span className="text-sm font-medium text-theme-secondary">Zeitraum wählen</span>
         </div>
       </div>
 
@@ -558,7 +605,7 @@ const QuarterSelector = memo<QuarterSelectorProps>(({
               className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-colors duration-200 ${
                 selected === option.id 
                   ? 'bg-green-600/80 text-white shadow-md' 
-                  : 'text-gray-300 hover:bg-gray-700/60 hover:text-white'
+                  : 'text-theme-secondary hover:bg-theme-hover hover:text-white'
               }`}
             >
               <div className="font-medium">{option.label}</div>
@@ -573,7 +620,10 @@ const QuarterSelector = memo<QuarterSelectorProps>(({
         </div>
       </div>
 
-      <div className="p-3 border-t border-gray-700/50 bg-gray-800/50">
+      <div style={{ 
+        borderColor: 'var(--border-color)',
+        backgroundColor: 'var(--bg-card)' 
+      }} className="p-3 border-t bg-opacity-50">
         <div className="flex items-center justify-between text-xs text-gray-500">
           <span>ESC zum Schließen</span>
           <span>{options.length} Optionen</span>
@@ -588,7 +638,11 @@ const QuarterSelector = memo<QuarterSelectorProps>(({
         <button
           ref={buttonRef}
           onClick={() => setIsOpen(!isOpen)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-800/80 hover:bg-gray-700/80 border border-gray-600/60 rounded-lg text-sm text-gray-300 hover:text-white transition-colors duration-200 hover:scale-105 hover:shadow-lg min-w-[160px]"
+          style={{ 
+            backgroundColor: 'var(--bg-card)',
+            borderColor: 'var(--border-color)'
+          }}
+          className="inline-flex items-center gap-2 px-4 py-2.5 hover:bg-theme-hover border rounded-lg text-sm text-theme-secondary hover:text-white transition-colors duration-200 hover:scale-105 hover:shadow-lg min-w-[160px]"
         >
           <CalendarIcon className="w-4 h-4 flex-shrink-0" />
           <span className="truncate">{selectedOption?.label || 'Wählen'}</span>
@@ -650,6 +704,288 @@ function calculateDataSourceStats(targetQuarters: string[]): DataSourceStats {
   return stats
 }
 
+// ab hier neue funktionen??
+
+// 1. MOMENTUM SHIFTS - Trendwende Erkennung
+function calculateMomentumShifts(targetQuarters: string[]): Array<{
+  ticker: string;
+  name: string;
+  shifters: string[];
+  fromSelling: number;
+  toBuying: number;
+  totalShift: number;
+}> {
+  if (targetQuarters.length < 2) return [];
+  
+  const shifts = new Map<string, {
+    name: string;
+    shifters: Set<string>;
+    fromSelling: number;
+    toBuying: number;
+  }>();
+  
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
+    if (!snaps || snaps.length < 2) return;
+    
+    // Finde die letzten beiden relevanten Quartale
+    const relevantSnaps = snaps.filter(snap => 
+      targetQuarters.includes(getPeriodFromDate(snap.data.date))
+    ).slice(-2);
+    
+    if (relevantSnaps.length < 2) return;
+    
+    const [older, newer] = relevantSnaps;
+    
+    // Positions-Maps erstellen
+    const olderMap = new Map<string, number>();
+    older.data.positions?.forEach((p: Position) => {
+      const ticker = getTicker(p);
+      if (ticker) olderMap.set(ticker, p.shares);
+    });
+    
+    const newerMap = new Map<string, number>();
+    newer.data.positions?.forEach((p: Position) => {
+      const ticker = getTicker(p);
+      if (ticker) newerMap.set(ticker, p.shares);
+    });
+    
+    // Finde Momentum Shifts
+    newerMap.forEach((newShares, ticker) => {
+      const oldShares = olderMap.get(ticker) || 0;
+      
+      // War am Verkaufen (reduziert) und kauft jetzt (erhöht)
+      if (oldShares > newShares * 1.2 && newShares > 0) {
+        // Position wurde reduziert
+      } else if (newShares > oldShares * 1.2) {
+        // Position wurde erhöht nach vorheriger Reduktion
+        const current = shifts.get(ticker) || {
+          name: getStockName(newer.data.positions.find(p => getTicker(p) === ticker)!),
+          shifters: new Set<string>(),
+          fromSelling: oldShares,
+          toBuying: newShares
+        };
+        
+        current.shifters.add(investorNames[slug] || slug);
+        shifts.set(ticker, current);
+      }
+    });
+  });
+  
+  return Array.from(shifts.entries())
+    .map(([ticker, data]) => ({
+      ticker,
+      name: data.name,
+      shifters: Array.from(data.shifters),
+      fromSelling: data.fromSelling,
+      toBuying: data.toBuying,
+      totalShift: data.toBuying - data.fromSelling
+    }))
+    .filter(item => item.shifters.length >= 2)
+    .sort((a, b) => b.shifters.length - a.shifters.length)
+    .slice(0, 10);
+}
+
+
+
+// 2. EXIT TRACKER - Komplette Verkäufe
+function calculateExitTracker(targetQuarters: string[]): Array<{
+  ticker: string;
+  name: string;
+  exitedBy: string[];
+  avgHoldingPeriod: number;
+  totalValueExited: number;
+}> {
+  const exits = new Map<string, {
+    name: string;
+    exitedBy: string[];
+    holdingPeriods: number[];
+    totalValue: number;
+  }>();
+  
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
+    if (!snaps || snaps.length < 2) return;
+    
+    const latest = snaps[snaps.length - 1];
+    const previous = snaps[snaps.length - 2];
+    
+    if (!targetQuarters.includes(getPeriodFromDate(latest.data.date))) return;
+    
+    // Map für aktuelle Positionen
+    const currentPositions = new Map<string, boolean>();
+    latest.data.positions?.forEach((p: Position) => {
+      const ticker = getTicker(p);
+      if (ticker) currentPositions.set(ticker, true);
+    });
+    
+    // Finde Exits (war da, jetzt nicht mehr)
+    previous.data.positions?.forEach((p: Position) => {
+      const ticker = getTicker(p);
+      if (!ticker) return;
+      
+      if (!currentPositions.has(ticker) && p.value > 1000000) { // Min 1M Position
+        // Berechne Holding Period
+        let holdingPeriod = 1;
+        for (let i = snaps.length - 3; i >= 0; i--) {
+          const hasPosition = snaps[i].data.positions?.some(
+            pos => getTicker(pos) === ticker
+          );
+          if (hasPosition) {
+            holdingPeriod++;
+          } else {
+            break;
+          }
+        }
+        
+        const current = exits.get(ticker) || {
+          name: getStockName(p),
+          exitedBy: [],
+          holdingPeriods: [],
+          totalValue: 0
+        };
+        
+        current.exitedBy.push(investorNames[slug] || slug);
+        current.holdingPeriods.push(holdingPeriod);
+        current.totalValue += p.value;
+        
+        exits.set(ticker, current);
+      }
+    });
+  });
+  
+  return Array.from(exits.entries())
+    .map(([ticker, data]) => ({
+      ticker,
+      name: data.name,
+      exitedBy: data.exitedBy,
+      avgHoldingPeriod: data.holdingPeriods.reduce((a, b) => a + b, 0) / data.holdingPeriods.length,
+      totalValueExited: data.totalValue
+    }))
+    .sort((a, b) => b.exitedBy.length - a.exitedBy.length)
+    .slice(0, 10);
+}
+
+// 3. NEW DISCOVERIES - Brandneue Positionen
+function calculateNewDiscoveries(targetQuarters: string[]): Array<{
+  ticker: string;
+  name: string;
+  discoveredBy: string[];
+  totalValue: number;
+  avgPosition: number;
+}> {
+  const discoveries = new Map<string, {
+    name: string;
+    discoveredBy: Map<string, number>;
+  }>();
+  
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
+    if (!snaps || snaps.length === 0) return;
+    
+    const latest = snaps[snaps.length - 1];
+    if (!targetQuarters.includes(getPeriodFromDate(latest.data.date))) return;
+    
+    // Historische Positionen sammeln
+    const historicalPositions = new Set<string>();
+    for (let i = 0; i < snaps.length - 1; i++) {
+      snaps[i].data.positions?.forEach((p: Position) => {
+        const ticker = getTicker(p);
+        if (ticker) historicalPositions.add(ticker);
+      });
+    }
+    
+    // Finde neue Positionen
+    latest.data.positions?.forEach((p: Position) => {
+      const ticker = getTicker(p);
+      if (!ticker) return;
+      
+      if (!historicalPositions.has(ticker) && p.value > 5000000) { // Min 5M für Relevanz
+        const current = discoveries.get(ticker) || {
+          name: getStockName(p),
+          discoveredBy: new Map<string, number>()
+        };
+        
+        current.discoveredBy.set(investorNames[slug] || slug, p.value);
+        discoveries.set(ticker, current);
+      }
+    });
+  });
+  
+  return Array.from(discoveries.entries())
+    .map(([ticker, data]) => {
+      const values = Array.from(data.discoveredBy.values());
+      const totalValue = values.reduce((a, b) => a + b, 0);
+      
+      return {
+        ticker,
+        name: data.name,
+        discoveredBy: Array.from(data.discoveredBy.keys()),
+        totalValue,
+        avgPosition: totalValue / values.length
+      };
+    })
+    .filter(item => item.discoveredBy.length >= 2)
+    .sort((a, b) => b.discoveredBy.length - a.discoveredBy.length)
+    .slice(0, 10);
+}
+
+// 4. SECTOR ROTATION MATRIX - Zeigt Umschichtungen zwischen Sektoren
+
+// 4. SECTOR NET FLOWS - Zeigt Zu- und Abflüsse pro Sektor
+function calculateSectorNetFlows(targetQuarters: string[]): Map<string, number> {
+  if (targetQuarters.length < 2) return new Map();
+  
+  const sectorFlows = new Map<string, number>();
+  
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
+    if (!snaps || snaps.length < 2) return;
+    
+    // Finde die letzten beiden relevanten Quartale
+    const relevantSnaps = snaps.filter(snap => 
+      targetQuarters.includes(getPeriodFromDate(snap.data.date))
+    ).slice(-2);
+    
+    if (relevantSnaps.length < 2) return;
+    
+    const [older, newer] = relevantSnaps;
+    
+    // Sektor-Maps für beide Perioden
+    const olderSectors = new Map<string, number>();
+    const newerSectors = new Map<string, number>();
+    
+    older.data.positions?.forEach((p: Position) => {
+      const sector = translateSector(getSectorFromPosition({
+        cusip: p.cusip,
+        ticker: getTicker(p)
+      }));
+      olderSectors.set(sector, (olderSectors.get(sector) || 0) + p.value);
+    });
+    
+    newer.data.positions?.forEach((p: Position) => {
+      const sector = translateSector(getSectorFromPosition({
+        cusip: p.cusip,
+        ticker: getTicker(p)
+      }));
+      newerSectors.set(sector, (newerSectors.get(sector) || 0) + p.value);
+    });
+    
+    // Berechne Net Flows
+    const allSectors = new Set([...olderSectors.keys(), ...newerSectors.keys()]);
+    
+    allSectors.forEach(sector => {
+      const oldValue = olderSectors.get(sector) || 0;
+      const newValue = newerSectors.get(sector) || 0;
+      const flow = newValue - oldValue;
+      
+      sectorFlows.set(sector, (sectorFlows.get(sector) || 0) + flow);
+    });
+  });
+  
+  return sectorFlows;
+}
+
 // MEMOIZED Stock Item Component
 interface StockItemProps {
   ticker: string
@@ -660,20 +996,25 @@ interface StockItemProps {
   rightLabel?: string
   showValue?: boolean
 }
-
-const StockItem = memo<StockItemProps>(({ 
+const StockItem = memo<StockItemProps & { index?: number }>(({ 
   ticker, 
   count, 
   value, 
   name, 
   linkTo = 'super-investors',
   rightLabel = 'Investoren',
-  showValue = false 
+  showValue = false,
+  index 
 }) => (
   <Link
     href={`/analyse/stocks/${ticker.toLowerCase()}/${linkTo}`}
-    className="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+    style={{ 
+      backgroundColor: 'var(--bg-card)',
+      borderBottom: index !== undefined && index < 14 ? '1px solid rgba(255,255,255,0.03)' : 'none'
+    }}
+    className="flex justify-between items-center p-3 rounded-lg hover:bg-theme-hover transition-colors group"
   >
+
     <div className="flex items-center gap-3">
       <div className="w-8 h-8 relative">
         <Logo
@@ -702,14 +1043,24 @@ const StockItem = memo<StockItemProps>(({
 ))
 
 StockItem.displayName = 'StockItem'
-
 export default function MarketInsightsPage() {
+  // Loading State - NEU HIER EINFÜGEN
+  const [isLoading, setIsLoading] = useState(true)
+  
   // Hero Animation
   const [heroRef, heroVisible] = useIntersectionObserver(0.3)
-
+ 
   // Smart Latest Quarter mit Caching
   const actualLatestQuarter = useMemo(() => getSmartLatestQuarter(), [])
   
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 600) // Reduziert auf 600ms
+    
+    return () => clearTimeout(timer)
+  }, [])
+
   // Quarter Options
   const quarterOptions: QuarterOption[] = useMemo(() => [
     {
@@ -746,21 +1097,32 @@ export default function MarketInsightsPage() {
 
   // State für Filter
   const [selectedPeriod, setSelectedPeriod] = useState('latest')
-  const deferredPeriod = useDeferredValue(selectedPeriod)
-  
-  // Target Quarters mit Caching
-  const targetQuarters = useMemo(() => {
-    const selectedOption = quarterOptions.find(opt => opt.id === deferredPeriod)
-    return selectedOption?.quarters || [actualLatestQuarter]
-  }, [deferredPeriod, quarterOptions, actualLatestQuarter])
+  const [sectorPeriod, setSectorPeriod] = useState('last2') 
+
+  // Loading Effect - NEU HIER EINFÜGEN
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 600)
+    
+    return () => clearTimeout(timer)
+  }, [])
 
   // Data Source Stats
-  const dataSourceStats = useMemo(() => 
-    calculateDataSourceStats(targetQuarters), [targetQuarters]
-  )
+  const dataSourceStats = useMemo(() => {
 
+
+
+    const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
+    const quarters = selectedOption?.quarters || [actualLatestQuarter]
+    return calculateDataSourceStats(quarters)
+  }, [selectedPeriod, quarterOptions, actualLatestQuarter])
   // Main calculations with caching
-  const topBuys = useMemo(() => calculateTopBuys(targetQuarters), [targetQuarters])
+  const topBuys = useMemo(() => {
+    const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
+    const quarters = selectedOption?.quarters || [actualLatestQuarter]
+    return calculateTopBuys(quarters)
+  }, [selectedPeriod, quarterOptions, actualLatestQuarter])
   const topOwned = useMemo(() => calculateTopOwned(), [])
   const biggestInvestments = useMemo(() => calculateBiggestInvestments(), [])
 
@@ -849,22 +1211,38 @@ export default function MarketInsightsPage() {
     return result
   }, [])
 
-  // Debounced callback für Period Selection
-  const handlePeriodSelect = useCallback((newPeriod: string) => {
-    setSelectedPeriod(newPeriod)
-  }, [])
+  const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
+const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
+
+  const momentumShifts = useMemo(() => 
+    calculateMomentumShifts(targetQuarters), [targetQuarters]
+  );
+  
+  const exitTracker = useMemo(() => 
+    calculateExitTracker(targetQuarters), [targetQuarters]
+  );
+  
+  const newDiscoveries = useMemo(() => 
+    calculateNewDiscoveries(targetQuarters), [targetQuarters]
+  );
+
+  const sectorNetFlows = useMemo(() => {
+    const selectedOption = quarterOptions.find(opt => opt.id === sectorPeriod)
+    const quarters = selectedOption?.quarters || preprocessedData.allQuarters.slice(0, 2)
+    return calculateSectorNetFlows(quarters)
+  }, [sectorPeriod, quarterOptions])
 
   return (
-    <div className="min-h-screen bg-gray-950 noise-bg">
+    <div className="min-h-screen bg-theme-primary">
       
       {/* Header */}
-      <section className="bg-gray-950 noise-bg pt-24 pb-12">
+      <section className="bg-theme-primary pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="mb-6">
             <Link
               href="/superinvestor"
-              className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm group"
+              className="inline-flex items-center gap-2 text-theme-secondary hover:text-white transition-colors text-sm group"
             >
               <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Zurück zur Übersicht
@@ -881,13 +1259,13 @@ export default function MarketInsightsPage() {
                   <ChartBarIcon className="w-6 h-6 text-green-400" />
                   <h1 className="text-3xl font-bold text-white">Market Insights</h1>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-400">
+                <div className="flex items-center gap-2 text-sm text-theme-secondary">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span>{dataSourceStats.investorsWithData} von {dataSourceStats.totalInvestors} Investoren</span>
                 </div>
               </div>
               
-              <p className="text-lg text-gray-400 max-w-4xl leading-relaxed mb-4">
+              <p className="text-lg text-theme-secondary max-w-4xl leading-relaxed mb-4">
                 Detaillierte Analysen der Käufe, Verkäufe und Bewegungen der besten Investoren der Welt.
                 Entdecke Trends, Sektoren und Investment-Patterns der Super-Investoren.
               </p>
@@ -899,7 +1277,10 @@ export default function MarketInsightsPage() {
             </div>
           </div>
 
-          <div className="mt-8 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="mt-8 p-4 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
               <div>
                 <strong className="text-green-400">Intelligente Quartal-Logik:</strong> Das "neueste Quartal" wird nur angezeigt, 
@@ -918,16 +1299,19 @@ export default function MarketInsightsPage() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
                 <ArrowTrendingUpIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
                   {topBuys.filter(buy => buy.count > 0).length}
                 </p>
-                <p className="text-gray-400 text-sm">Gekaufte Aktien</p>
+                <p className="text-theme-secondary text-sm">Gekaufte Aktien</p>
                 <p className="text-gray-600 text-xs">
                   {dataSourceStats.investorsWithData} Investoren • {quarterOptions.find(opt => opt.id === selectedPeriod)?.label}
                 </p>
@@ -935,49 +1319,87 @@ export default function MarketInsightsPage() {
             </div>
           </div>
           
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className=" rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
                 <FireIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
                   {topOwned.length}
                 </p>
-                <p className="text-gray-400 text-sm">Beliebte Aktien</p>
+                <p className="text-theme-secondary text-sm">Beliebte Aktien</p>
                 <p className="text-gray-600 text-xs">Von 2+ Investoren gehalten</p>
               </div>
             </div>
           </div>
           
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
                 <CurrencyDollarIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
                   {Math.round(biggestInvestments.reduce((sum, inv) => sum + inv.value, 0) / 1_000_000_000)}
                 </p>
-                <p className="text-gray-400 text-sm">Mrd. $ Investment</p>
+                <p className="text-theme-secondary text-sm">Mrd. $ Investment</p>
                 <p className="text-gray-600 text-xs">Top 20 Positionen</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="rounded-xl p-6 backdrop-blur-sm">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
                 <BuildingOfficeIcon className="w-6 h-6 text-green-400" />
               </div>
               <div>
                 <p className="text-3xl font-bold text-white numeric">
                   {topSectors.length}
                 </p>
-                <p className="text-gray-400 text-sm">Top Sektoren</p>
+                <p className="text-theme-secondary text-sm">Top Sektoren</p>
                 <p className="text-gray-600 text-xs">Nach Investment-Volumen</p>
               </div>
             </div>
+          </div>
+        </div>
+
+{/* ZENTRALES DROPDOWN FÜR ANALYSE-ZEITRAUM */}
+<div className="bg-gradient-to-r from-green-500/5 to-transparent border border-green-500/20 rounded-xl p-4 mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-5 h-5 text-green-400" />
+              </div>
+              <div>
+                <h3 className="text-white font-semibold">Globaler Analyse-Zeitraum</h3>
+                <p className="text-xs text-gray-400">
+                  Beeinflusst: Top Käufe • Momentum Shifts • Exit Tracker • New Discoveries
+                </p>
+              </div>
+            </div>
+            
+            <select
+              value={selectedPeriod}
+              onChange={(e) => setSelectedPeriod(e.target.value)}
+              className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105 bg-black/40 border border-green-500/30 text-white hover:bg-black/60"
+            >
+              {quarterOptions.map(option => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -985,25 +1407,58 @@ export default function MarketInsightsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           
           {/* Top Käufe Chart */}
-          <div className="relative bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200 overflow-visible">
-            <div className="flex items-center justify-between mb-6">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="relative rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200 overflow-visible">
+
+
+
+
+
+        <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
                   <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white">Top Käufe</h3>
-                  <p className="text-sm text-gray-400">Meist gekaufte Aktien</p>
+                  <p className="text-sm text-theme-secondary">Meist gekaufte Aktien</p>
                 </div>
               </div>
-              <QuarterSelector
-                options={quarterOptions}
-                selected={selectedPeriod}
-                onSelect={handlePeriodSelect}
-              />
+              <div className="relative inline-block">
+  <select
+    value={selectedPeriod}
+    onChange={(e) => setSelectedPeriod(e.target.value)}
+    className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105"
+    style={{ 
+      backgroundColor: 'var(--bg-card)',
+      border: '1px solid var(--border-color)',
+      color: 'var(--text-secondary)'
+    }}
+  >
+    {quarterOptions.map(option => (
+      <option 
+        key={option.id} 
+        value={option.id}
+        style={{ 
+          backgroundColor: 'var(--bg-card)',
+          color: 'var(--text-primary)'
+        }}
+      >
+        {option.label}
+      </option>
+    ))}
+  </select>
+  
+  {/* Pfeil Icon */}
+  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+    <ChevronDownIcon className="w-4 h-4 text-gray-400" />
+  </div>
+</div>
             </div>
 
-            <div className="mb-4 flex items-center justify-between text-xs text-gray-500 border-b border-gray-800/50 pb-3">
+            <div style={{ borderColor: 'var(--border-color)' }} className="mb-4 flex items-center justify-between text-xs text-gray-500 border-b pb-3">
               <span>
                 📊 {dataSourceStats.filingsInPeriod} Filings aus {quarterOptions.find(opt => opt.id === selectedPeriod)?.description}
               </span>
@@ -1033,14 +1488,17 @@ export default function MarketInsightsPage() {
           </div>
 
           {/* Beliebteste Aktien */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
                 <FireIcon className="w-5 h-5 text-green-400" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-white">Beliebteste Aktien</h3>
-                <p className="text-sm text-gray-400">Meist gehaltene Positionen</p>
+                <p className="text-sm text-theme-secondary">Meist gehaltene Positionen</p>
               </div>
             </div>
             
@@ -1057,14 +1515,17 @@ export default function MarketInsightsPage() {
           </div>
 
           {/* Größte Investments */}
-          <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
                 <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-white">Größte Investments</h3>
-                <p className="text-sm text-gray-400">Nach Dollar-Volumen</p>
+                <p className="text-sm text-theme-secondary">Nach Dollar-Volumen</p>
               </div>
             </div>
             
@@ -1087,7 +1548,7 @@ export default function MarketInsightsPage() {
         {/* Investment Strategien */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10  border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
               <StarIcon className="w-4 h-4" />
               Investment Strategien
             </div>
@@ -1095,7 +1556,7 @@ export default function MarketInsightsPage() {
               Konsensus vs.
               <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Contrarian Picks</span>
             </h2>
-            <p className="text-gray-400 max-w-3xl mx-auto">
+            <p className="text-theme-secondary max-w-3xl mx-auto">
               Links: Aktien mit breitem Konsensus und hoher Portfolio-Gewichtung. 
               Rechts: Seltene Überzeugungen weniger Investoren.
             </p>
@@ -1104,15 +1565,18 @@ export default function MarketInsightsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Konsensus-Aktien */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden backdrop-blur-sm">
-              <div className="p-6 border-b border-gray-800">
+            <div style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              borderColor: 'var(--border-color)' 
+            }} className=" rounded-xl overflow-hidden backdrop-blur-sm">
+              <div style={{ borderColor: 'var(--border-color)' }} className="p-6 border-b">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+                  <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
                     <StarIcon className="w-5 h-5 text-green-400" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">Konsensus-Aktien</h3>
-                    <p className="text-sm text-gray-400">Hohe Portfolio-Gewichtung bei mehreren Investoren</p>
+                    <p className="text-sm text-theme-secondary">Hohe Portfolio-Gewichtung bei mehreren Investoren</p>
                   </div>
                 </div>
               </div>
@@ -1216,7 +1680,8 @@ export default function MarketInsightsPage() {
                         <Link
                           key={bet.ticker}
                           href={`/analyse/stocks/${bet.ticker.toLowerCase()}/super-investors`}
-                          className="block p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+                          style={{ backgroundColor: 'var(--bg-card)' }}
+                          className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -1249,8 +1714,8 @@ export default function MarketInsightsPage() {
                           </div>
                           
                           <div className="mt-2 flex items-center justify-between text-xs">
-                            <span className="text-gray-400">{bet.ownershipCount} Investoren</span>
-                            <span className="text-gray-400">
+                            <span className="text-theme-secondary">{bet.ownershipCount} Investoren</span>
+                            <span className="text-theme-secondary">
                               {formatCurrencyGerman(bet.totalValue, false)}
                             </span>
                           </div>
@@ -1263,15 +1728,18 @@ export default function MarketInsightsPage() {
             </div>
 
             {/* Contrarian Picks */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden backdrop-blur-sm">
-              <div className="p-6 border-b border-gray-800">
+            <div style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              borderColor: 'var(--border-color)' 
+            }} className="rounded-xl overflow-hidden backdrop-blur-sm">
+              <div style={{ borderColor: 'var(--border-color)' }} className="p-6 border-b">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+                  <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
                     <BoltIcon className="w-5 h-5 text-green-400" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-white">Contrarian Picks</h3>
-                    <p className="text-sm text-gray-400">Wenige Investoren, hohe Überzeugung</p>
+                    <p className="text-sm text-theme-secondary">Wenige Investoren, hohe Überzeugung</p>
                   </div>
                 </div>
               </div>
@@ -1356,7 +1824,8 @@ export default function MarketInsightsPage() {
                           <Link
                             key={`${pick.ticker}-${pick.investor}`}
                             href={`/analyse/stocks/${pick.ticker.toLowerCase()}/super-investors`}
-                            className="block p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
+                            style={{ backgroundColor: 'var(--bg-card)' }}
+                            className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
@@ -1390,7 +1859,7 @@ export default function MarketInsightsPage() {
                             
                             <div className="mt-2 flex items-center justify-between text-xs">
                               <span className="text-green-300 font-medium">{pick.investor}</span>
-                              <span className="text-gray-400">
+                              <span className="text-theme-secondary">
                                 {formatCurrencyGerman(pick.value, false)}
                               </span>
                             </div>
@@ -1410,7 +1879,10 @@ export default function MarketInsightsPage() {
             </div>
           </div>
 
-          <div className="mt-8 p-4 bg-gray-800/30 rounded-lg border border-gray-700/30">
+          <div style={{ 
+            backgroundColor: 'var(--bg-card)', 
+            borderColor: 'var(--border-color)' 
+          }} className="mt-8 p-4 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
               <div>
                 <strong className="text-green-400">Konsensus-Aktien:</strong> Mindestens 3% Portfolio-Gewichtung bei 2+ Investoren. 
@@ -1435,7 +1907,7 @@ export default function MarketInsightsPage() {
               Konzentration vs.
               <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Diversifikation</span>
             </h2>
-            <p className="text-gray-400">
+            <p className="text-theme-secondary">
               Wer setzt auf wenige große Positionen vs. breite Diversifikation?
             </p>
           </div>
@@ -1497,7 +1969,11 @@ export default function MarketInsightsPage() {
               return concentrationData.map((data) => (
                 <div
                   key={data.investor}
-                  className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200"
+                  style={{ 
+                    backgroundColor: 'var(--bg-card)', 
+                    borderColor: 'var(--border-color)' 
+                  }}
+                  className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-bold text-white">{data.investor}</h3>
@@ -1513,10 +1989,10 @@ export default function MarketInsightsPage() {
 
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-400 text-sm">Konzentrations-Index</span>
+                      <span className="text-theme-secondary text-sm">Konzentrations-Index</span>
                       <span className="text-white font-semibold">{(data.concentration * 100).toFixed(1)}%</span>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-full rounded-full h-2">
                       <div 
                         className={`h-2 rounded-full ${
                           data.type === 'high' ? 'bg-green-500' :
@@ -1529,7 +2005,7 @@ export default function MarketInsightsPage() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400 text-sm">Top 3 Holdings:</span>
+                      <span className="text-theme-secondary text-sm">Top 3 Holdings:</span>
                       <span className={`font-semibold ${
                         data.top3Percentage > 60 ? 'text-green-400' :
                         data.top3Percentage > 40 ? 'text-gray-400' : 'text-gray-300'
@@ -1538,7 +2014,7 @@ export default function MarketInsightsPage() {
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400 text-sm">Gesamt-Positionen:</span>
+                      <span className="text-theme-secondary text-sm">Gesamt-Positionen:</span>
                       <span className="text-white font-semibold">{data.totalPositions}</span>
                     </div>
                   </div>
@@ -1547,6 +2023,470 @@ export default function MarketInsightsPage() {
             })()}
           </div>
         </div>
+
+
+        {/* Sektor-Analyse */}
+        <section className="mb-16">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+              <BuildingOfficeIcon className="w-4 h-4" />
+              Sektor-Analyse
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Investment
+              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Sektoren</span>
+            </h2>
+            <p className="text-theme-secondary">
+              Wie die Super-Investoren ihr Kapital auf verschiedene Wirtschaftssektoren verteilen
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {topSectors.map((sector: SectorAnalysis) => (
+              <div
+                key={sector.sector}
+                style={{ 
+                  backgroundColor: 'var(--bg-card)', 
+                  borderColor: 'var(--border-color)' 
+                }}
+                className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-white">{sector.sector}</h3>
+                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Gesamt-Wert:</span>
+                    <span className="text-green-400 font-semibold">
+                      {formatCurrencyGerman(sector.value)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-theme-secondary text-sm">Positionen:</span>
+                    <span className="text-white font-semibold">{sector.count}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+
+{/* ========== NEUE INSIGHTS SECTION ========== */}
+<div className="mb-16">
+  <div className="text-center mb-12">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+      <BoltIcon className="w-4 h-4" />
+      Advanced Insights
+    </div>
+    <h2 className="text-3xl font-bold text-white mb-4">
+      Momentum & 
+      <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Timing Signals</span>
+    </h2>
+    <p className="text-theme-secondary max-w-3xl mx-auto">
+      Fortgeschrittene Analysen zu Trendwenden, Exits und neuen Entdeckungen der Super-Investoren
+    </p>
+  </div>
+
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    {/* Momentum Shifts */}
+    <div style={{ 
+      backgroundColor: 'var(--bg-card)', 
+      borderColor: 'var(--border-color)' 
+    }} className="rounded-xl p-6 backdrop-blur-sm">
+      <div className="flex items-center gap-3 mb-6">
+        <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
+          <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-white">Momentum Shifts</h3>
+          <p className="text-sm text-theme-secondary">Von Verkauf zu Kauf gedreht</p>
+        </div>
+      </div>
+      
+      <div className="space-y-3 max-h-[500px] overflow-y-auto">
+        {momentumShifts.length > 0 ? (
+          momentumShifts.map((shift, index) => (
+            <Link
+              key={shift.ticker}
+              href={`/analyse/stocks/${shift.ticker.toLowerCase()}/super-investors`}
+              style={{ 
+                backgroundColor: 'var(--bg-card)',
+                borderBottom: index < momentumShifts.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none'
+              }}
+              className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 relative">
+                    <Logo
+                      ticker={shift.ticker}
+                      alt={`${shift.ticker} Logo`}
+                      className="w-full h-full"
+                      padding="none"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                      {shift.ticker}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate max-w-[120px]">
+                      {shift.name}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center gap-1">
+                    <ArrowUpIcon className="w-3 h-3 text-green-400" />
+                    <span className="text-green-400 font-bold">
+                      {shift.shifters.length}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500">Umgedreht</div>
+                </div>
+              </div>
+              <div className="text-xs text-gray-400 truncate">
+                {shift.shifters.slice(0, 2).join(', ')}
+                {shift.shifters.length > 2 && ` +${shift.shifters.length - 2}`}
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <ArrowTrendingUpIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <p className="text-sm">Keine Momentum Shifts gefunden</p>
+            <p className="text-xs mt-1">Mindestens 2 Quartale nötig</p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* Exit Tracker */}
+    <div style={{ 
+      backgroundColor: 'var(--bg-card)', 
+      borderColor: 'var(--border-color)' 
+    }} className="rounded-xl p-6 backdrop-blur-sm">
+      <div className="flex items-center gap-3 mb-6">
+        <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
+          <ArrowDownIcon className="w-5 h-5 text-red-400" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-white">Exit Tracker</h3>
+          <p className="text-sm text-theme-secondary">Komplett verkaufte Positionen</p>
+        </div>
+      </div>
+      
+      <div className="space-y-3 max-h-[500px] overflow-y-auto">
+        {exitTracker.length > 0 ? (
+          exitTracker.map((exit, index) => (
+            <div
+              key={exit.ticker}
+              style={{ 
+                backgroundColor: 'var(--bg-card)',
+                borderBottom: index < exitTracker.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none'
+              }}
+              className="block p-3 rounded-lg"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 relative">
+                    <Logo
+                      ticker={exit.ticker}
+                      alt={`${exit.ticker} Logo`}
+                      className="w-full h-full"
+                      padding="none"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white">
+                      {exit.ticker}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate max-w-[120px]">
+                      {exit.name}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-red-400 font-bold">
+                    {exit.exitedBy.length}
+                  </div>
+                  <div className="text-xs text-gray-500">Exits</div>
+                </div>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">
+                  ⌀ {exit.avgHoldingPeriod.toFixed(0)} Quartale
+                </span>
+                <span className="text-gray-400">
+                  {formatCurrencyGerman(exit.totalValueExited, false)}
+                </span>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <ArrowDownIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <p className="text-sm">Keine Exits in diesem Zeitraum</p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* New Discoveries */}
+    <div style={{ 
+      backgroundColor: 'var(--bg-card)', 
+      borderColor: 'var(--border-color)' 
+    }} className="rounded-xl p-6 backdrop-blur-sm">
+      <div className="flex items-center gap-3 mb-6">
+        <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
+          <StarIcon className="w-5 h-5 text-yellow-400" />
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-white">New Discoveries</h3>
+          <p className="text-sm text-theme-secondary">Erstmalige Käufe</p>
+        </div>
+      </div>
+      
+      <div className="space-y-3 max-h-[500px] overflow-y-auto">
+        {newDiscoveries.length > 0 ? (
+          newDiscoveries.map((discovery, index) => (
+            <Link
+              key={discovery.ticker}
+              href={`/analyse/stocks/${discovery.ticker.toLowerCase()}/super-investors`}
+              style={{ 
+                backgroundColor: 'var(--bg-card)',
+                borderBottom: index < newDiscoveries.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none'
+              }}
+              className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 relative">
+                    <Logo
+                      ticker={discovery.ticker}
+                      alt={`${discovery.ticker} Logo`}
+                      className="w-full h-full"
+                      padding="none"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                      {discovery.ticker}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate max-w-[120px]">
+                      {discovery.name}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-yellow-400 font-bold">
+                    {discovery.discoveredBy.length}
+                  </div>
+                  <div className="text-xs text-gray-500">Neu dabei</div>
+                </div>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400 truncate max-w-[150px]">
+                  {discovery.discoveredBy.slice(0, 2).join(', ')}
+                </span>
+                <span className="text-green-400">
+                  ⌀ {formatCurrencyGerman(discovery.avgPosition, false)}
+                </span>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            <StarIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <p className="text-sm">Keine neuen Entdeckungen</p>
+            <p className="text-xs mt-1">Min. 2 Investoren & 5M Position</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{/* ========== SECTOR NET FLOWS SECTION - FULL WIDTH ========== */}
+<div className="mb-16">
+  <div className="text-center mb-12">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+      <ArrowTrendingUpIcon className="w-4 h-4" />
+      Sector Analysis
+    </div>
+    <h2 className="text-3xl font-bold text-white mb-4">
+      Sektor
+      <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Net Flows</span>
+    </h2>
+    <p className="text-theme-secondary max-w-3xl mx-auto mb-6">
+      Kapitalzu- und -abflüsse nach Wirtschaftssektoren im Zeitvergleich
+    </p>
+    
+    {/* DROPDOWN FÜR SECTOR FLOWS */}
+    <div className="flex justify-center">
+      <div className="relative inline-block">
+        <select
+          value={sectorPeriod}
+          onChange={(e) => setSectorPeriod(e.target.value)}
+          className="appearance-none pl-10 pr-10 py-2.5 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105 min-w-[200px]"
+          style={{ 
+            backgroundColor: 'var(--bg-card)',
+            border: '1px solid var(--border-color)',
+            color: 'var(--text-secondary)'
+          }}
+        >
+          {quarterOptions.filter(option => option.quarters.length >= 2).map(option => (
+            <option 
+              key={option.id} 
+              value={option.id}
+              style={{ 
+                backgroundColor: 'var(--bg-card)',
+                color: 'var(--text-primary)'
+              }}
+            >
+              {option.label}
+            </option>
+          ))}
+        </select>
+        
+        {/* Calendar Icon links */}
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <CalendarIcon className="w-4 h-4 text-gray-400" />
+        </div>
+        
+        {/* Pfeil Icon rechts */}
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <ChevronDownIcon className="w-4 h-4 text-gray-400" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="max-w-6xl mx-auto">
+    <div style={{ 
+      backgroundColor: 'var(--bg-card)', 
+      borderColor: 'var(--border-color)' 
+    }} className="rounded-xl p-8 backdrop-blur-sm">
+      
+      {sectorNetFlows.size > 0 ? (
+        <div className="space-y-6">
+          {/* Sortiere und teile in Zuflüsse und Abflüsse */}
+          {(() => {
+            const sorted = Array.from(sectorNetFlows.entries())
+              .sort(([,a], [,b]) => b - a);
+            
+            const inflows = sorted.filter(([,flow]) => flow > 0);
+            const outflows = sorted.filter(([,flow]) => flow < 0);
+            
+            return (
+              <>
+                {/* Zuflüsse */}
+                {inflows.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-medium text-green-400 mb-4 flex items-center gap-2">
+                      <ArrowUpIcon className="w-4 h-4" />
+                      Kapitalzuflüsse
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {inflows.map(([sector, flow]) => (
+                        <div 
+                          key={sector}
+                          className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 hover:bg-green-500/15 transition-colors"
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="font-medium text-white">{sector}</span>
+                            <span className="text-green-400 font-bold">
+                              +{formatCurrencyGerman(flow, false)}
+                            </span>
+                          </div>
+                          <div className="w-full bg-green-900/30 rounded-full h-2">
+                            <div 
+                              className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                              style={{ width: `${Math.min((flow / Math.max(...inflows.map(([,f]) => f))) * 100, 100)}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Abflüsse */}
+                {outflows.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-medium text-red-400 mb-4 flex items-center gap-2">
+                      <ArrowDownIcon className="w-4 h-4" />
+                      Kapitalabflüsse
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {outflows.map(([sector, flow]) => (
+                        <div 
+                          key={sector}
+                          className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 hover:bg-red-500/15 transition-colors"
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="font-medium text-white">{sector}</span>
+                            <span className="text-red-400 font-bold">
+                              {formatCurrencyGerman(Math.abs(flow), false)}
+                            </span>
+                          </div>
+                          <div className="w-full bg-red-900/30 rounded-full h-2">
+                            <div 
+                              className="bg-red-500 h-2 rounded-full transition-all duration-500"
+                              style={{ width: `${Math.min((Math.abs(flow) / Math.max(...outflows.map(([,f]) => Math.abs(f)))) * 100, 100)}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Summary Stats */}
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="text-2xl font-bold text-green-400">
+                        {formatCurrencyGerman(inflows.reduce((sum, [,flow]) => sum + flow, 0), false)}
+                      </div>
+                      <div className="text-xs text-gray-500">Gesamt-Zuflüsse</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-red-400">
+                        {formatCurrencyGerman(Math.abs(outflows.reduce((sum, [,flow]) => sum + flow, 0)), false)}
+                      </div>
+                      <div className="text-xs text-gray-500">Gesamt-Abflüsse</div>
+                    </div>
+                    <div>
+                      <div className={`text-2xl font-bold ${
+                        sectorNetFlows.size > 0 ? 'text-white' : 'text-gray-400'
+                      }`}>
+                        {inflows.length + outflows.length}
+                      </div>
+                      <div className="text-xs text-gray-500">Aktive Sektoren</div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      ) : (
+        <div className="text-center py-12 text-gray-500">
+          <ArrowTrendingUpIcon className="w-8 h-8 mx-auto mb-3 opacity-50" />
+          <p className="text-sm">Keine Sektor-Flows in diesem Zeitraum</p>
+          <p className="text-xs mt-1">Wähle mindestens 2 Quartale für Vergleich</p>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<br />
+<br />
 
         {/* Recent Activity Tracking */}
         <div className="mb-16">
@@ -1559,7 +2499,7 @@ export default function MarketInsightsPage() {
               Aktivitäts-
               <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">Tracking</span>
             </h2>
-            <p className="text-gray-400 mb-4">
+            <p className="text-theme-secondary mb-4">
               Welche Investoren sind am aktivsten? Wer kauft und verkauft am meisten?
             </p>
             <p className="text-sm text-gray-500">
@@ -1570,14 +2510,17 @@ export default function MarketInsightsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Most Active Investors */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+            <div style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              borderColor: 'var(--border-color)' 
+            }} className="rounded-xl p-6 backdrop-blur-sm">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
                   <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white">Aktivste Investoren</h3>
-                  <p className="text-sm text-gray-400">Portfolio-Änderungen der letzten 3 Quartale</p>
+                  <p className="text-sm text-theme-secondary">Portfolio-Änderungen der letzten 3 Quartale</p>
                 </div>
               </div>
 
@@ -1654,12 +2597,17 @@ export default function MarketInsightsPage() {
 
                 return (
                   <div className="space-y-4">
-                    {activityData.slice(0, 6).map((data) => (
-                      <Link
-                        key={data.investor}
-                        href={`/superinvestor/${Object.keys(investorNames).find(key => investorNames[key] === data.investor) || 'buffett'}`}
-                        className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors group"
-                      >
+                   {activityData.slice(0, 6).map((data, index) => (
+                   <Link
+                   key={data.investor}
+                   href={`/superinvestor/${Object.keys(investorNames).find(key => investorNames[key] === data.investor) || 'buffett'}`}
+                   style={{ 
+                     backgroundColor: 'var(--bg-card)',
+                     borderBottom: index < 5 ? '1px solid rgba(255,255,255,0.03)' : 'none'
+                   }}
+                   className="flex items-center justify-between p-4 rounded-lg hover:bg-theme-hover transition-colors group"
+                 >
+                 
                         <div>
                           <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
                             {data.investor}
@@ -1693,14 +2641,17 @@ export default function MarketInsightsPage() {
             </div>
 
             {/* Recent Big Moves */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm">
+            <div style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              borderColor: 'var(--border-color)' 
+            }} className="rounded-xl p-6 backdrop-blur-sm">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
                   <BoltIcon className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white">Große Bewegungen</h3>
-                  <p className="text-sm text-gray-400">Portfolio-Gewichtung Änderungen größer 2%</p>
+                  <p className="text-sm text-theme-secondary">Portfolio-Gewichtung Änderungen größer 2%</p>
                 </div>
               </div>
 
@@ -1763,102 +2714,59 @@ export default function MarketInsightsPage() {
 
                 return (
                   <div className="space-y-4">
-                    {bigMoves.slice(0, 6).map((move, index) => {
-                      const investorSlug = Object.keys(investorNames).find(key => investorNames[key] === move.investor) || 'buffett';
-                      
-                      return (
-                        <div key={`${move.investor}-${move.ticker}-${index}`} className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <Link
-                              href={`/analyse/stocks/${move.ticker.toLowerCase()}/super-investors`}
-                              className="w-8 h-8 relative hover:scale-110 transition-transform"
-                            >
-                              <Logo
-                                ticker={move.ticker}
-                                alt={`${move.ticker} Logo`}
-                                className="w-full h-full"
-                                padding="none"
-                              />
-                            </Link>
-                            <div>
-                              <Link
-                                href={`/analyse/stocks/${move.ticker.toLowerCase()}/super-investors`}
-                                className="font-semibold text-white hover:text-green-400 transition-colors"
-                              >
-                                {move.ticker}
-                              </Link>
-                              <Link
-                                href={`/superinvestor/${investorSlug}`}
-                                className="block text-xs text-gray-500 hover:text-green-400 transition-colors"
-                              >
-                                {move.investor}
-                              </Link>
-                            </div>
+                  {bigMoves.slice(0, 6).map((move, index) => {
+                    const investorSlug = Object.keys(investorNames).find(key => investorNames[key] === move.investor) || 'buffett';
+                    
+                    return (
+                      <Link
+                        key={`${move.investor}-${move.ticker}-${index}`}
+                        href={`/superinvestor/${investorSlug}`}
+                        style={{ 
+                          backgroundColor: 'var(--bg-card)',
+                          borderBottom: index < 5 ? '1px solid rgba(255,255,255,0.03)' : 'none'
+                        }}
+                        className="flex items-center justify-between p-4 rounded-lg hover:bg-theme-hover transition-colors group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 relative">
+                            <Logo
+                              ticker={move.ticker}
+                              alt={`${move.ticker} Logo`}
+                              className="w-full h-full"
+                              padding="none"
+                            />
                           </div>
-                          
-                          <div className="text-right">
-                            <div className={`font-bold text-lg ${
-                              move.type === 'buy' ? 'text-green-400' : 'text-red-400'
-                            }`}>
-                              {move.type === 'buy' ? '+' : '-'}{move.percentChange.toFixed(1)}%
-                            </div>
-                            <div className="text-xs text-gray-600 mb-1">Portfolio-Gewichtung</div>
-                            <div className="text-xs text-gray-500">
-                              {formatCurrencyGerman(move.value, false)}
-                            </div>
+                          <div>
+                            <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                              {move.ticker}
+                            </h4>
+                            <p className="text-xs text-gray-500">
+                              {move.investor} • {move.type === 'buy' ? 'Gekauft' : 'Verkauft'}
+                            </p>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                        
+                        <div className="text-right">
+                          <div className={`font-bold text-lg mb-1 ${
+                            move.type === 'buy' ? 'text-green-400' : 'text-red-400'
+                          }`}>
+                            {move.type === 'buy' ? '+' : '-'}{move.percentChange.toFixed(1)}%
+                          </div>
+                          <div className="text-xs text-gray-600">Portfolio-Gewichtung</div>
+                          <div className="text-xs text-gray-500">
+                            {formatCurrencyGerman(move.value, false)}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
                 );
               })()}
             </div>
           </div>
         </div>
 
-        {/* Sektor-Analyse */}
-        <section className="mb-16">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
-              <BuildingOfficeIcon className="w-4 h-4" />
-              Sektor-Analyse
-            </div>
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Investment
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Sektoren</span>
-            </h2>
-            <p className="text-gray-400">
-              Wie die Super-Investoren ihr Kapital auf verschiedene Wirtschaftssektoren verteilen
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topSectors.map((sector: SectorAnalysis) => (
-              <div
-                key={sector.sector}
-                className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/60 transition-colors duration-200"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-white">{sector.sector}</h3>
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Gesamt-Wert:</span>
-                    <span className="text-green-400 font-semibold">
-                      {formatCurrencyGerman(sector.value)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">Positionen:</span>
-                    <span className="text-white font-semibold">{sector.count}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Geographic Exposure */}
         <section>
@@ -1871,13 +2779,16 @@ export default function MarketInsightsPage() {
               Globale
               <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Diversifikation</span>
             </h2>
-            <p className="text-gray-400">
+            <p className="text-theme-secondary">
               Verteilung zwischen US-amerikanischen und internationalen Investments
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
+            <div style={{ 
+              backgroundColor: 'var(--bg-card)', 
+              borderColor: 'var(--border-color)' 
+            }} className=" rounded-xl p-8 backdrop-blur-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <div className="text-center">
@@ -1902,7 +2813,7 @@ export default function MarketInsightsPage() {
                     </div>
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">🇺🇸 US-Märkte</h3>
-                  <p className="text-gray-400 font-semibold">
+                  <p className="text-theme-secondary font-semibold">
                     {formatCurrencyGerman(usValue)}
                   </p>
                 </div>
