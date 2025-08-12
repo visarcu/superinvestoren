@@ -713,7 +713,7 @@ export default function SuperinvestorOverview() {
                 <CircleStackIcon className="w-5 h-5 text-green-400" />
               </div>
               <div className="text-left">
-                <div className="text-2xl font-bold text-white">$2.5T</div>
+                <div className="text-2xl font-bold text-white">2,5 Billionen $</div>
                 <div className="text-sm text-gray-500">Verwaltetes Vermögen</div>
               </div>
             </div>

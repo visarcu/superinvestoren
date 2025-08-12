@@ -34,7 +34,7 @@ const Terminal = () => {
   ];
 
   const quickStats = [
-    { label: 'Market Cap', value: '$2.85T', change: '+2.1%', positive: true },
+    { label: 'Market Cap', value: '2.850 Mrd. $', change: '+2.1%', positive: true },
     { label: 'P/E Ratio', value: '28.4', change: '-0.5%', positive: false },
     { label: 'Revenue (TTM)', value: '$394.3B', change: '+8.2%', positive: true },
     { label: 'Dividend Yield', value: '0.89%', change: '+0.02%', positive: true },

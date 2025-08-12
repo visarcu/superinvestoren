@@ -42,7 +42,7 @@ export default function SuperinvestorInfo() {
           <div className="lg:col-span-2 bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
             <div className="mb-6">
               <h3 className="text-2xl font-bold text-white mb-4">
-                Institutionelle Anleger mit über $100M AUM
+              Institutionelle Anleger mit über $100M AUM (verwaltetes Vermögen)
               </h3>
               <p className="text-gray-300 leading-relaxed mb-4">
                 Super-Investoren sind Hedgefonds-Manager und institutionelle Anleger, die 
@@ -84,11 +84,11 @@ export default function SuperinvestorInfo() {
             </h4>
             <div className="space-y-3">
               {[
-                { name: 'Warren Buffett', fund: 'Berkshire', aum: '$266B', color: 'text-yellow-400' },
-                { name: 'Bill Ackman', fund: 'Pershing Square', aum: '$10B', color: 'text-green-400' },
-                { name: 'Terry Smith', fund: 'Fundsmith', aum: '$24B', color: 'text-green-400' },
-                { name: 'Carl Icahn', fund: 'Icahn Enterprises', aum: '$7B', color: 'text-green-400' },
-                { name: 'Howard Marks', fund: 'Oaktree', aum: '$8B', color: 'text-green-400' }
+                { name: 'Warren Buffett', fund: 'Berkshire', aum: '$266 Mrd.', color: 'text-yellow-400' },
+                { name: 'Bill Ackman', fund: 'Pershing Square', aum: '$10 Mrd.', color: 'text-green-400' },
+                { name: 'Terry Smith', fund: 'Fundsmith', aum: '$24 Mrd.', color: 'text-green-400' },
+                { name: 'Carl Icahn', fund: 'Icahn Enterprises', aum: '$7 Mrd.', color: 'text-green-400' },
+                { name: 'Howard Marks', fund: 'Oaktree', aum: '$8 Mrd.', color: 'text-green-400' }
               ].map((investor, i) => (
                 <div key={i} className="bg-[#1A1A1D] rounded-lg p-3 hover:bg-[#1F1F22] transition-colors cursor-pointer group">
                   <div className="flex items-center justify-between">

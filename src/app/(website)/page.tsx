@@ -113,7 +113,9 @@ const getRealPortfolioData = () => {
       investor: info.investor,
       date: latest.date?.split('-').reverse().join('.') || 'September 29, 2024',
       filingId: info.filingId,
-      totalValue: `${(totalValue / 1000000).toFixed(0)}M`,
+      totalValue: totalValue >= 1000000000 
+      ? `${(totalValue / 1000000000).toFixed(0)} Mrd. $`
+      : `${(totalValue / 1000000).toFixed(0)} Mio. $`,
       tickers: mergedHoldings.map(h => h.ticker).join(', '),
       holdings: mergedHoldings.map(holding => ({
         ticker: holding.ticker,
@@ -207,14 +209,14 @@ export default function ProfessionalHomePage() {
       investor: 'Warren Buffett',
       date: '29.09.2024',
       filingId: '1067983',
-      totalValue: '$266B',
+      totalValue: '266 Mrd. $',
       tickers: 'AAPL, BAC, AXP, KO',
       holdings: [
-        { ticker: 'AAPL', value: '$69.9B', percentage: '26.0' },
-        { ticker: 'BAC', value: '$31.7B', percentage: '12.0' },
-        { ticker: 'AXP', value: '$25.1B', percentage: '9.5' },
-        { ticker: 'KO', value: '$22.4B', percentage: '8.5' },
-        { ticker: 'CVX', value: '$18.6B', percentage: '7.0' }
+        { ticker: 'AAPL', value: '$69.9 Mrd.', percentage: '26.0' },
+        { ticker: 'BAC', value: '$31.7 Mrd.', percentage: '12.0' },
+        { ticker: 'AXP', value: '$25.1 Mrd.', percentage: '9.5' },
+        { ticker: 'KO', value: '$22.4 Mrd.', percentage: '8.5' },
+        { ticker: 'CVX', value: '$18.6 Mrd.', percentage: '7.0' }
       ]
     }
   ];
@@ -229,12 +231,12 @@ export default function ProfessionalHomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-theme-primary">
+    <div className="min-h-screen bg-black">
       
-     <br /><br /><br />
+     
 
 {/* 🏛️ PROFESSIONAL HERO - Quartr Style */}
-<div className="bg-theme-primary pt-32 pb-24">
+<div className="bg-black pt-32 pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           
           {/* Subtle Glow Background */}
@@ -300,7 +302,7 @@ export default function ProfessionalHomePage() {
 
 
 {/* 📊 STATS SECTION - Quartr Style */}
-<div className="bg-theme-primary py-20">
+<div className="bg-black py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Stats Grid - Quartr Style ohne Boxen */}
@@ -394,10 +396,10 @@ export default function ProfessionalHomePage() {
                 {/* Data Grid - Like Your Dashboard */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   {[
-                    { label: 'Market Cap', value: '$2.85T', change: null },
+                    { label: 'Market Cap', value: '2.850 Mrd. $', change: null },
                     { label: 'KGV', value: '28.4', change: null },
-                    { label: 'Umsatz (TTM)', value: '$394.3B', change: '+5.8%' },
-                    { label: 'EPS (TTM)', value: '$6.16', change: '+8.3%' },
+                    { label: 'Umsatz (TTM)', value: '394. Mrd $', change: '+5.8%' },
+                    { label: 'EPS (TTM)', value: '6.16 $', change: '+8.3%' },
                     { label: 'ROE', value: '160.58%', change: '+12.4%' },
                     { label: 'Verschuldungsgrad', value: '1.73', change: null }
                   ].map((metric, index) => (
@@ -465,7 +467,7 @@ export default function ProfessionalHomePage() {
       
 
       {/* 📈 FUNDAMENTALS SECTION - Minimal */}
-      <section className="bg-theme-primary py-24">
+      <section className="bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -493,7 +495,7 @@ export default function ProfessionalHomePage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold text-white">$211.9B</div>
+                    <div className="text-xl font-bold text-white">211.9 Mrd. $</div>
                     <div className="text-xs text-gray-400">FY 2024</div>
                   </div>
                 </div>
@@ -565,7 +567,7 @@ export default function ProfessionalHomePage() {
                   <div className={`text-center transform transition-all duration-500 ${
                     marketChartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                   }`} style={{ transitionDelay: '2000ms' }}>
-                    <div className="text-sm font-bold text-white">$88.5B</div>
+                    <div className="text-sm font-bold text-white">88.5 Mrd $</div>
                     <div className="text-xs text-gray-400">Betriebsergebnis</div>
                   </div>
                   <div className={`text-center transform transition-all duration-500 ${
@@ -633,7 +635,7 @@ export default function ProfessionalHomePage() {
       </section>
 
 {/* LOGO CAROUSEL - Ohne Lücke */}
-<div className="bg-theme-primary py-16 overflow-hidden border-t border-b border-white/5">
+<div className="bg-black py-16 overflow-hidden border-t border-b border-white/5">
 <div className="text-center mb-8">
 <p className="text-xs text-gray-600 uppercase tracking-wider font-medium">
 Analysiere die besten Unternehmen der Welt</p>
@@ -687,7 +689,7 @@ Analysiere die besten Unternehmen der Welt</p>
 </div>
 
       {/* 🤖 AI SECTION - Professional */}
-      <section className="bg-theme-primary py-24">
+      <section className="bg-black py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -789,11 +791,11 @@ Analysiere die besten Unternehmen der Welt</p>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">BAC Verkäufe:</span>
-                          <span className="text-white">$3.8B verkauft</span>
+                          <span className="text-white">3.8 Mrd. $ verkauft</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">Cash Position:</span>
-                          <span className="text-green-400">$325B (+18%)</span>
+                          <span className="text-green-400">325 Mrd. $ (+18%)</span>
                         </div>
                       </div>
                     </div>
@@ -828,7 +830,7 @@ Analysiere die besten Unternehmen der Welt</p>
       </section>
 
       {/* 📊 PORTFOLIO TRACKING - Professional */}
-      <section className="bg-theme-primary py-24">
+      <section className="bg-black py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -890,10 +892,10 @@ Analysiere die besten Unternehmen der Welt</p>
                 {/* Portfolio Table */}
                 <div className="space-y-3">
                   {[
-                    { fund: 'Berkshire Hathaway', manager: 'W. Buffett', aum: '$258B', change: '-12.8%', top: 'AAPL 26%' },
-                    { fund: 'Pershing Square', manager: 'B. Ackman', aum: '$18.2B', change: '+24.1%', top: 'UMG 28%' },
-                    { fund: 'Baupost Group', manager: 'S. Klarman', aum: '$27.4B', change: '+8.7%', top: 'META 12%' },
-                    { fund: 'Appaloosa', manager: 'D. Tepper', aum: '$13.1B', change: '-3.2%', top: 'GOOGL 18%' }
+                    { fund: 'Berkshire Hathaway', manager: 'W. Buffett', aum: '258 Mrd. $', change: '-12.8%', top: 'AAPL 26%' },
+                    { fund: 'Pershing Square', manager: 'B. Ackman', aum: '18.2 Mrd. $', change: '+24.1%', top: 'UMG 28%' },
+                    { fund: 'Baupost Group', manager: 'S. Klarman', aum: '27.4 Mrd. $', change: '+8.7%', top: 'META 12%' },
+                    { fund: 'Appaloosa', manager: 'D. Tepper', aum: '13.1 Mrd. $', change: '-3.2%', top: 'GOOGL 18%' }
                   ].map((fund, index) => (
                     <div 
                       key={fund.fund} 
@@ -936,7 +938,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 }`} style={{ transitionDelay: '800ms' }}>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-400">Gesamtes verwaltetes Vermögen</span>
-                    <span className="text-white font-medium">$316.7B</span>
+                    <span className="text-white font-medium">316.7 Mrd. $</span>
                   </div>
                 </div>
               </div>
@@ -946,7 +948,7 @@ Analysiere die besten Unternehmen der Welt</p>
       </section>
 
       {/* 🏛️ SUPER INVESTORS SHOWCASE - Clean & Minimal */}
-      <section className="bg-theme-primary py-24">
+      <section className="bg-black py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
@@ -1048,7 +1050,7 @@ Analysiere die besten Unternehmen der Welt</p>
       </section>
 
       {/* NEWSLETTER + BROKER - Professional */}
-      <section className="bg-theme-primary py-24">
+      <section className="bg-black py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Newsletter Section */}

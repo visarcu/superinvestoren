@@ -1,4 +1,4 @@
-// src/app/superinvestor/[slug]/page.tsx - ERWEITERT MIT OPTION-ANZEIGE UND NEUEM THEME
+// src/app/superinvestor/[slug]/page.tsx - CLEAN DESIGN VERSION
 'use client'
 
 import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
@@ -50,7 +50,6 @@ import InvestorFollowButton from '@/components/InvestorFollowButton'
 import { CurrencyProvider, useCurrency } from '@/contexts/CurrencyContext'
 import CurrencySwitch from '@/components/CurrencySwitch'
 import { InvestorCardSkeleton, StatsCardSkeleton } from '@/components/SkeletonLoaders'
-
 
 // Dynamic imports
 const TopPositionsBarChart = dynamic(
@@ -104,7 +103,7 @@ const useIntersectionObserver = (threshold = 0.1) => {
   return [ref, isVisible] as const;
 };
 
-// ✅ KORRIGIERT: Position Interface EXAKT wie in InvestorTabs.tsx
+// Position Interface
 interface Position {
   cusip: string
   name: string
@@ -113,7 +112,6 @@ interface Position {
   deltaShares: number
   pctDelta: number
   ticker?: string
-  // ✅ EXAKTE typeInfo Definition wie in InvestorTabs
   optionType?: 'STOCK' | 'CALL' | 'PUT' | 'OPTION'
   typeInfo?: {
     label: string
@@ -124,13 +122,11 @@ interface Position {
   putCall?: string | null
 }
 
-// ✅ KORRIGIERT: HistoryGroup Interface (kompatibel mit InvestorTabs)
 interface HistoryGroup {
   period: string
   items: Position[]
 }
 
-// Company Ownership History Types
 interface CompanyInfo {
   cusip: string
   ticker: string
@@ -148,8 +144,7 @@ interface OwnershipHistoryPoint {
 }
 
 const investorNames: Record<string, string> = {
-  //Investoren
-  buffett: 'Warren Buffett – Berkshire Hathaway',
+buffett: 'Warren Buffett – Berkshire Hathaway',
   ackman: 'Bill Ackman – Pershing Square Capital Management',
   gates: 'Bill & Melinda Gates Foundation Trust',
   torray: 'Torray Investment Partners LLC',
@@ -223,28 +218,29 @@ const investorNames: Record<string, string> = {
   cunniff_sequoia: 'Ruane Cunniff – Sequoia Fund',
   katz: 'David Katz - Matrix Asset Advisors Inc/ny',
   tweedy_browne_fund_inc: 'Tweedy, Browne International Value Fund II - Currency Unhedged',
+
 }
 
-// ✅ NEU: Option-Styling Helper (vereinfacht für InvestorTabs-Kompatibilität)
+// Option-Styling Helper
 const getOptionStyling = (optionType: string | undefined) => {
   if (!optionType) return null
   
   switch (optionType) {
     case 'PUT':
       return {
-        badge: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+        badge: 'bg-red-900/20 text-red-400/60 border-red-900/20',
         label: 'PUT',
         icon: '📉'
       }
     case 'CALL':
       return {
-        badge: 'bg-green-500/20 text-green-300 border-green-500/30',
+        badge: 'bg-green-900/20 text-green-400/60 border-green-900/20',
         label: 'CALL',
         icon: '📈'
       }
     case 'OPTION':
       return {
-        badge: 'bg-gray-500/20 text-gray-300 border-gray-500/30',
+        badge: 'bg-gray-800/50 text-gray-500 border-gray-800/30',
         label: 'OPTION',
         icon: '⚡'
       }
@@ -253,7 +249,7 @@ const getOptionStyling = (optionType: string | undefined) => {
   }
 }
 
-// ✅ NEU: Option Badge Komponente (korrigiert für Union-Types)
+// Option Badge Komponente
 const OptionBadge = ({ position }: { position: Position }) => {
   const optionType = position.optionType
   
@@ -267,13 +263,13 @@ const OptionBadge = ({ position }: { position: Position }) => {
       className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded border ${styling.badge}`}
       title={position.titleOfClass || `${optionType} Option`}
     >
-      <span>{styling.icon}</span>
+      <span className="opacity-60">{styling.icon}</span>
       {styling.label}
     </span>
   )
 }
 
-// ✅ NEU: Enhanced Company Name mit Option-Badge
+// Enhanced Company Name mit Option-Badge
 const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Position, showLogo?: boolean }) => {
   const ticker = getTicker(position)
   const cleanName = getCleanCompanyName(position)
@@ -281,7 +277,7 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
   const content = (
     <div className="flex items-center gap-3">
       {showLogo && ticker && (
-        <div className="w-6 h-6 flex-shrink-0">
+        <div className="w-6 h-6 flex-shrink-0 opacity-80">
           <Logo
             ticker={ticker}
             alt={`${ticker} Logo`}
@@ -293,23 +289,20 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
       
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className={`font-semibold ${ticker ? 'text-green-400' : 'text-white'}`}>
+          <span className="font-medium text-white">
             {ticker || cleanName}
           </span>
-          
-          {/* ✅ Option Badge */}
           <OptionBadge position={position} />
         </div>
         
         {ticker && cleanName !== ticker && (
-          <div className="text-sm text-gray-400 font-normal truncate">
+          <div className="text-sm text-gray-500 font-normal truncate">
             {cleanName}
           </div>
         )}
         
-        {/* ✅ Option Details (safe access) */}
         {position.titleOfClass && position.optionType && position.optionType !== 'STOCK' && (
-          <div className="text-xs text-gray-500 truncate">
+          <div className="text-xs text-gray-600 truncate">
             {position.titleOfClass}
           </div>
         )}
@@ -321,7 +314,7 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
     return (
       <Link
         href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
-        className="group hover:text-green-300 transition-colors"
+        className="group hover:text-green-400/80 transition-colors"
       >
         {content}
       </Link>
@@ -392,10 +385,6 @@ const getAllCompanies = (snapshots: any[]): CompanyInfo[] => {
     .sort((a, b) => b.totalValue - a.totalValue)
 }
 
-const calculatePortfolioPercentage = (position: Position, totalValue: number): number => {
-  return totalValue > 0 ? (position.value / totalValue) * 100 : 0
-}
-
 const generateOwnershipHistory = (snapshots: any[], selectedCusip: string): OwnershipHistoryPoint[] => {
   return snapshots
     .map(snapshot => {
@@ -417,7 +406,7 @@ const generateOwnershipHistory = (snapshots: any[], selectedCusip: string): Owne
     .sort((a, b) => a.quarter.localeCompare(b.quarter))
 }
 
-// ✅ VOLLSTÄNDIGE CompanyOwnershipHistory Komponente mit Currency Context
+// CompanyOwnershipHistory Komponente
 function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[], investorName: string }) {
   const { formatLargeNumber } = useCurrency()
   const companies = useMemo(() => getAllCompanies(snapshots), [snapshots])
@@ -457,123 +446,122 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
       
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-white mb-4">
+        <h2 className="text-3xl font-light text-white mb-4">
           Einzelunternehmen-Analyse
         </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto">
+        <p className="text-gray-500 max-w-2xl mx-auto">
           Verfolge {investorName}s Ownership-Geschichte für einzelne Unternehmen über die Zeit
         </p>
       </div>
 
-      {/* Company Selector - Theme Colors */}
-      <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+      {/* Company Selector */}
+      <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-            <ChartBarIcon className="w-5 h-5 text-blue-400" />
+          <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-5 h-5 text-gray-400" />
           </div>
-          <h3 className="text-xl font-bold text-white">Unternehmen auswählen</h3>
+          <h3 className="text-xl font-medium text-white">Unternehmen auswählen</h3>
         </div>
         
         <select
           value={selectedCompany}
           onChange={(e) => setSelectedCompany(e.target.value)}
-          style={{ backgroundColor: 'var(--bg-tertiary)' }}
-          className="w-full px-4 py-3 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-900/50 focus:border-green-900/50"
         >
           {companies.map(company => (
-            <option key={company.cusip} value={company.cusip}>
+            <option key={company.cusip} value={company.cusip} className="bg-[#0a0a0b]">
               {company.displayName} {company.totalValue ? `(${formatLargeNumber(company.totalValue)})` : ''}
             </option>
           ))}
         </select>
       </div>
 
-      {/* Current Stats - Theme Colors */}
+      {/* Current Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-green-400" />
+            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-green-900/60" />
             </div>
-            <h4 className="text-sm font-medium text-gray-400">Aktuelle Shares</h4>
+            <h4 className="text-sm font-medium text-gray-500">Aktuelle Shares</h4>
           </div>
-          <p className="text-2xl font-bold text-white">
+          <p className="text-2xl font-light text-white">
             {latestData ? formatShares(latestData.shares) : '0'}
           </p>
           {sharesChange !== 0 && (
-            <p className={`text-sm flex items-center gap-1 mt-2 ${sharesChange > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-sm flex items-center gap-1 mt-2 ${sharesChange > 0 ? 'text-green-400/60' : 'text-red-400/60'}`}>
               {sharesChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
-              {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)} vs letztes Quartal
+              {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)} vs Q
             </p>
           )}
         </div>
 
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-blue-400" />
+            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
-            <h4 className="text-sm font-medium text-gray-400">Aktueller Wert</h4>
+            <h4 className="text-sm font-medium text-gray-500">Aktueller Wert</h4>
           </div>
-          <p className="text-2xl font-bold text-white">
+          <p className="text-2xl font-light text-white">
             {latestData ? formatLargeNumber(latestData.value) : formatLargeNumber(0)}
           </p>
         </div>
 
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-purple-400" />
+            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
-            <h4 className="text-sm font-medium text-gray-400">Portfolio-Anteil</h4>
+            <h4 className="text-sm font-medium text-gray-500">Portfolio-Anteil</h4>
           </div>
-          <p className="text-2xl font-bold text-white">
+          <p className="text-2xl font-light text-white">
             {latestData ? `${latestData.portfolioPercentage.toFixed(1)}%` : '0%'}
           </p>
           {percentageChange !== 0 && (
-            <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-green-400/60' : 'text-red-400/60'}`}>
               {percentageChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
-              {percentageChange > 0 ? '+' : ''}{percentageChange.toFixed(1)}% vs letztes Quartal
+              {percentageChange > 0 ? '+' : ''}{percentageChange.toFixed(1)}% vs Q
             </p>
           )}
         </div>
       </div>
 
-      {/* Charts - Theme Colors */}
+      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Portfolio Percentage Chart */}
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-green-400" />
+            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Portfolio-Anteil über Zeit</h3>
-              <p className="text-sm text-gray-400">{selectedCompanyInfo.ticker}</p>
+              <h3 className="text-lg font-medium text-white">Portfolio-Anteil über Zeit</h3>
+              <p className="text-sm text-gray-500">{selectedCompanyInfo.ticker}</p>
             </div>
           </div>
           
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={ownershipHistory}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1c" />
               <XAxis 
                 dataKey="quarter" 
-                stroke="#9CA3AF"
+                stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => value.replace('Q', 'Q')}
               />
               <YAxis 
-                stroke="#9CA3AF"
+                stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => `${value}%`}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1F2937',
-                  border: '1px solid #374151',
+                  backgroundColor: '#0a0a0b',
+                  border: '1px solid rgba(255,255,255,0.05)',
                   borderRadius: '8px',
-                  color: '#F9FAFB'
+                  color: '#ffffff'
                 }}
                 formatter={(value: any) => [`${value.toFixed(2)}%`, 'Portfolio-Anteil']}
                 labelFormatter={(label) => `Quartal: ${label}`}
@@ -581,38 +569,38 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
               <Line
                 type="monotone"
                 dataKey="portfolioPercentage"
-                stroke="#10B981"
-                strokeWidth={3}
-                dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: '#10B981', strokeWidth: 2 }}
+                stroke="#22c55e"
+                strokeWidth={2}
+                dot={{ fill: '#22c55e', strokeWidth: 0, r: 3 }}
+                activeDot={{ r: 5, stroke: '#22c55e', strokeWidth: 0 }}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Shares Chart */}
-        <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-blue-400" />
+            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Anzahl Aktien über Zeit</h3>
-              <p className="text-sm text-gray-400">{selectedCompanyInfo.ticker}</p>
+              <h3 className="text-lg font-medium text-white">Anzahl Aktien über Zeit</h3>
+              <p className="text-sm text-gray-500">{selectedCompanyInfo.ticker}</p>
             </div>
           </div>
           
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={ownershipHistory}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1c" />
               <XAxis 
                 dataKey="quarter" 
-                stroke="#9CA3AF"
+                stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => value.replace('Q', 'Q')}
               />
               <YAxis 
-                stroke="#9CA3AF"
+                stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => {
                   if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`
@@ -622,17 +610,18 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1F2937',
-                  border: '1px solid #374151',
+                  backgroundColor: '#0a0a0b',
+                  border: '1px solid rgba(255,255,255,0.05)',
                   borderRadius: '8px',
-                  color: '#F9FAFB'
+                  color: '#ffffff'
                 }}
                 formatter={(value: any) => [formatShares(value), 'Aktien']}
                 labelFormatter={(label) => `Quartal: ${label}`}
               />
               <Bar 
                 dataKey="shares" 
-                fill="#3B82F6"
+                fill="#22c55e"
+                opacity={0.8}
                 radius={[4, 4, 0, 0]}
               />
             </BarChart>
@@ -640,17 +629,17 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </div>
       </div>
 
-      {/* History Table - Theme Colors */}
-      <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl overflow-hidden">
-        <div className="p-6 border-b border-gray-800">
-          <h3 className="text-lg font-bold text-white">Detaillierte Historie</h3>
-          <p className="text-sm text-gray-400 mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
+      {/* History Table */}
+      <div className="bg-[#111113] border border-white/5 rounded-xl overflow-hidden">
+        <div className="p-6 border-b border-white/5">
+          <h3 className="text-lg font-medium text-white">Detaillierte Historie</h3>
+          <p className="text-sm text-gray-500 mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
         </div>
         
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead style={{ backgroundColor: 'var(--bg-tertiary)' }}>
-              <tr className="text-sm text-gray-400">
+            <thead className="bg-[#0a0a0b]">
+              <tr className="text-sm text-gray-500">
                 <th className="text-left p-4 font-medium">Quartal</th>
                 <th className="text-right p-4 font-medium">Aktien</th>
                 <th className="text-right p-4 font-medium">Wert</th>
@@ -666,7 +655,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                 const isSold = previousEntry?.exists && !data.exists
                 
                 return (
-                  <tr key={data.quarter} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                  <tr key={data.quarter} className="border-b border-white/5 hover:bg-[#0a0a0b]/50 transition-colors">
                     <td className="p-4 font-medium text-white">{data.quarter}</td>
                     <td className="p-4 text-right font-mono text-gray-300">
                       {data.exists ? formatShares(data.shares) : '—'}
@@ -679,23 +668,23 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                     </td>
                     <td className="p-4 text-right">
                       {isNew ? (
-                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30">
+                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-green-900/20 text-green-400/60 border border-green-900/20">
                           Neukauf
                         </span>
                       ) : isSold ? (
-                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300 border border-red-500/30">
+                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-red-900/20 text-red-400/60 border border-red-900/20">
                           Verkauft
                         </span>
                       ) : sharesChange !== 0 ? (
                         <span className={`inline-block px-2 py-1 text-xs rounded-full ${
                           sharesChange > 0 
-                            ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
-                            : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                            ? 'bg-green-900/20 text-green-400/60 border border-green-900/20' 
+                            : 'bg-red-900/20 text-red-400/60 border border-red-900/20'
                         }`}>
                           {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)}
                         </span>
                       ) : (
-                        <span className="text-gray-500">—</span>
+                        <span className="text-gray-600">—</span>
                       )}
                     </td>
                   </tr>
@@ -705,99 +694,6 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           </table>
         </div>
       </div>
-    </div>
-  )
-}
-
-// Kompakte Newsletter Komponente - Theme Colors
-function CompactNewsletterSignup({ investorName }: { investorName: string }) {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [message, setMessage] = useState('')
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    
-    if (!email.trim()) {
-      setStatus('error')
-      setMessage('Bitte gib eine E-Mail-Adresse ein')
-      return
-    }
-
-    setStatus('loading')
-    setMessage('')
-
-    try {
-      const response = await fetch('/api/newsletter/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim() }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok && data.success) {
-        setStatus('success')
-        setMessage(data.message || 'Vielen Dank für deine Anmeldung!')
-        setEmail('')
-      } else {
-        setStatus('error')
-        setMessage(data.error || 'Da ist etwas schiefgegangen.')
-      }
-    } catch (error) {
-      setStatus('error')
-      setMessage('Verbindungsfehler. Bitte versuche es nochmal.')
-    }
-  }
-
-  if (status === 'success') {
-    return (
-      <div className="text-center py-4">
-        <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-          <CheckIcon className="w-4 h-4 text-green-400" />
-        </div>
-        <p className="text-sm text-green-400 font-medium mb-1">Erfolgreich angemeldet!</p>
-        <p className="text-xs text-gray-500">Du erhältst Updates zu allen Investoren</p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="space-y-3">
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="email"
-          placeholder="deine@email.de"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={status === 'loading'}
-          style={{ backgroundColor: 'var(--bg-tertiary)' }}
-          className="w-full px-3 py-2 text-sm border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-          required
-        />
-        
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="w-full px-3 py-2 text-sm bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2"
-        >
-          {status === 'loading' ? (
-            <>
-              <div className="w-3 h-3 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-              Anmelden...
-            </>
-          ) : (
-            <>
-              <EnvelopeIcon className="w-3 h-3" />
-              Abonnieren
-            </>
-          )}
-        </button>
-      </form>
-      
-      {status === 'error' && message && (
-        <p className="text-xs text-red-400 text-center">{message}</p>
-      )}
     </div>
   )
 }
@@ -836,26 +732,19 @@ type InvestorPageProps = {
   params: { slug: string }
 }
 
-// ✅ NEUE INNERE KOMPONENTE: Wrapper für Currency Context
+// Main Component
 function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   const router = useRouter()
   const { formatLargeNumber } = useCurrency()
   const titleFull = investorNames[slug] ?? slug
   const { name: mainName, subtitle } = splitInvestorName(titleFull)
-  
-  const [isInitialLoading, setIsInitialLoading] = useState(true)
 
   // Tab State
   const [tab, setTab] = useState<Tab>('portfolio')
   const [analyticsView, setAnalyticsView] = useState<'overview' | 'companies' | 'sectors'>('overview')
-  const [showNewsletter, setShowNewsletter] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [userLoading, setUserLoading] = useState(true)
-  
-  // Animation refs
-  const [heroRef, heroVisible] = useIntersectionObserver(0.3);
-  const [chartsRef, chartsVisible] = useIntersectionObserver(0.1);
-  
+
   // Load user data for premium check
   useEffect(() => {
     async function loadUser() {
@@ -874,12 +763,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             email: session.user.email || '',
             isPremium: profile?.is_premium || false
           })
-        } else {
-          setUser(null)
         }
       } catch (error) {
         console.error('Error loading user:', error)
-        setUser(null)
       } finally {
         setUserLoading(false)
       }
@@ -888,18 +774,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     loadUser()
   }, [])
 
-  useEffect(() => {
-    // Simuliere kurze Ladezeit für smooth transition
-    const timer = setTimeout(() => {
-      setIsInitialLoading(false)
-    }, 500)
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Unified AI Handler
+  // AI Handler
   const handleAIChat = () => {
     if (!user) {
-      const currentUrl = window.location.pathname
       const targetUrl = `/analyse/ai?investor=${slug}`
       router.push(`/auth/signin?redirect=${encodeURIComponent(targetUrl)}`)
       return
@@ -917,7 +794,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   
   if (!Array.isArray(snapshots) || snapshots.length < 1) return notFound()
 
-  // Header data
+  // Data processing
   const latest = snapshots[snapshots.length - 1].data
   const previous = snapshots.length >= 2 
     ? snapshots[snapshots.length - 2].data 
@@ -953,7 +830,6 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             ticker,
             deltaShares: 0,
             pctDelta: 0,
-            // ✅ Vereinfacht für InvestorTabs-Kompatibilität
             optionType: (originalPosition?.optionType as 'STOCK' | 'CALL' | 'PUT' | 'OPTION') || 'STOCK',
             typeInfo: originalPosition?.typeInfo ? {
               label: originalPosition.typeInfo.label || 'Stock',
@@ -976,19 +852,19 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             ? `${ticker} - ${displayName}`
             : displayName
             
-                      mergedEntries.push({ 
-              cusip, 
-              shares: 0, 
-              value: 0, 
-              name: formattedName, 
-              ticker,
-              deltaShares: 0,
-              pctDelta: 0,
-              optionType: 'STOCK',
-              typeInfo: undefined,
-              titleOfClass: null,
-              putCall: null
-            })
+          mergedEntries.push({ 
+            cusip, 
+            shares: 0, 
+            value: 0, 
+            name: formattedName, 
+            ticker,
+            deltaShares: 0,
+            pctDelta: 0,
+            optionType: 'STOCK',
+            typeInfo: undefined,
+            titleOfClass: null,
+            putCall: null
+          })
         }
       }
 
@@ -1007,7 +883,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   const buysHistory = buildHistory(true)
   const sellsHistory = buildHistory(false)
 
-  // Top 10 positions
+  // Process holdings
   const prevMap = new Map<string, number>()
   previous.positions.forEach(p => prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares))
 
@@ -1034,7 +910,6 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         value,
         deltaShares: delta, 
         pctDelta: prevShares > 0 ? delta / prevShares : 0,
-        // ✅ Vereinfacht für InvestorTabs-Kompatibilität
         optionType: (originalPosition?.optionType as 'STOCK' | 'CALL' | 'PUT' | 'OPTION') || 'STOCK',
         typeInfo: originalPosition?.typeInfo ? {
           label: originalPosition.typeInfo.label || 'Stock',
@@ -1046,8 +921,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
       }
     })
 
-  const sortedHold = mergedHoldings.sort((a, b) => b.value - a.value)
-  const holdings = sortedHold
+  const holdings = mergedHoldings.sort((a, b) => b.value - a.value)
   const totalVal = holdings.reduce((s, p) => s + p.value, 0)
 
   // Value history
@@ -1072,70 +946,18 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     })).reverse()
   }
 
-  const isNewInvestor = snapshots.length === 1
-
-   // FÜGE DIESEN SKELETON LOADER HINZU:
-   if (isInitialLoading) {
-    return (
-      <div className="min-h-screen bg-black py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          {/* Header Skeleton */}
-          <div className="animate-pulse mb-12">
-            <div className="bg-gray-900/40 border border-gray-800/50 rounded-2xl p-8 lg:p-10">
-              <div className="flex items-center gap-6">
-                <div className="w-24 h-24 bg-gray-800 rounded-full"></div>
-                <div className="flex-1">
-                  <div className="h-10 w-64 bg-gray-800 rounded-lg mb-3"></div>
-                  <div className="h-6 w-48 bg-gray-800 rounded-lg mb-4"></div>
-                  <div className="flex gap-4">
-                    <div className="h-8 w-24 bg-gray-800 rounded-lg"></div>
-                    <div className="h-8 w-32 bg-gray-800 rounded-lg"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Grid Skeleton */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-12">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="bg-gray-800/30 rounded-lg p-4 animate-pulse">
-                <div className="h-4 w-24 bg-gray-700 rounded mb-2"></div>
-                <div className="h-6 w-32 bg-gray-700 rounded"></div>
-              </div>
-            ))}
-          </div>
-
-          {/* Content Skeleton */}
-          <div className="space-y-8">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="bg-[#161618] rounded-xl p-6 animate-pulse">
-                <div className="h-6 w-48 bg-gray-800 rounded-lg mb-4"></div>
-                <div className="space-y-3">
-                  {[1, 2, 3, 4].map(j => (
-                    <div key={j} className="h-12 bg-gray-800 rounded-lg"></div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="min-h-screen bg-theme-primary">
+    <div className="min-h-screen bg-[#0a0a0b]">
       
-{/* Hero Section - Clean & Professional */}
-<section className="relative bg-theme-primary pt-20 pb-12">
+      {/* Hero Section */}
+      <section className="relative bg-[#0a0a0b] pt-20 pb-12">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Breadcrumb & Currency Switch */}
           <div className="mb-8 flex items-center justify-between">
             <Link 
               href="/superinvestor" 
-              className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm group"
+              className="inline-flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm group"
             >
               <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Zurück zu Super-Investoren
@@ -1144,128 +966,113 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             <CurrencySwitch size="sm" />
           </div>
           
-          {/* Clean Hero Content mit eleganter Border */}
-          <div ref={heroRef} className={`transform transition-all duration-1000 ${
-            heroVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
-            
-            {/* Main Hero Card */}
-            <div className="bg-gray-900/40 border border-gray-800/50 rounded-2xl p-8 lg:p-10 backdrop-blur-sm shadow-2xl">
-              <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
+          {/* Main Hero Card */}
+          <div className="bg-[#111113] border border-white/5 rounded-2xl p-8 lg:p-10">
+            <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
+              
+              {/* Left: Investor Info */}
+              <div className="flex-1">
                 
-                {/* Left: Investor Info */}
-                <div className="flex-1">
-                  
-                  {/* Avatar & Basic Info */}
-                  <div className="flex items-center gap-6 mb-8">
-                    <div className="relative">
-                      {slug === 'buffett' && (
-                        <div className="absolute -top-2 -right-2 z-10">
-                          <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center shadow-lg">
-                            <span className="text-black text-sm">👑</span>
-                          </div>
+                {/* Avatar & Basic Info */}
+                <div className="flex items-center gap-6 mb-8">
+                  <div className="relative">
+                    {slug === 'buffett' && (
+                      <div className="absolute -top-2 -right-2 z-10">
+                        <div className="w-8 h-8 bg-[#0a0a0b] rounded-full flex items-center justify-center border border-white/5">
+                          <span className="text-sm opacity-60">👑</span>
                         </div>
-                      )}
-                      
-                      <div className="relative">
-                        <div className="absolute -inset-1 bg-gradient-to-br from-green-500/20 to-green-400/10 rounded-full blur opacity-60"></div>
-                        <InvestorAvatar
-                          name={mainName}
-                          imageUrl={`/images/${slug}.png`}
-                          size="lg"
-                          className="relative ring-2 ring-white/10 shadow-xl"
-                        />
                       </div>
-                    </div>
+                    )}
                     
-                    <div className="flex-1">
-                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-white mb-2">
-                        {mainName}
-                      </h1>
-                      {subtitle && (
-                        <p className="text-lg text-gray-300 mb-4">
-                          {subtitle}
-                        </p>
-                      )}
-                      
-                      {/* Meta Info */}
-                      <div className="flex flex-wrap items-center gap-4">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-sm font-medium">
-                          <CalendarIcon className="w-4 h-4" />
-                          <span>{period}</span>
-                        </div>
-                        <div className="inline-flex items-center gap-2 text-gray-400 text-sm">
-                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                          <span>Aktualisiert {formattedDate}</span>
-                        </div>
-                      </div>
-                    </div>
+                    <InvestorAvatar
+                      name={mainName}
+                      imageUrl={`/images/${slug}.png`}
+                      size="lg"
+                      className="ring-1 ring-white/5"
+                    />
                   </div>
                   
-                  {/* Portfolio Stats Row */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    <div className="bg-gray-800/30 border border-gray-700/50 rounded-lg p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <ChartBarIcon className="w-4 h-4 text-green-400" />
-                        <span className="text-xs text-gray-400 uppercase tracking-wide font-medium">Portfolio-Wert</span>
-                      </div>
-                      <p className="text-xl font-bold text-green-400">
-                        {formatLargeNumber(totalVal)}
+                  <div className="flex-1">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-2">
+                      {mainName}
+                    </h1>
+                    {subtitle && (
+                      <p className="text-lg text-gray-500 mb-4">
+                        {subtitle}
                       </p>
-                    </div>
+                    )}
                     
-                    <div className="bg-gray-800/30 border border-gray-700/50 rounded-lg p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <StarIcon className="w-4 h-4 text-blue-400" />
-                        <span className="text-xs text-gray-400 uppercase tracking-wide font-medium">Positionen</span>
+                    {/* Meta Info */}
+                    <div className="flex flex-wrap items-center gap-4">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-900/10 border border-green-900/20 text-green-400/80 rounded-lg text-sm">
+                        <CalendarIcon className="w-4 h-4" />
+                        <span>{period}</span>
                       </div>
-                      <p className="text-xl font-bold text-white">
-                        {holdings.length}
-                      </p>
-                    </div>
-                    
-                    <div className="bg-gray-800/30 border border-gray-700/50 rounded-lg p-4 sm:col-span-1 col-span-2">
-                      <div className="flex items-center gap-2 mb-2">
-                        <ArrowTrendingUpIcon className="w-4 h-4 text-purple-400" />
-                        <span className="text-xs text-gray-400 uppercase tracking-wide font-medium">Top 3 Anteil</span>
+                      <div className="inline-flex items-center gap-2 text-gray-600 text-sm">
+                        <div className="w-2 h-2 bg-green-400/60 rounded-full"></div>
+                        <span>Aktualisiert {formattedDate}</span>
                       </div>
-                      <p className="text-xl font-bold text-white">
-                        {((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
-                      </p>
                     </div>
                   </div>
                 </div>
                 
-                {/* Right: Integrierter Follow Bereich */}
-                <div className="lg:w-72 flex-shrink-0">
-                  <div className="text-center lg:text-right">
-                    <div className="mb-4">
-                      <div className="inline-flex items-center gap-2 px-2 py-1 bg-green-500/10 rounded-full text-green-400 text-xs font-medium mb-2">
-                        <UserIcon className="w-3 h-3" />
-                        <span>Folgen</span>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">
-                        {mainName} Updates 
-                      </h3>
-                      <p className="text-sm text-gray-400 mb-4">
-                        Kostenlose Portfolio-Updates
-                      </p>
+                {/* Portfolio Stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  <div className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <ChartBarIcon className="w-4 h-4 text-gray-600" />
+                      <span className="text-xs text-gray-600 uppercase tracking-wide">Portfolio-Wert</span>
                     </div>
-                    
-                    <PublicInvestorFollowButton 
-                      investorSlug={slug}
-                      investorName={mainName}
-                    />
-                    
-                    <div className="mt-4 flex items-center justify-center lg:justify-end gap-4 text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <CheckIcon className="w-3 h-3 text-green-400" />
-                        <span>Quartalsweise</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <CheckIcon className="w-3 h-3 text-green-400" />
-                        <span>Keine Werbung</span>
-                      </div>
+                    <p className="text-xl font-light text-white">
+                      {formatLargeNumber(totalVal)}
+                    </p>
+                  </div>
+                  
+                  <div className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <StarIcon className="w-4 h-4 text-gray-600" />
+                      <span className="text-xs text-gray-600 uppercase tracking-wide">Positionen</span>
+                    </div>
+                    <p className="text-xl font-light text-white">
+                      {holdings.length}
+                    </p>
+                  </div>
+                  
+                  <div className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4 sm:col-span-1 col-span-2">
+                    <div className="flex items-center gap-2 mb-2">
+                      <ArrowTrendingUpIcon className="w-4 h-4 text-gray-600" />
+                      <span className="text-xs text-gray-600 uppercase tracking-wide">Top 3 Anteil</span>
+                    </div>
+                    <p className="text-xl font-light text-white">
+                      {((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Right: Follow Button */}
+              <div className="lg:w-72 flex-shrink-0">
+                <div className="text-center lg:text-right">
+                  <h3 className="text-lg font-medium text-white mb-2">
+                    Portfolio Updates
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Kostenlose Benachrichtigungen
+                  </p>
+                  
+                  <PublicInvestorFollowButton 
+                    investorSlug={slug}
+                    investorName={mainName}
+                  />
+                  
+                  <div className="mt-4 flex items-center justify-center lg:justify-end gap-4 text-xs text-gray-700">
+                    <div className="flex items-center gap-1">
+                      <CheckIcon className="w-3 h-3 text-gray-600" />
+                      <span>Quartalsweise</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <CheckIcon className="w-3 h-3 text-gray-600" />
+                      <span>Keine Werbung</span>
                     </div>
                   </div>
                 </div>
@@ -1275,7 +1082,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         </div>
       </section>
 
-      {/* Main Content - Theme Colors */}
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
         {/* Tabs */}
@@ -1295,211 +1102,185 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           />
         </div>
 
-{/* PORTFOLIO TAB - ALLE URSPRÜNGLICHEN SEKTIONEN mit Theme Colors */}
-{tab === 'portfolio' && (
-          <div ref={chartsRef} className={`transform transition-all duration-1000 ${
-            chartsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
+        {/* PORTFOLIO TAB */}
+        {tab === 'portfolio' && (
+          <div className="space-y-12">
             
-            {/* Portfolio Insights - Theme Colors 
-            <div className="mb-12">
-              <PortfolioAnalysisInline
-                investorName={mainName}
-                currentPositions={holdings}
-                previousPositions={previous.positions}
+            {/* Portfolio Value Chart */}
+            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-5 h-5 text-gray-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-medium text-white">Portfolio-Entwicklung</h3>
+                  <p className="text-sm text-gray-600">Historische Wertentwicklung</p>
+                </div>
+              </div>
+              
+              <PortfolioValueChart 
+                data={valueHistory}
               />
-            </div>*/}
+            </div>
 
-            {/* Portfolio Value Chart - Theme Colors */}
-            <div className="mb-12">
-              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+            {/* Cash Position Chart (nur für Buffett) */}
+            {slug === 'buffett' && cashSeries.length > 0 && (
+              <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-green-400" />
+                  <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                    <ChartBarIcon className="w-5 h-5 text-gray-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">Portfolio-Entwicklung</h3>
-                    <p className="text-sm text-gray-400">Historische Wertentwicklung über Zeit</p>
+                    <h3 className="text-xl font-medium text-white">Cash Position</h3>
+                    <p className="text-sm text-gray-600">Berkshire Hathaways Liquiditätsreserven</p>
                   </div>
                 </div>
                 
-                <PortfolioValueChart 
-                  data={valueHistory}
+                <CashPositionChart 
+                  data={cashSeries}
                 />
-              </div>
-            </div>
-
-            {/* Cash Position Chart (nur für Buffett) - Theme Colors */}
-            {slug === 'buffett' && cashSeries.length > 0 && (
-              <div className="mb-12">
-                <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                      <ChartBarIcon className="w-5 h-5 text-blue-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white">Cash Position</h3>
-                      <p className="text-sm text-gray-400">Berkshire Hathaways Liquiditätsreserven</p>
-                    </div>
-                  </div>
-                  
-                  <CashPositionChart 
-                    data={cashSeries}
-                  />
-                </div>
               </div>
             )}
 
-            {/* Sektor Overview - Theme Colors */}
-            <div className="mb-12">
-              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Sektor-Übersicht</h3>
-                    <p className="text-sm text-gray-400">Diversifikation nach Branchen</p>
-                  </div>
+            {/* Sektor Overview */}
+            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-5 h-5 text-gray-500" />
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {(() => {
-                    const sectorMap = new Map()
-                    holdings.forEach(holding => {
-                      const englishSector = getSectorFromPosition({
-                        cusip: holding.cusip,
-                        ticker: holding.ticker
-                      })
-                      const sector = translateSector(englishSector)
-                      const current = sectorMap.get(sector) || { value: 0, count: 0 }
-                      sectorMap.set(sector, {
-                        value: current.value + holding.value,
-                        count: current.count + 1
-                      })
+                <div>
+                  <h3 className="text-xl font-medium text-white">Sektor-Übersicht</h3>
+                  <p className="text-sm text-gray-600">Diversifikation nach Branchen</p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {(() => {
+                  const sectorMap = new Map()
+                  holdings.forEach(holding => {
+                    const englishSector = getSectorFromPosition({
+                      cusip: holding.cusip,
+                      ticker: holding.ticker
                     })
-                    
-                    return Array.from(sectorMap.entries())
-                      .map(([sector, { value, count }]) => ({
-                        sector,
-                        value,
-                        count,
-                        percentage: (value / totalVal) * 100
-                      }))
-                      .sort((a, b) => b.value - a.value)
-                      .slice(0, 6)
-                      .map((sector, index) => (
-                        <div key={sector.sector} style={{ backgroundColor: 'var(--bg-tertiary)' }} className="rounded-lg p-4">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div 
-                              className="w-3 h-3 rounded-full"
-                              style={{ backgroundColor: ['#3B82F6', '#10B981', '#EF4444', '#F59E0B', '#8B5CF6', '#EC4899'][index] }}
-                            ></div>
-                            <span className="text-white font-medium text-sm">{sector.sector}</span>
-                          </div>
-                          <div className="text-gray-400 text-xs mb-1">
-                            {formatLargeNumber(sector.value)} ({sector.percentage.toFixed(1)}%)
-                          </div>
-                          <div className="text-gray-500 text-xs">
-                            {sector.count} Position{sector.count !== 1 ? 'en' : ''}
-                          </div>
+                    const sector = translateSector(englishSector)
+                    const current = sectorMap.get(sector) || { value: 0, count: 0 }
+                    sectorMap.set(sector, {
+                      value: current.value + holding.value,
+                      count: current.count + 1
+                    })
+                  })
+                  
+                  return Array.from(sectorMap.entries())
+                    .map(([sector, { value, count }]) => ({
+                      sector,
+                      value,
+                      count,
+                      percentage: (value / totalVal) * 100
+                    }))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 6)
+                    .map((sector) => (
+                      <div key={sector.sector} className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4 hover:border-green-900/20 transition-all">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-2 h-2 bg-green-400/40 rounded-full"></div>
+                          <span className="text-white font-medium text-sm">{sector.sector}</span>
                         </div>
-                      ))
-                  })()}
-                </div>
+                        <div className="text-gray-500 text-xs mb-1">
+                          {formatLargeNumber(sector.value)} ({sector.percentage.toFixed(1)}%)
+                        </div>
+                        <div className="text-gray-700 text-xs">
+                          {sector.count} Position{sector.count !== 1 ? 'en' : ''}
+                        </div>
+                      </div>
+                    ))
+                })()}
               </div>
             </div>
 
-            {/* ✅ ERWEITERT: Top Positions mit Option-Anzeige und Theme Colors */}
-            <div className="mb-12">
-              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                    <StarIcon className="w-5 h-5 text-yellow-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Top Positionen</h3>
-                    <p className="text-sm text-gray-400">Größte Holdings im Portfolio</p>
-                  </div>
+            {/* Top Positions */}
+            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                  <StarIcon className="w-5 h-5 text-gray-500" />
                 </div>
-                
-                <div className="space-y-3">
-                  {holdings.slice(0, 10).map((holding, index) => (
-                    <div key={holding.cusip} style={{ backgroundColor: 'var(--bg-tertiary)' }} className="flex items-center justify-between py-3 px-4 rounded-lg">
-                      <div className="flex items-center gap-4">
-                        <div className="text-gray-400 text-sm font-mono w-6">
-                          #{index + 1}
-                        </div>
-                        <CompanyNameWithOptions position={holding} />
+                <div>
+                  <h3 className="text-xl font-medium text-white">Top Positionen</h3>
+                  <p className="text-sm text-gray-600">Größte Holdings im Portfolio</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                {holdings.slice(0, 10).map((holding, index) => (
+                  <div key={holding.cusip} className="flex items-center justify-between py-3 px-4 bg-[#0a0a0b] rounded-lg border border-white/5 hover:bg-[#0f0f10] transition-all">
+                    <div className="flex items-center gap-4">
+                      <div className="text-green-900/40 text-sm font-mono w-6">
+                        {index + 1}
                       </div>
-                      <div className="text-right">
-                        <div className="text-white font-semibold">
-                          {formatLargeNumber(holding.value)}
-                        </div>
-                        <div className="text-gray-400 text-sm">
-                          {((holding.value / totalVal) * 100).toFixed(1)}%
-                        </div>
+                      <CompanyNameWithOptions position={holding} />
+                    </div>
+                    <div className="text-right">
+                      <div className="text-white font-medium">
+                        {formatLargeNumber(holding.value)}
+                      </div>
+                      <div className="text-gray-600 text-sm">
+                        {((holding.value / totalVal) * 100).toFixed(1)}%
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Sektor Breakdown Chart - Theme Colors */}
-            <div className="mb-12">
-              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-emerald-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Sektor-Verteilung</h3>
-                    <p className="text-sm text-gray-400">Detaillierte Aufschlüsselung nach Branchen</p>
-                  </div>
+            {/* Sektor Breakdown Chart */}
+            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-5 h-5 text-gray-500" />
                 </div>
-                
-                <SectorBreakdownChart
-                  data={(() => {
-                    const sectorMap = new Map()
-                    holdings.forEach(holding => {
-                      const englishSector = getSectorFromPosition({
-                        cusip: holding.cusip,
-                        ticker: holding.ticker
-                      })
-                      
-                      const sector = translateSector(englishSector)
-                      
-                      const current = sectorMap.get(sector) || { value: 0, count: 0 }
-                      sectorMap.set(sector, {
-                        value: current.value + holding.value,
-                        count: current.count + 1
-                      })
-                    })
-                    
-                    return Array.from(sectorMap.entries())
-                      .map(([sector, { value, count }]) => ({
-                        sector,
-                        value,
-                        count,
-                        percentage: (value / totalVal) * 100
-                      }))
-                      .sort((a, b) => b.value - a.value)
-                  })()}
-                />
+                <div>
+                  <h3 className="text-xl font-medium text-white">Sektor-Verteilung</h3>
+                  <p className="text-sm text-gray-600">Detaillierte Aufschlüsselung nach Branchen</p>
+                </div>
               </div>
+              
+              <SectorBreakdownChart
+                data={(() => {
+                  const sectorMap = new Map()
+                  holdings.forEach(holding => {
+                    const englishSector = getSectorFromPosition({
+                      cusip: holding.cusip,
+                      ticker: holding.ticker
+                    })
+                    const sector = translateSector(englishSector)
+                    const current = sectorMap.get(sector) || { value: 0, count: 0 }
+                    sectorMap.set(sector, {
+                      value: current.value + holding.value,
+                      count: current.count + 1
+                    })
+                  })
+                  
+                  return Array.from(sectorMap.entries())
+                    .map(([sector, { value, count }]) => ({
+                      sector,
+                      value,
+                      count,
+                      percentage: (value / totalVal) * 100
+                    }))
+                    .sort((a, b) => b.value - a.value)
+                })()}
+              />
             </div>
           </div>
         )}
 
-        {/* DIVIDENDS TAB - Theme Colors */}
+        {/* DIVIDENDS TAB */}
         {tab === 'dividends' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="text-3xl font-light text-white mb-4">
                 Dividenden-Analyse
               </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
+              <p className="text-gray-500 max-w-2xl mx-auto">
                 {mainName}s Dividenden-Strategie und jährliche Ausschüttungserträge
               </p>
             </div>
@@ -1512,28 +1293,27 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* ANALYTICS TAB - Theme Colors */}
+        {/* ANALYTICS TAB */}
         {tab === 'analytics' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="text-3xl font-light text-white mb-4">
                 Portfolio-Analytik
               </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
+              <p className="text-gray-500 max-w-2xl mx-auto">
                 Detaillierte Einblicke in {mainName}s Investment-Strategie
               </p>
             </div>
             
-            {/* Analytics Sub-Tabs - Theme Colors */}
+            {/* Analytics Sub-Tabs */}
             <div className="flex flex-wrap gap-2 justify-center mb-8">
               <button
                 onClick={() => setAnalyticsView('overview')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'overview' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+                    ? 'bg-green-900/20 text-white border border-green-900/30' 
+                    : 'bg-[#0a0a0b] text-gray-500 hover:bg-[#111113] hover:text-white border border-white/5'
                 }`}
-                style={analyticsView === 'overview' ? {} : { backgroundColor: 'var(--bg-tertiary)' }}
               >
                 Übersicht
               </button>
@@ -1541,10 +1321,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 onClick={() => setAnalyticsView('companies')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'companies' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+                    ? 'bg-green-900/20 text-white border border-green-900/30' 
+                    : 'bg-[#0a0a0b] text-gray-500 hover:bg-[#111113] hover:text-white border border-white/5'
                 }`}
-                style={analyticsView === 'companies' ? {} : { backgroundColor: 'var(--bg-tertiary)' }}
               >
                 Einzelunternehmen
               </button>
@@ -1552,83 +1331,82 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 onClick={() => setAnalyticsView('sectors')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'sectors' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
+                    ? 'bg-green-900/20 text-white border border-green-900/30' 
+                    : 'bg-[#0a0a0b] text-gray-500 hover:bg-[#111113] hover:text-white border border-white/5'
                 }`}
-                style={analyticsView === 'sectors' ? {} : { backgroundColor: 'var(--bg-tertiary)' }}
               >
                 Sektoren
               </button>
             </div>
 
-            {/* ✅ VOLLSTÄNDIGE Analytics Content mit funktionierender CompanyOwnershipHistory */}
+            {/* Analytics Overview */}
             {analyticsView === 'overview' && (
               <>
-                {/* Stats Grid - Theme Colors */}
+                {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   
-                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                        <ChartBarIcon className="w-5 h-5 text-green-400" />
+                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                        <ChartBarIcon className="w-5 h-5 text-green-900/60" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-400">Portfolio-Wert</h3>
+                      <h3 className="text-sm font-medium text-gray-500">Portfolio-Wert</h3>
                     </div>
-                    <p className="text-2xl font-bold text-white">
+                    <p className="text-2xl font-light text-white">
                       {formatLargeNumber(totalVal, { showCurrency: false })}
                     </p>
-                    <p className="text-xs text-gray-500">Gesamtwert aller Positionen</p>
+                    <p className="text-xs text-gray-600">Gesamtwert aller Positionen</p>
                   </div>
                   
-                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                        <StarIcon className="w-5 h-5 text-blue-400" />
+                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                        <StarIcon className="w-5 h-5 text-gray-500" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-400">Anzahl Holdings</h3>
+                      <h3 className="text-sm font-medium text-gray-500">Anzahl Holdings</h3>
                     </div>
-                    <p className="text-2xl font-bold text-white">
+                    <p className="text-2xl font-light text-white">
                       {holdings.length}
                     </p>
-                    <p className="text-xs text-gray-500">Verschiedene Positionen</p>
+                    <p className="text-xs text-gray-600">Verschiedene Positionen</p>
                   </div>
                   
-                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                        <ChartBarIcon className="w-5 h-5 text-purple-400" />
+                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                        <ChartBarIcon className="w-5 h-5 text-gray-500" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-400">Top 10 Anteil</h3>
+                      <h3 className="text-sm font-medium text-gray-500">Top 10 Anteil</h3>
                     </div>
-                    <p className="text-2xl font-bold text-white">
+                    <p className="text-2xl font-light text-white">
                       {((holdings.slice(0, 10).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
                     </p>
-                    <p className="text-xs text-gray-500">Konzentration</p>
+                    <p className="text-xs text-gray-600">Konzentration</p>
                   </div>
                   
-                  <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                        <CalendarIcon className="w-5 h-5 text-yellow-400" />
+                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                        <CalendarIcon className="w-5 h-5 text-gray-500" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-400">Quartale</h3>
+                      <h3 className="text-sm font-medium text-gray-500">Quartale</h3>
                     </div>
-                    <p className="text-2xl font-bold text-white">
+                    <p className="text-2xl font-light text-white">
                       {snapshots.length}
                     </p>
-                    <p className="text-xs text-gray-500">Verfügbare Daten</p>
+                    <p className="text-xs text-gray-600">Verfügbare Daten</p>
                   </div>
                 </div>
                 
-                {/* Sektor-Chart - Theme Colors */}
-                <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-6">
+                {/* Sektor-Chart */}
+                <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                      <ChartBarIcon className="w-5 h-5 text-indigo-400" />
+                    <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                      <ChartBarIcon className="w-5 h-5 text-gray-500" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Sektor-Verteilung</h3>
-                      <p className="text-sm text-gray-400">Basierend auf echten Sektor-Daten</p>
+                      <h3 className="text-xl font-medium text-white">Sektor-Verteilung</h3>
+                      <p className="text-sm text-gray-600">Basierend auf echten Sektor-Daten</p>
                     </div>
                   </div>
                   
@@ -1640,9 +1418,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                           cusip: holding.cusip,
                           ticker: holding.ticker
                         })
-                        
                         const sector = translateSector(englishSector)
-                        
                         const current = sectorMap.get(sector) || { value: 0, count: 0 }
                         sectorMap.set(sector, {
                           value: current.value + holding.value,
@@ -1664,7 +1440,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               </>
             )}
 
-            {/* ✅ VOLLSTÄNDIGE CompanyOwnershipHistory mit Currency Context */}
+            {/* Company Ownership History */}
             {analyticsView === 'companies' && (
               <CompanyOwnershipHistory 
                 snapshots={snapshots}
@@ -1676,121 +1452,120 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               <AdvancedSectorAnalysis 
                 snapshots={snapshots}
                 investorName={mainName}
-              />
-            )}
-          </div>
-        )}
+                />
+           )}
+         </div>
+       )}
 
-        {/* FILINGS TAB - Theme Colors */}
-        {tab === 'filings' && (
-          <div className="space-y-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                13F Filings
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Offizielle Quartalsberichte und Filing-Historie für {mainName}
-              </p>
-            </div>
-            
-            <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                  <DocumentTextIcon className="w-5 h-5 text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">Originaldokumente</h3>
-                  <p className="text-sm text-gray-400">SEC Filing-Historie und offizielle Berichte</p>
-                </div>
-              </div>
-              
-              <FilingsTab 
-                investorSlug={slug}
-                snapshots={snapshots}
-              />
-            </div>
-          </div>
-        )}
+       {/* FILINGS TAB */}
+       {tab === 'filings' && (
+         <div className="space-y-8">
+           <div className="text-center mb-8">
+             <h2 className="text-3xl font-light text-white mb-4">
+               13F Filings
+             </h2>
+             <p className="text-gray-500 max-w-2xl mx-auto">
+               Offizielle Quartalsberichte und Filing-Historie für {mainName}
+             </p>
+           </div>
+           
+           <div className="bg-[#111113] border border-white/5 rounded-xl p-8">
+             <div className="flex items-center gap-3 mb-6">
+               <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                 <DocumentTextIcon className="w-5 h-5 text-gray-500" />
+               </div>
+               <div>
+                 <h3 className="text-xl font-medium text-white">Originaldokumente</h3>
+                 <p className="text-sm text-gray-600">SEC Filing-Historie und offizielle Berichte</p>
+               </div>
+             </div>
+             
+             <FilingsTab 
+               investorSlug={slug}
+               snapshots={snapshots}
+             />
+           </div>
+         </div>
+       )}
 
-        {/* AI TAB - Theme Colors */}
-        {tab === 'ai' && (
-          <div className="space-y-8">
-            <div className="max-w-2xl mx-auto text-center">
-              <div style={{ backgroundColor: 'var(--bg-card)' }} className="border border-gray-800 rounded-xl p-8 backdrop-blur-sm">
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <SparklesIcon className="w-10 h-10 text-purple-400" />
-                </div>
-                
-                <h3 className="text-2xl font-bold text-white mb-3">
-                  FinClue AI Portfolio-Analyse
-                </h3>
-                
-                <p className="text-gray-400 mb-6 leading-relaxed">
-                  Starte ein intelligentes Gespräch über {mainName}s Portfolio, 
-                  Investmentstrategien und Marktpositionen.
-                </p>
-                
-                <button
-                  onClick={handleAIChat}
-                  className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-purple-500/25 hover:scale-105"
-                >
-                  {userLoading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Lade...</span>
-                    </>
-                  ) : !user ? (
-                    <>
-                      <LockClosedIcon className="w-5 h-5" />
-                      <span>Anmelden für AI Chat</span>
-                    </>
-                  ) : !user.isPremium ? (
-                    <>
-                      <SparklesIcon className="w-5 h-5" />
-                      <span>Premium für AI Chat</span>
-                    </>
-                  ) : (
-                    <>
-                      <SparklesIcon className="w-5 h-5" />
-                      <span>AI Chat starten</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+       {/* AI TAB */}
+       {tab === 'ai' && (
+         <div className="space-y-8">
+           <div className="max-w-2xl mx-auto text-center">
+             <div className="bg-[#111113] border border-white/5 rounded-xl p-8">
+               <div className="w-20 h-20 bg-gradient-to-br from-green-900/20 to-green-800/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                 <SparklesIcon className="w-10 h-10 text-green-400/60" />
+               </div>
+               
+               <h3 className="text-2xl font-light text-white mb-3">
+                 FinClue AI Portfolio-Analyse
+               </h3>
+               
+               <p className="text-gray-500 mb-6 leading-relaxed">
+                 Starte ein intelligentes Gespräch über {mainName}s Portfolio, 
+                 Investmentstrategien und Marktpositionen.
+               </p>
+               
+               <button
+                 onClick={handleAIChat}
+                 className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-green-500/10"
+               >
+                 {userLoading ? (
+                   <>
+                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                     <span>Lade...</span>
+                   </>
+                 ) : !user ? (
+                   <>
+                     <LockClosedIcon className="w-5 h-5" />
+                     <span>Anmelden für AI Chat</span>
+                   </>
+                 ) : !user.isPremium ? (
+                   <>
+                     <SparklesIcon className="w-5 h-5" />
+                     <span>Premium für AI Chat</span>
+                   </>
+                 ) : (
+                   <>
+                     <SparklesIcon className="w-5 h-5" />
+                     <span>AI Chat starten</span>
+                   </>
+                 )}
+               </button>
+             </div>
+           </div>
+         </div>
+       )}
 
-        {/* Articles & Commentaries - Theme Colors */}
-        {articles.length > 0 && (
-          <section className="mb-16">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
-                <UserIcon className="w-4 h-4" />
-                Artikel & Kommentare
-              </div>
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Insights von
-                <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> {mainName}</span>
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Erhalte Einblicke in die Denkweise und Strategien durch Original-Artikel und Kommentare
-              </p>
-            </div>
-            <ArticleList articles={articles} />
-          </section>        
-        )}
-      </div>
-    </div>
-  )
- 
+       {/* Articles & Commentaries */}
+       {articles.length > 0 && (
+         <section className="mb-16 mt-24">
+           <div className="text-center mb-12">
+             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/10 border border-green-900/20 text-green-400/60 rounded-full text-sm font-medium mb-6">
+               <UserIcon className="w-4 h-4" />
+               Artikel & Kommentare
+             </div>
+             <h2 className="text-3xl font-light text-white mb-4">
+               Insights von
+               <span className="bg-gradient-to-r from-green-400/80 to-green-300/60 bg-clip-text text-transparent"> {mainName}</span>
+             </h2>
+             <p className="text-gray-500 max-w-2xl mx-auto">
+               Erhalte Einblicke in die Denkweise und Strategien durch Original-Artikel und Kommentare
+             </p>
+           </div>
+           <ArticleList articles={articles} />
+         </section>        
+       )}
+     </div>
+   </div>
+ )
 }
 
-// ✅ HAUPT-EXPORT: Wrapper mit CurrencyProvider
+// Main Export with Currency Provider
 export default function InvestorPage(props: InvestorPageProps) {
-  return (
-    <CurrencyProvider>
-      <InvestorPageContent {...props} />
-    </CurrencyProvider>
-  )
+ return (
+   <CurrencyProvider>
+     <InvestorPageContent {...props} />
+   </CurrencyProvider>
+ )
 }

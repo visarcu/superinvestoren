@@ -264,12 +264,13 @@ import ellenbogen_2024_Q3 from './ellenbogen/2024-Q3.json'
 import ellenbogen_2024_Q4 from './ellenbogen/2024-Q4.json'
 import ellenbogen_2025_Q1 from './ellenbogen/2025-Q1.json'
 
-//ellenbogen
+//jensen
 import jensen_2024_Q2 from './jensen/2024-Q2.json'
 import jensen_2024_Q3 from './jensen/2024-Q3.json'
 import jensen_2024_Q4 from './jensen/2024-Q4.json'
 import jensen_2025_Q1 from './jensen/2025-Q1.json'
 import jensen_2025_Q2 from './jensen/2025-Q2.json'
+import jensen_2025_Q3 from './jensen/2025-Q3.json'
 
 //russo
 import russo_2024_Q2 from './russo/2024-Q2.json'
@@ -292,12 +293,13 @@ import icahn_2024_Q4 from './icahn/2024-Q4.json'
 import icahn_2025_Q1 from './icahn/2025-Q1.json'
 import icahn_2025_Q2 from './icahn/2025-Q2.json'
 
-//icahn
+//abrams
 import abrams_2024_Q2 from './abrams/2024-Q2.json'
 import abrams_2024_Q3 from './abrams/2024-Q3.json'
 import abrams_2024_Q4 from './abrams/2024-Q4.json'
 import abrams_2025_Q1 from './abrams/2025-Q1.json'
 import abrams_2025_Q2 from './abrams/2025-Q2.json'
+import abrams_2025_Q3 from './abrams/2025-Q3.json'
 
 //fred martin
 import martin_2024_Q2 from './martin/2024-Q2.json'
@@ -311,6 +313,7 @@ import train_2024_Q3 from './train/2024-Q3.json'
 import train_2024_Q4 from './train/2024-Q4.json'
 import train_2025_Q1 from './train/2025-Q1.json'
 import train_2025_Q2 from './train/2025-Q2.json'
+import train_2025_Q3 from './train/2025-Q3.json'
 
 //andrew brenton
 import brenton_2024_Q2 from './brenton/2024-Q2.json'
@@ -472,6 +475,7 @@ import davis_2024_Q3 from './davis/2024-Q3.json'
 import davis_2024_Q4 from './davis/2024-Q4.json'
 import davis_2025_Q1 from './davis/2025-Q1.json'
 import davis_2025_Q2 from './davis/2025-Q2.json'
+import davis_2025_Q3 from './davis/2025-Q3.json'
 
 //greenblatt
 import greenblatt_2024_Q1 from './greenblatt/2024-Q1.json'
@@ -1144,6 +1148,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q4', data: jensen_2024_Q4},
     { quarter: '2025-Q1', data: jensen_2025_Q1},
     { quarter: '2025-Q2', data: jensen_2025_Q2},
+    { quarter: '2025-Q3', data: jensen_2025_Q3},
    ],
 
    russo: [
@@ -1172,11 +1177,12 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    abrams: [
-    { quarter: '2024-Q2', data: abrams_2024_Q2 },
+    { quarter: '2024-Q2', data: abrams_2024_Q2},
     { quarter: '2024-Q3', data: abrams_2024_Q3},
     { quarter: '2024-Q4', data: abrams_2024_Q4},
     { quarter: '2025-Q1', data: abrams_2025_Q1},
     { quarter: '2025-Q2', data: abrams_2025_Q2},
+    { quarter: '2025-Q3', data: abrams_2025_Q3},
    ],
 
    martin: [
@@ -1192,6 +1198,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q4', data: train_2024_Q4},
     { quarter: '2025-Q1', data: train_2025_Q1},
     { quarter: '2025-Q2', data: train_2025_Q2},
+    { quarter: '2025-Q3', data: train_2025_Q3},
    ],
 
    firsteagle: [
@@ -1397,6 +1404,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
   {quarter: '2024-Q4', data: davis_2024_Q4},
   {quarter: '2025-Q1', data: davis_2025_Q1},
   {quarter: '2025-Q2', data: davis_2025_Q2},
+  {quarter: '2025-Q3', data: davis_2025_Q3},
    ],
 
    mairspower: [

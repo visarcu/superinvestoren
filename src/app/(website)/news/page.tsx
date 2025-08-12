@@ -25,7 +25,7 @@ export default function NewsPage() {
       
       {/* Hero Section - GRÜNES DESIGN (konsistent mit Lexikon) */}
       <div className="relative pt-24 pb-16 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-gray-500/5 to-gray-900/20" />
+        <div className="absolute inset-0 bg-black" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A0B0F]/50 to-[#0A0B0F]" />
         
         <div className="relative max-w-6xl mx-auto text-center">
