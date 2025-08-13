@@ -388,7 +388,9 @@ interface ChartCardProps {
 }
 
 function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremium }: ChartCardProps) {
-  const { formatCurrency, formatAxisValue } = useCurrency()
+  const { formatCurrency, formatAxisValueDE } = useCurrency()
+  
+
 
   if (!isPremium) {
     return (
@@ -456,13 +458,26 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               }}
               tickFormatter={(value) => {
                 if (metricKey === 'eps' || metricKey === 'dividendPS') {
-                  return `${value.toFixed(value < 1 ? 2 : 1)}`
+                  // ✅ DEUTSCHE FORMATIERUNG für EPS/Dividende
+                  return `${new Intl.NumberFormat('de-DE', {
+                    minimumFractionDigits: value < 1 ? 2 : 1,
+                    maximumFractionDigits: value < 1 ? 2 : 1
+                  }).format(value)} $`
                 } else if (metricKey === 'returnOnEquity') {
-                  return `${(value * 100).toFixed(0)}%`
+                  // ✅ DEUTSCHE FORMATIERUNG für ROE
+                  return `${new Intl.NumberFormat('de-DE', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                  }).format(value * 100)}%`
                 } else if (metricKey === 'sharesOutstanding') {
-                  return `${(value / 1e9).toFixed(1)}B`
+                  // ✅ DEUTSCHE FORMATIERUNG für Aktien
+                  return `${new Intl.NumberFormat('de-DE', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                  }).format(value / 1e9)} Mrd.`
                 } else {
-                  return formatAxisValue(value)
+                  // ✅ NUTZE CONTEXT-FUNKTION!
+                  return formatAxisValueDE(value)
                 }
               }}
               width={35}
@@ -475,11 +490,17 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                 
                 let formattedValue = ''
                 if (metricKey === 'returnOnEquity') {
-                  formattedValue = `${(value * 100).toFixed(1)}%`
+                  formattedValue = `${new Intl.NumberFormat('de-DE', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                  }).format(value * 100)}%`
                 } else if (metricKey === 'eps' || metricKey === 'dividendPS') {
                   formattedValue = formatCurrency(value, 'currency')
                 } else if (metricKey === 'sharesOutstanding') {
-                  formattedValue = `${(value / 1e9).toFixed(2)}B Aktien`
+                  formattedValue = `${new Intl.NumberFormat('de-DE', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  }).format(value / 1e9)}B Aktien`
                 } else {
                   formattedValue = formatCurrency(value)
                 }
@@ -504,9 +525,11 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
     </div>
   )
 }
-
 function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
-  const { formatCurrency, formatAxisValue } = useCurrency()
+  const { formatCurrency, formatAxisValueDE } = useCurrency() // ✅ NUTZE CONTEXT
+
+  
+
 
   if (!isPremium) {
     return (
@@ -566,7 +589,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               height={25}
             />
             <YAxis 
-              tickFormatter={formatAxisValue}
+              tickFormatter={formatAxisValueDE} // ✅ NUTZE CONTEXT-FUNKTION!
               axisLine={false}
               tickLine={false}
               tick={{ 
@@ -628,7 +651,6 @@ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: ()
       </div>
     )
   }
-
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
@@ -666,7 +688,10 @@ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: ()
                 fontSize: 10, 
                 fill: 'var(--text-secondary)' 
               }}
-              tickFormatter={(value) => `${value.toFixed(1)}x`}
+              tickFormatter={(value) => `${new Intl.NumberFormat('de-DE', {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
+              }).format(value)}x`} // ✅ DEUTSCHE FORMATIERUNG
               width={35}
               domain={[0, 'dataMax']}
             />
@@ -678,7 +703,12 @@ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: ()
                 return (
                   <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
                     <p className="text-theme-secondary text-xs mb-1">{label}</p>
-                    <p className="text-theme-primary text-sm font-medium">{value.toFixed(1)}x</p>
+                    <p className="text-theme-primary text-sm font-medium">
+                      {new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1
+                      }).format(value)}x
+                    </p>
                   </div>
                 )
               }}

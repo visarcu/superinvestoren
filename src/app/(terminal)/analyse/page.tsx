@@ -24,7 +24,7 @@ import {
   ClockIcon,
   ArrowLeftIcon
 } from '@heroicons/react/24/outline'
-
+import { useCurrency } from '@/lib/CurrencyContext'
 // ECHTE IMPORTS - keine Mock-Daten!
 import { stocks } from '@/data/stocks'
 // LAZY LOAD HOLDINGS HISTORY
@@ -102,7 +102,7 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
-// ===== MEMOIZED SEARCH COMPONENT =====
+// ===== MEMOIZED SEARCH COMPONENT - THEME FIXED =====
 const SmartSearchInput = React.memo(({ 
   placeholder, 
   onSelect 
@@ -193,34 +193,35 @@ const SmartSearchInput = React.memo(({
 
   return (
     <div className="relative max-w-2xl mx-auto">
-      {/* Search Input - ELEGANTERES DESIGN */}
+      {/* Search Input - THEME-AWARE DESIGN */}
       <div className={`
-  search-input-container
-  relative transition-all duration-300 rounded-2xl
-  ${showResults 
-    ? 'bg-white rounded-b-none shadow-lg' 
-    : 'bg-white shadow-md hover:shadow-lg'
-  }
-`}>
-  <div className="flex items-center px-6 py-5">
-    <MagnifyingGlassIcon className="w-6 h-6 mr-4 text-theme-muted" />
-    
-    <input
-      ref={inputRef}
-      type="text"
-      placeholder={placeholder}
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-      onFocus={handleInputFocus}
-      onBlur={handleInputBlur}
-      onKeyDown={handleKeyDown}
-      className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted text-lg font-medium focus:outline-none border-none focus:ring-0"
-      style={{ border: 'none', boxShadow: 'none' }}
-    />    
+        search-input-container
+        relative transition-all duration-300 rounded-2xl
+        ${showResults 
+          ? 'bg-theme-card rounded-b-none shadow-lg border border-theme/20' 
+          : 'bg-theme-card shadow-md hover:shadow-lg border border-theme/10'
+        }
+      `}>
+        <div className="flex items-center px-6 py-5">
+          <MagnifyingGlassIcon className="w-6 h-6 mr-4 text-theme-muted" />
+          
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder={placeholder}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            onKeyDown={handleKeyDown}
+            className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted text-lg font-medium focus:outline-none border-none focus:ring-0"
+            style={{ border: 'none', boxShadow: 'none' }}
+          />
+          
           <div className="hidden md:flex items-center gap-2 text-theme-muted text-sm ml-4">
             <div className="flex items-center gap-1">
-              <kbd className="px-2.5 py-1.5 bg-theme-secondary/50 backdrop-blur border border-theme/10 rounded-lg text-xs font-medium">⌘</kbd>
-              <kbd className="px-2.5 py-1.5 bg-theme-secondary/50 backdrop-blur border border-theme/10 rounded-lg text-xs font-medium">K</kbd>
+              <kbd className="px-2.5 py-1.5 bg-theme-secondary/50 backdrop-blur border border-theme/10 rounded-lg text-xs font-medium text-theme-muted">⌘</kbd>
+              <kbd className="px-2.5 py-1.5 bg-theme-secondary/50 backdrop-blur border border-theme/10 rounded-lg text-xs font-medium text-theme-muted">K</kbd>
             </div>
           </div>
 
@@ -236,22 +237,19 @@ const SmartSearchInput = React.memo(({
             </button>
           )}
         </div>
-
-        {/* Elegant Focus Indicator */}
- 
       </div>
 
-      {/* Search Results - ANGEPASST FÜR NEUES DESIGN */}
+      {/* Search Results - THEME-AWARE */}
       {showResults && (
-      <div 
-      ref={resultsRef}
-      className="absolute top-full left-0 right-0 bg-white shadow-lg rounded-b-2xl z-50 overflow-hidden border-t border-gray-100"
-    >
+        <div 
+          ref={resultsRef}
+          className="absolute top-full left-0 right-0 bg-theme-card shadow-lg rounded-b-2xl z-50 overflow-hidden border-x border-b border-theme/20"
+        >
           <div className="max-h-80 overflow-y-auto">
             {filteredStocks.length > 0 ? (
               <div className="p-2">
                 {query && (
-                  <div className="px-4 py-3 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/5 mb-2">
+                  <div className="px-4 py-3 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
                     {filteredStocks.length} Ergebnis{filteredStocks.length !== 1 ? 'se' : ''} für "{query}"
                   </div>
                 )}
@@ -294,27 +292,25 @@ const SmartSearchInput = React.memo(({
               </div>
             ) : (
               <div className="p-8 text-center text-theme-muted">
-            <MagnifyingGlassIcon className={`
-  w-6 h-6 mr-4 transition-all duration-300 text-theme-muted
-`} />
+                <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
                 <p className="text-sm">Keine Ergebnisse für "{query}"</p>
               </div>
             )}
           </div>
           
           {/* Footer mit Glassmorphism Effect */}
-          <div className="p-4 bg-theme-secondary/30 backdrop-blur border-t border-theme/5 rounded-b-2xl">
+          <div className="p-4 bg-theme-secondary/30 backdrop-blur border-t border-theme/10 rounded-b-2xl">
             <div className="flex items-center gap-4 text-xs text-theme-muted">
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs">↑↓</kbd>
+                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs text-theme-muted">↑↓</kbd>
                 <span>Navigieren</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs">↵</kbd>
+                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs text-theme-muted">↵</kbd>
                 <span>Auswählen</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs">Esc</kbd>
+                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs text-theme-muted">Esc</kbd>
                 <span>Schließen</span>
               </div>
             </div>
@@ -324,9 +320,9 @@ const SmartSearchInput = React.memo(({
     </div>
   )
 })
-
 // ===== FIXED SUPER-INVESTOR COMPONENT =====
 const SuperInvestorStocks = React.memo(({ 
+  
   quotes, 
   onSelect,
   loading
@@ -337,7 +333,7 @@ const SuperInvestorStocks = React.memo(({
 }) => {
   const [view, setView] = useState<'hidden_gems' | 'recent_buys'>('hidden_gems')
   const [holdingsHistory, setHoldingsHistory] = useState<any>(null)
-
+  const { formatStockPrice, formatPercentage } = useCurrency()
   // LAZY LOAD HOLDINGS DATA
   useEffect(() => {
     import('@/data/holdings').then(module => {
@@ -551,9 +547,9 @@ const SuperInvestorStocks = React.memo(({
                 </div>
               ) : quote ? (
                 <div className="space-y-3">
-                  <div className="text-xl font-bold text-theme-primary">
-                    ${quote.price.toFixed(2)}
-                  </div>
+          <div className="text-xl font-bold text-theme-primary">
+    {formatStockPrice(quote.price)}
+  </div>
                   
                   <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
                     quote.changePct >= 0
@@ -565,7 +561,7 @@ const SuperInvestorStocks = React.memo(({
                     ) : (
                       <ArrowTrendingDownIcon className="w-3 h-3" />
                     )}
-                    <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
+                  <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
                   </div>
 
                   <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
@@ -575,7 +571,7 @@ const SuperInvestorStocks = React.memo(({
                         <span className={`font-bold ${
                           quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
                         }`}>
-                          {quote.perf1M >= 0 ? '+' : ''}{quote.perf1M.toFixed(1)}%
+               {formatPercentage(quote.perf1M)}
                         </span>
                       ) : (
                         <span className="text-theme-muted">–</span>
@@ -587,7 +583,7 @@ const SuperInvestorStocks = React.memo(({
                         <span className={`font-bold ${
                           quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
                         }`}>
-                          {quote.perfYTD >= 0 ? '+' : ''}{quote.perfYTD.toFixed(1)}%
+                       {formatPercentage(quote.perfYTD)}
                         </span>
                       ) : (
                         <span className="text-theme-muted">–</span>
@@ -659,7 +655,7 @@ export default function ModernDashboard() {
   const [loading, setLoading] = useState(false)
   const [marketLoading, setMarketLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
-
+  const { formatStockPrice, formatPercentage } = useCurrency()
   // HIDDEN GEMS TICKERS - wird dynamisch geladen
   const [hiddenGemsTickers, setHiddenGemsTickers] = useState<string[]>([])
 
@@ -945,8 +941,8 @@ export default function ModernDashboard() {
                       <div className="h-8 bg-theme-secondary rounded-lg animate-pulse"></div>
                     ) : quote ? (
                       <div className="text-2xl font-bold text-theme-primary">
-                        {quote.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </div>
+                      {formatStockPrice(quote.price, false)} {/* ohne $ für Indizes */}
+                    </div>
                     ) : (
                       <div className="text-2xl font-bold text-theme-muted">--</div>
                     )}
@@ -965,7 +961,7 @@ export default function ModernDashboard() {
                           ) : (
                             <ArrowTrendingDownIcon className="w-4 h-4" />
                           )}
-                          <span>{quote.changePct >= 0 ? '+' : ''}{quote.changePct.toFixed(2)}%</span>
+                          <span>{formatPercentage(quote.changePct)}</span>
                         </div>
                       ) : (
                         <div className="text-sm text-theme-muted">--</div>
@@ -1129,9 +1125,10 @@ export default function ModernDashboard() {
                           </div>
                         ) : quote ? (
                           <div className="space-y-3">
-                            <div className="text-xl font-bold text-theme-primary">
-                              ${quote.price.toFixed(2)}
-                            </div>
+               <div className="text-xl font-bold text-theme-primary">
+    {formatStockPrice(quote.price)}
+  </div>
+
                             
                             <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
                               quote.changePct >= 0
@@ -1143,7 +1140,7 @@ export default function ModernDashboard() {
                               ) : (
                                 <ArrowTrendingDownIcon className="w-3 h-3" />
                               )}
-                              <span>{Math.abs(quote.changePct).toFixed(2)}%</span>
+                      <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
                             </div>
 
                             <div className="pt-3 space-y-2 text-xs border-t border-theme/10">

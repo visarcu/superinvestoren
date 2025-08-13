@@ -15,8 +15,7 @@ import WorkingStockChart from '@/components/WorkingStockChart'
 import { LearnTooltipButton } from '@/components/LearnSidebar'
 import { LEARN_DEFINITIONS } from '@/data/learnDefinitions'
 import { useLearnMode } from '@/lib/LearnModeContext'
-
-// ✅ SICHERER IMPORT: OwnershipSection als separate Komponente
+import { useCurrency } from '@/lib/CurrencyContext'
 import OwnershipSection from '@/components/OwnershipSection'
 
 // ─── Dynamische Komponentenimporte ─────────────────────────────────────────
@@ -103,30 +102,8 @@ const PremiumBlur = ({
 )
 
 // ─── Formatierungshilfen ────────────────────────────────────────────────────
-const fmtB = (n: number) =>
-  `$${(n / 1e9).toLocaleString('de-DE', {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  })}B`
 
-const fmtM = (n: number) =>
-  `${(n / 1e6).toLocaleString('de-DE', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  })}M`
 
-const fmtP = (n?: number) =>
-  typeof n === 'number' ? `${(n * 100).toFixed(1).replace('.', ',')} %` : '–'
-
-const fmtPrice = (n?: number) =>
-  typeof n === 'number'
-    ? n.toLocaleString('de-DE', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
-    : '–'
 
 const fmtDate = (d?: string | null) => d ?? '–'
 
@@ -189,7 +166,14 @@ interface EnhancedDividendData {
 
 // ─── Komponente: AnalysisClient ───────────────────────────────────────────────
 export default function AnalysisClient({ ticker }: { ticker: string }) {
-  // 1) Suchen der Aktie
+  const { 
+    formatCurrency, 
+    formatStockPrice, 
+    formatPercentage, 
+    formatMarketCap,
+    formatAxisValueDE 
+  } = useCurrency()
+  
   const stock = stocks.find((s) => s.ticker === ticker)
 
   // 2) User State
@@ -583,7 +567,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               
-              {/* MARKTDATEN */}
+              {/* MARKTDATEN - KORRIGIERT */}
               <div className="space-y-4">
                 <h4 className="text-theme-primary font-semibold text-sm flex items-center">
                   <div className="w-3 h-3 bg-green-400 rounded-full mr-3"></div>
@@ -596,7 +580,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <LearnTooltipButton {...LEARN_DEFINITIONS.market_cap} />
                     </div>
                     <span className="text-theme-primary font-semibold">
-                      {liveMarketCap != null ? fmtB(liveMarketCap) : '–'}
+                      {liveMarketCap != null ? formatMarketCap(liveMarketCap) : '–'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
@@ -605,7 +589,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <LearnTooltipButton term="trading_volume" />
                     </div>
                     <span className="text-theme-primary font-semibold">
-                      {volume != null ? fmtM(volume) : '–'}
+                      {volume != null ? `${(volume / 1e6).toFixed(0)} Mio.` : '–'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
@@ -621,14 +605,14 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Ausstehende Aktien</span>
                       <span className="text-theme-primary font-semibold">
-                        {(currentShares / 1e9).toFixed(1)}B
+                        {(currentShares / 1e9).toFixed(1)} Mrd.
                       </span>
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* DIVIDENDE MIT AMPELSYSTEM */}
+              {/* DIVIDENDE - KORRIGIERT */}
               <div className="space-y-4 relative">
                 <h4 className="text-theme-primary font-semibold text-sm flex items-center">
                   <div className="w-3 h-3 bg-purple-400 rounded-full mr-3"></div>
@@ -642,8 +626,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     </div>
                     <span className="text-theme-primary font-semibold">
                       {enhancedDividendData?.currentYield != null ? 
-                        `${(enhancedDividendData.currentYield * 100).toFixed(2)}%` : 
-                        keyMetrics.dividendYield != null ? fmtP(keyMetrics.dividendYield) : '–'}
+                        formatPercentage(enhancedDividendData.currentYield * 100) : 
+                        keyMetrics.dividendYield != null ? formatPercentage(keyMetrics.dividendYield * 100) : '–'}
                     </span>
                   </div>
                   
@@ -654,12 +638,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     </div>
                     <span className="text-theme-primary font-semibold">
                       {enhancedDividendData?.payoutRatio != null ? 
-                        `${(enhancedDividendData.payoutRatio * 100).toFixed(1)}%` : 
-                        keyMetrics.payoutRatio != null ? fmtP(keyMetrics.payoutRatio) : '–'}
+                        formatPercentage(enhancedDividendData.payoutRatio * 100) : 
+                        keyMetrics.payoutRatio != null ? formatPercentage(keyMetrics.payoutRatio * 100) : '–'}
                     </span>
                   </div>
                   
-                  {/* AMPELSYSTEM für Payout Safety */}
                   {enhancedDividendData?.payoutSafety && (
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Einschätzung</span>
@@ -683,7 +666,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     </div>
                   )}
                   
-                  {/* Link zur Dividenden-Analyse */}
                   <div className="mt-3 pt-3 border-t border-theme/20">
                     <Link
                       href={`/analyse/stocks/${ticker.toLowerCase()}/dividends/`}
@@ -698,7 +680,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 </div>
               </div>
 
-              {/* BEWERTUNG - Premium Blur */}
+              {/* BEWERTUNG - KORRIGIERT (aber Premium Blur bleibt) */}
               <div className="space-y-4 relative">
                 <h4 className="text-theme-primary font-semibold text-sm flex items-center">
                   <div className="w-3 h-3 bg-yellow-400 rounded-full mr-3"></div>
@@ -712,7 +694,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton {...LEARN_DEFINITIONS.pe_ratio} />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {peTTM != null ? fmtNum(peTTM, 1) : '–'}
+                        {peTTM != null ? `${peTTM.toFixed(1)}x` : '–'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -721,7 +703,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton term="forward_pe" />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {forwardPE != null ? fmtNum(forwardPE, 1) : '–'}
+                        {forwardPE != null ? `${forwardPE.toFixed(1)}x` : '–'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -730,13 +712,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton {...LEARN_DEFINITIONS.pb_ratio} />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {pbTTM != null ? fmtNum(pbTTM, 1) : '–'}
+                        {pbTTM != null ? `${pbTTM.toFixed(1)}x` : '–'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">EV/EBIT</span>
                       <span className="text-theme-primary font-semibold">
-                        {evEbit != null ? fmtNum(evEbit, 1) : '–'}
+                        {evEbit != null ? `${evEbit.toFixed(1)}x` : '–'}
                       </span>
                     </div>
                   </div>
@@ -749,13 +731,16 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton {...LEARN_DEFINITIONS.pe_ratio} />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {peTTM != null ? fmtNum(peTTM, 1) : '–'}
+                          {peTTM != null ? `${peTTM.toFixed(1)}x` : '–'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-theme-secondary text-sm">KGV Erw.</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-theme-secondary text-sm">KGV Erw.</span>
+                          <LearnTooltipButton term="forward_pe" />
+                        </div>
                         <span className="text-theme-primary font-semibold">
-                          {forwardPE != null ? fmtNum(forwardPE, 1) : '–'}
+                          {forwardPE != null ? `${forwardPE.toFixed(1)}x` : '–'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
@@ -764,13 +749,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton {...LEARN_DEFINITIONS.pb_ratio} />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {pbTTM != null ? fmtNum(pbTTM, 1) : '–'}
+                          {pbTTM != null ? `${pbTTM.toFixed(1)}x` : '–'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-theme-secondary text-sm">EV/EBIT</span>
                         <span className="text-theme-primary font-semibold">
-                          {evEbit != null ? fmtNum(evEbit, 1) : '–'}
+                          {evEbit != null ? `${evEbit.toFixed(1)}x` : '–'}
                         </span>
                       </div>
                     </div>
@@ -778,7 +763,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 )}
               </div>
 
-              {/* MARGEN - Premium Blur */}
+              {/* MARGEN - KORRIGIERT (aber Premium Blur bleibt) */}
               <div className="space-y-4 relative">
                 <h4 className="text-theme-primary font-semibold text-sm flex items-center">
                   <div className="w-3 h-3 bg-orange-400 rounded-full mr-3"></div>
@@ -792,7 +777,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton term="Bruttomarge" />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {grossMargin != null ? fmtP(grossMargin) : '–'}
+                        {grossMargin != null ? formatPercentage(grossMargin * 100) : '–'}
                       </span>
                     </div>
                     
@@ -802,7 +787,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton term="Op. Marge" />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {operatingMargin != null ? fmtP(operatingMargin) : '–'}
+                        {operatingMargin != null ? formatPercentage(operatingMargin * 100) : '–'}
                       </span>
                     </div>
                     
@@ -812,7 +797,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton term="Nettomarge" />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {profitMargin != null ? fmtP(profitMargin) : '–'}
+                        {profitMargin != null ? formatPercentage(profitMargin * 100) : '–'}
                       </span>
                     </div>
                   </div>
@@ -825,7 +810,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton term="Bruttomarge" />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {grossMargin != null ? fmtP(grossMargin) : '–'}
+                          {grossMargin != null ? formatPercentage(grossMargin * 100) : '–'}
                         </span>
                       </div>
                       
@@ -835,7 +820,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton term="Op. Marge" />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {operatingMargin != null ? fmtP(operatingMargin) : '–'}
+                          {operatingMargin != null ? formatPercentage(operatingMargin * 100) : '–'}
                         </span>
                       </div>
                       
@@ -845,7 +830,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton term="Nettomarge" />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {profitMargin != null ? fmtP(profitMargin) : '–'}
+                          {profitMargin != null ? formatPercentage(profitMargin * 100) : '–'}
                         </span>
                       </div>
                     </div>
@@ -862,51 +847,51 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-{/* ✅ BULLS/BEARS + GROWTH + CHART SEKTION - ULTRA CLEAN */}
-<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-  
-  {/* LINKE SPALTE: BULLS/BEARS + GROWTH */}
-  <div className="lg:col-span-1 space-y-6">
-    {/* BULLS/BEARS SEKTION */}
-    <BullsBearsSection 
-      ticker={ticker}
-      isPremium={user?.isPremium || false}
-    />
-    
-    {/* GROWTH SEKTION - NEU */}
-    <GrowthSection 
-      ticker={ticker}
-      isPremium={user?.isPremium || false}
-    />
-  </div>
-
-  {/* ✅ HISTORISCHER KURSVERLAUF - ULTRA CLEAN */}
-  <div className="lg:col-span-2">
-    {history.length > 0 ? (
-      <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
-          <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
-        </div>
-        <div className="p-6 relative">
-          <WorkingStockChart 
-            ticker={ticker} 
-            data={history} 
-            onAddComparison={handleAddComparison}
+      {/* ✅ BULLS/BEARS + GROWTH + CHART SEKTION - ULTRA CLEAN */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* LINKE SPALTE: BULLS/BEARS + GROWTH */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* BULLS/BEARS SEKTION */}
+          <BullsBearsSection 
+            ticker={ticker}
+            isPremium={user?.isPremium || false}
+          />
+          
+          {/* GROWTH SEKTION - NEU */}
+          <GrowthSection 
+            ticker={ticker}
+            isPremium={user?.isPremium || false}
           />
         </div>
-      </div>
-    ) : (
-      <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
-          <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
+
+        {/* ✅ HISTORISCHER KURSVERLAUF - ULTRA CLEAN */}
+        <div className="lg:col-span-2">
+          {history.length > 0 ? (
+            <div className="bg-theme-card rounded-lg">
+              <div className="px-6 py-4 border-b border-theme/10">
+                <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
+              </div>
+              <div className="p-6 relative">
+                <WorkingStockChart 
+                  ticker={ticker} 
+                  data={history} 
+                  onAddComparison={handleAddComparison}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="bg-theme-card rounded-lg">
+              <div className="px-6 py-4 border-b border-theme/10">
+                <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
+              </div>
+              <div className="p-6 flex items-center justify-center min-h-[400px]">
+                <LoadingSpinner />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="p-6 flex items-center justify-center min-h-[400px]">
-          <LoadingSpinner />
-        </div>
       </div>
-    )}
-  </div>
-</div>
 
       {/* ✅ KENNZAHLEN-CHARTS - ULTRA CLEAN (KEINE ÄUSSERE BOX!) */}
       <div className="space-y-6">
@@ -1035,7 +1020,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             </div>
           )}
 
-          {/* ESTIMATES - Mit professioneller Tabelle */}
           {estimates.length > 0 && (
             <div className="lg:col-span-2 bg-theme-card rounded-lg">
               <div className="px-6 py-4 border-b border-theme/10">
@@ -1076,9 +1060,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                               return (
                                 <tr key={e.date}>
                                   <td className="font-medium">{fy}</td>
-                                  <td className="text-right">{fmtB(e.estimatedRevenueAvg)}</td>
-                                  <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueLow)}</td>
-                                  <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueHigh)}</td>
+                                  <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
+                                  <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
+                                  <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
                                   <td className={`text-right font-medium ${yoyClass}`}>
                                     {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
                                   </td>
@@ -1119,9 +1103,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                               return (
                                 <tr key={e.date}>
                                   <td className="font-medium">{fy}</td>
-                                  <td className="text-right">${e.estimatedEpsAvg.toFixed(2)}</td>
-                                  <td className="text-right text-theme-secondary">${e.estimatedEpsLow.toFixed(2)}</td>
-                                  <td className="text-right text-theme-secondary">${e.estimatedEpsHigh.toFixed(2)}</td>
+                                  <td className="text-right">{formatStockPrice(e.estimatedEpsAvg)}</td>
+                                  <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsLow)}</td>
+                                  <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsHigh)}</td>
                                   <td className={`text-right font-medium ${yoyClass}`}>
                                     {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
                                   </td>
@@ -1164,9 +1148,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                 return (
                                   <tr key={e.date}>
                                     <td className="font-medium">{fy}</td>
-                                    <td className="text-right">{fmtB(e.estimatedRevenueAvg)}</td>
-                                    <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueLow)}</td>
-                                    <td className="text-right text-theme-secondary">{fmtB(e.estimatedRevenueHigh)}</td>
+                                    <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
+                                    <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
+                                    <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
                                     <td className={`text-right font-medium ${yoyClass}`}>
                                       {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
                                     </td>
@@ -1206,9 +1190,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                 return (
                                   <tr key={e.date}>
                                     <td className="font-medium">{fy}</td>
-                                    <td className="text-right">${e.estimatedEpsAvg.toFixed(2)}</td>
-                                    <td className="text-right text-theme-secondary">${e.estimatedEpsLow.toFixed(2)}</td>
-                                    <td className="text-right text-theme-secondary">${e.estimatedEpsHigh.toFixed(2)}</td>
+                                    <td className="text-right">{formatStockPrice(e.estimatedEpsAvg)}</td>
+                                    <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsLow)}</td>
+                                    <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsHigh)}</td>
                                     <td className={`text-right font-medium ${yoyClass}`}>
                                       {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
                                     </td>
@@ -1227,7 +1211,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           )}
         </div>
       )}
-
     
       {/* ✅ COMPANY PROFILE + OWNERSHIP - SIDE-BY-SIDE LAYOUT */}
       {profileData && (

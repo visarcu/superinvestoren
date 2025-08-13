@@ -1,4 +1,4 @@
-// src/components/WorkingStockChart.tsx - CLEAN VERSION ohne Container
+// src/components/WorkingStockChart.tsx - CLEAN VERSION mit Währungsformatierung
 'use client'
 import React, { useState, useMemo, useEffect, useRef } from 'react'
 import { 
@@ -13,6 +13,7 @@ import {
   Line
 } from 'recharts'
 import { useTheme } from '@/lib/useTheme'
+import { useCurrency } from '@/lib/CurrencyContext' // ✅ HINZUGEFÜGT
 
 interface StockData {
   date: string
@@ -90,12 +91,20 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
   const chartContainerRef = useRef<HTMLDivElement>(null)
   
   const { theme } = useTheme()
+  
+  // ✅ CURRENCY HOOK HINZUGEFÜGT
+  const { 
+    formatCurrency, 
+    formatStockPrice, 
+    formatPercentage, 
+    formatMarketCap 
+  } = useCurrency()
 
   // Theme-aware colors
   const getThemeColors = () => {
     const isDark = theme === 'dark'
     return {
-      chartBg: isDark ? 'transparent' : 'transparent', // ✅ Transparent weil Container von außen kommt
+      chartBg: isDark ? 'transparent' : 'transparent',
       textPrimary: isDark ? '#ffffff' : '#0f172a',
       textSecondary: isDark ? '#d1d5db' : '#475569',
       textMuted: isDark ? '#9ca3af' : '#64748b',
@@ -360,20 +369,17 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     setComparisonStocks(prev => prev.filter(s => s.ticker !== tickerToRemove))
   }
 
-  // Format value based on chart mode
+  // ✅ FORMATIERUNGSFUNKTIONEN AKTUALISIERT
   const formatValue = (value: number) => {
     switch (selectedMode) {
       case 'total_return':
-        return `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
+        return formatPercentage(value) // ✅ Verwende formatPercentage
       case 'market_cap':
-        if (value >= 1e12) return `$${(value / 1e12).toFixed(2)}T`
-        if (value >= 1e9) return `$${(value / 1e9).toFixed(2)}B`
-        if (value >= 1e6) return `$${(value / 1e6).toFixed(2)}M`
-        return `$${value.toFixed(2)}`
+        return formatMarketCap(value) // ✅ Verwende formatMarketCap
       case '10k_growth':
-        return `$${value.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
+        return formatCurrency(value) // ✅ Verwende formatCurrency
       default:
-        return `$${value.toFixed(2)}`
+        return formatStockPrice(value) // ✅ Verwende formatStockPrice
     }
   }
 
@@ -426,18 +432,21 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     })
   }
 
+  // ✅ Y-ACHSEN FORMATIERUNG AKTUALISIERT
   const formatYAxisTick = (value: number) => {
     switch (selectedMode) {
       case 'total_return':
         return `${value.toFixed(0)}%`
       case 'market_cap':
-        if (value >= 1e12) return `$${(value / 1e12).toFixed(1)}T`
-        if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`
-        return `$${(value / 1e6).toFixed(0)}M`
+        // Vereinfachte Formatierung für Y-Achse
+        if (value >= 1e12) return `${(value / 1e12).toFixed(1)}T`
+        if (value >= 1e9) return `${(value / 1e9).toFixed(1)}B`
+        return `${(value / 1e6).toFixed(0)}M`
       case '10k_growth':
-        return `$${(value / 1000).toFixed(0)}K`
+        return `${(value / 1000).toFixed(0)}K`
       default:
-        return `$${value.toFixed(0)}`
+        // Für Aktienkurse: Einfache Zahlen ohne Währungszeichen
+        return value.toFixed(0)
     }
   }
 
@@ -446,10 +455,9 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
   const chartHeight = isFullscreen ? "h-[calc(100vh-120px)]" : "h-[480px]"
 
   return (
-    // ✅ KEIN Container mehr - nur der Inhalt
     <div className="space-y-6" ref={chartContainerRef}>
       
-      {/* ✅ Fullscreen Button - absolut positioned relativ zum Parent */}
+      {/* Fullscreen Button */}
       <button
         onClick={toggleFullscreen}
         className="absolute top-4 right-4 z-10 w-9 h-9 rounded-md flex items-center justify-center transition-all duration-200 border"
@@ -478,14 +486,15 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
             className="text-2xl font-bold"
             style={{ color: themeColors.textPrimary }}
           >
-            ${currentPrice.toFixed(2)}
+            {/* ✅ VERWENDE formatStockPrice für aktuellen Preis */}
+            {formatStockPrice(currentPrice)}
           </span>
           {mainStats && (
             <span className={`text-sm font-medium px-3 py-1.5 rounded-lg ${
               mainStats.changePercent >= 0 ? 'text-green-600 bg-green-500/10 dark:text-green-400 dark:bg-green-900/20' : 'text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-900/20'
             }`}>
-              {mainStats.changePercent >= 0 ? '+' : ''}
-              {mainStats.changePercent.toFixed(2)}% ({selectedRange})
+              {/* ✅ VERWENDE formatPercentage für Änderung */}
+              {formatPercentage(mainStats.changePercent)} ({selectedRange})
             </span>
           )}
         </div>
@@ -691,7 +700,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         )}
       </div>
 
-      {/* ✅ CHART - DIREKT ohne weitere Container */}
+      {/* CHART */}
       <div className={`${chartHeight} w-full`}>
         <ResponsiveContainer width="100%" height="100%">
           {comparisonStocks.length > 0 || selectedMode === 'total_return' ? (
@@ -734,7 +743,8 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                     fontSize={isFullscreen ? "14" : "12"}
                     fontWeight="bold"
                   >
-                    {stats.changePercent > 0 ? '+' : ''}{stats.changePercent.toFixed(1)}%
+                    {/* ✅ VERWENDE formatPercentage für Labels */}
+                    {formatPercentage(stats.changePercent)}
                   </text>
                 )
               })}
@@ -925,7 +935,8 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                     <div className={`font-bold text-base ${
                       stats.changePercent >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                     }`}>
-                      {stats.changePercent > 0 ? '+' : ''}{stats.changePercent.toFixed(1)}%
+                      {/* ✅ VERWENDE formatPercentage für Performance-Karten */}
+                      {formatPercentage(stats.changePercent)}
                     </div>
                     <div 
                       className="text-xs"

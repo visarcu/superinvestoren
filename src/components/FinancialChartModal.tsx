@@ -1,4 +1,4 @@
-// src/components/FinancialChartModal.tsx - VOLLSTÄNDIG THEME-AWARE
+// src/components/FinancialChartModal.tsx - VOLLSTÄNDIG DEUTSCHE FORMATIERUNG
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -82,23 +82,39 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
       dividendRes.json()
     ])
 
-    // Dividends by year
+    // ✅ FILTER: Nur moderne Daten (ab 2005)
+    const cutoffYear = 2005
+    const currentYear = new Date().getFullYear()
+    
+    const filteredIncomeData = incomeData.filter((item: any) => {
+      const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
+      return year >= cutoffYear && year < currentYear
+    })
+
+    // Dividends by year - ✅ Split-adjusted dividends
     const dividendsByYear: Record<string, number> = {}
     if (dividendData && dividendData.historical && Array.isArray(dividendData.historical)) {
       dividendData.historical.forEach((div: any) => {
         try {
           const year = new Date(div.date).getFullYear().toString()
-          if (!dividendsByYear[year]) {
-            dividendsByYear[year] = 0
+          const yearNum = parseInt(year)
+          
+          // ✅ FILTER: Nur moderne Dividendendaten
+          if (yearNum >= cutoffYear && yearNum < currentYear) {
+            if (!dividendsByYear[year]) {
+              dividendsByYear[year] = 0
+            }
+            // ✅ NUTZE adjDividend (split-adjusted) statt dividend
+            dividendsByYear[year] += div.adjDividend || div.dividend || 0
           }
-          dividendsByYear[year] += div.dividend || 0
         } catch (e) {
           console.warn('Error parsing dividend date:', div.date, e)
         }
       })
     }
 
-    const combinedData = incomeData.slice(0, years).reverse().map((income: any, index: number) => {
+    // ✅ NEHME NUR DIE ANGEFORDERTEN JAHRE (aber aus gefilterten Daten)
+    const combinedData = filteredIncomeData.slice(0, years).reverse().map((income: any, index: number) => {
       const balance = balanceData[balanceData.length - 1 - index] || {}
       const cashFlow = cashFlowData[cashFlowData.length - 1 - index] || {}
       const metrics = keyMetricsData[keyMetricsData.length - 1 - index] || {}
@@ -110,8 +126,8 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
         netIncome: income.netIncome || 0,
         operatingIncome: income.operatingIncome || 0,
         ebitda: income.ebitda || 0,
-        eps: income.eps || 0,
-        dividendPS: dividendsByYear[year] || metrics.dividendPerShare || 0,
+        eps: income.eps || 0, // ✅ FMP EPS ist bereits split-adjusted!
+        dividendPS: dividendsByYear[year] || metrics.dividendPerShare || 0, // ✅ Split-adjusted dividends
         cash: balance.cashAndCashEquivalents || balance.cashAndShortTermInvestments || 0,
         debt: balance.totalDebt || 0,
         sharesOutstanding: balance.commonStockSharesOutstanding || income.weightedAverageShsOut || 0,
@@ -156,7 +172,8 @@ export default function FinancialChartModal({
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   
-  const { currency, formatCurrency, formatAxisValue } = useCurrency()
+  // ✅ NUTZE DEUTSCHE CURRENCY CONTEXT
+  const { currency, formatCurrency, formatAxisValueDE, formatStockPrice } = useCurrency()
 
   // Load data when modal opens or settings change
   useEffect(() => {
@@ -286,7 +303,7 @@ export default function FinancialChartModal({
                     }
                   }
 
-                  // ✅ CASH DEBT CHART
+                  // ✅ CASH DEBT CHART - DEUTSCHE FORMATIERUNG
                   if (metricKey === 'cashDebt') {
                     return (
                       <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
@@ -300,7 +317,7 @@ export default function FinancialChartModal({
                           height={60}
                         />
                         <YAxis 
-                          tickFormatter={formatAxisValue}
+                          tickFormatter={formatAxisValueDE} // ✅ DEUTSCHE FORMATIERUNG!
                           axisLine={false}
                           tickLine={false}
                           tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
@@ -358,7 +375,7 @@ export default function FinancialChartModal({
                       </LineChart>
                     )
                   } 
-                  // ✅ STANDARD BAR CHART
+                  // ✅ STANDARD BAR CHART - DEUTSCHE FORMATIERUNG
                   else {
                     return (
                       <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
@@ -376,11 +393,14 @@ export default function FinancialChartModal({
                             if (metricKey === 'returnOnEquity') {
                               return `${(v * 100).toFixed(0)}%`
                             } else if (metricKey === 'eps' || metricKey === 'dividendPS') {
-                              return `${v.toFixed(1)} ${currency}`
+                              // ✅ DEUTSCHE FORMATIERUNG für EPS/Dividende
+                              return `${v.toFixed(v < 1 ? 2 : 1)} ${currency === 'USD' ? '$' : '€'}`
                             } else if (metricKey === 'sharesOutstanding') {
-                              return `${(v / 1e9).toFixed(1)}B`
+                              // ✅ DEUTSCHE FORMATIERUNG für Aktien
+                              return `${(v / 1e9).toFixed(1)} Mrd.`
                             }
-                            return formatAxisValue(v)
+                            // ✅ DEUTSCHE FORMATIERUNG für alle anderen Werte
+                            return formatAxisValueDE(v)
                           }}
                           axisLine={false}
                           tickLine={false}
@@ -392,10 +412,13 @@ export default function FinancialChartModal({
                             if (metricKey === 'returnOnEquity') {
                               return [`${((v as number) * 100).toFixed(1)}%`, n]
                             } else if (metricKey === 'eps' || metricKey === 'dividendPS') {
-                              return [formatCurrency(v as number, 'currency'), n]
+                              // ✅ DEUTSCHE FORMATIERUNG für EPS/Dividende
+                              return [formatStockPrice(v as number), n]
                             } else if (metricKey === 'sharesOutstanding') {
-                              return [`${((v as number) / 1e9).toFixed(2)}B Aktien`, n]
+                              // ✅ DEUTSCHE FORMATIERUNG für Aktien
+                              return [`${((v as number) / 1e9).toFixed(2)} Mrd. Aktien`, n]
                             }
+                            // ✅ DEUTSCHE FORMATIERUNG für alle anderen Werte
                             return [formatCurrency(v as number), n]
                           }}
                           {...tooltipStyles}

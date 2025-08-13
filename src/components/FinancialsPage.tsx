@@ -1,4 +1,4 @@
-// src/components/FinancialsPage.tsx - FIXED EVENT HANDLING + LEARN TOOLTIPS
+// src/components/FinancialsPage.tsx - MIT DEUTSCHER FORMATIERUNG
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -36,7 +36,7 @@ interface RawStatements {
   cashflow: any[]
 }
 
-// ✅ FIXED SPARKLINE TOOLTIP COMPONENT - EVENT STOPPING
+// ✅ SPARKLINE TOOLTIP COMPONENT - EVENT STOPPING
 const SparklineTooltip = ({ 
   data, 
   value, 
@@ -58,7 +58,6 @@ const SparklineTooltip = ({
     return <div>{children}</div>
   }
 
-  // ✅ FIXED: Event Stopping für Sparkline Tooltip
   const handleMouseEnter = (e: React.MouseEvent) => {
     e.stopPropagation()
     setShowTooltip(true)
@@ -70,7 +69,7 @@ const SparklineTooltip = ({
   }
 
   const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation() // ✅ Verhindert Event Bubbling zum LearnSidebar
+    e.stopPropagation()
   }
 
   return (
@@ -78,14 +77,14 @@ const SparklineTooltip = ({
       className="relative"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={handleClick} // ✅ Event Stopping hinzugefügt
+      onClick={handleClick}
     >
       {children}
       
       {showTooltip && (
         <div 
           className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-50"
-          onClick={handleClick} // ✅ Auch im Tooltip Event Stopping
+          onClick={handleClick}
         >
           <div className="bg-theme-card border border-theme/20 rounded-lg shadow-xl p-4 min-w-[280px]">
             
@@ -134,7 +133,7 @@ const SparklineTooltip = ({
   )
 }
 
-// ✅ VOLLSTÄNDIGE DEUTSCHE ÜBERSETZUNGEN - YAHOO FINANCE STANDARD
+// ✅ DEUTSCHE ÜBERSETZUNGEN - YAHOO FINANCE STANDARD
 const GERMAN_LABELS = {
   // Headers
   financial_statements: 'Financial Statements',
@@ -338,27 +337,15 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
   const [rawStatements, setRawStatements] = useState<RawStatements | null>(null)
   const [loading, setLoading] = useState(true)
   
-  const { getFinancialUnitLabel } = useCurrency()
+  // ✅ NUTZE CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
+  const { formatAxisValueDE, formatCurrency } = useCurrency()
 
-  // ✅ KORREKTE FORMATIERUNG - Problem gelöst!
+  // ✅ DEUTSCHE FORMATIERUNG - Ersetzt die alte formatFinancialNumber Funktion
   const formatFinancialNumber = (value: number | null | undefined): string => {
     if (value === null || value === undefined || isNaN(value)) return '–'
     
-    const absValue = Math.abs(value)
-    
-    if (absValue >= 1_000_000_000) {
-      // Milliarden: 1557400000 → "1.6B"
-      return `${(value / 1_000_000_000).toFixed(1)}B`
-    } else if (absValue >= 1_000_000) {
-      // Millionen: 15574000 → "15.6M"  
-      return `${(value / 1_000_000).toFixed(1)}M`
-    } else if (absValue >= 1_000) {
-      // Tausende: 1557 → "1.6K"
-      return `${(value / 1_000).toFixed(1)}K`
-    } else {
-      // Unter 1000: 157 → "157"
-      return value.toFixed(0)
-    }
+    // ✅ NUTZE DIE CONTEXT-FUNKTION für deutsche Formatierung
+    return formatAxisValueDE(value)
   }
 
   // Get stock info for header
@@ -436,7 +423,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
     )
   }
 
-  // ✅ VOLLSTÄNDIGE PROFESSIONELLE INCOME STATEMENT MIT SPARKLINES
+  // ✅ INCOME STATEMENT MIT DEUTSCHER FORMATIERUNG
   const renderIncomeStatement = () => {
     const incomeData = rawStatements?.income?.slice(0, yearsToShow).reverse() || []
     const cashflowData = rawStatements?.cashflow?.slice(0, yearsToShow).reverse() || []
@@ -466,7 +453,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
     return (
       <div className="space-y-6">
         
-        {/* ✅ CLEAN METRICS BAR - OHNE SPARKLINES */}
+        {/* ✅ METRICS BAR MIT DEUTSCHER FORMATIERUNG */}
         <div className="bg-theme-card rounded-lg p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -501,7 +488,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           </div>
         </div>
 
-        {/* ✅ PROFESSIONAL COMPLETE INCOME STATEMENT TABLE */}
+        {/* ✅ INCOME STATEMENT TABLE MIT DEUTSCHER FORMATIERUNG */}
         <div className="bg-theme-card rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="professional-table">
@@ -601,12 +588,15 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Gross Profit Margin */}
+                {/* Gross Profit Margin MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="text-theme-muted italic pl-8">{GERMAN_LABELS.gross_profit_margin}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center text-theme-muted font-mono">
-                      {((item.grossProfit / item.revenue) * 100).toFixed(1)}%
+                      {new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1
+                      }).format((item.grossProfit / item.revenue) * 100)}%
                     </td>
                   ))}
                 </tr>
@@ -682,12 +672,15 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Operating Margin */}
+                {/* Operating Margin MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="text-theme-muted italic pl-8">{GERMAN_LABELS.operating_margin}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center text-theme-muted font-mono">
-                      {((item.operatingIncome / item.revenue) * 100).toFixed(1)}%
+                      {new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1
+                      }).format((item.operatingIncome / item.revenue) * 100)}%
                     </td>
                   ))}
                 </tr>
@@ -799,7 +792,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Effective Tax Rate */}
+                {/* Effective Tax Rate MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="text-theme-muted italic pl-8">{GERMAN_LABELS.effective_tax_rate}</td>
                   {incomeData.map((item) => {
@@ -808,7 +801,10 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                       : 0
                     return (
                       <td key={item.date} className="text-center text-theme-muted font-mono">
-                        {taxRate.toFixed(1)}%
+                        {new Intl.NumberFormat('de-DE', {
+                          minimumFractionDigits: 1,
+                          maximumFractionDigits: 1
+                        }).format(taxRate)}%
                       </td>
                     )
                   })}
@@ -838,12 +834,15 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Net Margin */}
+                {/* Net Margin MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="text-theme-muted italic pl-8">{GERMAN_LABELS.net_margin}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center text-theme-muted font-mono">
-                      {((item.netIncome / item.revenue) * 100).toFixed(1)}%
+                      {new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1
+                      }).format((item.netIncome / item.revenue) * 100)}%
                     </td>
                   ))}
                 </tr>
@@ -855,42 +854,54 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </td>
                 </tr>
 
-                {/* Basic EPS */}
+                {/* Basic EPS MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="font-medium">{GERMAN_LABELS.earnings_per_share}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-medium">
-                      ${item.eps?.toFixed(2) || '–'}
+                      {item.eps ? `${new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      }).format(item.eps)} $` : '–'}
                     </td>
                   ))}
                 </tr>
 
-                {/* Diluted EPS */}
+                {/* Diluted EPS MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="font-medium">{GERMAN_LABELS.eps_diluted}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-medium">
-                      ${item.epsdiluted?.toFixed(2) || item.eps?.toFixed(2) || '–'}
+                      {(item.epsdiluted || item.eps) ? `${new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      }).format(item.epsdiluted || item.eps)} $` : '–'}
                     </td>
                   ))}
                 </tr>
 
-                {/* Basic Shares Outstanding */}
+                {/* Basic Shares Outstanding MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="text-theme-secondary">{GERMAN_LABELS.shares_outstanding}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center text-theme-secondary font-mono">
-                      {((item.weightedAverageShsOut || 0) / 1_000_000).toFixed(0)}
+                      {new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format((item.weightedAverageShsOut || 0) / 1_000_000)}
                     </td>
                   ))}
                 </tr>
 
-                {/* Diluted Shares Outstanding */}
+                {/* Diluted Shares Outstanding MIT DEUTSCHER FORMATIERUNG */}
                 <tr>
                   <td className="text-theme-secondary">{GERMAN_LABELS.shares_outstanding_diluted}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center text-theme-secondary font-mono">
-                      {((item.weightedAverageShsOutDil || item.weightedAverageShsOut || 0) / 1_000_000).toFixed(0)}
+                      {new Intl.NumberFormat('de-DE', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      }).format((item.weightedAverageShsOutDil || item.weightedAverageShsOut || 0) / 1_000_000)}
                     </td>
                   ))}
                 </tr>
@@ -902,7 +913,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
     )
   }
 
-  // ✅ VOLLSTÄNDIGE PROFESSIONELLE BALANCE SHEET MIT SPARKLINES UND LEARN TOOLTIPS
+  // ✅ BALANCE SHEET MIT DEUTSCHER FORMATIERUNG
   const renderBalanceSheet = () => {
     const balanceData = rawStatements?.balance?.slice(0, yearsToShow).reverse() || []
     
@@ -932,7 +943,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
     return (
       <div className="space-y-6">
         
-        {/* ✅ BALANCE SHEET METRICS BAR - CLEAN MIT LEARN TOOLTIPS */}
+        {/* ✅ BALANCE SHEET METRICS BAR MIT DEUTSCHER FORMATIERUNG */}
         <div className="bg-theme-card rounded-lg p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -959,7 +970,10 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
             
             <div>
               <div className="text-2xl font-bold text-theme-primary mb-1 flex items-center gap-2">
-                {debtToEquity.toFixed(2)}
+                {new Intl.NumberFormat('de-DE', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                }).format(debtToEquity)}
                 <LearnTooltipButton term="Verschuldungsgrad" />
               </div>
               <div className="text-sm text-theme-muted mb-1">{GERMAN_LABELS.debt_to_equity}</div>
@@ -970,7 +984,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           </div>
         </div>
 
-        {/* ✅ VOLLSTÄNDIGE PROFESSIONAL BALANCE SHEET TABLE MIT LEARN TOOLTIPS */}
+        {/* ✅ BALANCE SHEET TABLE MIT DEUTSCHER FORMATIERUNG */}
         <div className="bg-theme-card rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="professional-table">
@@ -1019,7 +1033,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Short Term Investments */}
+                {/* Weitere Balance Sheet Items - alle mit deutscher Formatierung */}
                 <tr>
                   <td>{GERMAN_LABELS.short_term_investments}</td>
                   {balanceData.map((item) => (
@@ -1029,7 +1043,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Accounts Receivable */}
                 <tr>
                   <td>{GERMAN_LABELS.accounts_receivable}</td>
                   {balanceData.map((item) => (
@@ -1039,7 +1052,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Inventory */}
                 <tr>
                   <td>{GERMAN_LABELS.inventory}</td>
                   {balanceData.map((item) => (
@@ -1049,7 +1061,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Prepaid Expenses */}
                 <tr>
                   <td>{GERMAN_LABELS.prepaid_expenses}</td>
                   {balanceData.map((item) => (
@@ -1059,7 +1070,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Other Current Assets */}
                 <tr>
                   <td>{GERMAN_LABELS.other_current_assets}</td>
                   {balanceData.map((item) => (
@@ -1069,7 +1079,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Total Current Assets */}
                 <tr className="bg-blue-500/5">
                   <td className="font-semibold">{GERMAN_LABELS.total_current_assets}</td>
                   {balanceData.map((item) => (
@@ -1086,7 +1095,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </td>
                 </tr>
 
-                {/* Property, Plant & Equipment */}
                 <tr>
                   <td>{GERMAN_LABELS.net_property_plant_equipment}</td>
                   {balanceData.map((item) => (
@@ -1096,7 +1104,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Goodwill */}
                 <tr>
                   <td>{GERMAN_LABELS.goodwill}</td>
                   {balanceData.map((item) => (
@@ -1106,7 +1113,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Intangible Assets */}
                 <tr>
                   <td>{GERMAN_LABELS.intangible_assets}</td>
                   {balanceData.map((item) => (
@@ -1116,7 +1122,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Long Term Investments */}
                 <tr>
                   <td>{GERMAN_LABELS.long_term_investments}</td>
                   {balanceData.map((item) => (
@@ -1126,7 +1131,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Other Long Term Assets */}
                 <tr>
                   <td>{GERMAN_LABELS.other_long_term_assets}</td>
                   {balanceData.map((item) => (
@@ -1167,7 +1171,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </td>
                 </tr>
 
-                {/* Accounts Payable */}
                 <tr>
                   <td>{GERMAN_LABELS.accounts_payable}</td>
                   {balanceData.map((item) => (
@@ -1177,7 +1180,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Accrued Liabilities */}
                 <tr>
                   <td>{GERMAN_LABELS.accrued_liabilities}</td>
                   {balanceData.map((item) => (
@@ -1187,7 +1189,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Short Term Debt */}
                 <tr>
                   <td>{GERMAN_LABELS.short_term_debt}</td>
                   {balanceData.map((item) => (
@@ -1197,7 +1198,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Deferred Revenue */}
                 <tr>
                   <td>{GERMAN_LABELS.deferred_revenue}</td>
                   {balanceData.map((item) => (
@@ -1207,7 +1207,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Other Current Liabilities */}
                 <tr>
                   <td>{GERMAN_LABELS.other_current_liabilities}</td>
                   {balanceData.map((item) => (
@@ -1217,7 +1216,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Total Current Liabilities MIT LEARN TOOLTIP */}
                 <tr className="bg-red-500/5">
                   <td className="font-semibold flex items-center gap-2">
                     {GERMAN_LABELS.total_current_liabilities}
@@ -1237,7 +1235,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </td>
                 </tr>
 
-                {/* Long Term Debt */}
                 <tr>
                   <td>{GERMAN_LABELS.long_term_debt}</td>
                   {balanceData.map((item) => (
@@ -1247,7 +1244,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Deferred Tax Liabilities */}
                 <tr>
                   <td>{GERMAN_LABELS.deferred_tax_liabilities}</td>
                   {balanceData.map((item) => (
@@ -1257,7 +1253,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Other Long Term Liabilities */}
                 <tr>
                   <td>{GERMAN_LABELS.other_long_term_liabilities}</td>
                   {balanceData.map((item) => (
@@ -1267,7 +1262,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Total Liabilities MIT LEARN TOOLTIP */}
                 <tr className="bg-red-500/5">
                   <td className="font-semibold flex items-center gap-2">
                     {GERMAN_LABELS.total_liabilities}
@@ -1287,7 +1281,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </td>
                 </tr>
 
-                {/* Common Stock */}
                 <tr>
                   <td>{GERMAN_LABELS.common_stock}</td>
                   {balanceData.map((item) => (
@@ -1297,7 +1290,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Additional Paid-in Capital */}
                 <tr>
                   <td>{GERMAN_LABELS.additional_paid_capital}</td>
                   {balanceData.map((item) => (
@@ -1307,9 +1299,8 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Retained Earnings */}
                 <tr>
-                  <td>{GERMAN_LABELS.retained_earnings}</td>
+                <td>{GERMAN_LABELS.retained_earnings}</td>
                   {balanceData.map((item) => (
                     <td key={item.date} className="text-center font-mono">
                       {formatFinancialNumber(item.retainedEarnings || 0)}
@@ -1317,7 +1308,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Treasury Stock */}
                 <tr>
                   <td>{GERMAN_LABELS.treasury_stock}</td>
                   {balanceData.map((item) => (
@@ -1327,7 +1317,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                {/* Other Comprehensive Income */}
                 <tr>
                   <td>{GERMAN_LABELS.other_comprehensive_income}</td>
                   {balanceData.map((item) => (
@@ -1379,7 +1368,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
     )
   }
 
-  // ✅ VOLLSTÄNDIGE PROFESSIONELLE CASH FLOW STATEMENT MIT SPARKLINES
+  // ✅ CASH FLOW MIT DEUTSCHER FORMATIERUNG
   const renderCashFlow = () => {
     const cashflowData = rawStatements?.cashflow?.slice(0, yearsToShow).reverse() || []
     
@@ -1408,7 +1397,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
     return (
       <div className="space-y-6">
         
-        {/* ✅ CASH FLOW METRICS BAR - CLEAN */}
+        {/* ✅ CASH FLOW METRICS BAR MIT DEUTSCHER FORMATIERUNG */}
         <div className="bg-theme-card rounded-lg p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -1433,7 +1422,10 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
             
             <div>
               <div className="text-2xl font-bold text-theme-primary mb-1">
-                {cashConversion.toFixed(0)}%
+                {new Intl.NumberFormat('de-DE', {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
+                }).format(cashConversion)}%
               </div>
               <div className="text-sm text-theme-muted mb-1">{GERMAN_LABELS.cash_conversion}</div>
               <div className="text-xs text-theme-muted">
@@ -1443,7 +1435,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           </div>
         </div>
 
-        {/* ✅ VOLLSTÄNDIGE PROFESSIONAL CASH FLOW TABLE */}
+        {/* ✅ CASH FLOW TABLE MIT DEUTSCHER FORMATIERUNG */}
         <div className="bg-theme-card rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="professional-table">
@@ -1806,7 +1798,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      {/* ✅ EINHEITLICHER HEADER - wie andere Pages */}
+      {/* ✅ EINHEITLICHER HEADER */}
       <div className="border-b border-theme/5">
         <div className="w-full px-6 lg:px-8 py-6">
           
@@ -1843,7 +1835,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
         </div>
       </div>
 
-      {/* ✅ MAIN CONTENT - konsistent mit anderen Pages */}
+      {/* ✅ MAIN CONTENT */}
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
         
         {/* Info Header */}
@@ -1858,10 +1850,10 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           </div>
         </div>
 
-        {/* ✅ MODERN SLIM CONTROLS */}
+        {/* ✅ CONTROLS */}
         <div className="flex flex-wrap items-center gap-4 justify-between">
           
-          {/* Period Toggle - Ultra Slim */}
+          {/* Period Toggle */}
           <div className="flex items-center gap-3">
             <span className="text-sm text-theme-secondary font-medium">Periode:</span>
             <div className="flex bg-theme-tertiary/50 border border-theme/20 rounded-lg p-0.5">
@@ -1881,7 +1873,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
             </div>
           </div>
           
-          {/* Years Dropdown - Slim */}
+          {/* Years Dropdown */}
           <div className="relative">
             <button
               onClick={(e) => {
@@ -1920,13 +1912,13 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
             )}
           </div>
           
-          {/* Status - Minimal */}
+          {/* Status */}
           <div className="text-xs text-theme-muted">
           {yearsToShow} Jahre • USD • FMP Native
           </div>
         </div>
 
-        {/* ✅ ULTRA MODERN TABS - MINIMAL & SLEEK */}
+        {/* ✅ TABS */}
         <div className="border-b border-theme/20">
           <div className="flex space-x-8">
             {[
@@ -1946,7 +1938,6 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 <Icon className="w-4 h-4" />
                 <span>{label}</span>
                 
-                {/* Active indicator line */}
                 {activeStatement === key && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-400 rounded-full" />
                 )}
@@ -1977,7 +1968,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
         </div>
       </main>
       
-      {/* ✅ LEARN SIDEBAR - Fixed Event Handling */}
+      {/* ✅ LEARN SIDEBAR */}
       <LearnSidebar />
     </div>
   )
