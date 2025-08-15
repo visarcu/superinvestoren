@@ -112,6 +112,12 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
         href: '/analyse'
       },
       {
+        id: 'compare',  // NEU
+        label: 'Aktien-Vergleich',
+        icon: ChartBarIcon,
+        href: '/analyse/compare'
+      },
+      {
         id: 'watchlist',
         label: 'Watchlist',
         icon: BookmarkIcon,

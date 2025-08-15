@@ -1,0 +1,844 @@
+// src/app/analyse/portfolio/dashboard/page.tsx
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabaseClient'
+import { getBulkQuotes } from '@/lib/fmp'
+import PortfolioCalendar from '@/components/PortfolioCalendar'
+import { 
+  BriefcaseIcon, 
+  ArrowLeftIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
+  CurrencyDollarIcon,
+  ChartBarIcon,
+  PlusIcon,
+  Cog6ToothIcon,
+  ArrowPathIcon,
+  EyeIcon,
+  PencilIcon,
+  XMarkIcon,
+  NewspaperIcon,
+  ClockIcon,
+  ArrowTopRightOnSquareIcon,
+  CalendarIcon
+} from '@heroicons/react/24/outline'
+
+interface Portfolio {
+  id: string
+  name: string
+  currency: string
+  cash_position: number
+  created_at: string
+}
+
+interface Holding {
+  id: string
+  symbol: string
+  name: string
+  quantity: number
+  purchase_price: number
+  current_price: number
+  purchase_date: string
+  value: number
+  gain_loss: number
+  gain_loss_percent: number
+}
+
+interface NewsArticle {
+  title: string
+  url: string
+  publishedDate: string
+  text: string
+  image: string
+  site: string
+  symbol: string
+}
+
+export default function PortfolioDashboard() {
+  const router = useRouter()
+  const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
+  const [holdings, setHoldings] = useState<Holding[]>([])
+  const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
+  const [showAddPosition, setShowAddPosition] = useState(false)
+  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar'>('overview')
+  const [portfolioNews, setPortfolioNews] = useState<NewsArticle[]>([])
+  const [newsLoading, setNewsLoading] = useState(false)
+  
+  // New Position Form
+  const [newSymbol, setNewSymbol] = useState('')
+  const [newQuantity, setNewQuantity] = useState('')
+  const [newPurchasePrice, setNewPurchasePrice] = useState('')
+  const [newPurchaseDate, setNewPurchaseDate] = useState(new Date().toISOString().split('T')[0])
+  const [addingPosition, setAddingPosition] = useState(false)
+  
+  // Autocomplete
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [showSearchResults, setShowSearchResults] = useState(false)
+  const [selectedStock, setSelectedStock] = useState<{symbol: string, name: string} | null>(null)
+  
+  // Portfolio Metriken
+  const [totalValue, setTotalValue] = useState(0)
+  const [totalInvested, setTotalInvested] = useState(0)
+  const [totalGainLoss, setTotalGainLoss] = useState(0)
+  const [totalGainLossPercent, setTotalGainLossPercent] = useState(0)
+  const [activeInvestments, setActiveInvestments] = useState(0)
+
+  useEffect(() => {
+    loadPortfolio()
+  }, [])
+
+  // Autocomplete Search - nutzt deine bestehende /api/search Route
+  useEffect(() => {
+    const searchStocks = async () => {
+      if (searchQuery.length < 2) {
+        setSearchResults([])
+        setShowSearchResults(false)
+        return
+      }
+
+      try {
+        const response = await fetch(`/api/search?query=${searchQuery}`)
+        const data = await response.json()
+        setSearchResults(data)
+        setShowSearchResults(data.length > 0)
+      } catch (error) {
+        console.error('Error searching stocks:', error)
+        setSearchResults([])
+      }
+    }
+
+    const timer = setTimeout(searchStocks, 300) // Debounce
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  // Load News when tab changes
+  useEffect(() => {
+    if (activeTab === 'news' && holdings.length > 0 && portfolioNews.length === 0) {
+      loadPortfolioNews()
+    }
+  }, [activeTab, holdings])
+
+  const loadPortfolio = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/login')
+        return
+      }
+
+      // Portfolio laden
+      const { data: portfolioData, error: portfolioError } = await supabase
+        .from('portfolios')
+        .select('*')
+        .eq('user_id', user.id)
+        .single()
+
+      if (portfolioError) throw portfolioError
+      setPortfolio(portfolioData)
+
+      // Holdings laden
+      const { data: holdingsData, error: holdingsError } = await supabase
+        .from('portfolio_holdings')
+        .select('*')
+        .eq('portfolio_id', portfolioData.id)
+
+      if (holdingsError) throw holdingsError
+
+      // Echte Kurse abrufen mit FMP API
+      let enrichedHoldings = holdingsData
+      
+      if (holdingsData && holdingsData.length > 0) {
+        const symbols = holdingsData.map(h => h.symbol)
+        const currentPrices = await getBulkQuotes(symbols)
+        
+        enrichedHoldings = holdingsData.map(holding => {
+          const currentPrice = currentPrices[holding.symbol] || holding.purchase_price
+          const value = currentPrice * holding.quantity
+          const gainLoss = value - (holding.purchase_price * holding.quantity)
+          const gainLossPercent = (gainLoss / (holding.purchase_price * holding.quantity)) * 100
+
+          return {
+            ...holding,
+            current_price: currentPrice,
+            value,
+            gain_loss: gainLoss,
+            gain_loss_percent: gainLossPercent
+          }
+        })
+      }
+
+      setHoldings(enrichedHoldings)
+      calculateMetrics(enrichedHoldings, portfolioData.cash_position)
+      
+    } catch (error) {
+      console.error('Error loading portfolio:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const loadPortfolioNews = async () => {
+    setNewsLoading(true)
+    try {
+      const allNews: NewsArticle[] = []
+      
+      // Lade News für jede Aktie im Portfolio
+      for (const holding of holdings.slice(0, 5)) { // Max 5 Aktien für Performance
+        try {
+          const response = await fetch(
+            `https://financialmodelingprep.com/api/v3/stock_news?tickers=${holding.symbol}&limit=3&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+          )
+          
+          if (response.ok) {
+            const news = await response.json()
+            if (Array.isArray(news)) {
+              allNews.push(...news.map((item: any) => ({
+                ...item,
+                symbol: holding.symbol
+              })))
+            }
+          }
+        } catch (err) {
+          console.error(`Error loading news for ${holding.symbol}:`, err)
+        }
+      }
+      
+      // Sortiere nach Datum
+      allNews.sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+      setPortfolioNews(allNews.slice(0, 20)) // Max 20 News
+      
+    } catch (error) {
+      console.error('Error loading portfolio news:', error)
+    } finally {
+      setNewsLoading(false)
+    }
+  }
+
+  const calculateMetrics = (holdings: Holding[], cashPosition: number) => {
+    const stockValue = holdings.reduce((sum, h) => sum + h.value, 0)
+    const stockCost = holdings.reduce((sum, h) => sum + (h.purchase_price * h.quantity), 0)
+    
+    setTotalValue(stockValue + cashPosition)
+    setTotalInvested(stockCost) // Nur investiertes Kapital, ohne Cash
+    setTotalGainLoss(stockValue - stockCost)
+    setTotalGainLossPercent(stockCost > 0 ? ((stockValue - stockCost) / stockCost) * 100 : 0)
+    setActiveInvestments(holdings.length)
+  }
+
+  const refreshPrices = async () => {
+    setRefreshing(true)
+    await loadPortfolio()
+    setRefreshing(false)
+  }
+
+  const handleAddPosition = async () => {
+    if (!selectedStock || !newQuantity || !newPurchasePrice) {
+      alert('Bitte alle Felder ausfüllen')
+      return
+    }
+
+    setAddingPosition(true)
+    
+    try {
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .insert({
+          portfolio_id: portfolio?.id,
+          symbol: selectedStock.symbol,
+          name: selectedStock.name,
+          quantity: parseFloat(newQuantity),
+          purchase_price: parseFloat(newPurchasePrice),
+          purchase_date: newPurchaseDate
+        })
+
+      if (error) throw error
+
+      // Reset form und reload
+      setSelectedStock(null)
+      setSearchQuery('')
+      setNewQuantity('')
+      setNewPurchasePrice('')
+      setNewPurchaseDate(new Date().toISOString().split('T')[0])
+      setShowAddPosition(false)
+      
+      await loadPortfolio()
+      
+    } catch (error: any) {
+      console.error('Error adding position:', error)
+      alert(`Fehler: ${error.message}`)
+    } finally {
+      setAddingPosition(false)
+    }
+  }
+
+  const handleStockSelect = (stock: any) => {
+    setSelectedStock({ symbol: stock.symbol, name: stock.name })
+    setSearchQuery(stock.symbol + ' - ' + stock.name)
+    setShowSearchResults(false)
+  }
+
+  const handleViewStock = (symbol: string) => {
+    // Navigiere zur korrekten Aktienanalyse-Seite
+    router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
+  }
+
+  const handleDeletePosition = async (holdingId: string) => {
+    if (!confirm('Position wirklich löschen?')) return
+
+    try {
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .delete()
+        .eq('id', holdingId)
+
+      if (error) throw error
+      await loadPortfolio()
+    } catch (error) {
+      console.error('Error deleting position:', error)
+      alert('Fehler beim Löschen der Position')
+    }
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffTime = Math.abs(now.getTime() - date.getTime())
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60))
+    
+    if (diffHours < 1) return 'Vor wenigen Minuten'
+    if (diffHours < 24) return `Vor ${diffHours} Stunden`
+    if (diffHours < 48) return 'Gestern'
+    
+    return date.toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <ArrowPathIcon className="w-5 h-5 text-green-400 animate-spin" />
+          <span className="text-theme-secondary">Lade Portfolio...</span>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-theme-primary">
+      {/* Header */}
+      <div className="border-b border-theme/5">
+        <div className="w-full px-6 lg:px-8 py-6">
+          <Link
+            href="/analyse"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+          >
+            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            Zurück zum Dashboard
+          </Link>
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
+                <BriefcaseIcon className="w-6 h-6 text-green-400" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-theme-primary">
+                  {portfolio?.name || 'Mein Portfolio'}
+                </h1>
+                <p className="text-sm text-theme-muted mt-1">
+                  Erstellt am {portfolio?.created_at ? new Date(portfolio.created_at).toLocaleDateString('de-DE') : ''}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={refreshPrices}
+                className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
+                disabled={refreshing}
+              >
+                <ArrowPathIcon className={`w-5 h-5 text-theme-secondary ${refreshing ? 'animate-spin' : ''}`} />
+              </button>
+              
+              <button className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors">
+                <Cog6ToothIcon className="w-5 h-5 text-theme-secondary" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="w-full px-6 lg:px-8 py-8">
+        {/* Metrics Overview - OHNE Kosten der aktiven Investments */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
+            <p className="text-sm text-theme-secondary mb-1">Portfolio Wert</p>
+            <p className="text-2xl font-bold text-theme-primary">
+              ${totalValue.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+            <p className="text-xs text-theme-muted mt-1">
+              inkl. ${portfolio?.cash_position.toLocaleString('de-DE')} Cash
+            </p>
+          </div>
+
+          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
+            <p className="text-sm text-theme-secondary mb-1">Cash Position</p>
+            <p className="text-2xl font-bold text-theme-primary">
+              ${portfolio?.cash_position.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+            <p className="text-xs text-theme-muted mt-1">
+              {totalValue > 0 ? ((portfolio?.cash_position || 0) / totalValue * 100).toFixed(1) : '0'}% des Portfolios
+            </p>
+          </div>
+
+          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
+            <p className="text-sm text-theme-secondary mb-1">Rendite der aktiven Investments</p>
+            <div className="flex items-center gap-2">
+              <p className={`text-2xl font-bold ${totalGainLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {totalGainLoss >= 0 ? '+' : ''}${Math.abs(totalGainLoss).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+              {totalGainLoss >= 0 ? (
+                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+              ) : (
+                <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
+              )}
+            </div>
+            <p className={`text-xs mt-1 ${totalGainLossPercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {totalGainLossPercent >= 0 ? '+' : ''}{totalGainLossPercent.toFixed(2)}% All-time
+            </p>
+          </div>
+
+          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
+            <p className="text-sm text-theme-secondary mb-1">Aktive Investments</p>
+            <p className="text-2xl font-bold text-theme-primary">
+              {activeInvestments}
+            </p>
+            <p className="text-xs text-theme-muted mt-1">
+              Positionen
+            </p>
+          </div>
+        </div>
+
+        {/* Tab Navigation mit News und Kalender */}
+        <div className="flex gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
+          <button 
+            onClick={() => setActiveTab('overview')}
+            className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors ${
+              activeTab === 'overview' 
+                ? 'text-green-400 border-b-2 border-green-400' 
+                : 'text-theme-secondary hover:text-theme-primary'
+            }`}
+          >
+            Übersicht
+          </button>
+          <button 
+            onClick={() => setActiveTab('news')}
+            className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+              activeTab === 'news' 
+                ? 'text-green-400 border-b-2 border-green-400' 
+                : 'text-theme-secondary hover:text-theme-primary'
+            }`}
+          >
+            <NewspaperIcon className="w-4 h-4" />
+            News
+          </button>
+          <button 
+            onClick={() => setActiveTab('calendar')}
+            className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+              activeTab === 'calendar' 
+                ? 'text-green-400 border-b-2 border-green-400' 
+                : 'text-theme-secondary hover:text-theme-primary'
+            }`}
+          >
+            <CalendarIcon className="w-4 h-4" />
+            Kalender
+          </button>
+          <button className="pb-3 px-1 text-theme-secondary hover:text-theme-primary transition-colors whitespace-nowrap">
+            Insights
+          </button>
+          <button className="pb-3 px-1 text-theme-secondary hover:text-theme-primary transition-colors whitespace-nowrap">
+            Dividenden
+          </button>
+          <button className="pb-3 px-1 text-theme-secondary hover:text-theme-primary transition-colors whitespace-nowrap">
+            Historie
+          </button>
+        </div>
+
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <>
+            {/* Add Position Modal */}
+            {showAddPosition && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-theme-primary">Position hinzufügen</h2>
+                    <button
+                      onClick={() => setShowAddPosition(false)}
+                      className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                    >
+                      <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                    </button>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                        Aktie suchen
+                      </label>
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value)
+                          setSelectedStock(null)
+                        }}
+                        placeholder="Symbol oder Name eingeben (z.B. MSFT oder Microsoft)"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                      />
+                      
+                      {/* Autocomplete Dropdown */}
+                      {showSearchResults && (
+                        <div className="absolute z-10 w-full mt-1 bg-theme-card border border-theme/20 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                          {searchResults.map((stock) => (
+                            <button
+                              key={stock.symbol}
+                              onClick={() => handleStockSelect(stock)}
+                              className="w-full px-4 py-3 text-left hover:bg-theme-secondary/50 transition-colors border-b border-theme/10 last:border-0"
+                            >
+                              <div className="flex justify-between items-center">
+                                <div>
+                                  <span className="font-bold text-theme-primary text-sm">{stock.symbol}</span>
+                                  <p className="text-xs text-theme-secondary mt-0.5">{stock.name}</p>
+                                </div>
+                                <div className="text-right">
+                                  <span className="text-xs text-theme-muted">{stock.stockExchange}</span>
+                                  {stock.exchangeShortName && (
+                                    <span className="ml-2 text-xs px-2 py-0.5 bg-theme-secondary rounded">
+                                      {stock.exchangeShortName}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {selectedStock && (
+                      <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                        <p className="text-sm text-green-400">Ausgewählt:</p>
+                        <p className="font-semibold text-theme-primary">
+                          {selectedStock.symbol} - {selectedStock.name}
+                        </p>
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                        Anzahl
+                      </label>
+                      <input
+                        type="number"
+                        value={newQuantity}
+                        onChange={(e) => setNewQuantity(e.target.value)}
+                        placeholder="100"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                        Kaufpreis ($)
+                      </label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={newPurchasePrice}
+                        onChange={(e) => setNewPurchasePrice(e.target.value)}
+                        placeholder="150.00"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                        Kaufdatum
+                      </label>
+                      <input
+                        type="date"
+                        value={newPurchaseDate}
+                        onChange={(e) => setNewPurchaseDate(e.target.value)}
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                      />
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        onClick={handleAddPosition}
+                        disabled={addingPosition}
+                        className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:bg-theme-secondary text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                      >
+                        {addingPosition ? (
+                          <>
+                            <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                            Hinzufügen...
+                          </>
+                        ) : (
+                          'Position hinzufügen'
+                        )}
+                      </button>
+                      <button
+                        onClick={() => setShowAddPosition(false)}
+                        className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Holdings Table - OHNE Health Column */}
+            <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
+              <div className="p-4 border-b border-theme/10 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-theme-primary">Ihre Positionen</h2>
+                <button 
+                  onClick={() => setShowAddPosition(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+                >
+                  <PlusIcon className="w-4 h-4" />
+                  Position hinzufügen
+                </button>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-theme-secondary/30">
+                    <tr>
+                      <th className="text-left px-4 py-3 text-sm font-medium text-theme-secondary">Symbol</th>
+                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Anzahl</th>
+                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Kaufpreis</th>
+                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Aktueller Preis</th>
+                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Wert</th>
+                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Gewinn/Verlust</th>
+                      <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Aktionen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {holdings.map((holding) => {
+                      const dayChange = holding.current_price - holding.purchase_price
+                      const dayChangePercent = (dayChange / holding.purchase_price) * 100
+                      
+                      return (
+                        <tr key={holding.id} className="border-t border-theme/10 hover:bg-theme-secondary/10 transition-colors">
+                          <td className="px-4 py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+                                <span className="text-xs font-bold text-green-400">
+                                  {holding.symbol.slice(0, 2)}
+                                </span>
+                              </div>
+                              <div>
+                                <p className="font-bold text-theme-primary">{holding.symbol}</p>
+                                <p className="text-xs text-theme-muted">{holding.name}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="text-right px-4 py-4">
+                            <p className="font-semibold text-theme-primary">
+                              {holding.quantity.toLocaleString('de-DE')}
+                            </p>
+                            <p className="text-xs text-theme-muted">Shares</p>
+                          </td>
+                          <td className="text-right px-4 py-4">
+                            <p className="font-semibold text-theme-primary">${holding.purchase_price.toFixed(2)}</p>
+                            <p className="text-xs text-theme-muted">Avg Cost</p>
+                          </td>
+                          <td className="text-right px-4 py-4">
+                            <p className="font-semibold text-theme-primary">${holding.current_price.toFixed(2)}</p>
+                            <div className={`text-xs mt-1 flex items-center justify-end gap-1 ${dayChangePercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                              {dayChangePercent >= 0 ? (
+                                <ArrowTrendingUpIcon className="w-3 h-3" />
+                              ) : (
+                                <ArrowTrendingDownIcon className="w-3 h-3" />
+                              )}
+                              <span>{dayChangePercent >= 0 ? '+' : ''}{dayChangePercent.toFixed(2)}%</span>
+                            </div>
+                          </td>
+                          <td className="text-right px-4 py-4">
+                            <p className="font-bold text-lg text-theme-primary">
+                              ${holding.value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </p>
+                            <p className="text-xs text-theme-muted">
+                              {((holding.value / totalValue) * 100).toFixed(1)}% of Portfolio
+                            </p>
+                          </td>
+                          <td className="text-right px-4 py-4">
+                            <div className={`inline-flex flex-col items-end px-3 py-2 rounded-lg ${
+                              holding.gain_loss >= 0 ? 'bg-green-500/10' : 'bg-red-500/10'
+                            }`}>
+                              <p className={`font-bold text-sm ${holding.gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                {holding.gain_loss >= 0 ? '+' : ''}${Math.abs(holding.gain_loss).toFixed(2)}
+                              </p>
+                              <p className={`text-xs font-medium ${holding.gain_loss_percent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(2)}%
+                              </p>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4">
+                            <div className="flex items-center justify-center gap-1">
+                              <button 
+                                onClick={() => handleViewStock(holding.symbol)}
+                                className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
+                                title="Aktie analysieren"
+                              >
+                                <EyeIcon className="w-4 h-4 text-theme-secondary" />
+                              </button>
+                              <button 
+                                onClick={() => handleDeletePosition(holding.id)}
+                                className="p-2 hover:bg-red-400/20 rounded-lg transition-colors"
+                                title="Position löschen"
+                              >
+                                <XMarkIcon className="w-4 h-4 text-red-400" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {holdings.length === 0 && (
+                <div className="p-12 text-center">
+                  <ChartBarIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
+                  <p className="text-theme-secondary mb-4">Noch keine Positionen vorhanden</p>
+                  <button 
+                    onClick={() => setShowAddPosition(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+                  >
+                    <PlusIcon className="w-4 h-4" />
+                    Erste Position hinzufügen
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Info Message für Charts */}
+            <div className="mt-8 bg-theme-card rounded-xl p-6 border border-theme/10">
+              <h3 className="text-lg font-semibold text-theme-primary mb-2">📊 Charts Coming Soon</h3>
+              <p className="text-theme-secondary">
+                Portfolio Performance Charts und Asset Allocation Visualisierungen werden in der nächsten Version hinzugefügt. 
+                Aktuell können Sie Ihre Positionen verwalten und die Performance in der Tabelle verfolgen.
+              </p>
+            </div>
+          </>
+        )}
+
+        {/* News Tab */}
+        {activeTab === 'news' && (
+          <div className="space-y-4">
+            {newsLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin mx-auto mb-3" />
+                  <p className="text-theme-secondary">Lade Portfolio News...</p>
+                </div>
+              </div>
+            ) : portfolioNews.length > 0 ? (
+              portfolioNews.map((article, index) => (
+                <article 
+                  key={`${article.url}-${index}`}
+                  className="bg-theme-card rounded-xl p-6 border border-theme/10 hover:bg-theme-secondary/10 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-medium">
+                          {article.symbol}
+                        </span>
+                        <span className="text-xs text-theme-muted flex items-center gap-1">
+                          <ClockIcon className="w-3 h-3" />
+                          {formatDate(article.publishedDate)}
+                        </span>
+                        <span className="text-xs text-theme-muted">
+                          {article.site}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-theme-primary mb-2 leading-tight">
+                        {article.title}
+                      </h3>
+                      <p className="text-theme-secondary text-sm leading-relaxed line-clamp-3">
+                        {article.text}
+                      </p>
+                    </div>
+                    {article.image && (
+                      <img 
+                        src={article.image} 
+                        alt=""
+                        className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between pt-3 border-t border-theme/10">
+                    <Link
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors text-sm"
+                    >
+                      <span>Artikel lesen</span>
+                      <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                    </Link>
+                    <Link
+                      href={`/analyse/stocks/${article.symbol.toLowerCase()}`}
+                      className="inline-flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors text-sm"
+                    >
+                      <EyeIcon className="w-3 h-3" />
+                      <span>{article.symbol} analysieren</span>
+                    </Link>
+                  </div>
+                </article>
+              ))
+            ) : (
+              <div className="text-center py-12">
+                <NewspaperIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
+                <p className="text-theme-secondary mb-2">Keine News verfügbar</p>
+                <p className="text-theme-muted text-sm">
+                  Fügen Sie Positionen hinzu, um aktuelle Nachrichten zu Ihren Aktien zu sehen.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+        {/* Calendar Tab */}
+        {activeTab === 'calendar' && (
+          <PortfolioCalendar 
+            holdings={holdings.map(h => ({
+              symbol: h.symbol,
+              name: h.name,
+              quantity: h.quantity
+            }))} 
+          />
+        )}
+      </main>
+    </div>
+  )
+}

@@ -1,4 +1,4 @@
-// src/components/GrowthAnalysisClient.tsx
+// src/components/GrowthAnalysisClient.tsx - MIT DEUTSCHER FORMATIERUNG
 'use client'
 
 import React, { useState, useEffect } from 'react';
@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabaseClient';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { LearnTooltipButton } from '@/components/LearnSidebar';
 import { useLearnMode } from '@/lib/LearnModeContext';
+import { useCurrency } from '@/lib/CurrencyContext'; // ✅ CURRENCY CONTEXT HINZUGEFÜGT
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { LockClosedIcon } from '@heroicons/react/24/outline'
@@ -65,6 +66,9 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
   const [error, setError] = useState<string | null>(null);
 
   const { isLearnMode } = useLearnMode()
+  
+  // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
+  const { formatPercentage } = useCurrency()
 
   // User laden
   useEffect(() => {
@@ -122,10 +126,12 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
     }
   };
 
-  // Format percentage with color coding
+  // ✅ DEUTSCHE PROZENTFORMATIERUNG mit formatPercentage aus Context
   const formatGrowth = (value?: number | null) => {
     if (typeof value !== 'number' || isNaN(value) || value === null) return '–';
-    return `${value > 0 ? '+' : ''}${value.toFixed(1)}%`;
+    
+    // ✅ NUTZE CONTEXT-FUNKTION für deutsche Formatierung
+    return formatPercentage(value, true); // Mit Vorzeichen
   };
 
   // Get color class for growth value
@@ -147,6 +153,15 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
     if (value > 5) return { rating: 'Moderat', color: 'text-yellow-400' };
     if (value > 0) return { rating: 'Schwach', color: 'text-orange-400' };
     return { rating: 'Negativ', color: 'text-red-400' };
+  };
+
+  // ✅ DEUTSCHE DATUMSFORMATIERUNG
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit', 
+      year: 'numeric'
+    });
   };
 
   // Loading State
@@ -495,7 +510,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                   <div className="flex justify-between items-center">
                     <span className="text-theme-secondary text-sm">Letztes Update</span>
                     <span className="text-theme-secondary text-sm">
-                      {new Date(data.lastUpdated).toLocaleDateString('de-DE')}
+                      {formatDate(data.lastUpdated)}
                     </span>
                   </div>
                 </div>
@@ -505,37 +520,37 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             <div className="relative">
               <div className="filter blur-sm opacity-60 pointer-events-none select-none p-6 space-y-6">
                 
-                {/* Geblurrte Forward Estimates */}
+                {/* Geblurrte Forward Estimates MIT DEUTSCHER FORMATIERUNG */}
                 <div>
                   <h4 className="text-sm font-semibold text-theme-primary mb-4">Analyst Schätzungen</h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Umsatz Forward (2Y)</span>
-                      <span className="font-semibold text-green-400">+5.6%</span>
+                      <span className="font-semibold text-green-400">+5,6%</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">EPS Forward (2Y)</span>
-                      <span className="font-semibold text-green-400">+8.5%</span>
+                      <span className="font-semibold text-green-400">+8,5%</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">EPS Langfristig</span>
-                      <span className="font-semibold text-green-400">+8.9%</span>
+                      <span className="font-semibold text-green-400">+8,9%</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Geblurrte Other Metrics */}
+                {/* Geblurrte Other Metrics MIT DEUTSCHER FORMATIERUNG */}
                 <div>
                   <h4 className="text-sm font-semibold text-theme-primary mb-4">Weitere Kennzahlen</h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">EBITDA Growth (3Y)</span>
-                      <span className="font-semibold text-green-400">+3.0%</span>
+                      <span className="font-semibold text-green-400">+3,0%</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Geblurrte Growth Quality */}
+                {/* Geblurrte Growth Quality MIT DEUTSCHER DATUMSFORMATIERUNG */}
                 <div>
                   <h4 className="text-sm font-semibold text-theme-primary mb-4">Wachstumsqualität</h4>
                   <div className="space-y-3">
@@ -549,7 +564,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Letztes Update</span>
-                      <span className="text-theme-secondary text-sm">8.7.2025</span>
+                      <span className="text-theme-secondary text-sm">08.07.2025</span>
                     </div>
                   </div>
                 </div>

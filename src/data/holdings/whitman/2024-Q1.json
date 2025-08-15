@@ -9,357 +9,837 @@
       "name": "Warrior Met Coal Inc",
       "cusip": "93627C101",
       "shares": 967899,
-      "value": 59012802
+      "value": 59012802,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Tidewater Inc",
       "cusip": "88642R109",
       "shares": 703631,
-      "value": 50738831
+      "value": 50738831,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Deutsche Bank AG",
       "cusip": "D18190898",
       "shares": 2486569,
-      "value": 33961311
+      "value": 33961311,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Valaris Ltd",
       "cusip": "G9460G101",
       "shares": 420007,
-      "value": 28799880
+      "value": 28799880,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Comerica Inc",
       "cusip": "200340107",
       "shares": 476269,
-      "value": 26580573
+      "value": 26580573,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Old Republic International Corp",
       "cusip": "680223104",
       "shares": 827421,
-      "value": 24326177
+      "value": 24326177,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Lennar Corp - Class B",
       "cusip": "526057302",
       "shares": 173710,
-      "value": 23285826
+      "value": 23285826,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
     },
     {
       "name": "U-Haul Holding Company",
       "cusip": "023586506",
       "shares": 294413,
-      "value": 20738452
+      "value": 20738452,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Brookfield Corp",
       "cusip": "11271J107",
       "shares": 488274,
-      "value": 19589553
+      "value": 19589553,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DR Horton Inc",
       "cusip": "23331A109",
       "shares": 122998,
-      "value": 18693236
+      "value": 18693236,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CBRE Group, Inc",
       "cusip": "12504L109",
       "shares": 182200,
-      "value": 16960998
+      "value": 16960998,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Prologis Inc",
       "cusip": "74340W103",
       "shares": 116373,
-      "value": 15512521
+      "value": 15512521,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Weyerhaeuser Company",
       "cusip": "962166104",
       "shares": 370142,
-      "value": 12869837
+      "value": 12869837,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "UMB Financial Corporation",
       "cusip": "902788108",
       "shares": 149284,
-      "value": 12472678
+      "value": 12472678,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "American Homes 4 Rent",
       "cusip": "02665T306",
       "shares": 338379,
-      "value": 12168109
+      "value": 12168109,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "Hawaiian Holdings Inc",
       "cusip": "419879101",
       "shares": 815579,
-      "value": 11581222
+      "value": 11581222,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Rayonier Inc",
       "cusip": "754907103",
       "shares": 338721,
-      "value": 11316669
+      "value": 11316669,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Inventrust Properties Corp",
       "cusip": "46124J201",
       "shares": 415675,
-      "value": 10533205
+      "value": 10533205,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Five Point Holdings LLC - CL A",
       "cusip": "33833Q106",
       "shares": 3294796,
-      "value": 10115024
+      "value": 10115024,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Jones Lang Lasalle",
       "cusip": "48020Q107",
       "shares": 51990,
-      "value": 9819351
+      "value": 9819351,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MYR Group Inc",
       "cusip": "55405W104",
       "shares": 67757,
-      "value": 9799695
+      "value": 9799695,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Encore Capital Group Inc",
       "cusip": "292554102",
       "shares": 170678,
-      "value": 8661909
+      "value": 8661909,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Seaboard Corp",
       "cusip": "811543107",
       "shares": 2334,
-      "value": 8332613
+      "value": 8332613,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "First Industrial Realty Trust, Inc",
       "cusip": "32054K103",
       "shares": 154848,
-      "value": 8155844
+      "value": 8155844,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Hamilton Beach Brand",
       "cusip": "40701T104",
       "shares": 457577,
-      "value": 8003022
+      "value": 8003022,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "FRP Holdings Inc",
       "cusip": "30292L107",
       "shares": 126489,
-      "value": 7953628
+      "value": 7953628,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Kaiser Aluminum Corp",
       "cusip": "483007704",
       "shares": 110739,
-      "value": 7883509
+      "value": 7883509,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ICF International, Inc",
       "cusip": "44925C103",
       "shares": 57779,
-      "value": 7747586
+      "value": 7747586,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Atlanta Braves Holdings Inc - A",
       "cusip": "047726104",
       "shares": 164438,
-      "value": 7034658
+      "value": 7034658,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Prosperity Bancshares Inc",
       "cusip": "743606105",
       "shares": 101965,
-      "value": 6906089
+      "value": 6906089,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Sun Communities Inc",
       "cusip": "866674104",
       "shares": 50634,
-      "value": 6767234
+      "value": 6767234,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Alamo Group, Inc",
       "cusip": "011311107",
       "shares": 31880,
-      "value": 6700857
+      "value": 6700857,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Lowe's Companies Inc",
       "cusip": "548661107",
       "shares": 29730,
-      "value": 6616412
+      "value": 6616412,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Southside Bancshares Inc",
       "cusip": "84470P109",
       "shares": 209426,
-      "value": 6559222
+      "value": 6559222,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Washington Trust Bancorp.",
       "cusip": "940610108",
       "shares": 199119,
-      "value": 6447473
+      "value": 6447473,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Investors Title Co.",
       "cusip": "461804106",
       "shares": 39164,
-      "value": 6350051
+      "value": 6350051,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Proassurance Corp",
       "cusip": "74267C106",
       "shares": 443619,
-      "value": 6117506
+      "value": 6117506,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FNF Group",
       "cusip": "31620R303",
       "shares": 117953,
-      "value": 6017962
+      "value": 6017962,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Tri Pointe Group Inc",
       "cusip": "87265H109",
       "shares": 155997,
-      "value": 5522294
+      "value": 5522294,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Brookfield Asset Mgmt. CL A",
       "cusip": "113004105",
       "shares": 131670,
-      "value": 5289184
+      "value": 5289184,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A LTD VT SH",
+      "putCall": null
     },
     {
       "name": "Supernus Pharmaceuticals, Inc",
       "cusip": "868459108",
       "shares": 159717,
-      "value": 4622210
+      "value": 4622210,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LSB Industries Inc",
       "cusip": "502160104",
       "shares": 473214,
-      "value": 4405622
+      "value": 4405622,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Central Securities Corporation",
       "cusip": "155123102",
       "shares": 111210,
-      "value": 4200402
+      "value": 4200402,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Comfort Systems USA Inc",
       "cusip": "199908104",
       "shares": 19434,
-      "value": 3996991
+      "value": 3996991,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "UniFirst Corporation",
       "cusip": "904708104",
       "shares": 19837,
-      "value": 3628386
+      "value": 3628386,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Madison Square Garden Entertainment",
       "cusip": "55826T102",
       "shares": 105583,
-      "value": 3585599
+      "value": 3585599,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Collegium Pharmaceutical Inc",
       "cusip": "19459J104",
       "shares": 83120,
-      "value": 2558434
+      "value": 2558434,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Retail Opportunity Investments Corp",
       "cusip": "76131N101",
       "shares": 90000,
-      "value": 1262700
+      "value": 1262700,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CTO Realty Growth, Inc",
       "cusip": "22948Q101",
       "shares": 63000,
-      "value": 1091790
+      "value": 1091790,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Equity Commonwealth",
       "cusip": "294628102",
       "shares": 55000,
-      "value": 1056000
+      "value": 1056000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "The RMR Group Inc",
       "cusip": "74967R106",
       "shares": 37000,
-      "value": 1044510
+      "value": 1044510,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Atlanta Braves Holdings Inc - C",
       "cusip": "047726302",
       "shares": 26000,
-      "value": 1029080
+      "value": 1029080,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Stewart Information Services Corp",
       "cusip": "860372101",
       "shares": 17000,
-      "value": 998750
+      "value": 998750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Whitestone REIT",
       "cusip": "966084204",
       "shares": 80000,
-      "value": 983200
+      "value": 983200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Potlatchdeltic Corp",
       "cusip": "737630103",
       "shares": 20000,
-      "value": 982000
+      "value": 982000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Elme Communities",
       "cusip": "939653101",
       "shares": 65000,
-      "value": 949000
+      "value": 949000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Trinity Place Holdings",
       "cusip": "89656D101",
       "shares": 5127786,
-      "value": 569184
+      "value": 569184,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Green Brick Partners",
       "cusip": "392709101",
       "shares": 5000,
-      "value": 259700
+      "value": 259700,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "U-Haul Holding Company",
       "cusip": "023586100",
       "shares": 1456,
-      "value": 104541
+      "value": 104541,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 609271102,
-  "positionsCount": 59
+  "positionsCount": 59,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 609271102
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

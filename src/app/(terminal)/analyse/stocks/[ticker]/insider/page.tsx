@@ -21,6 +21,7 @@ import {
   ArrowLeftIcon
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
+import { useCurrency } from '@/lib/CurrencyContext' // ✅ CURRENCY CONTEXT HINZUGEFÜGT
 import LoadingSpinner from '@/components/LoadingSpinner'
 
 // Interfaces
@@ -247,6 +248,9 @@ export default function TickerInsiderPage() {
   const [timeframe, setTimeframe] = useState<'1M' | '3M' | '6M' | '1Y'>('3M')
   const [error, setError] = useState<string | null>(null)
 
+  // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
+  const { formatStockPrice, formatMarketCap } = useCurrency()
+
   // User laden
   useEffect(() => {
     async function loadUser() {
@@ -430,19 +434,34 @@ export default function TickerInsiderPage() {
     }
   }, [filteredTransactions])
 
-  // Formatierungshilfen
-  const formatCurrency = (amount: number) => {
-    if (amount >= 1e9) return `$${(amount / 1e9).toFixed(1)}B`
-    if (amount >= 1e6) return `$${(amount / 1e6).toFixed(1)}M`
-    if (amount >= 1e3) return `$${(amount / 1e3).toFixed(0)}K`
-    return `$${amount.toFixed(0)}`
+  // ✅ DEUTSCHE FORMATIERUNG - Formatierungshilfen
+  const formatCurrencyDE = (amount: number): string => {
+    if (amount >= 1e9) {
+      return `${(amount / 1e9).toLocaleString('de-DE', { 
+        minimumFractionDigits: 1, 
+        maximumFractionDigits: 1 
+      })} Mrd. ${formatStockPrice(1, true).slice(-1)}` // Letztes Zeichen ist Währungssymbol
+    }
+    if (amount >= 1e6) {
+      return `${(amount / 1e6).toLocaleString('de-DE', { 
+        minimumFractionDigits: 1, 
+        maximumFractionDigits: 1 
+      })} Mio. ${formatStockPrice(1, true).slice(-1)}`
+    }
+    if (amount >= 1e3) {
+      return `${(amount / 1e3).toLocaleString('de-DE', { 
+        minimumFractionDigits: 0, 
+        maximumFractionDigits: 0 
+      })}k ${formatStockPrice(1, true).slice(-1)}`
+    }
+    return formatStockPrice(amount, true)
   }
 
-  const formatNumber = (num: number) => {
+  const formatNumberDE = (num: number): string => {
     return num.toLocaleString('de-DE')
   }
 
-  const formatDate = (dateString: string) => {
+  const formatDateDE = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString('de-DE', {
       day: '2-digit',
       month: '2-digit',
@@ -526,7 +545,7 @@ export default function TickerInsiderPage() {
                 {companyProfile.marketCap > 0 && (
                   <>
                     <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                    <span className="text-sm text-theme-muted">MCap: {formatCurrency(companyProfile.marketCap)}</span>
+                    <span className="text-sm text-theme-muted">MCap: {formatMarketCap(companyProfile.marketCap)}</span>
                   </>
                 )}
               </div>
@@ -591,13 +610,13 @@ export default function TickerInsiderPage() {
         </div>
       </div>
 
-      {/* ERWEITERTE Stats Cards */}
+      {/* ✅ DEUTSCHE FORMATIERUNG - ERWEITERTE Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
         <div className="bg-theme-card border border-theme rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Transaktionen</p>
-              <p className="text-xl font-bold text-theme-primary">{formatNumber(stats.totalTransactions)}</p>
+              <p className="text-xl font-bold text-theme-primary">{formatNumberDE(stats.totalTransactions)}</p>
             </div>
             <DocumentTextIcon className="w-6 h-6 text-blue-500" />
           </div>
@@ -607,7 +626,7 @@ export default function TickerInsiderPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Käufe</p>
-              <p className="text-xl font-bold text-green-400">{formatNumber(stats.categories.purchase)}</p>
+              <p className="text-xl font-bold text-green-400">{formatNumberDE(stats.categories.purchase)}</p>
             </div>
             <ArrowTrendingUpIcon className="w-6 h-6 text-green-500" />
           </div>
@@ -617,7 +636,7 @@ export default function TickerInsiderPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Verkäufe</p>
-              <p className="text-xl font-bold text-red-400">{formatNumber(stats.categories.sale)}</p>
+              <p className="text-xl font-bold text-red-400">{formatNumberDE(stats.categories.sale)}</p>
             </div>
             <ArrowTrendingDownIcon className="w-6 h-6 text-red-500" />
           </div>
@@ -627,7 +646,7 @@ export default function TickerInsiderPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Zuteilungen</p>
-              <p className="text-xl font-bold text-blue-400">{formatNumber(stats.categories.award)}</p>
+              <p className="text-xl font-bold text-blue-400">{formatNumberDE(stats.categories.award)}</p>
             </div>
             <StarIcon className="w-6 h-6 text-blue-500" />
           </div>
@@ -637,7 +656,7 @@ export default function TickerInsiderPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Optionen</p>
-              <p className="text-xl font-bold text-purple-400">{formatNumber(stats.categories.option)}</p>
+              <p className="text-xl font-bold text-purple-400">{formatNumberDE(stats.categories.option)}</p>
               <p className="text-xs text-theme-muted">meist neutral</p>
             </div>
             <CircleStackIcon className="w-6 h-6 text-purple-500" />
@@ -649,7 +668,7 @@ export default function TickerInsiderPage() {
             <div>
               <p className="text-theme-muted text-sm">Gesamtvolumen</p>
               <p className="text-xl font-bold text-theme-primary">
-                {formatCurrency(stats.totalVolume)}
+                {formatCurrencyDE(stats.totalVolume)}
               </p>
             </div>
             <UserGroupIcon className="w-6 h-6 text-indigo-500" />
@@ -657,7 +676,7 @@ export default function TickerInsiderPage() {
         </div>
       </div>
 
-      {/* Insider Sentiment mit korrigierter Bewertung */}
+      {/* ✅ DEUTSCHE FORMATIERUNG - Insider Sentiment mit korrigierter Bewertung */}
       {stats.totalTransactions > 0 && (
         <div className="bg-theme-card border border-theme rounded-lg p-6">
           <h3 className="text-lg font-bold text-theme-primary mb-4">Insider Sentiment</h3>
@@ -686,12 +705,12 @@ export default function TickerInsiderPage() {
               </div>
               <div className="text-sm text-theme-muted">Netto Sentiment</div>
               <div className="text-xs text-theme-muted mt-1">
-                {stats.netShares >= 0 ? '+' : ''}{formatNumber(stats.netShares)} Aktien
+                {stats.netShares >= 0 ? '+' : ''}{formatNumberDE(stats.netShares)} Aktien
               </div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-theme-primary">
-                {formatCurrency(stats.totalVolume)}
+                {formatCurrencyDE(stats.totalVolume)}
               </div>
               <div className="text-sm text-theme-muted">Gesamtvolumen</div>
               <div className="text-xs text-theme-muted mt-1">
@@ -722,7 +741,7 @@ export default function TickerInsiderPage() {
         </div>
       )}
 
-      {/* Transactions Table */}
+      {/* ✅ DEUTSCHE FORMATIERUNG - Transactions Table */}
       <div className="bg-theme-card border border-theme rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-theme">
           <h2 className="text-lg font-semibold text-theme-primary">
@@ -754,7 +773,7 @@ export default function TickerInsiderPage() {
                   return (
                     <tr key={index} className="hover:bg-theme-secondary/50 transition-colors">
                       <td className="py-3 px-4 text-sm text-theme-secondary">
-                        {formatDate(transaction.transactionDate)}
+                        {formatDateDE(transaction.transactionDate)}
                       </td>
                       <td className="py-3 px-4">
                         <div className="text-sm text-theme-primary font-medium max-w-48">
@@ -775,17 +794,17 @@ export default function TickerInsiderPage() {
                         </span>
                       </td>
                       <td className="py-3 px-4 text-sm text-theme-primary text-right font-mono">
-                        {formatNumber(transaction.securitiesTransacted || 0)}
+                        {formatNumberDE(transaction.securitiesTransacted || 0)}
                       </td>
                       <td className="py-3 px-4 text-sm text-theme-primary text-right font-mono">
-                        {transaction.price ? `$${transaction.price.toFixed(2)}` : '–'}
+                        {transaction.price ? formatStockPrice(transaction.price, true) : '–'}
                       </td>
                       <td className="py-3 px-4 text-sm text-theme-primary text-right font-mono">
-                        {formatCurrency(transactionValue)}
+                        {formatCurrencyDE(transactionValue)}
                       </td>
                       <td className="py-3 px-4 text-right">
                         <div className="text-sm text-theme-primary font-mono">
-                          {transaction.securitiesOwned ? formatNumber(transaction.securitiesOwned) : '–'}
+                          {transaction.securitiesOwned ? formatNumberDE(transaction.securitiesOwned) : '–'}
                         </div>
                       </td>
                       <td className="py-3 px-4 text-center">

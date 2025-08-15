@@ -9,33 +9,81 @@
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 6453594,
-      "value": 1123635251
+      "value": 1123635251,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "HILTON GRAND VACATIONS INC",
       "cusip": "43283X105",
       "shares": 6363011,
-      "value": 231104559
+      "value": 231104559,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CAPITAL ONE FINL CORP",
       "cusip": "14040H105",
       "shares": 811500,
-      "value": 121505895
+      "value": 121505895,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CARDLYTICS INC",
       "cusip": "14161W105",
       "shares": 6419733,
-      "value": 20543146
+      "value": 20543146,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WORLD ACCEP CORPORATION",
       "cusip": "981419104",
       "shares": 93299,
-      "value": 11007416
+      "value": 11007416,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 1507796267,
-  "positionsCount": 5
+  "positionsCount": 5,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 1507796267
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

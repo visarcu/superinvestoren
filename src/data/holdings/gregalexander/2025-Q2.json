@@ -9,33 +9,81 @@
       "name": "EQUITABLE HLDGS INC",
       "cusip": "29452E101",
       "shares": 5000000,
-      "value": 260450000
+      "value": 260450000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GROUP 1 AUTOMOTIVE INC",
       "cusip": "398905109",
       "shares": 568424,
-      "value": 217109547
+      "value": 217109547,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 500000,
-      "value": 146770000
+      "value": 146770000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "RIMINI STR INC DEL",
       "cusip": "76674Q107",
       "shares": 5913199,
-      "value": 20577933
+      "value": 20577933,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NEBIUS GROUP N.V.",
       "cusip": "N97284108",
       "shares": 700000,
-      "value": 14777000
+      "value": 14777000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 659684480,
-  "positionsCount": 5
+  "positionsCount": 5,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 659684480
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

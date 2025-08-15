@@ -9,201 +9,475 @@
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 90,
-      "value": 62206208
+      "value": 62206208000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 82390,
-      "value": 13774784
+      "value": 13774784000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
     },
     {
       "name": "OCCIDENTAL PETE CORP",
       "cusip": "674599105",
       "shares": 200000,
-      "value": 10308001
+      "value": 10308001000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 44000,
-      "value": 10252000
+      "value": 10252000000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SYNCHRONY FINANCIAL",
       "cusip": "87165B103",
       "shares": 193202,
-      "value": 9636917
+      "value": 9636917000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ALLY FINL INC",
       "cusip": "02005N100",
       "shares": 225525,
-      "value": 8026436
+      "value": 8026436000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 456388,
-      "value": 6412251
+      "value": 6412251000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NAVIENT CORPORATION",
       "cusip": "63938C108",
       "shares": 264245,
-      "value": 4119580
+      "value": 4119580000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "POOL CORP",
       "cusip": "73278L105",
       "shares": 10636,
-      "value": 4007645
+      "value": 4007645000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CITIGROUP INC",
       "cusip": "172967424",
       "shares": 57695,
-      "value": 3611708
+      "value": 3611708000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 59542,
-      "value": 3363528
+      "value": 3363528000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PAYPAL HLDGS INC",
       "cusip": "70450Y103",
       "shares": 41000,
-      "value": 3199230
+      "value": 3199230000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 5899,
-      "value": 2799606
+      "value": 2799606000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G61188101",
       "shares": 121823,
-      "value": 2571684
+      "value": 2571684000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W902",
       "shares": 38500,
-      "value": 2148300
+      "value": 2148300000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "CALL",
+      "putCall": "Call"
     },
     {
       "name": "OCCIDENTAL PETE CORP",
       "cusip": "674599162",
       "shares": 68000,
-      "value": 2020960
+      "value": 2020960000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "WARRANT",
+      "putCall": null
     },
     {
       "name": "BANK AMERICA CORP",
       "cusip": "060505104",
       "shares": 50000,
-      "value": 1984000
+      "value": 1984000000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PATHWARD FINANCIAL INC",
       "cusip": "59100U108",
       "shares": 27389,
-      "value": 1807948
+      "value": 1807948000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MBIA INC",
       "cusip": "55262C100",
       "shares": 321000,
-      "value": 1145970
+      "value": 1145970000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CHINA YUCHAI INTL LTD",
       "cusip": "G21082105",
       "shares": 73364,
-      "value": 930256
+      "value": 930256000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ASSURED GUARANTY LTD",
       "cusip": "G0585R106",
       "shares": 10990,
-      "value": 873925
+      "value": 873925000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JEFFERIES FINL GROUP INC",
       "cusip": "47233W109",
       "shares": 10987,
-      "value": 676250
+      "value": 676250000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LOUISIANA PAC CORP",
       "cusip": "546347105",
       "shares": 5886,
-      "value": 632510
+      "value": 632510000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SIRIUS XM HOLDINGS INC",
       "cusip": "829933100",
       "shares": 23686,
-      "value": 560171
+      "value": 560171000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LEAR CORP",
       "cusip": "521865204",
       "shares": 4000,
-      "value": 436600
+      "value": 436600000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "HERTZ GLOBAL HLDGS INC",
       "cusip": "42806J148",
       "shares": 192111,
-      "value": 420723
+      "value": 420723000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "WARRANT",
+      "putCall": null
     },
     {
       "name": "MAGNA INTL INC",
       "cusip": "559222401",
       "shares": 10000,
-      "value": 410400
+      "value": 410400000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 3400,
-      "value": 360808
+      "value": 360808000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "IMPERIAL OIL LTD",
       "cusip": "453038408",
       "shares": 5000,
-      "value": 351769
+      "value": 351769000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "RYANAIR HOLDINGS PLC",
       "cusip": "783513203",
       "shares": 5937,
-      "value": 268234
+      "value": 268234000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "METHANEX CORP",
       "cusip": "59151K108",
       "shares": 4000,
-      "value": 165270
+      "value": 165270000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 262,
-      "value": 116176
+      "value": 116176000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "VITESSE ENERGY INC",
       "cusip": "92852X103",
       "shares": 1293,
-      "value": 31058
+      "value": 31058000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     }
   ],
-  "totalValue": 159630906,
-  "positionsCount": 33
+  "totalValue": 159630906000,
+  "positionsCount": 33,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 157482606000,
+      "CALL": 2148300000
+    },
+    "percentages": {
+      "STOCK": "98.7%",
+      "CALL": "1.3%"
+    }
+  }
 }

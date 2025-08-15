@@ -9,39 +9,95 @@
       "name": "EQUITABLE HLDGS INC",
       "cusip": "29452E101",
       "shares": 6000000,
-      "value": 252180000
+      "value": 252180000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 700000,
-      "value": 222348000
+      "value": 222348000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GROUP 1 AUTOMOTIVE INC",
       "cusip": "398905109",
       "shares": 568424,
-      "value": 217729129
+      "value": 217729129,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 9000000,
-      "value": 126450000
+      "value": 126450000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "NEBIUS GROUP N.V.",
       "cusip": "N97284108",
       "shares": 5500000,
-      "value": 44000000
+      "value": 44000000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CLASS A",
+      "putCall": null
     },
     {
       "name": "RIMINI STR INC DEL",
       "cusip": "76674Q107",
       "shares": 5913199,
-      "value": 10939418
+      "value": 10939418,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 873646547,
-  "positionsCount": 6
+  "positionsCount": 6,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 873646547
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

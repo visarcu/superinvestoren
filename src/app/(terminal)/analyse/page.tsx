@@ -1,4 +1,4 @@
-// Dashboard-Component - PERFORMANCE OPTIMIERT
+// Dashboard-Component - COMPLETE VERSION WITH FIXES
 'use client'
 
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
@@ -25,11 +25,15 @@ import {
   ArrowLeftIcon
 } from '@heroicons/react/24/outline'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { supabase } from '@/lib/supabaseClient'
 // ECHTE IMPORTS - keine Mock-Daten!
 import { stocks } from '@/data/stocks'
 // LAZY LOAD HOLDINGS HISTORY
 import dynamic from 'next/dynamic'
 import Logo from '@/components/Logo'
+import WatchlistNews from '@/components/WatchlistNews'
+import MarketMovers from '@/components/MarketMovers'
+import MostFollowed from '@/components/MostFollowed'
 
 // ===== TYPES =====
 type Quote = {
@@ -60,7 +64,6 @@ function getTicker(position: any): string | null {
   
   const cacheKey = position.cusip
   if (tickerCache.has(cacheKey)) {
-    // FIX: Non-null assertion da wir vorher mit has() prüfen
     return tickerCache.get(cacheKey)!
   }
   
@@ -73,7 +76,6 @@ function getTicker(position: any): string | null {
 function getStockName(position: any): string {
   const cacheKey = `${position.cusip}-${position.name}`
   if (stockNameCache.has(cacheKey)) {
-    // FIX: Non-null assertion da wir vorher mit has() prüfen
     return stockNameCache.get(cacheKey)!
   }
   
@@ -102,7 +104,7 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
-// ===== MEMOIZED SEARCH COMPONENT - THEME FIXED =====
+// ===== MEMOIZED SEARCH COMPONENT =====
 const SmartSearchInput = React.memo(({ 
   placeholder, 
   onSelect 
@@ -117,13 +119,11 @@ const SmartSearchInput = React.memo(({
   const inputRef = useRef<HTMLInputElement>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
 
-  // MEMOIZED POPULAR STOCKS
   const popularStocks = useMemo(() => {
     const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA']
     return stocks.filter(stock => popularTickers.includes(stock.ticker))
   }, [])
 
-  // OPTIMIZED FILTERING
   useEffect(() => {
     if (query.trim()) {
       const queryLower = query.toLowerCase()
@@ -182,7 +182,6 @@ const SmartSearchInput = React.memo(({
   }, [])
 
   const handleInputBlur = useCallback((e: React.FocusEvent) => {
-    // Verzögerung damit Klicks auf Ergebnisse noch funktionieren
     setTimeout(() => {
       if (!resultsRef.current?.contains(document.activeElement)) {
         setShowResults(false)
@@ -193,7 +192,6 @@ const SmartSearchInput = React.memo(({
 
   return (
     <div className="relative max-w-2xl mx-auto">
-      {/* Search Input - THEME-AWARE DESIGN */}
       <div className={`
         search-input-container
         relative transition-all duration-300 rounded-2xl
@@ -239,7 +237,6 @@ const SmartSearchInput = React.memo(({
         </div>
       </div>
 
-      {/* Search Results - THEME-AWARE */}
       {showResults && (
         <div 
           ref={resultsRef}
@@ -298,7 +295,6 @@ const SmartSearchInput = React.memo(({
             )}
           </div>
           
-          {/* Footer mit Glassmorphism Effect */}
           <div className="p-4 bg-theme-secondary/30 backdrop-blur border-t border-theme/10 rounded-b-2xl">
             <div className="flex items-center gap-4 text-xs text-theme-muted">
               <div className="flex items-center gap-1.5">
@@ -320,9 +316,9 @@ const SmartSearchInput = React.memo(({
     </div>
   )
 })
-// ===== FIXED SUPER-INVESTOR COMPONENT =====
+
+// ===== SUPER-INVESTOR COMPONENT =====
 const SuperInvestorStocks = React.memo(({ 
-  
   quotes, 
   onSelect,
   loading
@@ -334,7 +330,7 @@ const SuperInvestorStocks = React.memo(({
   const [view, setView] = useState<'hidden_gems' | 'recent_buys'>('hidden_gems')
   const [holdingsHistory, setHoldingsHistory] = useState<any>(null)
   const { formatStockPrice, formatPercentage } = useCurrency()
-  // LAZY LOAD HOLDINGS DATA
+
   useEffect(() => {
     import('@/data/holdings').then(module => {
       setHoldingsHistory(module.default)
@@ -521,7 +517,6 @@ const SuperInvestorStocks = React.memo(({
               onClick={() => onSelect(item.ticker)}
               className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
             >
-              
               <div className="flex items-center justify-between mb-4">
                 <Logo 
                   ticker={item.ticker} 
@@ -547,9 +542,9 @@ const SuperInvestorStocks = React.memo(({
                 </div>
               ) : quote ? (
                 <div className="space-y-3">
-          <div className="text-xl font-bold text-theme-primary">
-    {formatStockPrice(quote.price)}
-  </div>
+                  <div className="text-xl font-bold text-theme-primary">
+                    {formatStockPrice(quote.price)}
+                  </div>
                   
                   <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
                     quote.changePct >= 0
@@ -561,7 +556,7 @@ const SuperInvestorStocks = React.memo(({
                     ) : (
                       <ArrowTrendingDownIcon className="w-3 h-3" />
                     )}
-                  <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
+                    <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
                   </div>
 
                   <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
@@ -571,7 +566,7 @@ const SuperInvestorStocks = React.memo(({
                         <span className={`font-bold ${
                           quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
                         }`}>
-               {formatPercentage(quote.perf1M)}
+                          {formatPercentage(quote.perf1M)}
                         </span>
                       ) : (
                         <span className="text-theme-muted">–</span>
@@ -583,7 +578,7 @@ const SuperInvestorStocks = React.memo(({
                         <span className={`font-bold ${
                           quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
                         }`}>
-                       {formatPercentage(quote.perfYTD)}
+                          {formatPercentage(quote.perfYTD)}
                         </span>
                       ) : (
                         <span className="text-theme-muted">–</span>
@@ -608,7 +603,7 @@ const SuperInvestorStocks = React.memo(({
   )
 })
 
-// ===== OPTIMIZED MARKET STATUS - CACHED =====
+// ===== MARKET STATUS HELPER =====
 const getMarketStatus = (() => {
   let cache: { [key: string]: { timestamp: number; data: any } } = {}
   
@@ -616,7 +611,6 @@ const getMarketStatus = (() => {
     const cacheKey = `${timezone}-${openHour}-${closeHour}`
     const now = Date.now()
     
-    // Cache für 30 Sekunden
     if (cache[cacheKey] && now - cache[cacheKey].timestamp < 30000) {
       return cache[cacheKey].data
     }
@@ -655,8 +649,8 @@ export default function ModernDashboard() {
   const [loading, setLoading] = useState(false)
   const [marketLoading, setMarketLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
   const { formatStockPrice, formatPercentage } = useCurrency()
-  // HIDDEN GEMS TICKERS - wird dynamisch geladen
   const [hiddenGemsTickers, setHiddenGemsTickers] = useState<string[]>([])
 
   const POPULAR_STOCKS = useMemo(() => [
@@ -664,14 +658,37 @@ export default function ModernDashboard() {
     'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
   ], [])
 
-  // OPTIMIZED CLOCK - Nur alle 30 Sekunden statt jede Sekunde
+  // Load Watchlist
+  useEffect(() => {
+    async function loadWatchlist() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user) {
+          const { data } = await supabase
+            .from('watchlists')
+            .select('ticker')
+            .eq('user_id', session.user.id)
+          
+          if (data) {
+            setWatchlistTickers(data.map(item => item.ticker))
+          }
+        }
+      } catch (error) {
+        console.error('Error loading watchlist:', error)
+      }
+    }
+    loadWatchlist()
+  }, [])
+
+  // Clock
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date())
-    }, 30000) // 30 Sekunden statt 1 Sekunde
+    }, 30000)
     return () => clearInterval(timer)
   }, [])
 
+  // Last Ticker
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('lastTicker')
@@ -679,7 +696,7 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Load Hidden Gems tickers
+  // Load Hidden Gems
   useEffect(() => {
     async function getHiddenGemsTickers() {
       try {
@@ -713,7 +730,7 @@ export default function ModernDashboard() {
         const topTickers = Array.from(ownershipCount.entries())
           .filter(([, count]) => count >= 2)
           .sort(([, a], [, b]) => b - a)
-          .slice(0, 8) // Top 8 für beide Views
+          .slice(0, 8)
           .map(([ticker]) => ticker)
           
         setHiddenGemsTickers(topTickers)
@@ -725,7 +742,7 @@ export default function ModernDashboard() {
     getHiddenGemsTickers()
   }, [])
 
-  // DEBOUNCED API CALLS - Inkludiert Hidden Gems
+  // Load Stock Quotes
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
     
@@ -733,8 +750,7 @@ export default function ModernDashboard() {
       setLoading(true)
       
       try {
-        // Kombiniere Popular Stocks + Hidden Gems für API Call
-        const allTickers = [...POPULAR_STOCKS, ...hiddenGemsTickers]
+        const allTickers = [...POPULAR_STOCKS, ...hiddenGemsTickers, ...watchlistTickers]
         const uniqueTickers = [...new Set(allTickers)]
         const tickers = uniqueTickers.join(',')
         
@@ -760,13 +776,12 @@ export default function ModernDashboard() {
       }
     }
     
-    // Debounce API calls
     timeoutId = setTimeout(loadStockQuotes, 100)
     
     return () => clearTimeout(timeoutId)
-  }, [POPULAR_STOCKS, hiddenGemsTickers])
+  }, [POPULAR_STOCKS, hiddenGemsTickers, watchlistTickers])
 
-  // DEBOUNCED MARKET DATA
+  // Load Market Data
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
     
@@ -806,7 +821,6 @@ export default function ModernDashboard() {
     router.push(`/analyse/stocks/${ticker.toLowerCase()}`)
   }, [router])
 
-  // MEMOIZED MARKET DATA
   const marketData = useMemo(() => [
     { 
       name: 'S&P 500', 
@@ -841,7 +855,6 @@ export default function ModernDashboard() {
       <div className="border-b border-theme/5">
         <div className="w-full px-6 lg:px-8 py-8">
           
-          {/* Zurück-Link */}
           <Link
             href="/analyse"
             className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
@@ -867,7 +880,6 @@ export default function ModernDashboard() {
               </div>
             </div>
             
-            {/* Quick Actions */}
             <div className="flex items-center gap-3">
               <Link
                 href="/analyse/ai"
@@ -941,8 +953,8 @@ export default function ModernDashboard() {
                       <div className="h-8 bg-theme-secondary rounded-lg animate-pulse"></div>
                     ) : quote ? (
                       <div className="text-2xl font-bold text-theme-primary">
-                      {formatStockPrice(quote.price, false)} {/* ohne $ für Indizes */}
-                    </div>
+                        {formatStockPrice(quote.price, false)}
+                      </div>
                     ) : (
                       <div className="text-2xl font-bold text-theme-muted">--</div>
                     )}
@@ -1068,137 +1080,152 @@ export default function ModernDashboard() {
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="xl:col-span-3">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-              
-              {/* Popular Stocks */}
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-xl font-bold text-theme-primary mb-2">Beliebte Aktien</h2>
-                    <p className="text-sm text-theme-muted">Mit Live-Kursen und Performance-Metriken</p>
-                  </div>
-                  
-                  {loading && (
-                    <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-amber-400 rounded-lg">
-                      <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
-                      <span className="text-xs font-bold">Lädt...</span>
-                    </div>
-                  )}
+         {/* Main Content - KORRIGIERT */}
+<div className="xl:col-span-3">
+  {/* Popular Stocks & Hidden Gems Grid */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    {/* Popular Stocks */}
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-theme-primary mb-2">Beliebte Aktien</h2>
+          <p className="text-sm text-theme-muted">Mit Live-Kursen und Performance-Metriken</p>
+        </div>
+        {loading && (
+          <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-amber-400 rounded-lg">
+            <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-xs font-bold">Lädt...</span>
+          </div>
+        )}
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        {POPULAR_STOCKS.slice(0, 4).map((ticker) => {
+          const quote = quotes[ticker.toLowerCase()]
+          const isLoading = loading && !quote
+          return (
+            <button
+              key={ticker}
+              onClick={() => handleTickerSelect(ticker)}
+              className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <Logo 
+                  ticker={ticker} 
+                  alt={`${ticker} Logo`}
+                  className="w-10 h-10 rounded-lg"
+                  padding="small"
+                />
+                {quote && (
+                  <div className={`w-3 h-3 rounded-full ${
+                    quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
+                  }`}></div>
+                )}
+              </div>
+              <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
+                {ticker}
+              </h3>
+              {isLoading ? (
+                <div className="space-y-3">
+                  <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
+                  <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
                 </div>
+              ) : quote ? (
+                <div className="space-y-3">
+                  <div className="text-xl font-bold text-theme-primary">
+                    {formatStockPrice(quote.price)}
+                  </div>
+                  <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
+                    quote.changePct >= 0
+                      ? 'text-green-400 bg-green-500/20'
+                      : 'text-red-400 bg-red-500/20'
+                  }`}>
+                    {quote.changePct >= 0 ? (
+                      <ArrowTrendingUpIcon className="w-3 h-3" />
+                    ) : (
+                      <ArrowTrendingDownIcon className="w-3 h-3" />
+                    )}
+                    <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
+                  </div>
+                  <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
+                    <div className="flex justify-between">
+                      <span className="text-theme-muted">1M:</span>
+                      {quote.perf1M !== null && quote.perf1M !== undefined ? (
+                        <span className={`font-bold ${
+                          quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {formatPercentage(quote.perf1M)}
+                        </span>
+                      ) : (
+                        <span className="text-theme-muted">–</span>
+                      )}
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-theme-muted">YTD:</span>
+                      {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
+                        <span className={`font-bold ${
+                          quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>
+                          {formatPercentage(quote.perfYTD)}
+                        </span>
+                      ) : (
+                        <span className="text-theme-muted">–</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
+              )}
+            </button>
+          )
+        })}
+      </div>
+    </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  {POPULAR_STOCKS.slice(0, 4).map((ticker) => {
-                    const quote = quotes[ticker.toLowerCase()]
-                    const isLoading = loading && !quote
-
-                    return (
-                      <button
-                        key={ticker}
-                        onClick={() => handleTickerSelect(ticker)}
-                        className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
-                      >
-                        
-                        <div className="flex items-center justify-between mb-4">
-                          <Logo 
-                            ticker={ticker} 
-                            alt={`${ticker} Logo`}
-                            className="w-10 h-10 rounded-lg"
-                            padding="small"
-                          />
-                          {quote && (
-                            <div className={`w-3 h-3 rounded-full ${
-                              quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
-                            }`}></div>
-                          )}
-                        </div>
-
-                        <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
-                          {ticker}
-                        </h3>
-                                      
-                        {isLoading ? (
-                          <div className="space-y-3">
-                            <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
-                            <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
-                          </div>
-                        ) : quote ? (
-                          <div className="space-y-3">
-               <div className="text-xl font-bold text-theme-primary">
-    {formatStockPrice(quote.price)}
+          {/* Hidden Gems */}
+    <div>
+      <SuperInvestorStocks 
+        quotes={quotes}
+        onSelect={handleTickerSelect}
+        loading={loading}
+      />
+    </div>
   </div>
 
-                            
-                            <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
-                              quote.changePct >= 0
-                                ? 'text-green-400 bg-green-500/20'
-                                : 'text-red-400 bg-red-500/20'
-                            }`}>
-                              {quote.changePct >= 0 ? (
-                                <ArrowTrendingUpIcon className="w-3 h-3" />
-                              ) : (
-                                <ArrowTrendingDownIcon className="w-3 h-3" />
-                              )}
-                      <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
-                            </div>
+  {/* 3-Column Grid for News, Most Followed, Market Movers */}
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+    {/* Watchlist News */}
+    <div>
+      <WatchlistNews />
+    </div>
 
-                            <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
-                              <div className="flex justify-between">
-                                <span className="text-theme-muted">1M:</span>
-                                {quote.perf1M !== null && quote.perf1M !== undefined ? (
-                                  <span className={`font-bold ${
-                                    quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
-                                  }`}>
-                                    {quote.perf1M >= 0 ? '+' : ''}{quote.perf1M.toFixed(1)}%
-                                  </span>
-                                ) : (
-                                  <span className="text-theme-muted">–</span>
-                                )}
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-theme-muted">YTD:</span>
-                                {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
-                                  <span className={`font-bold ${
-                                    quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
-                                  }`}>
-                                    {quote.perfYTD >= 0 ? '+' : ''}{quote.perfYTD.toFixed(1)}%
-                                  </span>
-                                ) : (
-                                  <span className="text-theme-muted">–</span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
-                        )}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
+    {/* Most Followed - ANGEPASSTE BREITE */}
+    <div>
+      <MostFollowed 
+        onSelect={handleTickerSelect}
+        quotes={quotes}
+      />
+    </div>
 
-              {/* Hidden Gems */}
-              <div>
-                <SuperInvestorStocks 
-                  quotes={quotes}
-                  onSelect={handleTickerSelect}
-                  loading={loading}
-                />
-              </div>
-            </div>
+    {/* Market Movers */}
+    <div>
+      <MarketMovers 
+        watchlistTickers={watchlistTickers}
+        popularTickers={POPULAR_STOCKS}
+      />
+    </div>
+  </div>
 
-            {/* Footer */}
-            <div className="mt-12 pt-6 border-t border-theme/10 text-center">
-              <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
-                <ClockIcon className="w-4 h-4" />
-                YTD basiert auf letztem Handelstag 2024 • 
-                1M basiert auf ~30 Kalendertagen • 
-                Alle Daten via FMP API • Live-Updates alle 15 Minuten
-              </p>
-            </div>
-          </div>
+  {/* Footer */}
+  <div className="mt-12 pt-6 border-t border-theme/10 text-center">
+    <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
+      <ClockIcon className="w-4 h-4" />
+      YTD basiert auf letztem Handelstag 2024 • 
+      1M basiert auf ~30 Kalendertagen • 
+      Alle Daten via FMP API • Live-Updates alle 15 Minuten
+    </p>
+  </div>
+</div>
         </div>
       </main>
     </div>

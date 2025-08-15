@@ -9,45 +9,109 @@
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 14000000,
-      "value": 326480000
+      "value": 326480000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "EQUITABLE HLDGS INC",
       "cusip": "29452E101",
       "shares": 7600000,
-      "value": 253080000
+      "value": 253080000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LITHIA MTRS INC",
       "cusip": "536797103",
       "shares": 700000,
-      "value": 230496000
+      "value": 230496000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GROUP 1 AUTOMOTIVE INC",
       "cusip": "398905109",
       "shares": 527424,
-      "value": 160727190
+      "value": 160727190,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "YANDEX N V",
       "cusip": "N97284108",
       "shares": 5500000,
-      "value": 39071998
+      "value": 39071998,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CLASS A",
+      "putCall": null
     },
     {
       "name": "RIMINI STR INC DEL",
       "cusip": "76674Q107",
       "shares": 5913199,
-      "value": 19336161
+      "value": 19336161,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CRESUD S A C I F Y A",
       "cusip": "P3311R259",
       "shares": 1242313,
-      "value": 720667
+      "value": 720667,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "*W EXP 03/09/202",
+      "putCall": null
     }
   ],
   "totalValue": 1029912016,
-  "positionsCount": 7
+  "positionsCount": 7,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 1029912016
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

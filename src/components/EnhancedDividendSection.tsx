@@ -1,5 +1,5 @@
 // src/components/EnhancedDividendSection.tsx
-// PROFESSIONELLE DIVIDENDEN-ANALYSE - Erweiterte Version
+// PROFESSIONELLE DIVIDENDEN-ANALYSE - MIT DEUTSCHER FORMATIERUNG
 
 'use client'
 
@@ -19,6 +19,7 @@ import {
   BuildingLibraryIcon
 } from '@heroicons/react/24/outline'
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar, ComposedChart, Area, AreaChart } from 'recharts'
+import { useCurrency } from '@/lib/CurrencyContext' // ✅ CURRENCY CONTEXT HINZUGEFÜGT
 
 interface DividendData {
   year: number
@@ -89,6 +90,9 @@ export default function EnhancedDividendSection({
   const [financialHealth, setFinancialHealth] = useState<FinancialHealthMetrics | null>(null)
   const [activeTab, setActiveTab] = useState<'overview' | 'quarterly' | 'health'>('overview')
 
+  // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
+  const { formatStockPrice, formatPercentage, currency } = useCurrency()
+
   // ✅ Load enhanced dividend data
   useEffect(() => {
     async function loadEnhancedDividendData() {
@@ -148,17 +152,48 @@ export default function EnhancedDividendSection({
     }
   }, [ticker])
 
-  // Helper functions
-  const formatCurrency = (value: number) => 
-    `$${value.toFixed(value < 1 ? 4 : 2)}`
+  // ✅ DEUTSCHE FORMATIERUNG - Helper functions
+  const formatCurrencyDE = (value: number): string => {
+    if (!value && value !== 0) return '–'
+    return formatStockPrice(value, true) // Mit Währungssymbol
+  }
 
-  const formatPercent = (value: number) => 
-    `${value.toFixed(2)}%`
+  const formatCurrencySimple = (value: number): string => {
+    if (!value && value !== 0) return '–'
+    return formatStockPrice(value, false) // Ohne Währungssymbol
+  }
+
+  const formatPercentDE = (value: number, showSign: boolean = false): string => {
+    if (!value && value !== 0) return '–'
+    return formatPercentage(value, showSign)
+  }
+
+  const formatRatioDE = (value: number, suffix: string = 'x'): string => {
+    if (!value && value !== 0) return '–'
+    return `${value.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}${suffix}`
+  }
 
   const getMetricColor = (value: number, thresholds: { good: number, ok: number }) => {
     if (value >= thresholds.good) return 'text-green-400'
     if (value >= thresholds.ok) return 'text-yellow-400'
     return 'text-red-400'
+  }
+
+  // ✅ DEUTSCHE TOOLTIP-FORMATIERUNG für Charts
+  const formatTooltipValue = (value: number, name: string) => {
+    if (name === 'Dividende' || name === 'dividendPerShare') {
+      return [formatCurrencyDE(value), 'Dividende']
+    }
+    if (name === 'Wachstum' || name === 'growth') {
+      return [formatPercentDE(value, true), 'Wachstum']
+    }
+    if (name === 'Payout Ratio' || name === 'payoutRatio') {
+      return [formatPercentDE(value * 100), 'Payout Ratio']
+    }
+    return [value, name]
   }
 
   if (loading) {
@@ -200,25 +235,25 @@ export default function EnhancedDividendSection({
           </div>
         </div>
 
-        {/* ✅ CLEANED Key Metrics - NO yield classification */}
+        {/* ✅ DEUTSCHE FORMATIERUNG - Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
           <div className="text-center">
             <div className="text-2xl font-bold text-theme-primary mb-1">
-              {currentInfo?.currentYield ? `${(currentInfo.currentYield * 100).toFixed(2)}%` : 'N/A'}
+              {currentInfo?.currentYield ? formatPercentDE(currentInfo.currentYield * 100) : 'N/A'}
             </div>
             <div className="text-sm text-theme-secondary">Aktuelle Rendite</div>
           </div>
           
           <div className="text-center">
             <div className="text-2xl font-bold text-theme-primary mb-1">
-              {currentInfo?.dividendPerShareTTM ? formatCurrency(currentInfo.dividendPerShareTTM) : 'N/A'}
+              {currentInfo?.dividendPerShareTTM ? formatCurrencyDE(currentInfo.dividendPerShareTTM) : 'N/A'}
             </div>
             <div className="text-sm text-theme-secondary">TTM Dividende</div>
           </div>
           
           <div className="text-center">
             <div className="text-2xl font-bold text-theme-primary mb-1">
-              {currentInfo?.dividendGrowthRate ? `${currentInfo.dividendGrowthRate.toFixed(1)}%` : 'N/A'}
+              {currentInfo?.dividendGrowthRate ? formatPercentDE(currentInfo.dividendGrowthRate) : 'N/A'}
             </div>
             <div className="text-sm text-theme-secondary">Ø Wachstum (5 Jahre)</div>
           </div>
@@ -231,7 +266,7 @@ export default function EnhancedDividendSection({
           </div>
         </div>
 
-        {/* ✅ Main Dividend Chart - last 10 years */}
+        {/* ✅ Main Dividend Chart - DEUTSCHE FORMATIERUNG */}
         {dividendData.length > 0 && (
           <div className="h-64 mt-6">
             <ResponsiveContainer width="100%" height="100%">
@@ -245,7 +280,7 @@ export default function EnhancedDividendSection({
                 <YAxis 
                   stroke="currentColor" 
                   fontSize={12}
-                  tickFormatter={(value) => formatCurrency(value)}
+                  tickFormatter={(value) => formatCurrencySimple(value)}
                   className="text-theme-muted"
                 />
                 <Tooltip 
@@ -256,7 +291,7 @@ export default function EnhancedDividendSection({
                     color: 'rgb(243, 244, 246)'
                   }}
                   labelStyle={{ color: 'rgb(243, 244, 246)', fontWeight: 'bold' }}
-                  formatter={(value: number) => [formatCurrency(value), 'Dividende']}
+                  formatter={formatTooltipValue}
                 />
                 <Line 
                   type="monotone" 
@@ -272,7 +307,7 @@ export default function EnhancedDividendSection({
         )}
       </div>
 
-      {/* ✅ NEW: CAGR Analysis Section */}
+      {/* ✅ CAGR Analysis Section - DEUTSCHE FORMATIERUNG */}
       {cagrAnalysis.length > 0 && (
         <div className="professional-card p-6">
           <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
@@ -288,11 +323,11 @@ export default function EnhancedDividendSection({
                   cagr.cagr > 5 ? 'text-blue-400' :
                   cagr.cagr > 0 ? 'text-yellow-400' : 'text-red-400'
                 }`}>
-                  {cagr.cagr.toFixed(1)}%
+                  {formatPercentDE(cagr.cagr)}
                 </div>
                 <div className="text-sm text-theme-secondary">{cagr.period} CAGR</div>
                 <div className="text-xs text-theme-muted mt-1">
-                  {formatCurrency(cagr.startValue)} → {formatCurrency(cagr.endValue)}
+                  {formatCurrencyDE(cagr.startValue)} → {formatCurrencyDE(cagr.endValue)}
                 </div>
               </div>
             ))}
@@ -300,7 +335,7 @@ export default function EnhancedDividendSection({
         </div>
       )}
 
-      {/* ✅ NEW: Payout Ratio Chart */}
+      {/* ✅ Payout Ratio Chart - DEUTSCHE FORMATIERUNG */}
       {payoutRatioHistory.length > 0 && (
         <div className="professional-card p-6">
           <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
@@ -320,7 +355,7 @@ export default function EnhancedDividendSection({
                 <YAxis 
                   stroke="currentColor" 
                   fontSize={12}
-                  tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+                  tickFormatter={(value) => formatPercentDE(value * 100)}
                   className="text-theme-muted"
                 />
                 <Tooltip 
@@ -330,7 +365,7 @@ export default function EnhancedDividendSection({
                     borderRadius: '12px',
                     color: 'rgb(243, 244, 246)'
                   }}
-                  formatter={(value: number) => [`${(value * 100).toFixed(1)}%`, 'Payout Ratio']}
+                  formatter={formatTooltipValue}
                 />
                 <Area 
                   type="monotone" 
@@ -343,13 +378,13 @@ export default function EnhancedDividendSection({
             </ResponsiveContainer>
           </div>
           
-          {/* Current Payout Ratio with Safety Assessment */}
+          {/* Current Payout Ratio with Safety Assessment - DEUTSCHE FORMATIERUNG */}
           <div className="mt-4 p-4 bg-theme-tertiary/30 rounded-lg">
             <div className="flex justify-between items-center">
               <span className="text-theme-secondary">Aktuelle Payout Ratio</span>
               <div className="flex items-center gap-3">
                 <span className="text-theme-primary font-semibold">
-                  {currentInfo?.payoutRatio ? `${(currentInfo.payoutRatio * 100).toFixed(1)}%` : 'N/A'}
+                  {currentInfo?.payoutRatio ? formatPercentDE(currentInfo.payoutRatio * 100) : 'N/A'}
                 </span>
                 {currentInfo?.payoutSafety && (
                   <div className="flex items-center gap-2">
@@ -403,12 +438,12 @@ export default function EnhancedDividendSection({
           </nav>
         </div>
 
-        {/* ✅ Tab Content */}
+        {/* ✅ Tab Content - DEUTSCHE FORMATIERUNG */}
         <div className="p-6">
           {activeTab === 'overview' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               
-              {/* Growth Trend Chart */}
+              {/* Growth Trend Chart - DEUTSCHE FORMATIERUNG */}
               <div>
                 <h5 className="text-lg font-semibold text-theme-primary mb-4">Wachstumstrend (10 Jahre)</h5>
                 <div className="h-48">
@@ -423,7 +458,7 @@ export default function EnhancedDividendSection({
                       <YAxis 
                         stroke="currentColor" 
                         fontSize={12}
-                        tickFormatter={(value) => `${value.toFixed(0)}%`}
+                        tickFormatter={(value) => formatPercentDE(value)}
                         className="text-theme-muted"
                       />
                       <Tooltip 
@@ -433,7 +468,7 @@ export default function EnhancedDividendSection({
                           borderRadius: '12px',
                           color: 'rgb(243, 244, 246)'
                         }}
-                        formatter={(value: number) => [`${value.toFixed(1)}%`, 'Wachstum']}
+                        formatter={formatTooltipValue}
                       />
                       <Bar 
                         dataKey="growth" 
@@ -511,10 +546,10 @@ export default function EnhancedDividendSection({
                             {quarter.quarter} {quarter.year}
                           </td>
                           <td className="py-3 px-4 text-right text-theme-primary font-semibold">
-                            {formatCurrency(quarter.amount)}
+                            {formatCurrencyDE(quarter.amount)}
                           </td>
                           <td className="py-3 px-4 text-right text-green-400 font-medium">
-                            {formatCurrency(quarter.adjAmount)}
+                            {formatCurrencyDE(quarter.adjAmount)}
                           </td>
                         </tr>
                       ))}
@@ -540,42 +575,42 @@ export default function EnhancedDividendSection({
                   <div className="p-4 bg-theme-tertiary/30 rounded-lg">
                     <div className="text-sm text-theme-secondary mb-1">FCF Coverage</div>
                     <div className={`text-2xl font-bold ${getMetricColor(financialHealth.freeCashFlowCoverage, { good: 2, ok: 1 })}`}>
-                      {financialHealth.freeCashFlowCoverage.toFixed(2)}x
+                      {formatRatioDE(financialHealth.freeCashFlowCoverage)}
                     </div>
                   </div>
 
                   <div className="p-4 bg-theme-tertiary/30 rounded-lg">
                     <div className="text-sm text-theme-secondary mb-1">Debt/Equity</div>
                     <div className={`text-2xl font-bold ${getMetricColor(1 / (financialHealth.debtToEquity + 0.001), { good: 0.5, ok: 0.3 })}`}>
-                      {financialHealth.debtToEquity.toFixed(2)}
+                      {formatRatioDE(financialHealth.debtToEquity, '')}
                     </div>
                   </div>
 
                   <div className="p-4 bg-theme-tertiary/30 rounded-lg">
                     <div className="text-sm text-theme-secondary mb-1">Interest Coverage</div>
                     <div className={`text-2xl font-bold ${getMetricColor(financialHealth.interestCoverage, { good: 10, ok: 3 })}`}>
-                      {financialHealth.interestCoverage.toFixed(1)}x
+                      {formatRatioDE(financialHealth.interestCoverage)}
                     </div>
                   </div>
 
                   <div className="p-4 bg-theme-tertiary/30 rounded-lg">
                     <div className="text-sm text-theme-secondary mb-1">Current Ratio</div>
                     <div className={`text-2xl font-bold ${getMetricColor(financialHealth.currentRatio, { good: 2, ok: 1.2 })}`}>
-                      {financialHealth.currentRatio.toFixed(2)}
+                      {formatRatioDE(financialHealth.currentRatio, '')}
                     </div>
                   </div>
 
                   <div className="p-4 bg-theme-tertiary/30 rounded-lg">
                     <div className="text-sm text-theme-secondary mb-1">ROE</div>
                     <div className={`text-2xl font-bold ${getMetricColor(financialHealth.roe, { good: 15, ok: 10 })}`}>
-                      {financialHealth.roe.toFixed(1)}%
+                      {formatPercentDE(financialHealth.roe)}
                     </div>
                   </div>
 
                   <div className="p-4 bg-theme-tertiary/30 rounded-lg">
                     <div className="text-sm text-theme-secondary mb-1">ROA</div>
                     <div className={`text-2xl font-bold ${getMetricColor(financialHealth.roa, { good: 10, ok: 5 })}`}>
-                      {financialHealth.roa.toFixed(1)}%
+                      {formatPercentDE(financialHealth.roa)}
                     </div>
                   </div>
                   
@@ -591,7 +626,7 @@ export default function EnhancedDividendSection({
         </div>
       </div>
 
-      {/* ✅ Complete Historical Table - Simplified */}
+      {/* ✅ Complete Historical Table - DEUTSCHE FORMATIERUNG */}
       <div className="professional-card p-6">
         <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
           <DocumentTextIcon className="w-5 h-5" />
@@ -615,14 +650,14 @@ export default function EnhancedDividendSection({
                   <td className="py-3 px-4 text-theme-primary font-semibold">{row.year}</td>
                   
                   <td className="py-3 px-4 text-right text-theme-primary font-medium">
-                    {formatCurrency(row.dividendPerShare)}
+                    {formatCurrencyDE(row.dividendPerShare)}
                   </td>
                   
                   <td className={`py-3 px-4 text-right font-semibold ${
                     row.growth > 0 ? 'text-green-400' : 
                     row.growth < 0 ? 'text-red-400' : 'text-theme-muted'
                   }`}>
-                    {row.growth !== 0 && (row.growth > 0 ? '+' : '')}{row.growth.toFixed(1)}%
+                    {row.growth !== 0 ? formatPercentDE(row.growth, true) : '–'}
                   </td>
                 </tr>
               ))}

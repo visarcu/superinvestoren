@@ -1,4 +1,4 @@
-// src/app/analyse/[ticker]/valuation/page.tsx - SAUBERE VERSION
+// src/app/analyse/[ticker]/valuation/page.tsx - MIT DEUTSCHER FORMATIERUNG
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -9,6 +9,7 @@ import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import LearnSidebar, { LearnTooltipButton } from '@/components/LearnSidebar'
 import { useLearnMode } from '@/lib/LearnModeContext'
+import { useCurrency } from '@/lib/CurrencyContext' // ✅ CURRENCY CONTEXT HINZUGEFÜGT
 import { 
   CalculatorIcon,
   ChartBarIcon,
@@ -35,6 +36,9 @@ export default function ValuationPage() {
   const ticker = params.ticker as string
   const [user, setUser] = useState<User | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
+
+  // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
+  const { formatPercentage } = useCurrency()
 
   // Get stock info for header
   const stock = stocks.find(s => s.ticker === ticker.toUpperCase())

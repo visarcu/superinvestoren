@@ -1,5 +1,11 @@
+
+// =====================================================================
+// ProfessionalValuationTable.tsx - MIT DEUTSCHER FORMATIERUNG
+// =====================================================================
+
 import React, { useState, useEffect } from 'react';
 import { LockClosedIcon, CalculatorIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+import { useCurrency } from '@/lib/CurrencyContext'; // ✅ CURRENCY CONTEXT HINZUGEFÜGT
 
 interface ValuationData {
   // P/E Ratios (vereinfacht)
@@ -41,6 +47,9 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
   const [data, setData] = useState<ValuationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
+  const { formatPercentage } = useCurrency();
 
   useEffect(() => {
     loadValuationData();
@@ -334,27 +343,33 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
     }
   };
 
+  // ✅ DEUTSCHE FORMATIERUNG für Ratios
   const formatRatio = (value: number): string => {
     if (value === 0 || !value || isNaN(value)) return '-';
-    return value.toFixed(2);
+    return value.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
   };
 
+  // ✅ DEUTSCHE FORMATIERUNG für Prozente mit Context
   const formatPercent = (value: number): string => {
     if (value === 0 || !value || isNaN(value)) return '-';
     
     // Wenn Wert bereits in Prozent (>1), direkt nutzen
     if (value > 1) {
-      return `${value.toFixed(2)}%`;
+      return formatPercentage(value, false); // Ohne Vorzeichen
     }
     
     // Wenn Wert als Dezimal (<1), in Prozent umwandeln
-    return `${(value * 100).toFixed(2)}%`;
+    return formatPercentage(value * 100, false); // Ohne Vorzeichen
   };
 
+  // ✅ DEUTSCHE FORMATIERUNG für Differenzen
   const calculateDifference = (current: number, comparison: number): string => {
     if (!current || !comparison || isNaN(current) || isNaN(comparison)) return '-';
     const diff = ((current - comparison) / comparison) * 100;
-    return `${diff >= 0 ? '+' : ''}${diff.toFixed(2)}%`;
+    return formatPercentage(diff, true); // Mit Vorzeichen
   };
 
   const getDifferenceColor = (current: number, comparison: number): string => {

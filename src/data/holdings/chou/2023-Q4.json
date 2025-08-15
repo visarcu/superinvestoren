@@ -9,111 +9,263 @@
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 80,
-      "value": 42518132
+      "value": 42518132000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "BAUSCH HEALTH COS INC",
       "cusip": "071734107",
       "shares": 715000,
-      "value": 5877296
+      "value": 5877296000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HERTZ GLOBAL HLDGS INC",
       "cusip": "42806J148",
       "shares": 741583,
-      "value": 4538485
+      "value": 4538485000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "*W EXP 06/30/205",
+      "putCall": null
     },
     {
       "name": "ALLY FINL INC",
       "cusip": "02005N100",
       "shares": 155686,
-      "value": 4153700
+      "value": 4153700000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SYNCHRONY FINANCIAL",
       "cusip": "87165B103",
       "shares": 120000,
-      "value": 3668398
+      "value": 3668398000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NAVIENT CORPORATION",
       "cusip": "63938C108",
       "shares": 183338,
-      "value": 3157078
+      "value": 3157078000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CITIGROUP INC",
       "cusip": "172967424",
       "shares": 57695,
-      "value": 2372994
+      "value": 2372994000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "LIBERTY GLOBAL PLC",
       "cusip": "G5480U104",
       "shares": 96823,
-      "value": 1657609
+      "value": 1657609000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CL A",
+      "putCall": null
     },
     {
       "name": "BLACKBERRY LTD",
       "cusip": "09228F103",
       "shares": 312900,
-      "value": 1481278
+      "value": 1481278000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MBIA INC",
       "cusip": "55262C100",
       "shares": 199530,
-      "value": 1438610
+      "value": 1438610000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WELLS FARGO CO NEW",
       "cusip": "949746101",
       "shares": 19542,
-      "value": 798486
+      "value": 798486000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CHINA YUCHAI INTL LTD",
       "cusip": "G21082105",
       "shares": 73364,
-      "value": 740976
+      "value": 740976000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "OVERSTOCK COM INC",
       "cusip": "690370101",
       "shares": 38405,
-      "value": 607567
+      "value": 607567000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "STELLANTIS N.V",
       "cusip": "N82405106",
       "shares": 30000,
-      "value": 573900
+      "value": 573900000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MAGNA INTL INC",
       "cusip": "559222401",
       "shares": 10000,
-      "value": 536100
+      "value": 536100000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "RYANAIR HOLDINGS PLC",
       "cusip": "783513203",
       "shares": 4575,
-      "value": 444735
+      "value": 444735000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 3400,
-      "value": 294916
+      "value": 294916000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "METHANEX CORP",
       "cusip": "59151K108",
       "shares": 4000,
-      "value": 180261
+      "value": 180261000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
-  "totalValue": 75040521,
-  "positionsCount": 18
+  "totalValue": 75040521000,
+  "positionsCount": 18,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 75040521000
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

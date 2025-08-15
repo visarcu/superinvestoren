@@ -9,7 +9,7 @@ import { investorCiks } from '../src/lib/cikMapping.js'
 const extraMultiplierSlugs = [''];
 
 // ✅ NEU: Investoren die bereits Dollar-Werte haben (KEIN Multiplikator)
-const noMultiplierSlugs = ['greenhaven', 'cunniff', 'buffett', 'cunniff_sequoia', 'mandel', 'marks', 'greenberg', 'ainslie', 'lilu', 'icahn', 'tepper', 'loeb', 'gates', 'dalio', 'miller', 'coleman', 'kahn', 'hong', 'hohn', 'dorsey', 'lawrence', 'watsa', 'smith', 'ketterer', 'train', 'patientcapital', 'makaira', 'russo', 'akre', 'tarasoff', 'polen', 'firsteagle', 'jensen', 'abrams', 'burn', 'cantillon', 'armitage', 'yacktman','torray', 'vinall', 'katz', 'gayner', 'weitz', 'meridiancontrarian', 'mairspower', 'dodgecox','altarockpartners', 'davis', 'pzena', 'hawkins', 'rogers', 'peltz', 'gregalexander', 'miller', 'burry', 'pabrai', 'kantesaria', 'greenblatt', 'fisher','soros', 'haley','vandenberg'];
+const noMultiplierSlugs = ['greenhaven', 'cunniff', 'buffett', 'cunniff_sequoia', 'mandel', 'sosin', 'marks', 'greenberg', 'ainslie', 'lilu', 'icahn', 'tepper', 'loeb', 'gates', 'dalio', ,'whitman', 'rochon', 'miller', 'coleman', 'kahn', 'hong', 'hohn', 'dorsey', 'lawrence', 'watsa', 'smith', 'ketterer', 'train', 'patientcapital', 'makaira', 'russo', 'akre', 'tarasoff', 'polen', 'firsteagle', 'jensen', 'abrams', 'burn', 'cantillon', 'armitage', 'yacktman','torray', 'vinall', 'katz', 'gayner', 'weitz', 'meridiancontrarian', 'mairspower', 'dodgecox','altarockpartners', 'davis', 'pzena', 'hawkins', 'rogers', 'peltz', 'gregalexander', 'miller', 'burry', 'pabrai', 'kantesaria', 'greenblatt', 'fisher','soros', 'haley','vandenberg'];
 
 async function fetchUrl(url) {
   const res = await fetch(url, {
@@ -201,7 +201,7 @@ async function run() {
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
     // ✅ TANGEN AKTIVIEREN: Jetzt für AKO Capital (Tangen)
-    if (slug !== 'jensen') continue
+    if (slug !== 'rochon') continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })

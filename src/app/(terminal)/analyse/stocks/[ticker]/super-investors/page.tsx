@@ -1,4 +1,4 @@
-// src/app/analyse/stocks/[ticker]/super-investors/page.tsx - IMPROVED VERSION
+// src/app/analyse/stocks/[ticker]/super-investors/page.tsx - MIT DEUTSCHER FORMATIERUNG
 import React from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -20,7 +20,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 
-// ✅ CLIENT-SIDE CHART COMPONENT
+// ✅ CLIENT-SIDE CHART COMPONENT MIT DEUTSCHER FORMATIERUNG
 const ClientChart = dynamic(() => {
   return Promise.resolve(function HistoricalChart({ data }: { data: any[] }) {
     const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } = require('recharts')
@@ -41,7 +41,7 @@ const ClientChart = dynamic(() => {
             stroke="#9CA3AF" 
             fontSize={12}
             tick={{ fill: '#9CA3AF' }}
-            tickFormatter={(value: number) => `${value.toFixed(0)}M`}
+            tickFormatter={(value: number) => `${value.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio.`}
           />
           <YAxis 
             yAxisId="holders"
@@ -59,7 +59,7 @@ const ClientChart = dynamic(() => {
             }}
             formatter={(value: any, name: string) => {
               if (name === 'totalValue') {
-                return [`${value.toFixed(1)}M`, 'Gesamtwert']
+                return [`${value.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mio.`, 'Gesamtwert']
               }
               return [value, 'Holdings']
             }}
@@ -186,15 +186,28 @@ function getLatestQuarterFromData(): string {
   return latestQuarter;
 }
 
+// ✅ DEUTSCHE WÄHRUNGSFORMATIERUNG
 function formatCurrencyGerman(amount: number): string {
   if (amount >= 1_000_000_000) {
-    return `${(amount / 1_000_000_000).toFixed(1)} Mrd.`;
+    return `${(amount / 1_000_000_000).toLocaleString('de-DE', {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    })} Mrd.`;
   } else if (amount >= 1_000_000) {
-    return `${(amount / 1_000_000).toFixed(1)} Mio.`;
+    return `${(amount / 1_000_000).toLocaleString('de-DE', {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    })} Mio.`;
   } else if (amount >= 1_000) {
-    return `${(amount / 1_000).toFixed(1)} Tsd.`;
+    return `${(amount / 1_000).toLocaleString('de-DE', {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    })} Tsd.`;
   }
-  return `${amount.toFixed(0)}`;
+  return amount.toLocaleString('de-DE', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  });
 }
 
 // ✅ KORRIGIERTE FUNKTION: Historische Daten extrahieren
@@ -385,15 +398,19 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
     }
   }
 
-  // Formatter
-  const formatPrice = (n: number) => n.toLocaleString('de-DE', { 
+  // ✅ DEUTSCHE FORMATIERUNG für Preise und Prozente
+  const formatPrice = (n: number) => new Intl.NumberFormat('de-DE', { 
     style: 'currency', 
     currency: 'USD', 
-    maximumFractionDigits: 2 
-  })
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(n)
 
   const formatPercent = (n: number) => 
-    `${n >= 0 ? '+' : ''}${n.toFixed(2)}%`
+    `${n >= 0 ? '+' : ''}${n.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}%`
 
   // 4) Investoren-Analyse
   interface InvestorHolding {
@@ -588,7 +605,7 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
       {/* ✅ MAIN CONTENT - konsistent mit Dashboard Style */}
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
         
-        {/* ✅ DASHBOARD STYLE Overview Stats */}
+        {/* ✅ DASHBOARD STYLE Overview Stats MIT DEUTSCHER FORMATIERUNG */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
             <div className="flex items-center justify-between mb-4">
@@ -599,10 +616,10 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
             </div>
             <div className="space-y-3">
               <div className="text-2xl font-bold text-theme-primary">
-                {Math.round((holdingCount / totalInvestors) * 100)}%
+                {Math.round((holdingCount / totalInvestors) * 100).toLocaleString('de-DE')}%
               </div>
               <div className="text-sm text-theme-muted">
-                {holdingCount} von {totalInvestors} Investoren
+                {holdingCount.toLocaleString('de-DE')} von {totalInvestors.toLocaleString('de-DE')} Investoren
               </div>
             </div>
           </div>
@@ -616,10 +633,10 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
             </div>
             <div className="space-y-3">
               <div className="text-2xl font-bold text-green-400">
-                {marketStats.totalBuyers}
+                {marketStats.totalBuyers.toLocaleString('de-DE')}
               </div>
               <div className="text-sm text-theme-muted">
-                {marketStats.newEntries} neue, {marketStats.positionIncreases} erhöht (vs. Vorquartal)
+                {marketStats.newEntries.toLocaleString('de-DE')} neue, {marketStats.positionIncreases.toLocaleString('de-DE')} erhöht (vs. Vorquartal)
               </div>
             </div>
           </div>
@@ -633,10 +650,10 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
             </div>
             <div className="space-y-3">
               <div className="text-2xl font-bold text-red-400">
-                {marketStats.totalSellers}
+                {marketStats.totalSellers.toLocaleString('de-DE')}
               </div>
               <div className="text-sm text-theme-muted">
-                {marketStats.positionDecreases} reduziert, {marketStats.completeExits} exits (vs. Vorquartal)
+                {marketStats.positionDecreases.toLocaleString('de-DE')} reduziert, {marketStats.completeExits.toLocaleString('de-DE')} exits (vs. Vorquartal)
               </div>
             </div>
           </div>
@@ -659,19 +676,17 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
           </div>
         </div>
 
-      
-
         {/* ✅ SECTION HEADER mit korrektem Count */}
         <div>
           <h2 className="text-2xl font-bold text-theme-primary mb-2">
-            Aktuelle Holdings ({holdingCount})
+            Aktuelle Holdings ({holdingCount.toLocaleString('de-DE')})
           </h2>
           <p className="text-theme-secondary text-sm">
-            13F-Daten • Berichtet für {currentQuarter} • Zeige alle {holdingCount} Holdings
+            13F-Daten • Berichtet für {currentQuarter} • Zeige alle {holdingCount.toLocaleString('de-DE')} Holdings
           </p>
         </div>
 
-        {/* ✅ VERBESSERTE KOMPAKTE CARDS - 4 Spalten für alle Holdings */}
+        {/* ✅ VERBESSERTE KOMPAKTE CARDS - 4 Spalten für alle Holdings MIT DEUTSCHER FORMATIERUNG */}
         {investorHoldings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {investorHoldings.map((investor) => (
@@ -712,14 +727,17 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
                     {investor.name.split('–')[0].split(' ').slice(0, 2).join(' ')}
                   </h3>
                   
-                  {/* Kompakte Stats */}
+                  {/* Kompakte Stats MIT DEUTSCHER FORMATIERUNG */}
                   <div className="flex-grow flex flex-col justify-between">
                     <div className="space-y-2">
                       <div className="text-lg font-bold text-theme-primary">
                         {formatCurrencyGerman(investor.value)}
                       </div>
                       <div className="text-xs text-theme-muted">
-                        {(investor.weight * 100).toFixed(1)}% Portfolio
+                        {(investor.weight * 100).toLocaleString('de-DE', {
+                          minimumFractionDigits: 1,
+                          maximumFractionDigits: 1
+                        })}% Portfolio
                       </div>
                     </div>
                     
@@ -760,7 +778,7 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
           </div>
         )}
 
-        {/* ✅ NEUE SEKTION: Top Movers & Portfolio Insights */}
+        {/* ✅ NEUE SEKTION: Top Movers & Portfolio Insights MIT DEUTSCHER FORMATIERUNG */}
         {investorHoldings.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Top Movers */}
@@ -785,7 +803,10 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
                       <div className="text-right">
                         <div className="text-xs text-green-400 font-medium">
                           {investor.change?.type === 'new_entry' ? 'NEU' : 
-                           `+${investor.change?.percent.toFixed(1)}%`}
+                           `+${investor.change?.percent.toLocaleString('de-DE', {
+                             minimumFractionDigits: 1,
+                             maximumFractionDigits: 1
+                           })}%`}
                         </div>
                         <div className="text-xs text-theme-muted">
                           {formatCurrencyGerman(investor.value)}
@@ -797,7 +818,7 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
               </div>
             )}
 
-            {/* Portfolio Konzentration */}
+            {/* Portfolio Konzentration MIT DEUTSCHER FORMATIERUNG */}
             <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
               <h3 className="text-lg font-bold text-theme-primary mb-4">
                 Portfolio Konzentration
@@ -806,7 +827,10 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
                 <div className="flex justify-between">
                   <span className="text-theme-muted text-sm">Top 3 Holdings:</span>
                   <span className="text-theme-primary font-medium">
-                    {((investorHoldings.slice(0, 3).reduce((sum, inv) => sum + inv.value, 0) / totalValue) * 100).toFixed(1)}%
+                    {((investorHoldings.slice(0, 3).reduce((sum, inv) => sum + inv.value, 0) / totalValue) * 100).toLocaleString('de-DE', {
+                      minimumFractionDigits: 1,
+                      maximumFractionDigits: 1
+                    })}%
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -818,7 +842,10 @@ export default async function SuperInvestorsPage({ params }: { params: { ticker:
                 <div className="flex justify-between">
                   <span className="text-theme-muted text-sm">Aktivitätsrate:</span>
                   <span className="text-theme-primary font-medium">
-                    {marketStats.activityRate.toFixed(1)}%
+                    {marketStats.activityRate.toLocaleString('de-DE', {
+                      minimumFractionDigits: 1,
+                      maximumFractionDigits: 1
+                    })}%
                   </span>
                 </div>
                 <div className="flex justify-between">
