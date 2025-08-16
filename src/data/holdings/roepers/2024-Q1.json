@@ -9,63 +9,151 @@
       "name": "EASTMAN CHEM CO",
       "cusip": "277432100",
       "shares": 365257,
-      "value": 32807384
+      "value": 32807384,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WESCO INTL INC",
       "cusip": "95082P105",
       "shares": 183200,
-      "value": 31854816
+      "value": 31854816,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TIMKEN CO",
       "cusip": "887389104",
       "shares": 373549,
-      "value": 29939952
+      "value": 29939952,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WEATHERFORD INTL PLC",
       "cusip": "G48833118",
       "shares": 296701,
-      "value": 29026259
+      "value": 29026259,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "TEREX CORP NEW",
       "cusip": "880779103",
       "shares": 469838,
-      "value": 26996891
+      "value": 26996891,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FLOWSERVE CORP",
       "cusip": "34354P105",
       "shares": 602882,
-      "value": 24850796
+      "value": 24850796,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GOODYEAR TIRE & RUBR CO",
       "cusip": "382550101",
       "shares": 1076000,
-      "value": 15408320
+      "value": 15408320,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ASHLAND INC",
       "cusip": "044186104",
       "shares": 173312,
-      "value": 14611935
+      "value": 14611935,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PATTERSON-UTI ENERGY INC",
       "cusip": "703481101",
       "shares": 785000,
-      "value": 8478000
+      "value": 8478000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 200000,
-      "value": 5026000
+      "value": 5026000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 219000353,
-  "positionsCount": 10
+  "positionsCount": 10,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 219000353
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

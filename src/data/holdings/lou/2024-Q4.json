@@ -9,27 +9,67 @@
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670108",
       "shares": 349,
-      "value": 241221820
+      "value": 241221820,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ISHARES TR",
       "cusip": "46436E718",
       "shares": 581100,
-      "value": 58528392
+      "value": 58528392,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "0-3 MNTH TREASRY",
+      "putCall": null
     },
     {
       "name": "WINNEBAGO INDS INC",
       "cusip": "974637100",
       "shares": 411480,
-      "value": 23911103
+      "value": 23911103,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SMITH & WESSON BRANDS INC",
       "cusip": "831754106",
       "shares": 840038,
-      "value": 10903693
+      "value": 10903693,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 334565008,
-  "positionsCount": 4
+  "positionsCount": 4,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 334565008
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

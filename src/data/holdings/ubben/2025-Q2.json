@@ -9,87 +9,207 @@
       "name": "SALESFORCE INC",
       "cusip": "79466L302",
       "shares": 2898509,
-      "value": 777843875
+      "value": 777843875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 6566031,
-      "value": 648067260
+      "value": 648067260,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "INSIGHT ENTERPRISES INC",
       "cusip": "45765U103",
       "shares": 4061739,
-      "value": 609220233
+      "value": 609220233,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 1014874,
-      "value": 584932779
+      "value": 584932779,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ROBLOX CORP",
       "cusip": "771049103",
       "shares": 8764921,
-      "value": 510907245
+      "value": 510907245,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "VISA INC",
       "cusip": "92826C839",
       "shares": 1312950,
-      "value": 460136457
+      "value": 460136457,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229722",
       "shares": 3903888,
-      "value": 266010928
+      "value": 266010928,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM LBTY LIV S C",
+      "putCall": null
     },
     {
       "name": "EXPEDIA GROUP INC",
       "cusip": "30212P303",
       "shares": 1117156,
-      "value": 187793924
+      "value": 187793924,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "LIVE NATION ENTERTAINMENT IN",
       "cusip": "538034109",
       "shares": 885266,
-      "value": 115598034
+      "value": 115598034,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LIBERTY MEDIA CORP DEL",
       "cusip": "531229748",
       "shares": 1658648,
-      "value": 111527492
+      "value": 111527492,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM LBTY LIV S A",
+      "putCall": null
     },
     {
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 563100,
-      "value": 107135406
+      "value": 107135406,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TOAST INC",
       "cusip": "888787108",
       "shares": 2597200,
-      "value": 86149124
+      "value": 86149124,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ROCKET COS INC",
       "cusip": "77311W101",
       "shares": 6728509,
-      "value": 81213104
+      "value": 81213104,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "NU HLDGS LTD",
       "cusip": "G6683N103",
       "shares": 3416200,
-      "value": 34981888
+      "value": 34981888,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS CL A",
+      "putCall": null
     }
   ],
   "totalValue": 4581517749,
-  "positionsCount": 14
+  "positionsCount": 14,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 4581517749
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

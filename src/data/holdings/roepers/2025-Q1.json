@@ -9,63 +9,151 @@
       "name": "APTIV PLC",
       "cusip": "G6095L109",
       "shares": 763955,
-      "value": 46203998
+      "value": 46203998,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "CHART INDS INC",
       "cusip": "16115Q308",
       "shares": 228670,
-      "value": 43639383
+      "value": 43639383,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WEATHERFORD INTL PLC",
       "cusip": "G48833118",
       "shares": 438109,
-      "value": 31381748
+      "value": 31381748,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "OSHKOSH CORP",
       "cusip": "688239201",
       "shares": 230000,
-      "value": 21866100
+      "value": 21866100,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DARLING INGREDIENTS INC",
       "cusip": "237266101",
       "shares": 589050,
-      "value": 19845095
+      "value": 19845095,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FMC CORP",
       "cusip": "302491303",
       "shares": 321000,
-      "value": 15603810
+      "value": 15603810,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "GOODYEAR TIRE & RUBR CO",
       "cusip": "382550101",
       "shares": 1311485,
-      "value": 11803365
+      "value": 11803365,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TEREX CORP NEW",
       "cusip": "880779103",
       "shares": 155000,
-      "value": 7164100
+      "value": 7164100,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WESCO INTL INC",
       "cusip": "95082P105",
       "shares": 32500,
-      "value": 5881200
+      "value": 5881200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 200000,
-      "value": 3606000
+      "value": 3606000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 206994799,
-  "positionsCount": 10
+  "positionsCount": 10,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 206994799
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

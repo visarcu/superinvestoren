@@ -9,63 +9,151 @@
       "name": "SALESFORCE INC",
       "cusip": "79466L302",
       "shares": 3914309,
-      "value": 1006368844
+      "value": 1006368844,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "INSIGHT ENTERPRISES INC",
       "cusip": "45765U103",
       "shares": 4061739,
-      "value": 805686548
+      "value": 805686548,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 6133631,
-      "value": 609008222
+      "value": 609008222,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "EXPEDIA GROUP INC",
       "cusip": "30212P303",
       "shares": 3414568,
-      "value": 430201422
+      "value": 430201422,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "SPOTIFY TECHNOLOGY S A",
       "cusip": "L8681T102",
       "shares": 676553,
-      "value": 212295566
+      "value": 212295566,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "FISERV INC",
       "cusip": "337738108",
       "shares": 1103759,
-      "value": 164504241
+      "value": 164504241,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "KKR & CO INC",
       "cusip": "48251W104",
       "shares": 1207208,
-      "value": 127046570
+      "value": 127046570,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ROBLOX CORP",
       "cusip": "771049103",
       "shares": 2300000,
-      "value": 85583000
+      "value": 85583000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "NEW YORK TIMES CO",
       "cusip": "650111107",
       "shares": 1344392,
-      "value": 68846314
+      "value": 68846314,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "FLUTTER ENTMT PLC",
       "cusip": "G3643J108",
       "shares": 323235,
-      "value": 46755943
+      "value": 46755943,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     }
   ],
   "totalValue": 3556296670,
-  "positionsCount": 10
+  "positionsCount": 10,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 3556296670
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

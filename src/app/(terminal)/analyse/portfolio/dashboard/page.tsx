@@ -7,6 +7,11 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotes } from '@/lib/fmp'
 import PortfolioCalendar from '@/components/PortfolioCalendar'
+import PortfolioDividends from '@/components/PortfolioDividends'
+import PortfolioInsights from '@/components/PortfolioInsights'
+import PortfolioHistory from '@/components/PortfolioHistory'
+import { CheckIcon } from '@heroicons/react/24/outline'
+
 import { 
   BriefcaseIcon, 
   ArrowLeftIcon,
@@ -64,7 +69,7 @@ export default function PortfolioDashboard() {
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [showAddPosition, setShowAddPosition] = useState(false)
-  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar' | 'dividends' | 'insights' | 'history'>('overview')
   const [portfolioNews, setPortfolioNews] = useState<NewsArticle[]>([])
   const [newsLoading, setNewsLoading] = useState(false)
   
@@ -429,50 +434,189 @@ export default function PortfolioDashboard() {
           </div>
         </div>
 
-        {/* Tab Navigation mit News und Kalender */}
-        <div className="flex gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
-          <button 
-            onClick={() => setActiveTab('overview')}
-            className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors ${
-              activeTab === 'overview' 
-                ? 'text-green-400 border-b-2 border-green-400' 
-                : 'text-theme-secondary hover:text-theme-primary'
-            }`}
-          >
-            Übersicht
-          </button>
-          <button 
-            onClick={() => setActiveTab('news')}
-            className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
-              activeTab === 'news' 
-                ? 'text-green-400 border-b-2 border-green-400' 
-                : 'text-theme-secondary hover:text-theme-primary'
-            }`}
-          >
-            <NewspaperIcon className="w-4 h-4" />
-            News
-          </button>
-          <button 
-            onClick={() => setActiveTab('calendar')}
-            className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
-              activeTab === 'calendar' 
-                ? 'text-green-400 border-b-2 border-green-400' 
-                : 'text-theme-secondary hover:text-theme-primary'
-            }`}
-          >
-            <CalendarIcon className="w-4 h-4" />
-            Kalender
-          </button>
-          <button className="pb-3 px-1 text-theme-secondary hover:text-theme-primary transition-colors whitespace-nowrap">
-            Insights
-          </button>
-          <button className="pb-3 px-1 text-theme-secondary hover:text-theme-primary transition-colors whitespace-nowrap">
-            Dividenden
-          </button>
-          <button className="pb-3 px-1 text-theme-secondary hover:text-theme-primary transition-colors whitespace-nowrap">
-            Historie
-          </button>
+       {/* Tab Navigation mit News, Kalender, Dividenden und Insights */}
+       <div className="flex gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
+  <button 
+    onClick={() => setActiveTab('overview')}
+    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors ${
+      activeTab === 'overview' 
+        ? 'text-green-400 border-b-2 border-green-400' 
+        : 'text-theme-secondary hover:text-theme-primary'
+    }`}
+  >
+    Übersicht
+  </button>
+  <button 
+    onClick={() => setActiveTab('news')}
+    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+      activeTab === 'news' 
+        ? 'text-green-400 border-b-2 border-green-400' 
+        : 'text-theme-secondary hover:text-theme-primary'
+    }`}
+  >
+    <NewspaperIcon className="w-4 h-4" />
+    News
+  </button>
+  <button 
+    onClick={() => setActiveTab('calendar')}
+    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+      activeTab === 'calendar' 
+        ? 'text-green-400 border-b-2 border-green-400' 
+        : 'text-theme-secondary hover:text-theme-primary'
+    }`}
+  >
+    <CalendarIcon className="w-4 h-4" />
+    Kalender
+  </button>
+  <button 
+    onClick={() => setActiveTab('dividends')}
+    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+      activeTab === 'dividends' 
+        ? 'text-green-400 border-b-2 border-green-400' 
+        : 'text-theme-secondary hover:text-theme-primary'
+    }`}
+  >
+    <CurrencyDollarIcon className="w-4 h-4" />
+    Dividenden
+  </button>
+  <button 
+    onClick={() => setActiveTab('insights')}
+    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+      activeTab === 'insights' 
+        ? 'text-green-400 border-b-2 border-green-400' 
+        : 'text-theme-secondary hover:text-theme-primary'
+    }`}
+  >
+    <ChartBarIcon className="w-4 h-4" />
+    Insights
+  </button>
+  <button 
+    onClick={() => setActiveTab('history')}
+    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+      activeTab === 'history' 
+        ? 'text-green-400 border-b-2 border-green-400' 
+        : 'text-theme-secondary hover:text-theme-primary'
+    }`}
+  >
+    <ClockIcon className="w-4 h-4" />
+    Historie
+  </button>
+</div>
+
+{/* Dividends Tab */}
+{activeTab === 'dividends' && (
+  <PortfolioDividends 
+    holdings={holdings.map(h => ({
+      symbol: h.symbol,
+      name: h.name,
+      quantity: h.quantity,
+      current_price: h.current_price,
+      value: h.value
+    }))} 
+  />
+)}
+
+
+{/* Insights Tab */}
+{activeTab === 'insights' && (
+  <div className="bg-theme-card rounded-xl border border-theme/10 p-12">
+    <div className="max-w-2xl mx-auto text-center">
+      {/* Icon */}
+      <div className="w-20 h-20 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <ChartBarIcon className="w-10 h-10 text-green-400" />
+      </div>
+      
+      {/* Title */}
+      <h2 className="text-2xl font-bold text-theme-primary mb-3">
+        Portfolio Insights
+      </h2>
+      
+      {/* Coming Soon Badge */}
+      <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full mb-6">
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+        <span className="text-sm font-medium text-green-400">Coming Soon</span>
+      </div>
+      
+      {/* Description */}
+      <p className="text-theme-secondary mb-8 leading-relaxed">
+        Wir arbeiten an intelligenten Portfolio-Analysen für Sie. Bald erhalten Sie detaillierte Einblicke in:
+      </p>
+      
+      {/* Feature List */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left max-w-xl mx-auto">
+        <div className="flex items-start gap-3">
+          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <CheckIcon className="w-3 h-3 text-green-400" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-theme-primary">Risiko-Analyse</p>
+            <p className="text-xs text-theme-muted">Detaillierte Risikobewertung</p>
+          </div>
         </div>
+        
+        <div className="flex items-start gap-3">
+          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <CheckIcon className="w-3 h-3 text-green-400" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-theme-primary">Sektor-Allokation</p>
+            <p className="text-xs text-theme-muted">Diversifikations-Übersicht</p>
+          </div>
+        </div>
+        
+        <div className="flex items-start gap-3">
+          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <CheckIcon className="w-3 h-3 text-green-400" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-theme-primary">KI-Empfehlungen</p>
+            <p className="text-xs text-theme-muted">Personalisierte Vorschläge</p>
+          </div>
+        </div>
+        
+        <div className="flex items-start gap-3">
+          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <CheckIcon className="w-3 h-3 text-green-400" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-theme-primary">Performance-Metriken</p>
+            <p className="text-xs text-theme-muted">Erweiterte Analysen</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Progress Bar */}
+      <div className="max-w-xs mx-auto mb-4">
+        <div className="flex items-center justify-between text-xs text-theme-muted mb-2">
+          <span>Entwicklungsfortschritt</span>
+          <span>75%</span>
+        </div>
+        <div className="h-2 bg-theme-secondary rounded-full overflow-hidden">
+          <div className="h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full transition-all duration-500" style={{ width: '75%' }} />
+        </div>
+      </div>
+      
+      {/* Notification Option */}
+      <p className="text-xs text-theme-muted">
+        Verfügbar in Q3 2025
+      </p>
+    </div>
+  </div>
+)}
+
+{/* History Tab */}
+{activeTab === 'history' && (
+  <PortfolioHistory 
+    portfolioId={portfolio?.id || ''}
+    holdings={holdings.map(h => ({
+      symbol: h.symbol,
+      name: h.name,
+      quantity: h.quantity,
+      purchase_price: h.purchase_price,
+      purchase_date: h.purchase_date
+    }))}
+  />
+)}
 
         {/* Overview Tab */}
         {activeTab === 'overview' && (

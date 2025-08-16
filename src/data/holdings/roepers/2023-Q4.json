@@ -9,57 +9,137 @@
       "name": "TIMKEN CO",
       "cusip": "887389104",
       "shares": 520093,
-      "value": 38221635
+      "value": 38221635,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WEATHERFORD INTL PLC",
       "cusip": "G48833118",
       "shares": 337701,
-      "value": 30504531
+      "value": 30504531,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "WESCO INTL INC",
       "cusip": "95082P105",
       "shares": 195900,
-      "value": 28174338
+      "value": 28174338,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "EASTMAN CHEM CO",
       "cusip": "277432100",
       "shares": 329257,
-      "value": 25260597
+      "value": 25260597,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FLOWSERVE CORP",
       "cusip": "34354P105",
       "shares": 613882,
-      "value": 24414087
+      "value": 24414087,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ASHLAND INC",
       "cusip": "044186104",
       "shares": 280112,
-      "value": 22879548
+      "value": 22879548,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TEREX CORP NEW",
       "cusip": "880779103",
       "shares": 379838,
-      "value": 21886266
+      "value": 21886266,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HUNTSMAN CORP",
       "cusip": "447011107",
       "shares": 200000,
-      "value": 4880000
+      "value": 4880000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GOODYEAR TIRE & RUBR CO",
       "cusip": "382550101",
       "shares": 360000,
-      "value": 4474800
+      "value": 4474800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 200695802,
-  "positionsCount": 9
+  "positionsCount": 9,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 200695802
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }
