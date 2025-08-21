@@ -1,4 +1,4 @@
-// src/app/analyse/portfolio/dashboard/page.tsx
+// src/app/analyse/portfolio/dashboard/page.tsx - VOLLSTÄNDIGE OPTIMIERTE VERSION
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -6,18 +6,19 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotes } from '@/lib/fmp'
+import { useCurrency } from '@/lib/CurrencyContext'
+import { currencyManager } from '@/lib/portfolioCurrency'
 import PortfolioCalendar from '@/components/PortfolioCalendar'
 import PortfolioDividends from '@/components/PortfolioDividends'
-import PortfolioInsights from '@/components/PortfolioInsights'
 import PortfolioHistory from '@/components/PortfolioHistory'
-import { CheckIcon } from '@heroicons/react/24/outline'
-
+import PortfolioBreakdownsDE from '@/components/PortfolioBreakdownsDE'
 import { 
   BriefcaseIcon, 
   ArrowLeftIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   CurrencyDollarIcon,
+  CurrencyEuroIcon,
   ChartBarIcon,
   PlusIcon,
   Cog6ToothIcon,
@@ -28,7 +29,10 @@ import {
   NewspaperIcon,
   ClockIcon,
   ArrowTopRightOnSquareIcon,
-  CalendarIcon
+  CalendarIcon,
+  CheckIcon,
+  InformationCircleIcon,
+  ExclamationTriangleIcon
 } from '@heroicons/react/24/outline'
 
 interface Portfolio {
@@ -44,12 +48,20 @@ interface Holding {
   symbol: string
   name: string
   quantity: number
-  purchase_price: number
-  current_price: number
+  purchase_price: number      // Original USD Preis aus DB
+  purchase_price_display: number  // Für Anzeige konvertiert
+  current_price: number       // Aktueller USD Preis
+  current_price_display: number  // Für Anzeige konvertiert
   purchase_date: string
-  value: number
-  gain_loss: number
-  gain_loss_percent: number
+  value: number              // In Anzeige-Währung
+  gain_loss: number          // In Anzeige-Währung
+  gain_loss_percent: number  // Prozentual
+  // Erweiterte Currency-Felder
+  purchase_currency?: string
+  purchase_exchange_rate?: number
+  purchase_price_original?: number
+  current_exchange_rate?: number
+  currency_aware?: boolean
 }
 
 interface NewsArticle {
@@ -62,42 +74,67 @@ interface NewsArticle {
   symbol: string
 }
 
+interface SearchResult {
+  symbol: string
+  name: string
+  stockExchange: string
+  exchangeShortName: string
+}
+
 export default function PortfolioDashboard() {
   const router = useRouter()
+  const { currency, setCurrency, formatCurrency, formatStockPrice, formatPercentage } = useCurrency()
+  
+  // Core State
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
   const [holdings, setHoldings] = useState<Holding[]>([])
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  
+  // UI State
   const [showAddPosition, setShowAddPosition] = useState(false)
   const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar' | 'dividends' | 'insights' | 'history'>('overview')
+  
+  // News State
   const [portfolioNews, setPortfolioNews] = useState<NewsArticle[]>([])
   const [newsLoading, setNewsLoading] = useState(false)
   
-  // New Position Form
+  // Currency State
+  const [exchangeRate, setExchangeRate] = useState<number>(0.92)
+  const [currencyLoading, setCurrencyLoading] = useState(false)
+  
+  // Add Position Form State
   const [newSymbol, setNewSymbol] = useState('')
   const [newQuantity, setNewQuantity] = useState('')
   const [newPurchasePrice, setNewPurchasePrice] = useState('')
   const [newPurchaseDate, setNewPurchaseDate] = useState(new Date().toISOString().split('T')[0])
   const [addingPosition, setAddingPosition] = useState(false)
   
-  // Autocomplete
+  // Autocomplete State
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [selectedStock, setSelectedStock] = useState<{symbol: string, name: string} | null>(null)
+  const [searchLoading, setSearchLoading] = useState(false)
   
-  // Portfolio Metriken
+  // Portfolio Metrics - In Anzeige-Währung
   const [totalValue, setTotalValue] = useState(0)
   const [totalInvested, setTotalInvested] = useState(0)
   const [totalGainLoss, setTotalGainLoss] = useState(0)
   const [totalGainLossPercent, setTotalGainLossPercent] = useState(0)
   const [activeInvestments, setActiveInvestments] = useState(0)
+  const [cashPositionDisplay, setCashPositionDisplay] = useState(0)
 
+  // Effects
   useEffect(() => {
     loadPortfolio()
+  }, [currency]) // Reload wenn Währung wechselt
+
+  useEffect(() => {
+    loadExchangeRate()
   }, [])
 
-  // Autocomplete Search - nutzt deine bestehende /api/search Route
   useEffect(() => {
     const searchStocks = async () => {
       if (searchQuery.length < 2) {
@@ -106,29 +143,50 @@ export default function PortfolioDashboard() {
         return
       }
 
+      setSearchLoading(true)
       try {
-        const response = await fetch(`/api/search?query=${searchQuery}`)
-        const data = await response.json()
-        setSearchResults(data)
-        setShowSearchResults(data.length > 0)
+        const response = await fetch(`/api/search?query=${encodeURIComponent(searchQuery)}`)
+        if (response.ok) {
+          const data = await response.json()
+          setSearchResults(data || [])
+          setShowSearchResults(data.length > 0)
+        }
       } catch (error) {
         console.error('Error searching stocks:', error)
         setSearchResults([])
+      } finally {
+        setSearchLoading(false)
       }
     }
 
-    const timer = setTimeout(searchStocks, 300) // Debounce
+    const timer = setTimeout(searchStocks, 300)
     return () => clearTimeout(timer)
   }, [searchQuery])
 
-  // Load News when tab changes
   useEffect(() => {
     if (activeTab === 'news' && holdings.length > 0 && portfolioNews.length === 0) {
       loadPortfolioNews()
     }
   }, [activeTab, holdings])
 
+  // Core Functions
+  const loadExchangeRate = async () => {
+    setCurrencyLoading(true)
+    try {
+      const rate = await currencyManager.getCurrentUSDtoEURRate()
+      setExchangeRate(rate)
+    } catch (error) {
+      console.error('Error loading exchange rate:', error)
+      setExchangeRate(0.92) // Fallback
+    } finally {
+      setCurrencyLoading(false)
+    }
+  }
+
   const loadPortfolio = async () => {
+    setLoading(true)
+    setError(null)
+    
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
@@ -154,34 +212,42 @@ export default function PortfolioDashboard() {
 
       if (holdingsError) throw holdingsError
 
-      // Echte Kurse abrufen mit FMP API
-      let enrichedHoldings = holdingsData
+      // Enriched Holdings erstellen
+      let enrichedHoldings: Holding[] = []
       
       if (holdingsData && holdingsData.length > 0) {
         const symbols = holdingsData.map(h => h.symbol)
-        const currentPrices = await getBulkQuotes(symbols)
+        const currentPricesUSD = await getBulkQuotes(symbols)
         
-        enrichedHoldings = holdingsData.map(holding => {
-          const currentPrice = currentPrices[holding.symbol] || holding.purchase_price
-          const value = currentPrice * holding.quantity
-          const gainLoss = value - (holding.purchase_price * holding.quantity)
-          const gainLossPercent = (gainLoss / (holding.purchase_price * holding.quantity)) * 100
+        // USD Holdings mit aktuellen Preisen
+        const holdingsWithCurrentPrices = holdingsData.map(holding => ({
+          ...holding,
+          current_price: currentPricesUSD[holding.symbol] || holding.purchase_price
+        }))
 
-          return {
-            ...holding,
-            current_price: currentPrice,
-            value,
-            gain_loss: gainLoss,
-            gain_loss_percent: gainLossPercent
-          }
-        })
+        // Korrekte Währungskonvertierung mit Currency Manager
+        enrichedHoldings = await currencyManager.convertHoldingsForDisplay(
+          holdingsWithCurrentPrices,
+          currency,
+          true // includeHistoricalRates für präzise Performance
+        )
       }
 
       setHoldings(enrichedHoldings)
-      calculateMetrics(enrichedHoldings, portfolioData.cash_position)
       
-    } catch (error) {
+      // Cash Position konvertieren
+      const cashDisplay = await currencyManager.convertCashPosition(
+        portfolioData.cash_position,
+        currency
+      )
+      setCashPositionDisplay(cashDisplay)
+      
+      // Metriken berechnen
+      calculateMetrics(enrichedHoldings, cashDisplay)
+      
+    } catch (error: any) {
       console.error('Error loading portfolio:', error)
+      setError(error.message || 'Fehler beim Laden des Portfolios')
     } finally {
       setLoading(false)
     }
@@ -192,8 +258,8 @@ export default function PortfolioDashboard() {
     try {
       const allNews: NewsArticle[] = []
       
-      // Lade News für jede Aktie im Portfolio
-      for (const holding of holdings.slice(0, 5)) { // Max 5 Aktien für Performance
+      // News für Top 5 Holdings laden
+      for (const holding of holdings.slice(0, 5)) {
         try {
           const response = await fetch(
             `https://financialmodelingprep.com/api/v3/stock_news?tickers=${holding.symbol}&limit=3&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
@@ -213,9 +279,9 @@ export default function PortfolioDashboard() {
         }
       }
       
-      // Sortiere nach Datum
+      // Nach Datum sortieren
       allNews.sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
-      setPortfolioNews(allNews.slice(0, 20)) // Max 20 News
+      setPortfolioNews(allNews.slice(0, 20))
       
     } catch (error) {
       console.error('Error loading portfolio news:', error)
@@ -226,10 +292,10 @@ export default function PortfolioDashboard() {
 
   const calculateMetrics = (holdings: Holding[], cashPosition: number) => {
     const stockValue = holdings.reduce((sum, h) => sum + h.value, 0)
-    const stockCost = holdings.reduce((sum, h) => sum + (h.purchase_price * h.quantity), 0)
+    const stockCost = holdings.reduce((sum, h) => sum + (h.purchase_price_display * h.quantity), 0)
     
     setTotalValue(stockValue + cashPosition)
-    setTotalInvested(stockCost) // Nur investiertes Kapital, ohne Cash
+    setTotalInvested(stockCost)
     setTotalGainLoss(stockValue - stockCost)
     setTotalGainLossPercent(stockCost > 0 ? ((stockValue - stockCost) / stockCost) * 100 : 0)
     setActiveInvestments(holdings.length)
@@ -238,9 +304,11 @@ export default function PortfolioDashboard() {
   const refreshPrices = async () => {
     setRefreshing(true)
     await loadPortfolio()
+    await loadExchangeRate()
     setRefreshing(false)
   }
 
+  // Form Handlers
   const handleAddPosition = async () => {
     if (!selectedStock || !newQuantity || !newPurchasePrice) {
       alert('Bitte alle Felder ausfüllen')
@@ -250,6 +318,13 @@ export default function PortfolioDashboard() {
     setAddingPosition(true)
     
     try {
+      // Währungskonvertierung mit historischem Kurs
+      const conversionResult = await currencyManager.convertNewPositionToUSD(
+        parseFloat(newPurchasePrice),
+        currency,
+        newPurchaseDate
+      )
+      
       const { error } = await supabase
         .from('portfolio_holdings')
         .insert({
@@ -257,20 +332,18 @@ export default function PortfolioDashboard() {
           symbol: selectedStock.symbol,
           name: selectedStock.name,
           quantity: parseFloat(newQuantity),
-          purchase_price: parseFloat(newPurchasePrice),
-          purchase_date: newPurchaseDate
+          purchase_price: conversionResult.priceUSD,
+          purchase_date: newPurchaseDate,
+          // Erweiterte Metadaten
+          purchase_currency: currency,
+          purchase_exchange_rate: conversionResult.exchangeRate,
+          purchase_price_original: parseFloat(newPurchasePrice)
         })
 
       if (error) throw error
 
-      // Reset form und reload
-      setSelectedStock(null)
-      setSearchQuery('')
-      setNewQuantity('')
-      setNewPurchasePrice('')
-      setNewPurchaseDate(new Date().toISOString().split('T')[0])
-      setShowAddPosition(false)
-      
+      // Form reset
+      resetAddPositionForm()
       await loadPortfolio()
       
     } catch (error: any) {
@@ -281,14 +354,23 @@ export default function PortfolioDashboard() {
     }
   }
 
-  const handleStockSelect = (stock: any) => {
+  const resetAddPositionForm = () => {
+    setSelectedStock(null)
+    setSearchQuery('')
+    setNewQuantity('')
+    setNewPurchasePrice('')
+    setNewPurchaseDate(new Date().toISOString().split('T')[0])
+    setShowAddPosition(false)
+    setShowSearchResults(false)
+  }
+
+  const handleStockSelect = (stock: SearchResult) => {
     setSelectedStock({ symbol: stock.symbol, name: stock.name })
-    setSearchQuery(stock.symbol + ' - ' + stock.name)
+    setSearchQuery(`${stock.symbol} - ${stock.name}`)
     setShowSearchResults(false)
   }
 
   const handleViewStock = (symbol: string) => {
-    // Navigiere zur korrekten Aktienanalyse-Seite
     router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
   }
 
@@ -309,6 +391,7 @@ export default function PortfolioDashboard() {
     }
   }
 
+  // Utility Functions
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -326,12 +409,32 @@ export default function PortfolioDashboard() {
     })
   }
 
+  // Loading State
   if (loading) {
     return (
       <div className="min-h-screen bg-theme-primary flex items-center justify-center">
         <div className="flex items-center gap-3">
-          <ArrowPathIcon className="w-5 h-5 text-green-400 animate-spin" />
+          <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin" />
           <span className="text-theme-secondary">Lade Portfolio...</span>
+        </div>
+      </div>
+    )
+  }
+
+  // Error State
+  if (error) {
+    return (
+      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
+        <div className="text-center max-w-md p-6">
+          <ExclamationTriangleIcon className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-theme-primary mb-2">Fehler beim Laden</h2>
+          <p className="text-theme-secondary mb-4">{error}</p>
+          <button
+            onClick={loadPortfolio}
+            className="px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+          >
+            Erneut versuchen
+          </button>
         </div>
       </div>
     )
@@ -366,10 +469,38 @@ export default function PortfolioDashboard() {
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Currency Toggle */}
+              <div className="flex gap-1 p-1 bg-theme-card rounded-lg border border-theme/10">
+                <button
+                  onClick={() => setCurrency('EUR')}
+                  disabled={currencyLoading}
+                  className={`px-3 py-1.5 rounded transition-colors flex items-center gap-1 disabled:opacity-50 ${
+                    currency === 'EUR'
+                      ? 'bg-green-500 text-white'
+                      : 'text-theme-secondary hover:text-theme-primary'
+                  }`}
+                >
+                  <CurrencyEuroIcon className="w-4 h-4" />
+                  EUR
+                </button>
+                <button
+                  onClick={() => setCurrency('USD')}
+                  disabled={currencyLoading}
+                  className={`px-3 py-1.5 rounded transition-colors flex items-center gap-1 disabled:opacity-50 ${
+                    currency === 'USD'
+                      ? 'bg-green-500 text-white'
+                      : 'text-theme-secondary hover:text-theme-primary'
+                  }`}
+                >
+                  <CurrencyDollarIcon className="w-4 h-4" />
+                  USD
+                </button>
+              </div>
+
               <button
                 onClick={refreshPrices}
-                className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
                 disabled={refreshing}
+                className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors disabled:opacity-50"
               >
                 <ArrowPathIcon className={`w-5 h-5 text-theme-secondary ${refreshing ? 'animate-spin' : ''}`} />
               </button>
@@ -384,33 +515,33 @@ export default function PortfolioDashboard() {
 
       {/* Main Content */}
       <main className="w-full px-6 lg:px-8 py-8">
-        {/* Metrics Overview - OHNE Kosten der aktiven Investments */}
+        {/* Metrics Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
             <p className="text-sm text-theme-secondary mb-1">Portfolio Wert</p>
             <p className="text-2xl font-bold text-theme-primary">
-              ${totalValue.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {formatCurrency(totalValue)}
             </p>
             <p className="text-xs text-theme-muted mt-1">
-              inkl. ${portfolio?.cash_position.toLocaleString('de-DE')} Cash
+              inkl. {formatCurrency(cashPositionDisplay)} Cash
             </p>
           </div>
 
           <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
             <p className="text-sm text-theme-secondary mb-1">Cash Position</p>
             <p className="text-2xl font-bold text-theme-primary">
-              ${portfolio?.cash_position.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {formatCurrency(cashPositionDisplay)}
             </p>
             <p className="text-xs text-theme-muted mt-1">
-              {totalValue > 0 ? ((portfolio?.cash_position || 0) / totalValue * 100).toFixed(1) : '0'}% des Portfolios
+              {totalValue > 0 ? formatPercentage((cashPositionDisplay / totalValue) * 100, false) : '0%'} des Portfolios
             </p>
           </div>
 
           <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-            <p className="text-sm text-theme-secondary mb-1">Rendite der aktiven Investments</p>
+            <p className="text-sm text-theme-secondary mb-1">Rendite</p>
             <div className="flex items-center gap-2">
               <p className={`text-2xl font-bold ${totalGainLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                {totalGainLoss >= 0 ? '+' : ''}${Math.abs(totalGainLoss).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {totalGainLoss >= 0 ? '+' : '-'}{formatCurrency(Math.abs(totalGainLoss))}
               </p>
               {totalGainLoss >= 0 ? (
                 <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
@@ -419,7 +550,7 @@ export default function PortfolioDashboard() {
               )}
             </div>
             <p className={`text-xs mt-1 ${totalGainLossPercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {totalGainLossPercent >= 0 ? '+' : ''}{totalGainLossPercent.toFixed(2)}% All-time
+              {formatPercentage(totalGainLossPercent)} All-time
             </p>
           </div>
 
@@ -434,201 +565,55 @@ export default function PortfolioDashboard() {
           </div>
         </div>
 
-       {/* Tab Navigation mit News, Kalender, Dividenden und Insights */}
-       <div className="flex gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
-  <button 
-    onClick={() => setActiveTab('overview')}
-    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors ${
-      activeTab === 'overview' 
-        ? 'text-green-400 border-b-2 border-green-400' 
-        : 'text-theme-secondary hover:text-theme-primary'
-    }`}
-  >
-    Übersicht
-  </button>
-  <button 
-    onClick={() => setActiveTab('news')}
-    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
-      activeTab === 'news' 
-        ? 'text-green-400 border-b-2 border-green-400' 
-        : 'text-theme-secondary hover:text-theme-primary'
-    }`}
-  >
-    <NewspaperIcon className="w-4 h-4" />
-    News
-  </button>
-  <button 
-    onClick={() => setActiveTab('calendar')}
-    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
-      activeTab === 'calendar' 
-        ? 'text-green-400 border-b-2 border-green-400' 
-        : 'text-theme-secondary hover:text-theme-primary'
-    }`}
-  >
-    <CalendarIcon className="w-4 h-4" />
-    Kalender
-  </button>
-  <button 
-    onClick={() => setActiveTab('dividends')}
-    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
-      activeTab === 'dividends' 
-        ? 'text-green-400 border-b-2 border-green-400' 
-        : 'text-theme-secondary hover:text-theme-primary'
-    }`}
-  >
-    <CurrencyDollarIcon className="w-4 h-4" />
-    Dividenden
-  </button>
-  <button 
-    onClick={() => setActiveTab('insights')}
-    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
-      activeTab === 'insights' 
-        ? 'text-green-400 border-b-2 border-green-400' 
-        : 'text-theme-secondary hover:text-theme-primary'
-    }`}
-  >
-    <ChartBarIcon className="w-4 h-4" />
-    Insights
-  </button>
-  <button 
-    onClick={() => setActiveTab('history')}
-    className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
-      activeTab === 'history' 
-        ? 'text-green-400 border-b-2 border-green-400' 
-        : 'text-theme-secondary hover:text-theme-primary'
-    }`}
-  >
-    <ClockIcon className="w-4 h-4" />
-    Historie
-  </button>
-</div>
+        {/* Currency Info */}
+        {currency === 'EUR' && (
+          <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+            <div className="flex items-start gap-2">
+              <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+              <div className="text-sm text-theme-secondary">
+                <span className="font-medium text-theme-primary">Währungshinweis:</span> Alle Werte werden mit historischen und aktuellen Wechselkursen 
+                umgerechnet (aktuell: 1 USD = {exchangeRate.toFixed(4)} EUR). Performance-Berechnungen berücksichtigen Währungseffekte korrekt.
+              </div>
+            </div>
+          </div>
+        )}
 
-{/* Dividends Tab */}
-{activeTab === 'dividends' && (
-  <PortfolioDividends 
-    holdings={holdings.map(h => ({
-      symbol: h.symbol,
-      name: h.name,
-      quantity: h.quantity,
-      current_price: h.current_price,
-      value: h.value
-    }))} 
-  />
-)}
+        {/* Tab Navigation */}
+        <div className="flex gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
+          {[
+            { key: 'overview', label: 'Übersicht', icon: null },
+            { key: 'news', label: 'News', icon: NewspaperIcon },
+            { key: 'calendar', label: 'Kalender', icon: CalendarIcon },
+            { key: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon },
+            { key: 'insights', label: 'Insights', icon: ChartBarIcon },
+            { key: 'history', label: 'Historie', icon: ClockIcon }
+          ].map(tab => (
+            <button 
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key as any)}
+              className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${
+                activeTab === tab.key 
+                  ? 'text-green-400 border-b-2 border-green-400' 
+                  : 'text-theme-secondary hover:text-theme-primary'
+              }`}
+            >
+              {tab.icon && <tab.icon className="w-4 h-4" />}
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-
-{/* Insights Tab */}
-{activeTab === 'insights' && (
-  <div className="bg-theme-card rounded-xl border border-theme/10 p-12">
-    <div className="max-w-2xl mx-auto text-center">
-      {/* Icon */}
-      <div className="w-20 h-20 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-        <ChartBarIcon className="w-10 h-10 text-green-400" />
-      </div>
-      
-      {/* Title */}
-      <h2 className="text-2xl font-bold text-theme-primary mb-3">
-        Portfolio Insights
-      </h2>
-      
-      {/* Coming Soon Badge */}
-      <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full mb-6">
-        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-        <span className="text-sm font-medium text-green-400">Coming Soon</span>
-      </div>
-      
-      {/* Description */}
-      <p className="text-theme-secondary mb-8 leading-relaxed">
-        Wir arbeiten an intelligenten Portfolio-Analysen für Sie. Bald erhalten Sie detaillierte Einblicke in:
-      </p>
-      
-      {/* Feature List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left max-w-xl mx-auto">
-        <div className="flex items-start gap-3">
-          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <CheckIcon className="w-3 h-3 text-green-400" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-theme-primary">Risiko-Analyse</p>
-            <p className="text-xs text-theme-muted">Detaillierte Risikobewertung</p>
-          </div>
-        </div>
-        
-        <div className="flex items-start gap-3">
-          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <CheckIcon className="w-3 h-3 text-green-400" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-theme-primary">Sektor-Allokation</p>
-            <p className="text-xs text-theme-muted">Diversifikations-Übersicht</p>
-          </div>
-        </div>
-        
-        <div className="flex items-start gap-3">
-          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <CheckIcon className="w-3 h-3 text-green-400" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-theme-primary">KI-Empfehlungen</p>
-            <p className="text-xs text-theme-muted">Personalisierte Vorschläge</p>
-          </div>
-        </div>
-        
-        <div className="flex items-start gap-3">
-          <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <CheckIcon className="w-3 h-3 text-green-400" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-theme-primary">Performance-Metriken</p>
-            <p className="text-xs text-theme-muted">Erweiterte Analysen</p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Progress Bar */}
-      <div className="max-w-xs mx-auto mb-4">
-        <div className="flex items-center justify-between text-xs text-theme-muted mb-2">
-          <span>Entwicklungsfortschritt</span>
-          <span>75%</span>
-        </div>
-        <div className="h-2 bg-theme-secondary rounded-full overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full transition-all duration-500" style={{ width: '75%' }} />
-        </div>
-      </div>
-      
-      {/* Notification Option */}
-      <p className="text-xs text-theme-muted">
-        Verfügbar in Q3 2025
-      </p>
-    </div>
-  </div>
-)}
-
-{/* History Tab */}
-{activeTab === 'history' && (
-  <PortfolioHistory 
-    portfolioId={portfolio?.id || ''}
-    holdings={holdings.map(h => ({
-      symbol: h.symbol,
-      name: h.name,
-      quantity: h.quantity,
-      purchase_price: h.purchase_price,
-      purchase_date: h.purchase_date
-    }))}
-  />
-)}
-
-        {/* Overview Tab */}
+        {/* Tab Content */}
         {activeTab === 'overview' && (
           <>
             {/* Add Position Modal */}
             {showAddPosition && (
               <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+                <div className="bg-theme-card rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold text-theme-primary">Position hinzufügen</h2>
                     <button
-                      onClick={() => setShowAddPosition(false)}
+                      onClick={resetAddPositionForm}
                       className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
                     >
                       <XMarkIcon className="w-5 h-5 text-theme-secondary" />
@@ -636,6 +621,7 @@ export default function PortfolioDashboard() {
                   </div>
 
                   <div className="space-y-4">
+                    {/* Stock Search */}
                     <div className="relative">
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
                         Aktie suchen
@@ -648,11 +634,18 @@ export default function PortfolioDashboard() {
                           setSelectedStock(null)
                         }}
                         placeholder="Symbol oder Name eingeben (z.B. MSFT oder Microsoft)"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
                       
+                      {/* Loading Indicator */}
+                      {searchLoading && (
+                        <div className="absolute right-3 top-[38px] transform -translate-y-1/2">
+                          <ArrowPathIcon className="w-4 h-4 text-theme-secondary animate-spin" />
+                        </div>
+                      )}
+                      
                       {/* Autocomplete Dropdown */}
-                      {showSearchResults && (
+                      {showSearchResults && searchResults.length > 0 && (
                         <div className="absolute z-10 w-full mt-1 bg-theme-card border border-theme/20 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                           {searchResults.map((stock) => (
                             <button
@@ -663,7 +656,7 @@ export default function PortfolioDashboard() {
                               <div className="flex justify-between items-center">
                                 <div>
                                   <span className="font-bold text-theme-primary text-sm">{stock.symbol}</span>
-                                  <p className="text-xs text-theme-secondary mt-0.5">{stock.name}</p>
+                                  <p className="text-xs text-theme-secondary mt-0.5 truncate">{stock.name}</p>
                                 </div>
                                 <div className="text-right">
                                   <span className="text-xs text-theme-muted">{stock.stockExchange}</span>
@@ -680,42 +673,57 @@ export default function PortfolioDashboard() {
                       )}
                     </div>
 
+                    {/* Selected Stock Display */}
                     {selectedStock && (
                       <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-                        <p className="text-sm text-green-400">Ausgewählt:</p>
-                        <p className="font-semibold text-theme-primary">
-                          {selectedStock.symbol} - {selectedStock.name}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <CheckIcon className="w-4 h-4 text-green-400" />
+                          <div>
+                            <p className="text-sm text-green-400">Ausgewählt:</p>
+                            <p className="font-semibold text-theme-primary">
+                              {selectedStock.symbol} - {selectedStock.name}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )}
 
+                    {/* Quantity Input */}
                     <div>
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
                         Anzahl
                       </label>
                       <input
                         type="number"
+                        min="0"
+                        step="1"
                         value={newQuantity}
                         onChange={(e) => setNewQuantity(e.target.value)}
                         placeholder="100"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
                     </div>
 
+                    {/* Purchase Price Input */}
                     <div>
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
-                        Kaufpreis ($)
+                        Kaufpreis ({currency})
                       </label>
                       <input
                         type="number"
+                        min="0"
                         step="0.01"
                         value={newPurchasePrice}
                         onChange={(e) => setNewPurchasePrice(e.target.value)}
-                        placeholder="150.00"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                        placeholder={currency === 'EUR' ? "150,00" : "150.00"}
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
+                      <p className="text-xs text-theme-muted mt-1">
+                        Preis pro Aktie in {currency} (wird automatisch für historische Performance konvertiert)
+                      </p>
                     </div>
 
+                    {/* Purchase Date Input */}
                     <div>
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
                         Kaufdatum
@@ -724,15 +732,20 @@ export default function PortfolioDashboard() {
                         type="date"
                         value={newPurchaseDate}
                         onChange={(e) => setNewPurchaseDate(e.target.value)}
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                        max={new Date().toISOString().split('T')[0]}
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
+                      <p className="text-xs text-theme-muted mt-1">
+                        Für korrekte Performance-Berechnung mit historischem Wechselkurs
+                      </p>
                     </div>
 
+                    {/* Action Buttons */}
                     <div className="flex gap-3 pt-2">
                       <button
                         onClick={handleAddPosition}
-                        disabled={addingPosition}
-                        className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:bg-theme-secondary text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                        disabled={addingPosition || !selectedStock || !newQuantity || !newPurchasePrice}
+                        className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                       >
                         {addingPosition ? (
                           <>
@@ -744,8 +757,9 @@ export default function PortfolioDashboard() {
                         )}
                       </button>
                       <button
-                        onClick={() => setShowAddPosition(false)}
-                        className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                        onClick={resetAddPositionForm}
+                        disabled={addingPosition}
+                        className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 disabled:opacity-50 text-theme-primary rounded-lg transition-colors"
                       >
                         Abbrechen
                       </button>
@@ -755,7 +769,7 @@ export default function PortfolioDashboard() {
               </div>
             )}
 
-            {/* Holdings Table - OHNE Health Column */}
+            {/* Holdings Table */}
             <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
               <div className="p-4 border-b border-theme/10 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-theme-primary">Ihre Positionen</h2>
@@ -768,106 +782,118 @@ export default function PortfolioDashboard() {
                 </button>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-theme-secondary/30">
-                    <tr>
-                      <th className="text-left px-4 py-3 text-sm font-medium text-theme-secondary">Symbol</th>
-                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Anzahl</th>
-                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Kaufpreis</th>
-                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Aktueller Preis</th>
-                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Wert</th>
-                      <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Gewinn/Verlust</th>
-                      <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Aktionen</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {holdings.map((holding) => {
-                      const dayChange = holding.current_price - holding.purchase_price
-                      const dayChangePercent = (dayChange / holding.purchase_price) * 100
-                      
-                      return (
-                        <tr key={holding.id} className="border-t border-theme/10 hover:bg-theme-secondary/10 transition-colors">
-                          <td className="px-4 py-4">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
-                                <span className="text-xs font-bold text-green-400">
-                                  {holding.symbol.slice(0, 2)}
-                                </span>
+              {holdings.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-theme-secondary/30">
+                      <tr>
+                        <th className="text-left px-4 py-3 text-sm font-medium text-theme-secondary">Symbol</th>
+                        <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Anzahl</th>
+                        <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Kaufpreis</th>
+                        <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Aktueller Preis</th>
+                        <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Wert</th>
+                        <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Gewinn/Verlust</th>
+                        <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Aktionen</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {holdings.map((holding) => {
+                        const dayChange = holding.current_price_display - holding.purchase_price_display
+                        const dayChangePercent = holding.purchase_price_display > 0 
+                          ? (dayChange / holding.purchase_price_display) * 100 
+                          : 0
+                        
+                        return (
+                          <tr key={holding.id} className="border-t border-theme/10 hover:bg-theme-secondary/10 transition-colors">
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+                                  <span className="text-xs font-bold text-green-400">
+                                    {holding.symbol.slice(0, 2)}
+                                  </span>
+                                </div>
+                                <div>
+                                  <p className="font-bold text-theme-primary">{holding.symbol}</p>
+                                  <p className="text-xs text-theme-muted truncate max-w-[150px]">{holding.name}</p>
+                                  {holding.currency_aware && (
+                                    <div className="flex items-center gap-1 mt-1">
+                                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                      <span className="text-xs text-blue-400">Currency adjusted</span>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                              <div>
-                                <p className="font-bold text-theme-primary">{holding.symbol}</p>
-                                <p className="text-xs text-theme-muted">{holding.name}</p>
+                            </td>
+                            <td className="text-right px-4 py-4">
+                              <p className="font-semibold text-theme-primary">
+                                {holding.quantity.toLocaleString('de-DE')}
+                              </p>
+                              <p className="text-xs text-theme-muted">Shares</p>
+                            </td>
+                            <td className="text-right px-4 py-4">
+                              <p className="font-semibold text-theme-primary">
+                                {formatStockPrice(holding.purchase_price_display)}
+                              </p>
+                              <p className="text-xs text-theme-muted">Avg Cost</p>
+                            </td>
+                            <td className="text-right px-4 py-4">
+                              <p className="font-semibold text-theme-primary">
+                                {formatStockPrice(holding.current_price_display)}
+                              </p>
+                              <div className={`text-xs mt-1 flex items-center justify-end gap-1 ${dayChangePercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                {dayChangePercent >= 0 ? (
+                                  <ArrowTrendingUpIcon className="w-3 h-3" />
+                                ) : (
+                                  <ArrowTrendingDownIcon className="w-3 h-3" />
+                                )}
+                                <span>{formatPercentage(dayChangePercent)}</span>
                               </div>
-                            </div>
-                          </td>
-                          <td className="text-right px-4 py-4">
-                            <p className="font-semibold text-theme-primary">
-                              {holding.quantity.toLocaleString('de-DE')}
-                            </p>
-                            <p className="text-xs text-theme-muted">Shares</p>
-                          </td>
-                          <td className="text-right px-4 py-4">
-                            <p className="font-semibold text-theme-primary">${holding.purchase_price.toFixed(2)}</p>
-                            <p className="text-xs text-theme-muted">Avg Cost</p>
-                          </td>
-                          <td className="text-right px-4 py-4">
-                            <p className="font-semibold text-theme-primary">${holding.current_price.toFixed(2)}</p>
-                            <div className={`text-xs mt-1 flex items-center justify-end gap-1 ${dayChangePercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                              {dayChangePercent >= 0 ? (
-                                <ArrowTrendingUpIcon className="w-3 h-3" />
-                              ) : (
-                                <ArrowTrendingDownIcon className="w-3 h-3" />
-                              )}
-                              <span>{dayChangePercent >= 0 ? '+' : ''}{dayChangePercent.toFixed(2)}%</span>
-                            </div>
-                          </td>
-                          <td className="text-right px-4 py-4">
-                            <p className="font-bold text-lg text-theme-primary">
-                              ${holding.value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </p>
-                            <p className="text-xs text-theme-muted">
-                              {((holding.value / totalValue) * 100).toFixed(1)}% of Portfolio
-                            </p>
-                          </td>
-                          <td className="text-right px-4 py-4">
-                            <div className={`inline-flex flex-col items-end px-3 py-2 rounded-lg ${
-                              holding.gain_loss >= 0 ? 'bg-green-500/10' : 'bg-red-500/10'
-                            }`}>
-                              <p className={`font-bold text-sm ${holding.gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                {holding.gain_loss >= 0 ? '+' : ''}${Math.abs(holding.gain_loss).toFixed(2)}
+                            </td>
+                            <td className="text-right px-4 py-4">
+                              <p className="font-bold text-lg text-theme-primary">
+                                {formatCurrency(holding.value)}
                               </p>
-                              <p className={`text-xs font-medium ${holding.gain_loss_percent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(2)}%
+                              <p className="text-xs text-theme-muted">
+                                {totalValue > 0 ? formatPercentage((holding.value / totalValue) * 100, false) : '0%'} of Portfolio
                               </p>
-                            </div>
-                          </td>
-                          <td className="px-4 py-4">
-                            <div className="flex items-center justify-center gap-1">
-                              <button 
-                                onClick={() => handleViewStock(holding.symbol)}
-                                className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
-                                title="Aktie analysieren"
-                              >
-                                <EyeIcon className="w-4 h-4 text-theme-secondary" />
-                              </button>
-                              <button 
-                                onClick={() => handleDeletePosition(holding.id)}
-                                className="p-2 hover:bg-red-400/20 rounded-lg transition-colors"
-                                title="Position löschen"
-                              >
-                                <XMarkIcon className="w-4 h-4 text-red-400" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
-
-              {holdings.length === 0 && (
+                            </td>
+                            <td className="text-right px-4 py-4">
+                              <div className={`inline-flex flex-col items-end px-3 py-2 rounded-lg ${
+                                holding.gain_loss >= 0 ? 'bg-green-500/10' : 'bg-red-500/10'
+                              }`}>
+                                <p className={`font-bold text-sm ${holding.gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                  {holding.gain_loss >= 0 ? '+' : '-'}{formatCurrency(Math.abs(holding.gain_loss))}
+                                </p>
+                                <p className={`text-xs font-medium ${holding.gain_loss_percent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                  {formatPercentage(holding.gain_loss_percent)}
+                                </p>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center justify-center gap-1">
+                                <button 
+                                  onClick={() => handleViewStock(holding.symbol)}
+                                  className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
+                                  title="Aktie analysieren"
+                                >
+                                  <EyeIcon className="w-4 h-4 text-theme-secondary" />
+                                </button>
+                                <button 
+                                  onClick={() => handleDeletePosition(holding.id)}
+                                  className="p-2 hover:bg-red-400/20 rounded-lg transition-colors"
+                                  title="Position löschen"
+                                >
+                                  <XMarkIcon className="w-4 h-4 text-red-400" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
                 <div className="p-12 text-center">
                   <ChartBarIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
                   <p className="text-theme-secondary mb-4">Noch keine Positionen vorhanden</p>
@@ -882,7 +908,7 @@ export default function PortfolioDashboard() {
               )}
             </div>
 
-            {/* Info Message für Charts */}
+            {/* Coming Soon Message */}
             <div className="mt-8 bg-theme-card rounded-xl p-6 border border-theme/10">
               <h3 className="text-lg font-semibold text-theme-primary mb-2">📊 Charts Coming Soon</h3>
               <p className="text-theme-secondary">
@@ -972,6 +998,7 @@ export default function PortfolioDashboard() {
             )}
           </div>
         )}
+
         {/* Calendar Tab */}
         {activeTab === 'calendar' && (
           <PortfolioCalendar 
@@ -980,6 +1007,66 @@ export default function PortfolioDashboard() {
               name: h.name,
               quantity: h.quantity
             }))} 
+          />
+        )}
+
+        {/* Dividends Tab */}
+        {activeTab === 'dividends' && (
+          <PortfolioDividends 
+            holdings={holdings.map(h => ({
+              symbol: h.symbol,
+              name: h.name,
+              quantity: h.quantity,
+              current_price: h.current_price_display,
+              value: h.value
+            }))} 
+          />
+        )}
+
+        {/* Insights Tab */}
+        {activeTab === 'insights' && (
+          <div className="space-y-6">
+            <PortfolioBreakdownsDE 
+              holdings={holdings.map(h => ({
+                symbol: h.symbol,
+                name: h.name,
+                value: h.value,
+                quantity: h.quantity,
+                purchase_price: h.purchase_price_display
+              }))}
+              totalValue={totalValue}
+              cashPosition={cashPositionDisplay}
+              currency={currency}
+            />
+            
+            {/* Coming Soon für weitere Insights */}
+            <div className="bg-theme-card rounded-xl border border-theme/10 p-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <ChartBarIcon className="w-8 h-8 text-green-400" />
+                </div>
+                <h3 className="text-xl font-bold text-theme-primary mb-2">
+                  Weitere Analysen Coming Soon
+                </h3>
+                <p className="text-theme-secondary text-sm max-w-md mx-auto">
+                  Risiko-Analyse, Performance Attribution und KI-basierte Empfehlungen werden in Kürze verfügbar sein.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* History Tab */}
+        {activeTab === 'history' && (
+          <PortfolioHistory 
+            portfolioId={portfolio?.id || ''}
+            holdings={holdings.map(h => ({
+              symbol: h.symbol,
+              name: h.name,
+              quantity: h.quantity,
+              purchase_price: h.purchase_price_display,
+              purchase_date: h.purchase_date
+            }))}
           />
         )}
       </main>

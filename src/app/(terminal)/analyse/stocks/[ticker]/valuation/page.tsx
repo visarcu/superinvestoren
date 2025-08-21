@@ -90,41 +90,7 @@ export default function ValuationPage() {
   return (
     <div className="min-h-screen bg-theme-primary">
       {/* ✅ EINHEITLICHER HEADER - wie andere Pages */}
-      <div className="border-b border-theme/5">
-        <div className="w-full px-6 lg:px-8 py-6">
-          
-          {/* Zurück-Link */}
-          <Link
-            href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
-          >
-            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-            Zurück zur Aktien-Auswahl
-          </Link>
 
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
-              <Logo
-                ticker={ticker}
-                alt={`${ticker} Logo`}
-                className="w-8 h-8"
-              />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-theme-primary">
-                {stock?.name || ticker.toUpperCase()}
-              </h1>
-              <div className="flex items-center gap-3 mt-1">
-                <span className="text-lg text-purple-400 font-semibold">{ticker.toUpperCase()}</span>
-                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                <span className="text-sm text-theme-muted">
-                  Bewertungsanalyse
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* ✅ MAIN CONTENT - konsistent mit anderen Pages */}
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">

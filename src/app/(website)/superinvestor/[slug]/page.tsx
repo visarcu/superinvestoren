@@ -213,6 +213,12 @@ buffett: 'Warren Buffett – Berkshire Hathaway',
   ariel_focus: 'Ariel Focus Fund', 
   cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
   spier: 'Guy Spier - Aquamarine Capital',
+  chou: 'Francis Chou - Chou Associates',
+  sosin: 'Clifford Sosin - CAS Investment Partners',
+  welling: 'Glenn Welling - Engaged Capital',
+  lou: 'Norbert Lou - Punch Card Management',
+  munger: 'Charlie Munger',
+  
 
   //mutual funds
   cunniff_sequoia: 'Ruane Cunniff – Sequoia Fund',

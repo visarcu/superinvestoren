@@ -41,3 +41,15 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/analyse/stocks/:ticker/social',
+        destination: '/analyse/stocks/:ticker/news',
+        permanent: true,
+      },
+    ]
+  },
+}

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
+
 type LogoProps = {
   src?: string  // Optional, wird automatisch generiert falls nicht angegeben
   ticker?: string  // NEU: Ticker für automatische Logo-Erkennung

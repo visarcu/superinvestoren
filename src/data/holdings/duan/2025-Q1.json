@@ -9,51 +9,123 @@
       "name": "APPLE INC",
       "cusip": "037833100",
       "shares": 40864577,
-      "value": 10233307372
+      "value": 10233307372,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Put"
     },
     {
       "name": "BERKSHIRE HATHAWAY INC DEL",
       "cusip": "084670702",
       "shares": 3621100,
-      "value": 1641372208
+      "value": 1641372208,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": "Put"
     },
     {
       "name": "ALPHABET INC",
       "cusip": "02079K107",
       "shares": 3766500,
-      "value": 717292260
+      "value": 717292260,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": "Put"
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
       "shares": 7228700,
-      "value": 701111613
+      "value": 701111613,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": "Put"
     },
     {
       "name": "OCCIDENTAL PETE CORP",
       "cusip": "674599105",
       "shares": 13577000,
-      "value": 670839570
+      "value": 670839570,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Put"
     },
     {
       "name": "ALIBABA GROUP HLDG LTD",
       "cusip": "01609W102",
       "shares": 5450830,
-      "value": 462175876
+      "value": 462175876,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": "Put"
     },
     {
       "name": "DISNEY WALT CO",
       "cusip": "254687106",
       "shares": 746000,
-      "value": 83067100
+      "value": 83067100,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Put"
     },
     {
       "name": "MODERNA INC",
       "cusip": "60770K107",
       "shares": 163000,
-      "value": 6777540
+      "value": 6777540,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Put"
     }
   ],
   "totalValue": 14515943539,
-  "positionsCount": 8
+  "positionsCount": 8,
+  "portfolioSummary": {
+    "byType": {
+      "PUT": 14515943539
+    },
+    "percentages": {
+      "PUT": "100.0%"
+    }
+  }
 }

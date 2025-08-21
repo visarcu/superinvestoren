@@ -544,9 +544,7 @@ body {
 }
 
 .recharts-tooltip-cursor {
-  fill: rgba(34, 197, 94, 0.1) !important;
-  stroke: rgba(34, 197, 94, 0.3) !important;
-  stroke-width: 1px !important;
+  display: none !important;  /* Hover-Effekt komplett ausschalten */
 }
 
 .recharts-tooltip-label {
@@ -1246,4 +1244,27 @@ nav,
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Earnings Call Styles */
+.earnings-transcript {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.75;
+}
+
+.earnings-transcript .speaker {
+  @apply font-bold text-green-400 mb-1 block;
+}
+
+.earnings-transcript .qa-section {
+  @apply border-l-4 border-green-500/30 pl-4 my-6;
+}
+
+/* Dark Mode Optimierung */
+.dark .earnings-transcript {
+  @apply text-gray-200;
+}
+
+.light .earnings-transcript {
+  @apply text-gray-800;
 }

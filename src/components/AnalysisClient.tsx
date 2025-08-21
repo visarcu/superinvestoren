@@ -238,6 +238,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // Enhanced Dividend Data State
   const [enhancedDividendData, setEnhancedDividendData] = useState<EnhancedDividendData | null>(null)
 
+    // ✅ FCF Yield State
+    const [fcfYield, setFcfYield] = useState<number | null>(null)
+
   // ✅ SICHERE FUNKTION: Vergleichsaktien laden für Chart
   const handleAddComparison = async (comparisonTicker: string): Promise<StockData[]> => {
     try {
@@ -507,13 +510,34 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             strongSell: a.analystRatingsStrongSell ?? 0,
           })
         }
+
       } catch {
         console.warn(`[AnalysisClient] Recs für ${ticker} fehlgeschlagen.`)
+      }
+
+      // ✅ Free Cash Flow Yield berechnen
+      try {
+        const cfRes = await fetch(`/api/cash-flow-statement/${ticker}`)
+        if (cfRes.ok && liveMarketCap) {
+          const cfData = await cfRes.json()
+          const latestCF = Array.isArray(cfData) ? cfData[0] : cfData.financials?.[0]
+          
+          if (latestCF?.freeCashFlow) {
+            // FCF Yield = Free Cash Flow / Market Cap
+            const fcfYieldValue = latestCF.freeCashFlow / liveMarketCap
+            setFcfYield(fcfYieldValue)
+            console.log(`✅ FCF Yield for ${ticker}: ${(fcfYieldValue * 100).toFixed(2)}%`)
+          }
+        }
+      } catch (error) {
+        console.warn(`[AnalysisClient] FCF Yield calculation failed for ${ticker}:`, error)
       }
     }
 
     loadAllData()
-  }, [ticker, stock])
+  }, [ticker, stock, liveMarketCap])
+
+
 
   // Loading State
   if (loadingUser) {
@@ -706,7 +730,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         {forwardPE != null ? `${forwardPE.toFixed(1)}x` : '–'}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center">
+                  
+
+
+
+<div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <span className="text-theme-secondary text-sm">KBV TTM</span>
                         <LearnTooltipButton {...LEARN_DEFINITIONS.pb_ratio} />
@@ -716,14 +744,44 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <span className="text-theme-secondary text-sm">FCF Yield</span>
+                        <LearnTooltipButton term="fcf_yield" />
+                      </div>
+                      <span className="text-theme-primary font-semibold">
+                        {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
+                      </span>
+                    </div>
+                  
+
+
+
+                    <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">EV/EBIT</span>
                       <span className="text-theme-primary font-semibold">
                         {evEbit != null ? `${evEbit.toFixed(1)}x` : '–'}
                       </span>
                     </div>
+                    
+                    <div className="mt-3 pt-3 border-t border-theme/20">
+                      <Link
+                        href={`/analyse/stocks/${ticker.toLowerCase()}/valuation/`}
+                        className="text-xs text-theme-secondary hover:text-theme-primary transition-colors flex items-center gap-1 group"
+                      >
+                        <svg className="w-3 h-3 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        <span className="group-hover:text-blue-400 transition-colors">Erweiterte Analyse</span>
+                      </Link>
+                    </div>
                   </div>
                 ) : (
                   <PremiumBlur featureName="Bewertung">
+
+
+
+
+
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
@@ -743,6 +801,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           {forwardPE != null ? `${forwardPE.toFixed(1)}x` : '–'}
                         </span>
                       </div>
+                      
+
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
                           <span className="text-theme-secondary text-sm">KBV TTM</span>
@@ -753,11 +813,25 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <span className="text-theme-secondary text-sm">FCF Yield</span>
+                          <LearnTooltipButton term="fcf_yield" />
+                        </div>
+                        <span className="text-theme-primary font-semibold">
+                          {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
                         <span className="text-theme-secondary text-sm">EV/EBIT</span>
                         <span className="text-theme-primary font-semibold">
                           {evEbit != null ? `${evEbit.toFixed(1)}x` : '–'}
                         </span>
                       </div>
+
+
+
+
+
                     </div>
                   </PremiumBlur>
                 )}
@@ -1031,91 +1105,107 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 {user?.isPremium ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     
-                    {/* Revenue Estimates */}
-                    <div>
-                      <h4 className="text-sm font-semibold text-theme-primary mb-4">Umsatzschätzungen</h4>
-                      <div className="overflow-x-auto">
-                        <table className="professional-table">
-                          <thead>
-                            <tr>
-                              <th>FY</th>
-                              <th className="text-right">Avg</th>
-                              <th className="text-right">Low</th>
-                              <th className="text-right">High</th>
-                              <th className="text-right">YoY</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {estimates.slice().reverse().map((e, idx, arr) => {
-                              const fy = e.date.slice(0, 4)
-                              let yoy: number | null = null
-                              if (idx > 0) {
-                                const prev = arr[idx - 1].estimatedRevenueAvg
-                                if (prev > 0) {
-                                  yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
-                                }
-                              }
-                              const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+         
+{/* Revenue Estimates */}
+<div>
+  <h4 className="text-sm font-semibold text-theme-primary mb-4">Umsatzschätzungen</h4>
+  <div className="overflow-x-auto">
+    <table className="professional-table">
+      <thead>
+        <tr>
+          <th>GJ</th>
+          <th className="text-right">Durchschnitt</th>
+          <th className="text-right">Niedrig</th>
+          <th className="text-right">Hoch</th>
+          <th className="text-right">Analysten</th>
+          <th className="text-right">YoY</th>
+        </tr>
+      </thead>
+      <tbody>
+        {estimates.slice().reverse().map((e, idx, arr) => {
+          const fy = e.date.slice(0, 4)
+          let yoy: number | null = null
+          if (idx > 0) {
+            const prev = arr[idx - 1].estimatedRevenueAvg
+            if (prev > 0) {
+              yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
+            }
+          }
 
-                              return (
-                                <tr key={e.date}>
-                                  <td className="font-medium">{fy}</td>
-                                  <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
-                                  <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
-                                  <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
-                                  <td className={`text-right font-medium ${yoyClass}`}>
-                                    {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+          return (
+            <tr key={e.date}>
+              <td className="font-medium">{fy}</td>
+              <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
+              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
+              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
+              <td className="text-right text-theme-secondary">
+                {e.numberAnalystEstimatedRevenue || '–'}
+              </td>
+              <td className={`text-right font-medium ${
+                yoy == null ? 'text-theme-secondary' : 
+                yoy > 0 ? 'text-green-400' : 
+                'text-red-400'
+              }`}>
+                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+              </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
+</div>
 
-                    {/* Earnings Estimates */}
-                    <div>
-                      <h4 className="text-sm font-semibold text-theme-primary mb-4">Gewinnschätzungen</h4>
-                      <div className="overflow-x-auto">
-                        <table className="professional-table">
-                          <thead>
-                            <tr>
-                              <th>FY</th>
-                              <th className="text-right">EPS Avg</th>
-                              <th className="text-right">Low</th>
-                              <th className="text-right">High</th>
-                              <th className="text-right">YoY</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {estimates.slice().reverse().map((e, idx, arr) => {
-                              const fy = e.date.slice(0, 4)
-                              let yoy: number | null = null
-                              if (idx > 0) {
-                                const prev = arr[idx - 1].estimatedEpsAvg
-                                if (prev !== 0) {
-                                  yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
-                                }
-                              }
-                              const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+{/* Earnings Estimates */}
+<div>
+  <h4 className="text-sm font-semibold text-theme-primary mb-4">Gewinnschätzungen</h4>
+  <div className="overflow-x-auto">
+    <table className="professional-table">
+      <thead>
+        <tr>
+          <th>GJ</th>
+          <th className="text-right">EPS Durchschn.</th>
+          <th className="text-right">Niedrig</th>
+          <th className="text-right">Hoch</th>
+          <th className="text-right">Analysten</th>
+          <th className="text-right">YoY</th>
+        </tr>
+      </thead>
+      <tbody>
+        {estimates.slice().reverse().map((e, idx, arr) => {
+          const fy = e.date.slice(0, 4)
+          let yoy: number | null = null
+          if (idx > 0) {
+            const prev = arr[idx - 1].estimatedEpsAvg
+            if (prev !== 0) {
+              yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
+            }
+          }
 
-                              return (
-                                <tr key={e.date}>
-                                  <td className="font-medium">{fy}</td>
-                                  <td className="text-right">{formatStockPrice(e.estimatedEpsAvg)}</td>
-                                  <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsLow)}</td>
-                                  <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsHigh)}</td>
-                                  <td className={`text-right font-medium ${yoyClass}`}>
-                                    {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+          return (
+            <tr key={e.date}>
+              <td className="font-medium">{fy}</td>
+              <td className="text-right">{formatStockPrice(e.estimatedEpsAvg)}</td>
+              <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsLow)}</td>
+              <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsHigh)}</td>
+              <td className="text-right text-theme-secondary">
+                {e.numberAnalystsEstimatedEps || '–'}
+              </td>
+              <td className={`text-right font-medium ${
+                yoy == null ? 'text-theme-secondary' : 
+                yoy > 0 ? 'text-green-400' : 
+                'text-red-400'
+              }`}>
+                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+              </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
+</div>
+                 
                   </div>
                 ) : (
                   <PremiumBlur featureName="Schätzungen">
@@ -1207,6 +1297,27 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                   </PremiumBlur>
                 )}
               </div>
+
+
+
+              <div className="px-6 pb-4 border-t border-theme/10">
+                <Link
+                  href={`/analyse/stocks/${ticker.toLowerCase()}/estimates`}
+                  className="inline-flex items-center gap-2 text-sm text-theme-secondary hover:text-green-400 transition-colors group"
+                >
+                  <svg className="w-4 h-4 group-hover:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  <span>Erweiterte Schätzungen & Kursziele anzeigen</span>
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+
+
+
+
             </div>
           )}
         </div>

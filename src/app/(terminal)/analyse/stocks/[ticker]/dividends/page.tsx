@@ -70,43 +70,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
   return (
     <div className="min-h-screen bg-theme-primary">
       {/* ✅ PROFESSIONAL HEADER - Clean, no API details */}
-      <div className="border-b border-theme/5">
-        <div className="w-full px-6 lg:px-8 py-6">
-          
-          {/* Back Navigation */}
-          <Link
-            href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
-          >
-            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-            Zurück zur Aktien-Auswahl
-          </Link>
-
-          {/* Stock Header */}
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
-              <Logo
-                ticker={ticker}
-                alt={`${ticker} Logo`}
-                className="w-8 h-8"
-              />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-theme-primary">
-                {stock?.name || ticker}
-              </h1>
-              <div className="flex items-center gap-3 mt-1">
-                <span className="text-lg text-green-400 font-semibold">{ticker}</span>
-                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                <span className="text-sm text-theme-muted">
-                  Dividenden-Analyse
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      
       {/* ✅ MAIN CONTENT - Clean and professional */}
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
         

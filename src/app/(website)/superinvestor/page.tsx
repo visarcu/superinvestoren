@@ -723,7 +723,7 @@ export default function SuperinvestorOverview() {
                 <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
               </div>
               <div className="text-left">
-                <div className="text-2xl font-bold text-white">Q1 2025</div>
+                <div className="text-2xl font-bold text-white">Q2 2025</div>
                 <div className="text-sm text-gray-500">Letztes Update</div>
               </div>
             </div>

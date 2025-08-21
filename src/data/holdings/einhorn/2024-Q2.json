@@ -9,507 +9,1187 @@
       "name": "GREEN BRICK PARTNERS INC",
       "cusip": "392709101",
       "shares": 8664693,
-      "value": 521874459
+      "value": 521874459,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BRIGHTHOUSE FINL INC",
       "cusip": "10922N103",
       "shares": 2428585,
-      "value": 125169271
+      "value": 125169271,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "KYNDRYL HLDGS INC",
       "cusip": "50155Q100",
       "shares": 5585635,
-      "value": 121543418
+      "value": 121543418,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "CONSOL ENERGY INC NEW",
       "cusip": "20854L108",
       "shares": 1388407,
-      "value": 116292970
+      "value": 116292970,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GREEN BRICK PARTNERS INC",
       "cusip": "392709101",
       "shares": 1802690,
-      "value": 108576019
+      "value": 108576019,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ALIGHT INC",
       "cusip": "01626W101",
       "shares": 9256160,
-      "value": 91173176
+      "value": 91173176,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "TENET HEALTHCARE CORP",
       "cusip": "88033G407",
       "shares": 752733,
-      "value": 79119766
+      "value": 79119766,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "THE ODP CORP",
       "cusip": "88337F105",
       "shares": 1445409,
-      "value": 76678947
+      "value": 76678947,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PENN ENTERTAINMENT INC",
       "cusip": "707569109",
       "shares": 3895650,
-      "value": 70939787
+      "value": 70939787,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LIVANOVA PLC",
       "cusip": "G5509L101",
       "shares": 1125184,
-      "value": 62942793
+      "value": 62942793,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "TECK RESOURCES LTD",
       "cusip": "878742204",
       "shares": 1278333,
-      "value": 58522085
+      "value": 58522085,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
     },
     {
       "name": "SPDR GOLD TR",
       "cusip": "78463V107",
       "shares": 234161,
-      "value": 48171601
+      "value": 48171601,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GOLD SHS",
+      "putCall": null
     },
     {
       "name": "VIATRIS INC",
       "cusip": "92556V106",
       "shares": 3842360,
-      "value": 45877778
+      "value": 45877778,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GRAPHIC PACKAGING HLDG CO",
       "cusip": "388689101",
       "shares": 1517440,
-      "value": 44278899
+      "value": 44278899,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HP INC",
       "cusip": "40434L105",
       "shares": 1366720,
-      "value": 41302278
+      "value": 41302278,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DHT HOLDINGS INC",
       "cusip": "Y2065G121",
       "shares": 3400730,
-      "value": 39108395
+      "value": 39108395,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS NEW",
+      "putCall": null
     },
     {
       "name": "ROIVANT SCIENCES LTD",
       "cusip": "G76279101",
       "shares": 3540790,
-      "value": 37319927
+      "value": 37319927,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "FIRST CTZNS BANCSHARES INC N",
       "cusip": "31946M103",
       "shares": 21260,
-      "value": 34760100
+      "value": 34760100,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "WEATHERFORD INTL PLC",
       "cusip": "G48833118",
       "shares": 268657,
-      "value": 31008391
+      "value": 31008391,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "LIBERTY GLOBAL LTD",
       "cusip": "G61188101",
       "shares": 1782060,
-      "value": 30152455
+      "value": 30152455,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "SEADRILL 2021 LTD",
       "cusip": "G7997W102",
       "shares": 482105,
-      "value": 24249882
+      "value": 24249882,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "AERCAP HOLDINGS NV",
       "cusip": "N00985106",
       "shares": 269610,
-      "value": 23431805
+      "value": 23431805,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "KYNDRYL HLDGS INC",
       "cusip": "50155Q100",
       "shares": 1019424,
-      "value": 22182666
+      "value": 22182666,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BRIGHTHOUSE FINL INC",
       "cusip": "10922N103",
       "shares": 411426,
-      "value": 21204896
+      "value": 21204896,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CONSOL ENERGY INC NEW",
       "cusip": "20854L108",
       "shares": 252343,
-      "value": 21136250
+      "value": 21136250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NET POWER INC",
       "cusip": "64107A105",
       "shares": 1655476,
-      "value": 18855872
+      "value": 18855872,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "ALIGHT INC",
       "cusip": "01626W101",
       "shares": 1705300,
-      "value": 16797205
+      "value": 16797205,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "INVESCO EXCHANGE TRADED FD T",
       "cusip": "46137V100",
       "shares": 154261,
-      "value": 15668290
+      "value": 15668290,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "AEROSPACE DEFN",
+      "putCall": null
     },
     {
       "name": "SPDR SER TR",
       "cusip": "78464A631",
       "shares": 107817,
-      "value": 15149367
+      "value": 15149367,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "AEROSPACE DEF",
+      "putCall": null
     },
     {
       "name": "TENET HEALTHCARE CORP",
       "cusip": "88033G407",
       "shares": 137897,
-      "value": 14494354
+      "value": 14494354,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "THE ODP CORP",
       "cusip": "88337F105",
       "shares": 265171,
-      "value": 14067322
+      "value": 14067322,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "KENVUE INC",
       "cusip": "49177J102",
       "shares": 598010,
-      "value": 12833295
+      "value": 12833295,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TECK RESOURCES LTD",
       "cusip": "878742204",
       "shares": 273730,
-      "value": 12531359
+      "value": 12531359,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
     },
     {
       "name": "PENN ENTERTAINMENT INC",
       "cusip": "707569109",
       "shares": 659060,
-      "value": 12001483
+      "value": 12001483,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LIVANOVA PLC",
       "cusip": "G5509L101",
       "shares": 207620,
-      "value": 11614263
+      "value": 11614263,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "COYA THERAPEUTICS INC",
       "cusip": "22407B108",
       "shares": 1034925,
-      "value": 10266456
+      "value": 10266456,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "BRIGHTHOUSE FINL INC",
       "cusip": "10922N103",
       "shares": 181752,
-      "value": 9367498
+      "value": 9367498,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GRAPHIC PACKAGING HLDG CO",
       "cusip": "388689101",
       "shares": 278690,
-      "value": 8132174
+      "value": 8132174,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "VIATRIS INC",
       "cusip": "92556V106",
       "shares": 675260,
-      "value": 8062604
+      "value": 8062604,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "HP INC",
       "cusip": "40434L105",
       "shares": 249240,
-      "value": 7532033
+      "value": 7532033,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DHT HOLDINGS INC",
       "cusip": "Y2065G121",
       "shares": 623610,
-      "value": 7171515
+      "value": 7171515,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS NEW",
+      "putCall": null
     },
     {
       "name": "ROIVANT SCIENCES LTD",
       "cusip": "G76279101",
       "shares": 649700,
-      "value": 6847838
+      "value": 6847838,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "FIRST CTZNS BANCSHARES INC N",
       "cusip": "31946M103",
       "shares": 3900,
-      "value": 6376500
+      "value": 6376500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "WEATHERFORD INTL PLC",
       "cusip": "G48833118",
       "shares": 48820,
-      "value": 5634804
+      "value": 5634804,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "ALIGHT INC",
       "cusip": "01626W101",
       "shares": 566470,
-      "value": 5579730
+      "value": 5579730,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "GOPRO INC",
       "cusip": "38268T103",
       "shares": 2458940,
-      "value": 5483436
+      "value": 5483436,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "GALAPAGOS NV",
       "cusip": "36315X101",
       "shares": 139218,
-      "value": 4482820
+      "value": 4482820,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR",
+      "putCall": null
     },
     {
       "name": "SEADRILL 2021 LTD",
       "cusip": "G7997W102",
       "shares": 87300,
-      "value": 4391190
+      "value": 4391190,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LIBERTY GLOBAL LTD",
       "cusip": "G61188101",
       "shares": 259520,
-      "value": 4391078
+      "value": 4391078,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "AERCAP HOLDINGS NV",
       "cusip": "N00985106",
       "shares": 49440,
-      "value": 4296830
+      "value": 4296830,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "TEVA PHARMACEUTICAL INDS LTD",
       "cusip": "881624209",
       "shares": 284480,
-      "value": 4014013
+      "value": 4014013,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "NET POWER INC",
       "cusip": "64107A105",
       "shares": 303804,
-      "value": 3460328
+      "value": 3460328,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "SOTERA HEALTH CO",
       "cusip": "83601L102",
       "shares": 277621,
-      "value": 3334228
+      "value": 3334228,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "VANECK ETF TRUST",
       "cusip": "92189H607",
       "shares": 9490,
-      "value": 3191772
+      "value": 3191772,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "OIL SERVICES ETF",
+      "putCall": null
     },
     {
       "name": "VANECK ETF TRUST",
       "cusip": "92189F106",
       "shares": 98450,
-      "value": 3112989
+      "value": 3112989,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GOLD MINERS ETF",
+      "putCall": null
     },
     {
       "name": "INVESCO EXCHANGE TRADED FD T",
       "cusip": "46137V100",
       "shares": 28250,
-      "value": 2869353
+      "value": 2869353,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "AEROSPACE DEFN",
+      "putCall": null
     },
     {
       "name": "SPDR SER TR",
       "cusip": "78464A631",
       "shares": 19740,
-      "value": 2773667
+      "value": 2773667,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "AEROSPACE DEF",
+      "putCall": null
     },
     {
       "name": "SPDR GOLD TR",
       "cusip": "78463V107",
       "shares": 12510,
-      "value": 2573557
+      "value": 2573557,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GOLD SHS",
+      "putCall": null
     },
     {
       "name": "DANIMER SCIENTIFIC INC",
       "cusip": "236272100",
       "shares": 2335484,
-      "value": 2545678
+      "value": 2545678,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "COYA THERAPEUTICS INC",
       "cusip": "22407B108",
       "shares": 239101,
-      "value": 2371882
+      "value": 2371882,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
     },
     {
       "name": "KENVUE INC",
       "cusip": "49177J102",
       "shares": 109730,
-      "value": 2354806
+      "value": 2354806,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CLARIVATE PLC",
       "cusip": "G21810109",
       "shares": 279560,
-      "value": 2077131
+      "value": 2077131,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
     },
     {
       "name": "GAIN THERAPEUTICS INC",
       "cusip": "36269B105",
       "shares": 492130,
-      "value": 1855330
+      "value": 1855330,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FIRST TR EXCHANGE-TRADED FD",
       "cusip": "33733E807",
       "shares": 59900,
-      "value": 1643656
+      "value": 1643656,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "NAT GAS ETF",
+      "putCall": null
     },
     {
       "name": "INVESCO ACTVELY MNGD ETC FD",
       "cusip": "46090F100",
       "shares": 99250,
-      "value": 1376598
+      "value": 1376598,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "OPTIMUM YIELD",
+      "putCall": null
     },
     {
       "name": "TALIS BIOMEDICAL CORP",
       "cusip": "87424L207",
       "shares": 129616,
-      "value": 1134140
+      "value": 1134140,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "GOPRO INC",
       "cusip": "38268T103",
       "shares": 364160,
-      "value": 812077
+      "value": 812077,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "GALAPAGOS NV",
       "cusip": "36315X101",
       "shares": 20610,
-      "value": 663642
+      "value": 663642,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPON ADR",
+      "putCall": null
     },
     {
       "name": "VANECK ETF TRUST",
       "cusip": "92189H607",
       "shares": 1730,
-      "value": 581851
+      "value": 581851,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "OIL SERVICES ETF",
+      "putCall": null
     },
     {
       "name": "TEVA PHARMACEUTICAL INDS LTD",
       "cusip": "881624209",
       "shares": 40370,
-      "value": 569621
+      "value": 569621,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "VANECK ETF TRUST",
       "cusip": "92189F106",
       "shares": 12940,
-      "value": 409163
+      "value": 409163,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GOLD MINERS ETF",
+      "putCall": null
     },
     {
       "name": "DANIMER SCIENTIFIC INC",
       "cusip": "236272100",
       "shares": 365196,
-      "value": 398064
+      "value": 398064,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "FIRST TR EXCHANGE-TRADED FD",
       "cusip": "33733E807",
       "shares": 10930,
-      "value": 299919
+      "value": 299919,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "NAT GAS ETF",
+      "putCall": null
     },
     {
       "name": "GAIN THERAPEUTICS INC",
       "cusip": "36269B105",
       "shares": 74000,
-      "value": 278980
+      "value": 278980,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SOTERA HEALTH CO",
       "cusip": "83601L102",
       "shares": 22489,
-      "value": 270093
+      "value": 270093,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "INVESCO ACTVELY MNGD ETC FD",
       "cusip": "46090F100",
       "shares": 18110,
-      "value": 251186
+      "value": 251186,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "OPTIMUM YIELD",
+      "putCall": null
     },
     {
       "name": "TALIS BIOMEDICAL CORP",
       "cusip": "87424L207",
       "shares": 19436,
-      "value": 170065
+      "value": 170065,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "NUVATION BIO INC",
       "cusip": "67080N101",
       "shares": 34995,
-      "value": 127382
+      "value": 127382,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "NEUBASE THERAPEUTICS INC",
       "cusip": "64132K201",
       "shares": 118310,
-      "value": 53228
+      "value": 53228,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "DANIMER SCIENTIFIC INC",
       "cusip": "236272100",
       "shares": 33900,
-      "value": 36951
+      "value": 36951,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "NUVATION BIO INC",
       "cusip": "67080N119",
       "shares": 100000,
-      "value": 30250
+      "value": 30250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "*W EXP 07/07/202",
+      "putCall": null
     },
     {
       "name": "NEUBASE THERAPEUTICS INC",
       "cusip": "64132K201",
       "shares": 18040,
-      "value": 8116
+      "value": 8116,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
     },
     {
       "name": "KATAPULT HOLDINGS INC",
       "cusip": "485859110",
       "shares": 226627,
-      "value": 4487
+      "value": 4487,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "*W EXP 06/09/202",
+      "putCall": null
     },
     {
       "name": "KATAPULT HOLDINGS INC",
       "cusip": "485859110",
       "shares": 35600,
-      "value": 705
+      "value": 705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "*W EXP 06/09/202",
+      "putCall": null
     }
   ],
   "totalValue": 2184702238,
-  "positionsCount": 84
+  "positionsCount": 84,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 2184702238
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

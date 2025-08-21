@@ -134,7 +134,16 @@ class FinancialDataService {
           // ✅ METADATA
           modernDataUsed: true,
           dataRange: `2005-${currentYear}`,
-          yearsRequested: years
+          yearsRequested: years,
+
+
+          profitMargin: (income.revenue && income.revenue > 0) 
+          ? (income.netIncome || 0) / income.revenue 
+          : 0,
+
+          pb: metrics.pbRatio || 0,
+          ps: metrics.psRatio || metrics.priceToSalesRatio || 0,
+
         }
       })
 
@@ -250,9 +259,10 @@ class FinancialDataService {
 // ✅ Service Instance - UNVERÄNDERT
 const financialDataService = new FinancialDataService()
 
-// ─── Type Definitions - UNVERÄNDERT ───────────────────────────────────────────────────────────
+// ─── Type Definitions ───────────────────────────────────────────────────────────
 type MetricKey =
   | 'revenue'
+  | 'revenueSegments'   
   | 'ebitda'
   | 'eps'
   | 'freeCashFlow'
@@ -261,10 +271,13 @@ type MetricKey =
   | 'netIncome'
   | 'cashDebt'
   | 'pe'
+  | 'profitMargin'          // ✅ NEU - Ersetzt PE Ratio
   | 'returnOnEquity'
   | 'capEx'
   | 'researchAndDevelopment'
-  | 'operatingIncome' 
+  | 'operatingIncome'
+  | 'geographicSegments'      // NEU
+  | 'valuationMetrics'      // ✅ NEU - KGV, KUV, KBV Chart
 
 interface Props {
   ticker: string
@@ -272,7 +285,25 @@ interface Props {
   userId?: string
 }
 
-// ─── ALLE METRICS MIT DEUTSCHEN NAMEN - UNVERÄNDERT ─────────────────────────────────────
+// ─── PRESET SYSTEM ───────────────────────────────────────────────────────────
+interface ChartPreset {
+  name: string
+  description: string
+  charts: MetricKey[]
+  icon?: string
+}
+
+interface CustomPreset {
+  id: string
+  name: string
+  charts: MetricKey[]
+  created: string
+  lastUsed?: string
+}
+
+
+
+// ─── ALLE METRICS MIT DEUTSCHEN NAMEN ─────────────────────────────────────
 const METRICS = [
   { 
     key: 'revenue' as const, 
@@ -291,14 +322,14 @@ const METRICS = [
   { 
     key: 'eps' as const, 
     name: 'Gewinn je Aktie', 
-    shortName: 'EPS', 
+    shortName: 'Gewinn je Aktie', 
     color: '#F59E0B',
     gradient: 'from-amber-500 to-amber-600'
   },
   { 
     key: 'freeCashFlow' as const, 
     name: 'Free Cash Flow', 
-    shortName: 'FCF', 
+    shortName: 'Free Cash Flow', 
     color: '#8B5CF6',
     gradient: 'from-violet-500 to-violet-600'
   },
@@ -312,35 +343,35 @@ const METRICS = [
   { 
     key: 'dividendPS' as const, 
     name: 'Dividende je Aktie', 
-    shortName: 'Dividende', 
+    shortName: 'Dividende je Aktie', 
     color: '#06B6D4',
     gradient: 'from-cyan-500 to-cyan-600'
   },
   { 
     key: 'sharesOutstanding' as const, 
     name: 'Aktien im Umlauf', 
-    shortName: 'Aktien', 
+    shortName: 'Aktien im Umlauf', 
     color: '#84CC16',
     gradient: 'from-lime-500 to-lime-600'
   },
   { 
     key: 'returnOnEquity' as const, 
     name: 'Eigenkapitalrendite', 
-    shortName: 'EKR', 
+    shortName: 'Eigenkapitalrendite', 
     color: '#EC4899',
     gradient: 'from-pink-500 to-pink-600'
   },
   { 
     key: 'capEx' as const, 
     name: 'Investitionsausgaben', 
-    shortName: 'CapEx', 
+    shortName: 'CapEx (Investitionsausgaben)', 
     color: '#06B6D4',
     gradient: 'from-cyan-500 to-cyan-600'
   },
   { 
     key: 'researchAndDevelopment' as const, 
     name: 'F&E Ausgaben', 
-    shortName: 'F&E', 
+    shortName: 'Forschung & Entwicklung Ausgaben', 
     color: '#84CC16',
     gradient: 'from-lime-500 to-lime-600'
   },
@@ -351,30 +382,125 @@ const METRICS = [
     color: '#F97316',
     gradient: 'from-orange-500 to-orange-600'
   },
+
 ]
 
 const SPECIAL_METRICS = [
   {
+    key: 'revenueSegments' as const,
+    name: 'Umsatz nach Produkten',
+    shortName: 'Umsatz nach Produkten',
+    color: '#3B82F6'
+  },
+  {
     key: 'cashDebt' as const,
     name: 'Liquidität & Schulden',
-    shortName: 'Cash & Schulden',
+    shortName: 'Liquidität & Schulden',
     cashColor: '#22C55E',
     debtColor: '#EF4444'
   },
   {
-    key: 'pe' as const,
-    name: 'KGV TTM',
-    shortName: 'P/E Ratio',
-    color: '#F97316'
+    key: 'valuationMetrics' as const,    // ✅ NEU - Kombiniert KGV, KUV, KBV
+    name: 'Bewertungskennzahlen',
+    shortName: 'Bewertung',
+    peColor: '#F97316',      // KGV
+    pbColor: '#8B5CF6',      // KBV  
+    psColor: '#06B6D4'       // KUV
+  },
+
+  { 
+    key: 'profitMargin' as const, 
+    name: 'Gewinnmarge', 
+    shortName: 'Gewinnmarge',
+    color: '#F97316',
+    gradient: 'from-orange-500 to-orange-600'
+  },
+
+
+  {
+    key: 'geographicSegments' as const,
+    name: 'Umsatz nach Regionen',
+    shortName: 'Umsatz nach Regionen',
+    color: '#10B981'
   }
 ]
 
-// ✅ All metrics to display - UNVERÄNDERT
+// ✅ All metrics to display
 const ALL_METRICS: MetricKey[] = [
-  'revenue', 'ebitda', 'eps', 'freeCashFlow', 'cashDebt', 'pe', 
-  'dividendPS', 'sharesOutstanding', 'netIncome', 'returnOnEquity', 
-  'capEx', 'researchAndDevelopment', 'operatingIncome'
+  'revenue',
+  'revenueSegments',
+  'ebitda',
+  'eps',
+  'freeCashFlow',
+  'cashDebt',
+  'profitMargin',        // ✅ NEU statt PE
+  'dividendPS',
+  'sharesOutstanding',
+  'netIncome',
+  'returnOnEquity', 
+  'capEx',
+  'researchAndDevelopment',
+  'operatingIncome', 
+  'geographicSegments',
+  'valuationMetrics',
 ]
+
+const CHART_PRESETS: Record<string, ChartPreset> = {
+  'essentials': {
+    name: 'Basis-Analyse',
+    description: 'Die wichtigsten Kennzahlen',
+    charts: ['revenue', 'netIncome', 'eps', 'freeCashFlow', 'profitMargin'],
+    icon: '📊'
+  },
+  'profitability': {
+    name: 'Profitabilität',
+    description: 'Margen & Rentabilität',
+    charts: ['profitMargin', 'returnOnEquity', 'ebitda', 'operatingIncome', 'netIncome'],
+    icon: '💰'
+  },
+  'growth': {
+    name: 'Wachstum',
+    description: 'Wachstums-Indikatoren',
+    charts: ['revenue', 'revenueSegments', 'geographicSegments', 'eps', 'freeCashFlow'],
+    icon: '📈'
+  },
+  'valuation': {
+    name: 'Bewertung',
+    description: 'Bewertungskennzahlen',
+    charts: ['valuationMetrics', 'pe', 'eps', 'dividendPS', 'sharesOutstanding'],
+    icon: '💎'
+  },
+  'segments': {
+    name: 'Segmentierung',
+    description: 'Produkt- & Geo-Segmente',
+    charts: ['revenue', 'revenueSegments', 'geographicSegments', 'ebitda', 'netIncome'],
+    icon: '🗂️'
+  },
+  'tech': {
+    name: 'Tech/Innovation',
+    description: 'Für Technologie-Unternehmen',
+    charts: ['revenue', 'revenueSegments', 'researchAndDevelopment', 'freeCashFlow', 'profitMargin', 'returnOnEquity'],
+    icon: '🚀'
+  },
+  'dividend': {
+    name: 'Dividenden',
+    description: 'Für Dividenden-Strategie',
+    charts: ['dividendPS', 'freeCashFlow', 'netIncome', 'cashDebt', 'returnOnEquity'],
+    icon: '💵'
+  },
+  'financial_health': {
+    name: 'Finanzielle Gesundheit',
+    description: 'Bilanz & Cashflow Fokus',
+    charts: ['cashDebt', 'freeCashFlow', 'operatingIncome', 'capEx', 'returnOnEquity'],
+    icon: '🏥'
+  },
+  'complete': {
+    name: 'Vollständig',
+    description: 'Alle verfügbaren Charts',
+    charts: ALL_METRICS,
+    icon: '🔍'
+  }
+}
 
 // ─── ULTRA CLEAN CHART COMPONENTS - KOMPLETT OHNE BORDERS ─────────────────────────────────────
 interface ChartCardProps {
@@ -389,8 +515,6 @@ interface ChartCardProps {
 
 function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremium }: ChartCardProps) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
-  
-
 
   if (!isPremium) {
     return (
@@ -458,25 +582,21 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               }}
               tickFormatter={(value) => {
                 if (metricKey === 'eps' || metricKey === 'dividendPS') {
-                  // ✅ DEUTSCHE FORMATIERUNG für EPS/Dividende
                   return `${new Intl.NumberFormat('de-DE', {
                     minimumFractionDigits: value < 1 ? 2 : 1,
                     maximumFractionDigits: value < 1 ? 2 : 1
                   }).format(value)} $`
                 } else if (metricKey === 'returnOnEquity') {
-                  // ✅ DEUTSCHE FORMATIERUNG für ROE
                   return `${new Intl.NumberFormat('de-DE', {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0
                   }).format(value * 100)}%`
                 } else if (metricKey === 'sharesOutstanding') {
-                  // ✅ DEUTSCHE FORMATIERUNG für Aktien
                   return `${new Intl.NumberFormat('de-DE', {
                     minimumFractionDigits: 1,
                     maximumFractionDigits: 1
                   }).format(value / 1e9)} Mrd.`
                 } else {
-                  // ✅ NUTZE CONTEXT-FUNKTION!
                   return formatAxisValueDE(value)
                 }
               }}
@@ -525,11 +645,699 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
     </div>
   )
 }
-function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
-  const { formatCurrency, formatAxisValueDE } = useCurrency() // ✅ NUTZE CONTEXT
+function PremiumLockedChart({ title, onExpand }: { title: string, onExpand: () => void }) {
+  return (
+    <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <p className="text-xs text-theme-secondary font-medium">Premium</p>
+        </div>
+      </div>
+      
+      <div className="opacity-30">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
+          <button 
+            onClick={onExpand}
+            className="p-1 hover:bg-theme-tertiary rounded transition-colors"
+          >
+            <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
+          </button>
+        </div>
+        <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
+      </div>
+    </div>
+  )
+}
 
+function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
+  const { formatCurrency } = useCurrency()
+
+  if (!isPremium) {
+    return <PremiumLockedChart title="Gewinnmarge" onExpand={onExpand} />
+  }
+
+  // ✅ DATEN VALIDIERUNG
+  const validData = data.filter(d => d.profitMargin !== undefined && d.profitMargin !== null)
   
+  if (validData.length === 0) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Gewinnmarge</h3>
+        </div>
+        <div className="aspect-square flex items-center justify-center">
+          <p className="text-theme-secondary text-xs">Keine Gewinnmarge-Daten verfügbar</p>
+        </div>
+      </div>
+    )
+  }
 
+  console.log('🔍 ProfitMargin Data Debug:', validData.map(d => ({ 
+    year: d.label, 
+    margin: d.profitMargin,
+    revenue: d.revenue,
+    netIncome: d.netIncome,
+    calculation: d.revenue > 0 ? `${d.netIncome} / ${d.revenue} = ${(d.netIncome / d.revenue * 100).toFixed(1)}%` : 'N/A'
+  })))
+
+  return (
+    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-theme-primary">Gewinnmarge</h3>
+        <button 
+          onClick={onExpand}
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+        >
+          <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
+        </button>
+      </div>
+      
+      <div className="aspect-square">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={validData} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
+            <XAxis 
+              dataKey="label" 
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+              interval="preserveStartEnd"
+            />
+            <YAxis 
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+              tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
+              width={35}
+              domain={['dataMin', 'dataMax']}
+            />
+            <RechartsTooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload?.[0]) return null
+                const value = payload[0].value as number
+                return (
+                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
+                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
+                    <p className="text-theme-primary text-sm font-medium">
+                      {(value * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                )
+              }}
+            />
+            <Bar 
+              dataKey="profitMargin" 
+              fill="#F97316" 
+              radius={[2, 2, 0, 0]}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )
+}
+// KORRIGIERTE RevenueSegmentsChart Funktion für FinancialAnalysisClient.tsx
+function RevenueSegmentsChart({ 
+  ticker, 
+  onExpand, 
+  isPremium 
+}: { 
+  ticker: string, 
+  onExpand: () => void, 
+  isPremium: boolean 
+}) {
+  const { formatCurrency, formatAxisValueDE } = useCurrency()
+  const [segmentData, setSegmentData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadSegments() {
+      if (!ticker || !isPremium) {
+        setLoading(false)
+        return
+      }
+
+      try {
+        const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
+        const url = `https://financialmodelingprep.com/api/v4/revenue-product-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${apiKey}`
+        
+        console.log('🔍 [RevenueSegments] API URL:', url)
+        
+        const res = await fetch(url)
+        console.log('🔍 [RevenueSegments] Response Status:', res.status)
+        
+        if (!res.ok) {
+          console.error('❌ [RevenueSegments] API request failed:', res.statusText)
+          setSegmentData([])
+          return
+        }
+        
+        const data = await res.json()
+        console.log('📊 [RevenueSegments] Raw API Response:', JSON.stringify(data, null, 2))
+        
+        if (!Array.isArray(data) || data.length === 0) {
+          console.warn('⚠️ [RevenueSegments] No data or invalid format')
+          setSegmentData([])
+          return
+        }
+
+        // Transform the data
+        const transformed = data
+          .map((yearData: any, index: number) => {
+            console.log(`📅 [RevenueSegments] Processing year ${index}:`, yearData)
+            
+            // Get the date key (first key in the object)
+            const dateKey = Object.keys(yearData)[0]
+            console.log(`📅 [RevenueSegments] Date key:`, dateKey)
+            
+            if (!dateKey) {
+              console.warn(`⚠️ [RevenueSegments] No date key for index ${index}`)
+              return null
+            }
+            
+            const segments = yearData[dateKey]
+            console.log(`📅 [RevenueSegments] Segments for ${dateKey}:`, segments)
+            
+            if (!segments || typeof segments !== 'object') {
+              console.warn(`⚠️ [RevenueSegments] No segments for ${dateKey}`)
+              return null
+            }
+            
+            const segmentKeys = Object.keys(segments)
+            console.log(`📅 [RevenueSegments] Segment keys for ${dateKey}:`, segmentKeys)
+            
+            if (segmentKeys.length === 0) {
+              console.warn(`⚠️ [RevenueSegments] Empty segments for ${dateKey}`)
+              return null
+            }
+
+            // Extract year from date
+            const year = dateKey.substring(0, 4)
+            const result: any = { label: year }
+            
+            // Add all segments
+            Object.entries(segments).forEach(([segmentName, value]) => {
+        
+              
+              if (typeof value === 'number' && value > 0) {
+                // Shorten long segment names
+                const shortName = segmentName.length > 25 
+                  ? segmentName.substring(0, 22) + '...' 
+                  : segmentName
+                result[shortName] = value
+              }
+            })
+            
+  
+            return result
+          })
+          .filter(Boolean) // Remove null values
+          .reverse() // Sort chronologically (oldest first)
+   
+        
+        setSegmentData(transformed)
+        
+      } catch (error) {
+   
+        setSegmentData([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadSegments()
+  }, [ticker, isPremium])
+
+  // Premium Check
+  if (!isPremium) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <p className="text-xs text-theme-secondary font-medium">Premium</p>
+          </div>
+        </div>
+        
+        <div className="opacity-30">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Produkten</h3>
+            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
+              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
+            </button>
+          </div>
+          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
+        </div>
+      </div>
+    )
+  }
+
+  // Loading State
+  if (loading) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Produkten</h3>
+        </div>
+        <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
+      </div>
+    )
+  }
+
+  // No Data State
+  if (segmentData.length === 0) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Produkten</h3>
+        </div>
+        <div className="aspect-square flex items-center justify-center">
+          <p className="text-theme-secondary text-xs">Keine Segment-Daten verfügbar</p>
+        </div>
+      </div>
+    )
+  }
+
+  // ✅ CHART RENDERING - UNION ALLER SEGMENTE MIT POSITIVEN WERTEN (wie im Modal)
+  const allSegmentKeys = new Set<string>()
+  segmentData.forEach(yearData => {
+    Object.keys(yearData).forEach(key => {
+      if (key !== 'label') {
+        // ✅ NUR KEYS MIT WERTEN > 0 IN MINDESTENS EINEM JAHR
+        const hasPositiveValue = segmentData.some(year => (year[key] || 0) > 0)
+        if (hasPositiveValue) {
+          allSegmentKeys.add(key)
+        }
+      }
+    })
+  })
+  
+  const segmentKeys = Array.from(allSegmentKeys)
+  const SEGMENT_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16', '#EC4899']
+
+  console.log('🎨 [RevenueSegments] Rendering chart with:', { 
+    dataLength: segmentData.length, 
+    segmentKeys,
+    allSegments: segmentKeys.length,
+    firstDataPoint: segmentData[0] 
+  })
+
+  // ✅ NORMALISIERTE DATEN ERSTELLEN (fehlende Segmente = 0, aber Jahre ohne Segmente entfernen)
+  const normalizedData = segmentData.map(yearData => {
+    const normalized = { ...yearData }
+    segmentKeys.forEach(key => {
+      if (!(key in normalized)) {
+        normalized[key] = 0
+      }
+    })
+    return normalized
+  }).filter(yearData => {
+    // ✅ ENTFERNE JAHRE WO ALLE SEGMENTE 0 SIND
+    const hasAnyValue = segmentKeys.some(key => (yearData[key] || 0) > 0)
+    return hasAnyValue
+  })
+
+  return (
+    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-theme-primary">
+        Umsatz nach Produkten
+          {segmentData.length > 0 && (
+            <span className="text-xs text-theme-muted ml-2">
+              ({segmentData[0]?.label} - {segmentData[segmentData.length - 1]?.label})
+            </span>
+          )}
+        </h3>
+        <button 
+          onClick={onExpand}
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+        >
+          <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
+        </button>
+      </div>
+      
+      <div className="aspect-square">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart 
+            data={normalizedData}  // ✅ Verwende normalisierte Daten
+            margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
+          >
+            <XAxis 
+              dataKey="label" 
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+              interval="preserveStartEnd"
+            />
+            <YAxis 
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+              tickFormatter={(value) => formatAxisValueDE(value)}
+              width={35}
+            />
+            <RechartsTooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload) return null
+                
+                // ✅ FILTERE 0-WERTE AUS DER TOOLTIP
+                const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
+                const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
+                
+                return (
+                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
+                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
+                    {nonZeroPayload.map((entry, index) => (
+                      <div key={index} className="flex justify-between gap-3 text-xs">
+                        <span style={{ color: entry.color }}>{entry.name}:</span>
+                        <span className="text-theme-primary font-medium">
+                          {formatCurrency(entry.value as number)}
+                        </span>
+                      </div>
+                    ))}
+                    <div className="border-t border-theme/20 mt-1 pt-1">
+                      <div className="flex justify-between gap-3 text-xs">
+                        <span className="text-theme-secondary">Gesamt:</span>
+                        <span className="text-theme-primary font-bold">
+                          {formatCurrency(total)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }}
+            />
+            
+            {/* ✅ NUR BARS FÜR SEGMENTE MIT WERTEN RENDERN */}
+            {segmentKeys.map((segment, index) => {
+              const hasAnyValue = normalizedData.some(year => (year[segment] || 0) > 0)
+              if (!hasAnyValue) return null
+              
+              return (
+                <Bar 
+                  key={segment}
+                  dataKey={segment}
+                  stackId="a"
+                  fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
+                  radius={index === segmentKeys.length - 1 ? [2, 2, 0, 0] : [0, 0, 0, 0]}
+                />
+              )
+            }).filter(Boolean)}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )
+}
+
+// ✅ VALUATION METRICS CHART COMPONENT (KGV, KUV, KBV)
+function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
+  if (!isPremium) {
+    return <PremiumLockedChart title="Bewertung" onExpand={onExpand} />
+  }
+
+  return (
+    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-theme-primary">Bewertung</h3>
+        <button onClick={onExpand} className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100">
+          <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
+        </button>
+      </div>
+      
+      <div className="aspect-square">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
+            <XAxis dataKey="label" axisLine={false} tickLine={false} 
+                   tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
+            <YAxis axisLine={false} tickLine={false}
+                   tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+                   tickFormatter={(value) => `${value.toFixed(1)}x`} />
+            <RechartsTooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload) return null
+                return (
+                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
+                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
+                    {payload.map((entry, index) => (
+                      <p key={index} className="text-sm font-medium" style={{ color: entry.color }}>
+                        {entry.name}: {(entry.value as number).toFixed(1)}x
+                      </p>
+                    ))}
+                  </div>
+                )
+              }}
+            />
+            <Line type="monotone" dataKey="pe" name="KGV" stroke="#F97316" strokeWidth={2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="pb" name="KBV" stroke="#8B5CF6" strokeWidth={2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="ps" name="KUV" stroke="#06B6D4" strokeWidth={2} dot={{ r: 3 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )
+}
+
+
+// VOLLSTÄNDIGE GeographicSegmentsChart Komponente
+
+function GeographicSegmentsChart({ 
+  ticker, 
+  onExpand, 
+  isPremium 
+}: { 
+  ticker: string, 
+  onExpand: () => void, 
+  isPremium: boolean 
+}) {
+  const { formatCurrency, formatAxisValueDE } = useCurrency()
+  const [segmentData, setSegmentData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadSegments() {
+      try {
+        const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
+        const res = await fetch(
+          `https://financialmodelingprep.com/api/v4/revenue-geographic-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${apiKey}`
+        )
+        
+        if (res.ok) {
+          const data = await res.json()
+          console.log('📊 Raw geographic data:', data)
+          
+          if (Array.isArray(data) && data.length > 0) {
+            const transformed = data.map((yearData: any) => {
+              let year = ''
+              let segments: any = {}
+              
+              const firstKey = Object.keys(yearData)[0]
+              
+              if (firstKey && firstKey.match(/^\d{4}-\d{2}-\d{2}$/)) {
+                year = firstKey.substring(0, 4)
+                segments = yearData[firstKey]
+              } else if (yearData.date) {
+                year = yearData.date.substring(0, 4)
+                segments = { ...yearData }
+                delete segments.date
+                delete segments.symbol
+              }
+              
+              if (!year || Object.keys(segments).length === 0) return null
+              
+              const result: any = { label: year }
+              
+              Object.entries(segments).forEach(([segmentName, value]) => {
+                if (typeof value === 'number' && value > 0) {
+                  const shortName = segmentName.length > 20 
+                    ? segmentName.substring(0, 17) + '...' 
+                    : segmentName
+                  result[shortName] = value
+                }
+              })
+              
+              return result
+            })
+            .filter(Boolean)
+            .reverse()
+            .slice(-10)
+            
+            console.log('✅ Transformed geographic segments:', transformed)
+            setSegmentData(transformed)
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load geographic segment data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (ticker && isPremium) {
+      loadSegments()
+    } else {
+      setLoading(false)
+    }
+  }, [ticker, isPremium])
+
+  // Premium Check
+  if (!isPremium) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <p className="text-xs text-theme-secondary font-medium">Premium</p>
+          </div>
+        </div>
+        
+        <div className="opacity-30">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Regionen</h3>
+            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
+              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
+            </button>
+          </div>
+          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
+        </div>
+      </div>
+    )
+  }
+
+  // Loading State
+  if (loading) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Regionen</h3>
+        </div>
+        <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
+      </div>
+    )
+  }
+
+  // No Data State
+  if (segmentData.length === 0) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Regionen</h3>
+        </div>
+        <div className="aspect-square flex items-center justify-center">
+          <p className="text-theme-secondary text-xs">Keine geografischen Daten verfügbar</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Chart Rendering
+  const segmentKeys = Object.keys(segmentData[0] || {}).filter(key => key !== 'label')
+  const GEO_COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4', '#EC4899', '#84CC16']
+
+  return (
+    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-theme-primary">
+        Umsatz nach Regionen
+          {segmentData.length > 0 && (
+            <span className="text-xs text-theme-muted ml-2">
+              ({segmentData[0]?.label} - {segmentData[segmentData.length - 1]?.label})
+            </span>
+          )}
+        </h3>
+        <button 
+          onClick={onExpand}
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+        >
+          <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
+        </button>
+      </div>
+      
+      <div className="aspect-square">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart 
+            data={segmentData} 
+            margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
+          >
+            <XAxis 
+              dataKey="label" 
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+              interval="preserveStartEnd"
+            />
+            <YAxis 
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+              tickFormatter={(value) => formatAxisValueDE(value)}
+              width={35}
+            />
+            <RechartsTooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload) return null
+                const total = payload.reduce((sum, entry) => sum + (entry.value as number), 0)
+                
+                return (
+                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
+                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
+                    {payload.slice(0, 5).map((entry, index) => (
+                      <div key={index} className="flex justify-between gap-3 text-xs">
+                        <span style={{ color: entry.color }}>{entry.name}:</span>
+                        <span className="text-theme-primary font-medium">
+                          {formatCurrency(entry.value as number)}
+                        </span>
+                      </div>
+                    ))}
+                    {payload.length > 5 && (
+                      <div className="text-xs text-theme-secondary">+{payload.length - 5} weitere...</div>
+                    )}
+                    <div className="border-t border-theme/20 mt-1 pt-1">
+                      <div className="flex justify-between gap-3 text-xs">
+                        <span className="text-theme-secondary">Gesamt:</span>
+                        <span className="text-theme-primary font-bold">
+                          {formatCurrency(total)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }}
+            />
+            
+            {/* Stacked Bar Chart für Geo-Segmente */}
+            {segmentKeys.map((segment, index) => (
+              <Bar 
+                key={segment}
+                dataKey={segment}
+                stackId="a"
+                fill={GEO_COLORS[index % GEO_COLORS.length]}
+                radius={index === segmentKeys.length - 1 ? [2, 2, 0, 0] : [0, 0, 0, 0]}
+              />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )
+}
+
+
+function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
+  const { formatCurrency, formatAxisValueDE } = useCurrency()
 
   if (!isPremium) {
     return (
@@ -557,7 +1365,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       </div>
     )
   }
-
+ 
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
@@ -589,7 +1397,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               height={25}
             />
             <YAxis 
-              tickFormatter={formatAxisValueDE} // ✅ NUTZE CONTEXT-FUNKTION!
+              tickFormatter={formatAxisValueDE}
               axisLine={false}
               tickLine={false}
               tick={{ 
@@ -622,9 +1430,9 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       </div>
     </div>
   )
-}
-
-function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
+ }
+ 
+ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
   if (!isPremium) {
     return (
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
@@ -651,6 +1459,7 @@ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: ()
       </div>
     )
   }
+  
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
@@ -691,7 +1500,7 @@ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: ()
               tickFormatter={(value) => `${new Intl.NumberFormat('de-DE', {
                 minimumFractionDigits: 1,
                 maximumFractionDigits: 1
-              }).format(value)}x`} // ✅ DEUTSCHE FORMATIERUNG
+              }).format(value)}x`}
               width={35}
               domain={[0, 'dataMax']}
             />
@@ -726,14 +1535,14 @@ function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: ()
       </div>
     </div>
   )
-}
-
-// ─── Main Component - ULTRA CLEAN: PROFESSIONELLE CONTROLS + BORDERLESS CHARTS ────────────────────────────────────────────────────────────────
-export default function FinancialAnalysisClient({ 
+ }
+ 
+ // ─── Main Component - ULTRA CLEAN: PROFESSIONELLE CONTROLS + BORDERLESS CHARTS ────────────────
+ export default function FinancialAnalysisClient({ 
   ticker, 
   isPremium = false, 
   userId 
-}: Props) {
+ }: Props) {
   
   const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
   const [data, setData] = useState<any[]>([])
@@ -742,22 +1551,110 @@ export default function FinancialAnalysisClient({
   const [visibleCharts, setVisibleCharts] = useState<MetricKey[]>(ALL_METRICS)
   const [dataQuality, setDataQuality] = useState<string>('loading')
   
+  // ✅ NEUE STATES FÜR PRESET SYSTEM
+  const [selectedPreset, setSelectedPreset] = useState<string>('')
+  const [customPresets, setCustomPresets] = useState<CustomPreset[]>([])
+  const [showSavePresetDialog, setShowSavePresetDialog] = useState(false)
+  const [newPresetName, setNewPresetName] = useState('')
+  
   const { currency } = useCurrency()
-
-  // ✅ ÄNDERUNG: 10 Jahre Standard (nicht 20)
+ 
   const overviewYears = 10
-
+ 
+  // ✅ LOAD CUSTOM PRESETS FROM LOCALSTORAGE
+  useEffect(() => {
+    const loadCustomPresets = () => {
+      try {
+        const saved = localStorage.getItem(`chartPresets_${userId || 'default'}`)
+        if (saved) {
+          setCustomPresets(JSON.parse(saved))
+        }
+      } catch (error) {
+        console.error('Failed to load custom presets:', error)
+      }
+    }
+    loadCustomPresets()
+  }, [userId])
+ 
+  // ✅ SAVE CUSTOM PRESETS TO LOCALSTORAGE
+  const saveCustomPresets = (presets: CustomPreset[]) => {
+    try {
+      localStorage.setItem(`chartPresets_${userId || 'default'}`, JSON.stringify(presets))
+      setCustomPresets(presets)
+    } catch (error) {
+      console.error('Failed to save custom presets:', error)
+    }
+  }
+ 
+  // ✅ APPLY PRESET
+  const applyPreset = (presetKey: string) => {
+    if (!isPremium) {
+      window.location.href = '/pricing'
+      return
+    }
+ 
+    setSelectedPreset(presetKey)
+    
+    // Check if it's a built-in preset
+    if (CHART_PRESETS[presetKey]) {
+      setVisibleCharts(CHART_PRESETS[presetKey].charts)
+      return
+    }
+    
+    // Check if it's a custom preset
+    const customPreset = customPresets.find(p => p.id === presetKey)
+    if (customPreset) {
+      setVisibleCharts(customPreset.charts)
+      // Update last used
+      const updated = customPresets.map(p => 
+        p.id === presetKey 
+          ? { ...p, lastUsed: new Date().toISOString() }
+          : p
+      )
+      saveCustomPresets(updated)
+    }
+  }
+ 
+  // ✅ SAVE CURRENT SELECTION AS PRESET
+  const saveCurrentAsPreset = () => {
+    if (!isPremium) {
+      window.location.href = '/pricing'
+      return
+    }
+ 
+    if (!newPresetName.trim()) return
+ 
+    const newPreset: CustomPreset = {
+      id: `custom_${Date.now()}`,
+      name: newPresetName.trim(),
+      charts: visibleCharts,
+      created: new Date().toISOString()
+    }
+ 
+    saveCustomPresets([...customPresets, newPreset])
+    setNewPresetName('')
+    setShowSavePresetDialog(false)
+    setSelectedPreset(newPreset.id)
+  }
+ 
+  // ✅ DELETE CUSTOM PRESET
+  const deleteCustomPreset = (presetId: string) => {
+    const updated = customPresets.filter(p => p.id !== presetId)
+    saveCustomPresets(updated)
+    if (selectedPreset === presetId) {
+      setSelectedPreset('')
+    }
+  }
+ 
   useEffect(() => {
     async function loadRealData() {
       setLoadingData(true)
       setDataQuality('loading')
       
       try {
-        // ✅ Multi-Source Financial Data Service (10 Jahre standard)
         const realData = await financialDataService.getFinancialData(ticker, overviewYears, period)
         setData(realData)
         
-        // ✅ Datenqualität bestimmen
         const hasValidatedData = realData.some(d => d.dataQuality === 'validated')
         const hasModernData = realData.some(d => d.modernDataUsed)
         const hasData = realData.length > 0
@@ -789,12 +1686,12 @@ export default function FinancialAnalysisClient({
         setLoadingData(false)
       }
     }
-
+ 
     if (ticker) {
       loadRealData()
     }
   }, [ticker, period])
-
+ 
   if (loadingData) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -802,7 +1699,7 @@ export default function FinancialAnalysisClient({
       </div>
     )
   }
-
+ 
   const handlePremiumAction = (action: () => void) => {
     if (!isPremium) {
       window.location.href = '/pricing'
@@ -810,26 +1707,37 @@ export default function FinancialAnalysisClient({
       action()
     }
   }
-
+ 
   const toggleChartVisibility = (chartKey: MetricKey) => {
     setVisibleCharts(prev =>
       prev.includes(chartKey) 
         ? prev.filter(x => x !== chartKey)
         : [...prev, chartKey]
     )
+    // Clear selected preset when manually changing charts
+    setSelectedPreset('')
   }
-
+ 
   function getChartName(key: MetricKey): string {
     if (key === 'cashDebt') return 'Liquidität & Schulden'
     if (key === 'pe') return 'KGV TTM'
     if (key === 'capEx') return 'CapEx'
-    if (key === 'researchAndDevelopment') return 'F&E'
+    if (key === 'researchAndDevelopment') return 'Forschung & Entwicklung'
     if (key === 'operatingIncome') return 'Betriebsergebnis'
+    if (key === 'revenueSegments') return 'Umsatz nach Produkten'
+    if (key === 'geographicSegments') return 'Umsatz nach Regionen' 
+    if (key === 'profitMargin') return 'Gewinnmarge'
+    if (key === 'valuationMetrics') return 'Bewertung'
     
     const metric = METRICS.find(m => m.key === key)
     return metric?.shortName || key
   }
-
+ 
+  // Ref für ALL_METRICS hinzufügen falls noch nicht vorhanden
+  if (!ALL_METRICS.includes('valuationMetrics' as MetricKey)) {
+    ALL_METRICS.push('valuationMetrics' as MetricKey)
+  }
+ 
   return (
     <div className="space-y-6">
       
@@ -861,7 +1769,6 @@ export default function FinancialAnalysisClient({
           
           {/* STATUS INDIKATOREN */}
           <div className="flex items-center gap-4">
-            {/* ✅ ERWEITERTE DATENQUALITÄTS-INDIKATOREN */}
             {dataQuality === 'multi-source-validated-modern' && (
               <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-xs">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -882,19 +1789,188 @@ export default function FinancialAnalysisClient({
           </div>
         </div>
         
+        {/* ✅ NEUE PRESET CONTROLS */}
+        <div className="mb-6 pb-6 border-b border-theme/10">
+          <div className="flex flex-wrap items-center gap-4">
+            {/* Preset Quick Buttons */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-theme-primary font-semibold">Presets:</span>
+              <div className="flex gap-2">
+                {Object.entries(CHART_PRESETS).slice(0, 5).map(([key, preset]) => (
+                  <button
+                    key={key}
+                    onClick={() => applyPreset(key)}
+                    className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
+                      selectedPreset === key
+                        ? 'bg-green-500 text-white'
+                        : 'bg-theme-tertiary text-theme-secondary hover:bg-green-500/10 hover:text-green-400'
+                    }`}
+                    title={preset.description}
+                  >
+                    <span className="mr-1">{preset.icon}</span>
+                    {preset.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+ 
+            {/* More Presets Dropdown */}
+            <select
+              value={selectedPreset}
+              onChange={(e) => applyPreset(e.target.value)}
+              className="px-3 py-1.5 text-xs bg-theme-tertiary text-theme-secondary rounded-lg hover:bg-theme-hover transition-colors"
+            >
+              <option value="">Weitere Presets...</option>
+              <optgroup label="Standard Presets">
+                {Object.entries(CHART_PRESETS).slice(5).map(([key, preset]) => (
+                  <option key={key} value={key}>
+                    {preset.icon} {preset.name}
+                  </option>
+                ))}
+              </optgroup>
+              {customPresets.length > 0 && (
+                <optgroup label="Meine Presets">
+                  {customPresets.map(preset => (
+                    <option key={preset.id} value={preset.id}>
+                      ⭐ {preset.name}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+            </select>
+ 
+            {/* Save Current Button */}
+            <button
+              onClick={() => handlePremiumAction(() => setShowSavePresetDialog(true))}
+              className="px-3 py-1.5 text-xs bg-theme-tertiary text-theme-secondary rounded-lg hover:bg-green-500/10 hover:text-green-400 transition-colors"
+            >
+              💾 Aktuelle Auswahl speichern
+            </button>
+ 
+            {/* Delete Custom Preset Button (if custom preset selected) */}
+            {selectedPreset.startsWith('custom_') && (
+              <button
+                onClick={() => deleteCustomPreset(selectedPreset)}
+                className="px-3 py-1.5 text-xs bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors"
+              >
+                🗑️ Löschen
+              </button>
+            )}
+          </div>
+ 
+       {/* Save Preset Dialog - ALS MODAL */}
+{showSavePresetDialog && (
+  <>
+    {/* Backdrop */}
+    <div 
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+      onClick={() => {
+        setShowSavePresetDialog(false)
+        setNewPresetName('')
+      }}
+    />
+    
+    {/* Modal */}
+    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md">
+      <div className="bg-theme-card rounded-xl shadow-2xl border border-theme/20 p-6">
+        {/* Header */}
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-theme-primary">
+            Preset speichern
+          </h3>
+          <p className="text-sm text-theme-secondary mt-1">
+            Speichere deine aktuelle Chart-Auswahl als wiederverwendbares Preset
+          </p>
+        </div>
+        
+        {/* Input */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-theme-primary mb-2">
+            Preset Name
+          </label>
+          <input
+            type="text"
+            value={newPresetName}
+            onChange={(e) => setNewPresetName(e.target.value)}
+            placeholder="z.B. Meine Analyse, Q4 Report, Tech-Fokus..."
+            className="w-full px-4 py-2.5 bg-theme-tertiary text-theme-primary rounded-lg 
+                     border border-theme/20 focus:outline-none focus:ring-2 focus:ring-green-500 
+                     focus:border-transparent transition-all"
+            onKeyDown={(e) => e.key === 'Enter' && newPresetName.trim() && saveCurrentAsPreset()}
+            autoFocus
+          />
+        </div>
+        
+        {/* Info */}
+        <div className="mb-6 p-3 bg-theme-tertiary/50 rounded-lg">
+          <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-green-400">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="font-medium">{visibleCharts.length} Charts ausgewählt</span>
+            </div>
+            <span className="text-theme-muted">•</span>
+            <span className="text-theme-muted">
+              {visibleCharts.length === 0 ? 'Keine Charts' : 
+               visibleCharts.length === ALL_METRICS.length ? 'Alle Charts' : 
+               'Individuelle Auswahl'}
+            </span>
+          </div>
+        </div>
+        
+        {/* Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              setShowSavePresetDialog(false)
+              setNewPresetName('')
+            }}
+            className="flex-1 px-4 py-2.5 text-sm font-medium bg-theme-tertiary text-theme-secondary 
+                     rounded-lg hover:bg-theme-hover transition-colors"
+          >
+            Abbrechen
+          </button>
+          <button
+            onClick={saveCurrentAsPreset}
+            disabled={!newPresetName.trim()}
+            className="flex-1 px-4 py-2.5 text-sm font-medium bg-green-500 text-white rounded-lg 
+                     hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed 
+                     transition-all transform hover:scale-[1.02] disabled:hover:scale-100"
+          >
+            <div className="flex items-center justify-center gap-2">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Speichern
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </>
+)}
+        </div>
+        
         {/* KENNZAHLEN AUSWAHL - PROFESSIONELL */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-semibold text-theme-primary">Kennzahlen auswählen</h4>
             <div className="flex gap-2">
               <button
-                onClick={() => handlePremiumAction(() => setVisibleCharts(ALL_METRICS))}
+                onClick={() => handlePremiumAction(() => {
+                  setVisibleCharts(ALL_METRICS)
+                  setSelectedPreset('')
+                })}
                 className="text-xs text-theme-secondary hover:text-green-600 px-2 py-1 hover:bg-green-500/10 rounded transition-colors"
               >
                 Alle
               </button>
               <button
-                onClick={() => handlePremiumAction(() => setVisibleCharts([]))}
+                onClick={() => handlePremiumAction(() => {
+                  setVisibleCharts([])
+                  setSelectedPreset('')
+                })}
                 className="text-xs text-theme-secondary hover:text-red-600 px-2 py-1 hover:bg-red-500/10 rounded transition-colors"
               >
                 Keine
@@ -924,39 +2000,92 @@ export default function FinancialAnalysisClient({
           </div>
         </div>
       </div>
-
+ 
       {/* ✅ ULTRA CLEAN GRID: 5 SPALTEN + KOMPLETT OHNE BORDERS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-        {METRICS.filter(metric => visibleCharts.includes(metric.key)).map((metric) => (
-          <ChartCard
-            key={metric.key}
-            title={metric.shortName}
-            data={data}
-            metricKey={metric.key}
-            color={metric.color}
-            gradient={metric.gradient}
-            onExpand={() => setFullscreen(metric.key)}
-            isPremium={isPremium}
-          />
-        ))}
-        
-        {visibleCharts.includes('cashDebt') && (
-          <CashDebtChart 
-            data={data} 
-            onExpand={() => setFullscreen('cashDebt')}
-            isPremium={isPremium}
-          />
-        )}
-        
-        {visibleCharts.includes('pe') && (
-          <PERatioChart 
-            data={data} 
-            onExpand={() => setFullscreen('pe')}
-            isPremium={isPremium}
-          />
-        )}
+        {/* Render charts in the exact order of ALL_METRICS */}
+        {ALL_METRICS.filter(key => visibleCharts.includes(key)).map((metricKey) => {
+          // Find if it's a regular metric
+          const metric = METRICS.find(m => m.key === metricKey)
+          
+          // Render based on metric type
+          if (metric) {
+            return (
+              <ChartCard
+                key={metricKey}
+                title={metric.shortName}
+                data={data}
+                metricKey={metricKey}
+                color={metric.color}
+                gradient={metric.gradient}
+                onExpand={() => setFullscreen(metricKey)}
+                isPremium={isPremium}
+              />
+            )
+          }
+          
+          // Special charts
+          switch(metricKey) {
+            case 'revenueSegments':
+              return (
+                <RevenueSegmentsChart 
+                  key={metricKey}
+                  ticker={ticker}
+                  onExpand={() => setFullscreen('revenueSegments')}
+                  isPremium={isPremium}
+                />
+              )
+            case 'cashDebt':
+              return (
+                <CashDebtChart 
+                  key={metricKey}
+                  data={data} 
+                  onExpand={() => setFullscreen('cashDebt')}
+                  isPremium={isPremium}
+                />
+              )
+            case 'pe':
+              return (
+                <PERatioChart 
+                  key={metricKey}
+                  data={data} 
+                  onExpand={() => setFullscreen('pe')}
+                  isPremium={isPremium}
+                />
+              )
+            case 'profitMargin':
+              return (
+                <ProfitMarginChart 
+                  key={metricKey}
+                  data={data} 
+                  onExpand={() => setFullscreen('profitMargin')}
+                  isPremium={isPremium}
+                />
+              )
+            case 'valuationMetrics':
+              return (
+                <ValuationMetricsChart 
+                  key={metricKey}
+                  data={data} 
+                  onExpand={() => setFullscreen('valuationMetrics')}
+                  isPremium={isPremium}
+                />
+              )
+            case 'geographicSegments':
+              return (
+                <GeographicSegmentsChart 
+                  key={metricKey}
+                  ticker={ticker}
+                  onExpand={() => setFullscreen('geographicSegments')}
+                  isPremium={isPremium}
+                />
+              )
+            default:
+              return null
+          }
+        })}
       </div>
-
+ 
       {/* ✅ HINWEIS: Modal braucht noch Update für 3/5/10/20 Jahre Optionen */}
       <FinancialChartModal
         isOpen={!!fullscreen}
@@ -967,4 +2096,4 @@ export default function FinancialAnalysisClient({
       />
     </div>
   )
-}
+ }

@@ -9,57 +9,137 @@
       "name": "TRANSDIGM GROUP INC",
       "cusip": "893641100",
       "shares": 1073264,
-      "value": 1371212819
+      "value": 1371212819,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 1934816,
-      "value": 864766011
+      "value": 864766011,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "AMAZON.COM INC",
       "cusip": "023135106",
       "shares": 4129460,
-      "value": 798018145
+      "value": 798018145,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "ALPHABET INC-CL A",
       "cusip": "02079K305",
       "shares": 4002110,
-      "value": 728984337
+      "value": 728984337,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "VISA INC-CLASS A SHRS",
       "cusip": "92826C839",
       "shares": 1778383,
-      "value": 466772186
+      "value": 466772186,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "MOODYS CORP",
       "cusip": "615369105",
       "shares": 1087080,
-      "value": 457584584
+      "value": 457584584,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "MASTERCARD INC-CLASS A",
       "cusip": "57636Q104",
       "shares": 267033,
-      "value": 117804278
+      "value": 117804278,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "FAIR ISAAC INC",
       "cusip": "303250104",
       "shares": 34652,
-      "value": 51585046
+      "value": 51585046,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     },
     {
       "name": "CHARTER COMMUNICATIONS INC-A",
       "cusip": "16119P108",
       "shares": 6025,
-      "value": 1801234
+      "value": 1801234,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMM",
+      "putCall": null
     }
   ],
   "totalValue": 4858528640,
-  "positionsCount": 9
+  "positionsCount": 9,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 4858528640
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

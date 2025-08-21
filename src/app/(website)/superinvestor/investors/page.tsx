@@ -182,6 +182,11 @@ const investorMetadata: Record<string, {
     subtitle: 'Cantillon Capital Management',
     type: 'investor'
   },
+  chou: {
+    name: 'Franchis Chou',
+    subtitle: 'Chou Associates',
+    type: 'investor'
+  },
   duan: {
     name: 'Duan Yongping',
     subtitle: 'H&H International Investment',
@@ -195,6 +200,16 @@ const investorMetadata: Record<string, {
   gayner: {
     name: 'Thomas Gayner',
     subtitle: 'Markel Group',
+    type: 'investor'
+  },
+  hong: {
+    name: 'Dennis Hong',
+    subtitle: 'ShawSpring Partners',
+    type: 'investor'
+  },
+  burry: {
+    name: 'Michael Burry',
+    subtitle: 'Scion Asset Management',
     type: 'investor'
   },
   akre: {
@@ -268,6 +283,16 @@ const investorMetadata: Record<string, {
   },
   bobrinskoy: {
     name: 'Charles Bobrinskoy',
+    subtitle: '',
+    type: 'investor'
+  },
+  lou: {
+    name: 'Norbert Lou',
+    subtitle: 'Punch Card Management',
+    type: 'investor'
+  },
+  munger: {
+    name: 'Charlie Munger',
     subtitle: '',
     type: 'investor'
   },
@@ -381,6 +406,11 @@ const investorMetadata: Record<string, {
     subtitle: 'Fairfax Financial Holdings',
     type: 'investor'
   },
+  welling: {
+    name: 'Glenn Welling',
+    subtitle: 'Engaged Capital',
+    type: 'investor'
+  },
   sosin: {
     name: 'Clifford Sosin',
     subtitle: 'CAS Investment Parners',
@@ -399,6 +429,11 @@ const investorMetadata: Record<string, {
   bares: {
     name: 'Brian Bares',
     subtitle: 'Bares Capital Management',
+    type: 'investor'
+  },
+  tarasoff: {
+    name: 'Josh Tarasoff',
+    subtitle: 'Greenlea Lane Capital',
     type: 'investor'
   },
   dorsey: {

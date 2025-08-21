@@ -9,57 +9,137 @@
       "name": "EVOLENT HEALTH INC",
       "cusip": "30050B101",
       "shares": 3261458,
-      "value": 107725958
+      "value": 107725958,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "SHAKE SHACK INC",
       "cusip": "819047101",
       "shares": 1367231,
-      "value": 101339162
+      "value": 101339162,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "V F CORP",
       "cusip": "918204108",
       "shares": 5341368,
-      "value": 100417718
+      "value": 100417718,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NCR VOYIX CORPORATION",
       "cusip": "62886E108",
       "shares": 5018513,
-      "value": 84863055
+      "value": 84863055,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "UPBOUND GROUP INC",
       "cusip": "76009N100",
       "shares": 2396916,
-      "value": 81423237
+      "value": 81423237,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NCR ATLEOS CORPORATION",
       "cusip": "63001N106",
       "shares": 2509256,
-      "value": 60949828
+      "value": 60949828,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
     },
     {
       "name": "PRA GROUP INC",
       "cusip": "69354N106",
       "shares": 2010750,
-      "value": 52681650
+      "value": 52681650,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NEVRO CORP",
       "cusip": "64157F103",
       "shares": 2168163,
-      "value": 46658868
+      "value": 46658868,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BRC INC",
       "cusip": "05601U105",
       "shares": 12851018,
-      "value": 46649195
+      "value": 46649195,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     }
   ],
   "totalValue": 682708671,
-  "positionsCount": 9
+  "positionsCount": 9,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 682708671
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

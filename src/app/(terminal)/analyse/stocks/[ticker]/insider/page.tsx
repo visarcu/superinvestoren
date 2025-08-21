@@ -506,53 +506,9 @@ export default function TickerInsiderPage() {
   return (
     <div className="p-6 space-y-6">
       {/* ✅ EINHEITLICHER HEADER - wie FinancialsPage */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href={`/analyse/stocks/${ticker.toLowerCase()}`}
-            className="flex items-center gap-2 text-theme-muted hover:text-green-400 transition-colors"
-          >
-            <ArrowLeftIcon className="w-4 h-4" />
-            <span className="text-sm">Zurück zu {ticker}</span>
-          </Link>
-        </div>
-        <div className="flex items-center gap-3">
-          {user?.isPremium && (
-            <span className="px-2 py-1 bg-green-500/20 text-amber-400 text-xs rounded-full font-medium">
-              Premium
-            </span>
-          )}
-        </div>
-      </div>
+     
 
-      {/* ✅ COMPANY HEADER - wie FinancialsPage */}
-      <div className="flex items-center gap-4">
-        <div className="w-12 h-12 bg-theme-tertiary rounded-lg flex items-center justify-center">
-          <span className="text-xl font-bold text-theme-primary">{ticker}</span>
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold text-theme-primary flex items-center gap-3">
-            <UserGroupIcon className="w-8 h-8 text-green-500" />
-            {ticker} Insider Trading
-          </h1>
-          {companyProfile && (
-            <div className="mt-1">
-              <p className="text-theme-secondary font-medium">{companyProfile.companyName}</p>
-              <div className="flex items-center gap-3 mt-1">
-                <span className="text-sm text-theme-muted">{companyProfile.sector}</span>
-                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                <span className="text-sm text-theme-muted">{companyProfile.industry}</span>
-                {companyProfile.marketCap > 0 && (
-                  <>
-                    <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                    <span className="text-sm text-theme-muted">MCap: {formatMarketCap(companyProfile.marketCap)}</span>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+
 
       {/* ✅ CONTROLS ROW */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

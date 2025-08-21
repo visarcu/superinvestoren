@@ -9,9 +9,7 @@ import {
   ArrowUpTrayIcon,
   CurrencyDollarIcon,
   PlusIcon,
-  MinusIcon,
   ArrowPathIcon,
-  FunnelIcon,
   DocumentArrowDownIcon,
   CalendarIcon
 } from '@heroicons/react/24/outline'
@@ -47,8 +45,8 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
   const [showAddTransaction, setShowAddTransaction] = useState(false)
   
-  // Add Transaction Form
-  const [transactionType, setTransactionType] = useState<'buy' | 'sell'>('buy')
+  // Add Transaction Form - MIT DIVIDEND TYPE
+  const [transactionType, setTransactionType] = useState<'buy' | 'sell' | 'dividend'>('buy')
   const [transactionSymbol, setTransactionSymbol] = useState('')
   const [transactionQuantity, setTransactionQuantity] = useState('')
   const [transactionPrice, setTransactionPrice] = useState('')
@@ -109,15 +107,31 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
   }
 
   const handleAddTransaction = async () => {
-    if (!transactionSymbol || !transactionQuantity || !transactionPrice) {
+    if (!transactionSymbol || !transactionPrice) {
       alert('Bitte alle Pflichtfelder ausfüllen')
+      return
+    }
+
+    // Für Dividenden brauchen wir keine Quantity
+    if (transactionType !== 'dividend' && !transactionQuantity) {
+      alert('Bitte Anzahl angeben')
       return
     }
 
     setAdding(true)
     
     try {
-      const totalValue = parseFloat(transactionQuantity) * parseFloat(transactionPrice)
+      let totalValue: number
+      let quantity: number
+      
+      if (transactionType === 'dividend') {
+        // Bei Dividenden ist der Preis der Gesamtbetrag
+        totalValue = parseFloat(transactionPrice)
+        quantity = 0 // Oder 1, je nachdem wie du es handhaben willst
+      } else {
+        totalValue = parseFloat(transactionQuantity) * parseFloat(transactionPrice)
+        quantity = parseFloat(transactionQuantity)
+      }
       
       // Versuche die Transaktion zu speichern
       const { error } = await supabase
@@ -126,12 +140,12 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
           portfolio_id: portfolioId,
           type: transactionType,
           symbol: transactionSymbol.toUpperCase(),
-          name: transactionSymbol.toUpperCase(), // Vereinfacht
-          quantity: parseFloat(transactionQuantity),
-          price: parseFloat(transactionPrice),
+          name: transactionSymbol.toUpperCase(),
+          quantity: quantity,
+          price: transactionType === 'dividend' ? 0 : parseFloat(transactionPrice),
           total_value: totalValue,
           date: transactionDate,
-          notes: transactionNotes
+          notes: transactionNotes || (transactionType === 'dividend' ? 'Dividend Payment' : '')
         })
 
       if (error) {
@@ -142,12 +156,12 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
           type: transactionType,
           symbol: transactionSymbol.toUpperCase(),
           name: transactionSymbol.toUpperCase(),
-          quantity: parseFloat(transactionQuantity),
-          price: parseFloat(transactionPrice),
+          quantity: quantity,
+          price: transactionType === 'dividend' ? 0 : parseFloat(transactionPrice),
           total_value: totalValue,
           date: transactionDate,
           created_at: new Date().toISOString(),
-          notes: transactionNotes
+          notes: transactionNotes || (transactionType === 'dividend' ? 'Dividend Payment' : '')
         }
         setTransactions([newTransaction, ...transactions])
       } else {
@@ -159,6 +173,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
       setTransactionQuantity('')
       setTransactionPrice('')
       setTransactionNotes('')
+      setTransactionDate(new Date().toISOString().split('T')[0])
       setShowAddTransaction(false)
       
     } catch (error) {
@@ -308,46 +323,61 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
         </div>
       </div>
 
-      {/* Add Transaction Modal */}
+      {/* Add Transaction Modal - ERWEITERT MIT DIVIDENDEN */}
       {showAddTransaction && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+          <div className="bg-theme-card rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
             <h3 className="text-xl font-bold text-theme-primary mb-4">
               Transaktion hinzufügen
             </h3>
 
             <div className="space-y-4">
+              {/* Transaction Type Selector - MIT DIVIDENDE */}
               <div>
                 <label className="block text-sm font-medium text-theme-secondary mb-2">
                   Typ
                 </label>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   <button
                     onClick={() => setTransactionType('buy')}
-                    className={`flex-1 py-2 px-4 rounded-lg border transition-colors ${
+                    className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
                       transactionType === 'buy'
                         ? 'bg-green-500/20 border-green-500/50 text-green-400'
                         : 'border-theme/20 text-theme-secondary hover:border-theme/40'
                     }`}
                   >
-                    Kauf
+                    <ArrowDownTrayIcon className="w-4 h-4" />
+                    <span className="text-xs">Kauf</span>
                   </button>
                   <button
                     onClick={() => setTransactionType('sell')}
-                    className={`flex-1 py-2 px-4 rounded-lg border transition-colors ${
+                    className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
                       transactionType === 'sell'
                         ? 'bg-red-500/20 border-red-500/50 text-red-400'
                         : 'border-theme/20 text-theme-secondary hover:border-theme/40'
                     }`}
                   >
-                    Verkauf
+                    <ArrowUpTrayIcon className="w-4 h-4" />
+                    <span className="text-xs">Verkauf</span>
+                  </button>
+                  <button
+                    onClick={() => setTransactionType('dividend')}
+                    className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
+                      transactionType === 'dividend'
+                        ? 'bg-blue-500/20 border-blue-500/50 text-blue-400'
+                        : 'border-theme/20 text-theme-secondary hover:border-theme/40'
+                    }`}
+                  >
+                    <CurrencyDollarIcon className="w-4 h-4" />
+                    <span className="text-xs">Dividende</span>
                   </button>
                 </div>
               </div>
 
+              {/* Symbol Input */}
               <div>
                 <label className="block text-sm font-medium text-theme-secondary mb-1">
-                  Symbol
+                  Symbol *
                 </label>
                 <input
                   type="text"
@@ -358,38 +388,63 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-1">
-                    Anzahl
-                  </label>
-                  <input
-                    type="number"
-                    value={transactionQuantity}
-                    onChange={(e) => setTransactionQuantity(e.target.value)}
-                    placeholder="100"
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
-                  />
-                </div>
+              {/* Conditional Fields based on Type */}
+              {transactionType === 'dividend' ? (
+                <>
+                  {/* For Dividends: Total Amount instead of Quantity & Price */}
+                  <div>
+                    <label className="block text-sm font-medium text-theme-secondary mb-1">
+                      Dividendenbetrag ($) *
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={transactionPrice}
+                      onChange={(e) => setTransactionPrice(e.target.value)}
+                      placeholder="45.50"
+                      className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                    />
+                    <p className="text-xs text-theme-muted mt-1">Gesamter erhaltener Betrag</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* For Buy/Sell: Quantity and Price */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                        Anzahl *
+                      </label>
+                      <input
+                        type="number"
+                        value={transactionQuantity}
+                        onChange={(e) => setTransactionQuantity(e.target.value)}
+                        placeholder="100"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-1">
-                    Preis ($)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={transactionPrice}
-                    onChange={(e) => setTransactionPrice(e.target.value)}
-                    placeholder="150.00"
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
-                  />
-                </div>
-              </div>
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                        Preis ($) *
+                      </label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={transactionPrice}
+                        onChange={(e) => setTransactionPrice(e.target.value)}
+                        placeholder="150.00"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
 
+              {/* Date Input */}
               <div>
                 <label className="block text-sm font-medium text-theme-secondary mb-1">
-                  Datum
+                  Datum *
                 </label>
                 <input
                   type="date"
@@ -399,6 +454,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                 />
               </div>
 
+              {/* Notes Input */}
               <div>
                 <label className="block text-sm font-medium text-theme-secondary mb-1">
                   Notizen (optional)
@@ -406,31 +462,62 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                 <textarea
                   value={transactionNotes}
                   onChange={(e) => setTransactionNotes(e.target.value)}
-                  placeholder="Zusätzliche Informationen..."
+                  placeholder={
+                    transactionType === 'dividend' 
+                      ? "z.B. Q3 2024 Dividende" 
+                      : "Zusätzliche Informationen..."
+                  }
                   rows={2}
                   className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
                 />
               </div>
 
-              {transactionQuantity && transactionPrice && (
+              {/* Total Value Display */}
+              {((transactionType !== 'dividend' && transactionQuantity && transactionPrice) || 
+                (transactionType === 'dividend' && transactionPrice)) && (
                 <div className="p-3 bg-theme-secondary/30 rounded-lg">
-                  <p className="text-sm text-theme-secondary">Gesamtwert</p>
+                  <p className="text-sm text-theme-secondary">
+                    {transactionType === 'dividend' ? 'Dividende' : 'Gesamtwert'}
+                  </p>
                   <p className="text-lg font-bold text-theme-primary">
-                    ${(parseFloat(transactionQuantity || '0') * parseFloat(transactionPrice || '0')).toFixed(2)}
+                    ${transactionType === 'dividend' 
+                      ? parseFloat(transactionPrice || '0').toFixed(2)
+                      : (parseFloat(transactionQuantity || '0') * parseFloat(transactionPrice || '0')).toFixed(2)
+                    }
                   </p>
                 </div>
               )}
 
+              {/* Action Buttons */}
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={handleAddTransaction}
-                  disabled={adding}
-                  className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:bg-theme-secondary text-white rounded-lg transition-colors"
+                  disabled={adding || !transactionSymbol || !transactionPrice || 
+                    (transactionType !== 'dividend' && !transactionQuantity)}
+                  className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
-                  {adding ? 'Hinzufügen...' : 'Hinzufügen'}
+                  {adding ? (
+                    <>
+                      <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                      Hinzufügen...
+                    </>
+                  ) : (
+                    <>
+                      <PlusIcon className="w-4 h-4" />
+                      {transactionType === 'dividend' ? 'Dividende' : 'Transaktion'} hinzufügen
+                    </>
+                  )}
                 </button>
                 <button
-                  onClick={() => setShowAddTransaction(false)}
+                  onClick={() => {
+                    setShowAddTransaction(false)
+                    // Reset form
+                    setTransactionSymbol('')
+                    setTransactionQuantity('')
+                    setTransactionPrice('')
+                    setTransactionNotes('')
+                    setTransactionDate(new Date().toISOString().split('T')[0])
+                  }}
                   className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
                 >
                   Abbrechen
@@ -541,8 +628,12 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                     </div>
                     
                     <div className="flex items-center gap-4 text-sm text-theme-secondary">
-                      <span>{transaction.quantity} Stück</span>
-                      <span>@ ${transaction.price.toFixed(2)}</span>
+                      {transaction.type !== 'dividend' && (
+                        <>
+                          <span>{transaction.quantity} Stück</span>
+                          <span>@ ${transaction.price.toFixed(2)}</span>
+                        </>
+                      )}
                       <span className="flex items-center gap-1">
                         <CalendarIcon className="w-3 h-3" />
                         {formatDate(transaction.date)}

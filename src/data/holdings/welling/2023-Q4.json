@@ -9,45 +9,109 @@
       "name": "NCR CORP NEW",
       "cusip": "62886E108",
       "shares": 5018513,
-      "value": 135349296
+      "value": 135349296,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "UPBOUND GROUP INC",
       "cusip": "76009N100",
       "shares": 3667373,
-      "value": 108004135
+      "value": 108004135,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "V F CORP",
       "cusip": "918204108",
       "shares": 5196284,
-      "value": 91818338
+      "value": 91818338,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SHAKE SHACK INC",
       "cusip": "819047101",
       "shares": 1367231,
-      "value": 79395104
+      "value": 79395104,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "EVOLENT HEALTH INC",
       "cusip": "30050B101",
       "shares": 2832810,
-      "value": 77137416
+      "value": 77137416,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "BRC INC",
       "cusip": "05601U105",
       "shares": 12451018,
-      "value": 44699155
+      "value": 44699155,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "PRIMO WATER CORPORATION",
       "cusip": "74167P108",
       "shares": 878751,
-      "value": 12126764
+      "value": 12126764,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 548530208,
-  "positionsCount": 7
+  "positionsCount": 7,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 548530208
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

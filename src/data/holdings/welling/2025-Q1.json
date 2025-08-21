@@ -9,51 +9,123 @@
       "name": "V F CORP",
       "cusip": "918204108",
       "shares": 5341368,
-      "value": 114625757
+      "value": 114625757,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NCR VOYIX CORPORATION",
       "cusip": "62886E108",
       "shares": 5771033,
-      "value": 79871097
+      "value": 79871097,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NCR ATLEOS CORPORATION",
       "cusip": "63001N106",
       "shares": 2206041,
-      "value": 74828911
+      "value": 74828911,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
     },
     {
       "name": "EVOLENT HEALTH INC",
       "cusip": "30050B101",
       "shares": 5404768,
-      "value": 60803640
+      "value": 60803640,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "PORTILLOS INC",
       "cusip": "73642K106",
       "shares": 6114956,
-      "value": 57480586
+      "value": 57480586,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "BRC INC",
       "cusip": "05601U105",
       "shares": 13535560,
-      "value": 42907725
+      "value": 42907725,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "CHART INDS INC",
       "cusip": "16115Q308",
       "shares": 224796,
-      "value": 42900069
+      "value": 42900069,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PRA GROUP INC",
       "cusip": "69354N106",
       "shares": 619945,
-      "value": 12950651
+      "value": 12950651,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 486368436,
-  "positionsCount": 8
+  "positionsCount": 8,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 486368436
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

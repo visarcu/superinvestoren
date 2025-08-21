@@ -1,4 +1,4 @@
-// src/app/(terminal)/layout.tsx - PERFORMANCE OPTIMIERT
+// src/app/(terminal)/layout.tsx - CLEAN VERSION MIT ECHTEN DATEN
 'use client'
 
 import React, { ReactNode, useState, useEffect, useRef, useCallback, useMemo } from 'react'
@@ -30,7 +30,9 @@ import {
   AcademicCapIcon,
   EyeIcon,
   CalculatorIcon,
-  BellIcon
+  BellIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
 import { useTheme } from '@/lib/useTheme'
@@ -39,6 +41,116 @@ import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
 import CurrencySelector from '@/components/CurrencySelector'
 import LearnSidebar from '@/components/LearnSidebar'
 import NotificationCenter from '@/components/NotificationCenter'
+import Logo from '@/components/Logo'
+import { stocks } from '@/data/stocks'
+import ScoreBadge from '@/components/ScoreBadge'
+
+// ===== TYPES =====
+interface StockQuote {
+  symbol: string
+  name: string
+  price: number
+  changesPercentage: number
+  change: number
+  dayLow: number
+  dayHigh: number
+  yearHigh: number
+  yearLow: number
+  marketCap: number
+  priceAvg50: number
+  priceAvg200: number
+  exchange: string
+  volume: number
+  avgVolume: number
+  open: number
+  previousClose: number
+  eps: number
+  pe: number
+  earningsAnnouncement: string
+  sharesOutstanding: number
+  timestamp: number
+}
+
+interface CompanyProfile {
+  symbol: string
+  companyName: string
+  exchange: string
+  industry: string
+  sector: string
+  country: string
+  description: string
+  ceo: string
+  employees: number
+  city: string
+  state: string
+  zip: string
+  dcfDiff: number
+  dcf: number
+  image: string
+  ipoDate: string
+  defaultImage: boolean
+  isEtf: boolean
+  isActivelyTrading: boolean
+  isAdr: boolean
+  isFund: boolean
+}
+
+// ===== HOOKS =====
+function useStockData(ticker: string | null) {
+  const [quote, setQuote] = useState<StockQuote | null>(null)
+  const [profile, setProfile] = useState<CompanyProfile | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!ticker) {
+      setQuote(null)
+      setProfile(null)
+      return
+    }
+
+    let mounted = true
+
+    async function fetchStockData() {
+      setLoading(true)
+      setError(null)
+
+      try {
+        // Fetch Quote
+        const quoteResponse = await fetch(`/api/quote/${ticker}`)
+        if (!quoteResponse.ok) throw new Error('Quote fetch failed')
+        const quoteData = await quoteResponse.json()
+        
+        // Fetch Company Profile
+        const profileResponse = await fetch(`/api/company-profile/${ticker}`)
+        if (!profileResponse.ok) throw new Error('Profile fetch failed')
+        const profileData = await profileResponse.json()
+
+        if (mounted) {
+          setQuote(quoteData[0] || null)
+          setProfile(profileData[0] || null)
+        }
+      } catch (err) {
+        if (mounted) {
+          setError(err instanceof Error ? err.message : 'Unknown error')
+          console.error('Error fetching stock data:', err)
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    fetchStockData()
+
+    return () => {
+      mounted = false
+    }
+  }, [ticker])
+
+  return { quote, profile, loading, error }
+}
 
 // ===== MEMOIZED COMPONENTS =====
 const GlobalLearnToggle = React.memo(() => {
@@ -112,7 +224,7 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
         href: '/analyse'
       },
       {
-        id: 'compare',  // NEU
+        id: 'compare',
         label: 'Aktien-Vergleich',
         icon: ChartBarIcon,
         href: '/analyse/compare'
@@ -217,13 +329,16 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
 const STOCK_TABS = [
   { id: 'overview', label: 'Überblick', href: '' },
   { id: 'financials', label: 'Finanzen', href: '/financials' },
+  { id: 'ratings', label: 'Rating', href: '/ratings' }, // NEU!
   { id: 'growth', label: 'Wachstum', href: '/growth' },
-  { id: 'dcf', label: 'DCF Calculator', href: '/dcf', premium: true },
+  { id: 'quartalszahlen', label: 'Quartalszahlen', href: '/earnings' },
+  { id: 'estimates', label: 'Schätzungen', href: '/estimates' },
   { id: 'super-investors', label: 'Super-Investoren', href: '/super-investors' },
   { id: 'valuation', label: 'Bewertung', href: '/valuation' },
   { id: 'dividends', label: 'Dividende', href: '/dividends' },
   { id: 'insider', label: 'Insider Trading', href: '/insider' },
   { id: 'news', label: 'News', href: '/news' },
+
   { id: 'ai-chat', label: 'Finclue AI', href: '/ai-chat', premium: true }
 ]
 
@@ -235,6 +350,31 @@ interface User {
 
 interface LayoutProps {
   children: ReactNode
+}
+
+// ===== UTILITY FUNCTIONS =====
+const formatPrice = (price: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(price)
+}
+
+const formatPercentage = (percentage: number): string => {
+  return `${percentage >= 0 ? '+' : ''}${percentage.toFixed(2)}%`
+}
+
+const formatMarketCap = (marketCap: number): string => {
+  if (marketCap >= 1e12) {
+    return `$${(marketCap / 1e12).toFixed(2)}T`
+  } else if (marketCap >= 1e9) {
+    return `$${(marketCap / 1e9).toFixed(2)}B`
+  } else if (marketCap >= 1e6) {
+    return `$${(marketCap / 1e6).toFixed(2)}M`
+  }
+  return `$${marketCap.toLocaleString()}`
 }
 
 // KATEGORISIERTE NAVIGATION - MEMOIZED
@@ -536,6 +676,9 @@ function LayoutContent({ children }: LayoutProps) {
     }
   }, [pathname])
 
+  // STOCK DATA HOOK
+  const { quote, profile, loading: stockLoading, error: stockError } = useStockData(currentTicker)
+
   // MEMOIZED MARKET STATUS
   const marketStatus = useMemo(() => getMarketStatus(), [currentTime])
 
@@ -680,6 +823,7 @@ function LayoutContent({ children }: LayoutProps) {
       
       <LearnSidebar />
       
+      {/* SIDEBAR */}
       <div className="w-48 bg-theme-secondary border-r border-theme flex flex-col">
         <div className="p-3 border-b border-theme">
           <Link href="/" className="flex items-center gap-2 group">
@@ -807,20 +951,13 @@ function LayoutContent({ children }: LayoutProps) {
         </div>
       </div>
 
+      {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col bg-theme-primary">
+        {/* TOP BAR - OHNE REDUNDANTEN MINI-HEADER */}
         <div className="h-10 bg-theme-secondary border-b border-theme flex items-center justify-between px-2.5">
           <div className="flex items-center gap-2">
-            {isStockPage && currentTicker ? (
-              <div className="flex items-center gap-1.5">
-                <div className="w-5 h-5 bg-theme-tertiary rounded-md flex items-center justify-center">
-                  <span className="text-theme-primary font-bold text-xs">{currentTicker}</span>
-                </div>
-                <div>
-                  <h1 className="text-xs font-semibold text-green-400">{currentTicker}</h1>
-                  <div className="text-xs text-theme-secondary">Aktienanalyse</div>
-                </div>
-              </div>
-            ) : (
+            {/* Nur Dashboard-Anzeige wenn NICHT auf Stock-Seite */}
+            {!isStockPage && (
               <div>
                 <h1 className="text-xs font-semibold text-theme-primary">Dashboard</h1>
                 <div className="text-xs text-theme-secondary">Markt-Analyse</div>
@@ -882,41 +1019,184 @@ function LayoutContent({ children }: LayoutProps) {
           </div>
         </div>
 
+        {/* STOCK HEADER - KOMPAKT & CLEAN MIT ECHTEN DATEN */}
         {isStockPage && currentTicker && (
-          <div className="bg-theme-secondary border-b border-theme">
-            <div className="px-2.5">
-              <nav className="flex space-x-3">
-                {STOCK_TABS.map((tab) => {
-                  const tabPath = `/analyse/stocks/${currentTicker.toLowerCase()}${tab.href}`
-                  const isActive = pathname === tabPath
-                  const isPremiumTab = tab.premium && !user.isPremium
-                  
-                  return (
-                    <Link
-                      key={tab.id}
-                      href={tabPath}
-                      className={`flex items-center gap-1 py-1.5 text-xs font-medium border-b-2 transition-colors ${
-                        isActive
-                          ? 'border-green-500 text-green-400'
-                          : isPremiumTab
-                            ? 'border-transparent text-theme-muted hover:text-yellow-400'
-                            : 'border-transparent text-theme-secondary hover:text-theme-primary hover:border-theme'
-                      }`}
-                    >
-                      {tab.label}
-                      {isPremiumTab && <SparklesIcon className="w-2 h-2 text-yellow-400" />}
-                    </Link>
-                  )
-                })}
-              </nav>
+          <div className="bg-theme-primary px-6 py-4">
+            <div className="bg-theme-card rounded-xl shadow-lg border border-theme/10 overflow-hidden">
+              
+              {/* Header Section - Mit echten Daten */}
+              <div className="px-6 py-5">
+                {stockLoading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="ml-3 text-theme-secondary">Lade Aktien-Daten...</span>
+                  </div>
+                ) : stockError ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="text-center">
+                      <div className="text-red-400 font-medium">Fehler beim Laden der Daten</div>
+                      <div className="text-theme-muted text-sm mt-1">{stockError}</div>
+                    </div>
+                  </div>
+                ) : quote && profile ? (
+                  <div className="flex items-center justify-between">
+                    {/* Linke Seite - Logo & Info */}
+                    <div className="flex items-center gap-4">
+                      {/* Company Logo */}
+                      <div className="w-14 h-14 bg-white rounded-xl p-2 shadow-md border border-theme/5">
+                        <Logo 
+                          ticker={currentTicker}
+                          alt={`${currentTicker} Logo`}
+                          className="w-full h-full"
+                          padding="none"
+                        />
+                      </div>
+                      
+                      {/* Company Info - Mit echten Daten */}
+                      <div>
+                        <div className="flex items-center gap-3 mb-1">
+                          <h1 className="text-2xl font-bold text-theme-primary">
+                            {quote.symbol}
+                          </h1>
+                          <span className="px-2.5 py-0.5 bg-theme-secondary text-theme-muted text-xs font-medium rounded">
+                            {profile.exchange || quote.exchange}
+                          </span>
+                        </div>
+                        <p className="text-sm text-theme-secondary">
+                          {profile.companyName} • {profile.industry}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Rechte Seite - Stats kompakt nebeneinander */}
+                    <div className="flex items-center gap-4">
+                      {/* Kurs */}
+                      <div className="text-right">
+                        <div className="text-xs text-theme-muted uppercase tracking-wide">Kurs</div>
+                        <div className="text-xl font-bold text-theme-primary">
+                          {formatPrice(quote.price)}
+                        </div>
+                      </div>
+                      
+                      {/* Divider */}
+                      <div className="h-10 w-px bg-theme/20"></div>
+                      
+                      {/* Performance */}
+                      <div className="flex items-center gap-2">
+                        {quote.changesPercentage >= 0 ? (
+                          <ArrowTrendingUpIcon className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <ArrowTrendingDownIcon className="w-4 h-4 text-red-500" />
+                        )}
+                        <div>
+                          <div className="text-xs text-theme-muted uppercase tracking-wide">Heute</div>
+                          <div className={`text-xl font-bold ${quote.changesPercentage >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                            {formatPercentage(quote.changesPercentage)}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Divider */}
+                      <div className="h-10 w-px bg-theme/20"></div>
+                      
+                      {/* Marktkapitalisierung */}
+                      <div className="text-right">
+                        <div className="text-xs text-theme-muted uppercase tracking-wide">Marktk.</div>
+                        <div className="text-lg font-bold text-theme-primary">
+                          {formatMarketCap(quote.marketCap)}
+                        </div>
+                      </div>
+                      
+                      {/* Divider */}
+                      <div className="h-10 w-px bg-theme/20"></div>
+                      
+                         {/* Score Badge hinzufügen */}
+    <ScoreBadge ticker={currentTicker} />
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center gap-2">
+                        {/* Watchlist Button */}
+                        <button className="p-2 text-theme-secondary hover:text-green-400 hover:bg-theme-secondary/50 rounded-lg transition-all">
+                          <BookmarkIcon className="w-5 h-5" />
+                        </button>
+                        
+                        {/* Share Button */}
+                        <button className="p-2 text-theme-secondary hover:text-green-400 hover:bg-theme-secondary/50 rounded-lg transition-all">
+                          <ChartBarIcon className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="text-center">
+                      <div className="text-theme-muted">Keine Daten verfügbar</div>
+                      <div className="text-theme-muted text-sm mt-1">für {currentTicker}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Navigation Tabs */}
+              <div className="bg-theme-secondary/5 border-t border-theme/10">
+                <div className="px-6">
+                  <nav className="flex items-center gap-1">
+                    {STOCK_TABS.map((tab) => {
+                      const tabPath = `/analyse/stocks/${currentTicker.toLowerCase()}${tab.href}`
+                      const isActive = pathname === tabPath
+                      const isPremiumTab = tab.premium && !user.isPremium
+                      
+                      return (
+                        <Link
+                          key={tab.id}
+                          href={tabPath}
+                          className={`
+                            relative px-4 py-4 text-sm font-medium transition-all duration-200
+                            ${isActive
+                              ? 'text-theme-primary'
+                              : isPremiumTab
+                                ? 'text-theme-muted/60 hover:text-yellow-400'
+                                : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/5'
+                            }
+                          `}
+                        >
+                          <span className="flex items-center gap-1.5">
+                            {tab.label}
+                            {isPremiumTab && (
+                              <SparklesIcon className="w-3 h-3 text-yellow-400" />
+                            )}
+                          </span>
+                          
+                          {isActive && (
+                            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-green-500"></div>
+                          )}
+                        </Link>
+                      )
+                    })}
+                    
+                    {/* Premium Upgrade als Tab ganz rechts */}
+                    {!user.isPremium && (
+                      <Link 
+                        href="/pricing"
+                        className="ml-auto flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white rounded-lg font-semibold text-sm shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                      >
+                        <SparklesIcon className="w-4 h-4" />
+                        <span>Upgrade</span>
+                      </Link>
+                    )}
+                  </nav>
+                </div>
+              </div>
             </div>
           </div>
         )}
-
+      
+        {/* MAIN CONTENT */}
         <div className="flex-1 overflow-auto bg-theme-primary">
           {children}
         </div>
 
+        {/* FOOTER STATUS BAR */}
         <div className="h-4 bg-theme-secondary border-t border-theme flex items-center justify-between px-2.5 text-xs text-theme-muted">
           <div className="flex items-center gap-1.5">
             <span>Market: {marketStatus.status}</span>

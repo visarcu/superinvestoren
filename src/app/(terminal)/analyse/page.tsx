@@ -34,6 +34,8 @@ import Logo from '@/components/Logo'
 import WatchlistNews from '@/components/WatchlistNews'
 import MarketMovers from '@/components/MarketMovers'
 import MostFollowed from '@/components/MostFollowed'
+import LatestGuruTrades from '@/components/LatestGuruTrades'
+
 
 // ===== TYPES =====
 type Quote = {
@@ -196,12 +198,12 @@ const SmartSearchInput = React.memo(({
         search-input-container
         relative transition-all duration-300 rounded-2xl
         ${showResults 
-          ? 'bg-theme-card rounded-b-none shadow-lg border border-theme/20' 
-          : 'bg-theme-card shadow-md hover:shadow-lg border border-theme/10'
+          ? 'bg-white/95 dark:bg-black/95 backdrop-blur-xl border border-black/20 dark:border-white/20 shadow-2xl' 
+          : 'bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-xl hover:shadow-2xl hover:border-black/20 dark:hover:border-white/20'
         }
       `}>
         <div className="flex items-center px-6 py-5">
-          <MagnifyingGlassIcon className="w-6 h-6 mr-4 text-theme-muted" />
+          <MagnifyingGlassIcon className="w-6 h-6 mr-4 text-gray-600 dark:text-gray-400" />
           
           <input
             ref={inputRef}
@@ -212,14 +214,14 @@ const SmartSearchInput = React.memo(({
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted text-lg font-medium focus:outline-none border-none focus:ring-0"
+            className="flex-1 bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 text-lg font-medium focus:outline-none border-none focus:ring-0"
             style={{ border: 'none', boxShadow: 'none' }}
           />
           
-          <div className="hidden md:flex items-center gap-2 text-theme-muted text-sm ml-4">
+          <div className="hidden md:flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm ml-4">
             <div className="flex items-center gap-1">
-              <kbd className="px-2.5 py-1.5 bg-theme-secondary/50 backdrop-blur border border-theme/10 rounded-lg text-xs font-medium text-theme-muted">⌘</kbd>
-              <kbd className="px-2.5 py-1.5 bg-theme-secondary/50 backdrop-blur border border-theme/10 rounded-lg text-xs font-medium text-theme-muted">K</kbd>
+              <kbd className="px-2.5 py-1.5 bg-black/10 dark:bg-white/10 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-400">⌘</kbd>
+              <kbd className="px-2.5 py-1.5 bg-black/10 dark:bg-white/10 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-400">K</kbd>
             </div>
           </div>
 
@@ -229,7 +231,7 @@ const SmartSearchInput = React.memo(({
                 setQuery('')
                 inputRef.current?.focus()
               }}
-              className="ml-4 p-2 text-theme-muted hover:text-theme-primary hover:bg-theme-secondary/50 transition-all duration-200 rounded-xl"
+              className="ml-4 p-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 rounded-xl"
             >
               <XMarkIcon className="w-5 h-5" />
             </button>
@@ -240,73 +242,95 @@ const SmartSearchInput = React.memo(({
       {showResults && (
         <div 
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 bg-theme-card shadow-lg rounded-b-2xl z-50 overflow-hidden border-x border-b border-theme/20"
+          className="absolute top-full left-0 right-0 mt-3 bg-white/95 dark:bg-black/95 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-80 overflow-y-auto"
         >
-          <div className="max-h-80 overflow-y-auto">
-            {filteredStocks.length > 0 ? (
-              <div className="p-2">
-                {query && (
-                  <div className="px-4 py-3 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
-                    {filteredStocks.length} Ergebnis{filteredStocks.length !== 1 ? 'se' : ''} für "{query}"
-                  </div>
-                )}
-                <div className="space-y-1">
-                  {filteredStocks.map((stock, index) => (
-                    <button
-                      key={stock.ticker}
-                      onClick={() => handleSelect(stock.ticker)}
-                      className={`w-full flex items-center gap-3 p-4 rounded-xl transition-all duration-200 text-left group ${
-                        index === selectedIndex 
-                          ? 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 ring-1 ring-green-500/30' 
-                          : 'hover:bg-theme-secondary/50 hover:backdrop-blur'
-                      }`}
-                    >
-                      <Logo 
-                        ticker={stock.ticker} 
-                        alt={`${stock.ticker} Logo`}
-                        className="w-12 h-12 flex-shrink-0 rounded-xl shadow-sm"
-                        padding="small"
-                      />
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className={`font-bold text-sm ${
-                            index === selectedIndex ? 'text-green-400' : 'text-theme-primary'
-                          }`}>{stock.ticker}</span>
-                          <span className="px-2 py-1 bg-theme-secondary/60 text-theme-muted rounded-lg text-xs font-medium backdrop-blur">
-                            {stock.market || 'NASDAQ'}
-                          </span>
-                        </div>
-                        <div className="text-xs text-theme-muted truncate">{stock.name}</div>
-                      </div>
-                      
-                      <ArrowRightIcon className={`w-4 h-4 transition-all duration-200 flex-shrink-0 ${
-                        index === selectedIndex ? 'text-green-400 translate-x-1' : 'text-theme-muted group-hover:text-green-400 group-hover:translate-x-0.5'
-                      }`} />
-                    </button>
-                  ))}
+          {filteredStocks.length > 0 ? (
+            <div className="p-2">
+              {query && (
+                <div className="px-4 py-3 text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wide border-b border-black/10 dark:border-white/10 mb-2">
+                  {filteredStocks.length} Ergebnis{filteredStocks.length !== 1 ? 'se' : ''} für "{query}"
                 </div>
+              )}
+              <div className="space-y-1">
+                {filteredStocks.map((stock, index) => (
+                  <button
+                    key={stock.ticker}
+                    onClick={() => handleSelect(stock.ticker)}
+                    className={`w-full flex items-center gap-3 p-4 rounded-xl transition-all duration-200 text-left group ${
+                      index === selectedIndex 
+                        ? 'bg-green-500 text-white' 
+                        : 'hover:bg-black/5 dark:hover:bg-white/5'
+                    }`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      index === selectedIndex 
+                        ? 'bg-white/20' 
+                        : 'bg-green-500/10'
+                    }`}>
+                      <span className={`text-sm font-bold ${
+                        index === selectedIndex 
+                          ? 'text-white' 
+                          : 'text-green-500'
+                      }`}>
+                        {stock.ticker.slice(0, 2)}
+                      </span>
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`font-bold text-sm ${
+                          index === selectedIndex ? 'text-white' : 'text-black dark:text-white'
+                        }`}>{stock.ticker}</span>
+                        <span className={`px-2 py-1 rounded-lg text-xs font-medium ${
+                          index === selectedIndex 
+                            ? 'bg-white/20 text-white/80' 
+                            : 'bg-black/10 dark:bg-white/10 text-gray-600 dark:text-gray-400'
+                        }`}>
+                          {stock.market || 'NASDAQ'}
+                        </span>
+                      </div>
+                      <div className={`text-xs truncate ${
+                        index === selectedIndex ? 'text-white/80' : 'text-gray-500 dark:text-gray-500'
+                      }`}>
+                        {stock.name}
+                      </div>
+                    </div>
+                    
+                    <svg 
+                      className={`w-4 h-4 transition-all duration-200 flex-shrink-0 ${
+                        index === selectedIndex 
+                          ? 'text-white translate-x-1' 
+                          : 'text-gray-400 dark:text-gray-600 group-hover:text-green-500 group-hover:translate-x-0.5'
+                      }`} 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                ))}
               </div>
-            ) : (
-              <div className="p-8 text-center text-theme-muted">
-                <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p className="text-sm">Keine Ergebnisse für "{query}"</p>
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="p-8 text-center text-gray-500 dark:text-gray-500">
+              <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p className="text-sm">Keine Ergebnisse für "{query}"</p>
+            </div>
+          )}
           
-          <div className="p-4 bg-theme-secondary/30 backdrop-blur border-t border-theme/10 rounded-b-2xl">
-            <div className="flex items-center gap-4 text-xs text-theme-muted">
+          <div className="p-4 bg-black/5 dark:bg-white/5 backdrop-blur border-t border-black/10 dark:border-white/10">
+            <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs text-theme-muted">↑↓</kbd>
+                <kbd className="px-2 py-1 bg-white/60 dark:bg-black/60 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs text-gray-600 dark:text-gray-400">↑↓</kbd>
                 <span>Navigieren</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs text-theme-muted">↵</kbd>
+                <kbd className="px-2 py-1 bg-white/60 dark:bg-black/60 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs text-gray-600 dark:text-gray-400">↵</kbd>
                 <span>Auswählen</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-theme-card/60 backdrop-blur border border-theme/10 rounded-lg text-xs text-theme-muted">Esc</kbd>
+                <kbd className="px-2 py-1 bg-white/60 dark:bg-black/60 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs text-gray-600 dark:text-gray-400">Esc</kbd>
                 <span>Schließen</span>
               </div>
             </div>
@@ -1078,154 +1102,157 @@ export default function ModernDashboard() {
                 ))}
               </div>
             </div>
+
+            {/* Latest Guru Trades - NEU HINZUGEFÜGT IN SIDEBAR */}
+            <LatestGuruTrades variant="compact" />
           </div>
 
-         {/* Main Content - KORRIGIERT */}
-<div className="xl:col-span-3">
-  {/* Popular Stocks & Hidden Gems Grid */}
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    {/* Popular Stocks */}
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-bold text-theme-primary mb-2">Beliebte Aktien</h2>
-          <p className="text-sm text-theme-muted">Mit Live-Kursen und Performance-Metriken</p>
-        </div>
-        {loading && (
-          <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-amber-400 rounded-lg">
-            <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-xs font-bold">Lädt...</span>
-          </div>
-        )}
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        {POPULAR_STOCKS.slice(0, 4).map((ticker) => {
-          const quote = quotes[ticker.toLowerCase()]
-          const isLoading = loading && !quote
-          return (
-            <button
-              key={ticker}
-              onClick={() => handleTickerSelect(ticker)}
-              className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <Logo 
-                  ticker={ticker} 
-                  alt={`${ticker} Logo`}
-                  className="w-10 h-10 rounded-lg"
-                  padding="small"
-                />
-                {quote && (
-                  <div className={`w-3 h-3 rounded-full ${
-                    quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
-                  }`}></div>
-                )}
+          {/* Main Content - KORRIGIERT */}
+          <div className="xl:col-span-3">
+            {/* Popular Stocks & Hidden Gems Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Popular Stocks */}
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-theme-primary mb-2">Beliebte Aktien</h2>
+                    <p className="text-sm text-theme-muted">Mit Live-Kursen und Performance-Metriken</p>
+                  </div>
+                  {loading && (
+                    <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-amber-400 rounded-lg">
+                      <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                      <span className="text-xs font-bold">Lädt...</span>
+                    </div>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {POPULAR_STOCKS.slice(0, 4).map((ticker) => {
+                    const quote = quotes[ticker.toLowerCase()]
+                    const isLoading = loading && !quote
+                    return (
+                      <button
+                        key={ticker}
+                        onClick={() => handleTickerSelect(ticker)}
+                        className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between mb-4">
+                          <Logo 
+                            ticker={ticker} 
+                            alt={`${ticker} Logo`}
+                            className="w-10 h-10 rounded-lg"
+                            padding="small"
+                          />
+                          {quote && (
+                            <div className={`w-3 h-3 rounded-full ${
+                              quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
+                            }`}></div>
+                          )}
+                        </div>
+                        <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
+                          {ticker}
+                        </h3>
+                        {isLoading ? (
+                          <div className="space-y-3">
+                            <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
+                            <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
+                          </div>
+                        ) : quote ? (
+                          <div className="space-y-3">
+                            <div className="text-xl font-bold text-theme-primary">
+                              {formatStockPrice(quote.price)}
+                            </div>
+                            <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
+                              quote.changePct >= 0
+                                ? 'text-green-400 bg-green-500/20'
+                                : 'text-red-400 bg-red-500/20'
+                            }`}>
+                              {quote.changePct >= 0 ? (
+                                <ArrowTrendingUpIcon className="w-3 h-3" />
+                              ) : (
+                                <ArrowTrendingDownIcon className="w-3 h-3" />
+                              )}
+                              <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
+                            </div>
+                            <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
+                              <div className="flex justify-between">
+                                <span className="text-theme-muted">1M:</span>
+                                {quote.perf1M !== null && quote.perf1M !== undefined ? (
+                                  <span className={`font-bold ${
+                                    quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
+                                  }`}>
+                                    {formatPercentage(quote.perf1M)}
+                                  </span>
+                                ) : (
+                                  <span className="text-theme-muted">–</span>
+                                )}
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-theme-muted">YTD:</span>
+                                {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
+                                  <span className={`font-bold ${
+                                    quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
+                                  }`}>
+                                    {formatPercentage(quote.perfYTD)}
+                                  </span>
+                                ) : (
+                                  <span className="text-theme-muted">–</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
-                {ticker}
-              </h3>
-              {isLoading ? (
-                <div className="space-y-3">
-                  <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
-                  <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
-                </div>
-              ) : quote ? (
-                <div className="space-y-3">
-                  <div className="text-xl font-bold text-theme-primary">
-                    {formatStockPrice(quote.price)}
-                  </div>
-                  <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
-                    quote.changePct >= 0
-                      ? 'text-green-400 bg-green-500/20'
-                      : 'text-red-400 bg-red-500/20'
-                  }`}>
-                    {quote.changePct >= 0 ? (
-                      <ArrowTrendingUpIcon className="w-3 h-3" />
-                    ) : (
-                      <ArrowTrendingDownIcon className="w-3 h-3" />
-                    )}
-                    <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
-                  </div>
-                  <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
-                    <div className="flex justify-between">
-                      <span className="text-theme-muted">1M:</span>
-                      {quote.perf1M !== null && quote.perf1M !== undefined ? (
-                        <span className={`font-bold ${
-                          quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
-                        }`}>
-                          {formatPercentage(quote.perf1M)}
-                        </span>
-                      ) : (
-                        <span className="text-theme-muted">–</span>
-                      )}
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-theme-muted">YTD:</span>
-                      {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
-                        <span className={`font-bold ${
-                          quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
-                        }`}>
-                          {formatPercentage(quote.perfYTD)}
-                        </span>
-                      ) : (
-                        <span className="text-theme-muted">–</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
-              )}
-            </button>
-          )
-        })}
-      </div>
-    </div>
 
-          {/* Hidden Gems */}
-    <div>
-      <SuperInvestorStocks 
-        quotes={quotes}
-        onSelect={handleTickerSelect}
-        loading={loading}
-      />
-    </div>
-  </div>
+              {/* Hidden Gems */}
+              <div>
+                <SuperInvestorStocks 
+                  quotes={quotes}
+                  onSelect={handleTickerSelect}
+                  loading={loading}
+                />
+              </div>
+            </div>
 
-  {/* 3-Column Grid for News, Most Followed, Market Movers */}
-  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-    {/* Watchlist News */}
-    <div>
-      <WatchlistNews />
-    </div>
+            {/* 3-Column Grid for News, Most Followed, Market Movers */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+              {/* Watchlist News */}
+              <div>
+                <WatchlistNews />
+              </div>
 
-    {/* Most Followed - ANGEPASSTE BREITE */}
-    <div>
-      <MostFollowed 
-        onSelect={handleTickerSelect}
-        quotes={quotes}
-      />
-    </div>
+              {/* Most Followed - ANGEPASSTE BREITE */}
+              <div>
+                <MostFollowed 
+                  onSelect={handleTickerSelect}
+                  quotes={quotes}
+                />
+              </div>
 
-    {/* Market Movers */}
-    <div>
-      <MarketMovers 
-        watchlistTickers={watchlistTickers}
-        popularTickers={POPULAR_STOCKS}
-      />
-    </div>
-  </div>
+              {/* Market Movers */}
+              <div>
+                <MarketMovers 
+                  watchlistTickers={watchlistTickers}
+                  popularTickers={POPULAR_STOCKS}
+                />
+              </div>
+            </div>
 
-  {/* Footer */}
-  <div className="mt-12 pt-6 border-t border-theme/10 text-center">
-    <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
-      <ClockIcon className="w-4 h-4" />
-      YTD basiert auf letztem Handelstag 2024 • 
-      1M basiert auf ~30 Kalendertagen • 
-      Alle Daten via FMP API • Live-Updates alle 15 Minuten
-    </p>
-  </div>
-</div>
+            {/* Footer */}
+            <div className="mt-12 pt-6 border-t border-theme/10 text-center">
+              <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
+                <ClockIcon className="w-4 h-4" />
+                YTD basiert auf letztem Handelstag 2024 • 
+                1M basiert auf ~30 Kalendertagen • 
+                Alle Daten via FMP API • Live-Updates alle 15 Minuten
+              </p>
+            </div>
+          </div>
         </div>
       </main>
     </div>
