@@ -1,4 +1,4 @@
-// src/components/GrowthAnalysisClient.tsx - MIT DEUTSCHER FORMATIERUNG
+// src/components/GrowthAnalysisClient.tsx - Erweitert mit zusätzlichen Metriken
 'use client'
 
 import React, { useState, useEffect } from 'react';
@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabaseClient';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { LearnTooltipButton } from '@/components/LearnSidebar';
 import { useLearnMode } from '@/lib/LearnModeContext';
-import { useCurrency } from '@/lib/CurrencyContext'; // ✅ CURRENCY CONTEXT HINZUGEFÜGT
+import { useCurrency } from '@/lib/CurrencyContext';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { LockClosedIcon } from '@heroicons/react/24/outline'
@@ -19,6 +19,7 @@ const GrowthCharts = dynamic(
 );
 
 interface GrowthData {
+  // Historische Wachstumsraten
   revenueGrowth1Y?: number | null
   revenueGrowth3Y?: number | null  
   revenueGrowth5Y?: number | null
@@ -31,9 +32,25 @@ interface GrowthData {
   ebitdaGrowth3Y?: number | null
   fcfGrowth1Y?: number | null
   fcfGrowth3Y?: number | null
+  
+  // Forward Estimates
   revenueGrowthForward2Y?: number | null
   epsGrowthForward2Y?: number | null
   epsGrowthLongTerm?: number | null
+  
+  // Zusätzliche Metriken (wie bei Seeking Alpha)
+  operatingIncomeGrowth1Y?: number | null
+  operatingIncomeGrowth3Y?: number | null
+  netIncomeGrowth1Y?: number | null
+  netIncomeGrowth3Y?: number | null
+  tangibleBookValueGrowth1Y?: number | null
+  tangibleBookValueGrowth3Y?: number | null
+  capexGrowth1Y?: number | null
+  capexGrowth3Y?: number | null
+  dividendGrowth1Y?: number | null
+  dividendGrowth3Y?: number | null
+  roeGrowth1Y?: number | null
+  roeGrowth3Y?: number | null
 }
 
 interface GrowthAnalysisClientProps {
@@ -56,6 +73,7 @@ interface GrowthResponse {
     periods: number;
   };
   lastUpdated: string;
+  growthGrade?: string; // Wie bei Seeking Alpha
 }
 
 const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) => {
@@ -64,10 +82,9 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
   const [data, setData] = useState<GrowthResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAllMetrics, setShowAllMetrics] = useState(false);
 
   const { isLearnMode } = useLearnMode()
-  
-  // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
   const { formatPercentage } = useCurrency()
 
   // User laden
@@ -126,12 +143,10 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
     }
   };
 
-  // ✅ DEUTSCHE PROZENTFORMATIERUNG mit formatPercentage aus Context
+  // Format growth value with color
   const formatGrowth = (value?: number | null) => {
     if (typeof value !== 'number' || isNaN(value) || value === null) return '–';
-    
-    // ✅ NUTZE CONTEXT-FUNKTION für deutsche Formatierung
-    return formatPercentage(value, true); // Mit Vorzeichen
+    return formatPercentage(value, true);
   };
 
   // Get color class for growth value
@@ -155,7 +170,33 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
     return { rating: 'Negativ', color: 'text-red-400' };
   };
 
-  // ✅ DEUTSCHE DATUMSFORMATIERUNG
+  // Calculate overall growth grade (like Seeking Alpha)
+  const calculateGrowthGrade = (growth: GrowthData): { grade: string, color: string } => {
+    const metrics = [
+      growth.revenueGrowth3Y,
+      growth.epsGrowth3Y,
+      growth.ebitdaGrowth3Y,
+      growth.fcfGrowth3Y
+    ].filter(v => v !== null && v !== undefined);
+
+    if (metrics.length === 0) return { grade: '–', color: 'text-theme-muted' };
+
+    const avgGrowth = metrics.reduce((sum, val) => sum + (val || 0), 0) / metrics.length;
+
+    if (avgGrowth > 25) return { grade: 'A+', color: 'text-green-500' };
+    if (avgGrowth > 20) return { grade: 'A', color: 'text-green-500' };
+    if (avgGrowth > 15) return { grade: 'A-', color: 'text-green-400' };
+    if (avgGrowth > 12) return { grade: 'B+', color: 'text-green-400' };
+    if (avgGrowth > 10) return { grade: 'B', color: 'text-green-300' };
+    if (avgGrowth > 8) return { grade: 'B-', color: 'text-green-300' };
+    if (avgGrowth > 6) return { grade: 'C+', color: 'text-yellow-400' };
+    if (avgGrowth > 4) return { grade: 'C', color: 'text-yellow-400' };
+    if (avgGrowth > 2) return { grade: 'C-', color: 'text-orange-400' };
+    if (avgGrowth > 0) return { grade: 'D+', color: 'text-orange-400' };
+    if (avgGrowth > -2) return { grade: 'D', color: 'text-red-400' };
+    return { grade: 'F', color: 'text-red-500' };
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('de-DE', {
       day: '2-digit',
@@ -203,16 +244,26 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
   }
 
   const { growth } = data;
+  const growthGrade = calculateGrowthGrade(growth);
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {/* Header mit Growth Grade */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-        <div>
-          <h2 className="text-3xl font-bold text-theme-primary">Wachstumsanalyse</h2>
-          <p className="text-theme-secondary mt-1">
-            Historische und prognostizierte Wachstumsraten für {ticker}
-          </p>
+        <div className="flex items-center gap-4">
+          <div>
+            <h2 className="text-3xl font-bold text-theme-primary">Wachstumsanalyse</h2>
+            <p className="text-theme-secondary mt-1">
+              Historische und prognostizierte Wachstumsraten für {ticker}
+            </p>
+          </div>
+          {/* Growth Grade Badge (wie bei Seeking Alpha) */}
+          <div className="flex flex-col items-center">
+            <div className={`text-3xl font-bold ${growthGrade.color} bg-theme-card rounded-lg px-4 py-2 border border-theme/20`}>
+              {growthGrade.grade}
+            </div>
+            <span className="text-xs text-theme-muted mt-1">Growth Grade</span>
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-sm text-theme-muted">
@@ -237,6 +288,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
               <p className="text-xs text-theme-secondary leading-relaxed">
                 Wachstumsraten zeigen, wie schnell ein Unternehmen expandiert. CAGR (Compound Annual Growth Rate) 
                 glättet jährliche Schwankungen und zeigt das durchschnittliche Wachstum über mehrere Jahre.
+                Ein Growth Grade bewertet die Gesamtwachstumsqualität im Vergleich zum Sektor.
               </p>
             </div>
           </div>
@@ -303,294 +355,203 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
           </div>
         </div>
 
-        {/* Consistency Score */}
+        {/* Free Cash Flow Growth */}
         <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-theme-primary">Konsistenz</h3>
-              <p className="text-xs text-theme-muted">Wachstumsstabilität</p>
+              <h3 className="text-sm font-semibold text-theme-primary">FCF Wachstum</h3>
+              <p className="text-xs text-theme-muted">3Y CAGR</p>
             </div>
           </div>
-          <div className="text-2xl font-bold mb-2 text-theme-primary">
-            {data.dataQuality.periods >= 5 ? 'Hoch' : 'Moderat'}
+          <div className="text-2xl font-bold mb-2" style={{ color: getGrowthColor(growth.fcfGrowth3Y).split(' ')[0].replace('text-', '') }}>
+            {formatGrowth(growth.fcfGrowth3Y)}
           </div>
-          <div className="text-xs font-medium text-theme-muted">
-            {data.dataQuality.periods} Jahre Daten
+          <div className={`text-xs font-medium ${getGrowthRating(growth.fcfGrowth3Y).color}`}>
+            {getGrowthRating(growth.fcfGrowth3Y).rating}
           </div>
         </div>
       </div>
 
-      {/* Detailed Growth Metrics */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Detailed Growth Metrics - Erweiterte Tabelle wie bei Seeking Alpha */}
+      <div className="bg-theme-card rounded-lg border border-theme/10">
+        <div className="px-6 py-4 border-b border-theme/10 flex items-center justify-between">
+          <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
+            <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
+            Wachstumsmetriken im Detail
+          </h3>
+          <button
+            onClick={() => setShowAllMetrics(!showAllMetrics)}
+            className="text-sm text-theme-secondary hover:text-theme-primary transition-colors"
+          >
+            {showAllMetrics ? 'Weniger anzeigen' : 'Alle Metriken anzeigen'}
+          </button>
+        </div>
         
-        {/* Historical Growth Rates */}
-        <div className="bg-theme-card rounded-lg border border-theme/10">
-          <div className="px-6 py-4 border-b border-theme/10">
-            <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-              <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
-              Historische Wachstumsraten
-            </h3>
-          </div>
-          
-          <div className="p-6 space-y-6">
-            
-            {/* Revenue Growth */}
-            <div>
-              <h4 className="text-sm font-semibold text-theme-primary mb-4 flex items-center gap-2">
-                Umsatzwachstum
-                <LearnTooltipButton term="revenue_growth" />
-              </h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">1 Jahr (YoY)</span>
-                  <span className={`font-semibold ${getGrowthColor(growth.revenueGrowth1Y)}`}>
-                    {formatGrowth(growth.revenueGrowth1Y)}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">3 Jahre (CAGR)</span>
-                  <span className={`font-semibold ${getGrowthColor(growth.revenueGrowth3Y)}`}>
-                    {formatGrowth(growth.revenueGrowth3Y)}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">5 Jahre (CAGR)</span>
-                  <span className={`font-semibold ${getGrowthColor(growth.revenueGrowth5Y)}`}>
-                    {formatGrowth(growth.revenueGrowth5Y)}
-                  </span>
-                </div>
-                {growth.revenueGrowth10Y && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-theme-secondary text-sm">10 Jahre (CAGR)</span>
-                    <span className={`font-semibold ${getGrowthColor(growth.revenueGrowth10Y)}`}>
-                      {formatGrowth(growth.revenueGrowth10Y)}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* EPS Growth */}
-            <div>
-              <h4 className="text-sm font-semibold text-theme-primary mb-4 flex items-center gap-2">
-                Gewinnwachstum (EPS)
-                <LearnTooltipButton term="eps_growth" />
-              </h4>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">1 Jahr (YoY)</span>
-                  <span className={`font-semibold ${getGrowthColor(growth.epsGrowth1Y)}`}>
-                    {formatGrowth(growth.epsGrowth1Y)}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">3 Jahre (CAGR)</span>
-                  <span className={`font-semibold ${getGrowthColor(growth.epsGrowth3Y)}`}>
-                    {formatGrowth(growth.epsGrowth3Y)}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-theme-secondary text-sm">5 Jahre (CAGR)</span>
-                  <span className={`font-semibold ${getGrowthColor(growth.epsGrowth5Y)}`}>
-                    {formatGrowth(growth.epsGrowth5Y)}
-                  </span>
-                </div>
-                {growth.epsGrowth10Y && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-theme-secondary text-sm">10 Jahre (CAGR)</span>
-                    <span className={`font-semibold ${getGrowthColor(growth.epsGrowth10Y)}`}>
-                      {formatGrowth(growth.epsGrowth10Y)}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Forward Growth & Analysis */}
-        <div className="bg-theme-card rounded-lg border border-theme/10">
-          <div className="px-6 py-4 border-b border-theme/10">
-            <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-              <CalendarIcon className="w-5 h-5 text-green-400" />
-              Zukunftsprognosen
-            </h3>
-          </div>
-          
-          {/* ✅ PREMIUM BLUR für Zukunftsprognosen */}
-          {user?.isPremium ? (
-            <div className="p-6 space-y-6">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-theme/20">
+                <th className="text-left py-3 px-6 text-theme-primary font-semibold">Metrik</th>
+                <th className="text-right py-3 px-4 text-theme-primary font-semibold">1Y (YoY)</th>
+                <th className="text-right py-3 px-4 text-theme-primary font-semibold">3Y CAGR</th>
+                <th className="text-right py-3 px-4 text-theme-primary font-semibold">5Y CAGR</th>
+                <th className="text-right py-3 px-4 text-theme-primary font-semibold">10Y CAGR</th>
+                <th className="text-right py-3 px-4 text-theme-primary font-semibold">Forward 2Y</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Hauptmetriken */}
+              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
+                  Umsatzwachstum
+                  <LearnTooltipButton term="revenue_growth" />
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.revenueGrowth1Y)}`}>
+                  {formatGrowth(growth.revenueGrowth1Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.revenueGrowth3Y)}`}>
+                  {formatGrowth(growth.revenueGrowth3Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.revenueGrowth5Y)}`}>
+                  {formatGrowth(growth.revenueGrowth5Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.revenueGrowth10Y)}`}>
+                  {formatGrowth(growth.revenueGrowth10Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.revenueGrowthForward2Y)}`}>
+                  {formatGrowth(growth.revenueGrowthForward2Y)}
+                </td>
+              </tr>
               
-              {/* Forward Estimates */}
-              {(growth.revenueGrowthForward2Y || growth.epsGrowthForward2Y) && (
-                <div>
-                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Analyst Schätzungen</h4>
-                  <div className="space-y-3">
-                    {growth.revenueGrowthForward2Y && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-secondary text-sm">Umsatz Forward (2Y)</span>
-                        <span className={`font-semibold ${getGrowthColor(growth.revenueGrowthForward2Y)}`}>
-                          {formatGrowth(growth.revenueGrowthForward2Y)}
-                        </span>
-                      </div>
-                    )}
-                    {growth.epsGrowthForward2Y && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-secondary text-sm">EPS Forward (2Y)</span>
-                        <span className={`font-semibold ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
-                          {formatGrowth(growth.epsGrowthForward2Y)}
-                        </span>
-                      </div>
-                    )}
-                    {growth.epsGrowthLongTerm && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-secondary text-sm">EPS Langfristig</span>
-                        <span className={`font-semibold ${getGrowthColor(growth.epsGrowthLongTerm)}`}>
-                          {formatGrowth(growth.epsGrowthLongTerm)}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
+                  EPS Wachstum
+                  <LearnTooltipButton term="eps_growth" />
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.epsGrowth1Y)}`}>
+                  {formatGrowth(growth.epsGrowth1Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.epsGrowth3Y)}`}>
+                  {formatGrowth(growth.epsGrowth3Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.epsGrowth5Y)}`}>
+                  {formatGrowth(growth.epsGrowth5Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.epsGrowth10Y)}`}>
+                  {formatGrowth(growth.epsGrowth10Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
+                  {formatGrowth(growth.epsGrowthForward2Y)}
+                </td>
+              </tr>
+
+              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
+                  EBITDA Wachstum
+                  <LearnTooltipButton term="ebitda" />
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.ebitdaGrowth1Y)}`}>
+                  {formatGrowth(growth.ebitdaGrowth1Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
+                  {formatGrowth(growth.ebitdaGrowth3Y)}
+                </td>
+                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+              </tr>
+
+              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
+                  FCF Wachstum
+                  <LearnTooltipButton term="free_cash_flow" />
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.fcfGrowth1Y)}`}>
+                  {formatGrowth(growth.fcfGrowth1Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.fcfGrowth3Y)}`}>
+                  {formatGrowth(growth.fcfGrowth3Y)}
+                </td>
+                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+              </tr>
+
+              {/* Erweiterte Metriken (ausklappbar) */}
+              {showAllMetrics && (
+                <>
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      Operating Income
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.operatingIncomeGrowth1Y)}`}>
+                      {formatGrowth(growth.operatingIncomeGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.operatingIncomeGrowth3Y)}`}>
+                      {formatGrowth(growth.operatingIncomeGrowth3Y)}
+                    </td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                  </tr>
+
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      Nettogewinn
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.netIncomeGrowth1Y)}`}>
+                      {formatGrowth(growth.netIncomeGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.netIncomeGrowth3Y)}`}>
+                      {formatGrowth(growth.netIncomeGrowth3Y)}
+                    </td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                  </tr>
+
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      CAPEX
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.capexGrowth1Y)}`}>
+                      {formatGrowth(growth.capexGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.capexGrowth3Y)}`}>
+                      {formatGrowth(growth.capexGrowth3Y)}
+                    </td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                  </tr>
+
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      Dividende/Aktie
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.dividendGrowth1Y)}`}>
+                      {formatGrowth(growth.dividendGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.dividendGrowth3Y)}`}>
+                      {formatGrowth(growth.dividendGrowth3Y)}
+                    </td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                  </tr>
+                </>
               )}
-
-              {/* Other Metrics */}
-              {(growth.ebitdaGrowth3Y || growth.fcfGrowth3Y) && (
-                <div>
-                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Weitere Kennzahlen</h4>
-                  <div className="space-y-3">
-                    {growth.ebitdaGrowth3Y && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-secondary text-sm flex items-center gap-1">
-                          EBITDA Growth (3Y)
-                          <LearnTooltipButton term="ebitda" />
-                        </span>
-                        <span className={`font-semibold ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
-                          {formatGrowth(growth.ebitdaGrowth3Y)}
-                        </span>
-                      </div>
-                    )}
-                    {growth.fcfGrowth3Y && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-theme-secondary text-sm flex items-center gap-1">
-                          FCF Growth (3Y)
-                          <LearnTooltipButton term="free_cash_flow" />
-                        </span>
-                        <span className={`font-semibold ${getGrowthColor(growth.fcfGrowth3Y)}`}>
-                          {formatGrowth(growth.fcfGrowth3Y)}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Growth Quality Analysis */}
-              <div>
-                <h4 className="text-sm font-semibold text-theme-primary mb-4">Wachstumsqualität</h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-theme-secondary text-sm">Datenverfügbarkeit</span>
-                    <span className="text-theme-primary font-semibold">
-                      {data.dataQuality.hasIncomeData ? '✅' : '❌'} Income |{' '}
-                      {data.dataQuality.hasEstimates ? '✅' : '❌'} Estimates
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-theme-secondary text-sm">Historische Perioden</span>
-                    <span className="text-theme-primary font-semibold">
-                      {data.dataQuality.periods} Jahre
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-theme-secondary text-sm">Letztes Update</span>
-                    <span className="text-theme-secondary text-sm">
-                      {formatDate(data.lastUpdated)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="relative">
-              <div className="filter blur-sm opacity-60 pointer-events-none select-none p-6 space-y-6">
-                
-                {/* Geblurrte Forward Estimates MIT DEUTSCHER FORMATIERUNG */}
-                <div>
-                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Analyst Schätzungen</h4>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">Umsatz Forward (2Y)</span>
-                      <span className="font-semibold text-green-400">+5,6%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">EPS Forward (2Y)</span>
-                      <span className="font-semibold text-green-400">+8,5%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">EPS Langfristig</span>
-                      <span className="font-semibold text-green-400">+8,9%</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Geblurrte Other Metrics MIT DEUTSCHER FORMATIERUNG */}
-                <div>
-                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Weitere Kennzahlen</h4>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">EBITDA Growth (3Y)</span>
-                      <span className="font-semibold text-green-400">+3,0%</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Geblurrte Growth Quality MIT DEUTSCHER DATUMSFORMATIERUNG */}
-                <div>
-                  <h4 className="text-sm font-semibold text-theme-primary mb-4">Wachstumsqualität</h4>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">Datenverfügbarkeit</span>
-                      <span className="text-theme-primary font-semibold">✅ Income | ✅ Estimates</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">Historische Perioden</span>
-                      <span className="text-theme-primary font-semibold">10 Jahre</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-theme-secondary text-sm">Letztes Update</span>
-                      <span className="text-theme-secondary text-sm">08.07.2025</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Premium Blur Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-theme-card/95 backdrop-blur-sm rounded-lg p-4 text-center shadow-xl border border-green-500/20">
-                  <LockClosedIcon className="w-6 h-6 text-green-500 mx-auto mb-2" />
-                  <p className="text-theme-primary font-semibold text-sm">Zukunftsprognosen</p>
-                  <p className="text-theme-muted text-xs mt-1">Premium erforderlich</p>
-                  <Link
-                    href="/pricing"
-                    className="inline-flex items-center gap-1 text-green-500 hover:text-green-400 text-xs font-medium mt-2 transition-colors"
-                  >
-                    Upgrade
-                    <ArrowRightIcon className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* Growth Charts - Premium Feature */}
+      {/* Growth Charts - Premium Feature mit echten Daten */}
       {user?.isPremium ? (
         <div className="bg-theme-card rounded-lg border border-theme/10">
           <div className="px-6 py-4 border-b border-theme/10">
@@ -612,7 +573,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </h3>
           </div>
           <div className="p-6 text-center py-12">
-            <div className="w-16 h-16 bg-gradient-to-br border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <LockClosedIcon className="w-8 h-8 text-green-500" />
             </div>
             <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Charts verfügbar</h3>
@@ -634,6 +595,9 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
       <div className="text-center py-6">
         <p className="text-xs text-theme-muted">
           Wachstumsdaten basieren auf Finanzdaten von FMP API • Analysten-Schätzungen von führenden Investmentbanken
+        </p>
+        <p className="text-xs text-theme-muted mt-2">
+          Letztes Update: {formatDate(data.lastUpdated)}
         </p>
       </div>
     </div>

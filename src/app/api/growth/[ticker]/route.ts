@@ -1,44 +1,44 @@
-// src/app/api/growth/[ticker]/route.ts
-import { NextResponse } from 'next/server'
+// src/app/api/growth/[ticker]/route.ts - Erweiterte Growth API
+import { NextRequest, NextResponse } from 'next/server'
 
-interface GrowthData {
-  revenueGrowth1Y?: number | null
-  revenueGrowth3Y?: number | null  
-  revenueGrowth5Y?: number | null
-  revenueGrowth10Y?: number | null
-  epsGrowth1Y?: number | null
-  epsGrowth3Y?: number | null
-  epsGrowth5Y?: number | null
-  epsGrowth10Y?: number | null
-  ebitdaGrowth1Y?: number | null
-  ebitdaGrowth3Y?: number | null
-  fcfGrowth1Y?: number | null
-  fcfGrowth3Y?: number | null
-  revenueGrowthForward2Y?: number | null
-  epsGrowthForward2Y?: number | null
-  epsGrowthLongTerm?: number | null
+const FMP_API_KEY = process.env.FMP_API_KEY
+
+// CAGR Berechnung
+function calculateCAGR(startValue: number, endValue: number, years: number): number | null {
+  if (!startValue || startValue === 0 || !endValue || years <= 0) return null
+  
+  // Handle negative values properly
+  if (startValue < 0 && endValue < 0) {
+    // Both negative: calculate based on absolute values, then negate
+    const cagr = (Math.pow(Math.abs(endValue / startValue), 1 / years) - 1) * 100
+    return -cagr
+  } else if (startValue < 0 && endValue > 0) {
+    // Turnaround from loss to profit: return very high growth
+    return 100
+  } else if (startValue > 0 && endValue < 0) {
+    // From profit to loss: return very negative growth
+    return -100
+  }
+  
+  const cagr = (Math.pow(endValue / startValue, 1 / years) - 1) * 100
+  return isFinite(cagr) ? cagr : null
 }
 
-// Berechnet CAGR (Compound Annual Growth Rate)
-function calculateCAGR(startValue: number, endValue: number, years: number): number {
-  if (startValue <= 0 || endValue <= 0 || years <= 0) return 0
-  return (Math.pow(endValue / startValue, 1 / years) - 1) * 100
-}
-
-// Berechnet YoY Growth Rate
-function calculateYoY(current: number, previous: number): number {
-  if (previous <= 0) return 0
-  return ((current - previous) / Math.abs(previous)) * 100
+// YoY Growth Berechnung
+function calculateYoYGrowth(currentValue: number, previousValue: number): number | null {
+  if (!previousValue || previousValue === 0) return null
+  
+  const growth = ((currentValue - previousValue) / Math.abs(previousValue)) * 100
+  return isFinite(growth) ? growth : null
 }
 
 export async function GET(
-  req: Request,
+  request: NextRequest,
   { params }: { params: { ticker: string } }
 ) {
   const { ticker } = params
-  const apiKey = process.env.FMP_API_KEY
-
-  if (!apiKey) {
+  
+  if (!FMP_API_KEY) {
     return NextResponse.json(
       { error: 'API key not configured' },
       { status: 500 }
@@ -46,151 +46,245 @@ export async function GET(
   }
 
   try {
-    console.log(`🚀 [Growth] Loading growth data for ${ticker}`)
-
-    // Parallel API calls für bessere Performance
-    const [incomeRes, growthRes, estimatesRes] = await Promise.allSettled([
-      // Income Statements für manuelle CAGR Berechnung
-      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?limit=10&apikey=${apiKey}`),
-      // Financial Growth Ratios (wenn verfügbar)
-      fetch(`https://financialmodelingprep.com/api/v3/financial-growth/${ticker}?limit=5&apikey=${apiKey}`),
+    // Lade multiple Datenquellen parallel
+    const [
+      incomeResponse,
+      cashFlowResponse,
+      balanceResponse,
+      estimatesResponse,
+      ratiosResponse
+    ] = await Promise.all([
+      // Income Statement für Revenue, EPS, EBITDA, Net Income, Operating Income
+      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=11&apikey=${FMP_API_KEY}`),
+      // Cash Flow für FCF und CAPEX
+      fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=annual&limit=11&apikey=${FMP_API_KEY}`),
+      // Balance Sheet für Tangible Book Value
+      fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=annual&limit=11&apikey=${FMP_API_KEY}`),
       // Analyst Estimates für Forward Growth
-      fetch(`https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?limit=5&apikey=${apiKey}`)
+      fetch(`https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?limit=4&apikey=${FMP_API_KEY}`),
+      // Financial Ratios für ROE
+      fetch(`https://financialmodelingprep.com/api/v3/ratios/${ticker}?limit=11&apikey=${FMP_API_KEY}`)
     ])
 
-    let incomeData: any[] = []
-    let growthData: any[] = []
-    let estimatesData: any[] = []
+    const [income, cashFlow, balance, estimates, ratios] = await Promise.all([
+      incomeResponse.json(),
+      cashFlowResponse.json(),
+      balanceResponse.json(),
+      estimatesResponse.json(),
+      ratiosResponse.json()
+    ])
 
-    // Income Statement Data
-    if (incomeRes.status === 'fulfilled' && incomeRes.value.ok) {
-      incomeData = await incomeRes.value.json()
+    // Validierung
+    if (!Array.isArray(income) || income.length < 2) {
+      return NextResponse.json({
+        ticker,
+        growth: {},
+        dataQuality: {
+          hasIncomeData: false,
+          hasGrowthData: false,
+          hasEstimates: false,
+          periods: 0
+        },
+        lastUpdated: new Date().toISOString()
+      })
     }
 
-    // Growth Data (FMP's calculated ratios)
-    if (growthRes.status === 'fulfilled' && growthRes.value.ok) {
-      growthData = await growthRes.value.json()
+    // Sortiere nach Datum (neueste zuerst)
+    const sortedIncome = income.sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
+    const sortedCashFlow = Array.isArray(cashFlow) ? cashFlow.sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    ) : []
+    const sortedBalance = Array.isArray(balance) ? balance.sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    ) : []
+    const sortedRatios = Array.isArray(ratios) ? ratios.sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    ) : []
+
+    // Berechne Growth Metriken
+    const growth: any = {}
+
+    // Revenue Growth
+    if (sortedIncome[0] && sortedIncome[1]) {
+      growth.revenueGrowth1Y = calculateYoYGrowth(sortedIncome[0].revenue, sortedIncome[1].revenue)
+    }
+    if (sortedIncome[0] && sortedIncome[3]) {
+      growth.revenueGrowth3Y = calculateCAGR(sortedIncome[3].revenue, sortedIncome[0].revenue, 3)
+    }
+    if (sortedIncome[0] && sortedIncome[5]) {
+      growth.revenueGrowth5Y = calculateCAGR(sortedIncome[5].revenue, sortedIncome[0].revenue, 5)
+    }
+    if (sortedIncome[0] && sortedIncome[10]) {
+      growth.revenueGrowth10Y = calculateCAGR(sortedIncome[10].revenue, sortedIncome[0].revenue, 10)
     }
 
-    // Estimates Data
-    if (estimatesRes.status === 'fulfilled' && estimatesRes.value.ok) {
-      estimatesData = await estimatesRes.value.json()
+    // EPS Growth
+    if (sortedIncome[0] && sortedIncome[1]) {
+      growth.epsGrowth1Y = calculateYoYGrowth(sortedIncome[0].epsdiluted, sortedIncome[1].epsdiluted)
+    }
+    if (sortedIncome[0] && sortedIncome[3]) {
+      growth.epsGrowth3Y = calculateCAGR(sortedIncome[3].epsdiluted, sortedIncome[0].epsdiluted, 3)
+    }
+    if (sortedIncome[0] && sortedIncome[5]) {
+      growth.epsGrowth5Y = calculateCAGR(sortedIncome[5].epsdiluted, sortedIncome[0].epsdiluted, 5)
+    }
+    if (sortedIncome[0] && sortedIncome[10]) {
+      growth.epsGrowth10Y = calculateCAGR(sortedIncome[10].epsdiluted, sortedIncome[0].epsdiluted, 10)
     }
 
-    console.log(`📊 [Growth] Data loaded: income=${incomeData.length}, growth=${growthData.length}, estimates=${estimatesData.length}`)
-
-    // ✅ BERECHNUNG DER GROWTH RATES
-    const result: GrowthData = {}
-
-    // 1) Verwende FMP Growth Data wenn verfügbar
-    if (growthData.length > 0) {
-      const latest = growthData[0]
-      result.revenueGrowth1Y = latest.revenueGrowth * 100 || null
-      result.epsGrowth1Y = latest.epsgrowth * 100 || null
-      result.ebitdaGrowth1Y = latest.ebitgrowth * 100 || null
-      result.fcfGrowth1Y = latest.freeCashFlowGrowth * 100 || null
+    // EBITDA Growth
+    if (sortedIncome[0] && sortedIncome[1]) {
+      growth.ebitdaGrowth1Y = calculateYoYGrowth(sortedIncome[0].ebitda, sortedIncome[1].ebitda)
+    }
+    if (sortedIncome[0] && sortedIncome[3]) {
+      growth.ebitdaGrowth3Y = calculateCAGR(sortedIncome[3].ebitda, sortedIncome[0].ebitda, 3)
     }
 
-    // 2) Manuelle CAGR Berechnung aus Income Statements
-    if (incomeData.length >= 3) {
-      const sortedData = incomeData.sort((a, b) => 
-        new Date(b.date).getTime() - new Date(a.date).getTime()
+    // Net Income Growth
+    if (sortedIncome[0] && sortedIncome[1]) {
+      growth.netIncomeGrowth1Y = calculateYoYGrowth(sortedIncome[0].netIncome, sortedIncome[1].netIncome)
+    }
+    if (sortedIncome[0] && sortedIncome[3]) {
+      growth.netIncomeGrowth3Y = calculateCAGR(sortedIncome[3].netIncome, sortedIncome[0].netIncome, 3)
+    }
+
+    // Operating Income Growth
+    if (sortedIncome[0] && sortedIncome[1]) {
+      growth.operatingIncomeGrowth1Y = calculateYoYGrowth(sortedIncome[0].operatingIncome, sortedIncome[1].operatingIncome)
+    }
+    if (sortedIncome[0] && sortedIncome[3]) {
+      growth.operatingIncomeGrowth3Y = calculateCAGR(sortedIncome[3].operatingIncome, sortedIncome[0].operatingIncome, 3)
+    }
+
+    // FCF Growth (aus Cash Flow Statement)
+    if (sortedCashFlow.length >= 2) {
+      const fcf0 = sortedCashFlow[0].freeCashFlow || (sortedCashFlow[0].operatingCashFlow - Math.abs(sortedCashFlow[0].capitalExpenditure))
+      const fcf1 = sortedCashFlow[1].freeCashFlow || (sortedCashFlow[1].operatingCashFlow - Math.abs(sortedCashFlow[1].capitalExpenditure))
+      growth.fcfGrowth1Y = calculateYoYGrowth(fcf0, fcf1)
+    }
+    if (sortedCashFlow.length >= 4) {
+      const fcf0 = sortedCashFlow[0].freeCashFlow || (sortedCashFlow[0].operatingCashFlow - Math.abs(sortedCashFlow[0].capitalExpenditure))
+      const fcf3 = sortedCashFlow[3].freeCashFlow || (sortedCashFlow[3].operatingCashFlow - Math.abs(sortedCashFlow[3].capitalExpenditure))
+      growth.fcfGrowth3Y = calculateCAGR(fcf3, fcf0, 3)
+    }
+
+    // CAPEX Growth
+    if (sortedCashFlow.length >= 2) {
+      growth.capexGrowth1Y = calculateYoYGrowth(
+        Math.abs(sortedCashFlow[0].capitalExpenditure), 
+        Math.abs(sortedCashFlow[1].capitalExpenditure)
+      )
+    }
+    if (sortedCashFlow.length >= 4) {
+      growth.capexGrowth3Y = calculateCAGR(
+        Math.abs(sortedCashFlow[3].capitalExpenditure), 
+        Math.abs(sortedCashFlow[0].capitalExpenditure), 
+        3
+      )
+    }
+
+    // Tangible Book Value Growth
+    if (sortedBalance.length >= 2) {
+      const tbv0 = sortedBalance[0].totalEquity - (sortedBalance[0].goodwill || 0) - (sortedBalance[0].intangibleAssets || 0)
+      const tbv1 = sortedBalance[1].totalEquity - (sortedBalance[1].goodwill || 0) - (sortedBalance[1].intangibleAssets || 0)
+      growth.tangibleBookValueGrowth1Y = calculateYoYGrowth(tbv0, tbv1)
+    }
+    if (sortedBalance.length >= 4) {
+      const tbv0 = sortedBalance[0].totalEquity - (sortedBalance[0].goodwill || 0) - (sortedBalance[0].intangibleAssets || 0)
+      const tbv3 = sortedBalance[3].totalEquity - (sortedBalance[3].goodwill || 0) - (sortedBalance[3].intangibleAssets || 0)
+      growth.tangibleBookValueGrowth3Y = calculateCAGR(tbv3, tbv0, 3)
+    }
+
+    // Dividend Growth
+    if (sortedIncome[0] && sortedIncome[1]) {
+      const dps0 = sortedIncome[0].dividendsPaid / sortedIncome[0].weightedAverageShsOut
+      const dps1 = sortedIncome[1].dividendsPaid / sortedIncome[1].weightedAverageShsOut
+      if (dps0 && dps1) {
+        growth.dividendGrowth1Y = calculateYoYGrowth(Math.abs(dps0), Math.abs(dps1))
+      }
+    }
+    if (sortedIncome[0] && sortedIncome[3]) {
+      const dps0 = sortedIncome[0].dividendsPaid / sortedIncome[0].weightedAverageShsOut
+      const dps3 = sortedIncome[3].dividendsPaid / sortedIncome[3].weightedAverageShsOut
+      if (dps0 && dps3) {
+        growth.dividendGrowth3Y = calculateCAGR(Math.abs(dps3), Math.abs(dps0), 3)
+      }
+    }
+
+    // ROE Growth
+    if (sortedRatios.length >= 2) {
+      growth.roeGrowth1Y = calculateYoYGrowth(sortedRatios[0].returnOnEquity, sortedRatios[1].returnOnEquity)
+    }
+    if (sortedRatios.length >= 4) {
+      growth.roeGrowth3Y = calculateCAGR(sortedRatios[3].returnOnEquity, sortedRatios[0].returnOnEquity, 3)
+    }
+
+    // Forward Growth aus Analyst Estimates
+    if (Array.isArray(estimates) && estimates.length > 0) {
+      const currentYear = new Date().getFullYear()
+      const currentEstimate = estimates.find(e => 
+        new Date(e.date).getFullYear() === currentYear
+      )
+      const nextYearEstimate = estimates.find(e => 
+        new Date(e.date).getFullYear() === currentYear + 1
+      )
+      const twoYearEstimate = estimates.find(e => 
+        new Date(e.date).getFullYear() === currentYear + 2
       )
 
-      const current = sortedData[0]
-      const oneYearAgo = sortedData[1]
-      const threeYearsAgo = sortedData[3]
-      const fiveYearsAgo = sortedData[5]
-      const tenYearsAgo = sortedData[9]
-
-      // Revenue Growth
-      if (oneYearAgo && current.revenue && oneYearAgo.revenue) {
-        result.revenueGrowth1Y = result.revenueGrowth1Y || calculateYoY(current.revenue, oneYearAgo.revenue)
-      }
-      
-      if (threeYearsAgo && current.revenue && threeYearsAgo.revenue) {
-        result.revenueGrowth3Y = calculateCAGR(threeYearsAgo.revenue, current.revenue, 3)
-      }
-      
-      if (fiveYearsAgo && current.revenue && fiveYearsAgo.revenue) {
-        result.revenueGrowth5Y = calculateCAGR(fiveYearsAgo.revenue, current.revenue, 5)
-      }
-      
-      if (tenYearsAgo && current.revenue && tenYearsAgo.revenue) {
-        result.revenueGrowth10Y = calculateCAGR(tenYearsAgo.revenue, current.revenue, 10)
-      }
-
-      // EPS Growth  
-      if (oneYearAgo && current.eps && oneYearAgo.eps && oneYearAgo.eps !== 0) {
-        result.epsGrowth1Y = result.epsGrowth1Y || calculateYoY(current.eps, oneYearAgo.eps)
-      }
-      
-      if (threeYearsAgo && current.eps && threeYearsAgo.eps && threeYearsAgo.eps > 0) {
-        result.epsGrowth3Y = calculateCAGR(threeYearsAgo.eps, current.eps, 3)
-      }
-      
-      if (fiveYearsAgo && current.eps && fiveYearsAgo.eps && fiveYearsAgo.eps > 0) {
-        result.epsGrowth5Y = calculateCAGR(fiveYearsAgo.eps, current.eps, 5)
-      }
-      
-      if (tenYearsAgo && current.eps && tenYearsAgo.eps && tenYearsAgo.eps > 0) {
-        result.epsGrowth10Y = calculateCAGR(tenYearsAgo.eps, current.eps, 10)
-      }
-
-      // EBITDA Growth
-      if (threeYearsAgo && current.ebitda && threeYearsAgo.ebitda && threeYearsAgo.ebitda > 0) {
-        result.ebitdaGrowth3Y = calculateCAGR(threeYearsAgo.ebitda, current.ebitda, 3)
-      }
-    }
-
-    // 3) Forward Growth aus Analyst Estimates
-    if (estimatesData.length >= 2) {
-      const currentYear = new Date().getFullYear()
-      const nextYear = estimatesData.find(e => parseInt(e.date.slice(0, 4)) === currentYear + 1)
-      const yearAfter = estimatesData.find(e => parseInt(e.date.slice(0, 4)) === currentYear + 2)
-      const currentEst = estimatesData.find(e => parseInt(e.date.slice(0, 4)) === currentYear)
-
       // Revenue Forward Growth
-      if (currentEst && nextYear && currentEst.estimatedRevenueAvg && nextYear.estimatedRevenueAvg) {
-        result.revenueGrowthForward2Y = calculateYoY(nextYear.estimatedRevenueAvg, currentEst.estimatedRevenueAvg)
+      if (currentEstimate && twoYearEstimate) {
+        growth.revenueGrowthForward2Y = calculateCAGR(
+          currentEstimate.estimatedRevenueAvg,
+          twoYearEstimate.estimatedRevenueAvg,
+          2
+        )
       }
 
       // EPS Forward Growth
-      if (currentEst && nextYear && currentEst.estimatedEpsAvg && nextYear.estimatedEpsAvg && currentEst.estimatedEpsAvg > 0) {
-        result.epsGrowthForward2Y = calculateYoY(nextYear.estimatedEpsAvg, currentEst.estimatedEpsAvg)
+      if (currentEstimate && twoYearEstimate) {
+        growth.epsGrowthForward2Y = calculateCAGR(
+          currentEstimate.estimatedEpsAvg,
+          twoYearEstimate.estimatedEpsAvg,
+          2
+        )
       }
 
-      // Long-term EPS Growth (if available)
-      if (currentEst && yearAfter && currentEst.estimatedEpsAvg && yearAfter.estimatedEpsAvg && currentEst.estimatedEpsAvg > 0) {
-        result.epsGrowthLongTerm = calculateCAGR(currentEst.estimatedEpsAvg, yearAfter.estimatedEpsAvg, 2)
+      // Long-term EPS Growth (3-5 Jahre)
+      const threeYearEstimate = estimates.find(e => 
+        new Date(e.date).getFullYear() === currentYear + 3
+      )
+      if (currentEstimate && threeYearEstimate) {
+        growth.epsGrowthLongTerm = calculateCAGR(
+          currentEstimate.estimatedEpsAvg,
+          threeYearEstimate.estimatedEpsAvg,
+          3
+        )
       }
     }
 
-    console.log(`✅ [Growth] Calculated growth rates for ${ticker}:`, {
-      revenue3Y: result.revenueGrowth3Y?.toFixed(1),
-      eps3Y: result.epsGrowth3Y?.toFixed(1),
-      revenueFwd: result.revenueGrowthForward2Y?.toFixed(1)
-    })
+    // Berechne Datenqualität
+    const dataQuality = {
+      hasIncomeData: sortedIncome.length > 0,
+      hasGrowthData: Object.keys(growth).length > 0,
+      hasEstimates: Array.isArray(estimates) && estimates.length > 0,
+      periods: Math.min(sortedIncome.length, 10)
+    }
 
+    // Response
     return NextResponse.json({
-      ticker: ticker.toUpperCase(),
-      growth: result,
-      dataQuality: {
-        hasIncomeData: incomeData.length > 0,
-        hasGrowthData: growthData.length > 0,
-        hasEstimates: estimatesData.length > 0,
-        periods: incomeData.length
-      },
+      ticker,
+      growth,
+      dataQuality,
       lastUpdated: new Date().toISOString()
     })
 
   } catch (error) {
-    console.error(`❌ [Growth] Error for ${ticker}:`, error)
+    console.error('Error fetching growth data:', error)
     return NextResponse.json(
-      { 
-        error: 'Failed to fetch growth data',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
+      { error: 'Failed to fetch growth data' },
       { status: 500 }
     )
   }

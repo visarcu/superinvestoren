@@ -1,47 +1,257 @@
-// src/components/GrowthCharts.tsx - Premium Feature Placeholder
+// src/components/GrowthCharts.tsx - Mit echten API-Daten
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend, ComposedChart, Area } from 'recharts';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { useCurrency } from '@/lib/CurrencyContext';
 
 interface GrowthChartsProps {
   ticker: string;
 }
 
+interface HistoricalGrowthData {
+  year: number;
+  revenue: number;
+  revenueGrowth: number;
+  eps: number;
+  epsGrowth: number;
+  ebitda?: number;
+  ebitdaGrowth?: number;
+  fcf?: number;
+  fcfGrowth?: number;
+  netIncome?: number;
+  netIncomeGrowth?: number;
+  operatingIncome?: number;
+  operatingIncomeGrowth?: number;
+}
+
+interface CAGRData {
+  period: string;
+  revenue: number;
+  eps: number;
+  ebitda?: number;
+  fcf?: number;
+  netIncome?: number;
+}
+
 const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
   const [loading, setLoading] = useState(true);
-  const [chartData, setChartData] = useState<any[]>([]);
+  const [historicalData, setHistoricalData] = useState<HistoricalGrowthData[]>([]);
+  const [cagrData, setCAGRData] = useState<CAGRData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  
+  const { formatPercentage } = useCurrency();
 
   useEffect(() => {
-    // Simulate loading historical growth data
-    const loadChartData = async () => {
-      setLoading(true);
-      
-      try {
-        // In einer echten Implementation würdest du hier historische Finanzdaten laden
-        // und CAGR für jedes Jahr berechnen
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-        
-        // Mock data für Demo
-        const mockData = [
-          { year: '2019', revenueGrowth: 8.2, epsGrowth: 12.1 },
-          { year: '2020', revenueGrowth: 5.1, epsGrowth: 3.9 },
-          { year: '2021', revenueGrowth: 33.3, epsGrowth: 71.8 },
-          { year: '2022', revenueGrowth: 7.8, epsGrowth: -13.4 },
-          { year: '2023', revenueGrowth: -2.8, epsGrowth: -13.1 },
-        ];
-        
-        setChartData(mockData);
-      } catch (error) {
-        console.error('Error loading chart data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadChartData();
   }, [ticker]);
+
+  const loadChartData = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Lade historische Finanzdaten für die letzten 10 Jahre
+      const [incomeResponse, cashFlowResponse, growthResponse] = await Promise.all([
+        fetch(`/api/financials/income/${ticker}?period=annual&limit=11`),
+        fetch(`/api/financials/cashflow/${ticker}?period=annual&limit=11`),
+        fetch(`/api/growth/${ticker}`)
+      ]);
+
+      if (!incomeResponse.ok) {
+        console.error('Income response error:', incomeResponse.status);
+        throw new Error('Fehler beim Laden der Income-Daten');
+      }
+      if (!cashFlowResponse.ok) {
+        console.error('CashFlow response error:', cashFlowResponse.status);
+        throw new Error('Fehler beim Laden der CashFlow-Daten');
+      }
+      if (!growthResponse.ok) {
+        console.error('Growth response error:', growthResponse.status);
+        throw new Error('Fehler beim Laden der Growth-Daten');
+      }
+
+      const incomeData = await incomeResponse.json();
+      const cashFlowData = await cashFlowResponse.json();
+      const growthData = await growthResponse.json();
+      
+      console.log('Income data loaded:', incomeData?.statements?.length || 0, 'statements');
+      console.log('CashFlow data loaded:', cashFlowData?.statements?.length || 0, 'statements');
+      console.log('Growth data loaded:', growthData);
+
+      // Verarbeite historische Daten für Wachstumstrend-Chart
+      const processedHistorical: HistoricalGrowthData[] = [];
+      
+      if (incomeData?.statements && Array.isArray(incomeData.statements) && incomeData.statements.length > 0) {
+        // Sortiere nach Jahr (älteste zuerst)
+        const sortedStatements = [...incomeData.statements].sort((a, b) => 
+          new Date(a.date).getFullYear() - new Date(b.date).getFullYear()
+        );
+
+        for (let i = 1; i < sortedStatements.length; i++) {
+          const current = sortedStatements[i];
+          const previous = sortedStatements[i - 1];
+          const year = new Date(current.date).getFullYear();
+          
+          // Finde passende Cash Flow Daten
+          const cfData = cashFlowData?.statements?.find((cf: any) => 
+            new Date(cf.date).getFullYear() === year
+          );
+          const prevCfData = cashFlowData?.statements?.find((cf: any) => 
+            new Date(cf.date).getFullYear() === year - 1
+          );
+
+          // Berechne YoY Wachstumsraten
+          const revenueGrowth = previous.revenue && previous.revenue !== 0
+            ? ((current.revenue - previous.revenue) / Math.abs(previous.revenue)) * 100
+            : 0;
+
+          const epsGrowth = previous.epsdiluted && previous.epsdiluted !== 0
+            ? ((current.epsdiluted - previous.epsdiluted) / Math.abs(previous.epsdiluted)) * 100
+            : 0;
+
+          const ebitdaGrowth = previous.ebitda && previous.ebitda !== 0
+            ? ((current.ebitda - previous.ebitda) / Math.abs(previous.ebitda)) * 100
+            : 0;
+
+          const netIncomeGrowth = current.netIncome !== undefined && previous.netIncome && previous.netIncome !== 0
+            ? ((current.netIncome - previous.netIncome) / Math.abs(previous.netIncome)) * 100
+            : 0;
+
+          const operatingIncomeGrowth = current.operatingIncome !== undefined && previous.operatingIncome && previous.operatingIncome !== 0
+            ? ((current.operatingIncome - previous.operatingIncome) / Math.abs(previous.operatingIncome)) * 100
+            : 0;
+
+          let fcfGrowth = 0;
+          if (cfData && prevCfData) {
+            const currentFCF = cfData.freeCashFlow || (cfData.operatingCashFlow - cfData.capitalExpenditure);
+            const prevFCF = prevCfData.freeCashFlow || (prevCfData.operatingCashFlow - prevCfData.capitalExpenditure);
+            
+            if (prevFCF && prevFCF !== 0) {
+              fcfGrowth = ((currentFCF - prevFCF) / Math.abs(prevFCF)) * 100;
+            }
+          }
+
+          processedHistorical.push({
+            year,
+            revenue: current.revenue || 0,
+            revenueGrowth: isFinite(revenueGrowth) ? revenueGrowth : 0,
+            eps: current.epsdiluted || 0,
+            epsGrowth: isFinite(epsGrowth) ? epsGrowth : 0,
+            ebitda: current.ebitda || 0,
+            ebitdaGrowth: isFinite(ebitdaGrowth) ? ebitdaGrowth : 0,
+            fcf: cfData?.freeCashFlow || (cfData?.operatingCashFlow - cfData?.capitalExpenditure) || 0,
+            fcfGrowth: isFinite(fcfGrowth) ? fcfGrowth : 0,
+            netIncome: current.netIncome || 0,
+            netIncomeGrowth: isFinite(netIncomeGrowth) ? netIncomeGrowth : 0,
+            operatingIncome: current.operatingIncome || 0,
+            operatingIncomeGrowth: isFinite(operatingIncomeGrowth) ? operatingIncomeGrowth : 0
+          });
+        }
+      } else {
+        console.error('No valid income statements found');
+      }
+
+      // Verwende die echten CAGR-Werte aus der Growth API
+      const processedCAGR: CAGRData[] = [];
+      
+      if (growthData?.growth) {
+        const g = growthData.growth;
+        
+        // 1 Jahr (YoY)
+        if (g.revenueGrowth1Y !== null || g.epsGrowth1Y !== null) {
+          processedCAGR.push({
+            period: '1Y',
+            revenue: g.revenueGrowth1Y || 0,
+            eps: g.epsGrowth1Y || 0,
+            ebitda: g.ebitdaGrowth1Y || 0,
+            fcf: g.fcfGrowth1Y || 0,
+            netIncome: processedHistorical.length > 0 ? processedHistorical[processedHistorical.length - 1]?.netIncomeGrowth || 0 : 0
+          });
+        }
+        
+        // 3 Jahre CAGR
+        if (g.revenueGrowth3Y !== null || g.epsGrowth3Y !== null) {
+          processedCAGR.push({
+            period: '3Y',
+            revenue: g.revenueGrowth3Y || 0,
+            eps: g.epsGrowth3Y || 0,
+            ebitda: g.ebitdaGrowth3Y || 0,
+            fcf: g.fcfGrowth3Y || 0,
+            netIncome: calculateCAGR(incomeData?.statements || [], 'netIncome', 3)
+          });
+        }
+        
+        // 5 Jahre CAGR
+        if (g.revenueGrowth5Y !== null || g.epsGrowth5Y !== null) {
+          processedCAGR.push({
+            period: '5Y',
+            revenue: g.revenueGrowth5Y || 0,
+            eps: g.epsGrowth5Y || 0,
+            ebitda: calculateCAGR(incomeData?.statements || [], 'ebitda', 5),
+            fcf: calculateCAGR(cashFlowData?.statements || [], 'freeCashFlow', 5),
+            netIncome: calculateCAGR(incomeData?.statements || [], 'netIncome', 5)
+          });
+        }
+        
+        // 10 Jahre CAGR
+        if (g.revenueGrowth10Y !== null || g.epsGrowth10Y !== null) {
+          processedCAGR.push({
+            period: '10Y',
+            revenue: g.revenueGrowth10Y || 0,
+            eps: g.epsGrowth10Y || 0,
+            ebitda: calculateCAGR(incomeData?.statements || [], 'ebitda', 10),
+            fcf: calculateCAGR(cashFlowData?.statements || [], 'freeCashFlow', 10),
+            netIncome: calculateCAGR(incomeData?.statements || [], 'netIncome', 10)
+          });
+        }
+      }
+
+      setHistoricalData(processedHistorical);
+      setCAGRData(processedCAGR);
+      
+    } catch (error) {
+      console.error('Error loading chart data:', error);
+      setError('Fehler beim Laden der Chart-Daten');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Hilfsfunktion zur Berechnung von CAGR
+  const calculateCAGR = (statements: any[], metric: string, years: number): number => {
+    if (!statements || statements.length < years + 1) return 0;
+    
+    const sorted = [...statements].sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    
+    const endValue = sorted[0][metric];
+    const startValue = sorted[Math.min(years, sorted.length - 1)][metric];
+    
+    if (!startValue || startValue === 0 || !endValue) return 0;
+    
+    const cagr = (Math.pow(Math.abs(endValue / startValue), 1 / years) - 1) * 100;
+    return isFinite(cagr) ? cagr : 0;
+  };
+
+  // Custom Tooltip für deutsche Formatierung
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-theme-card p-3 rounded-lg border border-theme/20 shadow-lg">
+          <p className="text-theme-primary font-semibold mb-2">{label}</p>
+          {payload.map((entry: any, index: number) => (
+            <p key={index} className="text-sm" style={{ color: entry.color }}>
+              {entry.name}: {formatPercentage(entry.value, true)}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
 
   if (loading) {
     return (
@@ -51,130 +261,332 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <p className="text-red-400 mb-4">{error}</p>
+          <button 
+            onClick={loadChartData}
+            className="btn-secondary"
+          >
+            Erneut versuchen
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (historicalData.length === 0 && cagrData.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <p className="text-theme-secondary">Keine Chart-Daten verfügbar</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       
-      {/* Revenue & EPS Growth Trend */}
-      <div>
-        <h4 className="text-lg font-semibold text-theme-primary mb-4">
-          Wachstumstrend über Zeit
-        </h4>
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-              <XAxis 
-                dataKey="year" 
-                stroke="#9CA3AF"
-                fontSize={12}
-              />
-              <YAxis 
-                stroke="#9CA3AF"
-                fontSize={12}
-                tickFormatter={(value) => `${value}%`}
-              />
-              <Tooltip 
-                contentStyle={{
-                  backgroundColor: '#1F2937',
-                  border: '1px solid #374151',
-                  borderRadius: '8px'
-                }}
-                labelStyle={{ color: '#F9FAFB' }}
-                formatter={(value: any, name: string) => [
-                  `${value}%`, 
-                  name === 'revenueGrowth' ? 'Umsatzwachstum' : 'EPS Wachstum'
-                ]}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="revenueGrowth" 
-                stroke="#3B82F6" 
-                strokeWidth={3}
-                dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, fill: '#3B82F6' }}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="epsGrowth" 
-                stroke="#10B981" 
-                strokeWidth={3}
-                dot={{ fill: '#10B981', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, fill: '#10B981' }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        
-        <div className="flex items-center justify-center gap-6 mt-4">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span className="text-sm text-theme-secondary">Umsatzwachstum</span>
+      {/* Wachstumstrend über Zeit */}
+      {historicalData.length > 0 && (
+        <div>
+          <h4 className="text-lg font-semibold text-theme-primary mb-4">
+            Wachstumstrend über Zeit (YoY)
+          </h4>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={historicalData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+                <XAxis 
+                  dataKey="year" 
+                  stroke="#9CA3AF"
+                  fontSize={12}
+                />
+                <YAxis 
+                  stroke="#9CA3AF"
+                  fontSize={12}
+                  tickFormatter={(value) => `${value}%`}
+                  domain={['dataMin - 10', 'dataMax + 10']}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend 
+                  formatter={(value) => {
+                    const labels: { [key: string]: string } = {
+                      revenueGrowth: 'Umsatz',
+                      epsGrowth: 'EPS',
+                      ebitdaGrowth: 'EBITDA',
+                      netIncomeGrowth: 'Nettogewinn'
+                    };
+                    return labels[value] || value;
+                  }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="revenueGrowth" 
+                  stroke="#3B82F6" 
+                  strokeWidth={2}
+                  dot={{ fill: '#3B82F6', strokeWidth: 2, r: 3 }}
+                  activeDot={{ r: 5, fill: '#3B82F6' }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="epsGrowth" 
+                  stroke="#10B981" 
+                  strokeWidth={2}
+                  dot={{ fill: '#10B981', strokeWidth: 2, r: 3 }}
+                  activeDot={{ r: 5, fill: '#10B981' }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="ebitdaGrowth" 
+                  stroke="#F59E0B" 
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  dot={{ fill: '#F59E0B', strokeWidth: 2, r: 3 }}
+                  activeDot={{ r: 5, fill: '#F59E0B' }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="netIncomeGrowth" 
+                  stroke="#8B5CF6" 
+                  strokeWidth={2}
+                  strokeDasharray="3 3"
+                  dot={{ fill: '#8B5CF6', strokeWidth: 2, r: 3 }}
+                  activeDot={{ r: 5, fill: '#8B5CF6' }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-theme-secondary">EPS Wachstum</span>
-          </div>
         </div>
-      </div>
+      )}
 
-      {/* CAGR Comparison Bar Chart */}
+      {/* CAGR Vergleich */}
+      {cagrData.length > 0 && (
+        <div>
+          <h4 className="text-lg font-semibold text-theme-primary mb-4">
+            CAGR Vergleich (Compound Annual Growth Rate)
+          </h4>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={cagrData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+                <XAxis 
+                  dataKey="period" 
+                  stroke="#9CA3AF"
+                  fontSize={12}
+                />
+                <YAxis 
+                  stroke="#9CA3AF"
+                  fontSize={12}
+                  tickFormatter={(value) => `${value}%`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend 
+                  formatter={(value) => {
+                    const labels: { [key: string]: string } = {
+                      revenue: 'Umsatz',
+                      eps: 'EPS',
+                      ebitda: 'EBITDA',
+                      netIncome: 'Nettogewinn'
+                    };
+                    return labels[value] || value;
+                  }}
+                />
+                <Bar dataKey="revenue" fill="#3B82F6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="eps" fill="#10B981" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="ebitda" fill="#F59E0B" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="netIncome" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* Absolutes Wachstum über Zeit */}
+      {historicalData.length > 0 && (
+        <div>
+          <h4 className="text-lg font-semibold text-theme-primary mb-4">
+            Absolutes Wachstum (indexiert, Basis = 100)
+          </h4>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={historicalData.map((d, i) => {
+                const baseYear = historicalData[0];
+                
+                // Sichere Berechnung der indexierten Werte
+                const revenueIndexed = (baseYear.revenue && baseYear.revenue !== 0 && d.revenue) 
+                  ? (d.revenue / baseYear.revenue) * 100 
+                  : 100;
+                
+                const epsIndexed = (baseYear.eps && baseYear.eps !== 0 && d.eps) 
+                  ? (d.eps / baseYear.eps) * 100 
+                  : 100;
+                
+                const netIncomeIndexed = (baseYear.netIncome && baseYear.netIncome !== 0 && d.netIncome) 
+                  ? (d.netIncome / baseYear.netIncome) * 100 
+                  : 100;
+                
+                return {
+                  ...d,
+                  revenueIndexed,
+                  epsIndexed,
+                  netIncomeIndexed
+                };
+              })}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+                <XAxis 
+                  dataKey="year" 
+                  stroke="#9CA3AF"
+                  fontSize={12}
+                />
+                <YAxis 
+                  stroke="#9CA3AF"
+                  fontSize={12}
+                  tickFormatter={(value) => `${value}`}
+                />
+                <Tooltip 
+                  formatter={(value: any) => `${Number(value).toFixed(1)}`}
+                  labelFormatter={(label) => `Jahr: ${label}`}
+                />
+                <Legend 
+                  formatter={(value) => {
+                    const labels: { [key: string]: string } = {
+                      revenueIndexed: 'Umsatz (Index)',
+                      epsIndexed: 'EPS (Index)',
+                      netIncomeIndexed: 'Nettogewinn (Index)'
+                    };
+                    return labels[value] || value;
+                  }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="revenueIndexed" 
+                  fill="#3B82F6" 
+                  stroke="#3B82F6"
+                  fillOpacity={0.3}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="epsIndexed" 
+                  stroke="#10B981" 
+                  strokeWidth={2}
+                  dot={{ fill: '#10B981', r: 3 }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="netIncomeIndexed" 
+                  stroke="#8B5CF6" 
+                  strokeWidth={2}
+                  dot={{ fill: '#8B5CF6', r: 3 }}
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* Zusätzliche Metriken Tabelle */}
       <div>
         <h4 className="text-lg font-semibold text-theme-primary mb-4">
-          CAGR Vergleich (Compound Annual Growth Rate)
+          Detaillierte Wachstumsmetriken (TTM)
         </h4>
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={[
-              { period: '1Y', revenue: 8.2, eps: 12.1 },
-              { period: '3Y', revenue: 15.4, eps: 18.9 },
-              { period: '5Y', revenue: 11.7, eps: 12.4 },
-              { period: '10Y', revenue: 9.8, eps: 15.2 },
-            ]}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-              <XAxis 
-                dataKey="period" 
-                stroke="#9CA3AF"
-                fontSize={12}
-              />
-              <YAxis 
-                stroke="#9CA3AF"
-                fontSize={12}
-                tickFormatter={(value) => `${value}%`}
-              />
-              <Tooltip 
-                contentStyle={{
-                  backgroundColor: '#1F2937',
-                  border: '1px solid #374151',
-                  borderRadius: '8px'
-                }}
-                labelStyle={{ color: '#F9FAFB' }}
-                formatter={(value: any, name: string) => [
-                  `${value}%`, 
-                  name === 'revenue' ? 'Umsatz CAGR' : 'EPS CAGR'
-                ]}
-              />
-              <Bar dataKey="revenue" fill="#3B82F6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="eps" fill="#10B981" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        
-        <div className="flex items-center justify-center gap-6 mt-4">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-            <span className="text-sm text-theme-secondary">Umsatz CAGR</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-theme-secondary">EPS CAGR</span>
-          </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-theme/20">
+                <th className="text-left py-2 px-3 text-theme-primary font-semibold">Metrik</th>
+                <th className="text-right py-2 px-3 text-theme-primary font-semibold">YoY</th>
+                <th className="text-right py-2 px-3 text-theme-primary font-semibold">3Y CAGR</th>
+                <th className="text-right py-2 px-3 text-theme-primary font-semibold">5Y CAGR</th>
+                <th className="text-right py-2 px-3 text-theme-primary font-semibold">10Y CAGR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-theme/10">
+                <td className="py-2 px-3 text-theme-secondary">Umsatz</td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.revenue || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.revenue || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.revenue || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.revenue || 0, true)}
+                </td>
+              </tr>
+              <tr className="border-b border-theme/10">
+                <td className="py-2 px-3 text-theme-secondary">EPS (Verwässert)</td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.eps || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.eps || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.eps || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.eps || 0, true)}
+                </td>
+              </tr>
+              <tr className="border-b border-theme/10">
+                <td className="py-2 px-3 text-theme-secondary">EBITDA</td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.ebitda || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.ebitda || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.ebitda || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.ebitda || 0, true)}
+                </td>
+              </tr>
+              <tr className="border-b border-theme/10">
+                <td className="py-2 px-3 text-theme-secondary">Nettogewinn</td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.netIncome || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.netIncome || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.netIncome || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.netIncome || 0, true)}
+                </td>
+              </tr>
+              <tr>
+                <td className="py-2 px-3 text-theme-secondary">Free Cash Flow</td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.fcf || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.fcf || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.fcf || 0, true)}
+                </td>
+                <td className="text-right py-2 px-3 text-theme-primary font-medium">
+                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.fcf || 0, true)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
       {/* Note */}
       <div className="text-center py-4">
         <p className="text-xs text-theme-muted">
-          📊 Charts basieren auf historischen Finanzdaten • CAGR = Compound Annual Growth Rate
+          📊 Charts basieren auf historischen Finanzdaten von FMP API • CAGR = Compound Annual Growth Rate • YoY = Year-over-Year
         </p>
       </div>
     </div>
