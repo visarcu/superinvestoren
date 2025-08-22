@@ -32,6 +32,7 @@ import {
   CalculatorIcon,
   BellIcon,
   ArrowTrendingUpIcon,
+  FunnelIcon,
   ArrowTrendingDownIcon
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
@@ -44,8 +45,10 @@ import NotificationCenter from '@/components/NotificationCenter'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
 import ScoreBadge from '@/components/ScoreBadge'
+import DashboardScreenerWidget from '@/components/DashboardScreenerWidget'
 
-// ===== TYPES =====
+
+
 interface StockQuote {
   symbol: string
   name: string
@@ -258,6 +261,12 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
         label: 'Portfolio',
         icon: BriefcaseIcon,
         href: '/analyse/portfolio'
+      },
+      {
+        id: 'screener',
+        label: 'Stock Screener',
+        icon: FunnelIcon,
+        href: '/analyse/screener'
       },
       {
         id: 'dcf-calculator',
