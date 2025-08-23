@@ -4,129 +4,20 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { 
   ChartBarIcon, 
   UserGroupIcon, 
   ArrowTrendingUpIcon,
   ArrowRightIcon,
   CheckIcon,
-  StarIcon,
-  BoltIcon,
   DocumentTextIcon,
   CpuChipIcon,
-  BuildingOfficeIcon,
-  
+  BuildingOfficeIcon
 } from '@heroicons/react/24/outline'
-import SearchTickerInput from '@/components/SearchTickerInput'
-import { investors } from '@/data/investors'
 import NewsletterSignup from '@/components/NewsletterSignup'
-import holdingsHistory from '@/data/holdings'
-import { stocks } from '@/data/stocks'
-import InvestorCardStack from '@/components/InvestorCardStack'
+import { useHomepagePortfolios } from '@/hooks/useHomepagePortfolios'
 
-// — Helper function to get real portfolio data —
-const getRealPortfolioData = () => {
-  const investorSlugs = ['buffett', 'ackman', 'marks'];
-  const portfolios: Array<{
-    name: string;
-    investor: string;
-    date: string;
-    filingId: string;
-    totalValue: string;
-    tickers: string;
-    holdings: Array<{
-      ticker: string;
-      value: string;
-      percentage: string;
-    }>;
-  }> = [];
-
-  investorSlugs.forEach(slug => {
-    const snapshots = holdingsHistory[slug];
-    if (!snapshots || snapshots.length === 0) return;
-
-    const latest = snapshots[snapshots.length - 1].data;
-    
-    const mergePositions = (raw: { cusip: string; shares: number; value: number; ticker?: string; name?: string }[]) => {
-      const map = new Map<string, { shares: number; value: number; ticker?: string; name?: string }>();
-      raw.forEach(p => {
-        const prev = map.get(p.cusip);
-        if (prev) {
-          prev.shares += p.shares;
-          prev.value += p.value;
-        } else {
-          map.set(p.cusip, { 
-            shares: p.shares, 
-            value: p.value,
-            ticker: p.ticker,
-            name: p.name
-          });
-        }
-      });
-      return map;
-    };
-
-    const mergedHoldings = Array.from(mergePositions(latest.positions).entries())
-      .map(([cusip, { shares, value, ticker: positionTicker, name: positionName }]) => {
-        const stockData = stocks.find(s => s.cusip === cusip);
-        
-        let ticker = positionTicker || stockData?.ticker || cusip.replace(/0+$/, '');
-        let displayName = positionName || stockData?.name || cusip;
-        
-        return {
-          cusip, 
-          ticker, 
-          name: displayName,
-          shares, 
-          value
-        };
-      })
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 5);
-
-    const totalValue = latest.positions.reduce((sum, p) => sum + p.value, 0);
-
-    const investorInfo = {
-      buffett: {
-        name: 'Berkshire Hathaway Inc',
-        investor: 'Warren Buffett',
-        filingId: '1067983'
-      },
-      ackman: {
-        name: 'Pershing Square Capital',
-        investor: 'Bill Ackman',
-        filingId: '1336528'
-      },
-      marks: {
-        name: 'Oaktree Capital Management',
-        investor: 'Howard Marks',
-        filingId: '1007478'
-      }
-    };
-
-    const info = investorInfo[slug as keyof typeof investorInfo];
-    if (!info) return;
-
-    portfolios.push({
-      name: info.name,
-      investor: info.investor,
-      date: latest.date?.split('-').reverse().join('.') || 'September 29, 2024',
-      filingId: info.filingId,
-      totalValue: totalValue >= 1000000000 
-      ? `${(totalValue / 1000000000).toFixed(0)} Mrd. $`
-      : `${(totalValue / 1000000).toFixed(0)} Mio. $`,
-      tickers: mergedHoldings.map(h => h.ticker).join(', '),
-      holdings: mergedHoldings.map(holding => ({
-        ticker: holding.ticker,
-        value: `${(holding.value / 1000000).toFixed(1)}M`,
-        percentage: ((holding.value / totalValue) * 100).toFixed(1)
-      }))
-    });
-  });
-
-  return portfolios;
-};
+// Portfolio data now loaded via API
 
 // — Custom Hooks für Animationen —
 const useCountUp = (end: number, duration = 2000, shouldStart = false) => {
@@ -191,7 +82,8 @@ const useIntersectionObserver = (threshold = 0.1) => {
 };
 
 export default function ProfessionalHomePage() {
-  const router = useRouter()
+  // API Data Hook - replaces heavy client-side processing
+  const { data: portfolioData } = useHomepagePortfolios()
 
   // Animation Refs
   const [statsRef, statsVisible] = useIntersectionObserver(0.3);
@@ -200,10 +92,8 @@ export default function ProfessionalHomePage() {
   const [watchlistRef, watchlistVisible] = useIntersectionObserver(0.3);
   const [aiRef, aiVisible] = useIntersectionObserver(0.3);
 
-  // Echte Investor Data mit Fallback
-  const investorData = getRealPortfolioData();
-  
-  const safeInvestorData = investorData.length > 0 ? investorData : [
+  // Use API data with fallback
+  const safeInvestorData = portfolioData.length > 0 ? portfolioData : [
     {
       name: 'Berkshire Hathaway Inc',
       investor: 'Warren Buffett',
@@ -212,88 +102,54 @@ export default function ProfessionalHomePage() {
       totalValue: '266 Mrd. $',
       tickers: 'AAPL, BAC, AXP, KO',
       holdings: [
-        { ticker: 'AAPL', value: '$69.9 Mrd.', percentage: '26.0' },
-        { ticker: 'BAC', value: '$31.7 Mrd.', percentage: '12.0' },
-        { ticker: 'AXP', value: '$25.1 Mrd.', percentage: '9.5' },
-        { ticker: 'KO', value: '$22.4 Mrd.', percentage: '8.5' },
-        { ticker: 'CVX', value: '$18.6 Mrd.', percentage: '7.0' }
+        { ticker: 'AAPL', value: '69.9B', percentage: '26.0' },
+        { ticker: 'BAC', value: '31.7B', percentage: '12.0' },
+        { ticker: 'AXP', value: '25.1B', percentage: '9.5' },
+        { ticker: 'KO', value: '22.4B', percentage: '8.5' },
+        { ticker: 'CVX', value: '18.6B', percentage: '7.0' }
       ]
     }
-  ];
-
-  const wantedSlugs = ['buffett', 'ackman', 'marks', 'smith'] 
-  const highlightInvestors = investors.filter(inv =>
-    wantedSlugs.includes(inv.slug)
-  )
-
-  const handleTickerSelect = (ticker: string) => {
-    router.push(`/analyse/${ticker.toLowerCase()}`)
-  }
+  ]
 
   return (
     <div className="min-h-screen bg-black">
       
      
 
-{/* 🏛️ PROFESSIONAL HERO - Quartr Style */}
-<div className="bg-black pt-32 pb-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+{/* Hero - Quartr/Fiscal Style */}
+<div className="bg-black pt-40 pb-32">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           
-          {/* Subtle Glow Background */}
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-green-500/5 rounded-full blur-[100px]"></div>
-          
-          <div className="relative text-center space-y-6">
-      {/* Headlines - Eleganter & Dünner */}
-<div className="space-y-2">
-<h1 className="text-5xl md:text-7xl lg:text-8xl text-white leading-[0.9] tracking-[-0.03em]" 
-    style={{ fontFamily: 'Inter, sans-serif', fontWeight: 200 }}>
-  Professionelle
-</h1>
-<h2 className="text-5xl md:text-7xl lg:text-8xl leading-[0.9] tracking-[-0.03em]" 
-    style={{ fontFamily: 'Inter, sans-serif', fontWeight: 200 }}>
-  <span className="text-gray-400">
-    Aktienanalyse
-  </span>
-</h2>
-</div>
+          <div className="text-center space-y-8">
+            {/* Main Headlines - Clean & Professional */}
+            <div className="space-y-3">
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-medium text-white leading-[0.85] tracking-[-0.02em]">
+                Professionelle
+                <br />
+                <span className="text-gray-300">Aktienanalyse</span>
+              </h1>
+            </div>
 
-{/* Subtitle auch eleganter */}
-<p className="text-lg md:text-xl text-gray-500 max-w-xl mx-auto font-light">
-  Institutionelle Daten. Ein Terminal.
-</p>
-            {/* CTAs mit Quartr-Glow */}
-     {/* CTAs mit Quartr-Glow */}
-<div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-  {/* Primary Button mit MEGA GLOW */}
-  <Link href="/analyse" className="relative group">
-    <div className="relative z-10 px-8 py-4 bg-white text-black font-medium rounded-xl transition-all hover:scale-[1.02]" 
-         style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-      Terminal öffnen
-    </div>
-    {/* Multi-Layer Glow Effect */}
-    <div className="absolute inset-0 bg-white/20 blur-lg rounded-xl opacity-60"></div>
-    <div className="absolute inset-0 bg-white/10 blur-xl rounded-xl scale-110 opacity-40 group-hover:opacity-60 transition-opacity"></div>
-    <div className="absolute inset-0 bg-white/5 blur-2xl rounded-xl scale-125 opacity-20 group-hover:opacity-40 transition-opacity"></div>
-  </Link>
-  
-
-{/* Secondary Button MIT IMMER sichtbarem animierten Border */}
-<Link href="/superinvestor" className="relative group">
-  <div className="relative px-8 py-4 text-gray-300 font-medium rounded-xl transition-all hover:text-white" 
-       style={{ fontFamily: 'Inter, sans-serif' }}>
-    {/* Der Text */}
-    <span className="relative z-10">Portfolio-Tracking →</span>
-    
-    {/* Animierter Border Background - IMMER SICHTBAR */}
-    <div className="absolute inset-0 rounded-xl p-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent bg-[length:200%_100%] animate-border-slide"></div>
-    
-    {/* Inner Background */}
-    <div className="absolute inset-[1px] bg-black rounded-xl"></div>
-  </div>
-</Link>
-
-
-</div>
+            {/* Subtitle - More Professional */}
+            <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              Institutionelle Investment-Daten und Tools für bessere Anlageentscheidungen
+            </p>
+            {/* CTAs - Cleaner Fiscal Style */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+              <Link 
+                href="/analyse" 
+                className="px-8 py-4 bg-white text-black font-semibold rounded-2xl transition-all hover:bg-gray-100 hover:scale-[1.02] text-lg"
+              >
+                Terminal öffnen
+              </Link>
+              
+              <Link 
+                href="/superinvestor" 
+                className="px-8 py-4 text-white font-semibold rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all text-lg"
+              >
+                Portfolio-Tracking →
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -301,35 +157,35 @@ export default function ProfessionalHomePage() {
 
 
 
-{/* 📊 STATS SECTION - Quartr Style */}
-<div className="bg-black py-20">
+{/* Stats - Cleaner Fiscal Style */}
+<div className="bg-black py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Stats Grid - Quartr Style ohne Boxen */}
-          <div ref={statsRef} className="flex justify-center items-center divide-x divide-gray-600/30 mb-20">
-            <div className={`px-8 md:px-16 text-center transform transition-all duration-1000 ${
+          {/* Stats Grid - Minimal & Clean */}
+          <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+            <div className={`text-center transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}>
-              <div className="text-3xl md:text-4xl font-bold text-white numeric mb-2">
+              <div className="text-4xl md:text-5xl font-medium text-white mb-3">
                 {useCountUp(10000, 2000, statsVisible).toLocaleString('de-DE')}+
               </div>
-              <div className="text-sm md:text-base text-gray-400">Aktien & ETFs</div>
+              <div className="text-lg text-gray-400">Aktien & ETFs</div>
             </div>
-            <div className={`px-8 md:px-16 text-center transform transition-all duration-1000 ${
+            <div className={`text-center transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`} style={{ transitionDelay: '200ms' }}>
-              <div className="text-3xl md:text-4xl font-bold text-white numeric mb-2">
+              <div className="text-4xl md:text-5xl font-medium text-white mb-3">
                 {useCountUp(15, 2200, statsVisible)}
               </div>
-              <div className="text-sm md:text-base text-gray-400">Jahre Historie</div>
+              <div className="text-lg text-gray-400">Jahre Historie</div>
             </div>
-            <div className={`px-8 md:px-16 text-center transform transition-all duration-1000 ${
+            <div className={`text-center transform transition-all duration-1000 ${
               statsVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`} style={{ transitionDelay: '400ms' }}>
-              <div className="text-3xl md:text-4xl font-bold text-white numeric mb-2">
+              <div className="text-4xl md:text-5xl font-medium text-white mb-3">
                 {useCountUp(90, 2400, statsVisible)}+
               </div>
-              <div className="text-sm md:text-base text-gray-400">Super-Investoren</div>
+              <div className="text-lg text-gray-400">Super-Investoren</div>
             </div>
           </div>
           
@@ -339,125 +195,96 @@ export default function ProfessionalHomePage() {
             
             {/* Left: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 text-gray-400 rounded-full text-sm font-medium mb-8">
                 <ChartBarIcon className="w-4 h-4" />
                 Analyse Terminal
               </div>
               
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">
                 Alle Kennzahlen
                 <span className="block text-gray-300">
                   an einem Ort
                 </span>
               </h2>
               
-              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-400 mb-8 leading-relaxed">
                 Von Quartalszahlen über Bewertungskennzahlen bis hin zu technischen Indikatoren - 
                 alles was professionelle Analysten für fundierte Entscheidungen benötigen.
               </p>
               
               <Link
                 href="/analyse"
-                style={{ backgroundColor: 'var(--bg-card)' }}
-                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-2xl transition-all duration-200"
               >
                 Terminal testen
                 <ArrowRightIcon className="w-4 h-4" />
               </Link>
             </div>
 
-            {/* Right: Professional Terminal Preview */}
+            {/* Right: Clean Terminal Preview */}
             <div ref={chartRef} className="relative">
-              <div className={`bg-theme-card rounded-xl p-6 transform transition-all duration-1000 ${
+              <div className={`bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-8 transform transition-all duration-1000 ${
                 chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}>
                 
-                {/* Terminal Header */}
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
-                  <div className="w-8 h-8 rounded-lg overflow-hidden">
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-12 h-12 rounded-2xl overflow-hidden bg-white/10 flex items-center justify-center">
                     <Image
                       src="/logos/aapl.png"
-                      alt="Apple Logo"
-                      width={32}
-                      height={32}
+                      alt="Apple"
+                      width={24}
+                      height={24}
                       className="object-contain"
+                      priority
                     />
                   </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-white">AAPL</h3>
+                    <p className="text-gray-400">Apple Inc.</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-semibold text-white">$185.24</div>
+                    <div className="text-sm text-green-400">+2.1%</div>
+                  </div>
+                </div>
+
+                {/* Key Metrics - Simplified */}
+                <div className="grid grid-cols-2 gap-6 mb-8">
                   <div>
-                    <h3 className="text-white font-bold">AAPL</h3>
-                    <p className="text-sm text-gray-400">Apple Inc.</p>
+                    <div className="text-gray-400 text-sm mb-1">Market Cap</div>
+                    <div className="text-white text-xl font-semibold">2.85T $</div>
                   </div>
-                  <div className="ml-auto text-right">
-                    <div className="text-xl font-bold text-white">$185.24</div>
-                    <div className="text-sm text-green-400">+2.1% (+$3.82)</div>
+                  <div>
+                    <div className="text-gray-400 text-sm mb-1">P/E Ratio</div>
+                    <div className="text-white text-xl font-semibold">28.4</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-sm mb-1">Revenue</div>
+                    <div className="text-white text-xl font-semibold">394B $</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-sm mb-1">EPS</div>
+                    <div className="text-white text-xl font-semibold">6.16 $</div>
                   </div>
                 </div>
 
-                {/* Data Grid - Like Your Dashboard */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  {[
-                    { label: 'Market Cap', value: '2.850 Mrd. $', change: null },
-                    { label: 'KGV', value: '28.4', change: null },
-                    { label: 'Umsatz (TTM)', value: '394. Mrd $', change: '+5.8%' },
-                    { label: 'EPS (TTM)', value: '6.16 $', change: '+8.3%' },
-                    { label: 'ROE', value: '160.58%', change: '+12.4%' },
-                    { label: 'Verschuldungsgrad', value: '1.73', change: null }
-                  ].map((metric, index) => (
-                    <div 
-                      key={metric.label}
-                      style={{ 
-                        backgroundColor: 'var(--bg-tertiary)',
-                        transitionDelay: `${800 + index * 100}ms`
-                      }}
-                      className={`rounded-lg p-3 transform transition-all duration-500 ${
-                        chartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                      }`}
-                    >
-                      <div className="text-xs text-gray-400 mb-1">{metric.label}</div>
-                      <div className="flex items-center justify-between">
-                        <div className="text-white font-semibold numeric">{metric.value}</div>
-                        {metric.change && (
-                          <div className="text-xs text-green-400">{metric.change}</div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Mini Chart - Subtil mit Blau */}
-                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="rounded-lg p-4">
-                  <div className="text-xs text-gray-400 mb-2">Kursverlauf (6M)</div>
-                  <div className="flex items-end gap-1 h-12">
+                {/* Chart Placeholder - Minimal */}
+                <div className="bg-white/5 rounded-2xl p-6">
+                  <div className="text-gray-400 text-sm mb-4">6M Performance</div>
+                  <div className="flex items-end gap-1 h-16">
                     {[40, 45, 35, 50, 65, 55, 70, 60, 75, 85, 80, 90].map((height, i) => (
                       <div
                         key={i}
-                        className="bg-blue-500 rounded-sm flex-1 transition-all duration-1000 ease-out"
+                        className="bg-gradient-to-t from-white/20 to-white/40 rounded-sm flex-1 transition-all duration-1000 ease-out"
                         style={{ 
                           height: chartVisible ? `${height}%` : '0%',
-                          transitionDelay: `${i * 50 + 1200}ms`
+                          transitionDelay: `${i * 50 + 800}ms`
                         }}
                       ></div>
                     ))}
                   </div>
                 </div>
-              </div>
-
-              {/* Floating Info Card - Minimal */}
-              <div className={`absolute -right-4 -bottom-4 bg-theme-card rounded-lg p-4 transform transition-all duration-1000 ${
-                chartVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'
-              }`} style={{ transitionDelay: '1400ms' }}>
-                <div className="flex items-center gap-2 mb-2">
-                  <Image
-                    src="/images/buffett-cartoon.png"
-                    alt="Warren Buffett"
-                    width={20}
-                    height={20}
-                    className="rounded-full object-cover"
-                  />
-                  <span className="text-white text-xs font-medium">Buffett hält</span>
-                </div>
-                <div className="text-yellow-400 font-bold text-sm">915M Aktien</div>
-                <div className="text-xs text-gray-400">~$170B Position</div>
               </div>
             </div>
           </div>
@@ -473,7 +300,7 @@ export default function ProfessionalHomePage() {
             
             {/* Left: Realistic Chart */}
             <div ref={marketChartRef} className="relative">
-              <div className={`bg-theme-card rounded-xl p-8 transform transition-all duration-1000 ${
+              <div className={`bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-8 transform transition-all duration-1000 ${
                 marketChartVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}>
                 
@@ -487,6 +314,7 @@ export default function ProfessionalHomePage() {
                         width={32}
                         height={32}
                         className="object-contain"
+                        priority
                       />
                     </div>
                     <div>
@@ -501,7 +329,7 @@ export default function ProfessionalHomePage() {
                 </div>
 
                 {/* Professional Chart */}
-                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="h-48 rounded-lg p-4 relative overflow-hidden">
+                <div className="bg-white/5 rounded-2xl h-48 p-4 relative overflow-hidden">
                   <svg className="w-full h-full" viewBox="0 0 400 160">
                     {/* Grid */}
                     <defs>
@@ -588,43 +416,42 @@ export default function ProfessionalHomePage() {
 
             {/* Right: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 text-gray-400 rounded-full text-sm font-medium mb-8">
                 <ArrowTrendingUpIcon className="w-4 h-4" />
                 Fundamentalanalyse
               </div>
               
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">
                 Datenbasierte
                 <span className="block text-gray-300">
                   Entscheidungen treffen
                 </span>
               </h2>
               
-              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-400 mb-10 leading-relaxed">
                 Analysiere Umsätze, Margen, Cash Flow und Bewertungskennzahlen. 
                 Verstehe die finanzielle Performance von Unternehmen durch 
                 professionelle Analyse-Tools und historische Trends.
               </p>
               
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">15+ Jahre Jahresabschlüsse & Quartalszahlen</span>
+              <div className="space-y-4 mb-10">
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">15+ Jahre Jahresabschlüsse & Quartalszahlen</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">60+ Fundamentale Kennzahlen (KGV, KBV, ROE, etc.)</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">60+ Fundamentale Kennzahlen</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Peer-Vergleiche & Branchen-Benchmarks</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">Peer-Vergleiche & Branchen-Benchmarks</span>
                 </div>
               </div>
               
               <Link
                 href="/analyse"
-                style={{ backgroundColor: 'var(--bg-card)' }}
-                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-2xl transition-all duration-200"
               >
                 Fundamentaldaten analysieren
                 <ArrowRightIcon className="w-4 h-4" />
@@ -695,43 +522,41 @@ Analysiere die besten Unternehmen der Welt</p>
             
             {/* Left: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 text-gray-400 rounded-full text-sm font-medium mb-8">
                 <CpuChipIcon className="w-4 h-4" />
                 Finclue AI
               </div>
               
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">
                 KI-gestützter
                 <span className="block text-gray-300">
                   Research Assistent
                 </span>
               </h2>
               
-              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-400 mb-10 leading-relaxed">
                 Nutze KI für komplexe Finanzanalysen. Stelle Fragen zu Quartalszahlen, 
                 vergleiche Portfolios oder lass dir Kennzahlen in natürlicher Sprache erklären.
-                Direkter Zugriff auf SEC-Filings und Echtzeit-Daten.
               </p>
               
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Live-Zugriff auf SEC 13F Filings</span>
+              <div className="space-y-4 mb-10">
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">Live-Zugriff auf SEC 13F Filings</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Portfolio-Analysen der Super-Investoren</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">Portfolio-Analysen der Super-Investoren</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Natürlichsprachige Finanzanalyse</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">Natürlichsprachige Finanzanalyse</span>
                 </div>
               </div>
               
               <Link
                 href="/analyse/ai" 
-                style={{ backgroundColor: 'var(--bg-card)' }}
-                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-2xl transition-all duration-200"
               >
                 KI-Assistent nutzen
                 <ArrowRightIcon className="w-4 h-4" />
@@ -740,13 +565,13 @@ Analysiere die besten Unternehmen der Welt</p>
 
             {/* Right: Professional AI Chat Preview */}
             <div ref={aiRef} className="relative">
-              <div className={`bg-theme-card rounded-xl p-6 transform transition-all duration-1000 ${
+              <div className={`bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-6 transform transition-all duration-1000 ${
                 aiVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}>
                 
                 {/* Chat Header */}
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
-                  <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-8 h-8 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-white/10 rounded-2xl flex items-center justify-center">
                     <CpuChipIcon className="w-5 h-5 text-green-400" />
                   </div>
                   <div>
@@ -767,7 +592,7 @@ Analysiere die besten Unternehmen der Welt</p>
                   <div className={`flex justify-end transform transition-all duration-500 ${
                     aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                   }`} style={{ transitionDelay: '500ms' }}>
-                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="text-white p-3 rounded-lg max-w-xs">
+                    <div className="bg-white/10 text-white p-3 rounded-2xl max-w-xs">
                       <p className="text-sm">Analysiere Berkshire Hathaways Q3 Portfolio-Änderungen</p>
                     </div>
                   </div>
@@ -776,7 +601,7 @@ Analysiere die besten Unternehmen der Welt</p>
                   <div className={`flex justify-start transform transition-all duration-500 ${
                     aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                   }`} style={{ transitionDelay: '800ms' }}>
-                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="p-4 rounded-lg max-w-md">
+                    <div className="bg-white/10 p-4 rounded-2xl max-w-md">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-3 h-3 bg-green-600 rounded-full"></div>
                         <span className="text-xs text-green-400 font-medium">Finclue AI</span>
@@ -805,7 +630,7 @@ Analysiere die besten Unternehmen der Welt</p>
                   <div className={`flex justify-end transform transition-all duration-500 ${
                     aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                   }`} style={{ transitionDelay: '1200ms' }}>
-                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="text-white p-3 rounded-lg max-w-xs">
+                    <div className="bg-white/10 text-white p-3 rounded-2xl max-w-xs">
                       <p className="text-sm">Zeige mir Apples Q3 Quartalszahlen</p>
                     </div>
                   </div>
@@ -836,43 +661,42 @@ Analysiere die besten Unternehmen der Welt</p>
             
             {/* Left: Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 text-gray-400 rounded-full text-sm font-medium mb-8">
                 <BuildingOfficeIcon className="w-4 h-4" />
                 Portfolio-Tracking
               </div>
               
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">
                 Institutionelle Portfolios
                 <span className="block text-gray-300">
                   verfolgen
                 </span>
               </h2>
               
-              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-400 mb-10 leading-relaxed">
                 Verfolge die Portfolios der erfolgreichsten Investoren in Echtzeit. 
                 Erhalte Alerts bei Änderungen und analysiere Investment-Strategien 
                 basierend auf SEC 13F Filings.
               </p>
               
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">90+ Institutionelle Investoren</span>
+              <div className="space-y-4 mb-10">
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">90+ Institutionelle Investoren</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Quartalsweise 13F Filing Updates</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">Quartalsweise 13F Filing Updates</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-300">Portfolio-Änderungs-Alerts</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                  <span className="text-gray-300 text-lg">Portfolio-Änderungs-Alerts</span>
                 </div>
               </div>
               
               <Link
                 href="/superinvestor"
-                style={{ backgroundColor: 'var(--bg-card)' }}
-                className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-2xl transition-all duration-200"
               >
                 Portfolio Tracker
                 <ArrowRightIcon className="w-4 h-4" />
@@ -881,7 +705,7 @@ Analysiere die besten Unternehmen der Welt</p>
 
             {/* Right: Professional Portfolio Table */}
             <div ref={watchlistRef} className="relative">
-              <div className="bg-theme-card rounded-xl p-6">
+              <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-6">
                 
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
@@ -900,10 +724,9 @@ Analysiere die besten Unternehmen der Welt</p>
                     <div 
                       key={fund.fund} 
                       style={{ 
-                        backgroundColor: 'var(--bg-tertiary)',
                         transitionDelay: `${index * 150}ms`
                       }}
-                      className={`grid grid-cols-5 gap-3 p-3 rounded-lg hover:bg-theme-hover transition-all duration-500 text-sm ${
+                      className={`grid grid-cols-5 gap-3 p-3 bg-white/5 hover:bg-white/10 rounded-2xl transition-all duration-500 text-sm ${
                         watchlistVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                       }`}
                     >
@@ -933,7 +756,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 </div>
 
                 {/* Summary */}
-                <div className={`mt-6 p-3 bg-theme-tertiary rounded-lg transform transition-all duration-1000 ${
+                <div className={`mt-6 p-3 bg-white/5 rounded-2xl transform transition-all duration-1000 ${
                   watchlistVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                 }`} style={{ transitionDelay: '800ms' }}>
                   <div className="flex items-center justify-between text-sm">
@@ -951,19 +774,19 @@ Analysiere die besten Unternehmen der Welt</p>
       <section className="bg-black py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 text-gray-400 rounded-full text-sm font-medium mb-8">
               <UserGroupIcon className="w-4 h-4" />
               Super-Investoren
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">
               Portfolios der
               <span className="block text-gray-300">
                 erfolgreichsten Investoren
               </span>
             </h2>
 
-            <p className="text-lg text-gray-400 mb-8 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-xl text-gray-400 mb-12 leading-relaxed max-w-2xl mx-auto">
               Verfolge die Investmentstrategien der Top-Investoren basierend auf SEC 13F Filings.
             </p>
           </div>
@@ -984,8 +807,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 <Link
                   key={index}
                   href={`/superinvestor/${slug}`}
-                  style={{ backgroundColor: 'var(--bg-card)' }}
-                  className="group hover:bg-theme-hover rounded-xl p-6 transition-all duration-300"
+                  className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 hover:bg-white/[0.05] rounded-3xl p-6 transition-all duration-300"
                 >
                   {/* Header */}
                   <div className="flex items-center gap-4 mb-6">
@@ -996,6 +818,7 @@ Analysiere die besten Unternehmen der Welt</p>
                         width={48}
                         height={48}
                         className="w-full h-full object-cover"
+                        loading="lazy"
                       />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -1039,8 +862,7 @@ Analysiere die besten Unternehmen der Welt</p>
           <div className="text-center">
             <Link
               href="/superinvestor"
-              style={{ backgroundColor: 'var(--bg-card)' }}
-              className="inline-flex items-center gap-2 px-6 py-3 hover:bg-theme-hover text-white font-medium rounded-lg transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-2xl transition-all duration-200"
             >
               Alle 90+ Investoren durchsuchen
               <ArrowRightIcon className="w-4 h-4" />
@@ -1058,18 +880,18 @@ Analysiere die besten Unternehmen der Welt</p>
             
             {/* Left: Content (3 columns) */}
             <div className="lg:col-span-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 text-gray-400 rounded-full text-sm font-medium mb-8">
                 <DocumentTextIcon className="w-4 h-4" />
                 Research Updates
               </div>
               
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+              <h3 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">
                 Bleibe informiert
                 <span className="block text-gray-300">
                   über Markt-Updates
                 </span>
               </h3>
-              <p className="text-lg text-gray-400 leading-relaxed mb-8">
+              <p className="text-xl text-gray-400 leading-relaxed mb-10">
                 Quartalsweise Research-Updates zu institutionellen Portfolio-Änderungen, 
                 Marktanalysen und neuen Platform-Features. Professionelle Insights 
                 ohne Spam.
@@ -1097,7 +919,7 @@ Analysiere die besten Unternehmen der Welt</p>
             
             {/* Right: Newsletter Form (2 columns) */}
             <div className="lg:col-span-2">
-              <div className="bg-theme-card rounded-2xl p-8">
+              <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-8">
                 <NewsletterSignup />
               </div>
             </div>
@@ -1106,12 +928,12 @@ Analysiere die besten Unternehmen der Welt</p>
           {/* Broker Section - Professional */}
           <div>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-theme-tertiary text-theme-secondary rounded-lg text-sm font-medium mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 text-gray-400 rounded-full text-sm font-medium mb-6">
                 <BuildingOfficeIcon className="w-4 h-4" />
                 Broker-Vergleich
               </div>
               
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+              <h3 className="text-3xl md:text-4xl font-medium text-white mb-4">
                 Professionelle Trading-Plattformen
               </h3>
               <p className="text-gray-400 max-w-2xl mx-auto">
@@ -1126,8 +948,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 href="https://de.scalable.capital/trading-aff?utm_medium=affiliate&utm_source=qualityclick&utm_campaign=broker&utm_term=764&c_id=QC5-b486e7461716d777857i74425940697f6676687279547b46" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                style={{ backgroundColor: 'var(--bg-card)' }}
-                className="group hover:bg-theme-hover rounded-2xl p-8 transition-all duration-300"
+                className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 hover:bg-white/[0.05] rounded-3xl p-8 transition-all duration-300"
               >
                 <div className="flex items-center gap-6 mb-6">
                   <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -1137,6 +958,7 @@ Analysiere die besten Unternehmen der Welt</p>
                       width={48}
                       height={48}
                       className="w-12 h-12"
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex-1">
@@ -1170,8 +992,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 href="https://traderepublic.com/de-de/nocodereferral?code=46xwv4b4" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                style={{ backgroundColor: 'var(--bg-card)' }}
-                className="group hover:bg-theme-hover rounded-2xl p-8 transition-all duration-300"
+                className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 hover:bg-white/[0.05] rounded-3xl p-8 transition-all duration-300"
               >
                 <div className="flex items-center gap-6 mb-6">
                   <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -1181,6 +1002,7 @@ Analysiere die besten Unternehmen der Welt</p>
                       width={48}
                       height={48}
                       className="w-12 h-12"
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex-1">
@@ -1220,3 +1042,4 @@ Analysiere die besten Unternehmen der Welt</p>
     </div>
   )
 }
+
