@@ -24,26 +24,7 @@ export function normalizeHolding(rawData: any) {
       };
     }
     
-    // Case 2: Dataroma-Daten (kein quarterKey)
-    if (!rawData.form && rawData.positions) {
-      const date = new Date(rawData.date);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      
-      let quarter: number;
-      if (month <= 3) quarter = 1;
-      else if (month <= 6) quarter = 2;
-      else if (month <= 9) quarter = 3;
-      else quarter = 4;
-      
-      return {
-        ...rawData,
-        quarterKey: `${year}-Q${quarter}`,
-        form: 'DATAROMA'
-      };
-    }
-    
-    // Case 3: Schon normalisiert
+    // Case 2: Schon normalisiert
     return rawData;
   }
   

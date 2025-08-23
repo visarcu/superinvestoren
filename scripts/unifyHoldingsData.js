@@ -35,24 +35,6 @@ function normalizeHoldingsData(data) {
     }
   }
   
-  // Legacy Dataroma Format
-  if ('date' in data && 'positions' in data && !('form' in data)) {
-    // Quartal aus Datum berechnen
-    const quarterKey = extractQuarterFromDate(data.date)
-    
-    return {
-      date: data.date,
-      quarterKey: quarterKey,
-      positions: data.positions.map(pos => ({
-        cusip: pos.cusip,
-        name: pos.name,
-        shares: pos.shares,
-        value: pos.value,
-        ticker: pos.ticker || null
-      }))
-    }
-  }
-  
   // Fallback
   console.warn('Unbekanntes Datenformat:', Object.keys(data))
   return {
@@ -60,16 +42,6 @@ function normalizeHoldingsData(data) {
     quarterKey: null,
     positions: data.positions || []
   }
-}
-
-function extractQuarterFromDate(dateStr) {
-  if (!dateStr) return null
-  
-  const [year, month] = dateStr.split('-')
-  if (!year || !month) return null
-  
-  const quarter = Math.ceil(Number(month) / 3)
-  return `${year}-Q${quarter}`
 }
 
 function getTicker(position, stocksDatabase) {
@@ -151,7 +123,7 @@ async function unifyAllHoldingsData() {
           totalValue: normalized.positions.reduce((sum, pos) => sum + pos.value, 0),
           positionsCount: normalized.positions.length,
           // Metadaten für Debugging
-          originalFormat: rawData.form ? `${rawData.form}` : 'Dataroma',
+          originalFormat: rawData.form ? `${rawData.form}` : 'Legacy',
           processedAt: new Date().toISOString()
         }
         

@@ -47,7 +47,7 @@ function migrateInvestorData(investorSlug) {
       
       console.log(`✅ Konvertiert SEC 13F-HR: ${filename} -> ${quarter}`);
     } else if (rawData.date && rawData.positions && !rawData.form) {
-      // Dataroma oder Legacy Format
+      // Legacy Format
       convertedData = rawData;
       
       // Quarter aus Dateiname extrahieren: buffett_2025_Q2.json
@@ -63,7 +63,7 @@ function migrateInvestorData(investorSlug) {
         quarter = `${year}-Q${q}`;
       }
       
-      console.log(`✅ Legacy/Dataroma Format: ${filename} -> ${quarter}`);
+      console.log(`✅ Legacy Format: ${filename} -> ${quarter}`);
     } else {
       console.log(`❌ Unbekanntes Format: ${filename}`);
       return;

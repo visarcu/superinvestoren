@@ -16,10 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run postinstall` - Auto-runs after install to generate Prisma client
 
 ### Data Management & Scraping
-- `npm run scrape-dataroma` - Scrape investor data from Dataroma
-- `npm run scrape-dataroma:all` - Scrape all investors
 - `npm run update-holdings` - Update holdings index
-- `npm run sync-all` - Full sync: scrape all data and update holdings
 - `npm run update-stocks` - Update stock information
 - `npm run update-sectors` - Update sector data
 
@@ -58,7 +55,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `prisma/` - Database schema and migrations
 
 #### Data Flow
-- **Investor Data**: Scraped from Dataroma, stored in `src/data/holdings/`
+- **Investor Data**: Stored in `src/data/holdings/` from 13F filings
 - **Stock Data**: Fetched from Financial Modeling Prep API
 - **User Data**: Stored in PostgreSQL via Prisma
 - **Real-time Data**: Cached in JSON files in `public/data/`

@@ -434,11 +434,6 @@ const superinvestorLinks = [
     description: 'Analysen & Markt-Trends'
   },
   { 
-    href: '/superinvestor/activity', 
-    label: 'Aktivität',
-    description: 'Letzte Trades & Bewegungen'
-  },
-  { 
     href: '/superinvestor/fear-greed-index', 
     label: 'Fear & Greed Index',
     description: 'Markt-Sentiment Indikator',

@@ -186,7 +186,6 @@ Du siehst nicht nur, was gekauft wird, sondern auch, was verkauft wird. Wenn Buf
 
 ### **Professionelle Tools:**
 - **WhaleWisdom:** Benutzerfreundliche Aufbereitung der SEC-Daten
-- **Dataroma:** Fokus auf bekannte Value-Investoren
 - **FinClue:** Automatisches Tracking von 90+ Super-Investoren mit Alerts
 
 ## So liest du ein 13F Filing richtig
