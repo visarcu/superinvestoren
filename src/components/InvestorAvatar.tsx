@@ -34,6 +34,9 @@ const sizeClasses = {
 }
 
 function getInitials(name: string): string {
+  // Defensive programming: handle undefined/null names
+  if (!name || typeof name !== 'string') return '??'
+  
   // Entferne "–" und andere Sonderzeichen, dann nehme Initialen
   const cleanName = name.replace(/[–—-]/g, ' ').trim()
   const words = cleanName.split(' ').filter(word => word.length > 0)
@@ -46,6 +49,9 @@ function getInitials(name: string): string {
 }
 
 function getColorFromName(name: string): string {
+  // Defensive programming: handle undefined/null names
+  if (!name || typeof name !== 'string') return avatarColors[0]
+  
   // Konsistenter Hash aus dem Namen für immer gleiche Farben
   let hash = 0
   for (let i = 0; i < name.length; i++) {

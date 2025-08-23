@@ -35,6 +35,7 @@ import WatchlistNews from '@/components/WatchlistNews'
 import MarketMovers from '@/components/MarketMovers'
 import MostFollowed from '@/components/MostFollowed'
 import LatestGuruTrades from '@/components/LatestGuruTrades'
+import { useSuperInvestorData } from '@/hooks/useSuperInvestorData'
 
 
 // ===== TYPES =====
@@ -341,134 +342,27 @@ const SmartSearchInput = React.memo(({
   )
 })
 
-// ===== SUPER-INVESTOR COMPONENT =====
+// ===== OPTIMIZED SUPER-INVESTOR COMPONENT (NO 38MB IMPORT) =====
 const SuperInvestorStocks = React.memo(({ 
   quotes, 
   onSelect,
-  loading
+  loading: quotesLoading
 }: { 
   quotes: Record<string, Quote>
   onSelect: (ticker: string) => void 
   loading: boolean
 }) => {
   const [view, setView] = useState<'hidden_gems' | 'recent_buys'>('hidden_gems')
-  const [holdingsHistory, setHoldingsHistory] = useState<any>(null)
   const { formatStockPrice, formatPercentage } = useCurrency()
+  
+  // Use optimized API-based hook instead of 38MB client-side import
+  const { data: superInvestorData, loading: dataLoading, error } = useSuperInvestorData()
 
-  useEffect(() => {
-    import('@/data/holdings').then(module => {
-      setHoldingsHistory(module.default)
-    })
-  }, [])
+  const currentData = superInvestorData 
+    ? (view === 'hidden_gems' ? superInvestorData.hiddenGems : superInvestorData.recentBuys)
+    : []
 
-  const MAINSTREAM_STOCKS = useMemo(() => new Set([
-    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
-    'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
-  ]), [])
-
-  const hiddenGems = useMemo(() => {
-    if (!holdingsHistory) return []
-    
-    const ownershipCount = new Map<string, { count: number; totalValue: number; name: string }>()
-
-    Object.values(holdingsHistory).forEach((snaps: any) => {
-      if (!snaps || snaps.length === 0) return
-      
-      const latest = snaps[snaps.length - 1]?.data
-      if (!latest?.positions) return
-      
-      const seen = new Set<string>()
-      latest.positions.forEach((p: any) => {
-        const ticker = getTicker(p)
-        
-        if (ticker && !seen.has(ticker) && !MAINSTREAM_STOCKS.has(ticker)) {
-          seen.add(ticker)
-          const current = ownershipCount.get(ticker)
-          
-          if (current) {
-            current.count += 1
-            current.totalValue += p.value
-          } else {
-            ownershipCount.set(ticker, {
-              count: 1,
-              totalValue: p.value,
-              name: getStockName(p)
-            })
-          }
-        }
-      })
-    })
-
-    return Array.from(ownershipCount.entries())
-      .filter(([, data]) => data.count >= 2)
-      .sort(([, a], [, b]) => b.count - a.count)
-      .slice(0, 6)
-      .map(([ticker, data]) => ({
-        ticker,
-        count: data.count,
-        totalValue: data.totalValue,
-        name: data.name
-      }))
-  }, [holdingsHistory, MAINSTREAM_STOCKS])
-
-  const recentBuys = useMemo(() => {
-    if (!holdingsHistory) return []
-    
-    const buyCounts = new Map<string, { count: number; totalValue: number; name: string }>()
-    
-    Object.values(holdingsHistory).forEach((snaps: any) => {
-      if (!snaps || snaps.length < 2) return
-      
-      const latest = snaps[snaps.length - 1]?.data
-      const previous = snaps[snaps.length - 2]?.data
-      
-      if (!latest?.positions || !previous?.positions) return
-
-      const prevTickers = new Set(
-        previous.positions.map((p: any) => getTicker(p)).filter(Boolean)
-      )
-
-      const seen = new Set<string>()
-      latest.positions.forEach((p: any) => {
-        const ticker = getTicker(p)
-        if (!ticker || seen.has(ticker)) return
-        
-        const wasNewOrIncreased = !prevTickers.has(ticker) || 
-          (previous.positions.find((prev: any) => getTicker(prev) === ticker)?.shares || 0) < p.shares
-        
-        if (wasNewOrIncreased) {
-          seen.add(ticker)
-          const current = buyCounts.get(ticker)
-          
-          if (current) {
-            current.count += 1
-            current.totalValue += p.value
-          } else {
-            buyCounts.set(ticker, {
-              count: 1,
-              totalValue: p.value,
-              name: getStockName(p)
-            })
-          }
-        }
-      })
-    })
-
-    return Array.from(buyCounts.entries())
-      .filter(([, data]) => data.count >= 2)
-      .sort(([, a], [, b]) => b.count - a.count)
-      .slice(0, 6)
-      .map(([ticker, data]) => ({
-        ticker,
-        count: data.count,
-        totalValue: data.totalValue,
-        name: data.name
-      }))
-  }, [holdingsHistory])
-
-  const currentData = view === 'hidden_gems' ? hiddenGems : recentBuys
-
-  if (!holdingsHistory) {
+  if (dataLoading || !superInvestorData) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -477,7 +371,7 @@ const SuperInvestorStocks = React.memo(({
               💎 Super-Investor Picks
             </h3>
             <p className="text-sm text-theme-muted">
-              Lädt Daten...
+              Lädt Daten via API...
             </p>
           </div>
         </div>
@@ -487,6 +381,23 @@ const SuperInvestorStocks = React.memo(({
               <div className="h-24 bg-theme-secondary rounded-lg"></div>
             </div>
           ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-theme-primary mb-2">
+              💎 Super-Investor Picks
+            </h3>
+            <p className="text-sm text-red-400">
+              Fehler beim Laden: {error}
+            </p>
+          </div>
         </div>
       </div>
     )
@@ -533,7 +444,7 @@ const SuperInvestorStocks = React.memo(({
       <div className="grid grid-cols-2 gap-4">
         {currentData.slice(0, 4).map((item) => {
           const quote = quotes[item.ticker.toLowerCase()]
-          const isLoading = loading && !quote
+          const isLoading = quotesLoading && !quote
 
           return (
             <button
@@ -720,46 +631,19 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Load Hidden Gems
+  // Load Hidden Gems via API (replaces 38MB holdings import)
   useEffect(() => {
     async function getHiddenGemsTickers() {
       try {
-        const holdingsModule = await import('@/data/holdings')
-        const holdingsHistory = holdingsModule.default
-        
-        const MAINSTREAM_STOCKS = new Set([
-          'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
-          'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
-        ])
-        
-        const ownershipCount = new Map<string, number>()
-
-        Object.values(holdingsHistory).forEach((snaps: any) => {
-          if (!snaps || snaps.length === 0) return
-          
-          const latest = snaps[snaps.length - 1]?.data
-          if (!latest?.positions) return
-          
-          const seen = new Set<string>()
-          latest.positions.forEach((p: any) => {
-            const ticker = getTicker(p)
-            
-            if (ticker && !seen.has(ticker) && !MAINSTREAM_STOCKS.has(ticker)) {
-              seen.add(ticker)
-              ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
-            }
-          })
-        })
-
-        const topTickers = Array.from(ownershipCount.entries())
-          .filter(([, count]) => count >= 2)
-          .sort(([, a], [, b]) => b - a)
-          .slice(0, 8)
-          .map(([ticker]) => ticker)
-          
-        setHiddenGemsTickers(topTickers)
+        const response = await fetch('/api/super-investor-analysis')
+        if (response.ok) {
+          const data = await response.json()
+          const topTickers = data.hiddenGems?.slice(0, 8).map((item: any) => item.ticker) || []
+          setHiddenGemsTickers(topTickers)
+          console.log('✅ Hidden gems tickers loaded via API:', topTickers.length)
+        }
       } catch (error) {
-        console.error('Failed to load hidden gems tickers:', error)
+        console.error('Failed to load hidden gems tickers via API:', error)
       }
     }
     
