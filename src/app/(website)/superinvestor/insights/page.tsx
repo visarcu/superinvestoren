@@ -1233,16 +1233,16 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
   }, [sectorPeriod, quarterOptions])
 
   return (
-    <div className="min-h-screen bg-theme-primary">
+    <div className="min-h-screen bg-dark dark:bg">
       
-      {/* Header */}
-      <section className="bg-theme-primary pt-24 pb-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Header - Quartr Style */}
+      <section className="bg-dark pt-24 pb-12">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
           <div className="mb-6">
             <Link
               href="/superinvestor"
-              className="inline-flex items-center gap-2 text-theme-secondary hover:text-white transition-colors text-sm group"
+              className="inline-flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors text-sm group"
             >
               <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Zurück zur Übersicht
@@ -1254,136 +1254,118 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           }`}>
             
             <div className="mb-8">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
-                <div className="flex items-center gap-3">
-                  <ChartBarIcon className="w-6 h-6 text-green-400" />
-                  <h1 className="text-3xl font-bold text-white">Market Insights</h1>
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl flex items-center justify-center">
+                    <ChartBarIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h1 className="text-4xl md:text-5xl font-semibold text-neutral-900 dark:text-white tracking-tight">Market Insights</h1>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-theme-secondary">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                   <span>{dataSourceStats.investorsWithData} von {dataSourceStats.totalInvestors} Investoren</span>
                 </div>
               </div>
               
-              <p className="text-lg text-theme-secondary max-w-4xl leading-relaxed mb-4">
+              <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-4xl leading-relaxed mb-6">
                 Detaillierte Analysen der Käufe, Verkäufe und Bewegungen der besten Investoren der Welt.
                 Entdecke Trends, Sektoren und Investment-Patterns der Super-Investoren.
               </p>
               
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                <span>📋 {dataSourceStats.filingsInPeriod} Filings • {quarterOptions.find(opt => opt.id === selectedPeriod)?.label || 'Aktueller Zeitraum'}</span>
-                <span>📅 Letztes Update: {dataSourceStats.lastUpdated.split('-').reverse().join('.')}</span>
+              <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500 dark:text-neutral-400">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">📋 {dataSourceStats.filingsInPeriod} Filings</span>
+                  <span>•</span>
+                  <span>{quarterOptions.find(opt => opt.id === selectedPeriod)?.label || 'Aktueller Zeitraum'}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span>📅 Letztes Update: {dataSourceStats.lastUpdated.split('-').reverse().join('.')}</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="mt-8 p-4 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
-              <div>
-                <strong className="text-green-400">Intelligente Quartal-Logik:</strong> Das "neueste Quartal" wird nur angezeigt, 
-                wenn mindestens 50% der aktiven Investoren ihre 13F-Filings eingereicht haben. Aktuell: {actualLatestQuarter}
-              </div>
-              <div>
-                <strong className="text-green-400">Performance-Optimiert:</strong> Alle Berechnungen werden gecacht und nur bei Änderungen neu berechnet.
-                Komplexe Algorithmen wurden optimiert für bessere User Experience.
-              </div>
-            </div>
-          </div>
+      
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-        {/* Stats Overview */}
+        {/* Stats Overview - Quartr Style */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="rounded-xl p-6 backdrop-blur-sm">
+          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
-                <ArrowTrendingUpIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
+                <ArrowTrendingUpIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <p className="text-3xl font-bold text-white numeric">
+                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
                   {topBuys.filter(buy => buy.count > 0).length}
                 </p>
-                <p className="text-theme-secondary text-sm">Gekaufte Aktien</p>
-                <p className="text-gray-600 text-xs">
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Gekaufte Aktien</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-500">
                   {dataSourceStats.investorsWithData} Investoren • {quarterOptions.find(opt => opt.id === selectedPeriod)?.label}
                 </p>
               </div>
             </div>
           </div>
           
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className=" rounded-xl p-6 backdrop-blur-sm">
+          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
-                <FireIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
+                <FireIcon className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               <div>
-                <p className="text-3xl font-bold text-white numeric">
+                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
                   {topOwned.length}
                 </p>
-                <p className="text-theme-secondary text-sm">Beliebte Aktien</p>
-                <p className="text-gray-600 text-xs">Von 2+ Investoren gehalten</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Beliebte Aktien</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-500">Von 2+ Investoren gehalten</p>
               </div>
             </div>
           </div>
           
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="rounded-xl p-6 backdrop-blur-sm">
+          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
-                <CurrencyDollarIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                <CurrencyDollarIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-3xl font-bold text-white numeric">
+                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
                   {Math.round(biggestInvestments.reduce((sum, inv) => sum + inv.value, 0) / 1_000_000_000)}
                 </p>
-                <p className="text-theme-secondary text-sm">Mrd. $ Investment</p>
-                <p className="text-gray-600 text-xs">Top 20 Positionen</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Mrd. $ Investment</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-500">Top 20 Positionen</p>
               </div>
             </div>
           </div>
 
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="rounded-xl p-6 backdrop-blur-sm">
+          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-12 h-12 rounded-xl flex items-center justify-center">
-                <BuildingOfficeIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                <BuildingOfficeIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <p className="text-3xl font-bold text-white numeric">
+                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
                   {topSectors.length}
                 </p>
-                <p className="text-theme-secondary text-sm">Top Sektoren</p>
-                <p className="text-gray-600 text-xs">Nach Investment-Volumen</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Top Sektoren</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-500">Nach Investment-Volumen</p>
               </div>
             </div>
           </div>
         </div>
 
-{/* ZENTRALES DROPDOWN FÜR ANALYSE-ZEITRAUM */}
-<div className="bg-gradient-to-r from-green-500/5 to-transparent border border-green-500/20 rounded-xl p-4 mb-8">
+{/* ZENTRALES DROPDOWN FÜR ANALYSE-ZEITRAUM - Quartr Style */}
+<div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800/50 rounded-lg p-4 mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <CalendarIcon className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <h3 className="text-white font-semibold">Globaler Analyse-Zeitraum</h3>
-                <p className="text-xs text-gray-400">
+                <h3 className="text-neutral-900 dark:text-white font-semibold">Globaler Analyse-Zeitraum</h3>
+                <p className="text-xs text-neutral-600 dark:text-neutral-400">
                   Beeinflusst: Top Käufe • Momentum Shifts • Exit Tracker • New Discoveries
                 </p>
               </div>
@@ -1392,7 +1374,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105 bg-black/40 border border-green-500/30 text-white hover:bg-black/60"
+              className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 bg-white dark:bg-zinc-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-emerald-300 dark:hover:border-emerald-700"
             >
               {quarterOptions.map(option => (
                 <option key={option.id} value={option.id}>
@@ -1407,10 +1389,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           
           {/* Top Käufe Chart */}
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="relative rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200 overflow-visible">
+          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
 
 
 
@@ -1418,47 +1397,37 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 
         <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Top Käufe</h3>
-                  <p className="text-sm text-theme-secondary">Meist gekaufte Aktien</p>
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Top Käufe</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Meist gekaufte Aktien</p>
                 </div>
               </div>
               <div className="relative inline-block">
   <select
     value={selectedPeriod}
     onChange={(e) => setSelectedPeriod(e.target.value)}
-    className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105"
-    style={{ 
-      backgroundColor: 'var(--bg-card)',
-      border: '1px solid var(--border-color)',
-      color: 'var(--text-secondary)'
-    }}
+    className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-emerald-300 dark:hover:border-emerald-700"
   >
     {quarterOptions.map(option => (
       <option 
         key={option.id} 
         value={option.id}
-        style={{ 
-          backgroundColor: 'var(--bg-card)',
-          color: 'var(--text-primary)'
-        }}
       >
         {option.label}
       </option>
     ))}
   </select>
   
-  {/* Pfeil Icon */}
   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-    <ChevronDownIcon className="w-4 h-4 text-gray-400" />
+    <ChevronDownIcon className="w-4 h-4 text-neutral-400" />
   </div>
 </div>
             </div>
 
-            <div style={{ borderColor: 'var(--border-color)' }} className="mb-4 flex items-center justify-between text-xs text-gray-500 border-b pb-3">
+            <div className="mb-4 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 border-b border-neutral-200 dark:border-neutral-800 pb-3">
               <span>
                 📊 {dataSourceStats.filingsInPeriod} Filings aus {quarterOptions.find(opt => opt.id === selectedPeriod)?.description}
               </span>
@@ -1487,18 +1456,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             </div>
           </div>
 
-          {/* Beliebteste Aktien */}
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200">
+          {/* Beliebteste Aktien - Quartr Style */}
+          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3 mb-6">
-              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-                <FireIcon className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
+                <FireIcon className="w-5 h-5 text-orange-600 dark:text-orange-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white">Beliebteste Aktien</h3>
-                <p className="text-sm text-theme-secondary">Meist gehaltene Positionen</p>
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Beliebteste Aktien</h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Meist gehaltene Positionen</p>
               </div>
             </div>
             
@@ -1514,18 +1480,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             </div>
           </div>
 
-          {/* Größte Investments */}
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200">
+          {/* Größte Investments - Quartr Style */}
+          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3 mb-6">
-              <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-                <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                <CurrencyDollarIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white">Größte Investments</h3>
-                <p className="text-sm text-theme-secondary">Nach Dollar-Volumen</p>
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Größte Investments</h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">Nach Dollar-Volumen</p>
               </div>
             </div>
             
@@ -1545,18 +1508,18 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           </div>
         </div>
 
-        {/* Investment Strategien */}
+        {/* Investment Strategien - Quartr Style */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10  border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
               <StarIcon className="w-4 h-4" />
               Investment Strategien
             </div>
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
               Konsensus vs.
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Contrarian Picks</span>
+              <span className="text-emerald-600 dark:text-emerald-400"> Contrarian Picks</span>
             </h2>
-            <p className="text-theme-secondary max-w-3xl mx-auto">
+            <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
               Links: Aktien mit breitem Konsensus und hoher Portfolio-Gewichtung. 
               Rechts: Seltene Überzeugungen weniger Investoren.
             </p>
@@ -1564,19 +1527,16 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            {/* Konsensus-Aktien */}
-            <div style={{ 
-              backgroundColor: 'var(--bg-card)', 
-              borderColor: 'var(--border-color)' 
-            }} className=" rounded-xl overflow-hidden backdrop-blur-sm">
-              <div style={{ borderColor: 'var(--border-color)' }} className="p-6 border-b">
+            {/* Konsensus-Aktien - Quartr Style */}
+            <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800">
+              <div className="p-6 border-b border-neutral-200 dark:border-neutral-800">
                 <div className="flex items-center gap-3 mb-2">
-                  <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-                    <StarIcon className="w-5 h-5 text-green-400" />
+                  <div className="w-10 h-10 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+                    <StarIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">Konsensus-Aktien</h3>
-                    <p className="text-sm text-theme-secondary">Hohe Portfolio-Gewichtung bei mehreren Investoren</p>
+                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">Konsensus-Aktien</h3>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Hohe Portfolio-Gewichtung bei mehreren Investoren</p>
                   </div>
                 </div>
               </div>
@@ -1680,8 +1640,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                         <Link
                           key={bet.ticker}
                           href={`/analyse/stocks/${bet.ticker.toLowerCase()}/super-investors`}
-                          style={{ backgroundColor: 'var(--bg-card)' }}
-                          className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
+                          className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-yellow-300 dark:hover:border-yellow-700 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors group"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -1727,19 +1686,16 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
               })()}
             </div>
 
-            {/* Contrarian Picks */}
-            <div style={{ 
-              backgroundColor: 'var(--bg-card)', 
-              borderColor: 'var(--border-color)' 
-            }} className="rounded-xl overflow-hidden backdrop-blur-sm">
-              <div style={{ borderColor: 'var(--border-color)' }} className="p-6 border-b">
+            {/* Contrarian Picks - Quartr Style */}
+            <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800">
+              <div className="p-6 border-b border-neutral-200 dark:border-neutral-800">
                 <div className="flex items-center gap-3 mb-2">
-                  <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-                    <BoltIcon className="w-5 h-5 text-green-400" />
+                  <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                    <BoltIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">Contrarian Picks</h3>
-                    <p className="text-sm text-theme-secondary">Wenige Investoren, hohe Überzeugung</p>
+                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">Contrarian Picks</h3>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Wenige Investoren, hohe Überzeugung</p>
                   </div>
                 </div>
               </div>
@@ -1824,8 +1780,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                           <Link
                             key={`${pick.ticker}-${pick.investor}`}
                             href={`/analyse/stocks/${pick.ticker.toLowerCase()}/super-investors`}
-                            style={{ backgroundColor: 'var(--bg-card)' }}
-                            className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
+                            className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-purple-300 dark:hover:border-purple-700 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors group"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
@@ -1879,17 +1834,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             </div>
           </div>
 
-          <div style={{ 
-            backgroundColor: 'var(--bg-card)', 
-            borderColor: 'var(--border-color)' 
-          }} className="mt-8 p-4 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
+          <div className="mt-8 p-4 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-neutral-600 dark:text-neutral-400">
               <div>
-                <strong className="text-green-400">Konsensus-Aktien:</strong> Mindestens 3% Portfolio-Gewichtung bei 2+ Investoren. 
+                <strong className="text-emerald-600 dark:text-emerald-400">Konsensus-Aktien:</strong> Mindestens 3% Portfolio-Gewichtung bei 2+ Investoren. 
                 Zeigt breiten Konsensus mit hoher Überzeugung.
               </div>
               <div>
-                <strong className="text-green-400">Contrarian Picks:</strong> Mindestens 4% Portfolio-Gewichtung bei max. 2 Investoren. 
+                <strong className="text-emerald-600 dark:text-emerald-400">Contrarian Picks:</strong> Mindestens 4% Portfolio-Gewichtung bei max. 2 Investoren. 
                 Zeigt seltene, aber starke Überzeugungen.
               </div>
             </div>
@@ -1899,15 +1851,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         {/* Portfolio Konzentration Analysis */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
               <ShieldCheckIcon className="w-4 h-4" />
               Portfolio Konzentration
             </div>
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
               Konzentration vs.
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Diversifikation</span>
+              <span className="text-emerald-600 dark:text-emerald-400"> Diversifikation</span>
             </h2>
-            <p className="text-theme-secondary">
+            <p className="text-neutral-600 dark:text-neutral-400">
               Wer setzt auf wenige große Positionen vs. breite Diversifikation?
             </p>
           </div>
@@ -1969,18 +1921,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
               return concentrationData.map((data) => (
                 <div
                   key={data.investor}
-                  style={{ 
-                    backgroundColor: 'var(--bg-card)', 
-                    borderColor: 'var(--border-color)' 
-                  }}
-                  className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200"
+                  className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-white">{data.investor}</h3>
+                    <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">{data.investor}</h3>
                     <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      data.type === 'high' ? 'bg-green-500/20 text-green-400' :
-                      data.type === 'medium' ? 'bg-gray-500/20 text-gray-400' :
-                      'bg-gray-600/20 text-gray-300'
+                      data.type === 'high' ? 'bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400' :
+                      data.type === 'medium' ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400' :
+                      'bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-500'
                     }`}>
                       {data.type === 'high' ? 'Konzentriert' :
                        data.type === 'medium' ? 'Ausgewogen' : 'Diversifiziert'}
@@ -1989,14 +1937,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-theme-secondary text-sm">Konzentrations-Index</span>
-                      <span className="text-white font-semibold">{(data.concentration * 100).toFixed(1)}%</span>
+                      <span className="text-neutral-600 dark:text-neutral-400 text-sm">Konzentrations-Index</span>
+                      <span className="text-neutral-900 dark:text-white font-semibold">{(data.concentration * 100).toFixed(1)}%</span>
                     </div>
-                    <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-full rounded-full h-2">
+                    <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
                       <div 
                         className={`h-2 rounded-full ${
-                          data.type === 'high' ? 'bg-green-500' :
-                          data.type === 'medium' ? 'bg-gray-500' : 'bg-gray-600'
+                          data.type === 'high' ? 'bg-emerald-500' :
+                          data.type === 'medium' ? 'bg-neutral-500' : 'bg-neutral-400'
                         }`}
                         style={{ width: `${Math.min(data.concentration * 100 * 5, 100)}%` }}
                       ></div>
@@ -2025,18 +1973,18 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         </div>
 
 
-        {/* Sektor-Analyse */}
+        {/* Sektor-Analyse - Quartr Style */}
         <section className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
               <BuildingOfficeIcon className="w-4 h-4" />
               Sektor-Analyse
             </div>
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
               Investment
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Sektoren</span>
+              <span className="text-emerald-600 dark:text-emerald-400"> Sektoren</span>
             </h2>
-            <p className="text-theme-secondary">
+            <p className="text-neutral-600 dark:text-neutral-400">
               Wie die Super-Investoren ihr Kapital auf verschiedene Wirtschaftssektoren verteilen
             </p>
           </div>
@@ -2045,26 +1993,22 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             {topSectors.map((sector: SectorAnalysis) => (
               <div
                 key={sector.sector}
-                style={{ 
-                  backgroundColor: 'var(--bg-card)', 
-                  borderColor: 'var(--border-color)' 
-                }}
-                className="rounded-xl p-6 backdrop-blur-sm hover:bg-theme-hover transition-colors duration-200"
+                className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-white">{sector.sector}</h3>
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">{sector.sector}</h3>
+                  <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-theme-secondary text-sm">Gesamt-Wert:</span>
-                    <span className="text-green-400 font-semibold">
+                    <span className="text-neutral-600 dark:text-neutral-400 text-sm">Gesamt-Wert:</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
                       {formatCurrencyGerman(sector.value)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-theme-secondary text-sm">Positionen:</span>
-                    <span className="text-white font-semibold">{sector.count}</span>
+                    <span className="text-neutral-600 dark:text-neutral-400 text-sm">Positionen:</span>
+                    <span className="text-neutral-900 dark:text-white font-semibold">{sector.count}</span>
                   </div>
                 </div>
               </div>
@@ -2073,36 +2017,33 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         </section>
 
 
-{/* ========== NEUE INSIGHTS SECTION ========== */}
+{/* ========== ADVANCED INSIGHTS SECTION - Quartr Style ========== */}
 <div className="mb-16">
   <div className="text-center mb-12">
-    <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
       <BoltIcon className="w-4 h-4" />
       Advanced Insights
     </div>
-    <h2 className="text-3xl font-bold text-white mb-4">
+    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
       Momentum & 
-      <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Timing Signals</span>
+      <span className="text-emerald-600 dark:text-emerald-400"> Timing Signals</span>
     </h2>
-    <p className="text-theme-secondary max-w-3xl mx-auto">
+    <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
       Fortgeschrittene Analysen zu Trendwenden, Exits und neuen Entdeckungen der Super-Investoren
     </p>
   </div>
 
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
     
-    {/* Momentum Shifts */}
-    <div style={{ 
-      backgroundColor: 'var(--bg-card)', 
-      borderColor: 'var(--border-color)' 
-    }} className="rounded-xl p-6 backdrop-blur-sm">
+    {/* Momentum Shifts - Quartr Style */}
+    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-          <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+        <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
+          <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-white">Momentum Shifts</h3>
-          <p className="text-sm text-theme-secondary">Von Verkauf zu Kauf gedreht</p>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Momentum Shifts</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Von Verkauf zu Kauf gedreht</p>
         </div>
       </div>
       
@@ -2112,11 +2053,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <Link
               key={shift.ticker}
               href={`/analyse/stocks/${shift.ticker.toLowerCase()}/super-investors`}
-              style={{ 
-                backgroundColor: 'var(--bg-card)',
-                borderBottom: index < momentumShifts.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none'
-              }}
-              className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
+              className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors group"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
@@ -2163,18 +2100,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
       </div>
     </div>
 
-    {/* Exit Tracker */}
-    <div style={{ 
-      backgroundColor: 'var(--bg-card)', 
-      borderColor: 'var(--border-color)' 
-    }} className="rounded-xl p-6 backdrop-blur-sm">
+    {/* Exit Tracker - Quartr Style */}
+    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-          <ArrowDownIcon className="w-5 h-5 text-red-400" />
+        <div className="w-10 h-10 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+          <ArrowDownIcon className="w-5 h-5 text-red-600 dark:text-red-400" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-white">Exit Tracker</h3>
-          <p className="text-sm text-theme-secondary">Komplett verkaufte Positionen</p>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Exit Tracker</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Komplett verkaufte Positionen</p>
         </div>
       </div>
       
@@ -2183,11 +2117,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           exitTracker.map((exit, index) => (
             <div
               key={exit.ticker}
-              style={{ 
-                backgroundColor: 'var(--bg-card)',
-                borderBottom: index < exitTracker.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none'
-              }}
-              className="block p-3 rounded-lg"
+              className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
@@ -2200,26 +2130,26 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     />
                   </div>
                   <div>
-                    <p className="font-bold text-white">
+                    <p className="font-semibold text-neutral-900 dark:text-white">
                       {exit.ticker}
                     </p>
-                    <p className="text-xs text-gray-500 truncate max-w-[120px]">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate max-w-[120px]">
                       {exit.name}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-red-400 font-bold">
+                  <div className="text-red-600 dark:text-red-400 font-semibold">
                     {exit.exitedBy.length}
                   </div>
-                  <div className="text-xs text-gray-500">Exits</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400">Exits</div>
                 </div>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-gray-400">
+                <span className="text-neutral-500 dark:text-neutral-400">
                   ⌀ {exit.avgHoldingPeriod.toFixed(0)} Quartale
                 </span>
-                <span className="text-gray-400">
+                <span className="text-neutral-500 dark:text-neutral-400">
                   {formatCurrencyGerman(exit.totalValueExited, false)}
                 </span>
               </div>
@@ -2234,18 +2164,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
       </div>
     </div>
 
-    {/* New Discoveries */}
-    <div style={{ 
-      backgroundColor: 'var(--bg-card)', 
-      borderColor: 'var(--border-color)' 
-    }} className="rounded-xl p-6 backdrop-blur-sm">
+    {/* New Discoveries - Quartr Style */}
+    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-          <StarIcon className="w-5 h-5 text-yellow-400" />
+        <div className="w-10 h-10 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+          <StarIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-white">New Discoveries</h3>
-          <p className="text-sm text-theme-secondary">Erstmalige Käufe</p>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">New Discoveries</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Erstmalige Käufe</p>
         </div>
       </div>
       
@@ -2255,11 +2182,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <Link
               key={discovery.ticker}
               href={`/analyse/stocks/${discovery.ticker.toLowerCase()}/super-investors`}
-              style={{ 
-                backgroundColor: 'var(--bg-card)',
-                borderBottom: index < newDiscoveries.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none'
-              }}
-              className="block p-3 rounded-lg hover:bg-theme-hover transition-colors group"
+              className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-yellow-300 dark:hover:border-yellow-700 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors group"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
@@ -2272,26 +2195,26 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     />
                   </div>
                   <div>
-                    <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                    <p className="font-semibold text-neutral-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
                       {discovery.ticker}
                     </p>
-                    <p className="text-xs text-gray-500 truncate max-w-[120px]">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate max-w-[120px]">
                       {discovery.name}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-yellow-400 font-bold">
+                  <div className="text-yellow-600 dark:text-yellow-400 font-semibold">
                     {discovery.discoveredBy.length}
                   </div>
-                  <div className="text-xs text-gray-500">Neu dabei</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400">Neu dabei</div>
                 </div>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-gray-400 truncate max-w-[150px]">
+                <span className="text-neutral-500 dark:text-neutral-400 truncate max-w-[150px]">
                   {discovery.discoveredBy.slice(0, 2).join(', ')}
                 </span>
-                <span className="text-green-400">
+                <span className="text-emerald-600 dark:text-emerald-400">
                   ⌀ {formatCurrencyGerman(discovery.avgPosition, false)}
                 </span>
               </div>
@@ -2310,18 +2233,18 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 </div>
 
 
-{/* ========== SECTOR NET FLOWS SECTION - FULL WIDTH ========== */}
+{/* ========== SECTOR NET FLOWS SECTION - Quartr Style ========== */}
 <div className="mb-16">
   <div className="text-center mb-12">
-    <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
       <ArrowTrendingUpIcon className="w-4 h-4" />
       Sector Analysis
     </div>
-    <h2 className="text-3xl font-bold text-white mb-4">
+    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
       Sektor
-      <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Net Flows</span>
+      <span className="text-emerald-600 dark:text-emerald-400"> Net Flows</span>
     </h2>
-    <p className="text-theme-secondary max-w-3xl mx-auto mb-6">
+    <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-6">
       Kapitalzu- und -abflüsse nach Wirtschaftssektoren im Zeitvergleich
     </p>
     
@@ -2331,45 +2254,31 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         <select
           value={sectorPeriod}
           onChange={(e) => setSectorPeriod(e.target.value)}
-          className="appearance-none pl-10 pr-10 py-2.5 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105 min-w-[200px]"
-          style={{ 
-            backgroundColor: 'var(--bg-card)',
-            border: '1px solid var(--border-color)',
-            color: 'var(--text-secondary)'
-          }}
+          className="appearance-none pl-10 pr-10 py-2.5 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 bg-white dark:bg-zinc-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-emerald-300 dark:hover:border-emerald-700 min-w-[200px]"
         >
           {quarterOptions.filter(option => option.quarters.length >= 2).map(option => (
             <option 
               key={option.id} 
               value={option.id}
-              style={{ 
-                backgroundColor: 'var(--bg-card)',
-                color: 'var(--text-primary)'
-              }}
             >
               {option.label}
             </option>
           ))}
         </select>
         
-        {/* Calendar Icon links */}
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <CalendarIcon className="w-4 h-4 text-gray-400" />
+          <CalendarIcon className="w-4 h-4 text-neutral-400" />
         </div>
         
-        {/* Pfeil Icon rechts */}
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-          <ChevronDownIcon className="w-4 h-4 text-gray-400" />
+          <ChevronDownIcon className="w-4 h-4 text-neutral-400" />
         </div>
       </div>
     </div>
   </div>
 
   <div className="max-w-6xl mx-auto">
-    <div style={{ 
-      backgroundColor: 'var(--bg-card)', 
-      borderColor: 'var(--border-color)' 
-    }} className="rounded-xl p-8 backdrop-blur-sm">
+    <div className="bg-white dark:bg-zinc-900 rounded-lg p-8 border border-neutral-200 dark:border-neutral-800">
       
       {sectorNetFlows.size > 0 ? (
         <div className="space-y-6">
@@ -2386,7 +2295,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                 {/* Zuflüsse */}
                 {inflows.length > 0 && (
                   <div>
-                    <h3 className="text-sm font-medium text-green-400 mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-4 flex items-center gap-2">
                       <ArrowUpIcon className="w-4 h-4" />
                       Kapitalzuflüsse
                     </h3>
@@ -2394,17 +2303,17 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       {inflows.map(([sector, flow]) => (
                         <div 
                           key={sector}
-                          className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 hover:bg-green-500/15 transition-colors"
+                          className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
                         >
                           <div className="flex justify-between items-start mb-2">
-                            <span className="font-medium text-white">{sector}</span>
-                            <span className="text-green-400 font-bold">
+                            <span className="font-medium text-neutral-900 dark:text-white">{sector}</span>
+                            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
                               +{formatCurrencyGerman(flow, false)}
                             </span>
                           </div>
-                          <div className="w-full bg-green-900/30 rounded-full h-2">
+                          <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
                             <div 
-                              className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                              className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
                               style={{ width: `${Math.min((flow / Math.max(...inflows.map(([,f]) => f))) * 100, 100)}%` }}
                             />
                           </div>
@@ -2417,7 +2326,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                 {/* Abflüsse */}
                 {outflows.length > 0 && (
                   <div>
-                    <h3 className="text-sm font-medium text-red-400 mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-medium text-red-600 dark:text-red-400 mb-4 flex items-center gap-2">
                       <ArrowDownIcon className="w-4 h-4" />
                       Kapitalabflüsse
                     </h3>
@@ -2425,15 +2334,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       {outflows.map(([sector, flow]) => (
                         <div 
                           key={sector}
-                          className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 hover:bg-red-500/15 transition-colors"
+                          className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
                         >
                           <div className="flex justify-between items-start mb-2">
-                            <span className="font-medium text-white">{sector}</span>
-                            <span className="text-red-400 font-bold">
+                            <span className="font-medium text-neutral-900 dark:text-white">{sector}</span>
+                            <span className="text-red-600 dark:text-red-400 font-semibold">
                               {formatCurrencyGerman(Math.abs(flow), false)}
                             </span>
                           </div>
-                          <div className="w-full bg-red-900/30 rounded-full h-2">
+                          <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
                             <div 
                               className="bg-red-500 h-2 rounded-full transition-all duration-500"
                               style={{ width: `${Math.min((Math.abs(flow) / Math.max(...outflows.map(([,f]) => Math.abs(f)))) * 100, 100)}%` }}
@@ -2488,39 +2397,36 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 <br />
 <br />
 
-        {/* Recent Activity Tracking */}
+        {/* Recent Activity Tracking - Quartr Style */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
               <ClockIcon className="w-4 h-4" />
               Recent Activity
             </div>
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
               Aktivitäts-
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">Tracking</span>
+              <span className="text-emerald-600 dark:text-emerald-400">Tracking</span>
             </h2>
-            <p className="text-theme-secondary mb-4">
+            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
               Welche Investoren sind am aktivsten? Wer kauft und verkauft am meisten?
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
               📊 Analysiert werden die letzten 3 Quartale • Nur signifikante Änderungen von mehr als 100 Aktien/2% Portfolio-Gewichtung
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            {/* Most Active Investors */}
-            <div style={{ 
-              backgroundColor: 'var(--bg-card)', 
-              borderColor: 'var(--border-color)' 
-            }} className="rounded-xl p-6 backdrop-blur-sm">
+            {/* Most Active Investors - Quartr Style */}
+            <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
               <div className="flex items-center gap-3 mb-6">
-                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Aktivste Investoren</h3>
-                  <p className="text-sm text-theme-secondary">Portfolio-Änderungen der letzten 3 Quartale</p>
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Aktivste Investoren</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Portfolio-Änderungen der letzten 3 Quartale</p>
                 </div>
               </div>
 
@@ -2640,18 +2546,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
               })()}
             </div>
 
-            {/* Recent Big Moves */}
-            <div style={{ 
-              backgroundColor: 'var(--bg-card)', 
-              borderColor: 'var(--border-color)' 
-            }} className="rounded-xl p-6 backdrop-blur-sm">
+            {/* Recent Big Moves - Quartr Style */}
+            <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
               <div className="flex items-center gap-3 mb-6">
-                <div style={{ backgroundColor: 'var(--bg-tertiary)' }} className="w-10 h-10 rounded-xl flex items-center justify-center">
-                  <BoltIcon className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                  <BoltIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Große Bewegungen</h3>
-                  <p className="text-sm text-theme-secondary">Portfolio-Gewichtung Änderungen größer 2%</p>
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Große Bewegungen</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Portfolio-Gewichtung Änderungen größer 2%</p>
                 </div>
               </div>
 
@@ -2768,27 +2671,24 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         </div>
 
 
-        {/* Geographic Exposure */}
+        {/* Geographic Exposure - Quartr Style */}
         <section>
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
               <GlobeAltIcon className="w-4 h-4" />
               Geographic Exposure
             </div>
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
               Globale
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Diversifikation</span>
+              <span className="text-emerald-600 dark:text-emerald-400"> Diversifikation</span>
             </h2>
-            <p className="text-theme-secondary">
+            <p className="text-neutral-600 dark:text-neutral-400">
               Verteilung zwischen US-amerikanischen und internationalen Investments
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div style={{ 
-              backgroundColor: 'var(--bg-card)', 
-              borderColor: 'var(--border-color)' 
-            }} className=" rounded-xl p-8 backdrop-blur-sm">
+            <div className="bg-white dark:bg-zinc-900 rounded-lg p-8 border border-neutral-200 dark:border-neutral-800">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <div className="text-center">
@@ -2809,11 +2709,11 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-gray-400">{usPercentage.toFixed(0)}%</span>
+                      <span className="text-2xl font-semibold text-neutral-600 dark:text-neutral-400">{usPercentage.toFixed(0)}%</span>
                     </div>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2">🇺🇸 US-Märkte</h3>
-                  <p className="text-theme-secondary font-semibold">
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">🇺🇸 US-Märkte</h3>
+                  <p className="text-neutral-600 dark:text-neutral-400 font-semibold">
                     {formatCurrencyGerman(usValue)}
                   </p>
                 </div>
@@ -2836,11 +2736,11 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-green-400">{intlPercentage.toFixed(0)}%</span>
+                      <span className="text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{intlPercentage.toFixed(0)}%</span>
                     </div>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2">🌍 International</h3>
-                  <p className="text-green-400 font-semibold">
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">🌍 International</h3>
+                  <p className="text-emerald-600 dark:text-emerald-400 font-semibold">
                     {formatCurrencyGerman(internationalValue)}
                   </p>
                 </div>
