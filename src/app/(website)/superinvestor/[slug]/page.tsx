@@ -1,7 +1,7 @@
 // src/app/superinvestor/[slug]/page.tsx - CLEAN DESIGN VERSION
 'use client'
 
-import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
+import React, { useState, FormEvent, useEffect, useMemo } from 'react'
 import { notFound, useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -25,40 +25,27 @@ import {
   DocumentTextIcon
 } from '@heroicons/react/24/outline'
 
+// ✅ OPTIMIZED: Replaced 38MB client imports with API hook
+import { useInvestorData } from '@/hooks/useInvestorData'
 import holdingsHistory from '@/data/holdings'
-import InvestorTabs, { Tab } from '@/components/InvestorTabs'
 import { stocks } from '@/data/stocks'
+import InvestorTabs, { Tab } from '@/components/InvestorTabs'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import { ErrorBoundary } from 'react-error-boundary'
-import ErrorFallback from '@/components/ErrorFallback'
 import PortfolioValueChart from '@/components/PortfolioValueChart'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import cashPositions from '@/data/cashPositions'
 import CashPositionChart from '@/components/CashPositionChart'
 import { supabase } from '@/lib/supabaseClient'
-import PortfolioAnalysisInline from '@/components/PortfolioAnalysisInline'
 import FilingsTab from '@/components/FilingsTab'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
 import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 import AdvancedSectorAnalysis from '@/components/AdvancedSectorAnalysis'
 import SectorBreakdownChart from '@/components/SectorBreakdownChart'
 import Logo from '@/components/Logo'
-import CompactSectorOverview from '@/components/CompactSectorOverview'
-import CompactTopPositions from '@/components/CompactTopPositions'
 import DividendAnalysisSection from '@/components/DividendAnalysisSection'
-import InvestorFollowButton from '@/components/InvestorFollowButton'
 import { CurrencyProvider, useCurrency } from '@/contexts/CurrencyContext'
 import CurrencySwitch from '@/components/CurrencySwitch'
 import { InvestorCardSkeleton, StatsCardSkeleton } from '@/components/SkeletonLoaders'
-
-// Dynamic imports
-const TopPositionsBarChart = dynamic(
-  () => import('@/components/TopPositionsBarChart'),
-  {
-    ssr: false,
-    loading: () => <LoadingSpinner />
-  }
-)
 
 import articlesBuffett from '@/data/articles/buffett.json'
 import articlesAckman from '@/data/articles/ackman.json'
@@ -74,34 +61,6 @@ interface User {
   isPremium: boolean
 }
 
-// Animation Hook
-const useIntersectionObserver = (threshold = 0.1) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold }
-    );
-    
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [threshold]);
-  
-  return [ref, isVisible] as const;
-};
 
 // Position Interface
 interface Position {
@@ -461,7 +420,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
       </div>
 
       {/* Company Selector */}
-      <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+      <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
             <ChartBarIcon className="w-5 h-5 text-gray-400" />
@@ -484,9 +443,9 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
 
       {/* Current Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-green-900/60" />
             </div>
             <h4 className="text-sm font-medium text-gray-500">Aktuelle Shares</h4>
@@ -502,9 +461,9 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           )}
         </div>
 
-        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
             <h4 className="text-sm font-medium text-gray-500">Aktueller Wert</h4>
@@ -514,9 +473,9 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           </p>
         </div>
 
-        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
             <h4 className="text-sm font-medium text-gray-500">Portfolio-Anteil</h4>
@@ -537,9 +496,9 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Portfolio Percentage Chart */}
-        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
             <div>
@@ -585,9 +544,9 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </div>
 
         {/* Shares Chart */}
-        <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-gray-400" />
             </div>
             <div>
@@ -636,7 +595,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
       </div>
 
       {/* History Table */}
-      <div className="bg-[#111113] border border-white/5 rounded-xl overflow-hidden">
+      <div className="bg-[#161618] border border-white/[0.06] rounded-2xl overflow-hidden hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
         <div className="p-6 border-b border-white/5">
           <h3 className="text-lg font-medium text-white">Detaillierte Historie</h3>
           <p className="text-sm text-gray-500 mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
@@ -644,13 +603,13 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-[#0a0a0b]">
-              <tr className="text-sm text-gray-500">
-                <th className="text-left p-4 font-medium">Quartal</th>
-                <th className="text-right p-4 font-medium">Aktien</th>
-                <th className="text-right p-4 font-medium">Wert</th>
-                <th className="text-right p-4 font-medium">Portfolio %</th>
-                <th className="text-right p-4 font-medium">Veränderung</th>
+            <thead className="bg-[#0F0F11] border-b border-white/[0.1]">
+              <tr className="text-sm text-gray-400">
+                <th className="text-left p-5 font-semibold tracking-wide">Quartal</th>
+                <th className="text-right p-5 font-semibold tracking-wide">Aktien</th>
+                <th className="text-right p-5 font-semibold tracking-wide">Wert</th>
+                <th className="text-right p-5 font-semibold tracking-wide">Portfolio %</th>
+                <th className="text-right p-5 font-semibold tracking-wide">Veränderung</th>
               </tr>
             </thead>
             <tbody>
@@ -661,31 +620,31 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                 const isSold = previousEntry?.exists && !data.exists
                 
                 return (
-                  <tr key={data.quarter} className="border-b border-white/5 hover:bg-[#0a0a0b]/50 transition-colors">
-                    <td className="p-4 font-medium text-white">{data.quarter}</td>
-                    <td className="p-4 text-right font-mono text-gray-300">
-                      {data.exists ? formatShares(data.shares) : '—'}
+                  <tr key={data.quarter} className="border-b border-white/[0.04] hover:bg-[#1A1A1D]/30 transition-all duration-200">
+                    <td className="p-5 font-semibold text-white">{data.quarter}</td>
+                    <td className="p-5 text-right font-mono text-gray-300 text-sm">
+                      {data.exists ? formatShares(data.shares) : <span className="text-gray-600">—</span>}
                     </td>
-                    <td className="p-4 text-right font-mono text-gray-300">
-                      {data.exists ? formatLargeNumber(data.value) : '—'}
+                    <td className="p-5 text-right font-mono text-gray-300 text-sm">
+                      {data.exists ? formatLargeNumber(data.value) : <span className="text-gray-600">—</span>}
                     </td>
-                    <td className="p-4 text-right font-mono text-gray-300">
-                      {data.exists ? `${data.portfolioPercentage.toFixed(2)}%` : '—'}
+                    <td className="p-5 text-right font-mono text-gray-300 text-sm">
+                      {data.exists ? `${data.portfolioPercentage.toFixed(2)}%` : <span className="text-gray-600">—</span>}
                     </td>
-                    <td className="p-4 text-right">
+                    <td className="p-5 text-right">
                       {isNew ? (
-                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-green-900/20 text-green-400/60 border border-green-900/20">
+                        <span className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-green-500/10 text-green-400 border border-green-500/20">
                           Neukauf
                         </span>
                       ) : isSold ? (
-                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-red-900/20 text-red-400/60 border border-red-900/20">
+                        <span className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-red-500/10 text-red-400 border border-red-500/20">
                           Verkauft
                         </span>
                       ) : sharesChange !== 0 ? (
-                        <span className={`inline-block px-2 py-1 text-xs rounded-full ${
+                        <span className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg ${
                           sharesChange > 0 
-                            ? 'bg-green-900/20 text-green-400/60 border border-green-900/20' 
-                            : 'bg-red-900/20 text-red-400/60 border border-red-900/20'
+                            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
+                            : 'bg-red-500/10 text-red-400 border border-red-500/20'
                         }`}>
                           {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)}
                         </span>
@@ -848,7 +807,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         })
 
       const seen = new Set(mergedEntries.map(e => e.cusip))
-      for (const [cusip, prevShares] of prevMap.entries()) {
+      for (const [cusip] of prevMap.entries()) {
         if (!seen.has(cusip)) {
           const stockData = stocks.find(s => s.cusip === cusip)
           let ticker = stockData?.ticker || cusip.replace(/0+$/, '')
@@ -956,11 +915,11 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     <div className="min-h-screen bg-[#0a0a0b]">
       
       {/* Hero Section */}
-      <section className="relative bg-[#0a0a0b] pt-20 pb-12">
+      <section className="relative bg-[#0a0a0b] pt-16 pb-10">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Breadcrumb & Currency Switch */}
-          <div className="mb-8 flex items-center justify-between">
+          <div className="mb-6 flex items-center justify-between">
             <Link 
               href="/superinvestor" 
               className="inline-flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm group"
@@ -973,14 +932,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
           
           {/* Main Hero Card */}
-          <div className="bg-[#111113] border border-white/5 rounded-2xl p-8 lg:p-10">
+          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 lg:p-8 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
             <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
               
               {/* Left: Investor Info */}
               <div className="flex-1">
                 
                 {/* Avatar & Basic Info */}
-                <div className="flex items-center gap-6 mb-8">
+                <div className="flex items-center gap-6 mb-6">
                   <div className="relative">
                     {slug === 'buffett' && (
                       <div className="absolute -top-2 -right-2 z-10">
@@ -999,11 +958,11 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                   </div>
                   
                   <div className="flex-1">
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-2">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
                       {mainName}
                     </h1>
                     {subtitle && (
-                      <p className="text-lg text-gray-500 mb-4">
+                      <p className="text-base text-gray-500 mb-4">
                         {subtitle}
                       </p>
                     )}
@@ -1024,32 +983,32 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 
                 {/* Portfolio Stats */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  <div className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4">
+                  <div className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] transition-all duration-200">
                     <div className="flex items-center gap-2 mb-2">
                       <ChartBarIcon className="w-4 h-4 text-gray-600" />
                       <span className="text-xs text-gray-600 uppercase tracking-wide">Portfolio-Wert</span>
                     </div>
-                    <p className="text-xl font-light text-white">
+                    <p className="text-lg font-semibold text-white">
                       {formatLargeNumber(totalVal)}
                     </p>
                   </div>
                   
-                  <div className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4">
+                  <div className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] transition-all duration-200">
                     <div className="flex items-center gap-2 mb-2">
                       <StarIcon className="w-4 h-4 text-gray-600" />
                       <span className="text-xs text-gray-600 uppercase tracking-wide">Positionen</span>
                     </div>
-                    <p className="text-xl font-light text-white">
+                    <p className="text-lg font-semibold text-white">
                       {holdings.length}
                     </p>
                   </div>
                   
-                  <div className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4 sm:col-span-1 col-span-2">
+                  <div className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] transition-all duration-200 sm:col-span-1 col-span-2">
                     <div className="flex items-center gap-2 mb-2">
                       <ArrowTrendingUpIcon className="w-4 h-4 text-gray-600" />
                       <span className="text-xs text-gray-600 uppercase tracking-wide">Top 3 Anteil</span>
                     </div>
-                    <p className="text-xl font-light text-white">
+                    <p className="text-lg font-semibold text-white">
                       {((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
                     </p>
                   </div>
@@ -1089,10 +1048,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
       </section>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         {/* Tabs */}
-        <div className="mb-16">
+        <div className="mb-12">
           <InvestorTabs
             tab={tab}
             onTabChange={(newTab: Tab) => {
@@ -1110,12 +1069,12 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
         {/* PORTFOLIO TAB */}
         {tab === 'portfolio' && (
-          <div className="space-y-12">
+          <div className="space-y-10">
             
             {/* Portfolio Value Chart */}
-            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                   <ChartBarIcon className="w-5 h-5 text-gray-500" />
                 </div>
                 <div>
@@ -1131,9 +1090,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
             {/* Cash Position Chart (nur für Buffett) */}
             {slug === 'buffett' && cashSeries.length > 0 && (
-              <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+              <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                     <ChartBarIcon className="w-5 h-5 text-gray-500" />
                   </div>
                   <div>
@@ -1149,9 +1108,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             )}
 
             {/* Sektor Overview */}
-            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                   <ChartBarIcon className="w-5 h-5 text-gray-500" />
                 </div>
                 <div>
@@ -1186,7 +1145,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     .sort((a, b) => b.value - a.value)
                     .slice(0, 6)
                     .map((sector) => (
-                      <div key={sector.sector} className="bg-[#0a0a0b] border border-white/5 rounded-lg p-4 hover:border-green-900/20 transition-all">
+                      <div key={sector.sector} className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] hover:border-green-500/30 transition-all duration-200">
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-2 h-2 bg-green-400/40 rounded-full"></div>
                           <span className="text-white font-medium text-sm">{sector.sector}</span>
@@ -1204,9 +1163,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             </div>
 
             {/* Top Positions */}
-            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                   <StarIcon className="w-5 h-5 text-gray-500" />
                 </div>
                 <div>
@@ -1215,21 +1174,21 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 </div>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {holdings.slice(0, 10).map((holding, index) => (
-                  <div key={holding.cusip} className="flex items-center justify-between py-3 px-4 bg-[#0a0a0b] rounded-lg border border-white/5 hover:bg-[#0f0f10] transition-all">
+                  <div key={holding.cusip} className="group flex items-center justify-between py-4 px-5 bg-[#0F0F11] rounded-xl border border-white/[0.04] hover:bg-[#1A1A1D] hover:border-white/[0.1] hover:shadow-lg hover:shadow-black/20 transition-all duration-300">
                     <div className="flex items-center gap-4">
-                      <div className="text-green-900/40 text-sm font-mono w-6">
+                      <div className="flex items-center justify-center w-8 h-8 text-xs font-bold text-green-400/70 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-all duration-300">
                         {index + 1}
                       </div>
                       <CompanyNameWithOptions position={holding} />
                     </div>
                     <div className="text-right">
-                      <div className="text-white font-medium">
+                      <div className="text-white font-semibold text-lg group-hover:text-green-400 transition-colors">
                         {formatLargeNumber(holding.value)}
                       </div>
-                      <div className="text-gray-600 text-sm">
-                        {((holding.value / totalVal) * 100).toFixed(1)}%
+                      <div className="text-gray-500 text-sm font-medium">
+                        {((holding.value / totalVal) * 100).toFixed(1)}% Portfolio
                       </div>
                     </div>
                   </div>
@@ -1238,9 +1197,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             </div>
 
             {/* Sektor Breakdown Chart */}
-            <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                   <ChartBarIcon className="w-5 h-5 text-gray-500" />
                 </div>
                 <div>
@@ -1318,7 +1277,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'overview' 
                     ? 'bg-green-900/20 text-white border border-green-900/30' 
-                    : 'bg-[#0a0a0b] text-gray-500 hover:bg-[#111113] hover:text-white border border-white/5'
+                    : 'bg-[#161618] text-gray-500 hover:bg-[#1A1A1D] hover:text-white border border-white/[0.06]'
                 }`}
               >
                 Übersicht
@@ -1328,7 +1287,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'companies' 
                     ? 'bg-green-900/20 text-white border border-green-900/30' 
-                    : 'bg-[#0a0a0b] text-gray-500 hover:bg-[#111113] hover:text-white border border-white/5'
+                    : 'bg-[#161618] text-gray-500 hover:bg-[#1A1A1D] hover:text-white border border-white/[0.06]'
                 }`}
               >
                 Einzelunternehmen
@@ -1338,7 +1297,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'sectors' 
                     ? 'bg-green-900/20 text-white border border-green-900/30' 
-                    : 'bg-[#0a0a0b] text-gray-500 hover:bg-[#111113] hover:text-white border border-white/5'
+                    : 'bg-[#161618] text-gray-500 hover:bg-[#1A1A1D] hover:text-white border border-white/[0.06]'
                 }`}
               >
                 Sektoren
@@ -1351,9 +1310,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   
-                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                         <ChartBarIcon className="w-5 h-5 text-green-900/60" />
                       </div>
                       <h3 className="text-sm font-medium text-gray-500">Portfolio-Wert</h3>
@@ -1364,9 +1323,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-xs text-gray-600">Gesamtwert aller Positionen</p>
                   </div>
                   
-                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                         <StarIcon className="w-5 h-5 text-gray-500" />
                       </div>
                       <h3 className="text-sm font-medium text-gray-500">Anzahl Holdings</h3>
@@ -1377,9 +1336,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-xs text-gray-600">Verschiedene Positionen</p>
                   </div>
                   
-                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                         <ChartBarIcon className="w-5 h-5 text-gray-500" />
                       </div>
                       <h3 className="text-sm font-medium text-gray-500">Top 10 Anteil</h3>
@@ -1390,9 +1349,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-xs text-gray-600">Konzentration</p>
                   </div>
                   
-                  <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                         <CalendarIcon className="w-5 h-5 text-gray-500" />
                       </div>
                       <h3 className="text-sm font-medium text-gray-500">Quartale</h3>
@@ -1405,9 +1364,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 </div>
                 
                 {/* Sektor-Chart */}
-                <div className="bg-[#111113] border border-white/5 rounded-xl p-6">
+                <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                       <ChartBarIcon className="w-5 h-5 text-gray-500" />
                     </div>
                     <div>
@@ -1475,9 +1434,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
              </p>
            </div>
            
-           <div className="bg-[#111113] border border-white/5 rounded-xl p-8">
+           <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
              <div className="flex items-center gap-3 mb-6">
-               <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
+               <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                  <DocumentTextIcon className="w-5 h-5 text-gray-500" />
                </div>
                <div>
@@ -1498,7 +1457,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
        {tab === 'ai' && (
          <div className="space-y-8">
            <div className="max-w-2xl mx-auto text-center">
-             <div className="bg-[#111113] border border-white/5 rounded-xl p-8">
+             <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                <div className="w-20 h-20 bg-gradient-to-br from-green-900/20 to-green-800/10 rounded-full flex items-center justify-center mx-auto mb-6">
                  <SparklesIcon className="w-10 h-10 text-green-400/60" />
                </div>

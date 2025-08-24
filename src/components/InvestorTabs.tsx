@@ -306,28 +306,28 @@ export default function InvestorTabs({
 
       {/* Tab Content - Echtes Schwarz */}
       {tab === 'portfolio' || tab === 'transactions' ? (
-        <div className="bg-black border border-gray-800/50 rounded-xl overflow-hidden backdrop-blur-sm shadow-2xl">
+        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl overflow-hidden hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
           
           {/* PORTFOLIO TAB */}
           {tab === 'portfolio' && (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-gray-100">
                 <thead>
-                  <tr className="text-sm text-gray-400 border-b border-gray-800/50 bg-gray-900/50">
-                    <th className="text-left px-6 py-4 font-semibold tracking-wide">Unternehmen</th>
-                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Aktien</th>
-                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Wert (USD)</th>
-                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Anteil</th>
-                    <th className="text-right px-6 py-4 font-semibold tracking-wide">Letzte Aktivität</th>
+                  <tr className="text-sm text-gray-400 border-b border-white/[0.1] bg-[#0F0F11]">
+                    <th className="text-left px-6 py-5 font-semibold tracking-wide">Unternehmen</th>
+                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Aktien</th>
+                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Wert (USD)</th>
+                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Anteil</th>
+                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Letzte Aktivität</th>
                   </tr>
                 </thead>
                 <tbody>
                   {displayedHoldings.map((p, i) => (
                     <tr 
                       key={i} 
-                      className="border-b border-gray-800/30 hover:bg-gray-900/50 transition-all duration-200 group"
+                      className="border-b border-white/[0.04] hover:bg-[#1A1A1D]/30 transition-all duration-200 group"
                     >
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-5">
                         <NameAndTicker position={p} />
                       </td>
                       <td className="px-6 py-4 text-right font-mono text-gray-300 group-hover:text-white transition-colors">
@@ -365,10 +365,10 @@ export default function InvestorTabs({
               </table>
 
               {holdings.length > 20 && (
-                <div className="border-t border-gray-800/50 p-6 text-center bg-gray-900/30">
+                <div className="border-t border-white/[0.06] p-6 text-center bg-[#0F0F11]">
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="px-6 py-3 text-sm rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 hover:text-white transition-all duration-200 font-medium hover:scale-105 shadow-lg border border-gray-700/50"
+                    className="px-6 py-3 text-sm rounded-lg bg-[#161618] hover:bg-[#1A1A1D] text-gray-200 hover:text-white transition-all duration-200 font-medium hover:scale-105 shadow-lg border border-white/[0.06]"
                   >
                     {showAll
                       ? 'Weniger Positionen anzeigen'
@@ -382,7 +382,7 @@ export default function InvestorTabs({
           {/* TRANSACTIONS TAB - Alle Filter in Grau */}
           {tab === 'transactions' && (
             <div>
-              <div className="flex flex-wrap gap-3 p-6 border-b border-gray-800/50 bg-gray-900/30">
+              <div className="flex flex-wrap gap-3 p-6 border-b border-white/[0.06] bg-[#0F0F11]">
                 <div className="flex items-center gap-2 mr-4">
                   <ArrowsRightLeftIcon className="w-5 h-5 text-gray-400" />
                   <span className="text-sm text-gray-400 font-semibold">Filter:</span>
@@ -403,7 +403,7 @@ export default function InvestorTabs({
                           : key === 'sells'
                             ? 'bg-red-600 text-white shadow-lg shadow-red-500/25'
                             : 'bg-gray-700 text-white shadow-lg shadow-gray-500/25'
-                        : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/70'
+                        : 'bg-[#161618] text-gray-400 hover:text-white hover:bg-[#1A1A1D]'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -422,7 +422,7 @@ export default function InvestorTabs({
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-gray-100">
                   <thead>
-                    <tr className="text-sm text-gray-400 border-b border-gray-800/50 bg-gray-900/50">
+                    <tr className="text-sm text-gray-400 border-b border-white/[0.1] bg-[#0F0F11]">
                       <th className="text-left px-6 py-4 font-semibold tracking-wide">Unternehmen</th>
                       <th className="text-right px-6 py-4 font-semibold tracking-wide">Δ Aktien</th>
                       <th className="text-right px-6 py-4 font-semibold tracking-wide">Typ</th>
@@ -435,7 +435,7 @@ export default function InvestorTabs({
                         <tr>
                           <td 
                             colSpan={4} 
-                            className="px-6 py-4 border-t border-gray-700/50 font-bold text-white uppercase tracking-wide text-sm bg-gray-900/70"
+                            className="px-6 py-5 border-t border-white/[0.06] font-bold text-white uppercase tracking-wide text-sm bg-[#0F0F11]"
                           >
                             <div className="flex items-center gap-3">
                               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -449,11 +449,11 @@ export default function InvestorTabs({
 
                         {group.items.length > 0
                           ? group.items.map((p, i) => (
-                              <tr key={i} className="border-b border-gray-800/30 hover:bg-gray-900/50 transition-all duration-200 group">
-                                <td className="px-6 py-4">
+                              <tr key={i} className="border-b border-white/[0.04] hover:bg-[#1A1A1D]/30 transition-all duration-200 group">
+                                <td className="px-6 py-5">
                                   <NameAndTicker position={p} />
                                 </td>
-                                <td className="px-6 py-4 text-right">
+                                <td className="px-6 py-5 text-right">
                                   <span className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-full font-semibold border ${
                                     p.deltaShares > 0
                                       ? 'bg-green-500/20 text-green-300 border-green-500/30'
@@ -467,7 +467,7 @@ export default function InvestorTabs({
                                     {p.deltaShares > 0 ? '+' : ''}{fmtShares.format(p.deltaShares)}
                                   </span>
                                 </td>
-                                <td className="px-6 py-4 text-right">
+                                <td className="px-6 py-5 text-right">
                                   <span className={`text-sm font-semibold ${
                                     p.deltaShares > 0 ? 'text-green-400' : 'text-red-400'
                                   }`}>
