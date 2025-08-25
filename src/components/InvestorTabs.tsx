@@ -16,6 +16,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { stocks, Stock } from '@/data/stocks'
 import Logo from '@/components/Logo'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 interface Position {
   cusip: string
@@ -75,6 +76,9 @@ export default function InvestorTabs({
 }) {
   const [transactionFilter, setTransactionFilter] = useState<TransactionFilter>('all')
   const [showAll, setShowAll] = useState(false)
+  
+  // Currency Formatting aus Context
+  const { formatCurrency, formatShares, formatPercentage } = useCurrency()
 
   const getTabsForInvestor = (slug: string): TabConfig[] => {
     const baseTabs: TabConfig[] = [
@@ -128,17 +132,10 @@ export default function InvestorTabs({
 
   const availableTabs = getTabsForInvestor(investorSlug)
 
-  const fmtShares = new Intl.NumberFormat('de-DE')
-  const fmtValue = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  })
-  const fmtPercent = new Intl.NumberFormat('de-DE', {
-    style: 'percent',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })
+  // Verwende Context-Formatter für konsistente deutsche Formatierung
+  const fmtShares = formatShares
+  const fmtValue = formatCurrency
+  const fmtPercent = (value: number) => formatPercentage(value * 100, false)
 
   const allTransactions: HistoryGroup[] = buys.map((bGroup, idx) => {
     const sGroup = sells[idx] || { period: bGroup.period, items: [] }
@@ -331,13 +328,13 @@ export default function InvestorTabs({
                         <NameAndTicker position={p} />
                       </td>
                       <td className="px-6 py-4 text-right font-mono text-gray-300 group-hover:text-white transition-colors">
-                        {fmtShares.format(p.shares)}
+                        {fmtShares(p.shares)}
                       </td>
                       <td className="px-6 py-4 text-right font-mono font-semibold text-white">
-                        {fmtValue.format(p.value)}
+                        {fmtValue(p.value)}
                       </td>
                       <td className="px-6 py-4 text-right font-mono text-gray-300">
-                        {fmtPercent.format(p.value / holdings.reduce((s,x)=>s+x.value,0))}
+                        {fmtPercent(p.value / holdings.reduce((s,x)=>s+x.value,0))}
                       </td>
                       <td className="px-6 py-4 text-right">
                         {p.deltaShares > 0
@@ -348,13 +345,13 @@ export default function InvestorTabs({
                                 </span>
                               : <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30">
                                   <ArrowTrendingUpIcon className="w-3 h-3" />
-                                  +{fmtPercent.format(p.pctDelta)}
+                                  +{fmtPercent(p.pctDelta)}
                                 </span>
                             )
                           : p.deltaShares < 0
                             ? <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm font-medium border border-red-500/30">
                                 <ArrowTrendingDownIcon className="w-3 h-3" />
-                                -{fmtPercent.format(Math.abs(p.pctDelta))}
+                                -{fmtPercent(Math.abs(p.pctDelta))}
                               </span>
                             : <span className="text-gray-500 text-sm">—</span>
                         }
@@ -464,7 +461,7 @@ export default function InvestorTabs({
                                     ) : (
                                       <ArrowTrendingDownIcon className="w-3 h-3" />
                                     )}
-                                    {p.deltaShares > 0 ? '+' : ''}{fmtShares.format(p.deltaShares)}
+                                    {p.deltaShares > 0 ? '+' : ''}{formatShares(p.deltaShares)}
                                   </span>
                                 </td>
                                 <td className="px-6 py-5 text-right">
@@ -480,7 +477,7 @@ export default function InvestorTabs({
                                     if (prevShares === 0) {
                                       return <span className="text-green-400 font-semibold text-sm">Neueinkauf</span>
                                     }
-                                    return <span className="font-semibold">{fmtPercent.format(Math.abs(p.pctDelta))}</span>
+                                    return <span className="font-semibold">{formatPercentage(Math.abs(p.pctDelta) * 100, false)}</span>
                                   })()}
                                 </td>
                               </tr>

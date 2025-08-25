@@ -43,9 +43,7 @@ import AdvancedSectorAnalysis from '@/components/AdvancedSectorAnalysis'
 import SectorBreakdownChart from '@/components/SectorBreakdownChart'
 import Logo from '@/components/Logo'
 import DividendAnalysisSection from '@/components/DividendAnalysisSection'
-import { CurrencyProvider, useCurrency } from '@/contexts/CurrencyContext'
-import CurrencySwitch from '@/components/CurrencySwitch'
-import { InvestorCardSkeleton, StatsCardSkeleton } from '@/components/SkeletonLoaders'
+import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 
 import articlesBuffett from '@/data/articles/buffett.json'
 import articlesAckman from '@/data/articles/ackman.json'
@@ -373,7 +371,7 @@ const generateOwnershipHistory = (snapshots: any[], selectedCusip: string): Owne
 
 // CompanyOwnershipHistory Komponente
 function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[], investorName: string }) {
-  const { formatLargeNumber } = useCurrency()
+  const { formatCurrency, formatShares } = useCurrency()
   const companies = useMemo(() => getAllCompanies(snapshots), [snapshots])
   
   const defaultCompany = useMemo(() => {
@@ -400,9 +398,6 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
   const sharesChange = latestData && previousData ? latestData.shares - previousData.shares : 0
   const percentageChange = latestData && previousData ? latestData.portfolioPercentage - previousData.portfolioPercentage : 0
   
-  const formatShares = (value: number) => {
-    return new Intl.NumberFormat('de-DE').format(value)
-  }
 
   if (!selectedCompanyInfo) return null
 
@@ -435,7 +430,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         >
           {companies.map(company => (
             <option key={company.cusip} value={company.cusip} className="bg-[#0a0a0b]">
-              {company.displayName} {company.totalValue ? `(${formatLargeNumber(company.totalValue)})` : ''}
+              {company.displayName} {company.totalValue ? `(${formatCurrency(company.totalValue)})` : ''}
             </option>
           ))}
         </select>
@@ -469,7 +464,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
             <h4 className="text-sm font-medium text-gray-500">Aktueller Wert</h4>
           </div>
           <p className="text-2xl font-light text-white">
-            {latestData ? formatLargeNumber(latestData.value) : formatLargeNumber(0)}
+            {latestData ? formatCurrency(latestData.value) : formatCurrency(0)}
           </p>
         </div>
 
@@ -481,12 +476,12 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
             <h4 className="text-sm font-medium text-gray-500">Portfolio-Anteil</h4>
           </div>
           <p className="text-2xl font-light text-white">
-            {latestData ? `${latestData.portfolioPercentage.toFixed(1)}%` : '0%'}
+            {latestData ? `${formatCurrency(latestData.portfolioPercentage, 'number')}%` : '0%'}
           </p>
           {percentageChange !== 0 && (
             <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-green-400/60' : 'text-red-400/60'}`}>
               {percentageChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
-              {percentageChange > 0 ? '+' : ''}{percentageChange.toFixed(1)}% vs Q
+              {percentageChange > 0 ? '+' : ''}{formatCurrency(percentageChange, 'number')}% vs Q
             </p>
           )}
         </div>
@@ -528,7 +523,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                   borderRadius: '8px',
                   color: '#ffffff'
                 }}
-                formatter={(value: any) => [`${value.toFixed(2)}%`, 'Portfolio-Anteil']}
+                formatter={(value: any) => [`${formatCurrency(value, 'number')}%`, 'Portfolio-Anteil']}
                 labelFormatter={(label) => `Quartal: ${label}`}
               />
               <Line
@@ -568,8 +563,8 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                 stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => {
-                  if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`
-                  if (value >= 1000) return `${(value / 1000).toFixed(1)}K`
+                  if (value >= 1000000) return `${formatCurrency(value / 1000000, 'number')}M`
+                  if (value >= 1000) return `${formatCurrency(value / 1000, 'number')}K`
                   return value.toString()
                 }}
               />
@@ -626,10 +621,10 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                       {data.exists ? formatShares(data.shares) : <span className="text-gray-600">—</span>}
                     </td>
                     <td className="p-5 text-right font-mono text-gray-300 text-sm">
-                      {data.exists ? formatLargeNumber(data.value) : <span className="text-gray-600">—</span>}
+                      {data.exists ? formatCurrency(data.value) : <span className="text-gray-600">—</span>}
                     </td>
                     <td className="p-5 text-right font-mono text-gray-300 text-sm">
-                      {data.exists ? `${data.portfolioPercentage.toFixed(2)}%` : <span className="text-gray-600">—</span>}
+                      {data.exists ? `${formatCurrency(data.portfolioPercentage, 'number')}%` : <span className="text-gray-600">—</span>}
                     </td>
                     <td className="p-5 text-right">
                       {isNew ? (
@@ -700,7 +695,7 @@ type InvestorPageProps = {
 // Main Component
 function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   const router = useRouter()
-  const { formatLargeNumber } = useCurrency()
+  const { formatCurrency, formatShares } = useCurrency()
   const titleFull = investorNames[slug] ?? slug
   const { name: mainName, subtitle } = splitInvestorName(titleFull)
 
@@ -912,10 +907,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b]">
+    <div className="min-h-screen bg-black">
       
       {/* Hero Section */}
-      <section className="relative bg-[#0a0a0b] pt-16 pb-10">
+      <section className="relative bg-black pt-16 pb-10">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Breadcrumb & Currency Switch */}
@@ -928,7 +923,6 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               Zurück zu Super-Investoren
             </Link>
             
-            <CurrencySwitch size="sm" />
           </div>
           
           {/* Main Hero Card */}
@@ -989,7 +983,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       <span className="text-xs text-gray-600 uppercase tracking-wide">Portfolio-Wert</span>
                     </div>
                     <p className="text-lg font-semibold text-white">
-                      {formatLargeNumber(totalVal)}
+                      {formatCurrency(totalVal)}
                     </p>
                   </div>
                   
@@ -1009,7 +1003,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       <span className="text-xs text-gray-600 uppercase tracking-wide">Top 3 Anteil</span>
                     </div>
                     <p className="text-lg font-semibold text-white">
-                      {((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
+                      {formatCurrency((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100, 'number')}%
                     </p>
                   </div>
                 </div>
@@ -1151,7 +1145,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                           <span className="text-white font-medium text-sm">{sector.sector}</span>
                         </div>
                         <div className="text-gray-500 text-xs mb-1">
-                          {formatLargeNumber(sector.value)} ({sector.percentage.toFixed(1)}%)
+                          {formatCurrency(sector.value)} ({formatCurrency(sector.percentage, 'number')}%)
                         </div>
                         <div className="text-gray-700 text-xs">
                           {sector.count} Position{sector.count !== 1 ? 'en' : ''}
@@ -1185,10 +1179,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     </div>
                     <div className="text-right">
                       <div className="text-white font-semibold text-lg group-hover:text-green-400 transition-colors">
-                        {formatLargeNumber(holding.value)}
+                        {formatCurrency(holding.value)}
                       </div>
                       <div className="text-gray-500 text-sm font-medium">
-                        {((holding.value / totalVal) * 100).toFixed(1)}% Portfolio
+                        {formatCurrency((holding.value / totalVal) * 100, 'number')}% Portfolio
                       </div>
                     </div>
                   </div>
@@ -1318,7 +1312,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       <h3 className="text-sm font-medium text-gray-500">Portfolio-Wert</h3>
                     </div>
                     <p className="text-2xl font-light text-white">
-                      {formatLargeNumber(totalVal, { showCurrency: false })}
+                      {formatCurrency(totalVal, 'number')}
                     </p>
                     <p className="text-xs text-gray-600">Gesamtwert aller Positionen</p>
                   </div>
@@ -1344,7 +1338,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       <h3 className="text-sm font-medium text-gray-500">Top 10 Anteil</h3>
                     </div>
                     <p className="text-2xl font-light text-white">
-                      {((holdings.slice(0, 10).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100).toFixed(1)}%
+                      {formatCurrency((holdings.slice(0, 10).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100, 'number')}%
                     </p>
                     <p className="text-xs text-gray-600">Konzentration</p>
                   </div>

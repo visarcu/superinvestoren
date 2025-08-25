@@ -3,7 +3,7 @@
 
 import React from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import { useCurrency } from '@/contexts/CurrencyContext'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 interface SectorBreakdownProps {
   data: Array<{
@@ -69,7 +69,7 @@ const getSectorColor = (sector: string, index: number): string => {
 }
 
 const CustomTooltip = ({ active, payload }: any) => {
-  const { formatLargeNumber } = useCurrency()
+  const { formatCurrency } = useCurrency()
   
   if (active && payload && payload.length) {
     const data = payload[0].payload
@@ -78,7 +78,7 @@ const CustomTooltip = ({ active, payload }: any) => {
         <p className="text-white font-semibold mb-1">{data.sector}</p>
         <div className="space-y-1 text-sm">
           <p className="text-green-400 font-medium">
-            {formatLargeNumber(data.value)}
+            {formatCurrency(data.value)}
           </p>
           <p className="text-gray-400">
             {data.percentage.toFixed(1)}% • {data.count} Position{data.count !== 1 ? 'en' : ''}
@@ -91,7 +91,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 }
 
 export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
-  const { formatLargeNumber } = useCurrency()
+  const { formatCurrency } = useCurrency()
   
   // Bereite Daten für Chart vor
   const sortedData = [...data].sort((a, b) => b.value - a.value)
@@ -213,7 +213,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
             {/* ✅ BEAUTIFUL: Values mit Currency Context */}
             <div className="text-right shrink-0 ml-4">
               <div className="text-white font-semibold">
-                {formatLargeNumber(sector.value)}
+                {formatCurrency(sector.value)}
               </div>
               <div className="text-gray-400 text-sm">
                 {sector.percentage.toFixed(1)}%
@@ -251,7 +251,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
         </div>
         <div className="text-center">
           <div className="text-white font-semibold text-lg">
-            {formatLargeNumber(chartData.reduce((sum, s) => sum + s.value, 0), { showCurrency: false })}
+            {formatCurrency(chartData.reduce((sum, s) => sum + s.value, 0), 'number')}
           </div>
           <div className="text-gray-500 text-xs uppercase tracking-wide">
             Gesamtwert

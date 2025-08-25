@@ -27,6 +27,7 @@ interface CurrencyContextType {
   formatStockPrice: (price: number, showCurrency?: boolean) => string
   formatPercentage: (value: number, showSign?: boolean) => string
   formatMarketCap: (value: number) => string // NEU: Für Marktkapitalisierung
+  formatShares: (value: number) => string // NEU: Für Aktienanzahl (ohne Währung)
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined)
@@ -242,6 +243,13 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     return `${value.toLocaleString('de-DE')} ${currencySymbol}`
   }
 
+  // ✅ NEU: Formatierung für Aktienanzahl (ohne Währung) - MIT DEUTSCHER FORMATIERUNG
+  const formatShares = (value: number): string => {
+    if (!value && value !== 0) return '–'
+    
+    return new Intl.NumberFormat('de-DE').format(value)
+  }
+
   return (
     <CurrencyContext.Provider
       value={{
@@ -259,6 +267,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
         formatStockPrice,
         formatPercentage,
         formatMarketCap,
+        formatShares,
       }}
     >
       {children}

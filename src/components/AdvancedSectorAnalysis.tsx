@@ -6,7 +6,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { ArrowTrendingUpIcon, ArrowTrendingDownIcon, ArrowRightIcon, ChartBarIcon } from '@heroicons/react/24/outline'
 import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 import { stocks } from '@/data/stocks'
-import { useCurrency } from '@/contexts/CurrencyContext'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 interface AdvancedSectorAnalysisProps {
   snapshots: any[]
@@ -32,7 +32,7 @@ function getPeriodFromDate(dateStr: string) {
 }
 
 export default function AdvancedSectorAnalysis({ snapshots, investorName }: AdvancedSectorAnalysisProps) {
-  const { formatLargeNumber } = useCurrency()
+  const { formatCurrency } = useCurrency()
   
   // 1. Sektor-Allokation über Zeit
   const sectorTrendsOverTime = React.useMemo(() => {
@@ -390,7 +390,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
                   </td>
                   <td className="p-4 text-right">
                     <span className="text-gray-300 font-mono">
-                      {formatLargeNumber(sector.value)}
+                      {formatCurrency(sector.value)}
                     </span>
                   </td>
                   <td className="p-4 text-right">
