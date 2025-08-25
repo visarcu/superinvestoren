@@ -197,13 +197,13 @@ function formatCurrencyGerman(amount: number, showCurrency = true): string {
   const suffix = showCurrency ? ' $' : ''
   
   if (amount >= 1_000_000_000) {
-    return `${(amount / 1_000_000_000).toFixed(1)} Mrd.${suffix}`
+    return `${(amount / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd.${suffix}`
   } else if (amount >= 1_000_000) {
-    return `${(amount / 1_000_000).toFixed(1)} Mio.${suffix}`
+    return `${(amount / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mio.${suffix}`
   } else if (amount >= 1_000) {
-    return `${(amount / 1_000).toFixed(1)} Tsd.${suffix}`
+    return `${(amount / 1_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Tsd.${suffix}`
   }
-  return `${amount.toFixed(0)}${suffix}`
+  return `${amount.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}${suffix}`
 }
 
 function formatCurrency(amount: number, currency: 'USD' | 'EUR' = 'USD', maximumFractionDigits = 0): string {
@@ -1664,7 +1664,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                             
                             <div className="text-right">
                               <div className="text-green-400 font-bold text-lg">
-                                {bet.maxPortfolioPercent.toFixed(1)}%
+                                {bet.maxPortfolioPercent.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                               </div>
                               <div className="text-xs text-gray-500">
                                 {bet.ownershipCount} Investoren
@@ -1804,7 +1804,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                               
                               <div className="text-right">
                                 <div className="text-green-400 font-bold text-lg">
-                                  {pick.portfolioPercent.toFixed(1)}%
+                                  {pick.portfolioPercent.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                                 </div>
                                 <div className="text-xs text-gray-500">
                                   {pick.ownershipCount} Investor{pick.ownershipCount !== 1 ? 'en' : ''}
@@ -1938,7 +1938,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-neutral-600 dark:text-neutral-400 text-sm">Konzentrations-Index</span>
-                      <span className="text-neutral-900 dark:text-white font-semibold">{(data.concentration * 100).toFixed(1)}%</span>
+                      <span className="text-neutral-900 dark:text-white font-semibold">{(data.concentration * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%</span>
                     </div>
                     <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
                       <div 
@@ -1958,7 +1958,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                         data.top3Percentage > 60 ? 'text-green-400' :
                         data.top3Percentage > 40 ? 'text-gray-400' : 'text-gray-300'
                       }`}>
-                        {data.top3Percentage.toFixed(1)}%
+                        {data.top3Percentage.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -2147,7 +2147,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-neutral-500 dark:text-neutral-400">
-                  ⌀ {exit.avgHoldingPeriod.toFixed(0)} Quartale
+                  ⌀ {exit.avgHoldingPeriod.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Quartale
                 </span>
                 <span className="text-neutral-500 dark:text-neutral-400">
                   {formatCurrencyGerman(exit.totalValueExited, false)}
@@ -2653,7 +2653,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                           <div className={`font-bold text-lg mb-1 ${
                             move.type === 'buy' ? 'text-green-400' : 'text-red-400'
                           }`}>
-                            {move.type === 'buy' ? '+' : '-'}{move.percentChange.toFixed(1)}%
+                            {move.type === 'buy' ? '+' : '-'}{move.percentChange.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                           </div>
                           <div className="text-xs text-gray-600">Portfolio-Gewichtung</div>
                           <div className="text-xs text-gray-500">
@@ -2709,7 +2709,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-semibold text-neutral-600 dark:text-neutral-400">{usPercentage.toFixed(0)}%</span>
+                      <span className="text-2xl font-semibold text-neutral-600 dark:text-neutral-400">{usPercentage.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}%</span>
                     </div>
                   </div>
                   <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">🇺🇸 US-Märkte</h3>
@@ -2736,7 +2736,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{intlPercentage.toFixed(0)}%</span>
+                      <span className="text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{intlPercentage.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}%</span>
                     </div>
                   </div>
                   <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">🌍 International</h3>

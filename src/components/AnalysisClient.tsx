@@ -108,7 +108,7 @@ const PremiumBlur = ({
 const fmtDate = (d?: string | null) => d ?? '–'
 
 const fmtNum = (n?: number, decimals = 1) =>
-  typeof n === 'number' ? n.toFixed(decimals) : '–'
+  typeof n === 'number' ? n.toLocaleString('de-DE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) : '–'
 
 // ─── Typdefinitionen ────────────────────────────────────────────────────────
 type Profile = {
@@ -168,7 +168,6 @@ interface EnhancedDividendData {
 export default function AnalysisClient({ ticker }: { ticker: string }) {
   const { 
     formatCurrency, 
-    formatStockPrice, 
     formatPercentage, 
     formatMarketCap,
     formatAxisValueDE 
@@ -273,10 +272,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     }
   }
 
-  const CompanyEfficiencyMetrics = dynamic(
-    () => import('@/components/CompanyEfficiencyMetrics'),
-    { ssr: false, loading: () => <LoadingSpinner /> }
-  )
+  // Removed duplicate - using global definition above
 
 
 
@@ -335,11 +331,20 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     }
   }, [livePrice, estimates])
 
-  // ✅ SICHERE Datenladung - Alle API-Aufrufe über eigene Routes
+  // ✅ OPTIMIZED: Single combined API call instead of 13 separate calls
   useEffect(() => {
     if (!stock) return
 
-    async function loadAllData() {
+    async function loadAllDataOptimized() {
+      // TEMPORARILY: Use fallback until combined API is fully implemented
+      console.log(`🔄 [AnalysisClient] Using individual API calls for ${ticker} (combined API disabled temporarily)`)
+      loadAllDataFallback()
+    }
+    
+    // Fallback function with original individual API calls  
+    async function loadAllDataFallback() {
+      console.log(`🔄 [AnalysisClient] Using fallback individual API calls for ${ticker}`)
+      
       // ✅ Profile laden über eigene API Route
       try {
         const res = await fetch(`/api/profile/${ticker}`)
@@ -370,8 +375,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
       // ✅ Key Metrics (bereits sicher über eigene API)
       try {
-        const base = process.env.NEXT_PUBLIC_BASE_URL!
-        const res = await fetch(`${base}/api/financials/${ticker}`)
+        const res = await fetch(`/api/financials/${ticker}`)
         if (res.ok) {
           const { keyMetrics: km = {} } = await res.json()
           setKeyMetrics(km)
@@ -534,7 +538,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       }
     }
 
-    loadAllData()
+    loadAllDataOptimized()
   }, [ticker, stock, liveMarketCap])
 
 
@@ -613,7 +617,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <LearnTooltipButton term="trading_volume" />
                     </div>
                     <span className="text-theme-primary font-semibold">
-                      {volume != null ? `${(volume / 1e6).toFixed(0)} Mio.` : '–'}
+                      {volume != null ? `${(volume / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio.` : '–'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
@@ -622,14 +626,14 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <LearnTooltipButton {...LEARN_DEFINITIONS.beta} />
                     </div>
                     <span className="text-theme-primary font-semibold">
-                      {profileData?.beta != null ? profileData.beta.toFixed(2) : '–'}
+                      {profileData?.beta != null ? profileData.beta.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '–'}
                     </span>
                   </div>
                   {currentShares && (
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Ausstehende Aktien</span>
                       <span className="text-theme-primary font-semibold">
-                        {(currentShares / 1e9).toFixed(1)} Mrd.
+                        {(currentShares / 1e9).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd.
                       </span>
                     </div>
                   )}
@@ -718,7 +722,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton {...LEARN_DEFINITIONS.pe_ratio} />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {peTTM != null ? `${peTTM.toFixed(1)}x` : '–'}
+                        {peTTM != null ? `${peTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -727,7 +731,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton term="forward_pe" />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {forwardPE != null ? `${forwardPE.toFixed(1)}x` : '–'}
+                        {forwardPE != null ? `${forwardPE.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                       </span>
                     </div>
                   
@@ -740,7 +744,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <LearnTooltipButton {...LEARN_DEFINITIONS.pb_ratio} />
                       </div>
                       <span className="text-theme-primary font-semibold">
-                        {pbTTM != null ? `${pbTTM.toFixed(1)}x` : '–'}
+                        {pbTTM != null ? `${pbTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -759,7 +763,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">EV/EBIT</span>
                       <span className="text-theme-primary font-semibold">
-                        {evEbit != null ? `${evEbit.toFixed(1)}x` : '–'}
+                        {evEbit != null ? `${evEbit.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                       </span>
                     </div>
                     
@@ -789,7 +793,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton {...LEARN_DEFINITIONS.pe_ratio} />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {peTTM != null ? `${peTTM.toFixed(1)}x` : '–'}
+                          {peTTM != null ? `${peTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
@@ -798,7 +802,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton term="forward_pe" />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {forwardPE != null ? `${forwardPE.toFixed(1)}x` : '–'}
+                          {forwardPE != null ? `${forwardPE.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                         </span>
                       </div>
                       
@@ -809,7 +813,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           <LearnTooltipButton {...LEARN_DEFINITIONS.pb_ratio} />
                         </div>
                         <span className="text-theme-primary font-semibold">
-                          {pbTTM != null ? `${pbTTM.toFixed(1)}x` : '–'}
+                          {pbTTM != null ? `${pbTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
@@ -824,7 +828,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <div className="flex justify-between items-center">
                         <span className="text-theme-secondary text-sm">EV/EBIT</span>
                         <span className="text-theme-primary font-semibold">
-                          {evEbit != null ? `${evEbit.toFixed(1)}x` : '–'}
+                          {evEbit != null ? `${evEbit.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                         </span>
                       </div>
 
@@ -1146,7 +1150,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 yoy > 0 ? 'text-green-400' : 
                 'text-red-400'
               }`}>
-                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
               </td>
             </tr>
           )
@@ -1185,9 +1189,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           return (
             <tr key={e.date}>
               <td className="font-medium">{fy}</td>
-              <td className="text-right">{formatStockPrice(e.estimatedEpsAvg)}</td>
-              <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsLow)}</td>
-              <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsHigh)}</td>
+              <td className="text-right">{formatCurrency(e.estimatedEpsAvg)}</td>
+              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsLow)}</td>
+              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsHigh)}</td>
               <td className="text-right text-theme-secondary">
                 {e.numberAnalystsEstimatedEps || '–'}
               </td>
@@ -1196,7 +1200,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 yoy > 0 ? 'text-green-400' : 
                 'text-red-400'
               }`}>
-                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
               </td>
             </tr>
           )
@@ -1242,7 +1246,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                     <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
                                     <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
                                     <td className={`text-right font-medium ${yoyClass}`}>
-                                      {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                                      {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
                                     </td>
                                   </tr>
                                 )
@@ -1280,11 +1284,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                 return (
                                   <tr key={e.date}>
                                     <td className="font-medium">{fy}</td>
-                                    <td className="text-right">{formatStockPrice(e.estimatedEpsAvg)}</td>
-                                    <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsLow)}</td>
-                                    <td className="text-right text-theme-secondary">{formatStockPrice(e.estimatedEpsHigh)}</td>
+                                    <td className="text-right">{formatCurrency(e.estimatedEpsAvg)}</td>
+                                    <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsLow)}</td>
+                                    <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsHigh)}</td>
                                     <td className={`text-right font-medium ${yoyClass}`}>
-                                      {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toFixed(1)}%`}
+                                      {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
                                     </td>
                                   </tr>
                                 )
@@ -1367,7 +1371,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <span className="text-theme-secondary">Mitarbeiter</span>
                         <span className="text-theme-primary font-medium">
                           {profileData.fullTimeEmployees ? 
-                            `${(Number(profileData.fullTimeEmployees) / 1000).toFixed(0)}k` : '–'}
+                            `${(Number(profileData.fullTimeEmployees) / 1000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}k` : '–'}
                         </span>
                       </div>
                       <div className="flex justify-between">

@@ -703,7 +703,7 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
     margin: d.profitMargin,
     revenue: d.revenue,
     netIncome: d.netIncome,
-    calculation: d.revenue > 0 ? `${d.netIncome} / ${d.revenue} = ${(d.netIncome / d.revenue * 100).toFixed(1)}%` : 'N/A'
+    calculation: d.revenue > 0 ? `${d.netIncome} / ${d.revenue} = ${(d.netIncome / d.revenue * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%` : 'N/A'
   })))
 
   return (
@@ -732,7 +732,7 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
-              tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
+              tickFormatter={(value) => `${(value * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
               width={35}
               domain={['dataMin', 'dataMax']}
             />
@@ -744,7 +744,7 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
                   <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
                     <p className="text-theme-secondary text-xs mb-1">{label}</p>
                     <p className="text-theme-primary text-sm font-medium">
-                      {(value * 100).toFixed(1)}%
+                      {(value * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                     </p>
                   </div>
                 )
@@ -1081,7 +1081,7 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
                    tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
             <YAxis axisLine={false} tickLine={false}
                    tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
-                   tickFormatter={(value) => `${value.toFixed(1)}x`} />
+                   tickFormatter={(value) => `${value.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x`} />
             <RechartsTooltip
               content={({ active, payload, label }) => {
                 if (!active || !payload) return null
@@ -1090,7 +1090,7 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
                     <p className="text-theme-secondary text-xs mb-1">{label}</p>
                     {payload.map((entry, index) => (
                       <p key={index} className="text-sm font-medium" style={{ color: entry.color }}>
-                        {entry.name}: {(entry.value as number).toFixed(1)}x
+                        {entry.name}: {(entry.value as number).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x
                       </p>
                     ))}
                   </div>

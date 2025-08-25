@@ -565,7 +565,11 @@ export async function GET(
     
     console.log(`✅ [API] ${ticker} enhanced dividend analysis served - Years: ${Object.keys(modernDividends).length}, Quarterly: ${quarterly.length}, Health: ${health ? 'Yes' : 'No'}`)
     
-    return NextResponse.json(response)
+    return NextResponse.json(response, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=43200'
+      }
+    })
     
   } catch (error) {
     console.error(`❌ [API] Error in enhanced dividend analysis for ${ticker}:`, error)    

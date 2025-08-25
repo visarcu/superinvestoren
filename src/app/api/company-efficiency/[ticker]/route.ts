@@ -85,6 +85,10 @@ export async function GET(
         keyMetricsYears: keyMetricsData.length,
         hasProfile: !!profileData
       }
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600'
+      }
     })
 
   } catch (error) {

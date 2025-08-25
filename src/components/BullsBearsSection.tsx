@@ -1,7 +1,7 @@
 // src/components/BullsBearsSection.tsx - SUBTLE BLUR ONLY
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { LockClosedIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import Link from 'next/link';
@@ -33,17 +33,12 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!ticker) return;
-    
-    loadBullsBears();
-  }, [ticker]);
-
-  const loadBullsBears = async () => {
+  const loadBullsBears = useCallback(async () => {
     setLoading(true);
     setError(null);
     
     try {
+      console.log(`🔍 [Bulls&Bears] Loading for ${ticker}`);
       const response = await fetch(`/api/bulls-bears/${ticker}`);
       
       if (!response.ok) {
@@ -51,6 +46,7 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
       }
       
       const bullsBearsData = await response.json();
+      console.log(`✅ [Bulls&Bears] Loaded for ${ticker}`);
       setData(bullsBearsData);
       
     } catch (err) {
@@ -79,7 +75,13 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [ticker]);
+
+  useEffect(() => {
+    if (!ticker) return;
+    
+    loadBullsBears();
+  }, [ticker, loadBullsBears]);
 
   // Loading State
   if (loading) {

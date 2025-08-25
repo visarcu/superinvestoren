@@ -81,7 +81,7 @@ const CustomTooltip = ({ active, payload }: any) => {
             {formatCurrency(data.value)}
           </p>
           <p className="text-gray-400">
-            {data.percentage.toFixed(1)}% • {data.count} Position{data.count !== 1 ? 'en' : ''}
+            {formatCurrency(data.percentage, 'number')}% • {data.count} Position{data.count !== 1 ? 'en' : ''}
           </p>
         </div>
       </div>
@@ -216,7 +216,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
                 {formatCurrency(sector.value)}
               </div>
               <div className="text-gray-400 text-sm">
-                {sector.percentage.toFixed(1)}%
+                {formatCurrency(sector.percentage, 'number')}%
               </div>
             </div>
           </div>
@@ -243,7 +243,7 @@ export default function SectorBreakdownChart({ data }: SectorBreakdownProps) {
         </div>
         <div className="text-center">
           <div className="text-white font-semibold text-lg">
-            {chartData[0]?.percentage.toFixed(0)}%
+            {formatCurrency(chartData[0]?.percentage || 0, 'number')}%
           </div>
           <div className="text-gray-500 text-xs uppercase tracking-wide">
             Größter Sektor

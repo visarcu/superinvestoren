@@ -18,18 +18,18 @@ import InvestorAvatar from '@/components/InvestorAvatar'
 import NewsletterSignup from '@/components/NewsletterSignup'
 import SuperinvestorInfo from '@/components/SuperinvestorInfo'
 import Logo from '@/components/Logo'
+import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 
-
-// Helper functions
-function formatCurrency(amount: number, currency: 'USD' | 'EUR' = 'USD', maximumFractionDigits = 0) {
-  return new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency,
-    maximumFractionDigits,
-  }).format(amount)
-}
-
-export default function SuperinvestorOverview() {
+function SuperinvestorOverviewContent() {
+  // Currency formatting
+  const { formatCurrency } = useCurrency()
+  
+  // Helper to convert American formatted strings to German
+  const toGermanFormat = (str: string): string => {
+    // Convert strings like "+12.5%" or "$1,234.56" to German format
+    return str.replace(/([0-9]+)\.([0-9]+)/g, '$1,$2')
+  }
+  
   // 1. STATE HOOKS
   const [isLoading, setIsLoading] = useState(true)
   
@@ -162,7 +162,7 @@ export default function SuperinvestorOverview() {
                     {inv.name.split('–')[0].trim()}
                   </h3>
                   <p className="text-sm text-green-400">
-                    {formatCurrency(inv.portfolioValue, 'USD', 1)}
+                    {formatCurrency(inv.portfolioValue)}
                   </p>
                 </div>
                 <ArrowRightIcon className="w-4 h-4 text-gray-600 group-hover:text-green-400 transition-colors" />
@@ -267,7 +267,7 @@ export default function SuperinvestorOverview() {
                     </div>
                   </div>
                   <div className={`font-medium text-sm ${trade.color}`}>
-                    {trade.change}
+                    {toGermanFormat(trade.change)}
                   </div>
                 </div>
               ))}
@@ -388,5 +388,13 @@ export default function SuperinvestorOverview() {
       </div>
 
     </div>
+  )
+}
+
+export default function SuperinvestorOverview() {
+  return (
+    <CurrencyProvider>
+      <SuperinvestorOverviewContent />
+    </CurrencyProvider>
   )
 }

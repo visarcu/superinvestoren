@@ -16,6 +16,7 @@ import {
 } from '@heroicons/react/24/outline'
 import NewsletterSignup from '@/components/NewsletterSignup'
 import { useHomepagePortfolios } from '@/hooks/useHomepagePortfolios'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 // Portfolio data now loaded via API
 
@@ -82,8 +83,22 @@ const useIntersectionObserver = (threshold = 0.1) => {
 };
 
 export default function ProfessionalHomePage() {
+  // Currency formatting
+  const { formatCurrency } = useCurrency()
   // API Data Hook - replaces heavy client-side processing
   const { data: portfolioData } = useHomepagePortfolios()
+  
+  // Helper to safely convert string/number to number for formatting
+  const toNumber = (value: string | number): number => {
+    if (typeof value === 'number') return value
+    // Parse string like "266 Mrd. $" to number 266000000000
+    const numStr = value.replace(/[^0-9.,-]/g, '').replace(',', '.')
+    const num = parseFloat(numStr)
+    if (value.includes('Mrd') || value.includes('B')) return num * 1000000000
+    if (value.includes('Mio') || value.includes('M')) return num * 1000000
+    if (value.includes('k') || value.includes('K')) return num * 1000
+    return num
+  }
 
   // Animation Refs
   const [statsRef, statsVisible] = useIntersectionObserver(0.3);
@@ -99,14 +114,14 @@ export default function ProfessionalHomePage() {
       investor: 'Warren Buffett',
       date: '29.09.2024',
       filingId: '1067983',
-      totalValue: '266 Mrd. $',
+      totalValue: 266000000000,
       tickers: 'AAPL, BAC, AXP, KO',
       holdings: [
-        { ticker: 'AAPL', value: '69.9B', percentage: '26.0' },
-        { ticker: 'BAC', value: '31.7B', percentage: '12.0' },
-        { ticker: 'AXP', value: '25.1B', percentage: '9.5' },
-        { ticker: 'KO', value: '22.4B', percentage: '8.5' },
-        { ticker: 'CVX', value: '18.6B', percentage: '7.0' }
+        { ticker: 'AAPL', value: 69900000000, percentage: 26.0 },
+        { ticker: 'BAC', value: 31700000000, percentage: 12.0 },
+        { ticker: 'AXP', value: 25100000000, percentage: 9.5 },
+        { ticker: 'KO', value: 22400000000, percentage: 8.5 },
+        { ticker: 'CVX', value: 18600000000, percentage: 7.0 }
       ]
     }
   ]
@@ -244,28 +259,28 @@ export default function ProfessionalHomePage() {
                     <p className="text-gray-400">Apple Inc.</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-semibold text-white">$185.24</div>
-                    <div className="text-sm text-green-400">+2.1%</div>
+                    <div className="text-2xl font-semibold text-white">{formatCurrency(185.24, 'number')} $</div>
+                    <div className="text-sm text-green-400">+{formatCurrency(2.1, 'number')}%</div>
                   </div>
                 </div>
 
                 {/* Key Metrics - Simplified */}
                 <div className="grid grid-cols-2 gap-6 mb-8">
                   <div>
-                    <div className="text-gray-400 text-sm mb-1">Market Cap</div>
-                    <div className="text-white text-xl font-semibold">2.85T $</div>
+                    <div className="text-gray-400 text-sm mb-1">Marktkapitalisierung</div>
+                    <div className="text-white text-xl font-semibold">{formatCurrency(2850000000000)}</div>
                   </div>
                   <div>
-                    <div className="text-gray-400 text-sm mb-1">P/E Ratio</div>
-                    <div className="text-white text-xl font-semibold">28.4</div>
+                    <div className="text-gray-400 text-sm mb-1">KGV</div>
+                    <div className="text-white text-xl font-semibold">{formatCurrency(28.4, 'number')}</div>
                   </div>
                   <div>
-                    <div className="text-gray-400 text-sm mb-1">Revenue</div>
-                    <div className="text-white text-xl font-semibold">394B $</div>
+                    <div className="text-gray-400 text-sm mb-1">Umsatz</div>
+                    <div className="text-white text-xl font-semibold">{formatCurrency(394000000000)}</div>
                   </div>
                   <div>
-                    <div className="text-gray-400 text-sm mb-1">EPS</div>
-                    <div className="text-white text-xl font-semibold">6.16 $</div>
+                    <div className="text-gray-400 text-sm mb-1">Gewinn pro Aktie</div>
+                    <div className="text-white text-xl font-semibold">{formatCurrency(6.16, 'number')} $</div>
                   </div>
                 </div>
 
@@ -323,7 +338,7 @@ export default function ProfessionalHomePage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold text-white">211.9 Mrd. $</div>
+                    <div className="text-xl font-bold text-white">{formatCurrency(211900000000)}</div>
                     <div className="text-xs text-gray-400">FY 2024</div>
                   </div>
                 </div>
@@ -395,13 +410,13 @@ export default function ProfessionalHomePage() {
                   <div className={`text-center transform transition-all duration-500 ${
                     marketChartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                   }`} style={{ transitionDelay: '2000ms' }}>
-                    <div className="text-sm font-bold text-white">88.5 Mrd $</div>
+                    <div className="text-sm font-bold text-white">{formatCurrency(88500000000)}</div>
                     <div className="text-xs text-gray-400">Betriebsergebnis</div>
                   </div>
                   <div className={`text-center transform transition-all duration-500 ${
                     marketChartVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                   }`} style={{ transitionDelay: '2100ms' }}>
-                    <div className="text-sm font-bold text-white">42.2%</div>
+                    <div className="text-sm font-bold text-white">{formatCurrency(42.2, 'number')}%</div>
                     <div className="text-xs text-gray-400">Bruttomarge</div>
                   </div>
                   <div className={`text-center transform transition-all duration-500 ${
@@ -616,11 +631,11 @@ Analysiere die besten Unternehmen der Welt</p>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">BAC Verkäufe:</span>
-                          <span className="text-white">3.8 Mrd. $ verkauft</span>
+                          <span className="text-white">{formatCurrency(3800000000)} verkauft</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">Cash Position:</span>
-                          <span className="text-green-400">325 Mrd. $ (+18%)</span>
+                          <span className="text-green-400">{formatCurrency(325000000000)} (+{formatCurrency(18, 'number')}%)</span>
                         </div>
                       </div>
                     </div>
@@ -716,10 +731,10 @@ Analysiere die besten Unternehmen der Welt</p>
                 {/* Portfolio Table */}
                 <div className="space-y-3">
                   {[
-                    { fund: 'Berkshire Hathaway', manager: 'W. Buffett', aum: '258 Mrd. $', change: '-12.8%', top: 'AAPL 26%' },
-                    { fund: 'Pershing Square', manager: 'B. Ackman', aum: '18.2 Mrd. $', change: '+24.1%', top: 'UMG 28%' },
-                    { fund: 'Baupost Group', manager: 'S. Klarman', aum: '27.4 Mrd. $', change: '+8.7%', top: 'META 12%' },
-                    { fund: 'Appaloosa', manager: 'D. Tepper', aum: '13.1 Mrd. $', change: '-3.2%', top: 'GOOGL 18%' }
+                    { fund: 'Berkshire Hathaway', manager: 'W. Buffett', aum: 258000000000, change: -12.8, top: 'AAPL', topPercent: 26 },
+                    { fund: 'Pershing Square', manager: 'B. Ackman', aum: 18200000000, change: 24.1, top: 'UMG', topPercent: 28 },
+                    { fund: 'Baupost Group', manager: 'S. Klarman', aum: 27400000000, change: 8.7, top: 'META', topPercent: 12 },
+                    { fund: 'Appaloosa', manager: 'D. Tepper', aum: 13100000000, change: -3.2, top: 'GOOGL', topPercent: 18 }
                   ].map((fund, index) => (
                     <div 
                       key={fund.fund} 
@@ -735,17 +750,17 @@ Analysiere die besten Unternehmen der Welt</p>
                         <div className="text-xs text-gray-400">{fund.manager}</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-medium text-white text-xs">{fund.aum}</div>
+                        <div className="font-medium text-white text-xs">{formatCurrency(fund.aum)}</div>
                         <div className="text-xs text-gray-400">AUM</div>
                       </div>
                       <div className="text-right">
                         <div className={`font-medium text-xs ${
-                          fund.change.startsWith('+') ? 'text-green-400' : 'text-red-400'
-                        }`}>{fund.change}</div>
+                          fund.change > 0 ? 'text-green-400' : 'text-red-400'
+                        }`}>{fund.change > 0 ? '+' : ''}{formatCurrency(fund.change, 'number')}%</div>
                         <div className="text-xs text-gray-400">Q/Q</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-medium text-white text-xs">{fund.top}</div>
+                        <div className="font-medium text-white text-xs">{fund.top} {formatCurrency(fund.topPercent, 'number')}%</div>
                         <div className="text-xs text-gray-400">Top</div>
                       </div>
                       <div className="flex justify-end">
@@ -761,7 +776,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 }`} style={{ transitionDelay: '800ms' }}>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-400">Gesamtes verwaltetes Vermögen</span>
-                    <span className="text-white font-medium">316.7 Mrd. $</span>
+                    <span className="text-white font-medium">{formatCurrency(316700000000)}</span>
                   </div>
                 </div>
               </div>
@@ -832,7 +847,7 @@ Analysiere die besten Unternehmen der Welt</p>
                   {/* Portfolio Value */}
                   <div className="mb-4">
                     <div className="text-sm text-gray-400 mb-1">Portfolio Wert</div>
-                    <div className="text-2xl font-bold text-white">{investor.totalValue}</div>
+                    <div className="text-2xl font-bold text-white">{formatCurrency(toNumber(investor.totalValue))}</div>
                   </div>
 
                   {/* Top Holdings */}
@@ -842,7 +857,7 @@ Analysiere die besten Unternehmen der Welt</p>
                       {investor.holdings.slice(0, 3).map((holding) => (
                         <div key={holding.ticker} className="flex items-center justify-between">
                           <span className="text-sm font-medium text-gray-300">{holding.ticker}</span>
-                          <span className="text-sm text-gray-400">{holding.percentage}%</span>
+                          <span className="text-sm text-gray-400">{formatCurrency(toNumber(holding.percentage), 'number')}%</span>
                         </div>
                       ))}
                     </div>
@@ -974,7 +989,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm text-gray-400">
                     <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
-                    <span>2.000+ ETFs verfügbar</span>
+                    <span>{formatCurrency(2000, 'number')}+ ETFs verfügbar</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
                     <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />

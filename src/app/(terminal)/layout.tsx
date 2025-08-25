@@ -37,8 +37,9 @@ import {
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
 import { useTheme } from '@/lib/useTheme'
-import { CurrencyProvider } from '@/lib/CurrencyContext'
+import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
+import { useExchangeRate } from '@/hooks/useExchangeRate'
 import CurrencySelector from '@/components/CurrencySelector'
 import LearnSidebar from '@/components/LearnSidebar'
 import NotificationCenter from '@/components/NotificationCenter'
@@ -361,30 +362,8 @@ interface LayoutProps {
   children: ReactNode
 }
 
-// ===== UTILITY FUNCTIONS =====
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(price)
-}
-
-const formatPercentage = (percentage: number): string => {
-  return `${percentage >= 0 ? '+' : ''}${percentage.toFixed(2)}%`
-}
-
-const formatMarketCap = (marketCap: number): string => {
-  if (marketCap >= 1e12) {
-    return `$${(marketCap / 1e12).toFixed(2)}T`
-  } else if (marketCap >= 1e9) {
-    return `$${(marketCap / 1e9).toFixed(2)}B`
-  } else if (marketCap >= 1e6) {
-    return `$${(marketCap / 1e6).toFixed(2)}M`
-  }
-  return `$${marketCap.toLocaleString()}`
-}
+// Diese Funktionen werden jetzt durch CurrencyContext ersetzt
+// Siehe formatPrice, formatPercentage, formatMarketCap unten in der LayoutContent Komponente
 
 // KATEGORISIERTE NAVIGATION - MEMOIZED
 const CategorizedNavigation = React.memo(({ user, pathname }: { user: User, pathname: string }) => {
@@ -675,6 +654,17 @@ function LayoutContent({ children }: LayoutProps) {
   const [currentTime, setCurrentTime] = useState(new Date())
   
   const { theme, toggleTheme, allowsThemeToggle } = useTheme()
+  const { formatStockPrice, formatPercentage, formatMarketCap } = useCurrency()
+  const { formatPriceWithExchangeInfo } = useExchangeRate('USD', 'EUR')
+
+  // ===== UTILITY FUNCTIONS - Mit CurrencyContext =====
+  const formatPrice = (price: number): string => {
+    return formatStockPrice(price) // Deutsche Formatierung mit Komma: z.B. 0,49 $
+  }
+
+  const formatPercentageWithSign = (percentage: number): string => {
+    return formatPercentage(percentage, true) // showSign = true für +/- Vorzeichen
+  }
 
   // MEMOIZED STOCK PAGE CALCULATION
   const { isStockPage, currentTicker } = useMemo(() => {
@@ -1085,6 +1075,14 @@ function LayoutContent({ children }: LayoutProps) {
                         <div className="text-xl font-bold text-theme-primary">
                           {formatPrice(quote.price)}
                         </div>
+                        {(() => {
+                          const { equivalent } = formatPriceWithExchangeInfo(quote.price)
+                          return equivalent ? (
+                            <div className="text-xs text-theme-muted mt-1">
+                              {equivalent}
+                            </div>
+                          ) : null
+                        })()}
                       </div>
                       
                       {/* Divider */}
@@ -1100,7 +1098,7 @@ function LayoutContent({ children }: LayoutProps) {
                         <div>
                           <div className="text-xs text-theme-muted uppercase tracking-wide">Heute</div>
                           <div className={`text-xl font-bold ${quote.changesPercentage >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {formatPercentage(quote.changesPercentage)}
+                            {formatPercentageWithSign(quote.changesPercentage)}
                           </div>
                         </div>
                       </div>

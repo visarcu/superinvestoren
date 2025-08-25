@@ -21,6 +21,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 // Interfaces
 interface InsiderTransaction {
@@ -239,6 +240,9 @@ export default function InsiderTradingPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 50
 
+  // Currency Context für deutsche Formatierung
+  const { formatCurrency, formatStockPrice } = useCurrency()
+
   // User laden
   useEffect(() => {
     async function loadUser() {
@@ -411,13 +415,12 @@ export default function InsiderTradingPage() {
   const endIndex = startIndex + itemsPerPage
   const currentTransactions = filteredTransactions.slice(startIndex, endIndex)
 
-  // Formatierungshilfen
-  const formatCurrency = (amount: number) => {
-    if (amount >= 1e9) return `$${(amount / 1e9).toFixed(1)}B`
-    if (amount >= 1e6) return `$${(amount / 1e6).toFixed(1)}M`
-    if (amount >= 1e3) return `$${(amount / 1e3).toFixed(0)}K`
-    return `$${amount.toFixed(0)}`
+  // Formatierungshilfen - jetzt mit deutscher Formatierung
+  const formatCurrencyValue = (amount: number) => {
+    return formatCurrency(amount) // Verwendet CurrencyContext mit deutscher Formatierung
   }
+
+  // Remove old formatCurrency function - it conflicts with the imported one
 
   const formatNumber = (num: number) => {
     return num.toLocaleString('de-DE')
@@ -703,10 +706,10 @@ export default function InsiderTradingPage() {
                       {formatNumber(transaction.securitiesTransacted || 0)}
                     </td>
                     <td className="py-3 px-4 text-sm text-theme-primary text-right font-mono">
-                      {transaction.price ? `$${transaction.price.toFixed(2)}` : '–'}
+                      {transaction.price ? formatStockPrice(transaction.price) : '–'}
                     </td>
                     <td className="py-3 px-4 text-sm text-theme-primary text-right font-mono">
-                      {formatCurrency(transactionValue)}
+                      {formatCurrencyValue(transactionValue)}
                     </td>
                     <td className="py-3 px-4 text-center">
                       {transaction.link ? (

@@ -41,6 +41,10 @@ export async function GET(
       bears: bullsBears.bears,
       lastUpdated: new Date().toISOString(),
       source: 'openai_generated'
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=604800, stale-while-revalidate=86400' // 7 days cache
+      }
     });
 
   } catch (error) {

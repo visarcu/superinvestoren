@@ -280,6 +280,10 @@ export async function GET(
         balance: filteredBsData, 
         cashflow: filteredCfData
       }
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=43200, stale-while-revalidate=21600'
+      }
     })
 
   } catch (error) {

@@ -214,7 +214,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
             <h3 className="text-sm font-medium text-gray-400">Diversifikation</h3>
           </div>
           <p className="text-2xl font-bold text-white mb-2">
-            {diversificationScore.toFixed(1)}%
+            {formatCurrency(diversificationScore, 'number')}%
           </p>
           <p className="text-xs text-gray-500">
             {diversificationScore > 80 ? 'Sehr diversifiziert' : 
@@ -249,7 +249,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
             {topSectors[0]?.sector || 'N/A'}
           </p>
           <p className="text-sm text-green-400">
-            {topSectors[0]?.percentage.toFixed(1)}% des Portfolios
+            {formatCurrency(topSectors[0]?.percentage || 0, 'number')}% des Portfolios
           </p>
         </div>
       </div>
@@ -290,7 +290,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
                     borderRadius: '8px',
                     color: '#F9FAFB'
                   }}
-                  formatter={(value: any) => [`${value.toFixed(1)}%`, 'Anteil']}
+                  formatter={(value: any) => [`${formatCurrency(value, 'number')}%`, 'Anteil']}
                 />
                 {topSectors.slice(0, 4).map((sector, index) => (
                   <Line
@@ -329,7 +329,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
                     }`}></div>
                     <div>
                       <p className="text-white font-medium">{shift.sector}</p>
-                      <p className="text-gray-400 text-sm">{shift.currentPercent.toFixed(1)}% aktuell</p>
+                      <p className="text-gray-400 text-sm">{formatCurrency(shift.currentPercent, 'number')}% aktuell</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -342,7 +342,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
                         <ArrowTrendingDownIcon className="w-4 h-4" />
                       )}
                       <span className="font-semibold">
-                        {shift.change.toFixed(1)}%
+                        {formatCurrency(shift.change, 'number')}%
                       </span>
                     </div>
                   </div>
@@ -395,7 +395,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
                   </td>
                   <td className="p-4 text-right">
                     <span className="text-gray-300 font-mono">
-                      {sector.percentage.toFixed(1)}%
+                      {formatCurrency(sector.percentage, 'number')}%
                     </span>
                   </td>
                   <td className="p-4 text-right">
