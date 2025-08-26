@@ -44,7 +44,7 @@ interface EfficiencyData {
   dataQuality: 'excellent' | 'good' | 'fair' | 'limited'
 }
 
-export default function CompanyEfficiencyMetrics({ ticker, isPremium = false }: CompanyEfficiencyMetricsProps) {
+const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ticker, isPremium = false }) => {
   const [data, setData] = useState<EfficiencyData | null>(null)
   const [loading, setLoading] = useState(true)
   const [selectedMetric, setSelectedMetric] = useState<'roa' | 'roe' | 'margins'>('roa')
@@ -360,4 +360,8 @@ export default function CompanyEfficiencyMetrics({ ticker, isPremium = false }: 
       </div>
     </div>
   )
-}
+});
+
+CompanyEfficiencyMetrics.displayName = 'CompanyEfficiencyMetrics';
+
+export default CompanyEfficiencyMetrics;

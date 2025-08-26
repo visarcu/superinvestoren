@@ -1,7 +1,7 @@
 // src/components/AnalysisClient.tsx - VOLLSTÄNDIG SICHER
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { stocks } from '../data/stocks'
 import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
@@ -13,6 +13,7 @@ import { irLinks } from '../data/irLinks'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import WorkingStockChart from '@/components/WorkingStockChart'
 import { LearnTooltipButton } from '@/components/LearnSidebar'
+import LazyWrapper from '@/components/LazyWrapper'
 import { LEARN_DEFINITIONS } from '@/data/learnDefinitions'
 import { useLearnMode } from '@/lib/LearnModeContext'
 import { useCurrency } from '@/lib/CurrencyContext'
@@ -240,8 +241,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     // ✅ FCF Yield State
     const [fcfYield, setFcfYield] = useState<number | null>(null)
 
-  // ✅ SICHERE FUNKTION: Vergleichsaktien laden für Chart
-  const handleAddComparison = async (comparisonTicker: string): Promise<StockData[]> => {
+  // ✅ MEMOIZED: Vergleichsaktien laden für Chart
+  const handleAddComparison = useCallback(async (comparisonTicker: string): Promise<StockData[]> => {
     try {
       console.log('🔍 Loading comparison stock:', comparisonTicker)
       
@@ -270,7 +271,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       console.error('❌ Error loading comparison data:', error)
       return []
     }
-  }
+  }, [])
 
   // Removed duplicate - using global definition above
 
@@ -305,31 +306,50 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     loadUser()
   }, [])
 
-  // Forward P/E Berechnung
-  useEffect(() => {
-    if (livePrice && estimates.length > 0) {
-      const currentYear = new Date().getFullYear()
-      const nextYear = currentYear + 1
-      
-      const nextYearEstimate = estimates.find(e => 
-        parseInt(e.date.slice(0, 4), 10) === nextYear
-      )
-      
-      if (nextYearEstimate && nextYearEstimate.estimatedEpsAvg > 0) {
-        const forwardPEValue = livePrice / nextYearEstimate.estimatedEpsAvg
-        setForwardPE(forwardPEValue)
-      } else {
-        const currentYearEstimate = estimates.find(e => 
-          parseInt(e.date.slice(0, 4), 10) === currentYear
-        )
-        
-        if (currentYearEstimate && currentYearEstimate.estimatedEpsAvg > 0) {
-          const forwardPEValue = livePrice / currentYearEstimate.estimatedEpsAvg
-          setForwardPE(forwardPEValue)
-        }
-      }
+  // Forward P/E Berechnung - MEMOIZED
+  const forwardPECalculated = useMemo(() => {
+    if (!livePrice || estimates.length === 0) return null;
+    
+    const currentYear = new Date().getFullYear()
+    const nextYear = currentYear + 1
+    
+    const nextYearEstimate = estimates.find(e => 
+      parseInt(e.date.slice(0, 4), 10) === nextYear
+    )
+    
+    if (nextYearEstimate && nextYearEstimate.estimatedEpsAvg > 0) {
+      return livePrice / nextYearEstimate.estimatedEpsAvg
     }
+    
+    const currentYearEstimate = estimates.find(e => 
+      parseInt(e.date.slice(0, 4), 10) === currentYear
+    )
+    
+    if (currentYearEstimate && currentYearEstimate.estimatedEpsAvg > 0) {
+      return livePrice / currentYearEstimate.estimatedEpsAvg
+    }
+    
+    return null;
   }, [livePrice, estimates])
+
+  // Update state when calculation changes
+  useEffect(() => {
+    setForwardPE(forwardPECalculated);
+  }, [forwardPECalculated])
+
+  // Memoized payout safety styling calculations
+  const payoutSafetyStyles = useMemo(() => {
+    if (!enhancedDividendData?.payoutSafety) return null;
+    
+    const colorMap = {
+      green: { bg: 'bg-green-400 animate-pulse', text: 'text-green-400' },
+      yellow: { bg: 'bg-yellow-400 animate-pulse', text: 'text-yellow-400' },
+      red: { bg: 'bg-red-400 animate-pulse', text: 'text-red-400' },
+      gray: { bg: 'bg-gray-400', text: 'text-gray-400' }
+    };
+    
+    return colorMap[enhancedDividendData.payoutSafety.color as keyof typeof colorMap] || colorMap.gray;
+  }, [enhancedDividendData?.payoutSafety?.color])
 
   // ✅ OPTIMIZED: Single combined API call instead of 13 separate calls
   useEffect(() => {
@@ -671,23 +691,12 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     </span>
                   </div>
                   
-                  {enhancedDividendData?.payoutSafety && (
+                  {enhancedDividendData?.payoutSafety && payoutSafetyStyles && (
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Einschätzung</span>
                       <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full ${
-                          enhancedDividendData.payoutSafety.color === 'green' ? 'bg-green-400 animate-pulse' :
-                          enhancedDividendData.payoutSafety.color === 'yellow' ? 'bg-yellow-400 animate-pulse' :
-                          enhancedDividendData.payoutSafety.color === 'red' ? 'bg-red-400 animate-pulse' :
-                          'bg-gray-400'
-                        }`} />
-                        
-                        <span className={`text-xs font-medium ${
-                          enhancedDividendData.payoutSafety.color === 'green' ? 'text-green-400' :
-                          enhancedDividendData.payoutSafety.color === 'yellow' ? 'text-yellow-400' :
-                          enhancedDividendData.payoutSafety.color === 'red' ? 'text-red-400' :
-                          'text-gray-400'
-                        }`}>
+                        <div className={`w-2 h-2 rounded-full ${payoutSafetyStyles.bg}`} />
+                        <span className={`text-xs font-medium ${payoutSafetyStyles.text}`}>
                           {enhancedDividendData.payoutSafety.text}
                         </span>
                       </div>
@@ -930,17 +939,56 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         
         {/* LINKE SPALTE: BULLS/BEARS + GROWTH */}
         <div className="lg:col-span-1 space-y-6">
-          {/* BULLS/BEARS SEKTION */}
-          <BullsBearsSection 
-            ticker={ticker}
-            isPremium={user?.isPremium || false}
-          />
+          {/* BULLS/BEARS SEKTION - LAZY LOADED */}
+          <LazyWrapper 
+            minHeight="400px" 
+            rootMargin="300px"
+            className="bg-theme-card rounded-lg"
+            fallback={
+              <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '400px' }}>
+                <div className="text-center">
+                  <div className="animate-pulse flex space-x-4">
+                    <div className="flex-1 space-y-3 py-1">
+                      <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
+                      <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
+                    </div>
+                  </div>
+                  <p className="text-theme-muted text-sm mt-4">Lade Bulls & Bears Analyse...</p>
+                </div>
+              </div>
+            }
+          >
+            <BullsBearsSection 
+              ticker={ticker}
+              isPremium={user?.isPremium || false}
+            />
+          </LazyWrapper>
           
-          {/* GROWTH SEKTION - NEU */}
-          <GrowthSection 
-            ticker={ticker}
-            isPremium={user?.isPremium || false}
-          />
+          {/* GROWTH SEKTION - LAZY LOADED */}
+          <LazyWrapper 
+            minHeight="300px" 
+            rootMargin="250px"
+            className="bg-theme-card rounded-lg"
+            fallback={
+              <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '300px' }}>
+                <div className="text-center">
+                  <div className="animate-pulse flex space-x-4">
+                    <div className="flex-1 space-y-3 py-1">
+                      <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
+                      <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
+                      <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
+                    </div>
+                  </div>
+                  <p className="text-theme-muted text-sm mt-4">Lade Wachstums-Analyse...</p>
+                </div>
+              </div>
+            }
+          >
+            <GrowthSection 
+              ticker={ticker}
+              isPremium={user?.isPremium || false}
+            />
+          </LazyWrapper>
         </div>
 
         {/* ✅ HISTORISCHER KURSVERLAUF - ULTRA CLEAN */}
@@ -1407,19 +1455,53 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               </div>
             </div>
 
-            {/* ✨ Company Efficiency Metrics - PROFESSIONELLE ALTERNATIVE */}
-            <CompanyEfficiencyMetrics 
-              ticker={ticker} 
-              isPremium={user?.isPremium || false} 
-            />
+            {/* ✨ Company Efficiency Metrics - LAZY LOADED */}
+            <LazyWrapper 
+              minHeight="250px" 
+              rootMargin="200px"
+              fallback={
+                <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '250px' }}>
+                  <div className="text-center">
+                    <div className="animate-pulse space-y-3">
+                      <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
+                      <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
+                      <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
+                    </div>
+                    <p className="text-theme-muted text-sm mt-4">Lade Effizienz-Kennzahlen...</p>
+                  </div>
+                </div>
+              }
+            >
+              <CompanyEfficiencyMetrics 
+                ticker={ticker} 
+                isPremium={user?.isPremium || false} 
+              />
+            </LazyWrapper>
             
           </div>
 
-          {/* ✅ OWNERSHIP STRUCTURE - RECHTE SPALTE */}
-          <OwnershipSection 
-            ticker={ticker} 
-            isPremium={user?.isPremium || false} 
-          />
+          {/* ✅ OWNERSHIP STRUCTURE - LAZY LOADED */}
+          <LazyWrapper 
+            minHeight="350px" 
+            rootMargin="200px"
+            fallback={
+              <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '350px' }}>
+                <div className="text-center">
+                  <div className="animate-pulse space-y-3">
+                    <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
+                    <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
+                    <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
+                  </div>
+                  <p className="text-theme-muted text-sm mt-4">Lade Eigentümerstruktur...</p>
+                </div>
+              </div>
+            }
+          >
+            <OwnershipSection 
+              ticker={ticker} 
+              isPremium={user?.isPremium || false} 
+            />
+          </LazyWrapper>
         </div>
       )}
     </div>

@@ -356,7 +356,9 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
     async function loadFinancials() {
       setLoading(true)
       try {
-        const response = await fetch(`/api/financials/${ticker}?period=${period}&limit=${yearsToShow}`)
+        // ✅ FIX: Für Quartale mehr Datenpunkte laden (Jahre × 4)
+        const limit = period === 'quarterly' ? yearsToShow * 4 : yearsToShow
+        const response = await fetch(`/api/financials/${ticker}?period=${period}&limit=${limit}`)
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         
         const data = await response.json()

@@ -304,7 +304,7 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
         id: 'ai',
         label: 'FinClue AI',
         icon: SparklesIcon,
-        href: '/analyse/ai',
+        href: '/analyse/finclue-ai',
         premium: true
       }
     ]
@@ -336,7 +336,14 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
 ]
 
 // Stock Analysis Tabs
-const STOCK_TABS = [
+interface StockTab {
+  id: string
+  label: string
+  href: string
+  premium?: boolean
+}
+
+const STOCK_TABS: StockTab[] = [
   { id: 'overview', label: 'Überblick', href: '' },
   { id: 'financials', label: 'Finanzen', href: '/financials' },
   { id: 'ratings', label: 'Rating', href: '/ratings' }, // NEU!
@@ -347,9 +354,7 @@ const STOCK_TABS = [
   { id: 'valuation', label: 'Bewertung', href: '/valuation' },
   { id: 'dividends', label: 'Dividende', href: '/dividends' },
   { id: 'insider', label: 'Insider Trading', href: '/insider' },
-  { id: 'news', label: 'News', href: '/news' },
-
-  { id: 'ai-chat', label: 'Finclue AI', href: '/ai-chat', premium: true }
+  { id: 'news', label: 'News', href: '/news' }
 ]
 
 interface User {
@@ -456,32 +461,59 @@ const CommandPalette = React.memo(({
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // MEMOIZED COMMANDS
-  const commands: CommandPaletteItem[] = useMemo(() => [
-    { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
-    { id: 'nav-watchlist', title: 'Watchlist', subtitle: 'Gespeicherte Aktien', icon: BookmarkIcon, href: '/analyse/watchlist', category: 'navigation' },
-    { id: 'nav-notifications', title: 'Benachrichtigungen', subtitle: 'E-Mail Einstellungen', icon: BellIcon, href: '/notifications', category: 'settings' },
-    { id: 'nav-dcf', title: 'DCF Calculator', subtitle: 'Aktien bewerten', icon: CalculatorIcon, href: '/analyse/dcf', category: 'navigation' },
-    { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
-    { id: 'nav-heatmap', title: 'Heatmap', subtitle: 'Visuelle Marktansicht', icon: MapIcon, href: '/analyse/heatmap', category: 'navigation' },
-    { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },
-    { id: 'nav-ai', title: 'FinClue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/ai', category: 'navigation' },
-    { id: 'nav-lists', title: 'Aktien Listen', subtitle: 'Kuratierte Listen', icon: ListBulletIcon, href: '/analyse/lists', category: 'navigation' },
-    { id: 'nav-profile', title: 'Profil', subtitle: 'Account verwalten', icon: UserCircleIcon, href: '/profile', category: 'settings' },
-    { id: 'nav-settings', title: 'Einstellungen', subtitle: 'Konfiguration', icon: Cog6ToothIcon, href: '/settings', category: 'settings' },
+  // MEMOIZED COMMANDS mit Stock Search
+  const commands: CommandPaletteItem[] = useMemo(() => {
+    const baseCommands = [
+      { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
+      { id: 'nav-watchlist', title: 'Watchlist', subtitle: 'Gespeicherte Aktien', icon: BookmarkIcon, href: '/analyse/watchlist', category: 'navigation' },
+      { id: 'nav-notifications', title: 'Benachrichtigungen', subtitle: 'E-Mail Einstellungen', icon: BellIcon, href: '/notifications', category: 'settings' },
+      { id: 'nav-dcf', title: 'DCF Calculator', subtitle: 'Aktien bewerten', icon: CalculatorIcon, href: '/analyse/dcf', category: 'navigation' },
+      { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
+      { id: 'nav-heatmap', title: 'Heatmap', subtitle: 'Visuelle Marktansicht', icon: MapIcon, href: '/analyse/heatmap', category: 'navigation' },
+      { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },
+      { id: 'nav-ai', title: 'FinClue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/finclue-ai', category: 'navigation' },
+      { id: 'nav-lists', title: 'Aktien Listen', subtitle: 'Kuratierte Listen', icon: ListBulletIcon, href: '/analyse/lists', category: 'navigation' },
+      { id: 'nav-profile', title: 'Profil', subtitle: 'Account verwalten', icon: UserCircleIcon, href: '/profile', category: 'settings' },
+      { id: 'nav-settings', title: 'Einstellungen', subtitle: 'Konfiguration', icon: Cog6ToothIcon, href: '/settings', category: 'settings' },
+      
+      { id: 'action-upgrade', title: 'Premium upgraden', subtitle: 'Alle Features freischalten', icon: SparklesIcon, href: '/pricing', category: 'actions' },
+      { id: 'action-support', title: 'Support kontaktieren', subtitle: 'Hilfe erhalten', icon: EnvelopeIcon, action: () => window.location.href = 'mailto:team@finclue.de', category: 'actions' },
+    ] as CommandPaletteItem[]
     
-    { id: 'action-upgrade', title: 'Premium upgraden', subtitle: 'Alle Features freischalten', icon: SparklesIcon, href: '/pricing', category: 'actions' },
-    { id: 'action-support', title: 'Support kontaktieren', subtitle: 'Hilfe erhalten', icon: EnvelopeIcon, action: () => window.location.href = 'mailto:team@finclue.de', category: 'actions' },
+    // Add theme toggle if available
+    if (allowsThemeToggle) {
+      baseCommands.push({
+        id: 'action-theme', 
+        title: `${theme === 'dark' ? 'Helles' : 'Dunkles'} Design`, 
+        subtitle: 'Theme umschalten', 
+        icon: theme === 'dark' ? SunIcon : MoonIcon, 
+        action: toggleTheme, 
+        category: 'actions'
+      })
+    }
     
-    ...(allowsThemeToggle ? [{ 
-      id: 'action-theme', 
-      title: `${theme === 'dark' ? 'Helles' : 'Dunkles'} Design`, 
-      subtitle: 'Theme umschalten', 
-      icon: theme === 'dark' ? SunIcon : MoonIcon, 
-      action: toggleTheme, 
-      category: 'actions' as const
-    }] : []),
-  ], [theme, toggleTheme, allowsThemeToggle])
+    // Add stock search results
+    const searchTerm = query.toUpperCase()
+    if (searchTerm.length > 0) {
+      const matchingStocks = stocks.filter(stock => 
+        stock.ticker.includes(searchTerm) || 
+        stock.name.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 8) // Limit to 8 results
+      
+      const stockCommands = matchingStocks.map(stock => ({
+        id: `stock-${stock.ticker}`,
+        title: `${stock.ticker} - ${stock.name}`,
+        subtitle: `${stock.sector} • Aktienanalyse öffnen`,
+        icon: ChartBarIcon,
+        href: `/analyse/stocks/${stock.ticker.toLowerCase()}`,
+        category: 'navigation' as const
+      }))
+      
+      return [...stockCommands, ...baseCommands]
+    }
+    
+    return baseCommands
+  }, [theme, toggleTheme, allowsThemeToggle, query])
 
   // MEMOIZED FILTERED COMMANDS
   const filteredCommands = useMemo(() => 
@@ -491,12 +523,15 @@ const CommandPalette = React.memo(({
     ), [commands, query]
   )
 
-  // MEMOIZED GROUPED COMMANDS
-  const groupedCommands = useMemo(() => ({
-    navigation: filteredCommands.filter(cmd => cmd.category === 'navigation'),
-    actions: filteredCommands.filter(cmd => cmd.category === 'actions'),
-    settings: filteredCommands.filter(cmd => cmd.category === 'settings'),
-  }), [filteredCommands])
+  // MEMOIZED GROUPED COMMANDS with stocks
+  const groupedCommands = useMemo(() => {
+    const stocks = filteredCommands.filter(cmd => cmd.id.startsWith('stock-'))
+    const navigation = filteredCommands.filter(cmd => cmd.category === 'navigation' && !cmd.id.startsWith('stock-'))
+    const actions = filteredCommands.filter(cmd => cmd.category === 'actions')
+    const settings = filteredCommands.filter(cmd => cmd.category === 'settings')
+    
+    return { stocks, navigation, actions, settings }
+  }, [filteredCommands])
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -525,7 +560,7 @@ const CommandPalette = React.memo(({
             <input
               ref={inputRef}
               type="text"
-              placeholder="Suche nach Aktien, Commands..."
+              placeholder="Nach Aktien suchen oder AI-Frage stellen..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="w-full pl-10 pr-10 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20 text-sm"
@@ -540,10 +575,40 @@ const CommandPalette = React.memo(({
         </div>
 
         <div className="max-h-72 overflow-y-auto">
+          {/* AI Quick Action - Immer oben wenn Query vorhanden */}
+          {query.length > 3 && (
+            <div className="p-1.5 border-b border-theme">
+              <div className="px-2 py-1 text-xs text-theme-muted font-medium uppercase tracking-wide">
+                AI ASSISTENT
+              </div>
+              <button
+                onClick={() => handleSelect({ 
+                  id: 'ai-query', 
+                  title: `"${query}" mit FinClue AI analysieren`, 
+                  subtitle: 'Premium Feature', 
+                  icon: SparklesIcon, 
+                  href: `/analyse/finclue-ai?query=${encodeURIComponent(query)}`, 
+                  category: 'actions' 
+                })}
+                className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-green-500/10 transition-all text-left group"
+              >
+                <div className="w-6 h-6 bg-green-500/20 rounded-md flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
+                  <SparklesIcon className="w-3 h-3 text-green-400 group-hover:text-green-300 transition-colors" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-theme-primary text-sm font-medium">"{query}" mit AI analysieren</div>
+                  <div className="text-green-400 text-xs">Premium Feature</div>
+                </div>
+                <ChevronRightIcon className="w-3 h-3 text-theme-muted group-hover:text-green-400 transition-colors" />
+              </button>
+            </div>
+          )}
+          
           {Object.entries(groupedCommands).map(([category, commands]) => {
             if (commands.length === 0) return null
             
             const categoryLabels = {
+              stocks: 'Aktien',
               navigation: 'Navigation',
               actions: 'Aktionen',
               settings: 'Einstellungen'
@@ -556,22 +621,39 @@ const CommandPalette = React.memo(({
                 </div>
                 {commands.map((command) => {
                   const Icon = command.icon
+                  const isStock = command.id.startsWith('stock-')
                   return (
                     <button
                       key={command.id}
                       onClick={() => handleSelect(command)}
-                      className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-theme-secondary transition-all text-left group"
+                      className={`w-full flex items-center gap-2 px-2 py-2 rounded-md transition-all text-left group ${
+                        isStock 
+                          ? 'hover:bg-green-500/10 hover:border-green-500/20' 
+                          : 'hover:bg-theme-secondary'
+                      }`}
                     >
-                      <div className="w-6 h-6 bg-theme-secondary rounded-md flex items-center justify-center group-hover:bg-theme-tertiary transition-colors">
-                        <Icon className="w-3 h-3 text-theme-muted group-hover:text-green-400 transition-colors" />
+                      <div className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${
+                        isStock
+                          ? 'bg-green-500/20 group-hover:bg-green-500/30'
+                          : 'bg-theme-secondary group-hover:bg-theme-tertiary'
+                      }`}>
+                        <Icon className={`w-3 h-3 transition-colors ${
+                          isStock
+                            ? 'text-green-400 group-hover:text-green-300'
+                            : 'text-theme-muted group-hover:text-green-400'
+                        }`} />
                       </div>
                       <div className="flex-1">
                         <div className="text-theme-primary text-sm font-medium">{command.title}</div>
                         {command.subtitle && (
-                          <div className="text-theme-muted text-xs">{command.subtitle}</div>
+                          <div className={`text-xs ${isStock ? 'text-green-400/80' : 'text-theme-muted'}`}>{command.subtitle}</div>
                         )}
                       </div>
-                      <ChevronRightIcon className="w-3 h-3 text-theme-muted group-hover:text-theme-secondary transition-colors" />
+                      <ChevronRightIcon className={`w-3 h-3 transition-colors ${
+                        isStock 
+                          ? 'text-theme-muted group-hover:text-green-400' 
+                          : 'text-theme-muted group-hover:text-theme-secondary'
+                      }`} />
                     </button>
                   )
                 })}
@@ -579,7 +661,7 @@ const CommandPalette = React.memo(({
             )
           })}
           
-          {filteredCommands.length === 0 && (
+          {filteredCommands.length === 0 && query.length <= 3 && (
             <div className="p-6 text-center text-theme-muted">
               <MagnifyingGlassIcon className="w-6 h-6 mx-auto mb-2 opacity-50" />
               <p className="text-sm">Keine Ergebnisse für "{query}"</p>
@@ -952,69 +1034,65 @@ function LayoutContent({ children }: LayoutProps) {
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col bg-theme-primary">
-        {/* TOP BAR - OHNE REDUNDANTEN MINI-HEADER */}
-        <div className="h-10 bg-theme-secondary border-b border-theme flex items-center justify-between px-2.5">
-          <div className="flex items-center gap-2">
-            {/* Nur Dashboard-Anzeige wenn NICHT auf Stock-Seite */}
+        {/* TOP BAR - MIT PROMINENT SEARCH */}
+        <div className="pt-4 pb-4 bg-theme-secondary border-b border-theme flex items-center px-6 shadow-sm">
+          <div className="flex items-center gap-6 flex-1">
+            {/* Dashboard-Anzeige nur wenn NICHT auf Stock-Seite */}
             {!isStockPage && (
-              <div>
-                <h1 className="text-xs font-semibold text-theme-primary">Dashboard</h1>
+              <div className="flex-shrink-0">
+                <h1 className="text-lg font-bold text-theme-primary">Dashboard</h1>
                 <div className="text-xs text-theme-secondary">Markt-Analyse</div>
               </div>
             )}
+            
+            {/* Prominent Search Bar - wie Fiscal */}
+            <div className="flex-1 max-w-3xl">
+              <button
+                onClick={() => setShowCommandPalette(true)}
+                className="w-full flex items-center gap-3 px-6 py-4 bg-theme-primary/60 hover:bg-theme-primary/80 border border-theme/40 hover:border-green-500/60 rounded-2xl transition-all duration-300 group shadow-md hover:shadow-lg backdrop-blur-sm"
+                title="Aktien suchen oder AI-Frage stellen (⌘K)"
+              >
+                <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted/80 group-hover:text-green-400 transition-all duration-300 flex-shrink-0" />
+                <span className="text-base text-theme-secondary/90 group-hover:text-theme-primary transition-all duration-300 flex-1 text-left font-medium">
+                  Aktien suchen oder AI-Frage stellen...
+                </span>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <SparklesIcon className="w-4 h-4 text-green-400/60 group-hover:text-green-400 transition-all duration-300" />
+                  <kbd className="px-2.5 py-1.5 text-xs bg-theme-tertiary/40 border border-theme/50 rounded-md text-theme-muted group-hover:text-theme-secondary transition-all duration-300 font-mono shadow-sm">
+                    ⌘K
+                  </kbd>
+                </div>
+              </button>
+            </div>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <GlobalLearnToggle />
             <NotificationCenter />
-            {allowsThemeToggle && (
-              <button
-                onClick={toggleTheme}
-                className="flex items-center gap-1.5 px-2 py-1 bg-theme-tertiary/30 hover:bg-theme-tertiary/50 border border-theme hover:border-green-500/30 rounded-md transition-all duration-200 group"
-                title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              >
-                {theme === 'dark' ? (
-                  <SunIcon className="w-3.5 h-3.5 text-yellow-400 group-hover:text-yellow-300 transition-colors" />
-                ) : (
-                  <MoonIcon className="w-3.5 h-3.5 text-blue-600 group-hover:text-blue-500 transition-colors" />
-                )}
-                <span className="text-xs font-medium text-theme-secondary group-hover:text-theme-primary transition-colors hidden sm:block">
-                  {theme === 'dark' ? 'Hell' : 'Dunkel'}
-                </span>
-              </button>
-            )}
             
             <CurrencySelector />
             
-            <div className="hidden md:flex items-center gap-1 px-1.5 py-0.5 bg-theme-tertiary/30 rounded">
-              <SignalIcon className={`w-2 h-2 ${marketStatus.status === 'Open' ? 'text-green-400' : 'text-red-400'}`} />
+            <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 bg-theme-tertiary/30 rounded-lg">
+              <SignalIcon className={`w-3 h-3 ${marketStatus.status === 'Open' ? 'text-green-400' : 'text-red-400'}`} />
               <span className={`text-xs font-medium ${marketStatus.status === 'Open' ? 'text-green-400' : 'text-red-400'}`}>
-                {marketStatus.status === 'Open' ? 'Offen' : 'Geschlossen'}
+                {marketStatus.status === 'Open' ? 'Markt offen' : 'Markt geschlossen'}
               </span>
             </div>
 
             {!user.isPremium ? (
               <Link 
                 href="/pricing"
-                className="flex items-center gap-1 px-2 py-1 bg-green-500 hover:bg-green-400 text-black font-semibold rounded text-xs transition-all duration-200"
+                className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all duration-200 shadow-sm"
               >
-                <SparklesIcon className="w-2.5 h-2.5" />
+                <SparklesIcon className="w-4 h-4" />
                 Upgrade
               </Link>
             ) : (
-              <div className="flex items-center gap-1 px-1.5 py-0.5 bg-green-500/20 rounded">
-                <SparklesIcon className="w-2.5 h-2.5 text-green-400" />
-                <span className="text-xs text-green-400 font-medium">Premium</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 rounded-lg border border-green-500/30">
+                <SparklesIcon className="w-3.5 h-3.5 text-green-400" />
+                <span className="text-sm text-green-400 font-semibold">Premium</span>
               </div>
             )}
-            
-            <button
-              onClick={() => setShowCommandPalette(true)}
-              className="p-1 text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50 rounded transition-colors"
-              title="Search (⌘K)"
-            >
-              <MagnifyingGlassIcon className="w-3 h-3" />
-            </button>
           </div>
         </div>
 

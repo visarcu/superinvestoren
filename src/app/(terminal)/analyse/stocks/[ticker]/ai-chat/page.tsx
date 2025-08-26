@@ -16,10 +16,10 @@ export default function TickerAIChatRedirect({ params }: TickerAIChatRedirectPro
   const ticker = params.ticker.toUpperCase()
 
   useEffect(() => {
-    // ✅ Redirect to unified AI with ticker parameter
-    const unifiedUrl = `/analyse/ai?ticker=${ticker}`
-    console.log(`🔄 Redirecting ${ticker} AI chat to unified AI: ${unifiedUrl}`)
-    router.replace(unifiedUrl)
+    // ✅ Redirect to global FinClue AI (no ticker parameter)
+    const globalAiUrl = `/analyse/finclue-ai`
+    console.log(`🔄 Redirecting ${ticker} AI chat to global FinClue AI: ${globalAiUrl}`)
+    router.replace(globalAiUrl)
   }, [router, ticker])
 
   // Show loading state during redirect
@@ -30,10 +30,10 @@ export default function TickerAIChatRedirect({ params }: TickerAIChatRedirectPro
           <SparklesIcon className="w-8 h-8 text-purple-400 animate-pulse" />
         </div>
         <h2 className="text-xl font-semibold text-theme-primary mb-3">
-          Wechsle zu Unified FinClue AI
+          Wechsle zu Global FinClue AI
         </h2>
         <p className="text-theme-secondary mb-6">
-          Leite weiter zu verbesserter AI-Erfahrung für {ticker}...
+          Leite weiter zur globalen FinClue AI...
         </p>
         <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
       </div>

@@ -99,3 +99,4 @@ Key environment variables needed:
 - Custom path alias `@/*` maps to `./src/*`
 - German language comments and content throughout the codebase
 - Financial data is cached and updated via scheduled scripts
+- die FinclueAI ist ein Thema das ich sowieso "neu angehen" bzw verbessern wollte. Soll ich dir sagen was ich machen will und wir legen schrittweise los?

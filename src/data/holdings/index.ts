@@ -727,6 +727,7 @@ import dalio_2024_Q3 from './dalio/2024-Q3.json'
 import dalio_2024_Q4 from './dalio/2024-Q4.json'
 import dalio_2025_Q1 from './dalio/2025-Q1.json'
 import dalio_2025_Q2 from './dalio/2025-Q2.json'
+import dalio_2025_Q3 from './dalio/2025-Q3.json'
 
 //pzena
 import pzena_2024_Q1 from './pzena/2024-Q1.json'
@@ -1018,6 +1019,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q4', data: dalio_2024_Q4},
     { quarter: '2025-Q1', data: dalio_2025_Q1},
     { quarter: '2025-Q2', data: dalio_2025_Q2},
+    { quarter: '2025-Q3', data: dalio_2025_Q3},
    ],
 
 

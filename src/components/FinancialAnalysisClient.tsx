@@ -56,12 +56,14 @@ class FinancialDataService {
     try {
       // ✅ MAXIMUM 20 Jahre, aber respektiere user input
       const requestYears = Math.min(years, 20) // Max 20 Jahre
+      // ✅ FIX: Für Quartale mehr Datenpunkte laden (Jahre × 4)
+      const requestLimit = period === 'quarterly' ? requestYears * 4 : requestYears
       
       const [incomeRes, balanceRes, cashFlowRes, keyMetricsRes, dividendRes] = await Promise.all([
-        fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${requestYears}&apikey=${this.fmpKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${requestYears}&apikey=${this.fmpKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${requestYears}&apikey=${this.fmpKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${requestYears}&apikey=${this.fmpKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
+        fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
         fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${this.fmpKey}`)
       ])
 
@@ -83,7 +85,9 @@ class FinancialDataService {
       
       const filteredIncomeData = incomeData.filter((item: any) => {
         const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
-        return year >= cutoffYear && year < currentYear
+        // ✅ FIX: Für Quartalsdaten auch aktuelles Jahr einschließen, für jährliche nur bis Vorjahr
+        const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
+        return year >= cutoffYear && year <= maxYear
       })
 
       console.log(`📊 [${ticker}] Filtered to modern data (2005+): ${incomeData.length} → ${filteredIncomeData.length} periods`)
@@ -96,7 +100,8 @@ class FinancialDataService {
           const yearNum = parseInt(year)
           
           // ✅ FILTER: Nur moderne Dividendendaten
-          if (yearNum >= cutoffYear && yearNum < currentYear) {
+          const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
+          if (yearNum >= cutoffYear && yearNum <= maxYear) {
             if (!dividendsByYear[year]) {
               dividendsByYear[year] = 0
             }
@@ -111,10 +116,45 @@ class FinancialDataService {
         const balance = balanceData[balanceData.length - 1 - index] || {}
         const cashFlow = cashFlowData[cashFlowData.length - 1 - index] || {}
         const metrics = keyMetricsData[keyMetricsData.length - 1 - index] || {}
+        // ✅ IMPROVED: Microsoft Fiscal Year Labels (Juli-Juni Geschäftsjahr)
+        const formatLabel = () => {
+          if (period === 'annual') {
+            return income.calendarYear || income.date?.slice(0, 4) || '—'
+          }
+          
+          // Microsoft Fiscal Year Quartalslabels für korrekte UX
+          if (income.date) {
+            const date = new Date(income.date)
+            const year = date.getFullYear()
+            const month = date.getMonth() + 1
+            
+            // Microsoft Fiscal Year: Juli 2024 - Juni 2025 = FY2025
+            let fiscalYear = year
+            let quarter = 'Q4'
+            
+            if (month <= 3) {
+              quarter = 'Q3'  // Jan-Mar = Q3 FY
+            } else if (month <= 6) {
+              quarter = 'Q4'  // Apr-Jun = Q4 FY
+            } else if (month <= 9) {
+              quarter = 'Q1'  // Jul-Sep = Q1 FY
+              fiscalYear = year + 1  // FY beginnt im Juli
+            } else {
+              quarter = 'Q2'  // Oct-Dez = Q2 FY
+              fiscalYear = year + 1  // FY beginnt im Juli
+            }
+            
+            return `${quarter} FY${fiscalYear}`
+          }
+          
+          return income.calendarYear || '—'
+        }
+        
         const year = income.calendarYear || income.date?.slice(0, 4) || '—'
+        const label = formatLabel()
 
         return {
-          label: year,
+          label: label,
           revenue: income.revenue || 0,
           netIncome: income.netIncome || 0,
           operatingIncome: income.operatingIncome || 0,

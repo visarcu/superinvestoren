@@ -43,7 +43,7 @@ interface GrowthResponse {
   lastUpdated: string;
 }
 
-const GrowthSection: React.FC<GrowthSectionProps> = ({ ticker, isPremium }) => {
+const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPremium }) => {
   const [data, setData] = useState<GrowthResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -377,6 +377,8 @@ const GrowthSection: React.FC<GrowthSectionProps> = ({ ticker, isPremium }) => {
       </div>
     </div>
   );
-};
+});
+
+GrowthSection.displayName = 'GrowthSection';
 
 export default GrowthSection;

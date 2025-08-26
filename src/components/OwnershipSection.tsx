@@ -33,7 +33,7 @@ interface OwnershipData {
   outstandingShares: number
 }
 
-export default function OwnershipSection({ ticker, isPremium = false }: OwnershipSectionProps) {
+const OwnershipSection = React.memo<OwnershipSectionProps>(({ ticker, isPremium = false }) => {
   const [data, setData] = useState<OwnershipData | null>(null)
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState(false)
@@ -298,4 +298,8 @@ export default function OwnershipSection({ ticker, isPremium = false }: Ownershi
       </div>
     </div>
   )
-}
+});
+
+OwnershipSection.displayName = 'OwnershipSection';
+
+export default OwnershipSection;

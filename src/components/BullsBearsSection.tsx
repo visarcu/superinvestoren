@@ -25,7 +25,7 @@ interface BullsBearsData {
   source: string;
 }
 
-const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({ 
+const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({ 
   ticker, 
   isPremium 
 }) => {
@@ -238,6 +238,8 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = ({
       </div>
     </div>
   );
-};
+});
+
+BullsBearsSection.displayName = 'BullsBearsSection';
 
 export default BullsBearsSection;

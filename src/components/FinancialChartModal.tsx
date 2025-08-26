@@ -62,16 +62,53 @@ const calculateCAGR = (data: any[], key: string, years: number): number | null =
   return cagr * 100
 }
 
+// ✅ HELPER: Microsoft Fiscal Year Label-Formatierung für alle Charts
+const formatChartLabel = (date: string, period: 'annual' | 'quarterly'): string => {
+  if (period === 'annual') {
+    return date.substring(0, 4) || '—'
+  }
+  
+  // Microsoft Fiscal Year Quartalslabels für korrekte UX
+  if (date) {
+    const dateObj = new Date(date)
+    const year = dateObj.getFullYear()
+    const month = dateObj.getMonth() + 1
+    
+    // Microsoft Fiscal Year: Juli 2024 - Juni 2025 = FY2025
+    let fiscalYear = year
+    let quarter = 'Q4'
+    
+    if (month <= 3) {
+      quarter = 'Q3'  // Jan-Mar = Q3 FY
+    } else if (month <= 6) {
+      quarter = 'Q4'  // Apr-Jun = Q4 FY
+    } else if (month <= 9) {
+      quarter = 'Q1'  // Jul-Sep = Q1 FY
+      fiscalYear = year + 1  // FY beginnt im Juli
+    } else {
+      quarter = 'Q2'  // Oct-Dez = Q2 FY
+      fiscalYear = year + 1  // FY beginnt im Juli
+    }
+    
+    return `${quarter} FY${fiscalYear}`
+  }
+  
+  return date.substring(0, 4) || '—'
+}
+
 // API Data Fetcher
 async function fetchFinancialData(ticker: string, years: number, period: 'annual' | 'quarterly') {
   const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
   
+  // ✅ FIX: Für Quartale mehr Datenpunkte laden (Jahre × 4)
+  const limit = period === 'quarterly' ? years * 4 : years
+  
   try {
     const [incomeRes, balanceRes, cashFlowRes, keyMetricsRes, dividendRes] = await Promise.all([
-      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${years}&apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${years}&apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${years}&apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${years}&apikey=${apiKey}`),
+      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
+      fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
+      fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
+      fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
       fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`)
     ])
 
@@ -92,7 +129,9 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
     
     const filteredIncomeData = incomeData.filter((item: any) => {
       const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
-      return year >= cutoffYear && year < currentYear
+      // ✅ FIX: Für Quartalsdaten auch aktuelles Jahr einschließen, für jährliche nur bis Vorjahr
+      const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
+      return year >= cutoffYear && year <= maxYear
     })
 
     const dividendsByYear: Record<string, number> = {}
@@ -102,7 +141,7 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
           const year = new Date(div.date).getFullYear().toString()
           const yearNum = parseInt(year)
           
-          if (yearNum >= cutoffYear && yearNum < currentYear) {
+          if (yearNum >= cutoffYear && yearNum <= maxYear) {
             if (!dividendsByYear[year]) {
               dividendsByYear[year] = 0
             }
@@ -119,9 +158,10 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
       const cashFlow = cashFlowData[cashFlowData.length - 1 - index] || {}
       const metrics = keyMetricsData[keyMetricsData.length - 1 - index] || {}
       const year = income.calendarYear || income.date?.slice(0, 4) || '—'
+      const label = formatChartLabel(income.date || year, period)
 
       return {
-        label: year,
+        label: label,
         revenue: income.revenue || 0,
         netIncome: income.netIncome || 0,
         operatingIncome: income.operatingIncome || 0,
@@ -160,7 +200,7 @@ ps: metrics.psRatio || metrics.priceToSalesRatio || 0
 }
 
 // ✅ SEGMENT DATA FETCHER FUNCTIONS - MIT 0-WERTE FILTER
-async function fetchProductSegmentData(ticker: string, years: number) {
+async function fetchProductSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
   const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
   
   try {
@@ -181,7 +221,7 @@ async function fetchProductSegmentData(ticker: string, years: number) {
       if (!dateKey || !segments) return null
       
       const year = dateKey.substring(0, 4)
-      const result: any = { label: year }
+      const result: any = { label: formatChartLabel(dateKey, 'annual') }
       
       Object.entries(segments).forEach(([segmentName, value]) => {
         if (typeof value === 'number' && value > 0) {
@@ -211,7 +251,7 @@ async function fetchProductSegmentData(ticker: string, years: number) {
   }
 }
 
-async function fetchGeographicSegmentData(ticker: string, years: number) {
+async function fetchGeographicSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
   const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
   
   try {
@@ -243,7 +283,7 @@ async function fetchGeographicSegmentData(ticker: string, years: number) {
       
       if (!year || Object.keys(segments).length === 0) return null
       
-      const result: any = { label: year }
+      const result: any = { label: formatChartLabel(year || '2024', 'annual') }
       
       Object.entries(segments).forEach(([segmentName, value]) => {
         if (typeof value === 'number' && value > 0) {
@@ -315,10 +355,10 @@ export default function FinancialChartModal({
       try {
         // Load segment data if needed
         if (metricKey === 'revenueSegments') {
-          const result = await fetchProductSegmentData(ticker, years)
+          const result = await fetchProductSegmentData(ticker, years, period)
           setSegmentData(result)
         } else if (metricKey === 'geographicSegments') {
-          const result = await fetchGeographicSegmentData(ticker, years)
+          const result = await fetchGeographicSegmentData(ticker, years, period)
           setSegmentData(result)
         } else {
           // Load regular financial data

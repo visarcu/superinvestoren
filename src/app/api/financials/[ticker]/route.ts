@@ -43,7 +43,8 @@ function applySplitAdjustments(ticker: string, value: number, date: string): num
 
 // ✅ DATUM FILTER: Nur ab 2005 (20 Jahre Historie)
 function filterModernData(data: any[], period: 'annual' | 'quarter'): any[] {
-  const cutoffYear = 2005 // 20 Jahre Historie ab 2005
+  // ✅ FIX: Unterschiedliche Cutoffs für Annual vs Quarterly
+  const cutoffYear = period === 'quarter' ? 1995 : 2005  // Quarterly: 30 Jahre, Annual: 20 Jahre
   const currentYear = new Date().getFullYear()
   const currentMonth = new Date().getMonth() + 1
   const currentQuarter = Math.floor((currentMonth - 1) / 3) + 1
@@ -138,9 +139,11 @@ export async function GET(
     const period = qPeriod === 'quarterly' ? 'quarter' : 'annual'
     const limitQ = parseInt(urlObj.searchParams.get('limit') || '', 10)
     
-    // ✅ NEUE: 20 Jahre Maximum (statt unlimited)
+    // ✅ FIX: Unterschiedliche Limits für Annual vs Quarterly
     const maxYears = 20
-    const limit = !isNaN(limitQ) ? Math.min(limitQ, maxYears) : maxYears
+    const maxQuarters = 120  // 30 Jahre × 4 Quartale (mehr Daten für FMP $30 Plan)
+    const maxLimit = period === 'quarter' ? maxQuarters : maxYears
+    const limit = !isNaN(limitQ) ? Math.min(limitQ, maxLimit) : (period === 'quarter' ? 80 : maxYears)
 
     // Professional current metrics
     const reliableMetrics = await getReliableMetrics(ticker, apiKey)
@@ -185,8 +188,24 @@ export async function GET(
         const date = new Date(inc.date + 'T00:00:00')
         const year = date.getFullYear()
         const month = date.getMonth() + 1
-        const quarter = Math.floor((month - 1) / 3) + 1
-        label = `Q${quarter} ${year}`
+        
+        // Microsoft Fiscal Year: Juli 2024 - Juni 2025 = FY2025
+        let fiscalYear = year
+        let quarter = 4
+        
+        if (month <= 3) {
+          quarter = 3  // Jan-Mar = Q3 FY
+        } else if (month <= 6) {
+          quarter = 4  // Apr-Jun = Q4 FY
+        } else if (month <= 9) {
+          quarter = 1  // Jul-Sep = Q1 FY
+          fiscalYear = year + 1  // FY beginnt im Juli
+        } else {
+          quarter = 2  // Oct-Dez = Q2 FY
+          fiscalYear = year + 1  // FY beginnt im Juli
+        }
+        
+        label = `Q${quarter} FY${fiscalYear}`
         dataDate = inc.date
       } else {
         label = String(inc.calendarYear)
@@ -256,15 +275,18 @@ export async function GET(
       }
     }
 
+    // ✅ LIMIT: User's requested number of periods (für UI: 10 Jahre = 10 annual ODER 40 quarterly)
+    const limitedData = limitQ && limitQ > 0 ? data.slice(-limitQ) : data
+
     console.log(`✅ [${ticker}] Split-adjusted 20-year data complete:`, {
-      periods: data.length,
-      latestEPS: data[data.length - 1]?.eps,
+      periods: limitedData.length,
+      latestEPS: limitedData[limitedData.length - 1]?.eps,
       currentEPS: reliableMetrics.eps,
       splitAdjusted: STOCK_SPLITS[ticker.toUpperCase()] ? 'Yes' : 'No'
     })
 
     return NextResponse.json({ 
-      data, 
+      data: limitedData, 
       keyMetrics: professionalKeyMetrics,
       
       // ✅ METADATA für Frontend
@@ -272,7 +294,7 @@ export async function GET(
         dataQuality: 'split-adjusted-modern',
         yearsIncluded: `2005-${new Date().getFullYear()}`,
         splitAdjustment: STOCK_SPLITS[ticker.toUpperCase()] || null,
-        totalPeriods: data.length,
+        totalPeriods: limitedData.length,
         modernDataOnly: true
       },
       rawStatements: {                    // ✅ Das erwartet dein Frontend!

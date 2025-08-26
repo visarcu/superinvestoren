@@ -120,24 +120,30 @@ function extractTickerFromMessage(message: string): string | null {
   return null
 }
 
-// ✅ ENHANCED INVESTOR DETECTION FUNCTION - Fixed to detect partial names
+// ✅ ENHANCED INVESTOR DETECTION FUNCTION - Fixed to use correct API slugs
 function extractInvestorFromMessage(message: string): string | null {
   const investorMentions: Record<string, string> = {
-    'warren buffett': 'warren-buffett',
-    'buffett': 'warren-buffett',  // ✅ ADDED: Partial name detection
-    'berkshire hathaway': 'warren-buffett',
-    'berkshire': 'warren-buffett', // ✅ ADDED: Partial name
-    'bill ackman': 'bill-ackman',
-    'ackman': 'bill-ackman',  // ✅ ADDED: Partial name
-    'pershing square': 'bill-ackman',
-    'pershing': 'bill-ackman', // ✅ ADDED: Partial name
-    'cathie wood': 'cathie-wood',
-    'cathie': 'cathie-wood',  // ✅ ADDED: Partial name
-    'ark invest': 'cathie-wood',
-    'ark': 'cathie-wood',     // ✅ ADDED: Partial name
-    'ray dalio': 'ray-dalio',
-    'dalio': 'ray-dalio',     // ✅ ADDED: Partial name
-    'bridgewater': 'ray-dalio'
+    'warren buffett': 'buffett',
+    'buffett': 'buffett',
+    'berkshire hathaway': 'buffett',
+    'berkshire': 'buffett',
+    'bill ackman': 'ackman',
+    'ackman': 'ackman',
+    'pershing square': 'ackman',
+    'pershing': 'ackman',
+    'ray dalio': 'dalio',
+    'dalio': 'dalio',
+    'bridgewater': 'dalio',
+    'ken fisher': 'fisher',
+    'fisher': 'fisher',
+    'bill gates': 'gates',
+    'gates': 'gates',
+    'gates foundation': 'gates',
+    'michael burry': 'burry',
+    'burry': 'burry',
+    'scion': 'burry',
+    'carl icahn': 'icahn',
+    'icahn': 'icahn'
   }
 
   const lowerMessage = message.toLowerCase()
