@@ -54,7 +54,8 @@ export async function GET(request: Request, { params }: RouteParams) {
       altman: altmanData?.[0]?.altmanZScore,
       piotroski: piotroskiData?.[0]?.piotroskiScore,
       roe: ratiosData?.[0]?.returnOnEquity,
-      pe: ratiosData?.[0]?.priceEarningsRatio,
+      pe_annual: ratiosData?.[0]?.priceEarningsRatio,
+      pe_current: quoteData?.[0]?.pe,
       margin: ratiosData?.[0]?.netProfitMargin,
       revenueGrowth: revenueGrowth,
       epsGrowth: epsGrowth
@@ -171,8 +172,8 @@ function calculateRealisticFinClueScore(data: any): number {
     totalWeight += 0.25
   }
 
-  // 3. Bewertung (25%) - KGV-basiert
-  const pe = safeNumber(ratios?.priceEarningsRatio, 0)
+  // 3. Bewertung (25%) - KGV-basiert - Use current P/E from quote for consistency
+  const pe = safeNumber(quote?.pe || ratios?.priceEarningsRatio, 0)
   if (pe > 0) {
     let valuationScore = 0
     if (pe <= 10) valuationScore = 90 + pe  // Very cheap
@@ -278,7 +279,7 @@ function calculateRealisticBreakdown(data: any): any {
     },
     valuation: {
       score: Math.round((() => {
-        const pe = safeNumber(ratios?.priceEarningsRatio, 0)
+        const pe = safeNumber(quote?.pe || ratios?.priceEarningsRatio, 0)
         if (pe <= 0) return 20
         if (pe <= 10) return 90 + pe
         if (pe <= 15) return 90 - (pe - 10) * 4
@@ -289,7 +290,7 @@ function calculateRealisticBreakdown(data: any): any {
       })()),
       weight: 25,
       metrics: {
-        pe: ratios?.priceEarningsRatio ?? null,
+        pe: quote?.pe ?? ratios?.priceEarningsRatio ?? null,
         pb: ratios?.priceToBookRatio ?? null,
         peg: ratios?.priceEarningsToGrowthRatio ?? null
       }

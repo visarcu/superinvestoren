@@ -31,6 +31,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import Logo from '@/components/Logo'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 // ===== ENHANCED TYPES =====
 interface ScreenerCriteria {
@@ -45,6 +46,7 @@ interface ScreenerCriteria {
   volumeLowerThan?: number
   dividendMoreThan?: number
   dividendLowerThan?: number
+  payoutRatioLowerThan?: number
   
   // Growth filters (NEW)
   revenueGrowthMoreThan?: number
@@ -99,6 +101,9 @@ interface StockResult {
   beta?: number
   lastDiv?: number
   dividendYield?: number
+  payoutRatio?: number
+  dividendGrowthRate?: number
+  dividendQuality?: string
   sector?: string
   industry?: string
   country?: string
@@ -143,7 +148,7 @@ const PRESET_SCREENERS: PresetScreener[] = [
   {
     id: 'high-growth',
     name: 'High Growth',
-    description: 'Schnell wachsende Unternehmen (>20% Umsatzwachstum)',
+    description: 'Schnell wachsende Unternehmen (>20% 5-Jahres Umsatz-CAGR, >15% EPS-Wachstum, Marktkapitalisierung >1Mrd.)',
     icon: ArrowTrendingUpIcon,
     color: 'purple',
     criteria: {
@@ -156,16 +161,18 @@ const PRESET_SCREENERS: PresetScreener[] = [
     }
   },
   {
-    id: 'value-quality',
+    id: 'quality-value',
     name: 'Quality Value',
-    description: 'Unterbewertete Qualitätsaktien (KGV<20, ROE>15%)',
+    description: 'Unterbewertete Qualitätsaktien (KGV 5-20, ROE>15%, Current Ratio>1.2, Verschuldung<0.5, Marktkapitalisierung >1Mrd.)',
     icon: ScaleIcon,
     color: 'blue',
     criteria: {
       peLowerThan: 20,
+      peMoreThan: 5,
       roeMoreThan: 15,
-      currentRatioMoreThan: 1.5,
-      marketCapMoreThan: 5000000000,
+      currentRatioMoreThan: 1.2,
+      debtToEquityLowerThan: 0.5,
+      marketCapMoreThan: 1000000000,
       isActivelyTrading: true,
       isEtf: false,
       limit: 50
@@ -174,7 +181,7 @@ const PRESET_SCREENERS: PresetScreener[] = [
   {
     id: 'profitable-growth',
     name: 'Profitable Growth',
-    description: 'Wachstum + Profitabilität (Wachstum>10%, Marge>10%)',
+    description: 'Wachstum + Profitabilität (5-Jahres Umsatz-CAGR>10%, Nettomarge>10%, ROE>12%, Marktkapitalisierung >1Mrd.)',
     icon: ChartPieIcon,
     color: 'green',
     criteria: {
@@ -190,13 +197,15 @@ const PRESET_SCREENERS: PresetScreener[] = [
   {
     id: 'high-dividend',
     name: 'High Dividend',
-    description: 'Solide Dividendenzahler (>3% Rendite)',
+    description: 'Solide Dividendenzahler (Dividendenrendite>3%, Payout Ratio<70%, KGV<25, Marktkapitalisierung >2Mrd.)',
     icon: BanknotesIcon,
     color: 'green',
     criteria: {
       dividendMoreThan: 3,
-      marketCapMoreThan: 5000000000,
+      payoutRatioLowerThan: 70,
+      marketCapMoreThan: 2000000000,
       priceMoreThan: 5,
+      peLowerThan: 25,
       isActivelyTrading: true,
       isEtf: false,
       limit: 50
@@ -205,11 +214,11 @@ const PRESET_SCREENERS: PresetScreener[] = [
   {
     id: 'mega-caps',
     name: 'Mega Caps',
-    description: 'Die größten Unternehmen (>200B)',
+    description: 'Die größten Unternehmen (Marktkapitalisierung >100Mrd. - Blue Chips)',
     icon: BuildingOfficeIcon,
     color: 'blue',
     criteria: {
-      marketCapMoreThan: 200000000000,
+      marketCapMoreThan: 100000000000,
       isActivelyTrading: true,
       isEtf: false,
       limit: 50
@@ -218,13 +227,48 @@ const PRESET_SCREENERS: PresetScreener[] = [
   {
     id: 'tech-growth',
     name: 'Tech Growth',
-    description: 'Wachstumsstarke Tech-Unternehmen',
+    description: 'Tech-Unternehmen mit >10% Umsatzwachstum (Tech-Focus, Marktkapitalisierung >1Mrd.)',
     icon: BoltIcon,
     color: 'cyan',
     criteria: {
       sector: 'Technology',
-      revenueGrowthMoreThan: 15,
-      marketCapMoreThan: 10000000000,
+      revenueGrowthMoreThan: 10,
+      marketCapMoreThan: 1000000000,
+      isActivelyTrading: true,
+      isEtf: false,
+      limit: 50
+    }
+  },
+  {
+    id: 'undervalued-gems',
+    name: 'Undervalued Gems',
+    description: 'Unterbewertete Perlen (niedriges KGV + KBV)',
+    icon: SparklesIcon,
+    color: 'yellow',
+    criteria: {
+      peLowerThan: 15,
+      peMoreThan: 5,
+      pbLowerThan: 2,
+      roeMoreThan: 10,
+      marketCapMoreThan: 500000000,
+      isActivelyTrading: true,
+      isEtf: false,
+      limit: 50
+    }
+  },
+  {
+    id: 'defensive-quality',
+    name: 'Defensive Quality',
+    description: 'Defensive Aktien mit niedrigem Beta (<0.8), stabilen Dividenden und soliden Finanzkennzahlen',
+    icon: TrophyIcon,
+    color: 'indigo',
+    criteria: {
+      betaLowerThan: 0.8,
+      dividendMoreThan: 2,
+      roeMoreThan: 10,
+      currentRatioMoreThan: 1.2,
+      debtToEquityLowerThan: 0.5,
+      marketCapMoreThan: 5000000000,
       isActivelyTrading: true,
       isEtf: false,
       limit: 50
@@ -248,30 +292,22 @@ const COUNTRIES = [
 ]
 
 // ===== HELPER FUNCTIONS =====
-const formatMarketCap = (value: number | null | undefined): string => {
-  if (!value || isNaN(value)) return '–'
-  if (value >= 1e12) return `${(value / 1e12).toFixed(2)}T`
-  if (value >= 1e9) return `${(value / 1e9).toFixed(2)}B`
-  if (value >= 1e6) return `${(value / 1e6).toFixed(2)}M`
-  return `${value.toLocaleString()}`
-}
+// formatMarketCap now comes from CurrencyContext
 
 const formatVolume = (value: number | null | undefined): string => {
   if (!value || isNaN(value)) return '–'
-  if (value >= 1e9) return `${(value / 1e9).toFixed(2)}B`
-  if (value >= 1e6) return `${(value / 1e6).toFixed(2)}M`
-  if (value >= 1e3) return `${(value / 1e3).toFixed(2)}K`
-  return value.toLocaleString()
+  if (value >= 1e9) return `${(value / 1e9).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd.`
+  if (value >= 1e6) return `${(value / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mio.`
+  if (value >= 1e3) return `${(value / 1e3).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}k`
+  return value.toLocaleString('de-DE')
 }
 
-const formatPercentage = (value: number | null | undefined): string => {
-  if (value === null || value === undefined || isNaN(value)) return '–'
-  return `${value.toFixed(1)}%`
-}
+// formatPercentage and other formatting now comes from CurrencyContext
 
 // ===== MAIN COMPONENT =====
 export default function StockScreener() {
   const router = useRouter()
+  const { formatMarketCap, formatStockPrice } = useCurrency()
   const [activeTab, setActiveTab] = useState<'presets' | 'custom' | 'saved'>('presets')
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null)
   const [criteria, setCriteria] = useState<ScreenerCriteria>({})
@@ -283,11 +319,24 @@ export default function StockScreener() {
   const [sortBy, setSortBy] = useState<string>('marketCap')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [filterCategory, setFilterCategory] = useState<'basic' | 'growth' | 'profitability' | 'valuation' | 'health'>('basic')
+  const [previewCount, setPreviewCount] = useState<number | null>(null)
+  const [previewLoading, setPreviewLoading] = useState(false)
 
   // Load saved screeners
   useEffect(() => {
     loadSavedScreeners()
   }, [])
+
+  // Auto-preview when criteria changes (debounced)
+  useEffect(() => {
+    if (activeTab === 'custom') {
+      const timer = setTimeout(() => {
+        fetchPreviewCount(criteria)
+      }, 500) // 500ms debounce
+
+      return () => clearTimeout(timer)
+    }
+  }, [criteria, activeTab])
 
   const loadSavedScreeners = async () => {
     try {
@@ -343,10 +392,56 @@ export default function StockScreener() {
     }
   }
 
+  // Live Preview Function - Just get count without full results
+  const fetchPreviewCount = async (screenCriteria: ScreenerCriteria) => {
+    if (Object.keys(screenCriteria).length === 0) {
+      setPreviewCount(null)
+      return
+    }
+
+    setPreviewLoading(true)
+    
+    try {
+      const params = new URLSearchParams()
+      
+      // Add all criteria to params
+      Object.entries(screenCriteria).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          params.append(key, value.toString())
+        }
+      })
+      
+      // Add preview mode to get only count
+      params.append('preview', 'true')
+
+      const response = await fetch(`/api/screener-advanced?${params.toString()}`)
+      
+      if (!response.ok) {
+        throw new Error('Preview API error')
+      }
+      
+      const data = await response.json()
+      setPreviewCount(data.length || 0)
+      
+    } catch (error) {
+      console.error('Preview error:', error)
+      setPreviewCount(null)
+    } finally {
+      setPreviewLoading(false)
+    }
+  }
+
   const handlePresetSelect = (preset: PresetScreener) => {
     setSelectedPreset(preset.id)
     setCriteria(preset.criteria)
-    runScreener(preset.criteria)
+    
+    // Add preset identifier for growth screening detection
+    const criteriaWithPreset = {
+      ...preset.criteria,
+      preset: preset.id
+    }
+    
+    runScreener(criteriaWithPreset)
   }
 
   const handleCustomScreen = () => {
@@ -422,91 +517,90 @@ export default function StockScreener() {
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      <div className="container mx-auto max-w-7xl px-4 py-6">
-        
-        {/* Header */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-theme-primary mb-1">
-                Professional Stock Screener
-              </h1>
-              <p className="text-sm text-theme-secondary">
-                Finde Aktien mit erweiterten Fundamentaldaten-Filtern
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              {Object.keys(criteria).length > 0 && (
-                <button
-                  onClick={clearAllFilters}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors text-sm"
-                >
-                  <XMarkIcon className="w-4 h-4" />
-                  <span>Filter zurücksetzen</span>
-                </button>
-              )}
-              
-              {activeTab === 'custom' && Object.keys(criteria).length > 0 && (
-                <button
-                  onClick={() => setShowSaveDialog(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-theme-primary border border-green-500 text-green-400 rounded-lg hover:bg-green-500/10 transition-colors text-sm"
-                >
-                  <BookmarkIcon className="w-4 h-4" />
-                  <span className="hidden sm:inline">Speichern</span>
-                </button>
-              )}
-            </div>
+      {/* Header Section */}
+      <div className="px-6 lg:px-8 py-6 border-b border-theme/10">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-theme-primary mb-1">
+              Professional Stock Screener
+            </h1>
+            <p className="text-sm text-theme-secondary">
+              Finde Aktien mit erweiterten Fundamentaldaten-Filtern
+            </p>
           </div>
-
-          {/* Tabs */}
-          <div className="mt-4 bg-theme-card border border-theme/10 rounded-lg p-1 inline-flex">
-            <button
-              onClick={() => setActiveTab('presets')}
-              className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                activeTab === 'presets'
-                  ? 'bg-theme-primary text-theme-primary shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              }`}
-            >
-              Presets
-            </button>
+          
+          <div className="flex items-center gap-3">
+            {Object.keys(criteria).length > 0 && (
+              <button
+                onClick={clearAllFilters}
+                className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors text-sm"
+              >
+                <XMarkIcon className="w-4 h-4" />
+                <span>Filter zurücksetzen</span>
+              </button>
+            )}
             
-            <button
-              onClick={() => setActiveTab('custom')}
-              className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                activeTab === 'custom'
-                  ? 'bg-theme-primary text-theme-primary shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              }`}
-            >
-              Custom
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('saved')}
-              className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                activeTab === 'saved'
-                  ? 'bg-theme-primary text-theme-primary shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              }`}
-            >
-              Gespeichert
-              {savedScreeners.length > 0 && (
-                <span className="ml-2 px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs">
-                  {savedScreeners.length}
-                </span>
-              )}
-            </button>
+            {activeTab === 'custom' && Object.keys(criteria).length > 0 && (
+              <button
+                onClick={() => setShowSaveDialog(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-theme-primary border border-green-500 text-green-400 rounded-lg hover:bg-green-500/10 transition-colors text-sm"
+              >
+                <BookmarkIcon className="w-4 h-4" />
+                <span className="hidden sm:inline">Speichern</span>
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Tabs */}
+        <div className="bg-theme-card border border-theme/10 rounded-lg p-1 inline-flex">
+          <button
+            onClick={() => setActiveTab('presets')}
+            className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all ${
+              activeTab === 'presets'
+                ? 'bg-theme-primary text-theme-primary shadow-sm'
+                : 'text-theme-secondary hover:text-theme-primary'
+            }`}
+          >
+            Presets
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('custom')}
+            className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all ${
+              activeTab === 'custom'
+                ? 'bg-theme-primary text-theme-primary shadow-sm'
+                : 'text-theme-secondary hover:text-theme-primary'
+            }`}
+          >
+            Custom
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('saved')}
+            className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all ${
+              activeTab === 'saved'
+                ? 'bg-theme-primary text-theme-primary shadow-sm'
+                : 'text-theme-secondary hover:text-theme-primary'
+            }`}
+          >
+            Gespeichert
+            {savedScreeners.length > 0 && (
+              <span className="ml-2 px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs">
+                {savedScreeners.length}
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
           
           {/* Left Sidebar - Filters */}
-          <div className="lg:col-span-1">
-            <div className="bg-theme-card border border-theme/10 rounded-lg p-4 h-fit sticky top-4">
+          <div className="xl:col-span-1">
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-6 h-fit sticky top-4">
             
               {/* Preset Screeners */}
               {activeTab === 'presets' && (
@@ -550,20 +644,37 @@ export default function StockScreener() {
                 </div>
               )}
 
-              {/* Custom Filters - ENHANCED */}
+              {/* Custom Filters - CLEAN & MINIMAL */}
               {activeTab === 'custom' && (
                 <div className="space-y-4">
-                  <h3 className="text-sm font-bold text-theme-muted uppercase tracking-wide mb-4">
-                    Filter definieren
-                  </h3>
-                  
-                  {/* Filter Categories */}
-                  <div className="flex flex-wrap gap-1 mb-4">
+                  {/* Simple Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-bold text-theme-muted uppercase tracking-wide">
+                      Filter definieren
+                    </h3>
+                    <select
+                      className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          const preset = PRESET_SCREENERS.find((p: any) => p.id === e.target.value)
+                          if (preset) setCriteria(preset.criteria)
+                        }
+                      }}
+                    >
+                      <option value="">Preset laden</option>
+                      {PRESET_SCREENERS.map((preset: any) => (
+                        <option key={preset.id} value={preset.id}>{preset.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Clean Filter Categories */}
+                  <div className="flex flex-wrap gap-2 mb-4">
                     <button
                       onClick={() => setFilterCategory('basic')}
                       className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                         filterCategory === 'basic'
-                          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                          ? 'bg-theme-primary text-white'
                           : 'bg-theme-secondary text-theme-muted hover:text-theme-primary'
                       }`}
                     >
@@ -573,7 +684,7 @@ export default function StockScreener() {
                       onClick={() => setFilterCategory('growth')}
                       className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                         filterCategory === 'growth'
-                          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                          ? 'bg-theme-primary text-white'
                           : 'bg-theme-secondary text-theme-muted hover:text-theme-primary'
                       }`}
                     >
@@ -583,7 +694,7 @@ export default function StockScreener() {
                       onClick={() => setFilterCategory('profitability')}
                       className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                         filterCategory === 'profitability'
-                          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                          ? 'bg-theme-primary text-white'
                           : 'bg-theme-secondary text-theme-muted hover:text-theme-primary'
                       }`}
                     >
@@ -593,7 +704,7 @@ export default function StockScreener() {
                       onClick={() => setFilterCategory('valuation')}
                       className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                         filterCategory === 'valuation'
-                          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                          ? 'bg-theme-primary text-white'
                           : 'bg-theme-secondary text-theme-muted hover:text-theme-primary'
                       }`}
                     >
@@ -603,7 +714,7 @@ export default function StockScreener() {
                       onClick={() => setFilterCategory('health')}
                       className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                         filterCategory === 'health'
-                          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                          ? 'bg-theme-primary text-white'
                           : 'bg-theme-secondary text-theme-muted hover:text-theme-primary'
                       }`}
                     >
@@ -611,110 +722,126 @@ export default function StockScreener() {
                     </button>
                   </div>
                   
-                  {/* BASIC FILTERS */}
+                  {/* BASIC FILTERS - Clean & Simple */}
                   {filterCategory === 'basic' && (
                     <>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-theme-primary">Market Cap</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <input
-                            type="number"
-                            placeholder="Min"
-                            value={criteria.marketCapMoreThan || ''}
-                            onChange={(e) => setCriteria({
-                              ...criteria,
-                              marketCapMoreThan: e.target.value ? Number(e.target.value) : undefined
-                            })}
-                            className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
-                          />
-                          <input
-                            type="number"
-                            placeholder="Max"
-                            value={criteria.marketCapLowerThan || ''}
-                            onChange={(e) => setCriteria({
-                              ...criteria,
-                              marketCapLowerThan: e.target.value ? Number(e.target.value) : undefined
-                            })}
-                            className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-theme-primary">Preis ($)</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <input
-                            type="number"
-                            placeholder="Min"
-                            value={criteria.priceMoreThan || ''}
-                            onChange={(e) => setCriteria({
-                              ...criteria,
-                              priceMoreThan: e.target.value ? Number(e.target.value) : undefined
-                            })}
-                            className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
-                          />
-                          <input
-                            type="number"
-                            placeholder="Max"
-                            value={criteria.priceLowerThan || ''}
-                            onChange={(e) => setCriteria({
-                              ...criteria,
-                              priceLowerThan: e.target.value ? Number(e.target.value) : undefined
-                            })}
-                            className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-theme-primary">Dividende %</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="relative">
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-theme-primary">Marktkapitalisierung</label>
+                          <div className="grid grid-cols-2 gap-2">
                             <input
                               type="number"
-                              step="0.1"
                               placeholder="Min"
-                              value={criteria.dividendMoreThan || ''}
+                              value={criteria.marketCapMoreThan || ''}
                               onChange={(e) => setCriteria({
                                 ...criteria,
-                                dividendMoreThan: e.target.value ? Number(e.target.value) : undefined
+                                marketCapMoreThan: e.target.value ? Number(e.target.value) : undefined
                               })}
-                              className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm pr-6"
+                              className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
                             />
-                            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-theme-muted text-xs">%</span>
-                          </div>
-                          <div className="relative">
                             <input
                               type="number"
-                              step="0.1"
                               placeholder="Max"
-                              value={criteria.dividendLowerThan || ''}
+                              value={criteria.marketCapLowerThan || ''}
                               onChange={(e) => setCriteria({
                                 ...criteria,
-                                dividendLowerThan: e.target.value ? Number(e.target.value) : undefined
+                                marketCapLowerThan: e.target.value ? Number(e.target.value) : undefined
                               })}
-                              className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm pr-6"
+                              className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
                             />
-                            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-theme-muted text-xs">%</span>
+                          </div>
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => setCriteria({...criteria, marketCapMoreThan: 1000000000})}
+                              className="px-2 py-1 bg-theme-secondary/50 hover:bg-theme-secondary text-xs rounded"
+                            >
+                              &gt;1 Mrd.
+                            </button>
+                            <button
+                              onClick={() => setCriteria({...criteria, marketCapMoreThan: 10000000000})}
+                              className="px-2 py-1 bg-theme-secondary/50 hover:bg-theme-secondary text-xs rounded"
+                            >
+                              &gt;10 Mrd.
+                            </button>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-theme-primary">Sektor</label>
-                        <select
-                          value={criteria.sector || ''}
-                          onChange={(e) => setCriteria({
-                            ...criteria,
-                            sector: e.target.value || undefined
-                          })}
-                          className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
-                        >
-                          <option value="">Alle Sektoren</option>
-                          {SECTORS.map(sector => (
-                            <option key={sector} value={sector}>{sector}</option>
-                          ))}
-                        </select>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-theme-primary">Preis ($)</label>
+                          <div className="grid grid-cols-2 gap-2">
+                            <input
+                              type="number"
+                              placeholder="Min"
+                              value={criteria.priceMoreThan || ''}
+                              onChange={(e) => setCriteria({
+                                ...criteria,
+                                priceMoreThan: e.target.value ? Number(e.target.value) : undefined
+                              })}
+                              className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
+                            />
+                            <input
+                              type="number"
+                              placeholder="Max"
+                              value={criteria.priceLowerThan || ''}
+                              onChange={(e) => setCriteria({
+                                ...criteria,
+                                priceLowerThan: e.target.value ? Number(e.target.value) : undefined
+                              })}
+                              className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-theme-primary">Dividende %</label>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="relative">
+                              <input
+                                type="number"
+                                step="0.1"
+                                placeholder="Min"
+                                value={criteria.dividendMoreThan || ''}
+                                onChange={(e) => setCriteria({
+                                  ...criteria,
+                                  dividendMoreThan: e.target.value ? Number(e.target.value) : undefined
+                                })}
+                                className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm pr-6"
+                              />
+                              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-theme-muted text-xs">%</span>
+                            </div>
+                            <div className="relative">
+                              <input
+                                type="number"
+                                step="0.1"
+                                placeholder="Max"
+                                value={criteria.dividendLowerThan || ''}
+                                onChange={(e) => setCriteria({
+                                  ...criteria,
+                                  dividendLowerThan: e.target.value ? Number(e.target.value) : undefined
+                                })}
+                                className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm pr-6"
+                              />
+                              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-theme-muted text-xs">%</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-theme-primary">Sektor</label>
+                          <select
+                            value={criteria.sector || ''}
+                            onChange={(e) => setCriteria({
+                              ...criteria,
+                              sector: e.target.value || undefined
+                            })}
+                            className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
+                          >
+                            <option value="">Alle Sektoren</option>
+                            {SECTORS.map(sector => (
+                              <option key={sector} value={sector}>{sector}</option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                     </>
                   )}
@@ -956,7 +1083,7 @@ export default function StockScreener() {
                   {filterCategory === 'health' && (
                     <>
                       <div className="space-y-2">
-                        <label className="text-sm font-medium text-theme-primary">Current Ratio (Min)</label>
+                        <label className="text-sm font-medium text-theme-primary">Liquidität (Min)</label>
                         <input
                           type="number"
                           step="0.1"
@@ -972,7 +1099,7 @@ export default function StockScreener() {
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-sm font-medium text-theme-primary">Debt/Equity (Max)</label>
+                        <label className="text-sm font-medium text-theme-primary">Verschuldung (Max)</label>
                         <input
                           type="number"
                           step="0.1"
@@ -1017,6 +1144,29 @@ export default function StockScreener() {
                             KGV {'<'} {criteria.peLowerThan}
                           </span>
                         )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Live Preview */}
+                  {Object.keys(criteria).length > 0 && (
+                    <div className="mb-3 p-3 bg-theme-secondary/30 border border-theme/10 rounded-lg">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-theme-muted">Vorschau:</span>
+                        <span className="text-theme-primary font-medium">
+                          {previewLoading ? (
+                            <span className="flex items-center gap-2">
+                              <div className="w-3 h-3 border border-theme/30 border-t-theme-primary rounded-full animate-spin"></div>
+                              Laden...
+                            </span>
+                          ) : (
+                            previewCount !== null ? (
+                              `~${previewCount.toLocaleString('de-DE')} Ergebnisse`
+                            ) : (
+                              '–'
+                            )
+                          )}
+                        </span>
                       </div>
                     </div>
                   )}
@@ -1079,7 +1229,7 @@ export default function StockScreener() {
           </div>
 
           {/* Main Content - Results */}
-          <div className="lg:col-span-3">
+          <div className="xl:col-span-3">
             
             {/* Results Header */}
             {results.length > 0 && (
@@ -1095,7 +1245,7 @@ export default function StockScreener() {
                       onChange={(e) => setSortBy(e.target.value)}
                       className="px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-sm"
                     >
-                      <option value="marketCap">Market Cap</option>
+                      <option value="marketCap">Marktkapitalisierung</option>
                       <option value="price">Preis</option>
                       <option value="changesPercentage">% Heute</option>
                       <option value="volume">Volumen</option>
@@ -1128,7 +1278,7 @@ export default function StockScreener() {
                       <div className="flex flex-wrap gap-2">
                         {criteria.marketCapMoreThan && (
                           <span className="px-2 py-1 bg-theme-primary border border-theme/20 rounded">
-                            Market Cap {'>'} {formatMarketCap(criteria.marketCapMoreThan)}
+                            Marktkapitalisierung {'>'} {formatMarketCap(criteria.marketCapMoreThan)}
                           </span>
                         )}
                         {criteria.revenueGrowthMoreThan && (
@@ -1151,6 +1301,11 @@ export default function StockScreener() {
                             Dividende {'>'} {criteria.dividendMoreThan}%
                           </span>
                         )}
+                        {criteria.betaLowerThan && (
+                          <span className="px-2 py-1 bg-theme-primary border border-theme/20 rounded">
+                            Beta {'<'} {criteria.betaLowerThan}
+                          </span>
+                        )}
                         {criteria.sector && (
                           <span className="px-2 py-1 bg-theme-primary border border-theme/20 rounded">
                             Sektor: {criteria.sector}
@@ -1165,20 +1320,21 @@ export default function StockScreener() {
 
             {/* Loading State */}
             {loading && (
-              <div className="bg-theme-card border border-theme/10 rounded-lg p-16">
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-20 shadow-sm">
                 <div className="text-center">
-                  <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-                  <p className="text-sm text-theme-secondary">Lade Ergebnisse...</p>
+                  <div className="w-10 h-10 border-3 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                  <h3 className="text-lg font-semibold text-theme-primary mb-2">Durchsuche Aktienmärkte...</h3>
+                  <p className="text-sm text-theme-secondary">Sammle aktuelle Fundamentaldaten und analysiere Aktien basierend auf deinen Kriterien.</p>
                 </div>
               </div>
             )}
 
             {/* Results Table - ENHANCED */}
             {!loading && results.length > 0 && (
-              <div className="bg-theme-card border border-theme/10 rounded-lg overflow-hidden">
+              <div className="bg-theme-card border border-theme/10 rounded-xl overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-theme-secondary/30 border-b border-theme/10">
+                    <thead className="bg-theme-secondary/20 border-b border-theme/10">
                       <tr>
                         <th className="px-4 py-3 text-left text-xs font-medium text-theme-muted uppercase tracking-wider">
                           Symbol
@@ -1193,10 +1349,14 @@ export default function StockScreener() {
                           % Heute
                         </th>
                         <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden md:table-cell">
-                          Market Cap
+                          Marktkapitalisierung
                         </th>
                         
-                        {/* Always show growth column for growth presets */}
+                        <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden md:table-cell">
+                          KGV
+                        </th>
+                        
+                        {/* Show growth column for growth-related presets */}
                         {(selectedPreset === 'high-growth' || selectedPreset === 'profitable-growth' || selectedPreset === 'tech-growth' || 
                           criteria.revenueGrowthMoreThan || criteria.epsGrowthMoreThan) && (
                           <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden lg:table-cell">
@@ -1204,21 +1364,37 @@ export default function StockScreener() {
                           </th>
                         )}
                         
-                        {/* Always show ROE for value/profitability presets */}
-                        {(selectedPreset === 'quality-value' || selectedPreset === 'profitable-growth' ||
+                        {/* Show ROE for value/profitability presets */}
+                        {(selectedPreset === 'quality-value' || selectedPreset === 'profitable-growth' || selectedPreset === 'defensive-quality' ||
                           criteria.roeMoreThan || criteria.netMarginMoreThan) && (
                           <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden lg:table-cell">
                             ROE %
                           </th>
                         )}
                         
-                        <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider">
-                          KGV
-                        </th>
-                        
-                        {(selectedPreset === 'high-dividend' || criteria.dividendMoreThan) && (
-                          <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider">
+                        {/* Show dividend column for dividend-focused presets */}
+                        {(selectedPreset === 'high-dividend' || selectedPreset === 'defensive-quality' || criteria.dividendMoreThan) && (
+                          <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden md:table-cell">
                             Div %
+                          </th>
+                        )}
+                        
+                        {/* Show Beta column for defensive quality preset */}
+                        {(selectedPreset === 'defensive-quality' || criteria.betaLowerThan) && (
+                          <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden lg:table-cell">
+                            Beta
+                          </th>
+                        )}
+                        
+                        {/* Show Current Ratio for Quality Value, P/B for others */}
+                        {selectedPreset === 'quality-value' && (
+                          <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden xl:table-cell">
+                            Liquidität
+                          </th>
+                        )}
+                        {(selectedPreset === 'undervalued-gems' || criteria.pbLowerThan) && selectedPreset !== 'quality-value' && (
+                          <th className="px-4 py-3 text-right text-xs font-medium text-theme-muted uppercase tracking-wider hidden xl:table-cell">
+                            KBV
                           </th>
                         )}
                       </tr>
@@ -1247,7 +1423,7 @@ export default function StockScreener() {
                             {stock.companyName}
                           </td>
                           <td className="px-4 py-3 text-right font-mono text-theme-primary">
-                            ${stock.price?.toFixed(2) || '0.00'}
+                            {formatStockPrice(stock.price || 0)}
                           </td>
                           <td className="px-4 py-3 text-right">
                             {!isNaN(stock.changesPercentage) && stock.changesPercentage !== null ? (
@@ -1261,7 +1437,7 @@ export default function StockScreener() {
                                 ) : (
                                   <ArrowDownIcon className="w-3 h-3" />
                                 )}
-                                {Math.abs(stock.changesPercentage).toFixed(2)}%
+                                {Math.abs(stock.changesPercentage).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
                               </span>
                             ) : (
                               <span className="text-theme-muted text-xs">–</span>
@@ -1271,48 +1447,119 @@ export default function StockScreener() {
                             {formatMarketCap(stock.marketCap)}
                           </td>
                           
+                          <td className="px-4 py-3 text-right text-theme-secondary hidden md:table-cell">
+                            {stock.pe && !isNaN(stock.pe) ? (
+                              <span className={stock.pe < 0 ? 'text-red-500' : ''}>
+                                {stock.pe.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                              </span>
+                            ) : '–'}
+                          </td>
+                          
                           {/* Growth metrics - show for growth presets */}
                           {(selectedPreset === 'high-growth' || selectedPreset === 'profitable-growth' || selectedPreset === 'tech-growth' ||
                             criteria.revenueGrowthMoreThan || criteria.epsGrowthMoreThan) && (
-                            <td className="px-4 py-3 text-right hidden lg:table-cell">
-                              {stock.revenueGrowth !== null && stock.revenueGrowth !== undefined ? (
-                                <span className={`text-sm font-bold ${
-                                  stock.revenueGrowth > 0 ? 'text-green-400' : 'text-red-400'
+                            <td className="px-6 py-4 text-right hidden lg:table-cell">
+                              {stock.revenueGrowth !== null && stock.revenueGrowth !== undefined && !isNaN(stock.revenueGrowth) ? (
+                                <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold ${
+                                  stock.revenueGrowth >= 20 ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' :
+                                  stock.revenueGrowth >= 10 ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400' :
+                                  stock.revenueGrowth >= 0 ? 'bg-gray-100 dark:bg-gray-500/20 text-gray-700 dark:text-gray-400' :
+                                  'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400'
                                 }`}>
-                                  {stock.revenueGrowth > 0 ? '+' : ''}{stock.revenueGrowth.toFixed(1)}%
+                                  {stock.revenueGrowth >= 0 ? '+' : ''}{stock.revenueGrowth.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                                 </span>
                               ) : (
-                                <span className="text-theme-muted">–</span>
+                                <span className="text-gray-400 dark:text-gray-500">–</span>
                               )}
                             </td>
                           )}
                           
                           {/* ROE for value/profitability presets */}
-                          {(selectedPreset === 'quality-value' || selectedPreset === 'profitable-growth' ||
+                          {(selectedPreset === 'quality-value' || selectedPreset === 'profitable-growth' || selectedPreset === 'defensive-quality' ||
                             criteria.roeMoreThan || criteria.netMarginMoreThan) && (
-                            <td className="px-4 py-3 text-right hidden lg:table-cell">
-                              {stock.roe !== null && stock.roe !== undefined ? (
-                                <span className="text-sm font-bold text-theme-primary">
-                                  {stock.roe.toFixed(1)}%
+                            <td className="px-6 py-4 text-right hidden lg:table-cell">
+                              {stock.roe !== null && stock.roe !== undefined && !isNaN(stock.roe) ? (
+                                <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold ${
+                                  (stock.roe * 100) >= 25 ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' : 
+                                  (stock.roe * 100) >= 15 ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400' : 
+                                  (stock.roe * 100) >= 10 ? 'bg-yellow-100 dark:bg-yellow-500/20 text-yellow-700 dark:text-yellow-400' : 
+                                  'bg-gray-100 dark:bg-gray-500/20 text-gray-700 dark:text-gray-400'
+                                }`}>
+                                  {(stock.roe * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                                 </span>
                               ) : (
-                                <span className="text-theme-muted">–</span>
+                                <span className="text-gray-400 dark:text-gray-500">–</span>
                               )}
                             </td>
                           )}
                           
-                          <td className="px-4 py-3 text-right text-theme-secondary">
-                            {stock.pe && stock.pe > 0 ? stock.pe.toFixed(1) : '–'}
-                          </td>
-                          
-                          {(selectedPreset === 'high-dividend' || criteria.dividendMoreThan) && (
-                            <td className="px-4 py-3 text-right">
-                              {stock.dividendYield && stock.dividendYield > 0 ? (
-                                <span className="font-bold text-green-400">
-                                  {(stock.dividendYield * 100).toFixed(2)}%
+                          {/* Dividend for dividend-focused presets */}
+                          {(selectedPreset === 'high-dividend' || selectedPreset === 'defensive-quality' || criteria.dividendMoreThan) && (
+                            <td className="px-6 py-4 text-right hidden md:table-cell">
+                              {stock.dividendYield && stock.dividendYield > 0 && !isNaN(stock.dividendYield) ? (
+                                <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold ${
+                                  (stock.dividendYield * 100) >= 5 ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' :
+                                  (stock.dividendYield * 100) >= 3 ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400' :
+                                  'bg-gray-100 dark:bg-gray-500/20 text-gray-700 dark:text-gray-400'
+                                }`}>
+                                  {(stock.dividendYield * 100).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
                                 </span>
                               ) : (
-                                <span className="text-theme-muted">–</span>
+                                <span className="text-gray-400 dark:text-gray-500">–</span>
+                              )}
+                            </td>
+                          )}
+                          
+                          {/* Beta for defensive quality preset */}
+                          {(selectedPreset === 'defensive-quality' || criteria.betaLowerThan) && (
+                            <td className="px-6 py-4 text-right hidden lg:table-cell">
+                              {stock.beta && !isNaN(stock.beta) ? (
+                                <span className={`text-sm font-bold ${
+                                  stock.beta <= 0.5 ? 'text-emerald-600 dark:text-emerald-400' : 
+                                  stock.beta <= 0.8 ? 'text-blue-600 dark:text-blue-400' : 
+                                  stock.beta <= 1.0 ? 'text-yellow-600 dark:text-yellow-400' :
+                                  'text-red-600 dark:text-red-400'
+                                }`}>
+                                  {stock.beta.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span>
+                              ) : (
+                                <span className="text-gray-400 dark:text-gray-500">–</span>
+                              )}
+                            </td>
+                          )}
+                          
+                          {/* Current Ratio for Quality Value */}
+                          {selectedPreset === 'quality-value' && (
+                            <td className="px-6 py-4 text-right hidden xl:table-cell">
+                              {stock.currentRatio && stock.currentRatio > 0 && !isNaN(stock.currentRatio) ? (
+                                <span className={`text-sm font-bold ${
+                                  stock.currentRatio >= 2 ? 'text-emerald-600 dark:text-emerald-400' : 
+                                  stock.currentRatio >= 1.5 ? 'text-blue-600 dark:text-blue-400' : 
+                                  stock.currentRatio >= 1.2 ? 'text-yellow-600 dark:text-yellow-400' :
+                                  'text-red-600 dark:text-red-400'
+                                }`}>
+                                  {stock.currentRatio.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span>
+                              ) : (
+                                <span className="text-gray-400 dark:text-gray-500">–</span>
+                              )}
+                            </td>
+                          )}
+                          
+                          {/* P/B Ratio for other value presets */}
+                          {(selectedPreset === 'undervalued-gems' || criteria.pbLowerThan) && selectedPreset !== 'quality-value' && (
+                            <td className="px-6 py-4 text-right hidden xl:table-cell">
+                              {stock.pbRatio && stock.pbRatio > 0 && !isNaN(stock.pbRatio) ? (
+                                <span className={`text-sm font-bold ${
+                                  stock.pbRatio < 1 ? 'text-emerald-600 dark:text-emerald-400' : 
+                                  stock.pbRatio < 2 ? 'text-blue-600 dark:text-blue-400' : 
+                                  stock.pbRatio < 3 ? 'text-yellow-600 dark:text-yellow-400' :
+                                  'text-gray-600 dark:text-gray-400'
+                                }`}>
+                                  {stock.pbRatio.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span>
+                              ) : (
+                                <span className="text-gray-400 dark:text-gray-500">–</span>
                               )}
                             </td>
                           )}
@@ -1326,21 +1573,35 @@ export default function StockScreener() {
 
             {/* Empty State */}
             {!loading && results.length === 0 && (
-              <div className="bg-theme-card border border-theme/10 rounded-lg p-16">
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-20 shadow-sm">
                 <div className="text-center">
-                  <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-3 text-theme-muted opacity-50" />
-                  <h3 className="text-lg font-medium text-theme-primary mb-1">
-                    Keine Ergebnisse
+                  <MagnifyingGlassIcon className="w-16 h-16 mx-auto mb-6 text-theme-muted opacity-40" />
+                  <h3 className="text-xl font-bold text-theme-primary mb-2">
+                    Bereit für die Aktiensuche?
                   </h3>
-                  <p className="text-sm text-theme-secondary">
-                    Wähle einen Screener oder definiere eigene Filter um Aktien zu finden
+                  <p className="text-theme-secondary mb-8 max-w-md mx-auto">
+                    Wähle einen unserer professionellen Preset-Screener oder erstelle deine eigenen Filter, um die besten Aktien zu finden.
                   </p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button
+                      onClick={() => setActiveTab('presets')}
+                      className="px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
+                    >
+                      Preset wählen
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('custom')}
+                      className="px-6 py-3 bg-theme-secondary hover:bg-theme-hover text-theme-primary border border-theme/20 rounded-lg font-semibold transition-colors"
+                    >
+                      Custom Filter
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Save Dialog */}
       {showSaveDialog && (
