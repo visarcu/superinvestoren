@@ -272,7 +272,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <p className="text-theme-secondary">
               {activeTab === 'news' 
                 ? `Aktuelle News und Marktentwicklungen für` 
-                : `Social Media Sentiment für`} <span className="font-semibold text-green-400">{ticker}</span>
+                : `Social Media Sentiment für`} <span className="font-semibold text-theme-primary">{ticker}</span>
             </p>
             <p className="text-theme-muted text-sm mt-1">
               {activeTab === 'news' 
@@ -281,8 +281,8 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             </p>
           </div>
           
-          <div className="flex items-center gap-2 px-3 py-2 bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <div className="flex items-center gap-2 px-3 py-2 bg-theme-secondary/30 border border-theme/20 text-theme-primary rounded-lg text-sm">
+            <div className="w-2 h-2 bg-theme-primary rounded-full animate-pulse"></div>
             <span>{activeTab === 'news' ? 'Live News' : 'Live Sentiment'}</span>
           </div>
         </div>
@@ -295,7 +295,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
               className={`
                 flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all
                 ${activeTab === 'news'
-                  ? 'bg-green-500 text-white shadow-md'
+                  ? 'bg-theme-primary text-white shadow-md'
                   : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
                 }
               `}
@@ -309,7 +309,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
               className={`
                 flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all
                 ${activeTab === 'social'
-                  ? 'bg-green-500 text-white shadow-md'
+                  ? 'bg-theme-primary text-white shadow-md'
                   : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
                 }
               `}
@@ -325,9 +325,9 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
           <>
             {/* Error Message */}
             {error && (
-              <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-xl p-4 flex items-center gap-3">
-                <ExclamationTriangleIcon className="w-5 h-5 text-yellow-400" />
-                <span className="text-yellow-200">{error}</span>
+              <div className="bg-theme-secondary/30 border border-theme/20 rounded-xl p-4 flex items-center gap-3">
+                <ExclamationTriangleIcon className="w-5 h-5 text-theme-secondary" />
+                <span className="text-theme-secondary">{error}</span>
               </div>
             )}
 
@@ -335,8 +335,8 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
               <div className="flex flex-wrap items-center gap-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <FunnelIcon className="w-3 h-3 text-blue-400" />
+                  <div className="w-6 h-6 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                    <FunnelIcon className="w-3 h-3 text-theme-secondary" />
                   </div>
                   <span className="text-theme-muted font-medium text-sm">Filter:</span>
                 </div>
@@ -345,7 +345,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                   onClick={() => setSelectedSource('all')}
                   className={`px-3 py-1.5 rounded-lg transition-all text-sm ${
                     selectedSource === 'all'
-                      ? 'bg-green-500 text-white'
+                      ? 'bg-theme-primary text-white'
                       : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
                   }`}
                 >
@@ -358,7 +358,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                     onClick={() => setSelectedSource(source)}
                     className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-2 text-sm ${
                       selectedSource === source
-                        ? 'bg-green-500 text-white'
+                        ? 'bg-theme-primary text-white'
                         : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
                     }`}
                   >
@@ -373,7 +373,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             {loading ? (
               <div className="flex items-center justify-center h-64">
                 <div className="text-center">
-                  <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                  <div className="w-6 h-6 border-2 border-theme-primary border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
                   <p className="text-theme-muted mt-4">Lade Nachrichten für {ticker}...</p>
                 </div>
               </div>
@@ -404,7 +404,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                         <div className="flex-1 space-y-3">
                           {/* Article Header */}
                           <div className="flex items-start justify-between gap-4">
-                            <h2 className="text-lg font-semibold text-theme-primary leading-tight group-hover:text-green-400 transition-colors">
+                            <h2 className="text-lg font-semibold text-theme-primary leading-tight group-hover:text-theme-secondary transition-colors">
                               {article.title}
                             </h2>
                             
@@ -416,7 +416,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                               >
                                 <BookmarkSolidIcon 
                                   className={`w-4 h-4 ${
-                                    savedArticles.has(article.url) ? 'text-green-400' : 'text-theme-muted'
+                                    savedArticles.has(article.url) ? 'text-theme-primary' : 'text-theme-muted'
                                   }`} 
                                 />
                               </button>
@@ -436,7 +436,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                             </div>
                             
                             {article.symbol && (
-                              <span className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs font-medium">
+                              <span className="px-2 py-0.5 bg-theme-secondary/30 text-theme-primary rounded text-xs font-medium">
                                 {article.symbol}
                               </span>
                             )}
@@ -453,7 +453,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                               href={article.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-colors text-sm font-medium"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-theme-secondary/30 hover:bg-theme-secondary/50 text-theme-primary rounded-lg transition-colors text-sm font-medium"
                             >
                               <span>Artikel lesen</span>
                               <ArrowTopRightOnSquareIcon className="w-3 h-3" />
@@ -516,7 +516,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <div className="flex items-center gap-3">
               <Link
                 href={`/analyse/stocks/${ticker.toLowerCase()}`}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-theme-primary hover:bg-theme-secondary text-white rounded-lg transition-colors"
               >
                 <ChartBarIcon className="w-4 h-4" />
                 Zur Analyse
@@ -524,7 +524,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
               
               <Link
                 href={`/analyse/stocks/${ticker.toLowerCase()}/financials`}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary rounded-lg transition-colors"
               >
                 <DocumentTextIcon className="w-4 h-4" />
                 Financials
@@ -535,9 +535,9 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
 
         {/* Premium User Benefits */}
         {user?.isPremium && (
-          <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-xl p-6 border border-green-500/20">
+          <div className="bg-theme-secondary/20 rounded-xl p-6 border border-theme/20">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-theme-primary rounded-lg flex items-center justify-center">
                 <SparklesIcon className="w-4 h-4 text-white" />
               </div>
               <h3 className="text-lg font-semibold text-theme-primary">
@@ -550,21 +550,21 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/analyse/stocks/${ticker.toLowerCase()}/financials`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-md text-sm hover:bg-green-500/30 transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-theme-secondary/30 text-theme-primary rounded-md text-sm hover:bg-theme-secondary/50 transition-colors"
               >
                 <DocumentTextIcon className="w-3 h-3" />
                 Financial Statements
               </Link>
               <Link
                 href={`/analyse/stocks/${ticker.toLowerCase()}/growth`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-md text-sm hover:bg-blue-500/30 transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-theme-secondary/30 text-theme-primary rounded-md text-sm hover:bg-theme-secondary/50 transition-colors"
               >
                 <ChartBarIcon className="w-3 h-3" />
                 Wachstumsanalyse
               </Link>
               <Link
                 href={`/analyse/dcf?ticker=${ticker}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-500/20 text-purple-400 rounded-md text-sm hover:bg-purple-500/30 transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-theme-secondary/30 text-theme-primary rounded-md text-sm hover:bg-theme-secondary/50 transition-colors"
               >
                 <BanknotesIcon className="w-3 h-3" />
                 DCF Calculator
@@ -576,8 +576,8 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
         {/* Non-Premium User - Soft CTA */}
         {!user?.isPremium && (
           <div className="bg-theme-card rounded-xl p-6 border border-theme/10 text-center">
-            <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl flex items-center justify-center">
-              <SparklesIcon className="w-6 h-6 text-green-400" />
+            <div className="w-12 h-12 mx-auto mb-4 bg-theme-secondary/20 rounded-xl flex items-center justify-center">
+              <SparklesIcon className="w-6 h-6 text-theme-secondary" />
             </div>
             <h3 className="text-lg font-semibold text-theme-primary mb-2">
               Erweiterte Analyse-Tools
@@ -587,7 +587,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             </p>
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors text-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-theme-primary hover:bg-theme-secondary text-white rounded-lg transition-colors text-sm"
             >
               Premium Features entdecken
             </Link>

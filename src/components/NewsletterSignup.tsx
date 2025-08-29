@@ -52,7 +52,7 @@ export default function NewsletterSignup() {
       <div className="text-center max-w-md mx-auto">
         <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
              className="p-6 border rounded-xl">
-          <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 bg-theme-secondary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">✅</span>
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">
@@ -77,7 +77,7 @@ export default function NewsletterSignup() {
 
   return (
     <div className="max-w-md mx-auto">
-      <form onSubmit={handleSubmit} className="flex gap-3">
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <div className="flex-1">
           <input
             type="email"
@@ -85,13 +85,11 @@ export default function NewsletterSignup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={status === 'loading'}
-            style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
             className="
               w-full px-4 py-3 rounded-lg
-              border
-              text-white placeholder-theme-secondary
-              focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20
-              hover:bg-theme-hover
+              bg-white/5 border border-white/10
+              text-white placeholder-white/40
+              focus:outline-none focus:border-white/20 focus:bg-white/10
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
             "
@@ -104,10 +102,10 @@ export default function NewsletterSignup() {
           disabled={status === 'loading'}
           className="
             px-6 py-3 
-            bg-green-500 hover:bg-green-400
-            text-black font-medium rounded-lg
+            bg-white text-black font-medium rounded-lg
+            hover:bg-white/90
             disabled:opacity-50 disabled:cursor-not-allowed
-            transition-all duration-200 hover:scale-[1.02]
+            transition-all duration-200
             flex items-center justify-center gap-2
             whitespace-nowrap
           "
@@ -125,7 +123,7 @@ export default function NewsletterSignup() {
 
       {/* Error Message */}
       {status === 'error' && message && (
-        <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+        <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
           <p className="text-red-400 text-sm">
             {message}
           </p>
