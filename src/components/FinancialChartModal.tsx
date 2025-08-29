@@ -11,6 +11,7 @@ import {
   ReferenceLine,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip as RechartsTooltip,
 } from 'recharts'
 import { XMarkIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
@@ -504,20 +505,28 @@ export default function FinancialChartModal({
                     
                     return (
                       <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
+                        <CartesianGrid 
+                          strokeDasharray="1 3" 
+                          stroke="#64748b" 
+                          strokeWidth={1}
+                          opacity={1}
+                          horizontal={true}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="label" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis 
                           tickFormatter={formatAxisValueDE}
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           width={80}
                         />
                         <RechartsTooltip
@@ -592,20 +601,28 @@ export default function FinancialChartModal({
                     
                     return (
                       <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
+                        <CartesianGrid 
+                          strokeDasharray="1 3" 
+                          stroke="#64748b" 
+                          strokeWidth={1}
+                          opacity={1}
+                          horizontal={true}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="label" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis 
                           tickFormatter={formatAxisValueDE}
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           width={80}
                         />
                         <RechartsTooltip
@@ -669,19 +686,27 @@ export default function FinancialChartModal({
                     
                     return (
                       <BarChart data={validData} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
+                        <CartesianGrid 
+                          strokeDasharray="1 3" 
+                          stroke="#64748b" 
+                          strokeWidth={1}
+                          opacity={1}
+                          horizontal={true}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="label" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
                           width={80}
                           domain={['dataMin', 'dataMax']}
@@ -705,19 +730,27 @@ export default function FinancialChartModal({
                   else if (metricKey === 'valuationMetrics') {
                     return (
                       <LineChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
+                        <CartesianGrid 
+                          strokeDasharray="1 3" 
+                          stroke="#64748b" 
+                          strokeWidth={1}
+                          opacity={1}
+                          horizontal={true}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="label" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           tickFormatter={(value) => `${value.toFixed(1)}x`}
                           width={80}
                         />
@@ -752,20 +785,28 @@ export default function FinancialChartModal({
                   else if (metricKey === 'cashDebt') {
                     return (
                       <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
+                        <CartesianGrid 
+                          strokeDasharray="1 3" 
+                          stroke="#64748b" 
+                          strokeWidth={1}
+                          opacity={1}
+                          horizontal={true}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="label" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis 
                           tickFormatter={formatAxisValueDE}
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           width={80}
                         />
                         <RechartsTooltip 
@@ -782,19 +823,27 @@ export default function FinancialChartModal({
                     const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / (data.length || 1)
                     return (
                       <LineChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 60 }}>
+                        <CartesianGrid 
+                          strokeDasharray="1 3" 
+                          stroke="#64748b" 
+                          strokeWidth={1}
+                          opacity={1}
+                          horizontal={true}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="label" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
                         />
                         <YAxis 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           width={60}
                         />
                         <ReferenceLine
@@ -824,11 +873,19 @@ export default function FinancialChartModal({
                   else {
                     return (
                       <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
+                        <CartesianGrid 
+                          strokeDasharray="1 3" 
+                          stroke="#64748b" 
+                          strokeWidth={1}
+                          opacity={1}
+                          horizontal={true}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="label" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           angle={-45}
                           textAnchor="end"
                           height={60}
@@ -844,9 +901,9 @@ export default function FinancialChartModal({
                             }
                             return formatAxisValueDE(v)
                           }}
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 12, fill: 'var(--text-secondary)' }}
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                           width={80}
                         />
                         <RechartsTooltip 

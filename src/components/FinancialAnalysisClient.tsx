@@ -10,6 +10,7 @@ import {
   Line,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip as RechartsTooltip,
 } from 'recharts'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
@@ -601,10 +602,18 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
             data={data} 
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
+            <CartesianGrid 
+              strokeDasharray="1 3" 
+              stroke="#64748b" 
+              strokeWidth={1}
+              opacity={1}
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis 
               dataKey="label" 
-              axisLine={false}
-              tickLine={false}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ 
                 fontSize: 11, 
                 fill: 'var(--text-secondary)',
@@ -614,8 +623,8 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               height={25}
             />
             <YAxis 
-              axisLine={false}
-              tickLine={false}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ 
                 fontSize: 10, 
                 fill: 'var(--text-secondary)' 
@@ -643,7 +652,8 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               width={35}
               domain={[0, 'dataMax']}
             />
-            <RechartsTooltip
+            <RechartsTooltip 
+              cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload?.[0]) return null
                 const value = payload[0].value as number
@@ -761,22 +771,31 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={validData} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
+            <CartesianGrid 
+              strokeDasharray="1 3" 
+              stroke="#64748b" 
+              strokeWidth={1}
+              opacity={1}
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis 
               dataKey="label" 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               interval="preserveStartEnd"
             />
             <YAxis 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               tickFormatter={(value) => `${(value * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
               width={35}
               domain={['dataMin', 'dataMax']}
             />
-            <RechartsTooltip
+            <RechartsTooltip 
+              cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload?.[0]) return null
                 const value = payload[0].value as number
@@ -1031,21 +1050,30 @@ function RevenueSegmentsChart({
             data={normalizedData}  // ✅ Verwende normalisierte Daten
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
+            <CartesianGrid 
+              strokeDasharray="1 3" 
+              stroke="#64748b" 
+              strokeWidth={1}
+              opacity={1}
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis 
               dataKey="label" 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               interval="preserveStartEnd"
             />
             <YAxis 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               tickFormatter={(value) => formatAxisValueDE(value)}
               width={35}
             />
-            <RechartsTooltip
+            <RechartsTooltip 
+              cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload) return null
                 
@@ -1117,12 +1145,21 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
+            <CartesianGrid 
+              strokeDasharray="1 3" 
+              stroke="#64748b" 
+              strokeWidth={1}
+              opacity={1}
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis dataKey="label" axisLine={false} tickLine={false} 
-                   tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
+                   tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }} />
             <YAxis axisLine={false} tickLine={false}
-                   tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+                   tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                    tickFormatter={(value) => `${value.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x`} />
-            <RechartsTooltip
+            <RechartsTooltip 
+              cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload) return null
                 return (
@@ -1312,21 +1349,30 @@ function GeographicSegmentsChart({
             data={segmentData} 
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
+            <CartesianGrid 
+              strokeDasharray="1 3" 
+              stroke="#64748b" 
+              strokeWidth={1}
+              opacity={1}
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis 
               dataKey="label" 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               interval="preserveStartEnd"
             />
             <YAxis 
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               tickFormatter={(value) => formatAxisValueDE(value)}
               width={35}
             />
-            <RechartsTooltip
+            <RechartsTooltip 
+              cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload) return null
                 const total = payload.reduce((sum, entry) => sum + (entry.value as number), 0)
@@ -1424,10 +1470,18 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             data={data} 
             margin={{ top: 10, right: 10, bottom: 25, left: 50 }}
           >
+            <CartesianGrid 
+              strokeDasharray="1 3" 
+              stroke="#64748b" 
+              strokeWidth={1}
+              opacity={1}
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis 
               dataKey="label" 
-              axisLine={false}
-              tickLine={false}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ 
                 fontSize: 11, 
                 fill: 'var(--text-secondary)',
@@ -1438,8 +1492,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             />
             <YAxis 
               tickFormatter={formatAxisValueDE}
-              axisLine={false}
-              tickLine={false}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ 
                 fontSize: 10, 
                 fill: 'var(--text-secondary)' 
@@ -1447,7 +1501,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               width={50}
               domain={[0, 'dataMax']}
             />
-            <RechartsTooltip
+            <RechartsTooltip 
+              cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload) return null
                 
@@ -1518,10 +1573,18 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             data={data} 
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
+            <CartesianGrid 
+              strokeDasharray="1 3" 
+              stroke="#64748b" 
+              strokeWidth={1}
+              opacity={1}
+              horizontal={true}
+              vertical={false}
+            />
             <XAxis 
               dataKey="label" 
-              axisLine={false}
-              tickLine={false}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ 
                 fontSize: 11, 
                 fill: 'var(--text-secondary)',
@@ -1531,8 +1594,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               height={25}
             />
             <YAxis 
-              axisLine={false}
-              tickLine={false}
+              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ 
                 fontSize: 10, 
                 fill: 'var(--text-secondary)' 
@@ -1544,7 +1607,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               width={35}
               domain={[0, 'dataMax']}
             />
-            <RechartsTooltip
+            <RechartsTooltip 
+              cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload?.[0]) return null
                 const value = payload[0].value as number

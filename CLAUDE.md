@@ -100,3 +100,4 @@ Key environment variables needed:
 - German language comments and content throughout the codebase
 - Financial data is cached and updated via scheduled scripts
 - die FinclueAI ist ein Thema das ich sowieso "neu angehen" bzw verbessern wollte. Soll ich dir sagen was ich machen will und wir legen schrittweise los?
+- ich will dioe FinancialAnalysisClient als nächstes verbessern vom design (nur vom design). Genau will ich die Charts optimieren und zwar fehlen da aktuell x und y achse und vll ein dezentes grid dass die charts aufwerten würde. Bitte die Charts dementsprechend optimieren.
