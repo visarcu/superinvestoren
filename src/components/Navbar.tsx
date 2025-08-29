@@ -660,6 +660,13 @@ export default function ModernNavbar() {
   
             {/* Regular Nav Links */}
             <Link
+              href="/marktindikatoren"
+              className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
+            >
+              Märkte
+            </Link>
+            
+            <Link
               href="/news"
               className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
             >
@@ -756,6 +763,13 @@ export default function ModernNavbar() {
                     </div>
   
                     {/* Mobile Nav Links */}
+                    <Link
+                      href="/marktindikatoren"
+                      onClick={() => close()}
+                      className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
+                    >
+                      Märkte
+                    </Link>
                     {navLinks.map(link => (
                       <Link
                         key={link.href}
