@@ -315,7 +315,7 @@ const GrowthIndicator = ({ current, previous, showIcon = true }: {
   
   return (
     <span className={`inline-flex items-center gap-1 text-xs font-semibold ${
-      isPositive ? 'text-green-400' : 'text-red-400'
+      isPositive ? 'text-theme-secondary' : 'text-theme-muted'
     }`}>
       {showIcon && (
         isPositive ? (
@@ -410,12 +410,12 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-4 text-center">
-          <LockClosedIcon className="w-6 h-6 text-green-500 mx-auto mb-2" />
+          <LockClosedIcon className="w-6 h-6 text-theme-muted mx-auto mb-2" />
             <p className="text-theme-primary font-medium">Financial Statements</p>
             <p className="text-theme-muted text-sm">Premium erforderlich</p>
             <Link
   href="/pricing"
-  className="inline-flex items-center gap-1 text-green-500 hover:text-green-400 text-xs font-medium mt-2 transition-colors"
+  className="inline-flex items-center gap-1 text-theme-secondary hover:text-theme-primary text-xs font-medium mt-2 transition-colors"
 >
   Upgrade <ArrowRightIcon className="w-3 h-3" />
 </Link>
@@ -518,15 +518,15 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 {/* Total Revenues MIT SPARKLINE */}
                 <tr>
                   <td className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-theme-primary rounded-full opacity-60"></div>
                     <SparklineTooltip
                       data={revenueSparklineData}
                       value={formatFinancialNumber(latestData?.revenue || 0)}
                       label={GERMAN_LABELS.total_revenues}
-                      color="#10b981"
+                      color="var(--color-text-secondary)"
                       growth={previousData && <GrowthIndicator current={latestData?.revenue || 0} previous={previousData?.revenue || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-green-400 transition-colors">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors">
                         {GERMAN_LABELS.total_revenues}
                       </span>
                     </SparklineTooltip>
@@ -548,7 +548,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                     const growth = ((item.revenue - incomeData[index-1].revenue) / incomeData[index-1].revenue) * 100
                     return (
                       <td key={item.date} className={`text-center font-mono font-semibold ${
-                        growth >= 0 ? 'text-green-400' : 'text-red-400'
+                        growth >= 0 ? 'text-theme-secondary' : 'text-theme-muted'
                       }`}>
                         {growth >= 0 ? '+' : ''}{growth.toFixed(1)}%
                       </td>
@@ -567,17 +567,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Gross Profit MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-green-500/5">
+                <tr className="bg-theme-secondary/30">
                   <td className="font-semibold flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-theme-primary rounded-full opacity-60"></div>
                     <SparklineTooltip
                       data={prepareSparklineData(rawStatements?.income || [], 'grossProfit')}
                       value={formatFinancialNumber(latestData?.grossProfit || 0)}
                       label={GERMAN_LABELS.gross_profit}
-                      color="#16a34a"
+                      color="var(--color-text-secondary)"
                       growth={previousData && <GrowthIndicator current={latestData?.grossProfit || 0} previous={previousData?.grossProfit || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-green-400 transition-colors flex items-center gap-2">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                         {GERMAN_LABELS.gross_profit}
                         <LearnTooltipButton term="Bruttomarge" />
                       </span>
@@ -651,17 +651,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Operating Income MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-blue-500/5">
+                <tr className="bg-theme-secondary/30">
                   <td className="font-semibold flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-theme-primary rounded-full opacity-60"></div>
                     <SparklineTooltip
                       data={prepareSparklineData(rawStatements?.income || [], 'operatingIncome')}
                       value={formatFinancialNumber(latestData?.operatingIncome || 0)}
                       label={GERMAN_LABELS.operating_income}
-                      color="#3b82f6"
+                      color="var(--color-text-secondary)"
                       growth={previousData && <GrowthIndicator current={latestData?.operatingIncome || 0} previous={previousData?.operatingIncome || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-blue-400 transition-colors flex items-center gap-2">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                         {GERMAN_LABELS.operating_income}
                         <LearnTooltipButton term="Operating Margin" />
                       </span>
@@ -688,9 +688,9 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                {/* EBIT MIT LEARN TOOLTIP */}
-<tr className="bg-blue-500/5">
+<tr className="bg-theme-tertiary/40">
   <td className="font-medium flex items-center gap-2">
-    <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
+    <div className="w-2 h-2 bg-theme-secondary rounded-full opacity-60"></div>
     <span className="flex items-center gap-2">
       {GERMAN_LABELS.ebit}
       <LearnTooltipButton term="EBIT" />
@@ -704,17 +704,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 </tr>
 
 {/* EBITDA MIT SPARKLINE UND LEARN TOOLTIP */}
-<tr className="bg-blue-500/5">
+<tr className="bg-theme-tertiary/40">
   <td className="font-medium flex items-center gap-2">
-    <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
+    <div className="w-2 h-2 bg-theme-secondary rounded-full opacity-60"></div>
     <SparklineTooltip
       data={ebitdaSparklineData}
       value={formatFinancialNumber(latestData?.ebitda || 0)}
       label={GERMAN_LABELS.ebitda}
-      color="#6366f1"
+      color="var(--color-text-secondary)"
       growth={previousData && <GrowthIndicator current={latestData?.ebitda || 0} previous={previousData?.ebitda || 0} />}
     >
-      <span className="cursor-pointer hover:text-blue-400 transition-colors flex items-center gap-2">
+      <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
         {GERMAN_LABELS.ebitda}
         <LearnTooltipButton term="EBITDA" />
       </span>
@@ -748,7 +748,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 <tr>
                   <td>{GERMAN_LABELS.interest_expense}</td>
                   {incomeData.map((item) => (
-                    <td key={item.date} className="text-center font-mono text-red-400">
+                    <td key={item.date} className="text-center font-mono text-theme-muted">
                       {formatFinancialNumber(Math.abs(item.interestExpense || 0))}
                     </td>
                   ))}
@@ -775,7 +775,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Pre-Tax Income */}
-                <tr className="bg-yellow-500/5">
+                <tr className="bg-theme-secondary/20">
                   <td className="font-semibold">{GERMAN_LABELS.pretax_income}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -788,7 +788,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 <tr>
                   <td>{GERMAN_LABELS.income_tax_expense}</td>
                   {incomeData.map((item) => (
-                    <td key={item.date} className="text-center font-mono text-red-400">
+                    <td key={item.date} className="text-center font-mono text-theme-muted">
                       {formatFinancialNumber(item.incomeTaxExpense || 0)}
                     </td>
                   ))}
@@ -813,17 +813,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Net Income - HIGHLIGHTED MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-green-500/5">
+                <tr className="bg-theme-secondary/40">
                   <td className="font-bold text-lg flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
                       data={netIncomeSparklineData}
                       value={formatFinancialNumber(latestData?.netIncome || 0)}
                       label={GERMAN_LABELS.net_income_final}
-                      color="#10b981"
+                      color="var(--color-text-primary)"
                       growth={previousData && <GrowthIndicator current={latestData?.netIncome || 0} previous={previousData?.netIncome || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-green-400 transition-colors flex items-center gap-2">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                         {GERMAN_LABELS.net_income_final}
                         <LearnTooltipButton term="Net Margin" />
                       </span>
@@ -1014,15 +1014,15 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 {/* Cash and Cash Equivalents MIT SPARKLINE UND LEARN TOOLTIP */}
                 <tr>
                   <td className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-theme-primary rounded-full opacity-60"></div>
                     <SparklineTooltip
                       data={cashSparklineData}
                       value={formatFinancialNumber(latestData?.cashAndCashEquivalents || 0)}
                       label={GERMAN_LABELS.cash_and_equivalents}
-                      color="#3b82f6"
+                      color="var(--color-text-secondary)"
                       growth={previousData && <GrowthIndicator current={latestData?.cashAndCashEquivalents || 0} previous={previousData?.cashAndCashEquivalents || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-blue-400 transition-colors flex items-center gap-2">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                         {GERMAN_LABELS.cash_and_equivalents}
                         <LearnTooltipButton term="Liquide Mittel" />
                       </span>
@@ -1081,7 +1081,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                <tr className="bg-blue-500/5">
+                <tr className="bg-theme-secondary/30">
                   <td className="font-semibold">{GERMAN_LABELS.total_current_assets}</td>
                   {balanceData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -1143,17 +1143,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Total Assets MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-green-500/5">
+                <tr className="bg-theme-secondary/40">
                   <td className="font-bold text-lg flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
                       data={assetsSparklineData}
                       value={formatFinancialNumber(latestData?.totalAssets || 0)}
                       label={GERMAN_LABELS.total_assets_final}
-                      color="#8b5cf6"
+                      color="var(--color-text-primary)"
                       growth={previousData && <GrowthIndicator current={latestData?.totalAssets || 0} previous={previousData?.totalAssets || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-purple-400 transition-colors flex items-center gap-2">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                         {GERMAN_LABELS.total_assets_final}
                         <LearnTooltipButton term="Bilanzsumme" />
                       </span>
@@ -1218,7 +1218,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                <tr className="bg-red-500/5">
+                <tr className="bg-theme-tertiary/30">
                   <td className="font-semibold flex items-center gap-2">
                     {GERMAN_LABELS.total_current_liabilities}
                     <LearnTooltipButton term="Kurzfristige Verbindlichkeiten" />
@@ -1264,7 +1264,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                <tr className="bg-red-500/5">
+                <tr className="bg-theme-tertiary/30">
                   <td className="font-semibold flex items-center gap-2">
                     {GERMAN_LABELS.total_liabilities}
                     <LearnTooltipButton term="Langfristige Verbindlichkeiten" />
@@ -1313,7 +1313,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 <tr>
                   <td>{GERMAN_LABELS.treasury_stock}</td>
                   {balanceData.map((item) => (
-                    <td key={item.date} className="text-center font-mono text-red-400">
+                    <td key={item.date} className="text-center font-mono text-theme-muted">
                       {formatFinancialNumber(item.treasuryStock || 0)}
                     </td>
                   ))}
@@ -1329,17 +1329,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Total Equity MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-green-500/5">
+                <tr className="bg-theme-secondary/40">
                   <td className="font-bold text-lg flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
                       data={equitySparklineData}
                       value={formatFinancialNumber(latestData?.totalStockholdersEquity || 0)}
                       label={GERMAN_LABELS.total_equity_final}
-                      color="#f59e0b"
+                      color="var(--color-text-primary)"
                       growth={previousData && <GrowthIndicator current={latestData?.totalStockholdersEquity || 0} previous={previousData?.totalStockholdersEquity || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-green-400 transition-colors flex items-center gap-2">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                         {GERMAN_LABELS.total_equity_final}
                         <LearnTooltipButton term="Eigenkapital" />
                       </span>
@@ -1353,7 +1353,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Total Liabilities + Equity (Check) */}
-                <tr className="bg-theme-secondary/20">
+                <tr className="bg-theme-tertiary/20">
                   <td className="font-semibold text-theme-muted">{GERMAN_LABELS.total_liabilities_equity}</td>
                   {balanceData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold text-theme-muted">
@@ -1465,7 +1465,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 {/* Net Income */}
                 <tr>
                   <td className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-theme-primary rounded-full opacity-60"></div>
                     {GERMAN_LABELS.net_income_cf}
                   </td>
                   {cashflowData.map((item) => (
@@ -1556,17 +1556,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Operating Cash Flow MIT SPARKLINE */}
-                <tr className="bg-blue-500/5">
+                <tr className="bg-theme-secondary/30">
                   <td className="font-bold flex items-center gap-2">
-                    <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
                       data={operatingCFSparklineData}
                       value={formatFinancialNumber(latestData?.netCashProvidedByOperatingActivities || 0)}
                       label={GERMAN_LABELS.operating_cash_flow_final}
-                      color="#06b6d4"
+                      color="var(--color-text-secondary)"
                       growth={previousData && <GrowthIndicator current={latestData?.netCashProvidedByOperatingActivities || 0} previous={previousData?.netCashProvidedByOperatingActivities || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-cyan-400 transition-colors">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors">
                         {GERMAN_LABELS.operating_cash_flow_final}
                       </span>
                     </SparklineTooltip>
@@ -1636,7 +1636,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Investing Cash Flow */}
-                <tr className="bg-orange-500/5">
+                <tr className="bg-theme-secondary/20">
                   <td className="font-semibold">{GERMAN_LABELS.investing_cash_flow}</td>
                   {cashflowData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -1713,7 +1713,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Financing Cash Flow */}
-                <tr className="bg-purple-500/5">
+                <tr className="bg-theme-secondary/20">
                   <td className="font-semibold">{GERMAN_LABELS.financing_cash_flow}</td>
                   {cashflowData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -1723,9 +1723,9 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* NET CASH FLOW */}
-                <tr className="bg-green-500/5">
+                <tr className="bg-theme-secondary/40">
                   <td className="font-bold text-lg flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     {GERMAN_LABELS.net_cash_flow}
                   </td>
                   {cashflowData.map((item) => (
@@ -1756,17 +1756,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* FREE CASH FLOW MIT SPARKLINE */}
-                <tr className="bg-blue-500/5">
+                <tr className="bg-theme-secondary/30">
                   <td className="font-bold flex items-center gap-2">
-                    <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
                       data={freeCFSparklineData}
                       value={formatFinancialNumber(latestData?.freeCashFlow || 0)}
                       label={GERMAN_LABELS.free_cash_flow_calc}
-                      color="#8b5cf6"
+                      color="var(--color-text-secondary)"
                       growth={previousData && <GrowthIndicator current={latestData?.freeCashFlow || 0} previous={previousData?.freeCashFlow || 0} />}
                     >
-                      <span className="cursor-pointer hover:text-purple-400 transition-colors">
+                      <span className="cursor-pointer hover:text-theme-primary transition-colors">
                         {GERMAN_LABELS.free_cash_flow_calc}
                       </span>
                     </SparklineTooltip>
@@ -1809,7 +1809,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
           <div>
             <p className="text-theme-secondary">
-              {GERMAN_LABELS.comprehensive_analysis} <span className="font-semibold text-green-400">{ticker.toUpperCase()}</span>
+              {GERMAN_LABELS.comprehensive_analysis} <span className="font-semibold text-theme-primary">{ticker.toUpperCase()}</span>
             </p>
             <div className="text-sm text-theme-muted mt-1">
             {GERMAN_LABELS.all_figures.replace('{unit}', 'USD')} • {GERMAN_LABELS.daily_updated}
@@ -1830,8 +1830,8 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   onClick={() => setPeriod(p)}
                   className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
                     period === p 
-                      ? 'bg-green-500 text-white shadow-sm' 
-                      : 'text-theme-secondary hover:text-green-600 hover:bg-green-500/10'
+                      ? 'bg-theme-primary text-white shadow-sm' 
+                      : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-hover'
                   }`}
                 >
                   {p === 'annual' ? GERMAN_LABELS.annual : GERMAN_LABELS.quarterly}
@@ -1868,7 +1868,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                     }}
                     className={`w-full px-3 py-1.5 text-left text-xs transition-colors ${
                       yearsToShow === years 
-                        ? 'bg-green-500/15 text-green-400 font-medium' 
+                        ? 'bg-theme-primary/15 text-theme-primary font-medium' 
                         : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                     }`}
                   >
@@ -1898,7 +1898,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 onClick={() => setActiveStatement(key as any)}
                 className={`group flex items-center gap-2 px-1 py-3 text-sm font-medium transition-all duration-200 relative ${
                   activeStatement === key
-                    ? 'text-green-400'
+                    ? 'text-theme-primary'
                     : 'text-theme-secondary hover:text-theme-primary'
                 }`}
               >
@@ -1906,7 +1906,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 <span>{label}</span>
                 
                 {activeStatement === key && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-400 rounded-full" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-theme-primary rounded-full" />
                 )}
               </button>
             ))}

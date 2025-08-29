@@ -608,7 +608,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       {/* ✅ ULTRA CLEAN ÜBERSICHT */}
       {hasKeyMetrics ? (
         <div className="bg-theme-card rounded-lg">
-          <div className="px-6 py-4 border-b border-theme/10">
+          <div className="px-6 py-4 border-b border-theme/5">
             <h3 className="text-xl font-bold text-theme-primary">Übersicht</h3>
           </div>
           
@@ -995,7 +995,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         <div className="lg:col-span-2">
           {history.length > 0 ? (
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/10">
+              <div className="px-6 py-4 border-b border-theme/5">
                 <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
               </div>
               <div className="p-6 relative">
@@ -1008,7 +1008,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             </div>
           ) : (
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/10">
+              <div className="px-6 py-4 border-b border-theme/5">
                 <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
               </div>
               <div className="p-6 flex items-center justify-center min-h-[400px]">
@@ -1043,7 +1043,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           {/* WALL STREET RATINGS */}
           {recs && (
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/10">
+              <div className="px-6 py-4 border-b border-theme/5">
                 <h3 className="text-lg font-bold text-theme-primary">Wall Street Bewertungen</h3>
               </div>
               <div className="p-6">
@@ -1148,7 +1148,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
           {estimates.length > 0 && (
             <div className="lg:col-span-2 bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/10">
+              <div className="px-6 py-4 border-b border-theme/5">
                 <h3 className="text-lg font-bold text-theme-primary">
                   Analysten Schätzungen (ab {new Date().getFullYear()})
                 </h3>
@@ -1384,7 +1384,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             
             {/* Company Profile */}
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/10">
+              <div className="px-6 py-4 border-b border-theme/5">
                 <h3 className="text-xl font-bold text-theme-primary">Company Profile</h3>
               </div>
               

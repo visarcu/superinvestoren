@@ -78,7 +78,7 @@ export default function ValuationPage() {
         <div className="w-full px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+              <div className="w-6 h-6 border-2 border-theme-primary border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
               <span className="text-theme-muted">Lade Bewertungsdaten...</span>
             </div>
           </div>
@@ -104,10 +104,10 @@ export default function ValuationPage() {
 
         {/* ✅ Additional Sections MIT LEARN TOOLTIPS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-theme-card rounded-xl p-6 hover:bg-theme-secondary/10 transition-colors border border-theme/10">
+          <div className="bg-theme-card rounded-xl p-6 hover:bg-theme-secondary/10 transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <ChartBarIcon className="w-4 h-4 text-blue-400" />
+              <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
+                <ChartBarIcon className="w-4 h-4 text-theme-primary" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
@@ -117,17 +117,17 @@ export default function ValuationPage() {
                 <p className="text-theme-muted text-sm">Vergleich mit Branchenkonkurrenten</p>
               </div>
             </div>
-            <div className="bg-theme-tertiary/20 rounded-lg p-4 border-l-4 border-blue-400">
+            <div className="bg-theme-tertiary/20 rounded-lg p-4 border-l-4 border-theme-primary">
               <p className="text-sm text-theme-muted">
                 🚀 Bald verfügbar: Automatischer Vergleich mit Top-Konkurrenten in der Branche
               </p>
             </div>
           </div>
           
-          <div className="bg-theme-card rounded-xl p-6 hover:bg-theme-secondary/10 transition-colors border border-theme/10">
+          <div className="bg-theme-card rounded-xl p-6 hover:bg-theme-secondary/10 transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <BuildingOfficeIcon className="w-4 h-4 text-green-400" />
+              <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
+                <BuildingOfficeIcon className="w-4 h-4 text-theme-primary" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
@@ -137,7 +137,7 @@ export default function ValuationPage() {
                 <p className="text-theme-muted text-sm">Discounted Cash Flow Bewertung</p>
               </div>
             </div>
-            <div className="bg-theme-tertiary/20 rounded-lg p-4 border-l-4 border-green-400">
+            <div className="bg-theme-tertiary/20 rounded-lg p-4 border-l-4 border-theme-primary">
               <p className="text-sm text-theme-muted">
                 📊 Bald verfügbar: Interaktives DCF-Modell mit anpassbaren Parametern
               </p>
@@ -147,7 +147,7 @@ export default function ValuationPage() {
 
         {/* ✅ CTA für Premium Users */}
         {user?.isPremium && (
-          <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
+          <div className="bg-theme-card rounded-xl p-6">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-theme-primary mb-1">
@@ -161,7 +161,7 @@ export default function ValuationPage() {
               <div className="flex items-center gap-3">
                 <Link
                   href={`/analyse/stocks/${ticker.toLowerCase()}`}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+                  className="px-4 py-2 bg-theme-primary hover:bg-theme-secondary text-white font-medium rounded-lg transition-colors duration-200"
                 >
                   Zur Analyse
                 </Link>

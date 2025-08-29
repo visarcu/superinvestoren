@@ -374,7 +374,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
 
   const getDifferenceColor = (current: number, comparison: number): string => {
     if (!current || !comparison || isNaN(current) || isNaN(comparison)) return 'text-theme-muted';
-    return current > comparison ? 'text-red-400' : 'text-green-400';
+    return current > comparison ? 'text-theme-muted' : 'text-theme-secondary';
   };
 
   if (loading) {
@@ -382,7 +382,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       <div className="bg-theme-card rounded-xl p-8">
         <div className="flex items-center justify-center h-32">
           <div className="text-center">
-            <div className="w-6 h-6 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <div className="w-6 h-6 border-2 border-theme-primary border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
             <span className="text-theme-muted">Lade Bewertungsdaten...</span>
           </div>
         </div>
@@ -393,11 +393,11 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
   if (error) {
     return (
       <div className="bg-theme-card rounded-xl p-8 text-center">
-        <InformationCircleIcon className="w-16 h-16 mx-auto mb-4 text-red-400" />
-        <p className="text-red-400 mb-4">Fehler beim Laden der Bewertungsdaten: {error}</p>
+        <InformationCircleIcon className="w-16 h-16 mx-auto mb-4 text-theme-secondary" />
+        <p className="text-theme-secondary mb-4">Fehler beim Laden der Bewertungsdaten: {error}</p>
         <button 
           onClick={loadValuationData}
-          className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black rounded-lg transition-colors"
+          className="px-4 py-2 bg-theme-primary hover:bg-theme-secondary text-white rounded-lg transition-colors"
         >
           Erneut versuchen
         </button>
@@ -410,21 +410,21 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       <div className="bg-theme-card rounded-xl border border-theme/10">
         <div className="px-6 py-4 border-b border-theme/10">
           <div className="flex items-center gap-3">
-            <CalculatorIcon className="w-6 h-6 text-green-500" />
+            <CalculatorIcon className="w-6 h-6 text-theme-primary" />
             <h3 className="text-xl font-bold text-theme-primary">Bewertung & Kennzahlen</h3>
           </div>
         </div>
         
         <div className="text-center py-12 px-6">
-          <div className="w-16 h-16 bg-gradient-to-br border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <LockClosedIcon className="w-8 h-8 text-green-500" />
+          <div className="w-16 h-16 bg-theme-secondary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <LockClosedIcon className="w-8 h-8 text-theme-primary" />
           </div>
           <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Bewertungsanalyse</h3>
           <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">
             Professionelle Bewertungsmetriken mit historischen Vergleichen, P/E, EV-Ratios und Cash Flow Analysen.
           </p>
           
-          <button className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors">
+          <button className="inline-flex items-center gap-2 px-6 py-3 bg-theme-primary hover:bg-theme-secondary text-white rounded-lg font-semibold transition-colors">
             <LockClosedIcon className="w-5 h-5" />
             14 Tage kostenlos testen
           </button>
@@ -540,8 +540,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       {/* Header */}
       <div className="p-6 border-b border-theme/5">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
-            <CalculatorIcon className="w-4 h-4 text-purple-400" />
+          <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
+            <CalculatorIcon className="w-4 h-4 text-theme-primary" />
           </div>
           <div>
             <h3 className="text-xl font-bold text-theme-primary">Bewertung & Kennzahlen</h3>
@@ -576,7 +576,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
                   <tr 
                     key={index}
                     className={`hover:bg-theme-secondary/20 transition-colors ${
-                      metric.important ? 'bg-green-500/5' : ''
+                      metric.important ? 'bg-theme-secondary/10' : ''
                     }`}
                   >
                     <td className={`py-3 px-6 text-theme-primary font-medium text-sm ${metric.important ? 'font-semibold' : ''}`}>

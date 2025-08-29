@@ -110,6 +110,8 @@ export default function PortfolioDashboard() {
   const [newPurchasePrice, setNewPurchasePrice] = useState('')
   const [newPurchaseDate, setNewPurchaseDate] = useState(new Date().toISOString().split('T')[0])
   const [addingPosition, setAddingPosition] = useState(false)
+  const [positionType, setPositionType] = useState<'stock' | 'cash'>('stock')
+  const [cashAmount, setCashAmount] = useState('')
   
   // Autocomplete State
   const [searchQuery, setSearchQuery] = useState('')
@@ -310,37 +312,63 @@ export default function PortfolioDashboard() {
 
   // Form Handlers
   const handleAddPosition = async () => {
-    if (!selectedStock || !newQuantity || !newPurchasePrice) {
-      alert('Bitte alle Felder ausfüllen')
-      return
+    if (positionType === 'stock') {
+      if (!selectedStock || !newQuantity || !newPurchasePrice) {
+        alert('Bitte alle Felder ausfüllen')
+        return
+      }
+    } else if (positionType === 'cash') {
+      if (!cashAmount) {
+        alert('Bitte Cash-Betrag eingeben')
+        return
+      }
     }
 
     setAddingPosition(true)
     
     try {
-      // Währungskonvertierung mit historischem Kurs
-      const conversionResult = await currencyManager.convertNewPositionToUSD(
-        parseFloat(newPurchasePrice),
-        currency,
-        newPurchaseDate
-      )
-      
-      const { error } = await supabase
-        .from('portfolio_holdings')
-        .insert({
-          portfolio_id: portfolio?.id,
-          symbol: selectedStock.symbol,
-          name: selectedStock.name,
-          quantity: parseFloat(newQuantity),
-          purchase_price: conversionResult.priceUSD,
-          purchase_date: newPurchaseDate,
-          // Erweiterte Metadaten
-          purchase_currency: currency,
-          purchase_exchange_rate: conversionResult.exchangeRate,
-          purchase_price_original: parseFloat(newPurchasePrice)
-        })
+      if (positionType === 'stock') {
+        // Stock Position
+        const conversionResult = await currencyManager.convertNewPositionToUSD(
+          parseFloat(newPurchasePrice),
+          currency,
+          newPurchaseDate
+        )
+        
+        const { error } = await supabase
+          .from('portfolio_holdings')
+          .insert({
+            portfolio_id: portfolio?.id,
+            symbol: selectedStock?.symbol,
+            name: selectedStock?.name,
+            quantity: parseFloat(newQuantity),
+            purchase_price: conversionResult.priceUSD,
+            purchase_date: newPurchaseDate,
+            purchase_currency: currency,
+            purchase_exchange_rate: conversionResult.exchangeRate,
+            purchase_price_original: parseFloat(newPurchasePrice)
+          })
 
-      if (error) throw error
+        if (error) throw error
+      } else {
+        // Cash Position - update portfolio cash_position
+        const conversionResult = await currencyManager.convertNewPositionToUSD(
+          parseFloat(cashAmount),
+          currency
+        )
+
+        // Add to existing cash position
+        const newCashPosition = (portfolio?.cash_position || 0) + conversionResult.priceUSD
+
+        const { error } = await supabase
+          .from('portfolios')
+          .update({ 
+            cash_position: newCashPosition
+          })
+          .eq('id', portfolio?.id)
+
+        if (error) throw error
+      }
 
       // Form reset
       resetAddPositionForm()
@@ -360,6 +388,8 @@ export default function PortfolioDashboard() {
     setNewQuantity('')
     setNewPurchasePrice('')
     setNewPurchaseDate(new Date().toISOString().split('T')[0])
+    setCashAmount('')
+    setPositionType('stock')
     setShowAddPosition(false)
     setShowSearchResults(false)
   }
@@ -621,7 +651,66 @@ export default function PortfolioDashboard() {
                   </div>
 
                   <div className="space-y-4">
-                    {/* Stock Search */}
+                    {/* Position Type Selector */}
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-3">
+                        Was möchtest du hinzufügen?
+                      </label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <button
+                          onClick={() => setPositionType('stock')}
+                          className={`p-3 rounded-lg border-2 transition-all ${
+                            positionType === 'stock'
+                              ? 'border-green-500 bg-green-500/10 text-green-400'
+                              : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
+                          }`}
+                        >
+                          <div className="flex flex-col items-center gap-2">
+                            <ChartBarIcon className="w-5 h-5" />
+                            <span className="font-medium text-sm">Aktie</span>
+                          </div>
+                        </button>
+                        <button
+                          onClick={() => setPositionType('cash')}
+                          className={`p-3 rounded-lg border-2 transition-all ${
+                            positionType === 'cash'
+                              ? 'border-green-500 bg-green-500/10 text-green-400'
+                              : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
+                          }`}
+                        >
+                          <div className="flex flex-col items-center gap-2">
+                            <CurrencyDollarIcon className="w-5 h-5" />
+                            <span className="font-medium text-sm">Cash</span>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Cash Fields */}
+                    {positionType === 'cash' && (
+                      <div>
+                        <label className="block text-sm font-medium text-theme-secondary mb-2">
+                          Cash-Betrag ({currency})
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={cashAmount}
+                          onChange={(e) => setCashAmount(e.target.value)}
+                          placeholder={currency === 'EUR' ? "1.000,00" : "1000.00"}
+                          className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                        />
+                        <p className="text-xs text-theme-muted mt-1">
+                          💡 Cash wird zu deiner bestehenden Position hinzugefügt
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Stock Fields */}
+                    {positionType === 'stock' && (
+                      <>
+                        {/* Stock Search */}
                     <div className="relative">
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
                         Aktie suchen

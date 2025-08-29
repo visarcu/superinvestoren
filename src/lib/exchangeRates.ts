@@ -62,15 +62,15 @@ export async function getExchangeRate(fromCurrency: string, toCurrency: string):
     const data = await response.json()
     console.log('FMP Exchange Rate API response:', data)
     
-    // Use same fallback logic as portfolio API
-    const eurUsdRate = data[0]?.price || 0.91 // Fallback: ~0.91 EUR/USD
+    // Use current realistic fallback rate based on Google: 1 EUR = 1.17 USD  
+    const eurUsdRate = data[0]?.price || 0.855 // Fallback: 1 USD = 0.855 EUR
     
     let rate: number
     if (fromCurrency === 'USD' && toCurrency === 'EUR') {
-      // USD->EUR: use rate directly (0.91 EUR per USD)
+      // USD->EUR: use rate directly (0.855 EUR per USD)  
       rate = eurUsdRate
     } else {
-      // EUR->USD: invert the rate (1/0.91 = 1.10 USD per EUR)
+      // EUR->USD: invert the rate (1/0.855 = 1.17 USD per EUR)
       rate = 1 / eurUsdRate
     }
     
