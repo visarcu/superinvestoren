@@ -141,6 +141,12 @@ export async function GET(
     if (sortedIncome[0] && sortedIncome[3]) {
       growth.ebitdaGrowth3Y = calculateCAGR(sortedIncome[3].ebitda, sortedIncome[0].ebitda, 3)
     }
+    if (sortedIncome[0] && sortedIncome[5]) {
+      growth.ebitdaGrowth5Y = calculateCAGR(sortedIncome[5].ebitda, sortedIncome[0].ebitda, 5)
+    }
+    if (sortedIncome[0] && sortedIncome[10]) {
+      growth.ebitdaGrowth10Y = calculateCAGR(sortedIncome[10].ebitda, sortedIncome[0].ebitda, 10)
+    }
 
     // Net Income Growth
     if (sortedIncome[0] && sortedIncome[1]) {
@@ -149,6 +155,12 @@ export async function GET(
     if (sortedIncome[0] && sortedIncome[3]) {
       growth.netIncomeGrowth3Y = calculateCAGR(sortedIncome[3].netIncome, sortedIncome[0].netIncome, 3)
     }
+    if (sortedIncome[0] && sortedIncome[5]) {
+      growth.netIncomeGrowth5Y = calculateCAGR(sortedIncome[5].netIncome, sortedIncome[0].netIncome, 5)
+    }
+    if (sortedIncome[0] && sortedIncome[10]) {
+      growth.netIncomeGrowth10Y = calculateCAGR(sortedIncome[10].netIncome, sortedIncome[0].netIncome, 10)
+    }
 
     // Operating Income Growth
     if (sortedIncome[0] && sortedIncome[1]) {
@@ -156,6 +168,12 @@ export async function GET(
     }
     if (sortedIncome[0] && sortedIncome[3]) {
       growth.operatingIncomeGrowth3Y = calculateCAGR(sortedIncome[3].operatingIncome, sortedIncome[0].operatingIncome, 3)
+    }
+    if (sortedIncome[0] && sortedIncome[5]) {
+      growth.operatingIncomeGrowth5Y = calculateCAGR(sortedIncome[5].operatingIncome, sortedIncome[0].operatingIncome, 5)
+    }
+    if (sortedIncome[0] && sortedIncome[10]) {
+      growth.operatingIncomeGrowth10Y = calculateCAGR(sortedIncome[10].operatingIncome, sortedIncome[0].operatingIncome, 10)
     }
 
     // FCF Growth (aus Cash Flow Statement)
@@ -168,6 +186,16 @@ export async function GET(
       const fcf0 = sortedCashFlow[0].freeCashFlow || (sortedCashFlow[0].operatingCashFlow - Math.abs(sortedCashFlow[0].capitalExpenditure))
       const fcf3 = sortedCashFlow[3].freeCashFlow || (sortedCashFlow[3].operatingCashFlow - Math.abs(sortedCashFlow[3].capitalExpenditure))
       growth.fcfGrowth3Y = calculateCAGR(fcf3, fcf0, 3)
+    }
+    if (sortedCashFlow.length >= 6) {
+      const fcf0 = sortedCashFlow[0].freeCashFlow || (sortedCashFlow[0].operatingCashFlow - Math.abs(sortedCashFlow[0].capitalExpenditure))
+      const fcf5 = sortedCashFlow[5].freeCashFlow || (sortedCashFlow[5].operatingCashFlow - Math.abs(sortedCashFlow[5].capitalExpenditure))
+      growth.fcfGrowth5Y = calculateCAGR(fcf5, fcf0, 5)
+    }
+    if (sortedCashFlow.length >= 11) {
+      const fcf0 = sortedCashFlow[0].freeCashFlow || (sortedCashFlow[0].operatingCashFlow - Math.abs(sortedCashFlow[0].capitalExpenditure))
+      const fcf10 = sortedCashFlow[10].freeCashFlow || (sortedCashFlow[10].operatingCashFlow - Math.abs(sortedCashFlow[10].capitalExpenditure))
+      growth.fcfGrowth10Y = calculateCAGR(fcf10, fcf0, 10)
     }
 
     // CAPEX Growth
@@ -184,6 +212,20 @@ export async function GET(
         3
       )
     }
+    if (sortedCashFlow.length >= 6) {
+      growth.capexGrowth5Y = calculateCAGR(
+        Math.abs(sortedCashFlow[5].capitalExpenditure), 
+        Math.abs(sortedCashFlow[0].capitalExpenditure), 
+        5
+      )
+    }
+    if (sortedCashFlow.length >= 11) {
+      growth.capexGrowth10Y = calculateCAGR(
+        Math.abs(sortedCashFlow[10].capitalExpenditure), 
+        Math.abs(sortedCashFlow[0].capitalExpenditure), 
+        10
+      )
+    }
 
     // Tangible Book Value Growth
     if (sortedBalance.length >= 2) {
@@ -196,20 +238,44 @@ export async function GET(
       const tbv3 = sortedBalance[3].totalEquity - (sortedBalance[3].goodwill || 0) - (sortedBalance[3].intangibleAssets || 0)
       growth.tangibleBookValueGrowth3Y = calculateCAGR(tbv3, tbv0, 3)
     }
+    if (sortedBalance.length >= 6) {
+      const tbv0 = sortedBalance[0].totalEquity - (sortedBalance[0].goodwill || 0) - (sortedBalance[0].intangibleAssets || 0)
+      const tbv5 = sortedBalance[5].totalEquity - (sortedBalance[5].goodwill || 0) - (sortedBalance[5].intangibleAssets || 0)
+      growth.tangibleBookValueGrowth5Y = calculateCAGR(tbv5, tbv0, 5)
+    }
+    if (sortedBalance.length >= 11) {
+      const tbv0 = sortedBalance[0].totalEquity - (sortedBalance[0].goodwill || 0) - (sortedBalance[0].intangibleAssets || 0)
+      const tbv10 = sortedBalance[10].totalEquity - (sortedBalance[10].goodwill || 0) - (sortedBalance[10].intangibleAssets || 0)
+      growth.tangibleBookValueGrowth10Y = calculateCAGR(tbv10, tbv0, 10)
+    }
 
-    // Dividend Growth
-    if (sortedIncome[0] && sortedIncome[1]) {
-      const dps0 = sortedIncome[0].dividendsPaid / sortedIncome[0].weightedAverageShsOut
-      const dps1 = sortedIncome[1].dividendsPaid / sortedIncome[1].weightedAverageShsOut
-      if (dps0 && dps1) {
-        growth.dividendGrowth1Y = calculateYoYGrowth(Math.abs(dps0), Math.abs(dps1))
+    // Dividend Growth (verwende Cash Flow Statement für bessere Verfügbarkeit)
+    if (sortedCashFlow.length >= 2) {
+      const dps0 = Math.abs(sortedCashFlow[0].dividendsPaid || 0) / (sortedIncome[0]?.weightedAverageShsOut || sortedIncome[0]?.weightedAverageShsOutDil || 1)
+      const dps1 = Math.abs(sortedCashFlow[1].dividendsPaid || 0) / (sortedIncome[1]?.weightedAverageShsOut || sortedIncome[1]?.weightedAverageShsOutDil || 1)
+      if (dps0 > 0 && dps1 > 0) {
+        growth.dividendGrowth1Y = calculateYoYGrowth(dps0, dps1)
       }
     }
-    if (sortedIncome[0] && sortedIncome[3]) {
-      const dps0 = sortedIncome[0].dividendsPaid / sortedIncome[0].weightedAverageShsOut
-      const dps3 = sortedIncome[3].dividendsPaid / sortedIncome[3].weightedAverageShsOut
-      if (dps0 && dps3) {
-        growth.dividendGrowth3Y = calculateCAGR(Math.abs(dps3), Math.abs(dps0), 3)
+    if (sortedCashFlow.length >= 4 && sortedIncome.length >= 4) {
+      const dps0 = Math.abs(sortedCashFlow[0].dividendsPaid || 0) / (sortedIncome[0]?.weightedAverageShsOut || sortedIncome[0]?.weightedAverageShsOutDil || 1)
+      const dps3 = Math.abs(sortedCashFlow[3].dividendsPaid || 0) / (sortedIncome[3]?.weightedAverageShsOut || sortedIncome[3]?.weightedAverageShsOutDil || 1)
+      if (dps0 > 0 && dps3 > 0) {
+        growth.dividendGrowth3Y = calculateCAGR(dps3, dps0, 3)
+      }
+    }
+    if (sortedCashFlow.length >= 6 && sortedIncome.length >= 6) {
+      const dps0 = Math.abs(sortedCashFlow[0].dividendsPaid || 0) / (sortedIncome[0]?.weightedAverageShsOut || sortedIncome[0]?.weightedAverageShsOutDil || 1)
+      const dps5 = Math.abs(sortedCashFlow[5].dividendsPaid || 0) / (sortedIncome[5]?.weightedAverageShsOut || sortedIncome[5]?.weightedAverageShsOutDil || 1)
+      if (dps0 > 0 && dps5 > 0) {
+        growth.dividendGrowth5Y = calculateCAGR(dps5, dps0, 5)
+      }
+    }
+    if (sortedCashFlow.length >= 11 && sortedIncome.length >= 11) {
+      const dps0 = Math.abs(sortedCashFlow[0].dividendsPaid || 0) / (sortedIncome[0]?.weightedAverageShsOut || sortedIncome[0]?.weightedAverageShsOutDil || 1)
+      const dps10 = Math.abs(sortedCashFlow[10].dividendsPaid || 0) / (sortedIncome[10]?.weightedAverageShsOut || sortedIncome[10]?.weightedAverageShsOutDil || 1)
+      if (dps0 > 0 && dps10 > 0) {
+        growth.dividendGrowth10Y = calculateCAGR(dps10, dps0, 10)
       }
     }
 
@@ -220,15 +286,76 @@ export async function GET(
     if (sortedRatios.length >= 4) {
       growth.roeGrowth3Y = calculateCAGR(sortedRatios[3].returnOnEquity, sortedRatios[0].returnOnEquity, 3)
     }
+    if (sortedRatios.length >= 6) {
+      growth.roeGrowth5Y = calculateCAGR(sortedRatios[5].returnOnEquity, sortedRatios[0].returnOnEquity, 5)
+    }
+    if (sortedRatios.length >= 11) {
+      growth.roeGrowth10Y = calculateCAGR(sortedRatios[10].returnOnEquity, sortedRatios[0].returnOnEquity, 10)
+    }
+
+    // Working Capital Growth
+    if (sortedBalance.length >= 2) {
+      const wc0 = (sortedBalance[0].totalCurrentAssets || 0) - (sortedBalance[0].totalCurrentLiabilities || 0)
+      const wc1 = (sortedBalance[1].totalCurrentAssets || 0) - (sortedBalance[1].totalCurrentLiabilities || 0)
+      growth.workingCapitalGrowth1Y = calculateYoYGrowth(wc0, wc1)
+    }
+    if (sortedBalance.length >= 4) {
+      const wc0 = (sortedBalance[0].totalCurrentAssets || 0) - (sortedBalance[0].totalCurrentLiabilities || 0)
+      const wc3 = (sortedBalance[3].totalCurrentAssets || 0) - (sortedBalance[3].totalCurrentLiabilities || 0)
+      growth.workingCapitalGrowth3Y = calculateCAGR(wc3, wc0, 3)
+    }
+    if (sortedBalance.length >= 6) {
+      const wc0 = (sortedBalance[0].totalCurrentAssets || 0) - (sortedBalance[0].totalCurrentLiabilities || 0)
+      const wc5 = (sortedBalance[5].totalCurrentAssets || 0) - (sortedBalance[5].totalCurrentLiabilities || 0)
+      growth.workingCapitalGrowth5Y = calculateCAGR(wc5, wc0, 5)
+    }
+    if (sortedBalance.length >= 11) {
+      const wc0 = (sortedBalance[0].totalCurrentAssets || 0) - (sortedBalance[0].totalCurrentLiabilities || 0)
+      const wc10 = (sortedBalance[10].totalCurrentAssets || 0) - (sortedBalance[10].totalCurrentLiabilities || 0)
+      growth.workingCapitalGrowth10Y = calculateCAGR(wc10, wc0, 10)
+    }
+
+    // Total Assets Growth
+    if (sortedBalance.length >= 2) {
+      growth.totalAssetsGrowth1Y = calculateYoYGrowth(sortedBalance[0].totalAssets, sortedBalance[1].totalAssets)
+    }
+    if (sortedBalance.length >= 4) {
+      growth.totalAssetsGrowth3Y = calculateCAGR(sortedBalance[3].totalAssets, sortedBalance[0].totalAssets, 3)
+    }
+    if (sortedBalance.length >= 6) {
+      growth.totalAssetsGrowth5Y = calculateCAGR(sortedBalance[5].totalAssets, sortedBalance[0].totalAssets, 5)
+    }
+    if (sortedBalance.length >= 11) {
+      growth.totalAssetsGrowth10Y = calculateCAGR(sortedBalance[10].totalAssets, sortedBalance[0].totalAssets, 10)
+    }
+
+    // Levered Free Cash Flow Growth (FCF - Interest Payments)
+    if (sortedCashFlow.length >= 2 && sortedIncome.length >= 2) {
+      const levFcf0 = (sortedCashFlow[0].freeCashFlow || 0) - Math.abs(sortedIncome[0].interestExpense || 0)
+      const levFcf1 = (sortedCashFlow[1].freeCashFlow || 0) - Math.abs(sortedIncome[1].interestExpense || 0)
+      growth.leveredFcfGrowth1Y = calculateYoYGrowth(levFcf0, levFcf1)
+    }
+    if (sortedCashFlow.length >= 4 && sortedIncome.length >= 4) {
+      const levFcf0 = (sortedCashFlow[0].freeCashFlow || 0) - Math.abs(sortedIncome[0].interestExpense || 0)
+      const levFcf3 = (sortedCashFlow[3].freeCashFlow || 0) - Math.abs(sortedIncome[3].interestExpense || 0)
+      growth.leveredFcfGrowth3Y = calculateCAGR(levFcf3, levFcf0, 3)
+    }
+    if (sortedCashFlow.length >= 6 && sortedIncome.length >= 6) {
+      const levFcf0 = (sortedCashFlow[0].freeCashFlow || 0) - Math.abs(sortedIncome[0].interestExpense || 0)
+      const levFcf5 = (sortedCashFlow[5].freeCashFlow || 0) - Math.abs(sortedIncome[5].interestExpense || 0)
+      growth.leveredFcfGrowth5Y = calculateCAGR(levFcf5, levFcf0, 5)
+    }
+    if (sortedCashFlow.length >= 11 && sortedIncome.length >= 11) {
+      const levFcf0 = (sortedCashFlow[0].freeCashFlow || 0) - Math.abs(sortedIncome[0].interestExpense || 0)
+      const levFcf10 = (sortedCashFlow[10].freeCashFlow || 0) - Math.abs(sortedIncome[10].interestExpense || 0)
+      growth.leveredFcfGrowth10Y = calculateCAGR(levFcf10, levFcf0, 10)
+    }
 
     // Forward Growth aus Analyst Estimates
     if (Array.isArray(estimates) && estimates.length > 0) {
       const currentYear = new Date().getFullYear()
       const currentEstimate = estimates.find(e => 
         new Date(e.date).getFullYear() === currentYear
-      )
-      const nextYearEstimate = estimates.find(e => 
-        new Date(e.date).getFullYear() === currentYear + 1
       )
       const twoYearEstimate = estimates.find(e => 
         new Date(e.date).getFullYear() === currentYear + 2

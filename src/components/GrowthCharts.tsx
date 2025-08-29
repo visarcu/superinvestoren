@@ -54,8 +54,8 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
     try {
       // Lade historische Finanzdaten für die letzten 10 Jahre
       const [incomeResponse, cashFlowResponse, growthResponse] = await Promise.all([
-        fetch(`/api/financials/income/${ticker}?period=annual&limit=11`),
-        fetch(`/api/financials/cashflow/${ticker}?period=annual&limit=11`),
+        fetch(`/api/financials/income-historical/${ticker}?limit=11`),
+        fetch(`/api/financials/cashflow-historical/${ticker}?limit=11`),
         fetch(`/api/growth/${ticker}`)
       ]);
 
@@ -76,16 +76,16 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
       const cashFlowData = await cashFlowResponse.json();
       const growthData = await growthResponse.json();
       
-      console.log('Income data loaded:', incomeData?.statements?.length || 0, 'statements');
-      console.log('CashFlow data loaded:', cashFlowData?.statements?.length || 0, 'statements');
+      console.log('Income data loaded:', Array.isArray(incomeData) ? incomeData.length : 0, 'statements');
+      console.log('CashFlow data loaded:', Array.isArray(cashFlowData) ? cashFlowData.length : 0, 'statements');
       console.log('Growth data loaded:', growthData);
 
       // Verarbeite historische Daten für Wachstumstrend-Chart
       const processedHistorical: HistoricalGrowthData[] = [];
       
-      if (incomeData?.statements && Array.isArray(incomeData.statements) && incomeData.statements.length > 0) {
+      if (Array.isArray(incomeData) && incomeData.length > 0) {
         // Sortiere nach Jahr (älteste zuerst)
-        const sortedStatements = [...incomeData.statements].sort((a, b) => 
+        const sortedStatements = [...incomeData].sort((a, b) => 
           new Date(a.date).getFullYear() - new Date(b.date).getFullYear()
         );
 
@@ -95,12 +95,12 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
           const year = new Date(current.date).getFullYear();
           
           // Finde passende Cash Flow Daten
-          const cfData = cashFlowData?.statements?.find((cf: any) => 
+          const cfData = Array.isArray(cashFlowData) ? cashFlowData.find((cf: any) => 
             new Date(cf.date).getFullYear() === year
-          );
-          const prevCfData = cashFlowData?.statements?.find((cf: any) => 
+          ) : null;
+          const prevCfData = Array.isArray(cashFlowData) ? cashFlowData.find((cf: any) => 
             new Date(cf.date).getFullYear() === year - 1
-          );
+          ) : null;
 
           // Berechne YoY Wachstumsraten
           const revenueGrowth = previous.revenue && previous.revenue !== 0
@@ -189,9 +189,9 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
             period: '5Y',
             revenue: g.revenueGrowth5Y || 0,
             eps: g.epsGrowth5Y || 0,
-            ebitda: calculateCAGR(incomeData?.statements || [], 'ebitda', 5),
-            fcf: calculateCAGR(cashFlowData?.statements || [], 'freeCashFlow', 5),
-            netIncome: calculateCAGR(incomeData?.statements || [], 'netIncome', 5)
+            ebitda: calculateCAGR(incomeData || [], 'ebitda', 5),
+            fcf: calculateCAGR(cashFlowData || [], 'freeCashFlow', 5),
+            netIncome: calculateCAGR(incomeData || [], 'netIncome', 5)
           });
         }
         
@@ -201,9 +201,9 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
             period: '10Y',
             revenue: g.revenueGrowth10Y || 0,
             eps: g.epsGrowth10Y || 0,
-            ebitda: calculateCAGR(incomeData?.statements || [], 'ebitda', 10),
-            fcf: calculateCAGR(cashFlowData?.statements || [], 'freeCashFlow', 10),
-            netIncome: calculateCAGR(incomeData?.statements || [], 'netIncome', 10)
+            ebitda: calculateCAGR(incomeData || [], 'ebitda', 10),
+            fcf: calculateCAGR(cashFlowData || [], 'freeCashFlow', 10),
+            netIncome: calculateCAGR(incomeData || [], 'netIncome', 10)
           });
         }
       }
@@ -411,7 +411,7 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
           </h4>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={historicalData.map((d, i) => {
+              <ComposedChart data={historicalData.map((d) => {
                 const baseYear = historicalData[0];
                 
                 // Sichere Berechnung der indexierten Werte
@@ -486,109 +486,8 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
         </div>
       )}
 
-      {/* Zusätzliche Metriken Tabelle */}
-      <div>
-        <h4 className="text-lg font-semibold text-theme-primary mb-4">
-          Detaillierte Wachstumsmetriken (TTM)
-        </h4>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-theme/20">
-                <th className="text-left py-2 px-3 text-theme-primary font-semibold">Metrik</th>
-                <th className="text-right py-2 px-3 text-theme-primary font-semibold">YoY</th>
-                <th className="text-right py-2 px-3 text-theme-primary font-semibold">3Y CAGR</th>
-                <th className="text-right py-2 px-3 text-theme-primary font-semibold">5Y CAGR</th>
-                <th className="text-right py-2 px-3 text-theme-primary font-semibold">10Y CAGR</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-theme/10">
-                <td className="py-2 px-3 text-theme-secondary">Umsatz</td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.revenue || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.revenue || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.revenue || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.revenue || 0, true)}
-                </td>
-              </tr>
-              <tr className="border-b border-theme/10">
-                <td className="py-2 px-3 text-theme-secondary">EPS (Verwässert)</td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.eps || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.eps || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.eps || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.eps || 0, true)}
-                </td>
-              </tr>
-              <tr className="border-b border-theme/10">
-                <td className="py-2 px-3 text-theme-secondary">EBITDA</td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.ebitda || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.ebitda || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.ebitda || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.ebitda || 0, true)}
-                </td>
-              </tr>
-              <tr className="border-b border-theme/10">
-                <td className="py-2 px-3 text-theme-secondary">Nettogewinn</td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.netIncome || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.netIncome || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.netIncome || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.netIncome || 0, true)}
-                </td>
-              </tr>
-              <tr>
-                <td className="py-2 px-3 text-theme-secondary">Free Cash Flow</td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '1Y')?.fcf || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '3Y')?.fcf || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '5Y')?.fcf || 0, true)}
-                </td>
-                <td className="text-right py-2 px-3 text-theme-primary font-medium">
-                  {formatPercentage(cagrData.find(d => d.period === '10Y')?.fcf || 0, true)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
 
-      {/* Note */}
-      <div className="text-center py-4">
-        <p className="text-xs text-theme-muted">
-          📊 Charts basieren auf historischen Finanzdaten von FMP API • CAGR = Compound Annual Growth Rate • YoY = Year-over-Year
-        </p>
-      </div>
+  
     </div>
   );
 };

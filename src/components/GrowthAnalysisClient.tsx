@@ -30,8 +30,12 @@ interface GrowthData {
   epsGrowth10Y?: number | null
   ebitdaGrowth1Y?: number | null
   ebitdaGrowth3Y?: number | null
+  ebitdaGrowth5Y?: number | null
+  ebitdaGrowth10Y?: number | null
   fcfGrowth1Y?: number | null
   fcfGrowth3Y?: number | null
+  fcfGrowth5Y?: number | null
+  fcfGrowth10Y?: number | null
   
   // Forward Estimates
   revenueGrowthForward2Y?: number | null
@@ -41,16 +45,40 @@ interface GrowthData {
   // Zusätzliche Metriken (wie bei Seeking Alpha)
   operatingIncomeGrowth1Y?: number | null
   operatingIncomeGrowth3Y?: number | null
+  operatingIncomeGrowth5Y?: number | null
+  operatingIncomeGrowth10Y?: number | null
   netIncomeGrowth1Y?: number | null
   netIncomeGrowth3Y?: number | null
+  netIncomeGrowth5Y?: number | null
+  netIncomeGrowth10Y?: number | null
   tangibleBookValueGrowth1Y?: number | null
   tangibleBookValueGrowth3Y?: number | null
+  tangibleBookValueGrowth5Y?: number | null
+  tangibleBookValueGrowth10Y?: number | null
   capexGrowth1Y?: number | null
   capexGrowth3Y?: number | null
+  capexGrowth5Y?: number | null
+  capexGrowth10Y?: number | null
   dividendGrowth1Y?: number | null
   dividendGrowth3Y?: number | null
+  dividendGrowth5Y?: number | null
+  dividendGrowth10Y?: number | null
   roeGrowth1Y?: number | null
   roeGrowth3Y?: number | null
+  roeGrowth5Y?: number | null
+  roeGrowth10Y?: number | null
+  workingCapitalGrowth1Y?: number | null
+  workingCapitalGrowth3Y?: number | null
+  workingCapitalGrowth5Y?: number | null
+  workingCapitalGrowth10Y?: number | null
+  totalAssetsGrowth1Y?: number | null
+  totalAssetsGrowth3Y?: number | null
+  totalAssetsGrowth5Y?: number | null
+  totalAssetsGrowth10Y?: number | null
+  leveredFcfGrowth1Y?: number | null
+  leveredFcfGrowth3Y?: number | null
+  leveredFcfGrowth5Y?: number | null
+  leveredFcfGrowth10Y?: number | null
 }
 
 interface GrowthAnalysisClientProps {
@@ -386,9 +414,23 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
           </h3>
           <button
             onClick={() => setShowAllMetrics(!showAllMetrics)}
-            className="text-sm text-theme-secondary hover:text-theme-primary transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-theme-tertiary/50 hover:bg-theme-tertiary text-theme-primary hover:text-green-400 rounded-lg text-sm font-medium transition-all duration-200 border border-theme/20 hover:border-green-400/30"
           >
-            {showAllMetrics ? 'Weniger anzeigen' : 'Alle Metriken anzeigen'}
+            {showAllMetrics ? (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+                Weniger anzeigen
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+                Alle Metriken anzeigen
+              </>
+            )}
           </button>
         </div>
         
@@ -401,7 +443,6 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <th className="text-right py-3 px-4 text-theme-primary font-semibold">3Y CAGR</th>
                 <th className="text-right py-3 px-4 text-theme-primary font-semibold">5Y CAGR</th>
                 <th className="text-right py-3 px-4 text-theme-primary font-semibold">10Y CAGR</th>
-                <th className="text-right py-3 px-4 text-theme-primary font-semibold">Forward 2Y</th>
               </tr>
             </thead>
             <tbody>
@@ -423,9 +464,6 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.revenueGrowth10Y)}`}>
                   {formatGrowth(growth.revenueGrowth10Y)}
                 </td>
-                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.revenueGrowthForward2Y)}`}>
-                  {formatGrowth(growth.revenueGrowthForward2Y)}
-                </td>
               </tr>
               
               <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
@@ -445,9 +483,6 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.epsGrowth10Y)}`}>
                   {formatGrowth(growth.epsGrowth10Y)}
                 </td>
-                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
-                  {formatGrowth(growth.epsGrowthForward2Y)}
-                </td>
               </tr>
 
               <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
@@ -461,9 +496,12 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
                   {formatGrowth(growth.ebitdaGrowth3Y)}
                 </td>
-                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.ebitdaGrowth5Y)}`}>
+                  {formatGrowth(growth.ebitdaGrowth5Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.ebitdaGrowth10Y)}`}>
+                  {formatGrowth(growth.ebitdaGrowth10Y)}
+                </td>
               </tr>
 
               <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
@@ -477,9 +515,12 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.fcfGrowth3Y)}`}>
                   {formatGrowth(growth.fcfGrowth3Y)}
                 </td>
-                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.fcfGrowth5Y)}`}>
+                  {formatGrowth(growth.fcfGrowth5Y)}
+                </td>
+                <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.fcfGrowth10Y)}`}>
+                  {formatGrowth(growth.fcfGrowth10Y)}
+                </td>
               </tr>
 
               {/* Erweiterte Metriken (ausklappbar) */}
@@ -495,9 +536,12 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.operatingIncomeGrowth3Y)}`}>
                       {formatGrowth(growth.operatingIncomeGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.operatingIncomeGrowth5Y)}`}>
+                      {formatGrowth(growth.operatingIncomeGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.operatingIncomeGrowth10Y)}`}>
+                      {formatGrowth(growth.operatingIncomeGrowth10Y)}
+                    </td>
                   </tr>
 
                   <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
@@ -510,9 +554,12 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.netIncomeGrowth3Y)}`}>
                       {formatGrowth(growth.netIncomeGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.netIncomeGrowth5Y)}`}>
+                      {formatGrowth(growth.netIncomeGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.netIncomeGrowth10Y)}`}>
+                      {formatGrowth(growth.netIncomeGrowth10Y)}
+                    </td>
                   </tr>
 
                   <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
@@ -525,9 +572,12 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.capexGrowth3Y)}`}>
                       {formatGrowth(growth.capexGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.capexGrowth5Y)}`}>
+                      {formatGrowth(growth.capexGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.capexGrowth10Y)}`}>
+                      {formatGrowth(growth.capexGrowth10Y)}
+                    </td>
                   </tr>
 
                   <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
@@ -540,9 +590,84 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.dividendGrowth3Y)}`}>
                       {formatGrowth(growth.dividendGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
-                    <td className="text-right py-3 px-4 font-medium text-theme-muted">–</td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.dividendGrowth5Y)}`}>
+                      {formatGrowth(growth.dividendGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.dividendGrowth10Y)}`}>
+                      {formatGrowth(growth.dividendGrowth10Y)}
+                    </td>
+                  </tr>
+
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      ROE Wachstum
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.roeGrowth1Y)}`}>
+                      {formatGrowth(growth.roeGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.roeGrowth3Y)}`}>
+                      {formatGrowth(growth.roeGrowth3Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.roeGrowth5Y)}`}>
+                      {formatGrowth(growth.roeGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.roeGrowth10Y)}`}>
+                      {formatGrowth(growth.roeGrowth10Y)}
+                    </td>
+                  </tr>
+
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      Working Capital
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.workingCapitalGrowth1Y)}`}>
+                      {formatGrowth(growth.workingCapitalGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.workingCapitalGrowth3Y)}`}>
+                      {formatGrowth(growth.workingCapitalGrowth3Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.workingCapitalGrowth5Y)}`}>
+                      {formatGrowth(growth.workingCapitalGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.workingCapitalGrowth10Y)}`}>
+                      {formatGrowth(growth.workingCapitalGrowth10Y)}
+                    </td>
+                  </tr>
+
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      Total Assets
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.totalAssetsGrowth1Y)}`}>
+                      {formatGrowth(growth.totalAssetsGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.totalAssetsGrowth3Y)}`}>
+                      {formatGrowth(growth.totalAssetsGrowth3Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.totalAssetsGrowth5Y)}`}>
+                      {formatGrowth(growth.totalAssetsGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.totalAssetsGrowth10Y)}`}>
+                      {formatGrowth(growth.totalAssetsGrowth10Y)}
+                    </td>
+                  </tr>
+
+                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                    <td className="py-3 px-6 font-medium text-theme-primary">
+                      Levered FCF
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.leveredFcfGrowth1Y)}`}>
+                      {formatGrowth(growth.leveredFcfGrowth1Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.leveredFcfGrowth3Y)}`}>
+                      {formatGrowth(growth.leveredFcfGrowth3Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.leveredFcfGrowth5Y)}`}>
+                      {formatGrowth(growth.leveredFcfGrowth5Y)}
+                    </td>
+                    <td className={`text-right py-3 px-4 font-medium ${getGrowthColor(growth.leveredFcfGrowth10Y)}`}>
+                      {formatGrowth(growth.leveredFcfGrowth10Y)}
+                    </td>
                   </tr>
                 </>
               )}
