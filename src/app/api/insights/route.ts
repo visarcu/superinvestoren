@@ -239,7 +239,7 @@ export async function GET(request: Request) {
           }
           
           // Sector analysis
-          const sector = getSectorFromPosition(p, cusipToTicker)
+          const sector = getSectorFromPosition(p)
           const translatedSector = translateSector(sector)
           const current_sector = sectorTotals.get(translatedSector)
           if (current_sector) {

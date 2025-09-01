@@ -102,12 +102,6 @@ const MarketMovers = React.memo(({
       }
   }, [watchlistTickers, popularTickers])
 
-  const formatVolume = (volume: number) => {
-    if (volume >= 1000000000) return `${(volume / 1000000000).toFixed(1)}B`
-    if (volume >= 1000000) return `${(volume / 1000000).toFixed(1)}M`
-    if (volume >= 1000) return `${(volume / 1000).toFixed(0)}K`
-    return volume.toString()
-  }
 
   const currentData = useMemo(() => {
     switch (activeTab) {
@@ -144,16 +138,16 @@ const MarketMovers = React.memo(({
   }
 
   return (
-    <div className="space-y-4">
-      {/* Header - Cleaner */}
-      <div className="flex items-center justify-between">
+    <>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-xl font-bold text-theme-primary">🔥 Market Movers</h3>
-          <p className="text-sm text-theme-muted">Top Performer heute</p>
+          <h3 className="text-base font-semibold text-theme-primary">Market Movers</h3>
+          <p className="text-xs text-theme-muted">Top Performer heute</p>
         </div>
         
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-xs">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+        <div className="flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">
+          <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
           <span>Live</span>
         </div>
       </div>
@@ -218,104 +212,68 @@ const MarketMovers = React.memo(({
         </button>
       </div>
 
-      {/* Stocks List - Kompakter */}
-      <div className="bg-theme-card border border-theme/10 rounded-xl overflow-hidden">
+      {/* Stocks List - Flex Container */}
+      <div className="flex-1 overflow-hidden">
         {currentData.length > 0 ? (
-          <div className="divide-y divide-theme/10">
+          <div className="space-y-2 h-full overflow-y-auto">
             {currentData.map((stock, index) => (
               <a
                 key={stock.ticker}
                 href={`/analyse/stocks/${stock.ticker.toLowerCase()}`}
-                className="flex items-center gap-3 p-3 hover:bg-theme-secondary/30 transition-all duration-200 group"
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-theme-secondary/30 transition-all duration-200 group"
               >
-                {/* Cleaner Ranking */}
-                <div className="text-sm font-medium text-theme-muted w-6 text-center">
+                {/* Ranking */}
+                <div className="text-xs font-medium text-theme-muted w-4 text-center">
                   {index + 1}
                 </div>
 
-                {/* Logo & Name */}
+                {/* Logo */}
                 <Logo 
                   ticker={stock.ticker}
                   alt={stock.ticker}
-                  className="w-8 h-8 rounded-lg"
+                  className="w-6 h-6 rounded"
                   padding="small"
                 />
                 
+                {/* Ticker & Change */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between">
                     <span className="font-bold text-sm text-theme-primary group-hover:text-green-400 transition-colors">
                       {stock.ticker}
                     </span>
-                    {/* Entfernt: HOT Badge - zu bunt */}
+                    <div className={`flex items-center gap-1 text-xs font-medium ${
+                      stock.changePct >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {stock.changePct >= 0 ? (
+                        <ArrowTrendingUpIcon className="w-3 h-3" />
+                      ) : (
+                        <ArrowTrendingDownIcon className="w-3 h-3" />
+                      )}
+                      <span>{formatPercentage(Math.abs(stock.changePct), false)}</span>
+                    </div>
                   </div>
-                  <p className="text-xs text-theme-muted truncate">
-                    {stock.name}
-                  </p>
-                </div>
-
-                {/* Metrics - Kompakter */}
-                <div className="text-right">
-                  <div className="text-sm font-bold text-theme-primary">
+                  <div className="text-xs text-theme-muted">
                     {formatStockPrice(stock.price)}
                   </div>
-                  <div className={`flex items-center justify-end gap-1 text-xs font-medium ${
-                    stock.changePct >= 0 ? 'text-green-400' : 'text-red-400'
-                  }`}>
-                    {stock.changePct >= 0 ? (
-                      <ArrowTrendingUpIcon className="w-3 h-3" />
-                    ) : (
-                      <ArrowTrendingDownIcon className="w-3 h-3" />
-                    )}
-                    <span>{formatPercentage(Math.abs(stock.changePct), false)}</span>
-                  </div>
                 </div>
-
-                {/* Volume Info nur für Active Tab - Kleiner */}
-                {activeTab === 'active' && (
-                  <div className="text-right">
-                    <div className="text-xs font-medium text-theme-primary">
-                      {formatVolume(stock.volume)}
-                    </div>
-                    <div className="text-xs text-theme-muted">
-                      {stock.volumeRatio.toFixed(1)}x
-                    </div>
-                  </div>
-                )}
               </a>
             ))}
           </div>
         ) : (
-          <div className="p-6 text-center">
-            <EyeIcon className="w-8 h-8 text-theme-muted mx-auto mb-2 opacity-50" />
-            <p className="text-sm text-theme-muted">
-              {activeTab === 'gainers' ? 'Keine starken Gewinner' :
-               activeTab === 'losers' ? 'Keine starken Verlierer' :
-               'Keine ungewöhnliche Aktivität'}
-            </p>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <EyeIcon className="w-6 h-6 text-theme-muted mx-auto mb-2 opacity-50" />
+              <p className="text-xs text-theme-muted">
+                {activeTab === 'gainers' ? 'Keine Gewinner' :
+                 activeTab === 'losers' ? 'Keine Verlierer' :
+                 'Keine Aktivität'}
+              </p>
+            </div>
           </div>
         )}
       </div>
 
-      {/* Mini Stats - Dezenter */}
-      {(moversData.gainers.length > 0 || moversData.losers.length > 0) && (
-        <div className="flex items-center justify-between text-xs text-theme-muted">
-          <div className="flex items-center gap-4">
-            {moversData.gainers.filter(s => s.changePct > 5).length > 0 && (
-              <div className="flex items-center gap-1">
-                <span className="text-green-400">●</span>
-                <span>{moversData.gainers.filter(s => s.changePct > 5).length} über +5%</span>
-              </div>
-            )}
-            {moversData.losers.filter(s => s.changePct < -5).length > 0 && (
-              <div className="flex items-center gap-1">
-                <span className="text-red-400">●</span>
-                <span>{moversData.losers.filter(s => s.changePct < -5).length} unter -5%</span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+    </>
   )
 })
 

@@ -5,6 +5,9 @@ import { useState, useEffect } from 'react'
 import { 
   ArrowTrendingUpIcon, 
   ArrowTrendingDownIcon,
+  ChartBarIcon,
+  BanknotesIcon,
+  GlobeAltIcon,
   InformationCircleIcon
 } from '@heroicons/react/24/outline'
 
@@ -62,74 +65,62 @@ const mockIndicators: MarketIndicator[] = [
   {
     id: '10y-treasury',
     name: '10Y US Treasury',
-    value: '4.42%',
-    change: '+0.05%',
-    changePercent: '+1.1',
+    value: '4.32%',
+    change: '+0.12%',
+    changePercent: '+2.9',
     status: 'up',
     description: '10-jährige US-Staatsanleihen Rendite',
     category: 'treasury',
-    lastUpdated: '2024-11-29',
+    lastUpdated: '2024-11-08',
     source: 'FMP'
   },
   {
     id: '2y-treasury',
     name: '2Y US Treasury',
-    value: '4.28%',
-    change: '+0.03%',
-    changePercent: '+0.7',
+    value: '4.18%',
+    change: '+0.08%',
+    changePercent: '+2.0',
     status: 'up',
     description: '2-jährige US-Staatsanleihen Rendite',
     category: 'treasury',
-    lastUpdated: '2024-11-29',
+    lastUpdated: '2024-11-08',
     source: 'FMP'
   },
   {
     id: 'yield-curve',
     name: 'Yield Curve (10Y-2Y)',
     value: '+0.14%',
-    change: '+0.02%',
-    changePercent: '+16.7',
+    change: '+0.04%',
+    changePercent: '+40.0',
     status: 'up',
     description: 'Zinsstrukturkurve - Spread zwischen 10Y und 2Y Treasuries',
     category: 'treasury',
-    lastUpdated: '2024-11-29',
+    lastUpdated: '2024-11-08',
     source: 'FMP'
   },
   {
     id: 'inflation',
     name: 'US Inflation (CPI)',
-    value: '2.6%',
-    change: '-0.2%',
-    changePercent: '-7.1',
+    value: '3.2%',
+    change: '-0.1%',
+    changePercent: '-3.0',
     status: 'down',
     description: 'Consumer Price Index - jährliche Inflationsrate',
     category: 'economy',
-    lastUpdated: '2024-11-13',
+    lastUpdated: '2024-10-12',
     source: 'BLS'
   },
   {
     id: 'unemployment',
     name: 'Arbeitslosenquote',
-    value: '4.1%',
+    value: '3.9%',
     change: '+0.1%',
-    changePercent: '+2.5',
+    changePercent: '+2.6',
     status: 'up',
     description: 'US Arbeitslosenquote',
     category: 'economy',
     lastUpdated: '2024-11-01',
     source: 'BLS'
-  },
-  {
-    id: 'dollar-index',
-    name: 'Dollar Index (DXY)',
-    value: '106.8',
-    change: '+0.3',
-    changePercent: '+0.3',
-    status: 'up',
-    description: 'US Dollar Index - Stärke des Dollars gegenüber anderen Währungen',
-    category: 'market',
-    lastUpdated: '2024-11-29',
-    source: 'FMP'
   }
 ]
 
@@ -142,31 +133,27 @@ const categories = [
 ]
 
 export default function MarktindikatoreNPage() {
-  const [indicators, setIndicators] = useState<MarketIndicator[]>([])
+  const [indicators, setIndicators] = useState<MarketIndicator[]>(mockIndicators)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchIndicators() {
       try {
         setLoading(true)
-        setError(null)
         const response = await fetch('/api/market-indicators')
         if (response.ok) {
           const data = await response.json()
           if (data.indicators && Array.isArray(data.indicators)) {
             setIndicators(data.indicators)
-            console.log(`✅ Loaded ${data.indicators.length} indicators from API`)
-          } else {
-            setError('Keine Indikatoren von API erhalten')
           }
         } else {
-          setError(`API Fehler: ${response.status}`)
+          console.warn('Failed to fetch indicators, using mock data')
+          setIndicators(mockIndicators)
         }
       } catch (error) {
         console.error('Error fetching indicators:', error)
-        setError('Fehler beim Laden der Marktdaten')
+        setIndicators(mockIndicators)
       } finally {
         setLoading(false)
       }
@@ -274,29 +261,7 @@ export default function MarktindikatoreNPage() {
             <div className="flex items-center justify-center py-24">
               <div className="text-center">
                 <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-gray-400">Lade echte Marktdaten von APIs...</p>
-              </div>
-            </div>
-          ) : error ? (
-            <div className="flex items-center justify-center py-24">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <span className="text-red-400 text-xl">⚠️</span>
-                </div>
-                <p className="text-red-400 mb-2">Fehler beim Laden der Marktdaten</p>
-                <p className="text-gray-400 text-sm">{error}</p>
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="mt-4 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-all"
-                >
-                  Neu laden
-                </button>
-              </div>
-            </div>
-          ) : indicators.length === 0 ? (
-            <div className="flex items-center justify-center py-24">
-              <div className="text-center">
-                <p className="text-gray-400">Keine Marktdaten verfügbar</p>
+                <p className="text-gray-400">Lade Marktdaten...</p>
               </div>
             </div>
           ) : (
@@ -304,7 +269,7 @@ export default function MarktindikatoreNPage() {
               {filteredIndicators.map((indicator) => (
                 <div
                   key={indicator.id}
-                  className="bg-white/[0.08] border border-white/20 rounded-2xl p-6 hover:bg-white/[0.12] transition-all group"
+                  className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 hover:bg-white/[0.04] transition-all group"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-6">

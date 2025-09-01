@@ -31,11 +31,10 @@ import { stocks } from '@/data/stocks'
 // LAZY LOAD HOLDINGS HISTORY
 import dynamic from 'next/dynamic'
 import Logo from '@/components/Logo'
-import WatchlistNews from '@/components/WatchlistNews'
+import OptimizedWatchlistNews from '@/components/OptimizedWatchlistNews'
 import MarketMovers from '@/components/MarketMovers'
 import MostFollowed from '@/components/MostFollowed'
 import LatestGuruTrades from '@/components/LatestGuruTrades'
-import { useSuperInvestorData } from '@/hooks/useSuperInvestorData'
 
 
 // ===== TYPES =====
@@ -342,201 +341,6 @@ const SmartSearchInput = React.memo(({
   )
 })
 
-// ===== OPTIMIZED SUPER-INVESTOR COMPONENT (NO 38MB IMPORT) =====
-const SuperInvestorStocks = React.memo(({ 
-  quotes, 
-  onSelect,
-  loading: quotesLoading
-}: { 
-  quotes: Record<string, Quote>
-  onSelect: (ticker: string) => void 
-  loading: boolean
-}) => {
-  const [view, setView] = useState<'hidden_gems' | 'recent_buys'>('hidden_gems')
-  const { formatStockPrice, formatPercentage } = useCurrency()
-  
-  // Use optimized API-based hook instead of 38MB client-side import
-  const { data: superInvestorData, loading: dataLoading, error } = useSuperInvestorData()
-
-  const currentData = superInvestorData 
-    ? (view === 'hidden_gems' ? superInvestorData.hiddenGems : superInvestorData.recentBuys)
-    : []
-
-  if (dataLoading || !superInvestorData) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-theme-primary mb-2">
-              💎 Super-Investor Picks
-            </h3>
-            <p className="text-sm text-theme-muted">
-              Lädt Daten via API...
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {[1,2,3,4].map(i => (
-            <div key={i} className="bg-theme-card border border-theme/10 rounded-xl p-6 animate-pulse">
-              <div className="h-24 bg-theme-secondary rounded-lg"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-theme-primary mb-2">
-              💎 Super-Investor Picks
-            </h3>
-            <p className="text-sm text-red-400">
-              Fehler beim Laden: {error}
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-xl font-bold text-theme-primary mb-2">
-            {view === 'hidden_gems' ? '💎 Hidden Gems' : '⚡ Recent Buys'}
-          </h3>
-          <p className="text-sm text-theme-muted">
-            {view === 'hidden_gems' 
-              ? 'Super-Investor Favoriten abseits des Mainstreams' 
-              : 'Neueste Käufe der erfolgreichsten Investoren'}
-          </p>
-        </div>
-        
-        <div className="flex bg-theme-secondary border border-theme/10 rounded-xl p-1">
-          <button
-            onClick={() => setView('hidden_gems')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-              view === 'hidden_gems'
-                ? 'bg-green-500 text-white shadow-md'
-                : 'text-theme-muted hover:text-theme-primary'
-            }`}
-          >
-            💎 Hidden Gems
-          </button>
-          <button
-            onClick={() => setView('recent_buys')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-              view === 'recent_buys'
-                ? 'bg-green-500 text-white shadow-md'
-                : 'text-theme-muted hover:text-theme-primary'
-            }`}
-          >
-            ⚡ Recent Buys
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        {currentData.slice(0, 4).map((item) => {
-          const quote = quotes[item.ticker.toLowerCase()]
-          const isLoading = quotesLoading && !quote
-
-          return (
-            <button
-              key={item.ticker}
-              onClick={() => onSelect(item.ticker)}
-              className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <Logo 
-                  ticker={item.ticker} 
-                  alt={`${item.ticker} Logo`}
-                  className="w-10 h-10 rounded-lg"
-                  padding="small"
-                />
-                {quote && (
-                  <div className={`w-3 h-3 rounded-full ${
-                    quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
-                  }`}></div>
-                )}
-              </div>
-
-              <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
-                {item.ticker}
-              </h3>
-                            
-              {isLoading ? (
-                <div className="space-y-3">
-                  <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
-                  <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
-                </div>
-              ) : quote ? (
-                <div className="space-y-3">
-                  <div className="text-xl font-bold text-theme-primary">
-                    {formatStockPrice(quote.price)}
-                  </div>
-                  
-                  <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
-                    quote.changePct >= 0
-                      ? 'text-green-400 bg-green-500/20'
-                      : 'text-red-400 bg-red-500/20'
-                  }`}>
-                    {quote.changePct >= 0 ? (
-                      <ArrowTrendingUpIcon className="w-3 h-3" />
-                    ) : (
-                      <ArrowTrendingDownIcon className="w-3 h-3" />
-                    )}
-                    <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
-                  </div>
-
-                  <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
-                    <div className="flex justify-between">
-                      <span className="text-theme-muted">1M:</span>
-                      {quote.perf1M !== null && quote.perf1M !== undefined ? (
-                        <span className={`font-bold ${
-                          quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
-                        }`}>
-                          {formatPercentage(quote.perf1M)}
-                        </span>
-                      ) : (
-                        <span className="text-theme-muted">–</span>
-                      )}
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-theme-muted">YTD:</span>
-                      {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
-                        <span className={`font-bold ${
-                          quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
-                        }`}>
-                          {formatPercentage(quote.perfYTD)}
-                        </span>
-                      ) : (
-                        <span className="text-theme-muted">–</span>
-                      )}
-                    </div>
-                    <div className="flex justify-between border-t border-theme/10 pt-2">
-                      <span className="text-theme-muted">
-                        {view === 'hidden_gems' ? 'Investoren:' : 'Käufer:'}
-                      </span>
-                      <span className="text-theme-primary font-bold">{item.count}</span>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
-              )}
-            </button>
-          )
-        })}
-      </div>
-    </div>
-  )
-})
 
 // ===== MARKET STATUS HELPER =====
 const getMarketStatus = (() => {
@@ -586,7 +390,6 @@ export default function ModernDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
   const { formatStockPrice, formatPercentage } = useCurrency()
-  const [hiddenGemsTickers, setHiddenGemsTickers] = useState<string[]>([])
 
   const POPULAR_STOCKS = useMemo(() => [
     'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
@@ -631,96 +434,48 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Load Hidden Gems via API (replaces 38MB holdings import)
+  // Load ALL dashboard data in one unified API call
   useEffect(() => {
-    async function getHiddenGemsTickers() {
-      try {
-        const response = await fetch('/api/super-investor-analysis')
-        if (response.ok) {
-          const data = await response.json()
-          const topTickers = data.hiddenGems?.slice(0, 8).map((item: any) => item.ticker) || []
-          setHiddenGemsTickers(topTickers)
-          console.log('✅ Hidden gems tickers loaded via API:', topTickers.length)
-        }
-      } catch (error) {
-        console.error('Failed to load hidden gems tickers via API:', error)
-      }
-    }
-    
-    getHiddenGemsTickers()
-  }, [])
-
-  // Load Stock Quotes
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-    
-    async function loadStockQuotes() {
+    async function loadDashboardData() {
       setLoading(true)
+      setMarketLoading(true)
       
       try {
-        const allTickers = [...POPULAR_STOCKS, ...hiddenGemsTickers, ...watchlistTickers]
+        const allTickers = [...POPULAR_STOCKS, ...watchlistTickers]
         const uniqueTickers = [...new Set(allTickers)]
         const tickers = uniqueTickers.join(',')
         
-        if (uniqueTickers.length === 0) return
-        
-        const response = await fetch(`/api/dashboard-quotes?tickers=${tickers}`)
+        // Single API call for everything
+        const response = await fetch(`/api/dashboard?tickers=${tickers}`)
         
         if (!response.ok) {
-          throw new Error(`API error: ${response.status}`)
+          throw new Error(`Dashboard API error: ${response.status}`)
         }
         
         const data = await response.json()
         
+        // Set all data at once
         if (data.quotes) {
           setQuotes(data.quotes)
           console.log('✅ Stock quotes loaded:', Object.keys(data.quotes).length)
         }
-        
-      } catch (error: any) {
-        console.error('Failed to load stock quotes:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    
-    timeoutId = setTimeout(loadStockQuotes, 100)
-    
-    return () => clearTimeout(timeoutId)
-  }, [POPULAR_STOCKS, hiddenGemsTickers, watchlistTickers])
-
-  // Load Market Data
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-    
-    async function loadMarketData() {
-      setMarketLoading(true)
-      
-      try {
-        const response = await fetch('/api/dashboard-quotes?markets=true')
-        
-        if (!response.ok) {
-          throw new Error(`Market API error: ${response.status}`)
-        }
-        
-        const data = await response.json()
         
         if (data.markets) {
           setMarketQuotes(data.markets)
           console.log('✅ Market data loaded:', Object.keys(data.markets).length)
         }
         
+        
       } catch (error: any) {
-        console.error('Failed to load market data:', error)
+        console.error('Failed to load dashboard data:', error)
       } finally {
+        setLoading(false)
         setMarketLoading(false)
       }
     }
     
-    timeoutId = setTimeout(loadMarketData, 200)
-    
-    return () => clearTimeout(timeoutId)
-  }, [])
+    loadDashboardData()
+  }, [POPULAR_STOCKS, watchlistTickers])
 
   const handleTickerSelect = useCallback((ticker: string) => {
     if (typeof window !== 'undefined') {
@@ -898,244 +653,218 @@ export default function ModernDashboard() {
           </div>
         </section>
 
-        {/* Search Section */}
-        <section className="text-center">
-          <div className="space-y-6 max-w-4xl mx-auto">
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-theme-primary">Aktie suchen</h2>
-              <p className="text-lg text-theme-secondary">Analysiere jede Aktie weltweit mit professionellen Tools und Echtzeit-Daten</p>
+        {/* Search Section - Minimalist */}
+        <section className="text-center max-w-3xl mx-auto">
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <h2 className="text-2xl font-bold text-theme-primary">Aktie analysieren</h2>
+              <p className="text-theme-secondary">Suche und analysiere jede Aktie weltweit</p>
             </div>
             
             <SmartSearchInput
-              placeholder="Ticker oder Unternehmen suchen (AAPL, Tesla, SAP...)"
+              placeholder="Ticker oder Unternehmen suchen..."
               onSelect={handleTickerSelect}
             />
-
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-              <span className="text-theme-muted text-sm mr-4">Beliebt:</span>
-              {['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA'].map((ticker) => (
-                <button
-                  key={ticker}
-                  onClick={() => handleTickerSelect(ticker)}
-                  className="px-4 py-2 bg-theme-card border border-theme/20 hover:bg-theme-hover hover:border-green-500/30 text-theme-primary rounded-lg font-medium transition-all duration-200 text-sm"
-                >
-                  {ticker}
-                </button>
-              ))}
-            </div>
           </div>
         </section>
 
-        {/* Layout: Sidebar + Main Content */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        {/* Professional Grid Layout - Quartr/Koyfin inspired */}
+        <div className="space-y-16">
           
-          {/* Sidebar */}
-          <div className="xl:col-span-1 space-y-6">
+          {/* Section: Popular Stocks */}
+          <section>
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-xl font-bold text-theme-primary">Beliebte Aktien</h2>
+                <p className="text-sm text-theme-muted">Live-Kurse der meistgehandelten Aktien</p>
+              </div>
+              {loading && (
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-xs">
+                  <div className="w-2 h-2 border border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                  <span>Lädt...</span>
+                </div>
+              )}
+            </div>
             
-            {/* Recently Analyzed */}
-            {lastTicker && (
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
-                <h2 className="text-sm font-bold text-theme-muted uppercase tracking-wide mb-4">Zuletzt analysiert</h2>
-                
+            {/* 4x2 Grid - Consistent Heights */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+              {POPULAR_STOCKS.slice(0, 8).map((ticker) => {
+              const quote = quotes[ticker.toLowerCase()]
+              const isLoading = loading && !quote
+              return (
                 <button
-                  onClick={() => handleTickerSelect(lastTicker)}
-                  className="group flex items-center gap-4 p-4 rounded-xl hover:bg-theme-secondary transition-all duration-200 w-full"
+                  key={ticker}
+                  onClick={() => handleTickerSelect(ticker)}
+                  className="group bg-theme-card border border-theme/10 rounded-xl p-5 hover:border-green-500/30 transition-all duration-200 h-[140px] flex flex-col justify-between"
                 >
-                  <Logo 
-                    ticker={lastTicker} 
-                    alt={`${lastTicker} Logo`}
-                    className="w-12 h-12 rounded-lg"
-                    padding="small"
-                  />
-                  
-                  <div className="flex-1 text-left">
-                    <h3 className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors">
-                      {lastTicker}
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-3">
+                    <Logo 
+                      ticker={ticker} 
+                      alt={`${ticker} Logo`}
+                      className="w-8 h-8 rounded-lg"
+                      padding="small"
+                    />
+                    {quote && (
+                      <div className={`w-2 h-2 rounded-full ${
+                        quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
+                      }`}></div>
+                    )}
+                  </div>
+
+                  {/* Ticker */}
+                  <div className="text-left mb-2">
+                    <h3 className="text-sm font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                      {ticker}
                     </h3>
-                    <p className="text-sm text-theme-muted">
-                      Zur Analyse
-                    </p>
                   </div>
-                  
-                  <ArrowRightIcon className="w-5 h-5 text-theme-muted group-hover:text-green-400 transition-colors" />
-                </button>
-              </div>
-            )}
 
-            {/* Quick Actions */}
-            <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
-              <h2 className="text-sm font-bold text-theme-muted uppercase tracking-wide mb-4">Schnellzugriff</h2>
-              
-              <div className="space-y-2">
-                {[
-                  { icon: BookmarkIcon, label: 'Watchlist', href: '/analyse/watchlist' },
-                  { icon: MapIcon, label: 'Heatmap', href: '/analyse/heatmap' },
-                  { icon: CalendarIcon, label: 'Earnings', href: '/analyse/earnings' },
-                  { icon: SparklesIcon, label: 'FinClue AI', href: '/analyse/ai' }
-                ].map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="group flex items-center gap-3 p-3 rounded-xl hover:bg-theme-secondary transition-all duration-200"
-                  >
-                    <item.icon className="w-5 h-5 text-theme-muted group-hover:text-green-400 transition-colors" />
-                    <span className="text-sm text-theme-primary group-hover:text-green-400 transition-colors">
-                      {item.label}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Latest Guru Trades - NEU HINZUGEFÜGT IN SIDEBAR */}
-            <LatestGuruTrades variant="compact" />
-          </div>
-
-          {/* Main Content - KORRIGIERT */}
-          <div className="xl:col-span-3">
-            {/* Popular Stocks & Hidden Gems Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Popular Stocks */}
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-xl font-bold text-theme-primary mb-2">Beliebte Aktien</h2>
-                    <p className="text-sm text-theme-muted">Mit Live-Kursen und Performance-Metriken</p>
-                  </div>
-                  {loading && (
-                    <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-amber-400 rounded-lg">
-                      <div className="w-3 h-3 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
-                      <span className="text-xs font-bold">Lädt...</span>
+                  {/* Data */}
+                  {isLoading ? (
+                    <div className="space-y-2">
+                      <div className="h-4 bg-theme-secondary rounded animate-pulse"></div>
+                      <div className="h-3 bg-theme-secondary rounded w-2/3 animate-pulse"></div>
                     </div>
-                  )}
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {POPULAR_STOCKS.slice(0, 4).map((ticker) => {
-                    const quote = quotes[ticker.toLowerCase()]
-                    const isLoading = loading && !quote
-                    return (
-                      <button
-                        key={ticker}
-                        onClick={() => handleTickerSelect(ticker)}
-                        className="text-left bg-theme-card border border-theme/10 rounded-xl p-6 group hover:shadow-lg hover:border-theme/20 transition-all duration-300"
-                      >
-                        <div className="flex items-center justify-between mb-4">
-                          <Logo 
-                            ticker={ticker} 
-                            alt={`${ticker} Logo`}
-                            className="w-10 h-10 rounded-lg"
-                            padding="small"
-                          />
-                          {quote && (
-                            <div className={`w-3 h-3 rounded-full ${
-                              quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
-                            }`}></div>
-                          )}
-                        </div>
-                        <h3 className="text-lg font-bold text-theme-primary mb-4 group-hover:text-green-400 transition-colors">
-                          {ticker}
-                        </h3>
-                        {isLoading ? (
-                          <div className="space-y-3">
-                            <div className="h-6 bg-theme-secondary rounded-lg animate-pulse"></div>
-                            <div className="h-5 bg-theme-secondary rounded-lg w-2/3 animate-pulse"></div>
-                          </div>
-                        ) : quote ? (
-                          <div className="space-y-3">
-                            <div className="text-xl font-bold text-theme-primary">
-                              {formatStockPrice(quote.price)}
-                            </div>
-                            <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-lg ${
-                              quote.changePct >= 0
-                                ? 'text-green-400 bg-green-500/20'
-                                : 'text-red-400 bg-red-500/20'
-                            }`}>
-                              {quote.changePct >= 0 ? (
-                                <ArrowTrendingUpIcon className="w-3 h-3" />
-                              ) : (
-                                <ArrowTrendingDownIcon className="w-3 h-3" />
-                              )}
-                              <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
-                            </div>
-                            <div className="pt-3 space-y-2 text-xs border-t border-theme/10">
-                              <div className="flex justify-between">
-                                <span className="text-theme-muted">1M:</span>
-                                {quote.perf1M !== null && quote.perf1M !== undefined ? (
-                                  <span className={`font-bold ${
-                                    quote.perf1M >= 0 ? 'text-green-400' : 'text-red-400'
-                                  }`}>
-                                    {formatPercentage(quote.perf1M)}
-                                  </span>
-                                ) : (
-                                  <span className="text-theme-muted">–</span>
-                                )}
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-theme-muted">YTD:</span>
-                                {quote.perfYTD !== null && quote.perfYTD !== undefined ? (
-                                  <span className={`font-bold ${
-                                    quote.perfYTD >= 0 ? 'text-green-400' : 'text-red-400'
-                                  }`}>
-                                    {formatPercentage(quote.perfYTD)}
-                                  </span>
-                                ) : (
-                                  <span className="text-theme-muted">–</span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
+                  ) : quote ? (
+                    <div className="text-left space-y-1">
+                      <div className="text-lg font-bold text-theme-primary">
+                        {formatStockPrice(quote.price)}
+                      </div>
+                      <div className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded ${
+                        quote.changePct >= 0
+                          ? 'text-green-400 bg-green-500/20'
+                          : 'text-red-400 bg-red-500/20'
+                      }`}>
+                        {quote.changePct >= 0 ? (
+                          <ArrowTrendingUpIcon className="w-3 h-3" />
                         ) : (
-                          <div className="text-theme-muted text-sm">Daten nicht verfügbar</div>
+                          <ArrowTrendingDownIcon className="w-3 h-3" />
                         )}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
+                        <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-theme-muted text-xs">Daten nicht verfügbar</div>
+                  )}
+                </button>
+              )
+            })}
+          </div>
+          </section>
 
-              {/* Hidden Gems */}
-              <div>
-                <SuperInvestorStocks 
-                  quotes={quotes}
-                  onSelect={handleTickerSelect}
-                  loading={loading}
-                />
+          {/* Section: Dashboard Components */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-xl font-bold text-theme-primary mb-2">Dashboard</h2>
+              <p className="text-sm text-theme-muted">Nachrichten, Trends und Marktbewegungen</p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* Recently Analyzed + Quick Actions */}
+            <div className="space-y-6">
+              {/* Recently Analyzed */}
+              {lastTicker && (
+                <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
+                  <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-4">Zuletzt analysiert</h2>
+                  
+                  <button
+                    onClick={() => handleTickerSelect(lastTicker)}
+                    className="group flex items-center gap-3 p-3 rounded-lg hover:bg-theme-secondary transition-all duration-200 flex-1"
+                  >
+                    <Logo 
+                      ticker={lastTicker} 
+                      alt={`${lastTicker} Logo`}
+                      className="w-10 h-10 rounded-lg"
+                      padding="small"
+                    />
+                    
+                    <div className="flex-1 text-left">
+                      <h3 className="text-base font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                        {lastTicker}
+                      </h3>
+                      <p className="text-sm text-theme-muted">
+                        Zur Analyse
+                      </p>
+                    </div>
+                    
+                    <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
+                  </button>
+                </div>
+              )}
+
+              {/* Quick Actions */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
+                <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-4">Schnellzugriff</h2>
+                
+                <div className="space-y-2 flex-1">
+                  {[
+                    { icon: BookmarkIcon, label: 'Watchlist', href: '/analyse/watchlist' },
+                    { icon: MapIcon, label: 'Heatmap', href: '/analyse/heatmap' },
+                    { icon: CalendarIcon, label: 'Earnings', href: '/analyse/earnings' },
+                    { icon: SparklesIcon, label: 'FinClue AI', href: '/analyse/ai' }
+                  ].map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="group flex items-center gap-3 p-2 rounded-lg hover:bg-theme-secondary transition-all duration-200"
+                    >
+                      <item.icon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
+                      <span className="text-sm text-theme-primary group-hover:text-green-400 transition-colors">
+                        {item.label}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* 3-Column Grid for News, Most Followed, Market Movers */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-              {/* Watchlist News */}
-              <div>
-                <WatchlistNews />
-              </div>
+            {/* Watchlist News */}
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[416px] flex flex-col">
+              <OptimizedWatchlistNews watchlistTickers={watchlistTickers} />
+            </div>
 
-              {/* Most Followed - ANGEPASSTE BREITE */}
-              <div>
-                <MostFollowed 
-                  onSelect={handleTickerSelect}
-                  quotes={quotes}
-                />
-              </div>
-
+            {/* Right Column - Market Movers + Most Followed */}
+            <div className="space-y-6">
               {/* Market Movers */}
-              <div>
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
                 <MarketMovers 
                   watchlistTickers={watchlistTickers}
                   popularTickers={POPULAR_STOCKS}
                 />
               </div>
-            </div>
 
-            {/* Footer */}
-            <div className="mt-12 pt-6 border-t border-theme/10 text-center">
-              <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
-                <ClockIcon className="w-4 h-4" />
-                YTD basiert auf letztem Handelstag 2024 • 
-                1M basiert auf ~30 Kalendertagen • 
-                Alle Daten via FMP API • Live-Updates alle 15 Minuten
-              </p>
+              {/* Most Followed */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
+                <MostFollowed 
+                  onSelect={handleTickerSelect}
+                  quotes={quotes}
+                />
+              </div>
             </div>
+          </div>
+          </section>
+
+          {/* Section: Guru Trades */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-xl font-bold text-theme-primary mb-2">Super-Investor Trades</h2>
+              <p className="text-sm text-theme-muted">Neueste Käufe und Verkäufe der erfolgreichsten Investoren</p>
+            </div>
+            
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+              <LatestGuruTrades variant="full" />
+            </div>
+          </section>
+
+          {/* Footer */}
+          <div className="text-center">
+            <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
+              <ClockIcon className="w-4 h-4" />
+              YTD basiert auf letztem Handelstag 2024 • 
+              1M basiert auf ~30 Kalendertagen • 
+              Alle Daten via FMP API • Live-Updates alle 15 Minuten
+            </p>
           </div>
         </div>
       </main>

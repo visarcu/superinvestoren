@@ -71,7 +71,7 @@ function calculateSectorBreakdown(mergedHoldings: any[], totalValue: number) {
   const sectors = new Map<string, { value: number; count: number }>()
   
   mergedHoldings.forEach(holding => {
-    const sector = getSectorFromPosition(holding, stocks)
+    const sector = getSectorFromPosition(holding)
     const translatedSector = translateSector(sector)
     
     const current = sectors.get(translatedSector) || { value: 0, count: 0 }

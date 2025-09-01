@@ -2,7 +2,7 @@
 'use client'
 
 import React from 'react'
-import { useCurrency, CurrencyFormat } from '@/contexts/CurrencyContext'
+import { useCurrency } from '@/lib/CurrencyContext'
 import { GlobeAltIcon } from '@heroicons/react/24/outline'
 
 interface CurrencySwitchProps {
@@ -16,7 +16,7 @@ export default function CurrencySwitch({
   showLabel = true, 
   className = '' 
 }: CurrencySwitchProps) {
-  const { format, setFormat } = useCurrency()
+  const { currency, setCurrency } = useCurrency()
 
   const sizeClasses = {
     sm: 'text-xs px-2 py-1',
@@ -41,30 +41,30 @@ export default function CurrencySwitch({
       
       <div className="flex bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
         <button
-          onClick={() => setFormat('DE')}
+          onClick={() => setCurrency('EUR')}
           className={`${sizeClasses[size]} font-medium transition-all duration-200 ${
-            format === 'DE'
+            currency === 'EUR'
               ? 'bg-green-500 text-black' 
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
           }`}
         >
-          DE
+          EUR
         </button>
         <button
-          onClick={() => setFormat('EN')}
+          onClick={() => setCurrency('USD')}
           className={`${sizeClasses[size]} font-medium transition-all duration-200 ${
-            format === 'EN'
+            currency === 'USD'
               ? 'bg-green-500 text-black' 
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
           }`}
         >
-          EN
+          USD
         </button>
       </div>
       
       {showLabel && (
         <span className="text-xs text-gray-500">
-          {format === 'DE' ? 'Mrd. €' : '$B'}
+          {currency === 'EUR' ? 'Mrd. €' : '$B'}
         </span>
       )}
     </div>

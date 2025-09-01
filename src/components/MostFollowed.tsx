@@ -3,7 +3,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { 
-  UserGroupIcon,
   ArrowRightIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
@@ -87,30 +86,27 @@ export default function MostFollowed({ onSelect, quotes }: MostFollowedProps) {
   }
 
   return (
-    <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+    <>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <FireIcon className="w-5 h-5 text-orange-400" />
-          <h3 className="text-lg font-bold text-theme-primary">Most Followed</h3>
+        <div>
+          <h3 className="text-base font-semibold text-theme-primary">Most Followed</h3>
+          <p className="text-xs text-theme-muted">{totalUsers} User</p>
         </div>
-        <span className="text-xs text-theme-muted">
-          {totalUsers} User
-        </span>
       </div>
 
-      {/* Kompakte Liste */}
-      <div className="space-y-1">
+      {/* Compact List - Flex Container */}
+      <div className="flex-1 overflow-y-auto space-y-2">
         {mostFollowed.slice(0, 6).map((stock, index) => (
           <button
             key={stock.ticker}
             onClick={() => onSelect(stock.ticker)}
-            className="w-full group hover:bg-theme-secondary/50 rounded-lg p-2.5 transition-all duration-200"
+            className="w-full group hover:bg-theme-secondary/50 rounded-lg p-2 transition-all duration-200"
           >
             <div className="flex items-center gap-2">
-              {/* Rang */}
+              {/* Ranking */}
               <div className={`
-                flex items-center justify-center w-6 h-6 rounded text-xs font-bold
+                flex items-center justify-center w-5 h-5 rounded text-xs font-bold
                 ${index === 0 ? 'bg-yellow-500/20 text-yellow-400' : ''}
                 ${index === 1 ? 'bg-gray-400/20 text-gray-300' : ''}
                 ${index === 2 ? 'bg-orange-600/20 text-orange-400' : ''}
@@ -123,36 +119,32 @@ export default function MostFollowed({ onSelect, quotes }: MostFollowedProps) {
               <Logo 
                 ticker={stock.ticker} 
                 alt={`${stock.ticker} Logo`}
-                className="w-7 h-7 rounded"
+                className="w-6 h-6 rounded"
                 padding="small"
               />
 
-              {/* Ticker */}
-              <span className="font-bold text-sm text-theme-primary group-hover:text-green-400 transition-colors">
-                {stock.ticker}
-              </span>
-
-              {/* Spacer */}
-              <div className="flex-1" />
-
-              {/* Change */}
-              {stock.quote && (
-                <span className={`text-xs font-bold ${
-                  stock.quote.changePct >= 0 ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {stock.quote.changePct >= 0 ? '+' : ''}{stock.quote.changePct.toFixed(1)}%
-                </span>
-              )}
-
-              {/* User Count */}
-              <div className="flex items-center gap-1 text-xs text-theme-muted">
-                <UserGroupIcon className="w-3 h-3" />
-                <span className="font-medium">{stock.count}</span>
+              {/* Ticker & Data */}
+              <div className="flex-1 text-left">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-sm text-theme-primary group-hover:text-green-400 transition-colors">
+                    {stock.ticker}
+                  </span>
+                  {stock.quote && (
+                    <span className={`text-xs font-medium ${
+                      stock.quote.changePct >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {stock.quote.changePct >= 0 ? '+' : ''}{stock.quote.changePct.toFixed(1)}%
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-theme-muted">{stock.count} Follower</span>
+                </div>
               </div>
             </div>
           </button>
         ))}
       </div>
-    </div>
+    </>
   )
 }

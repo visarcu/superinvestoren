@@ -828,6 +828,8 @@ export default function PortfolioDashboard() {
                         Für korrekte Performance-Berechnung mit historischem Wechselkurs
                       </p>
                     </div>
+                      </>
+                    )}
 
                     {/* Action Buttons */}
                     <div className="flex gap-3 pt-2">
