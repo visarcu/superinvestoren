@@ -17,6 +17,27 @@ export default function QuartalszahlenPage() {
   const ticker = params.ticker as string
   const [activeView, setActiveView] = useState<'transcripts' | 'calendar' | 'estimates'>('transcripts')
 
+  if (!ticker) {
+    return (
+      <div className="min-h-screen bg-theme-primary">
+        <div className="w-full px-6 lg:px-8 py-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <h1 className="text-3xl font-bold text-theme-primary mb-4">Aktie auswählen</h1>
+            <p className="text-theme-secondary mb-8">
+              Bitte wähle eine Aktie aus, um Earnings-Informationen anzuzeigen.
+            </p>
+            <a 
+              href="/analyse" 
+              className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-xl font-medium hover:bg-green-600 transition-colors"
+            >
+              Zurück zur Analyse
+            </a>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-theme-primary">
       <div className="w-full px-6 lg:px-8 py-8">

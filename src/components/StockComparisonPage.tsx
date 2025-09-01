@@ -416,19 +416,31 @@ export default function StockComparisonPage() {
 
  return (
    <div className="min-h-screen bg-theme-primary">
-     <div className="max-w-[1600px] mx-auto p-4">
+     <div className="max-w-7xl mx-auto px-6 py-8">
        
        {/* HEADER */}
-       <div className="mb-4">
-         <h1 className="text-xl font-bold text-theme-primary">Aktien-Vergleich</h1>
-         <p className="text-xs text-theme-secondary">
-           Vergleiche bis zu {maxStocks} Aktien • {selectedMetrics.length} von {maxMetrics} Kennzahlen ausgewählt
-         </p>
+       <div className="mb-8">
+         <div className="flex items-center justify-between">
+           <div>
+             <h1 className="text-2xl font-bold text-theme-primary mb-2">Aktien-Vergleich</h1>
+             <p className="text-sm text-theme-muted">
+               Vergleiche bis zu {maxStocks} Aktien mit {maxMetrics} Kennzahlen
+             </p>
+           </div>
+           <div className="text-right">
+             <div className="text-sm text-theme-primary font-medium">
+               {selectedStocks.length}/{maxStocks} Aktien
+             </div>
+             <div className="text-xs text-theme-muted">
+               {selectedMetrics.length}/{maxMetrics} Kennzahlen
+             </div>
+           </div>
+         </div>
        </div>
 
        {/* CONTROLS BAR */}
-       <div className="bg-theme-secondary rounded-lg p-3 mb-4 border border-theme/10">
-         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+       <div className="bg-theme-card rounded-xl p-6 mb-8 border border-theme/10 shadow-sm">
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
            
            {/* AKTIEN SECTION */}
            <div className="lg:col-span-3">
@@ -736,11 +748,11 @@ export default function StockComparisonPage() {
          </div>
        </div>
 
-       {/* GROSSER CHART */}
-       <div className="bg-theme-card rounded-lg shadow-sm border border-theme/5">
-         <div className="p-3 border-b border-theme/10">
-           <h3 className="font-semibold text-theme-primary flex items-center gap-2 text-sm">
-             <ChartBarIcon className="w-4 h-4 text-theme-muted" />
+       {/* MAIN CHART */}
+       <div className="bg-theme-card rounded-xl shadow-sm border border-theme/10 mb-8">
+         <div className="p-4 border-b border-theme/10">
+           <h3 className="font-semibold text-theme-primary flex items-center gap-2 text-base">
+             <ChartBarIcon className="w-5 h-5 text-theme-muted" />
              {selectedMetrics.length > 0 
                ? currentMetricsLabel 
                : 'Kennzahlen-Vergleich'
@@ -748,16 +760,16 @@ export default function StockComparisonPage() {
            </h3>
          </div>
          
-         <div className="p-4">
+         <div className="p-6">
            {loading ? (
-             <div className="h-[600px] flex items-center justify-center">
+             <div className="h-[400px] flex items-center justify-center">
                <LoadingSpinner />
              </div>
            ) : selectedStocks.length === 0 || selectedMetrics.length === 0 ? (
-             <div className="h-[600px] flex items-center justify-center">
+             <div className="h-[400px] flex items-center justify-center">
                <div className="text-center">
                  <ChartBarIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-                 <p className="text-theme-secondary">
+                 <p className="text-theme-muted">
                    {selectedStocks.length === 0 
                      ? 'Wähle mindestens eine Aktie aus'
                      : 'Wähle mindestens eine Kennzahl aus'
@@ -768,7 +780,7 @@ export default function StockComparisonPage() {
            ) : (
              <>
                {/* Chart Container */}
-               <div className="h-[600px]">
+               <div className="h-[400px] mb-6">
                  <ResponsiveContainer width="100%" height="100%">
                    {chartType === 'line' ? (
                      <LineChart 
@@ -866,25 +878,28 @@ export default function StockComparisonPage() {
                  </ResponsiveContainer>
                </div>
 
-               {/* Erweiterte Statistik-Tabelle */}
+               {/* Statistik-Tabelle */}
                {chartData.length > 0 && calculateStatistics && (
-                 <div className="mt-6 border-t border-theme/10 pt-4">
-                   <div className="flex items-center justify-between mb-3">
-                     <h4 className="text-sm font-semibold text-theme-primary">
-                       Kennzahlen-Analyse ({chartData[0].year} - {chartData[chartData.length - 1].year})
+                 <div className="border-t border-theme/10 pt-6">
+                   <div className="flex items-center justify-between mb-6">
+                     <h4 className="text-lg font-semibold text-theme-primary">
+                       Kennzahlen-Analyse
                      </h4>
-                     <div className="flex gap-2">
-                       <span className="text-xs text-theme-muted px-2 py-1 bg-theme-tertiary/30 rounded">
+                     <div className="flex gap-3">
+                       <span className="text-xs text-theme-muted px-3 py-1.5 bg-theme-secondary rounded-lg">
+                         {chartData[0].year} - {chartData[chartData.length - 1].year}
+                       </span>
+                       <span className="text-xs text-theme-muted px-3 py-1.5 bg-theme-secondary rounded-lg">
                          {chartData.length} Datenpunkte
                        </span>
-                       <span className="text-xs text-theme-muted px-2 py-1 bg-theme-tertiary/30 rounded">
+                       <span className="text-xs text-theme-muted px-3 py-1.5 bg-theme-secondary rounded-lg">
                          {period === 'annual' ? 'Jährlich' : 'Quartalsweise'}
                        </span>
                      </div>
                    </div>
                    
-                   {/* Kompakte Statistik-Cards */}
-                   <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                   {/* Statistik-Cards */}
+                   <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                      {chartLines.map((line) => {
                        const stats = calculateStatistics[line.key]
                        if (!stats) return null
@@ -894,7 +909,7 @@ export default function StockComparisonPage() {
                          : METRICS.find(m => m.value === selectedMetrics[0])
                        
                        return (
-                         <div key={line.key} className="bg-theme-tertiary/20 rounded-lg p-4 border border-theme/10">
+                         <div key={line.key} className="bg-theme-secondary/50 rounded-xl p-6 border border-theme/10 hover:border-theme/20 transition-colors">
                            {/* Header */}
                            <div className="flex items-start justify-between mb-3">
                              <div className="flex items-center gap-2">
@@ -983,13 +998,13 @@ export default function StockComparisonPage() {
                      })}
                    </div>
                    
-                   {/* Aggregierte Gesamtstatistik wenn nur eine Kennzahl */}
+                   {/* Vergleichsübersicht */}
                    {selectedMetrics.length === 1 && selectedStocks.length > 1 && calculateStatistics && (
-                     <div className="mt-4 p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 rounded-lg border border-green-500/20">
-                       <h5 className="text-sm font-semibold text-theme-primary mb-3">
+                     <div className="mt-8 p-6 bg-gradient-to-r from-green-500/5 to-emerald-500/5 rounded-xl border border-green-500/20">
+                       <h5 className="text-base font-semibold text-theme-primary mb-6">
                          Vergleichsübersicht: {METRICS.find(m => m.value === selectedMetrics[0])?.label}
                        </h5>
-                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                          <div>
                            <div className="text-xs text-theme-muted mb-1">Bester CAGR</div>
                            <div className="text-sm font-semibold text-green-400">
@@ -1045,28 +1060,30 @@ export default function StockComparisonPage() {
 
          {/* Info-Text wenn mehrere Kennzahlen */}
          {selectedMetrics.length > 1 && chartData.length > 0 && (
-           <div className="px-4 pb-3">
-             <p className="text-xs text-theme-muted opacity-70">
-               ⚠️ Bei mehreren Kennzahlen werden alle Werte in derselben Skala angezeigt. 
-               Für bessere Vergleichbarkeit empfiehlt es sich, ähnliche Kennzahlen auszuwählen.
-             </p>
+           <div className="px-6 pb-6">
+             <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
+               <p className="text-sm text-theme-muted">
+                 <span className="text-yellow-500 font-medium">⚠️ Hinweis:</span> Bei mehreren Kennzahlen werden alle Werte in derselben Skala angezeigt. 
+                 Für bessere Vergleichbarkeit empfiehlt es sich, ähnliche Kennzahlen auszuwählen.
+               </p>
+             </div>
            </div>
          )}
        </div>
 
        {/* PREMIUM CTA */}
        {!user?.isPremium && (
-         <div className="mt-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg p-4 border border-green-500/20">
+         <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-xl p-6 border border-green-500/20">
            <div className="flex items-center justify-between">
              <div>
-               <h3 className="font-semibold text-theme-primary text-sm">Mehr Möglichkeiten mit Premium</h3>
-               <p className="text-xs text-theme-secondary">
+               <h3 className="font-semibold text-theme-primary text-base">Mehr Möglichkeiten mit Premium</h3>
+               <p className="text-sm text-theme-muted mt-1">
                  Vergleiche bis zu 5 Aktien mit bis zu 10 Kennzahlen gleichzeitig
                </p>
              </div>
              <Link
                href="/pricing"
-               className="px-3 py-1.5 bg-green-500 text-white rounded-lg font-medium text-xs hover:bg-green-600 transition-colors flex items-center gap-2"
+               className="px-6 py-3 bg-green-500 text-white rounded-xl font-medium text-sm hover:bg-green-600 transition-colors flex items-center gap-2"
              >
                <SparklesIcon className="w-3 h-3" />
                Premium freischalten

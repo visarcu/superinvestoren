@@ -919,39 +919,6 @@ function LayoutContent({ children }: LayoutProps) {
           </Link>
         </div>
 
-        <div className="p-3 border-b border-theme">
-          <button
-            onClick={() => setShowCommandPalette(true)}
-            className="w-full flex items-center gap-2 px-3 py-2 bg-theme-tertiary/30 border border-theme rounded-lg hover:bg-theme-tertiary/50 hover:border-green-500/30 transition-all duration-200 group"
-            title="Suchen (⌘K)"
-          >
-            <MagnifyingGlassIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
-            <span className="text-sm text-theme-muted group-hover:text-theme-secondary transition-colors">
-              Suche...
-            </span>
-            <kbd className="ml-auto px-2 py-1 text-xs bg-theme-secondary border border-theme rounded text-theme-muted group-hover:text-theme-secondary transition-colors">
-              ⌘K
-            </kbd>
-          </button>
-
-          <div className="mt-3">
-            <div className="text-xs font-bold text-theme-muted uppercase tracking-wider mb-2 px-0.5">
-              SCHNELLZUGRIFF
-            </div>
-            <div className="grid grid-cols-4 gap-1">
-              {['AAPL', 'TSLA', 'NVDA', 'MSFT'].map((ticker) => (
-                <button
-                  key={ticker}
-                  onClick={() => handleTickerSelect(ticker)}
-                  className="p-1.5 bg-theme-tertiary/30 hover:bg-theme-tertiary/60 rounded-lg text-xs font-bold text-theme-secondary hover:text-green-400 transition-all duration-200 hover:scale-105"
-                  title={`${ticker} analysieren`}
-                >
-                  {ticker}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
 
         <CategorizedNavigation user={user} pathname={pathname} />
 
