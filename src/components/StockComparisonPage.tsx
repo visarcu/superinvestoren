@@ -292,6 +292,55 @@ export default function StockComparisonPage() {
    }
  }
 
+ // Y-Axis formatter for charts
+ const formatYAxis = (value: number) => {
+   // Use German number formatting
+   if (Math.abs(value) >= 1e12) {
+     return `${(value / 1e12).toFixed(1).replace('.', ',')} B`
+   }
+   if (Math.abs(value) >= 1e9) {
+     return `${(value / 1e9).toFixed(1).replace('.', ',')} Mrd`
+   }
+   if (Math.abs(value) >= 1e6) {
+     return `${(value / 1e6).toFixed(1).replace('.', ',')} Mio`
+   }
+   if (Math.abs(value) >= 1e3) {
+     return `${(value / 1e3).toFixed(1).replace('.', ',')} T`
+   }
+   
+   // For percentages and ratios
+   const currentMetric = selectedMetrics[0]
+   const metricInfo = METRICS.find(m => m.value === currentMetric)
+   
+   if (metricInfo?.unit === 'percentage') {
+     return `${(value * 100).toFixed(0)}%`
+   }
+   if (metricInfo?.unit === 'ratio') {
+     return value.toFixed(1).replace('.', ',')
+   }
+   
+   return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+ }
+
+ // Tooltip formatter with German formatting
+ const formatTooltipValue = (value: number, name: string) => {
+   const metric = selectedMetrics.find(m => name.includes(METRICS.find(met => met.value === m)?.label || ''))
+   const metricInfo = metric ? METRICS.find(m => m.value === metric) : METRICS.find(m => m.value === selectedMetrics[0])
+   
+   if (!value && value !== 0) return '--'
+   
+   switch (metricInfo?.unit) {
+     case 'percentage':
+       return `${(value * 100).toFixed(2).replace('.', ',')}%`
+     case 'ratio':
+       return value.toFixed(2).replace('.', ',')
+     case 'currency':
+       return formatCurrency(value)
+     default:
+       return formatCurrency(value)
+   }
+ }
+
  if (loadingUser) {
    return (
      <div className="flex h-screen items-center justify-center">
@@ -398,7 +447,7 @@ export default function StockComparisonPage() {
                      }}
                      onFocus={() => setShowStockDropdown(stockSearch.length > 0)}
                      onBlur={() => setTimeout(() => setShowStockDropdown(false), 150)}
-                     className="px-2 py-0.5 bg-theme-tertiary/30 border border-dashed border-theme/40 rounded text-xs text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500/50 focus:bg-theme-tertiary/50 w-32"
+                     className="px-2 py-0.5 bg-theme-secondary border border-dashed border-theme/60 rounded text-xs text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:bg-theme-card focus:shadow-sm w-32"
                    />
                    <PlusIcon className="w-3 h-3 text-theme-muted" />
                  </div>
@@ -733,7 +782,8 @@ export default function StockComparisonPage() {
                            tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
                            axisLine={{ stroke: 'var(--border-color)', opacity: 0.6 }}
                            tickLine={{ stroke: 'var(--border-color)', opacity: 0.4 }}
-                           width={60}
+                           width={80}
+                           tickFormatter={formatYAxis}
                          />
                          <RechartsTooltip
                            contentStyle={{
@@ -745,6 +795,8 @@ export default function StockComparisonPage() {
                              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)'
                            }}
                            cursor={{ stroke: 'var(--border-color)', strokeWidth: 1, strokeDasharray: '3 3', opacity: 0.7 }}
+                           formatter={formatTooltipValue}
+                           labelFormatter={(label) => `Jahr: ${label}`}
                          />
                          
                          {chartLines.map((line) => (
