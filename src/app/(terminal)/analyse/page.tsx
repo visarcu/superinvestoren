@@ -31,10 +31,18 @@ import { stocks } from '@/data/stocks'
 // LAZY LOAD HOLDINGS HISTORY
 import dynamic from 'next/dynamic'
 import Logo from '@/components/Logo'
-import OptimizedWatchlistNews from '@/components/OptimizedWatchlistNews'
-import MarketMovers from '@/components/MarketMovers'
-import MostFollowed from '@/components/MostFollowed'
-import LatestGuruTrades from '@/components/LatestGuruTrades'
+const OptimizedWatchlistNews = dynamic(() => import('@/components/OptimizedWatchlistNews'), {
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>
+})
+const MarketMovers = dynamic(() => import('@/components/MarketMovers'), {
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>
+})
+const MostFollowed = dynamic(() => import('@/components/MostFollowed'), {
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>
+})
+const LatestGuruTrades = dynamic(() => import('@/components/LatestGuruTrades'), {
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>
+})
 
 
 // ===== TYPES =====
@@ -106,240 +114,6 @@ function getPeriodFromDate(dateStr: string) {
   return `Q${reportQ} ${reportY}`
 }
 
-// ===== MEMOIZED SEARCH COMPONENT =====
-const SmartSearchInput = React.memo(({ 
-  placeholder, 
-  onSelect 
-}: { 
-  placeholder: string
-  onSelect: (ticker: string) => void
-}) => {
-  const [query, setQuery] = useState('')
-  const [filteredStocks, setFilteredStocks] = useState<any[]>([])
-  const [showResults, setShowResults] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(-1)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const resultsRef = useRef<HTMLDivElement>(null)
-
-  const popularStocks = useMemo(() => {
-    const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA']
-    return stocks.filter(stock => popularTickers.includes(stock.ticker))
-  }, [])
-
-  useEffect(() => {
-    if (query.trim()) {
-      const queryLower = query.toLowerCase()
-      const filtered = stocks.filter(stock => 
-        stock.ticker.toLowerCase().includes(queryLower) ||
-        stock.name.toLowerCase().includes(queryLower)
-      ).slice(0, 8)
-      setFilteredStocks(filtered)
-    } else {
-      setFilteredStocks(popularStocks)
-    }
-    setSelectedIndex(-1)
-  }, [query, popularStocks])
-
-  const handleSelect = useCallback((ticker: string) => {
-    onSelect(ticker)
-    setQuery('')
-    setShowResults(false)
-    setSelectedIndex(-1)
-  }, [onSelect])
-
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (!showResults) return
-
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault()
-        setSelectedIndex(prev => 
-          prev < filteredStocks.length - 1 ? prev + 1 : 0
-        )
-        break
-      case 'ArrowUp':
-        e.preventDefault()
-        setSelectedIndex(prev => 
-          prev > 0 ? prev - 1 : filteredStocks.length - 1
-        )
-        break
-      case 'Enter':
-        e.preventDefault()
-        if (selectedIndex >= 0 && filteredStocks[selectedIndex]) {
-          handleSelect(filteredStocks[selectedIndex].ticker)
-        } else if (query.trim()) {
-          handleSelect(query.trim().toUpperCase())
-        }
-        break
-      case 'Escape':
-        setShowResults(false)
-        setSelectedIndex(-1)
-        inputRef.current?.blur()
-        break
-    }
-  }, [showResults, selectedIndex, filteredStocks, handleSelect, query])
-
-  const handleInputFocus = useCallback(() => {
-    setShowResults(true)
-  }, [])
-
-  const handleInputBlur = useCallback((e: React.FocusEvent) => {
-    setTimeout(() => {
-      if (!resultsRef.current?.contains(document.activeElement)) {
-        setShowResults(false)
-        setSelectedIndex(-1)
-      }
-    }, 150)
-  }, [])
-
-  return (
-    <div className="relative max-w-2xl mx-auto">
-      <div className={`
-        search-input-container
-        relative transition-all duration-300 rounded-2xl
-        ${showResults 
-          ? 'bg-white/95 dark:bg-black/95 backdrop-blur-xl border border-black/20 dark:border-white/20 shadow-2xl' 
-          : 'bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-xl hover:shadow-2xl hover:border-black/20 dark:hover:border-white/20'
-        }
-      `}>
-        <div className="flex items-center px-6 py-5">
-          <MagnifyingGlassIcon className="w-6 h-6 mr-4 text-gray-600 dark:text-gray-400" />
-          
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder={placeholder}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
-            onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 text-lg font-medium focus:outline-none border-none focus:ring-0"
-            style={{ border: 'none', boxShadow: 'none' }}
-          />
-          
-          <div className="hidden md:flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm ml-4">
-            <div className="flex items-center gap-1">
-              <kbd className="px-2.5 py-1.5 bg-black/10 dark:bg-white/10 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-400">⌘</kbd>
-              <kbd className="px-2.5 py-1.5 bg-black/10 dark:bg-white/10 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs font-medium text-gray-600 dark:text-gray-400">K</kbd>
-            </div>
-          </div>
-
-          {query && (
-            <button
-              onClick={() => {
-                setQuery('')
-                inputRef.current?.focus()
-              }}
-              className="ml-4 p-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 rounded-xl"
-            >
-              <XMarkIcon className="w-5 h-5" />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {showResults && (
-        <div 
-          ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-3 bg-white/95 dark:bg-black/95 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden max-h-80 overflow-y-auto"
-        >
-          {filteredStocks.length > 0 ? (
-            <div className="p-2">
-              {query && (
-                <div className="px-4 py-3 text-xs text-gray-600 dark:text-gray-400 font-semibold uppercase tracking-wide border-b border-black/10 dark:border-white/10 mb-2">
-                  {filteredStocks.length} Ergebnis{filteredStocks.length !== 1 ? 'se' : ''} für "{query}"
-                </div>
-              )}
-              <div className="space-y-1">
-                {filteredStocks.map((stock, index) => (
-                  <button
-                    key={stock.ticker}
-                    onClick={() => handleSelect(stock.ticker)}
-                    className={`w-full flex items-center gap-3 p-4 rounded-xl transition-all duration-200 text-left group ${
-                      index === selectedIndex 
-                        ? 'bg-green-500 text-white' 
-                        : 'hover:bg-black/5 dark:hover:bg-white/5'
-                    }`}
-                  >
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                      index === selectedIndex 
-                        ? 'bg-white/20' 
-                        : 'bg-green-500/10'
-                    }`}>
-                      <span className={`text-sm font-bold ${
-                        index === selectedIndex 
-                          ? 'text-white' 
-                          : 'text-green-500'
-                      }`}>
-                        {stock.ticker.slice(0, 2)}
-                      </span>
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={`font-bold text-sm ${
-                          index === selectedIndex ? 'text-white' : 'text-black dark:text-white'
-                        }`}>{stock.ticker}</span>
-                        <span className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                          index === selectedIndex 
-                            ? 'bg-white/20 text-white/80' 
-                            : 'bg-black/10 dark:bg-white/10 text-gray-600 dark:text-gray-400'
-                        }`}>
-                          {stock.market || 'NASDAQ'}
-                        </span>
-                      </div>
-                      <div className={`text-xs truncate ${
-                        index === selectedIndex ? 'text-white/80' : 'text-gray-500 dark:text-gray-500'
-                      }`}>
-                        {stock.name}
-                      </div>
-                    </div>
-                    
-                    <svg 
-                      className={`w-4 h-4 transition-all duration-200 flex-shrink-0 ${
-                        index === selectedIndex 
-                          ? 'text-white translate-x-1' 
-                          : 'text-gray-400 dark:text-gray-600 group-hover:text-green-500 group-hover:translate-x-0.5'
-                      }`} 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="p-8 text-center text-gray-500 dark:text-gray-500">
-              <MagnifyingGlassIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p className="text-sm">Keine Ergebnisse für "{query}"</p>
-            </div>
-          )}
-          
-          <div className="p-4 bg-black/5 dark:bg-white/5 backdrop-blur border-t border-black/10 dark:border-white/10">
-            <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
-              <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-white/60 dark:bg-black/60 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs text-gray-600 dark:text-gray-400">↑↓</kbd>
-                <span>Navigieren</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-white/60 dark:bg-black/60 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs text-gray-600 dark:text-gray-400">↵</kbd>
-                <span>Auswählen</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <kbd className="px-2 py-1 bg-white/60 dark:bg-black/60 backdrop-blur border border-black/10 dark:border-white/10 rounded-lg text-xs text-gray-600 dark:text-gray-400">Esc</kbd>
-                <span>Schließen</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-})
 
 
 // ===== MARKET STATUS HELPER =====
@@ -434,37 +208,36 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Load ALL dashboard data in one unified API call
+  // Two-phase loading: immediate cached data + full data
   useEffect(() => {
     async function loadDashboardData() {
       setLoading(true)
       setMarketLoading(true)
       
       try {
+        // Phase 1: Load cached popular stocks + markets immediately
+        const cachedResponse = await fetch('/api/dashboard-cached')
+        if (cachedResponse.ok) {
+          const cachedData = await cachedResponse.json()
+          if (cachedData.quotes) setQuotes(cachedData.quotes)
+          if (cachedData.markets) setMarketQuotes(cachedData.markets)
+          setMarketLoading(false) // Markets loaded immediately
+        }
+        
+        // Phase 2: Load full data including watchlist stocks
         const allTickers = [...POPULAR_STOCKS, ...watchlistTickers]
         const uniqueTickers = [...new Set(allTickers)]
-        const tickers = uniqueTickers.join(',')
         
-        // Single API call for everything
-        const response = await fetch(`/api/dashboard?tickers=${tickers}`)
-        
-        if (!response.ok) {
-          throw new Error(`Dashboard API error: ${response.status}`)
+        if (uniqueTickers.length > POPULAR_STOCKS.length) {
+          const tickers = uniqueTickers.join(',')
+          const fullResponse = await fetch(`/api/dashboard?tickers=${tickers}`)
+          
+          if (fullResponse.ok) {
+            const fullData = await fullResponse.json()
+            if (fullData.quotes) setQuotes(fullData.quotes)
+            if (fullData.markets) setMarketQuotes(fullData.markets)
+          }
         }
-        
-        const data = await response.json()
-        
-        // Set all data at once
-        if (data.quotes) {
-          setQuotes(data.quotes)
-          console.log('✅ Stock quotes loaded:', Object.keys(data.quotes).length)
-        }
-        
-        if (data.markets) {
-          setMarketQuotes(data.markets)
-          console.log('✅ Market data loaded:', Object.keys(data.markets).length)
-        }
-        
         
       } catch (error: any) {
         console.error('Failed to load dashboard data:', error)
@@ -653,23 +426,9 @@ export default function ModernDashboard() {
           </div>
         </section>
 
-        {/* Search Section - Minimalist */}
-        <section className="text-center max-w-3xl mx-auto">
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <h2 className="text-2xl font-bold text-theme-primary">Aktie analysieren</h2>
-              <p className="text-theme-secondary">Suche und analysiere jede Aktie weltweit</p>
-            </div>
-            
-            <SmartSearchInput
-              placeholder="Ticker oder Unternehmen suchen..."
-              onSelect={handleTickerSelect}
-            />
-          </div>
-        </section>
 
-        {/* Professional Grid Layout - Quartr/Koyfin inspired */}
-        <div className="space-y-16">
+        {/* Professional Grid Layout - Clean Card Flow */}
+        <div className="space-y-8">
           
           {/* Section: Popular Stocks */}
           <section>
@@ -752,7 +511,7 @@ export default function ModernDashboard() {
           </div>
           </section>
 
-          {/* Section: Dashboard Components */}
+          {/* Section: Dashboard Components - Optimized Layout */}
           <section>
             <div className="mb-8">
               <h2 className="text-xl font-bold text-theme-primary mb-2">Dashboard</h2>
@@ -761,7 +520,7 @@ export default function ModernDashboard() {
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            {/* Recently Analyzed + Quick Actions */}
+            {/* Recently Analyzed + Quick Actions - Render immediately */}
             <div className="space-y-6">
               {/* Recently Analyzed */}
               {lastTicker && (
@@ -819,27 +578,33 @@ export default function ModernDashboard() {
               </div>
             </div>
 
-            {/* Watchlist News */}
+            {/* Watchlist News - Lazy loaded */}
             <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[416px] flex flex-col">
-              <OptimizedWatchlistNews watchlistTickers={watchlistTickers} />
+              <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
+                <OptimizedWatchlistNews watchlistTickers={watchlistTickers} />
+              </React.Suspense>
             </div>
 
-            {/* Right Column - Market Movers + Most Followed */}
+            {/* Right Column - Market Movers + Most Followed - Lazy loaded */}
             <div className="space-y-6">
               {/* Market Movers */}
               <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
-                <MarketMovers 
-                  watchlistTickers={watchlistTickers}
-                  popularTickers={POPULAR_STOCKS}
-                />
+                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
+                  <MarketMovers 
+                    watchlistTickers={watchlistTickers}
+                    popularTickers={POPULAR_STOCKS}
+                  />
+                </React.Suspense>
               </div>
 
               {/* Most Followed */}
               <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
-                <MostFollowed 
-                  onSelect={handleTickerSelect}
-                  quotes={quotes}
-                />
+                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
+                  <MostFollowed 
+                    onSelect={handleTickerSelect}
+                    quotes={quotes}
+                  />
+                </React.Suspense>
               </div>
             </div>
           </div>
@@ -847,13 +612,15 @@ export default function ModernDashboard() {
 
           {/* Section: Guru Trades */}
           <section>
-            <div className="mb-8">
+            <div className="mb-6">
               <h2 className="text-xl font-bold text-theme-primary mb-2">Super-Investor Trades</h2>
               <p className="text-sm text-theme-muted">Neueste Käufe und Verkäufe der erfolgreichsten Investoren</p>
             </div>
             
             <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
-              <LatestGuruTrades variant="full" />
+              <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
+                <LatestGuruTrades variant="full" />
+              </React.Suspense>
             </div>
           </section>
 

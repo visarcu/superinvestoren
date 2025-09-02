@@ -32,7 +32,11 @@ export async function GET(request: Request) {
       volumeRatio: quote.volume / (quote.avgVolume || 1)
     }))
     
-    return NextResponse.json({ stocks })
+    return NextResponse.json({ stocks }, {
+      headers: {
+        'Cache-Control': 'public, max-age=180, stale-while-revalidate=600' // 3 min cache, 10 min stale
+      }
+    })
   } catch (error) {
     console.error('Market movers error:', error)
     return NextResponse.json({ error: 'Failed to fetch market movers' }, { status: 500 })

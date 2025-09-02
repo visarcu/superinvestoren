@@ -17,7 +17,11 @@ export async function GET(request: Request) {
     )
     
     const data = await response.json()
-    return NextResponse.json(data)
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, max-age=300, stale-while-revalidate=900' // 5 min cache, 15 min stale
+      }
+    })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 })
   }

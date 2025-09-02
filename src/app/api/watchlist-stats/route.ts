@@ -82,6 +82,10 @@ export async function GET() {
     return NextResponse.json({ 
       mostFollowed: sortedTickers,
       totalUsers: uniqueUsers.size || data.length // Fallback wenn keine user_id
+    }, {
+      headers: {
+        'Cache-Control': 'public, max-age=900, stale-while-revalidate=1800' // 15 min cache, 30 min stale
+      }
     })
     
   } catch (error: any) {

@@ -34,7 +34,9 @@ export default function MostFollowed({ onSelect, quotes }: MostFollowedProps) {
   useEffect(() => {
     async function fetchMostFollowed() {
       try {
-        const response = await fetch('/api/watchlist-stats')
+        const response = await fetch('/api/watchlist-stats', {
+          next: { revalidate: 900 } // 15 minute cache
+        })
         const data = await response.json()
         
         if (data.mostFollowed) {

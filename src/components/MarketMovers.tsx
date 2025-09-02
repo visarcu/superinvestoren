@@ -54,7 +54,9 @@ const MarketMovers = React.memo(({
 
         // Batch API Call für alle Tickers
         const tickerString = allTickers.join(',')
-        const response = await fetch(`/api/market-movers?tickers=${tickerString}`)
+        const response = await fetch(`/api/market-movers?tickers=${tickerString}`, {
+          next: { revalidate: 180 } // 3 minute cache
+        })
         
         if (!response.ok) {
           throw new Error('Failed to fetch market movers')

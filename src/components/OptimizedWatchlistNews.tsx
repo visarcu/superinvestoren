@@ -39,7 +39,9 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
       
       try {
         const tickersString = watchlistTickers.slice(0, 5).join(',') // Limit to 5 for performance
-        const response = await fetch(`/api/watchlist-news?tickers=${tickersString}`)
+        const response = await fetch(`/api/watchlist-news?tickers=${tickersString}`, {
+          next: { revalidate: 300 } // 5 minute cache
+        })
         
         if (!response.ok) {
           throw new Error(`API Error: ${response.status}`)

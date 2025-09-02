@@ -172,7 +172,7 @@ export async function GET(req: Request) {
       timestamp: new Date().toISOString()
     }, {
       headers: {
-        'Cache-Control': 'public, max-age=300, stale-while-revalidate=600' // 5 min cache
+        'Cache-Control': 'public, max-age=600, stale-while-revalidate=1800' // 10 min cache, 30 min stale
       }
     })
     
