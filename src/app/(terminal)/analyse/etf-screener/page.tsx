@@ -5,20 +5,16 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   MagnifyingGlassIcon,
-  FunnelIcon,
   ChartBarIcon,
   ArrowUpIcon,
   ArrowDownIcon,
-  SparklesIcon,
-  CurrencyDollarIcon,
-  BuildingOfficeIcon,
   ChevronDownIcon,
   XMarkIcon,
   AdjustmentsHorizontalIcon,
   ArrowLeftIcon,
   GlobeAltIcon
 } from '@heroicons/react/24/outline'
-import { xetraETFs as etfs, ETF } from '@/data/xetraETFsComplete'
+import { xetraETFs as etfs } from '@/data/xetraETFsComplete'
 
 interface ETFQuoteData {
   symbol: string
@@ -30,83 +26,173 @@ interface ETFQuoteData {
   marketCap?: number
 }
 
+interface ETFInfoData {
+  symbol: string
+  expenseRatio?: number
+  aum?: number
+  nav?: number
+}
+
 interface FilterState {
   assetClass: string
   issuer: string
   terRange: [number, number]
   search: string
+  priceRange: [number, number]
+  category: string
+  exchange: string
+}
+
+interface AdvancedFilters {
+  minVolume: number
+  maxVolume: number
+  minMarketCap: number
+  maxMarketCap: number
+  hasPrice: boolean
+  hasTER: boolean
 }
 
 export default function ETFScreenerPage() {
   const [etfQuotes, setETFQuotes] = useState<ETFQuoteData[]>([])
-  const [globalETFs, setGlobalETFs] = useState<any[]>([])
+  const [etfInfos, setETFInfos] = useState<ETFInfoData[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [sortField, setSortField] = useState<string>('marketCap')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
-  const [germanMarket, setGermanMarket] = useState(false)
   const [filters, setFilters] = useState<FilterState>({
     assetClass: '',
     issuer: '',
     terRange: [0, 2],
-    search: ''
+    search: '',
+    priceRange: [0, 1000],
+    category: '',
+    exchange: ''
   })
+  const [advancedFilters, setAdvancedFilters] = useState<AdvancedFilters>({
+    minVolume: 0,
+    maxVolume: Infinity,
+    minMarketCap: 0,
+    maxMarketCap: Infinity,
+    hasPrice: false,
+    hasTER: false
+  })
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
   
   const router = useRouter()
   const itemsPerPage = 50
 
   useEffect(() => {
     loadETFData()
-  }, [currentPage, germanMarket, globalETFs.length])
+  }, [currentPage])
+
+  // Load TER data for filtered ETFs when search/filters change
+  useEffect(() => {
+    loadTERForVisibleETFs()
+  }, [filters.search, filters.assetClass, filters.issuer, filters.category])
+
+  const loadTERForVisibleETFs = async () => {
+    // Load TER data for currently visible filtered ETFs
+    const filteredForTER = etfs.filter(etf => {
+      const matchesSearch = !filters.search || 
+        etf.symbol.toLowerCase().includes(filters.search.toLowerCase()) ||
+        etf.name.toLowerCase().includes(filters.search.toLowerCase())
+      
+      const matchesAssetClass = !filters.assetClass || etf.assetClass === filters.assetClass
+      const matchesIssuer = !filters.issuer || etf.issuer === filters.issuer
+      const matchesCategory = !filters.category || etf.category === filters.category
+      
+      return matchesSearch && matchesAssetClass && matchesIssuer && matchesCategory
+    })
+
+    const visibleETFs = filteredForTER.slice(0, 50) // First 50 visible results
+    const etfsNeedingTER = visibleETFs.filter(etf => 
+      !etfInfos.find(info => info.symbol === etf.symbol)
+    )
+
+    if (etfsNeedingTER.length === 0) return
+
+    const etfInfoPromises = etfsNeedingTER.map(async (etf) => {
+      try {
+        const infoRes = await fetch(`/api/etf-info/${etf.symbol}`)
+        if (infoRes.ok) {
+          const info = await infoRes.json()
+          const etfData = Array.isArray(info) && info.length > 0 ? info[0] : info
+          return {
+            symbol: etf.symbol,
+            expenseRatio: etfData?.expenseRatio,
+            aum: etfData?.aum,
+            nav: etfData?.nav
+          }
+        }
+      } catch (err) {
+        console.error(`Failed to fetch info for ${etf.symbol}:`, err)
+      }
+      return { symbol: etf.symbol, expenseRatio: undefined, aum: undefined, nav: undefined }
+    })
+
+    const newETFInfos = await Promise.all(etfInfoPromises)
+    setETFInfos(prev => {
+      const updated = [...prev]
+      newETFInfos.forEach(newInfo => {
+        const existingIndex = updated.findIndex(info => info.symbol === newInfo.symbol)
+        if (existingIndex >= 0) {
+          updated[existingIndex] = newInfo
+        } else {
+          updated.push(newInfo)
+        }
+      })
+      return updated
+    })
+  }
 
   const loadETFData = async () => {
     setLoading(true)
     try {
-      if (germanMarket) {
-        // Load German XETRA ETFs
-        const startIndex = (currentPage - 1) * itemsPerPage
-        const endIndex = startIndex + itemsPerPage
-        const etfBatch = etfs.slice(startIndex, endIndex)
-        
-        if (etfBatch.length === 0) {
-          setETFQuotes([])
-          setLoading(false)
-          return
-        }
-
-        const symbols = etfBatch.map(etf => etf.symbol).join(',')
-        const res = await fetch(`/api/quotes?symbols=${symbols}`)
-        
-        if (res.ok) {
-          const quotes = await res.json()
-          setETFQuotes(quotes || [])
-        } else {
-          setETFQuotes([])
-        }
-      } else {
-        // Load Global/US ETFs
-        if (globalETFs.length === 0) {
-          const globalRes = await fetch('/api/all-etfs')
-          if (globalRes.ok) {
-            const globalData = await globalRes.json()
-            setGlobalETFs(globalData)
-          }
-        }
-        
-        const startIndex = (currentPage - 1) * itemsPerPage
-        const endIndex = startIndex + itemsPerPage
-        const etfBatch = globalETFs.slice(startIndex, endIndex)
-        
-        // Global ETFs already have price data from the API
-        setETFQuotes(etfBatch.map((etf: any) => ({
-          symbol: etf.symbol,
-          price: etf.price,
-          change: undefined,
-          changesPercentage: undefined,
-          volume: etf.volume,
-          marketCap: etf.marketCap
-        })))
+      // Load German XETRA ETFs only
+      const startIndex = (currentPage - 1) * itemsPerPage
+      const endIndex = startIndex + itemsPerPage
+      const etfBatch = etfs.slice(startIndex, endIndex)
+      
+      if (etfBatch.length === 0) {
+        setETFQuotes([])
+        setLoading(false)
+        return
       }
+
+      const symbols = etfBatch.map(etf => etf.symbol).join(',')
+      
+      // Fetch quotes
+      const quotesRes = await fetch(`/api/quotes?symbols=${symbols}`)
+      if (quotesRes.ok) {
+        const quotes = await quotesRes.json()
+        setETFQuotes(quotes || [])
+      } else {
+        setETFQuotes([])
+      }
+
+      // Fetch ETF info (TER data) for each ETF
+      const etfInfoPromises = etfBatch.map(async (etf) => {
+        try {
+          const infoRes = await fetch(`/api/etf-info/${etf.symbol}`)
+          if (infoRes.ok) {
+            const info = await infoRes.json()
+            // Handle array response from FMP
+            const etfData = Array.isArray(info) && info.length > 0 ? info[0] : info
+            return {
+              symbol: etf.symbol,
+              expenseRatio: etfData?.expenseRatio,
+              aum: etfData?.aum,
+              nav: etfData?.nav
+            }
+          }
+        } catch (err) {
+          console.error(`Failed to fetch info for ${etf.symbol}:`, err)
+        }
+        return { symbol: etf.symbol, expenseRatio: undefined, aum: undefined, nav: undefined }
+      })
+
+      const etfInfoResults = await Promise.all(etfInfoPromises)
+      setETFInfos(etfInfoResults)
     } catch (error) {
       console.error('ETF data loading error:', error)
       setETFQuotes([])
@@ -116,7 +202,7 @@ export default function ETFScreenerPage() {
   }
 
   const filteredETFs = useMemo(() => {
-    const currentETFs = germanMarket ? etfs : globalETFs
+    const currentETFs = etfs
     
     return currentETFs.filter(etf => {
       const matchesSearch = !filters.search || 
@@ -125,11 +211,29 @@ export default function ETFScreenerPage() {
       
       const matchesAssetClass = !filters.assetClass || etf.assetClass === filters.assetClass
       const matchesIssuer = !filters.issuer || etf.issuer === filters.issuer
-      const matchesTER = !etf.ter || (etf.ter >= filters.terRange[0] && etf.ter <= filters.terRange[1])
+      const matchesCategory = !filters.category || etf.category === filters.category
+      const matchesExchange = !filters.exchange || etf.exchange === filters.exchange
       
-      return matchesSearch && matchesAssetClass && matchesIssuer && matchesTER
+      // Use TER from API if available, fallback to static data
+      const etfInfo = etfInfos.find(info => info.symbol === etf.symbol)
+      const ter = etfInfo?.expenseRatio || etf.ter
+      const matchesTER = !ter || (ter >= filters.terRange[0] && ter <= filters.terRange[1])
+      
+      const quote = etfQuotes.find(q => q.symbol === etf.symbol)
+      const price = quote?.price || etf.price || 0
+      const matchesPrice = price >= filters.priceRange[0] && price <= filters.priceRange[1]
+      
+      // Advanced filters
+      const matchesHasPrice = !advancedFilters.hasPrice || (quote?.price !== undefined || etf.price !== undefined)
+      const matchesHasTER = !advancedFilters.hasTER || ter !== undefined
+      const matchesVolume = !quote?.volume || (quote.volume >= advancedFilters.minVolume && quote.volume <= advancedFilters.maxVolume)
+      const matchesMarketCap = !quote?.marketCap || (quote.marketCap >= advancedFilters.minMarketCap && quote.marketCap <= advancedFilters.maxMarketCap)
+      
+      return matchesSearch && matchesAssetClass && matchesIssuer && matchesCategory && 
+             matchesExchange && matchesTER && matchesPrice && matchesHasPrice && 
+             matchesHasTER && matchesVolume && matchesMarketCap
     })
-  }, [filters, germanMarket, globalETFs])
+  }, [filters, advancedFilters, etfQuotes, etfInfos])
 
   const sortedETFs = useMemo(() => {
     const etfsWithQuotes = filteredETFs.map(etf => {
@@ -182,7 +286,7 @@ export default function ETFScreenerPage() {
       
       return sortDirection === 'asc' ? aVal - bVal : bVal - aVal
     })
-  }, [filteredETFs, etfQuotes, sortField, sortDirection, germanMarket])
+  }, [filteredETFs, etfQuotes, sortField, sortDirection])
 
   const paginatedETFs = sortedETFs.slice(
     (currentPage - 1) * itemsPerPage,
@@ -218,16 +322,37 @@ export default function ETFScreenerPage() {
     return volume.toLocaleString('de-DE')
   }
 
-  const formatTER = (ter: number | undefined): string => {
-    if (!ter) return 'N/A'
-    return `${ter.toFixed(2)}%`
-  }
 
-  const uniqueAssetClasses = [...new Set(etfs.map(etf => etf.assetClass))].sort()
-  const uniqueIssuers = [...new Set(etfs.map(etf => etf.issuer))].sort()
+  const currentETFList = etfs
+  const uniqueAssetClasses = [...new Set(currentETFList.map(etf => etf.assetClass))].sort()
+  const uniqueIssuers = [...new Set(currentETFList.map(etf => etf.issuer))].sort()
+  const uniqueCategories = [...new Set(currentETFList.map(etf => etf.category))].sort()
+  const uniqueExchanges = [...new Set(currentETFList.map(etf => etf.exchange))].filter(Boolean).sort()
 
   return (
-    <div className="min-h-screen bg-theme-primary">
+    <>
+      <style jsx>{`
+        .slider-thumb::-webkit-slider-thumb {
+          appearance: none;
+          height: 18px;
+          width: 18px;
+          border-radius: 50%;
+          background: #10B981;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .slider-thumb::-moz-range-thumb {
+          height: 18px;
+          width: 18px;
+          border-radius: 50%;
+          background: #10B981;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+      `}</style>
+      <div className="min-h-screen bg-theme-primary">
       <div className="w-full px-6 lg:px-8 py-8 space-y-8">
         
         {/* Header */}
@@ -248,34 +373,13 @@ export default function ETFScreenerPage() {
             
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <p className="text-theme-secondary">
-                Durchsuche alle {germanMarket ? etfs.length.toLocaleString('de-DE') : (globalETFs.length || 'viele').toLocaleString('de-DE')} verfügbaren ETFs nach deinen Kriterien
+                Durchsuche alle {etfs.length.toLocaleString('de-DE')} verfügbaren ETFs nach deinen Kriterien
               </p>
               
-              {/* Market Toggle */}
-              <div className="flex items-center gap-2">
-                <GlobeAltIcon className="w-4 h-4 text-theme-secondary" />
-                <div className="flex bg-theme-secondary/20 rounded-lg p-1">
-                  <button
-                    onClick={() => setGermanMarket(false)}
-                    className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                      !germanMarket 
-                        ? 'bg-green-500 text-white' 
-                        : 'text-theme-muted hover:text-theme-primary'
-                    }`}
-                  >
-                    US 🇺🇸
-                  </button>
-                  <button
-                    onClick={() => setGermanMarket(true)}
-                    className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                      germanMarket 
-                        ? 'bg-green-500 text-white' 
-                        : 'text-theme-muted hover:text-theme-primary'
-                    }`}
-                  >
-                    DE 🇩🇪
-                  </button>
-                </div>
+              {/* Market Info */}
+              <div className="flex items-center gap-2 text-theme-secondary">
+                <GlobeAltIcon className="w-4 h-4" />
+                <span className="text-sm">XETRA & Deutsche Börsen 🇩🇪</span>
               </div>
             </div>
           </div>
@@ -296,8 +400,8 @@ export default function ETFScreenerPage() {
             />
           </div>
 
-          {/* Filters Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Basic Filters Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             
             {/* Asset Class Filter */}
             <div>
@@ -344,17 +448,124 @@ export default function ETFScreenerPage() {
                   ...prev, 
                   terRange: [0, parseFloat(e.target.value)] 
                 }))}
-                className="w-full h-2 bg-theme-secondary/20 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-theme-secondary/20 rounded-lg appearance-none cursor-pointer slider-thumb"
+                style={{
+                  background: 'linear-gradient(to right, #10B981 0%, #10B981 var(--value, 50%), rgba(107, 114, 128, 0.2) var(--value, 50%), rgba(107, 114, 128, 0.2) 100%)'
+                }}
               />
             </div>
 
-            {/* Results Count */}
-            <div className="flex flex-col justify-end">
-              <div className="text-theme-secondary text-sm">
-                <span className="font-medium text-green-400">{sortedETFs.length}</span> ETFs gefunden
-              </div>
+            {/* Category Filter */}
+            <div>
+              <label className="block text-sm font-medium text-theme-secondary mb-2">Kategorie</label>
+              <select
+                value={filters.category}
+                onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
+                className="w-full px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+              >
+                <option value="">Alle</option>
+                {uniqueCategories.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
             </div>
           </div>
+
+          {/* Advanced Filters Button */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary/20 text-theme-secondary rounded-lg hover:bg-theme-secondary/30 transition-colors"
+            >
+              <AdjustmentsHorizontalIcon className="w-4 h-4" />
+              Erweiterte Filter
+              <ChevronDownIcon className={`w-4 h-4 transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`} />
+            </button>
+            
+            <div className="text-theme-secondary text-sm">
+              <span className="font-medium text-green-400">{sortedETFs.length}</span> ETFs gefunden
+            </div>
+          </div>
+
+          {/* Advanced Filters Panel */}
+          {showAdvancedFilters && (
+            <div className="border-t border-theme/20 pt-6 space-y-4">
+              <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Erweiterte Filter</h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                {/* Price Range */}
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    Preis: ${filters.priceRange[0]} - ${filters.priceRange[1]}
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      placeholder="Min"
+                      value={filters.priceRange[0]}
+                      onChange={(e) => setFilters(prev => ({ 
+                        ...prev, 
+                        priceRange: [parseFloat(e.target.value) || 0, prev.priceRange[1]] 
+                      }))}
+                      className="w-full px-2 py-1 bg-theme-card border border-theme/20 rounded text-sm"
+                    />
+                    <span className="text-theme-tertiary">-</span>
+                    <input
+                      type="number"
+                      placeholder="Max"
+                      value={filters.priceRange[1]}
+                      onChange={(e) => setFilters(prev => ({ 
+                        ...prev, 
+                        priceRange: [prev.priceRange[0], parseFloat(e.target.value) || 1000] 
+                      }))}
+                      className="w-full px-2 py-1 bg-theme-card border border-theme/20 rounded text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Exchange Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">Börse</label>
+                  <select
+                    value={filters.exchange}
+                    onChange={(e) => setFilters(prev => ({ ...prev, exchange: e.target.value }))}
+                    className="w-full px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                  >
+                    <option value="">Alle</option>
+                    {uniqueExchanges.map(ex => (
+                      <option key={ex} value={ex}>{ex}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Data Quality Filters */}
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">Datenqualität</label>
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={advancedFilters.hasPrice}
+                        onChange={(e) => setAdvancedFilters(prev => ({ ...prev, hasPrice: e.target.checked }))}
+                        className="rounded border-theme/20 text-green-500 focus:ring-green-500/30"
+                      />
+                      <span className="text-sm text-theme-secondary">Nur mit Kurs</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={advancedFilters.hasTER}
+                        onChange={(e) => setAdvancedFilters(prev => ({ ...prev, hasTER: e.target.checked }))}
+                        className="rounded border-theme/20 text-green-500 focus:ring-green-500/30"
+                      />
+                      <span className="text-sm text-theme-secondary">Nur mit TER</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ETF Table */}
@@ -473,13 +684,28 @@ export default function ETFScreenerPage() {
                         </td>
 
                         <td className="px-4 py-4 text-right">
-                          <span className={`font-semibold ${
-                            !etf.ter ? 'text-theme-tertiary' :
-                            etf.ter <= 0.2 ? 'text-green-400' :
-                            etf.ter <= 0.5 ? 'text-yellow-400' : 'text-red-400'
-                          }`}>
-                            {formatTER(etf.ter)}
-                          </span>
+                          {(() => {
+                            const etfInfo = etfInfos.find(info => info.symbol === etf.symbol)
+                            const ter = etfInfo?.expenseRatio
+                            const isLoading = !etfInfo && etfInfos.length === 0
+                            
+                            if (isLoading) {
+                              return <div className="w-12 h-4 bg-theme-secondary/20 rounded animate-pulse mx-auto"></div>
+                            }
+                            
+                            if (!ter) {
+                              return <span className="text-theme-tertiary font-semibold">N/A</span>
+                            }
+                            
+                            const colorClass = ter <= 0.2 ? 'text-green-400' : 
+                                             ter <= 0.5 ? 'text-yellow-400' : 'text-red-400'
+                            
+                            return (
+                              <span className={`font-semibold ${colorClass}`}>
+                                {ter.toFixed(2)}%
+                              </span>
+                            )
+                          })()}
                         </td>
 
                         <td className="px-4 py-4 text-center">
@@ -524,23 +750,39 @@ export default function ETFScreenerPage() {
         </div>
 
         {/* Clear Filters */}
-        {(filters.search || filters.assetClass || filters.issuer || filters.terRange[1] !== 2) && (
+        {(filters.search || filters.assetClass || filters.issuer || filters.category || filters.exchange || 
+          filters.terRange[1] !== 2 || filters.priceRange[0] !== 0 || filters.priceRange[1] !== 1000 ||
+          advancedFilters.hasPrice || advancedFilters.hasTER) && (
           <div className="flex justify-center">
             <button
-              onClick={() => setFilters({
-                assetClass: '',
-                issuer: '',
-                terRange: [0, 2],
-                search: ''
-              })}
+              onClick={() => {
+                setFilters({
+                  assetClass: '',
+                  issuer: '',
+                  terRange: [0, 2],
+                  search: '',
+                  priceRange: [0, 1000],
+                  category: '',
+                  exchange: ''
+                })
+                setAdvancedFilters({
+                  minVolume: 0,
+                  maxVolume: Infinity,
+                  minMarketCap: 0,
+                  maxMarketCap: Infinity,
+                  hasPrice: false,
+                  hasTER: false
+                })
+              }}
               className="flex items-center gap-2 px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors"
             >
               <XMarkIcon className="w-4 h-4" />
-              Filter zurücksetzen
+              Alle Filter zurücksetzen
             </button>
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   )
 }

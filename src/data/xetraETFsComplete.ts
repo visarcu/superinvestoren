@@ -11,6 +11,7 @@ export interface ETF {
   category: string;
   isin?: string;
   ter?: number;
+  exchange?: string;
 }
 
 export const xetraETFs: ETF[] = [
@@ -10721,7 +10722,7 @@ export const xetraETFs: ETF[] = [
   {
     symbol: 'SX7PEX.DE',
     name: 'iShares STOXX Europe 600 Banks UCITS ETF (DE)',
-    price: null,
+    price: undefined,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
