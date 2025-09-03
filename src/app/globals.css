@@ -15,7 +15,7 @@
      --color-bg-secondary: #f7f8fa;
      --color-bg-tertiary: #f1f3f5;
      --color-bg-elevated: #ffffff;
-     --color-bg-hover: rgba(248, 250, 252, 0.8);
+     --color-bg-hover: rgba(248, 250, 252, 0.9);
      
      --color-text-primary: #0f172a;
      --color-text-secondary: #475569;
@@ -235,9 +235,10 @@
    
    .recharts-cartesian-grid-horizontal line,
    .recharts-cartesian-grid-vertical line {
-     stroke: var(--color-border-primary) !important;
-     stroke-dasharray: 2 2 !important;
-     opacity: 0.4 !important;
+     stroke: #404040 !important;
+     stroke-dasharray: 2 4 !important;
+     opacity: 0.8 !important;
+     stroke-width: 0.8 !important;
    }
    
    /* ===== SCROLLBARS ===== */

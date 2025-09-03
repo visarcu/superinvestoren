@@ -6,26 +6,17 @@ import {
  ResponsiveContainer,
  LineChart,
  Line,
- BarChart,
- Bar,
  XAxis,
  YAxis,
  CartesianGrid,
  Tooltip as RechartsTooltip,
- Legend,
 } from 'recharts'
 import { 
  XMarkIcon, 
  PlusIcon,
  ChartBarIcon,
  SparklesIcon,
- ChevronDownIcon,
- ArrowPathIcon,
- CheckIcon,
- MagnifyingGlassIcon,
- TableCellsIcon,
- ArrowTrendingUpIcon,
- ArrowTrendingDownIcon
+ TableCellsIcon
 } from '@heroicons/react/24/outline'
 import { stocks as availableStocks } from '@/data/stocks'
 import { useCurrency } from '@/lib/CurrencyContext'
@@ -36,29 +27,29 @@ import Link from 'next/link'
 // Professional Metrics with categories
 const METRICS = [
  // Fundamentals
- { value: 'revenue', label: 'Revenue', category: 'Fundamentals', unit: 'currency' },
- { value: 'netIncome', label: 'Net Income', category: 'Fundamentals', unit: 'currency' },
- { value: 'ebitda', label: 'EBITDA', category: 'Fundamentals', unit: 'currency' },
- { value: 'eps', label: 'EPS', category: 'Fundamentals', unit: 'currency' },
- { value: 'freeCashFlow', label: 'Free Cash Flow', category: 'Fundamentals', unit: 'currency' },
+ { value: 'revenue', label: 'Umsatz', category: 'Fundamentale Daten', unit: 'currency' },
+ { value: 'netIncome', label: 'Nettogewinn', category: 'Fundamentale Daten', unit: 'currency' },
+ { value: 'ebitda', label: 'EBITDA', category: 'Fundamentale Daten', unit: 'currency' },
+ { value: 'eps', label: 'Gewinn je Aktie', category: 'Fundamentale Daten', unit: 'currency' },
+ { value: 'freeCashFlow', label: 'Free Cash Flow', category: 'Fundamentale Daten', unit: 'currency' },
  
  // Valuation
- { value: 'peRatio', label: 'P/E Ratio', category: 'Valuation', unit: 'ratio' },
- { value: 'pbRatio', label: 'P/B Ratio', category: 'Valuation', unit: 'ratio' },
- { value: 'psRatio', label: 'P/S Ratio', category: 'Valuation', unit: 'ratio' },
+ { value: 'peRatio', label: 'KGV', category: 'Bewertung', unit: 'ratio' },
+ { value: 'pbRatio', label: 'KBV', category: 'Bewertung', unit: 'ratio' },
+ { value: 'psRatio', label: 'KUV', category: 'Bewertung', unit: 'ratio' },
  
  // Profitability 
- { value: 'roe', label: 'ROE', category: 'Profitability', unit: 'percentage' },
- { value: 'roa', label: 'ROA', category: 'Profitability', unit: 'percentage' },
- { value: 'grossMargin', label: 'Gross Margin', category: 'Profitability', unit: 'percentage' },
- { value: 'operatingMargin', label: 'Operating Margin', category: 'Profitability', unit: 'percentage' },
- { value: 'netMargin', label: 'Net Margin', category: 'Profitability', unit: 'percentage' },
+ { value: 'roe', label: 'Eigenkapitalrendite', category: 'Rentabilität', unit: 'percentage' },
+ { value: 'roa', label: 'Gesamtkapitalrendite', category: 'Rentabilität', unit: 'percentage' },
+ { value: 'grossMargin', label: 'Bruttomarge', category: 'Rentabilität', unit: 'percentage' },
+ { value: 'operatingMargin', label: 'Operative Marge', category: 'Rentabilität', unit: 'percentage' },
+ { value: 'netMargin', label: 'Nettomarge', category: 'Rentabilität', unit: 'percentage' },
  
  // Financial Health
- { value: 'currentRatio', label: 'Current Ratio', category: 'Financial Health', unit: 'ratio' },
- { value: 'debtToEquity', label: 'Debt/Equity', category: 'Financial Health', unit: 'ratio' },
- { value: 'totalDebt', label: 'Total Debt', category: 'Financial Health', unit: 'currency' },
- { value: 'cash', label: 'Cash & Equivalents', category: 'Financial Health', unit: 'currency' },
+ { value: 'currentRatio', label: 'Liquidität 1. Grades', category: 'Finanzielle Gesundheit', unit: 'ratio' },
+ { value: 'debtToEquity', label: 'Verschuldungsgrad', category: 'Finanzielle Gesundheit', unit: 'ratio' },
+ { value: 'totalDebt', label: 'Gesamtverschuldung', category: 'Finanzielle Gesundheit', unit: 'currency' },
+ { value: 'cash', label: 'Liquide Mittel', category: 'Finanzielle Gesundheit', unit: 'currency' },
 ]
 
 // Professional color scheme
@@ -74,7 +65,7 @@ interface User {
 }
 
 export default function StockComparisonPage() {
- const { formatCurrency, formatAxisValueDE } = useCurrency()
+ const { formatCurrency } = useCurrency()
  
  const [user, setUser] = useState<User | null>(null)
  const [loadingUser, setLoadingUser] = useState(true)
@@ -82,11 +73,14 @@ export default function StockComparisonPage() {
  const [selectedMetrics, setSelectedMetrics] = useState<string[]>(['revenue', 'netIncome', 'peRatio'])
  const [stockSearch, setStockSearch] = useState('')
  const [showStockDropdown, setShowStockDropdown] = useState(false)
+ const [emptyStateSearch, setEmptyStateSearch] = useState('')
+ const [showEmptyStateDropdown, setShowEmptyStateDropdown] = useState(false)
  const [comparisonData, setComparisonData] = useState<any>(null)
  const [loading, setLoading] = useState(false)
  const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
  const [years, setYears] = useState(5)
  const [viewMode, setViewMode] = useState<'chart' | 'table'>('chart')
+ const [showAllData, setShowAllData] = useState(false)
 
  // Load User
  useEffect(() => {
@@ -151,37 +145,109 @@ export default function StockComparisonPage() {
      .slice(0, 8)
  }, [stockSearch, selectedStocks])
 
+ const filteredEmptyStateStocks = useMemo(() => {
+   if (!emptyStateSearch || emptyStateSearch.length < 1) return []
+   const query = emptyStateSearch.toLowerCase()
+   return availableStocks
+     .filter(stock => 
+       stock.ticker.toLowerCase().includes(query) || 
+       stock.name.toLowerCase().includes(query)
+     )
+     .slice(0, 8)
+ }, [emptyStateSearch])
+
  const maxStocks = user?.isPremium ? 8 : 3
  const maxMetrics = user?.isPremium ? 15 : 6
 
- // Chart data calculation
+ // Chart data calculation - Common time range or all data
  const chartData = useMemo(() => {
    if (!comparisonData || selectedStocks.length === 0 || selectedMetrics.length === 0) return []
 
-   const allYears = new Set<string>()
-   Object.values(comparisonData).forEach((stockData: any) => {
-     stockData.data?.forEach((d: any) => {
-       allYears.add(d.year)
-     })
-   })
-
-   return Array.from(allYears).sort().map(year => {
-     const dataPoint: any = { year }
-     
-     selectedStocks.forEach(ticker => {
-       selectedMetrics.forEach(metric => {
-         const stockData = comparisonData[ticker]
-         const yearData = stockData?.data?.find((d: any) => d.year === year)
-         if (yearData) {
-           const key = selectedMetrics.length > 1 ? `${ticker}_${metric}` : ticker
-           dataPoint[key] = yearData[metric] || 0
-         }
+   if (showAllData) {
+     // Show all available years
+     const allYears = new Set<string>()
+     Object.values(comparisonData).forEach((stockData: any) => {
+       stockData.data?.forEach((d: any) => {
+         allYears.add(d.year)
        })
      })
+
+     return Array.from(allYears).sort().map(year => {
+       const dataPoint: any = { year }
+       
+       selectedStocks.forEach(ticker => {
+         selectedMetrics.forEach(metric => {
+           const stockData = comparisonData[ticker]
+           const yearData = stockData?.data?.find((d: any) => d.year === year)
+           if (yearData) {
+             const key = selectedMetrics.length > 1 ? `${ticker}_${metric}` : ticker
+             dataPoint[key] = yearData[metric] || 0
+           }
+         })
+       })
+       
+       return dataPoint
+     })
+   } else {
+     // Common time range only
+     const stockYears = selectedStocks.map(ticker => {
+       const stockData = comparisonData[ticker]
+       return new Set(stockData?.data?.map((d: any) => d.year) || [])
+     })
      
-     return dataPoint
+     const commonYears = stockYears.length > 0 
+       ? stockYears.reduce((intersection, years) => 
+           new Set([...intersection].filter(year => years.has(year)))
+         )
+       : new Set()
+
+     return Array.from(commonYears).sort().map(year => {
+       const dataPoint: any = { year }
+       
+       selectedStocks.forEach(ticker => {
+         selectedMetrics.forEach(metric => {
+           const stockData = comparisonData[ticker]
+           const yearData = stockData?.data?.find((d: any) => d.year === year)
+           if (yearData) {
+             const key = selectedMetrics.length > 1 ? `${ticker}_${metric}` : ticker
+             dataPoint[key] = yearData[metric] || 0
+           }
+         })
+       })
+       
+       return dataPoint
+     })
+   }
+ }, [comparisonData, selectedMetrics, selectedStocks, showAllData])
+
+ // Check for additional available data
+ const additionalDataInfo = useMemo(() => {
+   if (!comparisonData || selectedStocks.length === 0) return null
+   
+   const allAvailableYears = new Set<string>()
+   const commonYears = new Set(chartData.map(d => d.year))
+   
+   selectedStocks.forEach(ticker => {
+     const stockData = comparisonData[ticker]
+     stockData?.data?.forEach((d: any) => allAvailableYears.add(d.year))
    })
- }, [comparisonData, selectedMetrics, selectedStocks])
+   
+   const additionalYears = Array.from(allAvailableYears).filter(year => !commonYears.has(year))
+   
+   if (additionalYears.length === 0) return null
+   
+   const stocksWithAdditional = selectedStocks.filter(ticker => {
+     const stockData = comparisonData[ticker]
+     return additionalYears.some(year => 
+       stockData?.data?.some((d: any) => d.year === year)
+     )
+   })
+   
+   return {
+     years: additionalYears.sort(),
+     stocks: stocksWithAdditional
+   }
+ }, [comparisonData, selectedStocks, chartData])
 
  // Chart lines calculation
  const chartLines = useMemo(() => {
@@ -357,9 +423,9 @@ export default function StockComparisonPage() {
        <div className="flex items-center justify-between mb-3 pb-3 border-b border-theme/10">
          <div className="flex items-center gap-4">
            <div>
-             <h1 className="text-base font-semibold text-theme-primary">Stock Comparison</h1>
+             <h1 className="text-base font-semibold text-theme-primary">Aktien-Vergleich</h1>
              <p className="text-xs text-theme-muted">
-               {selectedStocks.length}/{maxStocks} stocks • {selectedMetrics.length}/{maxMetrics} metrics
+               {selectedStocks.length}/{maxStocks} Aktien • {selectedMetrics.length}/{maxMetrics} Metriken
              </p>
            </div>
            
@@ -567,27 +633,28 @@ export default function StockComparisonPage() {
              <p className="text-sm text-theme-muted mb-4 max-w-md">
                Füge Aktien hinzu um ihre Finanzkennzahlen, Ratios und Performance zu vergleichen.
              </p>
-             <div className="flex items-center justify-center gap-2">
+             <div className="flex items-center justify-center gap-2 relative">
                <input
                  type="text"
                  placeholder="Ticker eingeben..."
-                 value={stockSearch}
+                 value={emptyStateSearch}
                  onChange={(e) => {
-                   setStockSearch(e.target.value)
-                   setShowStockDropdown(true)
+                   setEmptyStateSearch(e.target.value)
+                   setShowEmptyStateDropdown(e.target.value.length > 0)
                  }}
-                 onFocus={() => setShowStockDropdown(true)}
+                 onFocus={() => setShowEmptyStateDropdown(emptyStateSearch.length > 0)}
+                 onBlur={() => setTimeout(() => setShowEmptyStateDropdown(false), 150)}
                  className="px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-sm text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20"
                />
-               {filteredStocks.length > 0 && showStockDropdown && (
+               {filteredEmptyStateStocks.length > 0 && showEmptyStateDropdown && (
                  <div className="absolute top-full mt-2 w-64 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-50 max-h-48 overflow-y-auto">
-                   {filteredStocks.map(stock => (
+                   {filteredEmptyStateStocks.map(stock => (
                      <button
                        key={stock.ticker}
                        onMouseDown={() => {
                          setSelectedStocks([stock.ticker])
-                         setStockSearch('')
-                         setShowStockDropdown(false)
+                         setEmptyStateSearch('')
+                         setShowEmptyStateDropdown(false)
                        }}
                        className="w-full px-3 py-2 text-left hover:bg-theme-secondary/30 transition-colors"
                      >
@@ -601,24 +668,24 @@ export default function StockComparisonPage() {
            </div>
          </div>
        ) : (
-         /* MAIN CONTENT */
-         <div className="grid grid-cols-12 gap-4 h-[calc(100vh-180px)]">
+         /* MAIN CONTENT - StockUnlock Layout */
+         <div className="space-y-4">
            
-           {/* LEFT PANEL - METRICS SELECTOR */}
-           <div className="col-span-2 bg-theme-card rounded-lg border border-theme/10 p-3 overflow-y-auto">
+           {/* METRICS SELECTOR - Horizontal */}
+           <div className="bg-theme-card rounded-lg border border-theme/10 p-3">
              <div className="text-xs font-medium text-theme-muted uppercase tracking-wide mb-3">
                Kennzahlen ({selectedMetrics.length}/{maxMetrics})
              </div>
              
-             <div className="space-y-3">
+             <div className="grid grid-cols-4 gap-0">
                {Object.entries(
                  METRICS.reduce((acc, metric) => {
                    if (!acc[metric.category]) acc[metric.category] = []
                    acc[metric.category].push(metric)
                    return acc
                  }, {} as Record<string, typeof METRICS>)
-               ).map(([category, metrics]) => (
-                 <div key={category}>
+               ).map(([category, metrics], categoryIndex, array) => (
+                 <div key={category} className={`px-3 ${categoryIndex % 2 === 1 ? 'bg-theme-secondary/5' : ''} ${categoryIndex < array.length - 1 ? 'border-r border-theme/10' : ''}`}>
                    <div className="text-xs font-medium text-theme-primary mb-2">{category}</div>
                    <div className="space-y-1">
                      {metrics.map(metric => {
@@ -654,119 +721,115 @@ export default function StockComparisonPage() {
              </div>
            </div>
 
-           {/* MAIN PANEL */}
-           <div className="col-span-10 bg-theme-card rounded-lg border border-theme/10 flex flex-col">
-             
-             {loading ? (
-               <div className="flex-1 flex items-center justify-center">
-                 <LoadingSpinner />
-               </div>
-             ) : viewMode === 'table' ? (
-               /* PROFESSIONAL MULTI-YEAR TABLE */
-               <div className="flex-1 overflow-auto">
-                 <div className="p-4">
-                   <table className="w-full text-xs">
-                     <thead className="sticky top-0 bg-theme-card z-10">
-                       <tr className="border-b border-theme/20">
-                         <th className="text-left py-2 px-3 text-theme-muted font-medium uppercase tracking-wide w-40">
-                           Kennzahl
-                         </th>
+           {loading ? (
+             <div className="bg-theme-card rounded-lg border border-theme/10 h-96 flex items-center justify-center">
+               <LoadingSpinner />
+             </div>
+           ) : viewMode === 'table' ? (
+             /* PROFESSIONAL MULTI-YEAR TABLE */
+             <div className="bg-theme-card rounded-lg border border-theme/10">
+               <div className="p-4 overflow-auto max-h-[600px]">
+                 <table className="w-full text-xs">
+                   <thead className="sticky top-0 bg-theme-card z-10">
+                     <tr className="border-b border-theme/20">
+                       <th className="text-left py-2 px-3 text-theme-muted font-medium uppercase tracking-wide w-40">
+                         Kennzahl
+                       </th>
+                       {selectedStocks.map((ticker, stockIndex) => (
+                         <React.Fragment key={ticker}>
+                           <th 
+                             className={`text-center py-2 px-1 border-l border-theme/20 ${stockIndex === 0 ? '' : 'border-l-2'}`}
+                             colSpan={availableYears.length + 2}
+                           >
+                             <div className="flex items-center justify-center gap-1.5 mb-1">
+                               <div 
+                                 className="w-2 h-2 rounded-full"
+                                 style={{ backgroundColor: CHART_COLORS[stockIndex % CHART_COLORS.length] }}
+                               />
+                               <span className="font-semibold text-theme-primary text-sm">{ticker}</span>
+                             </div>
+                             <div className="flex text-xs text-theme-muted font-normal">
+                               {availableYears.map(year => (
+                                 <div key={year} className="flex-1 text-center py-1">
+                                   {year}
+                                 </div>
+                               ))}
+                               <div className="flex-1 text-center py-1 font-medium">Ø</div>
+                               <div className="flex-1 text-center py-1 font-medium">CAGR</div>
+                             </div>
+                           </th>
+                         </React.Fragment>
+                       ))}
+                     </tr>
+                   </thead>
+                   <tbody>
+                     {tableData.map((row, rowIndex) => (
+                       <tr key={row.metric} className={`border-b border-theme/10 hover:bg-theme-secondary/10 ${rowIndex % 2 === 0 ? 'bg-theme-secondary/5' : ''}`}>
+                         <td className="py-2 px-3 sticky left-0 bg-theme-card">
+                           <div className="flex flex-col">
+                             <span className="font-medium text-theme-primary text-xs">{row.metric}</span>
+                             <span className="text-theme-muted/60 text-xs">({row.category})</span>
+                           </div>
+                         </td>
                          {selectedStocks.map((ticker, stockIndex) => (
                            <React.Fragment key={ticker}>
-                             {/* Stock Header mit Subheadings */}
-                             <th 
-                               className={`text-center py-2 px-1 border-l border-theme/20 ${stockIndex === 0 ? '' : 'border-l-2'}`}
-                               colSpan={availableYears.length + 2}
-                             >
-                               <div className="flex items-center justify-center gap-1.5 mb-1">
-                                 <div 
-                                   className="w-2 h-2 rounded-full"
-                                   style={{ backgroundColor: CHART_COLORS[stockIndex % CHART_COLORS.length] }}
-                                 />
-                                 <span className="font-semibold text-theme-primary text-sm">{ticker}</span>
-                               </div>
-                               <div className="flex text-xs text-theme-muted font-normal">
-                                 {availableYears.map(year => (
-                                   <div key={year} className="flex-1 text-center py-1">
-                                     {year}
-                                   </div>
-                                 ))}
-                                 <div className="flex-1 text-center py-1 font-medium">Ø</div>
-                                 <div className="flex-1 text-center py-1 font-medium">CAGR</div>
-                               </div>
-                             </th>
+                             {availableYears.map(year => {
+                               const value = row[`${ticker}_${year}`]
+                               return (
+                                 <td key={year} className={`text-right py-2 px-1 ${stockIndex === 0 ? '' : stockIndex === 1 ? 'border-l border-theme/20' : 'border-l-2 border-theme/20'}`}>
+                                   <span className="font-medium text-theme-primary">
+                                     {formatTableValue(value, row.unit)}
+                                   </span>
+                                 </td>
+                               )
+                             })}
+                             
+                             <td className={`text-right py-2 px-1 bg-theme-secondary/20 ${stockIndex === 0 ? '' : 'border-l border-theme/20'}`}>
+                               <span className="font-semibold text-theme-primary">
+                                 {formatTableValue(row[`${ticker}_avg`], row.unit)}
+                               </span>
+                             </td>
+                             
+                             <td className="text-right py-2 px-1 bg-theme-secondary/20">
+                               <span className={`font-semibold ${
+                                 row[`${ticker}_cagr`] > 0 ? 'text-green-500' : row[`${ticker}_cagr`] < 0 ? 'text-red-500' : 'text-theme-muted'
+                               }`}>
+                                 {row[`${ticker}_cagr`] ? `${row[`${ticker}_cagr`].toFixed(1)}%` : '--'}
+                               </span>
+                             </td>
                            </React.Fragment>
                          ))}
                        </tr>
-                     </thead>
-                     <tbody>
-                       {tableData.map((row, rowIndex) => (
-                         <tr key={row.metric} className={`border-b border-theme/10 hover:bg-theme-secondary/10 ${rowIndex % 2 === 0 ? 'bg-theme-secondary/5' : ''}`}>
-                           <td className="py-2 px-3 sticky left-0 bg-theme-card">
-                             <div className="flex flex-col">
-                               <span className="font-medium text-theme-primary text-xs">{row.metric}</span>
-                               <span className="text-theme-muted/60 text-xs">({row.category})</span>
-                             </div>
-                           </td>
-                           {selectedStocks.map((ticker, stockIndex) => (
-                             <React.Fragment key={ticker}>
-                               {/* Year Values */}
-                               {availableYears.map(year => {
-                                 const value = row[`${ticker}_${year}`]
-                                 return (
-                                   <td key={year} className={`text-right py-2 px-1 ${stockIndex === 0 ? '' : stockIndex === 1 ? 'border-l border-theme/20' : 'border-l-2 border-theme/20'}`}>
-                                     <span className="font-medium text-theme-primary">
-                                       {formatTableValue(value, row.unit)}
-                                     </span>
-                                   </td>
-                                 )
-                               })}
-                               
-                               {/* Average */}
-                               <td className={`text-right py-2 px-1 bg-theme-secondary/20 ${stockIndex === 0 ? '' : 'border-l border-theme/20'}`}>
-                                 <span className="font-semibold text-theme-primary">
-                                   {formatTableValue(row[`${ticker}_avg`], row.unit)}
-                                 </span>
-                               </td>
-                               
-                               {/* CAGR */}
-                               <td className="text-right py-2 px-1 bg-theme-secondary/20">
-                                 <span className={`font-semibold ${
-                                   row[`${ticker}_cagr`] > 0 ? 'text-green-500' : row[`${ticker}_cagr`] < 0 ? 'text-red-500' : 'text-theme-muted'
-                                 }`}>
-                                   {row[`${ticker}_cagr`] ? `${row[`${ticker}_cagr`].toFixed(1)}%` : '--'}
-                                 </span>
-                               </td>
-                             </React.Fragment>
-                           ))}
-                         </tr>
-                       ))}
-                     </tbody>
-                   </table>
-                 </div>
+                     ))}
+                   </tbody>
+                 </table>
                </div>
-             ) : (
-               /* ENHANCED CHART VIEW */
-               <div className="flex-1 p-4">
-                 {chartData.length === 0 ? (
-                   <div className="h-full flex items-center justify-center">
-                     <div className="text-center">
-                       <ChartBarIcon className="w-12 h-12 text-theme-muted/40 mx-auto mb-3" />
-                       <p className="text-theme-muted">Keine Daten für Chart-Ansicht</p>
-                       <p className="text-xs text-theme-muted mt-1">Wähle Aktien und Kennzahlen aus</p>
-                     </div>
+             </div>
+           ) : (
+             /* CHART VIEW - StockUnlock Layout */
+             <>
+               {chartData.length === 0 ? (
+                 <div className="bg-theme-card rounded-lg border border-theme/10 h-96 flex items-center justify-center">
+                   <div className="text-center">
+                     <ChartBarIcon className="w-12 h-12 text-theme-muted/40 mx-auto mb-3" />
+                     <p className="text-theme-muted">Keine Daten für Chart-Ansicht</p>
+                     <p className="text-xs text-theme-muted mt-1">Wähle Aktien und Kennzahlen aus</p>
                    </div>
-                 ) : (
-                   <div className="h-full">
+                 </div>
+               ) : (
+                 <>
+                   {/* Chart */}
+                   <div className="bg-theme-card rounded-lg border border-theme/10 p-4 h-[450px]">
                      <ResponsiveContainer width="100%" height="100%">
                        <LineChart 
                          data={chartData} 
-                         margin={{ top: 20, right: 30, left: 60, bottom: 40 }}
+                         margin={{ top: 20, right: 20, left: 70, bottom: 60 }}
                        >
                          <CartesianGrid 
-                           strokeDasharray="1 3" 
-                           stroke="var(--border-color)" 
-                           opacity={0.4}
+                           strokeDasharray="2 4" 
+                           stroke="#404040" 
+                           strokeWidth={0.8}
+                           opacity={0.6}
                            horizontal={true}
                            vertical={true}
                          />
@@ -774,27 +837,28 @@ export default function StockComparisonPage() {
                            dataKey="year" 
                            stroke="var(--text-muted)"
                            tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                           axisLine={{ stroke: 'var(--border-color)', opacity: 0.6 }}
-                           tickLine={{ stroke: 'var(--border-color)', opacity: 0.4 }}
+                           axisLine={{ stroke: 'var(--border-color)', opacity: 0.3 }}
+                           tickLine={false}
+                           dy={10}
                          />
                          <YAxis 
                            stroke="var(--text-muted)"
                            tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                           axisLine={{ stroke: 'var(--border-color)', opacity: 0.6 }}
-                           tickLine={{ stroke: 'var(--border-color)', opacity: 0.4 }}
-                           width={80}
+                           axisLine={{ stroke: 'rgba(255,255,255,0.1)', opacity: 0.5 }}
+                           tickLine={false}
+                           width={70}
                            tickFormatter={formatYAxis}
                          />
                          <RechartsTooltip
                            contentStyle={{
                              backgroundColor: 'var(--card-bg)',
                              border: '1px solid var(--border-color)',
-                             borderRadius: '6px',
-                             fontSize: '11px',
-                             padding: '8px 12px',
-                             boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)'
+                             borderRadius: '8px',
+                             fontSize: '12px',
+                             padding: '12px',
+                             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
                            }}
-                           cursor={{ stroke: 'var(--border-color)', strokeWidth: 1, strokeDasharray: '3 3', opacity: 0.7 }}
+                           cursor={{ stroke: 'var(--border-color)', strokeWidth: 1, opacity: 0.7 }}
                            formatter={formatTooltipValue}
                            labelFormatter={(label) => `Jahr: ${label}`}
                          />
@@ -805,19 +869,147 @@ export default function StockComparisonPage() {
                              type="monotone"
                              dataKey={line.key}
                              stroke={line.color}
-                             strokeWidth={2}
-                             dot={{ r: 3, fill: line.color, strokeWidth: 0 }}
-                             activeDot={{ r: 5, fill: line.color, strokeWidth: 2, stroke: 'var(--card-bg)' }}
+                             strokeWidth={2.5}
+                             dot={false}
+                             activeDot={{ r: 4, fill: line.color, stroke: 'var(--card-bg)', strokeWidth: 2 }}
                              name={line.name}
                            />
                          ))}
                        </LineChart>
                      </ResponsiveContainer>
                    </div>
-                 )}
-               </div>
-             )}
-           </div>
+                   
+                   {/* Professional Legend */}
+                   <div className="bg-theme-card rounded-lg border border-theme/10 p-3 mt-4">
+                     <div className="flex flex-wrap items-center justify-between">
+                       <div className="flex flex-wrap gap-4">
+                         {chartLines.map((line) => (
+                           <div key={line.key} className="flex items-center gap-2">
+                             <div 
+                               className="w-4 h-0.5 rounded-full"
+                               style={{ backgroundColor: line.color }}
+                             />
+                             <span className="text-xs font-medium text-theme-primary">
+                               {line.name}
+                             </span>
+                           </div>
+                         ))}
+                       </div>
+                       
+                       {/* Info Badge for Additional Data */}
+                       {additionalDataInfo && !showAllData && (
+                         <div className="flex items-center gap-3">
+                           <div className="flex items-center gap-2 px-2 py-1 bg-blue-500/10 rounded text-xs">
+                             <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                             <span className="text-blue-400 font-medium">
+                               {additionalDataInfo.stocks.join(', ')} hat Daten bis {Math.max(...additionalDataInfo.years.map(y => parseInt(y)))}
+                             </span>
+                           </div>
+                           <button
+                             onClick={() => setShowAllData(true)}
+                             className="px-2 py-1 bg-theme-secondary/30 hover:bg-blue-500/20 rounded text-xs font-medium text-theme-secondary hover:text-blue-400 transition-colors"
+                           >
+                             Alle Daten zeigen
+                           </button>
+                         </div>
+                       )}
+                       
+                       {/* Toggle back to common range */}
+                       {showAllData && (
+                         <button
+                           onClick={() => setShowAllData(false)}
+                           className="px-2 py-1 bg-orange-500/10 hover:bg-orange-500/20 rounded text-xs font-medium text-orange-400 transition-colors"
+                         >
+                           Nur gemeinsamer Zeitraum
+                         </button>
+                       )}
+                     </div>
+                   </div>
+                   
+                   {/* Statistics Below Chart */}
+                   <div className="bg-theme-card rounded-lg border border-theme/10 p-4 mt-4">
+                     <div className="text-sm font-semibold text-theme-primary mb-4">Statistiken</div>
+                     
+                     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                       {chartLines.map((line, lineIndex) => {
+                         const values = chartData
+                           .map(d => d[line.key])
+                           .filter(v => v != null && v !== 0)
+                         
+                         if (values.length < 2) return null
+                         
+                         const firstValue = values[0]
+                         const lastValue = values[values.length - 1]
+                         const yearsCount = values.length - 1
+                         const cagr = yearsCount > 0 ? (Math.pow(Math.abs(lastValue / firstValue), 1 / yearsCount) - 1) * 100 : 0
+                         const average = values.reduce((a, b) => a + b, 0) / values.length
+                         const sortedValues = [...values].sort((a, b) => a - b)
+                         const median = sortedValues.length % 2 === 0
+                           ? (sortedValues[sortedValues.length / 2 - 1] + sortedValues[sortedValues.length / 2]) / 2
+                           : sortedValues[Math.floor(sortedValues.length / 2)]
+                         const min = Math.min(...values)
+                         const max = Math.max(...values)
+                         
+                         return (
+                           <div key={line.key} className="bg-theme-secondary/10 rounded-lg p-4 border border-theme/5">
+                             <div className="flex items-center gap-2 mb-4 pb-2 border-b border-theme/15">
+                               <div 
+                                 className="w-3 h-3 rounded-full shadow-sm"
+                                 style={{ 
+                                   backgroundColor: line.color,
+                                   boxShadow: `0 0 0 2px ${line.color}20`
+                                 }}
+                               />
+                               <div className="flex flex-col flex-1">
+                                 <span className="text-sm font-semibold text-theme-primary">
+                                   {line.name.split(' - ')[0]}
+                                 </span>
+                                 {line.name.includes(' - ') && (
+                                   <span className="text-xs text-theme-muted font-medium">
+                                     {line.name.split(' - ')[1]}
+                                   </span>
+                                 )}
+                               </div>
+                             </div>
+                             
+                             <div className="grid grid-cols-2 gap-4">
+                               <div className="flex flex-col">
+                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">CAGR</div>
+                                 <div className={`font-bold text-sm ${cagr >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                   {isNaN(cagr) ? '--' : `${cagr.toFixed(1)}%`}
+                                 </div>
+                               </div>
+                               
+                               <div className="flex flex-col">
+                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">Aktuell</div>
+                                 <div className="font-bold text-theme-primary text-sm">
+                                   {formatTooltipValue(lastValue, line.name)}
+                                 </div>
+                               </div>
+                               
+                               <div className="flex flex-col">
+                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">Durchschnitt</div>
+                                 <div className="font-bold text-theme-primary text-sm">
+                                   {formatTooltipValue(average, line.name)}
+                                 </div>
+                               </div>
+                               
+                               <div className="flex flex-col">
+                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">Median</div>
+                                 <div className="font-bold text-theme-primary text-sm">
+                                   {formatTooltipValue(median, line.name)}
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+                         )
+                       })}
+                     </div>
+                   </div>
+                 </>
+               )}
+             </>
+           )}
          </div>
        )}
 
