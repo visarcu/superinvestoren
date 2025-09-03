@@ -2,8 +2,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useCurrency } from '@/lib/CurrencyContext'
+import ETFChart from '@/components/ETFChart'
 import {
   ArrowLeftIcon,
   ChartBarIcon,
@@ -11,8 +12,6 @@ import {
   BuildingOfficeIcon,
   GlobeAltIcon,
   InformationCircleIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
   CalendarIcon,
   SparklesIcon,
   BanknotesIcon
@@ -118,12 +117,15 @@ interface ETFDistributions {
 export default function ETFDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const symbol = (params.symbol as string)?.toUpperCase()
+  const period = (searchParams.get('period') || '1y') as '1m' | '3m' | '6m' | '1y'
   const { formatPercentage, formatMarketCap, formatStockPrice } = useCurrency()
   
   const [etfInfo, setETFInfo] = useState<ETFInfo | null>(null)
   const [etfQuote, setETFQuote] = useState<ETFQuote | null>(null)
   const [holdings, setHoldings] = useState<ETFHolding[]>([])
+  const [holdingsLoading, setHoldingsLoading] = useState(false)
   const [performance, setPerformance] = useState<ETFPerformance | null>(null)
   const [distributions, setDistributions] = useState<ETFDistributions | null>(null)
   const [holdingsDates, setHoldingsDates] = useState<string[]>([])
@@ -173,12 +175,27 @@ export default function ETFDetailPage() {
         }
       }
 
-      // Holdings Dates
+      // Holdings Dates and Initial Holdings
       if (datesRes.ok) {
         const datesData = await datesRes.json()
         if (datesData && datesData.length > 0) {
-          setHoldingsDates(datesData.map((d: any) => d.date))
-          setSelectedDate(datesData[0]?.date || '')
+          const dates = datesData.map((d: any) => d.date)
+          setHoldingsDates(dates)
+          const latestDate = dates[0]
+          setSelectedDate(latestDate)
+          
+          // Load holdings immediately with latest date
+          if (latestDate) {
+            try {
+              const holdingsRes = await fetch(`/api/etf-holdings/${symbol}?date=${latestDate}`)
+              if (holdingsRes.ok) {
+                const holdingsData = await holdingsRes.json()
+                setHoldings(holdingsData.slice(0, 20))
+              }
+            } catch (err) {
+              console.error('Error loading initial holdings:', err)
+            }
+          }
         }
       }
 
@@ -209,6 +226,7 @@ export default function ETFDetailPage() {
   const loadHoldings = async () => {
     if (!selectedDate) return
     
+    setHoldingsLoading(true)
     try {
       const res = await fetch(`/api/etf-holdings/${symbol}?date=${selectedDate}`)
       if (res.ok) {
@@ -217,6 +235,8 @@ export default function ETFDetailPage() {
       }
     } catch (err) {
       console.error('Error loading holdings:', err)
+    } finally {
+      setHoldingsLoading(false)
     }
   }
 
@@ -412,24 +432,8 @@ export default function ETFDetailPage() {
           )}
         </div>
 
-        {/* TradingView Chart */}
-        <div className="bg-theme-card rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <ChartBarIcon className="w-5 h-5 text-green-400" />
-            <h3 className="text-xl font-semibold text-theme-primary">Kursverlauf</h3>
-          </div>
-          
-          <div className="bg-gray-900 rounded-lg overflow-hidden" style={{ height: '400px' }}>
-            <iframe
-              src={`https://www.tradingview.com/widgetembed/?frameElementId=tradingview_chart&symbol=${symbol.includes('.DE') ? `XETR:${symbol}` : symbol}&interval=D&hidesidetoolbar=1&hidetoptoolbar=1&symboledit=0&saveimage=0&toolbarbg=000000&studies=%5B%5D&hideideas=1&theme=dark&style=3&timezone=Etc%2FUTC&withdateranges=0&hidecontrols=1&hide_volume=1&linestyle=0&linewidth=2&colorstyle=1&gridlines=0&bgcolor=000000&fontfamily=Inter&fontsize=small&height=350&width=100%25&hide_side_toolbar=1&hide_top_toolbar=1&show_popup_button=0&popup_width=1000&popup_height=650`}
-              width="100%"
-              height="400"
-              style={{ border: 0 }}
-              className="rounded-lg"
-              title={`${symbol} Chart`}
-            />
-          </div>
-        </div>
+        {/* Custom ETF Chart */}
+        <ETFChart symbol={symbol} height={350} period={period} />
 
         {/* Performance Metrics */}
         {performance && (
@@ -439,65 +443,68 @@ export default function ETFDetailPage() {
               <h3 className="text-xl font-semibold text-theme-primary">Performance & Risiko</h3>
             </div>
             
-            {/* Performance Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              {/* Wertentwicklung */}
-              <div className="bg-theme-secondary/5 rounded-lg p-4">
+            <div className="space-y-6">
+              {/* Performance Table */}
+              <div>
                 <h4 className="text-sm font-semibold text-theme-secondary mb-4 uppercase tracking-wide">Wertentwicklung</h4>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="text-center p-3 bg-theme-card rounded-lg">
-                    <div className="text-xs text-theme-muted mb-1">1 Tag</div>
-                    <div className={`text-base font-bold ${
-                      performance['1d'] >= 0 ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {formatPercentage(performance['1d'])}
+                <div className="bg-theme-secondary/5 rounded-lg overflow-hidden">
+                  <div className="grid grid-cols-4 gap-px">
+                    <div className="bg-theme-card p-4 text-center">
+                      <div className="text-xs text-theme-muted mb-2">1 Tag</div>
+                      <div className={`text-lg font-bold ${
+                        performance['1d'] >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {formatPercentage(performance['1d'])}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="text-center p-3 bg-theme-card rounded-lg">
-                    <div className="text-xs text-theme-muted mb-1">1 Woche</div>
-                    <div className={`text-base font-bold ${
-                      performance['1w'] >= 0 ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {formatPercentage(performance['1w'])}
+                    
+                    <div className="bg-theme-card p-4 text-center">
+                      <div className="text-xs text-theme-muted mb-2">1 Woche</div>
+                      <div className={`text-lg font-bold ${
+                        performance['1w'] >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {formatPercentage(performance['1w'])}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="text-center p-3 bg-theme-card rounded-lg">
-                    <div className="text-xs text-theme-muted mb-1">1 Monat</div>
-                    <div className={`text-base font-bold ${
-                      performance['1m'] >= 0 ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {formatPercentage(performance['1m'])}
+                    
+                    <div className="bg-theme-card p-4 text-center">
+                      <div className="text-xs text-theme-muted mb-2">1 Monat</div>
+                      <div className={`text-lg font-bold ${
+                        performance['1m'] >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {formatPercentage(performance['1m'])}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="text-center p-3 bg-theme-card rounded-lg">
-                    <div className="text-xs text-theme-muted mb-1">1 Jahr</div>
-                    <div className={`text-base font-bold ${
-                      performance['1y'] >= 0 ? 'text-green-400' : 'text-red-400'
-                    }`}>
-                      {formatPercentage(performance['1y'])}
+                    
+                    <div className="bg-theme-card p-4 text-center">
+                      <div className="text-xs text-theme-muted mb-2">1 Jahr</div>
+                      <div className={`text-lg font-bold ${
+                        performance['1y'] >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {formatPercentage(performance['1y'])}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               
-              {/* Risikomaße */}
-              <div className="bg-theme-secondary/5 rounded-lg p-4">
+              {/* Risk Metrics Table */}
+              <div>
                 <h4 className="text-sm font-semibold text-theme-secondary mb-4 uppercase tracking-wide">Risikomaße</h4>
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="text-center p-3 bg-theme-card rounded-lg">
-                    <div className="text-xs text-theme-muted mb-1">Volatilität (1 Jahr)</div>
-                    <div className="text-base font-bold text-yellow-400">
-                      {formatPercentage(performance.volatility, false)}
+                <div className="bg-theme-secondary/5 rounded-lg overflow-hidden">
+                  <div className="grid grid-cols-2 gap-px">
+                    <div className="bg-theme-card p-4 text-center">
+                      <div className="text-xs text-theme-muted mb-2">Volatilität (1 Jahr)</div>
+                      <div className="text-lg font-bold text-yellow-400">
+                        {formatPercentage(performance.volatility, false)}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="text-center p-3 bg-theme-card rounded-lg">
-                    <div className="text-xs text-theme-muted mb-1">Max. Verlust</div>
-                    <div className="text-base font-bold text-red-400">
-                      -{formatPercentage(performance.maxDrawdown, false)}
+                    
+                    <div className="bg-theme-card p-4 text-center">
+                      <div className="text-xs text-theme-muted mb-2">Max. Verlust</div>
+                      <div className="text-lg font-bold text-red-400">
+                        -{formatPercentage(performance.maxDrawdown, false)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -544,7 +551,7 @@ export default function ETFDetailPage() {
 
 
           {/* Top Holdings - Kompakter */}
-          {holdings.length > 0 && (
+          {(holdings.length > 0 || holdingsLoading) && (
             <div className="bg-theme-card rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
@@ -567,34 +574,41 @@ export default function ETFDetailPage() {
                 )}
               </div>
 
-              <div className="space-y-1">
-                {holdings.slice(0, 12).map((holding, index) => (
-                  <div 
-                    key={holding.cusip}
-                    className={`flex items-center justify-between py-2 px-3 bg-theme-secondary/5 rounded-lg hover:bg-theme-secondary/10 transition-colors cursor-pointer ${
-                      index < holdings.length - 1 && index < 11 ? 'border-b border-theme/5' : ''
-                    }`}
-                    onClick={() => router.push(`/analyse/stocks/${holding.symbol?.toLowerCase()}`)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 bg-green-400/20 text-green-400 rounded-full flex items-center justify-center text-xs font-bold">
-                        {index + 1}
+              {holdingsLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 mx-auto"></div>
+                  <span className="ml-3 text-theme-secondary">Lade Holdings...</span>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  {holdings.slice(0, 12).map((holding, index) => (
+                    <div 
+                      key={holding.cusip}
+                      className={`flex items-center justify-between py-2 px-3 bg-theme-secondary/5 rounded-lg hover:bg-theme-secondary/10 transition-colors cursor-pointer ${
+                        index < holdings.length - 1 && index < 11 ? 'border-b border-theme/5' : ''
+                      }`}
+                      onClick={() => router.push(`/analyse/stocks/${holding.symbol?.toLowerCase()}`)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 bg-green-400/20 text-green-400 rounded-full flex items-center justify-center text-xs font-bold">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-theme-primary text-sm">{holding.symbol || 'N/A'}</div>
+                          <div className="text-xs text-theme-secondary truncate max-w-xs">{holding.name}</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-semibold text-theme-primary text-sm">{holding.symbol || 'N/A'}</div>
-                        <div className="text-xs text-theme-secondary truncate max-w-xs">{holding.name}</div>
+                      
+                      <div className="text-right">
+                        <div className="font-bold text-theme-primary text-sm">{formatPercentage(holding.pctVal, false)}</div>
+                        <div className="text-xs text-theme-secondary">
+                          {formatMarketCap(holding.valUsd)}
+                        </div>
                       </div>
                     </div>
-                    
-                    <div className="text-right">
-                      <div className="font-bold text-theme-primary text-sm">{formatPercentage(holding.pctVal, false)}</div>
-                      <div className="text-xs text-theme-secondary">
-                        {formatMarketCap(holding.valUsd)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -39,6 +39,7 @@ interface FilterState {
 
 export default function ETFScreenerPage() {
   const [etfQuotes, setETFQuotes] = useState<ETFQuoteData[]>([])
+  const [globalETFs, setGlobalETFs] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [sortField, setSortField] = useState<string>('marketCap')
@@ -56,33 +57,55 @@ export default function ETFScreenerPage() {
 
   useEffect(() => {
     loadETFData()
-  }, [currentPage, germanMarket])
+  }, [currentPage, germanMarket, globalETFs.length])
 
   const loadETFData = async () => {
     setLoading(true)
     try {
-      const startIndex = (currentPage - 1) * itemsPerPage
-      const endIndex = startIndex + itemsPerPage
-      const etfBatch = etfs.slice(startIndex, endIndex)
-      
-      if (etfBatch.length === 0) {
-        setETFQuotes([])
-        setLoading(false)
-        return
-      }
+      if (germanMarket) {
+        // Load German XETRA ETFs
+        const startIndex = (currentPage - 1) * itemsPerPage
+        const endIndex = startIndex + itemsPerPage
+        const etfBatch = etfs.slice(startIndex, endIndex)
+        
+        if (etfBatch.length === 0) {
+          setETFQuotes([])
+          setLoading(false)
+          return
+        }
 
-      const symbols = etfBatch.map(etf => 
-        germanMarket && etf.symbol_de ? etf.symbol_de : etf.symbol
-      ).join(',')
-      
-      const res = await fetch(`/api/quotes?symbols=${symbols}`)
-      
-      if (res.ok) {
-        const quotes = await res.json()
-        setETFQuotes(quotes || [])
+        const symbols = etfBatch.map(etf => etf.symbol).join(',')
+        const res = await fetch(`/api/quotes?symbols=${symbols}`)
+        
+        if (res.ok) {
+          const quotes = await res.json()
+          setETFQuotes(quotes || [])
+        } else {
+          setETFQuotes([])
+        }
       } else {
-        console.error('Failed to load ETF quotes')
-        setETFQuotes([])
+        // Load Global/US ETFs
+        if (globalETFs.length === 0) {
+          const globalRes = await fetch('/api/all-etfs')
+          if (globalRes.ok) {
+            const globalData = await globalRes.json()
+            setGlobalETFs(globalData)
+          }
+        }
+        
+        const startIndex = (currentPage - 1) * itemsPerPage
+        const endIndex = startIndex + itemsPerPage
+        const etfBatch = globalETFs.slice(startIndex, endIndex)
+        
+        // Global ETFs already have price data from the API
+        setETFQuotes(etfBatch.map((etf: any) => ({
+          symbol: etf.symbol,
+          price: etf.price,
+          change: undefined,
+          changesPercentage: undefined,
+          volume: etf.volume,
+          marketCap: etf.marketCap
+        })))
       }
     } catch (error) {
       console.error('ETF data loading error:', error)
@@ -93,7 +116,9 @@ export default function ETFScreenerPage() {
   }
 
   const filteredETFs = useMemo(() => {
-    return etfs.filter(etf => {
+    const currentETFs = germanMarket ? etfs : globalETFs
+    
+    return currentETFs.filter(etf => {
       const matchesSearch = !filters.search || 
         etf.symbol.toLowerCase().includes(filters.search.toLowerCase()) ||
         etf.name.toLowerCase().includes(filters.search.toLowerCase())
@@ -104,14 +129,11 @@ export default function ETFScreenerPage() {
       
       return matchesSearch && matchesAssetClass && matchesIssuer && matchesTER
     })
-  }, [filters])
+  }, [filters, germanMarket, globalETFs])
 
   const sortedETFs = useMemo(() => {
     const etfsWithQuotes = filteredETFs.map(etf => {
-      const quote = etfQuotes.find(q => 
-        q.symbol === etf.symbol || 
-        (germanMarket && etf.symbol_de && q.symbol === etf.symbol_de)
-      )
+      const quote = etfQuotes.find(q => q.symbol === etf.symbol)
       return { ...etf, quote }
     })
 
@@ -226,7 +248,7 @@ export default function ETFScreenerPage() {
             
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <p className="text-theme-secondary">
-                Durchsuche alle {etfs.length.toLocaleString('de-DE')} verfügbaren ETFs nach deinen Kriterien
+                Durchsuche alle {germanMarket ? etfs.length.toLocaleString('de-DE') : (globalETFs.length || 'viele').toLocaleString('de-DE')} verfügbaren ETFs nach deinen Kriterien
               </p>
               
               {/* Market Toggle */}
@@ -391,8 +413,7 @@ export default function ETFScreenerPage() {
                 ) : (
                   paginatedETFs.map((etf) => {
                     const quote = etfQuotes.find(q => 
-                      q.symbol === etf.symbol || 
-                      (germanMarket && etf.symbol_de && q.symbol === etf.symbol_de)
+                      q.symbol === etf.symbol
                     )
                     
                     return (
@@ -405,7 +426,7 @@ export default function ETFScreenerPage() {
                           <div className="flex items-center gap-3">
                             <div className="flex flex-col">
                               <span className="font-bold text-theme-primary group-hover:text-green-400 transition-colors">
-                                {germanMarket && etf.symbol_de ? etf.symbol_de : etf.symbol}
+                                {etf.symbol}
                               </span>
                               {etf.isin && (
                                 <span className="text-xs text-theme-tertiary">{etf.isin}</span>
