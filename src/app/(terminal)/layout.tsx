@@ -241,7 +241,7 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
       },
       {
         id: 'heatmap',
-        label: 'Market Heatmap',
+        label: 'Heatmap',
         icon: MapIcon,
         href: '/analyse/heatmap'
       },
@@ -265,9 +265,15 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
       },
       {
         id: 'screener',
-        label: 'Stock Screener',
+        label: 'Aktien Screener',
         icon: FunnelIcon,
         href: '/analyse/screener'
+      },
+      {
+        id: 'etf-screener',
+        label: 'ETF Screener',
+        icon: ChartBarIcon,
+        href: '/analyse/etf-screener'
       },
       {
         id: 'dcf-calculator',
