@@ -101,38 +101,33 @@ export default function WatchlistPage() {
     const stockDataMap: Record<string, StockData> = {};
 
     try {
-      const promises = tickers.map(async (ticker) => {
-        try {
-          const res = await fetch(
-            `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-          );
-          
-          if (res.ok) {
-            const [quote] = await res.json();
-            if (quote) {
-              const dipPercent = ((quote.price - quote.yearHigh) / quote.yearHigh) * 100;
-              
-              stockDataMap[ticker] = {
-                ticker,
-                price: quote.price,
-                change: quote.change,
-                changePercent: quote.changesPercentage,
-                week52High: quote.yearHigh,
-                week52Low: quote.yearLow,
-                dipPercent: dipPercent,
-                isDip: dipPercent <= -dipThreshold,
-                marketCap: quote.marketCap,
-                volume: quote.volume,
-                peRatio: quote.pe
-              };
-            }
+      // Use internal API endpoint for better reliability
+      const res = await fetch(`/api/quotes?symbols=${tickers.join(',')}`);
+      
+      if (res.ok) {
+        const quotes = await res.json();
+        
+        quotes.forEach((quote: any) => {
+          if (quote) {
+            const dipPercent = ((quote.price - quote.yearHigh) / quote.yearHigh) * 100;
+            
+            stockDataMap[quote.symbol] = {
+              ticker: quote.symbol,
+              price: quote.price,
+              change: quote.change,
+              changePercent: quote.changesPercentage,
+              week52High: quote.yearHigh,
+              week52Low: quote.yearLow,
+              dipPercent: dipPercent,
+              isDip: dipPercent <= -dipThreshold,
+              marketCap: quote.marketCap,
+              volume: quote.volume,
+              peRatio: quote.pe
+            };
           }
-        } catch (error) {
-          console.error(`Error loading data for ${ticker}:`, error);
-        }
-      });
-
-      await Promise.all(promises);
+        });
+      }
+      
       setStockData(stockDataMap);
     } catch (error) {
       console.error('Error loading stock data:', error);
