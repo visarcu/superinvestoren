@@ -12,7 +12,10 @@ import {
   BookmarkIcon,
   ArrowPathIcon,
   AdjustmentsHorizontalIcon,
-  ArrowLeftIcon
+  ArrowLeftIcon,
+  Squares2X2Icon,
+  ViewColumnsIcon,
+  TableCellsIcon
 } from '@heroicons/react/24/outline';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import Logo from '@/components/Logo';
@@ -32,6 +35,10 @@ interface StockData {
   week52Low: number;
   dipPercent: number;
   isDip: boolean;
+  marketCap?: number;
+  volume?: number;
+  peRatio?: number;
+  daysSinceATH?: number;
 }
 
 export default function WatchlistPage() {
@@ -42,6 +49,7 @@ export default function WatchlistPage() {
   const [user, setUser] = useState<any>(null);
   const [showOnlyDips, setShowOnlyDips] = useState(false);
   const [dipThreshold, setDipThreshold] = useState(10);
+  const [viewMode, setViewMode] = useState<'cards' | 'compact' | 'table'>('table');
   const router = useRouter();
 
   useEffect(() => {
@@ -112,7 +120,10 @@ export default function WatchlistPage() {
                 week52High: quote.yearHigh,
                 week52Low: quote.yearLow,
                 dipPercent: dipPercent,
-                isDip: dipPercent <= -dipThreshold
+                isDip: dipPercent <= -dipThreshold,
+                marketCap: quote.marketCap,
+                volume: quote.volume,
+                peRatio: quote.pe
               };
             }
           }
@@ -176,6 +187,18 @@ export default function WatchlistPage() {
     : watchlistItems;
 
   const dipCount = watchlistItems.filter(item => stockData[item.ticker]?.isDip).length;
+
+  // German formatting functions
+  const formatMarketCap = (marketCap: number) => {
+    if (marketCap >= 1e12) return `${(marketCap / 1e12).toFixed(1).replace('.', ',')} Bio. $`;
+    if (marketCap >= 1e9) return `${(marketCap / 1e9).toFixed(1).replace('.', ',')} Mrd. $`;
+    if (marketCap >= 1e6) return `${(marketCap / 1e6).toFixed(0)} Mio. $`;
+    return `${marketCap.toLocaleString('de-DE')} $`;
+  };
+
+  const formatPrice = (price: number) => {
+    return `${price.toFixed(2).replace('.', ',')} $`;
+  };
 
   return (
     <div className="min-h-screen bg-theme-primary">
@@ -316,6 +339,43 @@ export default function WatchlistPage() {
                   >
                     {showOnlyDips ? 'Alle anzeigen' : 'Nur Schnäppchen'}
                   </button>
+
+                  {/* View Mode Toggles */}
+                  <div className="flex bg-theme-secondary/20 rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode('table')}
+                      className={`p-2 rounded-md transition-colors ${
+                        viewMode === 'table' 
+                          ? 'bg-theme-card text-theme-primary shadow-sm' 
+                          : 'text-theme-muted hover:text-theme-primary'
+                      }`}
+                      title="Tabelle"
+                    >
+                      <TableCellsIcon className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('compact')}
+                      className={`p-2 rounded-md transition-colors ${
+                        viewMode === 'compact' 
+                          ? 'bg-theme-card text-theme-primary shadow-sm' 
+                          : 'text-theme-muted hover:text-theme-primary'
+                      }`}
+                      title="Kompakt"
+                    >
+                      <ViewColumnsIcon className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('cards')}
+                      className={`p-2 rounded-md transition-colors ${
+                        viewMode === 'cards' 
+                          ? 'bg-theme-card text-theme-primary shadow-sm' 
+                          : 'text-theme-muted hover:text-theme-primary'
+                      }`}
+                      title="Karten"
+                    >
+                      <Squares2X2Icon className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -374,13 +434,205 @@ export default function WatchlistPage() {
                 {showOnlyDips ? 'Schnäppchen in deiner Watchlist' : 'Deine beobachteten Aktien'}
               </h3>
               
-              {/* ✅ EINZELNE CARDS FÜR JEDE AKTIE - wie Dashboard Market Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredItems.map((item) => {
-                  const data = stockData[item.ticker];
-                  const hasData = !!data;
-                  
-                  return (
+              {/* DYNAMIC VIEW MODES */}
+              {viewMode === 'table' && (
+                /* BLOOMBERG TERMINAL TABLE */
+                <div className="bg-theme-card border border-theme/5 rounded-xl overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead className="bg-theme-secondary/20">
+                        <tr className="text-left">
+                          <th className="px-4 py-3 font-semibold text-theme-primary">Aktie</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Kurs</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Änderung</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">52W High</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Max Drawdown</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Marktkapitalisierung</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">P/E</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary">Status</th>
+                          <th className="px-4 py-3 font-semibold text-theme-primary"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredItems.map((item) => {
+                          const data = stockData[item.ticker];
+                          const hasData = !!data;
+                          
+                          return (
+                            <tr key={item.id} className="border-t border-theme/5 hover:bg-theme-secondary/10 transition-colors">
+                              <td className="px-4 py-3">
+                                <div className="flex items-center gap-3">
+                                  <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-8 h-8 rounded-lg" />
+                                  <div>
+                                    <div className="font-semibold text-theme-primary">{item.ticker}</div>
+                                    <div className="text-xs text-theme-muted">
+                                      {new Date(item.created_at).toLocaleDateString('de-DE')}
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                {hasData ? (
+                                  <div className="font-bold text-theme-primary">
+                                    {formatPrice(data.price)}
+                                  </div>
+                                ) : (
+                                  <div className="text-theme-muted">-</div>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                {hasData ? (
+                                  <div className={`inline-flex items-center gap-1 font-semibold ${
+                                    data.change >= 0 ? 'text-green-500' : 'text-red-500'
+                                  }`}>
+                                    {data.change >= 0 ? '▲' : '▼'}
+                                    {data.changePercent.toFixed(2)}%
+                                  </div>
+                                ) : (
+                                  <div className="text-theme-muted">-</div>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 text-right text-theme-secondary">
+                                {hasData ? formatPrice(data.week52High) : '-'}
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                {hasData ? (
+                                  <div className={`font-semibold ${
+                                    data.dipPercent <= -dipThreshold ? 'text-red-500' : 'text-theme-primary'
+                                  }`}>
+                                    {data.dipPercent.toFixed(1)}%
+                                  </div>
+                                ) : (
+                                  <div className="text-theme-muted">-</div>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 text-right text-theme-secondary">
+                                {hasData && data.marketCap ? formatMarketCap(data.marketCap) : '-'}
+                              </td>
+                              <td className="px-4 py-3 text-right text-theme-secondary">
+                                {hasData && data.peRatio ? data.peRatio.toFixed(1).replace('.', ',') : '-'}
+                              </td>
+                              <td className="px-4 py-3">
+                                {hasData && data.isDip ? (
+                                  <span className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded font-medium">
+                                    Schnäppchen
+                                  </span>
+                                ) : hasData ? (
+                                  <span className="px-2 py-1 bg-theme-secondary/20 text-theme-muted text-xs rounded">
+                                    Normal
+                                  </span>
+                                ) : null}
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="flex items-center gap-2">
+                                  <Link
+                                    href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                                    className="p-1 text-theme-muted hover:text-theme-primary transition-colors"
+                                    title="Analyse"
+                                  >
+                                    <ChartBarIcon className="w-4 h-4" />
+                                  </Link>
+                                  <button
+                                    onClick={() => removeFromWatchlist(item.id, item.ticker)}
+                                    className="p-1 text-theme-muted hover:text-red-500 transition-colors"
+                                    title="Entfernen"
+                                  >
+                                    <TrashIcon className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {viewMode === 'compact' && (
+                /* COMPACT BLOOMBERG-STYLE GRID */
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+                  {filteredItems.map((item) => {
+                    const data = stockData[item.ticker];
+                    const hasData = !!data;
+                    
+                    return (
+                      <div key={item.id} className={`bg-theme-card border rounded-xl p-4 hover:border-theme/10 transition-all ${
+                        hasData && data.isDip ? 'bg-red-500/5 border-red-500/20' : 'border-theme/5'
+                      }`}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-10 h-10 rounded-lg" />
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-bold text-theme-primary">{item.ticker}</h4>
+                                {hasData && data.isDip && (
+                                  <span className="w-2 h-2 bg-red-500 rounded-full" />
+                                )}
+                              </div>
+                              {hasData && (
+                                <div className="text-lg font-bold text-theme-primary">
+                                  {formatPrice(data.price)}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          
+                          <div className="text-right">
+                            {hasData && (
+                              <div className={`inline-flex items-center gap-1 px-2 py-1 rounded text-sm font-bold ${
+                                data.change >= 0 
+                                  ? 'text-green-500 bg-green-500/10' 
+                                  : 'text-red-500 bg-red-500/10'
+                              }`}>
+                                {data.change >= 0 ? '▲' : '▼'}
+                                {data.changePercent.toFixed(2)}%
+                              </div>
+                            )}
+                            <div className="mt-1 text-xs text-theme-muted">
+                              {hasData ? `Max DD: ${data.dipPercent.toFixed(1)}%` : 'Laden...'}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-theme/10">
+                          <div className="flex gap-4 text-xs text-theme-muted">
+                            <span>52W: {hasData ? formatPrice(data.week52High) : '-'}</span>
+                            {hasData && data.marketCap && (
+                              <span>MCap: {formatMarketCap(data.marketCap)}</span>
+                            )}
+                          </div>
+                          
+                          <div className="flex gap-2">
+                            <Link
+                              href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                              className="p-1 text-theme-muted hover:text-theme-primary transition-colors"
+                            >
+                              <ChartBarIcon className="w-4 h-4" />
+                            </Link>
+                            <button
+                              onClick={() => removeFromWatchlist(item.id, item.ticker)}
+                              className="p-1 text-theme-muted hover:text-red-500 transition-colors"
+                            >
+                              <TrashIcon className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {viewMode === 'cards' && (
+                /* ORIGINAL LARGE CARDS */
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filteredItems.map((item) => {
+                    const data = stockData[item.ticker];
+                    const hasData = !!data;
+                    
+                    return (
                     <div key={item.id} className="bg-theme-card border border-theme/5 rounded-xl p-6 hover:border-theme/10 transition-all duration-200 group">
                       
                       {/* Header */}
@@ -418,7 +670,7 @@ export default function WatchlistPage() {
                           {/* Price & Change */}
                           <div className="space-y-3">
                             <div className="text-2xl font-bold text-theme-primary">
-                              ${data.price.toFixed(2)}
+                              {formatPrice(data.price)}
                             </div>
                             
                             <div className={`inline-flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
@@ -441,11 +693,11 @@ export default function WatchlistPage() {
                           <div className="space-y-2 pt-3 border-t border-theme/5">
                             <div className="flex justify-between text-xs">
                               <span className="text-theme-muted">52W High:</span>
-                              <span className="text-theme-primary font-medium">${data.week52High.toFixed(2)}</span>
+                              <span className="text-theme-primary font-medium">{formatPrice(data.week52High)}</span>
                             </div>
                             <div className="flex justify-between text-xs">
                               <span className="text-theme-muted">52W Low:</span>
-                              <span className="text-theme-primary font-medium">${data.week52Low.toFixed(2)}</span>
+                              <span className="text-theme-primary font-medium">{formatPrice(data.week52Low)}</span>
                             </div>
                             <div className="flex justify-between text-xs">
                               <span className="text-theme-muted">Von 52W High:</span>
@@ -493,9 +745,10 @@ export default function WatchlistPage() {
                         </Link>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </>
           )}
         </section>
