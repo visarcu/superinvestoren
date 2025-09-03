@@ -26,12 +26,6 @@ interface ETFQuoteData {
   marketCap?: number
 }
 
-interface ETFInfoData {
-  symbol: string
-  expenseRatio?: number
-  aum?: number
-  nav?: number
-}
 
 interface FilterState {
   assetClass: string
@@ -54,7 +48,6 @@ interface AdvancedFilters {
 
 export default function ETFScreenerPage() {
   const [etfQuotes, setETFQuotes] = useState<ETFQuoteData[]>([])
-  const [etfInfos, setETFInfos] = useState<ETFInfoData[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [sortField, setSortField] = useState<string>('marketCap')
@@ -85,65 +78,6 @@ export default function ETFScreenerPage() {
     loadETFData()
   }, [currentPage])
 
-  // Load TER data for filtered ETFs when search/filters change
-  useEffect(() => {
-    loadTERForVisibleETFs()
-  }, [filters.search, filters.assetClass, filters.issuer, filters.category])
-
-  const loadTERForVisibleETFs = async () => {
-    // Load TER data for currently visible filtered ETFs
-    const filteredForTER = etfs.filter(etf => {
-      const matchesSearch = !filters.search || 
-        etf.symbol.toLowerCase().includes(filters.search.toLowerCase()) ||
-        etf.name.toLowerCase().includes(filters.search.toLowerCase())
-      
-      const matchesAssetClass = !filters.assetClass || etf.assetClass === filters.assetClass
-      const matchesIssuer = !filters.issuer || etf.issuer === filters.issuer
-      const matchesCategory = !filters.category || etf.category === filters.category
-      
-      return matchesSearch && matchesAssetClass && matchesIssuer && matchesCategory
-    })
-
-    const visibleETFs = filteredForTER.slice(0, 50) // First 50 visible results
-    const etfsNeedingTER = visibleETFs.filter(etf => 
-      !etfInfos.find(info => info.symbol === etf.symbol)
-    )
-
-    if (etfsNeedingTER.length === 0) return
-
-    const etfInfoPromises = etfsNeedingTER.map(async (etf) => {
-      try {
-        const infoRes = await fetch(`/api/etf-info/${etf.symbol}`)
-        if (infoRes.ok) {
-          const info = await infoRes.json()
-          const etfData = Array.isArray(info) && info.length > 0 ? info[0] : info
-          return {
-            symbol: etf.symbol,
-            expenseRatio: etfData?.expenseRatio,
-            aum: etfData?.aum,
-            nav: etfData?.nav
-          }
-        }
-      } catch (err) {
-        console.error(`Failed to fetch info for ${etf.symbol}:`, err)
-      }
-      return { symbol: etf.symbol, expenseRatio: undefined, aum: undefined, nav: undefined }
-    })
-
-    const newETFInfos = await Promise.all(etfInfoPromises)
-    setETFInfos(prev => {
-      const updated = [...prev]
-      newETFInfos.forEach(newInfo => {
-        const existingIndex = updated.findIndex(info => info.symbol === newInfo.symbol)
-        if (existingIndex >= 0) {
-          updated[existingIndex] = newInfo
-        } else {
-          updated.push(newInfo)
-        }
-      })
-      return updated
-    })
-  }
 
   const loadETFData = async () => {
     setLoading(true)
@@ -170,29 +104,6 @@ export default function ETFScreenerPage() {
         setETFQuotes([])
       }
 
-      // Fetch ETF info (TER data) for each ETF
-      const etfInfoPromises = etfBatch.map(async (etf) => {
-        try {
-          const infoRes = await fetch(`/api/etf-info/${etf.symbol}`)
-          if (infoRes.ok) {
-            const info = await infoRes.json()
-            // Handle array response from FMP
-            const etfData = Array.isArray(info) && info.length > 0 ? info[0] : info
-            return {
-              symbol: etf.symbol,
-              expenseRatio: etfData?.expenseRatio,
-              aum: etfData?.aum,
-              nav: etfData?.nav
-            }
-          }
-        } catch (err) {
-          console.error(`Failed to fetch info for ${etf.symbol}:`, err)
-        }
-        return { symbol: etf.symbol, expenseRatio: undefined, aum: undefined, nav: undefined }
-      })
-
-      const etfInfoResults = await Promise.all(etfInfoPromises)
-      setETFInfos(etfInfoResults)
     } catch (error) {
       console.error('ETF data loading error:', error)
       setETFQuotes([])
@@ -214,10 +125,8 @@ export default function ETFScreenerPage() {
       const matchesCategory = !filters.category || etf.category === filters.category
       const matchesExchange = !filters.exchange || etf.exchange === filters.exchange
       
-      // Use TER from API if available, fallback to static data
-      const etfInfo = etfInfos.find(info => info.symbol === etf.symbol)
-      const ter = etfInfo?.expenseRatio || etf.ter
-      const matchesTER = !ter || (ter >= filters.terRange[0] && ter <= filters.terRange[1])
+      // Use TER from static data
+      const matchesTER = !etf.ter || (etf.ter >= filters.terRange[0] && etf.ter <= filters.terRange[1])
       
       const quote = etfQuotes.find(q => q.symbol === etf.symbol)
       const price = quote?.price || etf.price || 0
@@ -225,7 +134,7 @@ export default function ETFScreenerPage() {
       
       // Advanced filters
       const matchesHasPrice = !advancedFilters.hasPrice || (quote?.price !== undefined || etf.price !== undefined)
-      const matchesHasTER = !advancedFilters.hasTER || ter !== undefined
+      const matchesHasTER = !advancedFilters.hasTER || etf.ter !== undefined
       const matchesVolume = !quote?.volume || (quote.volume >= advancedFilters.minVolume && quote.volume <= advancedFilters.maxVolume)
       const matchesMarketCap = !quote?.marketCap || (quote.marketCap >= advancedFilters.minMarketCap && quote.marketCap <= advancedFilters.maxMarketCap)
       
@@ -233,7 +142,7 @@ export default function ETFScreenerPage() {
              matchesExchange && matchesTER && matchesPrice && matchesHasPrice && 
              matchesHasTER && matchesVolume && matchesMarketCap
     })
-  }, [filters, advancedFilters, etfQuotes, etfInfos])
+  }, [filters, advancedFilters, etfQuotes])
 
   const sortedETFs = useMemo(() => {
     const etfsWithQuotes = filteredETFs.map(etf => {
@@ -684,28 +593,13 @@ export default function ETFScreenerPage() {
                         </td>
 
                         <td className="px-4 py-4 text-right">
-                          {(() => {
-                            const etfInfo = etfInfos.find(info => info.symbol === etf.symbol)
-                            const ter = etfInfo?.expenseRatio
-                            const isLoading = !etfInfo && etfInfos.length === 0
-                            
-                            if (isLoading) {
-                              return <div className="w-12 h-4 bg-theme-secondary/20 rounded animate-pulse mx-auto"></div>
-                            }
-                            
-                            if (!ter) {
-                              return <span className="text-theme-tertiary font-semibold">N/A</span>
-                            }
-                            
-                            const colorClass = ter <= 0.2 ? 'text-green-400' : 
-                                             ter <= 0.5 ? 'text-yellow-400' : 'text-red-400'
-                            
-                            return (
-                              <span className={`font-semibold ${colorClass}`}>
-                                {ter.toFixed(2)}%
-                              </span>
-                            )
-                          })()}
+                          <span className={`font-semibold ${
+                            !etf.ter ? 'text-theme-tertiary' :
+                            etf.ter <= 0.2 ? 'text-green-400' :
+                            etf.ter <= 0.5 ? 'text-yellow-400' : 'text-red-400'
+                          }`}>
+                            {etf.ter ? `${etf.ter.toFixed(2)}%` : 'N/A'}
+                          </span>
                         </td>
 
                         <td className="px-4 py-4 text-center">

@@ -413,7 +413,8 @@ export const xetraETFs: ETF[] = [
     price: 11.458,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    ter: 0.2
   },
   {
     symbol: '2B7S.DE',
@@ -12653,7 +12654,8 @@ export const xetraETFs: ETF[] = [
     price: 133.2,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    ter: 0.22
   },
   {
     symbol: 'VGWL.F',
@@ -12853,7 +12855,8 @@ export const xetraETFs: ETF[] = [
     price: 135.66,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    ter: 0.22
   },
   {
     symbol: 'VWCG.DE',
